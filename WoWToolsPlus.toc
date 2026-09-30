@@ -161,9 +161,7 @@ Tools\L0_UseToy\L0_UseToy.lua
 ##传业
 Tools\L1_Professions\L1_Professions.lua
 ##自动召唤，宠物
-Tools\L2_Pet\L2_Pet.lua
 ##诺格弗格药剂 Noggenfogger Elixir
-Tools\L3_NoggenfoggerElixir\L3_NoggenfoggerElixir.lua
 ##各种专送门,物品，玩具
 Tools\L4_UsaItems\1_Init.lua
 Tools\L4_UsaItems\2_All_Buttons.lua
@@ -385,7 +383,6 @@ Plus\Challenge\z_ChallengesKeystoneFrame.lua
 Plus\Challenge\z_Blizzard_WeeklyRewards.lua
 Plus\Challenge\z_AvailableRewards.lua
 Plus\Challenge\z_Say_ChallengeComplete.lua
-Plus\Challenge\z_Is_HuSandro.lua
 ##Plus\Challenge\z_Chat_Affix.lua
 ##邮件，增加
 Plus\Mail\1_Init.lua
@@ -519,7 +516,6 @@ Z_Other\ScrappingMachine.lua
 ##自动隐藏，弹出NPC说话，
 Z_Other\Talking.lua
 ##为职业菜单，添加颜色，图标
-Z_Other\ClassMenuColor.lua
 Z_Other\Achievements.lua
 ##自动输入，删除
 Z_Other\DELETE.lua
@@ -529,9 +525,7 @@ Z_Other\HelpTip.lua
 ##美酒节 Brewfest
 Z_Other\Brewfest.lua
 ##10.1 梦境之种
-Z_Other\DormantSeeds.lua
 ##/fstack
-Z_Other\Fstack.lua
 ##标记
 Z_Other\MakerFrame.lua
 
@@ -581,11 +575,6 @@ ChatButton\C5_LFD\Role_Check.lua
 ChatButton\C5_LFD\Info_Plus.lua
 ChatButton\C5_LFD\Roll.lua
 ##世界频道
-ChatButton\C6_World\1_Init.lua
-ChatButton\C6_World\2_SetButton.lua
-ChatButton\C6_World\3_MENU_UNIT_FRIEND.lua
-ChatButton\C6_World\3_Menu.lua
-ChatButton\C6_World\Filter.lua
 ##公会
 ChatButton\C7_Guild\0_GuildMixin.lua
 ChatButton\C7_Guild\1_7_Guild.lua
@@ -601,7 +590,6 @@ ChatButton\C8_Group\Ready_Auto.lua
 ##说
 ChatButton\C9_Say\9_Say.lua
 ##表情，如不是中文，默认关闭
-ChatButton\C10_Emoji\10_Emoji.lua
 ##各种, 战斗时间
 ChatButton\C11_Combat\1_Init.lua
 ChatButton\C11_Combat\z_TrackButton.lua

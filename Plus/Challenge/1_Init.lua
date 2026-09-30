@@ -162,7 +162,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         --WoWTools_ChallengeMixin:Chat_Affix()
 
     elseif event=='PLAYER_ENTERING_WORLD' then
-        WoWTools_ChallengeMixin:Is_HuSandro()--低等级，开启，为测试用
         WoWTools_ChallengeMixin:AvailableRewards() --打开周奖励时，提示拾取专精
 
 --总是显示
