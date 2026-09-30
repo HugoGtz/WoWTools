@@ -68,7 +68,7 @@ local function Init()--预创建队伍增强
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(
-            WoWTools_DataMixin.onlyChinese and '预创建队伍增强' or (LFGLIST_NAME..' Plus'),
+            WoWTools_L['Premade Groups Plus'],
             WoWTools_TextMixin:GetEnabeleDisable(Save().LFGPlus)
         )
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_LFDMixin.addName)

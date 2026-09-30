@@ -246,9 +246,7 @@ local function Init()
             end
             GameTooltip:AddDoubleLine(
                 (Save().onlyMaxExpansion and '|cnGREEN_FONT_COLOR:' or '|cff626262')
-                ..(WoWTools_DataMixin.onlyChinese and '仅当前版本物品'
-                    or format(LFG_LIST_CROSS_FACTION, WoWTools_Join(REFORGE_CURRENT, GAME_VERSION_LABEL))
-                ),
+                ..(WoWTools_L['Only current version items']),
                 WoWTools_TextMixin:GetEnabeleDisable(Save().onlyMaxExpansion)
             )
         end

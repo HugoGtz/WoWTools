@@ -540,7 +540,7 @@ local function Init_Menu(self, root)
     root:CreateDivider()
     sub=root:CreateRadio(
         (Save().point[name] and '' or '|cff626262')
-        ..(WoWTools_DataMixin.onlyChinese and '清除位置' or WoWTools_Join(SLASH_STOPWATCH_PARAM_STOP2, CHOOSE_LOCATION:gsub(CHOOSE , ''))),
+        ..(WoWTools_L['Clear position']),
     function()
         return Save().point[name]
     end, function()
@@ -769,7 +769,7 @@ local function Set_Tooltip(self)
     GameTooltip:AddLine(' ')
     if self.set_move_event then--Frame 移动时，设置透明度
         GameTooltip:AddDoubleLine(
-            (WoWTools_DataMixin.onlyChinese and '移动时透明度 ' or MAP_FADE_TEXT:gsub(WORLD_MAP, 'Frame')),
+            (WoWTools_L['Alpha when moving ']),
             Save().disabledAlpha[name] and WoWTools_TextMixin:GetEnabeleDisable(false) or ('|cnGREEN_FONT_COLOR:'..Save().alpha)
         )
     end

@@ -515,8 +515,7 @@ local function Init()
     Frame.SearchBox:SetPoint('BOTTOMRIGHT', Frame, 'TOPRIGHT', -24,2)
     Frame.SearchBox:SetAlpha(0.3)
     Frame.SearchBox.Instructions:SetText(
-        WoWTools_DataMixin.onlyChinese and '角色名称，副本'
-        or (REPORTING_MINOR_CATEGORY_CHARACTER_NAME..', '..INSTANCE)
+        WoWTools_L['Character name, instance']
     )
     Frame.SearchBox:HookScript('OnTextChanged', function()
         Set_List()

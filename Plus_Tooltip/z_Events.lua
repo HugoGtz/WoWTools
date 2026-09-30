@@ -239,7 +239,7 @@ C_Timer.After(0.5, function()
                 GameTooltip:SetOwner(f, 'ANCHOR_RIGHT')
                 GameTooltip_SetTitle(GameTooltip,
                     WoWTools_DataMixin.Icon.icon2
-                    ..(WoWTools_DataMixin.onlyChinese and '升到最高级' or format(LEARN_SKILL_TEMPLATE, HONOR_HIGHEST_RANK))
+                    ..(WoWTools_L['Learn highest rank'])
                 )
                 GameTooltip:Show()
             end)

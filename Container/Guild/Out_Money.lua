@@ -225,7 +225,7 @@ local function Init_Menu(self, root)
     autoSub:CreateSpacer()
 
     sub=autoSub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '仅限成员' or  format(LFG_LIST_CROSS_FACTION, COMMUNITY_MEMBER_ROLE_NAME_MEMBER),
+        format(WoWTools_L.LFG_LIST_CROSS_FACTION, WoWTools_L.COMMUNITY_MEMBER_ROLE_NAME_MEMBER),
     function()
         return Save().onlyMemberOutMoney
     end, function()
@@ -397,7 +397,7 @@ local function Init()
         )
 
         GameTooltip:AddDoubleLine(
-            WoWTools_DataMixin.onlyChinese and '仅限成员' or  format(LFG_LIST_CROSS_FACTION, COMMUNITY_MEMBER_ROLE_NAME_MEMBER),
+            format(WoWTools_L.LFG_LIST_CROSS_FACTION, WoWTools_L.COMMUNITY_MEMBER_ROLE_NAME_MEMBER),
             WoWTools_TextMixin:GetEnabeleDisable(Save().onlyMemberOutMoney)
         )
 

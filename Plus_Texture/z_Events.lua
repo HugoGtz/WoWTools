@@ -1504,7 +1504,7 @@ function WoWTools_TextureMixin.Events:Blizzard_CompactRaidFrames()
         GameTooltip:SetOwner(menu, 'ANCHOR_LEFT')
         GameTooltip_SetTitle(GameTooltip,
             WoWTools_DataMixin.Icon.icon2
-            ..(WoWTools_DataMixin.onlyChinese and '限定发送信号' or RAID_MANAGER_RESTRICT_PINGS_TO:gsub(':', ''))
+            ..(WoWTools_L['Restrict Pings To'])
         )
         GameTooltip:Show()
     end)

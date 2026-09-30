@@ -80,7 +80,7 @@ local function Get_BagName(frame)--frame:GetBagID()
 
     elseif ContainerFrame_IsReagentBag(bagID) then
         bagName= '|A:Professions_Tracking_Fish:0:0|a'
-            ..(WoWTools_DataMixin.onlyChinese and '材料包' or EQUIP_CONTAINER_REAGENT:gsub(EQUIPSET_EQUIP, ''))
+            ..(WoWTools_L['Reagent Bag'])
             ..' '..(name:match('%d') or '')
 
     else
@@ -322,7 +322,7 @@ local function Init()
                 end
             end, {bagID=bagID})
             sub:SetTooltip(function(tooltip)
-                tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '指定背包' or BAG_FILTER_ASSIGN_TO:gsub(HEADER_COLON, ''))
+                tooltip:AddLine(WoWTools_L['Assign To'])
                 tooltip:AddDoubleLine(WoWTools_BagMixin.addName, WoWTools_DataMixin.addName)
             end)
 --全部禁用
@@ -343,7 +343,7 @@ local function Init()
                 return MenuResponse.Close
             end, {bagID=bagID})
             sub:SetTooltip(function(tooltip)
-                tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '指定背包' or BAG_FILTER_ASSIGN_TO:gsub(HEADER_COLON, ''))
+                tooltip:AddLine(WoWTools_L['Assign To'])
                 tooltip:AddDoubleLine(WoWTools_BagMixin.addName, WoWTools_DataMixin.addName)
             end)
         --else

@@ -183,7 +183,7 @@ local function Create_Label(frame)
             GameTooltip:SetOwner(self, "ANCHOR_LEFT")
             GameTooltip:ClearLines()
             GameTooltip:AddDoubleLine(
-                WoWTools_DataMixin.onlyChinese and '历史 |cnGREEN_FONT_COLOR:完成|r/总计' or (HISTORY..' |cnGREEN_FONT_COLOR:'..COMPLETE..'|r/'..TOTAL) ,
+                WoWTools_L['History |cnGREEN_FONT_COLOR:Complete|r/Total'] ,
                 self.all or (WoWTools_L.NONE)
             )
             GameTooltip:AddDoubleLine(WoWTools_L.CHALLENGE_MODE_THIS_WEEK, self.week and '('..self.week..')' or (WoWTools_L.NONE))

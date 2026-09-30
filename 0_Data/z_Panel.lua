@@ -35,7 +35,7 @@ local function Init_Options()
         addSearchTags= optionHeader,
         SetValue= function()
             StaticPopup_Show('WoWTools_RestData',
-                (WoWTools_DataMixin.onlyChinese and '全部重置，插件设置' or (RESET_ALL_BUTTON_TEXT..', '..WoWTools_Join(ADDONS, SETTINGS))),
+                (WoWTools_L['Reset all addon settings']),
                 nil,
             function()
                 WoWTools_DataMixin.ClearAllSave= true
@@ -100,7 +100,7 @@ local function Init_Options()
 
 
 --清除战网数据
-    local wowHeader= WoWTools_DataMixin.onlyChinese and '清除战网数据' or WoWTools_Join(WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2, WoWTools_Join(ACCOUNT_QUEST_LABEL, 'Data'))
+    local wowHeader= WoWTools_L['Clear Warband data']
     WoWTools_PanelMixin:OnlyButton({
         title= '3) '..WoWTools_DataMixin.Icon.wow2..wowHeader,
         buttonText= WoWTools_DataMixin.Icon.wow2..(WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2),

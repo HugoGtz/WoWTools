@@ -396,7 +396,7 @@ local function Init_Menu(_, root)
 --保存内容
     root:CreateDivider()
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '保存内容' or format(GUILDBANK_LOG_TITLE_FORMAT, INFO),--"%s 记录"
+        WoWTools_L['Saved content'],--"%s 记录"
     function()
         return Save().logSendInfo
     end, function()

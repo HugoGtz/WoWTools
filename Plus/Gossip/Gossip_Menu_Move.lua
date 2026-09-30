@@ -486,7 +486,7 @@ local function Init_Menu(_, root)
 
 --跳过，视频，
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '跳过播放影片' or WoWTools_Join(RENOWN_LEVEL_UP_SKIP_BUTTON, PLAY_MOVIE_PREPEND:match('%(.+)%)') or PLAY_MOVIE_PREPEND),
+        WoWTools_L['Skip movies'],
     function()
         return Save().stopMovie
     end, function()
@@ -532,7 +532,7 @@ local function Init_Menu(_, root)
     end)
 --仅限在副本里
     sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '仅限在副本里' or  format(LFG_LIST_CROSS_FACTION, AGGRO_WARNING_IN_INSTANCE),
+        WoWTools_L['Only in instances'],
     function()
         return Save().stopCinematicsInInstance
     end, function()

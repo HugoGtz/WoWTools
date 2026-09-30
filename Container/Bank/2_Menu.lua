@@ -98,7 +98,7 @@ local function Init_Menu(self, root)
     end)
     sub:SetTooltip(function(tooltip)
         GameTooltip_AddErrorLine(tooltip,
-            WoWTools_DataMixin.onlyChinese and '“物品信息” 同时打，会卡' or (WoWTools_Join(ITEMS, INFO)..': '..(TICKET_TYPE3 or 'Bug'))
+            WoWTools_L['Item Info enabled too: may lag']
         )
         tooltip:AddLine(' ')
         GameTooltip_AddErrorLine(tooltip,

@@ -102,9 +102,9 @@ local function UI_Party_Info()--队友位置
             local reason=UnitPhaseReason(unit)--位面
             if reason then
                 if reason==0 then--不同了阶段
-                    text= text ..'|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '不同了阶段' or ERR_ARENA_TEAM_PLAYER_NOT_IN_TEAM_SS:format('',  MAP_BAR_THUNDER_ISLE_TITLE0:gsub('1','')))..'|r'
+                    text= text ..'|cnWARNING_FONT_COLOR:'..WoWTools_L['Different phase']..'|r'
                 elseif reason==1 then--不在同位面
-                    text= text ..'|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '不在同位面' or ERR_ARENA_TEAM_PLAYER_NOT_IN_TEAM_SS:format('', WoWTools_DataMixin.Language.layer))..'|r'
+                    text= text ..'|cnWARNING_FONT_COLOR:'..WoWTools_L['Not in the same layer']..'|r'
                 elseif reason==2 then--战争模式
                     text= text ..(C_PvP.IsWarModeDesired() and '|cnWARNING_FONT_COLOR:'..(WoWTools_L.ERR_PVP_WARMODE_TOGGLE_OFF)..'|r' or '|cnWARNING_FONT_COLOR:'..(WoWTools_L.ERR_PVP_WARMODE_TOGGLE_ON)..'|r')
                 elseif reason==3 then
@@ -222,7 +222,7 @@ local function Init_Buttons()--挑战,钥石,插入界面
         print(
             WoWTools_ChallengeMixin.addName..WoWTools_DataMixin.Icon.icon2,
             '|cnWARNING_FONT_COLOR:',
-            WoWTools_DataMixin.onlyChinese and '钥石：尚未发现' or format(CHALLENGE_MODE_KEYSTONE_NAME, TAXI_PATH_UNREACHABLE)
+            WoWTools_L['Keystone: not found']
         )
     end)
 

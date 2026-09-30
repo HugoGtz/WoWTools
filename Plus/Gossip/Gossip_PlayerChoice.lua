@@ -74,7 +74,7 @@ local function Init()
                             print(
                                 WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2,
                                 '|cnWARNING_FONT_COLOR:',
-                                not WoWTools_DataMixin.onlyChinese and ERRORS..' ('..UNKNOWN..')' or '未知错误'
+                                WoWTools_L['Unknown error']
                             )
                         end
                     end)

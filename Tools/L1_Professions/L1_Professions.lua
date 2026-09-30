@@ -197,7 +197,7 @@ local function Init_KeyButton_Menu(self, root)
         Save()['save_'..self.type]= not Save()['save_'..self.type] and true or nil
     end)
     sub2:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '登入：设置' or (LOG_IN..': '..SETTINGS))
+        tooltip:AddLine(WoWTools_L['Log in: settings'])
     end)
 end
 

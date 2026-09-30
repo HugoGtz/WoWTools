@@ -37,7 +37,7 @@ local function Init_Menu(self, root)
 
 
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '历史收件人' or format(CRAFTING_ORDER_MAIL_FULFILLED_TO, HISTORY),
+        WoWTools_L['Recipient history'],
     function()
         return not Save().hideHistoryList
     end, function()
@@ -56,7 +56,7 @@ local function Init_Menu(self, root)
     end)
 
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '自动转到发件箱' or WoWTools_Join(SELF_CAST_AUTO, WoWTools_Join(NPE_TURN, SENDMAIL)),
+        WoWTools_L['Auto switch to Send Mail'],
     function()
         return not Save().notAutoToSendFrame
     end, function()

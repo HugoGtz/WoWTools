@@ -466,7 +466,7 @@ local function Init()
         GameTooltip:AddLine('npcID|cffffffff'..WoWTools_DataMixin.Icon.icon2..self.npc)
         GameTooltip:AddLine(' ')
         GameTooltip:AddLine(
-            (WoWTools_DataMixin.onlyChinese and '自动交接任务' or format(GARRISON_FOLLOWER_NAME, SELF_CAST_AUTO, ACCEPT))
+            WoWTools_L['Auto accept and turn in quests']
             ..': '..WoWTools_TextMixin:GetEnabeleDisable(not Save().NPC[self.npc]))
         GameTooltip:Show()
     end

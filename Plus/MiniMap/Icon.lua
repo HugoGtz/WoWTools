@@ -23,7 +23,7 @@ local function On_Enter(tootip)
     end
     --tootip:AddLine(' ')
     tootip:AddDoubleLine(WoWTools_L.SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
-    tootip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '打开选项界面' or WoWTools_Join(WoWTools_Join(UNWRAP, OPTIONS), 'UI'), WoWTools_DataMixin.Icon.mid)
+    tootip:AddDoubleLine(WoWTools_L['Open options UI'], WoWTools_DataMixin.Icon.mid)
    -- tootip:Show()
 end
 

@@ -76,7 +76,7 @@ local function Init_Menu(self, root)
     sub2:CreateButton(
         (InCombatLockdown() and '|cff626262' or '')
         ..'|A:mechagon-projects:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '设置关键词' or WoWTools_Join(SETTINGS, WoWTools_DataMixin.Language.key)),
+        ..WoWTools_L['Set keywords'],
     function()
         if not WoWTools_HyperLink.Category then
             WoWTools_PanelMixin:Open()
@@ -223,7 +223,7 @@ local function Init_Menu(self, root)
 
 --[[禁用，隐藏NPC发言
     sub2=sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '隐藏NPC发言' or (HIDE..' NPC '..VOICE_TALKING),
+        WoWTools_L['Hide NPC talking'],
     function()
         return not Save().disabledNPCTalking
     end, function()
@@ -268,7 +268,7 @@ local function Init_Menu(self, root)
 --欢迎加入
     sub=root:CreateCheckbox(
         '|A:socialqueuing-icon-group:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '欢迎加入' or WoWTools_Join(EMOTE103_CMD1:gsub('/',''), JOIN)),
+        ..WoWTools_L['Welcome to join'],
     function()
         return Save().guildWelcome or Save().groupWelcome
     end, function()
@@ -323,10 +323,10 @@ local function Init_Menu(self, root)
     sub2:SetTooltip(function(tooltip)
         tooltip:AddLine(WoWToolsPlusPlayerDate['HyperLinkGroupWelcomeText'])
         tooltip:AddLine(' ')
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '仅限队长或团长' or format(LFG_LIST_CROSS_FACTION, LEADER))
+        tooltip:AddLine(WoWTools_L['Party or raid leader only'])
     end)
 
-    sub2=sub:CreateCheckbox(WoWTools_DataMixin.onlyChinese and '仅限组队邀请' or format(LFG_LIST_CROSS_FACTION, GROUP_INVITE), function ()
+    sub2=sub:CreateCheckbox(WoWTools_L['Group invites only'], function ()
         return Save().welcomeOnlyHomeGroup
     end, function ()
         Save().welcomeOnlyHomeGroup= not Save().welcomeOnlyHomeGroup and true or false
@@ -358,7 +358,7 @@ local function Init_Menu(self, root)
     sub2:SetTooltip(function(tooltip)
         tooltip:AddLine(WoWToolsPlusPlayerDate['HyperLinkGroupWelcomeText'])
         tooltip:AddLine(' ')
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '仅限队长或团长' or format(LFG_LIST_CROSS_FACTION, LEADER))
+        tooltip:AddLine(WoWTools_L['Party or raid leader only'])
     end)
 
 
@@ -519,7 +519,7 @@ local function Init_Menu(self, root)
 
 --添加按钮
     sub2=sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '添加按钮' or WoWTools_Join(ADD, 'Button'),
+        WoWTools_L['Add button'],
     function ()
         return not Save().not_Add_Reload_Button
     end, function ()

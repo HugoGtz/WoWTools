@@ -418,7 +418,7 @@ TypeTabs= {
 --游戏时间
     ['Time']= {
     atlas='clock-icon',
-    tooltip=WoWTools_DataMixin.onlyChinese and '游戏时间' or TOKEN_REDEEM_GAME_TIME_TITLE or SLASH_PLAYED2:gsub('/', ''),
+    tooltip=WoWTools_L['Game time'],
     clear_all=function()
         for _, data in pairs(WoWToolsPlus_WoWDate) do
             data.Time={}
@@ -1371,7 +1371,7 @@ local function OnMouseDown_RightButton(self, d)
             function()
                 StaticPopup_Show('WoWTools_OK',
                     WoWTools_DataMixin.Icon.wow2
-                    ..(WoWTools_DataMixin.onlyChinese and '全部清除 WoW 数据' or (CLEAR_ALL..' WoW data'))
+                    ..(WoWTools_L['Clear all WoW data'])
                     --..(WoWTools_DataMixin.onlyChinese and '全部清除WoW数据' or 'Clear WoW data')
                     ..'|n|n'
                     ..(battleTag or '')

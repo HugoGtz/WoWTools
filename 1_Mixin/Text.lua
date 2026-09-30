@@ -227,11 +227,11 @@ end
 function WoWTools_TextMixin:GetShowHide(sh, all)
     if all then
         if sh then
-            return WoWTools_DataMixin.onlyChinese and '显示/|cff626262隐藏' or (SHOW..'/|cff626262'..HIDE)
+            return WoWTools_L['Show/Hide (Hide gray)']
         elseif sh==false then
-            return WoWTools_DataMixin.onlyChinese and '|cff626262显示|r/隐藏' or ('|cff626262'..SHOW..'|r/'..HIDE)
+            return WoWTools_L['Show/Hide (Show gray)']
         else
-            return WoWTools_DataMixin.onlyChinese and '显示/隐藏' or (SHOW..'/'..HIDE)
+            return WoWTools_L['Show/Hide']
         end
     elseif sh then
 		return WoWTools_L.SHOW
@@ -243,11 +243,11 @@ end
 function WoWTools_TextMixin:GetEnabeleDisable(ed, all)--启用或禁用字符
     if all then
         if ed==nil then
-            return WoWTools_DataMixin.onlyChinese and '启用/禁用' or (ENABLE..'/'..DISABLE)
+            return WoWTools_L['Enable/Disable']
         elseif ed==true then
-            return WoWTools_DataMixin.onlyChinese and '启用/|cff626262禁用' or (ENABLE..'/|cff626262'..DISABLE)
+            return WoWTools_L['Enable/Disable (Disable gray)']
         else
-            return WoWTools_DataMixin.onlyChinese and '|cff626262启用|r/禁用' or ('|cff626262'..ENABLE..'|r/'..DISABLE)
+            return WoWTools_L['Enable/Disable (Enable gray)']
         end
     else
         if ed then

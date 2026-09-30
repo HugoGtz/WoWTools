@@ -210,7 +210,7 @@ local function Init_Menu(self, root)
         setAutoClearRegisterEvent()--注册自动清除事件
     end)
     sub2:SetTooltip(function (tooltip)
-        GameTooltip_SetTitle(tooltip, WoWTools_DataMixin.onlyChinese and '进入战斗时: 清除' or (ENTERING_COMBAT..': '..SLASH_STOPWATCH_PARAM_STOP2))
+        GameTooltip_SetTitle(tooltip, WoWTools_L['Entering combat: Clear'])
     end)
 --清除记录
     sub2=sub:CreateButton(

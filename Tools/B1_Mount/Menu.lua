@@ -170,7 +170,7 @@ local function Set_Mount_Sub_Options(root, data)--icon,col,mountID,spellID,itemI
         WoWTools_ToolsMixin:Get_ButtonForName('Mount'):settings()
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '添加/移除' or format('%s/%s', ADD, REMOVE))
+        tooltip:AddLine(WoWTools_L['Add/Remove'])
     end)
 end
 
@@ -300,8 +300,7 @@ local function Init_Menu_ShiftAltCtrl(root, mountType)
     )
 
     sub:CreateTitle(
-        WoWTools_DataMixin.onlyChinese and '仅限 1 个' or
-        format(LFG_LIST_CROSS_FACTION, '|cffffffff1"r '..SPELLS)
+        WoWTools_L['Only 1 spell']
     )
 
     local index=0
@@ -533,7 +532,7 @@ local function Init_Menu(self, root)
         return MenuResponse.Refresh
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '随机召唤偏好坐骑' or MOUNT_JOURNAL_SUMMON_RANDOM_FAVORITE_MOUNT:gsub('\n', ' '), nil,nil,nil)
+        tooltip:AddLine(WoWTools_L['Summon random favorite mount'], nil,nil,nil)
     end)
 --坐骑秀
     sub2=sub:CreateButton(
@@ -568,7 +567,7 @@ local function Init_Menu(self, root)
     end)
     sub3:SetTooltip(function(tooltip)
         tooltip:AddLine(SLASH_CHAT_AFK1)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '注意: 掉落' or (LABEL_NOTE..': '..STRING_ENVIRONMENTAL_DAMAGE_FALLING))
+        tooltip:AddLine(WoWTools_L['Note: falling'])
     end)
 
     sub2=sub:CreateButton(
@@ -614,7 +613,7 @@ local function Init_Menu(self, root)
         maxValue=10,
         step=1,
         tooltip=function(tooltip)
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '间隔' or CAA_SAY_PLAYER_HEALTH_THROTTLE_LABEL or 'Interval')
+            tooltip:AddLine(WoWTools_L['Interval'])
         end
     })
 

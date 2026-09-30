@@ -230,8 +230,7 @@ local function Init_Menu(self, root)
     end)
     sub2:SetTooltip(function (tooltip)
         tooltip:AddLine(
-            WoWTools_DataMixin.onlyChinese and '禁用最高级'
-            or WoWTools_Join(WoWTools_Join(DISABLE, BEST), LEVEL)
+            WoWTools_L['Disable highest level']
         )
     end)
 

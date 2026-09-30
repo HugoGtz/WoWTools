@@ -499,7 +499,7 @@ local function Init()
             GameTooltip:AddLine(' ')
 
             GameTooltip:AddDoubleLine(WoWTools_L['Mount show'], '|A:bags-greenarrow:0:0|a')
-            GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '坐骑特效' or EMOTE171_CMD2:gsub('/',''), '|A:UI-HUD-MicroMenu-StreamDLYellow-Up:0:0|a')
+            GameTooltip:AddDoubleLine(WoWTools_L['Mount special'], '|A:UI-HUD-MicroMenu-StreamDLYellow-Up:0:0|a')
 
             GameTooltip:AddLine(' ')
             GameTooltip:AddDoubleLine(WoWTools_L.SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)

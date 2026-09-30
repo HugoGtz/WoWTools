@@ -24,7 +24,7 @@ local function InvPlateGuidFunc()--从已邀请过列表里, 再次邀请
         elseif not IsInRaid() and num==5 and not Save().PartyToRaid then
             print(
                 WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                WoWTools_DataMixin.onlyChinese and '请求：转化为团队' or  PETITION_TITLE:format('|cff00ff00'..CONVERT_TO_RAID..'|r')
+                WoWTools_L['Request: |cff00ff00Convert to Raid|r']
             )
             return
         end
@@ -106,7 +106,7 @@ local function Init_Menu(self, root)
         WoWTools_InviteMixin:Inv_Target_Settings()
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '仅限队长' or format(LFG_LIST_CROSS_FACTION, LEADER))
+        tooltip:AddLine(WoWTools_L['Leader only'])
         tooltip:AddLine(WoWTools_L['NO+INSTANCE'])
     end)
 
@@ -120,7 +120,7 @@ local function Init_Menu(self, root)
     end)
     sub:SetTooltip(function (tooltip)
         tooltip:AddLine(Save().ChannelText)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '说, 喊, 密语' or (SAY..', '..YELL..', '..WHISPER))
+        tooltip:AddLine(WoWTools_L['Say, Yell, Whisper'])
     end)
 
     sub:CreateButton(WoWTools_L.KBASE_DEFAULT_SEARCH_TEXT, function()
@@ -178,7 +178,7 @@ local function Init_Menu(self, root)
         Save().FriendAceInvite= not Save().FriendAceInvite and true or false
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '战网, 好友, 公会' or (COMMUNITY_COMMAND_BATTLENET..', '..FRIENDS..', '..GUILD))
+        tooltip:AddLine(WoWTools_L['Battle.net, Friends, Guild'])
     end)
 
 
@@ -247,7 +247,7 @@ local function Init_Menu(self, root)
     end)
 
 --修改    
-    sub:CreateButton(WoWTools_DataMixin.onlyChinese and '修改' or SLASH_CHAT_MODERATE2:gsub('/', ''), function()
+    sub:CreateButton(WoWTools_L['Modify'], function()
         StaticPopup_Show('WoWTools_EditText',
             (WoWTools_L.SUMMON),
             nil,
@@ -284,8 +284,7 @@ local function Init_Menu(self, root)
 
 
 
-    sub=root:CreateCheckbox(WoWTools_DataMixin.onlyChinese and '休息区信息' or
-        WoWTools_Join(WoWTools_Join('|cnGREEN_FONT_COLOR:Rest|r', ZONE), INFO), function()
+    sub=root:CreateCheckbox(WoWTools_L['|cnGREEN_FONT_COLOR:Rest|r Zone Info'], function()
         return Save().restingTips
     end, function()
         Save().restingTips= not Save().restingTips and true or false
@@ -316,7 +315,7 @@ local function Init_Menu(self, root)
     end)
     sub:SetTooltip(function(tooltip)
         tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and'友情提示: 可能会出现错误' or 'Note: Errors may occur')
+        tooltip:AddLine(WoWTools_L['Note: errors may occur'])
     end)
 
     for _, key in pairs({'Shift', 'Ctrl', 'Alt'}) do
@@ -350,7 +349,7 @@ local function Init_Menu(self, root)
 
 
     sub:CreateDivider()
-    sub2=sub:CreateCheckbox(WoWTools_DataMixin.onlyChinese and '密语/跟随' or (SLASH_TEXTTOSPEECH_WHISPER..'/'..FOLLOW),function()
+    sub2=sub:CreateCheckbox(WoWTools_L['Whisper/Follow'],function()
         return Save().setFrameFun
     end, function()
         Save().setFrameFun= not Save().setFrameFun and true or false
@@ -359,8 +358,8 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 
-    sub:CreateTitle(format('   |A:bags-greenarrow:0:0|a%s', WoWTools_DataMixin.onlyChinese and '鼠标滚轮向上滚动: 密语' or (KEY_MOUSEWHEELUP..": "..SLASH_TEXTTOSPEECH_WHISPER)))
-    sub:CreateTitle(format('   |A:UI-HUD-MicroMenu-StreamDLRed-Up:0:0|a%s', WoWTools_DataMixin.onlyChinese and'鼠标滚轮向下滚动: 跟随' or (KEY_MOUSEWHEELDOWN..': '..FOLLOW)))
+    sub:CreateTitle(format('   |A:bags-greenarrow:0:0|a%s', WoWTools_L['Mouse wheel up: Whisper']))
+    sub:CreateTitle(format('   |A:UI-HUD-MicroMenu-StreamDLRed-Up:0:0|a%s', WoWTools_L['Mouse wheel down: Follow']))
 
 
 --reload

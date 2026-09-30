@@ -98,7 +98,7 @@ local function Init_Panel()
 
 
     WoWTools_PanelMixin:OnlyCheck({
-        name= WoWTools_DataMixin.onlyChinese and '战斗中：默认' or (HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT..': '..DEFAULT),
+        name= WoWTools_L['In combat: default'],
         tooltip= WoWTools_L.HUD_EDIT_MODE_RESET_POSITION,
         GetValue= function() return Save().inCombatDefaultAnchor end,
         category= WoWTools_TooltipMixin.Category,
@@ -109,7 +109,7 @@ local function Init_Panel()
     }, root)
 
     WoWTools_PanelMixin:OnlyCheck({
-        name= WoWTools_DataMixin.onlyChinese and '战斗中：禁用' or (HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT..': '..DISABLE),
+        name= WoWTools_L['In combat: disabled'],
         tooltip= WoWTools_TooltipMixin.addName,
         GetValue= function() return Save().isInCombatDisabled end,
         category= WoWTools_TooltipMixin.Category,
@@ -215,7 +215,7 @@ local function Init_Panel()
     }, root)
 
     WoWTools_PanelMixin:OnlyCheck({
-        name= WoWTools_DataMixin.onlyChinese and 'NPC职业颜色' or WoWTools_Join('NPC', CLASS_COLORS),
+        name= WoWTools_L['NPC class colors'],
         tooltip= WoWTools_TooltipMixin.addName,
         GetValue= function() return not Save().disabledNPCcolor end,
         category= WoWTools_TooltipMixin.Category,

@@ -14,13 +14,11 @@ local function Init()
     WoWTools_InviteMixin.RestingFrame= frame
 
     frame.enterText= '|A:communities-icon-addgroupplus:0:0|a'..(
-                    WoWTools_DataMixin.onlyChinese and '进入|cnGREEN_FONT_COLOR:休息|r区'
-                    or WoWTools_Join(ENTER_LFG, WoWTools_Join('|cnGREEN_FONT_COLOR:Rest|r', ZONE))
+                    WoWTools_L['Enter |cnGREEN_FONT_COLOR:Rest|r Zone']
                 )
 
     frame.leaveText= '|A:communities-icon-addgroupplus:0:0|a'..(
-                    WoWTools_DataMixin.onlyChinese and '离开|cnWARNING_FONT_COLOR:休息|r区'
-                    or WoWTools_Join(LEAVE, WoWTools_Join('|cnWARNING_FONT_COLOR:Rest|r', ZONE))
+                    WoWTools_L['Leave |cnWARNING_FONT_COLOR:Rest|r Zone']
                 )
 
     function frame:set_event()

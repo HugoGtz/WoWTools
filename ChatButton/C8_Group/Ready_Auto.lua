@@ -107,10 +107,10 @@ local function Init()
             difficultyName=  WoWTools_MapMixin:GetDifficultyColor(difficultyName, difficultyID) or difficultyName
 
             ReadyCheckFrameText:SetFormattedText(
-                (WoWTools_DataMixin.onlyChinese and "%s正在进行就位确认。\n团队副本难度: |cnGREEN_FONT_COLOR:" or (READY_CHECK_MESSAGE..'|n'..RAID_DIFFICULTY..': '))
+                WoWTools_L['%s has initiated a ready check.|nRaid Difficulty: ']
                 ..difficultyName..'|r', name)
         else
-           ReadyCheckFrameText:SetFormattedText(WoWTools_DataMixin.onlyChinese and '%s|n正在进行就位确认。' or READY_CHECK_MESSAGE:gsub('%%s', '%%s|n'), name)
+           ReadyCheckFrameText:SetFormattedText(WoWTools_L['%s|nhas initiated a ready check.'], name)
        end
 
         Set_Ready(timeLeft)--设置，就绪，未就绪

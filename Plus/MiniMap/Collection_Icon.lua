@@ -583,7 +583,7 @@ local function Init_UserAdd_Menu(_, root)
         WoWTools_L.ADD,
     function()
         StaticPopup_Show('WoWTools_EditText',
-        (WoWTools_DataMixin.onlyChinese and '添加按钮' or WoWTools_Join(ADD, 'Button'))
+        WoWTools_L['Add button']
         ..'\n_G['..(WoWTools_L.NAME)..']'
         ..'\n\n'..(WoWTools_L.NAME)..': ',
         nil,
@@ -1210,7 +1210,7 @@ local function Init()
         )
         GameTooltip:AddDoubleLine(
             (InCombatLockdown() and '|cff626262' or '')
-            ..(WoWTools_DataMixin.onlyChinese and '打开选项界面' or WoWTools_Join(WoWTools_Join(UNWRAP, OPTIONS), 'UI')),
+            ..WoWTools_L['Open options UI'],
             WoWTools_DataMixin.Icon.mid,
             1,1,1,1,1,1
         )

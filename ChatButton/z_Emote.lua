@@ -769,7 +769,7 @@ local function Set_Menu(root, tab, tabName, rootName)
         end)
         sub:SetTooltip(function(tooltip)
             tooltip:AddLine('SecureActionButtonTemplate')
-            GameTooltip_AddErrorLine(tooltip, WoWTools_DataMixin.onlyChinese and'友情提示: 可能会出现错误' or 'Note: Errors may occur')
+            GameTooltip_AddErrorLine(tooltip, WoWTools_L['Note: errors may occur'])
         end)
     end
 

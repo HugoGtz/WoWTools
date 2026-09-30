@@ -234,7 +234,7 @@ end
 function WoWTools_DataMixin:Info(data1)
     local data= _G[data1] or data1
 
-    local secret= WoWTools_DataMixin.onlyChinese and '|cnEVENTTRACE_SECRET_COLOR:<机密>|r' or (EVENTTRACE_SECRET_FMT and format(EVENTTRACE_SECRET_FMT, '')) or '|cff88ff88<secret>|r'
+    local secret= format(WoWTools_L.EVENTTRACE_SECRET_FMT, '')
 
     local typeData= type(data)
 

@@ -280,8 +280,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                     print(addName..WoWTools_DataMixin.Icon.icon2, WoWTools_L.RESET_POSITION)
                 end,
                 tooltip=function()
-                    return WoWTools_DataMixin.onlyChinese and '节日: 美酒节（赛羊）'
-                        or WoWTools_Join(CALENDAR_FILTER_HOLIDAYS,
+                    return format(WoWTools_L['Holiday: %s'],
                             WoWTools_TextMixin:CN(C_Item.GetItemNameByID(33976), {itemID=33976, isName=true})
                             or ''
                         )

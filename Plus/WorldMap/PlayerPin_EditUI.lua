@@ -677,10 +677,10 @@ local function Zip_Data(zipData)
     Frame.dataFrame.enter:SetShown(false)
     Frame.dataFrame:SetShown(true)
     Frame.dataFrame:SetText(WoWTools_ZipMixin:base64Encode(table.concat(lines, "\n")))
-    Frame.dataFrame:SetInstructions(WoWTools_DataMixin.onlyChinese and '导出' or SOCIAL_SHARE_TEXT or  HUD_EDIT_MODE_SHARE_LAYOUT)
+    Frame.dataFrame:SetInstructions(WoWTools_L['SOCIAL_SHARE_TEXT~2'])
 
     print(
-        WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '导出' or SOCIAL_SHARE_TEXT or  HUD_EDIT_MODE_SHARE_LAYOUT),
+        WoWTools_DataMixin.Icon.icon2..(WoWTools_L['SOCIAL_SHARE_TEXT~2']),
         (WoWTools_L.WORLD_MAP)..' #'..numMapID,
         (WoWTools_L.EVENTTRACE_MARKER)..' #'..all
     )
@@ -1065,7 +1065,7 @@ local function Init()
             WoWTools_MenuMixin:SetRightText(sub)
 
             sub:CreateButton(
-                WoWTools_DataMixin.onlyChinese and '导出' or SOCIAL_SHARE_TEXT or  HUD_EDIT_MODE_SHARE_LAYOUT,
+                WoWTools_L['SOCIAL_SHARE_TEXT~2'],
             function(data)
                 Zip_Data({[data.mapID]= SaveWoW()[data.mapID]})
                 return MenuResponse.Open
@@ -1238,7 +1238,7 @@ local function Init()
     local fontIconMenu= CreateFrame('DropdownButton', nil, Frame, 'WoWToolsMenu3Template')
     fontIconMenu:SetPoint('LEFT', Frame.fontH, 'RIGHT', 3, 0)
     fontIconMenu:SetNormalAtlas('Professions-Crafting-Orders-Icon')
-    fontIconMenu.tooltip= WoWTools_DataMixin.onlyChinese and '图标和名称' or (SELF_HIGHLIGHT_ICON..'/'..NAME)
+    fontIconMenu.tooltip= WoWTools_L['Icon/Name']
     fontIconMenu:SetupMenu(function(self, root)
         if not self:IsMouseOver() then
             return
@@ -1683,7 +1683,7 @@ local function Init()
 
     Frame.getMapXYButton= CreateFrame('Button', nil, Frame, 'WoWToolsButtonTemplate')
     Frame.getMapXYButton:SetPoint('TOPLEFT', Frame.getNameButton, 'BOTTOMLEFT', 0, -4)
-    Frame.getMapXYButton.tooltip= WoWTools_DataMixin.onlyChinese and '捕捉XY' or WoWTools_Join(UNIT_CAPTURABLE, 'XY')
+    Frame.getMapXYButton.tooltip= WoWTools_L['Capture XY']
     Frame.getMapXYButton:SetNormalAtlas('Cursor_unablecast_32')
     function Frame.getMapXYButton:set_event()
         self:SetNormalAtlas(self.isSatrt and 'cursor_crosshairs_32' or 'Cursor_unablecast_32')
@@ -1967,7 +1967,7 @@ local function Init()
     Frame.professionMenu= CreateFrame("DropdownButton", nil, Frame, "WowStyle1DropdownTemplate")--下拉，菜单
     Frame.professionMenu:SetPoint('TOPLEFT', Frame.noteEdit, 'BOTTOMLEFT', -6, -12)
     Frame.professionMenu:SetPoint('TOPRIGHT', Frame.noteEdit, 'BOTTOM', -6, -20)
-    Frame.professionMenu:SetDefaultText(DISABLED_FONT_COLOR:WrapTextInColorCode(WoWTools_DataMixin.onlyChinese and '仅限专业' or format(LFG_LIST_CROSS_FACTION, PROFESSIONS_BUTTON)))
+    Frame.professionMenu:SetDefaultText(DISABLED_FONT_COLOR:WrapTextInColorCode(format(WoWTools_L.LFG_LIST_CROSS_FACTION, WoWTools_L.PROFESSIONS_BUTTON)))
     Frame.professionMenu.Text:SetJustifyH('CENTER')
     Frame.professionMenu.profession={}
 
@@ -2029,7 +2029,7 @@ local function Init()
     Frame.classMenu= CreateFrame("DropdownButton", nil, Frame, "WowStyle1DropdownTemplate")--下拉，菜单
     Frame.classMenu:SetPoint('LEFT', Frame.professionMenu, 'RIGHT', 6, 0)
     Frame.classMenu:SetPoint('RIGHT', -13, 0)
-    Frame.classMenu:SetDefaultText(DISABLED_FONT_COLOR:WrapTextInColorCode(WoWTools_DataMixin.onlyChinese and '仅限职业' or format(LFG_LIST_CROSS_FACTION, CLASS)))
+    Frame.classMenu:SetDefaultText(DISABLED_FONT_COLOR:WrapTextInColorCode(format(WoWTools_L.LFG_LIST_CROSS_FACTION, WoWTools_L.CLASS)))
     Frame.classMenu.Text:SetJustifyH('CENTER')
     Frame.classMenu.class={}
     Frame.classMenu:SetSelectionText(function()
@@ -2385,7 +2385,7 @@ local function Init()
     Frame.achievementButton.text= Frame.achievementButton:CreateFontString(nil, 'BORDER', 'WoWToolsFont')
     Frame.achievementButton.text:SetPoint('CENTER')
     Frame.achievementButton.text:SetJustifyH("LEFT")
-    Frame.achievementButton.tooltip= WoWTools_DataMixin.onlyChinese and '条件和记录' or (EVENTTRACE_FILTER_HEADER..'/'..EVENTTRACE_LOG_HEADER)
+    Frame.achievementButton.tooltip= WoWTools_L['Conditions/Log']
     function Frame.achievementButton:set_text()
         self.text:SetText(self.index or '|cff6262620|r')
     end

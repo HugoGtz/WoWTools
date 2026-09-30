@@ -157,7 +157,7 @@ local function Init_Menu(self, root)
     root:CreateDivider()
 
     root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '反向整理银行' or REVERSE_CLEAN_UP_BAGS_TEXT:gsub(HUD_EDIT_MODE_BAGS_LABEL, BANK),
+        WoWTools_L['Reverse Clean Up Bank'],
     function()
         return Save().sortRightToLeft
     end, function()

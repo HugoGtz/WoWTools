@@ -50,7 +50,7 @@ local function Init_Menu(self, root, data)
             (WoWTools_L['IGNORE+CLUB_FINDER_REPORT_SPAM'])
             ..' '
             .. (Save().userChatFilterTab[description.name] and Save().userChatFilterTab[description.name].num or ''),
-            WoWTools_DataMixin.onlyChinese and '添加/移除' or ADD..'/'..REMOVE
+            WoWTools_L['Add/Remove']
         )
 
     end)

@@ -272,7 +272,7 @@ local function Init_Menu(self, root)
 
 --登录游戏时: 查找
     sub:CreateDivider()
-    sub:CreateCheckbox(WoWTools_DataMixin.onlyChinese and '登录游戏时: 查找' or WoWTools_Join(SOCIAL_TWITTER_SIGN_IN, GAME)..': '..WHO, function()
+    sub:CreateCheckbox(WoWTools_L['On login: search'], function()
         return Save().autoLogin
     end, function()
         Save().autoLogin= not Save().autoLogin and true or nil
@@ -295,13 +295,13 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWTools_L.EVENTS_LABEL)
         tooltip:AddLine('BAG_UPDATE_DELAYED')
         tooltip:AddLine(' ')
-        GameTooltip_AddErrorLine(tooltip, WoWTools_DataMixin.onlyChinese and '高CPU' or WoWTools_Join(HIGH, 'CPU'))
+        GameTooltip_AddErrorLine(tooltip, WoWTools_L['High CPU'])
     end)
 
 --仅当前版本物品
     if not PlayerIsTimerunning() then--时光
         sub:CreateCheckbox(
-            WoWTools_DataMixin.onlyChinese and '仅当前版本物品' or format(LFG_LIST_CROSS_FACTION, WoWTools_Join(REFORGE_CURRENT, GAME_VERSION_LABEL)),
+            WoWTools_L['Only current version items'],
         function()
             return Save().onlyMaxExpansion
         end, function()
@@ -311,7 +311,7 @@ local function Init_Menu(self, root)
     end
 
 --仅限 C_Item.GetItemSpell(itemID)
-    sub2=sub:CreateCheckbox(WoWTools_DataMixin.onlyChinese and '可使用' or format(LFG_LIST_CROSS_FACTION, USE), function()
+    sub2=sub:CreateCheckbox(WoWTools_L['Usable only'], function()
         return Save().olnyUsaItem
     end, function()
         Save().olnyUsaItem= not Save().olnyUsaItem and true or false
@@ -417,7 +417,7 @@ local function Init_Menu(self, root)
 --自定义
     sub=root:CreateButton(WoWTools_L.CUSTOM, function() return MenuResponse.Open end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '拖曳物品添加' or WoWTools_Join(WoWTools_Join(DRAG_MODEL, ITEMS, ADD)))
+        tooltip:AddLine(WoWTools_L['Drag item to add'])
     end)
 
     find=0

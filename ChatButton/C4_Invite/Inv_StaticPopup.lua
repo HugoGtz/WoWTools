@@ -78,9 +78,7 @@ local function Settings(_, name, isTank, isHealer, isDamage, isNativeRealm, allo
                 WoWTools_DataMixin.Icon.icon2
                 ..'|cffff00ff'
                 ..format(
-                    WoWTools_DataMixin.onlyChinese
-                    and '%s邀请你加入队伍。接受邀请可能会将你传送到另外一个服务器区域。'
-                    or INVITATION_XREALM:gsub('\n\n', ''),
+                    WoWTools_L['%s invites you to a group. Accepting this invitation may transport you to another realm.'],
                     WoWTools_UnitMixin:GetLink(nil, inviterGUID, name, false)
                 )
             )
@@ -128,7 +126,7 @@ local function Settings(_, name, isTank, isHealer, isDamage, isNativeRealm, allo
     elseif IsResting() and Save().NoInvInResting and not questSessionActive then
         sec= 3
         text= '|cnWARNING_FONT_COLOR:'
-            ..(WoWTools_DataMixin.onlyChinese and '休息区拒绝' or WoWTools_Join(DECLINE, WoWTools_Join(CALENDAR_STATUS_OUT, ZONE)))
+            ..WoWTools_L['Decline in rest zone']
             ..'|r'
         setPrint()
 
@@ -157,7 +155,7 @@ local function Init()
     end)
 
 
-    StaticPopupDialogs["PARTY_INVITE"].button3= WoWTools_DataMixin.onlyChinese and '添加拒绝' or WoWTools_Join(ADD, DECLINE)--添加拒绝按钮
+    StaticPopupDialogs["PARTY_INVITE"].button3= WoWTools_L['Add Decline']--添加拒绝按钮
     StaticPopupDialogs["PARTY_INVITE"].OnAlt=function()
         if not InviterPlayerGUID then
             return

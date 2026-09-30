@@ -175,7 +175,7 @@ local function Init_Create(frame)
             tooltip:AddLine(
                 '/|cff00ff00FST|rACK'
                 ..WoWTools_DataMixin.Icon.icon2
-                ..(WoWTools_DataMixin.onlyChinese and '自动关闭' or format(GARRISON_FOLLOWER_NAME, SELF_CAST_AUTO, CLOSE))
+                ..(WoWTools_L['Auto close'])
             )
         end
         function check:settings()
@@ -248,7 +248,7 @@ local function Init_Create(frame)
         if canaccessvalue(text) then
             text= text:match('Frame Attributes %- (.+)') or text
         else
-            text=WoWTools_DataMixin.onlyChinese and '|cnEVENTTRACE_SECRET_COLOR:<机密>|r' or format(EVENTTRACE_SECRET_FMT, '')
+            text=format(WoWTools_L.EVENTTRACE_SECRET_FMT, '')
         end
         --if p.focusedTable and p.focusedTable.GetDebugName then
             --text= p.focusedTable:GetDebugName()
@@ -294,12 +294,12 @@ local function Init_Create(frame)
     Set_CheckBox(frame.VisibilityButton)--, 'AlliedRace-UnlockingFrame-GenderSelectionGlow')
 
 
-    frame.HighlightButton.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '高亮' or frame.HighlightButton.Label:GetText() or HIGHLIGHTING)
+    frame.HighlightButton.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_L['Highlight'])
     frame.HighlightButton:ClearAllPoints()
     frame.HighlightButton:SetPoint('LEFT', frame.VisibilityButton, 'RIGHT')
     Set_CheckBox(frame.HighlightButton, 'loottoast-itemborder-glow')
 
-    frame.DynamicUpdateButton.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '动态更新' or frame.HighlightButton.Label:GetText() or WoWTools_Join(DYNAMIC, UPDATE))
+    frame.DynamicUpdateButton.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_L['Dynamic update'])
     frame.DynamicUpdateButton:ClearAllPoints()
     frame.DynamicUpdateButton:SetPoint('LEFT', frame.HighlightButton, 'RIGHT')
     Set_CheckBox(frame.DynamicUpdateButton)--, 'AlliedRace-UnlockingFrame-GenderMouseOverGlow')

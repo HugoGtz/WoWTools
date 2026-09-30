@@ -186,7 +186,7 @@ local function Init()
     btn:SetScript('OnEnter', function(self2)
         GameTooltip:SetOwner(self2, "ANCHOR_RIGHT")
         GameTooltip:ClearLines()
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '战利品 Plus' or WoWTools_Join(LOOT, 'Plus'), WoWTools_TextMixin:GetEnabeleDisable(not Save().disabledLootPlus))
+        GameTooltip:AddDoubleLine(WoWTools_L['Loot Plus'], WoWTools_TextMixin:GetEnabeleDisable(not Save().disabledLootPlus))
         GameTooltip:AddLine(' ')
         local  encounterID= GroupLootHistoryFrame.selectedEncounterID
         local info= encounterID and C_LootHistory.GetInfoForEncounter(encounterID)

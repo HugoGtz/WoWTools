@@ -52,7 +52,7 @@ local function Init_Panel()
         tooltip=WoWTools_L.CLEAR_ALL
     })
 
-    WoWTools_PanelMixin:Header(WoWTools_ToolsMixin.Layout, WoWTools_DataMixin.onlyChinese and '选项: 需要重新加载' or (OPTIONS..': '..REQUIRES_RELOAD))
+    WoWTools_PanelMixin:Header(WoWTools_ToolsMixin.Layout, WoWTools_L.OPTIONS..': '..WoWTools_L.REQUIRES_RELOAD)
  
 do
     local index=0
@@ -341,7 +341,7 @@ local function Init()
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine((self:CanChangeAttribute() and '' or '|cff626262')..WoWTools_TextMixin:GetShowHide(nil, true), WoWTools_DataMixin.Icon.left)
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '移动' or NPE_MOVE or SLASH_TEXTTOSPEECH_MENU, 'Alt+'..WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine(WoWTools_L.NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)
         GameTooltip:AddDoubleLine(WoWTools_L.SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
         GameTooltip:Show()
     end

@@ -684,7 +684,7 @@ local function Init_Menu(self, root, isSub)
 
 --自定义，设置，分开或统一
     sub2= sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '仅限' or string.format(LFG_LIST_CROSS_FACTION, ''),
+        format(WoWTools_L.LFG_LIST_CROSS_FACTION, ''),
     function()
         return IsEnabledSaveBg(name)
     end, function()

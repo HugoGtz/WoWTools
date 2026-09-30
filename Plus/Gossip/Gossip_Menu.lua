@@ -156,12 +156,12 @@ local function Init_Menu(self, root)
     num= CountTable(Save().NPC or {})
     
     sub=root:CreateButton(
-        '|T0:0|t'..(WoWTools_DataMixin.onlyChinese and '禁用NPC' or WoWTools_Join(DISABLE, 'NPC')),--..(num==0 and ' |cff626262' or ' ')..num,
+        '|T0:0|t'..WoWTools_L['Disable NPC'],--..(num==0 and ' |cff626262' or ' ')..num,
     function()
         return MenuResponse.Open
     end, {rightText=num})
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '闲话/任务' or (GOSSIP_OPTIONS..'/'..QUESTS_LABEL))
+        tooltip:AddLine(WoWTools_L['Gossip/Quests'])
     end)
     WoWTools_MenuMixin:SetRightText(sub)
 

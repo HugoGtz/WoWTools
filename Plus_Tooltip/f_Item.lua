@@ -519,11 +519,11 @@ function WoWTools_TooltipMixin:Set_Item(tooltip, itemLink, itemID)
         local collect, numAll = select(2, WoWTools_CollectionMixin:SetID(transmogSetID))
         if numAll then
             if collect==numAll then
-                textLeft= format('|cnGREEN_FONT_COLOR:%s|r',  WoWTools_DataMixin.onlyChinese and '已收集' or WoWTools_TextMixin)
+                textLeft= format('|cnGREEN_FONT_COLOR:%s|r',  WoWTools_L.COLLECTED)
             elseif collect>0 then
                 textLeft= '|cnWARNING_FONT_COLOR:'..collect..'/'..numAll
             else
-                textLeft= format('|cnWARNING_FONT_COLOR:%s|r',  WoWTools_DataMixin.onlyChinese and '未收集' or WoWTools_TextMixin)
+                textLeft= format('|cnWARNING_FONT_COLOR:%s|r',  WoWTools_L.NOT_COLLECTED)
             end
         end
         tooltip:AddLine('transmogSetID|cffffffff'..WoWTools_DataMixin.Icon.icon2..transmogSetID)

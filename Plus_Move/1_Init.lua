@@ -45,7 +45,7 @@ local function Init_Panel()
 
 
     WoWTools_PanelMixin:Check_Button({
-        checkName= WoWTools_DataMixin.onlyChinese and '保存位置' or WoWTools_Join(SAVE, CHOOSE_LOCATION:gsub(CHOOSE , '')),
+        checkName= WoWTools_L['Save position'],
         GetValue= function() return Save().SavePoint end,
         SetValue= function()
             Save().SavePoint= not Save().SavePoint and true or nil
@@ -65,9 +65,9 @@ local function Init_Panel()
     })
 
     WoWTools_PanelMixin:Check_Slider({
-        checkName= WoWTools_DataMixin.onlyChinese and '移动时Frame透明' or MAP_FADE_TEXT:gsub(WORLD_MAP, 'Frame'),
+        checkName= WoWTools_L['Fade frame when moving'],
         checkGetValue= function() return not Save().notMoveAlpha end,
-        checkTooltip= WoWTools_DataMixin.onlyChinese and '当你开始移动时，Frame变为透明状态。' or OPTION_TOOLTIP_MAP_FADE:gsub(string.lower(WORLD_MAP), 'Frame'),
+        checkTooltip= WoWTools_L['Frame fades when you start moving'],
         checkSetValue= function()
             Save().notMoveAlpha= not Save().notMoveAlpha and true or nil
             print(WoWTools_DataMixin.Icon.icon2..WoWTools_MoveMixin.addName, WoWTools_L.REQUIRES_RELOAD)

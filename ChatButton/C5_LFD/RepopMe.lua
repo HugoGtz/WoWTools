@@ -39,8 +39,7 @@ local function Init()
 
                 if WoWTools_DataMixin.Player.husandro then
                     print(WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                        WoWTools_DataMixin.onlyChinese and '开启了所有区域自动释放和复活'
-                        or WoWTools_Join(ALL, FLOOR)..': '..PVP_WAR_MODE_ENABLED..'('..BATTLE_PET_RELEASE..'/'.. RESURRECT..')'
+                        WoWTools_L['Auto release and resurrect enabled in all zones']
                     )
                 end
             end
@@ -71,7 +70,7 @@ local function Init()
 
                     print(
                         WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                        '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '释放' or BATTLE_PET_RELEASE..'|r'),
+                        '|cnGREEN_FONT_COLOR:'..WoWTools_L.BATTLE_PET_RELEASE..'|r',
                         SecondsToTime(GetCorpseRecoveryDelay() or 0)
                     )
                 end

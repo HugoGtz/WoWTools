@@ -63,10 +63,10 @@ local function GetActivities()--Enum.WeeklyRewardChestThresholdType
                 difficultyText=  DifficultyUtil.GetDifficultyName(info.level)
 --AlsoReceive 4
             elseif info.type== Enum.WeeklyRewardChestThresholdType.AlsoReceive then
-                head= WoWTools_DataMixin.onlyChinese and '你还将得到' or WEEKLY_REWARDS_ALSO_RECEIVE
+                head= WoWTools_L.WEEKLY_REWARDS_ALSO_RECEIVE
 --5 Concession
             elseif info.type== Enum.WeeklyRewardChestThresholdType.Concession then
-                head= WoWTools_DataMixin.onlyChinese and '收集' or WEEKLY_REWARDS_GET_CONCESSION
+                head= WoWTools_L.WEEKLY_REWARDS_GET_CONCESSION
 
 --世界 6
             elseif info.type== Enum.WeeklyRewardChestThresholdType.World then

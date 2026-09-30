@@ -36,7 +36,7 @@ local function Init()
     WoWTools_HyperLink.Category= Category
 
     local editBox=WoWTools_EditBoxMixin:CreateFrame(frame, {
-        text= WoWTools_DataMixin.onlyChinese and '来人 成就' or ('Inv '..ACHIEVEMENTS)
+        text= WoWTools_L['Inv Achievements']
     })
     editBox:SetPoint('TOPLEFT', 8, -22)
     editBox:SetPoint('BOTTOMRIGHT', frame, 'RIGHT', -8, 20)
@@ -82,9 +82,7 @@ local function Init()
     local label=WoWTools_LabelMixin:Create(frame)--内容加颜色
     label:SetPoint('BOTTOMLEFT', editBox, 'TOPLEFT', 0, 6)
     label:SetText(
-        WoWTools_DataMixin.onlyChinese
-        and '颜色: 关键词 (|cnGREEN_FONT_COLOR:空格|r) 分开'
-        or (COLOR..': '..KBASE_DEFAULT_SEARCH_TEXT..'|cnGREEN_FONT_COLOR:( '..KEY_SPACE..' )|r')
+        WoWTools_L['Color: keywords separated by |cnGREEN_FONT_COLOR:(Space)|r']
     )
 
     editBox.ChangeTexture= editBox:CreateTexture()
@@ -103,7 +101,7 @@ local function Init()
 
 
     local editBox2=WoWTools_EditBoxMixin:CreateFrame(frame, {
-        text= WoWTools_DataMixin.onlyChinese and '大脚世界频道=世' or (GENERAL..'=G')
+        text= WoWTools_L['General=G']
     })
     editBox2:SetPoint('TOPLEFT', frame, 'LEFT',8,-10)
     editBox2:SetPoint('BOTTOMRIGHT', frame, 'BOTTOMRIGHT', -8, 30)
@@ -138,14 +136,14 @@ local function Init()
         print(
             WoWTools_HyperLink.addName..WoWTools_DataMixin.Icon.icon2,
             '|cnGREEN_FONT_COLOR:'..n..'|r',
-            WoWTools_DataMixin.onlyChinese and '频道名称替换' or (CHANNEL_CHANNEL_NAME..COMMUNITIES_SETTINGS_SHORT_NAME_LABEL)
+            WoWTools_L['Channel name replacement']
         )
         self:GetParent().ChangeTexture:SetShown(false)
     end)
 
     local label2=WoWTools_LabelMixin:Create(frame)--频道名称替换
     label2:SetPoint('BOTTOMLEFT', editBox2, 'TOPLEFT', 0, 6)
-    label2:SetText(WoWTools_DataMixin.onlyChinese and '频道名称替换: 关键词|cnGREEN_FONT_COLOR:=|r替换' or (CHANNEL_CHANNEL_NAME..': '..COMMUNITIES_SETTINGS_SHORT_NAME_LABEL..'  |cnGREEN_FONT_COLOR:= |r'))
+    label2:SetText(WoWTools_L['Channel name replacement: keyword|cnGREEN_FONT_COLOR:=|rreplacement'])
 
     editBox2.ChangeTexture= editBox2:CreateTexture()
     editBox2.ChangeTexture:SetSize(20,20)

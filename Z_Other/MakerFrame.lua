@@ -485,7 +485,7 @@ local function Init()--设置标记, 框架
         GameTooltip:AddLine(WoWTools_DataMixin.Icon.left..(WoWTools_L.SLASH_COUNTDOWN2)..' |cffffffFF'..(Save().countdown or 7))
         GameTooltip:AddLine(WoWTools_DataMixin.Icon.right..(WoWTools_DataMixin.Player.IsCN and '取消 取消 取消' or 'STOP STOP STOP')..'|A:transmog-icon-chat:0:0|a', HIGHLIGHT_FONT_COLOR:GetRGB())
         GameTooltip:AddLine(' ')
-        GameTooltip_AddInstructionLine(GameTooltip, WoWTools_DataMixin.onlyChinese and '备注：不要太快了' or format('%s: %s', LABEL_NOTE, ERR_GENERIC_THROTTLE), true)
+        GameTooltip_AddInstructionLine(GameTooltip, WoWTools_L['Note: not too fast'], true)
         GameTooltip:AddLine(WoWTools_DataMixin.Icon.mid..(WoWTools_L.SETTINGS))
         GameTooltip:Show()
     end)
@@ -1349,7 +1349,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
     Save().Auto= Save().Auto or {}
 
-    addName= '|A:GM-raidMarker7:0:0|a'..(WoWTools_DataMixin.onlyChinese and '队伍标记工具' or format(PROFESSION_TOOL_TOOLTIP_LINE, BINDING_HEADER_RAID_TARGET))
+    addName= '|A:GM-raidMarker7:0:0|a'..(WoWTools_L['Raid target marker tool'])
     local isEnabled, sub= WoWTools_OtherMixin:AddOption('MarkerFrame', addName)
 
     WoWTools_PanelMixin:OnlyButton({

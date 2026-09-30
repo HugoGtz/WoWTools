@@ -969,7 +969,7 @@ local function Init_All_Role(_, root)
     root:CreateSpacer()
         root:CreateSpacer()
     sub=root:CreateCheckbox(
-        (WoWTools_DataMixin.onlyChinese and '自动设置' or format(GARRISON_FOLLOWER_NAME, SELF_CAST_AUTO, SETTINGS))
+        WoWTools_L['Auto settings']
         ..'|T'..(select(4, C_SpecializationInfo.GetSpecializationInfo(GetSpecialization() or 0)) or '0')..':0|t',
     function()
         return Save().autoSetRole
@@ -1062,7 +1062,7 @@ local function Init_Menu(self, root)
         WoWTools_LFDMixin:Init_Exit_Instance()
     end)
     sub2:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '离开副本和战场' or WoWTools_Join(LEAVE, WoWTools_Join(INSTANCE, BATTLEFIELDS)))
+        tooltip:AddLine(WoWTools_L['Leave instances and battlegrounds'])
         tooltip:AddLine(' ')
         if WoWTools_DataMixin.onlyChinese then
             tooltip:AddLine('离开随机: 自动掷骰')
@@ -1103,7 +1103,7 @@ local function Init_Menu(self, root)
 
 
 --设置, 预创建队伍增强
-    sub2=sub:CreateCheckbox('|A:UI-HUD-MicroMenu-Groupfinder-Mouseover:0:0|a'..(WoWTools_DataMixin.onlyChinese and '预创建队伍增强' or WoWTools_Join(LFGLIST_NAME, 'Plus')), function()
+    sub2=sub:CreateCheckbox('|A:UI-HUD-MicroMenu-Groupfinder-Mouseover:0:0|a'..WoWTools_L['Premade Groups Plus'], function()
         return Save().LFGPlus
     end, function()
         Save().LFGPlus = not Save().LFGPlus and true or nil
@@ -1159,7 +1159,7 @@ local function Init_Menu(self, root)
 --释放, 复活    
     sub2=sub:CreateCheckbox(
         '|A:poi-soulspiritghost:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '释放, 复活' or (BATTLE_PET_RELEASE..', '..RESURRECT)),
+        ..WoWTools_L['Release, Resurrect'],
     function()
         return Save().ReMe
     end, function()
@@ -1226,7 +1226,7 @@ local function Init_Menu(self, root)
 --隐藏，不可能副本，列表
     sub:CreateDivider()
     sub:CreateTitle(
-        WoWTools_DataMixin.onlyChinese and '副本列表' or format('%s', PROFESSIONS_CURRENT_LISTINGS:gsub(REFORGE_CURRENT, INSTANCE))
+        WoWTools_L['Instance listings']
     )
     sub2= sub:CreateCheckbox(
         WoWTools_L.HIDE,
@@ -1296,7 +1296,7 @@ local function Init_Menu(self, root)
         end, setValue=function(value)
             Save().sec=value
         end,
-        name=WoWTools_DataMixin.onlyChinese and '自动确认' or format(GARRISON_FOLLOWER_NAME, SELF_CAST_AUTO, RPE_CONFIRM),
+        name=WoWTools_L['Auto confirm'],
         minValue=1,
         maxValue=20,
         step=1,
@@ -1347,7 +1347,7 @@ local function Init_Menu(self, root)
     end)
 
     sub:CreateDivider()
-    sub:CreateCheckbox('|A:communities-icon-notification:0:0|a'..(WoWTools_DataMixin.onlyChinese and '战利品 Plus' or WoWTools_Join(LOOT, 'Plus')), function()
+    sub:CreateCheckbox('|A:communities-icon-notification:0:0|a'..WoWTools_L['Loot Plus'], function()
         return not Save().disabledLootPlus
     end, function()
         Save().disabledLootPlus= not Save().disabledLootPlus and true or nil
@@ -1472,7 +1472,7 @@ local function Init_Menu(self, root)
             StaticPopup_Show('WoWTools_OK',
                 (WoWTools_L.INSTANCE_WALK_IN_LEAVE)
                 ..'|n|n|A:BonusLoot-Chest:32:32|a|cnGREEN_FONT_COLOR:'
-                ..(WoWTools_DataMixin.onlyChinese and '注意：奖励' or (LABEL_NOTE..': '..REWARD)),
+                ..WoWTools_L['Note: Reward'],
                 nil,
                 {SetValue=C_PartyInfo.DelveTeleportOut}
             )
@@ -1491,7 +1491,7 @@ local function Init_Menu(self, root)
             StaticPopup_Show('WoWTools_OK',
                 (WoWTools_L.INSTANCE_LEAVE)
                 ..'|n|n|A:BonusLoot-Chest:32:32|a|cnGREEN_FONT_COLOR:'
-                ..(WoWTools_DataMixin.onlyChinese and '注意：奖励' or (LABEL_NOTE..': '..REWARD)),
+                ..WoWTools_L['Note: Reward'],
                 nil,
                 {SetValue=function()
                     C_PartyInfo.LeaveParty(LE_PARTY_CATEGORY_INSTANCE)

@@ -655,8 +655,7 @@ function WoWTools_MenuMixin:OpenOptions(root, tab)
     sub:SetTooltip(function(t)
         t:AddDoubleLine(name and name..WoWTools_DataMixin.Icon.icon2 or WoWTools_DataMixin.addName, name2)
         t:AddDoubleLine(
-            WoWTools_DataMixin.onlyChinese and '打开选项界面'
-            or WoWTools_Join(WoWTools_Join(UNWRAP, OPTIONS), 'UI')
+            WoWTools_L['Open options UI']
         )
         local isType= type(tooltip)
         if isType=='string' then

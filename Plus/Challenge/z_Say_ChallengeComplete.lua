@@ -246,7 +246,7 @@ end
 local function Init_Menu(self, root)
     if not self then
         root:CreateButton(
-            WoWTools_DataMixin.onlyChinese and '加载' or LOAD_ADDON:gsub(ADDONS,''),
+            WoWTools_L['Load'],
         function()
             WoWTools_ChallengeMixin:Say_ChallengeComplete()
             Save().hideEndKeystoneSay= nil
@@ -304,7 +304,7 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end)
     sub2:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '显示UI' or  WoWTools_Join(SHOW, 'UI'))
+        tooltip:AddLine(WoWTools_L['Show UI'])
     end)
 
 --显示/隐藏

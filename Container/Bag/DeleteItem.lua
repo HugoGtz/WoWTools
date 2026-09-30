@@ -183,7 +183,7 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetRightText(sub)
 
     sub2=sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '自动摧毁' or  format(GARRISON_FOLLOWER_NAME, SELF_CAST_AUTO, HOUSING_DECOR_STORAGE_ITEM_DESTROY),
+        WoWTools_L['Auto destroy'],
     function()
         return Save().auto
     end, function()
@@ -193,7 +193,7 @@ local function Init_Menu(self, root)
     end, {rightText= #new})
     sub2:SetTooltip(function(tooltip)
         tooltip:AddLine('WorldFrame:HookScript(\"OnMouseDown\"')
-        GameTooltip_AddErrorLine(tooltip, WoWTools_DataMixin.onlyChinese and '危险！' or VOICEMACRO_1_Sc_0)
+        GameTooltip_AddErrorLine(tooltip, WoWTools_L.VOICEMACRO_1_Sc_0)
     end)
 
     sub:CreateCheckbox(

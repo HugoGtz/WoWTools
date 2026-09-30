@@ -56,7 +56,7 @@ local function Edit_Item(self, info)
             print(WoWTools_DataMixin.Icon.icon2..WoWTools_OpenItemMixin.addName,
                 WoWTools_ItemMixin:GetLink(data.itemID),
                 num>1 and
-                    (WoWTools_DataMixin.onlyChinese and '合成物品' or COMBINED_BAG_TITLE:gsub(INVTYPE_BAG,ITEMS))..': '..'|cnGREEN_FONT_COLOR:'..num..'|r'
+                    (WoWTools_L['Combine items'])..': '..'|cnGREEN_FONT_COLOR:'..num..'|r'
                     or self.useText
             )
         end,
@@ -218,7 +218,7 @@ local function Init_Menu(self, root)
     else
         sub=root:CreateButton(WoWTools_L.NONE)
         sub:SetTooltip(function(tooltip)
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '使用/禁用' or (USE..'/'..DISABLE))
+            tooltip:AddLine(WoWTools_L['Use/Disable'])
             tooltip:AddLine(WoWTools_L['DRAG_MODEL+ITEMS~2'])
         end)
     end
@@ -269,7 +269,7 @@ local OptionsList={{
     name=WoWTools_L.ITEM_OPENABLE,
     type='open'
 },{
-    name=WoWTools_DataMixin.onlyChinese and '坐骑' or MOUNTS or ITEM_OPENABLE,
+    name=WoWTools_L.MOUNTS,
     type='mount'
 },{
     name=WoWTools_L.TRANSMOGRIFY,

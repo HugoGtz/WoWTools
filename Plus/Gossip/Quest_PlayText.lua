@@ -100,7 +100,7 @@ function WoWTools_GossipMixin:Init_QuestPlayTextMenu(_, root)
 
 --自动停止
     sub2=sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '自动停止' or format(GARRISON_FOLLOWER_NAME, SELF_CAST_AUTO, SLASH_TEXTTOSPEECH_STOP),
+        WoWTools_L['Auto stop'],
     function()
         return Save().questPlayTextStopMove
     end, function()

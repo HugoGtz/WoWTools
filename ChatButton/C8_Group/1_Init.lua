@@ -16,11 +16,11 @@ function WoWTools_GroupMixin:Get_ReadyText(ready)
     ready= ready or Save().autoReady or 0
     if ready==1 then
         return '|A:common-icon-checkmark:0:0|a'..GREEN_FONT_COLOR:WrapTextInColorCode(
-            WoWTools_DataMixin.onlyChinese and '自动就绪' or format(GARRISON_FOLLOWER_NAME, SELF_CAST_AUTO, READY)
+            WoWTools_L['Auto ready']
         )
     elseif ready==2 then
         return '|A:XMarksTheSpot:0:0|a'..WARNING_FONT_COLOR:WrapTextInColorCode(
-            WoWTools_DataMixin.onlyChinese and '自动未就绪' or format(GARRISON_FOLLOWER_NAME, SELF_CAST_AUTO, NOT_READY_FEMALE)
+            WoWTools_L['Auto not ready']
         )
     else
         return '|A:Cursor_OpenHand_32:0:0|a'..HIGHLIGHT_FONT_COLOR:WrapTextInColorCode(
@@ -240,7 +240,7 @@ local function Init_Menu(self, root)
 
     if tab[1]=='r' then
         sub2=sub:CreateCheckbox(
-            WoWTools_DataMixin.onlyChinese and '队员HP' or WoWTools_Join(PLAYERS_IN_GROUP, "HP"),
+            WoWTools_L['Group members HP'],
         function()
             return Save().showRaidHPTooltip
         end, function()
@@ -402,7 +402,7 @@ end
     end
 
     sub:CreateDivider()
-    WoWTools_OtherMixin:OpenOption(sub, 'MarkerFrame', '|A:GM-raidMarker7:0:0|a'..(WoWTools_DataMixin.onlyChinese and '队伍标记工具' or format(PROFESSION_TOOL_TOOLTIP_LINE, BINDING_HEADER_RAID_TARGET)))
+    WoWTools_OtherMixin:OpenOption(sub, 'MarkerFrame', '|A:GM-raidMarker7:0:0|a'..WoWTools_L['Raid target marker tool'])
 
 
     root:CreateDivider()

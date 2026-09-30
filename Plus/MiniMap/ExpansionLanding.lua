@@ -9,7 +9,7 @@ end
 function WoWTools_MinimapMixin:ExpansionLanding_Menu(_, root)
     root:CreateCheckbox(
         (ExpansionLandingPageMinimapButton and '' or '|cff626262')
-        ..'|A:dragonflight-landingbutton-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '隐藏要塞图标' or WoWTools_Join(HIDE, WoWTools_Join(GARRISON_LOCATION_TOOLTIP, EMBLEM_SYMBOL))),
+        ..'|A:dragonflight-landingbutton-up:0:0|a'..WoWTools_L['Hide garrison icon'],
     function()
         return Save().hideExpansionLandingPageMinimapButton
     end, function()
@@ -23,7 +23,7 @@ function WoWTools_MinimapMixin:ExpansionLanding_Menu(_, root)
     end)
 
     root:CreateCheckbox(
-        '|A:dragonflight-landingbutton-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '移动要塞图标' or WoWTools_Join(NPE_MOVE, WoWTools_Join(GARRISON_LOCATION_TOOLTIP, EMBLEM_SYMBOL))),
+        '|A:dragonflight-landingbutton-up:0:0|a'..WoWTools_L['Move garrison icon'],
     function()
         return Save().moveExpansionLandingPageMinimapButton
     end, function()

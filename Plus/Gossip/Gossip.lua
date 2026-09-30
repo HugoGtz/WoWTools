@@ -356,7 +356,7 @@ local function Init()
         GameTooltip:AddLine('npcID|cffffffff'..WoWTools_DataMixin.Icon.icon2..self.npc)
         GameTooltip:AddLine(' ')
         GameTooltip:AddLine(
-            (WoWTools_DataMixin.onlyChinese and '自动对话' or format(GARRISON_FOLLOWER_NAME, SELF_CAST_AUTO, ENABLE_DIALOG))
+            WoWTools_L['Auto gossip']
             ..': '..WoWTools_TextMixin:GetEnabeleDisable(not Save().NPC[self.npc]))
         GameTooltip:Show()
     end

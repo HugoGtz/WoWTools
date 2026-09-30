@@ -65,7 +65,7 @@ local function Init_Menu(self, root)
     local tab=WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Time
     sub=root:CreateCheckbox(
         tab.totalTime and WoWTools_TimeMixin:SecondsToFullTime(tab.totalTime, tab.upData)
-        or (WoWTools_DataMixin.onlyChinese and '游戏时间' or TOKEN_REDEEM_GAME_TIME_TITLE or SLASH_PLAYED2:gsub('/', '')),
+        or WoWTools_L['Game time'],
     function()
         return Save().AllOnlineTime
     end, function ()
@@ -74,7 +74,7 @@ local function Init_Menu(self, root)
     end, tab)
     sub:SetTooltip(function(tooltip, desc)
         tooltip:AddDoubleLine(
-            WoWTools_DataMixin.onlyChinese and '游戏时间' or TOKEN_REDEEM_GAME_TIME_TITLE or SLASH_PLAYED2:gsub('/', ''),
+            WoWTools_L['Game time'],
             WoWTools_TimeMixin:SecondsToFullTime(desc.data.totalTime, desc.data.upData)
         )
         tooltip:AddDoubleLine(

@@ -4,7 +4,7 @@ local function ShowParagonRewardsTooltip(frame)
 	EmbeddedItemTooltip:SetOwner(frame, frame.anchor or "ANCHOR_LEFT")
 	ReputationParagonFrame_SetupParagonTooltip(frame)
 	if frame.canClickForOptions then
-		GameTooltip_SetBottomText(EmbeddedItemTooltip, WoWTools_DataMixin.onlyChinese and '<点击查看旅程>' or JOURNEYS_TOOLTIP_VIEW_JOURNEY or REPUTATION_BUTTON_TOOLTIP_CLICK_INSTRUCTION, GREEN_FONT_COLOR)
+		GameTooltip_SetBottomText(EmbeddedItemTooltip, WoWTools_L.JOURNEYS_TOOLTIP_VIEW_JOURNEY, GREEN_FONT_COLOR)
 	end
 	WoWTools_TooltipMixin:Set_Faction(EmbeddedItemTooltip, frame.factionID)
 	EmbeddedItemTooltip:Show()
@@ -60,7 +60,7 @@ local function ShowMajorFactionRenownTooltip(frame)
 	end
 
 	if C_MajorFactions.IsWeeklyRenownCapped(factionID) then
-		GameTooltip_AddErrorLine(GameTooltip,WoWTools_DataMixin.onlyChinese and '本周达到上限' or format(CURRENCY_THIS_WEEK, CAPPED))
+		GameTooltip_AddErrorLine(GameTooltip,WoWTools_L['Capped this week'])
 	end
 
 	if frame.canClickForOptions then

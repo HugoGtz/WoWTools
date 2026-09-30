@@ -15,8 +15,7 @@ local function Init(btn)
 
     function btn:Get_myChatFilter_Text()
         return (
-            WoWTools_DataMixin.onlyChinese and '内容限'..Save().myChatFilterNum..'个字符以内'
-            or ERR_VOICE_CHAT_CHANNEL_NAME_TOO_LONG:gsub(CHANNEL_CHANNEL_NAME,''):gsub('30', Save().myChatFilterNum)
+            format(WoWTools_L['Content limited to %s characters'], Save().myChatFilterNum)
         )
     end
 

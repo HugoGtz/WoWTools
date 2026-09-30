@@ -106,7 +106,7 @@ WoWTools_PanelMixin:CheckMenu({
 --全部重置
         if classID==(GetNumClasses()+1) then
             StaticPopup_Show('WoWTools_OK',
-            WoWTools_DataMixin.onlyChinese and '职业颜色|n|n全部重置' or (CLASS_COLORS..'|n|n'..RESET_ALL_BUTTON_TEXT) ,
+            WoWTools_L.CLASS_COLORS..'|n|n'..WoWTools_L.RESET_ALL_BUTTON_TEXT,
             nil,
             {SetValue=function()
                 WoWToolsPlusPlayerDate['TextureClassColor']={}
@@ -200,7 +200,7 @@ WoWTools_PanelMixin:CheckMenu({
 
     sub= WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_L.CHAT_BUBBLES_TEXT,
-        tooltip= (WoWTools_DataMixin.onlyChinese and '在副本无效' or (INSTANCE..' ('..DISABLE..')'))
+        tooltip= (WoWTools_L['Disabled in instances'])
                 ..'|n|n'..((WoWTools_L.SAY)..' CVar: chatBubbles '.. WoWTools_TextMixin:GetShowHide(C_CVar.GetCVarBool("chatBubbles")))
                 ..'|n'..((WoWTools_L['SAY~2'])..' CVar: chatBubblesParty '.. WoWTools_TextMixin:GetShowHide(C_CVar.GetCVarBool("chatBubblesParty")))
                 ..'\n\n'..tooltip,

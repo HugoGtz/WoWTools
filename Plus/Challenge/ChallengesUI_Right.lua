@@ -90,8 +90,7 @@ local function Set_Text()--所有记录
 
 --难度 每周 掉落
     Frame.loot:SetText(
-        WoWTools_DataMixin.onlyChinese and '难度 掉落 每周'
-        or format('%s %s %s', PROFESSIONS_CRAFTING_STAT_TT_DIFFICULTY_HEADER, LOOT, CALENDAR_REPEAT_WEEKLY)
+        WoWTools_L['Difficulty Loot Weekly']
     )
     w= math.max(Frame.loot:GetStringWidth(), w)
     w= math.max(Frame.week:GetStringWidth(), w)
@@ -195,7 +194,7 @@ local function History_Tooltip(self)
             table.insert(newTab, 1, tab)
         end
     end
-    GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '历史' or Frame.history, completed..'/'..all)
+    GameTooltip:AddDoubleLine(WoWTools_L.HISTORY, completed..'/'..all)
 
     for _, tab in pairs(newTab) do
         local name, _, _, texture= C_ChallengeMode.GetMapUIInfo(tab.mapID)

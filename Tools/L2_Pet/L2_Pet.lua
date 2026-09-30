@@ -327,7 +327,7 @@ local function Init()
         if name then
             GameTooltip:AddDoubleLine(name, WoWTools_DataMixin.Icon.left)
         end
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '随机偏好宠物' or SLASH_RANDOMFAVORITEPET1:gsub('/', ''), WoWTools_DataMixin.Icon.mid)
+        GameTooltip:AddDoubleLine(WoWTools_L['Random favorite pet'], WoWTools_DataMixin.Icon.mid)
         GameTooltip:AddDoubleLine((WoWTools_L.SLASH_TEXTTOSPEECH_MENU), WoWTools_DataMixin.Icon.right)
         GameTooltip:Show()
     end)

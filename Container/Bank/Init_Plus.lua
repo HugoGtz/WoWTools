@@ -203,14 +203,12 @@ local function AddBankTabSettingsToTooltip(self, tabData)
     if FlagsUtil.IsSet(depositFlags, Enum.BagSlotFlags.ExpansionCurrent) then
         local icon= '|A:'..C_BAG_FILTER_LABELS[Enum.BagSlotFlags.ExpansionCurrent]..':0:0|a'
         GameTooltip_AddNormalLine(GameTooltip,
-            WoWTools_DataMixin.onlyChinese and '内容更新：'..icon..'|cnHIGHLIGHT_FONT_COLOR:仅限当前内容|r'
-            or BANK_TAB_EXPANSION_ASSIGNMENT:format(icon..BANK_TAB_EXPANSION_FILTER_CURRENT)
+            WoWTools_L.BANK_TAB_EXPANSION_ASSIGNMENT:format(icon..'|cnHIGHLIGHT_FONT_COLOR:'..WoWTools_L.BANK_TAB_EXPANSION_FILTER_CURRENT..'|r')
         )
     elseif FlagsUtil.IsSet(depositFlags, Enum.BagSlotFlags.ExpansionLegacy) then
         local icon= '|A:'..C_BAG_FILTER_LABELS[Enum.BagSlotFlags.ExpansionLegacy]..':0:0|a'
         GameTooltip_AddNormalLine(GameTooltip,
-            WoWTools_DataMixin.onlyChinese and '内容更新：'..icon..'|cff626262仅限旧版内容|r'
-            or BANK_TAB_EXPANSION_ASSIGNMENT:format(icon..'|cff626262'..BANK_TAB_EXPANSION_FILTER_LEGACY)
+            WoWTools_L.BANK_TAB_EXPANSION_ASSIGNMENT:format(icon..'|cff626262'..WoWTools_L.BANK_TAB_EXPANSION_FILTER_LEGACY..'|r')
         )
     end
     local text
@@ -248,7 +246,7 @@ local function AddBankTabSettingsToTooltip(self, tabData)
     GameTooltip_AddNormalLine(GameTooltip,
         WoWTools_DataMixin.Icon.right
         ..'|cnGREEN_FONT_COLOR:'
-        ..(WoWTools_DataMixin.onlyChinese and '<设置>' or ('<'..SETTINGS..'>'))
+        ..('<'..WoWTools_L.SETTINGS..'>')
     )
     GameTooltip:Show()
 end

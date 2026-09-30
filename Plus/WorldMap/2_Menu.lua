@@ -104,7 +104,7 @@ local function Init_OnEnter(self)
             if playerCursorMapName then
                 GameTooltip:AddDoubleLine(WoWTools_DataMixin.Icon.Player..playerCursorMapName, 'XY: |cffffffff'..xy)
             else
-                GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '位置' or (RESET_POSITION:gsub(RESET, WoWTools_DataMixin.Icon.Player)), 'XY: |cffffffff'..xy)
+                GameTooltip:AddDoubleLine(format(WoWTools_L['%s Position'], WoWTools_DataMixin.Icon.Player), 'XY: |cffffffff'..xy)
             end
         end
     end

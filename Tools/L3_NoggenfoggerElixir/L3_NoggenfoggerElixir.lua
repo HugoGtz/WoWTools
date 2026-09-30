@@ -116,7 +116,7 @@ local function Init_Menu(self, root)
     local sub
     sub=root:CreateTitle(WoWTools_L['CANCEL+AURAS'])
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '仅限脱战' or format(LFG_LIST_CROSS_FACTION, HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_OUT_OF_COMBAT))
+        tooltip:AddLine(WoWTools_L['Out of combat only'])
     end)
     for spellID in pairs(Save().aura) do
         sub=root:CreateCheckbox(

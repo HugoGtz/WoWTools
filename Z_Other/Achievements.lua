@@ -374,7 +374,7 @@ local function Init_Achievement()
             GameTooltip:SetOwner(self, 'ANCHOR_LEFT')
             GameTooltip_SetTitle(GameTooltip,
                 WoWTools_DataMixin.Icon.icon2
-                ..(WoWTools_DataMixin.onlyChinese and '完成：|cffffffff我|r' or format('%s: %s', COMPLETE, COMBATLOG_FILTER_STRING_ME))
+                ..(WoWTools_L['Completed: me'])
             )
             GameTooltip:Show()
         end)

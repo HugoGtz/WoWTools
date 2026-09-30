@@ -152,7 +152,7 @@ local function Init_Options(category, layout)
 
     WoWTools_PanelMixin:OnlyCheck({
         category= category,
-        name= '|cff3fc6ea'..(WoWTools_DataMixin.onlyChinese and '位置: 放左边' or (CHOOSE_LOCATION..': '..HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_LEFT ))..'|r',
+        name= '|cff3fc6ea'..(WoWTools_L['Position: left'])..'|r',
         tooltip= addName,
         GetValue= function() return Save().isLeft end,
         SetValue= function()
@@ -394,7 +394,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             P_Save= nil
 
             if not Save().disabled and WoWTools_ToolsMixin:Get_MainButton() then
-                addName= '|T626001:0|t|cff3fc6ea'..(WoWTools_DataMixin.onlyChinese and '法师传送门' or format(UNITNAME_SUMMON_TITLE14, UnitClass('player'))..'|r')
+                addName= '|T626001:0|t|cff3fc6ea'..(format(WoWTools_L['%s Portal'], UnitClass('player'))..'|r')
                 self:RegisterEvent('PLAYER_ENTERING_WORLD')
             else
                 Tab={}

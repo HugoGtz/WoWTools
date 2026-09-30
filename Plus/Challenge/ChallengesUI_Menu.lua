@@ -361,7 +361,7 @@ local function Init_Menu(self, root)
 --词缀, 右下角
     name= '|T463829:0|t'
         ..(C_MythicPlus.GetCurrentSeason()==WoWTools_DataMixin.SeasonAffixSchedule and '' or '|cff828282')
-        ..(WoWTools_DataMixin.onlyChinese and '词缀列表' or WoWTools_Join('Affix', INFO))
+        ..WoWTools_L['Affix list']
     sub= root:CreateCheckbox(
         name,
     function()
@@ -564,7 +564,7 @@ sub:CreateTitle(name)
         return MenuResponse.Open
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '显示UI' or  WoWTools_Join(SHOW, 'UI'))
+        tooltip:AddLine(WoWTools_L['Show UI'])
     end)
 
 --菜单

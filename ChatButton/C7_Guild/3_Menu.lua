@@ -102,7 +102,7 @@ local function Init_Guild_Menu(self, root)
         if not canGuildInvite then
             tooltip:AddLine(
                 '|cff828282'
-                ..(WoWTools_DataMixin.onlyChinese and '无法邀请成员' or format(ERROR_CLUB_ACTION_INVITE_MEMBER, ''))..'|r'
+                ..WoWTools_L['Cannot invite members']..'|r'
             )
         end
     end)

@@ -49,7 +49,7 @@ local function Set_Text(self)
     if isInGuild then
 --弹劾
         if CanReplaceGuildMaster() then--弹劾
-            bottomText= WoWTools_DataMixin.onlyChinese and '弹' or  WoWTools_TextMixin:sub(GUILD_IMPEACH_POPUP_CONFIRM, 2, 5,true)
+            bottomText= WoWTools_L['Impeach (short)']
         elseif WoWTools_GuildMixin:IsLeaderOrOfficer() and CanGuildInvite() then
             bottomText= WoWTools_GuildMixin:GetClubFindDay(nil)--Club,列出查找，过期时间
         end

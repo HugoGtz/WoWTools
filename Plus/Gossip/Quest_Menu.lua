@@ -43,7 +43,7 @@ local function Init_Menu(self, root)
     root:CreateDivider()
     num= CountTable(Save().questRewardCheck or {})
     sub=root:CreateCheckbox(
-        (WoWTools_DataMixin.onlyChinese and '自动选择奖励' or format(TITLE_REWARD, WoWTools_Join(SELF_CAST_AUTO, CHOOSE)))
+        WoWTools_L['Auto choose reward']
         ..(num==0 and ' |cff626262' or ' ')
         ..num,
     function()
@@ -52,7 +52,7 @@ local function Init_Menu(self, root)
         Save().autoSelectReward= not Save().autoSelectReward and true or nil
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '最高品质' or format(PROFESSIONS_CRAFTING_QUALITY, VIDEO_OPTIONS_ULTRA_HIGH))
+        tooltip:AddLine(WoWTools_L['Highest quality'])
         tooltip:AddLine(WoWTools_L.GARRISON_MISSION_RARE)
         tooltip:AddLine('|cff0000ff'..(WoWTools_L.GARRISON_MISSION_RARE)..'|r')
     end)
@@ -90,7 +90,7 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '自动选取' or format(GARRISON_FOLLOWER_NAME, SELF_CAST_AUTO, CHOOSE))
+        tooltip:AddLine(WoWTools_L['Auto select'])
     end)
 
 
@@ -133,8 +133,7 @@ local function Init_Menu(self, root)
     end)
     sub:SetTooltip(function(tooltip)
         tooltip:AddLine(
-            WoWTools_DataMixin.onlyChinese and '仅限在队伍中'
-            or format(LFG_LIST_CROSS_FACTION, AGGRO_WARNING_IN_PARTY)
+            WoWTools_L['Only in a party']
         )
     end)
 
@@ -153,8 +152,7 @@ local function Init_Menu(self, root)
             WoWTools_L['SHOW+ALL']
         )
         tooltip:AddLine(
-            WoWTools_DataMixin.onlyChinese and '在副本中禁用|n任务>0'
-            or (WoWTools_Join(AGGRO_WARNING_IN_INSTANCE, DISABLE)..'|n'..QUESTS_LABEL..' >0')
+            WoWTools_L['Disabled in instances|nQuests >0']
         )
     end)
 

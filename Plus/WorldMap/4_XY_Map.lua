@@ -111,9 +111,7 @@ local function Init_Menu(self, root)
     root:CreateButton(
         (WorldMapFrame.mapID==MapUtil.GetDisplayableMapForPlayer() and '|cff626262' or '')
         ..WoWTools_DataMixin.Icon.Player
-        ..(WoWTools_DataMixin.onlyChinese and '返回当前地图' or
-        WoWTools_Join(WoWTools_Join(PREVIOUS, REFORGE_CURRENT), WORLD_MAP)
-    ), function()
+        ..WoWTools_L['Back to current map'], function()
         local mapID2= MapUtil.GetDisplayableMapForPlayer()
         if mapID2 then
             WorldMapFrame:SetMapID(mapID2)

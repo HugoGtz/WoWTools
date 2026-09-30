@@ -974,7 +974,7 @@ local function Init(isShow)
 
         local addText= format('|cnGREEN_FONT_COLOR:%s %d|r', WoWTools_L.ADD, #add)
         local delText= format('|cffffffff%s %d|r', WoWTools_L.SPELL_FAILED_CUSTOM_ERROR_455, del)
-        local existText= format('|cnWARNING_FONT_COLOR:%s %d|r', WoWTools_DataMixin.onlyChinese and '已存在' or format(ERR_ZONE_EXPLORED, PROFESSIONS_CURRENT_LISTINGS), exist)
+        local existText= format('|cnWARNING_FONT_COLOR:%s %d|r', WoWTools_L['Already exists'], exist)
         if not tooltips then
             for _, info in pairs(add) do
                 PlayerDataSave()[info.gossipID]= info.tab
