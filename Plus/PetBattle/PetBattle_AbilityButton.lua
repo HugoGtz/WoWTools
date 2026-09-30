@@ -2,7 +2,7 @@
 --Blizzard_PetBattleUI.lua
 
 local function Save()
-    return WoWToolsSave['Plus_PetBattle2']
+    return WoWToolsPlusSave['Plus_PetBattle2']
 end
 
 local Buttons={}--5*3 技能按钮

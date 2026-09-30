@@ -2,7 +2,7 @@
 local THREAT_TOOLTIP= WoWTools_TextMixin:Magic(THREAT_TOOLTIP)--:gsub('%%d', '%%d+')--"%d%% 威胁"
 local questFrame
 local function Save()
-    return WoWToolsSave['Plus_Target']
+    return WoWToolsPlusSave['Plus_Target']
 end
 
 

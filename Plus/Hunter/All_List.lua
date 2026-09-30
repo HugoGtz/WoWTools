@@ -11,7 +11,7 @@ local NUM_PET_SLOTS_HUNTER = Constants.PetConsts_PostCata.NUM_PET_SLOTS_HUNTER o
 
 
 local function Save()
-    return WoWToolsSave['Plus_StableFrame']
+    return WoWToolsPlusSave['Plus_StableFrame']
 end
 
 

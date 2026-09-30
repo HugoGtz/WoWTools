@@ -22,7 +22,7 @@ local P_Save={
 }
 
 local function Save()
-    return WoWToolsSave['ChatButton_Markers'] or {}
+    return WoWToolsPlusSave['ChatButton_Markers'] or {}
 end
 
 
@@ -185,7 +185,7 @@ panel:SetScript('OnEvent', function(self, event, arg1)
         return
     end
 
-    WoWToolsSave['ChatButton_Markers']= WoWToolsSave['ChatButton_Markers'] or P_Save
+    WoWToolsPlusSave['ChatButton_Markers']= WoWToolsPlusSave['ChatButton_Markers'] or P_Save
     P_Save= nil
 
     Save().showMakerFrameBackground= nil--显示背景 改为ALPHA

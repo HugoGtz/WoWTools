@@ -1,6 +1,6 @@
 --显示，隐藏，按钮
 local function Save()
-    return WoWToolsSave['Plus_PaperDoll']
+    return WoWToolsPlusSave['Plus_PaperDoll']
 end
 
 

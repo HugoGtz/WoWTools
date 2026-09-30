@@ -7,7 +7,7 @@ journalInstanceID = C_EncounterJournal.GetInstanceForGameMap(mapID)
 
 
 local function Save()
-    return WoWToolsSave['Adventure_Journal']
+    return WoWToolsPlusSave['Adventure_Journal']
 end
 
 
@@ -253,7 +253,7 @@ local function Init_Button(btn)
     btn.KeyTexture:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        local link= WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].Keystone.link
+        local link= WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Keystone.link
         if link then
             GameTooltip:SetHyperlink(link)
         else

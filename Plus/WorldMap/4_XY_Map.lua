@@ -2,7 +2,7 @@
 --地图坐标
 
 local function Save()
-    return  WoWToolsSave['Plus_WorldMap']
+    return  WoWToolsPlusSave['Plus_WorldMap']
 end
 
 

@@ -9,7 +9,7 @@ end
 
 
 local function Save()
-    return WoWToolsSave['Plus_Gossip']
+    return WoWToolsPlusSave['Plus_Gossip']
 end
 
 
@@ -71,7 +71,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsSave['Plus_Gossip']= WoWToolsSave['Plus_Gossip'] or {
+            WoWToolsPlusSave['Plus_Gossip']= WoWToolsPlusSave['Plus_Gossip'] or {
                 NPC={--禁用NPC
                     ['223594']=true,
                     ['150122']=true,--荣耀堡法师 50005 我必须向黑暗之门报到。
@@ -115,10 +115,10 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 Dialogs={}
             }
 
-            WoWToolsPlayerDate.GossipMovie= WoWToolsPlayerDate.GossipMovie or {}
+            WoWToolsPlusPlayerDate.GossipMovie= WoWToolsPlusPlayerDate.GossipMovie or {}
 
 --玩家，自定义，对话，文本
-            WoWToolsPlayerDate.GossipTextIcon= WoWToolsPlayerDate.GossipTextIcon or {
+            WoWToolsPlusPlayerDate.GossipTextIcon= WoWToolsPlusPlayerDate.GossipTextIcon or {
                 [55193]={
                     icon='communities-icon-invitemail',
                     name=(WoWTools_DataMixin.onlyChinese and '打开邮件' or OPENMAIL),

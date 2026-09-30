@@ -5,7 +5,7 @@ TransmogItemModelMixin
 ]]
 
 local function Save()
-    return WoWToolsSave['Plus_Collection']
+    return WoWToolsPlusSave['Plus_Collection']
 end
 
 

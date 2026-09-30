@@ -4,7 +4,7 @@ WoWTools_BankMixin={}
 
 
 local function Save()
-    return WoWToolsSave['Plus_Bank2']
+    return WoWToolsPlusSave['Plus_Bank2']
 end
 
 
@@ -71,7 +71,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsSave['Plus_Bank2']= WoWToolsSave['Plus_Bank2'] or {
+            WoWToolsPlusSave['Plus_Bank2']= WoWToolsPlusSave['Plus_Bank2'] or {
                 line=2,
                 num=20,
                 accountNum=10,--WoWTools_DataMixin.Player.husandro and 10 or 15,
@@ -89,7 +89,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             }
 
             Save().filterSaveMoney=  Save().filterSaveMoney or {}
-            WoWToolsSave['Plus_Bank']= nil
+            WoWToolsPlusSave['Plus_Bank']= nil
 
             WoWTools_BankMixin.addName= '|A:Banker:0:0|a'..(WoWTools_DataMixin.onlyChinese and '银行' or BANK)
 

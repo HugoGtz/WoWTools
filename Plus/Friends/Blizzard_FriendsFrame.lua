@@ -1,6 +1,6 @@
 --好友列表, 模块
 local function Save()
-    return WoWToolsSave['Plus_FriendsList']
+    return WoWToolsPlusSave['Plus_FriendsList']
 end
 local OptionTexture={
     ['Availabel'] = FRIENDS_TEXTURE_ONLINE,

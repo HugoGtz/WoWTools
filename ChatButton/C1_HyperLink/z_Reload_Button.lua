@@ -1,6 +1,6 @@
 --添加 RELOAD 按钮
 local function Save()
-    return WoWToolsSave['ChatButton_HyperLink'] or {}
+    return WoWToolsPlusSave['ChatButton_HyperLink'] or {}
 end
 
 

@@ -1,5 +1,5 @@
 local function Save()
-    return WoWToolsSave['Plus_PaperDoll'].EquipSet
+    return WoWToolsPlusSave['Plus_PaperDoll'].EquipSet
 end
 
 
@@ -137,7 +137,7 @@ local function Init_Menu(self, root)
             ..(WoWTools_DataMixin.onlyChinese and '全部重置' or RESET_ALL_BUTTON_TEXT),
             nil,
             {SetValue=function()
-                WoWToolsSave['Plus_PaperDoll'].EquipSet={}
+                WoWToolsPlusSave['Plus_PaperDoll'].EquipSet={}
                 self:settings()
             end}
         )

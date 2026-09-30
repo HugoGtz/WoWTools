@@ -9,7 +9,7 @@ local ChatTab={}
 
 
 local function Save()
-    return WoWToolsSave['ChatButtonGroup'] or {}
+    return WoWToolsPlusSave['ChatButtonGroup'] or {}
 end
 
 function WoWTools_GroupMixin:Get_ReadyText(ready)
@@ -138,9 +138,9 @@ end
 local function Set_OnMouseWheel(d)
     local text
     if d==1 then
-        text= WoWToolsPlayerDate['GroupMouseUpText']
+        text= WoWToolsPlusPlayerDate['GroupMouseUpText']
     elseif d==-1 then
-        text= WoWToolsPlayerDate['GroupMouseDownText']
+        text= WoWToolsPlusPlayerDate['GroupMouseDownText']
     end
 
     if not text then
@@ -410,7 +410,7 @@ end
         {type= 'GroupMouseUpText', text= WoWTools_DataMixin.onlyChinese and '鼠标滚轮向上滚动' or KEY_MOUSEWHEELUP, icon= 'bags-greenarrow'},
         {type= 'GroupMouseDownText', text= WoWTools_DataMixin.onlyChinese and '鼠标滚轮向下滚动' or KEY_MOUSEWHEELDOWN, icon= 'UI-HUD-MicroMenu-StreamDLRed-Up'},
     }) do
-        local sumText= WoWTools_TextMixin:sub(WoWToolsPlayerDate[tab.type], 8, 16)
+        local sumText= WoWTools_TextMixin:sub(WoWToolsPlusPlayerDate[tab.type], 8, 16)
         sumText= sumText:gsub('{rt%d}', function(a)
             return '|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_'..a:match('%d')..':0|t'
         end)
@@ -422,7 +422,7 @@ end
         end, tab)
         sub:SetTooltip(function(tooltip, desc)
             tooltip:AddLine('|A:voicechat-icon-textchat-silenced:0:0|a|A:'..desc.data.icon..':0:0|a'..desc.data.text, nil, nil, nil, true)
-            tooltip:AddLine(WoWToolsPlayerDate[desc.data.type], nil,nil,nil, true)
+            tooltip:AddLine(WoWToolsPlusPlayerDate[desc.data.type], nil,nil,nil, true)
         end)
 
         sub:CreateButton(
@@ -436,10 +436,10 @@ end
                 ..(WoWTools_DataMixin.onlyChinese and '队伍' or HUD_EDIT_MODE_SETTING_UNIT_FRAME_GROUPS),
             nil,
             {
-                text= WoWToolsPlayerDate[data.type],
+                text= WoWToolsPlusPlayerDate[data.type],
                 SetValue= function(f)
                     local edit= f.editBox or f:GetEditBox()
-                    WoWToolsPlayerDate[data.type]= edit:GetText()
+                    WoWToolsPlusPlayerDate[data.type]= edit:GetText()
                 end
             })
         end, tab)
@@ -691,7 +691,7 @@ local function Init()
             '|A:voicechat-icon-textchat-silenced:0:0|a'
             ..WoWTools_DataMixin.Icon.mid
             ..'|A:bags-greenarrow:0:0|a'
-            ..WoWToolsPlayerDate['GroupMouseUpText'],
+            ..WoWToolsPlusPlayerDate['GroupMouseUpText'],
             nil,nil,nil, true
         )
 
@@ -699,7 +699,7 @@ local function Init()
             '|A:voicechat-icon-textchat-silenced:0:0|a'
             ..WoWTools_DataMixin.Icon.mid
             ..'|A:UI-HUD-MicroMenu-StreamDLRed-Up:0:0|a'
-            ..WoWToolsPlayerDate['GroupMouseDownText'],
+            ..WoWToolsPlusPlayerDate['GroupMouseDownText'],
             nil,nil,nil, true
         )
 
@@ -755,18 +755,18 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsSave['ChatButtonGroup']= WoWToolsSave['ChatButtonGroup'] or {
+            WoWToolsPlusSave['ChatButtonGroup']= WoWToolsPlusSave['ChatButtonGroup'] or {
                 autoReady=0--0手动， 1就绪， 2未就绪
             }
 
             Save().autoReady= Save().autoReady or 0
 
-            WoWToolsPlayerDate['GroupMouseUpText']= WoWToolsPlayerDate['GroupMouseUpText']
+            WoWToolsPlusPlayerDate['GroupMouseUpText']= WoWToolsPlusPlayerDate['GroupMouseUpText']
                 or (WoWTools_DataMixin.Player.Region==1 or WoWTools_DataMixin.Player.Region==3) and 'sum me, pls'
                 or (WoWTools_DataMixin.Player.Region==5  and '求拉, 谢谢  {rt1}')
                 or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC,SUMMON, COMBATLOG_FILTER_STRING_ME)
 
-            WoWToolsPlayerDate['GroupMouseDownText']= WoWToolsPlayerDate['GroupMouseDownText']
+            WoWToolsPlusPlayerDate['GroupMouseDownText']= WoWToolsPlusPlayerDate['GroupMouseDownText']
                 or (WoWTools_DataMixin.Player.Region~=5 and 'inv, thx{rt1}') or '1'
 
             WoWTools_GroupMixin.addName= '|A:socialqueuing-icon-group:0:0:|a'..(WoWTools_DataMixin.onlyChinese and '队伍' or HUD_EDIT_MODE_SETTING_UNIT_FRAME_SORT_BY_SETTING_GROUP)

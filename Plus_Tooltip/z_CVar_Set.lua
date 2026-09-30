@@ -100,7 +100,7 @@ end
 
 
 function WoWTools_TooltipMixin:Init_CVar()
-    if WoWToolsSave['Plus_Tootips'].setCVar and not InCombatLockdown() then
+    if WoWToolsPlusSave['Plus_Tootips'].setCVar and not InCombatLockdown() then
         WoWTools_TooltipMixin:Set_CVar(nil, nil, true)--设置CVar
     end
 

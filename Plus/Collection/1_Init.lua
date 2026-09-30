@@ -7,7 +7,7 @@ local P_Save={
     hideTransmogModelName= not WoWTools_DataMixin.Player.husandro,
 }
 local function Save()
-    return WoWToolsSave['Plus_Collection'] or {}
+    return WoWToolsPlusSave['Plus_Collection'] or {}
 end
 
 
@@ -180,7 +180,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsSave['Plus_Collection']= WoWToolsSave['Plus_Collection'] or P_Save
+            WoWToolsPlusSave['Plus_Collection']= WoWToolsPlusSave['Plus_Collection'] or P_Save
             P_Save=nil
 
             WoWTools_CollectionMixin.addName= '|A:UI-HUD-MicroMenu-Collections-Mouseover:0:0|a'..(WoWTools_DataMixin.onlyChinese and '战团收藏' or COLLECTIONS)
@@ -214,7 +214,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 end
             end
 
-        elseif arg1=='Blizzard_Collections' and WoWToolsSave then
+        elseif arg1=='Blizzard_Collections' and WoWToolsPlusSave then
             Init()
             self:SetScript('OnEvent', nil)
             self:UnregisterEvent(event)

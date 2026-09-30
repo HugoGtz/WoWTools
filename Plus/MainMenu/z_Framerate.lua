@@ -1,7 +1,7 @@
 --每秒帧数 Plus
 
 local function Save()
-    return WoWToolsSave['Plus_MainMenu']
+    return WoWToolsPlusSave['Plus_MainMenu']
 end
 
 local FramerateButton

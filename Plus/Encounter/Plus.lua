@@ -2,7 +2,7 @@ local ITEM_CLASSES_ALLOWED= format(ITEM_CLASSES_ALLOWED, '(.+)')
 local ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT= ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT:gsub('%%s/%%s','(.-%%d%+/%%d%+)')-- "升级：%s/%s"
 
 local function Save()
-    return WoWToolsSave['Adventure_Journal'] or {}
+    return WoWToolsPlusSave['Adventure_Journal'] or {}
 end
 
 
@@ -62,7 +62,7 @@ local function Create_BossButtonList(btn)
         if bossID then
             name, _, _, _, _, _, encounterID=  EJ_GetEncounterInfo(bossID)
             if encounterID then
-                killNum= WoWToolsPlayerDate['BossKilled'][encounterID]
+                killNum= WoWToolsPlusPlayerDate['BossKilled'][encounterID]
             end
         end
 
@@ -79,7 +79,7 @@ local function Create_BossButtonList(btn)
                 ..(WoWTools_DataMixin.onlyChinese and '击败首领：记录' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, LFG_LIST_BOSSES_DEFEATED, EVENTTRACE_LOG_HEADER)),
                 nil,
                 {SetValue=function()
-                    WoWToolsPlayerDate['BossKilled'][encounterID]= nil
+                    WoWToolsPlusPlayerDate['BossKilled'][encounterID]= nil
                     WoWTools_DataMixin:Call('EncounterJournal_Refresh')
                 end}
             )
@@ -105,7 +105,7 @@ local function Create_BossButtonList(btn)
                 ..(WoWTools_DataMixin.onlyChinese and '击败首领：记录' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, LFG_LIST_BOSSES_DEFEATED, EVENTTRACE_LOG_HEADER)),
                 nil,
                 {SetValue=function()
-                WoWToolsPlayerDate['BossKilled']={}
+                WoWToolsPlusPlayerDate['BossKilled']={}
                     WoWTools_DataMixin:Call('EncounterJournal_Refresh')
                 end}
             )
@@ -134,7 +134,7 @@ local function Create_BossButtonList(btn)
 
         if dungeonEncounterID then
             GameTooltip:AddDoubleLine('encounterID |cffffffff'..dungeonEncounterID)
-            local numKill=WoWToolsPlayerDate['BossKilled'][dungeonEncounterID] or 0
+            local numKill=WoWToolsPlusPlayerDate['BossKilled'][dungeonEncounterID] or 0
 --已击败
             GameTooltip:AddLine(
                 format(WoWTools_DataMixin.onlyChinese and '%s（|cffffffff%d|r次）' or REAGENT_COST_CONSUME_CHARGES,
@@ -309,7 +309,7 @@ local function Init()
 
         self.indexLabel:SetText(data.index or '')
         local encounterID= select(7, EJ_GetEncounterInfo(data.bossID))
-        local numKill=WoWToolsPlayerDate['BossKilled'][encounterID] or 0
+        local numKill=WoWToolsPlusPlayerDate['BossKilled'][encounterID] or 0
         if numKill>0 then
             self.killButton.Text:SetFormattedText(WoWTools_DataMixin.onlyChinese and '%d次' or ITEM_SPELL_CHARGES, numKill)
             self.killButton:SetWidth(self.killButton.Text:GetStringWidth()+2)

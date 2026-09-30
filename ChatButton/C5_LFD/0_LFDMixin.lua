@@ -77,7 +77,7 @@ end
 --副本，完成次数
 function WoWTools_LFDMixin:Get_Instance_Num(name)
     name= name or GetInstanceInfo()
-    local num = WoWToolsSave['ChatButton_LFD'].wow[name] or 0
+    local num = WoWToolsPlusSave['ChatButton_LFD'].wow[name] or 0
     local text
     if num >0 then
         text= '|cnGREEN_FONT_COLOR:#'..num..'|r '..(WoWTools_DataMixin.onlyChinese and '次' or VOICEMACRO_LABEL_CHARGE1)
@@ -106,7 +106,7 @@ function WoWTools_LFDMixin:Set_LFDButton_Data(dungeonID, categoryType, name, tex
     elseif texture then
         btn.texture:SetTexture(texture)
     else
-        if not WoWToolsSave['ChatButton_LFD'].hideQueueStatus then
+        if not WoWToolsPlusSave['ChatButton_LFD'].hideQueueStatus then
             btn.texture:SetAtlas('groupfinder-eye-frame')
         else
             btn.texture:SetAtlas('UI-HUD-MicroMenu-Groupfinder-Mouseover')

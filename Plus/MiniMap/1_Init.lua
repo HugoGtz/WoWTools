@@ -60,7 +60,7 @@ local P_Save={
 
 
 local function Save()
-    return  WoWToolsSave['Minimap_Plus']
+    return  WoWToolsPlusSave['Minimap_Plus']
 end
 
 
@@ -141,7 +141,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsSave['Minimap_Plus']= WoWToolsSave['Minimap_Plus'] or P_Save
+            WoWToolsPlusSave['Minimap_Plus']= WoWToolsPlusSave['Minimap_Plus'] or P_Save
 
             if not Save().Icons then
                 Save().Icons= P_Save.Icons
@@ -204,7 +204,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 end
             end
 
-        elseif arg1=='Blizzard_TimeManager' and WoWToolsSave then
+        elseif arg1=='Blizzard_TimeManager' and WoWToolsPlusSave then
             WoWTools_MinimapMixin:Init_TimeManager()--秒表
             self:UnregisterEvent(event)
         end

@@ -1,6 +1,6 @@
 --旅程 12.0才有
 local function Save()
-    return WoWToolsSave['Adventure_Journal'].JourneysList
+    return WoWToolsPlusSave['Adventure_Journal'].JourneysList
 end
 
 

@@ -1,6 +1,6 @@
 
 local function Save()
-    return WoWToolsSave['Plus_Faction']
+    return WoWToolsPlusSave['Plus_Faction']
 end
 
 

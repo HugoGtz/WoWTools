@@ -40,7 +40,7 @@ local addName
 
 
 local function Save()
-    return WoWToolsSave['Tools_MapToy']
+    return WoWToolsPlusSave['Tools_MapToy']
 end
 
 
@@ -384,7 +384,7 @@ panel:RegisterEvent("ADDON_LOADED")
 panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
-            WoWToolsSave['Tools_MapToy']= WoWToolsSave['Tools_MapToy'] or {
+            WoWToolsPlusSave['Tools_MapToy']= WoWToolsPlusSave['Tools_MapToy'] or {
                 no={
                     --[guid]=true
                 },

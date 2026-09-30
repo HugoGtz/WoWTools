@@ -1,6 +1,6 @@
 
 local function Save()
-    return WoWToolsSave['Plus_MainMenu']
+    return WoWToolsPlusSave['Plus_MainMenu']
 end
 
 

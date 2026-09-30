@@ -64,7 +64,7 @@ local P_Save={
 
 
 local function Save()
-    return WoWToolsSave['Tools_UseToy']
+    return WoWToolsPlusSave['Tools_UseToy']
 end
 
 
@@ -819,7 +819,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsSave['Tools_UseToy']= WoWToolsSave['Tools_UseToy'] or P_Save
+            WoWToolsPlusSave['Tools_UseToy']= WoWToolsPlusSave['Tools_UseToy'] or P_Save
             P_Save= nil
 
             addName='|A:collections-icon-favorites:0:0|a'..(WoWTools_DataMixin.onlyChinese and '随机玩具' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, USE, TOY))

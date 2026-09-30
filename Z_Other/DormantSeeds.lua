@@ -29,7 +29,7 @@ end
 
 
 local function Save()
-    return WoWToolsSave['Other_DormantSeeds']
+    return WoWToolsPlusSave['Other_DormantSeeds']
 end
 
 
@@ -299,7 +299,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         return
     end
 
-    WoWToolsSave['Other_DormantSeeds']= WoWToolsSave['Other_DormantSeeds'] or P_Save
+    WoWToolsPlusSave['Other_DormantSeeds']= WoWToolsPlusSave['Other_DormantSeeds'] or P_Save
     P_Save= nil
 
     addName= '|T656681:0|t'..(WoWTools_DataMixin.onlyChinese and '梦境之种' or 'DormantSeeds')

@@ -10,7 +10,7 @@
 
 --生命条提示
 local function Init()--WoWTools_DataMixin:Hook(GameTooltipStatusBar, 'UpdateUnitHealth', function(tooltip)
-    if WoWToolsSave['Plus_Tootips'].hideHealth then
+    if WoWToolsPlusSave['Plus_Tootips'].hideHealth then
         return
     end
 

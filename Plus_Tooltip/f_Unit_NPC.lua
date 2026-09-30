@@ -144,7 +144,7 @@ function WoWTools_TooltipMixin:Set_Unit_NPC(tooltip, name, unit, guid)
 --嵌入式
     tooltip:Set_TopLabel(textLeft, text2Left, textRight, text2Right)
 
-    if not WoWToolsSave['Plus_Tootips'].disabledNPCcolor then
+    if not WoWToolsPlusSave['Plus_Tootips'].disabledNPCcolor then
         local color= WoWTools_UnitMixin:GetColor(unit, guid)--颜色
         local r,g,b= color:GetRGB()
 

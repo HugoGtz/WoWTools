@@ -1,7 +1,7 @@
 --宏列表，位置
 
 local function Save()
-    return WoWToolsSave['Plus_Macro2']
+    return WoWToolsPlusSave['Plus_Macro2']
 end
 
 local Button, TargetButton, AttackButton, NoteEditBox
@@ -29,13 +29,13 @@ local function Init_Menu(self, root)
         '|A:dressingroom-button-appearancelist-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '备注' or LABEL_NOTE),
     function()
         if NoteEditBox:IsVisible() then
-            WoWToolsPlayerDate['MacroNoteText']= NoteEditBox:GetText()
+            WoWToolsPlusPlayerDate['MacroNoteText']= NoteEditBox:GetText()
         end
         WoWTools_TextMixin:ShowText(
-            {WoWToolsPlayerDate['MacroNoteText']},
+            {WoWToolsPlusPlayerDate['MacroNoteText']},
             WoWTools_DataMixin.onlyChinese and '宏' or MACRO,
             {onHide=function(t)
-                WoWToolsPlayerDate['MacroNoteText']= t
+                WoWToolsPlusPlayerDate['MacroNoteText']= t
                 if NoteEditBox:IsVisible() then
                     NoteEditBox:SetText(t)
                 end
@@ -300,12 +300,12 @@ local function Init_Created()
     NoteEditBox:SetPoint('BOTTOMRIGHT', MacroFrame, 'RIGHT', -6, 0)
     NoteEditBox:Hide()
     NoteEditBox.editBox:SetScript('OnHide', function(self)--保存备注
-        WoWToolsPlayerDate['MacroNoteText']= self:GetText()
+        WoWToolsPlusPlayerDate['MacroNoteText']= self:GetText()
         self:SetText("")
         self:ClearFocus()
     end)
     NoteEditBox.editBox:SetScript('OnShow', function(self)
-        self:SetText(WoWToolsPlayerDate['MacroNoteText'] or '')
+        self:SetText(WoWToolsPlusPlayerDate['MacroNoteText'] or '')
     end)
 
 

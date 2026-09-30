@@ -1,13 +1,13 @@
 local function Save()
-    return WoWToolsSave['ChatButton_Combat'].button
+    return WoWToolsPlusSave['ChatButton_Combat'].button
 end
 
 local function SaveInstancData()
-    return WoWToolsSave['ChatButton_Combat'].button.InstanceDate
+    return WoWToolsPlusSave['ChatButton_Combat'].button.InstanceDate
 end
 
 local function SaveLog()
-    return WoWToolsPlayerDate['CombatTimeLog']
+    return WoWToolsPlusPlayerDate['CombatTimeLog']
 end
 
 local btn
@@ -101,7 +101,7 @@ function WoWTools_CombatMixin:Set_Combat_Tooltip(tooltip)
         SecondsToTime(GetSessionTime())
     )
 
-    local tab=WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].Time
+    local tab=WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Time
     tooltip:AddDoubleLine(
         (WoWTools_DataMixin.onlyChinese and '总计' or TOTAL)
         ..'|A:socialqueuing-icon-clock:0:0|a',
@@ -317,7 +317,7 @@ local function Init_Date()--初始, 数据
             text
         )
 
-        WoWToolsSave['ChatButton_Combat'].button.InstanceDate= {num=0, time=0, kill=0, dead=0, map=nil, onInsTime=nil}--副本数据{dead死亡,kill杀怪, map地图}
+        WoWToolsPlusSave['ChatButton_Combat'].button.InstanceDate= {num=0, time=0, kill=0, dead=0, map=nil, onInsTime=nil}--副本数据{dead死亡,kill杀怪, map地图}
         SaveInstancData().onInsTime=nil
     end
 
@@ -346,7 +346,7 @@ local function Rest_Data()
 
     PetAll={num= 0,  win=0, capture=0}--宠物战斗,全部,数据
     PetRound={}--宠物战斗, 本次,数据
-    WoWToolsSave['ChatButton_Combat'].button.InstanceDate={num=0, time=0, kill=0, dead=0, map=nil}--副本数据{dead死亡,kill杀怪, map地图}
+    WoWToolsPlusSave['ChatButton_Combat'].button.InstanceDate={num=0, time=0, kill=0, dead=0, map=nil}--副本数据{dead死亡,kill杀怪, map地图}
 
     if select(2, IsInInstance())=='party' and C_ChallengeMode.IsChallengeModeActive() then--挑战时，死亡，数据
         SaveInstancData().dead= C_ChallengeMode.GetDeathCount() or 0
@@ -492,7 +492,7 @@ local function Init_Menu(self, root)
             {SetValue=function()
                 Rest_Data()
 
-                WoWToolsPlayerDate['CombatTimeLog']= {
+                WoWToolsPlusPlayerDate['CombatTimeLog']= {
                     bat={num= 0, time= 0},--战斗数据
                     pet={num= 0, win=0, capture=0},
                     ins={num= 0, time= 0, kill=0, dead=0},

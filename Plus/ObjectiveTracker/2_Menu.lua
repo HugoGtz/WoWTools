@@ -4,7 +4,7 @@
 
 
 local function Save()
-    return WoWToolsSave['ObjectiveTracker']
+    return WoWToolsPlusSave['ObjectiveTracker']
 end
 
 WoWTools_ObjectiveTabs={

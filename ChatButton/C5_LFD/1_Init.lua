@@ -193,7 +193,7 @@ panel:SetScript('OnEvent', function(self, event, arg1)
         return
     end
 
-    WoWToolsSave['ChatButton_LFD']=  WoWToolsSave['ChatButton_LFD'] or {
+    WoWToolsPlusSave['ChatButton_LFD']=  WoWToolsPlusSave['ChatButton_LFD'] or {
         leaveInstance=WoWTools_DataMixin.Player.husandro,--自动离开,指示图标
         autoROLL= WoWTools_DataMixin.Player.husandro,--自动,战利品掷骰
         --disabledLootPlus=true 禁用，战利品Plus
@@ -210,8 +210,8 @@ panel:SetScript('OnEvent', function(self, event, arg1)
         },
     }
 
-    if not WoWToolsSave['ChatButton_LFD'].sec then
-        WoWToolsSave['ChatButton_LFD'].sec= 5
+    if not WoWToolsPlusSave['ChatButton_LFD'].sec then
+        WoWToolsPlusSave['ChatButton_LFD'].sec= 5
     end
 
 

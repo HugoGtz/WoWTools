@@ -1,8 +1,8 @@
 local function Save()
-    return WoWToolsSave['Plus_WorldMap'].PlayerPin
+    return WoWToolsPlusSave['Plus_WorldMap'].PlayerPin
 end
 local function SaveWoW()
-    return WoWToolsPlayerDate.PlayerMapPin
+    return WoWToolsPlusPlayerDate.PlayerMapPin
 end
 
 local PinHeight= 12--默认大小

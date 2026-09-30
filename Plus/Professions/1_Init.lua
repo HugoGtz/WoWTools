@@ -1,7 +1,7 @@
 
 
 local function Save()
-    return WoWToolsSave['Plus_Professions']
+    return WoWToolsPlusSave['Plus_Professions']
 end
 
 
@@ -13,7 +13,7 @@ panel:RegisterEvent("ADDON_LOADED")
 panel:SetScript("OnEvent", function(self, event, arg1)
     if arg1== 'WoWToolsPlus' then
 
-        WoWToolsSave['Plus_Professions']= WoWToolsSave['Plus_Professions'] or {
+        WoWToolsPlusSave['Plus_Professions']= WoWToolsPlusSave['Plus_Professions'] or {
             setButton=true,
             ArcheologySound=true, --考古学
             showArcheologyBar=WoWTools_DataMixin.Player.husandro,
@@ -50,14 +50,14 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             end]]
         end
 
-    elseif arg1== 'Blizzard_TrainerUI' and WoWToolsSave then
+    elseif arg1== 'Blizzard_TrainerUI' and WoWToolsPlusSave then
         WoWTools_ProfessionMixin:Init_Blizzard_TrainerUI()--添一个,全学,专业, 按钮
 
-    elseif arg1== 'Blizzard_Professions' and WoWToolsSave then --10.1.5
+    elseif arg1== 'Blizzard_Professions' and WoWToolsPlusSave then --10.1.5
         WoWTools_ProfessionMixin:Init_ProfessionsFrame()--初始
 
 
-    --[[elseif arg1=='Blizzard_ProfessionsBook' and WoWToolsSave then--专业书
+    --[[elseif arg1=='Blizzard_ProfessionsBook' and WoWToolsPlusSave then--专业书
         WoWTools_ProfessionMixin:Init_ProfessionsBook()]]
     end
 end)

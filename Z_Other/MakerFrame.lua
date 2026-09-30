@@ -1,6 +1,6 @@
 local addName
 local function Save()
-    return WoWToolsSave['Other_MarkerFrame'] or {}
+    return WoWToolsPlusSave['Other_MarkerFrame'] or {}
 end
 
 local TargetColor={
@@ -1345,7 +1345,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         return
     end
 
-    WoWToolsSave['Other_MarkerFrame']= WoWToolsSave['Other_MarkerFrame'] or {Auto={}}
+    WoWToolsPlusSave['Other_MarkerFrame']= WoWToolsPlusSave['Other_MarkerFrame'] or {Auto={}}
 
     Save().Auto= Save().Auto or {}
 
@@ -1359,7 +1359,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 addName,
                 nil,
             function()
-                WoWToolsSave['Other_MarkerFrame']= nil
+                WoWToolsPlusSave['Other_MarkerFrame']= nil
             end)
         end,
         tooltip= addName..'|n|n'..(WoWTools_DataMixin.onlyChinese and '全部重置' or RESET_ALL_BUTTON_TEXT)

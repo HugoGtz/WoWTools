@@ -1,8 +1,8 @@
 local function Save()
-    return WoWToolsSave['Tools_Mounts']
+    return WoWToolsPlusSave['Tools_Mounts']
 end
 local function SaveLog()
-    return WoWToolsPlayerDate['Tools_Mounts']
+    return WoWToolsPlusPlayerDate['Tools_Mounts']
 end
 
 
@@ -93,7 +93,7 @@ local function ClearAll_Menu(root, mountType)
         name..'\n\n'..(WoWTools_MountMixin.TypeName[mountType] or mountType),
         nil,
         {SetValue=function()
-           WoWToolsPlayerDate['Tools_Mounts'][mountType]={}
+           WoWToolsPlusPlayerDate['Tools_Mounts'][mountType]={}
 
             WoWTools_ToolsMixin:Get_ButtonForName('Mount'):settings()
             print(
@@ -639,8 +639,8 @@ local function Init_Menu(self, root)
         WoWTools_MountMixin.addName..'|n|cnGREEN_FONT_COLOR:'
         ..(WoWTools_DataMixin.onlyChinese and '重新加载UI' or RELOADUI)..'|r',
         function()
-            WoWToolsSave['Tools_Mounts']= nil
-            WoWToolsPlayerDate['Tools_Mounts']= nil
+            WoWToolsPlusSave['Tools_Mounts']= nil
+            WoWToolsPlusPlayerDate['Tools_Mounts']= nil
             WoWTools_DataMixin:Reload()
         end
     )

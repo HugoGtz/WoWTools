@@ -1,5 +1,5 @@
 local function Save()
-    return WoWToolsSave['Adventure_Journal'] or {}
+    return WoWToolsPlusSave['Adventure_Journal'] or {}
 end
 
 
@@ -51,7 +51,7 @@ local function Init()
             return
         end
 
-        local numKill= encounterID and WoWToolsPlayerDate['BossKilled'][encounterID] or 0
+        local numKill= encounterID and WoWToolsPlusPlayerDate['BossKilled'][encounterID] or 0
         if numKill>0 then
             GameTooltip:AddLine(' ')
             GameTooltip:AddLine(
@@ -62,7 +62,7 @@ local function Init()
             )
         end
 
-        local data= not Save().hideLootSpec and WoWToolsPlayerDate['LootSpec'][encounterID]
+        local data= not Save().hideLootSpec and WoWToolsPlusPlayerDate['LootSpec'][encounterID]
         local lootSpecID= data and data.class[WoWTools_DataMixin.Player.Class]
         local loot
         if lootSpecID then
@@ -106,7 +106,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsSave['Adventure_Journal']= WoWToolsSave['Adventure_Journal'] or {
+            WoWToolsPlusSave['Adventure_Journal']= WoWToolsPlusSave['Adventure_Journal'] or {
                 favorites={},--副本收藏 WoWTools_DataMixin.Player.GUID= {}
                 LootSpec= {},--拾取专精
                 isSaveTier=WoWTools_DataMixin.Player.husandro,--保存改变
@@ -117,7 +117,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 },
             }
 
-            WoWToolsPlayerDate['BossKilled']= WoWToolsPlayerDate['BossKilled'] or {}
+            WoWToolsPlusPlayerDate['BossKilled']= WoWToolsPlusPlayerDate['BossKilled'] or {}
 
             Save().favorites[WoWTools_DataMixin.Player.GUID]= Save().favorites[WoWTools_DataMixin.Player.GUID] or {}
 
@@ -150,8 +150,8 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 if not ncounterID then
                     return
                 end
-                local num= (WoWToolsPlayerDate['BossKilled'][ncounterID] or 0)+ 1
-                WoWToolsPlayerDate['BossKilled'][ncounterID]= num--Boss击杀数量
+                local num= (WoWToolsPlusPlayerDate['BossKilled'][ncounterID] or 0)+ 1
+                WoWToolsPlusPlayerDate['BossKilled'][ncounterID]= num--Boss击杀数量
                 if Save().plus then
                     print(
                         WoWTools_EncounterMixin.addName..WoWTools_DataMixin.Icon.icon2,
@@ -185,7 +185,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 end
             end
 
-        elseif arg1=='Blizzard_EncounterJournal' and WoWToolsSave then---冒险指南
+        elseif arg1=='Blizzard_EncounterJournal' and WoWToolsPlusSave then---冒险指南
             Init_Encounter()--冒险指南界面
             self:UnregisterEvent(event)
             self:SetScript('OnEvent', nil)

@@ -1,7 +1,7 @@
 --命令，按钮，列表
 
 local function Save()
-    return WoWToolsSave['Plus_Macro2']
+    return WoWToolsPlusSave['Plus_Macro2']
 end
 
 

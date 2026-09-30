@@ -2,7 +2,7 @@ WoWTools_WorldMixin={}
 
 
 local function Save()
-    return WoWToolsSave['ChatButtonWorldChannel']
+    return WoWToolsPlusSave['ChatButtonWorldChannel']
 end
 
 
@@ -194,7 +194,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsSave['ChatButtonWorldChannel']= WoWToolsSave['ChatButtonWorldChannel'] or {
+            WoWToolsPlusSave['ChatButtonWorldChannel']= WoWToolsPlusSave['ChatButtonWorldChannel'] or {
                 world= LOCALE_zhCN and '大脚世界频道' or 'World',
                 myChatFilter= true,--过滤，多次，内容
                 myChatFilterNum=70,

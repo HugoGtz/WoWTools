@@ -22,7 +22,7 @@ local P_Save={
 
 
 local function Save()
-    return WoWToolsSave['ChatButton'] or {}
+    return WoWToolsPlusSave['ChatButton'] or {}
 end
 
 
@@ -460,7 +460,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsSave['ChatButton']= WoWToolsSave['ChatButton'] or P_Save
+            WoWToolsPlusSave['ChatButton']= WoWToolsPlusSave['ChatButton'] or P_Save
             Save().disabledADD= Save().disabledADD or {}
             P_Save=nil
 
@@ -488,7 +488,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         WoWTools_ChatMixin.addName,
                         nil,
                     function()
-                        WoWToolsSave['ChatButton']= nil
+                        WoWToolsPlusSave['ChatButton']= nil
                     end)
                 end,
                 tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD),

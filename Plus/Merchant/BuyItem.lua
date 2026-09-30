@@ -1,10 +1,10 @@
 --购买物品
 local function Save()
-    return WoWToolsSave['Plus_SellBuy']
+    return WoWToolsPlusSave['Plus_SellBuy']
 end
 
 local function SellBuyItemsSave()
-    return WoWToolsPlayerDate['SellBuyItems'] or {}
+    return WoWToolsPlusPlayerDate['SellBuyItems'] or {}
 end
 
 
@@ -18,7 +18,7 @@ end
 
 local function SaveBuyItem(itemID, num)--当num=nil时，会清除    
     if SellBuyItemsSave().buy and SellBuyItemsSave().buy[WoWTools_DataMixin.Player.GUID] then
-        WoWToolsPlayerDate['SellBuyItems'].buy[WoWTools_DataMixin.Player.GUID][itemID]=num
+        WoWToolsPlusPlayerDate['SellBuyItems'].buy[WoWTools_DataMixin.Player.GUID][itemID]=num
     end
 end
 

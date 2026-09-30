@@ -1,5 +1,5 @@
 local function SaveLog()
-    return WoWToolsPlayerDate['Tools_Mounts']
+    return WoWToolsPlusPlayerDate['Tools_Mounts']
 end
 
 
@@ -406,7 +406,7 @@ end
 local function Init()
     local btn= WoWTools_ToolsMixin:Get_ButtonForName('Mount')
 
-    WoWTools_KeyMixin:Init(btn, function() return WoWToolsSave['Tools_Mounts'].KEY end)
+    WoWTools_KeyMixin:Init(btn, function() return WoWToolsPlusSave['Tools_Mounts'].KEY end)
 
     btn:SetAttribute("type1", "spell")
     btn:SetAttribute("alt-type1", "spell")

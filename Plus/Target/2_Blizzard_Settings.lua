@@ -2,10 +2,10 @@
 local Frame
 
 local function Save()
-    return WoWToolsSave['Plus_Target']
+    return WoWToolsPlusSave['Plus_Target']
 end
 local function TargetTextureSave()
-    return WoWToolsPlayerDate['TargetTexture'] or {}
+    return WoWToolsPlusPlayerDate['TargetTexture'] or {}
 end
 
 local function set_Target_Color(self, isInCombat)--设置，颜色
@@ -74,7 +74,7 @@ local TextureTab={
 local function get_texture_tab()
     for name in pairs(TargetTextureSave() or {}) do
         if TextureTab[name] then
-            WoWToolsPlayerDate['TargetTexture'][name]=nil
+            WoWToolsPlusPlayerDate['TargetTexture'][name]=nil
         else
             TextureTab[name]= 'use'
         end
@@ -392,7 +392,7 @@ local function Init_Options()
         local parent= self:GetParent()
         local isAtals, name= WoWTools_TextureMixin:IsAtlas(parent:GetText())
         if name and TargetTextureSave()[name] then
-            WoWToolsPlayerDate['TargetTexture'][name]= nil
+            WoWToolsPlusPlayerDate['TargetTexture'][name]= nil
             print(WoWTools_DataMixin.Icon.icon2..WoWTools_TargetMixin.addName,
                 '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '删除' or DELETE)..'|r',
                 (isAtals and '|A:'..name..':0:0|a' or ('|T'..name..':0|t'))..name
@@ -409,7 +409,7 @@ local function Init_Options()
         local parent= self:GetParent()
         local isAtlas, icon= WoWTools_TextureMixin:IsAtlas(parent:GetText())
         if icon and not TargetTextureSave()[icon] then
-            WoWToolsPlayerDate['TargetTexture'][icon]= isAtlas and 'a' or 't'
+            WoWToolsPlusPlayerDate['TargetTexture'][icon]= isAtlas and 'a' or 't'
             parent:SetText('')
             print(WoWTools_DataMixin.addName,
                 WoWTools_TargetMixin.addName,
@@ -825,7 +825,7 @@ local function Init()
             print(WoWTools_DataMixin.Icon.icon2..WoWTools_TargetMixin.addName, WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled), Save().disabled and (WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD) or '')
 
         end,
-        clearfunc= function() WoWToolsSave['Plus_Target']=nil WoWTools_DataMixin:Reload() end}
+        clearfunc= function() WoWToolsPlusSave['Plus_Target']=nil WoWTools_DataMixin:Reload() end}
     )
 
     if not Save().disabled then

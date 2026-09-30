@@ -15,7 +15,7 @@ WoWTools_ItemMixin:SetupInfo(itemButton, {
 })
 
 local function Save()
-    return WoWToolsSave['Plus_ItemInfo']
+    return WoWToolsPlusSave['Plus_ItemInfo']
 end
 ]]
 

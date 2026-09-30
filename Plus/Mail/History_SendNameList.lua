@@ -1,6 +1,6 @@
 --收件人，历史记录
 local function Save()
-    return WoWToolsSave['Plus_Mail']
+    return WoWToolsPlusSave['Plus_Mail']
 end
 
 

@@ -1,5 +1,5 @@
 local function Save()
-    return WoWToolsSave['Plus_PaperDoll']
+    return WoWToolsPlusSave['Plus_PaperDoll']
 end
 
 
@@ -283,7 +283,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsSave['Plus_PaperDoll']= WoWToolsSave['Plus_PaperDoll'] or {
+            WoWToolsPlusSave['Plus_PaperDoll']= WoWToolsPlusSave['Plus_PaperDoll'] or {
                 StatusPlus_OnEnter_show_menu=true,--移过图标时，显示菜单
                 itemLevelBit= 1,--物品等级，位数
                 itemSlotScale=1, --栏位，按钮，缩放

@@ -1,5 +1,5 @@
 local function Save()
-    return WoWToolsSave['ChatButton_HyperLink']
+    return WoWToolsPlusSave['ChatButton_HyperLink']
 end
 
 local EventTabs={}

@@ -3,7 +3,7 @@
 --更新地区时,缩小化地图
 --当前缩放，显示数值
 local function Save()
-    return  WoWToolsSave['Minimap_Plus']
+    return  WoWToolsPlusSave['Minimap_Plus']
 end
 
 

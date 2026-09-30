@@ -1,7 +1,7 @@
 WoWTools_MerchantMixin={}
 
 local function Save()
-    return WoWToolsSave['Plus_SellBuy']
+    return WoWToolsPlusSave['Plus_SellBuy']
 end
 
 function WoWTools_MerchantMixin:Update_MerchantFrame()
@@ -16,11 +16,11 @@ function WoWTools_MerchantMixin:Update_MerchantFrame()
 end
 
 function WoWTools_MerchantMixin:CheckSellItem(itemID, itemLink, quality, isBound)
-    if not itemID or Save().disabled or WoWToolsPlayerDate['SellBuyItems'].noSell[itemID] then
+    if not itemID or Save().disabled or WoWToolsPlusPlayerDate['SellBuyItems'].noSell[itemID] then
         return
     end
 
-    if WoWToolsPlayerDate['SellBuyItems'].sell[itemID] and not Save().notSellCustom then
+    if WoWToolsPlusPlayerDate['SellBuyItems'].sell[itemID] and not Save().notSellCustom then
         return WoWTools_DataMixin.onlyChinese and '自定义' or CUSTOM
     end
 

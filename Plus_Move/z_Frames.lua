@@ -1,7 +1,7 @@
 --商人
 function WoWTools_MoveMixin.Frames:MerchantFrame()
-    if WoWToolsSave['Plus_SellBuy'] then
-        if WoWToolsSave['Plus_SellBuy'].notPlus or WoWToolsSave['Plus_SellBuy'].disabled then
+    if WoWToolsPlusSave['Plus_SellBuy'] then
+        if WoWToolsPlusSave['Plus_SellBuy'].notPlus or WoWToolsPlusSave['Plus_SellBuy'].disabled then
             self:Setup(MerchantFrame)
         end
     end

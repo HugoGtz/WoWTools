@@ -1,6 +1,6 @@
 
 local function Save()
-    return WoWToolsSave['Plus_Gossip']
+    return WoWToolsPlusSave['Plus_Gossip']
 end
 
 --local SHADOWLANDS_EXPERIENCE_THREADS_OF_FATE_CONFIRMATION_STRING= SHADOWLANDS_EXPERIENCE_THREADS_OF_FATE_CONFIRMATION_STRING

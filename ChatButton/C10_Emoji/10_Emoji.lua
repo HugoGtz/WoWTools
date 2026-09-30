@@ -13,7 +13,7 @@ local P_Save={
 
 
 local function Save()
-    return WoWToolsSave['ChatButton_Emoji'] or {}
+    return WoWToolsPlusSave['ChatButton_Emoji'] or {}
 end
 
 local addName
@@ -625,7 +625,7 @@ panel:RegisterEvent('ADDON_LOADED')
 panel:SetScript('OnEvent', function(self, event, arg1)
     if arg1== 'WoWToolsPlus' then
 
-        WoWToolsSave['ChatButton_Emoji']= WoWToolsSave['ChatButton_Emoji'] or P_Save
+        WoWToolsPlusSave['ChatButton_Emoji']= WoWToolsPlusSave['ChatButton_Emoji'] or P_Save
         P_Save=nil
 
         addName= '|TInterface\\Addons\\WoWToolsPlus\\Source\\Emojis\\Embarrass:0|tEmoji'

@@ -8,7 +8,7 @@ end]]
 
 
 local function Save()
-    return WoWToolsSave['Plus_Mail']
+    return WoWToolsPlusSave['Plus_Mail']
 end
 
 
@@ -90,7 +90,7 @@ function WoWTools_MailMixin:GetNameInfo(name)
     end
     local reName
     name = WoWTools_UnitMixin:GetFullName(name)--取得全名
-    for guid, tab in pairs(WoWTools_WoWDate) do
+    for guid, tab in pairs(WoWToolsPlus_WoWDate) do
         if name== WoWTools_UnitMixin:GetFullName(nil, nil, guid) then
             reName= WoWTools_UnitMixin:GetPlayerInfo(nil, guid, nil, {faction=tab.faction, reName=true, realm=true})
             break
@@ -208,7 +208,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsSave['Plus_Mail']= WoWToolsSave['Plus_Mail'] or {
+            WoWToolsPlusSave['Plus_Mail']= WoWToolsPlusSave['Plus_Mail'] or {
                 --hide=true,--隐藏
                 --hideUIPlus=true,
                 --hideSendNameList=true,

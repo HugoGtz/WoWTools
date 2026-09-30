@@ -1,7 +1,7 @@
 --传家宝, 按钮，提示 4
 --Blizzard_HeirloomCollection.lua
 local function Save()
-    return WoWToolsSave['Plus_Collection'] or {}
+    return WoWToolsPlusSave['Plus_Collection'] or {}
 end
 
 

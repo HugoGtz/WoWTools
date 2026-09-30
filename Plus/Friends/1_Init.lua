@@ -4,7 +4,7 @@ WoWTools_FriendsMixin={}
 
 
 local function Save()
-    return WoWToolsSave['Plus_FriendsList']
+    return WoWToolsPlusSave['Plus_FriendsList']
 end
 
 
@@ -15,7 +15,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsSave['Plus_FriendsList']= WoWToolsSave['Plus_FriendsList'] or {
+            WoWToolsPlusSave['Plus_FriendsList']= WoWToolsPlusSave['Plus_FriendsList'] or {
                 Friends={},
                 disabledBNFriendInfo=not WoWTools_DataMixin.Player.husandro and true or nil,--禁用战网，好友信息，提示
                 --allFriendInfo= true,--仅限，WoW，好友
@@ -54,7 +54,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 end
             end
 
-        elseif arg1=='Blizzard_RaidUI' and WoWToolsSave then
+        elseif arg1=='Blizzard_RaidUI' and WoWToolsPlusSave then
             WoWTools_FriendsMixin:Blizzard_RaidUI()
             self:UnregisterEvent(event)
             self:SetScript('OnEvent', nil)

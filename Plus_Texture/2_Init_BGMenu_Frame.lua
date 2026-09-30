@@ -1,8 +1,8 @@
 local function Save()
-    return WoWToolsSave['Plus_Texture'].Bg
+    return WoWToolsPlusSave['Plus_Texture'].Bg
 end
 local function BGTextureSave()
-    return WoWToolsPlayerDate['BGTexture'] or {}
+    return WoWToolsPlusPlayerDate['BGTexture'] or {}
 end
     
 
@@ -352,7 +352,7 @@ local function texture_list(self, root, name, icon, texture, isAdd)
             ..'|n|n'..texture:gsub('Interface\\AddOns\\WoWToolsPlus\\Source\\Background\\', ''),
             nil,
             {SetValue=function()
-                WoWToolsPlayerDate['BGTexture'][texture]= nil
+                WoWToolsPlusPlayerDate['BGTexture'][texture]= nil
                 print(WoWTools_DataMixin.Icon.icon2, WoWTools_DataMixin.onlyChinese and '清除' or SLASH_STOPWATCH_PARAM_STOP2, texture)
             end})
             return MenuResponse.Open
@@ -389,21 +389,21 @@ local function Texture_List_Menu(self, root, icon, name)
                 local edit= s.editBox or s:GetEditBox()
                 local textureID= select(2, WoWTools_TextureMixin:IsAtlas(edit:GetText(), 0))
                 if textureID then
-                    WoWToolsPlayerDate['BGTexture'][textureID]= true
+                    WoWToolsPlusPlayerDate['BGTexture'][textureID]= true
                 end
                 print(WoWTools_DataMixin.Icon.icon2..WoWTools_TextureMixin.addName, textureID)
             end,
             OnAlt=function(s)
                 local edit= s.editBox or s:GetEditBox()
                 local textureID= select(2, WoWTools_TextureMixin:IsAtlas(edit:GetText(), 0))
-                WoWToolsPlayerDate['BGTexture'][textureID]= nil
+                WoWToolsPlusPlayerDate['BGTexture'][textureID]= nil
             end,
             EditBoxOnTextChanged=function(s)
                 local textureID= select(2, WoWTools_TextureMixin:IsAtlas(s:GetText(), 0))
                 local enabled= textureID
                     and textureID:gsub(' ', '')~='' and textureID~='Interface\\AddOns\\WoWToolsPlus\\Source\\Background\\'
 
-                local isAdd= WoWToolsPlayerDate['BGTexture'][textureID]
+                local isAdd= WoWToolsPlusPlayerDate['BGTexture'][textureID]
                 local isTextureTab= TextureTab[textureID]
 
                 local p= s:GetParent()
@@ -432,7 +432,7 @@ local function Texture_List_Menu(self, root, icon, name)
 --全部清除
     if find then
         WoWTools_MenuMixin:ClearAll(root, function()
-            WoWToolsPlayerDate['BGTexture']={}
+            WoWToolsPlusPlayerDate['BGTexture']={}
         end)
     end
     root:CreateDivider()

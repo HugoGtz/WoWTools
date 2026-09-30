@@ -7,7 +7,7 @@ local P_Save={
 }
 
 local function Save()
-    return WoWToolsSave['WoWTools_Settings'] or {}
+    return WoWToolsPlusSave['WoWTools_Settings'] or {}
 end
 
 
@@ -39,13 +39,13 @@ local function Init_Options()
                 nil,
             function()
                 WoWTools_DataMixin.ClearAllSave= true
-                WoWToolsSave= {}
+                WoWToolsPlusSave= {}
             end)
         end,
         tooltip=function()
             local text
             local index=0
-            for name in pairs(WoWToolsSave) do
+            for name in pairs(WoWToolsPlusSave) do
                 text= (text and text..'\n' or '')..name
                 index= index+1
                 if index>10 then
@@ -75,14 +75,14 @@ local function Init_Options()
                 WoWTools_DataMixin.Icon.wow2..playerHeader,
                 nil,
                 function()
-                    WoWToolsPlayerDate= {}
+                    WoWToolsPlusPlayerDate= {}
                 end
             )
         end,
         tooltip=function()
             local text
             local index=0
-            for name in pairs(WoWToolsPlayerDate) do
+            for name in pairs(WoWToolsPlusPlayerDate) do
                 text= (text and text..'\n' or '')..name
                 index= index+1
                 if index>10 then
@@ -110,13 +110,13 @@ local function Init_Options()
                 WoWTools_DataMixin.Icon.wow2..wowHeader,
                 nil,
                 function()
-                    WoWTools_WoWDate= {}
+                    WoWToolsPlus_WoWDate= {}
                 end
             )
         end,
         tooltip=function()
             local text
-            for guid, tab in pairs(WoWTools_WoWDate) do
+            for guid, tab in pairs(WoWToolsPlus_WoWDate) do
                 text= (text and text..'\n' or '')
                    ..WoWTools_UnitMixin:GetPlayerInfo(nil, guid, nil,{
                         faction=tab.faction,
@@ -160,9 +160,9 @@ local function Init_Options()
                 WoWTools_DataMixin.addName,
                 nil,
             function()
-                WoWToolsSave={}
-                WoWToolsPlayerDate= {}
-                WoWTools_WoWDate= {}
+                WoWToolsPlusSave={}
+                WoWToolsPlusPlayerDate= {}
+                WoWToolsPlus_WoWDate= {}
             end)
         end,
         tooltip= optionHeader..'\n'
@@ -271,7 +271,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         return
     end
 
-    WoWToolsSave['WoWTools_Settings']= WoWToolsSave['WoWTools_Settings'] or P_Save
+    WoWToolsPlusSave['WoWTools_Settings']= WoWToolsPlusSave['WoWTools_Settings'] or P_Save
     P_Save= nil
 
     WoWTools_DataMixin.onlyChinese= LOCALE_zhCN or Save().onlyChinese

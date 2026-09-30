@@ -54,7 +54,7 @@ local P_Save={
 
 
 local function Save()
-    return WoWToolsSave['Plus_AddOns'] or {}
+    return WoWToolsPlusSave['Plus_AddOns'] or {}
 end
 
 
@@ -111,7 +111,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         return
     end
 
-    WoWToolsSave['Plus_AddOns']= WoWToolsSave['Plus_AddOns'] or P_Save
+    WoWToolsPlusSave['Plus_AddOns']= WoWToolsPlusSave['Plus_AddOns'] or P_Save
     P_Save=nil
     Save().Bg_Alpha= nil
 

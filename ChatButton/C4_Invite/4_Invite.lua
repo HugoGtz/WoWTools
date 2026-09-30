@@ -6,7 +6,7 @@ WoWTools_InviteMixin={
 
 
 local function Save()
-    return WoWToolsSave['ChatButton_Invite'] or {}
+    return WoWToolsPlusSave['ChatButton_Invite'] or {}
 end
 
 
@@ -120,7 +120,7 @@ panel:SetScript('OnEvent', function(self, event, arg1)
     if event=='ADDON_LOADED' then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsSave['ChatButton_Invite']= WoWToolsSave['ChatButton_Invite'] or {
+            WoWToolsPlusSave['ChatButton_Invite']= WoWToolsPlusSave['ChatButton_Invite'] or {
                 InvNoFriend={},
                 --LFGListAceInvite=true,--接受,LFD, 邀请
                 FriendAceInvite=true,--接受, 好友, 邀请

@@ -5,7 +5,7 @@ local Name= 'WoWToolsChatMenuButton_'
 
 
 local function Save()
-    return WoWToolsSave['ChatButton'] or {}
+    return WoWToolsPlusSave['ChatButton'] or {}
 end
 
 

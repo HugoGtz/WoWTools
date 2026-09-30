@@ -366,7 +366,7 @@ AuctionHouseItemListMixin
 AuctionHouseItemListLineMixin
 ]]
 local function Init()
-    if WoWToolsSave['Plus_AuctionHouse'].disabledBuyPlus then
+    if WoWToolsPlusSave['Plus_AuctionHouse'].disabledBuyPlus then
         return
     end
 --数量，提示

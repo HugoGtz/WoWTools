@@ -14,7 +14,7 @@ local P_Save= {
 }
 
 local function Save()
-    return WoWToolsSave['ChatButton_Say'] or {}
+    return WoWToolsPlusSave['ChatButton_Say'] or {}
 end
 
 local addName
@@ -585,7 +585,7 @@ panel:SetScript("OnEvent", function(self, event, arg1, arg2, ...)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsSave['ChatButton_Say']= WoWToolsSave['ChatButton_Say'] or P_Save
+            WoWToolsPlusSave['ChatButton_Say']= WoWToolsPlusSave['ChatButton_Say'] or P_Save
             Save().text= Save().text or (WoWTools_DataMixin.onlyChinese and '说' or SAY)
             P_Save=nil
 

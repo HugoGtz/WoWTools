@@ -5,7 +5,7 @@
     {'%.', '%(','%)','%+', '%-', '%*', '%?', '%[', '%^'}
 ]]
 local function Save()
-    return WoWToolsSave['ChatButton_HyperLink'] or {}
+    return WoWToolsPlusSave['ChatButton_HyperLink'] or {}
 end
 
 local LOOT_ITEM = LOCALE_zhCN and '(.-)获得了战利品' or WoWTools_TextMixin:Magic(LOOT_ITEM)
@@ -643,7 +643,7 @@ local function New_AddMessage(self, s, ...)
 
 --关键词, 内容颜色，和频道名称替换
     if not Save().disabledKeyColor then
-        for k in pairs(WoWToolsPlayerDate['HyperLinkColorText']) do--内容加颜色
+        for k in pairs(WoWToolsPlusPlayerDate['HyperLinkColorText']) do--内容加颜色
             s=s:gsub(k, '|cnGREEN_FONT_COLOR:'..k..'|r')
         end
     end

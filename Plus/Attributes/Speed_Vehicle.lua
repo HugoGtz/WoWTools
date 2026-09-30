@@ -1,7 +1,7 @@
 
 --载具，移动，速度
 local function Init()
-    --if WoWToolsSave['Plus_Attributes'].disabledVehicleSpeed then
+    --if WoWToolsPlusSave['Plus_Attributes'].disabledVehicleSpeed then
         --return
     --end
 

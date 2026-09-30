@@ -1,5 +1,5 @@
 local function Save()
-    return  WoWToolsSave['Minimap_Plus']
+    return  WoWToolsPlusSave['Minimap_Plus']
 end
 
 local Button

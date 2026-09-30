@@ -31,7 +31,7 @@ local P_Save={
 
 local Layout
 local function Save()
-    return WoWToolsSave['Plus_Move']
+    return WoWToolsPlusSave['Plus_Move']
 end
 
 
@@ -187,7 +187,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsSave['Plus_Move']= WoWToolsSave['Plus_Move'] or P_Save
+            WoWToolsPlusSave['Plus_Move']= WoWToolsPlusSave['Plus_Move'] or P_Save
 
             Save().UIPanelWindows= Save().UIPanelWindows or P_Save.UIPanelWindows
             Save().Esc= Save() or P_Save.Esc
@@ -216,7 +216,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         WoWTools_MoveMixin.addName,
                         nil,
                     function()
-                        WoWToolsSave['Plus_Move']= nil
+                        WoWToolsPlusSave['Plus_Move']= nil
                     end)
                 end,
                 tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD),
@@ -237,7 +237,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 --self:RegisterEvent('PLAYER_ENTERING_WORLD')
             end
 
-        elseif WoWToolsSave then
+        elseif WoWToolsPlusSave then
 
             if WoWTools_MoveMixin.Events[arg1] then
                 if not Save().no[arg1] then

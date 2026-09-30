@@ -1,7 +1,7 @@
 
 
 local function Save()
-    return WoWToolsSave['Plus_Challenges'] or {}
+    return WoWToolsPlusSave['Plus_Challenges'] or {}
 end
 local Frame
 

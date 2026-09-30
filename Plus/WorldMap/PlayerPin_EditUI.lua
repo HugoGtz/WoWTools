@@ -1,8 +1,8 @@
 local function Save()
-    return WoWToolsSave['Plus_WorldMap'].PlayerPin
+    return WoWToolsPlusSave['Plus_WorldMap'].PlayerPin
 end
 local function SaveWoW()
-    return WoWToolsPlayerDate.PlayerMapPin
+    return WoWToolsPlusPlayerDate.PlayerMapPin
 end
 
 local Frame
@@ -1100,7 +1100,7 @@ local function Init()
                 name,
             nil,
             {SetValue=function()
-                WoWToolsPlayerDate.PlayerMapPin= {}
+                WoWToolsPlusPlayerDate.PlayerMapPin= {}
                 RefreshWorldMapPins()
                 Refresh_All()
             end})

@@ -1,6 +1,6 @@
 
 local function Save()
-    return WoWToolsSave['Plus_Cursor']
+    return WoWToolsPlusSave['Plus_Cursor']
 end
 
 local CursorFrame

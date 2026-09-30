@@ -6,7 +6,7 @@ local P_Save={
     --save_archaeology=true--启动时，设置KEY
 }
 local function Save()
-    return WoWToolsSave['Tools_Professions']
+    return WoWToolsPlusSave['Tools_Professions']
 end
 
 local function Create_Button(index)
@@ -382,7 +382,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsSave['Tools_Professions']= WoWToolsSave['Tools_Professions'] or P_Save
+            WoWToolsPlusSave['Tools_Professions']= WoWToolsPlusSave['Tools_Professions'] or P_Save
             P_Save= nil
 
             if WoWTools_ToolsMixin:Get_MainButton() then

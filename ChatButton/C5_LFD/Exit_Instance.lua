@@ -1,6 +1,6 @@
 
 local function Save()
-    return WoWToolsSave['ChatButton_LFD'] or {}
+    return WoWToolsPlusSave['ChatButton_LFD'] or {}
 end
 
 local ExitIns
@@ -110,7 +110,7 @@ local function Init_Frame()
                     WoWTools_DataMixin:PlaySound()--播放, 声音
                     local leaveSce= 30
                     if Save().autoROLL and event=='LOOT_CLOSED' then
-                        leaveSce= WoWToolsSave['ChatButton_LFD'].sec
+                        leaveSce= WoWToolsPlusSave['ChatButton_LFD'].sec
                     end
                     ExitIns=true
                     C_Timer.After(leaveSce, function()
@@ -147,7 +147,7 @@ local function Init_Frame()
             if Save().leaveInstance then
                 WoWTools_DataMixin:PlaySound()--播放, 声音
                 if PVPMatchResults and PVPMatchResults.buttonContainer and PVPMatchResults.buttonContainer.leaveButton then
-                    WoWTools_CooldownMixin:Setup(PVPMatchResults.buttonContainer.leaveButton, nil, WoWToolsSave['ChatButton_LFD'].sec, nil, true, true)
+                    WoWTools_CooldownMixin:Setup(PVPMatchResults.buttonContainer.leaveButton, nil, WoWToolsPlusSave['ChatButton_LFD'].sec, nil, true, true)
                 end
                 print(
                     WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,

@@ -1,6 +1,6 @@
 
 local function Save()
-    return WoWToolsSave['Plus_GuildBank']
+    return WoWToolsPlusSave['Plus_GuildBank']
 end
 local MAX_GUILDBANK_SLOTS_PER_TAB= 98
 local StopRun

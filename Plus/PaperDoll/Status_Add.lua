@@ -5,7 +5,7 @@ if WoWTools_DataMixin.Player.Ver<120005 then--11.0.5会出错误
 end
 
 local function Save()
-    return WoWToolsSave['Plus_PaperDoll']
+    return WoWToolsPlusSave['Plus_PaperDoll']
 end
 local AttributesCategory={}
 local P_PAPERDOLL_STATCATEGORIES= PAPERDOLL_STATCATEGORIES

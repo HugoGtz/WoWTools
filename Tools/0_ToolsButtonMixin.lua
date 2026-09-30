@@ -39,7 +39,7 @@ local LeftButtons2={}
 local RightButtons={}
 local BottomButtons={}
 local function Save()
-    return WoWToolsSave['WoWTools_ToolsButton']
+    return WoWToolsPlusSave['WoWTools_ToolsButton']
 end
 
 

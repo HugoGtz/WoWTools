@@ -3,7 +3,7 @@
 ## Author: husandro (fork: HugoGtz)
 ## Version: @project-version@
 ## Notes: Fork de WoWTools (husandro) con arreglos de bugs y localización es/en.|nNo activar junto al WoWTools original.
-## SavedVariables: WoWToolsSave, WoWTools_WoWDate, WoWToolsPlayerDate
+## SavedVariables: WoWToolsPlusSave, WoWToolsPlus_WoWDate, WoWToolsPlusPlayerDate, WoWToolsSave, WoWTools_WoWDate, WoWToolsPlayerDate
 ## DefaultState: Enabled
 ## X-Category: Plugins
 ## IconTexture: Interface\AddOns\WoWToolsPlus\Source\Texture\WoWtools.tga

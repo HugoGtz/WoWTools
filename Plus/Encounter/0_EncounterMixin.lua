@@ -38,7 +38,7 @@ end
 
 
 local function Set_WorldData_Tooltip()
-    for guid, info in pairs(WoWTools_WoWDate or {}) do
+    for guid, info in pairs(WoWToolsPlus_WoWDate or {}) do
         local text, find, num= nil, false, 0
 
         for bossName in pairs(info.Worldboss.boss) do--世界BOSS
@@ -111,7 +111,7 @@ local function GetInstanceData(frame, showTips)
         if showTips then
             Set_WorldData_Tooltip(frame)--角色世界BOSS提示
         else
-            for guid, info in pairs(WoWTools_WoWDate or {}) do--世界BOSS
+            for guid, info in pairs(WoWToolsPlus_WoWDate or {}) do--世界BOSS
                 if guid==WoWTools_DataMixin.Player.GUID then
                     local num=0
                     for bossName in pairs(info.Worldboss.boss) do

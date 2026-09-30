@@ -1,6 +1,6 @@
 --法术按键, 颜色 ActionButton.lua
 local function Init()
-    if not WoWToolsSave['Plus_Spell'].actionButtonRangeColor then
+    if not WoWToolsPlusSave['Plus_Spell'].actionButtonRangeColor then
         return
     end
 

@@ -1,5 +1,5 @@
 local function Save()
-    return WoWToolsSave['Plus_PetBattle2']
+    return WoWToolsPlusSave['Plus_PetBattle2']
 end
 
 

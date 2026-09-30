@@ -63,7 +63,7 @@ local P_Save={
 }
 
 local function Save()
-    return WoWToolsSave['Tools_MagePortal']
+    return WoWToolsPlusSave['Tools_MagePortal']
 end
 
 local Buttons
@@ -390,7 +390,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsSave['Tools_MagePortal']= WoWToolsSave['Tools_MagePortal'] or P_Save
+            WoWToolsPlusSave['Tools_MagePortal']= WoWToolsPlusSave['Tools_MagePortal'] or P_Save
             P_Save= nil
 
             if not Save().disabled and WoWTools_ToolsMixin:Get_MainButton() then

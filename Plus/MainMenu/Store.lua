@@ -1,6 +1,6 @@
 
 local function Save()
-    return WoWToolsSave['Plus_MainMenu']
+    return WoWToolsPlusSave['Plus_MainMenu']
 end
 
 
@@ -13,10 +13,10 @@ end
 local function Init()
     local frame= CreateFrame('Frame')
 
-    frame.Text= WoWTools_LabelMixin:Create(StoreMicroButton,  {size=WoWToolsSave['Plus_MainMenu'].size, color=true})
+    frame.Text= WoWTools_LabelMixin:Create(StoreMicroButton,  {size=WoWToolsPlusSave['Plus_MainMenu'].size, color=true})
     frame.Text:SetPoint('BOTTOM', StoreMicroButton, 0, 3)
 
-    frame.Text2= WoWTools_LabelMixin:Create(StoreMicroButton,  {size=WoWToolsSave['Plus_MainMenu'].size, color=true})
+    frame.Text2= WoWTools_LabelMixin:Create(StoreMicroButton,  {size=WoWToolsPlusSave['Plus_MainMenu'].size, color=true})
     frame.Text2:SetPoint('TOP', StoreMicroButton, 0,  -3)
 
 
@@ -50,7 +50,7 @@ local function Init()
             GameTooltip:AddLine(' ')
         end
         local bagAll,bankAll,numPlayer= 0,0,0--帐号数据
-        for guid, info in pairs(WoWTools_WoWDate or {}) do
+        for guid, info in pairs(WoWToolsPlus_WoWDate or {}) do
             local tab=info.Item[122284]
             if tab and guid then
                 GameTooltip:AddDoubleLine(
@@ -107,7 +107,7 @@ local function Init()
 
 
     local all=0
-    for guid, info in pairs(WoWTools_WoWDate or {}) do
+    for guid, info in pairs(WoWToolsPlus_WoWDate or {}) do
         local tab=info.Item[122284]
         if tab and guid then
             GameTooltip:AddDoubleLine(

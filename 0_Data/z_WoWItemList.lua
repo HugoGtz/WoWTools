@@ -45,13 +45,13 @@ TypeTabs= {
     atlas='bag-main',
     tooltip=WoWTools_DataMixin.onlyChinese and '物品' or ITEMS,
     clear_all=function()
-        for _, data in pairs(WoWTools_WoWDate) do
+        for _, data in pairs(WoWToolsPlus_WoWDate) do
             data.Item={}
         end
     end,
     clear_wow=function(guid)
-        if WoWTools_WoWDate[guid] then
-            WoWTools_WoWDate[guid].Item={}
+        if WoWToolsPlus_WoWDate[guid] then
+            WoWToolsPlus_WoWDate[guid].Item={}
         end
     end,
     isItems=true,
@@ -59,8 +59,8 @@ TypeTabs= {
         guid= guid or Frame.guid
 
         local num=0
-        if WoWTools_WoWDate[guid] and WoWTools_WoWDate[guid].Item then
-            num= CountTable(WoWTools_WoWDate[guid].Item)
+        if WoWToolsPlus_WoWDate[guid] and WoWToolsPlus_WoWDate[guid].Item then
+            num= CountTable(WoWToolsPlus_WoWDate[guid].Item)
         end
 
         self.Text:SetText(num>0 and num or '')
@@ -71,7 +71,7 @@ TypeTabs= {
         end
     end,
     get_data=function(isFind, findText, findID)
-        local wowData= WoWTools_WoWDate[Frame.guid]
+        local wowData= WoWToolsPlus_WoWDate[Frame.guid]
         local data, num= CreateDataProvider(), 0
         for itemID, tab in pairs(wowData and wowData.Item or {}) do
            WoWTools_DataMixin:Load(itemID, 'item')
@@ -155,13 +155,13 @@ TypeTabs= {
     atlas='Banker',
     tooltip=WoWTools_DataMixin.onlyChinese and '银行' or BANK,
     clear_all=function()
-        for _, data in pairs(WoWTools_WoWDate) do
+        for _, data in pairs(WoWToolsPlus_WoWDate) do
             data.Bank={}
         end
     end,
     clear_wow=function(guid)
-        if WoWTools_WoWDate[guid] then
-            WoWTools_WoWDate[guid].Bank={}
+        if WoWToolsPlus_WoWDate[guid] then
+            WoWToolsPlus_WoWDate[guid].Bank={}
         end
     end,
     isItems=true,
@@ -169,8 +169,8 @@ TypeTabs= {
         local num=0
         guid= guid or Frame.guid
 
-        if WoWTools_WoWDate[guid] and WoWTools_WoWDate[guid].Bank then
-            num= CountTable(WoWTools_WoWDate[guid].Bank)
+        if WoWToolsPlus_WoWDate[guid] and WoWToolsPlus_WoWDate[guid].Bank then
+            num= CountTable(WoWToolsPlus_WoWDate[guid].Bank)
         end
 
         self.Text:SetText(num>0 and num or '')
@@ -181,7 +181,7 @@ TypeTabs= {
         end
     end,
     get_data=function(isFind, findText, findID)
-        local wowData= WoWTools_WoWDate[Frame.guid]
+        local wowData= WoWToolsPlus_WoWDate[Frame.guid]
         local data, num= CreateDataProvider(), 0
         for itemID, tab in pairs(wowData and wowData.Bank or {}) do
            WoWTools_DataMixin:Load(itemID, 'item')
@@ -242,13 +242,13 @@ TypeTabs= {
     atlas='legionmission-icon-currency',--'PH-currency-icon',
     tooltip=WoWTools_DataMixin.onlyChinese and '货币' or CURRENCY,
     clear_all=function()
-        for _, data in pairs(WoWTools_WoWDate) do
+        for _, data in pairs(WoWToolsPlus_WoWDate) do
             data.Currency={}
         end
     end,
     clear_wow=function(guid)
-        if WoWTools_WoWDate[guid] then
-            WoWTools_WoWDate[guid].Currency={}
+        if WoWToolsPlus_WoWDate[guid] then
+            WoWToolsPlus_WoWDate[guid].Currency={}
         end
     end,
     isItems=true,
@@ -256,8 +256,8 @@ TypeTabs= {
         local num=0
         guid= guid or Frame.guid
 
-        if WoWTools_WoWDate[guid] and WoWTools_WoWDate[guid].Currency then
-            num= CountTable(WoWTools_WoWDate[guid].Currency)
+        if WoWToolsPlus_WoWDate[guid] and WoWToolsPlus_WoWDate[guid].Currency then
+            num= CountTable(WoWToolsPlus_WoWDate[guid].Currency)
         end
 
         self.Text:SetText(num>0 and num or '')
@@ -268,7 +268,7 @@ TypeTabs= {
         end
     end,
     get_data=function(isFind, findText, findID)
-        local wowData= WoWTools_WoWDate[Frame.guid]
+        local wowData= WoWToolsPlus_WoWDate[Frame.guid]
         local data, num= CreateDataProvider(), 0
         for currencyID, all in pairs(wowData and wowData.Currency or {}) do
             local name, cnName
@@ -336,18 +336,18 @@ TypeTabs= {
     atlas='Auctioneer',
     tooltip=WoWTools_DataMixin.onlyChinese and '钱' or MONEY,
     clear_all=function()
-        for _, data in pairs(WoWTools_WoWDate) do
+        for _, data in pairs(WoWToolsPlus_WoWDate) do
             data.Money=nil
         end
     end,
     clear_wow=function(guid)
-        if WoWTools_WoWDate[guid] then
-            WoWTools_WoWDate[guid].Money=nil
+        if WoWToolsPlus_WoWDate[guid] then
+            WoWToolsPlus_WoWDate[guid].Money=nil
         end
     end,
     set_num=function(self)
         local num=0
-        for _, data in pairs(WoWTools_WoWDate) do
+        for _, data in pairs(WoWToolsPlus_WoWDate) do
             if data.Money and data.Money>0 then
                 num= num+1
             end
@@ -361,7 +361,7 @@ TypeTabs= {
     end,
     get_data=function()
         local data, num= CreateDataProvider(), 0
-        for guid, tab in pairs(WoWTools_WoWDate) do
+        for guid, tab in pairs(WoWToolsPlus_WoWDate) do
             if tab.Money and tab.Money>0 then
                 data:Insert({
                     money= tab.Money,
@@ -420,18 +420,18 @@ TypeTabs= {
     atlas='clock-icon',
     tooltip=WoWTools_DataMixin.onlyChinese and '游戏时间' or TOKEN_REDEEM_GAME_TIME_TITLE or SLASH_PLAYED2:gsub('/', ''),
     clear_all=function()
-        for _, data in pairs(WoWTools_WoWDate) do
+        for _, data in pairs(WoWToolsPlus_WoWDate) do
             data.Time={}
         end
     end,
     clear_wow=function(guid)
-        if WoWTools_WoWDate[guid] then
-            WoWTools_WoWDate[guid].Time={}
+        if WoWToolsPlus_WoWDate[guid] then
+            WoWToolsPlus_WoWDate[guid].Time={}
         end
     end,
     set_num=function(self)
         local num=0
-        for _, data in pairs(WoWTools_WoWDate) do
+        for _, data in pairs(WoWToolsPlus_WoWDate) do
             if data.Time and data.Time.totalTime and data.Time.totalTime>0 then
                 num= num+1
             end
@@ -445,7 +445,7 @@ TypeTabs= {
     end,
     get_data=function()
         local data, num= CreateDataProvider(), 0
-        for guid, tab in pairs(WoWTools_WoWDate) do
+        for guid, tab in pairs(WoWToolsPlus_WoWDate) do
             if tab.Time and tab.Time.totalTime and tab.Time.totalTime>0 then
                 local seconds= WoWTools_TimeMixin:GetUpdate_Seconds(tab.Time.upData)
                 data:Insert({
@@ -507,13 +507,13 @@ TypeTabs= {
     atlas='poi-rift1',
     tooltip=WoWTools_DataMixin.onlyChinese and '副本' or INSTANCE,
     clear_all=function()
-        for _, data in pairs(WoWTools_WoWDate) do
+        for _, data in pairs(WoWToolsPlus_WoWDate) do
             data.Instance={ins={}, week=WoWTools_DataMixin.Player.Week, day=date('%x')}
         end
     end,
     clear_wow=function(guid)
-        if WoWTools_WoWDate[guid] then
-            WoWTools_WoWDate[guid].Instance={ins={}, week=WoWTools_DataMixin.Player.Week, day=date('%x')}
+        if WoWToolsPlus_WoWDate[guid] then
+            WoWToolsPlus_WoWDate[guid].Instance={ins={}, week=WoWTools_DataMixin.Player.Week, day=date('%x')}
         end
     end,
     isItems=true,
@@ -521,8 +521,8 @@ TypeTabs= {
         local num=0
         guid= guid or Frame.guid
 
-        if WoWTools_WoWDate[guid] and WoWTools_WoWDate[guid].Instance and WoWTools_WoWDate[guid].Instance.ins then
-            num= CountTable( WoWTools_WoWDate[guid].Instance.ins)
+        if WoWToolsPlus_WoWDate[guid] and WoWToolsPlus_WoWDate[guid].Instance and WoWToolsPlus_WoWDate[guid].Instance.ins then
+            num= CountTable( WoWToolsPlus_WoWDate[guid].Instance.ins)
         end
 
 
@@ -536,7 +536,7 @@ TypeTabs= {
     get_data=function(isFind, findText)
         local data, num= CreateDataProvider(), 0
         local guid= Frame.guid
-        local info= guid and WoWTools_WoWDate[Frame.guid]
+        local info= guid and WoWToolsPlus_WoWDate[Frame.guid]
         for insName, tab in pairs(info and info.Instance.ins or {}) do--{[instanceID]={[difficultyID]=已击杀数}}
             local text
             for difficuly, killNum in pairs(tab) do
@@ -573,13 +573,13 @@ TypeTabs= {
     atlas='UI-HUD-UnitFrame-Target-PortraitOn-Boss-Rare-Star',
     tooltip=WoWTools_DataMixin.onlyChinese and '稀有' or MAP_LEGEND_RARE,
     clear_all=function()
-        for _, data in pairs(WoWTools_WoWDate) do
+        for _, data in pairs(WoWToolsPlus_WoWDate) do
             data.Rare={day=date('%x'), boss={}}
         end
     end,
     clear_wow=function(guid)
-        if WoWTools_WoWDate[guid] then
-            WoWTools_WoWDate[guid].Rare={day=date('%x'), boss={}}
+        if WoWToolsPlus_WoWDate[guid] then
+            WoWToolsPlus_WoWDate[guid].Rare={day=date('%x'), boss={}}
         end
     end,
     isItems=true,
@@ -587,8 +587,8 @@ TypeTabs= {
         local num=0
         guid= guid or Frame.guid
 
-        if WoWTools_WoWDate[guid] and WoWTools_WoWDate[guid].Rare and WoWTools_WoWDate[guid].Rare.Currency then
-            num= CountTable(WoWTools_WoWDate[guid].Rare.Currency)
+        if WoWToolsPlus_WoWDate[guid] and WoWToolsPlus_WoWDate[guid].Rare and WoWToolsPlus_WoWDate[guid].Rare.Currency then
+            num= CountTable(WoWToolsPlus_WoWDate[guid].Rare.Currency)
         end
 
         self.Text:SetText(num>0 and num or '')
@@ -601,7 +601,7 @@ TypeTabs= {
     get_data=function(isFind, findText)
         local data, num= CreateDataProvider(), 0
         local guid= Frame.guid
-        local info= guid and WoWTools_WoWDate[Frame.guid]
+        local info= guid and WoWToolsPlus_WoWDate[Frame.guid]
         if info and info.Rare.boss then
             local rare, rare2
             for name in pairs(info.Rare.boss) do--[name]= UnitGUID('target')
@@ -658,13 +658,13 @@ TypeTabs= {
     atlas='vignettekillboss',
     tooltip=WoWTools_DataMixin.onlyChinese and '世界首领' or MAP_LEGEND_WORLDBOSS,
     clear_all=function()
-        for _, data in pairs(WoWTools_WoWDate) do
+        for _, data in pairs(WoWToolsPlus_WoWDate) do
             data.Worldboss={boss={}, week=WoWTools_DataMixin.Player.Week, day=date('%x')}
         end
     end,
     clear_wow=function(guid)
-        if WoWTools_WoWDate[guid] then
-            WoWTools_WoWDate[guid].Worldboss={boss={}, week=WoWTools_DataMixin.Player.Week, day=date('%x')}
+        if WoWToolsPlus_WoWDate[guid] then
+            WoWToolsPlus_WoWDate[guid].Worldboss={boss={}, week=WoWTools_DataMixin.Player.Week, day=date('%x')}
         end
     end,
     isItems=true,
@@ -672,8 +672,8 @@ TypeTabs= {
         local num=0
         guid= guid or Frame.guid
 
-        if WoWTools_WoWDate[guid] and WoWTools_WoWDate[guid].Worldboss and WoWTools_WoWDate[guid].Worldboss.boss then
-            num= CountTable(WoWTools_WoWDate[guid].Worldboss.boss)
+        if WoWToolsPlus_WoWDate[guid] and WoWToolsPlus_WoWDate[guid].Worldboss and WoWToolsPlus_WoWDate[guid].Worldboss.boss then
+            num= CountTable(WoWToolsPlus_WoWDate[guid].Worldboss.boss)
         end
 
         self.Text:SetText(num>0 and num or '')
@@ -686,7 +686,7 @@ TypeTabs= {
     get_data=function(isFind, findText)
         local data, num= CreateDataProvider(), 0
         local guid= Frame.guid
-        local info= guid and WoWTools_WoWDate[Frame.guid]
+        local info= guid and WoWToolsPlus_WoWDate[Frame.guid]
         if info then
             local boos, boos2
             for name in pairs(info.Worldboss.boss  or {}) do--[name]= id
@@ -982,7 +982,7 @@ local function Init_Right_List()
     local findData
 
     local data = CreateDataProvider()
-    for guid, info in pairs(WoWTools_WoWDate) do
+    for guid, info in pairs(WoWToolsPlus_WoWDate) do
 
 
         local cnLink, realm, class, cnClass, faction, cnFaction, region, _
@@ -1142,7 +1142,7 @@ local function Settings_Right_Button(btn, data)
     btn.BattleTag:SetTextColor(color:GetRGB())
 
 --魔兽世界时光徽章
-    local itemTab= WoWTools_WoWDate[data.guid] and WoWTools_WoWDate[data.guid].Item and WoWTools_WoWDate[data.guid].Item[btn.WoWToken.itemID] or {}
+    local itemTab= WoWToolsPlus_WoWDate[data.guid] and WoWToolsPlus_WoWDate[data.guid].Item and WoWToolsPlus_WoWDate[data.guid].Item[btn.WoWToken.itemID] or {}
     local tokenCount= (itemTab.bag or 0)+ (itemTab.bank or 0)
     btn.WoWTokenCount:SetText((tokenCount==0 and '|cff626262' or '')..tokenCount)
     btn.WoWToken:SetDesaturated(tokenCount==0)
@@ -1166,7 +1166,7 @@ local function Settings_Right_Button(btn, data)
 
 --装等
     if data.itemLevel and data.itemLevel>0 then
-        local item= data.itemLevel- (WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].itemLevel or 0)
+        local item= data.itemLevel- (WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].itemLevel or 0)
         btn.ItemLevelText:SetText(
             (item>5 and '|cnGREEN_FONT_COLOR:' or color:GenerateHexColorMarkup())
             ..format('%i', data.itemLevel)
@@ -1382,7 +1382,7 @@ local function OnMouseDown_RightButton(self, d)
 
                     nil,
                     {SetValue=function()
-                        WoWTools_WoWDate[guid]=nil
+                        WoWToolsPlus_WoWDate[guid]=nil
                         if isMe then
                             WoWTools_DataMixin:Reload()
                         else
@@ -1483,7 +1483,7 @@ local function Init_Right_Menu(self, root)
 
     local all, region, tag= {}, {}, {}
 
-    for guid, info in pairs(WoWTools_WoWDate) do
+    for guid, info in pairs(WoWToolsPlus_WoWDate) do
         name= WoWTools_UnitMixin:GetPlayerInfo(nil, guid, nil, {reName=true, reRealm=true})
         local tab= {name=name or guid, region=info.region, tag=info.battleTag}
         table.insert(all, tab)
@@ -1507,9 +1507,9 @@ local function Init_Right_Menu(self, root)
             regionText..' #'..#region,
             nil,
             {SetValue=function()
-                for guid, info in pairs(WoWTools_WoWDate) do
+                for guid, info in pairs(WoWToolsPlus_WoWDate) do
                     if info.region~=WoWTools_DataMixin.Player.Region and guid~=WoWTools_DataMixin.Player.GUID then
-                        WoWTools_WoWDate[guid]=nil
+                        WoWToolsPlus_WoWDate[guid]=nil
                     end
                 end
             end
@@ -1529,9 +1529,9 @@ local function Init_Right_Menu(self, root)
             tagTtext..' #'..#tag,
             nil,
             {SetValue=function()
-                for guid, info in pairs(WoWTools_WoWDate) do
+                for guid, info in pairs(WoWToolsPlus_WoWDate) do
                     if info.battleTag ~=WoWTools_DataMixin.Player.BattleTag and guid~=WoWTools_DataMixin.Player.GUID then
-                        WoWTools_WoWDate[guid]=nil
+                        WoWToolsPlus_WoWDate[guid]=nil
                     end
                 end
             end
@@ -1553,7 +1553,7 @@ local function Init_Right_Menu(self, root)
             allTtext..' #'..#all,
             nil,
             function()
-                WoWTools_WoWDate={}
+                WoWToolsPlus_WoWDate={}
             end
         )
         return MenuResponse.Open
@@ -1616,7 +1616,7 @@ local function Init_IsMe_Menu(self, root)
     local s, c, b= {}, {}, {}
     local bl, lm= 0, 0
 
-    for guid, tab in pairs(WoWTools_WoWDate) do
+    for guid, tab in pairs(WoWToolsPlus_WoWDate) do
         local class, englishClass, _, _, _, _, realm=  GetPlayerInfoByGUID(guid)
         realm= (realm=='' or not realm) and WoWTools_DataMixin.Player.Realm or realm
 
@@ -1699,7 +1699,7 @@ local function Init_IsMe_Menu(self, root)
 
 --Region
     local regions={}
-    for _, info in pairs(WoWTools_WoWDate) do
+    for _, info in pairs(WoWToolsPlus_WoWDate) do
         regions[info.region]= (regions[info.region] or 0)+ 1
     end
     root:CreateDivider()
@@ -1756,7 +1756,7 @@ local function Init_LeftButton_Menu(self, root)
     end
 
     local guid= Frame.guid
-    local wowData= WoWTools_WoWDate[guid]
+    local wowData= WoWToolsPlus_WoWDate[guid]
 
     local tab= TypeTabs[self.name]
     local clear_wow= tab.clear_wow

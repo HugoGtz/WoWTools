@@ -1,6 +1,6 @@
 --快速，加载，物品，按钮
 local function Save()
-    return WoWToolsSave['Plus_Mail']
+    return WoWToolsPlusSave['Plus_Mail']
 end
 
 local fastButton
@@ -263,7 +263,7 @@ local function Init_Fast_Button_Menu(self, root)
         return MenuResponse.Open
     end)
 
-    for guid, info in pairs(WoWTools_WoWDate) do
+    for guid, info in pairs(WoWToolsPlus_WoWDate) do
         Fast_Button_Set_Menu(
             self, sub,
             WoWTools_UnitMixin:GetPlayerInfo(nil, guid, nil, {reName=true, reRealm=true, level=info.level, faction=info.faction}),

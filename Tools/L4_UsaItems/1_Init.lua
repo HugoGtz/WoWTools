@@ -58,7 +58,7 @@ local P_Tabs={
 
 
 local function Save()
-    return WoWToolsPlayerDate['Tools_UseItems']
+    return WoWToolsPlusPlayerDate['Tools_UseItems']
 end
 
 
@@ -187,7 +187,7 @@ function WoWTools_UseItemsMixin:Init_Menu(root)
             (WoWTools_DataMixin.onlyChinese and '全部重置' or RESET_ALL_BUTTON_TEXT)..'|n|n'..(WoWTools_DataMixin.onlyChinese and "重新加载UI" or RELOADUI),
             nil,
             {SetValue=function()
-                WoWToolsPlayerDate['Tools_UseItems']= nil
+                WoWToolsPlusPlayerDate['Tools_UseItems']= nil
                 WoWTools_DataMixin:Reload()
                 print(WoWTools_DataMixin.Icon.icon2..WoWTools_UseItemsMixin.addName, WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
             end}
@@ -309,7 +309,7 @@ panel:RegisterEvent("ADDON_LOADED")
 panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
-            WoWToolsPlayerDate['Tools_UseItems']= WoWToolsPlayerDate['Tools_UseItems'] or P_Tabs
+            WoWToolsPlusPlayerDate['Tools_UseItems']= WoWToolsPlusPlayerDate['Tools_UseItems'] or P_Tabs
 
             WoWTools_UseItemsMixin.addName= '|A:soulbinds_tree_conduit_icon_utility:0:0|a'..(WoWTools_DataMixin.onlyChinese and '使用物品' or USE_ITEM)
 

@@ -1,11 +1,11 @@
 local function Save()
-    return WoWToolsSave['Plus_SellBuy'] or {}
+    return WoWToolsPlusSave['Plus_SellBuy'] or {}
 end
 local function RepairSave()
-    return WoWToolsPlayerDate['RepairMoney'] or {}
+    return WoWToolsPlusPlayerDate['RepairMoney'] or {}
 end
 local function SellBuyItemsSave()
-    return WoWToolsPlayerDate['SellBuyItems'] or {}
+    return WoWToolsPlusPlayerDate['SellBuyItems'] or {}
 end
 
 
@@ -54,7 +54,7 @@ local function Player_Sell_Menu(_, root)
             end
         end, function(data)
             if SellBuyItemsSave().sell then
-                WoWToolsPlayerDate['SellBuyItems'].sell[data.itemID]= not WoWToolsPlayerDate['SellBuyItems'].sell[data.itemID] and true or nil
+                WoWToolsPlusPlayerDate['SellBuyItems'].sell[data.itemID]= not WoWToolsPlusPlayerDate['SellBuyItems'].sell[data.itemID] and true or nil
             end
         end, {itemID=itemID})
         WoWTools_SetTooltipMixin:Set_Menu(sub2)
@@ -115,7 +115,7 @@ local function Buyback_Menu(_, root)
             return SellBuyItemsSave().noSell[data.itemID]
         end, function(data)
             if SellBuyItemsSave().noSell then
-                WoWToolsPlayerDate['SellBuyItems'].noSell[data.itemID]=not WoWToolsPlayerDate['SellBuyItems'].noSell[data.itemID] and true or nil
+                WoWToolsPlusPlayerDate['SellBuyItems'].noSell[data.itemID]=not WoWToolsPlusPlayerDate['SellBuyItems'].noSell[data.itemID] and true or nil
             end
             local btn= _G['WoWTools_BuybackButton']
             if btn then
@@ -201,7 +201,7 @@ local function BuyItem_Menu(self, root)
             end
         end, function(data)
             if SellBuyItemsSave().buy and SellBuyItemsSave().buy[guid] then
-                WoWToolsPlayerDate['SellBuyItems'].buy[guid][data.itemID]=not WoWToolsPlayerDate['SellBuyItems'].buy[guid][data.itemID] and data.num or nil
+                WoWToolsPlusPlayerDate['SellBuyItems'].buy[guid][data.itemID]=not WoWToolsPlusPlayerDate['SellBuyItems'].buy[guid][data.itemID] and data.num or nil
             end
 
             WoWTools_MerchantMixin:Update_MerchantFrame()
@@ -486,8 +486,8 @@ local function Init_Menu(self, root)
 --重置数据
     sub:CreateDivider()
     WoWTools_MenuMixin:RestData(sub, WoWTools_MerchantMixin.addName, function()
-        WoWToolsPlayerDate['Plus_SellBuy']=nil
-        WoWToolsSave['Plus_SellBuy']= nil
+        WoWToolsPlusPlayerDate['Plus_SellBuy']=nil
+        WoWToolsPlusSave['Plus_SellBuy']= nil
         WoWTools_DataMixin:Reload()
     end)
 

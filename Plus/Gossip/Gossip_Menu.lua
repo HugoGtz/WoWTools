@@ -1,6 +1,6 @@
 
 local function Save()
-    return WoWToolsSave['Plus_Gossip']
+    return WoWToolsPlusSave['Plus_Gossip']
 end
 
 
@@ -95,7 +95,7 @@ local function Init_Menu(self, root)
 
 --对话替换
     --root:CreateDivider()
-    num= CountTable(WoWToolsPlayerDate['GossipTextIcon'] or {})
+    num= CountTable(WoWToolsPlusPlayerDate['GossipTextIcon'] or {})
     num2= CountTable(WoWTools_GossipMixin:Get_GossipData() or {})
 
     sub=root:CreateCheckbox(

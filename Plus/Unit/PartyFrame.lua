@@ -1,5 +1,5 @@
 local function Save()
-    return WoWToolsSave['Plus_UnitFrame'] or {}
+    return WoWToolsPlusSave['Plus_UnitFrame'] or {}
 end
 
 
@@ -661,7 +661,7 @@ end
 
 --先使用一次，用以Shift+点击，设置焦点功能, Invite.lua
 local function Init()--PartyFrame.lua
-    if WoWToolsSave['Plus_UnitFrame'].hidePartyFrame then
+    if WoWToolsPlusSave['Plus_UnitFrame'].hidePartyFrame then
         return
     end
 

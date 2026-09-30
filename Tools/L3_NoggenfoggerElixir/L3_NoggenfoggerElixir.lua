@@ -40,7 +40,7 @@ local ItemID= 8529--诺格弗格药剂
 
 
 local function Save()
-    return WoWToolsSave['NoggenfoggerElixir']
+    return WoWToolsPlusSave['NoggenfoggerElixir']
 end
 
 
@@ -316,7 +316,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
             addName= '|T134863:0|t'..(WoWTools_DataMixin.onlyChinese and '诺格弗格药剂' or ItemName)
 
-            WoWToolsSave['NoggenfoggerElixir']= WoWToolsSave['NoggenfoggerElixir'] or P_Save
+            WoWToolsPlusSave['NoggenfoggerElixir']= WoWToolsPlusSave['NoggenfoggerElixir'] or P_Save
             P_Save= nil
 
             button= WoWTools_ToolsMixin:CreateButton({name='NoggenfoggerElixir', tooltip=addName})

@@ -4,7 +4,7 @@ if WoWTools_DataMixin.Player.Class~='HUNTER' then
 end
 
 local function Save()
-    return WoWToolsSave['Plus_StableFrame'] or {}
+    return WoWToolsPlusSave['Plus_StableFrame'] or {}
 end
 
 function WoWTools_MoveMixin.Events:Blizzard_StableUI()

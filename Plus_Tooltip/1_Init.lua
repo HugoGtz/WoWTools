@@ -1,6 +1,6 @@
 local Layout
 local function Save()
-    return WoWToolsSave['Plus_Tootips']
+    return WoWToolsPlusSave['Plus_Tootips']
 end
 
 
@@ -554,7 +554,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsSave['Plus_Tootips']= WoWToolsSave['Plus_Tootips'] or {
+            WoWToolsPlusSave['Plus_Tootips']= WoWToolsPlusSave['Plus_Tootips'] or {
                 setDefaultAnchor=true,--指定点
                 --AnchorPoint={},--指定点，位置
                 --cursorRight=nil,--'ANCHOR_CURSOR_RIGHT',
@@ -604,7 +604,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         WoWTools_TooltipMixin.addName,
                         nil,
                     function()
-                        WoWToolsSave['Plus_Tootips']= nil
+                        WoWToolsPlusSave['Plus_Tootips']= nil
                     end)
                 end,
                 tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD),
@@ -631,7 +631,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
 
 
-        elseif WoWToolsSave then
+        elseif WoWToolsPlusSave then
 
             if WoWTools_TooltipMixin.Events[arg1] then
                 if not Save().no[arg1] then

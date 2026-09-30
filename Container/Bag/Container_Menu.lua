@@ -1,6 +1,6 @@
 --背包，菜单，增强 ContainerFrame.lua
 local function Save()
-    return WoWToolsSave['Plus_Container'] or {}
+    return WoWToolsPlusSave['Plus_Container'] or {}
 end
 
 
@@ -253,7 +253,7 @@ if Save().enabledCombinedColumns then
     sub:CreateDivider()
 --重置数据
     WoWTools_MenuMixin:RestData(sub, WoWTools_BagMixin.addName, function()
-        WoWToolsSave['Plus_Container']= nil
+        WoWToolsPlusSave['Plus_Container']= nil
         WoWTools_DataMixin:Reload()
     end)
 

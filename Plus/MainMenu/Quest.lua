@@ -9,7 +9,7 @@
 local function Init()
     local frame= CreateFrame('Frame')
 
-    frame.Text= WoWTools_LabelMixin:Create(QuestLogMicroButton,  {size=WoWToolsSave['Plus_MainMenu'].size, color=true})
+    frame.Text= WoWTools_LabelMixin:Create(QuestLogMicroButton,  {size=WoWToolsPlusSave['Plus_MainMenu'].size, color=true})
     frame.Text:SetPoint('BOTTOM', QuestLogMicroButton, 0,  3)
     table.insert(WoWTools_MainMenuMixin.Labels, frame.Text)
 

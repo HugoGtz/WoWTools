@@ -117,7 +117,7 @@ WoWTools_MountMixin={
 }
 
 function WoWTools_MountMixin:Get_Table_Num(mountType)--检测,表里的数量
-    return CountTable(WoWToolsPlayerDate['Tools_Mounts'][mountType] or {})
+    return CountTable(WoWToolsPlusPlayerDate['Tools_Mounts'][mountType] or {})
 end
 
 function WoWTools_MountMixin:P_Mouts_Tab()
@@ -138,7 +138,7 @@ end
 
 
 local function Save()
-    return WoWToolsSave['Tools_Mounts']
+    return WoWToolsPlusSave['Tools_Mounts']
 end
 
 
@@ -151,11 +151,11 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         if arg1== 'WoWToolsPlus' then
             WoWTools_MountMixin.addName= '|TInterface\\Icons\\MountJournalPortrait:0|t'..(WoWTools_DataMixin.onlyChinese and '坐骑' or MOUNT)
 
-            WoWToolsSave['Tools_Mounts']= WoWToolsSave['Tools_Mounts'] or P_Save
+            WoWToolsPlusSave['Tools_Mounts']= WoWToolsPlusSave['Tools_Mounts'] or P_Save
             P_Save= nil
 
             if Save().Mounts then--旧数据
-                WoWToolsPlayerDate['Tools_Mounts']={
+                WoWToolsPlusPlayerDate['Tools_Mounts']={
                     Item= Save().Mounts[ITEMS] or P_Mouts_Tab.Items or {},
                     Spell= Save().Mounts[SPELLS] or P_Mouts_Tab.Spell or {},
                     Floor= Save().Mounts[FLOOR] or P_Mouts_Tab.Floor or {},
@@ -169,7 +169,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 }
                 Save().Mounts= nil
             else
-                WoWToolsPlayerDate['Tools_Mounts']= WoWToolsPlayerDate['Tools_Mounts'] or P_Mouts_Tab
+                WoWToolsPlusPlayerDate['Tools_Mounts']= WoWToolsPlusPlayerDate['Tools_Mounts'] or P_Mouts_Tab
             end
 
             WoWTools_ToolsMixin:CreateButton({
@@ -198,7 +198,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
                 WoWTools_MountMixin.faction= WoWTools_DataMixin.Player.Faction=='Horde' and 0 or (WoWTools_DataMixin.Player.Faction=='Alliance' and 1)
 
-                for name, tab in pairs(WoWToolsPlayerDate['Tools_Mounts']) do
+                for name, tab in pairs(WoWToolsPlusPlayerDate['Tools_Mounts']) do
                     for ID in pairs(tab) do
                         WoWTools_DataMixin:Load(ID,  name=='Item' and 'item' or 'spell')
                     end

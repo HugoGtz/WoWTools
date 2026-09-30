@@ -1,5 +1,5 @@
 local function Save()
-    return WoWToolsSave['WoWTools_ToolsButton']
+    return WoWToolsPlusSave['WoWTools_ToolsButton']
 end
 
 
@@ -45,7 +45,7 @@ local function Init_Panel()
                 WoWTools_ToolsMixin.addName,
                 nil,
                 function()
-                    WoWToolsSave['WoWTools_ToolsButton']=nil
+                    WoWToolsPlusSave['WoWTools_ToolsButton']=nil
                 end
             )
         end,
@@ -466,7 +466,7 @@ panel:RegisterEvent('PLAYER_ENTERING_WORLD')
 panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
-            WoWToolsSave['WoWTools_ToolsButton']= WoWToolsSave['WoWTools_ToolsButton'] or {
+            WoWToolsPlusSave['WoWTools_ToolsButton']= WoWToolsPlusSave['WoWTools_ToolsButton'] or {
                 --disabled=true,
 
                 disabledADD={},

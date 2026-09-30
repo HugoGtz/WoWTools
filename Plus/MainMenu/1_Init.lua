@@ -1,5 +1,5 @@
 local function Save()
-    return WoWToolsSave['Plus_MainMenu']
+    return WoWToolsPlusSave['Plus_MainMenu']
 end
 
 local Category, Layout
@@ -148,7 +148,7 @@ panel:RegisterEvent("ADDON_LOADED")
 panel:SetScript("OnEvent", function(self, event, arg1)
     if arg1== 'WoWToolsPlus' then
 
-        WoWToolsSave['Plus_MainMenu']= WoWToolsSave['Plus_MainMenu'] or {
+        WoWToolsPlusSave['Plus_MainMenu']= WoWToolsPlusSave['Plus_MainMenu'] or {
                                                                         plus=true,
                                                                         size=10,
                                                                         enabledMainMenuAlpha= true,
@@ -163,7 +163,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         })
 
 
-        if not WoWToolsSave['Plus_MainMenu'].disabled then
+        if not WoWToolsPlusSave['Plus_MainMenu'].disabled then
             WoWTools_MainMenuMixin:Settings()
             WoWTools_MainMenuMixin:Init_Character()--角色
             WoWTools_MainMenuMixin:Init_Professions()--专业

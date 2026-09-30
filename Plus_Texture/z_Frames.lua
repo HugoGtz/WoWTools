@@ -642,7 +642,7 @@ end
 function WoWTools_TextureMixin.Frames:ColorPickerFrame()
     self:SetUIButton(ColorPickerFrame.Footer.OkayButton)
     self:SetUIButton(ColorPickerFrame.Footer.CancelButton)
-    if WoWToolsSave['Plus_Color'] and WoWToolsSave['Plus_Color'].disabled then
+    if WoWToolsPlusSave['Plus_Color'] and WoWToolsPlusSave['Plus_Color'].disabled then
         self:SetFrame(ColorPickerFrame.Header, {alpha=1})
         self:SetFrame(ColorPickerFrame.Border, {alpha=1})
         self:SetEditBox(ColorPickerFrame.Content.HexBox)

@@ -20,7 +20,7 @@ local P_Save={
 }
 
 local function Save()
-	return WoWToolsSave['Plus_Faction']
+	return WoWToolsPlusSave['Plus_Faction']
 end
 
 
@@ -32,7 +32,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
 		if arg1== 'WoWToolsPlus' then
 
-			WoWToolsSave['Plus_Faction']= WoWToolsSave['Plus_Faction'] or P_Save
+			WoWToolsPlusSave['Plus_Faction']= WoWToolsPlusSave['Plus_Faction'] or P_Save
 			Save().hideRenownFrame= Save().hideRenownFrame or {}
 			P_Save=nil
 
@@ -66,13 +66,13 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 				self:SetScript('OnEvent', nil)
 			end
 
-		elseif arg1=='Blizzard_MajorFactions' and WoWToolsSave then
+		elseif arg1=='Blizzard_MajorFactions' and WoWToolsPlusSave then
 			WoWTools_FactionMixin:Init_MajorFactionRenownFrame()--名望
 			if C_AddOns.IsAddOnLoaded('Blizzard_CovenantRenown') then
 				self:UnregisterEvent(event)
 			end
 
-		elseif arg1=='Blizzard_CovenantRenown' and WoWToolsSave then
+		elseif arg1=='Blizzard_CovenantRenown' and WoWToolsPlusSave then
 			WoWTools_FactionMixin:Init_CovenantRenown(CovenantRenownFrame)--盟约 9.0
 			if C_AddOns.IsAddOnLoaded('Blizzard_MajorFactions') then
 				self:UnregisterEvent(event)

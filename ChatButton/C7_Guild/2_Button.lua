@@ -1,6 +1,6 @@
 
 local function Save()
-    return WoWToolsSave['ChatButtonGuild'] or {}
+    return WoWToolsPlusSave['ChatButtonGuild'] or {}
 end
 
 local G_GUILD_INFO_TEMPLATE= GUILD_INFO_TEMPLATE:gsub('(%%.+)', '')--公会创立
@@ -103,7 +103,7 @@ local function Init()
 
     function btn:set_guildinfo_event()
         self:UnregisterEvent('CHAT_MSG_SYSTEM')
-        if IsInGuild() and (Save().guildInfo or not WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].Guild.text) then
+        if IsInGuild() and (Save().guildInfo or not WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Guild.text) then
             self:RegisterEvent('CHAT_MSG_SYSTEM')
             GuildInfo()
         end
@@ -181,7 +181,7 @@ local function Init()
 --公会创立，信息
         elseif event=='CHAT_MSG_SYSTEM' then
             if canaccessvalue(arg1) and arg1 and arg1:find(G_GUILD_INFO_TEMPLATE) then
-                WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].Guild.text= arg1
+                WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Guild.text= arg1
                 self:UnregisterEvent(event)
             end
         else

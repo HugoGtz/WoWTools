@@ -1,6 +1,6 @@
 
 local function Save()
-    return WoWToolsSave['Plus_Spell']
+    return WoWToolsPlusSave['Plus_Spell']
 end
 
 
@@ -49,10 +49,10 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event=='ADDON_LOADED' then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsSave['Other_SpellFrame']=nil--旧数扰
-            WoWToolsSave['Other_SpellFlyout']=nil
+            WoWToolsPlusSave['Other_SpellFrame']=nil--旧数扰
+            WoWToolsPlusSave['Other_SpellFlyout']=nil
 
-            WoWToolsSave['Plus_Spell'] = WoWToolsSave['Plus_Spell'] or {
+            WoWToolsPlusSave['Plus_Spell'] = WoWToolsPlusSave['Plus_Spell'] or {
                 specButton={
                 isUIParent=WoWTools_DataMixin.Player.husandro,
                 scale= WoWTools_DataMixin.Player.husandro and 0.6 or 1,

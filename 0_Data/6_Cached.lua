@@ -44,9 +44,9 @@ local function Cached_ItemLevel(unit, guid)
     if guid==WoWTools_DataMixin.Player.GUID then
         itemLevel= GetAverageItemLevel()
         specID= PlayerUtil.GetCurrentSpecID()
-        WoWTools_WoWDate[guid].itemLevel= itemLevel
-        WoWTools_WoWDate[guid].specID= specID
-        WoWTools_WoWDate[guid].faction= faction
+        WoWToolsPlus_WoWDate[guid].itemLevel= itemLevel
+        WoWToolsPlus_WoWDate[guid].specID= specID
+        WoWToolsPlus_WoWDate[guid].faction= faction
     else
         itemLevel= C_PaperDollInfo.GetInspectItemLevel(unit)
         itemLevel= itemLevel>0 and itemLevel or data.itemLevel or nil
@@ -253,7 +253,7 @@ frame:SetScript('OnEvent', function(self, event, arg1)
         level= level or UnitLevel('player')
         WoWTools_DataMixin.Player.IsMaxLevel= level==GetMaxLevelForLatestExpansion()--玩家是否最高等级
         WoWTools_DataMixin.Player.Level= level
-        WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].level= level
+        WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].level= level
 
     elseif event=='NEUTRAL_FACTION_SELECT_RESULT' then--玩家, 派系
         local success= arg1

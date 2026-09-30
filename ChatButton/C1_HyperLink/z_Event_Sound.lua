@@ -1,6 +1,6 @@
 --播放, 事件声音
 local function Save()
-    return WoWToolsSave['ChatButton_HyperLink'] or {}
+    return WoWToolsPlusSave['ChatButton_HyperLink'] or {}
 end
 
 local TimerType, Timer0, Timer1, Timer2, Timer3, Timer4

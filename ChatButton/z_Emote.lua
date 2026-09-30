@@ -19,14 +19,14 @@ local P_SaveUse={
 }
 
 local function Save()
-    return WoWToolsSave['Plus_EmoteButton']
+    return WoWToolsPlusSave['Plus_EmoteButton']
 end
 
 local Init_Button
 
 local function SaveUse(name)
-    if WoWToolsPlayerDate['EmoteButton'] then
-        return WoWToolsPlayerDate['EmoteButton'][name]
+    if WoWToolsPlusPlayerDate['EmoteButton'] then
+        return WoWToolsPlusPlayerDate['EmoteButton'][name]
     end
 end
 
@@ -109,7 +109,7 @@ local function Rest_Button()
         addName..'|n|n'..(WoWTools_DataMixin.onlyChinese and '全部重置' or RESET_ALL_BUTTON_TEXT),
         nil,
     function()
-        WoWToolsSave['Plus_EmoteButton']= CopyTable(P_Save)
+        WoWToolsPlusSave['Plus_EmoteButton']= CopyTable(P_Save)
         MainButton:set_point()
         Init_Button()
     end)
@@ -160,7 +160,7 @@ local function On_Click(self)
 end
 local function On_Enter(self)
     local isUIParent= Save().isUIParent
-    if WoWToolsSave['ChatButton'].disabledTooltiip and not isUIParent then--禁用提示
+    if WoWToolsPlusSave['ChatButton'].disabledTooltiip and not isUIParent then--禁用提示
         return
     end
 
@@ -697,7 +697,7 @@ local function Init_UseFrame()
                 ..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL),
                 nil,
             {SetValue=function()
-                WoWToolsPlayerDate['EmoteButton'][frame.type]={}
+                WoWToolsPlusPlayerDate['EmoteButton'][frame.type]={}
                 list:set_text()
                 Settings()
                 Init_Button()
@@ -1125,7 +1125,7 @@ local function Init_Menu(self, root)
             ..(WoWTools_DataMixin.onlyChinese and '清除输入数据' or 'Clear input data'),
             nil,
         {SetValue=function()
-            WoWToolsPlayerDate['EmoteButton']= CopyTable(P_SaveUse)
+            WoWToolsPlusPlayerDate['EmoteButton']= CopyTable(P_SaveUse)
         end})
         return MenuResponse.Refresh
     end)
@@ -1283,8 +1283,8 @@ MainButton:RegisterEvent('ADDON_LOADED')
 MainButton:SetScript('OnEvent', function(self, event, arg1)
     if event=='ADDON_LOADED' then
         if arg1== 'WoWToolsPlus' then
-            WoWToolsSave['Plus_EmoteButton']= WoWToolsSave['Plus_EmoteButton'] or CopyTable(P_Save)
-            WoWToolsPlayerDate['EmoteButton']= WoWToolsPlayerDate['EmoteButton'] or CopyTable(P_SaveUse)
+            WoWToolsPlusSave['Plus_EmoteButton']= WoWToolsPlusSave['Plus_EmoteButton'] or CopyTable(P_Save)
+            WoWToolsPlusPlayerDate['EmoteButton']= WoWToolsPlusPlayerDate['EmoteButton'] or CopyTable(P_SaveUse)
             addName= '|A:newplayerchat-chaticon-newcomer:0:0|a'..(WoWTools_DataMixin.onlyChinese and '表情' or EMOTE_MESSAGE)
 
             WoWTools_PanelMixin:Check_Button({

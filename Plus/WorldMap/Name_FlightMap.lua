@@ -1,7 +1,7 @@
 
 --飞行点名称
 local function Save()
-   return WoWToolsSave['Plus_WorldMap']
+   return WoWToolsPlusSave['Plus_WorldMap']
 end
 
 

@@ -3,7 +3,7 @@
 ClassResourceBarMixin:UpdateMaxPower()
 ]]
 local function Save()
-    return WoWToolsSave['Plus_Texture'] or {}
+    return WoWToolsPlusSave['Plus_Texture'] or {}
 end
 
 local function set_Num_Texture(self, num, color, parent)

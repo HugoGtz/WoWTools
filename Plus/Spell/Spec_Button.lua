@@ -1,5 +1,5 @@
 local function Save()
-    return WoWToolsSave['Plus_Spell'].specButton
+    return WoWToolsPlusSave['Plus_Spell'].specButton
 end
 
 

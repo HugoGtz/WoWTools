@@ -263,7 +263,7 @@ local function Set_keystonee(tooltip, itemLink)
 
     local new={}
 
-    for guid, info in pairs(WoWTools_WoWDate or {}) do
+    for guid, info in pairs(WoWToolsPlus_WoWDate or {}) do
         if info.Keystone.link then
             if guid==WoWTools_DataMixin.Player.GUID then
                 text2Right= WoWTools_TextMixin:CN(info.Keystone.link, {itemLink=info.Keystone.link, isName=true})
@@ -365,7 +365,7 @@ local function Set_Item_Num(tooltip, itemID)
     local bagAll,bankAll,numPlayer=0,0,0--帐号数据
     local new={}
     local tab
-    for guid, info in pairs(WoWTools_WoWDate or {}) do
+    for guid, info in pairs(WoWToolsPlus_WoWDate or {}) do
         tab=info.Item[itemID]
         if tab and guid~=WoWTools_DataMixin.Player.GUID and (tab.bag>0 or tab.bank>0)  then
             table.insert(new, {

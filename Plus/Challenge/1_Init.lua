@@ -2,7 +2,7 @@
 
 
 local function Save()
-    return WoWToolsSave['Plus_Challenges']
+    return WoWToolsPlusSave['Plus_Challenges']
 end
 
 
@@ -88,7 +88,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsSave['Plus_Challenges']= WoWToolsSave['Plus_Challenges'] or {
+            WoWToolsPlusSave['Plus_Challenges']= WoWToolsPlusSave['Plus_Challenges'] or {
                 --hideIns=true,--隐藏，副本，挑战，信息
                 --insScale=0.8,--副本，缩放
 
@@ -147,10 +147,10 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 end
             end
 
-        elseif arg1=='Blizzard_ChallengesUI' and WoWToolsSave then--挑战,钥石,插入界面
+        elseif arg1=='Blizzard_ChallengesUI' and WoWToolsPlusSave then--挑战,钥石,插入界面
             Init()
 
-        elseif arg1=='Blizzard_WeeklyRewards' and WoWToolsSave then
+        elseif arg1=='Blizzard_WeeklyRewards' and WoWToolsPlusSave then
             WoWTools_ChallengeMixin:Blizzard_WeeklyRewards()
         end
 

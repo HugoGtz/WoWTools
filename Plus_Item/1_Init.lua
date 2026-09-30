@@ -1,5 +1,5 @@
 local function Save()
-    return WoWToolsSave['Plus_ItemInfo']
+    return WoWToolsPlusSave['Plus_ItemInfo']
 end
 
 
@@ -110,7 +110,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event=='ADDON_LOADED' then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsSave['Plus_ItemInfo']= WoWToolsSave['Plus_ItemInfo'] or {No={}, Size={}}
+            WoWToolsPlusSave['Plus_ItemInfo']= WoWToolsPlusSave['Plus_ItemInfo'] or {No={}, Size={}}
 
             if not Save().Size then
                 Save().No= Save().no or {}
@@ -138,7 +138,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         WoWTools_ItemMixin.addName,
                         nil,
                     function()
-                        WoWToolsSave['Plus_ItemInfo']= nil
+                        WoWToolsPlusSave['Plus_ItemInfo']= nil
                     end)
                 end,
                 tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD),
@@ -172,7 +172,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 --self:RegisterEvent('PLAYER_ENTERING_WORLD')
             end
 
-        elseif WoWToolsSave and WoWTools_ItemMixin.Events[arg1] then
+        elseif WoWToolsPlusSave and WoWTools_ItemMixin.Events[arg1] then
             if not Save().No[arg1] then
                 WoWTools_ItemMixin.Events[arg1](WoWTools_ItemMixin)
             end

@@ -1,10 +1,10 @@
 --玩具界面, 按钮
 
 local function Save()
-    return WoWToolsSave['Tools_Hearthstone']
+    return WoWToolsPlusSave['Tools_Hearthstone']
 end
 local function SaveItems()
-    return WoWToolsPlayerDate['HearthstoneItems']
+    return WoWToolsPlusPlayerDate['HearthstoneItems']
 end
 
 --设置，物品，提示

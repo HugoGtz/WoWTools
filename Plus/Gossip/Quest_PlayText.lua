@@ -1,6 +1,6 @@
 --文本转语音
 local function Save()
-    return WoWToolsSave['Plus_Gossip']
+    return WoWToolsPlusSave['Plus_Gossip']
 end
 local menu
 local PlayTextTab={}

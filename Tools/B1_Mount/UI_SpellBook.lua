@@ -1,6 +1,6 @@
 --法术书，选项
 local function SaveLog()
-    return WoWToolsPlayerDate['Tools_Mounts']
+    return WoWToolsPlusPlayerDate['Tools_Mounts']
 end
 
 

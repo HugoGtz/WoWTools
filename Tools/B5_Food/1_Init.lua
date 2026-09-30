@@ -78,7 +78,7 @@ local P_Save={
 
 
 local function Save()
-    return WoWToolsSave['Tools_Foods']
+    return WoWToolsPlusSave['Tools_Foods']
 end
 
 
@@ -148,7 +148,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsSave['Tools_Foods']= WoWToolsSave['Tools_Foods'] or P_Save
+            WoWToolsPlusSave['Tools_Foods']= WoWToolsPlusSave['Tools_Foods'] or P_Save
             P_Save= nil
 
             Save().spells= Save().spells or ClassSpells

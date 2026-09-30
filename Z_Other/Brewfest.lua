@@ -2,7 +2,7 @@
 local addName
 
 local function Save()
-    return WoWToolsSave['Other_Brewfest']
+    return WoWToolsPlusSave['Other_Brewfest']
 end
 
 
@@ -254,7 +254,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event=='ADDON_LOADED' then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsSave['Other_Brewfest']= WoWToolsSave['Other_Brewfest'] or {disabled=true}
+            WoWToolsPlusSave['Other_Brewfest']= WoWToolsPlusSave['Other_Brewfest'] or {disabled=true}
 
 --添加控制面板
             addName= '|T132248:0|t'..(WoWTools_DataMixin.onlyChinese and '美酒节赛羊' or WoWTools_TextMixin:CN(C_Item.GetItemNameByID(33976), {itemID=33976, isName=true}) or 'Brewfest')

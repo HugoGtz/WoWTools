@@ -46,7 +46,7 @@ local P_Save= {
 
 
 function WoWTools_TargetMixin:Set_All_Init()
-    if WoWToolsSave['Plus_Target'].disabled then
+    if WoWToolsPlusSave['Plus_Target'].disabled then
         return
     end
 
@@ -78,10 +78,10 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         return
     end
 
-    WoWToolsSave['Plus_Target']= WoWToolsSave['Plus_Target'] or P_Save
+    WoWToolsPlusSave['Plus_Target']= WoWToolsPlusSave['Plus_Target'] or P_Save
     P_Save= nil
 
-    WoWToolsPlayerDate['TargetTexture']= WoWToolsPlayerDate['TargetTexture'] or {}
+    WoWToolsPlusPlayerDate['TargetTexture']= WoWToolsPlusPlayerDate['TargetTexture'] or {}
 
     WoWTools_TargetMixin.addName= '|A:common-icon-rotateright:0:0|a'..(WoWTools_DataMixin.onlyChinese and '目标' or TARGET)
 

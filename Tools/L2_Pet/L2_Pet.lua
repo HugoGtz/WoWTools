@@ -10,7 +10,7 @@ local P_Save={
 
 
 local function Save()
-    return WoWToolsSave['Tools_Daisy']
+    return WoWToolsPlusSave['Tools_Daisy']
 end
 
 local PetsList={
@@ -394,7 +394,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsSave['Tools_Daisy']= WoWToolsSave['Tools_Daisy'] or P_Save
+            WoWToolsPlusSave['Tools_Daisy']= WoWToolsPlusSave['Tools_Daisy'] or P_Save
             P_Save= nil
 
             Save().speciesID= Save().speciesID or 2780
@@ -420,7 +420,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             end
 
 
-        elseif arg1=='Blizzard_Collections' and WoWToolsSave then
+        elseif arg1=='Blizzard_Collections' and WoWToolsPlusSave then
             WoWTools_DataMixin:Hook('PetJournal_InitPetButton', Init_PetJournal_InitPetButton)
             self:UnregisterEvent(event)
         end

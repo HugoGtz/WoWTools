@@ -11,7 +11,7 @@ local function Init()
     frame= CreateFrame('Frame')
 
     frame.Text= WoWTools_LabelMixin:Create(LFDMicroButton,  {
-        size=WoWToolsSave['Plus_MainMenu'].size,
+        size=WoWToolsPlusSave['Plus_MainMenu'].size,
         color=true,
     })
     frame.Text:SetPoint('TOP', LFDMicroButton, 0,  -3)
@@ -35,7 +35,7 @@ local function Init()
         GameTooltip:AddLine(' ')
 
         local find= WoWTools_ChallengeMixin:ActivitiesTooltip()--周奖励，提示
-        local link= WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].Keystone.link
+        local link= WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Keystone.link
         if link then
             GameTooltip:AddLine(WoWTools_HyperLink:CN_Link(link, {isName=true}))
         end

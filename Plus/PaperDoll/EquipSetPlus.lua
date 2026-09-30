@@ -1,7 +1,7 @@
 --装备管理，Plus
 --PaperDollFrame.lua
 local function Save()
-    return WoWToolsSave['Plus_PaperDoll']
+    return WoWToolsPlusSave['Plus_PaperDoll']
 end
 
 

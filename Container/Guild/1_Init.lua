@@ -28,7 +28,7 @@ local P_Save={
 
 
 local function Save()
-    return WoWToolsSave['Plus_GuildBank']
+    return WoWToolsPlusSave['Plus_GuildBank']
 end
 
 
@@ -44,7 +44,7 @@ local function Init()
 
 --自动，打开背包 
     GuildBankFrame:HookScript('OnShow', function(self)
-        if WoWToolsSave['Plus_GuildBank'].autoOpenBags and not InCombatLockdown() then
+        if WoWToolsPlusSave['Plus_GuildBank'].autoOpenBags and not InCombatLockdown() then
             do
                 WoWTools_BagMixin:OpenBag(nil, false)
             end
@@ -74,7 +74,7 @@ panel:RegisterEvent("ADDON_LOADED")
 panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
-            WoWToolsSave['Plus_GuildBank']= WoWToolsSave['Plus_GuildBank'] or P_Save
+            WoWToolsPlusSave['Plus_GuildBank']= WoWToolsPlusSave['Plus_GuildBank'] or P_Save
             P_Save=nil
 
             WoWTools_GuildBankMixin.addName= '|A:VignetteLoot:0:0|a'..(WoWTools_DataMixin.onlyChinese and '公会银行' or GUILD_BANK)
@@ -103,7 +103,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 self:UnregisterEvent(event)
             end
 
-        elseif arg1=='Blizzard_GuildBankUI' and WoWToolsSave then
+        elseif arg1=='Blizzard_GuildBankUI' and WoWToolsPlusSave then
             Init()
             self:SetScript('OnEvent', nil)
             self:UnregisterEvent(event)

@@ -1,5 +1,5 @@
 local function Save()
-    return WoWToolsSave['Plus_Mail']
+    return WoWToolsPlusSave['Plus_Mail']
 end
 
 local AUCTION_REMOVED_MAIL_SUBJECT= WoWTools_TextMixin:Magic(AUCTION_REMOVED_MAIL_SUBJECT) --= "拍卖取消：%s";

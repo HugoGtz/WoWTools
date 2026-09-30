@@ -21,7 +21,7 @@ local P_Save={
 
 
 local function Save()
-    return WoWToolsSave['ObjectiveTracker']
+    return WoWToolsPlusSave['ObjectiveTracker']
 end
 
 
@@ -308,7 +308,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         return
     end
 
-    WoWToolsSave['ObjectiveTracker']= WoWToolsSave['ObjectiveTracker'] or P_Save
+    WoWToolsPlusSave['ObjectiveTracker']= WoWToolsPlusSave['ObjectiveTracker'] or P_Save
     P_Save= nil
 
     WoWTools_ObjectiveMixin.addName= '|A:Objective-Nub:0:0|a|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '目标追踪栏' or HUD_EDIT_MODE_OBJECTIVE_TRACKER_LABEL)..'|r'

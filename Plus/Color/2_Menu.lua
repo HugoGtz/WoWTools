@@ -1,6 +1,6 @@
 
 local function Save()
-	return WoWToolsSave['Plus_Color'] or {}
+	return WoWToolsPlusSave['Plus_Color'] or {}
 end
 
 

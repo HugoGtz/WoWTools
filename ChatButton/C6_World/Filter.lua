@@ -1,6 +1,6 @@
 --屏蔽内容
 local function Save()
-    return WoWToolsSave['ChatButtonWorldChannel']
+    return WoWToolsPlusSave['ChatButtonWorldChannel']
 end
 
 local FilterTextTab={}--记录, 屏蔽内容

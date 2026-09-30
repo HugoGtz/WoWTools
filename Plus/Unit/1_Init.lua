@@ -1,6 +1,6 @@
 
 local function Save()
-    return WoWToolsSave['Plus_UnitFrame'] or {}
+    return WoWToolsPlusSave['Plus_UnitFrame'] or {}
 end
 
 
@@ -31,7 +31,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsSave['Plus_UnitFrame']= WoWToolsSave['Plus_UnitFrame'] or {
+            WoWToolsPlusSave['Plus_UnitFrame']= WoWToolsPlusSave['Plus_UnitFrame'] or {
                 raidFrameScale= WoWTools_DataMixin.Player.husandro and 0.8 or 1,
                 showLootButton= WoWTools_DataMixin.Player.husandro,
                 PartyDeadData={}--队友，死亡，次数

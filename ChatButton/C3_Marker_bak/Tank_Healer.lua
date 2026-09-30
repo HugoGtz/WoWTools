@@ -1,7 +1,7 @@
 ---@diagnostic disable: undefined-global
 
 local function Save()
-    return WoWToolsSave['ChatButton_Markers'] or {}
+    return WoWToolsPlusSave['ChatButton_Markers'] or {}
 end
 
 

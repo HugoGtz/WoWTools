@@ -30,7 +30,7 @@ local MaxNumeri= 9
 local addName
 
 local function Save()
-    return WoWToolsSave['Other_ScrappingMachine']
+    return WoWToolsPlusSave['Other_ScrappingMachine']
 end
 
 
@@ -544,7 +544,7 @@ panel:RegisterEvent("ADDON_LOADED")
 panel:SetScript("OnEvent", function(self, event, arg1)
     if arg1== 'WoWToolsPlus' then
 
-        WoWToolsSave['Other_ScrappingMachine']= WoWToolsSave['Other_ScrappingMachine'] or P_Save
+        WoWToolsPlusSave['Other_ScrappingMachine']= WoWToolsPlusSave['Other_ScrappingMachine'] or P_Save
         P_Save= nil
 
         addName= '|TInterface\\Icons\\inv_gizmo_03:0|t'..(WoWTools_DataMixin.onlyChinese and '拆解大师Mk1型' or SCRAPPING_MACHINE_TITLE)
@@ -572,7 +572,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             end
         end
 
-    elseif arg1=='Blizzard_ScrappingMachineUI' and WoWToolsSave then--分解 ScrappingMachineFrame
+    elseif arg1=='Blizzard_ScrappingMachineUI' and WoWToolsPlusSave then--分解 ScrappingMachineFrame
         Init()
         self:SetScript('OnEvent', nil)
         self:UnregisterEvent(event)

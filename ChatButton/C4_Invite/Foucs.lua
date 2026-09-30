@@ -1,6 +1,6 @@
 
 local function Save()
-    return WoWToolsSave['ChatButton_Invite'] or {}
+    return WoWToolsPlusSave['ChatButton_Invite'] or {}
 end
 --Shift+点击设置焦点
 --跟随，密语

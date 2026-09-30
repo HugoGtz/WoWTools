@@ -1,6 +1,6 @@
 --地下堡 C_DelvesUI.GetTraitTreeForCompanion()
 local function Save()
-    return WoWToolsSave['Plus_Gossip']
+    return WoWToolsPlusSave['Plus_Gossip']
 end
 local maxCheck, completeCheck
 

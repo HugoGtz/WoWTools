@@ -1,7 +1,7 @@
 
 --目标, 装备
 local function Save()
-    return WoWToolsSave['Plus_PaperDoll']
+    return WoWToolsPlusSave['Plus_PaperDoll']
 end
 
 

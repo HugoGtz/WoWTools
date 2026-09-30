@@ -7,7 +7,7 @@ C_CinematicList.GetUICinematicList()
 MOVIE_LIST
 ]]
 local function Save()
-    return WoWToolsSave['Plus_Gossip']
+    return WoWToolsPlusSave['Plus_Gossip']
 end
 local List={}
 local MovieList={}
@@ -381,7 +381,7 @@ local function Set_StopMove()
                 then
                     return
                 end
-                if WoWToolsPlayerDate.GossipMovie[movieID] then
+                if WoWToolsPlusPlayerDate.GossipMovie[movieID] then
                     MovieFrame:StopMovie()
                     print(
                         WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2,
@@ -391,7 +391,7 @@ local function Set_StopMove()
                         movieID
                     )
                 else
-                    WoWToolsPlayerDate.GossipMovie[movieID]= date("%d/%m/%y %H:%M:%S")
+                    WoWToolsPlusPlayerDate.GossipMovie[movieID]= date("%d/%m/%y %H:%M:%S")
                     print(
                         WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         '|cnGREEN_FONT_COLOR:movieID',
@@ -474,7 +474,7 @@ end
 local function Init_Menu(_, root)
     local sub, sub2
 --视频
-    local num= CountTable(WoWToolsPlayerDate.GossipMovie or {})
+    local num= CountTable(WoWToolsPlusPlayerDate.GossipMovie or {})
 
     root= root:CreateButton(
         '|T0:0|t'..(WoWTools_DataMixin.onlyChinese and '视频' or VIDEOOPTIONS_MENU),--..(num==0 and ' |cff626262' or ' ')..num,
@@ -610,7 +610,7 @@ local function Init_Menu(_, root)
 --列表，电影
     root:CreateDivider()
     local _num= 0
-    for movieID, dateTime in pairs(WoWToolsPlayerDate.GossipMovie) do
+    for movieID, dateTime in pairs(WoWToolsPlusPlayerDate.GossipMovie) do
         _num= _num+1
         sub=root:CreateButton(
             '|cff626262'.._num..')|r '..movieID,
@@ -632,7 +632,7 @@ local function Init_Menu(_, root)
         (WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL),
         nil,
         {SetValue=function()
-            WoWToolsPlayerDate.GossipMovie={}
+            WoWToolsPlusPlayerDate.GossipMovie={}
         end})
     end, {rightText=_num})
     WoWTools_MenuMixin:SetRightText(sub)

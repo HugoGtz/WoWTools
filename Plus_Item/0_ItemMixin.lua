@@ -4,15 +4,15 @@ WoWTools_ItemMixin={
     QualityText={},
 
     Save=function()
-        return WoWToolsSave['Plus_ItemInfo'] or {}
+        return WoWToolsPlusSave['Plus_ItemInfo'] or {}
     end,
 
     SaveNo=function()
-        return WoWToolsSave['Plus_ItemInfo'].No or {}
+        return WoWToolsPlusSave['Plus_ItemInfo'].No or {}
     end,
 
     SaveSize=function()
-        return WoWToolsSave['Plus_ItemInfo'].Size or {}
+        return WoWToolsPlusSave['Plus_ItemInfo'].Size or {}
     end
 }
 
@@ -952,7 +952,7 @@ function WoWTools_ItemMixin:GetWoWCount(itemID, checkGUID, checkRegion)--WoWTool
     checkGUID= checkGUID or WoWTools_DataMixin.Player.GUID
     checkRegion= checkRegion or WoWTools_DataMixin.Player.Region
 
-    for guid, info in pairs(WoWTools_WoWDate) do
+    for guid, info in pairs(WoWToolsPlus_WoWDate) do
         if info.battleTag==WoWTools_DataMixin.Player.BattleTag
             and guid~=checkGUID
             and info.region==checkRegion

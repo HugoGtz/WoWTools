@@ -1,7 +1,7 @@
 
 
 local function Save()
-    return WoWToolsSave['Currency2']
+    return WoWToolsPlusSave['Currency2']
 end
 local TrackButton, Frame
 

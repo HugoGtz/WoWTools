@@ -5,7 +5,7 @@ local WorldMapButton--世界地图，添加一个按钮
 local Buttons={}
 
 local function Save()
-    return WoWToolsSave['Minimap_Plus']
+    return WoWToolsPlusSave['Minimap_Plus']
 end
 
 

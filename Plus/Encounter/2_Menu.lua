@@ -1,6 +1,6 @@
 
 local function Save()
-    return WoWToolsSave['Adventure_Journal']
+    return WoWToolsPlusSave['Adventure_Journal']
 end
 
 
@@ -235,7 +235,7 @@ local function Init()
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
         local find= WoWTools_ChallengeMixin:ActivitiesTooltip()--周奖励，提示
-        local link= WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].Keystone.link
+        local link= WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Keystone.link
         if link then
             GameTooltip:AddLine(WoWTools_HyperLink:CN_Link(link, {isName=true}))
         end
@@ -369,7 +369,7 @@ local function set_EncounterJournal_Keystones_Tips(self)--险指南界面, 挑�
     GameTooltip:SetOwner(self, "ANCHOR_LEFT")
     GameTooltip:ClearLines()
     GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '史诗钥石地下城' or CHALLENGES, WoWTools_DataMixin.Icon.left)
-    for guid, info in pairs(WoWTools_WoWDate or {}) do
+    for guid, info in pairs(WoWToolsPlus_WoWDate or {}) do
         if guid and  info.Keystone.link then
             GameTooltip:AddDoubleLine(
                 (info.Keystone.weekNum or 0)
@@ -388,7 +388,7 @@ local function Set_Money(self, isTooltip)--险指南界面, 钱
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
     end
-    for guid, info in pairs(WoWTools_WoWDate or {}) do
+    for guid, info in pairs(WoWToolsPlus_WoWDate or {}) do
         if info.Money then
             if isTooltip then
                 GameTooltip:AddDoubleLine(
@@ -438,7 +438,7 @@ end]]
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine((WoWTools_DataMixin.onlyChinese and '副本' or INSTANCE)..WoWTools_DataMixin.Icon.left..WoWTools_TextMixin:GetShowHide(Save().showInstanceBoss), WoWTools_DataMixin.onlyChinese and '已击杀' or DUNGEON_ENCOUNTER_DEFEATED)
         GameTooltip:AddLine(' ')
-        for guid, info in pairs(WoWTools_WoWDate or {}) do
+        for guid, info in pairs(WoWToolsPlus_WoWDate or {}) do
             if guid and info then
                 local find
                 for bossName, tab in pairs(info.Instance.ins) do----ins={[instanceID]={[difficultyID]=已击杀数}}

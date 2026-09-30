@@ -15,7 +15,7 @@ end
 
 --宠物，信息，提示
 local function SetTooltip(frame, pet)
-    if WoWToolsSave['Plus_StableFrame'].HideTips then
+    if WoWToolsPlusSave['Plus_StableFrame'].HideTips then
         return
     end
 

@@ -51,7 +51,7 @@ end
 
 local function Init()
     local btn= MinimapCluster.InstanceDifficulty
-    if not btn or WoWToolsSave['Minimap_Plus'].disabledInstanceDifficulty then
+    if not btn or WoWToolsPlusSave['Minimap_Plus'].disabledInstanceDifficulty then
         return
     end
 

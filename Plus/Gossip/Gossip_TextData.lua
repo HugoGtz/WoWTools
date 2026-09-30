@@ -1,6 +1,6 @@
 
 local function Save()
-    return WoWToolsSave['Plus_Gossip']
+    return WoWToolsPlusSave['Plus_Gossip']
 end
 
 
@@ -114,7 +114,7 @@ local function Init_Data()
     if WoWTools_SC_Gossip and not C_AddOns.IsAddOnLoaded('WoWTools_Chinese_Scanner') then
         do
             for gossipID, name in pairs(WoWTools_SC_Gossip) do
-                if not GossipTextIcon[gossipID] and not WoWToolsPlayerDate['GossipTextIcon'][gossipID] then
+                if not GossipTextIcon[gossipID] and not WoWToolsPlusPlayerDate['GossipTextIcon'][gossipID] then
                     GossipTextIcon[gossipID]= {name=name}
                 end
             end
@@ -127,7 +127,7 @@ local function Init_Data()
             WoWTools_DataMixin:Hook(GossipOptionButtonMixin, 'Setup', function()
                 local num=0
                 for _, data in pairs(C_GossipInfo.GetOptions() or {}) do
-                    if not GossipTextIcon[data.gossipOptionID] and not WoWToolsPlayerDate['GossipTextIcon'][data.gossipOptionID] then
+                    if not GossipTextIcon[data.gossipOptionID] and not WoWToolsPlusPlayerDate['GossipTextIcon'][data.gossipOptionID] then
                         num=num+1
                     end
                 end
@@ -165,7 +165,7 @@ local function Init_Menu(_, root)
         root:CreateCheckbox(
             icon
             ..'|c'..(tab.hex and tab.hex~='' and tab.hex or 'ffffffff')..(tab.name or '')..'|r '
-            ..(WoWToolsPlayerDate['GossipTextIcon'][gossipID] and '|cnGREEN_FONT_COLOR:' or '|cffffffff')
+            ..(WoWToolsPlusPlayerDate['GossipTextIcon'][gossipID] and '|cnGREEN_FONT_COLOR:' or '|cffffffff')
             ..gossipID,
 
         function(data)

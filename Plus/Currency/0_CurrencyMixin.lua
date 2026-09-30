@@ -231,8 +231,8 @@ function WoWTools_CurrencyMixin:GetAccountInfo(currencyID, checkGUID)
         if C_CurrencyInfo.IsAccountCharacterCurrencyDataReady() then
             for _, tab in pairs(C_CurrencyInfo.FetchCurrencyDataFromAccountCharacters(currencyID) or {}) do
                 if checkGUID~= tab.characterGUID then
-                    if WoWTools_WoWDate[tab.characterGUID] then
-                        tab.faction= WoWTools_WoWDate[tab.characterGUID].faction
+                    if WoWToolsPlus_WoWDate[tab.characterGUID] then
+                        tab.faction= WoWToolsPlus_WoWDate[tab.characterGUID].faction
                     end
                     table.insert(accountCurrencyData, tab)
                     num= num+ tab.quantity
@@ -256,7 +256,7 @@ function WoWTools_CurrencyMixin:GetWoWCount(currencyID, checkGUID, checkRegion)
     checkGUID= checkGUID or WoWTools_DataMixin.Player.GUID
     checkRegion= checkRegion or WoWTools_DataMixin.Player.Region
 
-    for guid, info in pairs(WoWTools_WoWDate) do
+    for guid, info in pairs(WoWToolsPlus_WoWDate) do
         if info.battleTag==WoWTools_DataMixin.Player.BattleTag
             and guid~=checkGUID
             and info.region==checkRegion

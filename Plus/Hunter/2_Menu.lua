@@ -5,7 +5,7 @@ end
 
 
 local function Save()
-    return WoWToolsSave['Plus_StableFrame']
+    return WoWToolsPlusSave['Plus_StableFrame']
 end
 
 

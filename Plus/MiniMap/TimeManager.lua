@@ -23,7 +23,7 @@ StopwatchOnClickPause=true,--移过暂停
 
 
 local function Save()
-    return  WoWToolsSave['Minimap_Plus']
+    return  WoWToolsPlusSave['Minimap_Plus']
 end
 
 

@@ -1,5 +1,5 @@
 local function Save()
-    return WoWToolsSave['Plus_Achievement']
+    return WoWToolsPlusSave['Plus_Achievement']
 end
 local addName
 
@@ -739,7 +739,7 @@ panel:RegisterEvent("ADDON_LOADED")
 
 panel:SetScript("OnEvent", function(self, event, arg1)
     if arg1== 'WoWToolsPlus' then
-        WoWToolsSave['Plus_Achievement']= WoWToolsSave['Plus_Achievement'] or {completedAlpha=1}
+        WoWToolsPlusSave['Plus_Achievement']= WoWToolsPlusSave['Plus_Achievement'] or {completedAlpha=1}
         addName= '|A:UI-Achievement-Shield-NoPoints:0:0|a'..(WoWTools_DataMixin.onlyChinese and '成就' or ACHIEVEMENTS)
 
         --添加控制面板
@@ -775,14 +775,14 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             end
         end
 
-    elseif arg1=='Blizzard_AchievementUI' and WoWToolsSave then
+    elseif arg1=='Blizzard_AchievementUI' and WoWToolsPlusSave then
         Init_Achievement()
         if C_AddOns.IsAddOnLoaded('Blizzard_EncounterJournal') then
             self:SetScript('OnEvent', nil)
             self:UnregisterEvent(event)
         end
 
-    elseif arg1=='Blizzard_EncounterJournal' and WoWToolsSave then
+    elseif arg1=='Blizzard_EncounterJournal' and WoWToolsPlusSave then
        Init_EncounterJournal()
 
         if C_AddOns.IsAddOnLoaded('Blizzard_AchievementUI') then

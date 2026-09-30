@@ -1,5 +1,5 @@
 local Save= function()
-    return  WoWToolsSave['Minimap_Plus']
+    return  WoWToolsPlusSave['Minimap_Plus']
 end
 
 

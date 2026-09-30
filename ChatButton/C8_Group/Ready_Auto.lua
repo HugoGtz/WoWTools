@@ -1,6 +1,6 @@
 
 local function Save()
-    return WoWToolsSave['ChatButtonGroup'] or {}
+    return WoWToolsPlusSave['ChatButtonGroup'] or {}
 end
 
 local function Get_LeftTime()

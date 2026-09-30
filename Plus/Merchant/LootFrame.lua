@@ -79,7 +79,7 @@ end
 
 
 function WoWTools_MerchantMixin:Init_AutoLoot()
-    if not WoWToolsSave['Plus_SellBuy'].notAutoLootPlus then
+    if not WoWToolsPlusSave['Plus_SellBuy'].notAutoLootPlus then
         Init()
     end
 end

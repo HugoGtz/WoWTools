@@ -1,6 +1,6 @@
 
 local function Save()
-    return WoWToolsSave['ChatButton_LFD'] or {}
+    return WoWToolsPlusSave['ChatButton_LFD'] or {}
 end
 
 

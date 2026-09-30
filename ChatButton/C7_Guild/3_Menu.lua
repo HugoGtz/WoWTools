@@ -1,6 +1,6 @@
 
 local function Save()
-    return WoWToolsSave['ChatButtonGuild'] or {}
+    return WoWToolsPlusSave['ChatButtonGuild'] or {}
 end
 
 
@@ -137,7 +137,7 @@ local function Init_Guild_Menu(self, root)
         self:set_guildinfo_event()--事件, 公会新成员, 队伍新成员
     end)
     sub2:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].Guild.text)
+        tooltip:AddLine(WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Guild.text)
     end)
 
 
@@ -180,7 +180,7 @@ end
 
 
 
---帐号，公会，数据  WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].Guild.data[4]= WoWTools_DataMixin.Player.Realm
+--帐号，公会，数据  WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Guild.data[4]= WoWTools_DataMixin.Player.Realm
 local function WoW_List(_, root)
     local sub, sub2
 
@@ -196,7 +196,7 @@ local function WoW_List(_, root)
 
 
     local name, realm, rankIndex, rankName
-    for guid, info in pairs(WoWTools_WoWDate) do
+    for guid, info in pairs(WoWToolsPlus_WoWDate) do
         if info.Guild and info.Guild.link and info.Guild.clubID and guid~=WoWTools_DataMixin.Player.GUID then
 
             C_ClubFinder.RequestPostingInformationFromClubId(info.Guild.clubID)

@@ -1,5 +1,5 @@
---Aviso: WoWToolsPlus y el WoWTools original usan los mismos globales y SavedVariables.
---Si ambos están activos se pisan entre sí, así que solo debe estar activo uno.
+--Aviso: WoWToolsPlus y el WoWTools original comparten los mismos globales de código (mixins, marcos).
+--Los ajustes guardados ya son independientes, pero si ambos están activos el código se pisa.
 EventUtil.ContinueOnPlayerLogin(function()
     if C_AddOns.IsAddOnLoaded('WoWTools') then
         local msg= '|cffff0000WoWToolsPlus:|r el addon original |cffffff00WoWTools|r también está activo. Desactiva uno de los dos y recarga la interfaz (/reload).'

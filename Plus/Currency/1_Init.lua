@@ -2,7 +2,7 @@
 
 
 local function Save()
-	return WoWToolsSave['Currency2']
+	return WoWToolsPlusSave['Currency2']
 end
 
 
@@ -118,7 +118,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-			WoWToolsSave['Currency2']= WoWToolsSave['Currency2'] or {
+			WoWToolsPlusSave['Currency2']= WoWToolsPlusSave['Currency2'] or {
 				tokens={},
 				item={},
 				Hide=not WoWTools_DataMixin.Player.husandro,

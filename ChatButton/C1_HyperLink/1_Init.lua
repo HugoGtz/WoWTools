@@ -42,7 +42,7 @@ local P_Save={
 }
 
 local function Save()
-    return WoWToolsSave['ChatButton_HyperLink'] or {}
+    return WoWToolsPlusSave['ChatButton_HyperLink'] or {}
 end
 
 
@@ -161,15 +161,15 @@ panel:SetScript('OnEvent', function(self, event, arg1)
     if event=='ADDON_LOADED' then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsSave['ChatButton_HyperLink']= WoWToolsSave['ChatButton_HyperLink'] or P_Save
+            WoWToolsPlusSave['ChatButton_HyperLink']= WoWToolsPlusSave['ChatButton_HyperLink'] or P_Save
             P_Save=nil
 
             Save().disabledTalkingPringText= nil
-            WoWToolsSave['ChatButton_Markers']= nil--12.0不能用了
+            WoWToolsPlusSave['ChatButton_Markers']= nil--12.0不能用了
 
-            WoWToolsPlayerDate['HyperLinkColorText']= WoWToolsPlayerDate['HyperLinkColorText'] or {[ACHIEVEMENTS]=true}
-            WoWToolsPlayerDate['HyperLinkGuildWelcomeText']= WoWToolsPlayerDate['HyperLinkGuildWelcomeText'] or (WoWTools_DataMixin.Player.IsCN and '欢迎' or EMOTE103_CMD1:gsub('/',''))
-            WoWToolsPlayerDate['HyperLinkGroupWelcomeText']= WoWToolsPlayerDate['HyperLinkGroupWelcomeText'] or (WoWTools_DataMixin.Player.IsCN and '{rt1}欢迎{rt1}' or '{rt1}Hi{rt1}')
+            WoWToolsPlusPlayerDate['HyperLinkColorText']= WoWToolsPlusPlayerDate['HyperLinkColorText'] or {[ACHIEVEMENTS]=true}
+            WoWToolsPlusPlayerDate['HyperLinkGuildWelcomeText']= WoWToolsPlusPlayerDate['HyperLinkGuildWelcomeText'] or (WoWTools_DataMixin.Player.IsCN and '欢迎' or EMOTE103_CMD1:gsub('/',''))
+            WoWToolsPlusPlayerDate['HyperLinkGroupWelcomeText']= WoWToolsPlusPlayerDate['HyperLinkGroupWelcomeText'] or (WoWTools_DataMixin.Player.IsCN and '{rt1}欢迎{rt1}' or '{rt1}Hi{rt1}')
 
             WoWTools_HyperLink.addName= '|A:voicechat-icon-STT-on:0:0|a'..(WoWTools_DataMixin.onlyChinese and '超链接图标' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, COMMUNITIES_INVITE_MANAGER_COLUMN_TITLE_LINK, EMBLEM_SYMBOL))
 

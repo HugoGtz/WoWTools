@@ -5,7 +5,7 @@ WoWTools_HolidayMixin={}
 
 
 local function Save()
-    return WoWToolsSave['Plus_Holiday']
+    return WoWToolsPlusSave['Plus_Holiday']
 end
 
 
@@ -64,7 +64,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsSave['Plus_Holiday']= WoWToolsSave['Plus_Holiday'] or {
+            WoWToolsPlusSave['Plus_Holiday']= WoWToolsPlusSave['Plus_Holiday'] or {
                 onGoing=true,--仅限: 正在活动
                 disabled= not WoWTools_DataMixin.Player.husandro
                 --left=WoWTools_DataMixin.Player.husandro,--内容靠左
@@ -110,7 +110,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 end
             end
 
-        elseif arg1=='Blizzard_Calendar' and WoWToolsSave then
+        elseif arg1=='Blizzard_Calendar' and WoWToolsPlusSave then
             Init()
             self:UnregisterEvent(event)
 
@@ -120,7 +120,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         Init_Open()
         self:UnregisterEvent(event)
 
-    elseif event == 'PLAYER_ENTERING_WORLD' and WoWToolsSave then
+    elseif event == 'PLAYER_ENTERING_WORLD' and WoWToolsPlusSave then
         Init_Open()
         self:UnregisterEvent(event)
     end

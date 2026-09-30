@@ -14,10 +14,10 @@ local P_Save={
     lockedToy=nil,
 }
 local function Save()
-    return WoWToolsSave['Tools_Hearthstone']
+    return WoWToolsPlusSave['Tools_Hearthstone']
 end
 local function SaveItems()
-    return WoWToolsPlayerDate['HearthstoneItems']
+    return WoWToolsPlusPlayerDate['HearthstoneItems']
 end
 
 
@@ -155,7 +155,7 @@ local function Init_Menu(self, root)
         data.name,
         nil,
         {SetValue=function()
-            WoWToolsPlayerDate['HearthstoneItems']={}
+            WoWToolsPlusPlayerDate['HearthstoneItems']={}
             print(WoWTools_DataMixin.Icon.icon2..WoWTools_HearthstoneMixin.addName, WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL)
             self:Rest_Random()
         end})
@@ -174,7 +174,7 @@ local function Init_Menu(self, root)
         data.name,
         nil,
         {SetValue=function()
-            WoWToolsPlayerDate['HearthstoneItems']= CopyTable(P_Items)
+            WoWToolsPlusPlayerDate['HearthstoneItems']= CopyTable(P_Items)
             self:Rest_Random()
             print(WoWTools_DataMixin.Icon.icon2..WoWTools_HearthstoneMixin.addName, '|cnGREEN_FONT_COLOR:', WoWTools_DataMixin.onlyChinese and '还原' or TRANSMOGRIFY_TOOLTIP_REVERT)
         end})
@@ -625,10 +625,10 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsSave['Tools_Hearthstone']= WoWToolsSave['Tools_Hearthstone'] or P_Save
+            WoWToolsPlusSave['Tools_Hearthstone']= WoWToolsPlusSave['Tools_Hearthstone'] or P_Save
             P_Save= nil
 
-            WoWToolsPlayerDate['HearthstoneItems']= WoWToolsPlayerDate['HearthstoneItems'] or CopyTable(P_Items)
+            WoWToolsPlusPlayerDate['HearthstoneItems']= WoWToolsPlusPlayerDate['HearthstoneItems'] or CopyTable(P_Items)
 
             WoWTools_HearthstoneMixin.addName='|A:delves-bountiful:0:0|a'..(WoWTools_DataMixin.onlyChinese and '炉石' or TUTORIAL_TITLE31)
 
@@ -659,7 +659,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 self:UnregisterAllEvents()
             end
 
-        elseif arg1=='Blizzard_Collections' and WoWToolsSave then
+        elseif arg1=='Blizzard_Collections' and WoWToolsPlusSave then
             WoWTools_HearthstoneMixin:Blizzard_Collections()
             self:UnregisterEvent(event)
         end

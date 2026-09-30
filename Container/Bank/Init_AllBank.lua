@@ -1,5 +1,5 @@
 local function Save()
-    return WoWToolsSave['Plus_Bank2']
+    return WoWToolsPlusSave['Plus_Bank2']
 end
 
 local PURCHASE_TAB_ID= -1

@@ -2,7 +2,7 @@
 --任务目标，类型提示
 local function Init()
     WoWTools_DataMixin:Hook('QuestInfo_Display', function()
-        if not WoWToolsSave['Plus_Gossip'].quest then
+        if not WoWToolsPlusSave['Plus_Gossip'].quest then
             return
         end
         local desc, obType, finished

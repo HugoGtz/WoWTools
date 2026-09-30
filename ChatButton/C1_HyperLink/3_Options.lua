@@ -1,6 +1,6 @@
 --颜色: 关键词
 local function Save()
-    return WoWToolsSave['ChatButton_HyperLink'] or {}
+    return WoWToolsPlusSave['ChatButton_HyperLink'] or {}
 end
 
 
@@ -42,7 +42,7 @@ local function Init()
     editBox:SetPoint('BOTTOMRIGHT', frame, 'RIGHT', -8, 20)
 
     local s=''
-    for k, _ in pairs(WoWToolsPlayerDate['HyperLinkColorText']) do
+    for k, _ in pairs(WoWToolsPlusPlayerDate['HyperLinkColorText']) do
         if s~='' then s=s..' ' end
         s=s..k
     end
@@ -56,7 +56,7 @@ local function Init()
 
     btn:SetPoint('TOPRIGHT', editBox, 'BOTTOMRIGHT')
     btn:SetScript('OnClick', function(self)
-        WoWToolsPlayerDate['HyperLinkColorText']={}
+        WoWToolsPlusPlayerDate['HyperLinkColorText']={}
         local n=0
         local s2=self:GetParent():GetText()
         s2=s2..' '
@@ -65,7 +65,7 @@ local function Init()
             t=t:gsub(' ','')
             if t and t~='' then
                 t=WoWTools_TextMixin:Magic(t)
-                WoWToolsPlayerDate['HyperLinkColorText'][t]=true
+                WoWToolsPlusPlayerDate['HyperLinkColorText'][t]=true
                 n=n+1
                 print(n..')|cnGREEN_FONT_COLOR:', t)
             end

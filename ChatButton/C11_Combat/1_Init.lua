@@ -2,7 +2,7 @@
 WoWTools_CombatMixin={}
 
 local function Save()
-    return WoWToolsSave['ChatButton_Combat']
+    return WoWToolsPlusSave['ChatButton_Combat']
 end
 
 
@@ -63,7 +63,7 @@ local function Init_Menu(self, root)
     end
 
 --游戏时间
-    local tab=WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].Time
+    local tab=WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Time
     sub=root:CreateCheckbox(
         tab.totalTime and WoWTools_TimeMixin:SecondsToFullTime(tab.totalTime, tab.upData)
         or (WoWTools_DataMixin.onlyChinese and '游戏时间' or TOKEN_REDEEM_GAME_TIME_TITLE or SLASH_PLAYED2:gsub('/', '')),
@@ -221,7 +221,7 @@ panel:SetScript('OnEvent', function(self, event, arg1)
         return
     end
 
-    WoWToolsSave['ChatButton_Combat']= WoWToolsSave['ChatButton_Combat'] or {
+    WoWToolsPlusSave['ChatButton_Combat']= WoWToolsPlusSave['ChatButton_Combat'] or {
         textScale=1,
         inCombatScale=1,--战斗中缩放
         button={
@@ -231,7 +231,7 @@ panel:SetScript('OnEvent', function(self, event, arg1)
     }
 
 
-    WoWToolsPlayerDate['CombatTimeLog']= WoWToolsPlayerDate['CombatTimeLog'] or {
+    WoWToolsPlusPlayerDate['CombatTimeLog']= WoWToolsPlusPlayerDate['CombatTimeLog'] or {
         bat={num= 0, time= 0},--战斗数据
         pet={num= 0, win=0, capture=0},
         ins={num= 0, time= 0, kill=0, dead=0},
@@ -260,8 +260,8 @@ panel:SetScript('OnEvent', function(self, event, arg1)
 
     WoWTools_CombatMixin.addName= '|A:Warfronts-BaseMapIcons-Horde-Barracks-Minimap:0:0|a'..(WoWTools_DataMixin.onlyChinese and '战斗信息' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, COMBAT, INFO))
 
-    local notData= not WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].Time.totalTime
-                or not WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].Time.upData
+    local notData= not WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Time.totalTime
+                or not WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Time.upData
 
     if WoWTools_ChatMixin:CreateButton('Combat', WoWTools_CombatMixin.addName) then--禁用Chat Button
 

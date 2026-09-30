@@ -1,5 +1,5 @@
 local function Save()
-    return WoWToolsSave['Plus_GuildBank']
+    return WoWToolsPlusSave['Plus_GuildBank']
 end
 
 

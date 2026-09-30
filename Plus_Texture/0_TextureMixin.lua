@@ -26,10 +26,10 @@ WoWTools_TextureMixin={
     min=0.5,
     tabAlpha= 0.75,
     Save=function()
-        return WoWToolsSave['Plus_Texture'] or {}
+        return WoWToolsPlusSave['Plus_Texture'] or {}
     end,
     SaveLog=function()
-        return WoWToolsPlayerDate['TextureClassColor'] or {}
+        return WoWToolsPlusPlayerDate['TextureClassColor'] or {}
     end,
     Color= PlayerUtil.GetClassColor(),
 }

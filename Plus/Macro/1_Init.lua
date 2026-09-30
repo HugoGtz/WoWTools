@@ -13,7 +13,7 @@ local P_Save={
 }
 
 local function Save()
-    return WoWToolsSave['Plus_Macro2']
+    return WoWToolsPlusSave['Plus_Macro2']
 end
 
 
@@ -56,12 +56,12 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsSave['Plus_Macro2']= WoWToolsSave['Plus_Macro2'] or P_Save
-            WoWToolsSave['Plus_Macro']=nil
+            WoWToolsPlusSave['Plus_Macro2']= WoWToolsPlusSave['Plus_Macro2'] or P_Save
+            WoWToolsPlusSave['Plus_Macro']=nil
             P_Save= nil
 
             if Save().noteText then
-                WoWToolsPlayerDate['MacroNoteText']= Save().noteText
+                WoWToolsPlusPlayerDate['MacroNoteText']= Save().noteText
                 Save().noteText = nil
             end
 
@@ -94,7 +94,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 self:RegisterEvent("PLAYER_LOGOUT")
             end
 
-        elseif arg1=='Blizzard_MacroUI' and WoWToolsSave then
+        elseif arg1=='Blizzard_MacroUI' and WoWToolsPlusSave then
             self:UnregisterEvent(event)
             Init()
         end

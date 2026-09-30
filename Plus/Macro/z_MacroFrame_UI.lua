@@ -1,5 +1,5 @@
 local function Save()
-    return WoWToolsSave['Plus_Macro2']
+    return WoWToolsPlusSave['Plus_Macro2']
 end
 
 

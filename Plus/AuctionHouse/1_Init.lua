@@ -5,7 +5,7 @@
 
 
 local function Save()
-    return WoWToolsSave['Plus_AuctionHouse'] or {}
+    return WoWToolsPlusSave['Plus_AuctionHouse'] or {}
 end
 
 
@@ -100,7 +100,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsSave['Plus_AuctionHouse']= WoWToolsSave['Plus_AuctionHouse'] or {
+            WoWToolsPlusSave['Plus_AuctionHouse']= WoWToolsPlusSave['Plus_AuctionHouse'] or {
                 numButton=14,--行数
                 scaleSellButton=0.95,--综合
                 intShowSellItem= WoWTools_DataMixin.Player.husandro,--显示，转到出售物品
@@ -145,7 +145,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 self:UnregisterEvent(event)
             end
 
-        elseif arg1=='Blizzard_AuctionHouseUI' and WoWToolsSave then
+        elseif arg1=='Blizzard_AuctionHouseUI' and WoWToolsPlusSave then
             Init()
             self:UnregisterEvent(event)
         end

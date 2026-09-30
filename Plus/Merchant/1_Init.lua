@@ -1,7 +1,7 @@
 
 
 local function Save()
-    return WoWToolsSave['Plus_SellBuy']
+    return WoWToolsPlusSave['Plus_SellBuy']
 end
 
 
@@ -44,7 +44,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsSave['Plus_SellBuy']= WoWToolsSave['Plus_SellBuy'] or {
+            WoWToolsPlusSave['Plus_SellBuy']= WoWToolsPlusSave['Plus_SellBuy'] or {
                 --noSell={},
                 --Sell={},
                 --buyItems={},
@@ -69,13 +69,13 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             Save().notDELETE= nil--旧数据， 你确定要摧毁%s吗？|n|n此操作无法撤销。|n|n请输入“%s”进行确认
 
             if Save().repairItems then
-                WoWToolsPlayerDate['RepairMoney']= Save().repairItems
+                WoWToolsPlusPlayerDate['RepairMoney']= Save().repairItems
                 Save().repairItems= nil
             else
-                WoWToolsPlayerDate['RepairMoney']= WoWToolsPlayerDate['RepairMoney'] or {date=date('%x'), player=0, guild=0, num=0}
+                WoWToolsPlusPlayerDate['RepairMoney']= WoWToolsPlusPlayerDate['RepairMoney'] or {date=date('%x'), player=0, guild=0, num=0}
             end
 
-            WoWToolsPlayerDate['SellBuyItems']= WoWToolsPlayerDate['SellBuyItems'] or {
+            WoWToolsPlusPlayerDate['SellBuyItems']= WoWToolsPlusPlayerDate['SellBuyItems'] or {
                 buy={},--[guid]={[itemID]=numbre,}
                 sell={
                     [34498]=true,--[纸飞艇工具包]
@@ -93,10 +93,10 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 },
             }
 
-            WoWToolsPlayerDate['SellBuyItems'].buy= WoWToolsPlayerDate['SellBuyItems'].buy or {}
+            WoWToolsPlusPlayerDate['SellBuyItems'].buy= WoWToolsPlusPlayerDate['SellBuyItems'].buy or {}
 
-            if not WoWToolsPlayerDate['SellBuyItems'].buy[WoWTools_DataMixin.Player.GUID] then
-                WoWToolsPlayerDate['SellBuyItems'].buy[WoWTools_DataMixin.Player.GUID]= {}
+            if not WoWToolsPlusPlayerDate['SellBuyItems'].buy[WoWTools_DataMixin.Player.GUID] then
+                WoWToolsPlusPlayerDate['SellBuyItems'].buy[WoWTools_DataMixin.Player.GUID]= {}
             end
 
             WoWTools_MerchantMixin.addName= '|A:SpellIcon-256x256-SellJunk:0:0|a'..(WoWTools_DataMixin.onlyChinese and '商人' or MERCHANT)

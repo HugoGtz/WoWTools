@@ -1,6 +1,6 @@
 
 local function Save()
-    return WoWToolsSave['Plus_Cursor']
+    return WoWToolsPlusSave['Plus_Cursor']
 end
 
 local function Set_Color()--颜色
@@ -672,7 +672,7 @@ local function Init(panel)
         reload=false,--重新加载UI, 重置, 按钮
         disabledfunc=nil,
         clearfunc= function()
-            WoWToolsSave['Plus_Cursor']=nil
+            WoWToolsPlusSave['Plus_Cursor']=nil
             WoWTools_DataMixin:Reload()
         end}
     )

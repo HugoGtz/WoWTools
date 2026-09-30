@@ -3,11 +3,11 @@ local Frame, List
 
 
 local function Save()
-    return WoWToolsSave['Plus_Gossip']
+    return WoWToolsPlusSave['Plus_Gossip']
 end
 
 local function PlayerDataSave()
-    return WoWToolsPlayerDate['GossipTextIcon']
+    return WoWToolsPlusPlayerDate['GossipTextIcon']
 end
 
 
@@ -754,7 +754,7 @@ local function Init(isShow)
         WoWTools_DataMixin.addName..' '..WoWTools_GossipMixin.addName..'|n|n|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL),
         nil,
         {SetValue=function()
-            WoWToolsPlayerDate['GossipTextIcon']= {}
+            WoWToolsPlusPlayerDate['GossipTextIcon']= {}
             List:set_list()
             print(
                 WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2,

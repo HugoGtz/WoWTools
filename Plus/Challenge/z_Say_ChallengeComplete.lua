@@ -1,6 +1,6 @@
 --挑战结束时，显示按钮
 local function Save()
-    return WoWToolsSave['Plus_Challenges'] or {}
+    return WoWToolsPlusSave['Plus_Challenges'] or {}
 end
 
 local SayButton
@@ -36,7 +36,7 @@ local function Settings(isSay, sayType)
         return
     end
 
-    local text= (WoWToolsPlayerDate.EndKeystoneSayText or '')..info.hyperlink
+    local text= (WoWToolsPlusPlayerDate.EndKeystoneSayText or '')..info.hyperlink
     if not sayType then
         WoWTools_ChatMixin:Chat(text, nil, nil)
 
@@ -86,7 +86,7 @@ local function Edit_Say_Text()
     (WoWTools_DataMixin.onlyChinese and '添加' or ADD),
     nil,
     {
-        text= WoWToolsPlayerDate.EndKeystoneSayText
+        text= WoWToolsPlusPlayerDate.EndKeystoneSayText
             or (WoWTools_DataMixin.Player.Region==5 and '{rt1}你们还继续吗? ')
             or (WoWTools_DataMixin.Player.Region==4 and '{rt1}還要繼續嗎? ')
             or (WoWTools_DataMixin.Player.Region==2 and '{rt1}계속하시겠습니까? ')
@@ -94,11 +94,11 @@ local function Edit_Say_Text()
         SetValue= function(s)
             local edit= s.editBox or s:GetEditBox()
             local text= edit:GetText() or ''
-            WoWToolsPlayerDate.EndKeystoneSayText= text:gsub(' ', '')~='' and text or nil
+            WoWToolsPlusPlayerDate.EndKeystoneSayText= text:gsub(' ', '')~='' and text or nil
             Settings(true)
         end,
         OnAlt=function()
-            WoWToolsPlayerDate.EndKeystoneSayText=nil
+            WoWToolsPlusPlayerDate.EndKeystoneSayText=nil
         end,
     }
 )
@@ -126,7 +126,7 @@ local function Say_Menu(_, root)
 
     local function Set_Say_Menu_Tooltip(f)
         f:SetTooltip(function(tooltip)
-            tooltip:AddLine(WoWToolsPlayerDate.EndKeystoneSayText or ('|cff828282'..(WoWTools_DataMixin.onlyChinese and '无' or NONE)))
+            tooltip:AddLine(WoWToolsPlusPlayerDate.EndKeystoneSayText or ('|cff828282'..(WoWTools_DataMixin.onlyChinese and '无' or NONE)))
         end)
     end
 
@@ -339,7 +339,7 @@ local function Init()
     end
 
     if Save().EndKeystoneSayText then
-        WoWToolsPlayerDate.EndKeystoneSayText= Save().EndKeystoneSayText
+        WoWToolsPlusPlayerDate.EndKeystoneSayText= Save().EndKeystoneSayText
         Save().EndKeystoneSayText= nil
     else
         EndKeystoneSayText= WoWTools_DataMixin.Player.Region==5 and '{rt1}你们还继续吗? ' or '{rt1}Want to continue? '
@@ -392,9 +392,9 @@ local function Init()
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine('|cnGREEN_FONT_COLOR:<'..(WoWTools_DataMixin.onlyChinese and '发送信息' or SEND_MESSAGE)..'>', WoWTools_DataMixin.Icon.left..'|A:transmog-icon-chat:0:0|a')
-        if WoWToolsPlayerDate.EndKeystoneSayText then
+        if WoWToolsPlusPlayerDate.EndKeystoneSayText then
             GameTooltip:AddLine(' ')
-            GameTooltip:AddLine('|cffffffff'..WoWToolsPlayerDate.EndKeystoneSayText, nil,nil,nil,true)
+            GameTooltip:AddLine('|cffffffff'..WoWToolsPlusPlayerDate.EndKeystoneSayText, nil,nil,nil,true)
         end
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.right)

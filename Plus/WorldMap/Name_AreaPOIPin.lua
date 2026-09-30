@@ -1,9 +1,9 @@
 --地图POI提示 AreaPOIDataProvider.lua
 local function Save()
-    return WoWToolsSave['Plus_WorldMap']
+    return WoWToolsPlusSave['Plus_WorldMap']
 end
 local function SaveWoW()
-    return WoWToolsPlayerDate.WorldMapUserAreaPoiName
+    return WoWToolsPlusPlayerDate.WorldMapUserAreaPoiName
 end
 
 
@@ -275,7 +275,7 @@ function WoWTools_WorldMapMixin:AreaPOINameMenu(_, root)
             ..'|n',
         nil,
         {SetValue=function()
-            WoWToolsPlayerDate.WorldMapUserAreaPoiName= {noShow={},pinName={}}
+            WoWToolsPlusPlayerDate.WorldMapUserAreaPoiName= {noShow={},pinName={}}
             WoWTools_WorldMapMixin:Init_AreaPOI_Name()
         end})
         return MenuResponse.Open

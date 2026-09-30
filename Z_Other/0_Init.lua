@@ -2,7 +2,7 @@
 
 WoWTools_OtherMixin={
     Save=function()
-       return WoWToolsSave['Other'] or {}
+       return WoWToolsPlusSave['Other'] or {}
     end,
     OpenOption=function()end
 }
@@ -49,20 +49,20 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         return
     end
 
-    WoWToolsSave['Other']=  WoWToolsSave['Other'] or {disabledADD={}}
+    WoWToolsPlusSave['Other']=  WoWToolsPlusSave['Other'] or {disabledADD={}}
 
 --旧数据
-    if WoWToolsSave['Other_ClassMenuColor'] and WoWToolsSave['Other_ClassMenuColor'].disabled then
+    if WoWToolsPlusSave['Other_ClassMenuColor'] and WoWToolsPlusSave['Other_ClassMenuColor'].disabled then
         WoWTools_OtherMixin:Save().disabledADD.ClassMenuColor= true
-        WoWToolsSave['Other_ClassMenuColor'].disabled= nil
+        WoWToolsPlusSave['Other_ClassMenuColor'].disabled= nil
     end
-    if WoWToolsSave['Other_DELETE'] and WoWToolsSave['Other_DELETE'].disabled then
+    if WoWToolsPlusSave['Other_DELETE'] and WoWToolsPlusSave['Other_DELETE'].disabled then
         WoWTools_OtherMixin:Save().disabledADD.DELETE= true
-        WoWToolsSave['Other_DELETE'].disabled= nil
+        WoWToolsPlusSave['Other_DELETE'].disabled= nil
     end
-    if WoWToolsSave['Other_MoneyFrame'] and WoWToolsSave['Other_MoneyFrame'].disabled then
+    if WoWToolsPlusSave['Other_MoneyFrame'] and WoWToolsPlusSave['Other_MoneyFrame'].disabled then
         WoWTools_OtherMixin:Save().disabledADD.MoneyFrame= true
-        WoWToolsSave['Other_MoneyFrame'].disabled= nil
+        WoWToolsPlusSave['Other_MoneyFrame'].disabled= nil
     end
 
 

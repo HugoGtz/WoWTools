@@ -1,6 +1,6 @@
 
 local function Save()
-    return WoWToolsSave['Plus_Tootips']
+    return WoWToolsPlusSave['Plus_Tootips']
 end
 
 

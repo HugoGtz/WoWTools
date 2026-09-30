@@ -21,7 +21,7 @@ local SpellsTab={
 }
 
 local function Save()
-    return WoWToolsSave['Plus_Gem']
+    return WoWToolsPlusSave['Plus_Gem']
 end
 
 
@@ -1139,7 +1139,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         return
     end
 
-    WoWToolsSave['Plus_Gem']= WoWToolsSave['Plus_Gem'] or P_Save
+    WoWToolsPlusSave['Plus_Gem']= WoWToolsPlusSave['Plus_Gem'] or P_Save
     P_Save=nil
 
     addName= '|T4555592:0|t'..(WoWTools_DataMixin.onlyChinese and '镶嵌宝石' or SOCKET_GEMS)

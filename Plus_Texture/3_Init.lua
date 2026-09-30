@@ -50,10 +50,10 @@ local P_Save={
 
 
 local function Save()
-    return WoWToolsSave['Plus_Texture']
+    return WoWToolsPlusSave['Plus_Texture']
 end
 local function SaveLog()
-    return WoWToolsPlayerDate['TextureClassColor']
+    return WoWToolsPlusPlayerDate['TextureClassColor']
 end
 
 
@@ -109,7 +109,7 @@ WoWTools_PanelMixin:CheckMenu({
             WoWTools_DataMixin.onlyChinese and '职业颜色|n|n全部重置' or (CLASS_COLORS..'|n|n'..RESET_ALL_BUTTON_TEXT) ,
             nil,
             {SetValue=function()
-                WoWToolsPlayerDate['TextureClassColor']={}
+                WoWToolsPlusPlayerDate['TextureClassColor']={}
             end})
             return
         end
@@ -353,8 +353,8 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsSave['Plus_Texture']= WoWToolsSave['Plus_Texture'] or P_Save
-            WoWToolsPlayerDate['TextureClassColor']= WoWToolsPlayerDate['TextureClassColor'] or {}
+            WoWToolsPlusSave['Plus_Texture']= WoWToolsPlusSave['Plus_Texture'] or P_Save
+            WoWToolsPlusPlayerDate['TextureClassColor']= WoWToolsPlusPlayerDate['TextureClassColor'] or {}
 
             Save().Bg= Save().Bg or P_Save.Bg
             Save().Bg.Anims= Save().Bg.Anims or P_Save.Bg.Anims
@@ -364,7 +364,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
             P_Save= nil
 
-            WoWToolsPlayerDate['BGTexture']= WoWToolsPlayerDate['BGTexture'] or {}
+            WoWToolsPlusPlayerDate['BGTexture']= WoWToolsPlusPlayerDate['BGTexture'] or {}
 
             WoWTools_TextureMixin.addName= '|A:AnimCreate_Icon_Texture:0:0|a'..(WoWTools_DataMixin.onlyChinese and '材质' or TEXTURES_SUBHEADER)
 
@@ -386,7 +386,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         WoWTools_TextureMixin.addName,
                         nil,
                     function()
-                        WoWToolsSave['Plus_Texture']= nil
+                        WoWToolsPlusSave['Plus_Texture']= nil
                     end)
                 end,
                 tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD),
@@ -409,7 +409,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 end
             end
 
-        elseif WoWToolsSave then
+        elseif WoWToolsPlusSave then
             if WoWTools_TextureMixin.Events[arg1] then
                 if not Save().no[arg1] then
                     WoWTools_TextureMixin.Events[arg1](WoWTools_TextureMixin)

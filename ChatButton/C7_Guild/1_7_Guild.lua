@@ -18,7 +18,7 @@ panel:RegisterEvent("ADDON_LOADED")
 panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
-            WoWToolsSave['ChatButtonGuild']= WoWToolsSave['ChatButtonGuild'] or P_Save
+            WoWToolsPlusSave['ChatButtonGuild']= WoWToolsPlusSave['ChatButtonGuild'] or P_Save
             P_Save=nil
 
             WoWTools_GuildMixin.addName= '|A:UI-HUD-MicroMenu-GuildCommunities-Up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '公会' or GUILD)

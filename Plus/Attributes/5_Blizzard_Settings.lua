@@ -1,5 +1,5 @@
 local function Save()
-    return WoWToolsSave['Plus_Attributes'] or {}
+    return WoWToolsPlusSave['Plus_Attributes'] or {}
 end
 local Frame=CreateFrame('Frame')
 local Category
@@ -738,7 +738,7 @@ local function Init()
             )
         end,
         clearfunc= function()
-            WoWToolsSave['Plus_Attributes']=nil
+            WoWToolsPlusSave['Plus_Attributes']=nil
             WoWTools_DataMixin:Reload()
         end
     })

@@ -1,6 +1,6 @@
 --欢迎加入
 local function Save()
-    return WoWToolsSave['ChatButton_HyperLink'] or {}
+    return WoWToolsPlusSave['ChatButton_HyperLink'] or {}
 end
 
 local raidMS=ERR_RAID_MEMBER_ADDED_S:gsub("%%s", "(.+)")--%s加入了团队。
@@ -36,14 +36,14 @@ local function Init()
 
         if group then
             if UnitIsGroupLeader('player') and (Save().welcomeOnlyHomeGroup and IsInGroup(LE_PARTY_CATEGORY_HOME) or not Save().welcomeOnlyHomeGroup) then
-                WoWTools_ChatMixin:Chat(WoWToolsPlayerDate['HyperLinkGroupWelcomeText'] or (WoWTools_DataMixin.Player.IsCN and '{rt1}欢迎{rt1}' or '{rt1}Hi{rt1}'), group, nil)
+                WoWTools_ChatMixin:Chat(WoWToolsPlusPlayerDate['HyperLinkGroupWelcomeText'] or (WoWTools_DataMixin.Player.IsCN and '{rt1}欢迎{rt1}' or '{rt1}Hi{rt1}'), group, nil)
             end
 
         elseif guild and IsInGuild() and text:find(guildMS) then
 
             C_Timer.After(2, function()
                 C_ChatInfo.SendChatMessage(
-                    (WoWToolsPlayerDate['HyperLinkGuildWelcomeText'] or (WoWTools_DataMixin.Player.IsCN and '欢迎' or EMOTE103_CMD1:gsub('/','')))
+                    (WoWToolsPlusPlayerDate['HyperLinkGuildWelcomeText'] or (WoWTools_DataMixin.Player.IsCN and '欢迎' or EMOTE103_CMD1:gsub('/','')))
                     ..' '
                     .. guild
                     ..' '..GUILD_INVITE_JOIN,

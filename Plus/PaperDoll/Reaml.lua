@@ -1,6 +1,6 @@
 --显示服务器名称
 local function Save()
-    return WoWToolsSave['Plus_PaperDoll']
+    return WoWToolsPlusSave['Plus_PaperDoll']
 end
 
 

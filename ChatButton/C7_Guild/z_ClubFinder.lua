@@ -1,6 +1,6 @@
 
 local function Save()
-    return WoWToolsSave['ChatButtonGuild']
+    return WoWToolsPlusSave['ChatButtonGuild']
 end
 
 

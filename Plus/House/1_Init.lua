@@ -4,7 +4,7 @@
 ]]
 
 local function Save()
-    return WoWToolsSave['Plus_House']
+    return WoWToolsPlusSave['Plus_House']
 end
 
 
@@ -629,7 +629,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         return
     end
 
-    WoWToolsSave['Plus_House']= WoWToolsSave['Plus_House'] or {}
+    WoWToolsPlusSave['Plus_House']= WoWToolsPlusSave['Plus_House'] or {}
     WoWTools_HouseMixin.addName= '|A:house-chest-icon:0:0|a'..(WoWTools_DataMixin.onlyChinese and '住宅' or AUCTION_CATEGORY_HOUSING)
 
     WoWTools_PanelMixin:OnlyCheck({

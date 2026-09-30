@@ -5,7 +5,7 @@ WoWTools_TooltipMixin={
     addName= '|A:newplayertutorial-drag-cursor:0:0|aTooltips',
     iconSize=0,
     Save= function()
-        return WoWToolsSave['Plus_Tootips']
+        return WoWToolsPlusSave['Plus_Tootips']
     end,
 }
 

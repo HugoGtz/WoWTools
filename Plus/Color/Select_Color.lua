@@ -273,7 +273,7 @@ local function Init()
 
 
 --颜色 选择器2
-	if WoWToolsSave['Plus_Color'].selectType2 then
+	if WoWToolsPlusSave['Plus_Color'].selectType2 then
 		x, y, n= -102, y+3, 1
 		for r=0, 1, 0.2 do
 			for g=0, 1, 0.2 do

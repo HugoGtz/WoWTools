@@ -340,7 +340,7 @@ function WoWTools_UnitMixin:GetPlayerInfo(unit, guid, name, tab)
 --等级 
             local unitLevel= tab.level
                 or (unit and UnitLevel(name))
-                or guid and WoWTools_WoWDate[guid] and WoWTools_WoWDate[guid].level
+                or guid and WoWToolsPlus_WoWDate[guid] and WoWToolsPlus_WoWDate[guid].level
             if unitLevel and unitLevel~=0 and GetMaxLevelForLatestExpansion()~=unitLevel then
                 text= text..'|cnGREEN_FONT_COLOR:'..unitLevel..'|r'
             end
@@ -505,8 +505,8 @@ BNET_CLIENT_HEROES = "Hero";
 BNET_CLIENT_CLNT = "CLNT";
 ]]
 
---WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].region= WoWTools_DataMixin.Player.Region
---WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].battleTag= WoWTools_DataMixin.Player.BattleTag or WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].battleTag
+--WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].region= WoWTools_DataMixin.Player.Region
+--WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].battleTag= WoWTools_DataMixin.Player.BattleTag or WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].battleTag
 function WoWTools_UnitMixin:GetIsFriendIcon(unit, guid, name)--检测, 是否好友
     if not canaccessvalue(guid) then
         return
@@ -516,7 +516,7 @@ function WoWTools_UnitMixin:GetIsFriendIcon(unit, guid, name)--检测, 是否好
 
     if guid then
         if guid and guid~=WoWTools_DataMixin.Player.GUID then
-            local data= WoWTools_WoWDate[guid]
+            local data= WoWToolsPlus_WoWDate[guid]
             if data then
                 if data.region~=WoWTools_DataMixin.Player.Region then--不在一区
                     return '|A:tokens-characterTransfer-small:0:0|a'

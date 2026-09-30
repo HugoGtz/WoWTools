@@ -1,5 +1,5 @@
 local function Save()
-    return WoWToolsSave['Plus_Gossip']
+    return WoWToolsPlusSave['Plus_Gossip']
 end
 local GossipButton, NumGossipCNLabel
 local GreetingTextEmpty={}--没有选项时，自动关闭
@@ -104,7 +104,7 @@ local function Set_Gossip_Text(self, info)
     local text
     local gossipOptionID= info and info.gossipOptionID
     if gossipOptionID and info.name then
-        local zoneInfo= WoWToolsPlayerDate['GossipTextIcon'][gossipOptionID] or WoWTools_GossipMixin:Get_GossipData()[gossipOptionID]
+        local zoneInfo= WoWToolsPlusPlayerDate['GossipTextIcon'][gossipOptionID] or WoWTools_GossipMixin:Get_GossipData()[gossipOptionID]
         if zoneInfo then
             local icon= select(3, WoWTools_TextureMixin:IsAtlas(zoneInfo.icon, size))
             local name= zoneInfo.name or WoWTools_TextMixin:CN(info.name, {questID=info.questID, isName=true})
@@ -310,7 +310,7 @@ local function Init()
         --[[if event=='PET_BATTLE_OPENING_DONE' or event=='PET_BATTLE_CLOSE' then
             self:set_shown()
         elseif event=='PLAY_MOVIE' and arg1 then
-            if WoWToolsPlayerDate.GossipMovie[arg1] then
+            if WoWToolsPlusPlayerDate.GossipMovie[arg1] then
                 if Save().stopMovie and not IsModifierKeyDown() then
                     MovieFrame:StopMovie()
                     print(
@@ -323,7 +323,7 @@ local function Init()
                     return
                 end
             else
-                WoWToolsPlayerDate.GossipMovie[arg1]= date("%d/%m/%y %H:%M:%S")
+                WoWToolsPlusPlayerDate.GossipMovie[arg1]= date("%d/%m/%y %H:%M:%S")
             end
 
             print(
@@ -435,7 +435,7 @@ local function Init()
     WoWTools_DataMixin:Hook(GossipFrame, 'Update', function()
         local num= 0
         for _, info in pairs(C_GossipInfo.GetOptions()) do
-            if not WoWToolsPlayerDate['GossipTextIcon'][info.gossipOptionID] and not WoWTools_GossipMixin:Get_GossipData()[info.gossipOptionID] then
+            if not WoWToolsPlusPlayerDate['GossipTextIcon'][info.gossipOptionID] and not WoWTools_GossipMixin:Get_GossipData()[info.gossipOptionID] then
                 num= num +1
             end
         end
@@ -546,7 +546,7 @@ local function Create_GossipOptionCheckBox(btn, info)
         if showFrame and not ColorPickerFrame:IsShown() then
             _G['WoWToolsGossipTextIconOptionsList']:set_date(self.gossipOptionID)--设置，数据
 
-        elseif not Save().not_Gossip_Text_Icon and (WoWToolsPlayerDate['GossipTextIcon'][self.gossipOptionID] or WoWTools_GossipMixin:Get_GossipData()[self.gossipOptionID]) then
+        elseif not Save().not_Gossip_Text_Icon and (WoWToolsPlusPlayerDate['GossipTextIcon'][self.gossipOptionID] or WoWTools_GossipMixin:Get_GossipData()[self.gossipOptionID]) then
             for _, info2 in pairs( C_GossipInfo.GetOptions() or {}) do
                 if info2.gossipOptionID==self.gossipOptionID and info.name and info.name~=self.name then
                     GameTooltip:AddLine('|cnGREEN_FONT_COLOR:'..info2.name)

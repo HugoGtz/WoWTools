@@ -1,6 +1,6 @@
 --点击移动
 local function Save()
-    return WoWToolsSave['Plus_PetBattle2'].ClickMoveButton
+    return WoWToolsPlusSave['Plus_PetBattle2'].ClickMoveButton
 end
 
 
@@ -371,7 +371,7 @@ local function Init_Menu(self, root)
     sub:CreateButton(
         (WoWTools_DataMixin.onlyChinese and '重置' or RESET),
     function()
-        WoWToolsSave['Plus_PetBattle2'].ClickMoveButton={
+        WoWToolsPlusSave['Plus_PetBattle2'].ClickMoveButton={
             PlayerFrame=true,
             lock_autoInteract=WoWTools_DataMixin.Player.husandro and '1' or nil,
             lock_cameraSmoothStyle= WoWTools_DataMixin.Player.husandro and '0' or nil,

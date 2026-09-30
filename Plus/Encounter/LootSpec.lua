@@ -1,5 +1,5 @@
 --[[
-WoWToolsPlayerDate['LootSpec']= {
+WoWToolsPlusPlayerDate['LootSpec']= {
     [encounterID] = {
         class={
                 classFile= lootSpecID,
@@ -12,11 +12,11 @@ WoWToolsPlayerDate['LootSpec']= {
 
 ]]
 local function Save()
-    return WoWToolsSave['Adventure_Journal']
+    return WoWToolsPlusSave['Adventure_Journal']
 end
 
 local function SaveUse()
-    return WoWToolsPlayerDate['LootSpec']
+    return WoWToolsPlusPlayerDate['LootSpec']
 end
 
 
@@ -283,7 +283,7 @@ local function Init_Menu(self, root)
         ..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL),
         nil,
         {SetValue=function()
-            WoWToolsPlayerDate['LootSpec']={}
+            WoWToolsPlusPlayerDate['LootSpec']={}
             WoWTools_DataMixin:Call('EncounterJournal_Refresh')
         end})
     end)
@@ -488,7 +488,7 @@ end
 
 
 local function Init()
-    WoWToolsPlayerDate['LootSpec']= WoWToolsPlayerDate['LootSpec'] or {}
+    WoWToolsPlusPlayerDate['LootSpec']= WoWToolsPlusPlayerDate['LootSpec'] or {}
 
 
     if Save().hideLootSpec then

@@ -112,7 +112,7 @@ end
 --UnitFrame.lua
 --职业, 图标， 颜色
 local function Init()
-    if WoWToolsSave['Plus_UnitFrame'].hideClassColor then
+    if WoWToolsPlusSave['Plus_UnitFrame'].hideClassColor then
         return
     end
 

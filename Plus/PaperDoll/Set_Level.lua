@@ -2,7 +2,7 @@
 --PaperDollFrame.lua
 --Init_ChromieTime()--时空漫游战役, 提示
 local function Save()
-    return WoWToolsSave['Plus_PaperDoll']
+    return WoWToolsPlusSave['Plus_PaperDoll']
 end
 
 local btn

@@ -1,6 +1,6 @@
 --所以角色信息
 local function Save()
-    return WoWToolsSave['Plus_Challenges'] or {}
+    return WoWToolsPlusSave['Plus_Challenges'] or {}
 end
 local Frame
 local CHALLENGE_MODE_KEYSTONE_NAME= CHALLENGE_MODE_KEYSTONE_NAME:gsub('%%s', '(.-)]|h')
@@ -60,7 +60,7 @@ local function Initializer(btn, data)
 
 --装等
     if data.itemLevel and data.itemLevel>0 then
-        local item= data.itemLevel- (WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].itemLevel or 0)
+        local item= data.itemLevel- (WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].itemLevel or 0)
         btn.ItemLevelText:SetText(
             (item>6 and '|cnGREEN_FONT_COLOR:' or '|cffffffff')
             ..data.itemLevel
@@ -187,7 +187,7 @@ local function Set_List()
     local num=0
 
     local data = CreateDataProvider()
-    for guid, info in pairs(WoWTools_WoWDate) do
+    for guid, info in pairs(WoWToolsPlus_WoWDate) do
 
         if Save().leftAllPlayer
             or (
@@ -286,7 +286,7 @@ local function Init_Menu(self, root)
 --小号. 史诗钥石
     local num, playerNum=0, 0
     local keys={}
-    for guid, info in pairs(WoWTools_WoWDate) do
+    for guid, info in pairs(WoWToolsPlus_WoWDate) do
         if info.Keystone.link
             --and info.region==WoWTools_DataMixin.Player.Region
         then
@@ -346,8 +346,8 @@ local function Init_Menu(self, root)
             ..'\n',
         nil,
         {SetValue=function()
-            for guid in pairs(WoWTools_WoWDate) do
-                WoWTools_WoWDate[guid].Keystone= {week=WoWTools_DataMixin.Player.Week}
+            for guid in pairs(WoWToolsPlus_WoWDate) do
+                WoWToolsPlus_WoWDate[guid].Keystone= {week=WoWTools_DataMixin.Player.Week}
             end
             C_MythicPlus.RequestMapInfo()
             WoWTools_ChallengeMixin:ChallengesUI_Left()
@@ -366,12 +366,12 @@ local function Init_Menu(self, root)
             ..' '
             ..(WoWTools_TextMixin:CN(Keystone.link:match(CHALLENGE_MODE_KEYSTONE_NAME) or Keystone.link)),
         function(data)
-            return WoWTools_WoWDate[data.guid].Keystone.link
+            return WoWToolsPlus_WoWDate[data.guid].Keystone.link
         end, function(data)
-            if WoWTools_WoWDate[data.guid].Keystone.link then
-                WoWTools_WoWDate[data.guid].Keystone= {week=WoWTools_DataMixin.Player.Week}
+            if WoWToolsPlus_WoWDate[data.guid].Keystone.link then
+                WoWToolsPlus_WoWDate[data.guid].Keystone= {week=WoWTools_DataMixin.Player.Week}
             else
-                WoWTools_WoWDate[data.guid].Keystone= data.Keystone
+                WoWToolsPlus_WoWDate[data.guid].Keystone= data.Keystone
             end
             WoWTools_ChallengeMixin:ChallengesUI_Left()
         end, {guid=guid, Keystone=Keystone, itemLink= Keystone.link})

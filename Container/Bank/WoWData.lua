@@ -1,5 +1,5 @@
 local function Save()
-    return WoWToolsSave['Plus_Bank2'] or {}
+    return WoWToolsPlusSave['Plus_Bank2'] or {}
 end
 
 
@@ -7,7 +7,7 @@ end
 local function Save_Items(self)
     local guid= WoWTools_DataMixin.Player.GUID
 
-    WoWTools_WoWDate[guid].Bank={}
+    WoWToolsPlus_WoWDate[guid].Bank={}
     for _, tabData in ipairs(self.purchasedBankTabData or {}) do
         if tabData.ID and tabData.ID~=-1 then
             local numSlot= C_Container.GetContainerNumSlots(tabData.ID)
@@ -18,16 +18,16 @@ local function Save_Items(self)
                     local stackCount= data.stackCount or 1
                     local quality= data.quality or 1
 
-                    if not WoWTools_WoWDate[guid].Bank[data.itemID] then
-                        WoWTools_WoWDate[guid].Bank[data.itemID]= {
+                    if not WoWToolsPlus_WoWDate[guid].Bank[data.itemID] then
+                        WoWToolsPlus_WoWDate[guid].Bank[data.itemID]= {
                             quality= quality,
                             num= stackCount
                         }
 
                     else
-                        WoWTools_WoWDate[guid].Bank[data.itemID]={
+                        WoWToolsPlus_WoWDate[guid].Bank[data.itemID]={
                             quality= quality,
-                            num= WoWTools_WoWDate[guid].Bank[data.itemID].num+ stackCount
+                            num= WoWToolsPlus_WoWDate[guid].Bank[data.itemID].num+ stackCount
                         }
                     end
                 end
@@ -108,7 +108,7 @@ local function Init()
 
     BankPanel:HookScript('OnShow', function(self)
         if Save().saveWoWData and C_Bank.AreAnyBankTypesViewable() then
-            for _ in ipairs(WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].Bank) do
+            for _ in ipairs(WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Bank) do
                 return
             end
             Save_Items(self)
@@ -123,7 +123,7 @@ local function Init()
         if Save().saveWoWData then
             Save_Items(self)
         else
-            WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].Bank={}
+            WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Bank={}
         end
     end)
 

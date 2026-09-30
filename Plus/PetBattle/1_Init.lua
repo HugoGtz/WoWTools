@@ -1,5 +1,5 @@
 local function Save()
-    return WoWToolsSave['Plus_PetBattle2']
+    return WoWToolsPlusSave['Plus_PetBattle2']
 end
 
 
@@ -112,7 +112,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
     if arg1== 'WoWToolsPlus' then
 
-        WoWToolsSave['Plus_PetBattle2']= WoWToolsSave['Plus_PetBattle2'] or {--clickToMove= WoWTools_DataMixin.Player.husandro,--禁用, 点击移动
+        WoWToolsPlusSave['Plus_PetBattle2']= WoWToolsPlusSave['Plus_PetBattle2'] or {--clickToMove= WoWTools_DataMixin.Player.husandro,--禁用, 点击移动
             ClickMoveButton={
                 PlayerFrame=true,
                 lock_autoInteract=WoWTools_DataMixin.Player.husandro and '1' or nil,
@@ -154,7 +154,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                     WoWTools_PetBattleMixin.addName,
                     nil,
                 function()
-                    WoWToolsSave['Plus_PetBattle2']= nil
+                    WoWToolsPlusSave['Plus_PetBattle2']= nil
                 end)
             end,
             tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD),

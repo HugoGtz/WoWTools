@@ -16,7 +16,7 @@ local function Init()
     local frame= CreateFrame('Frame')
 
     frame.Text= WoWTools_LabelMixin:Create(MainMenuBarBackpackButton,  {
-        size=WoWToolsSave['Plus_MainMenu'].size,
+        size=WoWToolsPlusSave['Plus_MainMenu'].size,
         name='WoWToolsBackpackMoneyLabel',
         color=true
     })
@@ -26,8 +26,8 @@ local function Init()
 
     function frame:settings()
         local money=0
-        if WoWToolsSave['Plus_MainMenu'].moneyWoW then
-            for _, info in pairs(WoWTools_WoWDate or {}) do
+        if WoWToolsPlusSave['Plus_MainMenu'].moneyWoW then
+            for _, info in pairs(WoWToolsPlus_WoWDate or {}) do
                 if info.Money then
                     money= money+ info.Money
                 end
@@ -61,7 +61,7 @@ local function Init()
 
         local numPlayer, allMoney= 0, 0
         local tab={}
-        for guid, info in pairs(WoWTools_WoWDate or {}) do
+        for guid, info in pairs(WoWToolsPlus_WoWDate or {}) do
             if info.Money and info.Money>0 then
                 numPlayer=numPlayer+1
                 allMoney= allMoney + info.Money

@@ -1,6 +1,6 @@
 --世界地图任务
 local function Save()
-    return  WoWToolsSave['Plus_WorldMap']
+    return  WoWToolsPlusSave['Plus_WorldMap']
 end
 
 

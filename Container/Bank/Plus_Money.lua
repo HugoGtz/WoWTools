@@ -1,5 +1,5 @@
 local function Save()
-    return WoWToolsSave['Plus_Bank2']
+    return WoWToolsPlusSave['Plus_Bank2']
 end
 --[[
 C_Bank.FetchBankLockedReason(Enum.BankType.Account)
@@ -566,7 +566,7 @@ local function Init_Menu(self, root)
         self:settings()
     end)
 --战团
-    for guid, wow in pairs(WoWTools_WoWDate) do
+    for guid, wow in pairs(WoWToolsPlus_WoWDate) do
         if guid~=WoWTools_DataMixin.Player.GUID
             and wow.region== WoWTools_DataMixin.Player.Region
             and wow.battleTag== WoWTools_DataMixin.Player.BattleTag
@@ -585,7 +585,7 @@ local function Init_Menu(self, root)
     sub:CreateCheckbox(
         WoWTools_DataMixin.onlyChinese and '勾选所有' or EVENTTRACE_BUTTON_ENABLE_FILTERS,
     function()
-        for guid in pairs(WoWTools_WoWDate) do
+        for guid in pairs(WoWToolsPlus_WoWDate) do
             if not Save().filterSaveMoney[guid] then
                 return false
             end
@@ -593,7 +593,7 @@ local function Init_Menu(self, root)
         return true
     end, function()
         Save().filterSaveMoney={}
-        for guid, wow in pairs(WoWTools_WoWDate) do
+        for guid, wow in pairs(WoWToolsPlus_WoWDate) do
             if wow.region== WoWTools_DataMixin.Player.Region and wow.battleTag== WoWTools_DataMixin.Player.BattleTag then
                 Save().filterSaveMoney[guid]= true
             end

@@ -1,5 +1,5 @@
 local function Save()
-    return WoWToolsSave['Plus_WorldMap']
+    return WoWToolsPlusSave['Plus_WorldMap']
 end
 
 
@@ -46,7 +46,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         return
     end
 
-    WoWToolsSave['Plus_WorldMap']= WoWToolsSave['Plus_WorldMap'] or {
+    WoWToolsPlusSave['Plus_WorldMap']= WoWToolsPlusSave['Plus_WorldMap'] or {
         ShowMapID= true,--地图ID
         HideTitle=WoWTools_DataMixin.Player.husandro,--隐藏，标题
         ShowMapXY= true,--地图坐标
@@ -64,14 +64,14 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     Save().PlayerXY= Save().PlayerXY or {}
     Save().PlayerPin= Save().PlayerPin or {size=12}
 
-    WoWToolsPlayerDate.WorldMapUserAreaPoiName= WoWToolsPlayerDate.WorldMapUserAreaPoiName or {
+    WoWToolsPlusPlayerDate.WorldMapUserAreaPoiName= WoWToolsPlusPlayerDate.WorldMapUserAreaPoiName or {
         noShow={},
         pinName={},
     }
 
-    WoWToolsPlayerDate.WorldMapPin= nil
+    WoWToolsPlusPlayerDate.WorldMapPin= nil
 
-    WoWToolsPlayerDate.PlayerMapPin= WoWToolsPlayerDate.PlayerMapPin or {
+    WoWToolsPlusPlayerDate.PlayerMapPin= WoWToolsPlusPlayerDate.PlayerMapPin or {
         [2393]= {
             options={},
             ["50.02 74.76"]= {name=WoWTools_DataMixin.onlyChinese and "拍卖行" or BUTTON_LAG_AUCTIONHOUSE,},
