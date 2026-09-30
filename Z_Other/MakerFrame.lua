@@ -486,7 +486,7 @@ local function Init()--设置标记, 框架
         end
         GameTooltip:ClearLines()
         GameTooltip:AddLine(WoWTools_DataMixin.Icon.left..(WoWTools_L.SLASH_COUNTDOWN2)..' |cffffffFF'..(Save().countdown or 7))
-        GameTooltip:AddLine(WoWTools_DataMixin.Icon.right..(WoWTools_DataMixin.Player.IsCN and '取消 取消 取消' or 'STOP STOP STOP')..'|A:transmog-icon-chat:0:0|a', HIGHLIGHT_FONT_COLOR:GetRGB())
+        GameTooltip:AddLine(WoWTools_DataMixin.Icon.right..WoWTools_L.CANCEL, HIGHLIGHT_FONT_COLOR:GetRGB())
         GameTooltip:AddLine(' ')
         GameTooltip_AddInstructionLine(GameTooltip, WoWTools_L['Note: not too fast'], true)
         GameTooltip:AddLine(WoWTools_DataMixin.Icon.mid..(WoWTools_L.SETTINGS))
