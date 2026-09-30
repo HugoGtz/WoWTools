@@ -873,25 +873,6 @@ local function Init_Menu(self, root)
     end)
 
 
-    sub2=sub:CreateCheckbox('|A:UI-HUD-MicroMenu-Groupfinder-Mouseover:0:0|a'..WoWTools_L['Premade Groups Plus'], function()
-        return Save().LFGPlus
-    end, function()
-        Save().LFGPlus = not Save().LFGPlus and true or nil
-        WoWTools_LFDMixin:Init_LFG_Plus()
-        if not Save().LFGPlus then
-            WoWTools_Print(
-                WoWTools_DataMixin.Icon.icon2
-                ..(WoWTools_L.REQUIRES_RELOAD),
-                WoWTools_TextMixin:GetEnabeleDisable( not Save().LFGPlus)
-            )
-        end
-    end)
-    sub2:SetTooltip(function(tooltip)
-        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.LFD.LFGPlus'])
-        if _G['WoWToolsLFGPlusMainButton'] and not Save().LFGPlus then
-            tooltip:AddLine(WoWTools_L['REQUIRES_RELOAD~2'])
-        end
-    end)
     WoWTools_MenuMixin:Reload(sub2)
 
 

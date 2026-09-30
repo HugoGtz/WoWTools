@@ -113,7 +113,6 @@ local function Init(btn)
     WoWTools_LFDMixin:Init_Roll_Plus()
     WoWTools_LFDMixin:Init_RolePollPopup()
     WoWTools_LFDMixin:Init_Exit_Instance()
-    WoWTools_LFDMixin:Init_LFG_Plus()--
     WoWTools_LFDMixin:Init_Role_CheckInfo()
     WoWTools_LFDMixin:Init_RepopMe()
 

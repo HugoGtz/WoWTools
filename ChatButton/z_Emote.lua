@@ -324,7 +324,7 @@ function Init_Button()
 
     local isUIParent= Save().isUIParent
     local line= Save().line or 1
-    local subNum= Save().subName or (LOCALE_koKR or LOCALE_zhTW or LOCALE_zhCN or WoWTools_ChineseMixin) and 1 or 3
+    local subNum= Save().subName or (LOCALE_koKR and 1 or 3)
     local scale= Save().scale or 1
     local alpha= Save().alpha or 0.5
     local fontScale= Save().fontScale or 1
@@ -943,7 +943,7 @@ local function Init_Menu(self, root)
     sub:CreateSpacer()
         WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
-            return Save().subName or (LOCALE_koKR or LOCALE_zhTW or LOCALE_zhCN or WoWTools_ChineseMixin) and 1 or 3
+            return Save().subName or (LOCALE_koKR and 1 or 3)
         end,
         setValue=function(value)
             Save().subName= value

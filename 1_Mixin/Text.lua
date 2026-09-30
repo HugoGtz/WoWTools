@@ -111,12 +111,6 @@ end
 
 
 function WoWTools_TextMixin:CN(text, tab)--{gossipOptionID=, questID=}
-    if WoWTools_ChineseMixin and WoWTools_DataMixin.onlyChinese and (text or tab) then
-        local data= WoWTools_ChineseMixin:GetData(text, tab)
-        if data then
-            return data
-        end
-    end
     return text
 end
 

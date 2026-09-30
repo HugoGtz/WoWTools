@@ -293,8 +293,8 @@ local function Get_Info(tab)
 
     local sellItem, deleteItem
     if tab.bag and containerInfo and not containerInfo.isLocked then
-        deleteItem= WoWTools_BagMixin:Check_DeleteItem(itemID)
-        sellItem= WoWTools_MerchantMixin:CheckSellItem(itemID, itemLink, itemQuality, isBound)
+        deleteItem= WoWTools_BagMixin.Check_DeleteItem and WoWTools_BagMixin:Check_DeleteItem(itemID)
+        sellItem= WoWTools_MerchantMixin and WoWTools_MerchantMixin:CheckSellItem(itemID, itemLink, itemQuality, isBound)
     end
 
     if deleteItem then

@@ -93,11 +93,6 @@ Plus_Tooltip\f_URL.lua
 
 Plus_Item\0_ItemMixin.lua
 Plus_Item\0_SetupInfo.lua
-Plus_Item\1_Init.lua
-Plus_Item\ContainerFrame1.lua
-Plus_Item\PerksProgram.lua
-Plus_Item\Events.lua
-Plus_Item\Frames.lua
 
 
 Tools\0_ToolsButtonMixin.lua
@@ -138,17 +133,6 @@ Plus\Color\Select_Color.lua
 Plus\Color\Other.lua
 Plus\Color\CODE.lua
 
-Plus\MiniMap\1_Init.lua
-Plus\MiniMap\2_Menu.lua
-Plus\MiniMap\2_Menu_Garrison.lua
-Plus\MiniMap\2_Menu_Faction.lua
-Plus\MiniMap\Icon.lua
-Plus\MiniMap\InstanceDifficulty.lua
-Plus\MiniMap\TrackButton.lua
-Plus\MiniMap\TimeManager.lua
-Plus\MiniMap\ExpansionLanding.lua
-Plus\MiniMap\Zoom.lua
-Plus\MiniMap\Collection_Icon.lua
 
 Plus\PaperDoll\0_PaperDollMixin.lua
 Plus\PaperDoll\1_Init.lua
@@ -210,21 +194,6 @@ Plus\Collection\Transmog.lua
 Plus\Collection\ClassList.lua
 
 Plus\WorldMap\0_WorldMapMixin.lua
-Plus\WorldMap\1_Init.lua
-Plus\WorldMap\2_Menu.lua
-Plus\WorldMap\3_MapID.lua
-Plus\WorldMap\4_XY_Map.lua
-Plus\WorldMap\5_XY_Player.lua
-Plus\WorldMap\Name_AreaPOIPin.lua
-Plus\WorldMap\Name_Dungeon.lua
-Plus\WorldMap\Name_FlightMap.lua
-Plus\WorldMap\Name_WorldQuest.lua
-Plus\WorldMap\PlayerPin.xml
-Plus\WorldMap\PlayerPin_EditUI.lua
-Plus\WorldMap\PlayerPin.lua
-Plus\WorldMap\z_Plus_Menu.lua
-Plus\WorldMap\z_Plus.lua
-Plus\WorldMap\z_UI.lua
 
 Plus\Unit\0_UnitMixin.lua
 Plus\Unit\1_Init.lua
@@ -244,52 +213,10 @@ Plus\Friends\Blizzard_QuickJoin.lua
 Plus\Friends\Blizzard_RaidFrame.lua
 Plus\Friends\Blizzard_RaidUI.lua
 Plus\Friends\z_UI.lua
-Plus\Merchant\0_MerchantMixin.lua
-Plus\Merchant\1_Init.lua
-Plus\Merchant\2_Menu.lua
-Plus\Merchant\LootFrame.lua
-Plus\Merchant\Repair.lua
-Plus\Merchant\SellJunk.lua
-Plus\Merchant\BuyItem.lua
-Plus\Merchant\Buyback.lua
-Plus\Merchant\Plus_WidthX2.lua
-Plus\Merchant\Plus_ItemInfo.lua
 
-Container\Bank\1_Init.lua
-Container\Bank\2_Menu.lua
-Container\Bank\Init_AllBank.lua
-Container\Bank\Init_Plus.lua
-Container\Bank\Plus_Out.lua
-Container\Bank\Plus_In.lua
-Container\Bank\Plus_Money.lua
-Container\Bank\WoWData.lua
-Container\Guild\0_GuildBankMixin.lua
-Container\Guild\1_Init.lua
-Container\Guild\2_Menu.lua
-Container\Guild\Plus.lua
-Container\Guild\z_UI.lua
-Container\Guild\Sort.lua
-Container\Guild\Out_Money.lua
-Container\Guild\Item_In_Out.lua
 
 Container\Bag\0_BagMixin.lua
-Container\Bag\1_Init.lua
-Container\Bag\Container_Menu.lua
-Container\Bag\DeleteItem.lua
-Container\Bag\z_UI.lua
 
-Plus\Gossip\1_Init.lua
-Plus\Gossip\Gossip.lua
-Plus\Gossip\Gossip_Delves.lua
-Plus\Gossip\Gossip_EditUI.lua
-Plus\Gossip\Gossip_Menu.lua
-Plus\Gossip\Gossip_PlayerChoice.lua
-Plus\Gossip\Gossip_TextData.lua
-Plus\Gossip\Quest.lua
-Plus\Gossip\Quest_Menu.lua
-Plus\Gossip\Quest_QuestInfo.lua
-Plus\Gossip\Gossip_Menu_Move.lua
-Plus\Gossip\StaticPopupDialogs.lua
 
 
 Plus\Encounter\0_EncounterMixin.lua
@@ -351,10 +278,6 @@ Plus\Holiday\Calendar_Uptate.lua
 Plus\Holiday\CreateEvent_Plus.lua
 Plus\Holiday\TrackButton.lua
 Plus\Gem\1_Init.lua
-Plus\Target\1_Init.lua
-Plus\Target\2_Blizzard_Settings.lua
-Plus\Target\targetFrame.lua
-Plus\Target\questFrame.lua
 ##Plus\Target\isMeFrame.lua
 ##Plus\Target\numFrame.lua
 Plus\MainMenu\0_MainMenuMixin.lua
@@ -418,12 +341,10 @@ Plus\House\House_Move.lua
 
 Z_Other\0_Init.lua
 
-Z_Other\Talking.lua
 Z_Other\Achievements.lua
 Z_Other\DELETE.lua
 
 ##/fstack
-Z_Other\MakerFrame.lua
 
 ##Chat Button
 ChatButton\0_ChatMixin.lua
@@ -458,7 +379,6 @@ ChatButton\C5_LFD\0_LFDMixin.lua
 ChatButton\C5_LFD\1_Init.lua
 ChatButton\C5_LFD\2_Menu.lua
 ChatButton\C5_LFD\Exit_Instance.lua
-ChatButton\C5_LFD\LFGList_Plus.lua
 ChatButton\C5_LFD\Loot_Plus.lua
 ChatButton\C5_LFD\Queue_Status.lua
 ChatButton\C5_LFD\RepopMe.lua
@@ -476,8 +396,5 @@ ChatButton\C7_Guild\z_UI.lua
 ChatButton\C8_Group\1_Init.lua
 ChatButton\C8_Group\Ready_Auto.lua
 ChatButton\C9_Say\9_Say.lua
-ChatButton\C11_Combat\1_Init.lua
-ChatButton\C11_Combat\z_TrackButton.lua
 
 ChatButton\z_Emote.lua
-ChatButton\z_CopyChat.lua

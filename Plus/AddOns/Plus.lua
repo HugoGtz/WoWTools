@@ -364,15 +364,12 @@ local function Init()
         end
 
         --local isEU= WoWTools_DataMixin.Player.Region==3
-        local zh= LOCALE_zhCN
 
         for name, value in pairs({
             ['WoWToolsPlus']=true,
             ['BugSack']=true,
             ['!BugGrabber']=true,
 
-            ['WoWTools_Chinese']= not zh and C_AddOns.IsAddOnLoaded('WoWTools_Chinese'),--solo si ya se usaba
-            ['WoWTools_Chinese_Scanner']= zh,
         }) do
             if value and C_AddOns.GetAddOnInfo(name) then
                 C_AddOns.EnableAddOn(name, WoWTools_AddOnsMixin:GetIsPlayer())

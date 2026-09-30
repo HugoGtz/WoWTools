@@ -422,22 +422,7 @@ local function Init()
             classText= dateInfo.text[ITEM_CLASSES_ALLOWED]
             upText= dateInfo.text[ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT]
 
-            if upText and WoWTools_ChineseMixin then
-                local en= upText:match('(.+) %d+/%d+')
-                if en then
-                    local cn= WoWTools_TextMixin:CN(en)
-                    if cn then
-                        upText= upText:gsub(en, cn)
-                    end
-                end
-            end
-
             if classText then
-                if WoWTools_ChineseMixin then
-                    classText= (classText..PLAYER_LIST_DELIMITER):gsub('.-'..PLAYER_LIST_DELIMITER, function(a)
-                        return WoWTools_TextMixin:CN(a)
-                    end)
-                end
                 local class=UnitClass('player')
                 if not classText:find(class) then
                     classText= '|cff626262'..classText..'|r'
@@ -453,14 +438,6 @@ local function Init()
 
         btn.itemText:SetText(itemText or '')
         btn.itemText.tips= tips
-        if classText and WoWTools_ChineseMixin then
-            classText= classText:gsub('(.-),', function(t)
-                local a= WoWTools_TextMixin:CN(t:gsub('^ ', ''))
-                if a and a~=t then
-                    return a..', '
-                end
-            end)
-        end
         btn.classLabel:SetText(classText or '')
         btn.upText:SetText(upText or '')
         WoWTools_ItemMixin:SetItemStats(btn, itemLink, {point= btn.IconBorder})

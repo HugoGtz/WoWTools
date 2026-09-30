@@ -95,8 +95,7 @@ local function Init()
                     WoWTools_L.REQUIRES_RELOAD
                 )
             else
-                WoWTools_UnitMixin:Init_PartyFrame()
-                WoWTools_UnitMixin:Init_PartyFrame_Compact()
+                WoWTools_UnitMixin:Init_PartyFrame()--antes llamaba también a Init_PartyFrame_Compact, que no existe (error)
             end
         end,
         category= Category,
