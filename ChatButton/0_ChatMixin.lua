@@ -27,7 +27,7 @@ function WoWTools_ChatMixin:Chat(text, name, printText)
         else
             WoWTools_DataMixin:Call(ChatFrame_OpenChat, text)
         end]]
-    elseif select(2, IsInInstance())~='none' and GetNumGroupMembers()>0 then
+    elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then--antes fallaba con grupo manual dentro de una instancia
         C_ChatInfo.SendChatMessage(text, 'INSTANCE_CHAT')
     elseif IsInRaid() then
         C_ChatInfo.SendChatMessage(text, 'RAID')

@@ -353,7 +353,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsPlusSave['Plus_Texture']= WoWToolsPlusSave['Plus_Texture'] or P_Save
+            WoWToolsPlusSave['Plus_Texture']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Texture'], P_Save)
             WoWToolsPlusPlayerDate['TextureClassColor']= WoWToolsPlusPlayerDate['TextureClassColor'] or {}
 
             Save().Bg= Save().Bg or P_Save.Bg

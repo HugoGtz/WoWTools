@@ -76,8 +76,9 @@ end
 --缩放，Frame
 function WoWTools_FrameMixin:ScaleFrame(frame, delta, value, func)
     local n= value
-    if WoWTools_FrameMixin.IsLocked(frame) then
+    if WoWTools_FrameMixin:IsLocked(frame) then--antes con punto: nunca detectaba el combate
         print(WoWTools_DataMixin.addName, '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)..'|r')
+        return
     end
     if IsAltKeyDown() then
         n= n or 1

@@ -32,7 +32,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
 		if arg1== 'WoWToolsPlus' then
 
-			WoWToolsPlusSave['Plus_Faction']= WoWToolsPlusSave['Plus_Faction'] or P_Save
+			WoWToolsPlusSave['Plus_Faction']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Faction'], P_Save)
 			Save().hideRenownFrame= Save().hideRenownFrame or {}
 			P_Save=nil
 

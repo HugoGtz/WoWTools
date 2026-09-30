@@ -625,7 +625,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsPlusSave['Tools_Hearthstone']= WoWToolsPlusSave['Tools_Hearthstone'] or P_Save
+            WoWToolsPlusSave['Tools_Hearthstone']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Tools_Hearthstone'], P_Save)
             P_Save= nil
 
             WoWToolsPlusPlayerDate['HearthstoneItems']= WoWToolsPlusPlayerDate['HearthstoneItems'] or CopyTable(P_Items)

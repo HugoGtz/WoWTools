@@ -356,7 +356,7 @@ local function Create_Button(frame)
         GameTooltip:ClearLines()
 
         if not Save().inCombat and InCombatLockdown() then
-            GameTooltip_AddErrorLine(GameTooltip, WoWTools_DataMixin.onlyChinese and '战斗中', HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
+            GameTooltip_AddErrorLine(GameTooltip, WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
         end
 
         GameTooltip:AddDoubleLine(

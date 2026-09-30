@@ -1345,7 +1345,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         return
     end
 
-    WoWToolsPlusSave['Other_MarkerFrame']= WoWToolsPlusSave['Other_MarkerFrame'] or {Auto={}}
+    WoWToolsPlusSave['Other_MarkerFrame']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Other_MarkerFrame'], {Auto={}})
 
     Save().Auto= Save().Auto or {}
 

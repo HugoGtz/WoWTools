@@ -221,14 +221,14 @@ panel:SetScript('OnEvent', function(self, event, arg1)
         return
     end
 
-    WoWToolsPlusSave['ChatButton_Combat']= WoWToolsPlusSave['ChatButton_Combat'] or {
+    WoWToolsPlusSave['ChatButton_Combat']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['ChatButton_Combat'], {
         textScale=1,
         inCombatScale=1,--战斗中缩放
         button={
             disabled= not WoWTools_DataMixin.Player.husandro,
             InstanceDate={num=0, time=0, kill=0, dead=0, map=nil, onInsTime=nil},
         }
-    }
+    })
 
 
     WoWToolsPlusPlayerDate['CombatTimeLog']= WoWToolsPlusPlayerDate['CombatTimeLog'] or {

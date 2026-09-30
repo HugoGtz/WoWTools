@@ -148,12 +148,12 @@ panel:RegisterEvent("ADDON_LOADED")
 panel:SetScript("OnEvent", function(self, event, arg1)
     if arg1== 'WoWToolsPlus' then
 
-        WoWToolsPlusSave['Plus_MainMenu']= WoWToolsPlusSave['Plus_MainMenu'] or {
+        WoWToolsPlusSave['Plus_MainMenu']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_MainMenu'], {
                                                                         plus=true,
                                                                         size=10,
                                                                         enabledMainMenuAlpha= true,
                                                                         mainMenuAlphaValue=0.7,
-                                                                    }
+                                                                    })
 
         WoWTools_MainMenuMixin.addName= '|A:UI-HUD-MicroMenu-GameMenu-Mouseover:0:0|a'..(WoWTools_DataMixin.onlyChinese and '菜单Plus' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, HUD_EDIT_MODE_MICRO_MENU_LABEL, 'Plus'))
 

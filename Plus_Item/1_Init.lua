@@ -110,7 +110,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event=='ADDON_LOADED' then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsPlusSave['Plus_ItemInfo']= WoWToolsPlusSave['Plus_ItemInfo'] or {No={}, Size={}}
+            WoWToolsPlusSave['Plus_ItemInfo']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_ItemInfo'], {No={}, Size={}})
 
             if not Save().Size then
                 Save().No= Save().no or {}

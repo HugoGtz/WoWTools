@@ -432,6 +432,9 @@ end
 
 
 local function WoWTools_Word_Filters(_, _, msg, name, _, _, _, _, _, _, _, _, _, guid)
+    if not canaccessvalue(msg) or not canaccessvalue(name) or not canaccessvalue(guid) then--valores secretos (12.0)
+        return false
+    end
     if Save().userChatFilter and Save().userChatFilterTab[name] then
         Save().userChatFilterTab[name]= {
                 num= Save().userChatFilterTab[name].num +1,

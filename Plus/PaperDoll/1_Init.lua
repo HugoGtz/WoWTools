@@ -283,7 +283,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsPlusSave['Plus_PaperDoll']= WoWToolsPlusSave['Plus_PaperDoll'] or {
+            WoWToolsPlusSave['Plus_PaperDoll']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_PaperDoll'], {
                 StatusPlus_OnEnter_show_menu=true,--移过图标时，显示菜单
                 itemLevelBit= 1,--物品等级，位数
                 itemSlotScale=1, --栏位，按钮，缩放
@@ -294,7 +294,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 },
 
                 flyoutScale= WoWTools_DataMixin.Player.husandro and 1.5 or nil,
-            }
+            })
 
             if not Save().EquipSet then--旧数据
                 Save().EquipSet= {

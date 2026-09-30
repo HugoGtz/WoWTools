@@ -112,7 +112,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
     if arg1== 'WoWToolsPlus' then
 
-        WoWToolsPlusSave['Plus_PetBattle2']= WoWToolsPlusSave['Plus_PetBattle2'] or {--clickToMove= WoWTools_DataMixin.Player.husandro,--禁用, 点击移动
+        WoWToolsPlusSave['Plus_PetBattle2']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_PetBattle2'], {--clickToMove= WoWTools_DataMixin.Player.husandro,--禁用, 点击移动
             ClickMoveButton={
                 PlayerFrame=true,
                 lock_autoInteract=WoWTools_DataMixin.Player.husandro and '1' or nil,
@@ -125,7 +125,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             },
             Plus={},
             AbilityButton={}
-        }
+        })
 
         WoWTools_PetBattleMixin.addName= '|A:WildBattlePetCapturable:0:0|a'..(WoWTools_DataMixin.onlyChinese and '宠物对战' or PET_BATTLE_PVP_QUEUE)
         WoWTools_PetBattleMixin.addName3= '|A:transmog-gearSlot-unassigned-feet:0:0|a'..(WoWTools_DataMixin.onlyChinese and '点击移动按钮'or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, CLICK_TO_MOVE, 'Button'))

@@ -384,13 +384,13 @@ panel:RegisterEvent("ADDON_LOADED")
 panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
-            WoWToolsPlusSave['Tools_MapToy']= WoWToolsPlusSave['Tools_MapToy'] or {
+            WoWToolsPlusSave['Tools_MapToy']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Tools_MapToy'], {
                 no={
                     --[guid]=true
                 },
                 maxLevelIsDisabled=true,
                 --maxLevelIsDisabled= WoWTools_DataMixin.Player.husandro,
-            }
+            })
 
 --旧数据
             Save().autoAddDisabled= nil

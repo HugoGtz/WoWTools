@@ -12,7 +12,7 @@ end
 
 --取得选定宏，index
 function WoWTools_MacroMixin:GetSelectIndex()
-    if WoWTools_FrameMixin:IsLocked(MacroFrame) then
+    if InCombatLockdown() then
         return
     end
     local index= MacroFrame:GetSelectedIndex()
@@ -22,12 +22,12 @@ function WoWTools_MacroMixin:GetSelectIndex()
 end
 
 function WoWTools_MacroMixin:IsCanCreateNewMacro()
-    return MacroNewButton:IsEnabled() and not WoWTools_FrameMixin:IsLocked(MacroFrame)
+    return MacroNewButton:IsEnabled() and not InCombatLockdown()
 end
 
 --修改，当前图标 Blizzard_MacroIconSelector.lua MacroPopupFrameMixin:OkayButton_OnClick()
 function WoWTools_MacroMixin:SetMacroTexture(iconTexture)--修改，当前图标
-    if WoWTools_FrameMixin:IsLocked(MacroFrame) or not iconTexture or iconTexture==0 then
+    if InCombatLockdown() or not iconTexture or iconTexture==0 then
         return
     end
     local MacroFrame =MacroFrame
@@ -42,7 +42,7 @@ end
 
 --新建，宏
 function WoWTools_MacroMixin:CreateMacroNew(name, icon, body)--新建，宏
-    if not self:IsCanCreateNewMacro() or WoWTools_FrameMixin:IsLocked(MacroFrame) then
+    if not self:IsCanCreateNewMacro() or InCombatLockdown() then
         return
     end
     if type(icon)=='string' then
@@ -79,7 +79,7 @@ function WoWTools_MacroMixin:SetTooltips(frame, index)
             GameTooltip:AddLine(body, nil,nil,nil, true)
             GameTooltip:AddLine(' ')
             if frame~=MacroFrameSelectedMacroButton then
-                local col= WoWTools_FrameMixin:IsLocked(MacroFrame) and '|cff828282' or '|cffffffff'
+                local col= InCombatLockdown() and '|cff828282' or '|cffffffff'
                 GameTooltip:AddDoubleLine(
                     col..(WoWTools_DataMixin.onlyChinese and '删除' or DELETE),
                     col..'Alt+'..(WoWTools_DataMixin.onlyChinese and '双击' or BUFFER_DOUBLE)..WoWTools_DataMixin.Icon.left

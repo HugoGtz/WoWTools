@@ -823,13 +823,8 @@ function WoWTools_MoveMixin.Events:Blizzard_CompactRaidFrames()
         CompactRaidFrameManager.container.dividerHorizontalPool:ReleaseAll()
     end)]]
 
---展开，替换 原生
-    function CompactRaidFrameManager_Expand()
-        CompactRaidFrameManager.collapsed = false
-        CompactRaidFrameManager.displayFrame:Show()
-        CompactRaidFrameManager.toggleButtonBack:Show()
-        CompactRaidFrameManager.toggleButtonForward:Hide()
-        CompactRaidFrameManager.BottomButtons:Show()
+--展开: se engancha a la función de Blizzard en vez de reemplazarla (evita taint y ADDON_ACTION_BLOCKED en combate)
+    WoWTools_DataMixin:Hook('CompactRaidFrameManager_Expand', function()
         if CompactRaidFrameManager:CanChangeAttribute() then
             CompactRaidFrameManager:ClearAllPoints()
             local p= self:Save().point['CompactRaidFrameManager']
@@ -847,14 +842,9 @@ function WoWTools_MoveMixin.Events:Blizzard_CompactRaidFrames()
         end
         CompactRaidFrameManager.ResizeButton:SetShown(true)
         self:Save().CompactRaidFrameManagerIsExpand= true--保存上次显或展开
-    end
+    end)
 --收起
-    function CompactRaidFrameManager_Collapse()
-        CompactRaidFrameManager.collapsed = true
-        CompactRaidFrameManager.displayFrame:Hide()
-        CompactRaidFrameManager.toggleButtonBack:Hide()
-        CompactRaidFrameManager.toggleButtonForward:Show()
-        CompactRaidFrameManager.BottomButtons:Hide()
+    WoWTools_DataMixin:Hook('CompactRaidFrameManager_Collapse', function()
         if CompactRaidFrameManager:CanChangeAttribute() then
             CompactRaidFrameManager:ClearAllPoints()
             CompactRaidFrameManager:SetPoint("TOPLEFT", UIParent, "TOPLEFT", -200, -140)
@@ -866,7 +856,7 @@ function WoWTools_MoveMixin.Events:Blizzard_CompactRaidFrames()
         end
         CompactRaidFrameManager.ResizeButton:SetShown(false)
         self:Save().CompactRaidFrameManagerIsExpand= nil
-    end
+    end)
 
     self:Setup(CompactRaidFrameManager, {
     restPointFunc=function()

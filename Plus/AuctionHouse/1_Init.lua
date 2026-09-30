@@ -100,7 +100,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsPlusSave['Plus_AuctionHouse']= WoWToolsPlusSave['Plus_AuctionHouse'] or {
+            WoWToolsPlusSave['Plus_AuctionHouse']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_AuctionHouse'], {
                 numButton=14,--行数
                 scaleSellButton=0.95,--综合
                 intShowSellItem= WoWTools_DataMixin.Player.husandro,--显示，转到出售物品
@@ -116,7 +116,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 },
                 sellItemQualiy=1,--物品列表，检测有效物品
                 SellItemDefaultPrice={},--默认价格
-            }
+            })
 --宠物笼
             Save().hideSellPet= Save().hideSellPet or {}
             Save().sellItemQualiy= Save().sellItemQualiy or 1--物品列表，检测有效物品

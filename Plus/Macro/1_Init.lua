@@ -32,7 +32,7 @@ local function Init_Load()
 end
 
 local function Init()
-    if WoWTools_FrameMixin:IsLocked(MacroFrame) then
+    if InCombatLockdown() then
         EventRegistry:RegisterFrameEventAndCallback("PLAYER_REGEN_ENABLED", function(owner)
             Init_Load()
             EventRegistry:UnregisterCallback('PLAYER_REGEN_ENABLED', owner)
@@ -56,7 +56,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsPlusSave['Plus_Macro2']= WoWToolsPlusSave['Plus_Macro2'] or P_Save
+            WoWToolsPlusSave['Plus_Macro2']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Macro2'], P_Save)
             WoWToolsPlusSave['Plus_Macro']=nil
             P_Save= nil
 

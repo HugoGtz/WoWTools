@@ -47,6 +47,9 @@ local Channels={
 
 --过滤，事件
 local function WoWTools_Emoji_Filter(_, _, msg, ...)
+    if not msg or not canaccessvalue(msg) then--texto secreto (12.0): no se puede tocar
+        return
+    end
     local str=msg
     for text, icon in pairs(TextToTexture) do
         str= str:gsub(text, icon)
@@ -625,7 +628,7 @@ panel:RegisterEvent('ADDON_LOADED')
 panel:SetScript('OnEvent', function(self, event, arg1)
     if arg1== 'WoWToolsPlus' then
 
-        WoWToolsPlusSave['ChatButton_Emoji']= WoWToolsPlusSave['ChatButton_Emoji'] or P_Save
+        WoWToolsPlusSave['ChatButton_Emoji']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['ChatButton_Emoji'], P_Save)
         P_Save=nil
 
         addName= '|TInterface\\Addons\\WoWToolsPlus\\Source\\Emojis\\Embarrass:0|tEmoji'

@@ -755,9 +755,9 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsPlusSave['ChatButtonGroup']= WoWToolsPlusSave['ChatButtonGroup'] or {
+            WoWToolsPlusSave['ChatButtonGroup']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['ChatButtonGroup'], {
                 autoReady=0--0手动， 1就绪， 2未就绪
-            }
+            })
 
             Save().autoReady= Save().autoReady or 0
 

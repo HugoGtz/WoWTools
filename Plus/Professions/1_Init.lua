@@ -13,11 +13,11 @@ panel:RegisterEvent("ADDON_LOADED")
 panel:SetScript("OnEvent", function(self, event, arg1)
     if arg1== 'WoWToolsPlus' then
 
-        WoWToolsPlusSave['Plus_Professions']= WoWToolsPlusSave['Plus_Professions'] or {
+        WoWToolsPlusSave['Plus_Professions']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Professions'], {
             setButton=true,
             ArcheologySound=true, --考古学
             showArcheologyBar=WoWTools_DataMixin.Player.husandro,
-        }
+        })
 
         WoWTools_ProfessionMixin.addName= '|A:Professions_Icon_FirstTimeCraft:0:0|a'..(WoWTools_DataMixin.onlyChinese and '专业' or PROFESSIONS_TRACKER_HEADER_PROFESSION)
 

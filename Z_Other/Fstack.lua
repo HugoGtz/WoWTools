@@ -443,7 +443,7 @@ local panel= CreateFrame("Frame")
 panel:RegisterEvent("ADDON_LOADED")
 panel:SetScript("OnEvent", function(self, event, arg1)
     if arg1== 'WoWToolsPlus' then
-        WoWToolsPlusSave['Other_Fstack']= WoWToolsPlusSave['Other_Fstack'] or {}
+        WoWToolsPlusSave['Other_Fstack']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Other_Fstack'], {})
 
         if WoWTools_OtherMixin:AddOption(
             'FSTACK',

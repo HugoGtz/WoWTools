@@ -5,7 +5,7 @@
 local function Delete_Macro(self)
     local index= MacroFrame:GetSelectedIndex()
 
-    if WoWTools_FrameMixin:IsLocked(MacroFrame)
+    if InCombatLockdown()
         or not MacroDeleteButton:IsEnabled()
         or not index or index~=self.selectionIndex
     then
@@ -67,7 +67,7 @@ local function Init_Menu(self, root)
     sub=root:CreateButton(
         '|A:QuestLegendary:0:0|a'..(WoWTools_DataMixin.onlyChinese and '修改' or EDIT),
     function()
-        if not WoWTools_FrameMixin:IsLocked(MacroFrame) then
+        if not InCombatLockdown() then
             WoWTools_DataMixin:Call(MacroEditButton_OnClick, MacroFrame, self)
         end
         return MenuResponse.Open

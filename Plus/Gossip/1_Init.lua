@@ -71,7 +71,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsPlusSave['Plus_Gossip']= WoWToolsPlusSave['Plus_Gossip'] or {
+            WoWToolsPlusSave['Plus_Gossip']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Gossip'], {
                 NPC={--禁用NPC
                     ['223594']=true,
                     ['150122']=true,--荣耀堡法师 50005 我必须向黑暗之门报到。
@@ -113,7 +113,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
                 delvesDifficultyMaxLevel= WoWTools_DataMixin.Player.husandro,--地下堡指定难度
                 Dialogs={}
-            }
+            })
 
             WoWToolsPlusPlayerDate.GossipMovie= WoWToolsPlusPlayerDate.GossipMovie or {}
 

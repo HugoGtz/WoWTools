@@ -161,7 +161,7 @@ panel:SetScript('OnEvent', function(self, event, arg1)
     if event=='ADDON_LOADED' then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsPlusSave['ChatButton_HyperLink']= WoWToolsPlusSave['ChatButton_HyperLink'] or P_Save
+            WoWToolsPlusSave['ChatButton_HyperLink']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['ChatButton_HyperLink'], P_Save)
             P_Save=nil
 
             Save().disabledTalkingPringText= nil

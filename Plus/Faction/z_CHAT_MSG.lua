@@ -1,6 +1,8 @@
 
-local FACTION_STANDING_INCREASED= FACTION_STANDING_INCREASED--"你在%s中的声望值提高了%d点。";
-local FACTION_STANDING_INCREASED_ACCOUNT_WIDE = FACTION_STANDING_INCREASED_ACCOUNT_WIDE--"你的战团在%s中的声望值提高了%d点。";
+--Patrones de búsqueda (se crean en Init_Chat_MSG). Los textos de formato siguen siendo los globales de Blizzard:
+--antes el patrón sustituía al texto de formato y format() daba error en cada ganancia de reputación
+local PATTERN_INCREASED--"你在%s中的声望值提高了%d点。"
+local PATTERN_INCREASED_ACCOUNT_WIDE--"你的战团在%s中的声望值提高了%d点。"
 
 
 
@@ -27,7 +29,7 @@ local function EventFilter(_, _, text, ...)
 
 	local name
 	if text then
-		name= text:match(FACTION_STANDING_INCREASED) or text:match(FACTION_STANDING_INCREASED_ACCOUNT_WIDE)
+		name= text:match(PATTERN_INCREASED) or text:match(PATTERN_INCREASED_ACCOUNT_WIDE)
 	end
 
 	if not name then
@@ -47,7 +49,7 @@ local function EventFilter(_, _, text, ...)
 						text= format("你在%s中的声望值提高了%s点。", cnName, num)
 					else
 						num= tonumber(num)
-						if  text:match(FACTION_STANDING_INCREASED) then
+						if text:match(PATTERN_INCREASED) then
 							text= format(FACTION_STANDING_INCREASED, cnName, num)
 						else
 							text= format(FACTION_STANDING_INCREASED_ACCOUNT_WIDE, cnName, num)
@@ -132,8 +134,8 @@ end
 
 
 function WoWTools_FactionMixin:Init_Chat_MSG()
-	FACTION_STANDING_INCREASED= LOCALE_zhCN and '你在(.+)中的声望值提高了.+点。' or WoWTools_TextMixin:Magic(FACTION_STANDING_INCREASED)
-	FACTION_STANDING_INCREASED_ACCOUNT_WIDE= LOCALE_zhCN and '你的战团在(.+)中的声望值提高了.+点。' or WoWTools_TextMixin:Magic(FACTION_STANDING_INCREASED_ACCOUNT_WIDE)
+	PATTERN_INCREASED= LOCALE_zhCN and '你在(.+)中的声望值提高了.+点。' or WoWTools_TextMixin:Magic(FACTION_STANDING_INCREASED)
+	PATTERN_INCREASED_ACCOUNT_WIDE= LOCALE_zhCN and '你的战团在(.+)中的声望值提高了.+点。' or WoWTools_TextMixin:Magic(FACTION_STANDING_INCREASED_ACCOUNT_WIDE)
 
     ChatFrame_AddMessageEventFilter('CHAT_MSG_COMBAT_FACTION_CHANGE', EventFilter)
 

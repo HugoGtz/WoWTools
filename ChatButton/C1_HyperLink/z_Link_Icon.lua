@@ -583,8 +583,9 @@ end
 CommunitiesHyperlink.lua CommunitiesHyperlink_OnEvent
 ]]
 local function New_AddMessage(self, s, ...)
+    --Texto secreto (12.0), con |K (BNet) o vacío: pasarlo sin tocar. Antes se descartaba y el mensaje desaparecía
     if not s or WoWTools_TextMixin:CanText(s) then
-        return
+        return self.P_AddMessage(self, s, ...)
     end
 
     local petChannel=s:find('|Hchannel:.-'..PET_BATTLE_COMBAT_LOG..']|h') and true or false

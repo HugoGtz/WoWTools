@@ -544,7 +544,7 @@ panel:RegisterEvent("ADDON_LOADED")
 panel:SetScript("OnEvent", function(self, event, arg1)
     if arg1== 'WoWToolsPlus' then
 
-        WoWToolsPlusSave['Other_ScrappingMachine']= WoWToolsPlusSave['Other_ScrappingMachine'] or P_Save
+        WoWToolsPlusSave['Other_ScrappingMachine']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Other_ScrappingMachine'], P_Save)
         P_Save= nil
 
         addName= '|TInterface\\Icons\\inv_gizmo_03:0|t'..(WoWTools_DataMixin.onlyChinese and '拆解大师Mk1型' or SCRAPPING_MACHINE_TITLE)

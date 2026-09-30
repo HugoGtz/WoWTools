@@ -84,7 +84,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsPlusSave['Plus_Cursor']= WoWToolsPlusSave['Plus_Cursor'] or P_Save
+            WoWToolsPlusSave['Plus_Cursor']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Cursor'], P_Save)
             P_Save=nil
 
             WoWTools_CursorMixin.addName= '|A:newplayertutorial-icon-mouse-turn:0:0|a'..(WoWTools_DataMixin.onlyChinese and '鼠标' or MOUSE_LABEL)

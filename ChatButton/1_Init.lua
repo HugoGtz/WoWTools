@@ -460,7 +460,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsPlusSave['ChatButton']= WoWToolsPlusSave['ChatButton'] or P_Save
+            WoWToolsPlusSave['ChatButton']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['ChatButton'], P_Save)
             Save().disabledADD= Save().disabledADD or {}
             P_Save=nil
 

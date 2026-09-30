@@ -466,7 +466,7 @@ panel:RegisterEvent('PLAYER_ENTERING_WORLD')
 panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
-            WoWToolsPlusSave['WoWTools_ToolsButton']= WoWToolsPlusSave['WoWTools_ToolsButton'] or {
+            WoWToolsPlusSave['WoWTools_ToolsButton']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['WoWTools_ToolsButton'], {
                 --disabled=true,
 
                 disabledADD={},
@@ -494,7 +494,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
                 bgAlpha= 0.5,
                 borderAlpha=0,
-            }
+            })
 
             Save().borderAlpha= Save().borderAlpha or 0.3
 

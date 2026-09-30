@@ -91,7 +91,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsPlusSave['Plus_StableFrame']= WoWToolsPlusSave['Plus_StableFrame'] or P_Save
+            WoWToolsPlusSave['Plus_StableFrame']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_StableFrame'], P_Save)
             P_Save= nil
 
             WoWTools_HunterMixin.addName= '|A:groupfinder-icon-class-hunter:0:0|a'..(WoWTools_DataMixin.onlyChinese and '猎人兽栏' or  format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, UnitClass('player'), STABLE_STABLED_PET_LIST_LABEL))

@@ -106,7 +106,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsPlusSave['Adventure_Journal']= WoWToolsPlusSave['Adventure_Journal'] or {
+            WoWToolsPlusSave['Adventure_Journal']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Adventure_Journal'], {
                 favorites={},--副本收藏 WoWTools_DataMixin.Player.GUID= {}
                 LootSpec= {},--拾取专精
                 isSaveTier=WoWTools_DataMixin.Player.husandro,--保存改变
@@ -115,7 +115,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                     noExpansion={},
                     showName={},
                 },
-            }
+            })
 
             WoWToolsPlusPlayerDate['BossKilled']= WoWToolsPlusPlayerDate['BossKilled'] or {}
 

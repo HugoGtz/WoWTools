@@ -419,7 +419,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsPlusSave['ChatButton_Roll']= WoWToolsPlusSave['ChatButton_Roll'] or P_Save
+            WoWToolsPlusSave['ChatButton_Roll']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['ChatButton_Roll'], P_Save)
             P_Save=nil
 
             addName= '|TInterface\\PVPFrame\\Icons\\PVP-Banner-Emblem-47:0|t'..(WoWTools_DataMixin.onlyChinese and '掷骰' or ROLL)

@@ -52,7 +52,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             WoWToolsPlusSave['Other_SpellFrame']=nil--旧数扰
             WoWToolsPlusSave['Other_SpellFlyout']=nil
 
-            WoWToolsPlusSave['Plus_Spell'] = WoWToolsPlusSave['Plus_Spell'] or {
+            WoWToolsPlusSave['Plus_Spell']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Spell'], {
                 specButton={
                 isUIParent=WoWTools_DataMixin.Player.husandro,
                 scale= WoWTools_DataMixin.Player.husandro and 0.6 or 1,
@@ -75,7 +75,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
                 spellBookPlus=true,
                 talentsFramePlus=true,
-            }
+            })
 
 
             if not Save().bg then

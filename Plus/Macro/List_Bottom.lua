@@ -501,7 +501,7 @@ local function Sub_Menu(root, tab)
             '|T'..(tab.icon or 0)..':0|t'
             ..(WoWTools_DataMixin.onlyChinese and '设置图标' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SETTINGS, EMBLEM_SYMBOL)),
         function(data)
-            if not WoWTools_FrameMixin:IsLocked(MacroFrame) then
+            if not InCombatLockdown() then
                 WoWTools_MacroMixin:SetMacroTexture(data.icon)
             end
             return MenuResponse.Open
@@ -571,7 +571,7 @@ local function Create_Spell_Menu(root, spellID, icon, name, index)
         ..WoWTools_SpellMixin:GetName(spellID)--取得法术，名称
         ..(macroText and '|cnGREEN_FONT_COLOR:*|r' or ''),
     function(data)
-        if WoWTools_FrameMixin:IsLocked(MacroFrame) then
+        if InCombatLockdown() then
             return
         end
 
@@ -671,7 +671,7 @@ local function Init_SpellBook_Menu(self, root)
         local sub=root:CreateButton(
             WoWTools_DataMixin.onlyChinese and '解散水元素' or 'PetDismiss',
         function()
-            if WoWTools_FrameMixin:IsLocked(MacroFrame) then
+            if InCombatLockdown() then
                 return
             end
             MacroFrameText:Insert('/script PetDismiss()\n')
@@ -784,7 +784,7 @@ local function Init_Equip_Menu(self, root)
                     ..(spellID and '|A:auctionhouse-icon-favorite:0:0|a' or ''),
 
                 function(data)
-                    if WoWTools_FrameMixin:IsLocked(MacroFrame) then
+                    if InCombatLockdown() then
                         return
                     end
                     MacroFrameText:Insert((data.spellID and '/use ' or '/equip ')..data.name..'\n')
@@ -836,7 +836,7 @@ local function Init_Chat_Menu(self, root)
             sub=root:CreateButton(
                 WoWTools_TextMixin:CN(label),
             function(data)
-                if WoWTools_FrameMixin:IsLocked(MacroFrame) then
+                if InCombatLockdown() then
                     return
                 end
                 MacroFrameText:Insert(data.label..'\n')
@@ -869,7 +869,7 @@ local function Init_MacroList_Menu(self, root)
         sub=root:CreateButton(
             info.text,
         function(data)
-            if not WoWTools_FrameMixin:IsLocked(MacroFrame) and data.macro then
+            if not InCombatLockdown() and data.macro then
                 MacroFrameText:Insert(data.macro)
                 MacroFrameText:SetFocus()
             end
@@ -888,7 +888,7 @@ local function Init_MacroList_Menu(self, root)
             sub:CreateButton(
                 macro.text:gsub('\n', ' '),
             function(data)
-                if not WoWTools_FrameMixin:IsLocked(MacroFrame)  then
+                if not InCombatLockdown()  then
                     MacroFrameText:Insert(data.text)
                     MacroFrameText:SetFocus()
                 end

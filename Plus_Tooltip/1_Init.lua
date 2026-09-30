@@ -554,7 +554,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsPlusSave['Plus_Tootips']= WoWToolsPlusSave['Plus_Tootips'] or {
+            WoWToolsPlusSave['Plus_Tootips']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Tootips'], {
                 setDefaultAnchor=true,--指定点
                 --AnchorPoint={},--指定点，位置
                 --cursorRight=nil,--'ANCHOR_CURSOR_RIGHT',
@@ -577,7 +577,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 showItemMK=WoWTools_DataMixin.Player.husandro,
                 no={},--禁用
                 disabledFix={},
-            }
+            })
 
 
             Save().no= Save().no or {}

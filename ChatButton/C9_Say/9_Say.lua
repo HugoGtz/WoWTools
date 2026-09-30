@@ -72,6 +72,9 @@ local function findWhisper(name)
 end
 
 local function getWhisper(event, text, name, _, _, _, _, _, _, _, _, _, guid)
+    if not canaccessvalue(text) or not canaccessvalue(name) or not canaccessvalue(guid) then--valores secretos (12.0)
+        return
+    end
     if WoWTools_DataMixin.Player.Name_Realm~=name and name then
         local type= event:find('INFORM') and true or nil--_INFORM 发送
         local index=findWhisper(name)
@@ -585,7 +588,7 @@ panel:SetScript("OnEvent", function(self, event, arg1, arg2, ...)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsPlusSave['ChatButton_Say']= WoWToolsPlusSave['ChatButton_Say'] or P_Save
+            WoWToolsPlusSave['ChatButton_Say']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['ChatButton_Say'], P_Save)
             Save().text= Save().text or (WoWTools_DataMixin.onlyChinese and '说' or SAY)
             P_Save=nil
 

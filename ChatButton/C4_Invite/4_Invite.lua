@@ -120,7 +120,7 @@ panel:SetScript('OnEvent', function(self, event, arg1)
     if event=='ADDON_LOADED' then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsPlusSave['ChatButton_Invite']= WoWToolsPlusSave['ChatButton_Invite'] or {
+            WoWToolsPlusSave['ChatButton_Invite']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['ChatButton_Invite'], {
                 InvNoFriend={},
                 --LFGListAceInvite=true,--接受,LFD, 邀请
                 FriendAceInvite=true,--接受, 好友, 邀请
@@ -136,7 +136,7 @@ panel:SetScript('OnEvent', function(self, event, arg1)
                 setFrameFun= true,--跟随，密语
                 setFucus= WoWTools_DataMixin.Player.husandro,--焦点
                 focusKey= 'Shift',
-            }
+            })
 
             WoWTools_InviteMixin.addName= '|A:communities-icon-addgroupplus:0:0|a'..(WoWTools_DataMixin.onlyChinese and '邀请' or INVITE)
 

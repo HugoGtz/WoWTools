@@ -69,7 +69,7 @@ local PointTab={
             function(data)
                 return Save().toRightLeft==data.value
             end, function(data)
-                if not WoWTools_FrameMixin:IsLocked(MacroFrame) then
+                if not InCombatLockdown() then
                     Save().toRightLeft=data.value
                     WoWTools_DataMixin:Call(MacroFrame.ChangeTab, MacroFrame, 1)
                     TargetButton:settings()
@@ -149,7 +149,7 @@ local PointTab={
         ..' #'..num..'|n|n',
         nil,
         {SetValue=function()
-            if WoWTools_FrameMixin:IsLocked(MacroFrame) then
+            if InCombatLockdown() then
                 return
             end
             print(
@@ -190,7 +190,7 @@ local PointTab={
         '|A:XMarksTheSpot:42:42|a'..delete..'|n'..text2..' #'..num2..'|n|n',
         nil,
         {SetValue=function()
-            if WoWTools_FrameMixin:IsLocked(MacroFrame) then
+            if InCombatLockdown() then
                 return
             end
             print(

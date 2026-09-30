@@ -141,7 +141,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsPlusSave['Minimap_Plus']= WoWToolsPlusSave['Minimap_Plus'] or P_Save
+            WoWToolsPlusSave['Minimap_Plus']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Minimap_Plus'], P_Save)
 
             if not Save().Icons then
                 Save().Icons= P_Save.Icons

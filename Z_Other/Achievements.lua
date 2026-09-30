@@ -739,7 +739,7 @@ panel:RegisterEvent("ADDON_LOADED")
 
 panel:SetScript("OnEvent", function(self, event, arg1)
     if arg1== 'WoWToolsPlus' then
-        WoWToolsPlusSave['Plus_Achievement']= WoWToolsPlusSave['Plus_Achievement'] or {completedAlpha=1}
+        WoWToolsPlusSave['Plus_Achievement']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Achievement'], {completedAlpha=1})
         addName= '|A:UI-Achievement-Shield-NoPoints:0:0|a'..(WoWTools_DataMixin.onlyChinese and '成就' or ACHIEVEMENTS)
 
         --添加控制面板

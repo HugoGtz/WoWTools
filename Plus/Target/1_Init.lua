@@ -78,7 +78,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         return
     end
 
-    WoWToolsPlusSave['Plus_Target']= WoWToolsPlusSave['Plus_Target'] or P_Save
+    WoWToolsPlusSave['Plus_Target']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Target'], P_Save)
     P_Save= nil
 
     WoWToolsPlusPlayerDate['TargetTexture']= WoWToolsPlusPlayerDate['TargetTexture'] or {}

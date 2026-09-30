@@ -375,7 +375,7 @@ frame:SetScript('OnEvent', function(self, event, arg1)
 		return
 	end
 
-	WoWToolsPlusSave['Plus_ChatCopy']= WoWToolsPlusSave['Plus_ChatCopy'] or {isShowButton=true}
+	WoWToolsPlusSave['Plus_ChatCopy']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_ChatCopy'], {isShowButton=true})
 	addName= '|A:poi-workorders:0:0|a'..(WoWTools_DataMixin.onlyChinese and '复制聊天' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, CALENDAR_COPY_EVENT, CHAT))
 
 	WoWTools_PanelMixin:OnlyCheck({

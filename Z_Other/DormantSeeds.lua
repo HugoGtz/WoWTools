@@ -299,7 +299,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         return
     end
 
-    WoWToolsPlusSave['Other_DormantSeeds']= WoWToolsPlusSave['Other_DormantSeeds'] or P_Save
+    WoWToolsPlusSave['Other_DormantSeeds']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Other_DormantSeeds'], P_Save)
     P_Save= nil
 
     addName= '|T656681:0|t'..(WoWTools_DataMixin.onlyChinese and '梦境之种' or 'DormantSeeds')

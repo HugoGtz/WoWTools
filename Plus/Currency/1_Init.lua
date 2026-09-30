@@ -118,7 +118,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-			WoWToolsPlusSave['Currency2']= WoWToolsPlusSave['Currency2'] or {
+			WoWToolsPlusSave['Currency2']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Currency2'], {
 				tokens={},
 				item={},
 				Hide=not WoWTools_DataMixin.Player.husandro,
@@ -126,7 +126,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 				toRightTrackText=true,--向右平移
 				itemButtonUse=WoWTools_DataMixin.Player.husandro,
 				--hideCurrencyMax=true,--达到上限
-			}
+			})
 
 			Save().ItemInteractionID= nil
 

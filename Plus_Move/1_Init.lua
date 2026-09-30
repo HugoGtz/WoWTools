@@ -187,10 +187,14 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsPlusSave['Plus_Move']= WoWToolsPlusSave['Plus_Move'] or P_Save
+            WoWToolsPlusSave['Plus_Move']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Move'], P_Save)
 
             Save().UIPanelWindows= Save().UIPanelWindows or P_Save.UIPanelWindows
-            Save().Esc= Save() or P_Save.Esc
+            --Antes: Save().Esc= Save() (faltaba .Esc), la tabla se guardaba dentro de sí misma
+            if Save().Esc==Save() then
+                Save().Esc= nil
+            end
+            Save().Esc= Save().Esc or P_Save.Esc
             Save().no= Save().no or {}
 
             P_Save= nil

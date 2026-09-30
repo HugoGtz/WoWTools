@@ -208,7 +208,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsPlusSave['Plus_Mail']= WoWToolsPlusSave['Plus_Mail'] or {
+            WoWToolsPlusSave['Plus_Mail']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Mail'], {
                 --hide=true,--隐藏
                 --hideUIPlus=true,
                 --hideSendNameList=true,
@@ -235,7 +235,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 --lastSendPlayer='Fuocco-server',--收件人
                 --lastSendSub=主题
                 --lastSendBody=内容
-            }
+            })
 
             WoWTools_MailMixin.addName= '|A:UI-HUD-Minimap-Mail-Mouseover:0:0|a'..(WoWTools_DataMixin.onlyChinese and '邮件' or BUTTON_LAG_MAIL)
 

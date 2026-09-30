@@ -148,7 +148,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsPlusSave['Tools_Foods']= WoWToolsPlusSave['Tools_Foods'] or P_Save
+            WoWToolsPlusSave['Tools_Foods']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Tools_Foods'], P_Save)
             P_Save= nil
 
             Save().spells= Save().spells or ClassSpells

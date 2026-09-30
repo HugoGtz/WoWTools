@@ -23,16 +23,16 @@ Informes detallados: `review_A_core.md`, `review_B_plus1.md`, `review_C_plus2.md
 - [x] Z_Other/DELETE.lua — autocompletar DELETE por defecto → off
 
 ## Fase 2 — Errores Lua constantes / Midnight 12.0
-- [ ] ChatButton/C1_HyperLink/z_Link_Icon.lua:585 — se tragan mensajes secretos/BNet
-- [ ] Plus/Faction/z_CHAT_MSG.lua:135 — sobrescribe global de Blizzard, error por reputación
-- [ ] Plus/Attributes/Speed_Vehicle.lua:40 — speedtext → speedText
+- [x] ChatButton/C1_HyperLink/z_Link_Icon.lua:585 — se tragan mensajes secretos/BNet
+- [x] Plus/Faction/z_CHAT_MSG.lua:135 — sobrescribe global de Blizzard, error por reputación
+- [x] Plus/Attributes/Speed_Vehicle.lua:40 — speedtext → speedText
 - [x] Plus/Gossip/1_Init.lua:146 — set_Point → set_point
-- [ ] Container/Bag/DeleteItem.lua:359 — falta `or`
-- [ ] 1_Mixin/Frame.lua:10,79 — guardas de combate rotas
-- [ ] Filtros de chat sin canaccessvalue (10_Emoji, C6_World/Filter, C9_Say)
-- [ ] Plus_Move/1_Init.lua:193 — referencia cíclica en SavedVariables
-- [ ] Plus_Move/z_Events.lua:827 — CompactRaidFrameManager sin combate
-- [ ] Defaults de SavedVariables no se fusionan (varios 0_Init/1_Init)
+- [x] Container/Bag/DeleteItem.lua:359 — falta `or`
+- [x] 1_Mixin/Frame.lua:10,79 — guardas de combate rotas
+- [x] Filtros de chat sin canaccessvalue (10_Emoji, C6_World/Filter, C9_Say)
+- [x] Plus_Move/1_Init.lua:193 — referencia cíclica en SavedVariables
+- [x] Plus_Move/z_Events.lua:827 — CompactRaidFrameManager sin combate
+- [x] Defaults de SavedVariables no se fusionan (varios 0_Init/1_Init)
 
 ## Fase 3 — Localización es/en
 - [ ] Sistema `Locales/` (enUS, esES, esMX) sustituyendo literales

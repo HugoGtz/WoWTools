@@ -1139,7 +1139,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         return
     end
 
-    WoWToolsPlusSave['Plus_Gem']= WoWToolsPlusSave['Plus_Gem'] or P_Save
+    WoWToolsPlusSave['Plus_Gem']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Gem'], P_Save)
     P_Save=nil
 
     addName= '|T4555592:0|t'..(WoWTools_DataMixin.onlyChinese and '镶嵌宝石' or SOCKET_GEMS)

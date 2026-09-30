@@ -88,7 +88,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsPlusSave['Plus_Challenges']= WoWToolsPlusSave['Plus_Challenges'] or {
+            WoWToolsPlusSave['Plus_Challenges']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Challenges'], {
                 --hideIns=true,--隐藏，副本，挑战，信息
                 --insScale=0.8,--副本，缩放
 
@@ -104,7 +104,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 slotKeystoneSay=WoWTools_DataMixin.Player.husandro,--插入, KEY时, 说
 
                 --EndKeystoneSayText= WoWTools_DataMixin.Player.Region==5 and '{rt1}你们还继续吗? ' or '{rt1}Want to continue? ',
-            }
+            })
 
 
             Save().hideAffixSay= nil--已弃用

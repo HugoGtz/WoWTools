@@ -46,7 +46,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         return
     end
 
-    WoWToolsPlusSave['Plus_WorldMap']= WoWToolsPlusSave['Plus_WorldMap'] or {
+    WoWToolsPlusSave['Plus_WorldMap']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_WorldMap'], {
         ShowMapID= true,--地图ID
         HideTitle=WoWTools_DataMixin.Player.husandro,--隐藏，标题
         ShowMapXY= true,--地图坐标
@@ -59,7 +59,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         ShowWorldQues_Name=true,
         PlayerPin={},
         AreaPOI={}
-    }
+    })
 
     Save().PlayerXY= Save().PlayerXY or {}
     Save().PlayerPin= Save().PlayerPin or {size=12}

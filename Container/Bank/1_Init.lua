@@ -71,7 +71,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsPlusSave['Plus_Bank2']= WoWToolsPlusSave['Plus_Bank2'] or {
+            WoWToolsPlusSave['Plus_Bank2']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Bank2'], {
                 line=2,
                 num=20,
                 accountNum=10,--WoWTools_DataMixin.Player.husandro and 10 or 15,
@@ -86,7 +86,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 allBank=WoWTools_DataMixin.Player.husandro,--整合银行
 
                 saveWoWData=WoWTools_DataMixin.Player.husandro,
-            }
+            })
 
             Save().filterSaveMoney=  Save().filterSaveMoney or {}
             WoWToolsPlusSave['Plus_Bank']= nil

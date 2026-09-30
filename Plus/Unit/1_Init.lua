@@ -31,11 +31,11 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsPlusSave['Plus_UnitFrame']= WoWToolsPlusSave['Plus_UnitFrame'] or {
+            WoWToolsPlusSave['Plus_UnitFrame']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_UnitFrame'], {
                 raidFrameScale= WoWTools_DataMixin.Player.husandro and 0.8 or 1,
                 showLootButton= WoWTools_DataMixin.Player.husandro,
                 PartyDeadData={}--队友，死亡，次数
-            }
+            })
 
             Save().PartyDeadData= Save().PartyDeadData or {}
 

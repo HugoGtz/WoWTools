@@ -194,7 +194,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsPlusSave['ChatButtonWorldChannel']= WoWToolsPlusSave['ChatButtonWorldChannel'] or {
+            WoWToolsPlusSave['ChatButtonWorldChannel']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['ChatButtonWorldChannel'], {
                 world= LOCALE_zhCN and '大脚世界频道' or 'World',
                 myChatFilter= true,--过滤，多次，内容
                 myChatFilterNum=70,
@@ -204,7 +204,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
                 userChatFilter=true,
                 userChatFilterTab={},--{[name-realm]={num=0, guid=guid},}
-            }
+            })
 
 
             Save().myChatFilterPlayers= Save().myChatFilterPlayers or {}

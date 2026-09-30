@@ -15,6 +15,24 @@ function WoWTools_DataMixin:Call(func, ...)
     end
 end
 --CanAccessObject(obj)
+--Rellena en los ajustes guardados las claves que faltan (tablas, números, textos) con los valores por defecto.
+--No toca los booleanos: muchas opciones se desactivan guardando nil y se volverían a activar.
+--Evita errores nil cuando una versión nueva añade opciones y el jugador tiene ajustes de una versión anterior.
+function WoWTools_DataMixin:SetDefaults(save, defaults)
+    if type(save)~='table' then
+        return defaults
+    end
+    if type(defaults)=='table' and save~=defaults then
+        for key, value in pairs(defaults) do
+            if save[key]==nil and type(value)~='boolean' then
+                save[key]= value
+            end
+        end
+    end
+    return save
+end
+
+
 function WoWTools_DataMixin:Hook(obj, ...)
     local t= type(obj)
     local o= t=='string' and _G[obj] or obj

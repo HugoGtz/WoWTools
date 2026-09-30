@@ -74,7 +74,7 @@ panel:RegisterEvent("ADDON_LOADED")
 panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
-            WoWToolsPlusSave['Plus_GuildBank']= WoWToolsPlusSave['Plus_GuildBank'] or P_Save
+            WoWToolsPlusSave['Plus_GuildBank']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_GuildBank'], P_Save)
             P_Save=nil
 
             WoWTools_GuildBankMixin.addName= '|A:VignetteLoot:0:0|a'..(WoWTools_DataMixin.onlyChinese and '公会银行' or GUILD_BANK)

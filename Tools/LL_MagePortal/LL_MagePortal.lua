@@ -390,7 +390,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsPlusSave['Tools_MagePortal']= WoWToolsPlusSave['Tools_MagePortal'] or P_Save
+            WoWToolsPlusSave['Tools_MagePortal']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Tools_MagePortal'], P_Save)
             P_Save= nil
 
             if not Save().disabled and WoWTools_ToolsMixin:Get_MainButton() then

@@ -44,7 +44,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsPlusSave['Plus_SellBuy']= WoWToolsPlusSave['Plus_SellBuy'] or {
+            WoWToolsPlusSave['Plus_SellBuy']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_SellBuy'], {
                 --noSell={},
                 --Sell={},
                 --buyItems={},
@@ -64,7 +64,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 --notItemInfo=true,--禁用物品信息
                 --notIsUsableAlpha=1,--无法使用物品，alpha
                 --ShowBackground=false,--显示背景
-            }
+            })
 
             Save().notDELETE= nil--旧数据， 你确定要摧毁%s吗？|n|n此操作无法撤销。|n|n请输入“%s”进行确认
 

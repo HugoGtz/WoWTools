@@ -111,7 +111,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         return
     end
 
-    WoWToolsPlusSave['Plus_AddOns']= WoWToolsPlusSave['Plus_AddOns'] or P_Save
+    WoWToolsPlusSave['Plus_AddOns']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_AddOns'], P_Save)
     P_Save=nil
     Save().Bg_Alpha= nil
 

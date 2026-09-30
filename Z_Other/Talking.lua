@@ -76,7 +76,7 @@ end
 panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
-            WoWToolsPlusSave['Other_VoiceTalking']= WoWToolsPlusSave['Other_VoiceTalking'] or {notPrint=true}
+            WoWToolsPlusSave['Other_VoiceTalking']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Other_VoiceTalking'], {notPrint=true})
             Init()
             self:UnregisterEvent(event)
         end

@@ -54,7 +54,7 @@ local function Init()
 
 --设置，列表
     WoWTools_DataMixin:Hook(MacroFrame, 'ChangeTab', function(self, tabID)
-        if WoWTools_FrameMixin:IsLocked(MacroFrame) then
+        if InCombatLockdown() then
             return
         end
 
