@@ -130,7 +130,6 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:OpenOptions(root, {
         name=addName,
         name2= WoWTools_TextMixin:CN(self.name),
-        category=WoWTools_OtherMixin.Category
     })
 end
 
@@ -251,7 +250,6 @@ local function Init_Achievement()
 
         WoWTools_MenuMixin:OpenOptions(sub, {
             name=addName,
-            category=WoWTools_OtherMixin.Category
         })
     end)
 
@@ -636,8 +634,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 end
             end,
             tooltip= WoWTools_L['Tip.Achievement.Option']..'|n|n'..WoWTools_L.REQUIRES_RELOAD,
-            layout= WoWTools_OtherMixin.Layout,
-            category= WoWTools_OtherMixin.Category,
         })
 
         if Save().disabled or not WoWTools_MapIDAchievementData then

@@ -441,13 +441,10 @@ Plus\House\House_Move.lua
 
 Z_Other\0_Init.lua
 
-Z_Other\ScrappingMachine.lua
 Z_Other\Talking.lua
 Z_Other\Achievements.lua
 Z_Other\DELETE.lua
-Z_Other\HelpTip.lua
 
-Z_Other\Brewfest.lua
 ##/fstack
 Z_Other\MakerFrame.lua
 

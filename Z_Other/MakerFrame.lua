@@ -1341,8 +1341,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         end,
         tooltip= WoWTools_L['Tip.Marker.Reset']..'|n|n'..addName..'|n|n'..(WoWTools_L.RESET_ALL_BUTTON_TEXT)
             ..'|n|n|cnGREEN_FONT_COLOR:'..(WoWTools_L.RELOADUI),
-        layout= WoWTools_OtherMixin.Layout,
-        category= WoWTools_OtherMixin.Category,
     }, sub)
 
     if isEnabled then

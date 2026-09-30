@@ -25,7 +25,7 @@ end
 local function Init()
     addName= '|A:TalkingHeads-Glow-TopSpike:0:0|a'..(WoWTools_L['HIDE+VOICE_TALKING'])
 
-    local root= WoWTools_PanelMixin:OnlyCheck({
+    WoWTools_PanelMixin:OnlyCheck({
         name= addName,
         tooltip=WoWTools_L['Tip.Talking.Hide']..'|n|n'
                 ..WoWTools_Join(WoWTools_L.HIDE , WoWTools_L.HUD_EDIT_MODE_TALKING_HEAD_FRAME_LABEL)
@@ -37,20 +37,8 @@ local function Init()
             Save().disabled= not Save().disabled and true or nil
             panel:set_event()
         end,
-        layout= WoWTools_OtherMixin.Layout,
-        category= WoWTools_OtherMixin.Category,
     })
 
-    WoWTools_PanelMixin:OnlyCheck({
-        name= WoWTools_L.LOCALE_TEXT_LABEL,
-        GetValue= function() return not Save().notPrint end,
-        tooltip= WoWTools_L['Tip.Talking.Print']..'|n|n'..WoWTools_L['Chat box text'],
-        SetValue= function()
-            Save().notPrint= not Save().notPrint and true or false
-        end,
-        layout= WoWTools_OtherMixin.Layout,
-        category= WoWTools_OtherMixin.Category,
-    }, root)
 
 
     panel:set_event()
@@ -95,14 +83,5 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             end
         end
 
-        if not Save().notPrint and (text or voHandle) then
-            WoWTools_Print(WoWTools_DataMixin.Icon.icon2,
-                '|cff00ff00'..(name or '')..'|r',
-                '|cffff00ff'..(text or '')..'|r',
-                addName,
-                'soundKitID',
-                vo
-            )
-        end
     end
 end)

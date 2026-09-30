@@ -73,9 +73,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
     WoWTools_OtherMixin.addName= '|A:QuestNormal:0:0|a'..(WoWTools_L['Module.Other'])
 
-    WoWTools_OtherMixin.Category, WoWTools_OtherMixin.Layout= WoWTools_PanelMixin:AddSubCategory({
-        name= WoWTools_OtherMixin.addName
-    })
+    --Fork: sin página 'Otros'; sus opciones se agrupan por tema en la página principal
 
 
     self:SetScript('OnEvent', nil)

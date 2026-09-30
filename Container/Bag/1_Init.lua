@@ -68,8 +68,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                     end
                 end,
                 tooltip= WoWTools_L['Tip.Bag.Option'],
-                layout= WoWTools_OtherMixin.Layout,
-                category= WoWTools_OtherMixin.Category,
             })
 
             if not Save().disabled then
