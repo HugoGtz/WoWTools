@@ -480,7 +480,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 Init()
             end
 
-            WoWTools_ChatMixin.addName='|A:voicechat-icon-textchat-silenced:0:0|a'..(WoWTools_L['CHAT+AUCTION_SUBCATEGORY_PROFESSION_TOOLS'])
+            WoWTools_ChatMixin.addName='|A:voicechat-icon-textchat-silenced:0:0|a'..(WoWTools_L['Module.Chat tools'])
 
             WoWTools_ChatMixin.Category, WoWTools_ChatMixin.Layout= WoWTools_PanelMixin:AddSubCategory({
                 name=WoWTools_ChatMixin.addName,

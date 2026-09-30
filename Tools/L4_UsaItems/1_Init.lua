@@ -315,7 +315,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         if arg1== 'WoWToolsPlus' then
             WoWToolsPlusPlayerDate['Tools_UseItems']= WoWToolsPlusPlayerDate['Tools_UseItems'] or P_Tabs
 
-            WoWTools_UseItemsMixin.addName= '|A:soulbinds_tree_conduit_icon_utility:0:0|a'..(WoWTools_L.USE_ITEM)
+            WoWTools_UseItemsMixin.addName= '|A:soulbinds_tree_conduit_icon_utility:0:0|a'..(WoWTools_L['Module.Use items'])
 
             WoWTools_ToolsMixin:Set_AddList(function(category)
                 WoWTools_PanelMixin:OnlyCheck({

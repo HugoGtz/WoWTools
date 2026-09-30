@@ -88,7 +88,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 			WoWToolsPlusSave['Plus_Color']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Color'], P_Save)
 			P_Save=nil
 
-			WoWTools_ColorMixin.addName= '|A:colorblind-colorwheel:0:0|a'..(WoWTools_L.COLOR_PICKER)
+			WoWTools_ColorMixin.addName= '|A:colorblind-colorwheel:0:0|a'..(WoWTools_L['Module.Color picker'])
 
 			--添加控制面板
 			WoWTools_PanelMixin:Check_Button({

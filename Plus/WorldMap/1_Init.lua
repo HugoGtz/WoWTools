@@ -96,7 +96,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
 
 
-    WoWTools_WorldMapMixin.addName= '|A:poi-islands-table:0:0|a'..(WoWTools_L.WORLDMAP_BUTTON)
+    WoWTools_WorldMapMixin.addName= '|A:poi-islands-table:0:0|a'..(WoWTools_L['Module.World map'])
     WoWTools_WorldMapMixin.addName2= '|A:Gear:0:0|a'..(WoWTools_L.MAP_PIN)
     --添加控制面板
     WoWTools_PanelMixin:OnlyCheck({

@@ -155,7 +155,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                                                                         mainMenuAlphaValue=0.7,
                                                                     })
 
-        WoWTools_MainMenuMixin.addName= '|A:UI-HUD-MicroMenu-GameMenu-Mouseover:0:0|a'..(WoWTools_L['Menu Plus'])
+        WoWTools_MainMenuMixin.addName= '|A:UI-HUD-MicroMenu-GameMenu-Mouseover:0:0|a'..(WoWTools_L['Module.Micro menu'])
 
         Category, Layout= WoWTools_PanelMixin:AddSubCategory({
             name= WoWTools_MainMenuMixin.addName,

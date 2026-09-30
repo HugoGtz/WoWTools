@@ -87,7 +87,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             WoWToolsPlusSave['Plus_Cursor']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Cursor'], P_Save)
             P_Save=nil
 
-            WoWTools_CursorMixin.addName= '|A:newplayertutorial-icon-mouse-turn:0:0|a'..(WoWTools_L.MOUSE_LABEL)
+            WoWTools_CursorMixin.addName= '|A:newplayertutorial-icon-mouse-turn:0:0|a'..(WoWTools_L['Module.Cursor'])
 
             self:RegisterEvent('PLAYER_ENTERING_WORLD')
 

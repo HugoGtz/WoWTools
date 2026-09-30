@@ -633,7 +633,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
             WoWToolsPlusPlayerDate['HearthstoneItems']= WoWToolsPlusPlayerDate['HearthstoneItems'] or CopyTable(P_Items)
 
-            WoWTools_HearthstoneMixin.addName='|A:delves-bountiful:0:0|a'..(WoWTools_L.TUTORIAL_TITLE31)
+            WoWTools_HearthstoneMixin.addName='|A:delves-bountiful:0:0|a'..(WoWTools_L['Module.Hearthstones'])
 
             WoWTools_ToolsMixin:CreateButton({
                 name='Hearthstone',

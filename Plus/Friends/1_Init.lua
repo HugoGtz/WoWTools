@@ -23,7 +23,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 --showFriendInfoOnlyFavorite=true,--仅限收藏好友
             })
 
-            WoWTools_FriendsMixin.addName= '|A:socialqueuing-icon-group:0:0|a'..(WoWTools_L.FRIENDS_LIST)
+            WoWTools_FriendsMixin.addName= '|A:socialqueuing-icon-group:0:0|a'..(WoWTools_L['Module.Friends list'])
 
             --添加控制面板
             WoWTools_PanelMixin:OnlyCheck({

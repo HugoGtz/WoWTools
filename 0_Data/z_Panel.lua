@@ -25,12 +25,13 @@ end
 --####
 --开始
 --####
-local function Init_Options()
-    WoWTools_PanelMixin:Header(nil,  WoWTools_L['WoWTools Data'])
+--Sección "Datos y restablecimiento": se añade al final, después de los módulos
+local function Init_Data()
+    WoWTools_PanelMixin:Header(nil, WoWTools_L['Data and reset'])
 
     local optionHeader= WoWTools_L['ADDONS+OPTIONS']
     WoWTools_PanelMixin:OnlyButton({
-        title= '1) |A:talents-button-undo:0:0|a'..optionHeader,
+        title= '|A:talents-button-undo:0:0|a'..WoWTools_L['Reset addon settings'],
         buttonText= '|A:QuestArtifact:0:0|a'..(WoWTools_L.RESET ),
         addSearchTags= optionHeader,
         SetValue= function()
@@ -67,7 +68,7 @@ local function Init_Options()
 --清除玩家输入数据
     local playerHeader= WoWTools_L['Clear input data']
     WoWTools_PanelMixin:OnlyButton({
-        title= '2) |A:UI-HUD-UnitFrame-Player-Group-FriendOnlineIcon:0:0|a'..playerHeader,
+        title= '|A:UI-HUD-UnitFrame-Player-Group-FriendOnlineIcon:0:0|a'..playerHeader,
         buttonText= '|A:UI-HUD-UnitFrame-Player-Group-FriendOnlineIcon:0:0|a'..(WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2),
         addSearchTags= playerHeader,
         SetValue= function()
@@ -102,7 +103,7 @@ local function Init_Options()
 --清除战网数据
     local wowHeader= WoWTools_L['Clear Warband data']
     WoWTools_PanelMixin:OnlyButton({
-        title= '3) '..WoWTools_DataMixin.Icon.wow2..wowHeader,
+        title= WoWTools_DataMixin.Icon.wow2..wowHeader,
         buttonText= WoWTools_DataMixin.Icon.wow2..(WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2),
         addSearchTags= wowHeader,
         SetValue= function()
@@ -132,9 +133,8 @@ local function Init_Options()
 
 --显示战网物品
     WoWTools_PanelMixin:OnlyButton({
-        --title= WoWTools_DataMixin.onlyChinese and '战网物品' or WoWTools_Join(ACCOUNT_QUEST_LABEL, ITEMS),
-        buttonText= WoWTools_DataMixin.Icon.wow2
-            ..(WoWTools_L['ACCOUNT_QUEST_LABEL+ITEMS']),
+        title= WoWTools_DataMixin.Icon.wow2..WoWTools_L['ACCOUNT_QUEST_LABEL+ITEMS'],
+        buttonText= WoWTools_L.SHOW,
         SetValue= function()
            WoWTools_DataMixin:OpenWoWItemListFrame()--战团，物品列表
         end,
@@ -152,7 +152,7 @@ local function Init_Options()
 --全部清除
     local header= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.CLEAR_ALL)
     WoWTools_PanelMixin:OnlyButton({
-        title= header,
+        title= WoWTools_L['All addon data'],
         buttonText= header,
         addSearchTags= header,
         SetValue= function()
@@ -178,12 +178,21 @@ local function Init_Options()
 
 
 
+    Init_Data=function()end
+end
+
+
+local MainStartIndex
+
+local function Init_Options()
+    WoWTools_PanelMixin:Header(nil, WoWTools_L.GENERAL)
+
     --WoWTools_PanelMixin:Header(nil, WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS)
 
 
     if not LOCALE_zhCN then
         WoWTools_PanelMixin:OnlyCheck({
-            name= 'Chinese ',
+            name= WoWTools_L['Chinese interface'],
             tooltip= WoWTools_L['Tip.Panel.Chinese']..'|n|n'
                     ..(WoWTools_DataMixin.onlyChinese and '语言: 简体中文'
                     or (LANGUAGE..': '..LFG_LIST_LANGUAGE_ZHCN)),
@@ -227,7 +236,7 @@ local function Init_Options()
         end
 
         WoWTools_PanelMixin:OnlyCheck({
-            name= WoWTools_L['Realm'],
+            name= WoWTools_L['Show realm region'],
             tooltip=WoWTools_L['Tip.Panel.Realm']..'|n|n'..(get_tooltip() or ''),
             Value= not Save().disabledRealm,
             GetValue= function() return not Save().disabledRealm end,
@@ -244,7 +253,7 @@ local function Init_Options()
 
 
 
-    WoWTools_PanelMixin:Header(nil, 'Plus')
+    MainStartIndex= WoWTools_PanelMixin:GetMainCount()+1--aquí empiezan los módulos
 
 
     Init_Options=function()end
@@ -313,4 +322,34 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     }
 
     self:UnregisterEvent(event)
+end)
+
+--Al iniciar sesión todos los módulos ya han registrado su casilla: se agrupan por tema
+--y después se añade la sección de datos al final de la página.
+local Groups= {
+    {title='Module group: Interface', mixins={'WoWTools_MoveMixin', 'WoWTools_TextureMixin', 'WoWTools_TooltipMixin', 'WoWTools_ItemMixin', 'WoWTools_CursorMixin', 'WoWTools_TargetMixin', 'WoWTools_UnitMixin', 'WoWTools_AttributesMixin', 'WoWTools_MainMenuMixin', 'WoWTools_MinimapMixin', 'WoWTools_ColorMixin', 'WoWTools_ObjectiveMixin'}},
+    {title='Module group: Chat and social', mixins={'WoWTools_ChatMixin', 'WoWTools_FriendsMixin'}},
+    {title='Module group: Items and gold', mixins={'WoWTools_BagMixin', 'WoWTools_BankMixin', 'WoWTools_GuildBankMixin', 'WoWTools_MerchantMixin', 'WoWTools_MailMixin', 'WoWTools_AuctionHouseMixin', 'WoWTools_CurrencyMixin', 'WoWTools_ProfessionMixin', 'WoWTools_GemMixin'}},
+    {title='Module group: Character and collections', mixins={'WoWTools_PaperDollMixin', 'WoWTools_SpellMixin', 'WoWTools_MacroMixin', 'WoWTools_CollectionMixin', 'WoWTools_FactionMixin', 'WoWTools_HunterMixin', 'WoWTools_PetBattleMixin', 'WoWTools_HouseMixin'}},
+    {title='Module group: World and dungeons', mixins={'WoWTools_WorldMapMixin', 'WoWTools_GossipMixin', 'WoWTools_EncounterMixin', 'WoWTools_ChallengeMixin', 'WoWTools_HolidayMixin'}},
+    {title='Module group: Tools', mixins={'WoWTools_ToolsMixin', 'WoWTools_AddOnsMixin', 'WoWTools_OtherMixin'}},
+}
+
+EventUtil.ContinueOnPlayerLogin(function()
+    if not MainStartIndex then
+        return
+    end
+    local groups= {}
+    for _, group in ipairs(Groups) do
+        local names= {}
+        for _, mixin in ipairs(group.mixins) do
+            local name= _G[mixin] and _G[mixin].addName
+            if type(name)=='string' and name~='' then
+                table.insert(names, name)
+            end
+        end
+        table.insert(groups, {title= WoWTools_L[group.title], names= names})
+    end
+    WoWTools_PanelMixin:Organize_Main(MainStartIndex, groups, WoWTools_L.OTHER)
+    Init_Data()
 end)

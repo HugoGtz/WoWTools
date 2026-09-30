@@ -771,7 +771,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             WoWToolsPlusPlayerDate['GroupMouseDownText']= WoWToolsPlusPlayerDate['GroupMouseDownText']
                 or (WoWTools_DataMixin.Player.Region~=5 and 'inv, thx{rt1}') or '1'
 
-            WoWTools_GroupMixin.addName= '|A:socialqueuing-icon-group:0:0:|a'..(WoWTools_L.HUD_EDIT_MODE_SETTING_UNIT_FRAME_SORT_BY_SETTING_GROUP)
+            WoWTools_GroupMixin.addName= '|A:socialqueuing-icon-group:0:0:|a'..(WoWTools_L['Module.Group'])
             GroupButton= WoWTools_ChatMixin:CreateButton('Group', WoWTools_GroupMixin.addName)
 
 

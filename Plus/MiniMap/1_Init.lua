@@ -153,7 +153,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
             P_Save= nil
 
-            WoWTools_MinimapMixin.addName= '|A:UI-HUD-Minimap-Tracking-Mouseover:0:0|a'..(WoWTools_L.HUD_EDIT_MODE_MINIMAP_LABEL)
+            WoWTools_MinimapMixin.addName= '|A:UI-HUD-Minimap-Tracking-Mouseover:0:0|a'..(WoWTools_L['Module.Minimap'])
             WoWTools_MinimapMixin.addName2= '|A:VignetteKillElite:0:0|a'..(WoWTools_L.TRACKING)
 
            WoWTools_PanelMixin:Check_Button({

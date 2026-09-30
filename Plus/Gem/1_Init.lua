@@ -1158,7 +1158,9 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     WoWToolsPlusSave['Plus_Gem']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Gem'], P_Save)
     P_Save=nil
 
-    addName= '|T4555592:0|t'..(WoWTools_L.SOCKET_GEMS)
+    addName= '|T4555592:0|t'..(WoWTools_L['Module.Gem sockets'])
+    WoWTools_GemMixin= WoWTools_GemMixin or {}--para agrupar el módulo en la página principal
+    WoWTools_GemMixin.addName= addName
 
 --添加控制面板
     WoWTools_PanelMixin:OnlyCheck({

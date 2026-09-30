@@ -128,7 +128,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             AbilityButton={}
         })
 
-        WoWTools_PetBattleMixin.addName= '|A:WildBattlePetCapturable:0:0|a'..(WoWTools_L.PET_BATTLE_PVP_QUEUE)
+        WoWTools_PetBattleMixin.addName= '|A:WildBattlePetCapturable:0:0|a'..(WoWTools_L['Module.Pet battles'])
         WoWTools_PetBattleMixin.addName3= '|A:transmog-gearSlot-unassigned-feet:0:0|a'..(WoWTools_L['Click-to-move button'])
         WoWTools_PetBattleMixin.addName4= '|A:WildBattlePetCapturable:0:0|a'..(WoWTools_L.PET_FAMILIES)
         WoWTools_PetBattleMixin.addName6= '|A:plunderstorm-icon-offensive:0:0|a'..(WoWTools_L['Ability buttons'])

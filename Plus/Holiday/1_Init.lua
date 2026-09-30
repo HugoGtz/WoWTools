@@ -68,7 +68,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 --showDate= true,--时间
             })
 
-            WoWTools_HolidayMixin.addName= '|A:GarrisonTroops-Health:0:0|a'..(WoWTools_L.CALENDAR_FILTER_HOLIDAYS)
+            WoWTools_HolidayMixin.addName= '|A:GarrisonTroops-Health:0:0|a'..(WoWTools_L['Module.Holidays'])
 
             WoWTools_PanelMixin:Check_Button({
                 checkName= WoWTools_HolidayMixin.addName,

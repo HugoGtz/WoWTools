@@ -124,7 +124,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             Save().hideSellPet= Save().hideSellPet or {}
             Save().sellItemQualiy= Save().sellItemQualiy or 1--物品列表，检测有效物品
 
-            WoWTools_AuctionHouseMixin.addName= '|A:Auctioneer:0:0|a'..(WoWTools_L.BUTTON_LAG_AUCTIONHOUSE)
+            WoWTools_AuctionHouseMixin.addName= '|A:Auctioneer:0:0|a'..(WoWTools_L['Module.Auction House'])
 
 --添加控制面板
             WoWTools_PanelMixin:OnlyCheck({

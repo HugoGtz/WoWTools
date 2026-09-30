@@ -126,7 +126,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 }
             }
 
-            WoWTools_GossipMixin.addName= '|A:SpecDial_LastPip_BorderGlow:0:0|a'..(WoWTools_L.GOSSIP_OPTIONS)
+            WoWTools_GossipMixin.addName= '|A:SpecDial_LastPip_BorderGlow:0:0|a'..(WoWTools_L['Module.Dialogue and quests'])
 
             WoWTools_GossipMixin.addName2= '|A:UI-HUD-UnitFrame-Target-PortraitOn-Boss-Quest:0:0|a'
                 ..(WoWTools_L['QUESTS_LABEL+GAMEMENU_OPTIONS'])

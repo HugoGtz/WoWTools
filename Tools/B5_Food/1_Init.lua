@@ -164,7 +164,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                WoWTools_DataMixin:Load(class.ctrl, 'spell')
             end
 
-            WoWTools_FoodMixin.addName= '|A:Food:0:0|a'..(WoWTools_L.POWER_TYPE_FOOD)
+            WoWTools_FoodMixin.addName= '|A:Food:0:0|a'..(WoWTools_L['Module.Food'])
 
             WoWTools_ToolsMixin:CreateButton({
                 name='Food',

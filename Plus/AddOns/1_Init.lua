@@ -115,7 +115,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     P_Save=nil
     Save().Bg_Alpha= nil
 
-    WoWTools_AddOnsMixin.addName='|A:Garr_Building-AddFollowerPlus:0:0|a'..(WoWTools_L['ADDONS+CHAT_MODERATE'])
+    WoWTools_AddOnsMixin.addName='|A:Garr_Building-AddFollowerPlus:0:0|a'..(WoWTools_L['Module.AddOn manager'])
 
     --添加控制面板
     WoWTools_PanelMixin:OnlyCheck({

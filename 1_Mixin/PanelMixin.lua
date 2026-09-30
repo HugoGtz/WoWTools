@@ -575,18 +575,122 @@ function WoWTools_PanelMixin:ReloadButton(tab)
     end
 end
 
+--[[
+Reorganiza la página principal (fork): los módulos se registran en el orden en que carga cada archivo.
+Aquí se agrupan por tema, con un encabezado por grupo, y se ordenan por nombre dentro de cada grupo.
+startIndex: primer elemento que se reorganiza (lo anterior, p. ej. "General", se deja igual).
+groups: { {title='Interfaz', names={addName, ...}}, ... }. Lo que no encaje va al grupo "Otros".
+Si la estructura interna de Blizzard no es la esperada, no se toca nada.
+]]
+local function Get_Init_Name(init)
+    local data= type(init)=='table' and init.data
+    if type(data)~='table' then
+        return
+    end
+    if data.setting and data.setting.GetName then
+        return data.setting:GetName()
+    end
+    return data.name
+end
 
+local function Get_Parent(init)
+    return init.parentInitializer or (init.GetParentInitializer and init:GetParentInitializer())
+end
 
+local function Plain_Name(name)
+    return (name or ''):gsub('|A.-|a', ''):gsub('|T.-|t', ''):gsub('|c%x%x%x%x%x%x%x%x', ''):gsub('|cn.-:', ''):gsub('|r', ''):gsub('^%s+', '')
+end
 
+function WoWTools_PanelMixin:Organize_Main(startIndex, groups, otherTitle)
+    local ok, err= pcall(function()
+        local list= Layout.GetInitializers and Layout:GetInitializers()
+        if type(list)~='table' or #list<startIndex then
+            return
+        end
 
+        --Bloques: un elemento principal y los hijos que lo siguen
+        local blocks= {}
+        for index= startIndex, #list do
+            local init= list[index]
+            local isHeader= init.GetTemplate and init:GetTemplate()=='SettingsListSectionHeaderTemplate'
+            if isHeader then
+                --los encabezados sueltos antiguos se descartan; se crean de nuevo por grupo
+            else
+            if Get_Parent(init) and #blocks>0 then
+                table.insert(blocks[#blocks].items, init)
+            else
+                table.insert(blocks, {name= Get_Init_Name(init), items= {init}})
+            end
+            end
+        end
 
+        local groupBlocks= {}
+        local other= {}
+        for _, block in ipairs(blocks) do
+            local found
+            if block.name then
+                for gIndex, group in ipairs(groups) do
+                    for _, name in ipairs(group.names) do
+                        if name and name~='' and block.name:find(name, 1, true) then
+                            found= gIndex
+                            break
+                        end
+                    end
+                    if found then
+                        break
+                    end
+                end
+            end
+            if found then
+                groupBlocks[found]= groupBlocks[found] or {}
+                table.insert(groupBlocks[found], block)
+            elseif block.name then--los encabezados sueltos antiguos (sin nombre) se descartan
+                table.insert(other, block)
+            end
+        end
 
+        local function Sort(tab)
+            table.sort(tab, function(a, b)
+                local x, y= Plain_Name(a.name), Plain_Name(b.name)
+                if strcmputf8i then
+                    return strcmputf8i(x, y)<0
+                end
+                return x<y
+            end)
+        end
 
+        local newList= {}
+        for index= 1, startIndex-1 do
+            newList[index]= list[index]
+        end
+        local function Add(title, tab)
+            if not tab or #tab==0 then
+                return
+            end
+            Sort(tab)
+            table.insert(newList, CreateSettingsListSectionHeaderInitializer(title))
+            for _, block in ipairs(tab) do
+                for _, init in ipairs(block.items) do
+                    table.insert(newList, init)
+                end
+            end
+        end
+        for gIndex, group in ipairs(groups) do
+            Add(group.title, groupBlocks[gIndex])
+        end
+        Add(otherTitle, other)
 
+        wipe(list)
+        for index, init in ipairs(newList) do
+            list[index]= init
+        end
+    end)
+    if not ok and WoWTools_DataMixin.Player.husandro then
+        print('Organize_Main', err)
+    end
+end
 
-
-
-
-
-
-
+function WoWTools_PanelMixin:GetMainCount()
+    local list= Layout.GetInitializers and Layout:GetInitializers()
+    return type(list)=='table' and #list or 0
+end

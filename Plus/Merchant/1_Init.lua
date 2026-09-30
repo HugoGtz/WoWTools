@@ -99,7 +99,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 WoWToolsPlusPlayerDate['SellBuyItems'].buy[WoWTools_DataMixin.Player.GUID]= {}
             end
 
-            WoWTools_MerchantMixin.addName= '|A:SpellIcon-256x256-SellJunk:0:0|a'..(WoWTools_L.MERCHANT)
+            WoWTools_MerchantMixin.addName= '|A:SpellIcon-256x256-SellJunk:0:0|a'..(WoWTools_L['Module.Merchant'])
 
 --添加控制面板
             WoWTools_PanelMixin:OnlyCheck({

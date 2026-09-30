@@ -2,7 +2,7 @@ WoWTools_TooltipMixin={
     WoWHead= 'https://www.wowhead.com/',
     Events={},
     Frames={},
-    addName= '|A:newplayertutorial-drag-cursor:0:0|aTooltips',
+    addName= '|A:newplayertutorial-drag-cursor:0:0|a'..WoWTools_L['Module.Tooltips'],
     iconSize=0,
     Save= function()
         return WoWToolsPlusSave['Plus_Tootips']

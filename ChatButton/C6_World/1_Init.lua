@@ -211,7 +211,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             Save().userChatFilterTab= Save().userChatFilterTab or {}
             Save().lastName= Save().lastName or (LOCALE_zhCN and '大脚世界频道' or 'World')
 
-            WoWTools_WorldMixin.addName= '|A:tokens-WoW-generic-regular:0:0|a'..(WoWTools_L.CHANNEL)
+            WoWTools_WorldMixin.addName= '|A:tokens-WoW-generic-regular:0:0|a'..(WoWTools_L['Module.World channel'])
 
             if WoWTools_ChatMixin:CreateButton('World', WoWTools_WorldMixin.addName) then
                 self:RegisterEvent('PLAYER_ENTERING_WORLD')

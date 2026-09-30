@@ -53,7 +53,7 @@ local function Init()
         return
     end
 
-    WoWTools_PanelMixin:Header(Layout, 'Plus')
+    WoWTools_PanelMixin:Header(Layout, WoWTools_L['Frames to enhance'])
 
 
 

@@ -37,7 +37,7 @@ local function Init_Panel()
     WoWTools_PanelMixin:OnlyButton({
         category= WoWTools_ToolsMixin.Category,
         layout=WoWTools_ToolsMixin.Layout,
-        title= WoWTools_ToolsMixin.addName,
+        title= WoWTools_L['Reset toolbar settings'],
         buttonText= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.RESET),
         addSearchTags= WoWTools_L.RESET,
         SetValue= function()
@@ -52,7 +52,7 @@ local function Init_Panel()
         tooltip=WoWTools_L['Tip.Tools.ResetAll']..'|n|n'..WoWTools_L.CLEAR_ALL
     })
 
-    WoWTools_PanelMixin:Header(WoWTools_ToolsMixin.Layout, WoWTools_L.OPTIONS..': '..WoWTools_L.REQUIRES_RELOAD)
+    WoWTools_PanelMixin:Header(WoWTools_ToolsMixin.Layout, WoWTools_L['Toolbar buttons (requires /reload)'])
  
 do
     local index=0
@@ -63,7 +63,7 @@ do
             if data.isMoveButton then--食物
                 initializer= WoWTools_PanelMixin:OnlyCheck({
                     category= WoWTools_ToolsMixin.Category,
-                    name= HIGHLIGHT_FONT_COLOR:WrapTextInColorCode(index..') ')..data.tooltip,
+                    name= data.tooltip,
                     tooltip= WoWTools_L['Tip.Tools.AddButton']..'|n|n'..data.name,
                     GetValue= function() return not Save().disabledADD[data.name] end,
                     SetValue= function()
@@ -76,7 +76,7 @@ do
                 initializer= WoWTools_PanelMixin:CheckMenu({
                     category=WoWTools_ToolsMixin.Category,
                     layout=WoWTools_ToolsMixin.Layout,
-                    name= HIGHLIGHT_FONT_COLOR:WrapTextInColorCode(index..') ')..data.tooltip,
+                    name= data.tooltip,
                     tooltip=WoWTools_L['Tip.Tools.AddButtonPoint']..'|n|n'..data.name,
                     GetValue= function() return not Save().disabledADD[data.name] end,
                     SetValue= function()
@@ -92,8 +92,8 @@ do
                     end,
                     GetOptions=function()
                         local container = Settings.CreateControlTextContainer()
-                        container:Add(1, '|A:bags-greenarrow:0:0|a'..(WoWTools_L.QUESTLINE_LOCATED_ABOVE))
-                        container:Add(2, '|A:Bags-padlock-authenticator:0:0|a'..(WoWTools_L.QUESTLINE_LOCATED_BELOW))
+                        container:Add(1, '|A:bags-greenarrow:0:0|a'..WoWTools_L['Top row'])
+                        container:Add(2, '|A:Bags-padlock-authenticator:0:0|a'..WoWTools_L['Bottom row'])
                         return container:GetData()
                     end
                 })

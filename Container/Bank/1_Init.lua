@@ -92,7 +92,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             Save().filterSaveMoney=  Save().filterSaveMoney or {}
             WoWToolsPlusSave['Plus_Bank']= nil
 
-            WoWTools_BankMixin.addName= '|A:Banker:0:0|a'..(WoWTools_L.BANK)
+            WoWTools_BankMixin.addName= '|A:Banker:0:0|a'..(WoWTools_L['Module.Bank'])
 
             if _G['ElvUI_BankContainerFrame'] then
                 self:SetScript('OnEvent', nil)

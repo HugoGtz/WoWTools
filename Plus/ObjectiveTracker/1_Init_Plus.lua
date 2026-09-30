@@ -311,7 +311,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     WoWToolsPlusSave['ObjectiveTracker']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['ObjectiveTracker'], P_Save)
     P_Save= nil
 
-    WoWTools_ObjectiveMixin.addName= '|A:Objective-Nub:0:0|a|cnWARNING_FONT_COLOR:'..(WoWTools_L.HUD_EDIT_MODE_OBJECTIVE_TRACKER_LABEL)..'|r'
+    WoWTools_ObjectiveMixin.addName= '|A:Objective-Nub:0:0|a|cnWARNING_FONT_COLOR:'..(WoWTools_L['Module.Objective tracker'])..'|r'
 
     --添加控制面板
     WoWTools_PanelMixin:OnlyCheck({

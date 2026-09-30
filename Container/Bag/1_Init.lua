@@ -50,7 +50,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             Save().delete= Save().delete or {item={}}
             Save().cvar= Save().cvar or {}
 
-            WoWTools_BagMixin.addName= '|A:bag-main:0:0|a'..(WoWTools_L.ITEM_CONTAINER)
+            WoWTools_BagMixin.addName= '|A:bag-main:0:0|a'..(WoWTools_L['Module.Bags'])
 
 --添加控制面板
             WoWTools_PanelMixin:OnlyCheck({

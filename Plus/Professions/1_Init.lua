@@ -19,7 +19,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             showArcheologyBar=WoWTools_DataMixin.Player.husandro,
         })
 
-        WoWTools_ProfessionMixin.addName= '|A:Professions_Icon_FirstTimeCraft:0:0|a'..(WoWTools_L['PROFESSIONS_TRACKER_HEADER_PROFESSION~2'])
+        WoWTools_ProfessionMixin.addName= '|A:Professions_Icon_FirstTimeCraft:0:0|a'..(WoWTools_L['Module.Professions'])
 
         --添加控制面板
         WoWTools_PanelMixin:OnlyCheck({

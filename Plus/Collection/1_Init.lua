@@ -188,7 +188,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             WoWToolsPlusSave['Plus_Collection']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Collection'], P_Save)
             P_Save=nil
 
-            WoWTools_CollectionMixin.addName= '|A:UI-HUD-MicroMenu-Collections-Mouseover:0:0|a'..(WoWTools_L['COLLECTIONS~2'])
+            WoWTools_CollectionMixin.addName= '|A:UI-HUD-MicroMenu-Collections-Mouseover:0:0|a'..(WoWTools_L['Module.Collections'])
 
 --添加控制面板
             WoWTools_PanelMixin:OnlyCheck({

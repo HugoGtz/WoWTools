@@ -72,7 +72,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     end
 
 
-    WoWTools_OtherMixin.addName= '|A:QuestNormal:0:0|a'..(WoWTools_L.OTHER)
+    WoWTools_OtherMixin.addName= '|A:QuestNormal:0:0|a'..(WoWTools_L['Module.Other'])
 
     WoWTools_OtherMixin.Category, WoWTools_OtherMixin.Layout= WoWTools_PanelMixin:AddSubCategory({
         name= WoWTools_OtherMixin.addName

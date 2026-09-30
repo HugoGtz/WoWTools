@@ -94,7 +94,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             WoWToolsPlusSave['Plus_StableFrame']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_StableFrame'], P_Save)
             P_Save= nil
 
-            WoWTools_HunterMixin.addName= '|A:groupfinder-icon-class-hunter:0:0|a'..(WoWTools_L['Hunter stable'])
+            WoWTools_HunterMixin.addName= '|A:groupfinder-icon-class-hunter:0:0|a'..(WoWTools_L['Module.Hunter stable'])
 
             --添加控制面板
                 WoWTools_PanelMixin:OnlyCheck({

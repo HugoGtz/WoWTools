@@ -630,7 +630,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     end
 
     WoWToolsPlusSave['Plus_House']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_House'], {})
-    WoWTools_HouseMixin.addName= '|A:house-chest-icon:0:0|a'..(WoWTools_L.AUCTION_CATEGORY_HOUSING)
+    WoWTools_HouseMixin.addName= '|A:house-chest-icon:0:0|a'..(WoWTools_L['Module.Housing'])
 
     WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_HouseMixin.addName,

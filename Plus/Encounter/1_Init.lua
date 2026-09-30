@@ -129,7 +129,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             Save().hideEncounterJournal= nil
 
 
-            WoWTools_EncounterMixin.addName= '|A:UI-HUD-MicroMenu-AdventureGuide-Mouseover:0:0|a'..(WoWTools_L.ADVENTURE_JOURNAL)
+            WoWTools_EncounterMixin.addName= '|A:UI-HUD-MicroMenu-AdventureGuide-Mouseover:0:0|a'..(WoWTools_L['Module.Adventure Guide'])
 
             --添加控制面板
             WoWTools_PanelMixin:OnlyCheck({

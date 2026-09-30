@@ -22,7 +22,7 @@ button= WoWTools_ToolsMixin:CreateButton({
 WoWTools_ToolsMixin={
 
     --Save={disabledADD={}, lineNum=10, isHideBackground=nil},   
-    addName='|A:Professions-Crafting-Orders-Icon:0:0|aTools',
+    addName='|A:Professions-Crafting-Orders-Icon:0:0|a'..WoWTools_L['Module.Tools'],
 }
 
 local Name= 'WoWToolsToolsButton'

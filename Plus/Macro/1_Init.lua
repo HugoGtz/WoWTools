@@ -65,7 +65,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 Save().noteText = nil
             end
 
-            WoWTools_MacroMixin.addName= '|TInterface\\MacroFrame\\MacroFrame-Icon:0|t'..(WoWTools_L.MACRO)
+            WoWTools_MacroMixin.addName= '|TInterface\\MacroFrame\\MacroFrame-Icon:0|t'..(WoWTools_L['Module.Macros'])
 
 --添加控制面板
             WoWTools_PanelMixin:OnlyCheck({

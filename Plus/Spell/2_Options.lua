@@ -34,7 +34,7 @@ local function Init()
         end
     })
 
-    WoWTools_PanelMixin:Header(Layout, 'Plus')
+    WoWTools_PanelMixin:Header(Layout, WoWTools_L['Extras'])
 
 --法术弹出框
     WoWTools_PanelMixin:OnlyCheck({

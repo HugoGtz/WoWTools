@@ -33,7 +33,7 @@ local function Init_Panel()
     local index=0
     local function Add_Options(name)
         WoWTools_PanelMixin:OnlyCheck({
-            name= HIGHLIGHT_FONT_COLOR:WrapTextInColorCode(index..') ')..name:gsub('Blizzard_', ''),
+            name= name:gsub('Blizzard_', ''),
             tooltip= WoWTools_L['Tip.Item.FrameModule']..'|n|n'..tooltip,
             category= WoWTools_ItemMixin.Category,
             Value= not Save().No[name],
@@ -44,14 +44,14 @@ local function Init_Panel()
         })
     end
 
-    WoWTools_PanelMixin:Header(WoWTools_ItemMixin.Layout, 'Event')
+    WoWTools_PanelMixin:Header(WoWTools_ItemMixin.Layout, WoWTools_L['Advanced: windows loaded on demand'])
     for name in pairs(WoWTools_ItemMixin.Events) do
         index= index+1
         Add_Options(name)
     end
 
     index= 0
-    WoWTools_PanelMixin:Header(WoWTools_ItemMixin.Layout, 'Frame')
+    WoWTools_PanelMixin:Header(WoWTools_ItemMixin.Layout, WoWTools_L['Advanced: always-loaded windows'])
     for name in pairs(WoWTools_ItemMixin.Frames) do
         index= index+1
         Add_Options(name)
@@ -119,7 +119,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 Save().size= nil
             end
 
-            WoWTools_ItemMixin.addName= '|A:Barbershop-32x32:0:0|a'..(WoWTools_L['ITEMS+INFO'])
+            WoWTools_ItemMixin.addName= '|A:Barbershop-32x32:0:0|a'..(WoWTools_L['Module.Item info'])
             WoWTools_ItemMixin.Category, WoWTools_ItemMixin.Layout= WoWTools_PanelMixin:AddSubCategory({
                 name=WoWTools_ItemMixin.addName,
                 disabled=Save().disabled

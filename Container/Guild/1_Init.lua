@@ -77,7 +77,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             WoWToolsPlusSave['Plus_GuildBank']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_GuildBank'], P_Save)
             P_Save=nil
 
-            WoWTools_GuildBankMixin.addName= '|A:VignetteLoot:0:0|a'..(WoWTools_L.GUILD_BANK)
+            WoWTools_GuildBankMixin.addName= '|A:VignetteLoot:0:0|a'..(WoWTools_L['Module.Guild bank'])
 
             --添加控制面板
             WoWTools_PanelMixin:OnlyCheck({

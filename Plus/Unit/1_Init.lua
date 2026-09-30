@@ -39,7 +39,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
             Save().PartyDeadData= Save().PartyDeadData or {}
 
-            WoWTools_UnitMixin.addName= '|A:UI-HUD-UnitFrame-Target-PortraitOn-Boss-Gold-Winged:0:0|a'..(WoWTools_L.UNITFRAME_LABEL)
+            WoWTools_UnitMixin.addName= '|A:UI-HUD-UnitFrame-Target-PortraitOn-Boss-Gold-Winged:0:0|a'..(WoWTools_L['Module.Unit frames'])
 
             WoWTools_UnitMixin:Init_Options()
 

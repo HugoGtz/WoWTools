@@ -133,7 +133,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
 			Save().ItemInteractionID= nil
 
-			WoWTools_CurrencyMixin.addName= '|A:bags-junkcoin:0:0|a'..(WoWTools_L.TOKENS)
+			WoWTools_CurrencyMixin.addName= '|A:bags-junkcoin:0:0|a'..(WoWTools_L['Module.Currencies'])
 
 --添加控制面板
 			WoWTools_PanelMixin:OnlyCheck({

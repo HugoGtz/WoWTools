@@ -139,7 +139,7 @@ panel:SetScript('OnEvent', function(self, event, arg1)
                 focusKey= 'Shift',
             })
 
-            WoWTools_InviteMixin.addName= '|A:communities-icon-addgroupplus:0:0|a'..(WoWTools_L.INVITE)
+            WoWTools_InviteMixin.addName= '|A:communities-icon-addgroupplus:0:0|a'..(WoWTools_L['Module.Invites'])
 
             if WoWTools_ChatMixin:CreateButton('Invite', WoWTools_InviteMixin.addName) then
                 self:RegisterEvent('PLAYER_ENTERING_WORLD')

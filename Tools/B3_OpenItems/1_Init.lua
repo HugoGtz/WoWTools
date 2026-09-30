@@ -188,7 +188,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             WoWToolsPlusSave['Tools_OpenItems']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Tools_OpenItems'], P_Save)
             P_Save= nil
 
-            WoWTools_OpenItemMixin.addName= '|A:BonusLoot-Chest:0:0|a'..(WoWTools_L['UNWRAP+ITEMS'])
+            WoWTools_OpenItemMixin.addName= '|A:BonusLoot-Chest:0:0|a'..(WoWTools_L['Module.Open items'])
 
             WoWTools_ToolsMixin:CreateButton({
                 name='OpenItems',

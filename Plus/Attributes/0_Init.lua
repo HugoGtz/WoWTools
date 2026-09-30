@@ -88,7 +88,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             WoWToolsPlusSave['Plus_Attributes']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Attributes'], P_Save)
             P_Save=nil
 
-            WoWTools_AttributesMixin.addName= '|A:charactercreate-icon-customize-body-selected:0:0|a'..(WoWTools_L.STAT_CATEGORY_ATTRIBUTES)
+            WoWTools_AttributesMixin.addName= '|A:charactercreate-icon-customize-body-selected:0:0|a'..(WoWTools_L['Module.Attributes'])
 
             WoWTools_AttributesMixin:Init_Options()
 

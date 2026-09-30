@@ -86,7 +86,7 @@ local function Init_Panel()
     local index=0
     local function Add_Options(name)
         WoWTools_PanelMixin:OnlyCheck({
-            name= HIGHLIGHT_FONT_COLOR:WrapTextInColorCode(index..') ')..name:gsub('Blizzard_', ''),
+            name= name:gsub('Blizzard_', ''),
             tooltip= WoWTools_L['Tip.Move.FrameModule']..'|n|n'..tooltip,
             category= WoWTools_MoveMixin.Category,
             Value= not Save().no[name],
@@ -97,14 +97,14 @@ local function Init_Panel()
         })
     end
 
-    WoWTools_PanelMixin:Header(Layout, 'Event')
+    WoWTools_PanelMixin:Header(Layout, WoWTools_L['Advanced: windows loaded on demand'])
     for name in pairs(WoWTools_MoveMixin.Events) do
         index= index+1
         Add_Options(name)
     end
 
     index=0
-    WoWTools_PanelMixin:Header(Layout, 'Frame')
+    WoWTools_PanelMixin:Header(Layout, WoWTools_L['Advanced: always-loaded windows'])
     for name in pairs(WoWTools_MoveMixin.Frames) do
         index=index+1
         Add_Options(name)
@@ -202,7 +202,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             P_Save= nil
 
 
-            WoWTools_MoveMixin.addName= '|TInterface\\Cursor\\UI-Cursor-Move:0|t'..(WoWTools_L.NPE_MOVE)
+            WoWTools_MoveMixin.addName= '|TInterface\\Cursor\\UI-Cursor-Move:0|t'..(WoWTools_L['Module.Move frames'])
 
             WoWTools_MoveMixin.Category, Layout= WoWTools_PanelMixin:AddSubCategory({
                 name=WoWTools_MoveMixin.addName,

@@ -37,7 +37,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 			P_Save=nil
 
 
-			WoWTools_FactionMixin.addName= format('|A:%s:0:0|a%s', WoWTools_DataMixin.Icon[WoWTools_DataMixin.Player.Faction] or 'ParagonReputation_Glow', WoWTools_L.REPUTATION)
+			WoWTools_FactionMixin.addName= format('|A:%s:0:0|a%s', WoWTools_DataMixin.Icon[WoWTools_DataMixin.Player.Faction] or 'ParagonReputation_Glow', WoWTools_L['Module.Reputation'])
 
 			--添加控制面板
 			WoWTools_PanelMixin:OnlyCheck({

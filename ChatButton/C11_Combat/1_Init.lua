@@ -261,7 +261,7 @@ panel:SetScript('OnEvent', function(self, event, arg1)
     end
 
 
-    WoWTools_CombatMixin.addName= '|A:Warfronts-BaseMapIcons-Horde-Barracks-Minimap:0:0|a'..(WoWTools_L['COMBAT+INFO'])
+    WoWTools_CombatMixin.addName= '|A:Warfronts-BaseMapIcons-Horde-Barracks-Minimap:0:0|a'..(WoWTools_L['Module.Combat info'])
 
     local notData= not WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Time.totalTime
                 or not WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Time.upData

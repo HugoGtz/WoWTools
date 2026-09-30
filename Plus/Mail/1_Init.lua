@@ -238,7 +238,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 --lastSendBody=内容
             })
 
-            WoWTools_MailMixin.addName= '|A:UI-HUD-Minimap-Mail-Mouseover:0:0|a'..(WoWTools_L.BUTTON_LAG_MAIL)
+            WoWTools_MailMixin.addName= '|A:UI-HUD-Minimap-Mail-Mouseover:0:0|a'..(WoWTools_L['Module.Mail'])
 
 --添加控制面板
             WoWTools_PanelMixin:OnlyCheck({

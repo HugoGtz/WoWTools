@@ -35,7 +35,7 @@ end
 local function Init_Panel()
     local reloadText= '|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD)
 
-    WoWTools_PanelMixin:Header(Layout, WoWTools_L.OPTIONS)
+    WoWTools_PanelMixin:Header(Layout, WoWTools_L['Tooltip position'])
     local root
 
 
@@ -118,7 +118,7 @@ local function Init_Panel()
         end
     }, root)
 
-    WoWTools_PanelMixin:Header(Layout, WoWTools_L.SETTINGS)
+    WoWTools_PanelMixin:Header(Layout, WoWTools_L['Tooltip content'])
 
     root= WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_L.MODEL,
@@ -298,7 +298,7 @@ local function Init_Panel()
     })
 
 
-    WoWTools_PanelMixin:Header(Layout, WARNING_FONT_COLOR:WrapTextInColorCode(WoWTools_L['REPLACE~2']))
+    WoWTools_PanelMixin:Header(Layout, WARNING_FONT_COLOR:WrapTextInColorCode(WoWTools_L['Replace Blizzard functions (advanced)']))
     WoWTools_PanelMixin:OnlyCheck({
         name= 'SetTooltipMoney',
         tooltip= WoWTools_L['Tip.Tooltip.ReplaceMoney']..'|n|n'..(WoWTools_L['Fix'])..' MoneyFrame_Update '..(WoWTools_L.ERRORS)
@@ -324,7 +324,7 @@ local function Init_Panel()
 
 
 
-    WoWTools_PanelMixin:Header(Layout, 'CVar')
+    WoWTools_PanelMixin:Header(Layout, WoWTools_L['Game options (CVar)'])
     root= WoWTools_PanelMixin:OnlyCheck({
         name= '|cnWARNING_FONT_COLOR:'..(WoWTools_L['LOCK+SETTINGS']),
         tooltip= function() return WoWTools_L['Tip.Tooltip.LockCVar']..'|n|n'..(WoWTools_TooltipMixin:Set_CVar(nil, true, true) or '') end,
@@ -391,7 +391,7 @@ local function Init_Panel()
     local index=0
     local function Add_Options(name)
         WoWTools_PanelMixin:OnlyCheck({
-            name= HIGHLIGHT_FONT_COLOR:WrapTextInColorCode(index..') ')..name:gsub('Blizzard_', ''),
+            name= name:gsub('Blizzard_', ''),
             tooltip= WoWTools_L['Tip.Tooltip.FrameModule']..'|n|n'..reloadText,
             category= WoWTools_TooltipMixin.Category,
             Value= not Save().no[name],
@@ -402,14 +402,14 @@ local function Init_Panel()
         })
     end
 
-    WoWTools_PanelMixin:Header(Layout, 'Event')
+    WoWTools_PanelMixin:Header(Layout, WoWTools_L['Advanced: windows loaded on demand'])
     for name in pairs(WoWTools_TooltipMixin.Events) do
         index= index+1
         Add_Options(name)
     end
 
     index=0
-    WoWTools_PanelMixin:Header(Layout, 'Frame')
+    WoWTools_PanelMixin:Header(Layout, WoWTools_L['Advanced: always-loaded windows'])
     for name in pairs(WoWTools_TooltipMixin.Frames) do
         index= index+1
         Add_Options(name)
