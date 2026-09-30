@@ -16,7 +16,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         WoWToolsPlusSave['Plus_Professions']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Professions'], {
             setButton=true,
             ArcheologySound=true, --考古学
-            showArcheologyBar=WoWTools_DataMixin.Player.husandro,
         })
 
         WoWTools_ProfessionMixin.addName= '|A:Professions_Icon_FirstTimeCraft:0:0|a'..(WoWTools_L['Module.Professions'])

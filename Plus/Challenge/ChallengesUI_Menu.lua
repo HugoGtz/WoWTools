@@ -78,11 +78,7 @@ local function Init_Menu(self, root)
     sub:SetTooltip(function(tooltip)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Challenge.Portals'])
         GameTooltip_AddErrorLine(tooltip, WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
-        if WoWTools_DataMixin.onlyChinese then
-            GameTooltip_AddErrorLine(tooltip,'不能打开: '..MicroButtonTooltipText('队伍查找器', "TOGGLEGROUPFINDER"))
-        else
-            GameTooltip_AddErrorLine(tooltip, 'Cannot: '..MicroButtonTooltipText(BINDING_NAME_TOGGLEGROUPFINDER, "TOGGLEGROUPFINDER"))
-        end
+        GameTooltip_AddErrorLine(tooltip, 'Cannot: '..MicroButtonTooltipText(BINDING_NAME_TOGGLEGROUPFINDER, "TOGGLEGROUPFINDER"))
     end)
     sub:SetEnabled(not isInCombat)
 

@@ -230,11 +230,7 @@ local function Init_Menu(self, root)
     end)
     sub:SetTooltip(function(tooltip)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Invite.Summon'])
-        if WoWTools_DataMixin.onlyChinese then
-            tooltip:AddLine('取消:|n 战斗中, 离开, Alt键')
-        else
-            tooltip:AddLine(format('%s:|n%s, %s, %s', CANCEL, HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT, AFK, ALT_KEY))
-        end
+        tooltip:AddLine(format('%s:|n%s, %s, %s', CANCEL, HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT, AFK, ALT_KEY))
     end)
 
 
@@ -255,7 +251,7 @@ local function Init_Menu(self, root)
         tooltip:AddLine('|A:communities-icon-chat:0:0|a')
         tooltip:AddLine(WoWTools_InviteMixin.RestingFrame.enterText)
         tooltip:AddLine(WoWTools_InviteMixin.RestingFrame.leaveText)
-        if not WoWTools_DataMixin.onlyChinese then
+        if true then
             tooltip:AddLine(' ')
             tooltip:AddLine(SPELL_FAILED_CUSTOM_ERROR_464)
         end

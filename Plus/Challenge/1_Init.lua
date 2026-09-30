@@ -36,11 +36,10 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 rightX= 2,--右边，提示，位置
                 rightY= -22,
 
-                hidePort= not WoWTools_DataMixin.Player.husandro,--传送门
+                hidePort= true,--传送门
                 portScale=WoWTools_DataMixin.Player.husandro and 0.85 or 1,--传送门, 缩放
 
                 --hideKeyUI=true,--挑战,钥石,插入界面
-                slotKeystoneSay=WoWTools_DataMixin.Player.husandro,--插入, KEY时, 说
 
                 --EndKeystoneSayText= WoWTools_DataMixin.Player.Region==5 and '{rt1}你们还继续吗? ' or '{rt1}Want to continue? ',
             })

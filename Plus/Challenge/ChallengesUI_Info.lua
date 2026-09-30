@@ -426,9 +426,7 @@ local function SetUp(self)
     local nameText = C_ChallengeMode.GetMapUIInfo(self.mapID)--名称
     self.nameLable.name= nameText
 
-    if WoWTools_DataMixin.onlyChinese and insTab.name then
-        nameText= insTab.name
-    elseif nameText then
+    if nameText then
         nameText=nameText:match('%((.+)%)') or nameText
         nameText=nameText:match('%（(.+)%）') or nameText
         nameText=nameText:match('%- (.+)') or nameText

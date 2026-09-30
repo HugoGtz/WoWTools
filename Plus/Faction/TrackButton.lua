@@ -602,8 +602,6 @@ local function Init()
 		local p= Save().point
 		if p and p[1] then
 			self:SetPoint(p[1], UIParent, p[3], p[4], p[5])
-		elseif WoWTools_DataMixin.Player.husandro then
-			self:SetPoint('TOPLEFT')
 		else
 			self:SetPoint('CENTER')
 		end

@@ -37,10 +37,9 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
     WoWToolsPlusSave['Plus_WorldMap']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_WorldMap'], {
         ShowMapID= true,--地图ID
-        HideTitle=WoWTools_DataMixin.Player.husandro,--隐藏，标题
         ShowMapXY= true,--地图坐标
         PlayerXY={--实时玩家当前坐标
-            disabled= not WoWTools_DataMixin.Player.husandro,
+            disabled= true,
             textY=-2,
         },
         ShowAreaPOI_Name=true,
@@ -64,7 +63,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         [2393]= {
             options={},
             ["50.02 74.76"]= {name=WoWTools_L['BUTTON_LAG_AUCTIONHOUSE~2'],},
-            ["47.40 52.60"]={name=WoWTools_DataMixin.onlyChinese and PROFESSIONS_BUTTON or "专业",},
+            ["47.40 52.60"]={name=PROFESSIONS_BUTTON,},--antes la condición estaba al revés y salía "专业" para todos
         },
     }
 

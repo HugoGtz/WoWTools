@@ -1197,12 +1197,12 @@ local function OnMouseDown_RightButton(self, d)
             local sub=root:CreateButton(
                 WoWTools_DataMixin.Icon.wow2
                 ..(WoWTools_L.CLEAR_ALL),
-                --..(WoWTools_DataMixin.onlyChinese and '清除' or SLASH_STOPWATCH_PARAM_STOP2),
+                --..(SLASH_STOPWATCH_PARAM_STOP2),
             function()
                 StaticPopup_Show('WoWTools_OK',
                     WoWTools_DataMixin.Icon.wow2
                     ..(WoWTools_L['Clear all WoW data'])
-                    --..(WoWTools_DataMixin.onlyChinese and '全部清除WoW数据' or 'Clear WoW data')
+                    --..('Clear WoW data')
                     ..'|n|n'
                     ..(battleTag or '')
                     ..'|n'
@@ -1767,7 +1767,7 @@ local function Init_List(showListType, isShow)
 
     Frame.SearchBox2= WoWTools_EditBoxMixin:Create(Frame, {
         isSearch=true,
-        --text= WoWTools_DataMixin.onlyChinese and '角色名称，副本'or (REPORTING_MINOR_CATEGORY_CHARACTER_NAME..', '..INSTANCE)
+        --text= (REPORTING_MINOR_CATEGORY_CHARACTER_NAME..', '..INSTANCE)
     })
     Frame.SearchBox2:SetPoint('BOTTOMLEFT', Frame.ScrollBox2, 'TOPLEFT', 29, 2)
     Frame.SearchBox2:HookScript('OnTextChanged', function()

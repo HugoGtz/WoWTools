@@ -859,7 +859,7 @@ local function Init()
     up:SetPoint('RIGHT', down, 'LEFT')
     up.tooltip= WoWTools_DataMixin.Icon.icon2
             ..(WoWTools_L.HUD_EDIT_MODE_COLLAPSE_OPTIONS)
-            --..WARNING_FONT_COLOR:WrapTextInColorCode(WoWTools_DataMixin.onlyChinese and '不要太快' or ERR_GENERIC_THROTTLE)
+            --..WARNING_FONT_COLOR:WrapTextInColorCode(ERR_GENERIC_THROTTLE)
     up:SetNormalAtlas('NPE_ArrowUp')
     up:SetScript('OnClick', function()
         if not EncounterJournal.encounter.usedHeaders then

@@ -246,11 +246,9 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 itemSlotScale=1, --栏位，按钮，缩放
 
                 EquipSet={--装备管理，数据
-                    disabled= not WoWTools_DataMixin.Player.husandro,
-                    itemLevel= WoWTools_DataMixin.Player.husandro,
+                    disabled= true,
                 },
 
-                flyoutScale= WoWTools_DataMixin.Player.husandro and 1.5 or nil,
             })
 
             if not Save().EquipSet then--旧数据
@@ -284,7 +282,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
             WoWTools_PaperDollMixin.addName2= '|A:bags-icon-equipment:0:0|a'..(WoWTools_L.EQUIPMENT_MANAGER)
 
-            --WoWTools_PaperDollMixin.addName3= '|A:loottoast-arrow-orange:0:0|a'..(WoWTools_DataMixin.onlyChinese and '属性' or STAT_CATEGORY_ATTRIBUTES)
+            --WoWTools_PaperDollMixin.addName3= '|A:loottoast-arrow-orange:0:0|a'..(STAT_CATEGORY_ATTRIBUTES)
 
             --添加控制面板
             WoWTools_PanelMixin:OnlyCheck({

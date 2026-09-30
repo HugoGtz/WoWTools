@@ -150,7 +150,7 @@ end
 
 
 --value zPanel.lua  WoWTools_DataMixin.StausText 
---[ITEM_MOD_HASTE_RATING_SHORT]= WoWTools_DataMixin.onlyChinese and '急' or WoWTools_TextMixin:sub(ITEM_MOD_HASTE_RATING_SHORT, 1, 2, true),
+--[ITEM_MOD_HASTE_RATING_SHORT]= WoWTools_TextMixin:sub(ITEM_MOD_HASTE_RATING_SHORT, 1, 2, true),
 local StatTab={
     {value='ITEM_MOD_CRIT_RATING_SHORT', index=1},--爆击
     {value='ITEM_MOD_HASTE_RATING_SHORT', index=1},--急速

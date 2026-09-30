@@ -4,18 +4,15 @@ local P_Save={
     --disabled=true,
     --disabledTexture=true,
     --useColor=true,自定义，颜色
-    UIButton=WoWTools_DataMixin.Player.husandro,
-    CheckBox= WoWTools_DataMixin.Player.husandro,
     alpha= 0.5,
 
     --disabledChatBubble=true,--禁用，聊天泡泡
     chatBubbleAlpha= 0.5,--聊天泡泡
     chatBubbleSacal= 0.85,
 
-    classPowerNum= WoWTools_DataMixin.Player.husandro,--职业，显示数字
     classPowerNumSize= 23,
 
-    --disabledMainMenu= not WoWTools_DataMixin.Player.husandro, --主菜单，颜色，透明度
+    --disabledMainMenu= true, --主菜单，颜色，透明度
     --disabledHelpTip=true,--隐藏所有教程
 
     Bg={

@@ -162,7 +162,7 @@ local function created_model(btn, setBg)
             if self:GetID()==EXTRA_PET_STABLE_SLOT_LUA_INDEX then
                 GameTooltip:AddDoubleLine(
                     format('|cffaad372%s|r', WoWTools_L.TALENT),
-                    format('|T461112:0|t|cffaad372%s|r', WoWTools_DataMixin.onlyChinese and '动物伙伴' or C_Spell.GetSpellLink(267116) or C_Spell.GetSpellName(267116) or 'Animal Companion')
+                    format('|T461112:0|t|cffaad372%s|r', C_Spell.GetSpellLink(267116) or C_Spell.GetSpellName(267116) or 'Animal Companion')
                 )
             end
             GameTooltip:Show()
@@ -273,7 +273,7 @@ local function Init()
 
 
 --食物
-    StableFrame.PetModelScene.PetInfo.Food=WoWTools_LabelMixin:Create(StableFrame.PetModelScene.PetInfo, {copyFont=not WoWTools_DataMixin.onlyChinese and StableFrame.PetModelScene.PetInfo.Specialization, color={r=1,g=1,b=1}, size=16})--copyFont=StableFrame.PetModelScene.PetInfo.Specialization, 
+    StableFrame.PetModelScene.PetInfo.Food=WoWTools_LabelMixin:Create(StableFrame.PetModelScene.PetInfo, {copyFont=true and StableFrame.PetModelScene.PetInfo.Specialization, color={r=1,g=1,b=1}, size=16})--copyFont=StableFrame.PetModelScene.PetInfo.Specialization, 
     StableFrame.PetModelScene.PetInfo.Food:SetPoint('TOPRIGHT', StableFrame.PetModelScene.PetInfo.Exotic, 'BOTTOMRIGHT')
 
 --特殊，加图标

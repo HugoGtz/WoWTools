@@ -261,7 +261,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             WoWToolsPlusSave['Other_Brewfest']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Other_Brewfest'], {disabled=true})
 
 --添加控制面板
-            addName= '|T132248:0|t'..(WoWTools_DataMixin.onlyChinese and '美酒节赛羊' or WoWTools_TextMixin:CN(C_Item.GetItemNameByID(33976), {itemID=33976, isName=true}) or 'Brewfest')
+            addName= '|T132248:0|t'..(WoWTools_TextMixin:CN(C_Item.GetItemNameByID(33976), {itemID=33976, isName=true}) or 'Brewfest')
 
             WoWTools_PanelMixin:Check_Button({
                 checkName= addName,

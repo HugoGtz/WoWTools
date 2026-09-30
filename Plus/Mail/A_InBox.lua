@@ -603,12 +603,8 @@ local function Init_InboxFrame_Update()
     if not hide then
         local allSenderText--总，发信人数
         if allSender>0 then
-            if WoWTools_DataMixin.onlyChinese then
-                allSenderText= '发信人'
-            else
-                allSenderText= ITEM_TEXT_FROM:gsub(',','')
-                allSenderText= allSenderText:gsub('，','')
-            end
+            allSenderText= ITEM_TEXT_FROM:gsub(',','')
+            allSenderText= allSenderText:gsub('，','')
             allSenderText= '|cnGREEN_FONT_COLOR:'..allSender..'|r'..allSenderText..' '
         end
         if totalItems>0 then

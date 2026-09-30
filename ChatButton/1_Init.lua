@@ -1,12 +1,11 @@
 local P_Save={
     --disabled=true,    
     disabledADD={
-        ['ChatButton_Emoji']= not WoWTools_DataMixin.Player.IsCN and not WoWTools_DataMixin.Player.husandro,
+        ['ChatButton_Emoji']= not WoWTools_DataMixin.Player.IsCN and true,
     },
     scale= 1,
     strata='MEDIUM',
     --isVertical=nil,--方向, 竖
-    isEnterShowMenu= WoWTools_DataMixin.Player.husandro,-- 移过图标，显示菜单
 
     borderAlpha=0,--外框，透明度
     bgAlpha=0,
@@ -208,7 +207,7 @@ local function Init_Menu(self, root)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Chat.UIParent'])
         tooltip:AddLine('SetParent '..'|cnGREEN_FONT_COLOR:'..self:GetParent():GetName())
     end)
---WoWTools_DataMixin.onlyChinese and '聊天框底部' or WoWTools_Join(HUD_EDIT_MODE_CHAT_FRAME_LABEL, HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_DOWN),
+--WoWTools_Join(HUD_EDIT_MODE_CHAT_FRAME_LABEL, HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_DOWN),
 --放到聊天框左边
 
     sub=root:CreateCheckbox(

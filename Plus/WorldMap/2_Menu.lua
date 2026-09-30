@@ -308,7 +308,7 @@ local function Init_Menu(self, root)
     sub:SetTooltip(function(tooltip)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.WorldMap.DungeonName'])
         tooltip:AddLine(WoWTools_L.PROFESSIONS_FLYOUT_SHOW_NAME)
-        --tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要刷新' or WoWTools_Join(NEED, REFRESH))
+        --tooltip:AddLine(WoWTools_Join(NEED, REFRESH))
     end)
 
 --字体大小
@@ -324,7 +324,7 @@ local function Init_Menu(self, root)
         minValue=4,
         maxValue=24,
         step=1,
-        --tooltip=WoWTools_DataMixin.onlyChinese and '需要刷新' or WoWTools_Join(NEED, REFRESH)
+        --tooltip=WoWTools_Join(NEED, REFRESH)
     })
 
 --世界地图任务，加名称

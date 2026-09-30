@@ -106,7 +106,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             WoWToolsPlusSave['Plus_AuctionHouse']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_AuctionHouse'], {
                 numButton=14,--行数
                 scaleSellButton=0.95,--综合
-                intShowSellItem= WoWTools_DataMixin.Player.husandro,--显示，转到出售物品
                 isMaxSellItem= true,--出售物品时，使用，最大数量
                 hideSellItem={--跳过，拍卖行物品
                     [201469]=true,--翡翠青苹果

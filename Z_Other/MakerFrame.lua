@@ -337,9 +337,9 @@ local function Init()--设置标记, 框架
         [3]={name=WoWTools_L.PING_TYPE_ON_MY_WAY, atlas='Ping_Marker_Icon_OnMyWay', action='PINGONMYWAY', text=BINDING_NAME_PINGONMYWAY},--text='onmyway'},
         [2]={name=WoWTools_L.PING_TYPE_ASSIST, atlas='Ping_Marker_Icon_Assist', action='PINGASSIST', text=BINDING_NAME_PINGASSIST},-- text='assist'},
 
-        --[7]={name=WoWTools_DataMixin.onlyChinese and '信号' or PING, atlas='Cursor_OpenHand_128', action='TOGGLEPINGLISTENER'},
-        --[4]={name=WoWTools_DataMixin.onlyChinese and '威胁' or REPORT_THREAT , atlas='Ping_Marker_Icon_threat'},
-        --[5]={name=WoWTools_DataMixin.onlyChinese and '看这里' or format(PING_SUBJECT_TYPE_ALERT_NOT_THREAT_POINT,'','',''), atlas='Ping_Marker_Icon_nonthreat'},
+        --[7]={name=PING, atlas='Cursor_OpenHand_128', action='TOGGLEPINGLISTENER'},
+        --[4]={name=REPORT_THREAT , atlas='Ping_Marker_Icon_threat'},
+        --[5]={name=format(PING_SUBJECT_TYPE_ALERT_NOT_THREAT_POINT,'','',''), atlas='Ping_Marker_Icon_nonthreat'},
     }
 
 
@@ -765,7 +765,7 @@ local function Init()--设置标记, 框架
                     ..'|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_2:0|t'
                     ..'|cffff8000'..(unit or (WoWTools_L.NONE))..'|r'
                     ..WoWTools_UnitMixin:GetPlayerInfo(unit)
-                    --..(self:GetAttribute("unit1" or (WoWTools_DataMixin.onlyChinese and '无' or NONE)))
+                    --..(self:GetAttribute("unit1" or (NONE)))
                 )
 
                 local isInRaid= IsInRaid()
@@ -778,7 +778,7 @@ local function Init()--设置标记, 框架
                     ..'|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_'..(isInRaid and 6 or 1)..':0|t'
                     ..'|cffff8000'..(unit2 or (WoWTools_L.NONE))..'|r'
                     ..WoWTools_UnitMixin:GetPlayerInfo(unit2)
-                    --..(self:GetAttribute("unit1" or (WoWTools_DataMixin.onlyChinese and '无' or NONE)))
+                    --..(self:GetAttribute("unit1" or (NONE)))
                 )
 
 
@@ -1073,8 +1073,6 @@ local function Init()--设置标记, 框架
             self:ClearAllPoints()
             if Save().point then
                 self:SetPoint(Save().point[1], UIParent, Save().point[3], Save().point[4], Save().point[5])
-            elseif WoWTools_DataMixin.Player.husandro then
-                self:SetPoint('BOTTOMRIGHT',  MultiBarBottomLeftButton12, 'TOPRIGHT', 28, 50)
             else
                 self:SetPoint('CENTER', -150, 50)
             end

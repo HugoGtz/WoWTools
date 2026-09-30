@@ -94,8 +94,6 @@ local function Init()
         self:ClearAllPoints()
         if Save().point then
             button:SetPoint(Save().point[1], UIParent, Save().point[3], Save().point[4], Save().point[5])
-        elseif WoWTools_DataMixin.Player.husandro then
-            button:SetPoint('LEFT', PlayerFrame, 'RIGHT', 25, 35)
         else
             button:SetPoint('LEFT', 23, 180)
         end

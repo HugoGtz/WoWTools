@@ -6,8 +6,8 @@ WoWTools_CursorMixin={
 }
 
 local P_Save={
-    disabled= not WoWTools_DataMixin.Player.husandro,
-    disabledGCD= not WoWTools_DataMixin.Player.husandro,
+    disabled= true,
+    disabledGCD= true,
     color={r=0, g=1, b= 0, a=1},
     usrClassColor=true,
     size=32,--8 64

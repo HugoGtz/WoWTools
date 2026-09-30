@@ -57,17 +57,9 @@ local function Set_ItemType(btn, itemInfo)
             else
                 hex= hex or '|cffffd200'
             end
-            if WoWTools_DataMixin.onlyChinese then
-                text= text:gsub('物品$', '')
-                text= text:gsub('武器$', '')
-                text= text:gsub('部$', '')
-                text= text:gsub('^.手.$', function()
-                end)
-            else
-                text= text:gsub(ICON_FILTER_ITEM..'$', '')
-                text= text:gsub(WEAPON..'$', '')
-                text= text:gsub(' $', '')
-            end
+            text= text:gsub(ICON_FILTER_ITEM..'$', '')
+            text= text:gsub(WEAPON..'$', '')
+            text= text:gsub(' $', '')
         end
     end
 

@@ -1,6 +1,5 @@
 
 local P_Save={
-	btn=WoWTools_DataMixin.Player.husandro,--启用，TrackButton
 	factions={},--指定,显示,声望
 	btnstr=true,--文本
 	scaleTrackButton=1,--缩放
@@ -10,7 +9,6 @@ local P_Save={
 
 	factionUpdateTips=true,--更新, 提示
 	--indicato=true,--指定
-	onlyIcon=WoWTools_DataMixin.Player.husandro,--隐藏名称， 仅显示有图标
 	--notPlus=true,
 
 	hideRenownFrame={},

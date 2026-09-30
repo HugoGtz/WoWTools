@@ -86,17 +86,13 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 choice={},--PlayerChoiceFrame
                 --movie={},--电影
                 stopMovie=true,--如果已播放，停止播放
-                stopCinematics= WoWTools_DataMixin.Player.husandro,--跳过过场动画
-                stopCinematicsInInstance=not WoWTools_DataMixin.Player.husandro,--仅限在副本里
+                stopCinematicsInInstance=true,--仅限在副本里
 
                 quest= true,
                 questOption={},
                 questRewardCheck={},--{任务ID= index}    
                 --autoSortQuest=  WoWTools_DataMixin.Player.husandro,--仅显示当前地图任务
-                autoSelectReward= WoWTools_DataMixin.Player.husandro,--自动选择奖励
-                showAllQuestNum= WoWTools_DataMixin.Player.husandro,--显示所有任务数量
 
-                questPlayText= WoWTools_DataMixin.Player.husandro,
                 --questPlayTextStopMove=true,
 
                 scale=1,
@@ -110,7 +106,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
                 --Gossip_Text_Icon_cnFont=nil,--仅限，外文, 修该字体
 
-                delvesDifficultyMaxLevel= WoWTools_DataMixin.Player.husandro,--地下堡指定难度
                 Dialogs={}
             })
 

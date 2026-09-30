@@ -487,7 +487,7 @@ local function Init()
             GameTooltip:AddDoubleLine('|cffffffff'..('ServerTime'), '|cnGREEN_FONT_COLOR:'..WoWTools_TimeMixin:SecondsToClock(GetServerTime())..WoWTools_DataMixin.Icon.left)
             GameTooltip:AddDoubleLine('|A:dressingroom-button-appearancelist-up:0:0|a'..(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL), WoWTools_DataMixin.Icon.right)
 
-            --GameTooltip:AddDoubleLine('|cffffffff'..(WoWTools_DataMixin.onlyChinese and '服务器时间' or TIMEMANAGER_TOOLTIP_REALMTIME), '|cnGREEN_FONT_COLOR:'..WoWTools_TimeMixin:SecondsToClock(C_DateAndTime.GetServerTimeLocal(), true, true)..WoWTools_DataMixin.Icon.left)
+            --GameTooltip:AddDoubleLine('|cffffffff'..(TIMEMANAGER_TOOLTIP_REALMTIME), '|cnGREEN_FONT_COLOR:'..WoWTools_TimeMixin:SecondsToClock(C_DateAndTime.GetServerTimeLocal(), true, true)..WoWTools_DataMixin.Icon.left)
             --GameTooltip:AddLine(' ')
 
             GameTooltip:AddDoubleLine('|cffffffff'..(WoWTools_L.NPE_MOVE), 'Alt+'..WoWTools_DataMixin.Icon.right)

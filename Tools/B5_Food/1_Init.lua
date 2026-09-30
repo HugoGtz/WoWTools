@@ -24,14 +24,12 @@ local ClassSpells={--{item=5512, alt=nil, shift=nil, ctrl=nil}
 
 local P_Save={
     noUseItems={},--禁用物品
-    autoLogin= WoWTools_DataMixin.Player.husandro,--启动,查询
     --isShowBackground=WoWTools_DataMixin.Player.husandro,--背景--旧数据
     --onlyMaxExpansion=true,--仅本版本物品
     borderAlpha= 0,
     bgAlpha=0.5,
     olnyUsaItem=true,
     numLine=12,
-    autoWho=WoWTools_DataMixin.Player.husandro,
     class={
         [0]={
             [1]=true,--药水

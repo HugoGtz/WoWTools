@@ -40,7 +40,7 @@ local function Init_GarrisonList()
     disabled=  PlayerIsTimerunning() or not ExpansionLandingPage,
     --check= function() return ExpansionLandingPage and ExpansionLandingPage:IsShown() end,
     atlas= 'warwithin-landingbutton-up',
-    --tooltip= WoWTools_DataMixin.onlyChinese and '点击这里显示卡兹阿加概要' or DRAGONFLIGHT_LANDING_PAGE_TOOLTIP,
+    --tooltip= DRAGONFLIGHT_LANDING_PAGE_TOOLTIP,
     func= function()
         if ExpansionLandingPage then
             ToggleExpansionLandingPage()
@@ -62,7 +62,7 @@ local function Init_GarrisonList()
         end
         return icon
     end,
-    --tooltip= WoWTools_DataMixin.onlyChinese and '点击显示圣所报告' or GARRISON_TYPE_9_0_LANDING_PAGE_TOOLTIP,
+    --tooltip= GARRISON_TYPE_9_0_LANDING_PAGE_TOOLTIP,
     },
 
 
@@ -71,7 +71,7 @@ local function Init_GarrisonList()
     garrFollowerTypeID= Enum.GarrisonFollowerType.FollowerType_7_0_GarrisonFollower,
     frame='OrderHallMissionFrame',
     atlas= WoWTools_UnitMixin:GetClassIcon('player', nil, nil, {reAtlas=true}),--职业图标 -- WoWTools_DataMixin.Player.Class == "EVOKER" and "UF-Essence-Icon-Active" or string.format("legionmission-landingbutton-%s-up", WoWTools_DataMixin.Player.Class),
-    --tooltip= WoWTools_DataMixin.onlyChinese and '点击显示职业大厅报告' or MINIMAP_ORDER_HALL_LANDING_PAGE_TOOLTIP,
+    --tooltip= MINIMAP_ORDER_HALL_LANDING_PAGE_TOOLTIP,
     },
 
     {name= WoWTools_L.GARRISON_LOCATION_TOOLTIP,
@@ -80,7 +80,7 @@ local function Init_GarrisonList()
     garrFollowerTypeID2=Enum.GarrisonFollowerType.FollowerType_6_0_Boat,
     atlas= format("GarrLanding-MinimapIcon-%s-Up", WoWTools_DataMixin.Player.Faction),
     atlas2= format('Islands-%sBoat', WoWTools_DataMixin.Player.Faction),
-    --tooltip= WoWTools_DataMixin.onlyChinese and '点击显示要塞报告' or MINIMAP_GARRISON_LANDING_PAGE_TOOLTIP,
+    --tooltip= MINIMAP_GARRISON_LANDING_PAGE_TOOLTIP,
     },
 
 

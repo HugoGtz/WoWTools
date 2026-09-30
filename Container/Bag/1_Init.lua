@@ -42,7 +42,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             end
 
             WoWToolsPlusSave['Plus_Container']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Container'], {
-                enabledCombinedColumns= WoWTools_DataMixin.Player.husandro,--背包，设置行数
                 delete={item={}},
                 cvar={SortBagsRightToLeft=true},
             })

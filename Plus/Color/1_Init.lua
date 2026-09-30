@@ -9,7 +9,6 @@ local P_Save= {
 	--selectType2=true,--更多颜色
 
 	saveColor={},--保存4个颜色
-	notHideFuori= WoWTools_DataMixin.Player.husandro,--自动隐藏
 }
 
 

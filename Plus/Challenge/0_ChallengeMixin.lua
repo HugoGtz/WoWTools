@@ -30,20 +30,6 @@ local function GetActivities()--Enum.WeeklyRewardChestThresholdType
 --PVP 2
             elseif info.type == Enum.WeeklyRewardChestThresholdType.RankedPvP then
                 head= WoWTools_L.PVP
-                if WoWTools_DataMixin.onlyChinese then
-                    local tab={
-                        [0]= "休闲者",
-                        [1]= "争斗者 I",
-                        [2]= "挑战者 I",
-                        [3]= "竞争者 I",
-                        [4]= "决斗者",
-                        [5]= "精锐",
-                        [6]= "争斗者 II",
-                        [7]= "挑战者 II",
-                        [8]= "竞争者 II",
-                    }
-                    difficultyText=tab[info.level]
-                end
                 difficultyText=  difficultyText or PVPUtil.GetTierName(info.level)-- _G["PVP_RANK_"..tierEnum.."_NAME"] PVPUtil.lua
 --团队副本 3
             elseif info.type == Enum.WeeklyRewardChestThresholdType.Raid then
@@ -85,7 +71,7 @@ end
 
 function WoWTools_ChallengeMixin:ActivitiesTooltip(tooltip)
     if (not WoWTools_DataMixin.Player.IsMaxLevel or PlayerIsTimerunning())--不是，最高等级时，退出
-        and not WoWTools_DataMixin.Player.husandro
+        and true
     then
         return
     end
@@ -197,7 +183,7 @@ end
 
 
 function WoWTools_ChallengeMixin:ActivitiesFrame(frame, settings)--周奖励，提示
-    if not WoWTools_DataMixin.Player.IsMaxLevel and not WoWTools_DataMixin.Player.husandro then--不是，最高等级时，退出
+    if not WoWTools_DataMixin.Player.IsMaxLevel and true then--不是，最高等级时，退出
         return
     end
 

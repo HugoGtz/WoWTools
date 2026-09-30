@@ -3,7 +3,7 @@
 
 
 local P_Save={
-    disabled= not WoWTools_DataMixin.Player.husandro,
+    disabled= true,
     scale= WoWTools_DataMixin.Player.husandro and 0.85 or 1,
     alpha=1,
     autoHide= WoWTools_DataMixin.Player.husandro and true or nil

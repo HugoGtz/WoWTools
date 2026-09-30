@@ -7,7 +7,7 @@ local P_Save= {
 
     --保存上次，内容
     type= SLASH_SAY1,
-    --text= WoWTools_DataMixin.onlyChinese and '说' or SAY
+    --text= SAY
     --name=玩家名称,
     --isWoW=bool,
     numWhisper=0,--最后密语,数量

@@ -1,6 +1,5 @@
 local P_Save={
     autoClear=true,--进入战斗时,清除数据
-    saveLog=WoWTools_DataMixin.Player.husandro,
     save={},--保存数据,最多30个
 }
 

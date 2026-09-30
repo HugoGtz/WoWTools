@@ -14,11 +14,7 @@ local function Init_Options()--设置 Frame
             check=WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})--四属性, 仅限DPS
             check:SetChecked(Save().onlyDPS)
             check:SetPoint('TOPLEFT', last, 'BOTTOMLEFT',0, -16)
-            if WoWTools_DataMixin.onlyChinese then
-                check.text:SetText("仅限"..INLINE_DAMAGER_ICON..INLINE_HEALER_ICON)
-            else
-                check.text:SetFormattedText(LFG_LIST_CROSS_FACTION , INLINE_DAMAGER_ICON..INLINE_HEALER_ICON)
-            end
+            check.text:SetFormattedText(LFG_LIST_CROSS_FACTION , INLINE_DAMAGER_ICON..INLINE_HEALER_ICON)
             check:SetScript('OnMouseUp',function()
                 Save().onlyDPS = not Save().onlyDPS and true or false
                 WoWTools_AttributesMixin:Frame_Init(true)--初始，设置
@@ -29,11 +25,7 @@ local function Init_Options()--设置 Frame
         elseif info.tank and not findTank then
             local text= WoWTools_LabelMixin:Create(Frame)
             text:SetPoint('TOPLEFT', last, 'BOTTOMLEFT',0, -16)
-            if WoWTools_DataMixin.onlyChinese then
-                text:SetText("仅限"..INLINE_TANK_ICON)
-            else
-                text:SetFormattedText(LFG_LIST_CROSS_FACTION , INLINE_TANK_ICON)
-            end
+            text:SetFormattedText(LFG_LIST_CROSS_FACTION , INLINE_TANK_ICON)
             findTank=true
             last= text
         end

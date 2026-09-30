@@ -1,5 +1,5 @@
 --Flyout, 技能，提示
---'|A:common-icon-backarrow:0:0|a'..(WoWTools_DataMixin.onlyChinese and '法术弹出框' or WoWTools_L['Spell flyout'])
+--'|A:common-icon-backarrow:0:0|a'..(WoWTools_L['Spell flyout'])
 
 local SpellTab={}--WoWTools_DataMixin.ChallengesSpellTabs
 
@@ -106,13 +106,6 @@ end
 
 local function Init()
 
-    if WoWTools_DataMixin.onlyChinese then
-        for _, info in pairs(WoWTools_DataMixin.ChallengesSpellTabs or {}) do
-            if info.spell and info.name then
-                SpellTab[info.spell]=info.name
-            end
-        end
-    end
 
 --Flyout, 技能，提示
     WoWTools_DataMixin:Hook(SpellFlyoutPopupButtonMixin, 'UpdateGlyphState', function(self)

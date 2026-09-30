@@ -338,8 +338,6 @@ local function Init()
             self:SetParent(UIParent)
             if p and p[1] then
                 self:SetPoint(p[1], UIParent, p[3], p[4], p[5])
-            elseif WoWTools_DataMixin.Player.husandro then
-                self:SetPoint('BOTTOMLEFT', PlayerFrame, 'TOPLEFT', 0, 20)
             else
                 self:SetPoint('CENTER', UIParent, -150, 150)
             end

@@ -7,21 +7,18 @@ local P_Save={
     channels={--频道名称替换 
         --['世界'] = '[世]',
     },
-    disabledKeyColor= not WoWTools_DataMixin.Player.husandro,--禁用，内容颜色，和频道名称替换
+    disabledKeyColor= true,--禁用，内容颜色，和频道名称替换
 
-    groupWelcome= WoWTools_DataMixin.Player.husandro,--欢迎
     --groupWelcomeText= WoWTools_DataMixin.Player.IsCN and '{rt1}欢迎{rt1}' or '{rt1}Hi{rt1}',
 
-    guildWelcome= WoWTools_DataMixin.Player.husandro,
     --guildWelcomeText= WoWTools_DataMixin.Player.IsCN and '宝贝，欢迎你加入' or EMOTE103_CMD1:gsub('/',''),
 
     welcomeOnlyHomeGroup=true,--仅限, 手动组队
 
-    setPlayerSound= WoWTools_DataMixin.Player.husandro,--播放, 声音
     Cvar={},
     --disabledNPCTalking=true,--禁用，隐藏NPC发言    
 
-    not_Add_Reload_Button= not WoWTools_DataMixin.Player.husandro,--添加 RELOAD 按钮
+    not_Add_Reload_Button= true,--添加 RELOAD 按钮
     autoHideTableAttributeDisplay=true,--自动关闭，Fstack
 
     --hideEventTracePlus=true 隐藏 EventTrace Plus

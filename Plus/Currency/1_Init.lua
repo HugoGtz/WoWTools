@@ -49,7 +49,7 @@ local function Init_Menu(self, root)
 		tooltip:AddLine(WoWTools_L.SPELL_FAILED_CUSTOM_ERROR_248)
 	end)
 
-	--WoWTools_DataMixin.onlyChinese and '仅限当前版本' or format(LFG_LIST_CROSS_FACTION, WoWTools_Join(REFORGE_CURRENT, GAME_VERSION_LABEL)),
+	--format(LFG_LIST_CROSS_FACTION, WoWTools_Join(REFORGE_CURRENT, GAME_VERSION_LABEL)),
 
 
 --Plus
@@ -105,10 +105,9 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 			WoWToolsPlusSave['Currency2']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Currency2'], {
 				tokens={},
 				item={},
-				Hide=not WoWTools_DataMixin.Player.husandro,
+				Hide=true,
 				str=true,
 				toRightTrackText=true,--向右平移
-				itemButtonUse=WoWTools_DataMixin.Player.husandro,
 				--hideCurrencyMax=true,--达到上限
 			})
 

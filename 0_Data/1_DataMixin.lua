@@ -6,7 +6,7 @@
 
 WoWTools_DataMixin= {
     addName= '|TInterface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools.tga:0|t|cffff00ffWoW|r|cff00ff00Tools|r|cff00ccffPlus|r',
-    onlyChinese= LOCALE_zhCN and true or false,
+    onlyChinese= false,--fork: sin soporte chino (solo es/en); se mantiene la variable por compatibilidad
 
     --isRetail = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE and not C_AddOns.IsAddOnLoaded('Blizzard_PTRFeedback'),--Blizzard_PTRFeedback
 

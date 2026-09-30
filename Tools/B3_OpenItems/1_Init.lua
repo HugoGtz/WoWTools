@@ -151,8 +151,7 @@ local P_Save={
     mago=true,
     ski=true,
     alt=true,
-    --noItemHide= true,--not WoWTools_DataMixin.Player.husandro,
-    KEY=WoWTools_DataMixin.Player.husandro and 'F',
+    --noItemHide= true,--true,
     --reagent= true,--禁用，检查，材料包
 }
 

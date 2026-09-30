@@ -10,7 +10,7 @@ local P_Save={
     scale={},--缩放 (antes 0.85 por defecto en ZoneAbilityFrame, UIWidgetPowerBarContainerFrame y BankFrame)
     size={},
     disabledSize={
-        ['WorldMapFrame']= not WoWTools_DataMixin.Player.husandro
+        ['WorldMapFrame']= true
     },
 
     --notMoveAlpha=true,--是否设置，移动时，设置透明度
@@ -22,7 +22,7 @@ local P_Save={
     no={},--禁用
 
 
-    --disablesWorldMapFrameSize= not WoWTools_DataMixin.Player.husandro
+    --disablesWorldMapFrameSize= true
 }
 
 local Layout

@@ -927,8 +927,6 @@ local function Init()
 		self:ClearAllPoints()
 		if Save().point then
 			self:SetPoint(Save().point[1], UIParent, Save().point[3], Save().point[4], Save().point[5])
-		elseif WoWTools_DataMixin.Player.husandro then
-			self:SetPoint('TOPLEFT', 200, WoWTools_DataMixin.Player.husandro and 0 or -100)
 		else
 			self:SetPoint('CENTER', -100, -100)
 		end

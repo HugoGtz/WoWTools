@@ -23,7 +23,7 @@ local function Init()
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_MerchantMixin.addName)
-        --GameTooltip:AddLine('|A:Cursor_lootall_128:0:0|a'..(WoWTools_DataMixin.onlyChinese and "自动拾取" or AUTO_LOOT_DEFAULT_TEXT)..' Plus')
+        --GameTooltip:AddLine('|A:Cursor_lootall_128:0:0|a'..(AUTO_LOOT_DEFAULT_TEXT)..' Plus')
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(WoWTools_L['SELF_CAST_AUTO+SELL_ALL_JUNK_ITEMS_EXCLUDE_HEADER'], WoWTools_TextMixin:GetEnabeleDisable(not Save().notSellJunk))
         if not Save().notSellJunk then

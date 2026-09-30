@@ -565,7 +565,6 @@ local enUS= {
     ['Tip.Panel.ClearWarband']= 'After confirmation, erases the cached Warband data of all characters (level, item level, specialization, items, currencies…) and reloads the UI.',
     ['Tip.Panel.WarbandItems']= 'Opens a window listing the items and currencies recorded for all your characters.',
     ['Tip.Panel.ClearAll']= 'After confirmation, erases everything at once: addon settings, input data and Warband data, then reloads the UI.',
-    ['Tip.Panel.Chinese']= 'Forces the addon texts to be shown in Simplified Chinese, regardless of the game client language. Requires /reload.',
     ['Tip.Panel.Realm']= 'Shows the region/language of other players\' realms (e.g. DE, FR, GB) next to their names. Requires /reload.',
     ['Tip.Talking.Hide']= 'Automatically closes the talking head frame (NPC story dialogue) but still plays its voice line.',
     ['Tip.Talking.Print']= 'Shows the NPC name and text of the hidden dialogue in the chat.',
@@ -695,15 +694,6 @@ local enUS= {
     ['Tip.Move.SavePoint']= 'Saves the position of moved windows and restores it next time they open. The button clears all saved positions.',
     ['Tip.Move.FrameModule']= 'Allows moving and resizing this Blizzard window.',
     ['Tip.Move.Enable']= 'Enables the Move module: lets you drag, scale and resize Blizzard windows. The Reset button clears this module\'s settings.',
-    ['Tip.Texture.CustomColor']= 'Tints the textures changed by the addon with a custom class color instead of the default one. The dropdown sets the color for each class.',
-    ['Tip.Texture.UIButton']= 'Tints Blizzard\'s standard red buttons with your class color and makes them semi-transparent.',
-    ['Tip.Texture.CheckBox']= 'Restyles Blizzard checkboxes: smaller, class-colored and semi-transparent, hiding the box when checked.',
-    ['Tip.Texture.ChatBubbles']= 'Scales chat bubbles and makes their background semi-transparent.',
-    ['Tip.Texture.ChatBubblesScale']= 'Scale of chat bubbles.',
-    ['Tip.Texture.ClassPowerNum']= 'Shows numbers 1, 2, 3… on class resource points (Holy Power, combo points, runes, etc.). The slider sets their size.',
-    ['Tip.Texture.FrameModule']= 'Applies the addon\'s texture style (class color and transparency) to this Blizzard interface.',
-    ['Tip.Texture.Enable']= 'Enables the Textures module: tints Blizzard interface textures with your class color, adjusts their transparency and lets you customize window backgrounds. The Reset button clears this module\'s settings.',
-    ['Tip.Texture.BuffDurations']= 'Shows the remaining time under buff icons. Cannot be changed in combat.',
     ['Tip.Texture.BgImage']= 'Uses this image as the window background (shared setting or this window\'s own).',
     ['Tip.Texture.BgRemove']= 'Removes this image from your custom list.',
     ['Tip.Texture.BgAdd']= 'Adds a texture path or atlas name to the background image list.',
@@ -1117,7 +1107,6 @@ local enUS= {
     ['Data and reset']= 'Data and reset',
     ['Reset addon settings']= 'Reset addon settings',
     ['All addon data']= 'All addon data',
-    ['Chinese interface']= 'Chinese interface',
     ['Show realm region']= 'Show realm region',
     ['Module.Tooltips']= 'Tooltips',
     ['Module.Tools']= 'Tools',
@@ -1776,7 +1765,6 @@ local esES= {
     ['Tip.Panel.ClearWarband']= 'Tras confirmar, borra los datos de banda guerrera guardados de todos los personajes (nivel, nivel de objeto, especialización, objetos, monedas…) y recarga la interfaz.',
     ['Tip.Panel.WarbandItems']= 'Abre una ventana con los objetos y monedas registrados de todos tus personajes.',
     ['Tip.Panel.ClearAll']= 'Tras confirmar, borra todo a la vez: ajustes del addon, datos introducidos y datos de banda guerrera, y recarga la interfaz.',
-    ['Tip.Panel.Chinese']= 'Fuerza que los textos del addon se muestren en chino simplificado, sea cual sea el idioma del cliente. Requiere /reload.',
     ['Tip.Panel.Realm']= 'Muestra la región/idioma del reino de otros jugadores (p. ej. DE, FR, GB) junto a su nombre. Requiere /reload.',
     ['Tip.Talking.Hide']= 'Cierra automáticamente el marco de diálogo con retrato (diálogos de PNJ) pero sigue reproduciendo su voz.',
     ['Tip.Talking.Print']= 'Muestra en el chat el nombre del PNJ y el texto del diálogo oculto.',
@@ -1906,15 +1894,6 @@ local esES= {
     ['Tip.Move.SavePoint']= 'Guarda la posición de las ventanas que muevas y la restaura al volver a abrirlas. El botón borra todas las posiciones guardadas.',
     ['Tip.Move.FrameModule']= 'Permite mover y redimensionar esta ventana de Blizzard.',
     ['Tip.Move.Enable']= 'Activa el módulo Mover: permite arrastrar, escalar y redimensionar las ventanas de Blizzard. El botón Restablecer borra la configuración del módulo.',
-    ['Tip.Texture.CustomColor']= 'Tiñe las texturas que modifica el addon con un color de clase personalizado en lugar del predeterminado. El desplegable elige el color de cada clase.',
-    ['Tip.Texture.UIButton']= 'Tiñe con el color de clase los botones rojos estándar de Blizzard y los vuelve semitransparentes.',
-    ['Tip.Texture.CheckBox']= 'Cambia el estilo de las casillas de Blizzard: más pequeñas, con el color de clase y semitransparentes; el recuadro se oculta al marcarlas.',
-    ['Tip.Texture.ChatBubbles']= 'Cambia la escala de los bocadillos de chat y vuelve semitransparente su fondo.',
-    ['Tip.Texture.ChatBubblesScale']= 'Escala de los bocadillos de chat.',
-    ['Tip.Texture.ClassPowerNum']= 'Muestra números 1, 2, 3… sobre los puntos del recurso de clase (poder sagrado, puntos de combo, runas, etc.). El control ajusta su tamaño.',
-    ['Tip.Texture.FrameModule']= 'Aplica el estilo de texturas del addon (color de clase y transparencia) a esta interfaz de Blizzard.',
-    ['Tip.Texture.Enable']= 'Activa el módulo de texturas: tiñe las texturas de la interfaz de Blizzard con el color de clase, ajusta su transparencia y permite personalizar el fondo de las ventanas. El botón Restablecer borra la configuración del módulo.',
-    ['Tip.Texture.BuffDurations']= 'Muestra el tiempo restante debajo de los iconos de beneficios. No se puede cambiar en combate.',
     ['Tip.Texture.BgImage']= 'Usa esta imagen como fondo de la ventana (configuración común o la propia de esta ventana).',
     ['Tip.Texture.BgRemove']= 'Quita esta imagen de tu lista personalizada.',
     ['Tip.Texture.BgAdd']= 'Añade una ruta de textura o un nombre de atlas a la lista de imágenes de fondo.',
@@ -2328,7 +2307,6 @@ local esES= {
     ['Data and reset']= 'Datos y restablecimiento',
     ['Reset addon settings']= 'Restablecer opciones del addon',
     ['All addon data']= 'Todos los datos del addon',
-    ['Chinese interface']= 'Interfaz en chino',
     ['Show realm region']= 'Mostrar región del reino',
     ['Module.Tooltips']= 'Tooltips',
     ['Module.Tools']= 'Herramientas',
@@ -2352,7 +2330,6 @@ local esES= {
 
 local current= (locale=='esES' or locale=='esMX') and esES or enUS
 
-local zhCN= WoWTools_L_zhCN or {}
 
 --Nombre de global de Blizzard: sin espacios y en mayúsculas, o con guion bajo (p. ej. VOICEMACRO_1_Sc_0)
 local function IsGlobalName(key)
@@ -2362,7 +2339,7 @@ end
 --Texto por defecto cuando no hay traducción propia:
 --  RESET_POSITION        -> texto de Blizzard ya traducido por el cliente
 --  HIDE+SHOW_TUTORIALS   -> los dos textos de Blizzard unidos (se puede reescribir en esES/enUS)
---  CLAVE~2               -> variante china de CLAVE; fuera del chino es igual que CLAVE
+--  CLAVE~2               -> variante de CLAVE (heredada del original chino); usa el texto de CLAVE
 --  'Texto en inglés'     -> el propio texto
 local function Fallback(key)
     key= key:gsub('~%d+$', '')
@@ -2380,16 +2357,9 @@ local function Fallback(key)
 end
 
 --WoWTools_L.CLAVE / WoWTools_L['clave']: el código no necesita saber el idioma.
---Chino si el cliente es chino o está activada la opción "solo chino" (WoWTools_DataMixin.onlyChinese).
 WoWTools_L= setmetatable({}, {__index= function(_, key)
     if type(key)~='string' then
         return key
-    end
-    if WoWTools_DataMixin and WoWTools_DataMixin.onlyChinese then
-        local text= zhCN[key] or zhCN[key:gsub('~%d+$', '')]
-        if text then
-            return text
-        end
     end
     local base= key:gsub('~%d+$', '')
     return current[key] or current[base] or enUS[key] or enUS[base] or Fallback(key)

@@ -87,11 +87,7 @@ local function Init_Menu(self, root)
             tooltip:AddDoubleLine(WoWTools_L.LAG_TOLERANCE,
                 (Save().saveItemSeconds or 0.8 )..' '..(WoWTools_L.LOSS_OF_CONTROL_SECONDS)
             )
-            if WoWTools_DataMixin.onlyChinese then
-                tooltip:AddLine('存放，提取，整理')
-            else
-                tooltip:AddLine(DEPOSIT..', '..WITHDRAW..', '..BAG_CLEANUP_BANK)
-            end
+            tooltip:AddLine(DEPOSIT..', '..WITHDRAW..', '..BAG_CLEANUP_BANK)
         end
     })
     root:CreateSpacer()

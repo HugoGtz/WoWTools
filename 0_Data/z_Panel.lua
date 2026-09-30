@@ -1,5 +1,4 @@
 local P_Save={
-    onlyChinese= LOCALE_zhCN or WoWTools_DataMixin.Player.husandro,
     --useClassColor= WoWTools_DataMixin.Player.husandro,--使用,职业, 颜色
     --useCustomColor= nil,--使用, 自定义, 颜色
     --useColor=1,
@@ -187,24 +186,9 @@ local MainStartIndex
 local function Init_Options()
     WoWTools_PanelMixin:Header(nil, WoWTools_L.GENERAL)
 
-    --WoWTools_PanelMixin:Header(nil, WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS)
+    --WoWTools_PanelMixin:Header(nil, SETTINGS)
 
 
-    if not LOCALE_zhCN then
-        WoWTools_PanelMixin:OnlyCheck({
-            name= WoWTools_L['Chinese interface'],
-            tooltip= WoWTools_L['Tip.Panel.Chinese']..'|n|n'
-                    ..(WoWTools_DataMixin.onlyChinese and '语言: 简体中文'
-                    or (LANGUAGE..': '..LFG_LIST_LANGUAGE_ZHCN)),
-            Value= Save().onlyChinese,
-            GetValue= function() return Save().onlyChinese end,
-            SetValue= function()
-                WoWTools_DataMixin.onlyChinese= not WoWTools_DataMixin.onlyChinese and true or nil
-                Save().onlyChinese = WoWTools_DataMixin.onlyChinese
-                print(WoWTools_DataMixin.addName,  WoWTools_L.REQUIRES_RELOAD)
-            end
-        })
-    end
 
     if WoWTools_DataMixin.Player.Region==1 or WoWTools_DataMixin.Player.Region==3 then--US EU realm提示
         local function get_tooltip()
@@ -286,7 +270,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     WoWToolsPlusSave['WoWTools_Settings']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['WoWTools_Settings'], P_Save)
     P_Save= nil
 
-    WoWTools_DataMixin.onlyChinese= LOCALE_zhCN or Save().onlyChinese
 
 --旧数据
     --Save().useColor= Save().useColor or 1
@@ -296,29 +279,25 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
     Init_Options()
 
-    if WoWTools_DataMixin.onlyChinese then
-        WoWTools_DataMixin.Language.layer='位面'
-        WoWTools_DataMixin.Language.key='关键词'
-    end
     WoWTools_DataMixin.Language.layer=WoWTools_DataMixin.Language.layer..'|A:Ping_Wheel_Icon_OnMyWay_Disabled_Small:0:0|a'
 
 
     WoWTools_DataMixin.StausText={
-        [ITEM_MOD_HASTE_RATING_SHORT]= WoWTools_DataMixin.onlyChinese and '急' or WoWTools_TextMixin:sub(ITEM_MOD_HASTE_RATING_SHORT, 1, 2, true),
-        [ITEM_MOD_CRIT_RATING_SHORT]= WoWTools_DataMixin.onlyChinese and '爆' or WoWTools_TextMixin:sub(ITEM_MOD_CRIT_RATING_SHORT, 1, 2, true),
-        [ITEM_MOD_MASTERY_RATING_SHORT]= WoWTools_DataMixin.onlyChinese and '精' or WoWTools_TextMixin:sub(ITEM_MOD_MASTERY_RATING_SHORT, 1, 2, true),
-        [ITEM_MOD_VERSATILITY]= WoWTools_DataMixin.onlyChinese and '全' or WoWTools_TextMixin:sub(ITEM_MOD_VERSATILITY, 1, 2, true),
+        [ITEM_MOD_HASTE_RATING_SHORT]= WoWTools_TextMixin:sub(ITEM_MOD_HASTE_RATING_SHORT, 1, 2, true),
+        [ITEM_MOD_CRIT_RATING_SHORT]= WoWTools_TextMixin:sub(ITEM_MOD_CRIT_RATING_SHORT, 1, 2, true),
+        [ITEM_MOD_MASTERY_RATING_SHORT]= WoWTools_TextMixin:sub(ITEM_MOD_MASTERY_RATING_SHORT, 1, 2, true),
+        [ITEM_MOD_VERSATILITY]= WoWTools_TextMixin:sub(ITEM_MOD_VERSATILITY, 1, 2, true),
 
-        [ITEM_MOD_CR_AVOIDANCE_SHORT]= WoWTools_DataMixin.onlyChinese and '闪' or WoWTools_TextMixin:sub(ITEM_MOD_CR_AVOIDANCE_SHORT, 1, 2, true),
-        [ITEM_MOD_CR_LIFESTEAL_SHORT]= WoWTools_DataMixin.onlyChinese and '吸' or WoWTools_TextMixin:sub(ITEM_MOD_CR_LIFESTEAL_SHORT, 1, 2, true),
-        [ITEM_MOD_CR_SPEED_SHORT]= WoWTools_DataMixin.onlyChinese and '速' or WoWTools_TextMixin:sub(ITEM_MOD_CR_SPEED_SHORT, 1,2,true),
-        [ITEM_MOD_PARRY_RATING_SHORT]=WoWTools_DataMixin.onlyChinese and '招' or WoWTools_TextMixin:sub(PARRY, 1,2,true), --= "招架";
+        [ITEM_MOD_CR_AVOIDANCE_SHORT]= WoWTools_TextMixin:sub(ITEM_MOD_CR_AVOIDANCE_SHORT, 1, 2, true),
+        [ITEM_MOD_CR_LIFESTEAL_SHORT]= WoWTools_TextMixin:sub(ITEM_MOD_CR_LIFESTEAL_SHORT, 1, 2, true),
+        [ITEM_MOD_CR_SPEED_SHORT]= WoWTools_TextMixin:sub(ITEM_MOD_CR_SPEED_SHORT, 1,2,true),
+        [ITEM_MOD_PARRY_RATING_SHORT]=WoWTools_TextMixin:sub(PARRY, 1,2,true), --= "招架";
 
-        [ITEM_MOD_MODIFIED_CRAFTING_STAT_1] = WoWTools_DataMixin.onlyChinese and '随' or WoWTools_TextMixin:sub(ITEM_MOD_MODIFIED_CRAFTING_STAT_1, 1,2,true),-- "随机属性1"
-        [ITEM_MOD_MODIFIED_CRAFTING_STAT_2] = WoWTools_DataMixin.onlyChinese and '随' or WoWTools_TextMixin:sub(ITEM_MOD_MODIFIED_CRAFTING_STAT_2, 1,2,true),-- "随机属性2"
-        [ITEM_MOD_BLOCK_RATING_SHORT] = WoWTools_DataMixin.onlyChinese and '挡' or WoWTools_TextMixin:sub(ITEM_MOD_BLOCK_RATING_SHORT, 1,2,true),-- "格挡"
-        [ITEM_MOD_ATTACK_POWER_SHORT] = WoWTools_DataMixin.onlyChinese and '功' or WoWTools_TextMixin:sub(ITEM_MOD_ATTACK_POWER_SHORT, 1,2,true),-- "攻击强度"]]
-        [ITEM_MOD_EXTRA_ARMOR_SHORT]= WoWTools_DataMixin.onlyChinese and '护' or WoWTools_TextMixin:sub(ARMOR, 1,2,true),
+        [ITEM_MOD_MODIFIED_CRAFTING_STAT_1] = WoWTools_TextMixin:sub(ITEM_MOD_MODIFIED_CRAFTING_STAT_1, 1,2,true),-- "随机属性1"
+        [ITEM_MOD_MODIFIED_CRAFTING_STAT_2] = WoWTools_TextMixin:sub(ITEM_MOD_MODIFIED_CRAFTING_STAT_2, 1,2,true),-- "随机属性2"
+        [ITEM_MOD_BLOCK_RATING_SHORT] = WoWTools_TextMixin:sub(ITEM_MOD_BLOCK_RATING_SHORT, 1,2,true),-- "格挡"
+        [ITEM_MOD_ATTACK_POWER_SHORT] = WoWTools_TextMixin:sub(ITEM_MOD_ATTACK_POWER_SHORT, 1,2,true),-- "攻击强度"]]
+        [ITEM_MOD_EXTRA_ARMOR_SHORT]= WoWTools_TextMixin:sub(ARMOR, 1,2,true),
     }
 
     self:UnregisterEvent(event)

@@ -122,7 +122,7 @@ function WoWTools_CollectionMixin:SetID(setID, itemLinkOrID, isLoot)--套装 , �
                numCollected,
                numAll,
                true
-               --'|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '已收集' or COLLECTED)..'|r',
+               --'|cnGREEN_FONT_COLOR:'..(COLLECTED)..'|r',
 
 
     elseif numCollected==0 then
@@ -130,13 +130,13 @@ function WoWTools_CollectionMixin:SetID(setID, itemLinkOrID, isLoot)--套装 , �
                 numCollected,
                 numAll,
                 false
-                --'|cff626262'..numCollected..'|r/'..numAll--, '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '未收集' or NOT_COLLECTED)..'|r'
+                --'|cff626262'..numCollected..'|r/'..numAll--, '|cnWARNING_FONT_COLOR:'..(NOT_COLLECTED)..'|r'
     else
         return numAll-numCollected,
             numCollected,
             numAll,
             false
-            --'|cffffffff'..numCollected..'|r/'..numAll--, '|cnYELLOW_FONT_COLOR:'..numCollected..'/'..numAll..' '..(WoWTools_DataMixin.onlyChinese and '未收集' or NOT_COLLECTED)..'|r'
+            --'|cffffffff'..numCollected..'|r/'..numAll--, '|cnYELLOW_FONT_COLOR:'..numCollected..'/'..numAll..' '..(NOT_COLLECTED)..'|r'
     end
 end
 

@@ -91,7 +91,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             WoWToolsPlusSave['Adventure_Journal']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Adventure_Journal'], {
                 favorites={},--副本收藏 WoWTools_DataMixin.Player.GUID= {}
                 LootSpec= {},--拾取专精
-                isSaveTier=WoWTools_DataMixin.Player.husandro,--保存改变
                 JourneysList= {
                     disabled= Save().hideJourneysList,
                     noExpansion={},

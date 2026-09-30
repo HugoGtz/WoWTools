@@ -28,7 +28,7 @@ local GEM_TYPE_INFO={
 --[EMPTY_SOCKET_SINGING_THUNDER] = 'yellow',--"吟雷插槽";
 --[EMPTY_SOCKET_SINGING_WIND] =  'red', --"吟风插槽";
 
---[ITEM_MOD_HASTE_RATING_SHORT]= WoWTools_DataMixin.onlyChinese and '急' or WoWTools_TextMixin:sub(ITEM_MOD_HASTE_RATING_SHORT, 1, 2, true),
+--[ITEM_MOD_HASTE_RATING_SHORT]= WoWTools_TextMixin:sub(ITEM_MOD_HASTE_RATING_SHORT, 1, 2, true),
 
 
 --物品, 宝石插槽, 属性

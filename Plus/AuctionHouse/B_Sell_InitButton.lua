@@ -56,7 +56,7 @@ local function Create_Button()
                 or
                 function(tooltip)
                     tooltip:AddLine(' ')
-                    tooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '开始拍卖' or CREATE_AUCTION..WoWTools_DataMixin.Icon.left, WoWTools_DataMixin.Icon.right..(WoWTools_L.HIDE))
+                    tooltip:AddDoubleLine(CREATE_AUCTION..WoWTools_DataMixin.Icon.left, WoWTools_DataMixin.Icon.right..(WoWTools_L.HIDE))
                 end,
             anchor= 'ANCHOR_RIGHT',
         })

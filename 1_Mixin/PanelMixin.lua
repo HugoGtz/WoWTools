@@ -489,9 +489,6 @@ function WoWTools_PanelMixin:Organize_Main(startIndex, groups, otherTitle)
             list[index]= init
         end
     end)
-    if not ok and WoWTools_DataMixin.Player.husandro then
-        print('Organize_Main', err)
-    end
 end
 
 function WoWTools_PanelMixin:GetMainCount()

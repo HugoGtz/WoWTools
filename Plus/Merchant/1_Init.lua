@@ -48,12 +48,11 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 --noSell={},
                 --Sell={},
                 --buyItems={},
-                notAutoLootPlus= not WoWTools_DataMixin.Player.husandro,--打开拾取窗口时，下次禁用，自动拾取
+                notAutoLootPlus= true,--打开拾取窗口时，下次禁用，自动拾取
                 --notPlus=true,--商人 Plus,加宽
 
                 --notSellBoss=true,--出售，BOSS，掉落
                 bossItems={},
-                saveBossLootList= WoWTools_DataMixin.Player.husandro,--保存，BOSS，列表
 
                 --notAutoRepairAll=true,--自动修理
 

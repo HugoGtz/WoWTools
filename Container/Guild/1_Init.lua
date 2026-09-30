@@ -4,7 +4,6 @@ local P_Save={
     plusItem=true,
     plusTab=true,
 
-    autoOpenBags=WoWTools_DataMixin.Player.husandro,--自动，打开背包
     --autoOutMoney=0,--自动取钱，0：全部提取 数值：指定数量 nil:禁用
     onlyMemberOutMoney=true,--仅限成员
 

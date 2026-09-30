@@ -38,17 +38,17 @@ EventRegistry:RegisterFrameEventAndCallback('PLAYER_ENTERING_WORLD', function(ow
     FMTab={--附魔
         ['主属性']= '主',
         ['坐骑速度']= '骑',
-        [PRIMARY_STAT1_TOOLTIP_NAME]=  WoWTools_DataMixin.onlyChinese and "力" or WoWTools_TextMixin:sub(PRIMARY_STAT1_TOOLTIP_NAME, 1, 3, true),
-        [PRIMARY_STAT2_TOOLTIP_NAME]=  WoWTools_DataMixin.onlyChinese and "敏" or WoWTools_TextMixin:sub(PRIMARY_STAT2_TOOLTIP_NAME, 1, 3, true),
-        [PRIMARY_STAT3_TOOLTIP_NAME]=  WoWTools_DataMixin.onlyChinese and "耐" or WoWTools_TextMixin:sub(PRIMARY_STAT3_TOOLTIP_NAME, 1, 3, true),
-        [PRIMARY_STAT4_TOOLTIP_NAME]=  WoWTools_DataMixin.onlyChinese and "智" or WoWTools_TextMixin:sub(PRIMARY_STAT4_TOOLTIP_NAME, 1, 3, true),
-        [ITEM_MOD_CRIT_RATING_SHORT]= WoWTools_DataMixin.onlyChinese and '爆' or WoWTools_TextMixin:sub(STAT_CRITICAL_STRIKE, 1, 3, true),
-        [ITEM_MOD_HASTE_RATING_SHORT]= WoWTools_DataMixin.onlyChinese and '急' or WoWTools_TextMixin:sub(STAT_HASTE, 1, 3, true),
-        [ITEM_MOD_MASTERY_RATING_SHORT]= WoWTools_DataMixin.onlyChinese and '精' or WoWTools_TextMixin:sub(STAT_MASTERY, 1, 3, true),
-        [ITEM_MOD_VERSATILITY]= WoWTools_DataMixin.onlyChinese and '全' or WoWTools_TextMixin:sub(STAT_VERSATILITY, 1, 3, true),
-        [ITEM_MOD_CR_AVOIDANCE_SHORT]= WoWTools_DataMixin.onlyChinese and '闪' or WoWTools_TextMixin:sub(ITEM_MOD_CR_AVOIDANCE_SHORT, 1, 3, true),
-        [ITEM_MOD_CR_LIFESTEAL_SHORT]= WoWTools_DataMixin.onlyChinese and '吸' or WoWTools_TextMixin:sub(ITEM_MOD_CR_LIFESTEAL_SHORT, 1, 3, true),
-        [ITEM_MOD_CR_SPEED_SHORT]= WoWTools_DataMixin.onlyChinese and '速' or WoWTools_TextMixin:sub(ITEM_MOD_CR_SPEED_SHORT, 1, 3, true),
+        [PRIMARY_STAT1_TOOLTIP_NAME]=  WoWTools_TextMixin:sub(PRIMARY_STAT1_TOOLTIP_NAME, 1, 3, true),
+        [PRIMARY_STAT2_TOOLTIP_NAME]=  WoWTools_TextMixin:sub(PRIMARY_STAT2_TOOLTIP_NAME, 1, 3, true),
+        [PRIMARY_STAT3_TOOLTIP_NAME]=  WoWTools_TextMixin:sub(PRIMARY_STAT3_TOOLTIP_NAME, 1, 3, true),
+        [PRIMARY_STAT4_TOOLTIP_NAME]=  WoWTools_TextMixin:sub(PRIMARY_STAT4_TOOLTIP_NAME, 1, 3, true),
+        [ITEM_MOD_CRIT_RATING_SHORT]= WoWTools_TextMixin:sub(STAT_CRITICAL_STRIKE, 1, 3, true),
+        [ITEM_MOD_HASTE_RATING_SHORT]= WoWTools_TextMixin:sub(STAT_HASTE, 1, 3, true),
+        [ITEM_MOD_MASTERY_RATING_SHORT]= WoWTools_TextMixin:sub(STAT_MASTERY, 1, 3, true),
+        [ITEM_MOD_VERSATILITY]= WoWTools_TextMixin:sub(STAT_VERSATILITY, 1, 3, true),
+        [ITEM_MOD_CR_AVOIDANCE_SHORT]= WoWTools_TextMixin:sub(ITEM_MOD_CR_AVOIDANCE_SHORT, 1, 3, true),
+        [ITEM_MOD_CR_LIFESTEAL_SHORT]= WoWTools_TextMixin:sub(ITEM_MOD_CR_LIFESTEAL_SHORT, 1, 3, true),
+        [ITEM_MOD_CR_SPEED_SHORT]= WoWTools_TextMixin:sub(ITEM_MOD_CR_SPEED_SHORT, 1, 3, true),
     }
     EventRegistry:UnregisterCallback('PLAYER_ENTERING_WORLD', owner)
 end)
@@ -57,9 +57,9 @@ end)
 --已收集, 未收集
 local function get_has_text(has)
     if has then
-        return format('|cnWARNING_FONT_COLOR:%s|r',  WoWTools_DataMixin.onlyChinese and '已收集' or WoWTools_TextMixin:sub(COLLECTED, 3, 5, true))
+        return format('|cnWARNING_FONT_COLOR:%s|r',  WoWTools_TextMixin:sub(COLLECTED, 3, 5, true))
     elseif has~=nil then
-        return format('|cnGREEN_FONT_COLOR:%s|r',  WoWTools_DataMixin.onlyChinese and '未收集' or WoWTools_TextMixin:sub(NOT_COLLECTED, 3, 5, true))
+        return format('|cnGREEN_FONT_COLOR:%s|r',  WoWTools_TextMixin:sub(NOT_COLLECTED, 3, 5, true))
     end
 end
 
@@ -675,7 +675,7 @@ local function Get_Info(tab)
 
 --任务
     elseif classID==12 and itemQuality and itemQuality>0 then
-        topRightText= WoWTools_DataMixin.onlyChinese and '任务' or WoWTools_TextMixin:sub(itemSubType, 2,3, true)
+        topRightText= WoWTools_TextMixin:sub(itemSubType, 2,3, true)
 
 --玩具，已收集, 未收集
     elseif itemID and C_ToyBox.GetToyInfo(itemID) then

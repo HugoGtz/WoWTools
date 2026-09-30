@@ -298,7 +298,7 @@ AbandoList= {
         showAlert= true,
         --fullScreenCover =true,
         timeout=60,
-        acceptDelay= 1--not WoWTools_DataMixin.Player.husandro and 2 or nil,
+        acceptDelay= 1--true and 2 or nil,
     }
 
 

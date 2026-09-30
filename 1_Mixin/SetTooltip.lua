@@ -129,7 +129,7 @@ local function Set_Specialization(tooltip, specIndex, specID)
         WoWTools_L.SPEC_FRAME_PRIMARY_STAT_STRENGTH,
         WoWTools_L.SPEC_FRAME_PRIMARY_STAT_AGILITY,
         WoWTools_L.SPEC_FRAME_PRIMARY_STAT_INTELLECT,
-        --WoWTools_DataMixin.onlyChinese and '智力' or SPEC_FRAME_PRIMARY_STAT_INTELLECT,
+        --SPEC_FRAME_PRIMARY_STAT_INTELLECT,
     }
 
     local specIDs= C_SpecializationInfo.GetSpellsDisplay(specID) or {}

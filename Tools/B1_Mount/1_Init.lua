@@ -75,8 +75,6 @@ local P_Mouts_Tab={
 
 
 local P_Save={
-    KEY= WoWTools_DataMixin.Player.husandro and 'BUTTON5', --为我自定义, 按键
-    AFKRandom=WoWTools_DataMixin.Player.husandro,--离开时, 随机坐骑
     mountShowTime=3,--坐骑秀，时间
     showFlightModeButton=true, --切换飞行模式
     --toFrame=nil,

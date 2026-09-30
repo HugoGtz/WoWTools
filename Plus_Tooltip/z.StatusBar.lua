@@ -41,12 +41,8 @@ local function Init()--WoWTools_DataMixin:Hook(GameTooltipStatusBar, 'UpdateUnit
         local isDeath= UnitIsFeignDeath(unit)
 
         if canaccessvalue(isDeath) and isDeath then
-            if WoWTools_DataMixin.onlyChinese then
-                text= '假死'
-            else
-                WoWTools_DataMixin:Load(5384, 'spell')
-                text= C_Spell.GetSpellName(5384) or WoWTools_Join(NO, DEAD)
-            end
+            WoWTools_DataMixin:Load(5384, 'spell')
+            text= C_Spell.GetSpellName(5384) or WoWTools_Join(NO, DEAD)
         else
             text= format('%i%%', UnitHealthPercent(unit, true, CurveConstants.ScaleTo100))
         end

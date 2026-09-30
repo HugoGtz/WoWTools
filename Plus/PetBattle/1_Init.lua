@@ -67,9 +67,6 @@ local function Init_Panel()
             Save().ClickMoveButton= {
                 disabled= Save().ClickMoveButton.disabled,
                 PlayerFrame=true,
-                lock_autoInteract=WoWTools_DataMixin.Player.husandro and '1' or nil,
-                lock_cameraSmoothStyle= WoWTools_DataMixin.Player.husandro and '0' or nil,
-                lock_cameraSmoothTrackingStyle= WoWTools_DataMixin.Player.husandro and '0' or nil,
             }
             WoWTools_PetBattleMixin:ClickToMove_Button()
             print(WoWTools_DataMixin.Icon.icon2..WoWTools_PetBattleMixin.addName3, WoWTools_L.RESET)
@@ -99,9 +96,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         WoWToolsPlusSave['Plus_PetBattle2']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_PetBattle2'], {--clickToMove= WoWTools_DataMixin.Player.husandro,--禁用, 点击移动
             ClickMoveButton={
                 PlayerFrame=true,
-                lock_autoInteract=WoWTools_DataMixin.Player.husandro and '1' or nil,
-                lock_cameraSmoothStyle= WoWTools_DataMixin.Player.husandro and '0' or nil,
-                lock_cameraSmoothTrackingStyle= WoWTools_DataMixin.Player.husandro and '0' or nil,
                 Scale= 0.8,
             },
             TypeButton={

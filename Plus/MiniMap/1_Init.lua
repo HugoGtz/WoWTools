@@ -4,12 +4,9 @@ WoWTools_MinimapMixin={}
 
 local P_Save={
     scale=WoWTools_DataMixin.Player.husandro and 1 or 0.85,
-    ZoomOut=WoWTools_DataMixin.Player.husandro and 'min' or nil,--更新地区时,缩小化地图
     ZoomOutInfo=true,--小地图, 缩放, 信息
 
-    vigentteButton=WoWTools_DataMixin.Player.husandro,
     vigentteButtonShowText=true,
-    vigentteSound= WoWTools_DataMixin.Player.husandro,--播放声音
     vigentteButtonTextScale=1,
     hideVigentteCurrentOnMinimap=nil,--当前，小地图，标记
     hideVigentteCurrentOnWorldMap=nil,--当前，世界地图，标记
@@ -17,7 +14,6 @@ local P_Save={
     areaPoiIDs={[7943]= 2248},--{[areaPoiID]= 地图ID}
     uiMapIDs= {},--地图ID 监视, areaPoiIDs，
     currentMapAreaPoiIDs=true,--当前地图，监视, areaPoiIDs，
-    textToDown= WoWTools_DataMixin.Player.husandro,--文本，向下
 
     miniMapPoint={},--保存小图地, 按钮位置
 
@@ -29,15 +25,13 @@ local P_Save={
     useServerTimer=true,--小时图，使用服务器, 时间
 
     --秒表
-    StopwatchOnClickPause=WoWTools_DataMixin.Player.husandro,--移过暂停
 
     hideExpansionLandingPageMinimapButton= true,--隐藏，图标
     --moveExpansionLandingPageMinimapButton=true,--移动动图标
 
-    moving_over_Icon_show_menu=WoWTools_DataMixin.Player.husandro,--移过图标时，显示菜单
 
     Icons={--收集图标
-        disabled= not WoWTools_DataMixin.Player.husandro,
+        disabled= true,
         noAdd={--过滤
             --['BugSack']=true,
         },
@@ -46,8 +40,8 @@ local P_Save={
         },
         userAdd={},--自定义
         numLine=1,
-        hideInMove= not WoWTools_DataMixin.Player.husandro,--移动时，隐藏
-        hideInCombat=not WoWTools_DataMixin.Player.husandro,--进入战斗，隐藏
+        hideInMove= true,--移动时，隐藏
+        hideInCombat=true,--进入战斗，隐藏
         isEnterShow=true,--Enter显示
         alphaBG=0,--bg
         bgAlpha=0.75,--收集图标

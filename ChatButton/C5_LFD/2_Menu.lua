@@ -860,12 +860,8 @@ local function Init_Menu(self, root)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.LFD.LeaveInstance'])
         tooltip:AddLine(WoWTools_L['Leave instances and battlegrounds'])
         tooltip:AddLine(' ')
-        if WoWTools_DataMixin.onlyChinese then
-            tooltip:AddLine('离开随机: 自动掷骰')
-        else
-            tooltip:AddLine(WoWTools_Join(LEAVE,LFG_TYPE_RANDOM_DUNGEON))
-            tooltip:AddLine(WoWTools_Join(SELF_CAST_AUTO, ROLL))
-        end
+        tooltip:AddLine(WoWTools_Join(LEAVE,LFG_TYPE_RANDOM_DUNGEON))
+        tooltip:AddLine(WoWTools_Join(SELF_CAST_AUTO, ROLL))
     end)
 
 

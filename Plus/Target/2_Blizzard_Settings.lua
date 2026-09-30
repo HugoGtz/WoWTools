@@ -286,7 +286,7 @@ local function Init_Options()
         Save().scale= value
         WoWTools_TargetMixin:Set_All_Init()
     end,
-    --tooltip= '1 = '..(WoWTools_DataMixin.onlyChinese and '禁用' or DISABLE)
+    --tooltip= '1 = '..(DISABLE)
     })
     sliderScale:SetPoint("TOPLEFT", sliderX, 'BOTTOMLEFT', 0,-16)
 

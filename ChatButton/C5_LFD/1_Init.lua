@@ -135,14 +135,10 @@ panel:SetScript('OnEvent', function(self, event, arg1)
     end
 
     WoWToolsPlusSave['ChatButton_LFD']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['ChatButton_LFD'], {
-        leaveInstance=WoWTools_DataMixin.Player.husandro,--自动离开,指示图标
-        autoROLL= WoWTools_DataMixin.Player.husandro,--自动,战利品掷骰
         --disabledLootPlus=true 禁用，战利品Plus
         --hideDontEnterMenu=true 隐藏，不可能副本，列表
         ReMe=true,--仅限战场，释放，复活
-        autoSetPvPRole=WoWTools_DataMixin.Player.husandro,--自动职责确认， 排副本
         autoSetRole=true,
-        LFGPlus= WoWTools_DataMixin.Player.husandro,--预创建队伍增强
         tipsScale=1,--提示内容,缩放
         sec=3,--时间 timer
         wow={

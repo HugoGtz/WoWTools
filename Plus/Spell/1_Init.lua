@@ -54,7 +54,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
             WoWToolsPlusSave['Plus_Spell']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Spell'], {
                 specButton={
-                isUIParent=WoWTools_DataMixin.Player.husandro,
                 scale= WoWTools_DataMixin.Player.husandro and 0.6 or 1,
                 --isToTOP=true
                 --point={}

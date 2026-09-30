@@ -159,7 +159,7 @@ local function Init_Button(btn)
 
 --界面,击杀,数据
     btn.tipsText= btn:CreateFontString(nil, 'ARTWORK', 'GameFontNormalSmall2')
-    --WoWTools_LabelMixin:Create(btn, {size=WoWTools_DataMixin.onlyChinese and 12 or 10, copyFont= not WoWTools_DataMixin.onlyChinese and btn.name or nil})
+    --WoWTools_LabelMixin:Create(btn, {size=WoWTools_DataMixin.onlyChinese and 12 or 10, copyFont= true and btn.name or nil})
     btn.tipsText:SetPoint('BOTTOMRIGHT', -8, 8)
     btn.tipsText:SetJustifyH('RIGHT')
 

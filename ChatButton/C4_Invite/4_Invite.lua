@@ -135,7 +135,6 @@ panel:SetScript('OnEvent', function(self, event, arg1)
                 SummonThxInRaid=nil,--在团里也说谢谢
 
                 setFrameFun= true,--跟随，密语
-                setFucus= WoWTools_DataMixin.Player.husandro,--焦点
                 focusKey= 'Shift',
             })
 

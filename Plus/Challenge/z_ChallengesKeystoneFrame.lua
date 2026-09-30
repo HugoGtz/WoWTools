@@ -209,7 +209,7 @@ local function Init_Buttons()--挑战,钥石,插入界面
             GameTooltip:AddLine(' ')
             GameTooltip:AddDoubleLine(' ', '|cnGREEN_FONT_COLOR:<'..(WoWTools_L.SEND_MESSAGE)..'>'..WoWTools_DataMixin.Icon.left)
             GameTooltip:AddDoubleLine(' ', (WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL)..WoWTools_DataMixin.Icon.right)
-          --  GameTooltip:AddLine('|cnGREEN_FONT_COLOR:<'..(WoWTools_DataMixin.onlyChinese and '链接至聊天栏' or COMMUNITIES_INVITE_MANAGER_LINK_TO_CHAT)..'>'..WoWTools_DataMixin.Icon.right)
+          --  GameTooltip:AddLine('|cnGREEN_FONT_COLOR:<'..(COMMUNITIES_INVITE_MANAGER_LINK_TO_CHAT)..'>'..WoWTools_DataMixin.Icon.right)
             GameTooltip:Show()
     end)
     KeyFrame.KeyButton.Text=WoWTools_LabelMixin:Create(KeyFrame.KeyButton, {size=14})

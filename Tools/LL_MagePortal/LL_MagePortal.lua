@@ -1,5 +1,5 @@
 
-if WoWTools_DataMixin.Player.Class~='MAGE' and not WoWTools_DataMixin.Player.husandro then
+if WoWTools_DataMixin.Player.Class~='MAGE' and true then
     return
 end
 

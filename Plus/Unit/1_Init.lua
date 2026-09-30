@@ -33,7 +33,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
             WoWToolsPlusSave['Plus_UnitFrame']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_UnitFrame'], {
                 raidFrameScale= WoWTools_DataMixin.Player.husandro and 0.8 or 1,
-                showLootButton= WoWTools_DataMixin.Player.husandro,
                 PartyDeadData={}--队友，死亡，次数
             })
 

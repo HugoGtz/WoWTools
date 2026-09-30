@@ -32,10 +32,8 @@ local P_Save={
         --['WeakAuras']=true,
         --['WeakAurasOptions']=true,
     },
-    enableAllButtn= WoWTools_DataMixin.Player.husandro,--全部禁用时，不禁用本插件
 
 
-    load_list=WoWTools_DataMixin.Player.husandro,--禁用, 已加载，列表
     --load_list_top=true,
     load_list_onlyIcon=true,
     load_list_size=22,

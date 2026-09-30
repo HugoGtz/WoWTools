@@ -326,8 +326,6 @@ local function Init()
             local p=Save().point
             if p and p[1] then
                 self:SetPoint(p[1], UIParent, p[3], p[4], p[5])
-            elseif WoWTools_DataMixin.Player.husandro then
-                self:SetPoint('BOTTOMRIGHT', -420, 10)
             else
                 self:SetPoint('CENTER', 300, 100)
             end
@@ -498,7 +496,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 --loadCollectionUI=nil,
                 --show=false,
                 --point
-                isShowBackground=WoWTools_DataMixin.Player.husandro,
 
                 bgAlpha= 0.5,
                 borderAlpha=0,

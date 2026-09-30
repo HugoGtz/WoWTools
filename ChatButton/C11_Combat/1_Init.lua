@@ -193,7 +193,7 @@ panel:SetScript('OnEvent', function(self, event, arg1)
         textScale=1,
         inCombatScale=1,--战斗中缩放
         button={
-            disabled= not WoWTools_DataMixin.Player.husandro,
+            disabled= true,
             InstanceDate={num=0, time=0, kill=0, dead=0, map=nil, onInsTime=nil},
         }
     })

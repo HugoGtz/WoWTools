@@ -314,9 +314,6 @@ local function Init_Menu(self, root)
     function()
         WoWToolsPlusSave['Plus_PetBattle2'].ClickMoveButton={
             PlayerFrame=true,
-            lock_autoInteract=WoWTools_DataMixin.Player.husandro and '1' or nil,
-            lock_cameraSmoothStyle= WoWTools_DataMixin.Player.husandro and '0' or nil,
-            lock_cameraSmoothTrackingStyle= WoWTools_DataMixin.Player.husandro and '0' or nil,
         }
         self:Settings()
         return MenuResponse.Open

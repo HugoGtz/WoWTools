@@ -136,10 +136,6 @@ local function Init()
             self:SetParent(UIParent)
             self:SetPoint(p[1], UIParent, p[3], p[4], p[5])
 
-        elseif WoWTools_DataMixin.Player.husandro then
-            self:SetParent(UIParent)
-            self:SetPoint('BOTTOMRIGHT',  MultiBarBottomLeftButton12, 'TOPRIGHT', 0, 80)
-
         else
             self:SetParent()
             self:SetPoint(self.RePoint[1], self.RePoint[2], self.RePoint[3], self.RePoint[4], self.RePoint[5])

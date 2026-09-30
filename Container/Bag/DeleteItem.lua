@@ -169,7 +169,7 @@ local function Init_Menu(self, root)
 
 --摧毁全部
     sub= root:CreateButton(
-        --(WoWTools_DataMixin.onlyChinese and '摧毁全部' or HOUSING_DECOR_STORAGE_ITEM_DESTROY_ALL)
+        --(HOUSING_DECOR_STORAGE_ITEM_DESTROY_ALL)
         (WoWTools_L.HOUSING_DECOR_STORAGE_ITEM_DESTROY)
         ..WoWTools_DataMixin:MK(select(2, Get_BagAllItem()), 3),
     function()

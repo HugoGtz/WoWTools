@@ -699,9 +699,6 @@ local function Init()--添加装备管理框
         if p and p[1] then
             self:SetPoint(p[1], UIParent, p[3], p[4], p[5])
 
-        elseif WoWTools_DataMixin.Player.husandro then
-            self:SetPoint('TOPLEFT', PlayerFrame, 'TOPRIGHT', -20,-15)
-
         else
             self:SetPoint('CENTER', UIParent, -150, -150)
         end

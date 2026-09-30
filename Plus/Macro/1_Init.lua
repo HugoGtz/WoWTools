@@ -2,9 +2,8 @@
 
 
 local P_Save={
-    --disabled= not WoWTools_DataMixin.Player.husandro,
+    --disabled= true,
     toRightLeft=3, -- 1,2, 3, 4 左边 右边 默认 左|右
-    spellButton=WoWTools_DataMixin.Player.husandro,
     --旧版本 mcaro={},-- {name=tab.name, icon=tab.icon, body=tab.body}
     macro={},--{[|T..icon..:0|t..name..spllID..itemName]={name=tab.name, icon=tab.icon, body=tab.body}}
 

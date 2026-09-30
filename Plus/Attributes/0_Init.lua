@@ -48,7 +48,6 @@ local P_Save={
     --gsubText
     --strlower
     --strupper
-    showBG=WoWTools_DataMixin.Player.husandro,
 
 }
 

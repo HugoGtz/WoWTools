@@ -65,7 +65,7 @@ end
 
 local function Init_Menu(self, root)
 	local index= self:GetID() or 1
-	if index==2 and not WoWTools_DataMixin.Player.husandro then
+	if index==2 and true then
 		return
 	end
 
@@ -184,7 +184,7 @@ end
 
 
 function Init_Button(index)
-	if index==2 and not WoWTools_DataMixin.Player.husandro then
+	if index==2 and true then
 		return
 	end
 	local enabled= Save().isShowButton and true or false

@@ -147,7 +147,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 --scaleSendPlayerFrame=1.2,--清除历史数据，缩放
                 scaleFastButton=1.3,
                 --INBOXITEMS_TO_DISPLAY=7,
-                logSendInfo= WoWTools_DataMixin.Player.husandro,--隐藏时不,清除，内容
                 --lastSendPlayer='Fuocco-server',--收件人
                 --lastSendSub=主题
                 --lastSendBody=内容

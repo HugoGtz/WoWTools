@@ -134,9 +134,6 @@ local function Init()
     for index, frame in pairs(regions) do
 --标题，上升，原生看FrameStrate太低了
         if frame:IsObjectType('FontString') and frame:GetText()==CREATE_MACROS then
-            if WoWTools_DataMixin.onlyChinese then
-                frame:SetText('创建宏')
-            end
             frame:SetParent(MacroFrame.TitleContainer)
 
 --列表 和 MacroFrameText 中间的分割线
