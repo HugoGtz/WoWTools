@@ -477,7 +477,7 @@ local function Init()--设置标记, 框架
             if self.star then
                 C_PartyInfo.DoCountdown(0)
             end
-            WoWTools_ChatMixin:Chat(WoWTools_DataMixin.Player.IsCN and '{rt7}取消 取消 取消{rt7}' or '{rt7}STOP STOP STOP{rt7}', nil, nil)
+            --antes también enviaba '{rt7}STOP STOP STOP{rt7}' al grupo
         end
     end)
     MakerFrame.countdown:SetScript('OnEnter', function()
