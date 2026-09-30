@@ -1,6 +1,6 @@
 
 local function Save()
-    return WoWToolsPlusSave['Plus_Tootips']
+    return WoWTools_TooltipMixin:Save()
 end
 
 

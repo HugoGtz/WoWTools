@@ -5,8 +5,11 @@ WoWTools_TooltipMixin={
     addName= '|A:newplayertutorial-drag-cursor:0:0|a'..WoWTools_L['Module.Tooltips'],
     iconSize=0,
     Save= function()
-        return WoWToolsPlusSave['Plus_Tootips']
+        return WoWToolsPlusSave['Plus_Tootips'] or WoWTools_TooltipMixin.Defaults
     end,
+    --Fork: el módulo de tooltips (hooks en todos los tooltips del juego) se ha quitado porque choca con
+    --Raider.IO. Se conservan las funciones que otros módulos llaman para sus propios tooltips.
+    Defaults= {modelSize=100, modelX=0, modelY=-24, modelFacing=-0.3},
 }
 
 
@@ -20,30 +23,6 @@ end
 
 
 
-function WoWTools_TooltipMixin:Set_Unit(tooltip)
-    --local _, unit= tooltip:GetUnit()
-    local name, unit, guid= tooltip:GetUnit()--TooltipUtil.GetDisplayedUnit(tooltip)
-
-    if not canaccessvalue(unit) or not unit then
-        return
-    end
-
-    local isPlayer= UnitIsPlayer(unit)
-
-    if not canaccessvalue(isPlayer) then
-        return
-    end
-
-    if UnitIsPlayer(unit) then
-        self:Set_Unit_Player(tooltip, name, unit, guid)
-
-    elseif (UnitIsWildBattlePet(unit) or UnitIsBattlePetCompanion(unit)) then
-        self:Set_Pet(tooltip, UnitBattlePetSpeciesID(unit))
-
-    else
-        self:Set_Unit_NPC(tooltip, name, unit, guid)
-    end
-end
 
 function WoWTools_TooltipMixin:IsInCombatDisabled(tooltip)
     return

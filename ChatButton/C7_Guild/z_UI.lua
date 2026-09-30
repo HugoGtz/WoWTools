@@ -1,23 +1,4 @@
 
-function WoWTools_TooltipMixin.Events:Blizzard_Communities()
-    WoWTools_DataMixin:Hook(CommunitiesAvatarButtonMixin, 'Init', function(btn)
-        if not btn.Name then
-            btn.Name= WoWTools_LabelMixin:Create(btn, {mouse=true})
-            btn.Name:SetPoint('BOTTOM')
-            btn.Name:SetScript('OnLeave', function(b)
-                b:SetAlpha(1)
-                GameTooltip:Hide()
-            end)
-            btn.Name:SetScript('OnEnter', function(b)
-                GameTooltip:SetOwner(b, 'ANCHOR_LEFT')
-                GameTooltip_SetTitle(GameTooltip, WoWTools_DataMixin.Icon.icon2..'avatarId')
-                GameTooltip:Show()
-                b:SetAlpha(0.5)
-            end)
-        end
-        btn.Name:SetText(btn.avatarId or '')
-    end)
-end
 
 
 

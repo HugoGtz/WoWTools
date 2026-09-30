@@ -85,29 +85,11 @@ Plus_Texture\3_Init.lua
 Plus_Texture\ActionBars.lua
 
 Plus_Tooltip\0_TooltipMixin.lua
-Plus_Tooltip\1_Init.lua
 Plus_Tooltip\2_Create.lua
-Plus_Tooltip\f_Achievement.lua
-Plus_Tooltip\f_Aura.lua
-Plus_Tooltip\f_Azerite.lua
-Plus_Tooltip\f_Currency.lua
 Plus_Tooltip\f_Faction.lua
-Plus_Tooltip\f_Flyout.lua
-Plus_Tooltip\f_Item.lua
 Plus_Tooltip\f_House.lua
-Plus_Tooltip\f_Mount.lua
-Plus_Tooltip\f_Pet.lua
-Plus_Tooltip\f_Pet_BattlePet.lua
-Plus_Tooltip\f_Quest.lua
-Plus_Tooltip\f_Spell.lua
-Plus_Tooltip\f_Unit_NPC.lua
 Plus_Tooltip\f_Unit_Player.lua
 Plus_Tooltip\f_URL.lua
-Plus_Tooltip\3_Tooltip.lua
-Plus_Tooltip\z.StatusBar.lua
-Plus_Tooltip\z_CVar_Set.lua
-Plus_Tooltip\z_Events.lua
-Plus_Tooltip\z_Frames.lua
 
 Plus_Item\0_ItemMixin.lua
 Plus_Item\0_SetupInfo.lua
@@ -410,7 +392,6 @@ Plus\Spell\SpellBookFrame.lua
 Plus\Spell\Spec_Button.lua
 Plus\Spell\Spell_Flyout.lua
 Plus\Spell\z_Move.lua
-Plus\Spell\z_Tooltip.lua
 
 Plus\Macro\0_MacroMixin.lua
 Plus\Macro\1_Init.lua
