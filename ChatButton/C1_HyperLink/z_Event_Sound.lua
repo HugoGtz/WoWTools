@@ -19,7 +19,7 @@ local function Set_PlayerSound()--事件, 声音
 
     if not C_CVar.GetCVarBool('Sound_EnableAllSound') then
         C_CVar.SetCVar('Sound_EnableAllSound', '1')
-        print(
+        WoWTools_Print(
             WoWTools_HyperLink.addName..WoWTools_DataMixin.Icon.icon2,
             '|cnGREEN_FONT_COLOR:CVar Sound_EnableAllSound|r',
             WoWTools_L.ENABLE_SOUND
@@ -27,7 +27,7 @@ local function Set_PlayerSound()--事件, 声音
     end
     if C_CVar.GetCVar('Sound_MasterVolume')=='0' then
         C_CVar.SetCVar('Sound_MasterVolume', '1.0')
-        print(
+        WoWTools_Print(
             WoWTools_HyperLink.addName..WoWTools_DataMixin.Icon.icon2,
             '|cnGREEN_FONT_COLOR:CVar Sound_MasterVolume|r',
             WoWTools_L.MASTER_VOLUME,
@@ -37,7 +37,7 @@ local function Set_PlayerSound()--事件, 声音
 
     if C_CVar.GetCVar('Sound_DialogVolume')=='0' then
         C_CVar.SetCVar('Sound_DialogVolume', '1.0')
-        print(
+        WoWTools_Print(
             WoWTools_HyperLink.addName..WoWTools_DataMixin.Icon.icon2,
             '|cnGREEN_FONT_COLOR:CVar Sound_DialogVolume|r',
             WoWTools_L.DIALOG_VOLUME,
@@ -46,7 +46,7 @@ local function Set_PlayerSound()--事件, 声音
     end
     if not C_CVar.GetCVarBool('Sound_EnableDialog') then
         C_CVar.SetCVar('Sound_EnableDialog', '1')
-        print(
+        WoWTools_Print(
             WoWTools_HyperLink.addName..WoWTools_DataMixin.Icon.icon2,
             '|cnGREEN_FONT_COLOR:CVar Sound_EnableDialog|r',
             WoWTools_L['ENABLE_DIALOG~2']

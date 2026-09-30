@@ -54,7 +54,7 @@ local function Out_Bank(self, tabID, classID, subClassID, onlyItem, numOut)
         then
             StopRun= nil
             WoWTools_GuildBankMixin.isInRun= nil
-            print(
+            WoWTools_Print(
                 WoWTools_GuildBankMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 '|cnWARNING_FONT_COLOR:'..(WoWTools_L.WITHDRAW)..'|r',
                 WoWTools_L.INTERRUPT
@@ -80,13 +80,13 @@ local function Out_Bank(self, tabID, classID, subClassID, onlyItem, numOut)
 
         if not find or freeSlots <= 0 then
             if freeSlots <= 0  then
-                print(
+                WoWTools_Print(
                     WoWTools_GuildBankMixin.addName..WoWTools_DataMixin.Icon.icon2,
                     '|cffff00ff'..(WoWTools_L.WITHDRAW)..'|r',
                     WoWTools_L.INTERRUPT
                 )
             else
-                print(
+                WoWTools_Print(
                     WoWTools_GuildBankMixin.addName..WoWTools_DataMixin.Icon.icon2,
                     '|cnGREEN_FONT_COLOR:'..(WoWTools_L.WITHDRAW)..'|r',
                     WoWTools_L.COMPLETE
@@ -203,7 +203,7 @@ local function Out_Bags(self, tabID, classID, subClassID, onlyItem)
             or GetCurrentGuildBankTab()~= tabID
             or InCombatLockdown()
         then
-            print(
+            WoWTools_Print(
                 WoWTools_DataMixin.Icon.icon2..itemIndex,
                 '|cnWARNING_FONT_COLOR:'
                 ..(WoWTools_L['DEPOSIT~2'])
@@ -228,13 +228,13 @@ local function Out_Bags(self, tabID, classID, subClassID, onlyItem)
 
         if not find or freeSlots <= 0 then
             if freeSlots <= 0  then
-                print(
+                WoWTools_Print(
                     WoWTools_DataMixin.Icon.icon2..itemIndex,
                     '|cffff00ff'..(WoWTools_L['DEPOSIT~2'])..'|r',
                     WoWTools_L.INTERRUPT
                  )
             else
-                print(
+                WoWTools_Print(
                     WoWTools_DataMixin.Icon.icon2..itemIndex,
                     '|cnGREEN_FONT_COLOR:'..(WoWTools_L['DEPOSIT~2'])..'|r',
                     WoWTools_L.COMPLETE

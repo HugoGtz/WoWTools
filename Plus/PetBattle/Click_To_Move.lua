@@ -17,7 +17,7 @@ local function Lock_CVar(self, name)
 
     elseif value and C_CVar.GetCVar(name)~=value then
         if C_CVar.SetCVar(name, value) then
-            print(
+            WoWTools_Print(
                 CVarNameTabs[name]..WoWTools_DataMixin.Icon.icon2,
                 '|A:AdventureMapIcon-Lock:0:0|a|cnWARNING_FONT_COLOR:'
                 ..(WoWTools_L.LOCK)..'|r',
@@ -51,7 +51,7 @@ local function Lock_ClickToMove_CVar(self)
 
     if value and C_CVar.GetCVar('autoInteract')~=value then
         if C_CVar.SetCVar('autoInteract', value) then
-            print(
+            WoWTools_Print(
             CVarNameTabs['autoInteract']..WoWTools_DataMixin.Icon.icon2,
                 '|A:AdventureMapIcon-Lock:0:0|a|cnWARNING_FONT_COLOR:'
                 ..(WoWTools_L.LOCK)

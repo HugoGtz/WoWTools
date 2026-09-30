@@ -710,7 +710,7 @@ local function Set_Move_Button(btn)
             Save().AbilityButton['point'..self.name]={self:GetPoint(1)}
             Save().AbilityButton['point'..self.name][2]=nil
         else
-            print(
+            WoWTools_Print(
                 WoWTools_DataMixin.addName,
                 '|cnWARNING_FONT_COLOR:',
                 WoWTools_L['SAVE+FAILED']

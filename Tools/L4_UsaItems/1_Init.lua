@@ -157,7 +157,7 @@ function WoWTools_UseItemsMixin:Init_Menu(root)
 --全部清除
             WoWTools_MenuMixin:ClearAll(sub, function()
                 Save()[type]={}
-                print(WoWTools_DataMixin.Icon.icon2..WoWTools_UseItemsMixin.addName, WoWTools_L.REQUIRES_RELOAD)
+                WoWTools_Print(WoWTools_DataMixin.Icon.icon2..WoWTools_UseItemsMixin.addName, WoWTools_L.REQUIRES_RELOAD)
             end)
         end
         
@@ -169,7 +169,7 @@ function WoWTools_UseItemsMixin:Init_Menu(root)
                 nil,
                 {SetValue=function()
                    Save()[data.type]= P_Tabs[data.type]
-                   print(WoWTools_DataMixin.Icon.icon2..WoWTools_UseItemsMixin.addName, data.text, WoWTools_L.REQUIRES_RELOAD)
+                   WoWTools_Print(WoWTools_DataMixin.Icon.icon2..WoWTools_UseItemsMixin.addName, data.text, WoWTools_L.REQUIRES_RELOAD)
                 end}
             )
         end, {type=type, text=text, rightText=#P_Tabs[type], rightColor=HIGHLIGHT_FONT_COLOR})
@@ -193,7 +193,7 @@ function WoWTools_UseItemsMixin:Init_Menu(root)
             {SetValue=function()
                 WoWToolsPlusPlayerDate['Tools_UseItems']= nil
                 WoWTools_DataMixin:Reload()
-                print(WoWTools_DataMixin.Icon.icon2..WoWTools_UseItemsMixin.addName, WoWTools_L.REQUIRES_RELOAD)
+                WoWTools_Print(WoWTools_DataMixin.Icon.icon2..WoWTools_UseItemsMixin.addName, WoWTools_L.REQUIRES_RELOAD)
             end}
         )
     end)
@@ -234,11 +234,11 @@ local function Init()
         end,
         OnAccept = function(_, data)
             table.insert(Save()[data.type], data.ID)
-            print(WoWTools_ToolsMixin.addName, WoWTools_UseItemsMixin.addName, '|cnGREEN_FONT_COLOR:'..(WoWTools_L.ADD)..'|r', WoWTools_L.COMPLETE, data.name, WoWTools_L.REQUIRES_RELOAD)
+            WoWTools_Print(WoWTools_ToolsMixin.addName, WoWTools_UseItemsMixin.addName, '|cnGREEN_FONT_COLOR:'..(WoWTools_L.ADD)..'|r', WoWTools_L.COMPLETE, data.name, WoWTools_L.REQUIRES_RELOAD)
         end,
         OnAlt = function(_, data)
             table.remove(Save()[data.type], data.index)
-            print(WoWTools_ToolsMixin.addName, WoWTools_UseItemsMixin.addName, '|cnWARNING_FONT_COLOR:'..(WoWTools_L.REMOVE)..'|r', WoWTools_L.COMPLETE, data.name, WoWTools_L.REQUIRES_RELOAD)
+            WoWTools_Print(WoWTools_ToolsMixin.addName, WoWTools_UseItemsMixin.addName, '|cnWARNING_FONT_COLOR:'..(WoWTools_L.REMOVE)..'|r', WoWTools_L.COMPLETE, data.name, WoWTools_L.REQUIRES_RELOAD)
         end,
     }
 

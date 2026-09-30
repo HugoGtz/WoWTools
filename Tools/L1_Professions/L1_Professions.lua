@@ -251,7 +251,7 @@ local function Init_KeyButton(index, type)
     end)
     button:SetScript('OnMouseWheel', function(self, d)
         if not self:CanChangeAttribute() then
-            print(WoWTools_DataMixin.addName, '|cnWARNING_FONT_COLOR:'..(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT))
+            WoWTools_Print(WoWTools_DataMixin.addName, '|cnWARNING_FONT_COLOR:'..(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT))
             return
         end
         self:set_key(d==1)-- 1上, -1下

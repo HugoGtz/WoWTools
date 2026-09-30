@@ -53,7 +53,7 @@ local function Init()
                         text= format(WoWTools_L.GREAT_VAULT_RETIRE_WARNING, title);
                     end
                     if text then
-                        print(
+                        WoWTools_Print(
                             WoWTools_ChallengeMixin.addName..WoWTools_DataMixin.Icon.icon2,
                             '|n|cffff00ff',
                             text

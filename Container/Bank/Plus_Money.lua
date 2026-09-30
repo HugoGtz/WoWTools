@@ -57,7 +57,7 @@ local function Save_Money(num)
 
     C_Bank.DepositMoney(Enum.BankType.Account, money)
 
-    print(
+    WoWTools_Print(
         WoWTools_BankMixin.addName..WoWTools_DataMixin.Icon.icon2,
         '|A:Banker:0:0|a|cff00ccff'
         ..(WoWTools_L['SELF_CAST_AUTO+DEPOSIT'])
@@ -126,7 +126,7 @@ local function Out_Money(num)
 
     C_Bank.WithdrawMoney(Enum.BankType.Account, money)
 
-    print(
+    WoWTools_Print(
         WoWTools_BankMixin.addName..WoWTools_DataMixin.Icon.icon2,
         WoWTools_DataMixin.Icon.Player
         ..WoWTools_ColorMixin:SetStringColor(WoWTools_L['SELF_CAST_AUTO+WITHDRAW~2']),

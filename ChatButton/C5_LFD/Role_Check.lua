@@ -115,7 +115,7 @@ local function Init()
             LFDRoleCheckPopup_UpdateAcceptButton()
         end
 
-        print(
+        WoWTools_Print(
             WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
 
             '|cnGREEN_FONT_COLOR:'
@@ -133,7 +133,7 @@ local function Init()
             if LFDRoleCheckPopupAcceptButton:IsEnabled() and not IsModifierKeyDown() then
                 local t=LFDRoleCheckPopupDescriptionText:GetText()
                 if t~='' then
-                    print(
+                    WoWTools_Print(
                         WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         '|cffff00ff',
                         WoWTools_TextMixin:CN(t)
@@ -180,7 +180,7 @@ local function Init()
                     and not InCombatLockdown()
                 then
                     self.acceptButton:Click()
-                    print(
+                    WoWTools_Print(
                         WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         WoWTools_L.ROLE_POLL,
                         icon or ''
@@ -231,7 +231,7 @@ local function Init()
 
         local leaderGuid = info.partyGUID and select(8, C_SocialQueue.GetGroupInfo(info.partyGUID))
 
-        print(
+        WoWTools_Print(
             WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
 
             info.leaderOverallDungeonScore and info.leaderOverallDungeonScore>0 and

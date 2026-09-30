@@ -104,7 +104,7 @@ function WoWTools_ObjectiveMixin:Clear_Achievement(isPrint)
         C_ContentTracking.StopTracking(Enum.ContentTrackingType.Achievement, achievementID,  Enum.ContentTrackingStopType.Manual)
         num= index
         if isPrint then
-            print(
+            WoWTools_Print(
                 index..')',
                 GetAchievementLink(achievementID)
                 or ('|cffffff00|Hachievement:'..achievementID..':'..WoWTools_DataMixin.Player.GUID..':0:0:0:-1:0:0:0:0|h['..achievementID..']|h|r')
@@ -125,7 +125,7 @@ local function clear_Recipe(isPrint, isRecrafting)
         C_TradeSkillUI.SetRecipeTracked(recipeID, false, isRecrafting)
         local itemLink= isPrint and C_TradeSkillUI.GetRecipeItemLink(recipeID)
         if itemLink then
-            print(index..')', itemLink, isRecrafting and (WoWTools_L.PROFESSIONS_CRAFTING_FORM_OUTPUT_RECRAFT) or '')
+            WoWTools_Print(index..')', itemLink, isRecrafting and (WoWTools_L.PROFESSIONS_CRAFTING_FORM_OUTPUT_RECRAFT) or '')
         end
         num=num+1
     end
@@ -150,7 +150,7 @@ function WoWTools_ObjectiveMixin:Clear_Quest(isPrint)
             if wasRemoved then
                 num= num +1
                 if isPrint then
-                    print(num..')', GetQuestLink(questID) or questID)
+                    WoWTools_Print(num..')', GetQuestLink(questID) or questID)
                 end
             end
         end
@@ -166,7 +166,7 @@ function WoWTools_ObjectiveMixin:Clear_WorldQuest(isPrint)
         if questID and questID>0 and C_QuestLog.RemoveWorldQuestWatch(questID)then
             index= index+1
             if isPrint then
-                print(index..')', GetQuestLink(questID) or questID)
+                WoWTools_Print(index..')', GetQuestLink(questID) or questID)
             end
         end
     end
@@ -187,7 +187,7 @@ function WoWTools_ObjectiveMixin:Clear_CampaignQuest(isPreint)
         then
             num= num+1
             if isPreint then
-                print(num..')', GetQuestLink(questID) or questID)
+                WoWTools_Print(num..')', GetQuestLink(questID) or questID)
             end
         end
     end
@@ -202,7 +202,7 @@ function WoWTools_ObjectiveMixin:Clear_MonthlyActivities(isPring)
             C_PerksActivities.RemoveTrackedPerksActivity(perksActivityID)
             num= num+1
             if isPring then
-                  print(num..') ',
+                  WoWTools_Print(num..') ',
                     C_PerksActivities.GetPerksActivityChatLink(perksActivityID) or perksActivityID
                 )
             end
@@ -222,7 +222,7 @@ function WoWTools_ObjectiveMixin:Clear_ContentTracking(isPring)
                     C_ContentTracking.StopTracking(trackableType, trackableID, Enum.ContentTrackingStopType.Manual)
                     num= num+1
                     if isPring then
-                        print(num..') ', WoWTools_TextMixin:CN(title), 'type '..trackableType, 'id '..trackableID)
+                        WoWTools_Print(num..') ', WoWTools_TextMixin:CN(title), 'type '..trackableType, 'id '..trackableID)
                     end
                 end
             end
@@ -238,7 +238,7 @@ function WoWTools_ObjectiveMixin:Clear_NeighborhoodInitiative(isPrint)
             C_NeighborhoodInitiative.RemoveTrackedInitiativeTask(taskID)
 
             if isPrint and info then
-                print(index..')',
+                WoWTools_Print(index..')',
                     WoWTools_TextMixin:CN(info.taskName),
                     taskID
                 )

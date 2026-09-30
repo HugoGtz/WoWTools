@@ -105,7 +105,7 @@ local function set_buy_item()
 
     C_Timer.After(1.5, function()
         for itemLink2, num2 in pairs(Tab) do
-            print(
+            WoWTools_Print(
                 WoWTools_MerchantMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 WoWTools_L.TUTORIAL_TITLE20,
                 '|cnGREEN_FONT_COLOR:'..num2..'|r',
@@ -150,7 +150,7 @@ local function Sell_Items(tab)
 
         gruop= gruop+ 1
         num= num+ (data.stackCount or 1)--数量
-        print(
+        WoWTools_Print(
             WoWTools_DataMixin.Icon.icon2..'|cnWARNING_FONT_COLOR:'..gruop..')|r',
             data.hyperlink,
             C_CurrencyInfo.GetCoinTextureString(prece)
@@ -158,7 +158,7 @@ local function Sell_Items(tab)
     end
 
     if num > 0 then
-        print(
+        WoWTools_Print(
             WoWTools_MerchantMixin.addName..WoWTools_DataMixin.Icon.icon2,
             (WoWTools_L.AUCTION_HOUSE_SELL_TAB)..' |cnGREEN_FONT_COLOR:'..gruop..'|r'..(WoWTools_L.AUCTION_PRICE_PER_STACK),
             '|cnGREEN_FONT_COLOR:'..num..'|r'..(WoWTools_L['AUCTION_HOUSE_QUANTITY_LABEL~2']),
@@ -346,7 +346,7 @@ local function Init()
             local num= edit:GetNumber()
             if num==0 then
                 SaveBuyItem(data.itemID, nil)
-                print(
+                WoWTools_Print(
                     WoWTools_MerchantMixin.addName..WoWTools_DataMixin.Icon.icon2,
                     '|cnGREEN_FONT_COLOR:'..(WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2)
                     ..'|r',
@@ -355,7 +355,7 @@ local function Init()
             else
                 SaveBuyItem(data.itemID, num)
                 SellBuyItemsSave().sell[data.itemID]=nil
-                print(
+                WoWTools_Print(
                     WoWTools_MerchantMixin.addName..WoWTools_DataMixin.Icon.icon2,
                     '|cnGREEN_FONT_COLOR:'..(WoWTools_L.PURCHASE)..'|rx|cffff00ff'..num..'|r',
                     select(2, C_Item.GetItemInfo(data.itemID)) or data.name or data.itemID
@@ -367,7 +367,7 @@ local function Init()
         end,
         OnAlt=function(_, data)
             SaveBuyItem(data.itemID, nil)
-            print(
+            WoWTools_Print(
                 WoWTools_MerchantMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 '|cnGREEN_FONT_COLOR:'..(WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2)..'|r',
                 select(2, C_Item.GetItemInfo(data.itemID)) or data.name or data.itemID
@@ -484,7 +484,7 @@ local function Init()
         if infoType=='item' and itemID then
             if SellBuyItemsSave().sell[itemID] then
                 SellBuyItemsSave().sell[itemID]=nil
-                print(
+                WoWTools_Print(
                     WoWTools_MerchantMixin.addName..WoWTools_DataMixin.Icon.icon2,
                     '|cnWARNING_FONT_COLOR:'..(WoWTools_L.REMOVE)..'|r',
                     WoWTools_L.AUCTION_HOUSE_SELL_TAB,
@@ -494,7 +494,7 @@ local function Init()
                 SellBuyItemsSave().sell[itemID]=true
                 SellBuyItemsSave().noSell[itemID]=nil
                 SaveBuyItem(itemID, nil)
-                print(
+                WoWTools_Print(
                     WoWTools_MerchantMixin.addName..WoWTools_DataMixin.Icon.icon2,
                     '|cnGREEN_FONT_COLOR:'..(WoWTools_L.ADD)..'|r'..(WoWTools_L.AUCTION_HOUSE_SELL_TAB),
                     itemLink

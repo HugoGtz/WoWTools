@@ -344,7 +344,7 @@ local function Set_LootSpec(self, encounterID)
 
             local _, name, _, icon, role = GetSpecializationInfoByID(lootSpecID)
             if name then
-               print(
+               WoWTools_Print(
                     WoWTools_EncounterMixin.addName..WoWTools_DataMixin.Icon.icon2,
                     '|cnGREEN_FONT_COLOR:'..(WoWTools_L.SETTINGS)..'|r',
                     (WoWTools_L.SELECT_LOOT_SPECIALIZATION)
@@ -372,7 +372,7 @@ local function Rest_LootSpec(self)
         local _, name, _, icon, role = GetSpecializationInfoByID(specID or 0)
 
         if name then
-            print(
+            WoWTools_Print(
                 WoWTools_EncounterMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 '|cnWARNING_FONT_COLOR:'..(WoWTools_L['RESET~2'])..'|r',
                 (WoWTools_L.SELECT_LOOT_SPECIALIZATION)

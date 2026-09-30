@@ -478,7 +478,7 @@ local function Init()
                 arg= arg1 and {[arg1]=1} or {},
             }
 
-            print(
+            WoWTools_Print(
                 (
                     self.events[event] and '|cnGREEN_FONT_COLOR:'
                     or (select(2, math.modf((self.index-1)/2))==0 and '|cff10d3c8' or '|cffd3a21b')

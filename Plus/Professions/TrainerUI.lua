@@ -49,7 +49,7 @@ local function Init()
                             table.insert(tab, link)
                         end
                     else
-                        print(WoWTools_DataMixin.addName,
+                        WoWTools_Print(WoWTools_DataMixin.addName,
                             WoWTools_ProfessionMixin.addName,
                             '|cnWARNING_FONT_COLOR:'..(WoWTools_L.NOT_ENOUGH_GOLD),
                             C_CurrencyInfo.GetCoinTextureString(money)
@@ -62,10 +62,10 @@ local function Init()
 
         C_Timer.After(0.5, function()
             for i, link in pairs(tab) do
-                print('|cffff00ff'..i..'|r)', WoWTools_TextMixin:CN(link))
+                WoWTools_Print('|cffff00ff'..i..'|r)', WoWTools_TextMixin:CN(link))
             end
 
-            print(
+            WoWTools_Print(
                 WoWTools_ProfessionMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 '|cffff00ff'..num..'|r '
                 ..(WoWTools_L.LEARN),
@@ -86,7 +86,7 @@ local function Init()
         --local tradeSkillStepIndex = GetTrainerServiceStepIndex();
         --local category= tradeSkillStepIndex and select(index, GetTrainerServiceInfo(tradeSkillStepIndex))
 
-        --print (tradeSkillStepIndex)
+        --WoWTools_Print (tradeSkillStepIndex)
         --if tradeSkillStepIndex and (category=='used' or category=='available' or not category) then
             for i=1, GetNumTrainerServices() or 0 do
                 if select(index, GetTrainerServiceInfo(i))=="available" then

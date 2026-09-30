@@ -118,7 +118,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 GetValue= function() return not Save().disabled end,
                 SetValue= function()
                     Save().disabled= not Save().disabled and true or nil
-                    print(
+                    WoWTools_Print(
                         WoWTools_EncounterMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
                         WoWTools_L.REQUIRES_RELOAD
@@ -135,7 +135,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 local num= (WoWToolsPlusPlayerDate['BossKilled'][ncounterID] or 0)+ 1
                 WoWToolsPlusPlayerDate['BossKilled'][ncounterID]= num--Boss击杀数量
                 if Save().plus then
-                    print(
+                    WoWTools_Print(
                         WoWTools_EncounterMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         '|cnWARNING_FONT_COLOR:'..(WoWTools_TextMixin:CN(encounterName) or ncounterID)..'|r',
                         format(WoWTools_L.REAGENT_COST_CONSUME_CHARGES,

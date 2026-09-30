@@ -58,7 +58,7 @@ local function Init()
         Save().linkIcon= not Save().linkIcon and true or false
         WoWTools_HyperLink:Init_Link_Icon()
         local isDisabled= C_SocialRestrictions.IsChatDisabled()
-        print(
+        WoWTools_Print(
             WoWTools_HyperLink.addName..WoWTools_DataMixin.Icon.icon2,
             WoWTools_TextMixin:GetEnabeleDisable(not isDisabled and Save().linkIcon)
         )

@@ -386,7 +386,7 @@ local function Add_ListButton(btn)
 
     btn.Delete:SetScript('OnClick', function(self)
         local data= self:GetParent().data
-          print(
+          WoWTools_Print(
             WoWTools_DataMixin.Icon.icon2..self.tooltip,
             data.pin.name,
             data.pin.icon,
@@ -630,7 +630,7 @@ end
 
 local function Zip_Data(zipData)
     if not zipData then
-        print(WoWTools_DataMixin.Icon.icon2..(WoWTools_L['ERR_HOUSING_RESULT_DB_ERROR~2']))
+        WoWTools_Print(WoWTools_DataMixin.Icon.icon2..(WoWTools_L['ERR_HOUSING_RESULT_DB_ERROR~2']))
         return
     end
 
@@ -679,7 +679,7 @@ local function Zip_Data(zipData)
     Frame.dataFrame:SetText(WoWTools_ZipMixin:base64Encode(table.concat(lines, "\n")))
     Frame.dataFrame:SetInstructions(WoWTools_L['SOCIAL_SHARE_TEXT~2'])
 
-    print(
+    WoWTools_Print(
         WoWTools_DataMixin.Icon.icon2..(WoWTools_L['SOCIAL_SHARE_TEXT~2']),
         (WoWTools_L.WORLD_MAP)..' #'..numMapID,
         (WoWTools_L.EVENTTRACE_MARKER)..' #'..all
@@ -789,7 +789,7 @@ local function Enter_Data(tooltip)
             tooltip:AddLine(a)
         end
     else
-        print(WoWTools_DataMixin.Icon.icon2, n, f, a)
+        WoWTools_Print(WoWTools_DataMixin.Icon.icon2, n, f, a)
     end
 
     Frame.dataFrame.enter:SetText(Frame.dataFrame.enter.tooltip.. ' '..all)

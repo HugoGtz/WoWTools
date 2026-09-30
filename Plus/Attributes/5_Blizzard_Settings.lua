@@ -518,7 +518,7 @@ local function Init_Options()--设置 Frame
             self.Text:SetText(value)
             Save().gsubText= value>0 and value or nil
             WoWTools_AttributesMixin:Frame_Init(true)--初始，设置
-            print(
+            WoWTools_Print(
                 WoWTools_AttributesMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 '|cnGREEN_FONT_COLOR:'..value..'|r',
                 WoWTools_L['Text 0=No']
@@ -665,7 +665,7 @@ local function Init()
     WoWTools_PanelMixin:ReloadButton({panel=Frame, addName=WoWTools_AttributesMixin.addName, restTips=nil, checked=not Save().disabled, clearTips=nil, reload=false,--重新加载UI, 重置, 按钮
         disabledfunc=function()
             Save().disabled = not Save().disabled and true or nil
-            print(
+            WoWTools_Print(
                 WoWTools_AttributesMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
                 WoWTools_L['REQUIRES_RELOAD~2']

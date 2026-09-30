@@ -764,7 +764,7 @@ local function Init_Menu(self, root)
         WoWTools_L.REFRESH,
     function()
         Init_Buttons()
-        print(
+        WoWTools_Print(
             WoWTools_DataMixin.Icon.icon2,
             WoWTools_L.REFRESH,
             WoWTools_L.COMPLETE

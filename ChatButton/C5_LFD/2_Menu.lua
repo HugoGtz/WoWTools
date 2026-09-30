@@ -880,7 +880,7 @@ local function Init_Menu(self, root)
         Save().tipsFramePoint=nil
         if _G['WoWToolsChatToolsLFDTooltipButton'] then
             _G['WoWToolsChatToolsLFDTooltipButton']:set_Point()
-            print(
+            WoWTools_Print(
                 WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 WoWTools_L.RESET_POSITION
             )
@@ -896,7 +896,7 @@ local function Init_Menu(self, root)
         Save().LFGPlus = not Save().LFGPlus and true or nil
         WoWTools_LFDMixin:Init_LFG_Plus()
         if not Save().LFGPlus then
-            print(
+            WoWTools_Print(
                 WoWTools_DataMixin.Icon.icon2
                 ..(WoWTools_L.REQUIRES_RELOAD),
                 WoWTools_TextMixin:GetEnabeleDisable( not Save().LFGPlus)

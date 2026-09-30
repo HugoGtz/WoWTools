@@ -22,7 +22,7 @@ local function Init_Panel()
         buttonFunc= function()
             Save().AbilityButton= {disabled= Save().AbilityButton.disabled}
             WoWTools_PetBattleMixin:Init_AbilityButton()
-            print(WoWTools_DataMixin.Icon.icon2..WoWTools_PetBattleMixin.addName6, WoWTools_L.RESET)
+            WoWTools_Print(WoWTools_DataMixin.Icon.icon2..WoWTools_PetBattleMixin.addName6, WoWTools_L.RESET)
         end,
         tooltip= WoWTools_L['Tip.PetBattle.AbilityButton']..'|n|n'..WoWTools_PetBattleMixin.addName,
         layout= WoWTools_PetBattleMixin.Layout,
@@ -44,7 +44,7 @@ local function Init_Panel()
                 showBackground=true,
             }
             WoWTools_PetBattleMixin:Init_TypeButton()
-            print(WoWTools_DataMixin.Icon.icon2..WoWTools_PetBattleMixin.addName, WoWTools_L.RESET_POSITION)
+            WoWTools_Print(WoWTools_DataMixin.Icon.icon2..WoWTools_PetBattleMixin.addName, WoWTools_L.RESET_POSITION)
         end,
         tooltip= WoWTools_L['Tip.PetBattle.TypeButton']..'|n|n'..WoWTools_PetBattleMixin.addName,
         layout= WoWTools_PetBattleMixin.Layout,
@@ -69,7 +69,7 @@ local function Init_Panel()
                 PlayerFrame=true,
             }
             WoWTools_PetBattleMixin:ClickToMove_Button()
-            print(WoWTools_DataMixin.Icon.icon2..WoWTools_PetBattleMixin.addName3, WoWTools_L.RESET)
+            WoWTools_Print(WoWTools_DataMixin.Icon.icon2..WoWTools_PetBattleMixin.addName3, WoWTools_L.RESET)
         end,
         tooltip= WoWTools_L['Tip.PetBattle.ClickMoveButton'],
         layout= WoWTools_PetBattleMixin.Layout,

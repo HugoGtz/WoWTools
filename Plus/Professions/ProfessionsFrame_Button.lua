@@ -252,7 +252,7 @@ local function Init_Menu(self, root)
     end, function()
         Save().setButton= not Save().setButton and true or false
         if Save().showFuocoButton  then
-            print(WoWTools_DataMixin.addName,  WoWTools_ProfessionMixin.addName, WoWTools_L.REQUIRES_RELOAD)
+            WoWTools_Print(WoWTools_DataMixin.addName,  WoWTools_ProfessionMixin.addName, WoWTools_L.REQUIRES_RELOAD)
         end
         Init()
     end)

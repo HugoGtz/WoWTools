@@ -64,7 +64,7 @@ local function Init_Button_Menu(self, root)
     end, function()
         Save().favorites[self.itemID]= not Save().favorites[self.itemID] and true or nil
         self:set_favorite()
-        print(
+        WoWTools_Print(
             addName..WoWTools_DataMixin.Icon.icon2,
             Save().favorites[self.itemID] and self.itemID or '',
             WoWTools_L['NEED+REFRESH~2']
@@ -686,7 +686,7 @@ local function Init_Menu(self, root)
         return not Save().disableSpell
     end, function()
         Save().disableSpell= not Save().disableSpell and true or false
-        print(
+        WoWTools_Print(
             addName..WoWTools_DataMixin.Icon.icon2,
             WoWTools_TextMixin:GetEnabeleDisable(not Save().disableSpell),
             WoWTools_L.REQUIRES_RELOAD
@@ -983,7 +983,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             Save().disabled = not Save().disabled and true or nil
             Load_Init()
             if Save().disabled then
-                print(
+                WoWTools_Print(
                     addName..WoWTools_DataMixin.Icon.icon2,
                     WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
                     WoWTools_L.RELOADUI

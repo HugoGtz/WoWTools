@@ -20,10 +20,10 @@ end
 local function Set_Map_Waypoint(self)
     local mapID = WorldMapFrame.mapID
     if not mapID then
-        print(WoWTools_L['uiMapID not found'])
+        WoWTools_Print(WoWTools_L['uiMapID not found'])
         return
     elseif not C_Map.CanSetUserWaypointOnMap(mapID) then
-        print(WoWTools_L['Cannot set waypoints on this map'])
+        WoWTools_Print(WoWTools_L['Cannot set waypoints on this map'])
         return
     end
 
@@ -61,7 +61,7 @@ end
         x, y= x*0.01, y*0.01
 
         if x>1 or y>1 then
-            print(WoWTools_L['Invalid coordinates'])
+            WoWTools_Print(WoWTools_L['Invalid coordinates'])
             return
         end
 
@@ -69,9 +69,9 @@ end
         local mapPoint = UiMapPoint.CreateFromVector2D(mapID, pos)
         C_Map.SetUserWaypoint(mapPoint)
 
-        print(C_Map.GetUserWaypointHyperlink(), x*100, y*100)
+        WoWTools_Print(C_Map.GetUserWaypointHyperlink(), x*100, y*100)
     else
-        print(WoWTools_L['Invalid coordinates'])
+        WoWTools_Print(WoWTools_L['Invalid coordinates'])
     end
 end
 
@@ -237,7 +237,7 @@ local function Init()
             return
         end
         self:ClearFocus()
-        print(
+        WoWTools_Print(
             WoWTools_WorldMapMixin.addName..WoWTools_DataMixin.Icon.icon2,
             '|cnGREEN_FONT_COLOR:'..(WoWTools_L.BROWSER_COPY_LINK)..'|r',
             self:GetText()

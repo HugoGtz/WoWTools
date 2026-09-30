@@ -49,7 +49,7 @@ local function Init()
             SetValue=function(newIcon, newText)
                 local name= '|T'..(newIcon or 0)..':0|t'..newText
                 if Save().buttons[name] then
-                    print(
+                    WoWTools_Print(
                         WoWTools_DataMixin.Icon.icon2..name,
                         '|cnWARNING_FONT_COLOR:',
                         WoWTools_L.REPLACE

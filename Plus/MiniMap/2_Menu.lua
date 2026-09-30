@@ -72,7 +72,7 @@ local function Init_Plus_Menu(self, root)
         return not Save().disabledInstanceDifficulty
     end, function()
         Save().disabledInstanceDifficulty= not Save().disabledInstanceDifficulty and true or nil
-        print(
+        WoWTools_Print(
             WoWTools_MinimapMixin.addName..WoWTools_DataMixin.Icon.icon2,
             WoWTools_TextMixin:GetEnabeleDisable(not Save().disabledInstanceDifficulty),
             WoWTools_L.REQUIRES_RELOAD

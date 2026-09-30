@@ -15,7 +15,7 @@ function WoWTools_MinimapMixin:ExpansionLanding_Menu(_, root)
     end, function()
         Save().hideExpansionLandingPageMinimapButton= not Save().hideExpansionLandingPageMinimapButton and true or false
         Save().moveExpansionLandingPageMinimapButton=nil
-        print(
+        WoWTools_Print(
             WoWTools_MinimapMixin.addName..WoWTools_DataMixin.Icon.icon2,
             '|cnGREEN_FONT_COLOR:',
             WoWTools_L.REQUIRES_RELOAD
@@ -30,7 +30,7 @@ function WoWTools_MinimapMixin:ExpansionLanding_Menu(_, root)
     end, function()
         Save().moveExpansionLandingPageMinimapButton= not Save().moveExpansionLandingPageMinimapButton and true or false
         Save().hideExpansionLandingPageMinimapButton=nil
-        print(
+        WoWTools_Print(
             WoWTools_MinimapMixin.addName..WoWTools_DataMixin.Icon.icon2,
             '|cnGREEN_FONT_COLOR:',
             WoWTools_L.REQUIRES_RELOAD

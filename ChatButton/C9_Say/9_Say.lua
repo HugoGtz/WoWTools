@@ -301,13 +301,13 @@ local function Init_Menu(self, root)
                 local findIndex= findWhisper(data.name)
                 if findIndex then
                     table.remove(Save().WhisperTab, findIndex)--=nil dejaba un hueco en la lista
-                    print(
+                    WoWTools_Print(
                         addName..WoWTools_DataMixin.Icon.icon2,
                         '|cnGREEN_FONT_COLOR:'..(WoWTools_L.REMOVE)..'|r',
                         WoWTools_UnitMixin:GetLink(data.unit, data.guid, data.name, false)
                     )
                 else
-                    print(
+                    WoWTools_Print(
                         addName..WoWTools_DataMixin.Icon.icon2,
                         '|cff626262'..(WoWTools_L.TAXI_PATH_UNREACHABLE)..'|r',
                         WoWTools_UnitMixin:GetLink(data.unit, data.guid, data.name, false)
@@ -403,7 +403,7 @@ local function Init_Menu(self, root)
         if not InCombatLockdown() then
             C_CVar.SetCVar("chatBubbles", not C_CVar.GetCVarBool("chatBubbles") and '1' or '0')
         else
-            print(
+            WoWTools_Print(
                 addName..WoWTools_DataMixin.Icon.icon2,
                 WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT
             )

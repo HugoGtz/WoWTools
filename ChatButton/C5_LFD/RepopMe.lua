@@ -60,7 +60,7 @@ local function Init()
 
             if HasNoReleaseAura() then
                 if WoWTools_MapMixin:IsInPvPArea() then
-                    print(
+                    WoWTools_Print(
                         WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         '|cnGREEN_FONT_COLOR:',
                         WoWTools_L.BATTLE_PET_RELEASE
@@ -68,7 +68,7 @@ local function Init()
 
                 else
 
-                    print(
+                    WoWTools_Print(
                         WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         '|cnGREEN_FONT_COLOR:'..WoWTools_L.BATTLE_PET_RELEASE..'|r',
                         SecondsToTime(GetCorpseRecoveryDelay() or 0)
@@ -81,7 +81,7 @@ local function Init()
 
             AcceptAreaSpiritHeal()--在范围内时在战场上注册灵魂治疗师的复活计时器
 
-            print(
+            WoWTools_Print(
                 WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 '|cnGREEN_FONT_COLOR:',
                 WoWTools_L.RESURRECT
@@ -89,7 +89,7 @@ local function Init()
 
             local time= GetAreaSpiritHealerTime()
             if time>0 then
-                print(
+                WoWTools_Print(
                     WoWTools_DataMixin.Icon.icon2..(WoWTools_L.SPIRIT_HEALER_RELEASE_RED),
                     SecondsToTime(time)
                 )
@@ -101,7 +101,7 @@ local function Init()
 
                 C_Timer.After(1, function()
                     RetrieveCorpse()--当玩家站在它的尸体附近时复活。
-                    print(
+                    WoWTools_Print(
                         WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         '|cnGREEN_FONT_COLOR:'..(WoWTools_L.RESURRECT)
                     )
@@ -110,11 +110,11 @@ local function Init()
 
             else
 
-                print(
+                WoWTools_Print(
                     WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
                     '|cnGREEN_FONT_COLOR:'..(WoWTools_L.RESURRECT)..'|r', SecondsToTime(time)
                 )
-                print(
+                WoWTools_Print(
                     WoWTools_DataMixin.Icon.icon2..'|cffff00ffAlt',
                     WoWTools_L.CANCEL
                 )
@@ -131,7 +131,7 @@ local function Init()
 
     frame:SetScript('OnUpdate', function(self)
         if IsModifierKeyDown() then
-            print(
+            WoWTools_Print(
                 WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 '|cnGREEN_FONT_COLOR:',
                 WoWTools_L['CANCEL+RESURRECT']

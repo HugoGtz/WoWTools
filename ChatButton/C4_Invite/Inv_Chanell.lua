@@ -61,7 +61,7 @@ local function Init()
 
                         WoWTools_InviteMixin.InvPlateGuid[guid]=name--保存到已邀请列表
 
-                        print(
+                        WoWTools_Print(
                             WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,
                             WoWTools_L.CHANNEL,
                             WoWTools_UnitMixin:GetLink(nil, guid, name, false)

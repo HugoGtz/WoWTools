@@ -64,10 +64,10 @@ local function Settings(_, name, isTank, isHealer, isDamage, isNativeRealm, allo
     local function setPrint()
         WoWTools_DataMixin:PlaySound(SOUNDKIT.IG_PLAYER_INVITE)--播放, 声音
 
-        print(
+        WoWTools_Print(
             WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2
         )
-        print(
+        WoWTools_Print(
             '|cnGREEN_FONT_COLOR:'..(sec or ''), (WoWTools_L.LOSS_OF_CONTROL_SECONDS)..'|r',
 
             text,
@@ -80,7 +80,7 @@ local function Settings(_, name, isTank, isHealer, isDamage, isNativeRealm, allo
             (questSessionActive and '|cff00ffff'..(WoWTools_L.SCENARIOS) or '')--场景战役
         )
         if isNativeRealm then--转服务器
-             print(
+             WoWTools_Print(
                 WoWTools_DataMixin.Icon.icon2
                 ..'|cffff00ff'
                 ..format(
@@ -90,7 +90,7 @@ local function Settings(_, name, isTank, isHealer, isDamage, isNativeRealm, allo
             )
         end
         if sec then
-            print(
+            WoWTools_Print(
                 WoWTools_DataMixin.Icon.icon2..'|cnGREEN_FONT_COLOR:Alt',
                 WoWTools_L.CANCEL
             )
@@ -170,7 +170,7 @@ local function Init()
         if Save().InvNoFriend[InviterPlayerGUID] then
             Save().InvNoFriend[InviterPlayerGUID] =nil
 
-            print(
+            WoWTools_Print(
                 WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 WoWTools_L.REMOVE,
                 WoWTools_UnitMixin:GetLink(nil, InviterPlayerGUID, nil, false)
@@ -183,7 +183,7 @@ local function Init()
             Save().InvNoFriend[InviterPlayerGUID] = (Save().InvNoFriend[InviterPlayerGUID] or 0)+ 1
             Save().InvNoFriendNum=Save().InvNoFriendNum+1
 
-            print(
+            WoWTools_Print(
                 WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 WoWTools_L.ADD,
                 WoWTools_UnitMixin:GetLink(nil, InviterPlayerGUID, nil, false)

@@ -197,7 +197,7 @@ local function Init_Menu(self, root)
     end, function()
         Save().disabledInfoPlus= not Save().disabledInfoPlus and true
         if not Save().disabledInfoPlus then
-            print(
+            WoWTools_Print(
                 WoWTools_AddOnsMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 WoWTools_L.REQUIRES_RELOAD
             )

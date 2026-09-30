@@ -98,17 +98,17 @@ local function Save_Macro_Menu(frame, root)
             Save().macro[data.head2]= not Save().macro[data.head2] and {name=data.name, icon=data.icon, body=data.body} or nil
 
             if Save().macro[data.head2] then
-                print(
+                WoWTools_Print(
                     WoWTools_MacroMixin.addName..WoWTools_DataMixin.Icon.icon2,
                     GREEN_FONT_COLOR:WrapTextInColorCode(WoWTools_L.FAVORITES)
                 )
             else
-                print(
+                WoWTools_Print(
                     WoWTools_MacroMixin.addName..WoWTools_DataMixin.Icon.icon2,
                     '|cnWARNING_FONT_COLOR:',
                     WoWTools_L.REMOVE
                 )
-                print(
+                WoWTools_Print(
                     data.body
                 )
             end

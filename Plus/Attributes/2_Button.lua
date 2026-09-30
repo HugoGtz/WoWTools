@@ -143,7 +143,7 @@ local function Init()
 
         elseif d=='LeftButton' and not IsModifierKeyDown() then
             WoWTools_AttributesMixin:Frame_Init(true)--初始， 或设置
-            print(
+            WoWTools_Print(
                 WoWTools_AttributesMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 '|cnGREEN_FONT_COLOR:'..(WoWTools_L.DAMAGE_METER_RESET_ALL_SESSIONS)..'|r',
                 WoWTools_L.STATUS_TEXT_VALUE

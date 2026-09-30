@@ -25,7 +25,7 @@ end
 local function Abandon_Quest(tab)
     local n=0
     local info
-    print(
+    WoWTools_Print(
         WoWTools_DataMixin.Icon.icon2
         ..'|A:bags-button-autosort-up:0:0|a'
         ..(WoWTools_L.ABANDON_QUEST),
@@ -57,7 +57,7 @@ local function Abandon_Quest(tab)
             end
 
             n=n+1
-            print('|cnGREEN_FONT_COLOR:'..n..')|r', linkQuest or info.title or info.questID)
+            WoWTools_Print('|cnGREEN_FONT_COLOR:'..n..')|r', linkQuest or info.title or info.questID)
         end
 
         if IsModifierKeyDown() then

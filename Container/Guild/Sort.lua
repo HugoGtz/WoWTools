@@ -85,7 +85,7 @@ local function Init_Sort()
         then
             StopRun= nil
             IsInRun= nil
-            print(
+            WoWTools_Print(
                 WoWTools_GuildBankMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 '|cnWARNING_FONT_COLOR:'..(WoWTools_L.STABLE_FILTER_BUTTON_LABEL)..'|r',
                     WoWTools_L.INTERRUPT
@@ -113,7 +113,7 @@ local function Init_Sort()
 
         if not find then
             IsInRun= nil
-            print(
+            WoWTools_Print(
                 WoWTools_GuildBankMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 '|cnGREEN_FONT_COLOR:'..(WoWTools_L.STABLE_FILTER_BUTTON_LABEL)..'|r',
                 WoWTools_L.COMPLETE

@@ -115,7 +115,7 @@ local function Init_Menu(self, root)
                 if not C_ToyBox.GetToyInfo(itemID) or not PlayerHasToy(itemID) then
                     SaveItems()[itemID]=nil
                     n=n+1
-                    print(n, WoWTools_L.REMOVE, WoWTools_ItemMixin:GetLink(itemID))
+                    WoWTools_Print(n, WoWTools_L.REMOVE, WoWTools_ItemMixin:GetLink(itemID))
                 end
             end
             if n>0 then
@@ -136,7 +136,7 @@ local function Init_Menu(self, root)
         nil,
         {SetValue=function()
             WoWToolsPlusPlayerDate['HearthstoneItems']={}
-            print(WoWTools_DataMixin.Icon.icon2..WoWTools_HearthstoneMixin.addName, WoWTools_L.CLEAR_ALL)
+            WoWTools_Print(WoWTools_DataMixin.Icon.icon2..WoWTools_HearthstoneMixin.addName, WoWTools_L.CLEAR_ALL)
             self:Rest_Random()
         end})
         return MenuResponse.Open
@@ -156,7 +156,7 @@ local function Init_Menu(self, root)
         {SetValue=function()
             WoWToolsPlusPlayerDate['HearthstoneItems']= CopyTable(P_Items)
             self:Rest_Random()
-            print(WoWTools_DataMixin.Icon.icon2..WoWTools_HearthstoneMixin.addName, '|cnGREEN_FONT_COLOR:', WoWTools_L.TRANSMOGRIFY_TOOLTIP_REVERT)
+            WoWTools_Print(WoWTools_DataMixin.Icon.icon2..WoWTools_HearthstoneMixin.addName, '|cnGREEN_FONT_COLOR:', WoWTools_L.TRANSMOGRIFY_TOOLTIP_REVERT)
         end})
         return MenuResponse.Open
     end, {name=name})

@@ -7,7 +7,7 @@ function WoWTools_InviteMixin:Inv_All_Unit()--邀请，周围玩家
     local all= C_CVar.GetCVarBool('nameplateShowAll')
 
     if not WoWTools_InviteMixin:Get_Leader() then--取得权限
-        print(
+        WoWTools_Print(
             WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,
             '|cnWARNING_FONT_COLOR:',
             WoWTools_L.ERR_GUILD_PERMISSIONS
@@ -15,7 +15,7 @@ function WoWTools_InviteMixin:Inv_All_Unit()--邀请，周围玩家
         return
 
     elseif InCombatLockdown() and (not p or not all) then
-        print(
+        WoWTools_Print(
             WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,
             '|cnWARNING_FONT_COLOR:',
             WoWTools_L['COMBAT~3']
@@ -73,13 +73,13 @@ function WoWTools_InviteMixin:Inv_All_Unit()--邀请，周围玩家
                         if not WoWTools_InviteMixin.InvPlateGuid[guid] then
                             C_PartyInfo.InviteUnit(name)
                             WoWTools_InviteMixin.InvPlateGuid[guid]=name
-                            print(
+                            WoWTools_Print(
                                 WoWTools_DataMixin.Icon.icon2..'|cnGREEN_FONT_COLOR:'..n..'|r)',
                                 WoWTools_L.INVITE,
                                 WoWTools_UnitMixin:GetLink(nil, guid, name, false)
                             )
                             if not raid and n +co>=5  then
-                                print(
+                                WoWTools_Print(
                                     WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,
                                     format(WoWTools_L.PETITION_TITLE,
                                         '|cff00ff00'
@@ -92,7 +92,7 @@ function WoWTools_InviteMixin:Inv_All_Unit()--邀请，周围玩家
                         end
                     end
                 else
-                    print(u)
+                    WoWTools_Print(u)
                 end
             end
             end
@@ -102,7 +102,7 @@ function WoWTools_InviteMixin:Inv_All_Unit()--邀请，周围玩家
             C_CVar.SetCVar('nameplateShowFriendlyPlayers', '0')
         end
         if n==1 then
-            print(
+            WoWTools_Print(
                 WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 WoWTools_L.GUILDCONTROL_OPTION7,
                 '|cnWARNING_FONT_COLOR:',

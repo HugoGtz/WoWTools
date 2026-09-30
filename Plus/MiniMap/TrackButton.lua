@@ -707,7 +707,7 @@ local function Init_Menu(self, root)--菜单
             return Save().questIDs[data.questID]
         end, function(data)
             Save().questIDs[data.questID]= not Save().questIDs[data.questID] and true or nil
-            print(
+            WoWTools_Print(
                 WoWTools_MinimapMixin.addName2..WoWTools_DataMixin.Icon.icon2,
                 WoWTools_QuestMixin:GetLink(data.questID)
             )
@@ -1091,7 +1091,7 @@ local function Init_WorldFrame_Button()
             Save().uiMapIDs[uiMapID]= not Save().uiMapIDs[uiMapID] and true or nil
             self:set_texture()
             local name= (C_Map.GetMapInfo(uiMapID) or {}).name or ('uiMapID '..uiMapID)
-            print(
+            WoWTools_Print(
                 WoWTools_MinimapMixin.addName2..WoWTools_DataMixin.Icon.icon2,
                 name,
                 Save().uiMapIDs[uiMapID] and '|cnGREEN_FONT_COLOR:'..(WoWTools_L.ADD)..format('|A:%s:0:0|a', 'common-icon-checkmark') or ('|cnWARNING_FONT_COLOR:'..(WoWTools_L.REMOVE)..'|A:common-icon-redx:0:0|a')
@@ -1135,7 +1135,7 @@ local function Init_WorldFrame_Event()
         WoWTools_DataMixin:Hook(self, 'OnMouseClickAction', function(f, d)
             if WoWTools_QuestMixin:IsValidQuestID(f.questID) and d=='LeftButton' and IsAltKeyDown() then
                 Save().questIDs[f.questID]= not Save().questIDs[f.questID] and true or nil
-                print(WoWTools_MinimapMixin.addName2..WoWTools_DataMixin.Icon.icon2,
+                WoWTools_Print(WoWTools_MinimapMixin.addName2..WoWTools_DataMixin.Icon.icon2,
                     WoWTools_QuestMixin:GetLink(f.questID),
                     Save().questIDs[f.questID] and '|cnGREEN_FONT_COLOR:'..(WoWTools_L.ADD)..format('|A:%s:0:0|a', 'common-icon-checkmark') or ('|cnWARNING_FONT_COLOR:'..(WoWTools_L.REMOVE)..'|A:common-icon-redx:0:0|a')
                 )
@@ -1167,7 +1167,7 @@ local function Init_WorldFrame_Event()
                     local poiInfo = C_AreaPoiInfo.GetAreaPOIInfo(uiMapID, self.areaPoiID) or {}
                     local name= get_AreaPOIInfo_Name(poiInfo)--取得 areaPoiID 名称
                     name= name=='' and 'areaPoiID '..self.areaPoiID or name
-                    print(WoWTools_MinimapMixin.addName2..WoWTools_DataMixin.Icon.icon2,
+                    WoWTools_Print(WoWTools_MinimapMixin.addName2..WoWTools_DataMixin.Icon.icon2,
                         (C_Map.GetMapInfo(uiMapID) or {}).name or ('uiMapID '..uiMapID),
                         name,
                         Save().areaPoiIDs[self.areaPoiID] and '|cnGREEN_FONT_COLOR:'..(WoWTools_L.ADD)..format('|A:%s:0:0|a', 'common-icon-checkmark') or ('|cnWARNING_FONT_COLOR:'..(WoWTools_L.REMOVE)..'|A:common-icon-redx:0:0|a')

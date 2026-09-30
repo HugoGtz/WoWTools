@@ -232,7 +232,7 @@ StaticPopupDialogs['WoWTools_GetMapID'] = {--区域,设置对话框
             local edit= self:GetEditBox()
             edit:SetScript("OnKeyUp", function(s, key)
                 if IsControlKeyDown() and key == "C" then
-                    print(
+                    WoWTools_Print(
                         WoWTools_TooltipMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         '|cnGREEN_FONT_COLOR:'..(WoWTools_L.BROWSER_COPY_LINK)..'|r',
                         s:GetText()

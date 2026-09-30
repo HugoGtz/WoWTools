@@ -108,7 +108,7 @@ local function Init()
                         isInviete=true
 
                         if isInit then
-                            print(
+                            WoWTools_Print(
                                 WoWTools_GuildMixin.addName..WoWTools_DataMixin.Icon.icon2,
                                 '|cffff00ff'
                                 ..(WoWTools_L['NEW~2'])..'|r|A:communities-icon-invitemail:0:0|a|cnGREEN_FONT_COLOR:'

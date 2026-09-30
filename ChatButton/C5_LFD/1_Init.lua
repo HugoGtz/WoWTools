@@ -92,7 +92,7 @@ local function Init(btn)
 
     function btn:set_OnMouseDown()
         if self.dungeonID then
-            --print(self.dungeonID, self.type)
+            --WoWTools_Print(self.dungeonID, self.type)
             if self.type==LE_LFG_CATEGORY_LFD then--1
                 WoWTools_DataMixin:Call('LFDQueueFrame_SetType', self.dungeonID)
                 WoWTools_DataMixin:Call('LFDQueueFrame_Join')

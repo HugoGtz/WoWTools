@@ -33,7 +33,7 @@ local function Init_Stopwatch_Menu(self, root)
         return not Save().disabledClockPlus
     end, function()
         Save().disabledClockPlus= not Save().disabledClockPlus and true or nil
-        print(
+        WoWTools_Print(
             WoWTools_MinimapMixin.addName..WoWTools_DataMixin.Icon.icon2,
             WoWTools_L.REQUIRES_RELOAD
         )
@@ -104,7 +104,7 @@ local function Init_TimeManager_Menu(self, root)
         return not Save().disabledClockPlus
     end, function()
         Save().disabledClockPlus= not Save().disabledClockPlus and true or nil
-        print(
+        WoWTools_Print(
             WoWTools_MinimapMixin.addName..WoWTools_DataMixin.Icon.icon2,
             WoWTools_L.REQUIRES_RELOAD
         )

@@ -31,7 +31,7 @@ local function Set_Ready(timeLeft)
     local autoReady= Save().autoReady or 0
 
     if autoReady>0 then
-        print(
+        WoWTools_Print(
             WoWTools_GroupMixin.addName..WoWTools_DataMixin.Icon.icon2,
             WoWTools_GroupMixin:Get_ReadyText(),
             '|cffff00ffAlt', WoWTools_L.CANCEL
@@ -135,7 +135,7 @@ local function Init()
             AutoReadyTime:Cancel()
             AutoReadyTime= nil
 
-            print(
+            WoWTools_Print(
                 WoWTools_GroupMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 WoWTools_GroupMixin:Get_ReadyText(),
                 '|cff00ff00'..(WoWTools_L.CANCEL)

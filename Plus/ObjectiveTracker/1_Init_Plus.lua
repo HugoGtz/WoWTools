@@ -229,7 +229,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             if not Save().disabled then
                 Init()
             else
-                print(
+                WoWTools_Print(
                     WoWTools_DataMixin.Icon.icon2..WoWTools_ObjectiveMixin.addName,
                     WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
                     WoWTools_L.REQUIRES_RELOAD

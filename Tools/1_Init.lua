@@ -14,7 +14,7 @@ local function Init_Panel()
         GetValue= function() return not Save().disabled end,
         SetValue= function()
             Save().disabled= not Save().disabled and true or nil
-            print(WoWTools_ToolsMixin.addName..WoWTools_DataMixin.Icon.icon2, WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled), WoWTools_L.REQUIRES_RELOAD)
+            WoWTools_Print(WoWTools_ToolsMixin.addName..WoWTools_DataMixin.Icon.icon2, WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled), WoWTools_L.REQUIRES_RELOAD)
         end,
         buttonText= WoWTools_L.RESET_POSITION,
         buttonFunc= function()
@@ -23,7 +23,7 @@ local function Init_Panel()
             if btn then
                 btn:set_point()
             end
-            print(WoWTools_ToolsMixin.addName..WoWTools_DataMixin.Icon.icon2, WoWTools_L.RESET_POSITION)
+            WoWTools_Print(WoWTools_ToolsMixin.addName..WoWTools_DataMixin.Icon.icon2, WoWTools_L.RESET_POSITION)
         end,
         tooltip= WoWTools_L['Tip.Tools.Enable']..'|n|n'..'|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD),
         layout= WoWTools_ToolsMixin.Layout,
@@ -226,7 +226,7 @@ local function Init_Menu(self, root)
             Save().scale=data
             self:set_scale()
         else
-            print(WoWTools_ToolsMixin.addName..WoWTools_DataMixin.Icon.icon2, WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
+            WoWTools_Print(WoWTools_ToolsMixin.addName..WoWTools_DataMixin.Icon.icon2, WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
         end
     end)
 
@@ -320,7 +320,7 @@ local function Init()
 
     function btn:set_point()
         if self:IsProtected() and InCombatLockdown() then
-           print(WoWTools_ToolsMixin.addName..WoWTools_DataMixin.Icon.icon2, '|cnWARNING_FONT_COLOR:'..(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT))
+           WoWTools_Print(WoWTools_ToolsMixin.addName..WoWTools_DataMixin.Icon.icon2, '|cnWARNING_FONT_COLOR:'..(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT))
         else
             self:ClearAllPoints()
             local p=Save().point

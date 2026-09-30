@@ -81,7 +81,7 @@ local function Init()
             local playerInfo= WoWTools_UnitMixin:GetPlayerInfo(nil, info.guid, nil, {reLink=true})
             name= playerInfo~='' and playerInfo or name
         end
-        print(
+        WoWTools_Print(
             WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,
             WoWTools_L.SUMMON,
             name,

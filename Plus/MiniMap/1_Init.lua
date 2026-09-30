@@ -156,7 +156,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 SetValue= function()
                     Save().disabled= not Save().disabled and true or nil
                     if Save().disabled then
-                        print(
+                        WoWTools_Print(
                             WoWTools_MinimapMixin.addName..WoWTools_DataMixin.Icon.icon2,
                             WoWTools_L.REQUIRES_RELOAD
                         )
@@ -179,7 +179,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                     Save().Icons.point=nil
                     WoWTools_MinimapMixin:Init_Collection_Icon()--重置，收集图标，按钮位置
 
-                    print(
+                    WoWTools_Print(
                         WoWTools_MinimapMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         WoWTools_L.RESET_POSITION
                     )

@@ -27,7 +27,7 @@ local function Show_ClorFrame()
 
 	WoWTools_ColorMixin:ShowColorFrame(nil, nil, nil, 1)
 
-	print(
+	WoWTools_Print(
 		WoWTools_ColorMixin.addName..WoWTools_DataMixin.Icon.icon2,
 		'|cnGREEN_FONT_COLOR:'
 		..(WoWTools_L['SELF_CAST_AUTO+SHOW'])
@@ -96,7 +96,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 				GetValue= function() return not Save().disabled end,
 				SetValue= function()
 					Save().disabled= not Save().disabled and true or nil
-					print(
+					WoWTools_Print(
 						WoWTools_ColorMixin.addName..WoWTools_DataMixin.Icon.icon2,
 						WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
 						WoWTools_L.REQUIRES_RELOAD

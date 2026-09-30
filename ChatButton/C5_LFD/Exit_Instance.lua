@@ -54,7 +54,7 @@ local function exit_Instance()
     end
 
 
-    print(
+    WoWTools_Print(
         WoWTools_DataMixin.Icon.icon2..WoWTools_LFDMixin.addName,
         WoWTools_L.LEAVE,
         WoWTools_TextMixin:CN(name) or WoWTools_L.INSTANCE,
@@ -114,7 +114,7 @@ local function Init_Frame()
             WoWTools_DataMixin:PlaySound()--播放, 声音
             C_PartyInfo.LeaveParty(LE_PARTY_CATEGORY_INSTANCE)
             LFGTeleport(true)
-            print(
+            WoWTools_Print(
                 WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 WoWTools_L.ISLANDS_HEADER,
                 WoWTools_LFDMixin:Get_Instance_Num('island')
@@ -126,7 +126,7 @@ local function Init_Frame()
                 if PVPMatchResults and PVPMatchResults.buttonContainer and PVPMatchResults.buttonContainer.leaveButton then
                     WoWTools_CooldownMixin:Setup(PVPMatchResults.buttonContainer.leaveButton, nil, WoWToolsPlusSave['ChatButton_LFD'].sec, nil, true, true)
                 end
-                print(
+                WoWTools_Print(
                     WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
                     '|cnGREEN_FONT_COLOR:'..(WoWTools_L.LEAVE_BATTLEGROUND),
                     SecondsToTime(Save().sec or 5)
@@ -173,7 +173,7 @@ local function Init()
                 ExitIns=nil
                 ExitCancelled=true
                 Cancel_Exit_Timer()
-                print(
+                WoWTools_Print(
                     WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
                     '|cff00ff00'..(WoWTools_L.CANCEL)..'|r',
                     WoWTools_L.LEAVE

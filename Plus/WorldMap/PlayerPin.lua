@@ -208,7 +208,7 @@ function WoWToolsWorldMapPinMixin:OnLoad()
         if newXY and oldXY~=newXY and SaveWoW()[mapID] and SaveWoW()[mapID][oldXY] then
             local delTab= SaveWoW()[mapID][newXY]--如果已存在
             if delTab then
-                print(
+                WoWTools_Print(
                     WoWTools_DataMixin.Icon.icon2
                     ..WARNING_FONT_COLOR:WrapTextInColorCode(WoWTools_L.REPLACE),
                     newXY,

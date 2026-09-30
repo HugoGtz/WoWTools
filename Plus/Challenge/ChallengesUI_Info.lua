@@ -612,10 +612,10 @@ local function Init()
         if ChallengesFrame.WeeklyInfo.Child.Description:IsShown() then
             local text= ChallengesFrame.WeeklyInfo.Child.Description:GetText()
             ChallengesFrame.WeeklyInfo.Child.Description:SetText('')
-            print(
+            WoWTools_Print(
                 WoWTools_ChallengeMixin.addName..WoWTools_DataMixin.Icon.icon2
             )
-            print(text)
+            WoWTools_Print(text)
         end
     end)
 

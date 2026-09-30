@@ -305,7 +305,7 @@ local function Init_Panel()
         layout= Layout,
         SetValue= function()
             WoWTools_TooltipMixin:Set_CVar()
-            print(WoWTools_L['SETTINGS+COMPLETE'])
+            WoWTools_Print(WoWTools_L['SETTINGS+COMPLETE'])
         end
     }, root)
 
@@ -315,7 +315,7 @@ local function Init_Panel()
         layout= Layout,
         SetValue= function()
             WoWTools_TooltipMixin:Set_CVar(true, nil, nil)
-            print(WoWTools_L['DEFAULT+COMPLETE'])
+            WoWTools_Print(WoWTools_L['DEFAULT+COMPLETE'])
         end
     }, root)
 

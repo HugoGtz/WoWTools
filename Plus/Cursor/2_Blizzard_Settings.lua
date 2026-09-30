@@ -184,7 +184,7 @@ local function Init_GCD_Options(panel)
         set_panel_Texture()
         WoWTools_CursorMixin:GCD_Settings(true)
         addColorEdit:SetText(texture or WoWTools_CursorMixin.DefaultGCDTexture)
-        print(
+        WoWTools_Print(
             WoWTools_CursorMixin.addName..WoWTools_DataMixin.Icon.icon2,
             WoWTools_L.REMOVE,
             icon,

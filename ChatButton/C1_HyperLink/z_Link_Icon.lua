@@ -691,7 +691,7 @@ local function Init()
             IsShowTimestamps= arg2~='none'
         end
         if Save().showCVarName then
-            print(
+            WoWTools_Print(
                 WoWTools_DataMixin.Icon.icon2
                 ..'|A:voicechat-icon-STT-on:0:0|a|cffff00ffCVar|r|cff00ff00',
                 arg1,

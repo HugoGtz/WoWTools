@@ -5,7 +5,7 @@ WoWTools_TextMixin={}
 
 function WoWTools_TextMixin:ShowText(data, headerText, tab)
     if not canaccesstable(data) then
-        print(WoWTools_DataMixin.Icon.icon2..'|cnWARNING_FONT_COLOR:'..(WoWTools_L.EVENTTRACE_SHOW_SECRET_VALUES))
+        WoWTools_Print(WoWTools_DataMixin.Icon.icon2..'|cnWARNING_FONT_COLOR:'..(WoWTools_L.EVENTTRACE_SHOW_SECRET_VALUES))
         return
     end
     tab= tab or {}

@@ -40,7 +40,7 @@ local function Init()--预创建队伍增强
         end, function()
             Save().LFGPlus= not Save().LFGPlus and true or nil
             if not Save().LFGPlus then
-                print(
+                WoWTools_Print(
                     WoWTools_DataMixin.Icon.icon2
                     ..(WoWTools_L.REQUIRES_RELOAD),
                     WoWTools_TextMixin:GetEnabeleDisable( not Save().LFGPlus)

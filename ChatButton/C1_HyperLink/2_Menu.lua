@@ -49,7 +49,7 @@ local function Init_Menu(self, root)
             s= s<8 and 0 or s
             tooltip:AddLine('|T134414..:'..s..':'..s..'|t')
             if not Save().notShowItemCount then
-                print(select(2, C_Item.GetItemInfo(6948)), '')
+                WoWTools_Print(select(2, C_Item.GetItemInfo(6948)), '')
             end
         end
     })
@@ -63,7 +63,7 @@ local function Init_Menu(self, root)
     end, function()
         Save().disabledKeyColor= not Save().disabledKeyColor and true or nil
         for t in pairs(WoWToolsPlusPlayerDate['HyperLinkColorText']) do
-            print(t)
+            WoWTools_Print(t)
             break
         end
     end)
@@ -105,7 +105,7 @@ local function Init_Menu(self, root)
         return not Save().notShowItemCount
     end, function()
         Save().notShowItemCount= not Save().notShowItemCount and true or nil
-        print(select(2, C_Item.GetItemInfo(6948)), '')
+        WoWTools_Print(select(2, C_Item.GetItemInfo(6948)), '')
     end)
     sub2:SetTooltip(function(tooltip)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.HyperLink.ItemCount'])
@@ -120,7 +120,7 @@ local function Init_Menu(self, root)
             return not Save().notShowMapPin
     end, function()
         Save().notShowMapPin= not Save().notShowMapPin and true or nil
-        print(WoWTools_DataMixin.Icon.icon2, '30.00 45.50')
+        WoWTools_Print(WoWTools_DataMixin.Icon.icon2, '30.00 45.50')
     end)
     sub2:SetTooltip(function(tooltip)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.HyperLink.MapPin'])
@@ -268,7 +268,7 @@ local function Init_Menu(self, root)
         Save().hideEventTracePlus= not Save().hideEventTracePlus and true or nil
         WoWTools_HyperLink:Init_EventTrace()
         if Save().hideEventTracePlus then
-            print(
+            WoWTools_Print(
                 WoWTools_HyperLink.addName..WoWTools_DataMixin.Icon.icon2,
                 WoWTools_L.REQUIRES_RELOAD
             )
@@ -282,7 +282,7 @@ local function Init_Menu(self, root)
         return Save().eventTracePrint
     end, function()
         Save().eventTracePrint= not Save().eventTracePrint and true or nil
-        print(
+        WoWTools_Print(
             WoWTools_HyperLink.addName..WoWTools_DataMixin.Icon.icon2,
             Save().eventTracePrint and
                 '|cnGREEN_FONT_COLOR:'..(WoWTools_L.START)
@@ -358,7 +358,7 @@ local function Init_Menu(self, root)
     end, function ()
         Save().not_Add_Reload_Button= not Save().not_Add_Reload_Button and true or nil
         if not Save().not_Add_Reload_Button then
-            print(
+            WoWTools_Print(
                 WoWTools_HyperLink.addName..WoWTools_DataMixin.Icon.icon2,
                 WoWTools_L.REQUIRES_RELOAD
             )

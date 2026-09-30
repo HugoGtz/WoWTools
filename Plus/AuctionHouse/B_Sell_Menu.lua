@@ -58,7 +58,7 @@ local function Init_Menu(self, root)
             Save().hideSellItem={}
             Save().hideSellPet={}
             self:Init_Sell_Item_Button()
-            print(
+            WoWTools_Print(
                 WoWTools_AuctionHouseMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 WoWTools_L['Clear hidden items']
             )

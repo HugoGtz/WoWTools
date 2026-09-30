@@ -230,13 +230,13 @@ end
     end, function()
         if not InCombatLockdown() then
             C_CVar.SetCVar("chatBubblesParty", C_CVar.GetCVarBool("chatBubblesParty") and '0' or '1')
-            print(
+            WoWTools_Print(
                 WoWTools_GroupMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 WoWTools_L.PARTY_CHAT_BUBBLES_TEXT,
                 WoWTools_TextMixin:GetEnabeleDisable(C_CVar.GetCVarBool("chatBubblesParty"))
             )
         else
-            print(
+            WoWTools_Print(
                 WoWTools_GroupMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT
             )

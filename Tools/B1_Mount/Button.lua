@@ -333,7 +333,7 @@ local function Set_Item_Spell_Edit(info)
                 if MountJournal and MountJournal:IsVisible() then
                     WoWTools_DataMixin:Call('MountJournal_UpdateMountList')
                 end
-                print(WoWTools_MountMixin.addName..WoWTools_DataMixin.Icon.icon2, C_Spell.GetSpellLink(spellID), '|n', text)
+                WoWTools_Print(WoWTools_MountMixin.addName..WoWTools_DataMixin.Icon.icon2, C_Spell.GetSpellLink(spellID), '|n', text)
 
             end,
             OnAlt = function()
@@ -343,7 +343,7 @@ local function Set_Item_Spell_Edit(info)
                 if MountJournal and MountJournal:IsVisible() then
                     WoWTools_DataMixin:Call('MountJournal_UpdateMountList')
                 end
-                print(WoWTools_MountMixin.addName..WoWTools_DataMixin.Icon.icon2, WoWTools_L.REMOVE, C_Spell.GetSpellLink(spellID))
+                WoWTools_Print(WoWTools_MountMixin.addName..WoWTools_DataMixin.Icon.icon2, WoWTools_L.REMOVE, C_Spell.GetSpellLink(spellID))
             end
         })
         return
@@ -378,12 +378,12 @@ local function Set_Item_Spell_Edit(info)
         SetValue = function()
             SaveLog()[mountType][ID]=true
              WoWTools_ToolsMixin:Get_ButtonForName('Mount'):settings()
-            print(WoWTools_MountMixin.addName..WoWTools_DataMixin.Icon.icon2, WoWTools_L.ADD, itemLink or link)
+            WoWTools_Print(WoWTools_MountMixin.addName..WoWTools_DataMixin.Icon.icon2, WoWTools_L.ADD, itemLink or link)
         end,
         OnAlt = function()
             SaveLog()[mountType][ID]=nil
             WoWTools_ToolsMixin:Get_ButtonForName('Mount'):settings()
-            print(WoWTools_MountMixin.addName..WoWTools_DataMixin.Icon.icon2, WoWTools_L.REMOVE, itemLink or link)
+            WoWTools_Print(WoWTools_MountMixin.addName..WoWTools_DataMixin.Icon.icon2, WoWTools_L.REMOVE, itemLink or link)
         end,
     })
 end

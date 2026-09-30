@@ -20,7 +20,7 @@ local function Send_Player_Choice_Response(optionInfo)
     end)
 
     local desc= WoWTools_TextMixin:CN(optionInfo.description)
-    print(
+    WoWTools_Print(
         WoWTools_DataMixin.Icon.icon2
         ..'|A:SpecDial_LastPip_BorderGlow:0:0|a',
         optionInfo.spellID and C_Spell.GetSpellLink(optionInfo.spellID),
@@ -71,7 +71,7 @@ local function Init()
                                 Send_Player_Choice_Response(optionInfo)
                             end
                         else
-                            print(
+                            WoWTools_Print(
                                 WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2,
                                 '|cnWARNING_FONT_COLOR:',
                                 WoWTools_L['Unknown error']
@@ -166,7 +166,7 @@ local function Init()
                         s.time:Cancel()
                         s.time= nil
                         s:set_text()
-                        print(
+                        WoWTools_Print(
                             WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2,
                             '|cnWARNING_FONT_COLOR:',
                             WoWTools_L.SLASH_STOPWATCH_PARAM_STOP1
@@ -197,7 +197,7 @@ local function Init()
                         then
                             C_PlayerChoice.SendPlayerChoiceResponse(info.buttons[2].id)--Blizzard_PlayerChoiceOptionBase.lua
                             n=n+1
-                            print(
+                            WoWTools_Print(
                                 WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2,
                                 '|cnGREEN_FONT_COLOR:'..n..'|r',
                                 '('..all-n..')', '|cnWARNING_FONT_COLOR:Alt'
@@ -205,7 +205,7 @@ local function Init()
                         elseif s.time then
                             s.time:Cancel()
                             s.time= nil
-                            print(
+                            WoWTools_Print(
                                 WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2,
                                 '|cnWARNING_FONT_COLOR:', WoWTools_L.SLASH_STOPWATCH_PARAM_STOP1,
                                 '|r'..n

@@ -20,13 +20,13 @@ local function Delete_Macro(self)
     WoWTools_DataMixin:Call(MacroFrame.DeleteMacro, MacroFrame)
 
     if name then
-        print(
+        WoWTools_Print(
             WoWTools_MacroMixin.addName..WoWTools_DataMixin.Icon.icon2,
             '|cnWARNING_FONT_COLOR:'..(WoWTools_L.DELETE),
             '|r', WoWTools_MacroMixin:GetName(name, icon)
         )
         if body and body~='' then
-            print(
+            WoWTools_Print(
                 body
             )
         end

@@ -102,7 +102,7 @@ function WoWTools_WorldMapMixin:SendPlayerPoint()--发送玩家位置
         name =name or name2
         WoWTools_ChatMixin:Chat(name, nil, true)
     else
-        print(WoWTools_L['Cannot set waypoints on this map'])
+        WoWTools_Print(WoWTools_L['Cannot set waypoints on this map'])
     end
 end
 

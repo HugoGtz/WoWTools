@@ -153,7 +153,7 @@ local function select_Reward(questID)--自动:选择奖励
     if bestItem and not IsModifierKeyDown() then
         _G['QuestInfoRewardsFrameQuestInfoItem'..bestItem]:Click()--QuestFrame.lua
         if selectItemLink then
-            print(
+            WoWTools_Print(
                 WoWTools_DataMixin.Icon.icon2
                 ..'|cffff00ff'
                 ..(WoWTools_L.CHOOSE)..'|r',
@@ -557,7 +557,7 @@ local function Init()
                 end
                 local text=GetProgressText()
                 C_Timer.After(0.5, function()
-                    print(
+                    WoWTools_Print(
                         WoWTools_DataMixin.Icon.icon2,
                         WoWTools_QuestMixin:GetLink(questID),
                         text and '|cnGREEN_FONT_COLOR:'..text..'|r',
@@ -570,7 +570,7 @@ local function Init()
         else
             if not QuestButton.questSelect[questID] then--已选任务, 提示用
                 C_Timer.After(0.5, function()
-                    print(
+                    WoWTools_Print(
                     WoWTools_DataMixin.Icon.icon2,
                     WoWTools_QuestMixin:GetLink(questID)
                 )
@@ -657,7 +657,7 @@ local function Init()
         if not QuestButton.questSelect[questID] then--已选任务, 提示用
 
             C_Timer.After(0.5, function()
-                print(
+                WoWTools_Print(
                     WoWTools_DataMixin.Icon.icon2,
                     WoWTools_QuestMixin:GetLink(questID),
 

@@ -454,7 +454,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                     if _G['WoWToolsChatButtonMainButton'] then
                         _G['WoWToolsChatButtonMainButton']:settings()
                     end
-                    print(
+                    WoWTools_Print(
                         WoWTools_ChatMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         WoWTools_L.RESET_POSITION
                     )

@@ -187,7 +187,7 @@ local function Init_Date()--初始, 数据
         LastText= '|A:socialqueuing-icon-clock:0:0|a|cnGREEN_FONT_COLOR:'..(WoWTools_L.AFK)..text..'|r'
         log.afk.num= log.afk.num + 1
         log.afk.time= log.afk.time + sec
-        print(
+        WoWTools_Print(
             WoWTools_CombatMixin.addName..WoWTools_DataMixin.Icon.icon2,
             LastText
         )
@@ -233,7 +233,7 @@ local function Init_Date()--初始, 数据
         end
         PetRound={}
         OnPetTime=nil
-        print(
+        WoWTools_Print(
             WoWTools_CombatMixin.addName..WoWTools_DataMixin.Icon.icon2,
             WoWTools_L.PET_BATTLE_PVP_QUEUE,
             LastText,
@@ -261,7 +261,7 @@ local function Init_Date()--初始, 数据
             ..' |A:poi-soulspiritghost:0:0|a'
             ..SaveInstancData().dead..'|r'
 
-        print(
+        WoWTools_Print(
             WoWTools_CombatMixin.addName..WoWTools_DataMixin.Icon.icon2,
             WoWTools_TextMixin:CN(SaveInstancData().map) or (WoWTools_L.INSTANCE),
             text
@@ -311,7 +311,7 @@ local function Init_Menu(self, root)
 
         Rest_Data()
 
-        print(
+        WoWTools_Print(
             WoWTools_CombatMixin.addName..WoWTools_DataMixin.Icon.icon2,
             WoWTools_L['RESET+COMPLETE']
         )
@@ -393,7 +393,7 @@ local function Init_Menu(self, root)
                     ins={num= 0, time= 0, kill=0, dead=0},
                     afk={num= 0, time= 0},
                 }
-                print(
+                WoWTools_Print(
                     WoWTools_CombatMixin.addName..WoWTools_DataMixin.Icon.icon2,
                     clearText,
                     WoWTools_L.COMPLETE

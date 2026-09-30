@@ -15,7 +15,7 @@ local function set_RollOnLoot(rollID, rollType, itemLink, notPrint)
         return
     end
 
-    print(
+    WoWTools_Print(
         WoWTools_DataMixin.Icon.icon2
         ..'|A:groupfinder-eye-frame:0:0|a|cnGREEN_FONT_COLOR:'
         ..(rollType==1 and '|A:lootroll-toast-icon-need-up:0:0|a' or rollType==2 and '|A:lootroll-toast-icon-greed-up:0:0|a' or '|A:lootroll-toast-icon-transmog-up:0:0|a')

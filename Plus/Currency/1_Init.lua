@@ -123,7 +123,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 				SetValue= function()
 					Save().disabled= not Save().disabled and true or nil
 
-					print(
+					WoWTools_Print(
 						WoWTools_CurrencyMixin.addName..WoWTools_DataMixin.Icon.icon2,
 						WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
 						WoWTools_L.REQUIRES_RELOAD

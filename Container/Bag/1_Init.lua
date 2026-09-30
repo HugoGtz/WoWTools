@@ -59,7 +59,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                     Save().disabled= not Save().disabled and true or nil
 
                     if Save().disabled then
-                        print(
+                        WoWTools_Print(
                             WoWTools_BagMixin.addName..WoWTools_DataMixin.Icon.icon2,
                             WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
                             WoWTools_L.REQUIRES_RELOAD

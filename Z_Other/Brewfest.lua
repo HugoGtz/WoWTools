@@ -47,7 +47,7 @@ local function Init()
     btn:SetScript('OnHide', function(self)
         local num= C_Item.GetItemCount(37829, true, false, true)
         if self.item and self.item<num then
-            print(WoWTools_DataMixin.Icon.icon2..addName, WoWTools_ItemMixin:GetLink(37829), self.item)
+            WoWTools_Print(WoWTools_DataMixin.Icon.icon2..addName, WoWTools_ItemMixin:GetLink(37829), self.item)
         end
         self.item=nil
     end)
@@ -97,7 +97,7 @@ local function Init()
 
         Save().scale=sacle
         self:set_Scale()
-        print(WoWTools_DataMixin.Icon.icon2..addName, (WoWTools_L.HOUSING_EXPERT_DECOR_SUBMODE_SCALE), '|cnGREEN_FONT_COLOR:'..sacle)
+        WoWTools_Print(WoWTools_DataMixin.Icon.icon2..addName, (WoWTools_L.HOUSING_EXPERT_DECOR_SUBMODE_SCALE), '|cnGREEN_FONT_COLOR:'..sacle)
     end)
 
     function btn:set_Point()
@@ -215,7 +215,7 @@ local function Init()
             if not macroId or macroId==0 then
                 macroId = CreateMacro('Ram', 236912, '/click ExtraActionButton1')
             end
-            print(WoWTools_DataMixin.Icon.icon2..addName, WoWTools_L.CREATE_MACROS, 'Ram',
+            WoWTools_Print(WoWTools_DataMixin.Icon.icon2..addName, WoWTools_L.CREATE_MACROS, 'Ram',
                 macroId and '/click ExtraActionButton1' or (WoWTools_L['NONE~2'])
             )
         end
@@ -271,7 +271,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                     if not Save().disabled then
                         Init()
                     else
-                        print(addName..WoWTools_DataMixin.Icon.icon2, WoWTools_L.REQUIRES_RELOAD)
+                        WoWTools_Print(addName..WoWTools_DataMixin.Icon.icon2, WoWTools_L.REQUIRES_RELOAD)
                     end
                 end,
                 buttonText= WoWTools_L.RESET_POSITION,
@@ -281,7 +281,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         _G['WoWToolsBrewfestButton']:ClearAllPoints()
                         _G['WoWToolsBrewfestButton']:set_Point()
                     end
-                    print(addName..WoWTools_DataMixin.Icon.icon2, WoWTools_L.RESET_POSITION)
+                    WoWTools_Print(addName..WoWTools_DataMixin.Icon.icon2, WoWTools_L.RESET_POSITION)
                 end,
                 tooltip=function()
                     return WoWTools_L['Tip.Brewfest.Option']..'|n|n'..format(WoWTools_L['Holiday: %s'],

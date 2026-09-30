@@ -360,7 +360,7 @@ local function Set_StopMove()
                 end
                 if WoWToolsPlusPlayerDate.GossipMovie[movieID] then
                     MovieFrame:StopMovie()
-                    print(
+                    WoWTools_Print(
                         WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         WoWTools_L.ENABLE_DIALOG,
                         '|cnWARNING_FONT_COLOR:'..(WoWTools_L.RENOWN_LEVEL_UP_SKIP_BUTTON)..'|r',
@@ -369,7 +369,7 @@ local function Set_StopMove()
                     )
                 else
                     WoWToolsPlusPlayerDate.GossipMovie[movieID]= date("%d/%m/%y %H:%M:%S")
-                    print(
+                    WoWTools_Print(
                         WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         '|cnGREEN_FONT_COLOR:movieID',
                         movieID
@@ -392,7 +392,7 @@ local function Set_StopMove()
                     return
                 end
                 CinematicFrame_CancelCinematic()
-                print(
+                WoWTools_Print(
                     WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2,
                     '|cnWARNING_FONT_COLOR:'..(WoWTools_L.RENOWN_LEVEL_UP_SKIP_BUTTON)..'|r',
                     WoWTools_L.CINEMATICS

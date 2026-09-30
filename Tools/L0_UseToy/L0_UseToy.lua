@@ -299,7 +299,7 @@ local function Init_Menu(self, root)
                 if not PlayerHasToy(itemID) then
                     Save().items[itemID]=nil
                     n=n+1
-                    print(n, WoWTools_L.REMOVE, WoWTools_ItemMixin:GetLink(itemID))
+                    WoWTools_Print(n, WoWTools_L.REMOVE, WoWTools_ItemMixin:GetLink(itemID))
                 end
             end
             if n>0 then
@@ -320,7 +320,7 @@ local function Init_Menu(self, root)
         nil,
         {SetValue=function()
             Save().items={}
-            print(WoWTools_DataMixin.Icon.icon2..addName, WoWTools_L.CLEAR_ALL)
+            WoWTools_Print(WoWTools_DataMixin.Icon.icon2..addName, WoWTools_L.CLEAR_ALL)
             ToyButton:Rest_Random()
         end})
     end, {name=name})
@@ -338,7 +338,7 @@ local function Init_Menu(self, root)
         {SetValue=function()
             Save().items= P_Items
             ToyButton:Rest_Random()
-            print(WoWTools_DataMixin.Icon.icon2..addName, '|cnGREEN_FONT_COLOR:', WoWTools_L.TRANSMOGRIFY_TOOLTIP_REVERT)
+            WoWTools_Print(WoWTools_DataMixin.Icon.icon2..addName, '|cnGREEN_FONT_COLOR:', WoWTools_L.TRANSMOGRIFY_TOOLTIP_REVERT)
         end})
         return MenuResponse.Open
     end, {name=name})

@@ -144,7 +144,7 @@ function WoWTools_ButtonMixin:Cbtn(frame, tab)
 
 --提示，已存在
     if _G[name] and WoWTools_DataMixin.Player.husandro then
-        print('Cbtn', '已存在', name)
+        WoWTools_Print('Cbtn', '已存在', name)
     end
 
 --建立

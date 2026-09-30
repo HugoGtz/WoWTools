@@ -104,7 +104,7 @@ local function Init_Check()
         end
     end
     if text then
-        print(
+        WoWTools_Print(
 			WoWTools_FactionMixin.addName..WoWTools_DataMixin.Icon.icon2,
 			'|cffff00ff'..text..'|r',
 			'|cnGREEN_FONT_COLOR:'..(WoWTools_L.WEEKLY_REWARDS_UNCLAIMED_TITLE)

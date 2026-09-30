@@ -16,7 +16,7 @@ local function Init()
                 if not Err[arg1] or not Err[arg1][func] then
                     Err[arg1]= Err[arg1] or {}
                     Err[arg1][func]=true
-                    print(
+                    WoWTools_Print(
                         WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         WARNING_FONT_COLOR:WrapTextInColorCode(format(
                             WoWTools_L.ADDON_ACTION_FORBIDDEN,

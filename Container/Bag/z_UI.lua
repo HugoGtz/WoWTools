@@ -10,7 +10,7 @@
 --or i== NUM_TOTAL_BAG_FRAMES+2 then
 function WoWTools_MoveMixin.Frames:ContainerFrame1()
     if C_AddOns.IsAddOnLoaded('Blizzmove') then
-        print(self.addName..WoWTools_DataMixin.Icon.icon2,
+        WoWTools_Print(self.addName..WoWTools_DataMixin.Icon.icon2,
             format(WoWTools_L.ALREADY_BOUND, 'Blizzmove'),
             'ContainerFrame1', WoWTools_TextMixin:GetEnabeleDisable(false)
         )

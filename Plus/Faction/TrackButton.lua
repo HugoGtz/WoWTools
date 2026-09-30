@@ -445,7 +445,7 @@ local function Init_Menu(self, root)
 		Save().point=nil
 		self:ClearAllPoints()
 		self:set_Point()
-		print(
+		WoWTools_Print(
 			WoWTools_FactionMixin.addName..WoWTools_DataMixin.Icon.icon2,
 			WoWTools_L.RESET_POSITION
 		)

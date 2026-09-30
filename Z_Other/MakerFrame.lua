@@ -242,7 +242,7 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:RestPoint(self, sub, Save().point, function()
         Save().point=nil
         self:set_point()
-        print(
+        WoWTools_Print(
             WoWTools_DataMixin.Icon.icon2..addName,
             WoWTools_L.RESET_POSITION
         )

@@ -293,7 +293,7 @@ local function Init_Button()
         local infoType, itemID, itemLink = GetCursorInfo()
         if infoType == "item" and itemID then
             Save().items[itemID]= not Save().items[itemID] and true or nil
-            print(addName..WoWTools_DataMixin.Icon.icon2,
+            WoWTools_Print(addName..WoWTools_DataMixin.Icon.icon2,
                 Save().items[itemID] and '|cnGREEN_FONT_COLOR:'..(WoWTools_L.ADD)..'|r'
                     or ('|cnWARNING_FONT_COLOR:'..(WoWTools_L.REMOVE)..'|r'),
                 itemLink or itemID
@@ -408,7 +408,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             GetValue=function() return not Save().disabled end,
             SetValue= function()
                 Save().disabled= not Save().disabled and true or nil
-                print(addName..WoWTools_DataMixin.Icon.icon2, WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled), WoWTools_L.REQUIRES_RELOAD)
+                WoWTools_Print(addName..WoWTools_DataMixin.Icon.icon2, WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled), WoWTools_L.REQUIRES_RELOAD)
             end,
             tooltip= WoWTools_L['Tip.Scrapping.Option']..'|n|n'..WoWTools_L.REQUIRES_RELOAD,
             layout= WoWTools_OtherMixin.Layout,

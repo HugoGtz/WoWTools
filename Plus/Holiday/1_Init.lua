@@ -75,7 +75,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 GetValue= function() return not Save().disabled end,
                 SetValue= function()
                     Save().disabled = not Save().disabled and true or nil
-                    print(
+                    WoWTools_Print(
                         WoWTools_HolidayMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
                         WoWTools_L.RELOADUI
@@ -87,7 +87,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                     if WoWTools_HolidayMixin.TrackButton then
                         WoWTools_HolidayMixin.TrackButton:set_point()
                     end
-                    print(
+                    WoWTools_Print(
                         WoWTools_HolidayMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         WoWTools_L.RESET_POSITION
                     )

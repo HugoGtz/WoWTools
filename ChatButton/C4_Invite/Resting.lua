@@ -29,7 +29,7 @@ local function Init()
     end
 
     function frame:settings()
-        print(
+        WoWTools_Print(
             IsResting() and self.enterText or self.leaveText
         )
     end

@@ -67,7 +67,7 @@ local function Init_Panel()
         siderTooltip= WoWTools_L['Tip.Move.AlphaValue'],
         checkSetValue= function()
             Save().notMoveAlpha= not Save().notMoveAlpha and true or nil
-            print(WoWTools_DataMixin.Icon.icon2..WoWTools_MoveMixin.addName, WoWTools_L.REQUIRES_RELOAD)
+            WoWTools_Print(WoWTools_DataMixin.Icon.icon2..WoWTools_MoveMixin.addName, WoWTools_L.REQUIRES_RELOAD)
         end,
         sliderGetValue= function() return Save().alpha or 0.5 end,
         minValue= 0,

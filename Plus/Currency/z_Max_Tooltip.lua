@@ -47,12 +47,12 @@ local function Currency_Max(_, curID)--已达到资源上限
     end
 
     if num>0 then
-        print(WoWTools_CurrencyMixin.addName..WoWTools_DataMixin.Icon.icon2)
+        WoWTools_Print(WoWTools_CurrencyMixin.addName..WoWTools_DataMixin.Icon.icon2)
 
         local index=0
         for currencyID, info in pairs(tab) do
             index= index+1
-            print(
+            WoWTools_Print(
                 '   '..index..')',
                 WoWTools_CurrencyMixin:GetLink(currencyID, nil, nil, true),
                 info.isMaxWeek and (WoWTools_L.GUILD_CHALLENGES_THIS_WEEK) or ''
@@ -60,7 +60,7 @@ local function Currency_Max(_, curID)--已达到资源上限
             MaxTabs[currencyID]=true
         end
 
-        print(
+        WoWTools_Print(
             '|cnGREEN_FONT_COLOR:'
             ..(WoWTools_L.SPELL_FAILED_CUSTOM_ERROR_248)
             ..'|r'

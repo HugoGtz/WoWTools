@@ -314,7 +314,7 @@ end
 
 function Init_Button()
     if WoWTools_FrameMixin:IsLocked(MainButton) then
-        print(addName,'|cnWARNING_FONT_COLOR:', WoWTools_L.HUD_EDIT_MODE_SETTING_COOLDOWN_VIEWER_VISIBLE_SETTING_IN_COMBAT)
+        WoWTools_Print(addName,'|cnWARNING_FONT_COLOR:', WoWTools_L.HUD_EDIT_MODE_SETTING_COOLDOWN_VIEWER_VISIBLE_SETTING_IN_COMBAT)
         MainButton:RegisterEvent('PLAYER_REGEN_ENABLED')
         return
     end
@@ -1147,7 +1147,7 @@ local function Init()
                 Init_Button()
             end
         else
-            print(addName,'|cnWARNING_FONT_COLOR:', WoWTools_L.HUD_EDIT_MODE_SETTING_COOLDOWN_VIEWER_VISIBLE_SETTING_IN_COMBAT)
+            WoWTools_Print(addName,'|cnWARNING_FONT_COLOR:', WoWTools_L.HUD_EDIT_MODE_SETTING_COOLDOWN_VIEWER_VISIBLE_SETTING_IN_COMBAT)
         end
     end
 end

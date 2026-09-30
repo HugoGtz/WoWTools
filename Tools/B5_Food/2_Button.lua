@@ -203,7 +203,7 @@ local function Init()
     btn:SetScript('OnMouseWheel',function(self, d)
         if not IsModifierKeyDown() then
             if not self:CanChangeAttribute() then
-                print(WoWTools_FoodMixin.addName..WoWTools_DataMixin.Icon.icon2, '|cnWARNING_FONT_COLOR:'..(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT))
+                WoWTools_Print(WoWTools_FoodMixin.addName..WoWTools_DataMixin.Icon.icon2, '|cnWARNING_FONT_COLOR:'..(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT))
             else
                 WoWTools_FoodMixin:Check_Items(true)
             end

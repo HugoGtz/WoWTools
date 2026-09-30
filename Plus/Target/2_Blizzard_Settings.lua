@@ -394,7 +394,7 @@ local function Init_Options()
         local isAtals, name= WoWTools_TextureMixin:IsAtlas(parent:GetText())
         if name and TargetTextureSave()[name] then
             WoWToolsPlusPlayerDate['TargetTexture'][name]= nil
-            print(WoWTools_DataMixin.Icon.icon2..WoWTools_TargetMixin.addName,
+            WoWTools_Print(WoWTools_DataMixin.Icon.icon2..WoWTools_TargetMixin.addName,
                 '|cnWARNING_FONT_COLOR:'..(WoWTools_L.DELETE)..'|r',
                 (isAtals and '|A:'..name..':0:0|a' or ('|T'..name..':0|t'))..name
             )
@@ -412,7 +412,7 @@ local function Init_Options()
         if icon and not TargetTextureSave()[icon] then
             WoWToolsPlusPlayerDate['TargetTexture'][icon]= isAtlas and 'a' or 't'
             parent:SetText('')
-            print(WoWTools_DataMixin.addName,
+            WoWTools_Print(WoWTools_DataMixin.addName,
                 WoWTools_TargetMixin.addName,
                 '|cnGREEN_FONT_COLOR:'..(WoWTools_L.ADD)..'|r',
                 (isAtlas and '|A:'..icon..':0:0|a' or ('|T'..icon..':0|t'))..icon
@@ -491,7 +491,7 @@ local function Init()
             Init_Options()
             WoWTools_TargetMixin:Set_All_Init()
 
-            print(WoWTools_DataMixin.Icon.icon2..WoWTools_TargetMixin.addName, WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled), Save().disabled and (WoWTools_L.REQUIRES_RELOAD) or '')
+            WoWTools_Print(WoWTools_DataMixin.Icon.icon2..WoWTools_TargetMixin.addName, WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled), Save().disabled and (WoWTools_L.REQUIRES_RELOAD) or '')
 
         end,
         clearfunc= function() WoWToolsPlusSave['Plus_Target']=nil WoWTools_DataMixin:Reload() end}

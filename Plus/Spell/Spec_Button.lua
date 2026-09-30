@@ -348,7 +348,7 @@ local function Init()
             self:SetPoint('TOP', PlayerSpellsFrame.TalentsFrame.ApplyButton, 'BOTTOM', -self.numSpec*10-18, 0)
 
         else
-            print(
+            WoWTools_Print(
                 WoWTools_SpellMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 '|cnGREEN_FONT_COLOR:'
                 ..(WoWTools_L.REQUIRES_RELOAD)

@@ -138,7 +138,7 @@ local function Init()
                 GameTooltip:Show()
             end
         end)
-        print(
+        WoWTools_Print(
             WoWTools_UnitMixin.addName..WoWTools_DataMixin.Icon.icon2,
             WoWTools_L.ALL_ASSIST_DESCRIPTION,
             WoWTools_TextMixin:GetEnabeleDisable(IsEveryoneAssistant())
@@ -244,7 +244,7 @@ local function Init()
             local specID= currentSpec and C_SpecializationInfo.GetSpecializationInfo(currentSpec)
             local name, _, texture= select(2, GetSpecializationInfoByID(specID or 0))
 
-            print(WoWTools_UnitMixin.addName..WoWTools_DataMixin.Icon.icon2,
+            WoWTools_Print(WoWTools_UnitMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 WoWTools_L.SELECT_LOOT_SPECIALIZATION,
                 texture and '|T'..texture..':0|t' or '',
                 WoWTools_TextMixin:CN(name)

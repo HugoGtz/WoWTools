@@ -21,7 +21,7 @@ local function Init()
         if ID then
             C_Timer.After(2, function()
                 TutorialPointerFrame:Hide(ID-1)
-                print(
+                WoWTools_Print(
                     WoWTools_DataMixin.Icon.icon2..WoWTools_TextureMixin.addName,
                     '|cffff00ff',
                     WoWTools_TextMixin:CN(content)
@@ -35,7 +35,7 @@ local function Init()
             C_Timer.After(1, function()
                 if not WoWTools_FrameMixin:IsLocked(self) and self:IsShown() then
                     self:Hide()
-                    print(
+                    WoWTools_Print(
                         WoWTools_DataMixin.Icon.icon2..WoWTools_TextureMixin.addName,
                         '|cnGREEN_FONT_COLOR:'..(WoWTools_L.ERR_REPORT_SUBMITTED_SUCCESSFULLY)..'|r',
                         WoWTools_L.CLOSE

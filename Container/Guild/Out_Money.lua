@@ -50,7 +50,7 @@ local function Out_Money(num)
 
         WithdrawGuildBankMoney(money)
 
-        print(
+        WoWTools_Print(
             WoWTools_GuildBankMixin.addName..WoWTools_DataMixin.Icon.icon2,
             WoWTools_L['SELF_CAST_AUTO+WITHDRAW'],
             '|cnGREEN_FONT_COLOR:'..C_CurrencyInfo.GetCoinTextureString(money)
@@ -136,7 +136,7 @@ local function Save_Money(num)
         DepositGuildBankMoney(money)
         SaveMoney= SaveMoney + money
 
-        print(
+        WoWTools_Print(
             WoWTools_DataMixin.Icon.wow2
             ..(WoWTools_L['DEPOSIT~3']),
             C_CurrencyInfo.GetCoinTextureString(money),

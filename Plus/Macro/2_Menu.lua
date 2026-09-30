@@ -155,7 +155,7 @@ local PointTab={
             if InCombatLockdown() then
                 return
             end
-            print(
+            WoWTools_Print(
                 WoWTools_MacroMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 '|cnWARNING_FONT_COLOR:'
                 ..(WoWTools_L.DELETE)
@@ -166,7 +166,7 @@ local PointTab={
                 end
                 local name, icon = GetMacroInfo(i)
                 DeleteMacro(i)
-                print(
+                WoWTools_Print(
                     i..') ',
                     WoWTools_MacroMixin:GetName(name, icon)
                 )
@@ -197,7 +197,7 @@ local PointTab={
             if InCombatLockdown() then
                 return
             end
-            print(
+            WoWTools_Print(
                 WoWTools_MacroMixin.addName,
                 '|cnWARNING_FONT_COLOR:'
                 ..(WoWTools_L.DELETE)
@@ -208,7 +208,7 @@ local PointTab={
                 end
                 local name, icon = GetMacroInfo(i)
                 DeleteMacro(i)
-                print(
+                WoWTools_Print(
                     i..') ', WoWTools_MacroMixin:GetName(name, icon)
                 )
             end

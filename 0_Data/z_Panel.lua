@@ -186,6 +186,15 @@ local MainStartIndex
 local function Init_Options()
     WoWTools_PanelMixin:Header(nil, WoWTools_L.GENERAL)
 
+    WoWTools_PanelMixin:OnlyCheck({
+        name= WoWTools_L['Show addon messages in chat'],
+        tooltip= WoWTools_L['Tip.Panel.ChatMessages'],
+        GetValue= function() return Save().showChatMessages end,
+        SetValue= function()
+            Save().showChatMessages= not Save().showChatMessages and true or nil
+        end
+    })
+
     --WoWTools_PanelMixin:Header(nil, SETTINGS)
 
 
@@ -226,7 +235,7 @@ local function Init_Options()
             GetValue= function() return not Save().disabledRealm end,
             SetValue= function()
                 Save().disabledRealm= not Save().disabledRealm and true or nil
-                print(WoWTools_DataMixin.addName,  WoWTools_L.REQUIRES_RELOAD)
+                WoWTools_Print(WoWTools_DataMixin.addName,  WoWTools_L.REQUIRES_RELOAD)
             end
         })
 

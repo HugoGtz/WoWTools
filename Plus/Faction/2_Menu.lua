@@ -28,7 +28,7 @@ local function Init_Menu(self, root)
 		Save().btn= not Save().btn and true or nil
 		WoWTools_FactionMixin:UpdatList()
 		WoWTools_FactionMixin:Init_TrackButton()
-		print(
+		WoWTools_Print(
 			WoWTools_FactionMixin.addName..WoWTools_DataMixin.Icon.icon2,
 			WoWTools_L.TRACKING,
 			WoWTools_TextMixin:GetShowHide(Save().btn)
@@ -59,7 +59,7 @@ local function Init_Menu(self, root)
 	WoWTools_MenuMixin:RestPoint(self, sub, Save().point, function()
 		Save().point=nil
 		WoWTools_FactionMixin:Init_TrackButton()
-		print(
+		WoWTools_Print(
 			WoWTools_FactionMixin.addName..WoWTools_DataMixin.Icon.icon2,
 			WoWTools_L.RESET_POSITION
 		)
@@ -118,10 +118,10 @@ local function Init_Menu(self, root)
 		Save().factionUpdateTips= not Save().factionUpdateTips and true or false
 		if Save().factionUpdateTips then
 			WoWTools_FactionMixin:Check_Chat_MSG()
-			print(
+			WoWTools_Print(
 				FACTION_STANDING_INCREASED
 			)
-			print(
+			WoWTools_Print(
 				FACTION_STANDING_INCREASED_ACCOUNT_WIDE
 			)
 		end

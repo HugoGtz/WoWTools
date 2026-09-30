@@ -17,7 +17,7 @@ local function Init()
             end
         end
 
-        print(
+        WoWTools_Print(
             WoWTools_MerchantMixin.addName..WoWTools_DataMixin.Icon.icon2,
 
             '|cffff00ff|A:Cursor_lootall_128:0:0|a'

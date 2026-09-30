@@ -26,7 +26,7 @@ local function Init()
         category= WoWTools_SpellMixin.Category,
         func= function()
             Save().disabled= not Save().disabled and true or nil
-            print(
+            WoWTools_Print(
                 WoWTools_DataMixin.Icon.icon2..WoWTools_SpellMixin.addName,
                 WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
                 WoWTools_L.REQUIRES_RELOAD
@@ -46,7 +46,7 @@ local function Init()
             Save().flyoutText= not Save().flyoutText and true or false
             WoWTools_SpellMixin:Init_Spell_Flyout()
             if not Save().flyoutText then
-                print(
+                WoWTools_Print(
                     WoWTools_DataMixin.Icon.icon2,
                     WoWTools_TextMixin:GetEnabeleDisable(Save().flyoutText),
                     WoWTools_L.REQUIRES_RELOAD
@@ -66,7 +66,7 @@ local function Init()
             Save().actionButtonRangeColor= not Save().actionButtonRangeColor and true or false
             WoWTools_SpellMixin:Init_ActionButton_UpdateRange()--法术按键, 颜色
             if not Save().actionButtonRangeColor then
-                print(
+                WoWTools_Print(
                     WoWTools_DataMixin.Icon.icon2,
                     WoWTools_TextMixin:GetEnabeleDisable(Save().actionButtonRangeColor),
                     WoWTools_L.REQUIRES_RELOAD
@@ -86,7 +86,7 @@ local function Init()
             Save().specButton.enabled= not Save().specButton.enabled and true or false
             WoWTools_SpellMixin:Init_Spec_Button()
             if not Save().specButton.enabled then
-                print(
+                WoWTools_Print(
                     WoWTools_DataMixin.Icon.icon2,
                     WoWTools_TextMixin:GetEnabeleDisable(Save().specButton.enabled),
                     WoWTools_L.REQUIRES_RELOAD
@@ -106,7 +106,7 @@ local function Init()
             Save().talentsFramePlus= not Save().talentsFramePlus and true or false
             WoWTools_SpellMixin:Init_TalentsFrame()
             if not Save().talentsFramePlus then
-                print(
+                WoWTools_Print(
                     WoWTools_DataMixin.Icon.icon2,
                     WoWTools_TextMixin:GetEnabeleDisable(Save().talentsFramePlus),
                     WoWTools_L.REQUIRES_RELOAD
@@ -126,7 +126,7 @@ local function Init()
             Save().spellBookPlus= not Save().spellBookPlus and true or false
             WoWTools_SpellMixin:Init_SpellBookFrame()
             if not Save().spellBookPlus then
-                print(
+                WoWTools_Print(
                     WoWTools_DataMixin.Icon.icon2,
                     WoWTools_TextMixin:GetEnabeleDisable(Save().spellBookPlus),
                     WoWTools_L.REQUIRES_RELOAD

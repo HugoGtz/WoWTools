@@ -153,7 +153,7 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:RestPoint(self, sub, Save().point, function()
         Save().point=nil
         self:settings()
-        print(
+        WoWTools_Print(
             WoWTools_PaperDollMixin.addName2..WoWTools_DataMixin.Icon.icon2,
             WoWTools_L.RESET_POSITION
         )

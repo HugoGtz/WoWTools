@@ -36,7 +36,7 @@ function WoWTools_ChatMixin:Chat(text, name, printText)
                 end
             end)
         end
-        print(text)
+        WoWTools_Print(text)
     end
 end
 

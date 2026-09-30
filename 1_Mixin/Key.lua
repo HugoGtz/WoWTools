@@ -124,7 +124,7 @@ function WoWTools_KeyMixin:SetMenu(frame, root, tab)
                     text=text:gsub(']','')
                     text=text:upper()
                     tab2.GetKey(text)
-                    print(WoWTools_DataMixin.addName, data.name, text)
+                    WoWTools_Print(WoWTools_DataMixin.addName, data.name, text)
                 end,
                 OnAlt=data.OnAlt,
                 GetKey=data.GetKey,

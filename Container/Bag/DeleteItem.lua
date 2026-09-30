@@ -25,7 +25,7 @@ local function Delete_Item()
 
     DeleteCursorItem()
 
-    print(
+    WoWTools_Print(
         WoWTools_DataMixin.Icon.icon2
         ..(WoWTools_L.HOUSING_DECOR_STORAGE_ITEM_DESTROY)
         ..'|A:common-icon-delete:0:0|a',

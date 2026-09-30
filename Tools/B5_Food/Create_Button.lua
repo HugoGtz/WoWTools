@@ -198,7 +198,7 @@ local function Create_Button(index)
                 function()
                     Save().noUseItems[self.itemID]=true
                     Save().addItems[self.itemID]=nil
-                    print(WoWTools_DataMixin.Icon.icon2..WoWTools_FoodMixin.addName, WoWTools_L.DISABLE, WoWTools_ItemMixin:GetLink(self.itemID))
+                    WoWTools_Print(WoWTools_DataMixin.Icon.icon2..WoWTools_FoodMixin.addName, WoWTools_L.DISABLE, WoWTools_ItemMixin:GetLink(self.itemID))
                     WoWTools_FoodMixin:Check_Items()
                 end)
             end)
@@ -294,7 +294,7 @@ function WoWTools_FoodMixin:Check_Items(isPrint)
     btn:settings()
 
     if isPrint then
-        print(
+        WoWTools_Print(
             WoWTools_FoodMixin.addName..WoWTools_DataMixin.Icon.icon2,
             WoWTools_L['WHO+COMPLETE']
         )

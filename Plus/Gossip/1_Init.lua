@@ -139,7 +139,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                      if _G['WoWToolsGossipButton'] then
                         _G['WoWToolsGossipButton']:set_point()
                      end
-                     print(
+                     WoWTools_Print(
                         WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         WoWTools_L.RESET_POSITION
                     )

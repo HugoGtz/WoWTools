@@ -53,7 +53,7 @@ local function Edit_Item(self, info)
             Save().use[data.itemID]=num
             Save().no[data.itemID]=nil
             WoWTools_OpenItemMixin:Get_Item()--取得背包物品信息                        
-            print(WoWTools_DataMixin.Icon.icon2..WoWTools_OpenItemMixin.addName,
+            WoWTools_Print(WoWTools_DataMixin.Icon.icon2..WoWTools_OpenItemMixin.addName,
                 WoWTools_ItemMixin:GetLink(data.itemID),
                 num>1 and
                     (WoWTools_L['Combine items'])..': '..'|cnGREEN_FONT_COLOR:'..num..'|r'
@@ -64,7 +64,7 @@ local function Edit_Item(self, info)
             Save().no[data.itemID]=true
             Save().use[data.itemID]=nil
             WoWTools_OpenItemMixin:Get_Item()--取得背包物品信息
-            print(WoWTools_DataMixin.addName, WoWTools_OpenItemMixin.addName,
+            WoWTools_Print(WoWTools_DataMixin.addName, WoWTools_OpenItemMixin.addName,
                 WoWTools_ItemMixin:GetLink(info.itemID),
                 self.noText
             )
@@ -127,7 +127,7 @@ local function Remove_NoUse_Menu(self, root, itemID, type, numUse, index)
     function(data)
         Save()[data.type][data.itemID]=nil
 
-        print(WoWTools_DataMixin.Icon.icon2..WoWTools_OpenItemMixin.addName,
+        WoWTools_Print(WoWTools_DataMixin.Icon.icon2..WoWTools_OpenItemMixin.addName,
             Save()[data.type][data.itemID]
             and '|cnGREEN_FONT_COLOR:'..(WoWTools_L.REMOVE)..'|r'
             or ('|cnWARNING_FONT_COLOR:'..(WoWTools_L.SPELL_FAILED_ITEM_GONE)),
@@ -158,17 +158,17 @@ local function Remove_All_Menu(self, root, type, num)
         {SetValue=function()
             local index=0
                 local type2= data.type=='no' and self.noText or self.useText
-                print(WoWTools_DataMixin.Icon.icon2..WoWTools_OpenItemMixin.addName)
+                WoWTools_Print(WoWTools_DataMixin.Icon.icon2..WoWTools_OpenItemMixin.addName)
                 for itemID in pairs(Save()[data.type]) do
                     index= index+1
-                    print(
+                    WoWTools_Print(
                         index..')',
                         WoWTools_L.REMOVE,
                         WoWTools_ItemMixin:GetLink(itemID),
                         '|A:common-icon-redx:0:0|a'..type2
                     )
                 end
-                print(WoWTools_L.CLEAR_ALL, '|A:common-icon-redx:0:0|a|cnGREEN_FONT_COLOR:#',  index)
+                WoWTools_Print(WoWTools_L.CLEAR_ALL, '|A:common-icon-redx:0:0|a|cnGREEN_FONT_COLOR:#',  index)
                 Save()[data.type]={}
                 WoWTools_OpenItemMixin:Get_Item()
         end})

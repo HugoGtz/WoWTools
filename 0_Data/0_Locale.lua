@@ -1125,7 +1125,9 @@ local enUS= {
     ['Reset raid marker tool']= 'Reset raid marker tool',
     ['Auto-fill confirmation words']= 'Auto-fill confirmation words (DELETE…)',
     ['Frame inspector (/fstack)']= 'Frame inspector (/fstack)',
-    ['Not found']= 'Not found',
+    ['Not found']= 'Not found',
+    ['Show addon messages in chat']= 'Show addon messages in chat',
+    ['Tip.Panel.ChatMessages']= 'Shows in the chat what the addon does on its own (items sold, repairs, quests accepted, errors…). Off by default so the chat stays clean.',
 }
 
 local esES= {
@@ -2325,7 +2327,9 @@ local esES= {
     ['Reset raid marker tool']= 'Restablecer herramienta de marcas',
     ['Auto-fill confirmation words']= 'Autocompletar palabras de confirmación (BORRAR…)',
     ['Frame inspector (/fstack)']= 'Inspector de marcos (/fstack)',
-    ['Not found']= 'No encontrado',
+    ['Not found']= 'No encontrado',
+    ['Show addon messages in chat']= 'Mostrar mensajes del addon en el chat',
+    ['Tip.Panel.ChatMessages']= 'Muestra en el chat lo que el addon hace por su cuenta (objetos vendidos, reparaciones, misiones aceptadas, errores…). Desactivado por defecto para no llenar el chat.',
 }
 
 local current= (locale=='esES' or locale=='esMX') and esES or enUS

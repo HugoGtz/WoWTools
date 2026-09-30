@@ -81,7 +81,7 @@ local function Init_Auto_Repair()
                 RepairSave().guild=RepairSave().guild+Co
                 RepairSave().num=RepairSave().num+1
                 WoWTools_DataMixin:Call('MerchantFrame_Update')
-                print(
+                WoWTools_Print(
                     WoWTools_MerchantMixin.addName..WoWTools_DataMixin.Icon.icon2,
                     '|cffff00ff'..(WoWTools_L.GUILDCONTROL_OPTION15_TOOLTIP)..'|r',
                     C_CurrencyInfo.GetCoinTextureString(Co)
@@ -94,14 +94,14 @@ local function Init_Auto_Repair()
                     end
                     RepairSave().player=RepairSave().player+Co
                     RepairSave().num=RepairSave().num+1
-                    print(
+                    WoWTools_Print(
                         WoWTools_MerchantMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         '|cnGREEN_FONT_COLOR:'..(WoWTools_L.REPAIR_COST)..'|r',
                         C_CurrencyInfo.GetCoinTextureString(Co)
                     )
                     WoWTools_DataMixin:Call('MerchantFrame_Update')
                 else
-                    print(
+                    WoWTools_Print(
                         WoWTools_MerchantMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         '|cnWARNING_FONT_COLOR:'..(WoWTools_L.FAILED)..'|r',
                         WoWTools_L.REPAIR_COST,

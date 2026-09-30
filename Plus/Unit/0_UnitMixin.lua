@@ -618,7 +618,7 @@ function WoWTools_UnitMixin:GetNotifyInspect(tab, unit)
     if InspectFrame and InspectFrame.unit then--如果有观察时，会错误
         return
     end
---print('取得装等', tab,unit)
+--WoWTools_Print('取得装等', tab,unit)
     if tab then
         local time= 1
         for _, u in pairs(tab) do

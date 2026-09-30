@@ -18,7 +18,7 @@ local function Init_Category()
         GetValue= function() return not Save().disabled end,
         func= function()
             Save().disabled= not Save().disabled and true or nil
-            print(
+            WoWTools_Print(
                 WoWTools_DataMixin.Icon.icon2..WoWTools_UnitMixin.addName,
                 WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
                 WoWTools_L.REQUIRES_RELOAD
@@ -50,7 +50,7 @@ local function Init()
         func= function()
             Save().hidePlayerFrame= not Save().hidePlayerFrame and true or nil
             if Save().hidePlayerFrame then
-                print(
+                WoWTools_Print(
                     WoWTools_DataMixin.Icon.icon2,
                     WoWTools_TextMixin:GetEnabeleDisable(false),
                     WoWTools_L.REQUIRES_RELOAD
@@ -72,7 +72,7 @@ local function Init()
         func= function()
             Save().hideTargetFrame= not Save().hideTargetFrame and true or nil
             if Save().hideTargetFrame then
-                print(
+                WoWTools_Print(
                     WoWTools_DataMixin.Icon.icon2,
                     WoWTools_TextMixin:GetEnabeleDisable(false),
                     WoWTools_L.REQUIRES_RELOAD
@@ -93,7 +93,7 @@ local function Init()
         func= function()
             Save().hidePartyFrame= not Save().hidePartyFrame and true or nil
             if Save().hidePartyFrame then
-                print(
+                WoWTools_Print(
                     WoWTools_DataMixin.Icon.icon2,
                     WoWTools_TextMixin:GetEnabeleDisable(false),
                     WoWTools_L.REQUIRES_RELOAD
@@ -115,7 +115,7 @@ local function Init()
         SetValue= function()
             Save().hideBossFrame= not Save().hideBossFrame and true or nil
             if Save().hideBossFrame then
-                print(
+                WoWTools_Print(
                     WoWTools_DataMixin.Icon.icon2,
                     WoWTools_TextMixin:GetEnabeleDisable(false),
                     WoWTools_L.REQUIRES_RELOAD
@@ -138,7 +138,7 @@ local function Init()
         func= function()
             Save().hideClassColor= not Save().hideClassColor and true or nil
             if Save().hideClassColor then
-                print(
+                WoWTools_Print(
                     WoWTools_DataMixin.Icon.icon2,
                     WoWTools_TextMixin:GetEnabeleDisable(false),
                     WoWTools_L.REQUIRES_RELOAD

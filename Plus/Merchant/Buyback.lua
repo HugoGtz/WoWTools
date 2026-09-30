@@ -30,14 +30,14 @@ local function set_buyback_item()
 
     C_Timer.After(0.3, function()
         for index, itemLink in pairs(tab) do
-            print(
+            WoWTools_Print(
                 WoWTools_MerchantMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 index..')|cnGREEN_FONT_COLOR:'..(WoWTools_L['BUYBACK~2']),
                 itemLink
             )
         end
         for index, info in pairs(no) do
-            print(
+            WoWTools_Print(
                 WoWTools_MerchantMixin.addName..WoWTools_DataMixin.Icon.icon2,
 
                 index
@@ -64,7 +64,7 @@ local function Add_Remove_ToSave(itemID)
         text='|cnGREEN_FONT_COLOR:'..(WoWTools_L.ADD)
         set_buyback_item()
     end
-    print(
+    WoWTools_Print(
         WoWTools_DataMixin.addName,
         WoWTools_MerchantMixin.addName,
         WoWTools_L.BUYBACK,
@@ -96,7 +96,7 @@ local function Init_Menu(self, root)
         end
 
         C_Timer.After(0.3, function()
-            print(
+            WoWTools_Print(
                 WoWTools_MerchantMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 table.concat(tab, '|n'),
                 '|n',

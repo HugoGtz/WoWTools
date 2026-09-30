@@ -67,7 +67,7 @@ local function Init()
                     or InCombatLockdown()
                     or MerchantFrame.selectedTab~=1
                 then
-                    print(
+                    WoWTools_Print(
                         WoWTools_MerchantMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         WoWTools_L.INTERRUPT
                     )
@@ -94,7 +94,7 @@ local function Init()
                         gruop= gruop+ 1
                         num= num+ (info.stackCount or 1)--数量
 
-                        print(
+                        WoWTools_Print(
                             '|cnWARNING_FONT_COLOR:'..gruop..')|r',
                             checkText or '',
                             info.hyperlink,
@@ -113,7 +113,7 @@ local function Init()
         end
 
         if num > 0 then
-            print(
+            WoWTools_Print(
                 WoWTools_MerchantMixin.addName..WoWTools_DataMixin.Icon.icon2,
 
                 (WoWTools_L.AUCTION_HOUSE_SELL_TAB)
@@ -200,7 +200,7 @@ Frame:SetScript("OnEvent", function(_, event, _, itemID, itemLink, _, playerName
                 Save().bossItems[itemID]= itemLevel
 
                 if Save().sellBoss then
-                    print(
+                    WoWTools_Print(
                         WoWTools_MerchantMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         WoWTools_L['ADD+AUCTION_HOUSE_SELL_TAB'],
                         itemLink or itemID

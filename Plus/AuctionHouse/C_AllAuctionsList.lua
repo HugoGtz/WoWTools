@@ -48,14 +48,14 @@ local function Cancel_Auction()
         if C_AuctionHouse.CanCancelAuction(auctionID) then
             local cost= C_AuctionHouse.GetCancelCost(auctionID)
             C_AuctionHouse.CancelAuction(auctionID)
-            print(
+            WoWTools_Print(
                 WoWTools_AuctionHouseMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 '|cnGREEN_FONT_COLOR:'..(WoWTools_L.AUCTION_HOUSE_CANCEL_AUCTION_BUTTON)..'|r',
                 itemLink or '',
                 cost and cost>0 and '|cnWARNING_FONT_COLOR:'..GetMoneyString(cost) or ''
             )
         else
-            print(
+            WoWTools_Print(
                 WoWTools_AuctionHouseMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 '|cnWARNING_FONT_COLOR:'..(WoWTools_L['ERRORS~2'])..'|r',
                 itemLink or ''
@@ -143,7 +143,7 @@ local function Init()
                     local cost= C_AuctionHouse.GetCancelCost(self.rowData.auctionID)
                     local itemLink= WoWTools_AuctionHouseMixin:GetItemLink(self.rowData)
                     C_AuctionHouse.CancelAuction(self.rowData.auctionID)
-                    print(
+                    WoWTools_Print(
                         WoWTools_AuctionHouseMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         '|cnGREEN_FONT_COLOR:'..(WoWTools_L.AUCTION_HOUSE_CANCEL_AUCTION_BUTTON)..'|r',
                         itemLink,

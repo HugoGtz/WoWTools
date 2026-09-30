@@ -23,6 +23,7 @@ Source\Libs\LibRangeCheck-3.0.lua
 ##主要function，不能删除
 0_Data\0_Conflict.lua
 0_Data\0_Locale.lua
+0_Data\0_Print.lua
 0_Data\1_DataMixin.lua
 0_Data\z_Panel.lua
 0_Data\2_DataMixin_WoW.lua

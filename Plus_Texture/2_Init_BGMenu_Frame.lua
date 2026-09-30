@@ -284,7 +284,7 @@ local function texture_list(self, root, name, icon, texture, isAdd)
             nil,
             {SetValue=function()
                 WoWToolsPlusPlayerDate['BGTexture'][texture]= nil
-                print(WoWTools_DataMixin.Icon.icon2, WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2, texture)
+                WoWTools_Print(WoWTools_DataMixin.Icon.icon2, WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2, texture)
             end})
             return MenuResponse.Open
         end)
@@ -315,7 +315,7 @@ local function Texture_List_Menu(self, root, icon, name)
                 if textureID then
                     WoWToolsPlusPlayerDate['BGTexture'][textureID]= true
                 end
-                print(WoWTools_DataMixin.Icon.icon2..WoWTools_TextureMixin.addName, textureID)
+                WoWTools_Print(WoWTools_DataMixin.Icon.icon2..WoWTools_TextureMixin.addName, textureID)
             end,
             OnAlt=function(s)
                 local edit= s.editBox or s:GetEditBox()

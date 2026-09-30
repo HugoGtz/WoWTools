@@ -13,7 +13,7 @@ local function Init_Menu(self, root)
         '|A:characterundelete-RestoreButton:0:0|a'..(WoWTools_L['RESET+STATUS_TEXT_VALUE']),
     function()
         WoWTools_AttributesMixin:Frame_Init(true)--初始， 或设置
-        print(
+        WoWTools_Print(
             WoWTools_AttributesMixin.addName..WoWTools_DataMixin.Icon.icon2,
             '|cnGREEN_FONT_COLOR:',
             WoWTools_L['RESET+STATUS_TEXT_VALUE']

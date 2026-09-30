@@ -30,7 +30,7 @@ local function get_Role_Info(env, Name, isT, isH, isD)
                     local guid=UnitGUID(unit)
                     local line= WoWTools_UnitMixin:GetOnlineInfo(unit)
                     if line and guid then
-                        print(
+                        WoWTools_Print(
                             WoWTools_DataMixin.Icon.icon2..i..')',
                             line,
                             WoWTools_UnitMixin:GetPlayerInfo(unit, guid, nil, {faction=UnitFactionGroup(unit), reLink=true}),

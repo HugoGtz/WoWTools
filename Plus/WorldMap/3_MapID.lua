@@ -105,7 +105,7 @@ local function Init()
             return
         end
         if b=='RightButton' then
-            print(GetAchievementLink(self.achievementID) or self.achievementID)
+            WoWTools_Print(GetAchievementLink(self.achievementID) or self.achievementID)
         else
             WoWTools_LoadUIMixin:Achievement(self.achievementID)--打开成就
         end

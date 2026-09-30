@@ -120,7 +120,7 @@ local function Init_UI()
     end)
 
     if C_AddOns.IsAddOnLoaded("CompactVendor") then
-        print(
+        WoWTools_Print(
             WoWTools_MerchantMixin.addName..WoWTools_DataMixin.Icon.icon2,
             format(WoWTools_L['ALREADY_BOUND~2'], 'Compact Vendor'),
             WoWTools_L.ADDONS

@@ -74,7 +74,7 @@ local function set_Engineering(btn, slot, link, use, isPaperDollItemSlot)
             if d=='LeftButton' then
                 local n=C_Item.GetItemCount(90146, true, false, true, false)
                 if n==0 then
-                    print(WoWTools_ItemMixin:GetLink(90146) or (WoWTools_L.OPTIONAL_REAGENT_TUTORIAL_TOOLTIP_TITLE), '|cnWARNING_FONT_COLOR:'..(WoWTools_L.NONE))
+                    WoWTools_Print(WoWTools_ItemMixin:GetLink(90146) or (WoWTools_L.OPTIONAL_REAGENT_TUTORIAL_TOOLTIP_TITLE), '|cnWARNING_FONT_COLOR:'..(WoWTools_L.NONE))
                     return
                 end
                 local isShow= ProfessionsFrame and ProfessionsFrame:IsShown()

@@ -63,7 +63,7 @@ local function set_RequestToJoinFrame(frame)
         and not IsModifierKeyDown()
         and not Save().notAutoRequestToJoinClub
     then
-        print(
+        WoWTools_Print(
             WoWTools_GuildMixin.addName..WoWTools_DataMixin.Icon.icon2,
             frame.ClubName:GetText(),
             WoWTools_TextMixin:CN(frame.Apply:GetText()),

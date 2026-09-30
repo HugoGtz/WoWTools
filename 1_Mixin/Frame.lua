@@ -16,7 +16,7 @@ function WoWTools_FrameMixin:IsLocked(frame)
 
     if WoWTools_DataMixin.Player.husandro and disabled then
         local name= frame.GetName and frame:GetName()
-        print(name, '|cnGREEN_FONT_COLOR:IsProtected|r', frame.IsProtected and frame:IsProtected() , '|cnGREEN_FONT_COLOR:issecure|r', issecure() )
+        WoWTools_Print(name, '|cnGREEN_FONT_COLOR:IsProtected|r', frame.IsProtected and frame:IsProtected() , '|cnGREEN_FONT_COLOR:issecure|r', issecure() )
     end
     return disabled
 end
@@ -70,7 +70,7 @@ end
 function WoWTools_FrameMixin:ScaleFrame(frame, delta, value, func)
     local n= value
     if WoWTools_FrameMixin:IsLocked(frame) then--antes con punto: nunca detectaba el combate
-        print(WoWTools_DataMixin.addName, '|cnWARNING_FONT_COLOR:'..(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)..'|r')
+        WoWTools_Print(WoWTools_DataMixin.addName, '|cnWARNING_FONT_COLOR:'..(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)..'|r')
         return
     end
     if IsAltKeyDown() then

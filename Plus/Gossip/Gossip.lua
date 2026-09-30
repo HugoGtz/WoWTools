@@ -427,7 +427,7 @@ local function Create_GossipOptionCheckBox(btn, info)
         Save().gossipOption[self.gossipOptionID]= not Save().gossipOption[self.gossipOptionID] and (self.name or '') or nil
         if Save().gossipOption[self.gossipOptionID] and not IsModifierKeyDown() and Save().gossip then
             C_GossipInfo.SelectOption(self.gossipOptionID)
-            print(
+            WoWTools_Print(
                 WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 '|cnGREEN_FONT_COLOR:',
                 self.name,
@@ -506,7 +506,7 @@ local function Create_AvailableQuestCheck(btn, info)
                 C_GossipInfo.SelectAvailableQuest(self.questID)
             end
         else
-            print(
+            WoWTools_Print(
                 WoWTools_GossipMixin.addName2..WoWTools_DataMixin.Icon.icon2,
                 '|cnWARNING_FONT_COLOR:'..(WoWTools_L.NONE)..'|r',
                 WoWTools_L.QUESTS_LABEL,
@@ -657,7 +657,7 @@ local function Init_Hook()
 
         if find then
             SelectGissipIDTab[index]=true
-            print(
+            WoWTools_Print(
                 '|A:SpecDial_LastPip_BorderGlow:0:0|a'
                 ..WoWTools_UnitMixin:Get_NPC_Name(),
 
@@ -766,7 +766,7 @@ local function Init_Hook()
         then
             C_GossipInfo.CloseGossip()
             if text and not GreetingTextEmpty[text] then
-                print('|A:SpecDial_LastPip_BorderGlow:0:0|a'..WoWTools_TextMixin:CN(text)..WoWTools_DataMixin.Icon.icon2)
+                WoWTools_Print('|A:SpecDial_LastPip_BorderGlow:0:0|a'..WoWTools_TextMixin:CN(text)..WoWTools_DataMixin.Icon.icon2)
                 self:RegisterEvent('PLAYER_STARTED_MOVING')
                 GreetingTextEmpty[text]= 1
             end

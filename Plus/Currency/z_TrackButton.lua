@@ -852,7 +852,7 @@ local function Init()
 		local infoType, itemID, itemLink = GetCursorInfo()
         if infoType == "item" and itemID then
 			Save().item[itemID]= not Save().item[itemID] and true or nil
-			print(
+			WoWTools_Print(
 				WoWTools_CurrencyMixin.addName..WoWTools_DataMixin.Icon.icon2,
 				WoWTools_L.TRACKING,
 

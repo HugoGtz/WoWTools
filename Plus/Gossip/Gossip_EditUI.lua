@@ -349,7 +349,7 @@ local function Init(isShow)
             PlayerDataSave()[gossipID]=nil
             self:set_list()
             WoWTools_GossipMixin:UpdateGossip()--更新GossipFrame
-            print(
+            WoWTools_Print(
                 WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 '|cnWARNING_FONT_COLOR:'..(WoWTools_L.DELETE)..'|r|n',
                 gossipID,
@@ -609,7 +609,7 @@ local function Init(isShow)
         {SetValue=function()
             WoWToolsPlusPlayerDate['GossipTextIcon']= {}
             List:set_list()
-            print(
+            WoWTools_Print(
                 WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 WoWTools_L.CLEAR_ALL,
                 format('|cnGREEN_FONT_COLOR:%s|r', WoWTools_L.DONE)
@@ -669,7 +669,7 @@ local function Init(isShow)
             WoWTools_GossipMixin:UpdateGossip()--更新GossipFrame
             List:set_list()
             if not Save().Gossip_Text_Icon_cnFont then
-                print(
+                WoWTools_Print(
                     WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2,
                     '|cnGREEN_FONT_COLOR:',
                     WoWTools_L['NEED+RELOADUI']
@@ -787,7 +787,7 @@ local function Init(isShow)
                 if tooltips then
                     GameTooltip_AddErrorLine(GameTooltip, err)
                 else
-                    print(err)
+                    WoWTools_Print(err)
                 end
                 return
             end
@@ -826,13 +826,13 @@ local function Init(isShow)
                 local icon= select(3, WoWTools_TextureMixin:IsAtlas(info.tab.icon)) or ''
                 local hex= info.tab.hex and format('|c%s', info.tab.hex) or ''
                 local name= info.tab.name or ''
-                print(
+                WoWTools_Print(
                     info.gossipID,
                     icon..hex..name
                 )
             end
             List:set_list()
-            print(
+            WoWTools_Print(
                 WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 '|n',
                 format('%s|n%s|n%s', addText, delText, existText)

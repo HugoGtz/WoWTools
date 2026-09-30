@@ -97,7 +97,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                     return
                 end
             end
-            print(
+            WoWTools_Print(
                 WoWTools_AddOnsMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
                 WoWTools_L['REQUIRES_RELOAD~2']

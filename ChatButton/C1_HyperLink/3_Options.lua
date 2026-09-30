@@ -67,10 +67,10 @@ local function Init()
                 t=WoWTools_TextMixin:Magic(t)
                 WoWToolsPlusPlayerDate['HyperLinkColorText'][t]=true
                 n=n+1
-                print(n..')|cnGREEN_FONT_COLOR:', t)
+                WoWTools_Print(n..')|cnGREEN_FONT_COLOR:', t)
             end
         end)
-        print(
+        WoWTools_Print(
             WoWTools_HyperLink.addName..WoWTools_DataMixin.Icon.icon2,
             WoWTools_DataMixin.Language.key,
             WoWTools_L.COLOR,
@@ -129,11 +129,11 @@ local function Init()
                 name=WoWTools_TextMixin:Magic(name)
                 Save().channels[name]=name2
                 n=n+1
-                print(n..')',name,'|cnGREEN_FONT_COLOR:=|r', name2)
+                WoWTools_Print(n..')',name,'|cnGREEN_FONT_COLOR:=|r', name2)
             end
         end)
 
-        print(
+        WoWTools_Print(
             WoWTools_HyperLink.addName..WoWTools_DataMixin.Icon.icon2,
             '|cnGREEN_FONT_COLOR:'..n..'|r',
             WoWTools_L['Channel name replacement']

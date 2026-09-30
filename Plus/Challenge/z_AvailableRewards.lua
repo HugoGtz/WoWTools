@@ -5,7 +5,7 @@ local function Init()
         return
 
     else
-        print(
+        WoWTools_Print(
             WoWTools_ChallengeMixin.addName..WoWTools_DataMixin.Icon.icon2,
             '|cffff00ff'..(WoWTools_L.WEEKLY_REWARDS_RETURN_TO_CLAIM)
         )
@@ -30,7 +30,7 @@ local function Init()
 
     frame:SetScript('OnEnter', function(self)
         self:set_show(false)
-        print(
+        WoWTools_Print(
             WoWTools_ChallengeMixin.addName..WoWTools_DataMixin.Icon.icon2,
             '|cffff00ff',
             WoWTools_L.SELECT_LOOT_SPECIALIZATION

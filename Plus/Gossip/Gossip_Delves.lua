@@ -11,7 +11,7 @@ local function P_Spell(option)
         return
     end
     SpellEventListener:AddCancelableCallback(option.spellID, function()
-        print(
+        WoWTools_Print(
                 WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 '|T'..(option.icon or 0)..':0|t',
 
@@ -27,7 +27,7 @@ end
 local function P_Reward(reward)
     if reward.rewardType == Enum.GossipOptionRewardType.Item then
         ItemEventListener:AddCancelableCallback(reward.id, function()
-            print(reward.index..')',
+            WoWTools_Print(reward.index..')',
                 WoWTools_HyperLink:CN_Link(
                     reward.context and C_Item.GetDelvePreviewItemLink(reward.id, reward.context)
                     or WoWTools_ItemMixin:GetLink(reward.id)
@@ -41,7 +41,7 @@ local function P_Reward(reward)
         end)
 
     elseif reward.rewardType== Enum.GossipOptionRewardType.Currency then
-        print(reward.index..')',
+        WoWTools_Print(reward.index..')',
             WoWTools_CurrencyMixin:GetLink(reward.id, nil, nil, true),
             ' x'..(reward.quantity or 1)
         )
@@ -302,7 +302,7 @@ local function Init()
             local option= Option or self:GetSelectedOption() or {}
             WoWTools_DataMixin:Load(option.spellID, 'spell')
 
-            print( WoWTools_GossipMixin.addName
+            WoWTools_Print( WoWTools_GossipMixin.addName
                 ..'|A:NPE_Icon:0:0|aAlt'
                 ..GREEN_FONT_COLOR:WrapTextInColorCode(WoWTools_L.CANCEL),
 

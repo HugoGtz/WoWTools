@@ -29,7 +29,7 @@ local function Init_Options()--初始, 选项
             if not Save().disabled then
                 WoWTools_MainMenuMixin:Settings()
             else
-                print(
+                WoWTools_Print(
                     WoWTools_MainMenuMixin.addName..WoWTools_DataMixin.Icon.icon2,
                     WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
                     WoWTools_L.RELOADUI
@@ -61,7 +61,7 @@ local function Init_Options()--初始, 选项
         checkTooltip= WoWTools_L['Tip.MainMenu.Alpha']..'|n|n'..WoWTools_MainMenuMixin.addName,
         checkSetValue= function()
             Save().enabledMainMenuAlpha= not Save().enabledMainMenuAlpha and true or false
-            print(
+            WoWTools_Print(
                 WoWTools_MainMenuMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 WoWTools_L.REQUIRES_RELOAD
             )
@@ -94,7 +94,7 @@ local function Init_Options()--初始, 选项
         SetValue= function()
             Save().frameratePlus= not Save().frameratePlus and true or nil
             if _G['WoWToolsPlusFramerateButton'] then
-                print(
+                WoWTools_Print(
                     WoWTools_MainMenuMixin.addName..WoWTools_DataMixin.Icon.icon2,
                     WoWTools_TextMixin:GetEnabeleDisable(Save().frameratePlus),
                     WoWTools_L.RELOADUI

@@ -104,7 +104,7 @@ local function Init_Buttons()--挑战,钥石,插入界面
     KeyFrame.InsetKeyButton:SetText(WoWTools_L.COMMUNITIES_ADD_DIALOG_INVITE_LINK_JOIN)
     KeyFrame.InsetKeyButton:SetScript("OnMouseDown",function()
         if InCombatLockdown() then
-            print(
+            WoWTools_Print(
                 WoWTools_ChallengeMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 '|cnWARNING_FONT_COLOR:',
                 WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT
@@ -125,7 +125,7 @@ local function Init_Buttons()--挑战,钥石,插入界面
                 end
             end
         end
-        print(
+        WoWTools_Print(
             WoWTools_ChallengeMixin.addName..WoWTools_DataMixin.Icon.icon2,
             '|cnWARNING_FONT_COLOR:',
             WoWTools_L['Keystone: not found']

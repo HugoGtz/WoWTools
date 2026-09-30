@@ -113,7 +113,7 @@ local function ClearAll_Menu(root, mountType)
            WoWToolsPlusPlayerDate['Tools_Mounts'][mountType]={}
 
             WoWTools_ToolsMixin:Get_ButtonForName('Mount'):settings()
-            print(
+            WoWTools_Print(
                 WoWTools_MountMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 name,
                 (WoWTools_MountMixin.TypeName[mountType] or mountType)
