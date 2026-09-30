@@ -15,15 +15,10 @@ local FORBIDDEN_ID
 
 local Err={}
 
+--No modificar StaticPopupDialogs de Blizzard (taint) ni ocultar ADDON_ACTION_FORBIDDEN:
+--el jugador debe ver qué addon ha sido bloqueado. Solo se añade el aviso en el chat.
 local function Init()
-    local timeout= Save().gossip and 0.1 or nil
-
-
-    StaticPopupDialogs["ERROR_CINEMATIC"].timeout= timeout and 1 or nil
-
-    StaticPopupDialogs["ADDON_ACTION_FORBIDDEN"].timeout= timeout
-
-    if timeout then
+    if Save().gossip then
         if not FORBIDDEN_ID then
             FORBIDDEN_ID= EventRegistry:RegisterFrameEventAndCallback("ADDON_ACTION_FORBIDDEN", function(_, arg1, func)
                 if not Err[arg1] or not Err[arg1][func] then
@@ -41,7 +36,8 @@ local function Init()
             end)
         end
     elseif FORBIDDEN_ID  then
-        EventRegistry:UnregisterCallback('ADDON_LOADED', FORBIDDEN_ID)
+        EventRegistry:UnregisterFrameEventAndCallback('ADDON_ACTION_FORBIDDEN', FORBIDDEN_ID)
+        FORBIDDEN_ID= nil
     end
 end
 

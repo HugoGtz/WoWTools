@@ -57,18 +57,6 @@ local function Init()
         end
     end)
 
-
-
-
-
-    if ScriptErrorsFrame:IsShown() then
-        ScriptErrorsFrame:Hide()
-    end
-
-    ScriptErrorsFrame:HookScript('OnShow', function(self)
-        self:Hide()
-    end)
-
     Init=function()end
 end
 
