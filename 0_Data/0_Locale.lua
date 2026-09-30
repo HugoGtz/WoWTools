@@ -1186,6 +1186,7 @@ local enUS= {
     ['Reset raid marker tool']= 'Reset raid marker tool',
     ['Auto-fill confirmation words']= 'Auto-fill confirmation words (DELETE…)',
     ['Frame inspector (/fstack)']= 'Frame inspector (/fstack)',
+    ['Not found']= 'Not found',
 }
 
 local esES= {
@@ -2446,6 +2447,7 @@ local esES= {
     ['Reset raid marker tool']= 'Restablecer herramienta de marcas',
     ['Auto-fill confirmation words']= 'Autocompletar palabras de confirmación (BORRAR…)',
     ['Frame inspector (/fstack)']= 'Inspector de marcos (/fstack)',
+    ['Not found']= 'No encontrado',
 }
 
 local current= (locale=='esES' or locale=='esMX') and esES or enUS

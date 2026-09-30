@@ -457,4 +457,49 @@ function WoWTools_ChallengeMixin:GetPortalSpellID(mapID)
             end
         end
     end
+
+    --Reserva: por palabras. El nombre de la ventana y el de la descripción pueden variar
+    --("El Valle…" / "del Valle…"): gana el portal con más palabras del nombre, solo si no hay empate.
+    local skip= {el=true, la=true, los=true, las=true, del=true, ['de']=true, the=true, ['of']=true, le=true, les=true, der=true, die=true, das=true}
+    local words= {}
+    for word in mapName:lower():gmatch('[^%s%p]+') do
+        if #word>=3 and not skip[word] then
+            table.insert(words, word)
+        end
+    end
+    local best, bestScore, tie= nil, 0, false
+    for _, portal in ipairs(portals) do
+        local text= (portal.desc..' '..portal.name):lower()
+        local score= 0
+        for _, word in ipairs(words) do
+            if text:find(word, 1, true) then
+                score= score+1
+            end
+        end
+        if score>bestScore then
+            best, bestScore, tie= portal.spellID, score, false
+        elseif score==bestScore and score>0 then
+            tie= true
+        end
+    end
+    if best and not tie then
+        PortalCache[mapID]= best
+        return best
+    end
+end
+
+--Diagnóstico: /wtportal muestra el portal encontrado para cada mazmorra de la temporada
+SLASH_WOWTOOLSPORTAL1= '/wtportal'
+SlashCmdList['WOWTOOLSPORTAL']= function()
+    wipe(PortalCache)
+    for _, mapID in ipairs(C_ChallengeMode.GetMapTable() or {}) do
+        local name= C_ChallengeMode.GetMapUIInfo(mapID)
+        local spellID= WoWTools_ChallengeMixin:GetPortalSpellID(mapID)
+        print(
+            WoWTools_DataMixin.Icon.icon2..mapID,
+            name,
+            '->',
+            spellID and (C_Spell.GetSpellLink(spellID) or spellID) or '|cnWARNING_FONT_COLOR:'..WoWTools_L['Not found']..'|r'
+        )
+    end
 end

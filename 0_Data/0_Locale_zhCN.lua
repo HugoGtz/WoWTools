@@ -2349,4 +2349,5 @@ WoWTools_L_zhCN= {
     ['Reset raid marker tool']= '重置团队标记工具',
     ['Auto-fill confirmation words']= '自动输入确认文字（DELETE…）',
     ['Frame inspector (/fstack)']= '框架检查器（/fstack）',
+    ['Not found']= '未找到',
 }
