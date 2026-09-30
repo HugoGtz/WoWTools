@@ -24,7 +24,8 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         if WoWTools_OtherMixin:AddOption(
             'DELETE',
             '|A:XMarksTheSpot:0:0|a'..(WoWTools_L.DELETE_ITEM_CONFIRM_STRING),
-            (WoWTools_L.DELETE_ITEM_CONFIRM_STRING)..', '
+            WoWTools_L['Tip.DELETE.Option']..'|n|n'
+            ..(WoWTools_L.DELETE_ITEM_CONFIRM_STRING)..', '
             ..(WoWTools_L.UNLEARN_SKILL_CONFIRMATION)..', '
             ..(WoWTools_L.SHADOWLANDS_EXPERIENCE_THREADS_OF_FATE_CONFIRMATION_STRING)..', '
             ..(WoWTools_L.HOUSING_DECOR_STORAGE_ITEM_DESTROY_CONFIRMATION_STRING)

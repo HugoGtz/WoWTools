@@ -75,7 +75,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             if WoWTools_OtherMixin:AddOption(
                 'HelpTip',
                 '|A:newplayertutorial-drag-cursor:0:0|a'..(WoWTools_L['HIDE+SHOW_TUTORIALS']),
-                nil
+                WoWTools_L['Tip.HelpTip.Option']
             ) then
                 Init()
                 self:RegisterEvent('PLAYER_ENTERING_WORLD')

@@ -254,7 +254,8 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         )
                     end
                     Init()
-                end
+                end,
+                tooltip= WoWTools_L['Tip.Mail.Module'],
             })
 
             if not Save().disabled then                

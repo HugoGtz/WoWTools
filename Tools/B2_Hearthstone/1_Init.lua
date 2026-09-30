@@ -110,15 +110,17 @@ local function Init_Menu(self, root)
         self:set_location()--显示, 炉石, 绑定位置
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Hearthstone.BindName'])
         tooltip:AddLine(self:get_location())
     end)
 
-    sub2:CreateCheckbox(WoWTools_L['SHORT+NAME'], function()
+    sub2= sub2:CreateCheckbox(WoWTools_L['SHORT+NAME'], function()
         return Save().showBindNameShort
     end, function()
         Save().showBindNameShort= not Save().showBindNameShort and true or false
         self:set_location()--显示, 炉石, 绑定位置
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Hearthstone.BindNameShort'])
 
 --移除未收集
     sub:CreateDivider()
@@ -167,7 +169,7 @@ local function Init_Menu(self, root)
 --还原
     local all= CountTable(P_Items or {})
     name= '|A:common-icon-undo:0:0|a'..(WoWTools_L.TRANSMOGRIFY_TOOLTIP_REVERT)..' '..all
-    sub:CreateButton(
+    sub2= sub:CreateButton(
         name,
     function(data)
         StaticPopup_Show('WoWTools_OK',
@@ -180,6 +182,7 @@ local function Init_Menu(self, root)
         end})
         return MenuResponse.Open
     end, {name=name})
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Hearthstone.RevertList'])
 
 
 --设置

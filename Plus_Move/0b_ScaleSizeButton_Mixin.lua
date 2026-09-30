@@ -234,6 +234,7 @@ local function Init_Point_Menu(self, root)
     end)
 
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Move.LockPoint'])
         tooltip:AddLine(name)
         tooltip:AddLine(WoWTools_L['Custom position when shown'])
         tooltip:AddLine('|A:NPE_Icon:0:0|aEsc '..(WoWTools_L['DISABLE~2']))
@@ -278,6 +279,7 @@ local function Init_Point_Menu(self, root)
             FrameOnShow_SetPoint(self, Save().UIPanelWindows[data.name])
         end, {name=frameName})
         sub:SetTooltip(function(tooltip, desc)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Move.LockPointList'])
             tooltip:AddLine(desc.data.name)
             tooltip:AddLine(WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2 )
             tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
@@ -422,15 +424,16 @@ local function Init_Menu(self, root)
         end, {rightText=format('%i|cff626262x|r%i', target:GetWidth(),target:GetHeight())})
         WoWTools_MenuMixin:SetRightText(sub)
 
-        if self.sizeTooltip then
-            sub:SetTooltip(function(tooltip)
-            if type(self.sizeTooltip)=='function' then
-                self.sizeTooltip(tooltip, target, self)
-            else
-                tooltip:AddLine(self.sizeTooltip)
+        sub:SetTooltip(function(tooltip)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Move.Size'])
+            if self.sizeTooltip then
+                if type(self.sizeTooltip)=='function' then
+                    self.sizeTooltip(tooltip, target, self)
+                else
+                    tooltip:AddLine(self.sizeTooltip)
+                end
             end
-            end)
-        end
+        end)
 
 --x
         sub:CreateSpacer()
@@ -480,7 +483,7 @@ local function Init_Menu(self, root)
         })
         sub2:SetEnabled(not Save().disabledSize[name])
         sub:CreateSpacer()
-        sub:CreateButton(
+        sub2=sub:CreateButton(
             '+0.1%',
         function()
             if not WoWTools_FrameMixin:IsLocked(target) and not Save().disabledSize[name] then
@@ -488,7 +491,8 @@ local function Init_Menu(self, root)
             end
             return MenuResponse.Refresh
         end)
-        sub:CreateButton(
+        WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Move.SizeUp'])
+        sub2=sub:CreateButton(
             '-0.1%',
         function()
             if not WoWTools_FrameMixin:IsLocked(target) and not Save().disabledSize[name] then
@@ -496,8 +500,9 @@ local function Init_Menu(self, root)
             end
             return MenuResponse.Refresh
         end)
+        WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Move.SizeDown'])
 --重置, 尺寸
-        sub:CreateRadio(
+        sub2=sub:CreateRadio(
             WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2,
         function()
             return Save().size[name]
@@ -513,6 +518,7 @@ local function Init_Menu(self, root)
             end
             return MenuResponse.Refresh
         end)
+        WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Move.SizeClear'])
     end
 
 --改变透明度
@@ -526,6 +532,7 @@ local function Init_Menu(self, root)
             self:set_move_event()
         end, {rightText= Save().alpha or 1})
         sub:SetTooltip(function(tooltip)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Move.Alpha'])
             tooltip:AddLine(WoWTools_L['CAMERA_SMARTER~2'])
         end)
         WoWTools_MenuMixin:SetRightText(sub)
@@ -566,6 +573,7 @@ local function Init_Menu(self, root)
         end
         return MenuResponse.Refresh
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Move.ClearPoint'])
 
 
 

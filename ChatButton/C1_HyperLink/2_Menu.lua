@@ -28,6 +28,7 @@ local function Init_Menu(self, root)
         self.set_OnMouseDown
     )
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.HyperLink.LinkIcon'])
         if C_SocialRestrictions.IsChatDisabled() then
             tooltip:AddLine(WoWTools_L.SOCIALS)
             tooltip:AddLine(WoWTools_L.RESTRICT_CHAT_CONFIG_DISABLE)
@@ -71,6 +72,7 @@ local function Init_Menu(self, root)
             break
         end
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.HyperLink.KeyColor'])
 
 --设置关键词
     sub2:CreateButton(
@@ -94,6 +96,7 @@ local function Init_Menu(self, root)
         Save().notShowPlayerInfo= not Save().notShowPlayerInfo and true or nil
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.HyperLink.PlayerInfo'])
         tooltip:AddDoubleLine(WoWTools_UnitMixin:GetPlayerInfo('player', nil, nil, {reLink=true}), WoWTools_TextMixin:GetEnabeleDisable(true))
         tooltip:AddLine(' ')
         tooltip:AddDoubleLine(WoWTools_ColorMixin:SetStringColor(UnitName('player')), WoWTools_TextMixin:GetEnabeleDisable(false))
@@ -110,6 +113,7 @@ local function Init_Menu(self, root)
         print(select(2, C_Item.GetItemInfo(6948)), '')
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.HyperLink.ItemCount'])
         tooltip:AddLine(WoWTools_ItemMixin:GetCount(6948, {isWoW=true}), nil)
     end)
 
@@ -124,6 +128,7 @@ local function Init_Menu(self, root)
         print(WoWTools_DataMixin.Icon.icon2, '30.00 45.50')
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.HyperLink.MapPin'])
         tooltip:AddDoubleLine('[30.00 45.50]')
     end)
 
@@ -140,7 +145,8 @@ local function Init_Menu(self, root)
     end, function()
         Save().showCVarName= not Save().showCVarName and true or nil
     end)
-    sub2:CreateButton(
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.HyperLink.CVarName'])
+    sub2= sub2:CreateButton(
         WoWTools_L['Test'],
     function()
         if InCombatLockdown() then
@@ -154,6 +160,7 @@ local function Init_Menu(self, root)
         end
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.HyperLink.CVarTest'])
 
 --关闭聊天
     sub2=sub:CreateCheckbox(
@@ -168,6 +175,7 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end)
     sub2:SetTooltip(function (tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.HyperLink.ChatDisabled'])
         tooltip:AddLine(WoWTools_L.SETTINGS_TITLE)
         tooltip:AddLine(WoWTools_L.SOCIALS)
     end)
@@ -210,6 +218,7 @@ local function Init_Menu(self, root)
     end)
 
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.HyperLink.EventSound'])
         tooltip:AddLine(WoWTools_L.SLASH_STOPWATCH_PARAM_PLAY1)
         tooltip:AddLine(' ')
         tooltip:AddLine(WoWTools_DataMixin:Get_CVar_Tooltips({name='Sound_EnableAllSound', msg=WoWTools_L.ENABLE_SOUND}))
@@ -281,6 +290,7 @@ local function Init_Menu(self, root)
         end
         WoWTools_HyperLink:Init_Welcome()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.HyperLink.Welcome'])
 
 --公会新成员
     sub2=sub:CreateCheckbox(WoWTools_L.LFG_LIST_GUILD_MEMBER, function()
@@ -290,6 +300,7 @@ local function Init_Menu(self, root)
         WoWTools_HyperLink:Init_Welcome()
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.HyperLink.WelcomeGuild'])
         tooltip:AddLine(WoWToolsPlusPlayerDate['HyperLinkGuildWelcomeText'])
     end)
 
@@ -321,6 +332,7 @@ local function Init_Menu(self, root)
         WoWTools_HyperLink:Init_Welcome()
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.HyperLink.WelcomeGroup'])
         tooltip:AddLine(WoWToolsPlusPlayerDate['HyperLinkGroupWelcomeText'])
         tooltip:AddLine(' ')
         tooltip:AddLine(WoWTools_L['Party or raid leader only'])
@@ -332,6 +344,7 @@ local function Init_Menu(self, root)
         Save().welcomeOnlyHomeGroup= not Save().welcomeOnlyHomeGroup and true or false
     end)
     sub2:SetTooltip(function (tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.HyperLink.WelcomeHomeOnly'])
         tooltip:AddLine(WoWToolsPlusPlayerDate['HyperLinkGroupWelcomeText'])
         tooltip:AddLine(' ')
         tooltip:AddLine(WoWTools_L.DUNGEONS_BUTTON)
@@ -414,7 +427,7 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end)
 
-    sub:CreateCheckbox(
+    sub2=sub:CreateCheckbox(
         'Plus',
     function()
         return not Save().hideEventTracePlus
@@ -428,8 +441,9 @@ local function Init_Menu(self, root)
             )
         end
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.HyperLink.EventTracePlus'])
 
-    sub:CreateCheckbox(
+    sub2=sub:CreateCheckbox(
         'Print',
     function()
         return Save().eventTracePrint
@@ -443,6 +457,7 @@ local function Init_Menu(self, root)
             )
         WoWTools_HyperLink:Init_EventTrace()
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.HyperLink.EventTracePrint'])
 
     local tab= WoWTools_HyperLink:Get_EventTrace_Print_Tab()
     local newTab={}
@@ -483,6 +498,7 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end)
     sub:SetTooltip(function (tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.HyperLink.FStack'])
         tooltip:AddLine('|cnGREEN_FONT_COLOR:Alt|r '..(WoWTools_L.HUD_EDIT_MODE_SWITCH))
         tooltip:AddLine(' ')
         tooltip:AddLine('|cnGREEN_FONT_COLOR:Ctrl|r '..(WoWTools_L.SHOW))
@@ -532,6 +548,7 @@ local function Init_Menu(self, root)
         end
     end)
     sub2:SetTooltip(function (tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.HyperLink.ReloadButton'])
         tooltip:AddLine(WoWTools_L.ADD)
         tooltip:AddLine(' ')
         tooltip:AddLine(WoWTools_L.MAINMENU_BUTTON)

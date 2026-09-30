@@ -1064,12 +1064,13 @@ local function Init()
                 rightText=((size.iconS or PinHeight)..' '..(size.fontH or PinHeight))..' '.. DISABLED_FONT_COLOR:WrapTextInColorCode(index)})
             WoWTools_MenuMixin:SetRightText(sub)
 
-            sub:CreateButton(
+            local tipSub= sub:CreateButton(
                 WoWTools_L['SOCIAL_SHARE_TEXT~2'],
             function(data)
                 Zip_Data({[data.mapID]= SaveWoW()[data.mapID]})
                 return MenuResponse.Open
             end, {mapID= mapID})
+            WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.WorldMap.PinExport'])
 
             sub:CreateDivider()
             sub:CreateButton(
@@ -2018,6 +2019,7 @@ local function Init()
                 end, {info=info, rightText=skillLineID, name=name, textureID=textureID})
                 WoWTools_MenuMixin:SetRightText(sub)
                 sub:SetTooltip(function(tooltip, desc)
+                    WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.WorldMap.PinProfession'])
                     if desc.data.info.expansionName~=UNKNOWN then
                         tooltip:AddLine(WoWTools_TextMixin:CN(desc.data.info.expansionName))
                     end
@@ -2058,6 +2060,7 @@ local function Init()
                     self.class[data.rightText]= not self.class[data.rightText] and true or nil
                     Frame.updateButton:show_new()
                 end, {rightText=classID})
+                WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.WorldMap.PinClass'])
                 WoWTools_MenuMixin:SetRightText(sub)
             end
         end
@@ -2426,6 +2429,7 @@ local function Init()
                             Frame.updateButton:show_new()
                             return MenuResponse.Refresh
                         end, {rightText='|cff626262'..i, index=i})
+                        WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.WorldMap.PinCriteria'])
                         WoWTools_MenuMixin:SetRightText(sub)
                     end
                 end

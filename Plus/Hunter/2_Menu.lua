@@ -23,7 +23,7 @@ end
 local function Init_Menu(_, root)
     local sub
     --所有宠物
-        root:CreateCheckbox(
+        sub=root:CreateCheckbox(
             '|A:dressingroom-button-appearancelist-up:0:0|a'..(WoWTools_L.BATTLE_PETS_TOTAL_PETS),
         function()
             return Save().show_All_List
@@ -32,6 +32,7 @@ local function Init_Menu(_, root)
             WoWTools_HunterMixin:Set_StableFrame_List()--初始，宠物列表
             return MenuResponse.Close
         end)
+        WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Hunter.AllList'])
 
         root:CreateDivider()
 
@@ -45,6 +46,7 @@ local function Init_Menu(_, root)
                 Save().sortDown= not Save().sortDown and true or nil
             end)
             sub:SetTooltip(function(tooltip)
+                WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Hunter.SortAscending'])
                 tooltip:AddLine(WoWTools_L.STABLE_FILTER_BUTTON_LABEL)
             end)
 
@@ -64,6 +66,7 @@ local function Init_Menu(_, root)
                     return MenuResponse.Open
                 end, {type=tab.type})
                 sub:SetTooltip(function(tooltip)
+                    WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Hunter.SortBy'])
                     tooltip:AddLine(WoWTools_L.STABLE_FILTER_BUTTON_LABEL)
                 end)
             end
@@ -93,13 +96,14 @@ local function Init_Menu(_, root)
 
         
 
-        root:CreateCheckbox(
+        sub=root:CreateCheckbox(
             WoWTools_L.HUD_EDIT_MODE_HUD_TOOLTIP_LABEL,
         function()
             return not Save().HideTips
         end, function()
             Save().HideTips= not Save().HideTips and true or nil
         end)
+        WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Hunter.Tooltips'])
 
 
     --选项

@@ -15,7 +15,7 @@ local function Init_Menu(self, root)
     local sub
 
 --标签
-    root:CreateCheckbox(
+    sub=root:CreateCheckbox(
         WoWTools_L['Tab'],
     function()
         return Save().plusTab
@@ -23,9 +23,10 @@ local function Init_Menu(self, root)
         Save().plusTab= not Save().plusTab and true or false
         GuildBankFrame:UpdateTabs()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.GuildBank.PlusTab'])
 
 --索引
-    root:CreateCheckbox(
+    sub=root:CreateCheckbox(
         WoWTools_L['Index'],
     function()
         return Save().showIndex
@@ -33,9 +34,10 @@ local function Init_Menu(self, root)
         Save().showIndex= not Save().showIndex and true or false--显示，索引
         WoWTools_GuildBankMixin:Init_Plus()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.GuildBank.PlusIndex'])
 
 --物品信息
-    root:CreateCheckbox(
+    sub=root:CreateCheckbox(
         WoWTools_L['ITEMS+INFO'],
     function()
         return Save().plusItem
@@ -43,6 +45,7 @@ local function Init_Menu(self, root)
         Save().plusItem= not Save().plusItem and true or false
         GuildBankFrame:Update()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.GuildBank.PlusItem'])
 
 
 --打开，背包
@@ -62,6 +65,7 @@ local function Init_Menu(self, root)
         end
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.GuildBank.AutoOpenBags'])
         tooltip:AddLine(WoWTools_L['OPENING+GUILD_BANK'])
         tooltip:AddLine(MicroButtonTooltipText(WoWTools_L.BINDING_NAME_OPENALLBAGS, "OPENALLBAGS")
     )

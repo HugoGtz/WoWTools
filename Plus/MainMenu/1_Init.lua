@@ -21,7 +21,7 @@ local function Init_Options()--初始, 选项
 
     local initializer2= WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_L.ENABLE,
-        tooltip= WoWTools_MainMenuMixin.addName,
+        tooltip= WoWTools_L['Tip.MainMenu.Enable']..'|n|n'..WoWTools_MainMenuMixin.addName,
         GetValue= function() return not Save().disabled end,
         category= Category,
         SetValue= function()
@@ -44,7 +44,7 @@ local function Init_Options()--初始, 选项
         minValue= 8,
         maxValue= 18,
         setp= 1,
-        tooltip= WoWTools_MainMenuMixin.addName,
+        tooltip= WoWTools_L['Tip.MainMenu.FontSize']..'|n|n'..WoWTools_MainMenuMixin.addName,
         category= Category,
         SetValue= function(_, _, value2)
             if value2 then
@@ -58,7 +58,7 @@ local function Init_Options()--初始, 选项
     initializer= WoWTools_PanelMixin:Check_Slider({
         checkName= WoWTools_L.HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY,
         checkGetValue= function() return Save().enabledMainMenuAlpha end,
-        checkTooltip= WoWTools_MainMenuMixin.addName,
+        checkTooltip= WoWTools_L['Tip.MainMenu.Alpha']..'|n|n'..WoWTools_MainMenuMixin.addName,
         checkSetValue= function()
             Save().enabledMainMenuAlpha= not Save().enabledMainMenuAlpha and true or false
             print(
@@ -88,7 +88,7 @@ local function Init_Options()--初始, 选项
 
     initializer2= WoWTools_PanelMixin:OnlyCheck({
         name= (WoWTools_L.FRAMERATE_LABEL)..' Plus',
-        tooltip= MicroButtonTooltipText(FRAMERATE_LABEL, "TOGGLEFPS"),
+        tooltip= WoWTools_L['Tip.MainMenu.FrameratePlus']..'|n|n'..MicroButtonTooltipText(FRAMERATE_LABEL, "TOGGLEFPS"),
         GetValue= function() return Save().frameratePlus end,
         category= Category,
         SetValue= function()
@@ -106,7 +106,7 @@ local function Init_Options()--初始, 选项
     })
     initializer= WoWTools_PanelMixin:OnlyCheck({
         name= (WoWTools_L.LOG_IN)..' WoW: '..(WoWTools_L.SHOW),
-        tooltip=  MicroButtonTooltipText(FRAMERATE_LABEL, "TOGGLEFPS"),
+        tooltip= WoWTools_L['Tip.MainMenu.FramerateLogIn']..'|n|n'..MicroButtonTooltipText(FRAMERATE_LABEL, "TOGGLEFPS"),
         GetValue= function() return Save().framerateLogIn end,
         category= Category,
         SetValue= function()

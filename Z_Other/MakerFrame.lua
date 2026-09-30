@@ -124,6 +124,7 @@ local function Init_Menu(self, root)
         self:set_all_hotkey()--设置全部，快捷键
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Marker.HotKey'])
         tooltip:AddLine(WoWTools_L.CHARACTER_CUSTOMIZATION_TUTORIAL_TITLE)
     end)
 
@@ -203,14 +204,16 @@ local function Init_Menu(self, root)
     end, function()
         Save().hideTooltip= not Save().hideTooltip and true or nil
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Marker.Tooltip'])
 
-    sub:CreateCheckbox(
+    sub2=sub:CreateCheckbox(
         'ANCHOR_LEFT',
     function()
         return Save().isTooltipLeft
     end, function()
         Save().isTooltipLeft= not Save().isTooltipLeft and true or nil
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Marker.TooltipLeft'])
 
 --选项
     root:CreateDivider()
@@ -1350,7 +1353,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     Save().Auto= Save().Auto or {}
 
     addName= '|A:GM-raidMarker7:0:0|a'..(WoWTools_L['Raid target marker tool'])
-    local isEnabled, sub= WoWTools_OtherMixin:AddOption('MarkerFrame', addName)
+    local isEnabled, sub= WoWTools_OtherMixin:AddOption('MarkerFrame', addName, WoWTools_L['Tip.Marker.Option'])
 
     WoWTools_PanelMixin:OnlyButton({
         buttonText=WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2,
@@ -1362,7 +1365,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 WoWToolsPlusSave['Other_MarkerFrame']= nil
             end)
         end,
-        tooltip= addName..'|n|n'..(WoWTools_L.RESET_ALL_BUTTON_TEXT)
+        tooltip= WoWTools_L['Tip.Marker.Reset']..'|n|n'..addName..'|n|n'..(WoWTools_L.RESET_ALL_BUTTON_TEXT)
             ..'|n|n|cnGREEN_FONT_COLOR:'..(WoWTools_L.RELOADUI),
         layout= WoWTools_OtherMixin.Layout,
         category= WoWTools_OtherMixin.Category,

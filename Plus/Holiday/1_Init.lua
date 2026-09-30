@@ -92,6 +92,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         WoWTools_L.RESET_POSITION
                     )
                 end,
+                tooltip= WoWTools_L['Tip.Holiday.Enable'],
                 layout= nil,
                 category= nil,
             })

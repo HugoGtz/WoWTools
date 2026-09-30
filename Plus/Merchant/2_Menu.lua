@@ -38,6 +38,7 @@ local function Player_Sell_Menu(_, root)
         Save().notSellCustom= not Save().notSellCustom and true or nil
     end, {rightText= num})
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Merchant.SellCustom'])
         tooltip:AddLine(WoWTools_L['Note: cannot sell items in combat'])
     end)
     WoWTools_MenuMixin:SetRightText(sub)
@@ -101,6 +102,7 @@ local function Buyback_Menu(_, root)
     function()
        return MenuResponse.Open
     end, {rightText=num or 0})
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Merchant.BuybackList'])
     WoWTools_MenuMixin:SetRightText(sub)
 
 --列表，回购
@@ -184,6 +186,7 @@ local function BuyItem_Menu(self, root)
             _G['WoWTools_BuyItemButton']:set_text()--回购，数量，提示
         end
     end, {rightText=num})
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Merchant.AutoBuy'])
     WoWTools_MenuMixin:SetRightText(sub)
 
 
@@ -276,6 +279,7 @@ local function Init_Menu(self, root)
         end
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Merchant.SellJunk'])
         tooltip:AddLine(format(
             WoWTools_L.PROFESSIONS_CRAFTING_QUALITY,
             WoWTools_ItemMixin.QualityText[0]
@@ -311,6 +315,7 @@ local function Init_Menu(self, root)
         Save().sellBoss= not Save().sellBoss and true or nil
     end, {rightText=num})
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Merchant.SellBoss'])
         local avgItemLevel= (GetAverageItemLevel() or 60)- 30
         tooltip:AddLine((WoWTools_L.STAT_AVERAGE_ITEM_LEVEL)..' < ' ..math.ceil(avgItemLevel))
         tooltip:AddLine(WoWTools_L['Note: cannot sell items in combat'])
@@ -351,13 +356,14 @@ local function Init_Menu(self, root)
     end
 
 --保存 BOSS列表    
-    sub:CreateCheckbox(
+    local tipSub= sub:CreateCheckbox(
         WoWTools_L.SAVE,
     function()
         return Save().saveBossLootList
     end, function()
         Save().saveBossLootList = not Save().saveBossLootList and true or nil
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Merchant.SaveBossList'])
 
 --[[添加 按钮菜单
     sub2= sub:CreateCheckbox(
@@ -399,6 +405,7 @@ local function Init_Menu(self, root)
             chek:SetChecked(not Save().notAutoRepairAll)
         end
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Merchant.AutoRepair'])
 
     local repDate= RepairSave().date
     local repNum= RepairSave().num or 0
@@ -437,6 +444,7 @@ local function Init_Menu(self, root)
         WoWTools_MerchantMixin:Plus_ItemInfo()
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Merchant.Plus'])
         GameTooltip_AddErrorLine(tooltip, WoWTools_L.REQUIRES_RELOAD)
     end)
 
@@ -464,6 +472,7 @@ local function Init_Menu(self, root)
         Save().notAutoLootPlus= not Save().notAutoLootPlus and true or nil
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Merchant.AutoLoot'])
         tooltip:AddDoubleLine(WoWTools_L['AUTO_LOOT_DEFAULT_TEXT~2'], WoWTools_TextMixin:GetEnabeleDisable(C_CVar.GetCVarBool("autoLootDefault")))
         tooltip:AddLine(' ')
         tooltip:AddLine(

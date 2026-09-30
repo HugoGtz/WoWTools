@@ -638,7 +638,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         func= function()
             Save().disabled= not Save().disabled and true or nil
         end,
-        tooltip= WoWTools_L.REQUIRES_RELOAD
+        tooltip= WoWTools_L['Tip.House.Module']..'|n|n'..WoWTools_L.REQUIRES_RELOAD
     })
 
     if not Save().disabled then

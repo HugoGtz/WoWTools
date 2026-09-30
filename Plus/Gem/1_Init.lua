@@ -63,7 +63,7 @@ end
 
 
 local function Init_Button_Menu(self, root)
-    root:CreateCheckbox(
+    local sub= root:CreateCheckbox(
         '|A:auctionhouse-icon-favorite:0:0|a'
         ..(WoWTools_L.EVENTTRACE_BUTTON_MARKER),
     function()
@@ -78,9 +78,10 @@ local function Init_Button_Menu(self, root)
         )
         Set_Gem()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gem.Favorite'])
     root:CreateDivider()
 
-    root:CreateCheckbox(
+    sub= root:CreateCheckbox(
         '|A:common-icon-rotateright:0:0|a'
         ..(WoWTools_L.HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_LEFT),
     function ()
@@ -89,8 +90,9 @@ local function Init_Button_Menu(self, root)
         Save().gemLeft[self.itemID]= not Save().gemLeft[self.itemID] and true or nil
         Set_Gem()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gem.PlaceLeft'])
 
-    root:CreateCheckbox(
+    sub= root:CreateCheckbox(
         '|A:bags-greenarrow:0:0|a'
         ..(WoWTools_L['HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_UP~2']),
     function ()
@@ -99,8 +101,9 @@ local function Init_Button_Menu(self, root)
         Save().gemTop[self.itemID]= not Save().gemTop[self.itemID] and true or nil
         Set_Gem()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gem.PlaceTop'])
 
-    root:CreateCheckbox(
+    sub= root:CreateCheckbox(
         '|A:common-icon-rotateleft:0:0|a'
         ..(WoWTools_L.HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_RIGHT),
     function ()
@@ -109,6 +112,7 @@ local function Init_Button_Menu(self, root)
         Save().gemRight[self.itemID]= not Save().gemRight[self.itemID] and true or nil
         Set_Gem()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gem.PlaceRight'])
 end
 
 
@@ -811,8 +815,9 @@ local function Init_Menu(self, root)
         self:set_shown()
     end)
     sub:SetEnabled(Frame:CanChangeAttribute())
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gem.Show'])
 
-    root:CreateCheckbox(
+    sub=root:CreateCheckbox(
         WoWTools_Join(WoWTools_L.SPELLS, 'Button'),
     function()
         return not Save().disableSpell
@@ -824,6 +829,7 @@ local function Init_Menu(self, root)
             WoWTools_L.REQUIRES_RELOAD
         )
     end, {})
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gem.SpellButton'])
 
     root:CreateDivider()
     num= CountTable(Save().favorites or {})
@@ -843,7 +849,7 @@ local function Init_Menu(self, root)
 --清除左边
     num= CountTable(Save().gemLeft or {})
 
-    root:CreateButton(
+    sub=root:CreateButton(
          '|A:common-icon-rotateright:0:0|a'
          ..(WoWTools_L['SLASH_STOPWATCH_PARAM_STOP2+HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_LEFT'])
          ..' |cnGREEN_FONT_COLOR:#'
@@ -853,11 +859,12 @@ local function Init_Menu(self, root)
         Set_Gem()
         return MenuResponse.Refresh
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gem.ClearColumn'])
 
 --清除上面
     num= CountTable(Save().gemTop or {})
     
-    root:CreateButton(
+    sub=root:CreateButton(
         '|A:bags-greenarrow:0:0|a'
         ..(WoWTools_L['SLASH_STOPWATCH_PARAM_STOP2+HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_UP'])
         ..' |cnGREEN_FONT_COLOR:#'
@@ -867,11 +874,12 @@ local function Init_Menu(self, root)
         Set_Gem()
         return MenuResponse.Refresh
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gem.ClearColumn'])
 
 --清除右边
     num= CountTable(Save().gemRight or {})
     
-    root:CreateButton(
+    sub=root:CreateButton(
          '|A:common-icon-rotateleft:0:0|a'
          ..(WoWTools_L['SLASH_STOPWATCH_PARAM_STOP2+HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_RIGHT'])
          ..' |cnGREEN_FONT_COLOR:#'
@@ -881,8 +889,9 @@ local function Init_Menu(self, root)
         Set_Gem()
         return MenuResponse.Refresh
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gem.ClearColumn'])
 
-    root:CreateButton(
+    sub=root:CreateButton(
         '|A:bags-button-autosort-up:0:0|a'
         ..(WoWTools_L['SLASH_STOPWATCH_PARAM_STOP2+EVENTTRACE_LOG_HEADER']),
     function()
@@ -892,6 +901,7 @@ local function Init_Menu(self, root)
         WoWTools_DataMixin:Call('ItemSocketingFrame_Update')
         return MenuResponse.Refresh
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gem.ClearRecord'])
 
     root:CreateDivider()
     WoWTools_MenuMixin:OpenOptions(root, {name=addName})
@@ -1153,6 +1163,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 --添加控制面板
     WoWTools_PanelMixin:OnlyCheck({
         name= addName,
+        tooltip= WoWTools_L['Tip.Gem.Enable'],
         GetValue= function() return not Save().disabled end,
         SetValue= function()
             Save().disabled = not Save().disabled and true or nil

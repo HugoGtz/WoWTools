@@ -94,8 +94,9 @@ function WoWTools_MacroMixin:SetTooltips(frame, index)
 end
 
 --宏，提示
-function WoWTools_MacroMixin:SetMenuTooltip(root)
+function WoWTools_MacroMixin:SetMenuTooltip(root, descText)
     root:SetTooltip(function(tooltip, description)
+        WoWTools_MenuMixin:AddDescription(tooltip, descText)
         local name= description.data.name
         local icon= description.data.icon
         local body= description.data.body

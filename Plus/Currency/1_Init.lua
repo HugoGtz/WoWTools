@@ -29,6 +29,7 @@ local function Init_Menu(self, root)
 		Save().Hide= not Save().Hide and true or nil
 		WoWTools_CurrencyMixin:Init_TrackButton()
 	end)
+	WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Currency.Track'])
 
 
 
@@ -49,6 +50,7 @@ local function Init_Menu(self, root)
 		WoWTools_CurrencyMixin:Init_MaxTooltip()
 	end)
 	sub:SetTooltip(function (tooltip)
+		WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Currency.CapWarning'])
 		tooltip:AddLine('CURRENCY_DISPLAY_UPDATE')
 		tooltip:AddLine(WoWTools_L.SPELL_FAILED_CUSTOM_ERROR_248)
 	end)
@@ -66,6 +68,7 @@ local function Init_Menu(self, root)
 		WoWTools_CurrencyMixin:Init_Plus()
 	end)
 	sub:SetTooltip(function (tooltip)
+		WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Currency.Plus'])
 		GameTooltip_AddInstructionLine(tooltip, WoWTools_L.REQUIRES_RELOAD)
 	end)
 
@@ -135,6 +138,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 --添加控制面板
 			WoWTools_PanelMixin:OnlyCheck({
 				name= WoWTools_CurrencyMixin.addName,
+				tooltip= WoWTools_L['Tip.Currency.Enable'],
 				GetValue= function() return not Save().disabled end,
 				SetValue= function()
 					Save().disabled= not Save().disabled and true or nil

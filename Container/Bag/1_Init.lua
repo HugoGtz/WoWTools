@@ -69,6 +69,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                          Init()
                     end
                 end,
+                tooltip= WoWTools_L['Tip.Bag.Option'],
                 layout= WoWTools_OtherMixin.Layout,
                 category= WoWTools_OtherMixin.Category,
             })

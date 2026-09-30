@@ -30,7 +30,7 @@ local function Init_Panel()
             WoWTools_PetBattleMixin:Init_AbilityButton()
             print(WoWTools_DataMixin.Icon.icon2..WoWTools_PetBattleMixin.addName6, WoWTools_L.RESET)
         end,
-        tooltip= WoWTools_PetBattleMixin.addName,
+        tooltip= WoWTools_L['Tip.PetBattle.AbilityButton']..'|n|n'..WoWTools_PetBattleMixin.addName,
         layout= WoWTools_PetBattleMixin.Layout,
         category= WoWTools_PetBattleMixin.Category,
     })
@@ -52,7 +52,7 @@ local function Init_Panel()
             WoWTools_PetBattleMixin:Init_TypeButton()
             print(WoWTools_DataMixin.Icon.icon2..WoWTools_PetBattleMixin.addName, WoWTools_L.RESET_POSITION)
         end,
-        tooltip= WoWTools_PetBattleMixin.addName,
+        tooltip= WoWTools_L['Tip.PetBattle.TypeButton']..'|n|n'..WoWTools_PetBattleMixin.addName,
         layout= WoWTools_PetBattleMixin.Layout,
         category= WoWTools_PetBattleMixin.Category,
     })
@@ -80,6 +80,7 @@ local function Init_Panel()
             WoWTools_PetBattleMixin:ClickToMove_Button()
             print(WoWTools_DataMixin.Icon.icon2..WoWTools_PetBattleMixin.addName3, WoWTools_L.RESET)
         end,
+        tooltip= WoWTools_L['Tip.PetBattle.ClickMoveButton'],
         layout= WoWTools_PetBattleMixin.Layout,
         category= WoWTools_PetBattleMixin.Category,
     })
@@ -157,7 +158,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                     WoWToolsPlusSave['Plus_PetBattle2']= nil
                 end)
             end,
-            tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD),
+            tooltip= WoWTools_L['Tip.PetBattle.Enable']..'|n|n|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD),
             layout= WoWTools_PetBattleMixin.Layout,
             category= WoWTools_PetBattleMixin.Category,
         })

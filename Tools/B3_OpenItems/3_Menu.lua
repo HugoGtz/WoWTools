@@ -211,6 +211,7 @@ local function Init_Menu(self, root)
             {itemLink=self:GetItemLink()}
         )
         sub:SetTooltip(function(tooltip)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.OpenItems.DisableCurrent'])
             tooltip:AddDoubleLine(self.noText)
             tooltip:AddDoubleLine(WoWTools_DataMixin.Icon.mid..(WoWTools_L.COMBAT_TEXT_SCROLL_UP))
 
@@ -234,6 +235,7 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end, {rightText= no})
     WoWTools_MenuMixin:SetRightText(sub)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.OpenItems.NoList'])
 
     if no>2 then
         Remove_All_Menu(self, sub, 'no', no)
@@ -253,6 +255,7 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end, {rightText= use})
     WoWTools_MenuMixin:SetRightText(sub)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.OpenItems.UseList'])
 
     if use>2 then
         Remove_All_Menu(self, sub, 'use', use)
@@ -265,6 +268,14 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetScrollMode(sub)
 
 
+local OpenTips={
+    open='Tip.OpenItems.Open',
+    mount='Tip.OpenItems.Mount',
+    mago='Tip.OpenItems.Transmog',
+    ski='Tip.OpenItems.Recipe',
+    alt='Tip.OpenItems.Other',
+    reagent='Tip.OpenItems.Reagent',
+}
 local OptionsList={{
     name=WoWTools_L.ITEM_OPENABLE,
     type='open'
@@ -295,11 +306,12 @@ local OptionsList={{
             Save()[data.type]= not Save()[data.type] and true
             WoWTools_OpenItemMixin:Get_Item()
         end, {type=info.type, tooltip=info.tooltip})
-        if info.tooltip then
-            sub:SetTooltip(function(tooltip, description)
+        sub:SetTooltip(function(tooltip, description)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L[OpenTips[description.data.type]])
+            if description.data.tooltip then
                 tooltip:AddLine(description.data.tooltip)
-            end)
-        end
+            end
+        end)
     end
 
     root:CreateDivider()

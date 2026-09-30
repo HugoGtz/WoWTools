@@ -31,6 +31,7 @@ local function Init_Menu(self, root)
         WoWTools_BankMixin:Init_BankPlus()
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Bank.PlusTab'])
         tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 
@@ -42,6 +43,7 @@ local function Init_Menu(self, root)
         WoWTools_BankMixin:Init_BankPlus()
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Bank.PlusIndex'])
         tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 
@@ -53,6 +55,7 @@ local function Init_Menu(self, root)
         WoWTools_BankMixin:Init_BankPlus()
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Bank.PlusItem'])
         tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 
@@ -73,6 +76,7 @@ local function Init_Menu(self, root)
         return MenuResponse.Close
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Bank.NoAutosort'])
         tooltip:AddLine('C_Container.SetBankAutosortDisabled')
     end)
 
@@ -97,6 +101,7 @@ local function Init_Menu(self, root)
         end
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Bank.AllBank'])
         GameTooltip_AddErrorLine(tooltip,
             WoWTools_L['Item Info enabled too: may lag']
         )

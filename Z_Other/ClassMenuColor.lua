@@ -168,7 +168,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         if WoWTools_OtherMixin:AddOption(
             'ClassMenuColor',
             '|A:dressingroom-button-appearancelist-up:0:0|a'..(WoWTools_L['CLASS+HUD_EDIT_MODE_MICRO_MENU_LABEL']),
-            WoWTools_L['Add color, icon']
+            WoWTools_L['Tip.ClassMenuColor.Option']..'|n|n'..WoWTools_L['Add color, icon']
         ) then
             Init()
         end

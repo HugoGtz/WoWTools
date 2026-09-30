@@ -70,7 +70,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 --添加控制面板
             WoWTools_PanelMixin:OnlyCheck({
                 name= WoWTools_MacroMixin.addName,
-                tooltip= ('|cnWARNING_FONT_COLOR:'..(WoWTools_L['HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT+ERRORS']))
+                tooltip= WoWTools_L['Tip.Macro.Module']..'|n|n'..('|cnWARNING_FONT_COLOR:'..(WoWTools_L['HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT+ERRORS']))
                     ..'|r|n'..(WoWTools_L['Note: if you get errors, disable this']),
                 GetValue= function() return not Save().disabled end,
                 SetValue= function()

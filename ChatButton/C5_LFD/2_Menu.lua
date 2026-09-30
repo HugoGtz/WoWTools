@@ -909,6 +909,7 @@ local function Init_All_Role(_, root)
             end
             SetLFGRoles(isLeader, isTank, isHealer, isDPS)
         end, {role=role})
+        WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.LFD.RolePvE'])
 
         if role=='TANK' then
             sub:SetEnabled(canBeTank)
@@ -957,6 +958,7 @@ local function Init_All_Role(_, root)
             end
             SetPVPRoles(tank, healer, dps)
         end, {role=role})
+        WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.LFD.RolePvP'])
 
         if role=='TANK' then
             sub:SetEnabled(canBeTank)
@@ -978,6 +980,7 @@ local function Init_All_Role(_, root)
         WoWTools_LFDMixin:Init_RolePollPopup()
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.LFD.AutoRole'])
         tooltip:AddLine(WoWTools_L.TRANSMOG_CURRENT_SPECIALIZATION)
     end)
 
@@ -1062,6 +1065,7 @@ local function Init_Menu(self, root)
         WoWTools_LFDMixin:Init_Exit_Instance()
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.LFD.LeaveInstance'])
         tooltip:AddLine(WoWTools_L['Leave instances and battlegrounds'])
         tooltip:AddLine(' ')
         if WoWTools_DataMixin.onlyChinese then
@@ -1083,6 +1087,7 @@ local function Init_Menu(self, root)
         Save().hideQueueStatus = not Save().hideQueueStatus and true or nil
         WoWTools_LFDMixin:Set_Queue_Status()
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.LFD.QueueInfo'])
 
     sub2:CreateButton(
         (Save().tipsFramePoint and '' or '|cff626262')..(WoWTools_L.RESET_POSITION),
@@ -1117,6 +1122,7 @@ local function Init_Menu(self, root)
         end
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.LFD.LFGPlus'])
         if _G['WoWToolsLFGPlusMainButton'] and not Save().LFGPlus then
             tooltip:AddLine(WoWTools_L['REQUIRES_RELOAD~2'])
         end
@@ -1135,6 +1141,7 @@ local function Init_Menu(self, root)
         WoWTools_LFDMixin:Init_RolePollPopup()
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.LFD.RoleCheck'])
         tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 
@@ -1166,6 +1173,7 @@ local function Init_Menu(self, root)
         Save().ReMe= not Save().ReMe and true or false
         WoWTools_LFDMixin:Init_RepopMe()
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.LFD.ReleaseRes'])
 
 --所有地区
     sub3=sub2:CreateCheckbox(
@@ -1177,6 +1185,7 @@ local function Init_Menu(self, root)
         WoWTools_LFDMixin:Init_RepopMe()
     end)
     sub3:SetTooltip(function(tooltip)
+       WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.LFD.ReleaseResAll'])
        tooltip:AddLine(WoWTools_L['Except for group instances'])
     end)
 
@@ -1236,6 +1245,7 @@ local function Init_Menu(self, root)
         Save().hideDontEnterMenu= not Save().hideDontEnterMenu and true or nil
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.LFD.HideLocked'])
         GameTooltip_AddErrorLine(tooltip,
             WoWTools_L.YOU_MAY_NOT_QUEUE_FOR_THIS
         )
@@ -1280,6 +1290,7 @@ local function Init_Menu(self, root)
                 Save().wow[name]= not Save().wow[name] and data.complete or nil
             end, {name=name, complete=complete})
             sub3:SetTooltip(function (tooltip)
+                WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.LFD.CompleteEntry'])
                 tooltip:AddLine(WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2)
             end)
         end
@@ -1302,6 +1313,7 @@ local function Init_Menu(self, root)
         step=1,
         --bit='%.2f',
         tooltip=function(tooltip)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.LFD.AutoConfirmSec'])
             tooltip:AddLine(WoWTools_L.LOSS_OF_CONTROL_SECONDS)
         end
     })
@@ -1329,11 +1341,12 @@ local function Init_Menu(self, root)
     end)
 
     sub:CreateTitle(WoWTools_L.SELF_CAST_AUTO)
-    sub:CreateCheckbox((WoWTools_L.ROLL)..'|TInterface\\PVPFrame\\Icons\\PVP-Banner-Emblem-47:0|t', function()
+    sub2=sub:CreateCheckbox((WoWTools_L.ROLL)..'|TInterface\\PVPFrame\\Icons\\PVP-Banner-Emblem-47:0|t', function()
         return Save().autoROLL
     end, function()
         Save().autoROLL= not Save().autoROLL and true or nil
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.LFD.AutoRoll'])
 
     sub2=sub:CreateCheckbox(
         WoWTools_L.ITEM_BIND_ON_PICKUP,
@@ -1343,15 +1356,17 @@ local function Init_Menu(self, root)
         Save().autoConfirmLootRoll= not Save().autoConfirmLootRoll and true or nil
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.LFD.ConfirmBoP'])
         tooltip:AddLine(WoWTools_L.LOOT_NO_DROP)
     end)
 
     sub:CreateDivider()
-    sub:CreateCheckbox('|A:communities-icon-notification:0:0|a'..WoWTools_L['Loot Plus'], function()
+    sub2=sub:CreateCheckbox('|A:communities-icon-notification:0:0|a'..WoWTools_L['Loot Plus'], function()
         return not Save().disabledLootPlus
     end, function()
         Save().disabledLootPlus= not Save().disabledLootPlus and true or nil
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.LFD.LootPlus'])
 
     root:CreateDivider()
 

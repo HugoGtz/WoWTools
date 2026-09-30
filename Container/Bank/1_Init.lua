@@ -40,6 +40,7 @@ local function Init_Open_Menu()
             end
         end)
         sub:SetTooltip(function(tooltip)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Bank.ShowBank'])
             tooltip:AddLine(
                 WoWTools_DataMixin.Icon.icon2
                 ..(WoWTools_L.SHOW)
@@ -109,7 +110,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         Init()
                     end
                 end,
-                tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_L.RELOADUI)
+                tooltip= WoWTools_L['Tip.Bank.Option']..'|n|n|cnWARNING_FONT_COLOR:'..(WoWTools_L.RELOADUI)
             })
 
             if Save().disabled then

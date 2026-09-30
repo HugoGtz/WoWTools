@@ -50,7 +50,7 @@ local function Init_Stopwatch_Menu(self, root)
     local sub, sub2
 
         if not Save().disabledClockPlus then    
-            root:CreateCheckbox(
+            local tipSub= root:CreateCheckbox(
                 WoWTools_DataMixin.Icon.left..(WoWTools_L.NEWBIE_TOOLTIP_STOPWATCH_PLAYPAUSEBUTTON),
             function()
                 return Save().StopwatchOnClickPause
@@ -62,6 +62,7 @@ local function Init_Stopwatch_Menu(self, root)
                     StopwatchTitle:SetText(WoWTools_L.STOPWATCH_TITLE)
                 end
             end)
+            WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.MiniMap.StopwatchClickPause'])
             root:CreateDivider()
         end
 
@@ -75,6 +76,7 @@ local function Init_Stopwatch_Menu(self, root)
             WoWTools_L.REQUIRES_RELOAD
         )
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.MiniMap.ClockPlus'])
 
 
 --背景, 透明度
@@ -165,6 +167,7 @@ local function Init_TimeManager_Menu(self, root)
             WoWTools_L.REQUIRES_RELOAD
         )
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.MiniMap.ClockPlus'])
 
 --重新加载
     WoWTools_MenuMixin:Reload(sub, nil)

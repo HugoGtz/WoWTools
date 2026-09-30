@@ -218,7 +218,7 @@ local function Init_SubItem_Menu(self, sub, items)
         end, function(data)
             Save().items[data.itemID]= not Save().items[data.itemID] and true or nil
             self:settings()
-        end, {itemID=itemID})
+        end, {itemID=itemID, tooltip=WoWTools_L['Tip.Scrapping.ExcludeItem']})
         WoWTools_SetTooltipMixin:Set_Menu(sub2)
     end
     WoWTools_MenuMixin:SetScrollMode(sub)
@@ -277,7 +277,7 @@ local function Init_Menu(self, root)
 
     Init_SubItem_Menu(self, sub, Save().items)
     sub:CreateDivider()
-    sub:CreateButton(
+    sub=sub:CreateButton(
         WoWTools_L.CLEAR_ALL,
     function()
         StaticPopup_Show('WoWTools_OK',
@@ -288,6 +288,7 @@ local function Init_Menu(self, root)
         end})
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Scrapping.ClearExcluded'])
 
 
 --打开选项界面
@@ -558,6 +559,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 Save().disabled= not Save().disabled and true or nil
                 print(addName..WoWTools_DataMixin.Icon.icon2, WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled), WoWTools_L.REQUIRES_RELOAD)
             end,
+            tooltip= WoWTools_L['Tip.Scrapping.Option']..'|n|n'..WoWTools_L.REQUIRES_RELOAD,
             layout= WoWTools_OtherMixin.Layout,
             category= WoWTools_OtherMixin.Category,
         })

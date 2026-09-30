@@ -82,6 +82,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             --添加控制面板
             WoWTools_PanelMixin:OnlyCheck({
                 name= WoWTools_GuildBankMixin.addName,
+                tooltip= WoWTools_L['Tip.GuildBank.Option']..'|n|n'..WoWTools_L.RELOADUI,
                 GetValue=function() return not Save().disabled end,
                 SetValue= function()
                     Save().disabled= not Save().disabled and true or nil

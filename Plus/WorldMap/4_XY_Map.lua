@@ -98,7 +98,7 @@ local function Init_Menu(self, root)
     local mapID= C_Map.GetBestMapForUnit("player")
     local can= mapID and C_Map.CanSetUserWaypointOnMap(mapID)
 
-    root:CreateButton(
+    local tipSub= root:CreateButton(
         (can and '' or '|cff626262')
         ..'|A:Waypoint-MapPin-ChatIcon:0:0|a'
         ..(WoWTools_L.SOCIAL_SHARE_TEXT),
@@ -106,6 +106,7 @@ local function Init_Menu(self, root)
         WoWTools_WorldMapMixin:SendPlayerPoint()--发送玩家位置
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.WorldMap.SharePos'])
 
     root:CreateDivider()
     root:CreateButton(

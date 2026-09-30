@@ -63,7 +63,7 @@ local function Init_Menu(self, root)
     local newTab={}
 
 --显示
-    root:CreateCheckbox(
+    local tipSub= root:CreateCheckbox(
         WoWTools_L.SHOW,
     function()
         return Save().fastShow
@@ -71,6 +71,7 @@ local function Init_Menu(self, root)
         Save().fastShow= not Save().fastShow and true or false
         self:set_shown()
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Mail.FastShow'])
 
 --列表
     root:CreateDivider()
@@ -128,6 +129,7 @@ local function Init_Menu(self, root)
             self:set_PickupContainerItem(data.class, nil, nil)
             return MenuResponse.Open
         end, {class= tab2.class})
+        WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Mail.FastClass'])
 
         newSubTab={}
         for subClass3, tab3 in pairs(tab2.subClass) do
@@ -145,6 +147,7 @@ local function Init_Menu(self, root)
                 return MenuResponse.Open
             end, {class=tab2.class, subClass=tab3.subClass, item=tab3.item})
             sub2:SetTooltip(function(tooltip, description)
+                WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Mail.FastClass'])
                 for link in pairs(description.data.item or {}) do
                     tooltip:AddLine(WoWTools_ItemMixin:GetName(nil, link))
                 end
@@ -198,6 +201,7 @@ local function Fast_Button_Set_Menu(self, root, showName, setName)
     end, {name=setName})
 
     sub:SetTooltip(function(tooltip, description)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Mail.FastRecipient'])
         tooltip:AddLine(description.data.name)
         local findName= Save().fast[self.name]
         if findName==description.data.name then

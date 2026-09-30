@@ -30,6 +30,7 @@ local function Init_Menu(self, root)
         Save().hide= not Save().hide and true or nil
         WoWTools_PaperDollMixin:Init_Item_PoaperDll()
     end, {rightText= Save().statFontSize or 12})
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.PaperDoll.Slots'])
     WoWTools_MenuMixin:SetRightText(sub)
 
     sub:CreateSpacer()
@@ -63,6 +64,7 @@ local function Init_Menu(self, root)
         Save().EquipSet.disabled= not Save().EquipSet.disabled and true or nil
         WoWTools_PaperDollMixin:Init_EquipSetButton()
     end, {rightText=equipNum})
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.PaperDoll.EquipSetButton'])
     WoWTools_MenuMixin:SetRightText(sub)
 
 --重置位置
@@ -82,6 +84,7 @@ local function Init_Menu(self, root)
         Save().notEquipSetPLus= not Save().notEquipSetPLus and true or nil
         WoWTools_PaperDollMixin:Init_EquipSetPlus()--装备管理，Plus
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.PaperDoll.EquipSetPlus'])
 
     
 --属性
@@ -96,6 +99,7 @@ local function Init_Menu(self, root)
             WoWTools_PaperDollMixin:Init_Status()
         end)
         sub:SetTooltip(function(tooltip)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.PaperDoll.Stats'])
             GameTooltip_AddErrorLine(tooltip, WoWTools_L.REQUIRES_RELOAD)
         end)
     end
@@ -110,6 +114,7 @@ local function Init_Menu(self, root)
         WoWTools_PaperDollMixin:Init_Status_Bit()
     end, {rightText= Save().itemLevelBit or -1})
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.PaperDoll.StatDecimals'])
         tooltip:AddLine((WoWTools_L.SPELL_HASTE)..': |cffffffff9037|r|cnGREEN_FONT_COLOR:[+13%]|r  13|cffff00ff.69|r%')
         tooltip:AddLine(' ')
         GameTooltip_AddErrorLine(tooltip, WoWTools_L.REQUIRES_RELOAD)
@@ -120,7 +125,7 @@ local function Init_Menu(self, root)
 --小数点
     local bitColor=  Save().notStatusPlusFunc and '|cff626262' or ''
     for i=-1, 4 do
-        sub:CreateRadio(
+        local tipSub= sub:CreateRadio(
             bitColor
             ..(i==-1 and (WoWTools_L.NONE)
              or ((WoWTools_L['Decimals '])..i)),
@@ -131,13 +136,14 @@ local function Init_Menu(self, root)
             WoWTools_PaperDollMixin:UpdateStats()
             return MenuResponse.Refresh
         end, {bit=i})
+        WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.PaperDoll.DecimalsCount'])
     end
 
 
 
  --服务器
     root:CreateDivider()
-    root:CreateCheckbox(
+    local tipSub= root:CreateCheckbox(
         WoWTools_L.VAS_REALM_LABEL,
     function()
         return not Save().notRealm
@@ -145,10 +151,11 @@ local function Init_Menu(self, root)
         Save().notRealm= not Save().notRealm and true or nil
         WoWTools_PaperDollMixin:Init_Reaml()
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.PaperDoll.Realm'])
 
 
 
-    root:CreateCheckbox(
+    local tipSub= root:CreateCheckbox(
         WoWTools_L.LEVEL,
     function()
         return not Save().notLevel
@@ -157,6 +164,7 @@ local function Init_Menu(self, root)
         WoWTools_PaperDollMixin:Init_SetLevel()--更改,等级文本
 
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.PaperDoll.Level'])
 
     root:CreateDivider()
     sub=root:CreateCheckbox(
@@ -169,6 +177,7 @@ local function Init_Menu(self, root)
     end, {rightText=Save().flyoutScale or 1})
     WoWTools_MenuMixin:SetRightText(sub)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.PaperDoll.Flyout'])
         tooltip:AddLine('EquipmentFlyoutFrame')
     end)
 
@@ -192,6 +201,7 @@ local function Init_Menu(self, root)
         WoWTools_PaperDollMixin:Init_TabPlus()
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.PaperDoll.Tabs'])
         tooltip:AddLine(WoWTools_L.PAPERDOLL_SIDEBAR_STATS)
         tooltip:AddLine(WoWTools_L.PAPERDOLL_SIDEBAR_TITLES)
         tooltip:AddLine(WoWTools_L.GEARSETS_TITLE)
@@ -341,6 +351,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         WoWTools_L.REQUIRES_RELOAD
                     )
                 end,
+                tooltip= WoWTools_L['Tip.PaperDoll.Module']..'|n|n'..WoWTools_L.REQUIRES_RELOAD,
             })
 
             if Save().disabled then

@@ -34,6 +34,7 @@ local function Init_Menu(self, root)
 			WoWTools_TextMixin:GetShowHide(Save().btn)
 		)
 	end)
+	WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Faction.Track'])
 
 --自动隐藏
 	sub2=sub:CreateCheckbox(
@@ -45,6 +46,7 @@ local function Init_Menu(self, root)
 		WoWTools_FactionMixin:Init_TrackButton()
 	end)
 	sub2:SetTooltip(function(tooltip)
+		WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Faction.TrackAutoHide'])
 		tooltip:AddLine(WoWTools_L.HIDE)
 		tooltip:AddLine(' ')
 		tooltip:AddLine(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
@@ -81,6 +83,7 @@ local function Init_Menu(self, root)
 		WoWTools_FactionMixin:UpdatList()
 	end, {rightText=num})
 	WoWTools_MenuMixin:SetRightText(sub)
+	WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Faction.TrackSelected'])
 
 --指定，列表
 	for _, factionID in pairs(new) do
@@ -124,6 +127,7 @@ local function Init_Menu(self, root)
 		end
 	end)
 	sub:SetTooltip(function(tooltip)
+		WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Faction.ChatGain'])
 		tooltip:AddLine('|cnGREEN_FONT_COLOR:'..(WoWTools_L.NEED))
 		tooltip:AddLine(
 			WoWTools_L['HUD_EDIT_MODE_EXPAND_OPTIONS+REPUTATION']
@@ -140,6 +144,7 @@ local function Init_Menu(self, root)
 		WoWTools_FactionMixin:Init_Plus()
 	end)
 	sub:SetTooltip(function (tooltip)
+		WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Faction.UIPlus'])
 		tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
 	end)
 

@@ -42,7 +42,10 @@ local function AltSpell_Menu(_, root)
 
         end, {type=string.lower(tab.type), spellID=tab.spellID})
 
-        WoWTools_SetTooltipMixin:Set_Menu(sub)
+        sub:SetTooltip(function(tooltip, desc)
+            WoWTools_SetTooltipMixin:Setup(tooltip, desc.data)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Food.ModSpell'])
+        end)
 
         for i=1, 12 do
             spellSub= C_SpellBook.GetSpellBookSkillLineInfo(i)--shouIdHide name numSpellBookItems iconID isGuild itemIndexOffset
@@ -73,7 +76,10 @@ local function AltSpell_Menu(_, root)
 
                             end, {type=string.lower(tab.type), spellID=spellData.spellID})
 
-                            WoWTools_SetTooltipMixin:Set_Menu(sub3)
+                            sub3:SetTooltip(function(tooltip, desc)
+                                WoWTools_SetTooltipMixin:Setup(tooltip, desc.data)
+                                WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Food.ModSpellPick'])
+                            end)
                             num= num+1
                         end
                     end
@@ -223,19 +229,21 @@ local function Init_Menu(self, root)
     function()
         WoWTools_FoodMixin:Check_Items(true)
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Food.Search'])
 
 --隐藏
     sub2=sub:CreateButton(WoWTools_L.HIDE, function() return MenuResponse.Open end)
     for classID=0, 20 do
         class= C_Item.GetItemClassInfo(classID)
         if class then
-            sub2:CreateCheckbox(classID..' '..WoWTools_TextMixin:CN(class)..' '..(items[classID] and items[classID].num or ''), function(data)
+            sub3=sub2:CreateCheckbox(classID..' '..WoWTools_TextMixin:CN(class)..' '..(items[classID] and items[classID].num or ''), function(data)
                 return Save().DisableClassID[data.classID]
             end, function(data)
                 Save().DisableClassID[data.classID]= not Save().DisableClassID[data.classID] and true or nil
                 WoWTools_FoodMixin:Check_Items()
                 return MenuResponse.Refresh
             end, {classID=classID})
+            WoWTools_MenuMixin:SetDescription(sub3, WoWTools_L['Tip.Food.HideClass'])
         end
     end
 
@@ -250,7 +258,10 @@ local function Init_Menu(self, root)
             Save().noUseItems[data.itemID]= not Save().noUseItems[data.itemID] and true or nil
             WoWTools_FoodMixin:Check_Items()
         end, {itemID=itemID})
-        WoWTools_SetTooltipMixin:Set_Menu(sub3)
+        sub3:SetTooltip(function(tooltip, desc)
+            WoWTools_SetTooltipMixin:Setup(tooltip, desc.data)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Food.DisabledItem'])
+        end)
     end
 
     sub2:CreateDivider()
@@ -272,7 +283,7 @@ local function Init_Menu(self, root)
 
 --登录游戏时: 查找
     sub:CreateDivider()
-    sub:CreateCheckbox(WoWTools_L['On login: search'], function()
+    sub2=sub:CreateCheckbox(WoWTools_L['On login: search'], function()
         return Save().autoLogin
     end, function()
         Save().autoLogin= not Save().autoLogin and true or nil
@@ -280,6 +291,7 @@ local function Init_Menu(self, root)
             WoWTools_FoodMixin:Check_Items()
         end
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Food.AutoLogin'])
 
 --自动查找
     sub2=sub:CreateCheckbox(WoWTools_L['SELF_CAST_AUTO+UPDATE'], function()
@@ -292,6 +304,7 @@ local function Init_Menu(self, root)
         self.CheckFrame:set_event()
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Food.AutoWho'])
         tooltip:AddLine(WoWTools_L.EVENTS_LABEL)
         tooltip:AddLine('BAG_UPDATE_DELAYED')
         tooltip:AddLine(' ')
@@ -300,7 +313,7 @@ local function Init_Menu(self, root)
 
 --仅当前版本物品
     if not PlayerIsTimerunning() then--时光
-        sub:CreateCheckbox(
+        sub2=sub:CreateCheckbox(
             WoWTools_L['Only current version items'],
         function()
             return Save().onlyMaxExpansion
@@ -308,6 +321,7 @@ local function Init_Menu(self, root)
             Save().onlyMaxExpansion= not Save().onlyMaxExpansion and true or nil
             WoWTools_FoodMixin:Check_Items()
         end)
+        WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Food.OnlyCurrentExp'])
     end
 
 --仅限 C_Item.GetItemSpell(itemID)
@@ -318,6 +332,7 @@ local function Init_Menu(self, root)
         WoWTools_FoodMixin:Check_Items()
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Food.UsableOnly'])
         tooltip:AddLine('C_Item.GetItemSpell(itemID)')
     end)
 --缩放
@@ -357,6 +372,7 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end, {rightText= Save().numLine})
     WoWTools_MenuMixin:SetRightText(sub2)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Food.NumLine'])
 
 
     sub2:CreateSpacer()
@@ -429,7 +445,10 @@ local function Init_Menu(self, root)
             Save().addItems[data.itemID]= not Save().addItems[data.itemID] and true or nil
             WoWTools_FoodMixin:Check_Items()
         end, {itemID=itemID})
-        WoWTools_SetTooltipMixin:Set_Menu(sub2)
+        sub2:SetTooltip(function(tooltip, desc)
+            WoWTools_SetTooltipMixin:Setup(tooltip, desc.data)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Food.CustomItem'])
+        end)
     end
 
 --全部清除
@@ -451,11 +470,12 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetScrollMode(sub)
 
 --总是显示
-    sub:CreateCheckbox(WoWTools_L.BATTLEFIELD_MINIMAP_SHOW_ALWAYS, function()
+    sub2=sub:CreateCheckbox(WoWTools_L.BATTLEFIELD_MINIMAP_SHOW_ALWAYS, function()
         return Save().addItemsShowAll
     end, function()
         Save().addItemsShowAll= not Save().addItemsShowAll and true or nil
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Food.CustomShowAll'])
 
 
     find=nil
@@ -486,6 +506,7 @@ local function Init_Menu(self, root)
                     WoWTools_FoodMixin:Check_Items()
                 end, {classID=classID})
                 sub:SetTooltip(function(tooltip, description)
+                    WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Food.Class'])
                     tooltip:AddLine(
                         Save().class[description.data.classID]
                         and (WoWTools_L.UNCHECK_ALL)
@@ -498,7 +519,7 @@ local function Init_Menu(self, root)
                 for subClassID= 0, 20 do
                     subClass=C_Item.GetItemSubClassInfo(classID, subClassID)
                     if subClass and subClass~='' then
-                        sub:CreateCheckbox(
+                        sub2=sub:CreateCheckbox(
                             subClassID..' '..WoWTools_TextMixin:CN(subClass)..' '
                             ..(items[classID] and items[classID][subClassID] or ''),
                         function(data)
@@ -512,6 +533,7 @@ local function Init_Menu(self, root)
                             end
                             WoWTools_FoodMixin:Check_Items()
                         end, {classID=classID, subClassID=subClassID})
+                        WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Food.SubClass'])
                     else
                         break
                     end

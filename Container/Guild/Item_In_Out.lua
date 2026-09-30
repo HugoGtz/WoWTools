@@ -351,8 +351,11 @@ end
 
 
 
-local function Set_ItemList_Tooltip(sub)
+local function Set_ItemList_Tooltip(sub, description)
     sub:SetTooltip(function(tooltip, desc)
+        if description then
+            WoWTools_MenuMixin:AddDescription(tooltip, description)
+        end
         if not desc.data.items then
             return
         end
@@ -503,7 +506,7 @@ local function Init_Out_Bank_Menu(self, root)
         Out_Bank(self, data.tabID, nil, nil, true, data.numOut)
         return MenuResponse.Open
     end, {tabID=tabID, numOut=numOut, items=items})
-    Set_ItemList_Tooltip(sub)
+    Set_ItemList_Tooltip(sub, WoWTools_L['Tip.GuildBank.WithdrawItems'])
 
     if not disabled and num>0 then
         Init_SubMenu(self, sub, tabID, true, numOut, true, name)
@@ -521,7 +524,7 @@ local function Init_Out_Bank_Menu(self, root)
         Out_Bank(self, data.tabID, nil, nil, false, numOut)
         return MenuResponse.Open
     end, {tabID=tabID, numOut=numOut, items=items})
-    Set_ItemList_Tooltip(sub)
+    Set_ItemList_Tooltip(sub, WoWTools_L['Tip.GuildBank.WithdrawReagents'])
 
     if not disabled and num>0 then
         Init_SubMenu(self, sub, tabID, true, numOut, false, name)
@@ -562,7 +565,7 @@ local function Init_Out_Bag_Menu(self, root)
         Out_Bags(self, data.tabID, nil, nil, true)
         return MenuResponse.Open
     end, {tabID= tabID, items=items})
-    Set_ItemList_Tooltip(sub)
+    Set_ItemList_Tooltip(sub, WoWTools_L['Tip.GuildBank.DepositItems'])
     --sub:SetEnabled(numIn and true or nil)
 
     if not disabled and num>0 then
@@ -581,7 +584,7 @@ local function Init_Out_Bag_Menu(self, root)
         Out_Bags(self, data.tabID, nil, nil, false)
         return MenuResponse.Open
     end, {tabID= tabID, items=items})
-    Set_ItemList_Tooltip(sub)
+    Set_ItemList_Tooltip(sub, WoWTools_L['Tip.GuildBank.DepositReagents'])
     --sub:SetEnabled(numIn and true or nil)
 
     if not disabled and num>0 then

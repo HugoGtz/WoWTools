@@ -370,7 +370,7 @@ local function Init_Menu(self, root)
 
     local sub
 
-    root:CreateButton(
+    sub=root:CreateButton(
         '|cnWARNING_FONT_COLOR:'
         ..(WoWTools_L.RESET),
     function()
@@ -383,6 +383,7 @@ local function Init_Menu(self, root)
         )
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Combat.ResetSession'])
 
     root:CreateDivider()
 
@@ -395,6 +396,7 @@ local function Init_Menu(self, root)
         Save().isNotClockType= not Save().isNotClockType and true or nil
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Combat.TimeFormat'])
         tooltip:AddLine(WoWTools_TimeMixin:SecondsToClock(35))
     end)
 
@@ -481,7 +483,7 @@ local function Init_Menu(self, root)
 
     sub:CreateDivider()
     local clearText= WoWTools_L['RESET+EVENTTRACE_LOG_HEADER']
-    sub:CreateButton(
+    local sub2= sub:CreateButton(
         clearText,
     function()
         StaticPopup_Show('WoWTools_OK',
@@ -507,6 +509,7 @@ local function Init_Menu(self, root)
         )
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Combat.ClearLog'])
 
 end
 

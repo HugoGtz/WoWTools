@@ -711,7 +711,7 @@ end
 local function Init_Menu(self, root)
     local sub
 
-    root:CreateCheckbox(
+    sub=root:CreateCheckbox(
         WoWTools_L.SHOW,
     function()
         return not Save().hide
@@ -720,10 +720,11 @@ local function Init_Menu(self, root)
         self:set_event()--设置事件
         self:set_shown()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Holiday.ShowList'])
 
     root:CreateDivider()
 
-    root:CreateCheckbox(
+    sub=root:CreateCheckbox(
         WoWTools_L['Ongoing only'],
     function()
         return Save().onGoing
@@ -731,8 +732,9 @@ local function Init_Menu(self, root)
         Save().onGoing= not Save().onGoing and true or false
         Set_Text()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Holiday.OngoingOnly'])
 
-    root:CreateCheckbox(
+    sub=root:CreateCheckbox(
         WoWTools_L['TIME_LABEL~2'],
     function()
         return Save().showDate
@@ -740,13 +742,14 @@ local function Init_Menu(self, root)
         Save().showDate= not Save().showDate and true or nil
         Set_Text()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Holiday.ShowTime'])
 
 
     root:CreateDivider()
 --打开选项界面
     sub=WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_HolidayMixin.addName})
 
-    sub:CreateCheckbox(
+    local sub2=sub:CreateCheckbox(
         WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_LEFT,
     function()
         return Save().left
@@ -754,8 +757,9 @@ local function Init_Menu(self, root)
         Save().left= not Save().left and true or nil
         WoWTools_HolidayMixin:Init_TrackButton()
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Holiday.AlignLeft'])
 
-    sub:CreateCheckbox(
+    sub2=sub:CreateCheckbox(
         WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP,
     function()
         return Save().toTopTrack
@@ -763,6 +767,7 @@ local function Init_Menu(self, root)
         Save().toTopTrack = not Save().toTopTrack and true or nil
        WoWTools_HolidayMixin:Init_TrackButton()
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Holiday.GrowUp'])
 
 --缩放
     WoWTools_MenuMixin:Scale(self, sub, function()

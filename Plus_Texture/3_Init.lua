@@ -87,7 +87,7 @@ WoWTools_PanelMixin:CheckMenu({
     category=WoWTools_TextureMixin.Category,
     layout= WoWTools_TextureMixin.Layout,
     name= WoWTools_L['AUCTION_HOUSE_FILTER_DROPDOWN_CUSTOM+CLASS_COLORS'],
-    tooltip=tooltip,
+    tooltip=WoWTools_L['Tip.Texture.CustomColor']..'|n|n'..tooltip,
     GetValue=function()
         return Save().useColor
     end,
@@ -177,7 +177,7 @@ WoWTools_PanelMixin:CheckMenu({
 
     WoWTools_PanelMixin:OnlyCheck({
         name= '|A:_128-RedButton-Center:0:0|aUIButton',
-        tooltip= tooltip,
+        tooltip= WoWTools_L['Tip.Texture.UIButton']..'|n|n'..tooltip,
         category= WoWTools_TextureMixin.Category,
         GetValue= function() return Save().UIButton end,
         SetValue= function()
@@ -187,7 +187,7 @@ WoWTools_PanelMixin:CheckMenu({
 
     WoWTools_PanelMixin:OnlyCheck({
         name= '|A:checkbox-minimal:0:0|aCheckBox',
-        tooltip= tooltip,
+        tooltip= WoWTools_L['Tip.Texture.CheckBox']..'|n|n'..tooltip,
         category= WoWTools_TextureMixin.Category,
         GetValue= function() return Save().CheckBox end,
         SetValue= function()
@@ -200,7 +200,7 @@ WoWTools_PanelMixin:CheckMenu({
 
     sub= WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_L.CHAT_BUBBLES_TEXT,
-        tooltip= (WoWTools_L['Disabled in instances'])
+        tooltip= WoWTools_L['Tip.Texture.ChatBubbles']..'|n|n'..(WoWTools_L['Disabled in instances'])
                 ..'|n|n'..((WoWTools_L.SAY)..' CVar: chatBubbles '.. WoWTools_TextMixin:GetShowHide(C_CVar.GetCVarBool("chatBubbles")))
                 ..'|n'..((WoWTools_L['SAY~2'])..' CVar: chatBubblesParty '.. WoWTools_TextMixin:GetShowHide(C_CVar.GetCVarBool("chatBubblesParty")))
                 ..'\n\n'..tooltip,
@@ -220,7 +220,7 @@ WoWTools_PanelMixin:CheckMenu({
         minValue= 0.3,
         maxValue= 1,
         setp= 0.1,
-        tooltip= WoWTools_TextureMixin.addName,
+        tooltip= WoWTools_L['Tip.Texture.ChatBubblesScale'],
         category= WoWTools_TextureMixin.Category,
         SetValue= function(_, _, value2)
             if not value2 then return end
@@ -237,7 +237,7 @@ WoWTools_PanelMixin:CheckMenu({
     WoWTools_PanelMixin:Check_Slider({
         checkName= (WoWTools_L['CLASS+ENERGY'])..' 1 2 3',
         checkGetValue= function() return Save().classPowerNum end,
-        tooltip= tooltip,
+        tooltip= WoWTools_L['Tip.Texture.ClassPowerNum']..'|n|n'..tooltip,
         checkSetValue= function()
             Save().classPowerNum= not Save().classPowerNum and true or false
             WoWTools_TextureMixin:Init_Class_Power()--职业
@@ -271,7 +271,7 @@ WoWTools_PanelMixin:CheckMenu({
     local function Add_Options(name)
         WoWTools_PanelMixin:OnlyCheck({
             name= HIGHLIGHT_FONT_COLOR:WrapTextInColorCode(index..') ')..name:gsub('Blizzard_', ''),
-            tooltip= tooltip,
+            tooltip= WoWTools_L['Tip.Texture.FrameModule']..'|n|n'..tooltip,
             category= WoWTools_TextureMixin.Category,
             Value= not Save().no[name],
             GetValue= function() return not Save().no[name] end,
@@ -389,7 +389,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         WoWToolsPlusSave['Plus_Texture']= nil
                     end)
                 end,
-                tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD),
+                tooltip= WoWTools_L['Tip.Texture.Enable']..'|n|n'..'|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD),
                 layout= WoWTools_TextureMixin.Layout,
                 category= WoWTools_TextureMixin.Category,
             })

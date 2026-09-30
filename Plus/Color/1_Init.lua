@@ -93,6 +93,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 			--添加控制面板
 			WoWTools_PanelMixin:Check_Button({
 				checkName= WoWTools_ColorMixin.addName,
+				tooltip= WoWTools_L['Tip.Color.Enable']..'|n|n'..WoWTools_L.REQUIRES_RELOAD,
 				GetValue= function() return not Save().disabled end,
 				SetValue= function()
 					Save().disabled= not Save().disabled and true or nil

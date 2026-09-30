@@ -178,6 +178,7 @@ local function Init_Menu(self, root)
     function()
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.WorldMap.AbandonQuests'])
 
 
 
@@ -260,6 +261,7 @@ local function Init_Menu(self, root)
             })
 
         sub2:SetTooltip(function(tooltip, desc)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.WorldMap.AbandonType'])
                 QuestList_Tooltip(tooltip, desc.data)
         end)
         end

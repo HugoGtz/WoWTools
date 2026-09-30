@@ -48,7 +48,7 @@ local function Chat_Menu(_, root)
     if num>0 then
         WoWTools_MenuMixin:SetScrollMode(root)
         root:CreateDivider()
-        root:CreateButton(
+        local tipSub= root:CreateButton(
             (WoWTools_L['ALL+ADD'])..' '..num,
         function(data)
             for _, info in pairs(data.find) do
@@ -58,6 +58,7 @@ local function Chat_Menu(_, root)
             end
             List:set_list()
         end, {find=find})
+        WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Gossip.EditAddAll'])
 
     elseif #tab==0 then
         root:CreateTitle(WoWTools_L.NONE)

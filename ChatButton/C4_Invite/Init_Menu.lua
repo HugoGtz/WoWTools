@@ -71,10 +71,12 @@ local function Init_Menu(self, root)
         WoWTools_InviteMixin:Inv_All_Unit()
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Invite.InvNearby'])
         tooltip:AddLine(WoWTools_L['Players around'])
     end)
 
-    sub:CreateButton(WoWTools_L['INVITE~2'], InvPlateGuidFunc)
+    sub2=sub:CreateButton(WoWTools_L['INVITE~2'], InvPlateGuidFunc)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Invite.ReInvite'])
     sub:CreateButton(WoWTools_L.CLEAR_ALL, function()
         WoWTools_InviteMixin.InvPlateGuid={}
     end)
@@ -106,6 +108,7 @@ local function Init_Menu(self, root)
         WoWTools_InviteMixin:Inv_Target_Settings()
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Invite.Target'])
         tooltip:AddLine(WoWTools_L['Leader only'])
         tooltip:AddLine(WoWTools_L['NO+INSTANCE'])
     end)
@@ -119,11 +122,12 @@ local function Init_Menu(self, root)
         end
     end)
     sub:SetTooltip(function (tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Invite.Channel'])
         tooltip:AddLine(Save().ChannelText)
         tooltip:AddLine(WoWTools_L['Say, Yell, Whisper'])
     end)
 
-    sub:CreateButton(WoWTools_L.KBASE_DEFAULT_SEARCH_TEXT, function()
+    sub2=sub:CreateButton(WoWTools_L.KBASE_DEFAULT_SEARCH_TEXT, function()
         StaticPopup_Show('WoWTools_EditText',
         (WoWTools_L.KBASE_DEFAULT_SEARCH_TEXT),
         nil, {
@@ -139,6 +143,7 @@ local function Init_Menu(self, root)
             end,
         })
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Invite.Keyword'])
 
 
 
@@ -168,6 +173,7 @@ local function Init_Menu(self, root)
             )
         end
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Invite.InvitePlus'])
 
     sub:CreateTitle(WoWTools_L.ACCEPT)
     sub2=sub:CreateCheckbox(
@@ -177,7 +183,8 @@ local function Init_Menu(self, root)
     end, function()
         Save().FriendAceInvite= not Save().FriendAceInvite and true or false
     end)
-    sub:SetTooltip(function(tooltip)
+    sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Invite.AcceptFriends'])
         tooltip:AddLine(WoWTools_L['Battle.net, Friends, Guild'])
     end)
 
@@ -191,12 +198,13 @@ local function Init_Menu(self, root)
         Save().NoInvInResting= not Save().NoInvInResting and true or nil
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Invite.DeclineResting'])
         tooltip:AddLine(WoWTools_L.SPELL_FAILED_CUSTOM_ERROR_464)
     end)
 
 
     sub:CreateDivider()
-    sub:CreateButton(
+    sub2=sub:CreateButton(
         WoWTools_L['Test'],
     function()
         local name= UnitName('player')
@@ -204,6 +212,7 @@ local function Init_Menu(self, root)
         EventRegistry:TriggerEvent('PARTY_INVITE_REQUEST', UnitName('player'), true, true, true, false, true, WoWTools_DataMixin.Player.GUID, false)
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Invite.Test'])
 
 
 
@@ -220,6 +229,7 @@ local function Init_Menu(self, root)
         self:settings()--召唤，提示
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Invite.Summon'])
         if WoWTools_DataMixin.onlyChinese then
             tooltip:AddLine('取消:|n 战斗中, 离开, Alt键')
         else
@@ -239,6 +249,7 @@ local function Init_Menu(self, root)
         Save().SummonChat= not Save().SummonChat and true or nil
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Invite.SummonChat'])
         tooltip:AddLine(
             '|A:voicechat-icon-textchat-silenced:0:0|a'
             ..(WoWTools_L.SAY)
@@ -247,7 +258,7 @@ local function Init_Menu(self, root)
     end)
 
 --修改    
-    sub:CreateButton(WoWTools_L['Modify'], function()
+    sub2=sub:CreateButton(WoWTools_L['Modify'], function()
         StaticPopup_Show('WoWTools_EditText',
             (WoWTools_L.SUMMON),
             nil,
@@ -268,15 +279,17 @@ local function Init_Menu(self, root)
         )
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Invite.SummonText'])
 
     sub:CreateDivider()
-    sub:CreateCheckbox(
+    sub2=sub:CreateCheckbox(
         WoWTools_L.RAID,
     function()
         return Save().SummonThxInRaid
     end, function()
         Save().SummonThxInRaid= not Save().SummonThxInRaid and true or nil
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Invite.SummonRaid'])
 
 
 
@@ -291,6 +304,7 @@ local function Init_Menu(self, root)
         WoWTools_InviteMixin:Resting_Settings()--设置, 休息区提示
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Invite.RestingTips'])
         tooltip:AddLine('|A:communities-icon-chat:0:0|a')
         tooltip:AddLine(WoWTools_InviteMixin.RestingFrame.enterText)
         tooltip:AddLine(WoWTools_InviteMixin.RestingFrame.leaveText)
@@ -314,6 +328,7 @@ local function Init_Menu(self, root)
         Save().setFucus= not Save().setFucus and true or nil
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Invite.Focus'])
         tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
         tooltip:AddLine(WoWTools_L['Note: errors may occur'])
     end)
@@ -326,6 +341,7 @@ local function Init_Menu(self, root)
             Save().focusKey= data
         end, key)
         sub2:SetTooltip(function(tooltip)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Invite.FocusKey'])
             tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
         end)
     end
@@ -355,6 +371,7 @@ local function Init_Menu(self, root)
         Save().setFrameFun= not Save().setFrameFun and true or false
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Invite.WheelWhisper'])
         tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 
@@ -382,7 +399,7 @@ local function Init_Menu(self, root)
     function()
         return MenuResponse.Open
     end, {rightText=Save().InvNoFriendNum or 0})
-
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Invite.DeclineList'])
     WoWTools_MenuMixin:SetRightText(sub)
 
     sub:CreateButton(

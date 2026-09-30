@@ -461,7 +461,7 @@ local function Init_noAdd_Menu(self, root)
     local index=0
     for name, btn in pairs(Get_All_Objects()) do
         index= index+1
-        root:CreateCheckbox(
+        local tipSub= root:CreateCheckbox(
             index..') '
             ..'|T'..(btn.dataObject.icon or 0)..':0|t'
             ..(Save().Icons.hideAdd[name] and '|cff626262' or '')
@@ -474,6 +474,7 @@ local function Init_noAdd_Menu(self, root)
             Unlock_Button(btn, data.name)
             self:settings()
         end, {name=name})
+        WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.MiniMap.CollectFilterItem'])
     end
     WoWTools_MenuMixin:SetScrollMode(root)
 
@@ -537,7 +538,7 @@ local function Init_hideAdd_Menu(self, root)
     root:CreateDivider()
     for name, btn in pairs(Get_All_Objects()) do
         index= index+1
-        root:CreateCheckbox(
+        local tipSub= root:CreateCheckbox(
             index..') '
             ..'|T'..(btn.dataObject.icon or 0)..':0|t'
             ..(Save().Icons.noAdd[name] and '|cnWARNING_FONT_COLOR:' or '')
@@ -550,6 +551,7 @@ local function Init_hideAdd_Menu(self, root)
             Unlock_Button(btn, data.name)
             self:settings()
         end, {name=name})
+        WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.MiniMap.CollectHideItem'])
     end
 
     WoWTools_MenuMixin:SetScrollMode(root)
@@ -624,6 +626,7 @@ local function Init_UserAdd_Menu(_, root)
         })
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.MiniMap.CollectAdd'])
 
 --fstack
     sub2=sub:CreateButton('|A:QuestLegendaryTurnin:0:0|a|cff00ff00FST|rACK', function ()
@@ -703,6 +706,7 @@ local function Init_UserAdd_Menu(_, root)
             Init_Buttons()
         end, name)
         sub:SetTooltip(function(tooltip, desc)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.MiniMap.CollectCustomItem'])
             if not _G[desc.data] or not _G[desc.data].GetFrameStrata then
                 tooltip:AddLine(desc.data)
                 tooltip:AddLine(
@@ -712,7 +716,7 @@ local function Init_UserAdd_Menu(_, root)
             end
         end)
 
-        sub:CreateCheckbox(
+        local tipSub= sub:CreateCheckbox(
             WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2,
         function(data)
             return Save().Icons.userAdd[data.name]~=nil
@@ -726,6 +730,7 @@ local function Init_UserAdd_Menu(_, root)
             Init_Buttons()
             return MenuResponse.Refresh
         end, {name=name, value=value})
+        WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.MiniMap.CollectCustomRemove'])
         num= num+1
     end
 
@@ -764,6 +769,7 @@ local function Init_Menu(self, root)
         Save().Icons.hideFrame= not Save().Icons.hideFrame and true or nil
         self:set_frame()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.MiniMap.CollectShow'])
     sub:SetEnabled(not WoWTools_FrameMixin:IsLocked(self))
 
 
@@ -771,16 +777,17 @@ local function Init_Menu(self, root)
     --sub:CreateDivider()
 --显示
     sub:CreateTitle(WoWTools_L.SHOW)
-    sub:CreateCheckbox('|A:newplayertutorial-drag-cursor:0:0|a'..(WoWTools_L['ENTER_LFG+EMBLEM_SYMBOL']), function()
-        return Save().isEnterShow
+    local tipSub= sub:CreateCheckbox('|A:newplayertutorial-drag-cursor:0:0|a'..(WoWTools_L['ENTER_LFG+EMBLEM_SYMBOL']), function()
+        return Save().Icons.isEnterShow
     end, function()
-        Save().isEnterShow = not Save().isEnterShow and true or nil
+        Save().Icons.isEnterShow = not Save().Icons.isEnterShow and true or nil
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.MiniMap.CollectEnterShow'])
 
 --隐藏
     sub:CreateTitle(WoWTools_L.HIDE)
 --进入战斗，隐藏
-    sub:CreateCheckbox(
+    local tipSub= sub:CreateCheckbox(
         '|A:Warfronts-BaseMapIcons-Horde-Barracks-Minimap:0:0|a'
         ..(WoWTools_L.ENTERING_COMBAT),
     function()
@@ -789,9 +796,10 @@ local function Init_Menu(self, root)
         Save().Icons.hideInCombat = not Save().Icons.hideInCombat and true or nil
         self:set_event()
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.MiniMap.CollectHideCombat'])
 
 --移动时，隐藏
-    sub:CreateCheckbox(
+    local tipSub= sub:CreateCheckbox(
         '|A:transmog-gearSlot-unassigned-feet:0:0|a'
         ..(WoWTools_L.NPE_MOVE),
     function()
@@ -800,6 +808,7 @@ local function Init_Menu(self, root)
         Save().Icons.hideInMove = not Save().Icons.hideInMove and true or nil
         self:set_event()
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.MiniMap.CollectHideMove'])
 
 
 
@@ -883,13 +892,14 @@ local function Init_Menu(self, root)
         self:settings()
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.MiniMap.CollectSortUp'])
         tooltip:AddLine(WoWTools_L.OPTION_RAID_SORT_BY_ALPHABETICAL)
     end)
 
 
 
 --刷新
-    root:CreateButton(
+    local tipSub= root:CreateButton(
         WoWTools_L.REFRESH,
     function()
         Init_Buttons()
@@ -900,6 +910,7 @@ local function Init_Menu(self, root)
         )
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.MiniMap.CollectRefresh'])
 
 
     root:CreateDivider()
@@ -915,6 +926,7 @@ local function Init_Menu(self, root)
     function()
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.MiniMap.CollectFilters'])
     Init_noAdd_Menu(self, sub)
 
 
@@ -930,6 +942,7 @@ local function Init_Menu(self, root)
     function()
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.MiniMap.CollectHide'])
     Init_hideAdd_Menu(self, sub)
 
 
@@ -945,6 +958,7 @@ local function Init_Menu(self, root)
     function()
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.MiniMap.CollectCustom'])
     Init_UserAdd_Menu(self, sub)
 
 

@@ -70,6 +70,7 @@ local function Init_Menu(self, root)
         Set_Collapse(true, true)
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Objective.CollapseAll'])
 
 --战斗中
     sub2= sub:CreateCheckbox(
@@ -82,21 +83,23 @@ local function Init_Menu(self, root)
         self:set_event()
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Objective.AutoCombat'])
         tooltip:AddLine('|cnWARNING_FONT_COLOR:BUG')
     end)
 
 
 --展开选项
-    root:CreateButton(
+    sub=root:CreateButton(
         col
         ..(WoWTools_L['HUD_EDIT_MODE_EXPAND_OPTIONS~2']),
     function()
         Set_Collapse(false, true)
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Objective.ExpandAll'])
 
 --自动
-    root:CreateCheckbox(
+    sub=root:CreateCheckbox(
         WoWTools_L.SELF_CAST_AUTO,
     function()
         return Save().autoHide
@@ -104,6 +107,7 @@ local function Init_Menu(self, root)
         Save().autoHide = not Save().autoHide and true or nil
         self:set_event()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Objective.AutoCollapse'])
 
     root:CreateDivider()
 
@@ -127,6 +131,7 @@ local function Init_Menu(self, root)
 )
     end)
     sub:SetTooltip(function (tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Objective.ClearAll'])
         tooltip:AddLine(WoWTools_L.OBJECTIVES_STOP_TRACKING)
     end)
 

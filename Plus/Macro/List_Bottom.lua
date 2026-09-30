@@ -521,6 +521,7 @@ local function Sub_Menu(root, tab)
         end, tab.spellID)
 
         sub:SetTooltip(function(tooltip)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Macro.FindSpell'])
             GameTooltip_AddErrorLine(tooltip, 'Bug')
         end)
     end

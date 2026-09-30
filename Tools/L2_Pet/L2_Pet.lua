@@ -95,7 +95,7 @@ local function Init_Menu(self, root)
     local sub
     local num=0
 --自动召唤
-    root:CreateCheckbox(
+    sub=root:CreateCheckbox(
         WoWTools_L['SELF_CAST_AUTO+SUMMONS'],
     function()
         return Save().autoSummon
@@ -104,6 +104,7 @@ local function Init_Menu(self, root)
         self:init_pets_data()
         self:set_auto_summon_tips()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Pet.AutoSummon'])
     root:CreateDivider()
 
 --列表
@@ -119,7 +120,10 @@ local function Init_Menu(self, root)
             self:init_pets_data()
             return MenuResponse.Refresh
         end, {speciesID=speciesID})
-        WoWTools_SetTooltipMixin:Set_Menu(sub)
+        sub:SetTooltip(function(tooltip, desc)
+            WoWTools_SetTooltipMixin:Setup(tooltip, desc.data)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Pet.Select'])
+        end)
         num= num+1
     end
 

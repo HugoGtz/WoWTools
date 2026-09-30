@@ -25,6 +25,7 @@ local function Init_Menu(self, root)
     end, function()
         self:set_Click()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Combat.TrackInfo'])
 
 --重置位置
     sub:CreateButton(
@@ -56,6 +57,7 @@ local function Init_Menu(self, root)
     end)
     if sub then
         sub:SetTooltip(function(tooltip)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Combat.CombatScale'])
             tooltip:AddLine(WoWTools_L['HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT+HOUSING_EXPERT_DECOR_SUBMODE_SCALE']
             )
         end)
@@ -73,6 +75,7 @@ local function Init_Menu(self, root)
         RequestTimePlayed()
     end, tab)
     sub:SetTooltip(function(tooltip, desc)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Combat.PlayedTime'])
         tooltip:AddDoubleLine(
             WoWTools_L['Game time'],
             WoWTools_TimeMixin:SecondsToFullTime(desc.data.totalTime, desc.data.upData)
@@ -95,6 +98,7 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Combat.AFK'])
         tooltip:AddDoubleLine(SLASH_CHAT_AFK1)
     end)
 end

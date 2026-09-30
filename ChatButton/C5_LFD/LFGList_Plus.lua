@@ -49,6 +49,7 @@ local function Init()--预创建队伍增强
         end)
 
         sub:SetTooltip(function(tooltip)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.LFD.LFGPlus'])
             if not Save().LFGPlus then
                 tooltip:AddLine(WoWTools_L['REQUIRES_RELOAD~2'])
             end

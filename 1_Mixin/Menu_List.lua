@@ -106,6 +106,7 @@ function WoWTools_MenuMixin:DungeonDifficulty(_, root)
                     enable=tab.enable,
                 })
             self:SetRightText(sub)
+            self:SetDescription(sub, WoWTools_L['Tip.Menu.Difficulty'])
             sub:AddInitializer(function(btn, desc, menu)
                 btn:RegisterEvent('PLAYER_DIFFICULTY_CHANGED')
                 btn:SetScript('OnEvent', function(s)
@@ -220,6 +221,7 @@ function WoWTools_MenuMixin:LootSpecialization(root)
             end)
 
             sub:SetTooltip(function(tooltip, desc)
+                WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Menu.LootSpec'])
                 local color= GetLootSpecialization()==desc.data.specID and DISABLED_FONT_COLOR or GREEN_FONT_COLOR-- or PlayerUtil.GetClassColor()
                 GameTooltip_AddColoredLine(tooltip,
                     (WoWTools_L.SELECT_LOOT_SPECIALIZATION)
@@ -292,6 +294,8 @@ function WoWTools_MenuMixin:Set_Specialization(root)
             specIndex=specIndex,
             specID= specID,
             tooltip= function(tooltip, data2)
+                tooltip:AddLine(' ')
+                WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Menu.Spec'])
 
                 local canSpecsBeActivated, failureReason = C_SpecializationInfo.CanPlayerUseTalentSpecUI()
                 tooltip:AddLine(' ')
@@ -380,6 +384,7 @@ function WoWTools_MenuMixin:Set_Specialization(root)
         WoWTools_LoadUIMixin:SpellBook(2)
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Menu.WarMode'])
         tooltip:AddLine(WoWTools_L.PVP_LABEL_WAR_MODE)
         if not C_PvP.ArePvpTalentsUnlocked() then
 			GameTooltip_AddErrorLine(

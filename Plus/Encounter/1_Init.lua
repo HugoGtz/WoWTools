@@ -142,7 +142,8 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
                         WoWTools_L.REQUIRES_RELOAD
                     )
-                end
+                end,
+                tooltip= WoWTools_L['Tip.Encounter.Module']..'|n|n'..WoWTools_L.REQUIRES_RELOAD,
             })
 
 --为了保存击杀数据，保持这个开启

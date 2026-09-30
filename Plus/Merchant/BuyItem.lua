@@ -298,6 +298,7 @@ local function Init_Menu_Sell(_, root)
     function()
         return MenuResponse.Open
     end, {rightText= num})
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Merchant.SellMenu'])
     WoWTools_MenuMixin:SetRightText(sub)
 
 

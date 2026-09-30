@@ -7,7 +7,7 @@ end
 
 
 function WoWTools_MinimapMixin:ExpansionLanding_Menu(_, root)
-    root:CreateCheckbox(
+    local tipSub= root:CreateCheckbox(
         (ExpansionLandingPageMinimapButton and '' or '|cff626262')
         ..'|A:dragonflight-landingbutton-up:0:0|a'..WoWTools_L['Hide garrison icon'],
     function()
@@ -21,8 +21,9 @@ function WoWTools_MinimapMixin:ExpansionLanding_Menu(_, root)
             WoWTools_L.REQUIRES_RELOAD
         )
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.MiniMap.HideLanding'])
 
-    root:CreateCheckbox(
+    local tipSub= root:CreateCheckbox(
         '|A:dragonflight-landingbutton-up:0:0|a'..WoWTools_L['Move garrison icon'],
     function()
         return Save().moveExpansionLandingPageMinimapButton
@@ -35,6 +36,7 @@ function WoWTools_MinimapMixin:ExpansionLanding_Menu(_, root)
             WoWTools_L.REQUIRES_RELOAD
         )
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.MiniMap.MoveLanding'])
 end
 
 

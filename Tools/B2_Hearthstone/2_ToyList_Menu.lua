@@ -58,7 +58,10 @@ function WoWTools_HearthstoneMixin:Init_Menu_Toy(frame, root)
             end,
             {itemID=itemID, name=toyName, has=has, rightText=index}
         )
-        sub:SetTooltip(Set_Menu_Tooltip)
+        sub:SetTooltip(function(tooltip, desc)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Hearthstone.SelectToy'])
+            Set_Menu_Tooltip(tooltip, desc)
+        end)
         WoWTools_MenuMixin:SetRightText(sub)
 
         sub2=sub:CreateCheckbox(
@@ -74,7 +77,10 @@ function WoWTools_HearthstoneMixin:Init_Menu_Toy(frame, root)
                 frame:Set_LockedValue_Random(toy)
             end
         end, {itemID=itemID, name=toyName, has=has})
-        sub2:SetTooltip(Set_Menu_Tooltip)
+        sub2:SetTooltip(function(tooltip, desc)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Hearthstone.LockToy'])
+            Set_Menu_Tooltip(tooltip, desc)
+        end)
 
 
         sub2=sub:CreateButton(

@@ -14,7 +14,7 @@ local function Init_Category()
 
     WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_L.ENABLE,
-        tooltip= WoWTools_UnitMixin.addName,
+        tooltip= WoWTools_L['Tip.Unit.Module']..'|n|n'..WoWTools_L.REQUIRES_RELOAD,
         GetValue= function() return not Save().disabled end,
         func= function()
             Save().disabled= not Save().disabled and true or nil
@@ -63,6 +63,7 @@ local function Init()
 --玩家框体
     WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_L.HUD_EDIT_MODE_PLAYER_FRAME_LABEL,
+        tooltip= WoWTools_L['Tip.Unit.PlayerFrame']..'|n|n'..WoWTools_L.REQUIRES_RELOAD,
         GetValue= function() return not Save().hidePlayerFrame end,
         func= function()
             Save().hidePlayerFrame= not Save().hidePlayerFrame and true or nil
@@ -84,6 +85,7 @@ local function Init()
 --目标框体
     WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_L.HUD_EDIT_MODE_TARGET_FRAME_LABEL,
+        tooltip= WoWTools_L['Tip.Unit.TargetFrame']..'|n|n'..WoWTools_L.REQUIRES_RELOAD,
         GetValue= function() return not Save().hideTargetFrame end,
         func= function()
             Save().hideTargetFrame= not Save().hideTargetFrame and true or nil
@@ -107,6 +109,7 @@ local function Init()
 --小队框体
     WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_L.HUD_EDIT_MODE_PARTY_FRAMES_LABEL,
+        tooltip= WoWTools_L['Tip.Unit.PartyFrame']..'|n|n'..WoWTools_L.REQUIRES_RELOAD,
         GetValue= function() return not Save().hidePartyFrame end,
         func= function()
             Save().hidePartyFrame= not Save().hidePartyFrame and true or nil
@@ -154,6 +157,7 @@ local function Init()
 --首领框体
     WoWTools_PanelMixin:OnlyCheck({
         name= (WoWTools_L.HUD_EDIT_MODE_BOSS_FRAMES_LABEL),
+        tooltip= WoWTools_L['Tip.Unit.BossFrame']..'|n|n'..WoWTools_L.REQUIRES_RELOAD,
         GetValue= function() return not Save().hideBossFrame end,
         SetValue= function()
             Save().hideBossFrame= not Save().hideBossFrame and true or nil
@@ -176,7 +180,7 @@ local function Init()
 --职业图标
     WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_L['CLASS+EMBLEM_SYMBOL'],
-        tooltip=WoWTools_L['Color, icon'] ,
+        tooltip=WoWTools_L['Tip.Unit.ClassTexture']..'|n|n'..WoWTools_L['Color, icon'] ,
         GetValue= function() return not Save().hideClassColor end,
         func= function()
             Save().hideClassColor= not Save().hideClassColor and true or nil

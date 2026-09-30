@@ -76,7 +76,7 @@ local function Save_Macro_Menu(frame, root)
             end
         end, {name=name, icon=icon, body=body, header=header, itemLink=itemLink, spellID=spellID})
 
-        WoWTools_MacroMixin:SetMenuTooltip(sub)--宏，提示
+        WoWTools_MacroMixin:SetMenuTooltip(sub, WoWTools_L['Tip.Macro.Favorite'])--宏，提示
     else
         root:CreateTitle(
             '|A:PetJournal-FavoritesIcon:0:0|a'
@@ -134,7 +134,7 @@ local function Save_Macro_Menu(frame, root)
                 )
             end
         end, {head2=head2, name=tab.name, icon=tab.icon, body=tab.body})
-        WoWTools_MacroMixin:SetMenuTooltip(sub3)--宏，提示
+        WoWTools_MacroMixin:SetMenuTooltip(sub3, WoWTools_L['Tip.Macro.FavoriteRemove'])--宏，提示
         num=num+1
     end
 
@@ -186,6 +186,7 @@ local function Init_Menu(self, root)
         end, {name=tab.name, icon=tab.icon, macro=tab.macro})
 --提示
         sub:SetTooltip(function(tooltip, description)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Macro.Preset'])
             tooltip:AddLine(WoWTools_MacroMixin:GetName(description.data.name, description.data.icon))
             tooltip:AddLine(' ')
             tooltip:AddLine(description.data.macro, nil, nil, nil, true)

@@ -256,6 +256,7 @@ local function Init_Menu(self, root)
         end
         Init()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Professions.QuickButtons'])
 
 
 --专业，界面上显示 烹饪用火按钮， 战斗不能隐藏
@@ -267,6 +268,7 @@ local function Init_Menu(self, root)
         Save().showFuocoButton= not Save().showFuocoButton and true or nil
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Professions.CookingFire'])
         tooltip:AddLine('|cnWARNING_FONT_COLOR:BUG')
         tooltip:AddLine((WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT )..': '..WoWTools_TextMixin:GetShowHide(false))
         tooltip:AddLine(' ')

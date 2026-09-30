@@ -311,6 +311,7 @@ local function Init_Menu(self, root)
         WoWTools_ChallengeMixin:ChallengesUI_Left()
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Challenge.AltKeys'])
         tooltip:AddLine(WoWTools_L['ACCOUNT_QUEST_LABEL~2'])
     end)
 
@@ -332,6 +333,7 @@ local function Init_Menu(self, root)
         Save().leftAllPlayer= not Save().leftAllPlayer and true or nil
         WoWTools_ChallengeMixin:ChallengesUI_Left()
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Challenge.AltKeysAll'])
 
 
 --所有角色，全部清除
@@ -354,6 +356,7 @@ local function Init_Menu(self, root)
         end})
     end)
     sub3:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Challenge.AltKeysClear'])
         tooltip:AddLine(WoWTools_L['PLAYER_DIFFICULTY5+SAVE'])
     end)
 

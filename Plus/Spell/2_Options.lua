@@ -21,7 +21,7 @@ local function Init()
 
     WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_L.ENABLE,
-        tooltip= WoWTools_SpellMixin.addName,
+        tooltip= WoWTools_L['Tip.Spell.Enable'],
         GetValue= function() return not Save().disabled end,
         category= WoWTools_SpellMixin.Category,
         func= function()
@@ -39,7 +39,7 @@ local function Init()
 --法术弹出框
     WoWTools_PanelMixin:OnlyCheck({
         name= '|A:common-icon-backarrow:0:0|a'..(WoWTools_L['Spell flyout']),
-        tooltip= WoWTools_PanelMixin.addName,
+        tooltip= WoWTools_L['Tip.Spell.Flyout'],
         GetValue= function() return Save().flyoutText end,
         category= WoWTools_SpellMixin.Category,
         SetValue= function()
@@ -59,7 +59,7 @@ local function Init()
 --动作条颜色
     WoWTools_PanelMixin:OnlyCheck({
         name= '|A:UI-HUD-ActionBar-Interrupt:0:0|a'..(WoWTools_L['ACTIONBARS_LABEL+COLOR']),
-        tooltip= WoWTools_PanelMixin.addName,
+        tooltip= WoWTools_L['Tip.Spell.RangeColor'],
         GetValue= function() return Save().actionButtonRangeColor end,
         category= WoWTools_SpellMixin.Category,
         SetValue= function()
@@ -79,7 +79,7 @@ local function Init()
 --专精按钮
     WoWTools_PanelMixin:OnlyCheck({
         name= '|A:talents-node-choiceflyout-circle-greenglow:0:0|a'..(WoWTools_L['Specialization button']),
-        tooltip= WoWTools_PanelMixin.addName,
+        tooltip= WoWTools_L['Tip.Spell.SpecButton'],
         GetValue= function() return Save().specButton.enabled end,
         category= WoWTools_SpellMixin.Category,
         SetValue= function()
@@ -99,7 +99,7 @@ local function Init()
 --天赋
     WoWTools_PanelMixin:OnlyCheck({
         name= '|A:talents-button-undo:0:0|a'..(WoWTools_L.TALENT),
-        tooltip= WoWTools_PanelMixin.addName,
+        tooltip= WoWTools_L['Tip.Spell.Talents'],
         GetValue= function() return Save().talentsFramePlus end,
         category= WoWTools_SpellMixin.Category,
         SetValue= function()
@@ -119,7 +119,7 @@ local function Init()
 --法术书
     WoWTools_PanelMixin:OnlyCheck({
         name= '|A:spellbook-item-iconframe:0:0|a'..(WoWTools_L.SPELLBOOK),
-        tooltip= WoWTools_PanelMixin.addName,
+        tooltip= WoWTools_L['Tip.Spell.SpellBook'],
         GetValue= function() return Save().spellBookPlus end,
         category= WoWTools_SpellMixin.Category,
         SetValue= function()

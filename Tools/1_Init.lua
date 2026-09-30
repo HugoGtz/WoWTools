@@ -25,7 +25,7 @@ local function Init_Panel()
             end
             print(WoWTools_ToolsMixin.addName..WoWTools_DataMixin.Icon.icon2, WoWTools_L.RESET_POSITION)
         end,
-        tooltip= WoWTools_ToolsMixin.addName,
+        tooltip= WoWTools_L['Tip.Tools.Enable']..'|n|n'..'|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD),
         layout= WoWTools_ToolsMixin.Layout,
         category= WoWTools_ToolsMixin.Category,
     })
@@ -49,7 +49,7 @@ local function Init_Panel()
                 end
             )
         end,
-        tooltip=WoWTools_L.CLEAR_ALL
+        tooltip=WoWTools_L['Tip.Tools.ResetAll']..'|n|n'..WoWTools_L.CLEAR_ALL
     })
 
     WoWTools_PanelMixin:Header(WoWTools_ToolsMixin.Layout, WoWTools_L.OPTIONS..': '..WoWTools_L.REQUIRES_RELOAD)
@@ -64,7 +64,7 @@ do
                 initializer= WoWTools_PanelMixin:OnlyCheck({
                     category= WoWTools_ToolsMixin.Category,
                     name= HIGHLIGHT_FONT_COLOR:WrapTextInColorCode(index..') ')..data.tooltip,
-                    tooltip= data.name,
+                    tooltip= WoWTools_L['Tip.Tools.AddButton']..'|n|n'..data.name,
                     GetValue= function() return not Save().disabledADD[data.name] end,
                     SetValue= function()
                         Save().disabledADD[data.name]= not Save().disabledADD[data.name] and true or nil
@@ -77,7 +77,7 @@ do
                     category=WoWTools_ToolsMixin.Category,
                     layout=WoWTools_ToolsMixin.Layout,
                     name= HIGHLIGHT_FONT_COLOR:WrapTextInColorCode(index..') ')..data.tooltip,
-                    tooltip=data.name,
+                    tooltip=WoWTools_L['Tip.Tools.AddButtonPoint']..'|n|n'..data.name,
                     GetValue= function() return not Save().disabledADD[data.name] end,
                     SetValue= function()
                         Save().disabledADD[data.name]= not Save().disabledADD[data.name] and true or nil
@@ -139,34 +139,38 @@ local function Init_Menu(self, root)
         self:set_shown()
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Tools.Show'])
         tooltip:AddLine((InCombatLockdown() and '|cnWARNING_FONT_COLOR:' or '')..(WoWTools_L['HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_OUT_OF_COMBAT~2']))
     end)
 
 --显示
     sub:CreateTitle(WoWTools_L.SHOW)
-    sub:CreateCheckbox('|A:newplayertutorial-drag-cursor:0:0|a'..(WoWTools_L['ENTER_LFG+EMBLEM_SYMBOL']), function()
+    sub2=sub:CreateCheckbox('|A:newplayertutorial-drag-cursor:0:0|a'..(WoWTools_L['ENTER_LFG+EMBLEM_SYMBOL']), function()
         return Save().isEnterShow
     end, function()
         Save().isEnterShow = not Save().isEnterShow and true or false
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Tools.EnterShow'])
 
 --隐藏
     sub:CreateTitle(WoWTools_L.HIDE)
-    sub:CreateCheckbox('|A:Warfronts-BaseMapIcons-Horde-Barracks-Minimap:0:0|a'..(WoWTools_L.ENTERING_COMBAT), function()
+    sub2=sub:CreateCheckbox('|A:Warfronts-BaseMapIcons-Horde-Barracks-Minimap:0:0|a'..(WoWTools_L.ENTERING_COMBAT), function()
         return Save().isCombatHide
     end, function()
         Save().isCombatHide = not Save().isCombatHide and true or false
         self:set_event()
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Tools.CombatHide'])
 
-    sub:CreateCheckbox('|A:transmog-gearSlot-unassigned-feet:0:0|a'..(WoWTools_L.NPE_MOVE), function()
+    sub2=sub:CreateCheckbox('|A:transmog-gearSlot-unassigned-feet:0:0|a'..(WoWTools_L.NPE_MOVE), function()
         return Save().isMovingHide
     end, function()
         Save().isMovingHide = not Save().isMovingHide and true or false
         self:set_event()
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Tools.MovingHide'])
 
-    sub:CreateCheckbox(
+    sub2=sub:CreateCheckbox(
         '|A:UI-HUD-MicroMenu-GameMenu-Mouseover:0:0|a'
         ..(WoWTools_L['SHOW+MAINMENU_BUTTON']),
     function()
@@ -174,6 +178,7 @@ local function Init_Menu(self, root)
     end, function()
         Save().isMainMenuHide= not Save().isMainMenuHide and true or false
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Tools.MainMenuHide'])
 
 
 --选项
@@ -187,6 +192,7 @@ local function Init_Menu(self, root)
         self:set_size()
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Tools.Size30'])
         tooltip:AddLine(WoWTools_L.HUD_EDIT_MODE_SETTING_ARCHAEOLOGY_BAR_SIZE)
     end)
 
@@ -199,6 +205,7 @@ local function Init_Menu(self, root)
         self:set_icon()
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Tools.ShowIcon'])
         tooltip:AddLine(WoWTools_TextMixin:GetShowHide(nil, true))
     end)
 
@@ -240,6 +247,7 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end, {rightText= Save().borderAlpha or 0})
     WoWTools_MenuMixin:SetRightText(sub2)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Tools.BorderAlpha'])
 
 --Border 透明度
     sub2:CreateSpacer()

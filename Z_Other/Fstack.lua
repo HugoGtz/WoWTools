@@ -125,12 +125,13 @@ local function Init_Create(frame)
         end
         local sub
 --FocusedTable
-        root:CreateButton(
+        sub=root:CreateButton(
             'FocusedTable',
         function()
             WoWTools_DataMixin:Info(focusedTable)
             return MenuResponse.Open
         end)
+        WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Fstack.FocusedTable'])
 --Text
         local text= focusedTable.GetText and focusedTable:GetText()
         sub= root:CreateButton(
@@ -140,6 +141,7 @@ local function Init_Create(frame)
             return MenuResponse.Open
         end)
         sub:SetTooltip(function(tooltip)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Fstack.Text'])
             tooltip:AddLine(text, nil, nil, nil, true)
         end)
         sub:SetEnabled(text and text~='')
@@ -155,6 +157,7 @@ local function Init_Create(frame)
             return MenuResponse.Open
         end)
         sub:SetTooltip(function(tooltip)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Fstack.Texture'])
             tooltip:AddLine(texture, nil, nil, nil, true)
         end)
         sub:SetEnabled(texture and texture~='')
@@ -448,7 +451,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         if WoWTools_OtherMixin:AddOption(
             'FSTACK',
             '|A:QuestLegendaryTurnin:0:0|a|cff00ff00FST|rACK',
-            'Blizzard_DebugTools|n/fstack'
+            WoWTools_L['Tip.Fstack.Option']..'|n|nBlizzard_DebugTools|n/fstack'
         ) then
             Init()
         end

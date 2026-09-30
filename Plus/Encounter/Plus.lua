@@ -86,6 +86,7 @@ local function Create_BossButtonList(btn)
             return MenuResponse.Open
         end)
         sub:SetTooltip(function(tooltip)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Encounter.KillDelete'])
             if encounterID then
                 tooltip:AddLine(WoWTools_TextMixin:CN(name))
                 tooltip:AddLine('encounterID |cffffffff'..encounterID)
@@ -94,7 +95,7 @@ local function Create_BossButtonList(btn)
         sub:SetEnabled(encounterID and killNum and true or false)
 
         root:CreateDivider()
-        root:CreateButton(
+        local tipSub= root:CreateButton(
             '|A:bags-button-autosort-up:0:0|a'
             ..(WoWTools_L.CLEAR_ALL),
         function()
@@ -111,6 +112,7 @@ local function Create_BossButtonList(btn)
             )
             return MenuResponse.Open
         end)
+        WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Encounter.KillClearAll'])
     end)
 
 --增加 OnEnter

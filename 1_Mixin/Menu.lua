@@ -214,6 +214,7 @@ function WoWTools_MenuMixin:Scale(frame, root, GetValue, SetValue, ResetValue)
         return MenuResponse.Open
     end, {rightText= tonumber(format('%.1f', GetValue() or 1))})
     self:SetRightText(sub)
+    self:SetDescription(sub, WoWTools_L['Tip.Menu.Scale'])
 
     if not ResetValue then
         ResetValue= function() SetValue(1) end
@@ -274,6 +275,7 @@ function WoWTools_MenuMixin:FrameStrata(frame, root, GetValue, SetValue)
     end, {rightText=value})
 
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Menu.Strata'])
         tooltip:AddLine(CheckStrata())
     end)
 
@@ -290,6 +292,7 @@ function WoWTools_MenuMixin:FrameStrata(frame, root, GetValue, SetValue)
         end,{strata=strata, rightText=DISABLED_FONT_COLOR:WrapTextInColorCode(index)})
 
         self:SetRightText(sub2)
+        self:SetDescription(sub2, WoWTools_L['Tip.Menu.StrataLevel'])
         sub2:SetEnabled(enable)
     end
 
@@ -321,6 +324,7 @@ function WoWTools_MenuMixin:BgAplha(root, GetValue, SetValue, RestFunc, onlyRoot
             return MenuResponse.Open
         end, {rightText= tonumber(format('%.1f', GetValue() or 1))})
         self:SetRightText(sub)
+        self:SetDescription(sub, WoWTools_L['Tip.Menu.BgAlpha'])
     end
 
     sub:CreateSpacer()
@@ -406,13 +410,15 @@ end)
 
 --重置数据
 function WoWTools_MenuMixin:RestData(root, name, SetValue)
-    return root:CreateButton(
+    local sub= root:CreateButton(
         '|A:bags-button-autosort-up:0:0|a'
         ..(WoWTools_L.DAMAGE_METER_RESET_ALL_SESSIONS),
     function()
         StaticPopup_Show('WoWTools_RestData', name, nil, SetValue)
         return MenuResponse.Open
     end)
+    self:SetDescription(sub, WoWTools_L['Tip.Menu.RestData'])
+    return sub
 end
 
 --重新加载UI
@@ -449,9 +455,12 @@ function WoWTools_MenuMixin:ToTop(frame, root, tab)
         ..(tab.name or ('|A:bags-greenarrow:0:0|a'..(WoWTools_L.HUD_EDIT_MODE_SETTING_BAGS_DIRECTION))),
         tab.GetValue,
         tab.SetValue,
-        {isReload=tab.isReload, tooltip=tab.tooltip}
+        {isReload=tab.isReload, tooltip=tab.tooltip, isDefaultName= tab.name==nil}
     )
     sub:SetTooltip(function(tooltip, description)
+        if description.data.isDefaultName then
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Menu.ToTop'])
+        end
         if description.data.tooltip~=false then
             tooltip:AddLine(
                 description.data.tooltip or
@@ -689,7 +698,7 @@ tooltip=,
 
 
 function WoWTools_MenuMixin:ClearAll(root, SetValue)
-    return root:CreateButton(
+    local sub= root:CreateButton(
         '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.CLEAR_ALL),
         --nil,
     function(data)
@@ -700,6 +709,8 @@ function WoWTools_MenuMixin:ClearAll(root, SetValue)
         )
         return MenuResponse.Refresh
     end, {SetValue=SetValue})
+    self:SetDescription(sub, WoWTools_L['Tip.Menu.ClearAll'])
+    return sub
 end
 --[[
 --全部清除
@@ -779,6 +790,7 @@ function WoWTools_MenuMixin:CVar(root, name, showName, tooltip, eventFunc)
         end)
     end)
     sub:SetTooltip(function(tip)
+        WoWTools_MenuMixin:AddDescription(tip, format(WoWTools_L['Tip.Menu.CVar'], name))
         tip:AddLine(tooltip, nil, nil, nil, true)
         if defaultValue then
             if tooltip then
@@ -879,3 +891,20 @@ WoWTools_MenuMixin:SetScrollMode(root)
 
     end)
 ]]
+
+--Descripción de una opción (qué hace), con salto de línea automático.
+--Usar dentro de un SetTooltip existente: WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Modulo.Opcion'])
+function WoWTools_MenuMixin:AddDescription(tooltip, text)
+    if tooltip and text and text~='' then
+        GameTooltip_AddNormalLine(tooltip, text, true)
+    end
+end
+
+--Para elementos de menú sin tooltip: WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Modulo.Opcion'])
+function WoWTools_MenuMixin:SetDescription(sub, text)
+    if sub and text then
+        sub:SetTooltip(function(tooltip)
+            WoWTools_MenuMixin:AddDescription(tooltip, text)
+        end)
+    end
+end

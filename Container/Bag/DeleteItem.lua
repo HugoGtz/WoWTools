@@ -181,6 +181,7 @@ local function Init_Menu(self, root)
         ..'|r'..CountTable(Save().item)
     })
     WoWTools_MenuMixin:SetRightText(sub)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Bag.DeleteList'])
 
     sub2=sub:CreateCheckbox(
         WoWTools_L['Auto destroy'],
@@ -192,11 +193,12 @@ local function Init_Menu(self, root)
         self:settings()
     end, {rightText= #new})
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Bag.DeleteAuto'])
         tooltip:AddLine('WorldFrame:HookScript(\"OnMouseDown\"')
         GameTooltip_AddErrorLine(tooltip, WoWTools_L.VOICEMACRO_1_Sc_0)
     end)
 
-    sub:CreateCheckbox(
+    sub2=sub:CreateCheckbox(
         WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT,
     function()
         return Save().inCombat
@@ -204,10 +206,11 @@ local function Init_Menu(self, root)
         Save().inCombat= not Save().inCombat and true or nil
         self:set_count()
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Bag.DeleteInCombat'])
 
 
 --勾选所有
-    sub:CreateButton(
+    sub2=sub:CreateButton(
         WoWTools_L.EVENTTRACE_BUTTON_ENABLE_FILTERS,
     function()
         for _, itemID in pairs(new) do
@@ -216,15 +219,17 @@ local function Init_Menu(self, root)
         self:set_count()
         return MenuResponse.Refresh
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Bag.DeleteCheckAll'])
 
 --撤选所有
-    sub:CreateButton(
+    sub2=sub:CreateButton(
         WoWTools_L.EVENTTRACE_BUTTON_DISABLE_FILTERS,
      function()
         Save().item={}
         self:set_count()
         return MenuResponse.Refresh
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Bag.DeleteClearList'])
     sub:CreateDivider()
 
     for index, itemID in pairs(new) do
@@ -235,7 +240,7 @@ local function Init_Menu(self, root)
         end, function(data)
             Save().item[data.itemID]= not Save().item[data.itemID] and true or nil
             self:set_count()
-        end, {itemID=itemID, rightText=index, rightColor=DISABLED_FONT_COLOR})
+        end, {itemID=itemID, rightText=index, rightColor=DISABLED_FONT_COLOR, tooltip=WoWTools_L['Tip.Bag.DeleteItem']})
 
         WoWTools_MenuMixin:LoadName(sub2)
         WoWTools_MenuMixin:SetRightText(sub2)
@@ -264,13 +269,14 @@ local function Init_Menu(self, root)
             Delete_AllItem(data.quality)
         end, {rightText=WoWTools_DataMixin:MK(num, 3), quality=quality})
         sub:SetTooltip(function (tooltip)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Bag.DeleteQuality'])
             tooltip:AddLine(WoWTools_L.HOUSING_DECOR_STORAGE_ITEM_DESTROY)
         end)
         WoWTools_MenuMixin:SetRightText(sub)
 
 
         --勾选所有
-        sub:CreateButton(
+        sub2=sub:CreateButton(
             WoWTools_L.EVENTTRACE_BUTTON_ENABLE_FILTERS,
         function(data)
             for _, info in pairs(data) do
@@ -279,9 +285,10 @@ local function Init_Menu(self, root)
             self:set_count()
             return MenuResponse.Refresh
         end, qualityTab)
+        WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Bag.DeleteQualityAdd'])
 
     --撤选所有
-        sub:CreateButton(
+        sub2=sub:CreateButton(
             WoWTools_L.EVENTTRACE_BUTTON_DISABLE_FILTERS,
         function(data)
              for _, info in pairs(data) do
@@ -290,6 +297,7 @@ local function Init_Menu(self, root)
             self:set_count()
             return MenuResponse.Refresh
         end, qualityTab)
+        WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Bag.DeleteQualityRemove'])
         sub:CreateDivider()
 
 
@@ -301,7 +309,7 @@ local function Init_Menu(self, root)
             end, function(data)
                 Save().item[data.itemID]= not Save().item[data.itemID] and true or nil
                 self:set_count()
-            end, {itemID=bag.info.itemID, rightText=index, itemLink= bag.info.hyperlink})
+            end, {itemID=bag.info.itemID, rightText=index, itemLink= bag.info.hyperlink, tooltip=WoWTools_L['Tip.Bag.DeleteItem']})
 
             WoWTools_MenuMixin:LoadName(sub2)
             WoWTools_MenuMixin:SetRightText(sub2)

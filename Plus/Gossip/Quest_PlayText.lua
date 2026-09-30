@@ -107,6 +107,7 @@ function WoWTools_GossipMixin:Init_QuestPlayTextMenu(_, root)
         Save().questPlayTextStopMove= not Save().questPlayTextStopMove and true or nil
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Gossip.TTSAutoStop'])
         tooltip:AddLine(WoWTools_L.NPE_MOVE)
         tooltip:AddLine('PLAYER_STARTED_MOVING')
     end)
@@ -122,6 +123,7 @@ function WoWTools_GossipMixin:Init_QuestPlayTextMenu(_, root)
         return MenuResponse.Open
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Gossip.TTS'])
         tooltip:AddLine(Get_Text(), nil, nil, nil, true)
     end)
     sub:CreateButton(

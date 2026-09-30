@@ -194,7 +194,7 @@ local function Init_Menu(self, root)
 
 --自动提取
     local out= Save().autoOutMoney or 0
-    autoSub:CreateCheckbox(
+    sub=autoSub:CreateCheckbox(
         WoWTools_L['SELF_CAST_AUTO+WITHDRAW'],
     function()
         return Save().autoOutMoney
@@ -202,6 +202,7 @@ local function Init_Menu(self, root)
         Save().autoOutMoney= not Save().autoOutMoney and out or nil
         self:settings()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.GuildBank.AutoWithdraw'])
 
 
 --自定义数量
@@ -232,6 +233,7 @@ local function Init_Menu(self, root)
         Save().onlyMemberOutMoney= not Save().onlyMemberOutMoney and true or false
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.GuildBank.OnlyMember'])
         tooltip:AddLine(
             (WoWTools_L.COMMUNITY_MEMBER_ROLE_NAME_LEADER)
             ..': '
@@ -263,6 +265,7 @@ local function Init_Menu(self, root)
             return MenuResponse.Refresh
         end, num)
         sub2:SetTooltip(function(tooltip, desc)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.GuildBank.WithdrawAmount'])
             Out_Tooltip(tooltip, desc.data)
         end)
         sub2:AddInitializer(function(btn, desc)

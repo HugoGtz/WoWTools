@@ -209,6 +209,7 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetRightText(sub)
 
     sub:SetTooltip(function(tooltip, desc)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Group.ChatType'])
         local newTab={}
         local slashText= ChatTab[desc.data.type].slash
         for i=1, 12 do
@@ -242,6 +243,7 @@ local function Init_Menu(self, root)
             Save().showRaidHPTooltip= not Save().showRaidHPTooltip and true or nil
         end)
         sub2:SetTooltip(function (tooltip)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Group.MembersHP'])
             tooltip:AddLine('OnEnter')
         end)
     end
@@ -349,6 +351,7 @@ end
         end
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Group.ChatBubbles'])
         tooltip:AddLine('CVar: chatBubblesParty')
     end)
 
@@ -370,6 +373,7 @@ end
         return MenuResponse.Refresh
     end)
     sub:SetTooltip(function (tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Group.ReadyShow'])
         tooltip:AddLine(WoWTools_L['SHOW+READY'])
         tooltip:AddLine('ReadyCheckFrame')
     end)
@@ -392,6 +396,7 @@ end
         end, value)
 
         sub2:SetTooltip(function(tooltip)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Group.AutoReady'])
             tooltip:AddLine(WoWTools_L.SELF_CAST_AUTO)
         end)
     end
@@ -416,11 +421,12 @@ end
             Set_OnMouseWheel(data.type=='GroupMouseUpText' and 1 or -1)
         end, tab)
         sub:SetTooltip(function(tooltip, desc)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Group.WheelSend'])
             tooltip:AddLine('|A:voicechat-icon-textchat-silenced:0:0|a|A:'..desc.data.icon..':0:0|a'..desc.data.text, nil, nil, nil, true)
             tooltip:AddLine(WoWToolsPlusPlayerDate[desc.data.type], nil,nil,nil, true)
         end)
 
-        sub:CreateButton(
+        sub2=sub:CreateButton(
             '|A:'..tab.icon..':0:0|a'
             ..(WoWTools_L['HUD_EDIT_MODE_RENAME_LAYOUT~2']),
         function(data)
@@ -438,6 +444,7 @@ end
                 end
             })
         end, tab)
+        WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Group.WheelEdit'])
     end
 end
 

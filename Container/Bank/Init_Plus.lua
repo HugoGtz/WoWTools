@@ -61,6 +61,7 @@ local function Init()
                 end
             end)
             sub:SetTooltip(function(tooltip)
+                WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Bank.ConfirmCleanUp'])
                 tooltip:AddLine(WoWTools_BankMixin.addName..WoWTools_DataMixin.Icon.icon2..' bankConfirmTabCleanUp')
                 tooltip:AddLine(' ')
                 tooltip:AddLine(

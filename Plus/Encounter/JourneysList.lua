@@ -174,6 +174,7 @@ local function Init_Menu(self, root)
     function()
         return MenuResponse.Open
     end, {rightText=CountTable(Save().showName)})
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Encounter.RenownShowName'])
     WoWTools_MenuMixin:SetRightText(sub)
 
     for expansionID=WoWTools_DataMixin.ExpansionLevel, 9, -1 do
@@ -213,6 +214,7 @@ local function Init_Menu(self, root)
     function ()
         return MenuResponse.Open
     end, {rightText=CountTable(Save().noExpansion)})
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Encounter.RenownHideExpansion'])
     WoWTools_MenuMixin:SetRightText(sub)
 
     for expansionID=WoWTools_DataMixin.ExpansionLevel, 9, -1 do

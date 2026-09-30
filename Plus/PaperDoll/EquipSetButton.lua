@@ -31,7 +31,7 @@ local function Init_Menu(self, root)
     root:CreateDivider()
 
 --向右
-    root:CreateCheckbox(
+    local tipSub= root:CreateCheckbox(
         '|A:common-icon-rotateright:0:0|a'..(WoWTools_L['HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_RIGHT~3']),
     function()
         return Save().toRight
@@ -39,6 +39,7 @@ local function Init_Menu(self, root)
         Save().toRight= not Save().toRight and true or nil
         self:settings()
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.PaperDoll.SetToRight'])
 
 --装等
     sub=root:CreateCheckbox(
@@ -49,6 +50,7 @@ local function Init_Menu(self, root)
         Save().itemLevel= not Save().itemLevel and true or nil
         self:settings()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.PaperDoll.SetItemLevel'])
 
 --缩放, 单行
     WoWTools_MenuMixin:ScaleRoot(self, sub, function()
@@ -74,6 +76,7 @@ local function Init_Menu(self, root)
         self:settings()
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.PaperDoll.SetNumItems'])
         tooltip:AddLine(format(WoWTools_L.ITEMS_VARIABLE_QUANTITY, '16'))
     end)
 
@@ -90,6 +93,7 @@ local function Init_Menu(self, root)
         Save().useSecureAction= not Save().useSecureAction and true or nil
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.PaperDoll.SetSecure'])
         tooltip:AddLine('SecureActionButtonTemplate')
         GameTooltip_AddHighlightLine(tooltip, WoWTools_L['Weapons can be switched during combat'])
         tooltip:AddLine(' ')
@@ -128,7 +132,7 @@ local function Init_Menu(self, root)
     end)
 
     sub:CreateDivider()
-    sub:CreateButton(
+    local tipSub= sub:CreateButton(
         WoWTools_L.RESET_ALL_BUTTON_TEXT,
     function()
         StaticPopup_Show('WoWTools_OK',
@@ -142,6 +146,7 @@ local function Init_Menu(self, root)
             end}
         )
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.PaperDoll.SetResetAll'])
 
 
 --重置位置

@@ -35,6 +35,7 @@ local function Init_Menu(self, root)
          WoWTools_AddOnsMixin:Init_Left_Buttons()
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.AddOns.LeftList'])
         tooltip:AddLine(WoWTools_L['HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_LEFT+ADDON_LIST'])
         tooltip:AddLine(WoWTools_L.SETTINGS_KEYBINDINGS_LABEL)
     end)
@@ -48,13 +49,13 @@ local function Init_Menu(self, root)
     end)
     sub:CreateDivider()
 
-    sub:CreateButton(
+    local sub2=sub:CreateButton(
         (num==0 and '|cff626262' or '')
         ..(WoWTools_L.CLEAR_ALL),
     function()
         StaticPopup_Show('WoWTools_OK',
             (WoWTools_L.CLEAR_ALL)
-            '|n'..(WoWTools_L['Shortcut list']),
+            ..'|n'..(WoWTools_L['Shortcut list']),
             nil,
             {SetValue=function()
                 Save().fast={}
@@ -62,6 +63,7 @@ local function Init_Menu(self, root)
             end}
         )
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.AddOns.LeftListClear'])
 
 
 
@@ -77,12 +79,13 @@ local function Init_Menu(self, root)
         WoWTools_AddOnsMixin:Init_Bottom_Buttons()
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.AddOns.BottomList'])
         tooltip:AddLine(WoWTools_L['Only with icons'])
         tooltip:AddLine(WoWTools_L.SPELL_FAILED_ALREADY_OPEN)
     end)
 
 --位置：上面
-    sub:CreateCheckbox(
+    sub2=sub:CreateCheckbox(
         WoWTools_L['Position: top'],
     function()
         return Save().load_list_top
@@ -90,9 +93,10 @@ local function Init_Menu(self, root)
         Save().load_list_top= not Save().load_list_top and true or nil
         WoWTools_AddOnsMixin:Init_Bottom_Buttons()
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.AddOns.BottomListTop'])
 
 --仅图标
-     sub:CreateCheckbox(
+    sub2=sub:CreateCheckbox(
         WoWTools_L['Icon only'],
     function()
         return Save().load_list_onlyIcon
@@ -100,6 +104,7 @@ local function Init_Menu(self, root)
         Save().load_list_onlyIcon= not Save().load_list_onlyIcon and true or false
         WoWTools_AddOnsMixin:Init_Bottom_Buttons()
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.AddOns.BottomListIconOnly'])
 
 --大小
     sub:CreateSpacer()
@@ -143,6 +148,7 @@ local function Init_Menu(self, root)
         WoWTools_AddOnsMixin:Init_Right_Buttons()
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.AddOns.RightList'])
         tooltip:AddLine(WoWTools_L['HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_RIGHT+ADDON_LIST'])
         tooltip:AddLine(WoWTools_L.PAPERDOLL_NEWEQUIPMENTSET)
     end)
@@ -156,13 +162,13 @@ local function Init_Menu(self, root)
     end)
 
     sub:CreateDivider()
-    sub:CreateButton(
+    sub2=sub:CreateButton(
         (num==0 and '|cff626262' or '')
         ..(WoWTools_L.CLEAR_ALL),
     function()
         StaticPopup_Show('WoWTools_OK',
             (WoWTools_L.CLEAR_ALL)
-            '|n'..(WoWTools_L['Shortcut list~2']),
+            ..'|n'..(WoWTools_L['Shortcut list~2']),
             nil,
             {SetValue=function()
                 Save().buttons={}
@@ -170,6 +176,7 @@ local function Init_Menu(self, root)
             end}
         )
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.AddOns.RightListClear'])
 
 
 
@@ -198,6 +205,7 @@ local function Init_Menu(self, root)
         WoWTools_AddOnsMixin:Init_Info_Plus()
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.AddOns.InfoPlus'])
         tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 

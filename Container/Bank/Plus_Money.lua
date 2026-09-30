@@ -232,6 +232,7 @@ local function Init_Save_Menu(self, root)
         self:settings()
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Bank.AutoDeposit'])
         tooltip:AddLine(WoWTools_L['OPENING+BANK'])
         if Save().autoSaveMoney then
             Save_Tooltip(tooltip)
@@ -310,6 +311,7 @@ local function Init_Save_Menu(self, root)
             return MenuResponse.Open
         end, num)
         sub2:SetTooltip(function(tooltip, desc)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Bank.DepositKeep'])
             Save_Tooltip(tooltip, desc.data)
         end)
         sub2:AddInitializer(function(btn, desc)
@@ -399,6 +401,7 @@ local function Init_Out_Menu(self, root)
         self:settings()
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Bank.AutoWithdraw'])
         tooltip:AddLine(WoWTools_L['OPENING+BANK'])
         if Save().autoOutMoney then
             Out_Tooltip(tooltip)
@@ -479,6 +482,7 @@ local function Init_Out_Menu(self, root)
             return MenuResponse.Open
         end, num)
         sub2:SetTooltip(function(tooltip, desc)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Bank.WithdrawUpTo'])
             Out_Tooltip(tooltip, desc.data)
         end)
         sub2:AddInitializer(function(btn, desc)
@@ -545,7 +549,7 @@ local function Init_Menu(self, root)
     root:CreateDivider()
     Init_Out_Menu(self, root)
 
-    local sub
+    local sub, sub2
 
 --过滤器
     local num= CountTable(Save().filterSaveMoney or {})
@@ -557,7 +561,7 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end)
 --我
-    sub:CreateCheckbox(
+    sub2=sub:CreateCheckbox(
         WoWTools_UnitMixin:GetPlayerInfo(nil, WoWTools_DataMixin.Player.GUID, nil, {faction=WoWTools_DataMixin.Player.Faction, reName=true,reRealm=true, level=WoWTools_DataMixin.Player.Level}),
     function()
         return Save().filterSaveMoney[WoWTools_DataMixin.Player.GUID]
@@ -565,24 +569,26 @@ local function Init_Menu(self, root)
         Save().filterSaveMoney[WoWTools_DataMixin.Player.GUID]= not Save().filterSaveMoney[WoWTools_DataMixin.Player.GUID] and true or nil
         self:settings()
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Bank.MoneyFilter'])
 --战团
     for guid, wow in pairs(WoWToolsPlus_WoWDate) do
         if guid~=WoWTools_DataMixin.Player.GUID
             and wow.region== WoWTools_DataMixin.Player.Region
             and wow.battleTag== WoWTools_DataMixin.Player.BattleTag
         then
-            sub:CreateCheckbox(
+            sub2=sub:CreateCheckbox(
                 WoWTools_UnitMixin:GetPlayerInfo(nil, guid, nil, {faction=wow.faction, reName=true,reRealm=true, level=wow.level}),
             function(data)
                 return Save().filterSaveMoney[data.guid]
             end, function(data)
                 Save().filterSaveMoney[data.guid]= not Save().filterSaveMoney[data.guid] and true or nil
             end, {guid=guid})
+            WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Bank.MoneyFilter'])
         end
     end
     sub:CreateDivider()
 --勾选所有
-    sub:CreateCheckbox(
+    sub2=sub:CreateCheckbox(
         WoWTools_L.EVENTTRACE_BUTTON_ENABLE_FILTERS,
     function()
         for guid in pairs(WoWToolsPlus_WoWDate) do
@@ -600,8 +606,9 @@ local function Init_Menu(self, root)
         end
         self:settings()
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Bank.MoneyFilterAll'])
 --撤选所有
-    sub:CreateCheckbox(
+    sub2=sub:CreateCheckbox(
         WoWTools_L.EVENTTRACE_BUTTON_DISABLE_FILTERS,
     function()
         for _ in pairs(Save().filterSaveMoney) do
@@ -612,6 +619,7 @@ local function Init_Menu(self, root)
         Save().filterSaveMoney={}
         self:settings()
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Bank.MoneyFilterNone'])
     WoWTools_MenuMixin:SetScrollMode(sub)
 
 

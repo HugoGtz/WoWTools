@@ -111,13 +111,14 @@ local function Init_Guild_Menu(self, root)
 
 
 
-    sub:CreateCheckbox(
+    sub2=sub:CreateCheckbox(
         WoWTools_L['SHOW+GUILD_TAB_ROSTER'],
     function()
         return Save().showListName
     end, function()
         Save().showListName= not Save().showListName and true or nil
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Guild.ShowList'])
     sub2= sub:CreateCheckbox(
         WoWTools_L.COMMUNITIES_MEMBER_LIST_SHOW_OFFLINE,
     function()
@@ -125,6 +126,7 @@ local function Init_Guild_Menu(self, root)
     end, function()
         Save().showNotOnLine= not Save().showNotOnLine and true or nil
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Guild.ShowOffline'])
 
 
 
@@ -137,6 +139,7 @@ local function Init_Guild_Menu(self, root)
         self:set_guildinfo_event()--事件, 公会新成员, 队伍新成员
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Guild.GuildInfo'])
         tooltip:AddLine(WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Guild.text)
     end)
 
@@ -156,6 +159,7 @@ local function Init_Guild_Menu(self, root)
         maxValue=93,--最长31英文字符
         step=1,
         tooltip=function(tooltip)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Guild.Truncate'])
             tooltip:AddLine(WoWTools_L.CLUB_FINDER_REPORT_REASON_GUILD_NAME)
             tooltip:AddLine('0 = '..(WoWTools_L.DISABLE))
         end

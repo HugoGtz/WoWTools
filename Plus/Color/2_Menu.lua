@@ -12,7 +12,7 @@ local function Init_Menu(self, root)
     end
 	
 	local sub
-	root:CreateCheckbox(
+	sub=root:CreateCheckbox(
 		WoWTools_L.SHOW,
 	function()
 		return self.frame:IsShown()
@@ -20,6 +20,7 @@ local function Init_Menu(self, root)
 		Save().hide= not Save().hide and true or nil
 		self:Settings()
 	end)
+	WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Color.Show'])
 
 	root:CreateDivider()
 --缩放
@@ -40,6 +41,7 @@ local function Init_Menu(self, root)
 		return MenuResponse.Close
 	end, {rightText= #Save().logColor})
 	sub:SetTooltip(function(tooltip)
+		WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Color.ClearLog'])
 		tooltip:AddLine(
 			format((WoWTools_L['Save up to %d colors']), Save().logMaxColor or 10)
 		)
@@ -75,6 +77,7 @@ local function Init_Menu(self, root)
 		Save().selectType2 = not Save().selectType2 and true or nil
 	end)
 	sub:SetTooltip(function(tooltip)
+		WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Color.MoreColors'])
 		tooltip:AddLine( WoWTools_L.REQUIRES_RELOAD)
 	end)
 
@@ -93,6 +96,7 @@ local function Init_Menu(self, root)
 		self:Settings()
 	end)
 	sub:SetTooltip(function(tooltip)
+		WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Color.AutoHide'])
 		tooltip:AddLine(WoWTools_L['Click outside the color picker: auto-hide'])
 	end)
 
@@ -107,6 +111,7 @@ local function Init_Menu(self, root)
 		Save().autoShow= not Save().autoShow and true or nil
 	end)
 	sub:SetTooltip(function(tooltip)
+		WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Color.AutoShow'])
 		tooltip:AddLine(WoWTools_L.SHOW)
 		tooltip:AddLine(WoWTools_L['LOG_IN+GAME'])
 	end)

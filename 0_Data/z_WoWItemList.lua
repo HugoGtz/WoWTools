@@ -1402,6 +1402,7 @@ local function OnMouseDown_RightButton(self, d)
                 return MenuResponse.Open
             end)
             sub:SetTooltip(function(tootip)
+                WoWTools_MenuMixin:AddDescription(tootip, WoWTools_L['Tip.WoWList.ClearCharacter'])
                 if isMe then
                     tootip:AddLine(WoWTools_L.RELOADUI)
                 end
@@ -1410,7 +1411,7 @@ local function OnMouseDown_RightButton(self, d)
             root:CreateDivider()
             for name, info in pairs(TypeTabs) do
                 if info.clear_wow then
-                    root:CreateButton(
+                    sub=root:CreateButton(
                         '|A:'..info.atlas..':0:0|a'..info.tooltip,
                     function(data)
                         StaticPopup_Show('WoWTools_OK',
@@ -1429,6 +1430,7 @@ local function OnMouseDown_RightButton(self, d)
                             end}
                         )
                     end, {name=name, atlas=info.atlas, tooltip=info.tooltip})
+                    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.WoWList.ClearCharacterType'])
                 end
             end
 
@@ -1526,7 +1528,10 @@ local function Init_Right_Menu(self, root)
         return MenuResponse.Open
     end, {rightText=#region, data=region})
     WoWTools_MenuMixin:SetRightText(sub)
-    sub:SetTooltip(set_right_tooltip)
+    sub:SetTooltip(function(tooltip, desc)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.WoWList.ClearRegion'])
+        set_right_tooltip(tooltip, desc)
+    end)
 
 --清除不同战网
     local tagTtext= '|A:bags-button-autosort-up:0:0|a'
@@ -1548,7 +1553,10 @@ local function Init_Right_Menu(self, root)
         return MenuResponse.Open
     end, {rightText=#tag, data=tag})
     WoWTools_MenuMixin:SetRightText(sub)
-    sub:SetTooltip(set_right_tooltip)
+    sub:SetTooltip(function(tooltip, desc)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.WoWList.ClearBattleTag'])
+        set_right_tooltip(tooltip, desc)
+    end)
 
 
 --清除WoW数据
@@ -1568,7 +1576,10 @@ local function Init_Right_Menu(self, root)
         return MenuResponse.Open
     end, {rightText=#all, data=all})
     WoWTools_MenuMixin:SetRightText(sub)
-    sub:SetTooltip(set_right_tooltip)
+    sub:SetTooltip(function(tooltip, desc)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Panel.ClearWarband'])
+        set_right_tooltip(tooltip, desc)
+    end)
 
 
 --重新加载UI
@@ -1593,7 +1604,7 @@ local function Init_IsMe_Menu(self, root)
     end
     local sub
 
-    root:CreateButton(
+    sub=root:CreateButton(
         WoWTools_DataMixin.Icon.Player
         ..WoWTools_ColorMixin:SetStringColor(
             WoWTools_L.COMBATLOG_FILTER_STRING_ME
@@ -1612,15 +1623,17 @@ local function Init_IsMe_Menu(self, root)
 
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.WoWList.Me'])
 
     root:CreateDivider()
-    root:CreateButton(
+    sub=root:CreateButton(
         '|T525134:0|t'
         ..(WoWTools_L.WEEKLY_REWARDS_MYTHIC_KEYSTONE),
     function()
         Frame.SearchBox:SetText(WEEKLY_REWARDS_MYTHIC_KEYSTONE)
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.WoWList.Keystone'])
 
     local s, c, b= {}, {}, {}
     local bl, lm= 0, 0
@@ -1661,6 +1674,7 @@ local function Init_IsMe_Menu(self, root)
             return MenuResponse.Open
         end, {realm=realm, rightText=num})
         WoWTools_MenuMixin:SetRightText(sub)
+        WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.WoWList.Filter'])
     end
     for battleTag, num in pairs(b) do
         sub=root:CreateButton(
@@ -1672,6 +1686,7 @@ local function Init_IsMe_Menu(self, root)
             return MenuResponse.Open
         end, {battleTag=battleTag, rightText=num})
         WoWTools_MenuMixin:SetRightText(sub)
+        WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.WoWList.Filter'])
     end
 
     root:CreateDivider()
@@ -1685,6 +1700,7 @@ local function Init_IsMe_Menu(self, root)
             return MenuResponse.Open
         end, {class=class, rightText=tab.num})
         WoWTools_MenuMixin:SetRightText(sub)
+        WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.WoWList.Filter'])
     end
 
     root:CreateDivider()
@@ -1696,6 +1712,7 @@ local function Init_IsMe_Menu(self, root)
         return MenuResponse.Open
     end, {rightText=bl})
     WoWTools_MenuMixin:SetRightText(sub)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.WoWList.Filter'])
 
     sub=root:CreateButton(
         '|A:communities-create-button-wow-alliance:0:0|a|cff00adf0'
@@ -1705,6 +1722,7 @@ local function Init_IsMe_Menu(self, root)
         return MenuResponse.Open
     end, {rightText=lm})
     WoWTools_MenuMixin:SetRightText(sub)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.WoWList.Filter'])
 
 --Region
     local regions={}
@@ -1726,6 +1744,7 @@ local function Init_IsMe_Menu(self, root)
         WoWTools_MenuMixin:SetRightText(sub)
 
         sub:SetTooltip(function(tootip, desc)
+            WoWTools_MenuMixin:AddDescription(tootip, WoWTools_L['Tip.WoWList.Filter'])
             tootip:AddDoubleLine('Region', WoWTools_DataMixin.Player.Region)
             if not desc.data.isCurRegion then
                 tootip:AddLine(
@@ -1798,6 +1817,7 @@ local function Init_LeftButton_Menu(self, root)
         return MenuResponse.Open
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.WoWList.ClearCharacterType'])
         tooltip:AddLine(self.tip)
         tooltip:AddLine(WoWTools_UnitMixin:GetPlayerInfo(nil, guid, nil, {faction=wowData.faction, reName=true, reRealm=true}))
     end)
@@ -1823,6 +1843,7 @@ local function Init_LeftButton_Menu(self, root)
         return MenuResponse.Open
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.WoWList.ClearTypeAll'])
         tooltip:AddLine(self.tip)
         tooltip:AddLine(WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2)
     end)
@@ -2238,6 +2259,7 @@ function WoWTools_DataMixin:OpenWoWItemListMenu(_, root, showListType)--战团�
         return MenuResponse.Open
     end, {showListType=showListType})
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Panel.WarbandItems'])
         tooltip:AddLine(WoWTools_L.BINDING_NAME_TOGGLEUI)
     end)
 end

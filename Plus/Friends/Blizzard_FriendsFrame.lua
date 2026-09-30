@@ -48,7 +48,7 @@ local function Init_Friends_Menu(self, root)
     root:CreateTitle(
         WoWTools_L['LOG_IN+GAME']
     )
-    root:CreateRadio(
+    sub= root:CreateRadio(
         OptionText:format(FRIENDS_TEXTURE_ONLINE, WoWTools_L.FRIENDS_LIST_AVAILABLE),
     function()
         return Save().Friends[WoWTools_DataMixin.Player.GUID]== 'Availabel'
@@ -61,8 +61,9 @@ local function Init_Friends_Menu(self, root)
         self:set_status()
         return MenuResponse.Refresh
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Friends.StatusAvailable'])
 
-    root:CreateRadio(
+    sub= root:CreateRadio(
         OptionText:format(FRIENDS_TEXTURE_AFK, WoWTools_L.FRIENDS_LIST_AWAY),
     function()
         return Save().Friends[WoWTools_DataMixin.Player.GUID]== 'Away'
@@ -75,8 +76,9 @@ local function Init_Friends_Menu(self, root)
         self:set_status()
         return MenuResponse.Refresh
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Friends.StatusAway'])
 
-    root:CreateRadio(
+    sub= root:CreateRadio(
         OptionText:format(FRIENDS_TEXTURE_DND, WoWTools_L.FRIENDS_LIST_BUSY),
     function()
         return Save().Friends[WoWTools_DataMixin.Player.GUID]== 'DND'
@@ -89,6 +91,7 @@ local function Init_Friends_Menu(self, root)
         self:set_status()
         return MenuResponse.Refresh
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Friends.StatusDND'])
 
     root:CreateDivider()
     sub= root:CreateButton(
@@ -127,6 +130,7 @@ local function Init_Friends_Menu(self, root)
             btn:SetData(guid)
             btn:SetTooltip(function(tooltip, desc)
                 GameTooltip_SetTitle(tooltip, MenuUtil.GetElementText(desc))
+                WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Friends.OtherCharStatus'])
                 GameTooltip_AddNormalLine(tooltip, WoWTools_L.REMOVE)
             end)
         end
@@ -144,33 +148,38 @@ local function Init_Friends_Menu(self, root)
         Save().disabledBNFriendInfo= not Save().disabledBNFriendInfo and true or nil
         self:set_events()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Friends.BNetInfo'])
 
-    sub:CreateCheckbox(
+    local sub2= sub:CreateCheckbox(
         format(WoWTools_L['%sWoW friends only'], WoWTools_DataMixin.Icon.wow2),
     function()
         return not Save().allFriendInfo
     end, function()
         Save().allFriendInfo= not Save().allFriendInfo and true or nil
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Friends.WoWOnly'])
 
-    sub:CreateCheckbox((WoWTools_L['Favorite friends only'])..'|A:friendslist-favorite:0:0|a', function()
+    sub2= sub:CreateCheckbox((WoWTools_L['Favorite friends only'])..'|A:friendslist-favorite:0:0|a', function()
         return Save().showFriendInfoOnlyFavorite
     end, function()
         Save().showFriendInfoOnlyFavorite= not Save().showFriendInfoOnlyFavorite and true or nil
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Friends.FavoriteOnly'])
 
-    sub:CreateCheckbox((WoWTools_L['Out of combat only~2'])..'|A:Warfronts-BaseMapIcons-Horde-Barracks-Minimap:0:0|a', function()
+    sub2= sub:CreateCheckbox((WoWTools_L['Out of combat only~2'])..'|A:Warfronts-BaseMapIcons-Horde-Barracks-Minimap:0:0|a', function()
         return not Save().showInCombatFriendInfo
     end, function()
         Save().showInCombatFriendInfo= not Save().showInCombatFriendInfo and true or nil
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Friends.NoCombat'])
 
-    root:CreateCheckbox('|A:Battlenet-ClientIcon-App:0:0|a'..(WoWTools_L.FRIEND)..' Plus', function()
+    sub= root:CreateCheckbox('|A:Battlenet-ClientIcon-App:0:0|a'..(WoWTools_L.FRIEND)..' Plus', function()
         return not Save().disabledFriendPlus
     end, function()
         Save().disabledFriendPlus= not Save().disabledFriendPlus and true or nil
         WoWTools_DataMixin:Call('FriendsList_Update', true)
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Friends.FriendPlus'])
 
     root:CreateDivider()
     root:CreateButton(

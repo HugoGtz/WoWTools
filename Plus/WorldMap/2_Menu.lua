@@ -163,6 +163,7 @@ local function Init_Menu(self, root)
         ShowHideTitle()
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.WorldMap.Title'])
         tooltip:AddLine(WoWTools_L['NAME~3'])
         tooltip:AddLine(WoWTools_TextMixin:GetShowHide(nil, true))
     end)
@@ -178,6 +179,7 @@ local function Init_Menu(self, root)
         Save().ShowMapID= not Save().ShowMapID and true or false
         WoWTools_WorldMapMixin:Init_MpaID()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.WorldMap.MapID'])
 
 --背景, 透明度
     WoWTools_MenuMixin:BgAplha(sub,
@@ -244,6 +246,7 @@ local function Init_Menu(self, root)
         Save().ShowMapXY= not Save().ShowMapXY and true or false
         WoWTools_WorldMapMixin:Init_XY_Map()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.WorldMap.MapXY'])
 
     sub:CreateSpacer()--宽度
     WoWTools_MenuMixin:CreateSlider(sub, {
@@ -317,6 +320,7 @@ local function Init_Menu(self, root)
         Save().PlayerXY.disabled= not Save().PlayerXY.disabled and true or nil
         WoWTools_WorldMapMixin:Init_XY_Player()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.WorldMap.PlayerXY'])
 
     WoWTools_MenuMixin:RestPoint(self, sub,
         Save().PlayerXY.point,
@@ -342,6 +346,7 @@ local function Init_Menu(self, root)
         WoWTools_WorldMapMixin:Refresh()
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.WorldMap.DungeonName'])
         tooltip:AddLine(WoWTools_L.PROFESSIONS_FLYOUT_SHOW_NAME)
         --tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要刷新' or WoWTools_Join(NEED, REFRESH))
     end)
@@ -373,6 +378,7 @@ local function Init_Menu(self, root)
         WoWTools_WorldMapMixin:Refresh()
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.WorldMap.WorldQuestReward'])
         tooltip:AddLine(WoWTools_L['SELF_HIGHLIGHT_ICON~2'])
     end)
 
@@ -385,6 +391,7 @@ local function Init_Menu(self, root)
         Save().PlayerPin.disabled= not Save().PlayerPin.disabled and true or nil
         WoWTools_WorldMapMixin:Init_PlayerPin()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.WorldMap.PlayerPin'])
 
     --[[sub:CreateButton(
         (WoWTools_L['EDIT~2']),
@@ -404,6 +411,7 @@ local function Init_Menu(self, root)
         WoWTools_WorldMapMixin:Init_Plus()
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.WorldMap.Plus'])
         tooltip:AddLine(WoWTools_L.OTHER)
         tooltip:AddLine(
             (Save().notPlus and '|cff626262' or '')

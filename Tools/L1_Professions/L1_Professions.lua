@@ -177,6 +177,7 @@ local function Init_KeyButton_Menu(self, root)
         end
     end)
     sub:SetEnabled(not isInCombat)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Professions.Key'])
 
 --设置KEY
     WoWTools_KeyMixin:SetMenu(self, sub,  {
@@ -197,6 +198,7 @@ local function Init_KeyButton_Menu(self, root)
         Save()['save_'..self.type]= not Save()['save_'..self.type] and true or nil
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Professions.KeySave'])
         tooltip:AddLine(WoWTools_L['Log in: settings'])
     end)
 end

@@ -24,7 +24,7 @@ local function Init_Menu(self, root)
     end
 
     local sub
-    root:CreateButton(
+    sub=root:CreateButton(
         '|A:characterundelete-RestoreButton:0:0|a'..(WoWTools_L['RESET+STATUS_TEXT_VALUE']),
     function()
         WoWTools_AttributesMixin:Frame_Init(true)--初始， 或设置
@@ -35,9 +35,10 @@ local function Init_Menu(self, root)
         )
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Attributes.Reset'])
 
     root:CreateDivider()
-    root:CreateCheckbox(
+    sub=root:CreateCheckbox(
         WoWTools_DataMixin.Icon.mid..(WoWTools_L.SHOW),
     function()
         return self.frame:IsShown()
@@ -45,6 +46,7 @@ local function Init_Menu(self, root)
         Save().hide= not Save().hide and true or nil
         self:set_Show_Hide()--显示， 隐藏
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Attributes.Show'])
 
     sub=root:CreateButton(
         '|A:communities-icon-chat:0:0|a'..(WoWTools_L.SEND_MESSAGE),
@@ -53,6 +55,7 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Attributes.SendMessage'])
         tooltip:AddLine(self:get_sendTextTips())
         tooltip:AddLine(self:get_Att_Text_Chat())
     end)

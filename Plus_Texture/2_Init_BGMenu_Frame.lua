@@ -333,6 +333,7 @@ local function texture_list(self, root, name, icon, texture, isAdd)
     end)
 
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Texture.BgImage'])
         tooltip:AddLine(icon2)
         tooltip:AddLine(texture)
         if IsEnabledSaveBg(name) then
@@ -344,7 +345,7 @@ local function texture_list(self, root, name, icon, texture, isAdd)
     end)
 
     if isAdd then
-        sub:CreateButton(
+        sub=sub:CreateButton(
             WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2,
         function()
             StaticPopup_Show('WoWTools_OK',
@@ -357,6 +358,7 @@ local function texture_list(self, root, name, icon, texture, isAdd)
             end})
             return MenuResponse.Open
         end)
+        WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Texture.BgRemove'])
     end
 end
 
@@ -371,7 +373,7 @@ end
 
 --材质，列表
 local function Texture_List_Menu(self, root, icon, name)
-    root:CreateButton(
+    local addButton= root:CreateButton(
         WoWTools_L.ADD,
     function()
         StaticPopup_Show('WoWTools_EditText',
@@ -415,6 +417,7 @@ local function Texture_List_Menu(self, root, icon, name)
         }
     )
     end)
+    WoWTools_MenuMixin:SetDescription(addButton, WoWTools_L['Tip.Texture.BgAdd'])
 
     local newTab={}
 
@@ -509,6 +512,7 @@ local function Add_Frame_Menu(self, root)
         return MenuResponse.Refresh
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Texture.SeparateAll'])
         tooltip:AddLine(string.format(WoWTools_L.LFG_LIST_CROSS_FACTION, ''))
     end)
 
@@ -523,6 +527,7 @@ local function Add_Frame_Menu(self, root)
         return MenuResponse.Refresh
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Texture.SeparateNone'])
         tooltip:AddLine(WoWTools_L['ALL~2'])
     end)
 
@@ -596,6 +601,7 @@ local function Add_Frame_Menu(self, root)
         end
 
         sub2:SetTooltip(function(tooltip, desc)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Texture.SeparateFrame'])
             tooltip:AddLine(desc.data.icon2)
             tooltip:AddLine(desc.data.name)
             if IsEnabledSaveBg(desc.data.name) then
@@ -668,6 +674,7 @@ local function Init_Menu(self, root, isSub)
         end
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Texture.BgLayer'])
         tooltip:AddLine(name)
         tooltip:AddDoubleLine(
             'IsDrawLayerEnabled("BACKGROUND")',
@@ -694,6 +701,7 @@ local function Init_Menu(self, root, isSub)
         return MenuResponse.Refresh
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Texture.Separate'])
         local textureID, icon2= select(2, WoWTools_TextureMixin:IsAtlas(SaveData(name).texture, {248, 126}))
         tooltip:AddLine(icon2)
         tooltip:AddLine((IsEnabledSaveBg(name) and '|cnGREEN_FONT_COLOR:' or '')..name)
@@ -812,6 +820,7 @@ local function Init_Menu(self, root, isSub)
         Settings()
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Texture.Anims'])
         tooltip:AddLine('|cnGREEN_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD))
     end)
 

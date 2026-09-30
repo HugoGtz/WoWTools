@@ -39,6 +39,7 @@ local function Init_Menu(_, root)
         end, {value=value})
 
         sub:SetTooltip(function(tooltip)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.MiniMap.ZoomLevel'])
             tooltip:AddLine(WoWTools_L.LOCK)
         end)
     end

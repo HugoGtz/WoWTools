@@ -161,6 +161,7 @@ local function Init_RightTab_Menu(root, tabData)
         WoWTools_MenuMixin:SetRightText(sub)
 
         sub:SetTooltip(function(tooltip, desc)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Bank.WithdrawType'])
             Set_Tooltip_ItemList(tooltip, containerID, itemTab[desc.data.classID].item)
         end)
 
@@ -177,6 +178,7 @@ local function Init_RightTab_Menu(root, tabData)
             WoWTools_MenuMixin:SetRightText(sub2)
 
             sub2:SetTooltip(function(tooltip, desc)
+                WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Bank.WithdrawType'])
                 Set_Tooltip_ItemList(tooltip, containerID, itemTab[desc.data.classID].sub[desc.data.subClassID])
             end)
         end
@@ -198,6 +200,7 @@ local function Init_RightTab_Menu(root, tabData)
         return MenuResponse.Refresh
     end, {rightText=itemNum})
     WoWTools_MenuMixin:SetRightText(sub)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Bank.WithdrawAllItems'])
 end
 
 

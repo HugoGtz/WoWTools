@@ -322,11 +322,12 @@ local function Init_Menu(self, root)
 		TrackButton_Settings()
 	end)
 	sub:SetTooltip(function(tooltip)
+		WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Faction.TrackShowList'])
 		tooltip:AddLine(WoWTools_L['Show/Hide'])
 	end)
 
 --向右平移
-	sub:CreateCheckbox(
+	sub2=sub:CreateCheckbox(
 		WoWTools_L.BINDING_NAME_STRAFERIGHT,
 	function()
 		return Save().toRightTrackText
@@ -340,9 +341,10 @@ local function Init_Menu(self, root)
 		end
 		TrackButton_Settings()
 	end)
+	WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Faction.TrackTextRight'])
 
 --上
-	sub:CreateCheckbox(
+	sub2=sub:CreateCheckbox(
 		'|A:bags-greenarrow:0:0|a'
 		..(WoWTools_L.HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_UP),
 	function()
@@ -362,6 +364,7 @@ local function Init_Menu(self, root)
 		end
 		TrackButton_Settings()
 	end)
+	WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Faction.TrackGrowUp'])
 
 --隐藏名称
 	sub2=sub:CreateCheckbox(
@@ -373,6 +376,7 @@ local function Init_Menu(self, root)
 		TrackButton_Settings()
 	end)
 	sub2:SetTooltip(function(tooltip)
+		WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Faction.TrackShowName'])
 		tooltip:AddLine(
 			WoWTools_L['Only factions with icons']
 		)
@@ -387,6 +391,7 @@ local function Init_Menu(self, root)
 		Save().onlyMajor= not Save().onlyMajor and true or nil
 		TrackButton_Settings()
 	end)
+	WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Faction.TrackRenownOnly'])
 
 --缩放
 	WoWTools_MenuMixin:Scale(self, sub, function()
@@ -426,6 +431,7 @@ local function Init_Menu(self, root)
 		self:set_Shown()
 	end)
 	sub2:SetTooltip(function(tooltip)
+		WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Faction.TrackAutoHide'])
 		tooltip:AddLine(WoWTools_L.HIDE)
 		tooltip:AddLine(' ')
 		tooltip:AddLine(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)

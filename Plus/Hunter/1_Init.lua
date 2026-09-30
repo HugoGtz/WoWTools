@@ -99,7 +99,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             --添加控制面板
                 WoWTools_PanelMixin:OnlyCheck({
                 name= WoWTools_HunterMixin.addName,
-                tooltip= nil,
+                tooltip= WoWTools_L['Tip.Hunter.Enable'],
                 GetValue=function() return not Save().disabled end,
                 SetValue= function()
                     Save().disabled = not Save().disabled and true or nil

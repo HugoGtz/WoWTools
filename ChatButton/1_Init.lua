@@ -82,7 +82,7 @@ local function Init_Menu(self, root)
 
 --职业颜色
     sub:CreateSpacer()
-    sub:CreateCheckbox(
+    sub2=sub:CreateCheckbox(
         WoWTools_L.CLASS_COLORS,
     function()
         return Save().bgUseClassColor
@@ -90,6 +90,7 @@ local function Init_Menu(self, root)
         Save().bgUseClassColor= not Save().bgUseClassColor and true or nil
         self:set_backgroud()
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Chat.BgClassColor'])
 
 
 --FrameStrata
@@ -108,6 +109,7 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end, {rightText= Save().borderAlpha or 0.3})
     WoWTools_MenuMixin:SetRightText(sub)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Chat.Border'])
 
 --Border 透明度
     sub:CreateSpacer()
@@ -163,6 +165,7 @@ local function Init_Menu(self, root)
         self:settings()
         Set_All_Buttons(self)
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Chat.Vertical'])
 
 
 
@@ -186,6 +189,7 @@ local function Init_Menu(self, root)
         end, {index=index, p=tab[1], p2=tab[2]})
 
         sub2:SetTooltip(function(tooltip, desc)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Chat.MenuAnchor'])
             tooltip:AddLine(WoWTools_L['HUD_EDIT_MODE_MICRO_MENU_LABEL+CHOOSE_LOCATION'])
             tooltip:AddDoubleLine(desc.data.p, desc.data.p2)
         end)
@@ -201,6 +205,7 @@ local function Init_Menu(self, root)
         Save().disabledTooltiip= not Save().disabledTooltiip and true or nil
     end)
     sub:SetTooltip(function (tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Chat.Tooltip'])
         tooltip:AddLine('GameTooltip')
     end)
 
@@ -217,6 +222,7 @@ local function Init_Menu(self, root)
         end)
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Chat.UIParent'])
         tooltip:AddLine('SetParent '..'|cnGREEN_FONT_COLOR:'..self:GetParent():GetName())
     end)
 --WoWTools_DataMixin.onlyChinese and '聊天框底部' or WoWTools_Join(HUD_EDIT_MODE_CHAT_FRAME_LABEL, HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_DOWN),
@@ -233,6 +239,7 @@ local function Init_Menu(self, root)
         end
         self:settings()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Chat.ChatFrameLeft'])
 
 
 --移过图标
@@ -245,6 +252,7 @@ local function Init_Menu(self, root)
         Save().isEnterShowMenu = not Save().isEnterShowMenu and true or nil
     end)
     sub:SetTooltip(function (tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Chat.EnterShowMenu'])
         tooltip:AddLine(WoWTools_L['SHOW+HUD_EDIT_MODE_MICRO_MENU_LABEL'])
     end)
 
@@ -441,7 +449,7 @@ local function Init_Panel()
         WoWTools_PanelMixin:OnlyCheck({
             category= WoWTools_ChatMixin.Category,
             name= data.tooltip,
-            tooltip= data.name,
+            tooltip= WoWTools_L['Tip.Chat.AddButton']..'|n|n'..data.name,
             Value= not Save().disabledADD[data.name],
             GetValue= function() return not Save().disabledADD[data.name] end,
             SetValue= function()
@@ -495,7 +503,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         WoWToolsPlusSave['ChatButton']= nil
                     end)
                 end,
-                tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD),
+                tooltip= WoWTools_L['Tip.Chat.Enable']..'|n|n'..'|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD),
                 layout= WoWTools_ChatMixin.Layout,
                 category= WoWTools_ChatMixin.Category,
             })

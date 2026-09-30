@@ -64,7 +64,7 @@ local function Init()
             return
         end
 
-        root:CreateCheckbox(
+        local tipSub= root:CreateCheckbox(
             WoWTools_L.PROFESSIONS_FLYOUT_SHOW_NAME,
         function()
             return Save().ShowFlightMap_Name
@@ -73,6 +73,7 @@ local function Init()
             self:settings()
             RefreshAll()
         end)
+        WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.WorldMap.FlightMapName'])
 
 
 --缩放

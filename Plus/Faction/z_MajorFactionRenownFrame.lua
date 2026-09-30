@@ -240,13 +240,14 @@ end
 local function Init_Menu(self, root)
     local sub, sub2
 
-    root:CreateCheckbox(
+    sub=root:CreateCheckbox(
         WoWTools_L.SHOW,
     function()
         return not Save().hide_MajorFactionRenownFrame_Button
     end, function()
         self:set_click()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Faction.RenownList'])
 
 --隐藏
     root:CreateDivider()
@@ -256,7 +257,7 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end)
 
-    sub:CreateCheckbox(
+    sub2=sub:CreateCheckbox(
         '|A:Professions_Specialization_Lock_Glow:0:0|a'
         ..(WoWTools_L['Unlocked only']),
     function()
@@ -265,6 +266,7 @@ local function Init_Menu(self, root)
         Save().onlyUnlockRenownFrame= not Save().onlyUnlockRenownFrame and true or nil
         Settings()
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Faction.RenownUnlockedOnly'])
 
 --隐藏，列表
     sub:CreateDivider()

@@ -290,11 +290,12 @@ local function Init_Menu(self, root)
 
     local sub, sub2
 
-    root:CreateCheckbox(WoWTools_L.SHOW, function()
+    sub=root:CreateCheckbox(WoWTools_L.SHOW, function()
         return Frame and Frame:IsShown()
     end, function()
         Init_EmojiFrame()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Emoji.Show'])
     root:CreateDivider()
 
 
@@ -303,22 +304,24 @@ local function Init_Menu(self, root)
     --sub2=sub:CreateButton(WoWTools_DataMixin.onlyChinese and '显示/隐藏' or format('%s/%s', SHOW, HIDE), function() return MenuResponse.Open end)
 --显示
     root:CreateTitle(WoWTools_L.SHOW)
-    root:CreateCheckbox('|A:newplayertutorial-drag-cursor:0:0|a'..(WoWTools_L['ENTER_LFG+EMBLEM_SYMBOL']), function()
+    sub=root:CreateCheckbox('|A:newplayertutorial-drag-cursor:0:0|a'..(WoWTools_L['ENTER_LFG+EMBLEM_SYMBOL']), function()
         return Save().showEnter
     end, function()
         Save().showEnter = not Save().showEnter and true or nil
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Emoji.EnterShow'])
 
-    root:CreateCheckbox(WoWTools_DataMixin.Icon.left..(WoWTools_L.MOUSE_LABEL), function()
+    sub=root:CreateCheckbox(WoWTools_DataMixin.Icon.left..(WoWTools_L.MOUSE_LABEL), function()
         return Save().On_Click_Show
     end, function()
         Save().On_Click_Show= not Save().On_Click_Show and true or false
         self:set_texture()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Emoji.ClickShow'])
 
 --隐藏
     root:CreateTitle(WoWTools_L.HIDE)
-    root:CreateCheckbox('|A:Warfronts-BaseMapIcons-Horde-Barracks-Minimap:0:0|a'..(WoWTools_L.ENTERING_COMBAT), function()
+    sub=root:CreateCheckbox('|A:Warfronts-BaseMapIcons-Horde-Barracks-Minimap:0:0|a'..(WoWTools_L.ENTERING_COMBAT), function()
         return not Save().notHideCombat
     end, function()
         Save().notHideCombat = not Save().notHideCombat and true or nil
@@ -326,8 +329,9 @@ local function Init_Menu(self, root)
             Frame:settings()
         end
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Emoji.CombatHide'])
 
-    root:CreateCheckbox('|A:transmog-gearSlot-unassigned-feet:0:0|a'..(WoWTools_L.NPE_MOVE), function()
+    sub=root:CreateCheckbox('|A:transmog-gearSlot-unassigned-feet:0:0|a'..(WoWTools_L.NPE_MOVE), function()
         return not Save().notHideMoving
     end, function()
         Save().notHideMoving = not Save().notHideMoving and true or nil
@@ -335,6 +339,7 @@ local function Init_Menu(self, root)
             Frame:settings()
         end
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Emoji.MovingHide'])
 
 
     root:CreateDivider()
@@ -372,6 +377,7 @@ local function Init_Menu(self, root)
 
 --数量
     sub2=sub:CreateButton(WoWTools_L.AUCTION_HOUSE_QUANTITY_LABEL, function() return MenuResponse.Open end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Emoji.PerLine'])
     for index= 1, self.numAllFile, 1 do
         if select(2, math.modf(self.numAllFile/index))==0 then
             sub2:CreateCheckbox(
@@ -397,14 +403,16 @@ local function Init_Menu(self, root)
     sub2=sub:CreateButton((WoWTools_L.CHAT_CHANNELS)..' '..self.numFilter, function()
         return MenuResponse.Refresh
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Emoji.Channels'])
 
     for index, channel in pairs(Channels) do
-        sub2:CreateCheckbox('|cff626262'..index..'|r '..(WoWTools_TextMixin:CN(_G[channel]) or channel), function(data)
+        local sub3= sub2:CreateCheckbox('|cff626262'..index..'|r '..(WoWTools_TextMixin:CN(_G[channel]) or channel), function(data)
             return not Save().Channels[data]
         end, function(data)
             Save().Channels[data]= not Save().Channels[data] and true or nil
             self:set_filter_event()
         end, channel)
+        WoWTools_MenuMixin:SetDescription(sub3, WoWTools_L['Tip.Emoji.Channel'])
     end
 
 --背景

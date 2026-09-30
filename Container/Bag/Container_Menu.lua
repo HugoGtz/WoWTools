@@ -127,6 +127,7 @@ local function Init_Columns_Menu(self, root2)
     end, {rightText= Get_Columns(self)})
 
     root:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Bag.Columns'])
         GameTooltip_AddInstructionLine(tooltip, WoWTools_L.REQUIRES_RELOAD)
         GameTooltip_AddErrorLine(tooltip, WoWTools_L['Errors may occur'])
     end)
@@ -192,7 +193,7 @@ if Save().enabledCombinedColumns then
 
 --列表
         for _, num in pairs({5, 10, 15, 20, 25, 30, 35 ,40}) do
-            sub:CreateRadio(
+            sub2=sub:CreateRadio(
                 num,
             function(data)
                 return data.value== Get_Columns(data.frame)
@@ -202,6 +203,7 @@ if Save().enabledCombinedColumns then
                 Update_Frame(data.frame)
                 return MenuResponse.Refresh
             end, {frame=frame, name=name, value=num})
+            WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Bag.ColumnsValue'])
         end
 
         sub:CreateSpacer()
@@ -234,7 +236,7 @@ if Save().enabledCombinedColumns then
 
 
     sub:CreateSpacer()
-    sub:CreateButton(
+    sub2=sub:CreateButton(
         WoWTools_L.RESET_ALL_BUTTON_TEXT,
     function()
         for _, frame in pairs(frames) do
@@ -243,6 +245,7 @@ if Save().enabledCombinedColumns then
         end
         return MenuResponse.Refresh
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Bag.ColumnsReset'])
 
 
     root:CreateDivider()
@@ -271,6 +274,7 @@ end
     end)
 
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Bag.DeleteButton'])
         GameTooltip_AddErrorLine(tooltip, WoWTools_L.REQUIRES_RELOAD)
     end)
 --重载
@@ -323,6 +327,7 @@ local function Init()
                 end
             end, {bagID=bagID})
             sub:SetTooltip(function(tooltip)
+                WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Bag.AssignAll'])
                 tooltip:AddLine(WoWTools_L['Assign To'])
                 tooltip:AddDoubleLine(WoWTools_BagMixin.addName, WoWTools_DataMixin.addName)
             end)
@@ -344,6 +349,7 @@ local function Init()
                 return MenuResponse.Close
             end, {bagID=bagID})
             sub:SetTooltip(function(tooltip)
+                WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Bag.AssignNone'])
                 tooltip:AddLine(WoWTools_L['Assign To'])
                 tooltip:AddDoubleLine(WoWTools_BagMixin.addName, WoWTools_DataMixin.addName)
             end)
@@ -383,6 +389,7 @@ local function Init()
             return MenuResponse.Close
         end)
         sub:SetTooltip(function(tooltip)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Bag.ReverseSort'])
             tooltip:AddLine('C_Container'..WoWTools_DataMixin.Icon.icon2..'|cffffffffSetSortBagsRightToLeft')
         end)
 
@@ -397,6 +404,7 @@ local function Init()
             return MenuResponse.Close
         end)
         sub:SetTooltip(function(tooltip)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Bag.ReverseLoot'])
             tooltip:AddLine('C_Container'..WoWTools_DataMixin.Icon.icon2..'|cffffffffSetInsertItemsLeftToRight')
         end)
 
@@ -410,6 +418,7 @@ local function Init()
             return MenuResponse.Close
         end)
         sub:SetTooltip(function(tooltip)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Bag.NoAutosort'])
             tooltip:AddLine('C_Container'..WoWTools_DataMixin.Icon.icon2..'|cffffffffSetBackpackAutosortDisabled')
         end)
 
@@ -424,6 +433,7 @@ local function Init()
             return MenuResponse.Close
         end)
         sub:SetTooltip(function(tooltip)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Bag.NoSellJunk'])
             tooltip:AddLine('C_Container'..WoWTools_DataMixin.Icon.icon2..'|cffffffffSetBackpackSellJunkDisabled')
         end)
 

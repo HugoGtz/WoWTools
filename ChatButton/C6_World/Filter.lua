@@ -72,6 +72,7 @@ local function Init_Filter_Menu(self, root)
     WoWTools_MenuMixin:SetRightText(sub)
 
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.World.SpamFilter'])
         tooltip:AddLine('CHAT_MSG_CHANNEL')
         tooltip:AddLine(self:Get_myChatFilter_Text())
         tooltip:AddLine(' ')
@@ -96,6 +97,7 @@ local function Init_Filter_Menu(self, root)
     WoWTools_MenuMixin:SetRightText(sub2)
 
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.World.SpamLength'])
         tooltip:AddLine(self:Get_myChatFilter_Text())
     end)
 
@@ -112,6 +114,7 @@ local function Init_Filter_Menu(self, root)
         return MenuResponse.Refresh
     end, {rightText=filterPlayer})
     WoWTools_MenuMixin:SetRightText(sub2)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.World.SpamPlayers'])
 
 --全部清除
     sub3=sub2:CreateButton(
@@ -190,7 +193,7 @@ local function Init_Filter_Menu(self, root)
 
 
 --自动添加
-    sub:CreateCheckbox((WoWTools_L['SELF_CAST_AUTO+ADD']), function()
+    sub2=sub:CreateCheckbox((WoWTools_L['SELF_CAST_AUTO+ADD']), function()
         return Save().myChatFilterAutoAdd
     end, function()
         Save().myChatFilterAutoAdd= not Save().myChatFilterAutoAdd and true or nil
@@ -199,6 +202,7 @@ local function Init_Filter_Menu(self, root)
         end
         return MenuResponse.CloseAll
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.World.SpamAutoAdd'])
 
 
 
@@ -213,6 +217,7 @@ local function Init_Filter_Menu(self, root)
         Set_Add_All_Player_Filter()
     end, {rightText=filterNum})
     WoWTools_MenuMixin:SetRightText(sub2)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.World.SpamAddAll'])
 
 
 --全部清除, 临时屏蔽
@@ -250,6 +255,7 @@ local function Init_Filter_Menu(self, root)
             return MenuResponse.Refresh
         end, {data=tab, text=text, name=playerName2})
         sub2:SetTooltip(function(tooltip, description)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.World.SpamEntry'])
             for guid in pairs(description.data.data.guid or {}) do
                 tooltip:AddDoubleLine(WoWTools_UnitMixin:GetPlayerInfo(nil, guid, nil, {reName=true, reRealm=true}), ' ')
             end
@@ -356,6 +362,7 @@ local function Init_User_Filter_Menu(_, root)
     WoWTools_MenuMixin:SetRightText(sub)
 
     sub:SetTooltip(function(tooltip, desc)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.World.UserFilter'])
         tooltip:AddDoubleLine(
             WoWTools_L.TOTAL,
             WoWTools_DataMixin:MK(desc.data.all, 3)
@@ -365,11 +372,12 @@ local function Init_User_Filter_Menu(_, root)
 
 
 
-    sub:CreateButton(
+    sub2=sub:CreateButton(
         WoWTools_L.ADD,
     function()
         StaticPopup_Show('WoWToolsChatWolrdAddPlayerNameChatFilter')
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.World.UserAdd'])
 
 
 
@@ -405,6 +413,7 @@ local function Init_User_Filter_Menu(_, root)
             end, {name=name, tab=tab})
 
             sub2:SetTooltip(function(tooltip)
+                WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.World.UserEntry'])
                 tooltip:AddLine(WoWTools_L.REMOVE)
             end)
         end

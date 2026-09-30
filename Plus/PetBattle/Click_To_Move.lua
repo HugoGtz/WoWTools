@@ -108,6 +108,7 @@ local function Init_ClickToMove_Menu(self, root)
             return MenuResponse.Refresh
         end, {value=tab[1]})
         sub:SetTooltip(function(tooltip, desc)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L[desc.data.value=='1' and 'Tip.PetBattle.LockClickMoveOn' or 'Tip.PetBattle.LockClickMoveOff'])
             tooltip:AddDoubleLine('CVar autoInteract', desc.data.value)
             tooltip:AddLine(' ')
             tooltip:AddLine(CVarNameTabs['autoInteract'])
@@ -127,6 +128,7 @@ local function Init_ClickToMove_Menu(self, root)
         return MenuResponse.Refresh
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.PetBattle.AutoClickMoveLevel'])
         local maxLevel= GetMaxLevelForLatestExpansion()
         tooltip:AddDoubleLine(
             (WoWTools_L.LEVEL)
@@ -215,7 +217,7 @@ local function Init_CVar_Menu(self, root, name, col)
 
 
 
-        sub:CreateCheckbox(
+        local lockSub= sub:CreateCheckbox(
             '|A:AdventureMapIcon-Lock:0:0|a'
             ..col
             ..(WoWTools_L.LOCK),
@@ -228,6 +230,7 @@ local function Init_CVar_Menu(self, root, name, col)
             Lock_CVar(self, data.name)
             return MenuResponse.Refresh
         end, {value=value, name=name})
+        WoWTools_MenuMixin:SetDescription(lockSub, WoWTools_L['Tip.PetBattle.LockCamera'])
 
 
     end
@@ -293,6 +296,7 @@ local function Init_Menu(self, root)
 
 
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.PetBattle.ClickToMove'])
         if Get_Lock_ClickToMove_Value() then
             GameTooltip_AddErrorLine(tooltip,
                 '|A:AdventureMapIcon-Lock:0:0|a'
@@ -363,6 +367,7 @@ local function Init_Menu(self, root)
         self:Settings()
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.PetBattle.ClickMoveUIParent'])
         tooltip:AddLine('SetParent(\"UIParent\")')
     end)
 

@@ -101,7 +101,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     --添加控制面板
     WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_WorldMapMixin.addName,
-        tooltip=  WoWTools_L.REQUIRES_RELOAD,
+        tooltip=  WoWTools_L['Tip.WorldMap.Enable']..'|n|n'..WoWTools_L.REQUIRES_RELOAD,
         GetValue= function() return not Save().disabled end,
         func= function()
             Save().disabled= not Save().disabled and true or nil

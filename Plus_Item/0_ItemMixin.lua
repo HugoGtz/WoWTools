@@ -42,14 +42,15 @@ function WoWTools_ItemMixin:SetOptions(frame, root, tab)
     end, {rightText= self:SaveSize()[name] or size})
     WoWTools_MenuMixin:SetRightText(sub)
 
-    if not tab.call or tips then
-        sub:SetTooltip(function(tooltip)
+    sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Item.FrameInfo'])
+        if not tab.call or tips then
             tooltip:AddLine(
                 tips
                 or (WoWTools_L['NEED+REFRESH'])
             )
-        end)
-    end
+        end
+    end)
 
 --属性，字体，缩放
     sub:CreateSpacer()

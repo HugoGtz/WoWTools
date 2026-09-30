@@ -24,6 +24,7 @@ local function Init_Menu(self, root)
        self:set_enable()
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Gossip.QuestEnable'])
         tooltip:AddLine('Alt+'..(WoWTools_L['BOOSTED_CHAR_SPELL_TEMPLOCK+DISABLE']))
     end)
 
@@ -36,6 +37,7 @@ local function Init_Menu(self, root)
         WoWTools_MapMixin:Get_Minimap_Tracking(MINIMAP_TRACKING_TRIVIAL_QUESTS, true)
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Gossip.QuestTrivial'])
         tooltip:AddLine('|A:UI-HUD-Minimap-Tracking-Mouseover:0:0|a'..(WoWTools_L.TRACKING))
     end)
 
@@ -52,6 +54,7 @@ local function Init_Menu(self, root)
         Save().autoSelectReward= not Save().autoSelectReward and true or nil
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Gossip.QuestReward'])
         tooltip:AddLine(WoWTools_L['Highest quality'])
         tooltip:AddLine(WoWTools_L.GARRISON_MISSION_RARE)
         tooltip:AddLine('|cff0000ff'..(WoWTools_L.GARRISON_MISSION_RARE)..'|r')
@@ -90,6 +93,7 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Gossip.QuestCustom'])
         tooltip:AddLine(WoWTools_L['Auto select'])
     end)
 
@@ -132,6 +136,7 @@ local function Init_Menu(self, root)
         self:set_PushableQuest()--共享,任务
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Gossip.QuestShare'])
         tooltip:AddLine(
             WoWTools_L['Only in a party']
         )
@@ -148,6 +153,7 @@ local function Init_Menu(self, root)
         self:set_Event()--设置事件
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Gossip.QuestNum'])
         tooltip:AddLine(
             WoWTools_L['SHOW+ALL']
         )
@@ -176,6 +182,7 @@ local function Init_Menu(self, root)
         end
     end)
     sub:SetTooltip(function (tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Gossip.AutoQuestWatch'])
         tooltip:AddLine('CVar|cffffffff autoQuestWatch')
     end)
     sub:SetEnabled(not InCombatLockdown())

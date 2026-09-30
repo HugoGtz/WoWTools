@@ -494,6 +494,7 @@ local function Init_Menu(_, root)
         Set_StopMove()
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Gossip.SkipMovie'])
         tooltip:AddLine('PLAY_MOVIE')
         GameTooltip_AddHighlightLine(tooltip,
             WoWTools_L['ANIMA_DIVERSION_NODE_SELECTED+EVENTTRACE_BUTTON_PLAY']
@@ -514,6 +515,7 @@ local function Init_Menu(_, root)
         end
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Gossip.Subtitles'])
         tooltip:AddLine("CVar: movieSubtitle")
     end)
     sub2:SetEnabled(not InCombatLockdown())
@@ -528,16 +530,18 @@ local function Init_Menu(_, root)
         Set_StopMove()
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Gossip.SkipCinematic'])
         tooltip:AddLine('CINEMATIC_START')
     end)
 --仅限在副本里
-    sub:CreateCheckbox(
+    local tipSub= sub:CreateCheckbox(
         WoWTools_L['Only in instances'],
     function()
         return Save().stopCinematicsInInstance
     end, function()
         Save().stopCinematicsInInstance= not Save().stopCinematicsInInstance and true or false
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Gossip.CinematicInstance'])
 
 
     local _tab={}
@@ -545,6 +549,7 @@ local function Init_Menu(_, root)
     sub=root:CreateButton('WoW', function()
         return MenuResponse.Open
     end, {rightText=#MovieList})
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gossip.MovieList'])
     WoWTools_MenuMixin:SetRightText(sub)
 
     for _, movieEntry in pairs(MovieList) do--MOVIE_LIST or 
@@ -579,6 +584,7 @@ local function Init_Menu(_, root)
     sub=root:CreateButton('WoW2', function()
         return MenuResponse.Open
     end, {rightText=#List})
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gossip.MovieList'])
     WoWTools_MenuMixin:SetRightText(sub)
     
     for _, movieID in pairs(List) do
@@ -635,6 +641,7 @@ local function Init_Menu(_, root)
             WoWToolsPlusPlayerDate.GossipMovie={}
         end})
     end, {rightText=_num})
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gossip.MovieClear'])
     WoWTools_MenuMixin:SetRightText(sub)
 
     WoWTools_MenuMixin:SetScrollMode(root)

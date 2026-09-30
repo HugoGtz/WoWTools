@@ -217,7 +217,10 @@ local function Init()
 						return MenuResponse.Open
 					end, col)
 					sub:AddInitializer(add_icon)
-					sub:SetTooltip(set_tooltip)
+					sub:SetTooltip(function(tooltip, desc)
+						WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Color.SlotChoose'])
+						set_tooltip(tooltip, desc)
+					end)
 --默认
 					sub= root:CreateButton(
 						WoWTools_L.DEFAULT,
@@ -226,7 +229,10 @@ local function Init()
 						return MenuResponse.Open
 					end, self.Color)
 					sub:AddInitializer(add_icon)
-					sub:SetTooltip(set_tooltip)
+					sub:SetTooltip(function(tooltip, desc)
+						WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Color.SlotDefault'])
+						set_tooltip(tooltip, desc)
+					end)
 					root:CreateDivider()
 
 				end)

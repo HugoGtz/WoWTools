@@ -155,6 +155,7 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetRightText(sub)
 
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Merchant.BuybackAll'])
         for index=1, GetNumBuybackItems() do
             tooltip:AddDoubleLine(WoWTools_ItemMixin:GetName(nil, GetBuybackItemLink(index)), index)
         end
@@ -173,6 +174,7 @@ local function Init_Menu(self, root)
             end, {itemID=itemID})
 
             sub:SetTooltip(function(tooltip)
+                WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Merchant.BuybackItem'])
                 tooltip:AddLine(WoWTools_L['ADD+BUYBACK'])
             end)
         end

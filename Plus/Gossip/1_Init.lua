@@ -150,7 +150,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         WoWTools_L.RESET_POSITION
                     )
                  end,
-                 tooltip= WoWTools_L.REQUIRES_RELOAD,
+                 tooltip= WoWTools_L['Tip.Gossip.Module']..'|n|n'..WoWTools_L.REQUIRES_RELOAD,
                  layout= nil,
                  category= nil,
              })

@@ -671,7 +671,7 @@ local function Init_Button_Menu(self, root)
 
     root:CreateDivider()
 --显示
-    root:CreateCheckbox(
+    sub=root:CreateCheckbox(
         WoWTools_DataMixin.Icon.left..(WoWTools_L.SHOW),
     function()
         return self.frame:IsShown()
@@ -679,11 +679,12 @@ local function Init_Button_Menu(self, root)
         Save().AbilityButton['hide'..self.name]= not Save().AbilityButton['hide'..self.name] and true or nil
         self:Settings()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.PetBattle.AbilityShow'])
 
 
 
 --显示名称
-    root:CreateCheckbox(
+    sub=root:CreateCheckbox(
         '|A:WildBattlePetCapturable:0:0|a'..(WoWTools_L.PROFESSIONS_FLYOUT_SHOW_NAME),
     function(data)
         return Save().AbilityButton['showName_'..self.name]
@@ -691,9 +692,10 @@ local function Init_Button_Menu(self, root)
         Save().AbilityButton['showName_'..self.name]= not Save().AbilityButton['showName_'..self.name] and true or nil
         self:set_name_shown()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.PetBattle.AbilityName'])
 
 --3D
-    root:CreateCheckbox(
+    sub=root:CreateCheckbox(
         '|A:WildBattlePetCapturable:0:0|a'..(WoWTools_L['Show 3D']),
     function(data)
         return Save().AbilityButton['petmodelShow_'..self.name]
@@ -701,6 +703,7 @@ local function Init_Button_Menu(self, root)
         Save().AbilityButton['petmodelShow_'..self.name]= not Save().AbilityButton['petmodelShow_'..self.name] and true or nil
         self.PetModel:Settings()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.PetBattle.Ability3D'])
 
 --显示背景
     WoWTools_MenuMixin:BgAplha(root,

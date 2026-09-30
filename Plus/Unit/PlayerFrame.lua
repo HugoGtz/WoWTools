@@ -289,7 +289,7 @@ end]]
         if self:IsMouseOver() then
             WoWTools_MenuMixin:Set_Specialization(root)
             root:CreateDivider()
-            root:CreateCheckbox(
+            local tipSub= root:CreateCheckbox(
                 WoWTools_L.BATTLEFIELD_MINIMAP_SHOW_ALWAYS,
             function()
                 return Save().showLootButton
@@ -297,6 +297,7 @@ end]]
                 Save().showLootButton= not Save().showLootButton and true or nil
                 self:settings()
             end)
+            WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Unit.LootButtonAlways'])
         end
     end)
 

@@ -798,6 +798,7 @@ local function Init_Menu(self, root)--菜单
         self:set_shown()
         self:set_texture()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.MiniMap.TrackShowText'])
 
 
 
@@ -812,26 +813,28 @@ local function Init_Menu(self, root)--菜单
     end)
 
 --小地图
-    sub:CreateCheckbox(
+    local tipSub= sub:CreateCheckbox(
         (WoWTools_L.HUD_EDIT_MODE_MINIMAP_LABEL),
     function()
         return not Save().hideVigentteCurrentOnMinimap
     end, function()
         Save().hideVigentteCurrentOnMinimap= not Save().hideVigentteCurrentOnMinimap and true or nil
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.MiniMap.VignetteMinimap'])
 
 
 --世界地图
-    sub:CreateCheckbox(
+    local tipSub= sub:CreateCheckbox(
         (WoWTools_L.WORLDMAP_BUTTON),
     function()
         return not Save().hideVigentteCurrentOnWorldMap
     end, function()
         Save().hideVigentteCurrentOnWorldMap= not Save().hideVigentteCurrentOnWorldMap and true or nil
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.MiniMap.VignetteWorldMap'])
 
 --播放声音
-    sub:CreateCheckbox(
+    local tipSub= sub:CreateCheckbox(
         '|A:chatframe-button-icon-voicechat:0:0|a'
         ..(Save().hideVigentteCurrentOnWorldMap and '|cff626262' or '')
         ..(WoWTools_L['EVENTTRACE_BUTTON_PLAY+SOUND']),
@@ -847,6 +850,7 @@ local function Init_Menu(self, root)--菜单
             end
         end
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.MiniMap.VignetteSound'])
 
 --世界任务
     local num=0
@@ -860,6 +864,7 @@ local function Init_Menu(self, root)--菜单
     function()
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.MiniMap.TrackQuests'])
 
     for questID in pairs(Save().questIDs) do
         sub2=sub:CreateCheckbox(
@@ -897,6 +902,7 @@ local function Init_Menu(self, root)--菜单
     function()
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.MiniMap.TrackAreaPoi'])
 
     for areaPoiID, uiMapID in pairs(Save().areaPoiIDs) do
         local poiInfo = C_AreaPoiInfo.GetAreaPOIInfo(uiMapID, areaPoiID) or {}
@@ -929,6 +935,7 @@ local function Init_Menu(self, root)--菜单
     function()
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.MiniMap.TrackMaps'])
 
     for uiMapID in pairs(Save().uiMapIDs) do
         sub2=sub:CreateCheckbox(
@@ -958,7 +965,7 @@ local function Init_Menu(self, root)--菜单
     root:CreateDivider()
     sub= WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_MinimapMixin.addName})
 
-    sub:CreateCheckbox(
+    local tipSub= sub:CreateCheckbox(
         WoWTools_L.COMBAT_TEXT_SCROLL_DOWN,
     function()
         return Save().textToDown
@@ -973,6 +980,7 @@ local function Init_Menu(self, root)--菜单
             end
         end
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.MiniMap.TrackTextDown'])
 
 --缩放
     WoWTools_MenuMixin:Scale(self, sub, function()

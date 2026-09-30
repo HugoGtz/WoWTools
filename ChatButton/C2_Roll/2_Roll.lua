@@ -184,6 +184,7 @@ local function Init_Menu(self, root)
         return MenuResponse.Close
     end, {rightText=#RollTab})
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Roll.Clear'])
         tooltip:AddLine(WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2)
     end)
     WoWTools_MenuMixin:SetRightText(sub)
@@ -197,6 +198,7 @@ local function Init_Menu(self, root)
         Save().is1000= not Save().is1000 and true or nil
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Roll.Roll1000'])
         tooltip:AddLine('1-1000')
         tooltip:AddLine('1-100')
     end)
@@ -222,9 +224,10 @@ local function Init_Menu(self, root)
         return MenuResponse.CloseAll
     end, {rightText= #Save().save})
     WoWTools_MenuMixin:SetRightText(sub2)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Roll.ClearLog'])
 
 --不保存
-    sub2:CreateCheckbox(
+    sub2= sub2:CreateCheckbox(
         (WoWTools_L.SAVE)
         .. ' 40 '
         ..(WoWTools_L['AUCTION_HOUSE_QUANTITY_LABEL~3']),
@@ -234,6 +237,7 @@ local function Init_Menu(self, root)
         Save().saveLog= not Save().saveLog and true or nil
         panel:set_event()
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Roll.SaveLog'])
 
     sub:CreateDivider()
     for index, tab in pairs(Save().save) do

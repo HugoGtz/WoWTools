@@ -102,11 +102,12 @@ local function Init_Menu(self, root)
 		return MenuResponse.Open
 	end)
 	sub:SetTooltip(function(tooltip)
+		WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.CopyChat.Copy'])
 		tooltip:AddLine(name..' #|cffffffff'..num)
 	end)
 
 --选项
-	sub:CreateCheckbox(
+	sub2=sub:CreateCheckbox(
 		WoWTools_L.SHOW_QUICK_BUTTON,
 	function()
 		return Save().isShowButton
@@ -114,6 +115,7 @@ local function Init_Menu(self, root)
 		Save().isShowButton= not Save().isShowButton and true or false
 		Init_AllButton()
 	end)
+	WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.CopyChat.ShowButton'])
 
 --聊天记录
 	sub:CreateDivider()
@@ -132,6 +134,7 @@ local function Init_Menu(self, root)
 		Print_Text(C_ChatInfo.IsLoggingChat(), true)
 	end)
 	sub2:SetTooltip(function(tooltip)
+		WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.CopyChat.ChatLog'])
 		tooltip:AddLine(WoWTools_L.CHATLOGENABLED)
 	end)
 
@@ -151,6 +154,7 @@ local function Init_Menu(self, root)
 		Print_Text(C_ChatInfo.IsLoggingCombat(), false)
 	end)
 	sub2:SetTooltip(function(tooltip)
+		WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.CopyChat.CombatLog'])
 		tooltip:AddLine(WoWTools_L.COMBATLOGENABLED)
 	end)
 
@@ -387,7 +391,7 @@ frame:SetScript('OnEvent', function(self, event, arg1)
 		end,
 		layout= WoWTools_ChatMixin.Layout,
 		category= WoWTools_ChatMixin.Category,
-		tooltip= WoWTools_L.REQUIRES_RELOAD
+		tooltip= WoWTools_L['Tip.CopyChat.Enable']..'|n|n'..WoWTools_L.REQUIRES_RELOAD
 	})
 
 	if not Save().disabled then

@@ -54,7 +54,7 @@ local function Init_Menu(self, root)
     end
     local sub
 
-    root:CreateCheckbox(
+    sub=root:CreateCheckbox(
         WoWTools_L['Model: show name'],
     function()
         return not Save().hideTransmogModelName
@@ -62,6 +62,7 @@ local function Init_Menu(self, root)
         Save().hideTransmogModelName= not Save().hideTransmogModelName and true or nil
         WoWTools_CollectionMixin:Refresh_TransmogItems()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Collection.ModelName'])
 
 
     root:CreateDivider()

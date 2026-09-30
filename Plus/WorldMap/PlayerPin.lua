@@ -407,6 +407,7 @@ local function Init_Menu(self, root)
         WoWTools_WorldMapMixin:PlayerPin_ShowUI()
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.WorldMap.PinEditUI'])
     WoWTools_MenuMixin:SetRightText(sub)
 
 --FrameStrata
@@ -450,6 +451,7 @@ local function Init_Menu(self, root)
         self:set_point()
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.WorldMap.PinButtonParent'])
         tooltip:AddLine('SetParent: |cnHIGHLIGHT_FONT_COLOR:WorldFrame / Minimap')
     end)
 

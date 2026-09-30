@@ -31,6 +31,7 @@ local function Init_Menu(self, root)
         Save().disabledBuyPlus= not Save().disabledBuyPlus and true or nil
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.AuctionHouse.BuyPlus'])
         tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 
@@ -42,6 +43,7 @@ local function Init_Menu(self, root)
         Save().disabledSellPlus= not Save().disabledSellPlus and true or nil
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.AuctionHouse.SellPlus'])
         tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 
@@ -53,6 +55,7 @@ local function Init_Menu(self, root)
         Save().disabledAuctionsPlus= not Save().disabledAuctionsPlus and true or nil
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.AuctionHouse.AuctionsPlus'])
         tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 
@@ -137,7 +140,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         WoWTools_AuctionHouseMixin:Init_AccountStore()
                     end
                 end,
-                tooltip=WoWTools_L.RELOADUI,
+                tooltip=WoWTools_L['Tip.AuctionHouse.Enable']..'|n|n'..WoWTools_L.RELOADUI,
             })
 
             if Save().disabled then

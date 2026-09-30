@@ -30,6 +30,7 @@ local function Init_Menu(self, root)
         Save().hideIns = not Save().hideIns and true or nil
         WoWTools_ChallengeMixin:ChallengesUI_Info()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Challenge.DungeonInfo'])
 
 --gsub
     sub:CreateSpacer()
@@ -91,6 +92,7 @@ local function Init_Menu(self, root)
         WoWTools_ChallengeMixin:ChallengesUI_Porta()
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Challenge.Portals'])
         GameTooltip_AddErrorLine(tooltip, WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
         if WoWTools_DataMixin.onlyChinese then
             GameTooltip_AddErrorLine(tooltip,'不能打开: '..MicroButtonTooltipText('队伍查找器', "TOGGLEGROUPFINDER"))
@@ -172,6 +174,7 @@ local function Init_Menu(self, root)
         WoWTools_ChallengeMixin:ChallengesUI_Activities()
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Challenge.Vault'])
         WoWTools_ChallengeMixin:ActivitiesTooltip(tooltip)--周奖励，提示
     end)
 
@@ -187,7 +190,7 @@ local function Init_Menu(self, root)
     sub:CreateDivider()
 
 --PvP信息
-    sub:CreateCheckbox(
+    local tipSub= sub:CreateCheckbox(
         'PvP '
         ..(WoWTools_L.INFO),
     function()
@@ -196,6 +199,7 @@ local function Init_Menu(self, root)
         Save().activitiesHidePvP= not Save().activitiesHidePvP and true or nil
         WoWTools_ChallengeMixin:ChallengesUI_Activities()
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Challenge.VaultPvP'])
 
 
 --X
@@ -274,7 +278,8 @@ local function Init_Menu(self, root)
         Save().hideGuild= not Save().hideGuild and true or nil
         WoWTools_ChallengeMixin:ChallengesUI_Guild()
     end)
-    sub2:SetTooltip(function(tooltip)
+    sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Challenge.Guild'])
         if not isInGuild then
             tooltip:AddLine(WoWTools_L.ERR_GUILD_PLAYER_NOT_IN_GUILD)
         end
@@ -371,6 +376,7 @@ local function Init_Menu(self, root)
         WoWTools_ChallengeMixin:ChallengesUI_Affix()
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Challenge.Affix'])
         local season= C_MythicPlus.GetCurrentSeason() or 0
         tooltip:AddLine(
             format(WoWTools_L.MYTHIC_PLUS_SEASON_DESC3, season..'')
@@ -496,6 +502,7 @@ sub:CreateTitle(name)
         Save().hideRight= not Save().hideRight and true or nil
         WoWTools_ChallengeMixin:ChallengesUI_Right()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Challenge.RightInfo'])
 
 --X
     sub:CreateSpacer()

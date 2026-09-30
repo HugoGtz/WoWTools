@@ -45,6 +45,7 @@ local function Init_Menu(self, root)
         Save().hidePets= not Save().hidePets and true or nil
         Refresh_Pet()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Collection.Pets'])
 
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
@@ -86,6 +87,7 @@ local function Init_Menu(self, root)
             HeirloomsJournal:FullRefreshIfVisible()
         end
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Collection.Heirlooms'])
     sub:SetEnabled(not PlayerIsTimerunning())
 
 
@@ -102,6 +104,7 @@ local function Init_Menu(self, root)
         WoWTools_CollectionMixin:Init_Wardrober_Items()--幻化 5
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Collection.WardrobeItems'])
         tooltip:AddLine(WoWTools_L['NEED+REFRESH'])
     end)
 
@@ -115,6 +118,7 @@ local function Init_Menu(self, root)
         WoWTools_CollectionMixin:Init_Wardrober_Sets()--幻化,套装 5
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Collection.WardrobeSets'])
         tooltip:AddLine(WoWTools_L['NEED+REFRESH'])
     end)
 
@@ -127,6 +131,7 @@ local function Init_Menu(self, root)
         Save().hideHeirloomClassList= not Save().hideHeirloomClassList and true or nil
         WoWTools_CollectionMixin:Init_ClassList()--职业列表
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Collection.ClassList'])
 
 --缩放
     WoWTools_MenuMixin:Scale(self, sub,
@@ -197,7 +202,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         WoWTools_L.REQUIRES_RELOAD
                     )]]
                 end,
-                tooltip=WoWTools_L.REQUIRES_RELOAD
+                tooltip=WoWTools_L['Tip.Collection.Enable']..'|n|n'..WoWTools_L.REQUIRES_RELOAD
             })
 
             if Save().disabled then

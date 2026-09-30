@@ -24,7 +24,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         --添加控制面板
         WoWTools_PanelMixin:OnlyCheck({
             name= WoWTools_ProfessionMixin.addName,
-            tooltip= WoWTools_ProfessionMixin.addName,
+            tooltip= WoWTools_L['Tip.Professions.Enable']..'|n|n'..WoWTools_ProfessionMixin.addName,
             GetValue= function() return not Save().disabled end,
             SetValue= function()
                 Save().disabled= not Save().disabled and true or nil

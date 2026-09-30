@@ -42,6 +42,7 @@ local function Init_Menu(self, root, data)
     end, data.chatTarget)
 
     sub:SetTooltip(function(tooltip, description)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.World.UnitAddFilter'])
         tooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_WorldMixin.addName)
         tooltip:AddDoubleLine()
         tooltip:AddDoubleLine(WoWTools_L['CUSTOM+IGNORE'], WoWTools_TextMixin:GetEnabeleDisable(Save().userChatFilter))

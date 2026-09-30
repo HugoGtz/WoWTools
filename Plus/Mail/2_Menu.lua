@@ -14,7 +14,7 @@ local function Init_Menu(self, root)
     local sub
 
     root:CreateTitle(WoWTools_L.INBOX)
-    root:CreateCheckbox(
+    local tipSub= root:CreateCheckbox(
         (WoWTools_L.INBOX)..' Plus',
     function()
         return not Save().hide
@@ -22,6 +22,7 @@ local function Init_Menu(self, root)
         Save().hide= not Save().hide and true or nil
         WoWTools_MailMixin:Init_InBox()--收信箱，物品，提示
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Mail.InBoxPlus'])
 
 
     root:CreateTitle(WoWTools_L.SENDMAIL)
@@ -34,6 +35,7 @@ local function Init_Menu(self, root)
         Save().hideSendNameList= not Save().hideSendNameList and true or nil
         WoWTools_MailMixin:Init_Send_Name_List()--收件人，列表
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Mail.NameList'])
 
 
     sub=root:CreateCheckbox(
@@ -44,6 +46,7 @@ local function Init_Menu(self, root)
         Save().hideHistoryList= not Save().hideHistoryList and true or nil
         WoWTools_MailMixin:Init_Send_History_Name()--收件人，历史记录
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Mail.History'])
 
 
     sub=root:CreateCheckbox(
@@ -54,6 +57,7 @@ local function Init_Menu(self, root)
         Save().hideItemButtonList= not Save().hideItemButtonList and true or nil
         WoWTools_MailMixin:Init_Fast_Button()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Mail.FastButtons'])
 
     sub=root:CreateCheckbox(
         WoWTools_L['Auto switch to Send Mail'],
@@ -63,6 +67,7 @@ local function Init_Menu(self, root)
         Save().notAutoToSendFrame= not Save().notAutoToSendFrame and true or nil
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Mail.AutoSend'])
         tooltip:AddLine(WoWTools_L['TAXI_PATH_UNREACHABLE+MAIL_LABEL'])
     end)
 

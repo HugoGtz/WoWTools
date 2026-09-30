@@ -284,6 +284,7 @@ local function Init_ProgressBar()
                 self:set_event()
             end)
             sub:SetTooltip(function(tooltip)
+                WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Professions.AutoDigBar'])
                 tooltip:AddLine('PLAYER_STOPPED_MOVING')
             end)
 

@@ -178,6 +178,7 @@ function WoWTools_KeyMixin:SetMenu(frame, root, tab)
     sub:SetEnabled(not WoWTools_FrameMixin:IsLocked(frame))
 
     sub:SetTooltip(function(tooltip, desc)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Key.SetKey'])
         tooltip:AddDoubleLine(WoWTools_L.SETTINGS, desc.data.name)
         tooltip:AddDoubleLine(
             WoWTools_L.SETTINGS_KEYBINDINGS_LABEL,

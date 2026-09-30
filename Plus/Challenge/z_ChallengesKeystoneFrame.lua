@@ -459,6 +459,7 @@ local function Init_Menu(self, root)
         Save().hideKeyUI= not Save().hideKeyUI and true or nil
         WoWTools_ChallengeMixin:ChallengesKeystoneFrame()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Challenge.KeystonePlus'])
 
 --缩放
     WoWTools_MenuMixin:Scale(self, sub, function()
@@ -476,7 +477,7 @@ local function Init_Menu(self, root)
     )
 
 --插入史诗钥石
-    root:CreateCheckbox(
+    local tipSub= root:CreateCheckbox(
         WoWTools_L.CHALLENGE_MODE_INSERT_KEYSTONE,
     function()
         return Save().slotKeystoneSay
@@ -484,6 +485,7 @@ local function Init_Menu(self, root)
         Save().slotKeystoneSay= not Save().slotKeystoneSay and true or nil
         WoWTools_ChallengeMixin:ChallengesKeystoneFrame()
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Challenge.SlotSay'])
 
 --[[挑战开始
     sub= root:CreateCheckbox(
@@ -507,6 +509,7 @@ local function Init_Menu(self, root)
         WoWTools_ChallengeMixin:Say_ChallengeComplete()
     end)
     sub:SetTooltip(function(tootip)
+        WoWTools_MenuMixin:AddDescription(tootip, WoWTools_L['Tip.Challenge.EndSay'])
         tootip:AddLine('CHALLENGE_MODE_COMPLETED')
         tootip:AddLine(' ')
         tootip:AddLine( WoWTools_L['SHOW_QUICK_BUTTON~2'] )

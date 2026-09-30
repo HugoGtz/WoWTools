@@ -21,12 +21,13 @@ local function Init_Fvorite_Menu(self, root)
         self:setup()
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Encounter.Favorite'])
         tooltip:AddLine(WoWTools_DataMixin.addName)
         tooltip:AddLine(WoWTools_EncounterMixin.addName)
     end)
 
     root:CreateDivider()
-    root:CreateButton(
+    local tipSub= root:CreateButton(
         WoWTools_L.CLEAR_ALL,
     function()
         StaticPopup_Show('WoWTools_OK',
@@ -38,6 +39,7 @@ local function Init_Fvorite_Menu(self, root)
         end})
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Encounter.FavoriteClear'])
 
     root:CreateDivider()
     WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_EncounterMixin.addName})

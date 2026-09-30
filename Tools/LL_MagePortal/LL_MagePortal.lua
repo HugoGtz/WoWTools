@@ -143,7 +143,7 @@ local function Init_Options(category, layout)
     local initializer=WoWTools_PanelMixin:OnlyCheck({
         category= category,
         name= '|cff3fc6ea'..(WoWTools_L.ENABLE)..'|r',
-        tooltip= addName,
+        tooltip= WoWTools_L['Tip.MagePortal.Enable']..'|n|n'..(addName or ''),
         GetValue= function() return not Save().disabled end,
         SetValue= function()
             Save().disabled= not Save().disabled and true or nil
@@ -153,7 +153,7 @@ local function Init_Options(category, layout)
     WoWTools_PanelMixin:OnlyCheck({
         category= category,
         name= '|cff3fc6ea'..(WoWTools_L['Position: left'])..'|r',
-        tooltip= addName,
+        tooltip= WoWTools_L['Tip.MagePortal.Left']..'|n|n'..(addName or ''),
         GetValue= function() return Save().isLeft end,
         SetValue= function()
             Save().isLeft= not Save().isLeft and true or false
@@ -165,7 +165,7 @@ local function Init_Options(category, layout)
     WoWTools_PanelMixin:OnlyCheck({
         category= category,
         name= '|cff3fc6ea'..(WoWTools_L.PROFESSIONS_FLYOUT_SHOW_NAME)..'|r',
-        tooltip= addName,
+        tooltip= WoWTools_L['Tip.MagePortal.ShowText']..'|n|n'..(addName or ''),
         GetValue= function() return Save().showText end,
         SetValue= function()
             Save().showText= not Save().showText and true or false

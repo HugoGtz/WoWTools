@@ -118,7 +118,8 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         self:RegisterEvent("PLAYER_LOGOUT")
                         Init()
                     end
-                end
+                end,
+                tooltip= WoWTools_L['Tip.Merchant.Module'],
             })
 
             if not Save().disabled then

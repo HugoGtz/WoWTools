@@ -322,7 +322,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         end,
         tooltip=function()
             local mapInfo= C_Map.GetMapInfo(2200)--2200 es un uiMapID, no un itemID
-            return mapInfo and mapInfo.name and WoWTools_TextMixin:CN(mapInfo.name) or addName
+            return WoWTools_L['Tip.DormantSeeds.Option']..'|n|n'..(mapInfo and mapInfo.name and WoWTools_TextMixin:CN(mapInfo.name) or addName)
         end,
         layout= WoWTools_OtherMixin.Layout,
         category= WoWTools_OtherMixin.Category,

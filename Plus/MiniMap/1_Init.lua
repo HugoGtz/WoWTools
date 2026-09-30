@@ -109,6 +109,7 @@ local function Init()
             end
         end)
         sub:SetTooltip(function(tooltip)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.MiniMap.Townsfolk'])
             tooltip:AddLine(WoWTools_MinimapMixin.addName..WoWTools_DataMixin.Icon.icon2)
             tooltip:AddLine([[SetCVar("minimapTrackingShowAll", "1")]])
         end)
@@ -188,7 +189,8 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         WoWTools_MinimapMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         WoWTools_L.RESET_POSITION
                     )
-                end
+                end,
+                tooltip= WoWTools_L['Tip.MiniMap.Module'],
             })
 
             if Save().disabled then

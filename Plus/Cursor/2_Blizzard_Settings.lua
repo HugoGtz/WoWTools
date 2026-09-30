@@ -3,6 +3,17 @@ local function Save()
     return WoWToolsPlusSave['Plus_Cursor']
 end
 
+--Descripción (tooltip) para las casillas propias del panel
+local function Set_Description(check, text)
+    check:HookScript('OnEnter', function(self)
+        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+        GameTooltip:ClearLines()
+        GameTooltip_AddNormalLine(GameTooltip, text, true)
+        GameTooltip:Show()
+    end)
+    check:HookScript('OnLeave', GameTooltip_Hide)
+end
+
 local function Set_Color()--颜色
     if Save().notUseColor then
         WoWTools_CursorMixin.Color= CreateColor(1,1,1,1)
@@ -199,6 +210,7 @@ local function Init_Cursor_Options(panel)
             end, {index=index, icon=icon, texture=texture, isAtlas=isAtlas})
 
             sub:SetTooltip(function(tooltip, desc)
+                WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Cursor.CursorTexture'])
                 tooltip:AddLine(desc.data.icon)
                 tooltip:AddLine(desc.data.texture)
                 tooltip:AddLine(WoWTools_L.COMBAT_ALLY_START_MISSION)
@@ -358,6 +370,7 @@ local function Init_GCD_Options(panel)
         WoWTools_CursorMixin:GCD_Settings(true)
     end)
     checkReverse:SetPoint("TOPLEFT", sliderY, 'BOTTOMLEFT', 0, -20)
+    Set_Description(checkReverse, WoWTools_L['Tip.Cursor.GCDReverse'])
 
     local checkDrawBling=CreateFrame('CheckButton', nil, panel, "InterfaceOptionsCheckButtonTemplate")
     checkDrawBling:SetChecked(Save().gcdReverse)
@@ -367,6 +380,7 @@ local function Init_GCD_Options(panel)
         WoWTools_CursorMixin:GCD_Settings(true)
     end)
     checkDrawBling:SetPoint("LEFT", checkReverse.text, 'RIGHT', 2, 00)
+    Set_Description(checkDrawBling, WoWTools_L['Tip.Cursor.GCDDrawBling'])
 
     local dropDown = CreateFrame("DropdownButton", nil, panel, "WowStyle1DropdownTemplate")--下拉，菜单
     local delColorButton= WoWTools_ButtonMixin:Cbtn(panel, {size=20})--删除, 按钮
@@ -412,6 +426,7 @@ local function Init_GCD_Options(panel)
                 WoWTools_CursorMixin:GCD_Settings(true)
             end, {index=index, icon=icon, texture=texture, isAtlas=isAtlas})
             sub:SetTooltip(function(tooltip, description)
+                WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Cursor.GCDTexture'])
                 tooltip:AddLine(select(3, WoWTools_TextureMixin:IsAtlas(description.data.texture, 64)))
                 tooltip:AddLine(description.data.texture)
                 tooltip:AddLine(WoWTools_L.COMBAT_ALLY_START_MISSION)
@@ -541,6 +556,7 @@ local function Init_Options(panel)
         WoWTools_CursorMixin:Cursor_Settings()
         WoWTools_CursorMixin:GCD_Settings(true)
     end)
+    Set_Description(useClassColorCheck, WoWTools_L['Tip.Cursor.ClassColor'])
 
     --自定义,颜色
     colorText:SetPoint('LEFT', useClassColorCheck.text, 'RIGHT', 4,0)
@@ -605,6 +621,7 @@ local function Init_Options(panel)
         WoWTools_CursorMixin:Cursor_Settings()
         WoWTools_CursorMixin:GCD_Settings(true)
     end)
+    Set_Description(notUseColorCheck, WoWTools_L['Tip.Cursor.NoColor'])
 
     --随机, 图片
     panel.randomTextureCheck= CreateFrame('CheckButton', nil, panel, "InterfaceOptionsCheckButtonTemplate")
@@ -622,6 +639,8 @@ local function Init_Options(panel)
     panel.randomTextureCheck:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
         GameTooltip:ClearLines()
+        WoWTools_MenuMixin:AddDescription(GameTooltip, WoWTools_L['Tip.Cursor.RandomTexture'])
+        GameTooltip:AddLine(' ')
         GameTooltip:AddLine(WoWTools_L.EVENTS_LABEL)
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine('Cursor', (WoWTools_L['In combat: move']))
@@ -687,6 +706,7 @@ local function Init(panel)
         WoWTools_CursorMixin:Cursor_Settings(true)
         WoWTools_CursorMixin:Set_Options(panel)
     end)
+    Set_Description(panel.cursorCheck, WoWTools_L['Tip.Cursor.EnableCursor'])
 
 --GCD, 启用/禁用
     panel.gcdCheck=CreateFrame('CheckButton', nil, panel, "InterfaceOptionsCheckButtonTemplate")
@@ -698,6 +718,7 @@ local function Init(panel)
         WoWTools_CursorMixin:GCD_Settings(true)
         WoWTools_CursorMixin:Set_Options(panel)
     end)
+    Set_Description(panel.gcdCheck, WoWTools_L['Tip.Cursor.EnableGCD'])
 
 
 

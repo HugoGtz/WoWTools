@@ -125,8 +125,9 @@ local function Say_Menu(_, root)
 
     local isFind= WoWTools_BagMixin:Ceca(nil, {isKeystone=true})
 
-    local function Set_Say_Menu_Tooltip(f)
+    local function Set_Say_Menu_Tooltip(f, desc)
         f:SetTooltip(function(tooltip)
+            WoWTools_MenuMixin:AddDescription(tooltip, desc)
             tooltip:AddLine(WoWToolsPlusPlayerDate.EndKeystoneSayText or ('|cff828282'..(WoWTools_L.NONE)))
         end)
     end
@@ -138,7 +139,7 @@ local function Say_Menu(_, root)
         Settings(true, nil)
         return MenuResponse.Open
     end)
-    Set_Say_Menu_Tooltip(sub)
+    Set_Say_Menu_Tooltip(sub, WoWTools_L['Tip.Challenge.Say'])
 
 --修改
     sub2=sub:CreateButton(
@@ -147,7 +148,7 @@ local function Say_Menu(_, root)
         Edit_Say_Text()
         return MenuResponse.Open
     end)
-    Set_Say_Menu_Tooltip(sub2)
+    Set_Say_Menu_Tooltip(sub2, WoWTools_L['Tip.Challenge.SayEdit'])
 
 
     local isRaid= IsInRaid()
@@ -167,7 +168,7 @@ local function Say_Menu(_, root)
         Settings(true, 'WHISPER')
         return MenuResponse.Open
     end)
-    Set_Say_Menu_Tooltip(sub)
+    Set_Say_Menu_Tooltip(sub, WoWTools_L['Tip.Challenge.SayTarget'])
 
     --小队
     sub=root:CreateButton(
@@ -177,7 +178,7 @@ local function Say_Menu(_, root)
         Settings(true, 'PARTY')
         return MenuResponse.Open
     end)
-    Set_Say_Menu_Tooltip(sub)
+    Set_Say_Menu_Tooltip(sub, WoWTools_L['Tip.Challenge.SayParty'])
 
     --团队
     sub=root:CreateButton(
@@ -187,7 +188,7 @@ local function Say_Menu(_, root)
         Settings(true, 'RAID')
         return MenuResponse.Open
     end)
-    Set_Say_Menu_Tooltip(sub)
+    Set_Say_Menu_Tooltip(sub, WoWTools_L['Tip.Challenge.SayRaid'])
 
     --公会
     sub=root:CreateButton(
@@ -197,10 +198,10 @@ local function Say_Menu(_, root)
         Settings(true, 'GUILD')
         return MenuResponse.Open
     end)
-    Set_Say_Menu_Tooltip(sub)
+    Set_Say_Menu_Tooltip(sub, WoWTools_L['Tip.Challenge.SayGuild'])
 
 --发送信息
-    root:CreateButton(
+    local tipSub= root:CreateButton(
         (isFind and '' or '|cff828282')
         ..(WoWTools_L.SEND_MESSAGE),
     function()
@@ -210,9 +211,10 @@ local function Say_Menu(_, root)
         end
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Challenge.SendKey'])
 
 --发送信息
-    root:CreateButton(
+    local tipSub= root:CreateButton(
         (isFind and '' or '|cff828282')
         ..(WoWTools_L.COMMUNITIES_INVITE_MANAGER_LINK_TO_CHAT),
     function()
@@ -222,6 +224,7 @@ local function Say_Menu(_, root)
         end
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Challenge.LinkKey'])
 
 --史诗钥石评分
     sub=root:CreateButton(
@@ -232,6 +235,7 @@ local function Say_Menu(_, root)
         return MenuResponse.Open
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Challenge.SendScore'])
         WoWTools_SetTooltipMixin:Setup(tooltip, {dungeonScore=true})
     end)
     
@@ -268,13 +272,14 @@ local function Init_Menu(self, root)
     )
 
 --总是显示
-    sub:CreateCheckbox(
+    local tipSub= sub:CreateCheckbox(
         WoWTools_L.BATTLEFIELD_MINIMAP_SHOW_ALWAYS,
     function()
         return Save().allShowEndKeystoneSay
     end, function()
         Save().allShowEndKeystoneSay= not Save().allShowEndKeystoneSay and true or nil
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Challenge.AlwaysShow'])
 
 --缩放
     WoWTools_MenuMixin:Scale(self, sub, function()

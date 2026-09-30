@@ -229,6 +229,7 @@ local function ResizeButton2_Menu(self, root)
     function()
         return MenuResponse.Open
     end, {rightText= math.modf(Save().numWidth or 153)})
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Merchant.ButtonWidth'])
     WoWTools_MenuMixin:SetRightText(sub)
 
     sub:CreateSpacer()
@@ -263,6 +264,7 @@ local function ResizeButton2_Menu(self, root)
     function()
         return MenuResponse.Open
     end, {rightText=(Save().numLine or 5)..'+'..(MERCHANT_ITEMS_PER_PAGE/(Save().numLine or 5)) })
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Merchant.ItemsLayout'])
     sub:SetEnabled(MerchantFrame.selectedTab==1)
     WoWTools_MenuMixin:SetRightText(sub)
 
@@ -341,6 +343,7 @@ local function ResizeButton2_Menu(self, root)
         Save().notItemInfo= not Save().notItemInfo and true or nil
         WoWTools_MerchantMixin:Update_MerchantFrame()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Merchant.ItemInfo'])
 
 --属性，字体，缩放
     sub:CreateSpacer()
@@ -370,6 +373,7 @@ local function ResizeButton2_Menu(self, root)
         return MenuResponse.Open
     end, {rightText=Save().notIsUsableAlpha or 1})
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Merchant.UnusableAlpha'])
         tooltip:AddLine(WoWTools_L.HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY)
         tooltip:AddLine(" ")
         GameTooltip_AddErrorLine(tooltip, WoWTools_L.MOUNT_JOURNAL_FILTER_UNUSABLE)

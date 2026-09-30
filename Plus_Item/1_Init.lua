@@ -34,7 +34,7 @@ local function Init_Panel()
     local function Add_Options(name)
         WoWTools_PanelMixin:OnlyCheck({
             name= HIGHLIGHT_FONT_COLOR:WrapTextInColorCode(index..') ')..name:gsub('Blizzard_', ''),
-            tooltip= tooltip,
+            tooltip= WoWTools_L['Tip.Item.FrameModule']..'|n|n'..tooltip,
             category= WoWTools_ItemMixin.Category,
             Value= not Save().No[name],
             GetValue= function() return not Save().No[name] end,
@@ -141,7 +141,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         WoWToolsPlusSave['Plus_ItemInfo']= nil
                     end)
                 end,
-                tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD),
+                tooltip= WoWTools_L['Tip.Item.Enable']..'|n|n'..'|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD),
                 layout= WoWTools_ItemMixin.Layout,
                 category= WoWTools_ItemMixin.Category,
             })

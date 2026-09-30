@@ -53,6 +53,7 @@ local function MenuList_Item(self, root)
 		self:settings()
 	end, {rightText=#itemTab})
 	WoWTools_MenuMixin:SetRightText(sub)
+	WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Currency.TrackItems'])
 
 	for index, info in pairs(itemTab) do
 		sub2=sub:CreateCheckbox(
@@ -85,6 +86,7 @@ local function MenuList_Item(self, root)
 		Save().itemButtonUse= not Save().itemButtonUse and true or nil
 	end)
 	sub2:SetTooltip(function(tooltip)
+		WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Currency.UseItem'])
 		tooltip:AddLine('SecureActionButton')
 		tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
 		GameTooltip_AddErrorLine(tooltip,
@@ -138,6 +140,7 @@ local function Init_CurrencyMenu(self, root)
 		WoWTools_CurrencyMixin:UpdateTokenFrame()
 	end, {rightText=#tab})
 	WoWTools_MenuMixin:SetRightText(sub)
+	WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Currency.OnlySelected'])
 
 	local numTokens = C_CurrencyInfo.GetCurrencyListSize()
 	if numTokens>0 then
@@ -192,7 +195,7 @@ local function Init_CurrencyMenu(self, root)
 
 --添加
 	sub:CreateDivider()
-	sub:CreateButton(
+	sub2=sub:CreateButton(
 		WoWTools_L.ADD,
 	function()
 		StaticPopup_Show('WoWTools_Currency', nil, nil, {
@@ -207,6 +210,7 @@ local function Init_CurrencyMenu(self, root)
 			self:settings()
 		end})
 	end)
+	WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Currency.AddByID'])
 
 
 --全部清除
@@ -248,6 +252,7 @@ local function Init_Menu(self, root)
 		Save().str= not Save().str and true or false
 		self:set_frameshown()
     end)
+	WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Currency.ShowList'])
 
 --自动隐藏
 	sub=root:CreateCheckbox(
@@ -259,6 +264,7 @@ local function Init_Menu(self, root)
 		self:settings()
 	end)
 	sub:SetTooltip(function(tooltip)
+		WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Currency.AutoHide'])
 		tooltip:AddLine(WoWTools_L.HIDE)
 		tooltip:AddLine(' ')
 		tooltip:AddLine(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
@@ -290,7 +296,7 @@ local function Init_Menu(self, root)
 
 
 --显示名称
-    sub:CreateCheckbox(
+    local sub2= sub:CreateCheckbox(
         WoWTools_L.PROFESSIONS_FLYOUT_SHOW_NAME,
     function ()
         return Save().nameShow
@@ -298,9 +304,10 @@ local function Init_Menu(self, root)
         Save().nameShow= not Save().nameShow and true or nil
         self:settings()
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Currency.ShowName'])
 
 --向右平移
-    sub:CreateCheckbox(
+    sub2= sub:CreateCheckbox(
         (WoWTools_L.BINDING_NAME_STRAFERIGHT),
     function ()
         return Save().toRightTrackText
@@ -308,10 +315,11 @@ local function Init_Menu(self, root)
         Save().toRightTrackText = not Save().toRightTrackText and true or false
         self:settings()
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Currency.TextRight'])
 
 
 --上
-    sub:CreateCheckbox(
+    sub2= sub:CreateCheckbox(
         (WoWTools_L.HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_UP)..'|A:bags-greenarrow:0:0|a',
     function ()
         return Save().toTopTrack
@@ -319,6 +327,7 @@ local function Init_Menu(self, root)
         Save().toTopTrack = not Save().toTopTrack and true or nil
 		self:settings()
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Currency.GrowUp'])
 
 --缩放
     WoWTools_MenuMixin:Scale(self, sub, function()

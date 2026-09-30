@@ -205,6 +205,7 @@ local function Init_Menu(self, root)
         WoWTools_MenuMixin:SetRightText(sub)
 
         sub:SetTooltip(function(tooltip, description)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Say.Channel'])
             tooltip:AddLine(description.data.text)
             for i=2, 12 do
                 local str=_G[description.data.type2..i]
@@ -263,6 +264,7 @@ local function Init_Menu(self, root)
         WoWTools_MenuMixin:SetRightText(sub2)
 
         sub2:SetTooltip(function(tooltip)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Say.ClearWhispers'])
             tooltip:AddLine(WoWTools_L['Save up to 120 records'])
         end)
 
@@ -453,6 +455,7 @@ local function Init_Menu(self, root)
         WoWTools_MenuMixin:SetRightText(sub2)
 
         sub2:SetTooltip(function(tooltip, description)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Say.BNetFriend'])
             tooltip:AddLine(description.data.note)
             tooltip:AddLine(WoWTools_TextMixin:CN(description.data.zone))
         end)
@@ -477,6 +480,7 @@ local function Init_Menu(self, root)
         end
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Say.Bubbles'])
         tooltip:AddLine('C_CVar.SetCVar(\"chatBubbles\")')
     end)
 

@@ -100,6 +100,7 @@ local function Init_Menu(self, root)
             sub= root:CreateCheckbox(text, getValue, setValue, tab)
         end
         WoWTools_MenuMixin:SetRightText(sub)
+        WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Mount.AssignType'])
 
 --二级，菜单
         WoWTools_MountMixin:Set_Mount_Sub_Options(sub, tab)
@@ -219,6 +220,7 @@ local function Init_UI_List_Menu(self, root)
 
         end, {mountType=mountType, rightText=WoWTools_MountMixin:Get_Table_Num(mountType)})
         WoWTools_MenuMixin:SetRightText(sub)
+        WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Mount.FilterType'])
     end
 
 

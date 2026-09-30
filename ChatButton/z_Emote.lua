@@ -267,6 +267,7 @@ local function Init_Button_Menu(self, root)
         )
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Emote.Rename'])
         Set_Tooltip(tooltip, value, valueName, self.isChat, self.isCommand, self.useType)
     end)
 
@@ -313,6 +314,7 @@ local function Init_Button_Menu(self, root)
         )
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Emote.AddText'])
         tooltip:AddLine(SaveUse('use')[value] and SaveUse('use')[value].add, nil, nil, nil, true)
     end)
     sub:SetEnabled(self.isChat or self.isCommand)
@@ -643,8 +645,11 @@ local function Init_UseFrame()
             end, {type=type})
             if type=='command' then
                 sub:SetTooltip(function(tooltip)
+                    WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Emote.TypeCommand'])
                     GameTooltip_AddErrorLine(tooltip, 'SecureActionButtonTemplate')
                 end)
+            else
+                WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Emote.TypeChat'])
             end
         end
     end)
@@ -768,6 +773,7 @@ local function Set_Menu(root, tab, tabName, rootName)
             Init_Button()
         end)
         sub:SetTooltip(function(tooltip)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Emote.Secure'])
             tooltip:AddLine('SecureActionButtonTemplate')
             GameTooltip_AddErrorLine(tooltip, WoWTools_L['Note: errors may occur'])
         end)
@@ -775,7 +781,7 @@ local function Set_Menu(root, tab, tabName, rootName)
 
 
     --勾选所有
-    root:CreateButton(
+    sub=root:CreateButton(
         (WoWTools_L.EVENTTRACE_BUTTON_ENABLE_FILTERS)
         ..' #'..#tab,
     function()
@@ -787,9 +793,10 @@ local function Set_Menu(root, tab, tabName, rootName)
         Init_Button()
         return MenuResponse.Refresh
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Emote.SelectAll'])
 
 --撤选所有
-    root:CreateButton(
+    sub=root:CreateButton(
         WoWTools_L.EVENTTRACE_BUTTON_DISABLE_FILTERS,
      function()
         for _, value in pairs(tab) do
@@ -801,6 +808,7 @@ local function Set_Menu(root, tab, tabName, rootName)
         Init_Button()
         return MenuResponse.Refresh
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Emote.SelectNone'])
     root:CreateDivider()
 
 
@@ -822,6 +830,7 @@ local function Set_Menu(root, tab, tabName, rootName)
         end, {value=value, vaName=vaName, index=index})
 
         sub:SetTooltip(function(tooltip, desc)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Emote.Item'])
             if useType then
                 tooltip:AddLine(SaveUse(useType)[desc.data.vaName])
             else
@@ -938,12 +947,13 @@ local function Init_Menu(self, root)
 
 --添加，自定义
     root:CreateDivider()
-    root:CreateButton(
+    sub=root:CreateButton(
         WoWTools_L['ADD+CUSTOM'],
     function()
         Init_UseFrame()
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Emote.AddCustom'])
 --打开选项界面
 
     sub= WoWTools_ChatMixin:Open_SettingsPanel(root, addName)
@@ -952,7 +962,8 @@ local function Init_Menu(self, root)
 
 
 --撤选所有
-    sub:CreateButton(
+    local sub2
+    sub2=sub:CreateButton(
         WoWTools_L.EVENTTRACE_BUTTON_DISABLE_FILTERS,
      function()
         StaticPopup_Show('WoWTools_OK',
@@ -967,11 +978,12 @@ local function Init_Menu(self, root)
         end})
         return MenuResponse.Refresh
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Emote.ClearAll'])
 
 
 --自定义位置
     sub:CreateDivider()
-    sub:CreateCheckbox(
+    sub2=sub:CreateCheckbox(
         'UIParent',
     function()
         return Save().isUIParent
@@ -980,6 +992,7 @@ local function Init_Menu(self, root)
         Init_Button()
         return MenuResponse.CloseAll
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Emote.UIParent'])
 
 --自定义位置
     if Save().isUIParent then
@@ -1116,7 +1129,7 @@ local function Init_Menu(self, root)
         ..(WoWTools_L.RESET),
     Rest_Button)
 
-    sub:CreateButton(
+    sub2=sub:CreateButton(
         '|A:UI-HUD-UnitFrame-Player-Group-FriendOnlineIcon:0:0|a'
         ..(WoWTools_L['Clear input data']),
     function()
@@ -1129,6 +1142,7 @@ local function Init_Menu(self, root)
         end})
         return MenuResponse.Refresh
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Emote.ClearData'])
 
     _tab=nil
 end
@@ -1298,7 +1312,7 @@ MainButton:SetScript('OnEvent', function(self, event, arg1)
                 buttonFunc= Rest_Button,
                 layout= WoWTools_ChatMixin.Layout,
                 category= WoWTools_ChatMixin.Category,
-                tooltip= WoWTools_L['Button'],
+                tooltip= WoWTools_L['Tip.Emote.Enable']..'|n|n'..WoWTools_L['Button'],
             })
 
             if Save().disabled then

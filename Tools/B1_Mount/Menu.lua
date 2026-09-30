@@ -47,11 +47,28 @@ end
 
 
 
+local TypeTips={
+    Ground='Tip.Mount.Ground',
+    Aquatic='Tip.Mount.Aquatic',
+    Flying='Tip.Mount.Flying',
+    Dragonriding='Tip.Mount.Dragonriding',
+    Alt='Tip.Mount.Modifier',
+    Ctrl='Tip.Mount.Modifier',
+    Shift='Tip.Mount.Modifier',
+    Floor='Tip.Mount.Floor',
+    Spell='Tip.Mount.Spell',
+    Item='Tip.Mount.Item',
+}
+
 local function Set_Menu_Tooltip(tooltip, desc)
     local mountType= desc.data.type
     local mountID= desc.data.mountID
     local spellID= desc.data.spellID
     local itemID= desc.data.itemID
+
+    if not desc.data.index and TypeTips[mountType] then
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L[TypeTips[mountType]])
+    end
 
     if mountID then
         local isUsable, useError = C_MountJournal.GetMountUsabilityByID(mountID, true)
@@ -170,6 +187,7 @@ local function Set_Mount_Sub_Options(root, data)--icon,col,mountID,spellID,itemI
         WoWTools_ToolsMixin:Get_ButtonForName('Mount'):settings()
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Mount.InList'])
         tooltip:AddLine(WoWTools_L['Add/Remove'])
     end)
 end
@@ -543,6 +561,7 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Mount.MountShow'])
         tooltip:AddLine(EMOTE171_CMD2)
         tooltip:AddLine(' ')
         tooltip:AddDoubleLine(
@@ -566,6 +585,7 @@ local function Init_Menu(self, root)
         end
     end)
     sub3:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Mount.AFKShow'])
         tooltip:AddLine(SLASH_CHAT_AFK1)
         tooltip:AddLine(WoWTools_L['Note: falling'])
     end)
@@ -578,6 +598,7 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Mount.Special'])
         tooltip:AddDoubleLine(
             WoWTools_L['EMOTE171_CMD2~2'],
             (Save().mountShowTime or 3)..' '..(WoWTools_L.LOSS_OF_CONTROL_SECONDS)

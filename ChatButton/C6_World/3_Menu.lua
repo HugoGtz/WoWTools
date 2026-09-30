@@ -74,6 +74,7 @@ local function Add_Menu(self, root, name, channelNumber)
     --self.Description.EditBox.Instructions:SetText(self.clubType == Enum.ClubType.BattleNet and COMMUNITIES_CREATE_DIALOG_DESCRIPTION_INSTRUCTIONS_BATTLE_NET or COMMUNITIES_CREATE_DIALOG_DESCRIPTION_INSTRUCTIONS);
 
     sub:SetTooltip(function(tooltip, desc)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.World.Channel'])
         local value= self:Check_Channel(desc.data.name)
         local t
         if value==0 then--不存在
@@ -150,6 +151,7 @@ local function Add_Menu(self, root, name, channelNumber)
         self:Set_Join(data.name, nil, nil, true)--加入,移除,屏蔽
         return MenuResponse.Refresh
     end, {name=name})
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.World.IgnoreChannel'])
     sub2:AddInitializer(function(btn, desc)
         btn:SetScript("OnUpdate", function(frame, elapsed)
             frame.elapsed= (frame.elapsed or 0.3) +elapsed
@@ -178,6 +180,7 @@ local function Add_Menu(self, root, name, channelNumber)
         self:Set_Join(data.name, true)
         return MenuResponse.Refresh
     end, {name=name})
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.World.Join'])
     sub2:AddInitializer(function(btn, desc)
         btn:SetScript("OnUpdate", function(frame, elapsed)
             frame.elapsed= (frame.elapsed or 0.3) +elapsed
@@ -201,11 +204,12 @@ local function Add_Menu(self, root, name, channelNumber)
 --世界，修改
      if name== Save().world then
         sub:CreateDivider()
-        sub:CreateButton(
+        sub2=sub:CreateButton(
             WoWTools_L.HUD_EDIT_MODE_RENAME_LAYOUT,
         function()
             StaticPopup_Show('WoWToolsChatButtonWorldChangeNamme')
         end)
+        WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.World.Rename'])
     end
 end
 

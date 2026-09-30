@@ -131,6 +131,7 @@ local function Init_RightTab_Menu(self, root)
         end, {classID=classID})
 
         sub:SetTooltip(function(tooltip, desc)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Bank.DepositType'])
             Set_Tooltip_ItemList(tooltip, itemTab[desc.data.classID].item)
         end)
 
@@ -146,6 +147,7 @@ local function Init_RightTab_Menu(self, root)
             end, {classID=classID, subClassID=subClassID})
 
             sub2:SetTooltip(function(tooltip, desc)
+                WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Bank.DepositType'])
                 Set_Tooltip_ItemList(tooltip, itemTab[desc.data.classID].sub[desc.data.subClassID])
             end)
         end
@@ -153,7 +155,7 @@ local function Init_RightTab_Menu(self, root)
     end
 
     root:CreateDivider()
-    root:CreateButton(
+    sub=root:CreateButton(
         '|cnGREEN_FONT_COLOR:#'..itemNum..'|r '
         ..(WoWTools_L.ALL),
     function()
@@ -166,6 +168,7 @@ local function Init_RightTab_Menu(self, root)
         end
         return MenuResponse.Refresh
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Bank.DepositAllItems'])
 end
 
 local function Init()

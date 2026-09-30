@@ -164,7 +164,10 @@ local function Init_Menu(self, root)
             self:settings(data.itemID)
         end, {itemID=info.itemID})
 
-        WoWTools_SetTooltipMixin:Set_Menu(sub)
+        sub:SetTooltip(function(tooltip, desc)
+            WoWTools_SetTooltipMixin:Setup(tooltip, desc.data)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.MapToy.Toy'])
+        end)
 
 
         for index, tab in pairs(new.data) do
@@ -194,6 +197,7 @@ local function Init_Menu(self, root)
     end)
     sub:SetTooltip(function(tooltip)
         tooltip:SetSpellByID(SpellID)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.MapToy.Spell'])
     end)
 
     local tab=CopyTable(Save().no)
@@ -212,6 +216,7 @@ local function Init_Menu(self, root)
         end, function(data)
             Save().no[data]= not Save().no[data] and true or nil
         end, guid)
+        WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.MapToy.DisableChar'])
     end
 
     sub:CreateDivider()
@@ -229,6 +234,7 @@ local function Init_Menu(self, root)
         Save().maxLevelIsDisabled= not Save().maxLevelIsDisabled and true or false
     end)
     sub2:SetTooltip(function (tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.MapToy.MaxLevel'])
         tooltip:AddLine(
             WoWTools_L['Disable highest level']
         )
@@ -413,6 +419,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                             Save().maxLevelIsDisabled=true
                         end})
                      end,
+                     tooltip= WoWTools_L['Tip.MapToy.Enable'],
                      layout= layout,
                      category= category,
                  })

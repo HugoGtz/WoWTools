@@ -142,7 +142,10 @@ function WoWTools_UseItemsMixin:Init_Menu(root)
                 return MenuResponse.Open
             end, {index=index, type=type, isToy=isToy, spellID=spellID, itemID=itemID, name=name, rightText=index, rightColor=DISABLED_FONT_COLOR})
 --tooltip
-            WoWTools_SetTooltipMixin:Set_Menu(sub2)
+            sub2:SetTooltip(function(tooltip, desc)
+                WoWTools_SetTooltipMixin:Setup(tooltip, desc.data)
+                WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.UseItems.Entry'])
+            end)
             WoWTools_MenuMixin:SetRightText(sub2)
         end
 
@@ -170,6 +173,7 @@ function WoWTools_UseItemsMixin:Init_Menu(root)
                 end}
             )
         end, {type=type, text=text, rightText=#P_Tabs[type], rightColor=HIGHLIGHT_FONT_COLOR})
+        WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.UseItems.ResetList'])
 
         WoWTools_MenuMixin:SetRightText(sub2)
         WoWTools_MenuMixin:SetScrollMode(sub)
@@ -317,7 +321,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 WoWTools_PanelMixin:OnlyCheck({
                 category= category,
                 name= WoWTools_UseItemsMixin.addName,
-                tooltip= WoWTools_UseItemsMixin.addName..'|n'..(WoWTools_L.REQUIRES_RELOAD),
+                tooltip= WoWTools_L['Tip.UseItems.Enable']..'|n|n'..WoWTools_UseItemsMixin.addName..'|n'..(WoWTools_L.REQUIRES_RELOAD),
                 GetValue= function() return not Save().disabled end,
                 SetValue= function()
                     Save().disabled= not Save().disabled and true or nil

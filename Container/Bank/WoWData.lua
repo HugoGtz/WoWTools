@@ -71,6 +71,7 @@ local function Init()
                         self:set_click()
                     end)
                     sub:SetTooltip(function(tooltip)
+                        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Bank.SaveItems'])
                         tooltip:AddLine(WoWTools_L.GUILD_BANK_LOG)
                     end)
 

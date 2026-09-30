@@ -28,7 +28,8 @@ local function Init()
     --添加控制面板
     local root= WoWTools_PanelMixin:OnlyCheck({
         name= addName,
-        tooltip=WoWTools_Join(WoWTools_L.HIDE , WoWTools_L.HUD_EDIT_MODE_TALKING_HEAD_FRAME_LABEL)
+        tooltip=WoWTools_L['Tip.Talking.Hide']..'|n|n'
+                ..WoWTools_Join(WoWTools_L.HIDE , WoWTools_L.HUD_EDIT_MODE_TALKING_HEAD_FRAME_LABEL)
                 ..'|n|n'..(WoWTools_L['SOUND~2'])
                 ..'|nChat Button, '..(WoWTools_L['COMMUNITIES_INVITE_MANAGER_COLUMN_TITLE_LINK+EMBLEM_SYMBOL'])
                 ..'|n'..(WoWTools_L['EVENTS_LABEL+SOUND']),
@@ -44,7 +45,7 @@ local function Init()
     WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_L.LOCALE_TEXT_LABEL,
         GetValue= function() return not Save().notPrint end,
-        tooltip= WoWTools_L['Chat box text'],
+        tooltip= WoWTools_L['Tip.Talking.Print']..'|n|n'..WoWTools_L['Chat box text'],
         SetValue= function()
             Save().notPrint= not Save().notPrint and true or false
         end,

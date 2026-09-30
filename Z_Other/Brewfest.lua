@@ -284,7 +284,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                     print(addName..WoWTools_DataMixin.Icon.icon2, WoWTools_L.RESET_POSITION)
                 end,
                 tooltip=function()
-                    return format(WoWTools_L['Holiday: %s'],
+                    return WoWTools_L['Tip.Brewfest.Option']..'|n|n'..format(WoWTools_L['Holiday: %s'],
                             WoWTools_TextMixin:CN(C_Item.GetItemNameByID(33976), {itemID=33976, isName=true})
                             or ''
                         )

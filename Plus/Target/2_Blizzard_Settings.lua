@@ -71,6 +71,17 @@ local TextureTab={
 
 
 
+--Descripción (tooltip) para las casillas propias del panel
+local function Set_Description(check, text)
+    check:HookScript('OnEnter', function(self)
+        GameTooltip:SetOwner(self, "ANCHOR_LEFT")
+        GameTooltip:ClearLines()
+        GameTooltip_AddNormalLine(GameTooltip, text, true)
+        GameTooltip:Show()
+    end)
+    check:HookScript('OnLeave', GameTooltip_Hide)
+end
+
 local function get_texture_tab()
     for name in pairs(TargetTextureSave() or {}) do
         if TextureTab[name] then
@@ -111,6 +122,7 @@ local function Init_Options()
         WoWTools_TargetMixin:Set_All_Init()
     end)
     sel.Text:SetText('1) |A:common-icon-rotateright:0:0|a'..(WoWTools_L.TARGET))
+    Set_Description(sel, WoWTools_L['Tip.Target.Target'])
     sel.Text:SetTextColor( Save().targetColor.r, Save().targetColor.g, Save().targetColor.b, Save().targetColor.a)
     sel.Text:EnableMouse(true)
     sel.Text:SetScript('OnMouseDown', function(self2, d)
@@ -141,6 +153,8 @@ local function Init_Options()
     sel.Text:SetScript('OnLeave', function(self2) GameTooltip:Hide() self2:SetAlpha(1) end)
     sel.Text:SetScript('OnEnter', function(self2)
         GameTooltip:SetOwner(self2, "ANCHOR_LEFT")
+        WoWTools_MenuMixin:AddDescription(GameTooltip, WoWTools_L['Tip.Target.Target'])
+        GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(WoWTools_L.BINDING_NAME_NAMEPLATES, WoWTools_TextMixin:GetEnabeleDisable(C_CVar.GetCVarBool("nameplateShowEnemies")))
         GameTooltip:AddLine(' ')
         local r,g,b,a= Save().targetColor.r, Save().targetColor.g, Save().targetColor.b, Save().targetColor.a
@@ -166,6 +180,7 @@ local function Init_Options()
     end)
     combatCheck.Text:EnableMouse(true)
     combatCheck.Text:SetText(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
+    Set_Description(combatCheck, WoWTools_L['Tip.Target.InCombat'])
     combatCheck.Text:SetTextColor(Save().targetInCombatColor.r, Save().targetInCombatColor.g, Save().targetInCombatColor.b, Save().targetInCombatColor.a)
     combatCheck.Text:SetScript('OnMouseDown', function(self2, d)
         if d=='LeftButton' then
@@ -196,6 +211,8 @@ local function Init_Options()
     combatCheck.Text:SetScript('OnEnter', function(self2)
         local r,g,b,a= Save().targetInCombatColor.r, Save().targetInCombatColor.g, Save().targetInCombatColor.b, Save().targetInCombatColor.a
         GameTooltip:SetOwner(self2, "ANCHOR_LEFT")
+        WoWTools_MenuMixin:AddDescription(GameTooltip, WoWTools_L['Tip.Target.InCombat'])
+        GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.Icon.left..(WoWTools_L['SETTINGS+COLOR']), (WoWTools_L.DEFAULT)..WoWTools_DataMixin.Icon.right, r,g,b, 1,1,1)
         GameTooltip:AddDoubleLine('r='..r..' g='..g..' b='..b, 'a='..a, r,g,b, r,g,b)
         GameTooltip:Show()
@@ -214,12 +231,13 @@ local function Init_Options()
             return
         end
 
-        for _, name in pairs({
-            'TOP',
-            'HEALTHBAR',
-            'LEFT'
+        for _, tab in pairs({
+            {name='TOP', tip=WoWTools_L['Tip.Target.PointTop']},
+            {name='HEALTHBAR', tip=WoWTools_L['Tip.Target.PointHealthBar']},
+            {name='LEFT', tip=WoWTools_L['Tip.Target.PointLeft']},
         }) do
-            root:CreateCheckbox(
+            local name= tab.name
+            local sub=root:CreateCheckbox(
                 name,
             function(data)
                 return Save().TargetFramePoint==data.name
@@ -228,6 +246,7 @@ local function Init_Options()
                 self:SetDefaultText(data.name)
                 WoWTools_TargetMixin:Set_All_Init()
             end, {name=name})
+            WoWTools_MenuMixin:SetDescription(sub, tab.tip)
         end
     end)
 
@@ -342,6 +361,7 @@ local function Init_Options()
                 end)
 
                 sub:SetTooltip(function(tooltip, desc)
+                    WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Target.Texture'])
                     tooltip:AddLine(desc.data.icon)
                     tooltip:AddLine(desc.data.name)
                 end)
@@ -746,6 +766,7 @@ local function Init_Options()
     --questCheck:SetPoint('TOPLEFT', sel2, 'BOTTOMLEFT',0,-64)
     questCheck:SetPoint('TOPLEFT', menu.edit, 'BOTTOMLEFT', -32, -32)
     questCheck:SetChecked(Save().quest)
+    Set_Description(questCheck, WoWTools_L['Tip.Target.Quest'])
     questCheck:SetScript('OnClick', function()
         Save().quest= not Save().quest and true or false
         WoWTools_TargetMixin:Set_All_Init()
@@ -759,6 +780,7 @@ local function Init_Options()
 
     questAllFactionCheck:SetPoint('LEFT', questCheck.Text, 'RIGHT',2,0)
     questAllFactionCheck:SetChecked(Save().questShowAllFaction)
+    Set_Description(questAllFactionCheck, WoWTools_L['Tip.Target.QuestAllFaction'])
     questAllFactionCheck:SetScript('OnClick', function()
         Save().questShowAllFaction= not Save().questShowAllFaction and true or nil
         WoWTools_TargetMixin:Set_All_Init()
@@ -768,6 +790,7 @@ local function Init_Options()
     classCheck.Text:SetText(WoWTools_L.CLASS)
     classCheck:SetPoint('LEFT', questAllFactionCheck.Text, 'RIGHT',2,0)
     classCheck:SetChecked(Save().questShowPlayerClass)
+    Set_Description(classCheck, WoWTools_L['Tip.Target.QuestClass'])
     classCheck:SetScript('OnClick', function()
         Save().questShowPlayerClass= not Save().questShowPlayerClass and true or false
         WoWTools_TargetMixin:Set_All_Init()

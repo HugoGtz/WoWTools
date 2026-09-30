@@ -166,6 +166,7 @@ local function Init_Menu(_, root)
         end, {icon=icon, spellID=tab.spellID, itemID=tab.itemID})
 
         sub:SetTooltip(function(tooltip, description)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Macro.SelectIcon'])
             tooltip:AddLine((WoWTools_L['SETTINGS+EMBLEM_SYMBOL']))
             if description.data.itemID then
                 tooltip:AddLine(' ')

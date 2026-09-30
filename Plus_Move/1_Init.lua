@@ -55,7 +55,7 @@ local function Init_Panel()
                 Save().point={}
             end)
         end,
-        tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD),
+        tooltip= WoWTools_L['Tip.Move.SavePoint']..'|n|n'..'|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD),
         layout= Layout,
         category= WoWTools_MoveMixin.Category,
     })
@@ -63,7 +63,8 @@ local function Init_Panel()
     WoWTools_PanelMixin:Check_Slider({
         checkName= WoWTools_L['Fade frame when moving'],
         checkGetValue= function() return not Save().notMoveAlpha end,
-        checkTooltip= WoWTools_L['Frame fades when you start moving'],
+        checkTooltip= WoWTools_L['Frame fades when you start moving']..'|n|n'..'|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD),
+        siderTooltip= WoWTools_L['Tip.Move.AlphaValue'],
         checkSetValue= function()
             Save().notMoveAlpha= not Save().notMoveAlpha and true or nil
             print(WoWTools_DataMixin.Icon.icon2..WoWTools_MoveMixin.addName, WoWTools_L.REQUIRES_RELOAD)
@@ -86,7 +87,7 @@ local function Init_Panel()
     local function Add_Options(name)
         WoWTools_PanelMixin:OnlyCheck({
             name= HIGHLIGHT_FONT_COLOR:WrapTextInColorCode(index..') ')..name:gsub('Blizzard_', ''),
-            tooltip= tooltip,
+            tooltip= WoWTools_L['Tip.Move.FrameModule']..'|n|n'..tooltip,
             category= WoWTools_MoveMixin.Category,
             Value= not Save().no[name],
             GetValue= function() return not Save().no[name] end,
@@ -224,7 +225,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         WoWToolsPlusSave['Plus_Move']= nil
                     end)
                 end,
-                tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD),
+                tooltip= WoWTools_L['Tip.Move.Enable']..'|n|n'..'|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD),
                 layout= Layout,
                 category= WoWTools_MoveMixin.Category,
             })

@@ -40,6 +40,7 @@ local function Init_Menu(self, root)
         --return MenuResponse.Close
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Gossip.Enable'])
         tooltip:AddLine('Alt+'..(WoWTools_L.DISABLE))
         tooltip:AddLine(WoWTools_L.BOOSTED_CHAR_SPELL_TEMPLOCK)
     end)
@@ -55,13 +56,14 @@ local function Init_Menu(self, root)
     sub:SetTooltip(function(tooltip)
         tooltip:AddLine(WoWTools_L['When there is only one option, select it automatically.'], nil, nil,nil, true)
     end)
-    sub:CreateCheckbox(
+    local tipSub= sub:CreateCheckbox(
         WoWTools_L['Also in player choices'],
     function()
         return Save().uniqueChoice
     end, function ()
         Save().uniqueChoice= not Save().uniqueChoice and true or nil
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Gossip.UniqueChoice'])
 
 
 --自定义,闲话
@@ -74,6 +76,7 @@ local function Init_Menu(self, root)
     function()
         return MenuResponse.Open
     end, {rightText=num})
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gossip.CustomList'])
     WoWTools_MenuMixin:SetRightText(sub)
 
 --列表，自定义,闲话
@@ -87,6 +90,7 @@ local function Init_Menu(self, root)
             WoWTools_GossipMixin:UpdateGossip()--更新GossipFrame
         end, {gossipOptionID=gossipOptionID, text=text})
         sub2:SetTooltip(function(tooltip, description)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Gossip.CustomItem'])
             tooltip:AddDoubleLine('gossipOptionID', description.data.gossipOptionID)
         end)
     end
@@ -117,6 +121,7 @@ local function Init_Menu(self, root)
         WoWTools_GossipMixin:Init_Gossip_Data()
         WoWTools_GossipMixin:UpdateGossip()--更新GossipFrame
     end, {rightText=num..'/'..num2, rightColor= (num+num2==0) and DISABLED_FONT_COLOR or nil})
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gossip.ReplaceText'])
     WoWTools_MenuMixin:SetRightText(sub)
 
 --对话替换, 打开自定义, Frame
@@ -127,6 +132,7 @@ local function Init_Menu(self, root)
         WoWTools_GossipMixin:Init_Options_Frame(true)
         return MenuResponse.Open
     end, {rightText=num})
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Gossip.ReplaceEdit'])
     WoWTools_MenuMixin:SetRightText(sub)
 
     --重置位置
@@ -148,7 +154,7 @@ local function Init_Menu(self, root)
     num= CountTable(WoWTools_GossipMixin:Get_GossipData() or {})
     
     sub:CreateDivider()
-    sub:CreateCheckbox(
+    local tipSub= sub:CreateCheckbox(
         (WoWTools_L.DEFAULT),--..(num==0 and ' |cff626262' or ' ')..num,
     function()
         return not Save().notGossipPlayerData
@@ -157,6 +163,7 @@ local function Init_Menu(self, root)
         WoWTools_GossipMixin:Init_Gossip_Data()
         WoWTools_GossipMixin:UpdateGossip()--更新GossipFrame
     end, {rightText=num})
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Gossip.ReplaceDefault'])
     WoWTools_MenuMixin:SetRightText(sub)
 
 --禁用NPC, 闲话,任务, 选项
@@ -168,6 +175,7 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end, {rightText=num})
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Gossip.DisableNPC'])
         tooltip:AddLine(WoWTools_L['Gossip/Quests'])
     end)
     WoWTools_MenuMixin:SetRightText(sub)
@@ -184,6 +192,7 @@ local function Init_Menu(self, root)
             Save().NPC[data.npc]= not Save().NPC[data.npc] and data.name or nil
         end, {npc=npcID, name=name})
         sub2:SetTooltip(function(tooltip, description)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Gossip.DisableNPCItem'])
             tooltip:AddDoubleLine('NPC ID', description.data.npc)
         end)
     end
@@ -204,6 +213,7 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end, {rightText=num})
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Gossip.Choice'])
         tooltip:AddLine('PlayerChoiceFrame')
         tooltip:AddLine('Blizzard_PlayerChoice')
     end)

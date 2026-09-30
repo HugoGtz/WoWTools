@@ -16,7 +16,7 @@ local function Init_Menu(self, root)
     end
 
     local sub, sub2, name
-    root:CreateCheckbox(
+    sub=root:CreateCheckbox(
         WoWTools_L.SHOW,
     function()
         return not Save().hideSellItemList
@@ -25,6 +25,7 @@ local function Init_Menu(self, root)
         self:Settings()
         self:Init_Sell_Item_Button()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.AuctionHouse.SellList'])
 
     root:CreateDivider()
 
@@ -35,7 +36,7 @@ local function Init_Menu(self, root)
     end)
 
 --隐藏物品列表，隐藏按钮
-    sub:CreateCheckbox(
+    sub2=sub:CreateCheckbox(
         WoWTools_L.HIDE,
     function()
         return Save().hideSellItemListButton
@@ -43,10 +44,11 @@ local function Init_Menu(self, root)
         Save().hideSellItemListButton= not Save().hideSellItemListButton and true or nil
         self:Init_Sell_Item_Button()
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.AuctionHouse.HideMarked'])
 
 --全部清除
     name= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.CLEAR_ALL)
-    sub:CreateButton(
+    sub2=sub:CreateButton(
         name,
     function(data)
         StaticPopup_Show('WoWTools_OK',
@@ -63,6 +65,7 @@ local function Init_Menu(self, root)
         end})
         return MenuResponse.Open
     end, {name=name})
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.AuctionHouse.ClearHidden'])
 
     sub:CreateDivider()
     local find=false
@@ -118,6 +121,7 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.AuctionHouse.SellQuality'])
         tooltip:AddLine(WoWTools_L.MINIMUM)
         tooltip:AddLine(WoWTools_L.COLORBLIND_ITEM_QUALITY)
     end)
@@ -132,6 +136,7 @@ local function Init_Menu(self, root)
             self:Init_Sell_Item_Button()
         end, {quality=quality})
         sub2:SetTooltip(function(tooltip, desc)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.AuctionHouse.SellQuality'])
             tooltip:AddLine(desc.data.quality)
         end)
     end
@@ -145,6 +150,7 @@ local function Init_Menu(self, root)
         Save().intShowSellItem= not Save().intShowSellItem and true or nil
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.AuctionHouse.GoToSell'])
         tooltip:AddLine(WoWTools_L['SHOW+BUTTON_LAG_AUCTIONHOUSE'])
     end)
 

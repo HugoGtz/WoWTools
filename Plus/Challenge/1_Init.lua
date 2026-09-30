@@ -122,7 +122,8 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
                         WoWTools_L.REQUIRES_RELOAD
                     )
-                end
+                end,
+                tooltip= WoWTools_L['Tip.Challenge.Module']..'|n|n'..WoWTools_L.REQUIRES_RELOAD,
             })
 
             if Save().disabled then

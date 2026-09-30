@@ -199,17 +199,18 @@ local function Init_Menu(self, root)
         tooltip:AddLine(MicroButtonTooltipText(WoWTools_L.COLLECTIONS, "TOGGLECOLLECTIONS"))
     end)
 --abrir el diario al terminar el combate (opcional, desactivado por defecto)
-    sub:CreateCheckbox(
+    sub2=sub:CreateCheckbox(
         WoWTools_L['Open after pet battles'],
     function()
         return Save().TypeButton.openJournalOnClose
     end, function()
         Save().TypeButton.openJournalOnClose= not Save().TypeButton.openJournalOnClose and true or nil
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.PetBattle.OpenJournalAfter'])
 
     root:CreateDivider()
 --显示
-    root:CreateCheckbox(
+    sub2=root:CreateCheckbox(
         WoWTools_DataMixin.Icon.left..(WoWTools_L.SHOW),
     function()
         return self.frame:IsShown()
@@ -217,6 +218,7 @@ local function Init_Menu(self, root)
         Save().TypeButton.hideFrame= not Save().TypeButton.hideFrame and true or nil
         self:set_Frame_shown()
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.PetBattle.TypeShow'])
 
 --打开选项界面
     root:CreateDivider()
@@ -237,6 +239,7 @@ local function Init_Menu(self, root)
         self:set_shown()
     end)
     sub2:SetTooltip(function (tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.PetBattle.TypeAlwaysShow'])
         tooltip:AddLine(WoWTools_PetBattleMixin.addName4)
         tooltip:AddLine(' ')
         tooltip:AddLine(WoWTools_L['Auto show:'])

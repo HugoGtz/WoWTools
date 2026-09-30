@@ -25,7 +25,7 @@ local function Init_Menu(self, root)
     local sub, sub2, sub3
 
 --备注
-    root:CreateButton(
+    sub=root:CreateButton(
         '|A:dressingroom-button-appearancelist-up:0:0|a'..(WoWTools_L.LABEL_NOTE),
     function()
         if NoteEditBox:IsVisible() then
@@ -43,6 +43,7 @@ local function Init_Menu(self, root)
         )
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Macro.Note'])
 
 --布局
     root:CreateDivider()
@@ -53,11 +54,11 @@ local function Init_Menu(self, root)
     end)
 
 local PointTab={
-    {value=1, text=WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_LEFT},
-    {value=2, text=WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_RIGHT},
-    {value=3, text=WoWTools_L.DEFAULT},
+    {value=1, text=WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_LEFT, tip=WoWTools_L['Tip.Macro.LayoutLeft']},
+    {value=2, text=WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_RIGHT, tip=WoWTools_L['Tip.Macro.LayoutRight']},
+    {value=3, text=WoWTools_L.DEFAULT, tip=WoWTools_L['Tip.Macro.LayoutDefault']},
     '-',
-    {value=4, text=WoWTools_L['Left|Right']}
+    {value=4, text=WoWTools_L['Left|Right'], tip=WoWTools_L['Tip.Macro.LayoutSplit']}
 }
 
     for _, info in pairs (PointTab) do
@@ -76,9 +77,10 @@ local PointTab={
                     WoWTools_MacroMixin:Init_Set_BG()
                 end
                 return MenuResponse.Refresh
-            end, {value=info.value})
+            end, {value=info.value, tip=info.tip})
 
             sub2:SetTooltip(function(tooltip, desc)
+                WoWTools_MenuMixin:AddDescription(tooltip, desc.data.tip)
                 tooltip:AddLine(desc.data.value)
             end)
         end
@@ -95,6 +97,7 @@ local PointTab={
         WoWTools_MacroMixin:Init_AddNew_Button()--创建，空，按钮
         TargetButton:settings()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Macro.ButtonPlus'])
 
 --缩放
     WoWTools_MenuMixin:Scale(self, sub,
@@ -172,6 +175,7 @@ local PointTab={
     end, {rightText=num})
     WoWTools_MenuMixin:SetRightText(sub3)
     sub3:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Macro.DeleteGeneral'])
         tooltip:AddLine(delete)
     end)
 
@@ -212,6 +216,7 @@ local PointTab={
     end, {rightText=num2})
     WoWTools_MenuMixin:SetRightText(sub3)
     sub3:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Macro.DeleteCharacter'])
         tooltip:AddLine(delete)
     end)
 

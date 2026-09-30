@@ -188,6 +188,7 @@ local function Init_Sub_Menu(_, root, stat, index, name)
         WoWTools_MenuMixin:SetRightText(sub)
 
         sub:SetTooltip(function(tooltip, description)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.PaperDoll.StatHideAt'])
             tooltip:AddLine(
                 (WoWTools_L.DEFAULT)
                 ..': '
@@ -245,6 +246,7 @@ local function Init_Sub_Menu(_, root, stat, index, name)
         end, {stat=stat, index=index, value=i, roles=stats.roles, p_roles=p_stats.roles})
 
         sub:SetTooltip(function(tooltip, description)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.PaperDoll.StatRole'])
             local find
             if description.data.p_roles then
                 for _, roleIndex in pairs(description.data.p_roles) do
@@ -281,6 +283,7 @@ local function Init_Sub_Menu(_, root, stat, index, name)
         end, {stat=stat, index=index, value=primary})
 
         sub:SetTooltip(function(tooltip, description)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.PaperDoll.StatPrimary'])
             local tab= Find_Stats(description.data.stat, description.data.index, true)
             tooltip:AddLine(
                 (WoWTools_L.DEFAULT)
@@ -362,6 +365,7 @@ local function Init_Menu(self, root)
                 end
                 Data_Save()
             end, {stat=stat, index=index, tab=tab, rightText=stats.hideAt, rightColor=GREEN_FONT_COLOR})
+            WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.PaperDoll.StatItem'])
 
             WoWTools_MenuMixin:SetRightText(sub)
 
@@ -377,7 +381,7 @@ local function Init_Menu(self, root)
 
 --全部清除
     local clearName= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.CLEAR_ALL)
-    sub:CreateButton(
+    local tipSub= sub:CreateButton(
         clearName,
     function()
         StaticPopup_Show('WoWTools_OK',
@@ -389,12 +393,13 @@ local function Init_Menu(self, root)
         end})
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.PaperDoll.StatClear'])
 
 --还原
     local restName= (Save().PAPERDOLL_STATCATEGORIES and '' or '|cff626262')
         ..'|A:uitools-icon-refresh:0:0|a'
         ..(WoWTools_L.TRANSMOGRIFY_TOOLTIP_REVERT)
-    sub:CreateButton(
+    local tipSub= sub:CreateButton(
         restName,
     function()
         StaticPopup_Show('WoWTools_OK',
@@ -407,6 +412,7 @@ local function Init_Menu(self, root)
         end})
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.PaperDoll.StatRevert'])
 end
 
 

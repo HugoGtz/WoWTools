@@ -68,7 +68,7 @@ local function Init_Menu(self, root)
         return
     end
 
-    root:CreateCheckbox(
+    local tipSub= root:CreateCheckbox(
         WoWTools_L.ENABLE,
     function()
         return not Save().hide
@@ -76,6 +76,7 @@ local function Init_Menu(self, root)
         Save().hide= not Save().hide and true or nil
         Settings()
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.PaperDoll.Slots'])
 
     root:CreateDivider()
     WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_PaperDollMixin.addName})

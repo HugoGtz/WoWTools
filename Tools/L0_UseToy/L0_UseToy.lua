@@ -103,7 +103,10 @@ local function Set_Alt_Menu(root, itemID)
             end,
             {type=info.type, itemID=info.itemID, itemID2=itemID}
         )
-        WoWTools_SetTooltipMixin:Set_Menu(sub)
+        sub:SetTooltip(function(tooltip, desc)
+            WoWTools_SetTooltipMixin:Setup(tooltip, desc.data)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.UseToy.ModToy'])
+        end)
     end
 end
 
@@ -263,7 +266,10 @@ local function Init_Menu_Toy(_, root)
                 end
             end
         end, {itemID=itemID, name=toyName, has=has, rightText=index, rightColor=DISABLED_FONT_COLOR})
-        sub:SetTooltip(Set_Menu_Tooltip)
+        sub:SetTooltip(function(tooltip, desc)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.UseToy.SelectToy'])
+            Set_Menu_Tooltip(tooltip, desc)
+        end)
         WoWTools_MenuMixin:SetRightText(sub)
 
         sub2=sub:CreateCheckbox(
@@ -278,7 +284,10 @@ local function Init_Menu_Toy(_, root)
                 ToyButton:Init_Random(Save().lockedToy)
             end
         end, {itemID=itemID, name=toyName, has=has})
-        sub2:SetTooltip(Set_Menu_Tooltip)
+        sub2:SetTooltip(function(tooltip, desc)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.UseToy.LockToy'])
+            Set_Menu_Tooltip(tooltip, desc)
+        end)
 
 --设置
         sub2=sub:CreateButton(
@@ -384,6 +393,7 @@ local function Init_Menu(self, root)
         end})
         return MenuResponse.Open
     end, {name=name})
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.UseToy.RevertList'])
 
 --设置
     sub:CreateDivider()

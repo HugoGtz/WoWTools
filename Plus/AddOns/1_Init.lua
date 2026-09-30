@@ -120,6 +120,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     --添加控制面板
     WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_AddOnsMixin.addName,
+        tooltip= WoWTools_L['Tip.AddOns.Enable']..'|n|n'..WoWTools_L['REQUIRES_RELOAD~2'],
         Value= not Save().disabled,
         GetValue=function () return not Save().disabled end,
         SetValue= function()

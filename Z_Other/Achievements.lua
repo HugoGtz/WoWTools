@@ -774,7 +774,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                     )
                 end
             end,
-            --tooltip=,
+            tooltip= WoWTools_L['Tip.Achievement.Option']..'|n|n'..WoWTools_L.REQUIRES_RELOAD,
             layout= WoWTools_OtherMixin.Layout,
             category= WoWTools_OtherMixin.Category,
         })

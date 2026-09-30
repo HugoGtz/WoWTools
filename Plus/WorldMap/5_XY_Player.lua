@@ -20,6 +20,7 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.WorldMap.SharePos'])
         tooltip:AddLine(WoWTools_L.CLUB_FINDER_LINK_POST_IN_CHAT)
 
         local mapID= C_Map.GetBestMapForUnit("player")
@@ -37,6 +38,7 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.WorldMap.CopyPos'])
         tooltip:AddLine(self.Text:GetText())
     end)
 
@@ -97,7 +99,7 @@ local function Init_Menu(self, root)
     })
     sub:CreateSpacer()
 
-    sub:CreateCheckbox(
+    local tipSub= sub:CreateCheckbox(
         WoWTools_L['HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_RIGHT~2'],
     function()
         return not Save().toLeft
@@ -105,6 +107,7 @@ local function Init_Menu(self, root)
         Save().toLeft= not Save().toLeft and true or nil
         self:Settings()
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.WorldMap.PlayerXYRight'])
 
 --FrameStrata
     WoWTools_MenuMixin:FrameStrata(self, sub, function(data)
@@ -133,7 +136,7 @@ local function Init_Menu(self, root)
 
 --重置数据
     sub:CreateDivider()
-    sub:CreateButton(
+    local tipSub= sub:CreateButton(
         (WoWTools_L.DAMAGE_METER_RESET_ALL_SESSIONS),
     function()
         WoWToolsPlusSave['Plus_WorldMap'].PlayerXY={--实时玩家当前坐标
@@ -142,6 +145,7 @@ local function Init_Menu(self, root)
         self:Settings()
         return MenuResponse.Refresh
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.WorldMap.PlayerXYReset'])
 end
 
 

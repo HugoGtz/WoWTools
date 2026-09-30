@@ -127,7 +127,10 @@ local function Init_Menu(self, root)
             Save().aura[data.spellID]= not Save().aura[data.spellID] and true or false
             Set_Aura()
         end, {spellID=spellID})
-        WoWTools_SetTooltipMixin:Set_Menu(sub)
+        sub:SetTooltip(function(tooltip, desc)
+            WoWTools_SetTooltipMixin:Setup(tooltip, desc.data)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Noggenfogger.CancelAura'])
+        end)
     end
 
     root:CreateDivider()

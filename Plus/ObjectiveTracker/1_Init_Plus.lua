@@ -316,7 +316,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     --添加控制面板
     WoWTools_PanelMixin:OnlyCheck({
         name=WoWTools_ObjectiveMixin.addName,
-        tooltip='|cnWARNING_FONT_COLOR:Bug',
+        tooltip=WoWTools_L['Tip.Objective.Module']..'|n|n'..'|cnWARNING_FONT_COLOR:Bug',
         GetValue= function() return not Save().disabled end,
         SetValue= function()
             Save().disabled= not Save().disabled and true or nil

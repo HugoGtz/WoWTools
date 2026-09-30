@@ -1284,6 +1284,7 @@ function WoWTools_TextureMixin.Events:Blizzard_BuffFrame()
                 end
             end)
             sub:SetTooltip(function(tooltip)
+                WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Texture.BuffDurations'])
                 tooltip:AddLine('CVar |cffffffffbuffDurations')
             end)
         end)

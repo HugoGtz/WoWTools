@@ -158,17 +158,18 @@ local function Init_Menu(self, root)
         return
     end
 
-    root:CreateButton(
+    local sub=root:CreateButton(
         '|A:bags-button-autosort-up:0:0|a'
         ..(WoWTools_L.BAG_CLEANUP_BANK),
     function()
         Init_Sort()
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.GuildBank.Sort'])
 
     root:CreateDivider()
 
-    root:CreateCheckbox(
+    sub=root:CreateCheckbox(
         WoWTools_L['Reverse Clean Up Bank'],
     function()
         return Save().sortRightToLeft
@@ -178,6 +179,7 @@ local function Init_Menu(self, root)
             StopRun=true--停止，已运行
         end
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.GuildBank.SortReverse'])
 
     --[[root:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(root, {

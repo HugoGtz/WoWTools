@@ -197,6 +197,7 @@ function WoWTools_WorldMapMixin:AreaPOINameMenu(_, root)
         WoWTools_WorldMapMixin:Init_AreaPOI_Name()
     end,sub)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.WorldMap.AreaPOIName'])
         tooltip:AddLine(WoWTools_L.PROFESSIONS_FLYOUT_SHOW_NAME)
         --tooltip:AddLine('|cnWARNING_FONT_COLOR:BUG')
     end)
@@ -235,10 +236,11 @@ function WoWTools_WorldMapMixin:AreaPOINameMenu(_, root)
 
             WoWTools_MenuMixin:SetRightText(sub2)
             sub2:SetTooltip(function(tooltip, desc)
+                WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.WorldMap.AreaPOIItem'])
                 tooltip:AddLine(desc.data.user2)
             end)
 
-            sub2:CreateButton(
+            local tipSub= sub2:CreateButton(
                 WoWTools_L['EDIT~2'],
             function(data)
                 local user2= SaveWoW().pinName[data.areaPoiID]
@@ -260,13 +262,14 @@ function WoWTools_WorldMapMixin:AreaPOINameMenu(_, root)
                 })
                 return MenuResponse.Open
             end, {areaPoiID=poiInfo.areaPoiID, name=poiInfo.name})
+            WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.WorldMap.AreaPOIRename'])
         end
     end
     WoWTools_MenuMixin:SetScrollMode(sub)
 
     sub:CreateDivider()
 
-    sub:CreateButton(
+    local tipSub= sub:CreateButton(
         WoWTools_L.CLEAR_ALL,
     function()
         StaticPopup_Show('WoWTools_OK',
@@ -280,4 +283,5 @@ function WoWTools_WorldMapMixin:AreaPOINameMenu(_, root)
         end})
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.WorldMap.AreaPOIClear'])
 end

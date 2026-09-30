@@ -53,6 +53,7 @@ local function Init_Spec_Menu(self, root)
         --return MenuResponse.Close
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Spell.SpecUIParent'])
         local isUIParent= Save().isUIParent
         tooltip:AddLine('SetParent')
         tooltip:AddDoubleLine(' ',  (isUIParent and '|cnGREEN_FONT_COLOR:' or '').. 'UIParent')

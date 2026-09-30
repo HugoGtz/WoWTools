@@ -43,7 +43,7 @@ local function Init_Options()
             end)
         end,
         tooltip=function()
-            local text
+            local text= WoWTools_L['Tip.Panel.ResetSettings']..'|n|n'
             local index=0
             for name in pairs(WoWToolsPlusSave) do
                 text= (text and text..'\n' or '')..name
@@ -80,7 +80,7 @@ local function Init_Options()
             )
         end,
         tooltip=function()
-            local text
+            local text= WoWTools_L['Tip.Panel.ClearInput']..'|n|n'
             local index=0
             for name in pairs(WoWToolsPlusPlayerDate) do
                 text= (text and text..'\n' or '')..name
@@ -115,7 +115,7 @@ local function Init_Options()
             )
         end,
         tooltip=function()
-            local text
+            local text= WoWTools_L['Tip.Panel.ClearWarband']..'|n|n'
             for guid, tab in pairs(WoWToolsPlus_WoWDate) do
                 text= (text and text..'\n' or '')
                    ..WoWTools_UnitMixin:GetPlayerInfo(nil, guid, nil,{
@@ -138,7 +138,7 @@ local function Init_Options()
         SetValue= function()
            WoWTools_DataMixin:OpenWoWItemListFrame()--战团，物品列表
         end,
-        tooltip= WoWTools_L.SHOW
+        tooltip= WoWTools_L['Tip.Panel.WarbandItems']
     })
 
 
@@ -165,7 +165,8 @@ local function Init_Options()
                 WoWToolsPlus_WoWDate= {}
             end)
         end,
-        tooltip= optionHeader..'\n'
+        tooltip= WoWTools_L['Tip.Panel.ClearAll']..'|n|n'
+            ..optionHeader..'\n'
             ..playerHeader..'\n'
             ..wowHeader,
     })
@@ -183,8 +184,9 @@ local function Init_Options()
     if not LOCALE_zhCN then
         WoWTools_PanelMixin:OnlyCheck({
             name= 'Chinese ',
-            tooltip= WoWTools_DataMixin.onlyChinese and '语言: 简体中文'
-                    or (LANGUAGE..': '..LFG_LIST_LANGUAGE_ZHCN),
+            tooltip= WoWTools_L['Tip.Panel.Chinese']..'|n|n'
+                    ..(WoWTools_DataMixin.onlyChinese and '语言: 简体中文'
+                    or (LANGUAGE..': '..LFG_LIST_LANGUAGE_ZHCN)),
             Value= Save().onlyChinese,
             GetValue= function() return Save().onlyChinese end,
             SetValue= function()
@@ -226,7 +228,7 @@ local function Init_Options()
 
         WoWTools_PanelMixin:OnlyCheck({
             name= WoWTools_L['Realm'],
-            tooltip=get_tooltip(),
+            tooltip=WoWTools_L['Tip.Panel.Realm']..'|n|n'..(get_tooltip() or ''),
             Value= not Save().disabledRealm,
             GetValue= function() return not Save().disabledRealm end,
             SetValue= function()

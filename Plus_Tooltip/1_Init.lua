@@ -41,7 +41,7 @@ local function Init_Panel()
 
     root= WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_L['FOLLOW+MOUSE_LABEL'],
-        tooltip= WoWTools_TooltipMixin.addName,
+        tooltip= WoWTools_L['Tip.Tooltip.FollowMouse'],
         GetValue= function() return Save().setDefaultAnchor end,
         category= WoWTools_TooltipMixin.Category,
         SetValue= function()
@@ -59,7 +59,7 @@ local function Init_Panel()
         minValue= -240,
         maxValue= 240,
         setp= 1,
-        tooltip= WoWTools_TooltipMixin.addName,
+        tooltip= WoWTools_L['Tip.Tooltip.CursorX'],
         category= WoWTools_TooltipMixin.Category,
         SetValue= function(_, _, value2)
             if not value2 then return end
@@ -75,7 +75,7 @@ local function Init_Panel()
         minValue= -240,
         maxValue= 240,
         setp= 1,
-        tooltip= WoWTools_TooltipMixin.addName,
+        tooltip= WoWTools_L['Tip.Tooltip.CursorY'],
         category= WoWTools_TooltipMixin.Category,
         SetValue= function(_, _, value2)
             if not value2 then return end
@@ -87,7 +87,7 @@ local function Init_Panel()
 
     WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_L['HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_RIGHT~2'],
-        tooltip= WoWTools_TooltipMixin.addName,
+        tooltip= WoWTools_L['Tip.Tooltip.CursorRight'],
         GetValue= function() return Save().cursorRight end,
         category= WoWTools_TooltipMixin.Category,
         SetValue= function()
@@ -99,7 +99,7 @@ local function Init_Panel()
 
     WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_L['In combat: default'],
-        tooltip= WoWTools_L.HUD_EDIT_MODE_RESET_POSITION,
+        tooltip= WoWTools_L['Tip.Tooltip.CombatDefaultAnchor'],
         GetValue= function() return Save().inCombatDefaultAnchor end,
         category= WoWTools_TooltipMixin.Category,
         SetValue= function()
@@ -110,7 +110,7 @@ local function Init_Panel()
 
     WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_L['In combat: disabled'],
-        tooltip= WoWTools_TooltipMixin.addName,
+        tooltip= WoWTools_L['Tip.Tooltip.CombatDisabled'],
         GetValue= function() return Save().isInCombatDisabled end,
         category= WoWTools_TooltipMixin.Category,
         SetValue= function()
@@ -122,7 +122,7 @@ local function Init_Panel()
 
     root= WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_L.MODEL,
-        tooltip= WoWTools_TooltipMixin.addName,
+        tooltip= WoWTools_L['Tip.Tooltip.Model'],
         GetValue= function() return not Save().hideModel end,
         category= WoWTools_TooltipMixin.Category,
         SetValue= function()
@@ -133,7 +133,7 @@ local function Init_Panel()
 
     WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_LEFT,
-        tooltip= WoWTools_TooltipMixin.addName,
+        tooltip= WoWTools_L['Tip.Tooltip.ModelLeft'],
         GetValue= function() return Save().modelLeft end,
         category= WoWTools_TooltipMixin.Category,
         SetValue= function()
@@ -160,7 +160,7 @@ local function Init_Panel()
         minValue= 40,
         maxValue= 300,
         setp= 1,
-        tooltip= WoWTools_TooltipMixin.addName,
+        tooltip= WoWTools_L['Tip.Tooltip.ModelSize'],
         category= WoWTools_TooltipMixin.Category,
         SetValue= function(_, _, value2)
             if not value2 then return end
@@ -175,7 +175,7 @@ local function Init_Panel()
         minValue= -240,
         maxValue= 240,
         setp= 1,
-        tooltip= WoWTools_TooltipMixin.addName,
+        tooltip= WoWTools_L['Tip.Tooltip.ModelX'],
         category= WoWTools_TooltipMixin.Category,
         SetValue= function(_, _, value2)
             if not value2 then return end
@@ -190,7 +190,7 @@ local function Init_Panel()
         minValue= -240,
         maxValue= 240,
         setp= 1,
-        tooltip= WoWTools_TooltipMixin.addName,
+        tooltip= WoWTools_L['Tip.Tooltip.ModelY'],
         category= WoWTools_TooltipMixin.Category,
         SetValue= function(_, _, value2)
             if not value2 then return end
@@ -205,7 +205,7 @@ local function Init_Panel()
         minValue= -1,
         maxValue= 1,
         setp= 0.1,
-        tooltip= WoWTools_TooltipMixin.addName,
+        tooltip= WoWTools_L['Tip.Tooltip.ModelFacing'],
         category= WoWTools_TooltipMixin.Category,
         SetValue= function(_, _, value2)
             if not value2 then return end
@@ -216,7 +216,7 @@ local function Init_Panel()
 
     WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_L['NPC class colors'],
-        tooltip= WoWTools_TooltipMixin.addName,
+        tooltip= WoWTools_L['Tip.Tooltip.NPCColor'],
         GetValue= function() return not Save().disabledNPCcolor end,
         category= WoWTools_TooltipMixin.Category,
         SetValue= function()
@@ -227,7 +227,7 @@ local function Init_Panel()
     --12.0  可能错误
         WoWTools_PanelMixin:OnlyCheck({
             name= WoWTools_L.HEALTH,
-            tooltip= reloadText,
+            tooltip= WoWTools_L['Tip.Tooltip.Health']..'|n|n'..reloadText,
             GetValue= function() return not Save().hideHealth end,
             category= WoWTools_TooltipMixin.Category,
             SetValue= function()
@@ -240,7 +240,7 @@ local function Init_Panel()
 
     WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_Join('|A:NPE_Icon:0:0|aCtrl+Shift', WoWTools_L.BROWSER_COPY_LINK),
-        tooltip= 'wowhead.com|nraider.io',
+        tooltip= WoWTools_L['Tip.Tooltip.WebLink']..'|n|n'..'wowhead.com|nraider.io',
         GetValue= function() return Save().ctrl end,
         category= WoWTools_TooltipMixin.Category,
         SetValue= function()
@@ -259,7 +259,7 @@ local function Init_Panel()
         minValue= 0,
         maxValue= 32,
         setp= 1,
-        tooltip= WoWTools_TooltipMixin.addName,
+        tooltip= WoWTools_L['Tip.Tooltip.IconSize'],
         category= WoWTools_TooltipMixin.Category,
         SetValue= function(_, _, value2)
             if value2 then
@@ -286,7 +286,7 @@ local function Init_Panel()
         minValue=0.2,
         maxValue=4,
         step=0.1,
-        tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD),
+        tooltip= WoWTools_L['Tip.Tooltip.Scale']..'|n|n'..'|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD),
         category= WoWTools_TooltipMixin.Category,
         SetValue= function(_, _, value2)
             if value2 then
@@ -301,7 +301,7 @@ local function Init_Panel()
     WoWTools_PanelMixin:Header(Layout, WARNING_FONT_COLOR:WrapTextInColorCode(WoWTools_L['REPLACE~2']))
     WoWTools_PanelMixin:OnlyCheck({
         name= 'SetTooltipMoney',
-        tooltip= (WoWTools_L['Fix'])..' MoneyFrame_Update '..(WoWTools_L.ERRORS)
+        tooltip= WoWTools_L['Tip.Tooltip.ReplaceMoney']..'|n|n'..(WoWTools_L['Fix'])..' MoneyFrame_Update '..(WoWTools_L.ERRORS)
                 ..'|n'..(WoWTools_L.REQUIRES_RELOAD),
         GetValue= function() return Save().replaceSetTooltipMoney end,
         category= WoWTools_TooltipMixin.Category,
@@ -312,7 +312,7 @@ local function Init_Panel()
 
     WoWTools_PanelMixin:OnlyCheck({
         name= 'UnitFrame_UpdateTooltip',
-        tooltip= (WoWTools_L.UNIT_POPUP_RIGHT_CLICK)..': '..WoWTools_TextMixin:GetShowHide(false)
+        tooltip= WoWTools_L['Tip.Tooltip.ReplaceUnitFrame']..'|n|n'..(WoWTools_L.UNIT_POPUP_RIGHT_CLICK)..': '..WoWTools_TextMixin:GetShowHide(false)
                 ..'|n'..(WoWTools_L.REQUIRES_RELOAD),
         GetValue= function() return Save().replaceUnitFrameTooltip end,
         category= WoWTools_TooltipMixin.Category,
@@ -327,7 +327,7 @@ local function Init_Panel()
     WoWTools_PanelMixin:Header(Layout, 'CVar')
     root= WoWTools_PanelMixin:OnlyCheck({
         name= '|cnWARNING_FONT_COLOR:'..(WoWTools_L['LOCK+SETTINGS']),
-        tooltip= function() return WoWTools_TooltipMixin:Set_CVar(nil, true, true) end,
+        tooltip= function() return WoWTools_L['Tip.Tooltip.LockCVar']..'|n|n'..(WoWTools_TooltipMixin:Set_CVar(nil, true, true) or '') end,
         GetValue= function() return Save().setCVar end,
         category= WoWTools_TooltipMixin.Category,
         SetValue= function()
@@ -338,6 +338,7 @@ local function Init_Panel()
 
     WoWTools_PanelMixin:OnlyButton({
         buttonText= WoWTools_L.SETTINGS,
+        tooltip= WoWTools_L['Tip.Tooltip.CVarApply'],
         layout= Layout,
         SetValue= function()
             WoWTools_TooltipMixin:Set_CVar()
@@ -347,6 +348,7 @@ local function Init_Panel()
 
     WoWTools_PanelMixin:OnlyButton({
         buttonText= WoWTools_L.DEFAULT,
+        tooltip= WoWTools_L['Tip.Tooltip.CVarDefault'],
         layout= Layout,
         SetValue= function()
             WoWTools_TooltipMixin:Set_CVar(true, nil, nil)
@@ -390,7 +392,7 @@ local function Init_Panel()
     local function Add_Options(name)
         WoWTools_PanelMixin:OnlyCheck({
             name= HIGHLIGHT_FONT_COLOR:WrapTextInColorCode(index..') ')..name:gsub('Blizzard_', ''),
-            tooltip= reloadText,
+            tooltip= WoWTools_L['Tip.Tooltip.FrameModule']..'|n|n'..reloadText,
             category= WoWTools_TooltipMixin.Category,
             Value= not Save().no[name],
             GetValue= function() return not Save().no[name] end,
@@ -611,7 +613,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         WoWToolsPlusSave['Plus_Tootips']= nil
                     end)
                 end,
-                tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD),
+                tooltip= WoWTools_L['Tip.Tooltip.Enable']..'|n|n'..'|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD),
                 layout= Layout,
                 category= WoWTools_TooltipMixin.Category,
             })

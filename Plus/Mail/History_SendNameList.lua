@@ -128,7 +128,7 @@ end
 
 local function Init_Menu(self, root)
     local sub, sub2
-    root:CreateCheckbox(
+    local tipSub= root:CreateCheckbox(
         WoWTools_L.SHOW,
     function()
         return not Save().hideSendPlayerList
@@ -137,6 +137,7 @@ local function Init_Menu(self, root)
         Set_Button()
         set_list()
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Mail.HistoryShow'])
 
     local num= #Save().lastSendPlayerList
     sub=root:CreateButton(
@@ -144,6 +145,7 @@ local function Init_Menu(self, root)
     function()
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Mail.HistoryList'])
 
     for index, name in pairs(Save().lastSendPlayerList) do
         sub2=sub:CreateCheckbox(
@@ -196,6 +198,7 @@ local function Init_Menu(self, root)
     function()
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Mail.HistoryMax'])
 
     sub2:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub2, {
