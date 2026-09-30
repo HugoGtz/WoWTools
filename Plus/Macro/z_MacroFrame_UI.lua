@@ -50,33 +50,6 @@ end
 
 
 --宏
-function WoWTools_TextureMixin.Events:Blizzard_MacroUI()
-    self:HideFrame(MacroFrame)
-    --self:SetNineSlice(MacroFrame)
-
-    self:SetNineSlice(MacroFrameInset)
-    self:HideFrame(MacroFrameInset)
-    self:SetNineSlice(MacroFrameTextBackground, nil, true)
-    MacroFrameTextBackground.NineSlice:SetBorderColor(0, 0, 0, 0)
-
-    self:SetAlphaColor(MacroHorizontalBarLeft, true)
-    self:HideTexture(MacroFrameSelectedMacroBackground)
-    self:SetScrollBar(MacroFrame.MacroSelector)
-
-    self:SetScrollBar(MacroFrameScrollFrame)
-    self:SetButton(MacroFrameCloseButton)
-
-    WoWTools_ButtonMixin:AddMask(MacroFrameSelectedMacroButton, false, MacroFrameSelectedMacroButton.Icon)
-
-    self:Init_BGMenu_Frame(MacroFrame, {
-        bgPoint=function(icon)
-            bgPoint(icon)
-        end,
-        settings=function(icon)
-            bgPoint(icon)
-        end
-    })
-end
 
 
 

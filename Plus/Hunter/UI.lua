@@ -204,9 +204,6 @@ end
 
 
 
-function WoWTools_TextureMixin.Events:Blizzard_StableUI()
-    Init_Texture(self)
-end
 
 
 function WoWTools_HunterMixin:Init_UI()

@@ -88,16 +88,6 @@ Plus_Texture\0_TextureMixin.lua
 Plus_Texture\1_Setup_Mixin.lua
 Plus_Texture\2_Init_BGMenu_Frame.lua
 Plus_Texture\3_Init.lua
-Plus_Texture\ActionButton.lua
-Plus_Texture\ChatBubbles.lua
-Plus_Texture\ClassPower.lua
-Plus_Texture\EncounterJournal.lua
-Plus_Texture\PVEFrame.lua
-Plus_Texture\Collections.lua
-Plus_Texture\CharacterFrame.lua
-Plus_Texture\z_Frames.lua
-Plus_Texture\z_Events.lua
-Plus_Texture\z_SharedXML.lua
 
 ##鼠标，提示
 Plus_Tooltip\0_TooltipMixin.lua
@@ -322,7 +312,6 @@ Container\Bank\Init_Plus.lua
 Container\Bank\Plus_Out.lua
 Container\Bank\Plus_In.lua
 Container\Bank\Plus_Money.lua
-Container\Bank\z_UI.lua
 Container\Bank\WoWData.lua
 ##公会银行
 Container\Guild\0_GuildBankMixin.lua
@@ -469,7 +458,6 @@ Plus\Spell\SpellBookFrame.lua
 Plus\Spell\Spec_Button.lua
 ##法术弹出框，加名称
 Plus\Spell\Spell_Flyout.lua
-Plus\Spell\z_Texture.lua
 Plus\Spell\z_Move.lua
 Plus\Spell\z_Tooltip.lua
 
@@ -503,7 +491,6 @@ Plus\Hunter\UI.lua
 Plus\House\0_HouseMixin.lua
 Plus\House\1_Init.lua
 Plus\House\House_Move.lua
-Plus\House\House_Texture.lua
 
 ##其它
 Z_Other\0_Init.lua

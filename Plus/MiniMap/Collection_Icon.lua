@@ -1123,21 +1123,6 @@ end
 
 
 --小地图
-function WoWTools_TextureMixin.Events:Blizzard_Minimap()
-    self:SetAlphaColor(MinimapCompassTexture)
-    self:SetButton(GameTimeFrame)
-
-    self:SetButton(MinimapCluster.Tracking.Button)
-    self:SetFrame(MinimapCluster.BorderTop)
-
-    C_Timer.After(0.3, function()--加载时间不一样，可能会出错
-        Init_AllButton_Texture()
-    end)
-
---插件，菜单
-    self:HideFrame(AddonCompartmentFrame)
-    self:SetAlphaColor(AddonCompartmentFrame.Text)
-end
 
 
 
