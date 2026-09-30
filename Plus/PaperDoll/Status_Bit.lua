@@ -111,7 +111,7 @@ end
             statFrame.wasSwimming = swimming
         end
         local valueText = format("%i%%", speed)
-        PaperDollFrame_SetLabelAndText(statFrame, WoWTools_DataMixin.onlyChinese and '移动' or (NPE_MOVE), valueText, false, speed)
+        PaperDollFrame_SetLabelAndText(statFrame, WoWTools_L.NPE_MOVE, valueText, false, speed)
         statFrame.speed = speed
         statFrame.runSpeed = runSpeed
         statFrame.flightSpeed = flightSpeed

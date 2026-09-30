@@ -88,7 +88,7 @@ local function MenuList_Item(self, root)
 		tooltip:AddLine('SecureActionButton')
 		tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
 		GameTooltip_AddErrorLine(tooltip,
-			WoWTools_DataMixin.onlyChinese and '提示: 可能会出现错误' or (LABEL_NOTE..': '..ENABLE_ERROR_SPEECH)
+			WoWTools_L['Note: errors may occur~2']
 		)
 	end)
 

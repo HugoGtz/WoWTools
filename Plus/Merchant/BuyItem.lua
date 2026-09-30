@@ -262,9 +262,9 @@ local function Init_Menu_Sell(_, root)
     end
 
     local att= '|n|n|cnYELLOW_FONT_COLOR:'
-            ..(WoWTools_DataMixin.onlyChinese and '危险！' or VOICEMACRO_1_Sc_0)
-            ..(WoWTools_DataMixin.onlyChinese and '危险！' or VOICEMACRO_1_Sc_0)
-            ..(WoWTools_DataMixin.onlyChinese and '危险！' or VOICEMACRO_1_Sc_0)
+            ..(WoWTools_L.VOICEMACRO_1_Sc_0)
+            ..(WoWTools_L.VOICEMACRO_1_Sc_0)
+            ..(WoWTools_L.VOICEMACRO_1_Sc_0)
             ..'|n'
     local sellText=  '|T236994:0|t'..(WoWTools_L.AUCTION_HOUSE_SELL_TAB)
     local sub, sub2, name
@@ -531,7 +531,7 @@ local function Init()
             GameTooltip:AddDoubleLine(
                 (WoWTools_L['DRAG_MODEL+ITEMS'])
                 ..WoWTools_DataMixin.Icon.left,
-                WoWTools_DataMixin.onlyChinese and '出售/购买' or (AUCTION_HOUSE_SELL_TAB..'/'..PURCHASE)
+                WoWTools_L['Sell/Buy']
             )
             GameTooltip:AddLine(
                 (WoWTools_L.SLASH_TEXTTOSPEECH_MENU)

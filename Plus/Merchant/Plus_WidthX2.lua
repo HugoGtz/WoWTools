@@ -404,12 +404,7 @@ end
         maxValue=1,
         step=0.1,
         bit='%.1f',
-        tooltip= WoWTools_DataMixin.onlyChinese and '透明度|n|n无法使用|n不可购买|n已收集' or (
-            HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY
-            ..'|n|n'..MOUNT_JOURNAL_FILTER_UNUSABLE
-            ..'|n'..ERR_CANT_BUY_QUANTITY
-            ..'|n'..TRANSMOG_COLLECTED
-        )
+        tooltip= WoWTools_L['Opacity (unusable, cannot buy, collected)']
     })
 
     root:CreateSpacer()

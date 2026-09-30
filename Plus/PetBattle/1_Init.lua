@@ -128,9 +128,9 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         })
 
         WoWTools_PetBattleMixin.addName= '|A:WildBattlePetCapturable:0:0|a'..(WoWTools_L.PET_BATTLE_PVP_QUEUE)
-        WoWTools_PetBattleMixin.addName3= '|A:transmog-gearSlot-unassigned-feet:0:0|a'..(WoWTools_DataMixin.onlyChinese and '点击移动按钮'or WoWTools_Join(CLICK_TO_MOVE, 'Button'))
+        WoWTools_PetBattleMixin.addName3= '|A:transmog-gearSlot-unassigned-feet:0:0|a'..(WoWTools_L['Click-to-move button'])
         WoWTools_PetBattleMixin.addName4= '|A:WildBattlePetCapturable:0:0|a'..(WoWTools_L.PET_FAMILIES)
-        WoWTools_PetBattleMixin.addName6= '|A:plunderstorm-icon-offensive:0:0|a'..(WoWTools_DataMixin.onlyChinese and '技能按钮' or WoWTools_Join(PET_BATTLE_ABILITIES_LABEL, 'Button'))
+        WoWTools_PetBattleMixin.addName6= '|A:plunderstorm-icon-offensive:0:0|a'..(WoWTools_L['Ability buttons'])
 
 
         WoWTools_PetBattleMixin.Category, WoWTools_PetBattleMixin.Layout= WoWTools_PanelMixin:AddSubCategory({

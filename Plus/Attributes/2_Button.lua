@@ -66,10 +66,10 @@ local function Init()
             return (WoWTools_L.SAY)
 
         elseif IsInRaid() then
-            return WoWTools_DataMixin.onlyChinese and '说: 团队' or (SAY..': '..CHAT_MSG_RAID)
+            return WoWTools_L['Say: raid']
 
         elseif IsInGroup() then
-            return WoWTools_DataMixin.onlyChinese and '说: 队伍' or (SAY..': '..CHAT_MSG_PARTY)
+            return WoWTools_L['Say: party']
 
         else
             return WoWTools_L.SAY

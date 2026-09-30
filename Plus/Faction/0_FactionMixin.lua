@@ -150,7 +150,7 @@ function WoWTools_FactionMixin:GetInfo(factionID, toLeft)
         --本周已满
         if C_MajorFactions.IsWeeklyRenownCapped(factionID) then
             barColor= WARNING_FONT_COLOR
-            value= WoWTools_DataMixin.onlyChinese and '本周达到上限' or format(CURRENCY_THIS_WEEK, CAPPED)
+            value= WoWTools_L['Capped this week']
             value= barColor:WrapTextInColorCode(value)
 
         elseif currentValue and threshold then

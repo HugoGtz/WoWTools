@@ -211,7 +211,7 @@ local function Init_Options()--设置 Frame
             local check2=WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})--仅防卫
             check2:SetChecked(Save().tab['VERSATILITY'].onlyDefense)
             check2:SetPoint('LEFT', text, 'RIGHT',2,0)
-            check2.text:SetText((WoWTools_DataMixin.onlyChinese and '仅防御' or format(LFG_LIST_CROSS_FACTION, DEFENSE)))
+            check2.text:SetText((WoWTools_L['Defense only']))
             check2:SetScript('OnMouseDown', function(self)
                 Save().tab['VERSATILITY'].onlyDefense= not Save().tab['VERSATILITY'].onlyDefense and true or nil
                 if Save().tab['VERSATILITY'].onlyDefense then
@@ -261,7 +261,7 @@ local function Init_Options()--设置 Frame
     local text= WoWTools_LabelMixin:Create(Frame, {size=26})--26)--Text
     text:SetPoint('TOPLEFT', last, 'BOTTOMLEFT',0, -30)
     --text:SetPoint('TOPLEFT', last, 'BOTTOMLEFT',0, -16)
-    text:SetText(WoWTools_DataMixin.onlyChinese and '阴影' or SHADOW_QUALITY:gsub(QUALITY , ''))
+    text:SetText(WoWTools_L['Shadow'])
     text:EnableMouse(true)
     text.r, text.g, text.b, text.a= Save().font.r, Save().font.g, Save().font.b, Save().font.a
     WoWTools_AttributesMixin:Set_Shadow(text)--设置，字体阴影
@@ -289,7 +289,7 @@ local function Init_Options()--设置 Frame
     text:SetScript('OnEnter', function(self2)
         GameTooltip:SetOwner(self2, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddDoubleLine(WoWTools_L.SETTINGS, (WoWTools_DataMixin.onlyChinese and '阴影' or SHADOW_QUALITY:gsub(QUALITY , ''))..WoWTools_DataMixin.Icon.left..(WoWTools_L.COLOR))
+        GameTooltip:AddDoubleLine(WoWTools_L.SETTINGS, (WoWTools_L['Shadow'])..WoWTools_DataMixin.Icon.left..(WoWTools_L.COLOR))
         GameTooltip:AddDoubleLine('r'..(self2.r or 1)..' g'..(self2.g or 1)..' b'..(self2.b or 1), 'a'..(self2.a or 1))
         GameTooltip:Show()
         self2:SetAlpha(0.3)
@@ -326,7 +326,7 @@ local function Init_Options()--设置 Frame
 
     local notTextCheck= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
     notTextCheck:SetPoint("TOPLEFT", Frame, 'TOP', 0, -32)
-    notTextCheck.text:SetText(WoWTools_DataMixin.onlyChinese and '隐藏数值' or HIDE..STATUS_TEXT_VALUE)
+    notTextCheck.text:SetText(WoWTools_L['Hide values'])
     notTextCheck:SetChecked(Save().notText)
     notTextCheck:SetScript('OnMouseDown', function()
         Save().notText= not Save().notText and true or nil
@@ -577,7 +577,7 @@ local function Init_Options()--设置 Frame
             print(
                 WoWTools_AttributesMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 '|cnGREEN_FONT_COLOR:'..value..'|r',
-                WoWTools_DataMixin.onlyChinese and '文本 0=否' or (LOCALE_TEXT_LABEL..' 0='..NO)
+                WoWTools_L['Text 0=No']
             )
         end,
         tips=nil
@@ -644,7 +644,7 @@ local function Init_Options()--设置 Frame
 
 
     local sliderButtonAlpha = WoWTools_SliderMixin:CSlider(Frame, {min=0, max=1, value=Save().buttonAlpha or 0.3, setp=0.1, color=true,
-    text=WoWTools_DataMixin.onlyChinese and '专精透明度' or WoWTools_Join(SPECIALIZATION, 'Alpha'),
+    text=WoWTools_L['Specialization alpha'],
     func=function(self, value)
         value= tonumber(format('%.1f', value))
         value= value==0 and 0 or value

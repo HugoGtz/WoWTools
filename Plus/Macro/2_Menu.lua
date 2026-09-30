@@ -47,7 +47,7 @@ local function Init_Menu(self, root)
 --布局
     root:CreateDivider()
     sub=root:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '布局' or HUD_EDIT_MODE_LAYOUT:gsub(HEADER_COLON, ''),
+        WoWTools_L['Layout'],
     function()
         return MenuResponse.Open
     end)
@@ -57,7 +57,7 @@ local PointTab={
     {value=2, text=WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_RIGHT},
     {value=3, text=WoWTools_L.DEFAULT},
     '-',
-    {value=4, text=WoWTools_DataMixin.onlyChinese and '左|右' or (HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_LEFT..'|'..HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_RIGHT)}
+    {value=4, text=WoWTools_L['Left|Right']}
 }
 
     for _, info in pairs (PointTab) do

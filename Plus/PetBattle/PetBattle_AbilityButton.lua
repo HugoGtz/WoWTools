@@ -694,7 +694,7 @@ local function Init_Button_Menu(self, root)
 
 --3D
     root:CreateCheckbox(
-        '|A:WildBattlePetCapturable:0:0|a'..(WoWTools_DataMixin.onlyChinese and '显示3D' or WoWTools_Join(SHOW, '3D')),
+        '|A:WildBattlePetCapturable:0:0|a'..(WoWTools_L['Show 3D']),
     function(data)
         return Save().AbilityButton['petmodelShow_'..self.name]
     end, function(data)
@@ -815,7 +815,7 @@ local function Set_Move_Button(btn)
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(WoWTools_PetBattleMixin.addName5, WoWTools_PetBattleMixin.addName6)
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '显示/隐藏' or SHOW..'/'..HIDE, WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine(WoWTools_L['Show/Hide'], WoWTools_DataMixin.Icon.left)
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.right)
         GameTooltip:AddDoubleLine(WoWTools_L.NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)

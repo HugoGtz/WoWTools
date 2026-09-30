@@ -78,7 +78,7 @@ local function Init()
 
 --专精按钮
     WoWTools_PanelMixin:OnlyCheck({
-        name= '|A:talents-node-choiceflyout-circle-greenglow:0:0|a'..(WoWTools_DataMixin.onlyChinese and '专精按钮' or WoWTools_Join(SPECIALIZATION, 'Button')),
+        name= '|A:talents-node-choiceflyout-circle-greenglow:0:0|a'..(WoWTools_L['Specialization button']),
         tooltip= WoWTools_PanelMixin.addName,
         GetValue= function() return Save().specButton.enabled end,
         category= WoWTools_SpellMixin.Category,

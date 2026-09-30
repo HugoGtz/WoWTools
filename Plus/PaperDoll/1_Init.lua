@@ -102,7 +102,7 @@ local function Init_Menu(self, root)
 
 --属性小数
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '属性小数' or WoWTools_Join(STAT_CATEGORY_ATTRIBUTES, 'Decimals'),
+        WoWTools_L['Attribute decimals'],
     function()
         return not Save().notStatusPlusFunc
     end, function ()

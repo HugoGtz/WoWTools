@@ -94,7 +94,7 @@ local function Init_Menu(self, root)
         GameTooltip_AddHighlightLine(tooltip, WoWTools_L['Weapons can be switched during combat'])
         tooltip:AddLine(' ')
         GameTooltip_AddInstructionLine(tooltip, WoWTools_L.REQUIRES_RELOAD)
-        GameTooltip_AddErrorLine(tooltip, WoWTools_DataMixin.onlyChinese and'友情提示: 可能会出现错误' or 'Note: Errors may occur')
+        GameTooltip_AddErrorLine(tooltip, WoWTools_L['Note: errors may occur'])
     end)
 
 

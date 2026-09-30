@@ -55,7 +55,7 @@ local function Init_Menu(self, root)
     local sub
 
     root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '模型: 显示名称' or (MODEL..': '..PROFESSIONS_FLYOUT_SHOW_NAME),
+        WoWTools_L['Model: show name'],
     function()
         return not Save().hideTransmogModelName
     end, function()

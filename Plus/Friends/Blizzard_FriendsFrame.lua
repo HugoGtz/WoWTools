@@ -146,20 +146,20 @@ local function Init_Friends_Menu(self, root)
     end)
 
     sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '仅限'..WoWTools_DataMixin.Icon.wow2..'WoW好友' or format(LFG_LIST_CROSS_FACTION, 'WoW'..WoWTools_DataMixin.Icon.wow2..FRIEND),
+        format(WoWTools_L['%sWoW friends only'], WoWTools_DataMixin.Icon.wow2),
     function()
         return not Save().allFriendInfo
     end, function()
         Save().allFriendInfo= not Save().allFriendInfo and true or nil
     end)
 
-    sub:CreateCheckbox((WoWTools_DataMixin.onlyChinese and '仅限偏好好友' or format(LFG_LIST_CROSS_FACTION, BATTLE_PET_FAVORITE))..'|A:friendslist-favorite:0:0|a', function()
+    sub:CreateCheckbox((WoWTools_L['Favorite friends only'])..'|A:friendslist-favorite:0:0|a', function()
         return Save().showFriendInfoOnlyFavorite
     end, function()
         Save().showFriendInfoOnlyFavorite= not Save().showFriendInfoOnlyFavorite and true or nil
     end)
 
-    sub:CreateCheckbox((WoWTools_DataMixin.onlyChinese and '仅限脱离战斗' or format(LFG_LIST_CROSS_FACTION, HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_OUT_OF_COMBAT))..'|A:Warfronts-BaseMapIcons-Horde-Barracks-Minimap:0:0|a', function()
+    sub:CreateCheckbox((WoWTools_L['Out of combat only~2'])..'|A:Warfronts-BaseMapIcons-Horde-Barracks-Minimap:0:0|a', function()
         return not Save().showInCombatFriendInfo
     end, function()
         Save().showInCombatFriendInfo= not Save().showInCombatFriendInfo and true or nil

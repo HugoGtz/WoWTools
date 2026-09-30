@@ -38,7 +38,7 @@ local function Player_Sell_Menu(_, root)
         Save().notSellCustom= not Save().notSellCustom and true or nil
     end, {rightText= num})
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '备注：在战斗中无法出售物品' or (NOTE_COLON..': '..WoWTools_Join(HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT, ITEM_UNSELLABLE)))
+        tooltip:AddLine(WoWTools_L['Note: cannot sell items in combat'])
     end)
     WoWTools_MenuMixin:SetRightText(sub)
 
@@ -280,7 +280,7 @@ local function Init_Menu(self, root)
             WoWTools_L.PROFESSIONS_CRAFTING_QUALITY,
             WoWTools_ItemMixin.QualityText[0]
         ))
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '备注：在战斗中无法出售物品' or (NOTE_COLON..': '..WoWTools_Join(HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT, ITEM_UNSELLABLE)))
+        tooltip:AddLine(WoWTools_L['Note: cannot sell items in combat'])
     end)
 
 
@@ -313,7 +313,7 @@ local function Init_Menu(self, root)
     sub:SetTooltip(function(tooltip)
         local avgItemLevel= (GetAverageItemLevel() or 60)- 30
         tooltip:AddLine((WoWTools_L.STAT_AVERAGE_ITEM_LEVEL)..' < ' ..math.ceil(avgItemLevel))
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '备注：在战斗中无法出售物品' or (NOTE_COLON..': '..WoWTools_Join(HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT, ITEM_UNSELLABLE)))
+        tooltip:AddLine(WoWTools_L['Note: cannot sell items in combat'])
     end)
     WoWTools_MenuMixin:SetRightText(sub)
 
@@ -427,7 +427,7 @@ local function Init_Menu(self, root)
 
 --商人 Plus
     sub=root:CreateCheckbox(
-        '|A:communities-icon-addgroupplus:0:0|a'..(WoWTools_DataMixin.onlyChinese and '商人 Plus' or  WoWTools_Join(MERCHANT, 'Plus')),
+        '|A:communities-icon-addgroupplus:0:0|a'..(WoWTools_L['Merchant Plus']),
     function()
         return not Save().notPlus
     end, function()
@@ -467,9 +467,7 @@ local function Init_Menu(self, root)
         tooltip:AddDoubleLine(WoWTools_L['AUTO_LOOT_DEFAULT_TEXT~2'], WoWTools_TextMixin:GetEnabeleDisable(C_CVar.GetCVarBool("autoLootDefault")))
         tooltip:AddLine(' ')
         tooltip:AddLine(
-            WoWTools_DataMixin.onlyChinese and '拾取窗口 Shift: 禁用'
-            or (WoWTools_Join(HUD_EDIT_MODE_LOOT_FRAME_LABEL, 'Shift: ')..DISABLE)
-        )
+            WoWTools_L['Loot window Shift: disable'])
         tooltip:AddLine(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_OUT_OF_COMBAT)
         tooltip:AddLine(' ')
         GameTooltip_AddErrorLine(tooltip, WoWTools_L.REQUIRES_RELOAD)

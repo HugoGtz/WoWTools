@@ -322,7 +322,7 @@ local function Init_Menu(self, root)
 		TrackButton_Settings()
 	end)
 	sub:SetTooltip(function(tooltip)
-		tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '显示/隐藏' or (SHOW..'/'..HIDE))
+		tooltip:AddLine(WoWTools_L['Show/Hide'])
 	end)
 
 --向右平移
@@ -374,14 +374,13 @@ local function Init_Menu(self, root)
 	end)
 	sub2:SetTooltip(function(tooltip)
 		tooltip:AddLine(
-			WoWTools_DataMixin.onlyChinese and '仅显示有图标声望'
-			or format(LFG_LIST_CROSS_FACTION, WoWTools_Join(FACTION, EMBLEM_SYMBOL))
+			WoWTools_L['Only factions with icons']
 		)
 		TrackButton_Settings()
 	end)
 --仅限名望
 	sub2= sub:CreateCheckbox(
-		WoWTools_DataMixin.onlyChinese and '仅限名望' or format(LFG_LIST_CROSS_FACTION, JOURNEYS_RENOWN_LABEL or LANDING_PAGE_RENOWN_LABEL),
+		WoWTools_L['Renown only'],
 	function()
 		return Save().onlyMajor
 	end, function()

@@ -743,7 +743,7 @@ local function Init_Options()
 
 
     local questCheck= CreateFrame('CheckButton', nil, Frame, "InterfaceOptionsCheckButtonTemplate")
-    questCheck.Text:SetText('4) '..(WoWTools_DataMixin.onlyChinese and '任务进度' or (WoWTools_Join(QUESTS_LABEL, PVP_PROGRESS_REWARDS_HEADER))))
+    questCheck.Text:SetText('4) '..(WoWTools_L['Quest progress']))
     --questCheck:SetPoint('TOPLEFT', sel2, 'BOTTOMLEFT',0,-64)
     questCheck:SetPoint('TOPLEFT', menu.edit, 'BOTTOMLEFT', -32, -32)
     questCheck:SetChecked(Save().quest)
@@ -755,7 +755,7 @@ local function Init_Options()
     local questAllFactionCheck= CreateFrame('CheckButton', nil, Frame, "InterfaceOptionsCheckButtonTemplate")
     questAllFactionCheck.Text:SetFormattedText(
         '%s|A:%s:0:0|a|A:%s:0:0|a',
-        WoWTools_DataMixin.onlyChinese and '所有阵营' or TRANSMOG_SHOW_ALL_FACTIONS or WoWTools_Join(ALL, FACTION),
+        WoWTools_L['All factions'],
         WoWTools_DataMixin.Icon.Horde, WoWTools_DataMixin.Icon.Alliance)
 
     questAllFactionCheck:SetPoint('LEFT', questCheck.Text, 'RIGHT',2,0)

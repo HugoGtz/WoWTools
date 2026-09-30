@@ -258,7 +258,7 @@ local function Init_Menu(self, root)
 
     sub:CreateCheckbox(
         '|A:Professions_Specialization_Lock_Glow:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '仅限已解锁' or format(LFG_LIST_CROSS_FACTION, UNLOCK)),
+        ..(WoWTools_L['Unlocked only']),
     function()
         return Save().onlyUnlockRenownFrame
     end, function()

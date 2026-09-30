@@ -176,7 +176,7 @@ local function Init()
 --职业图标
     WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_L['CLASS+EMBLEM_SYMBOL'],
-        tooltip=WoWTools_DataMixin.onlyChinese and '颜色, 图标' or (COLOR..', '..EMBLEM_SYMBOL) ,
+        tooltip=WoWTools_L['Color, icon'] ,
         GetValue= function() return not Save().hideClassColor end,
         func= function()
             Save().hideClassColor= not Save().hideClassColor and true or nil

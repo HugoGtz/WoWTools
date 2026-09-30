@@ -36,7 +36,7 @@ local function Init()
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(WoWTools_L['AUTO_LOOT_DEFAULT_TEXT~2'], (WoWTools_L.REFORGE_CURRENT)..': '..WoWTools_TextMixin:GetEnabeleDisable(C_CVar.GetCVarBool("autoLootDefault")))
         local col= InCombatLockdown() and '|cff626262'
-        GameTooltip:AddDoubleLine((col or '')..(WoWTools_DataMixin.onlyChinese and '拾取时' or PROC_EVENT512_DESC:format(ITEM_LOOT)),
+        GameTooltip:AddDoubleLine((col or '')..(WoWTools_L['On loot']),
             (col or '|cnGREEN_FONT_COLOR:')..'Shift|r '..(WoWTools_L.DISABLE))
         GameTooltip:Show()
     end)

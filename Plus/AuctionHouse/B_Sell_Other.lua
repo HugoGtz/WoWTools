@@ -50,10 +50,10 @@ local function Create_AutPost(frame)
         self:setting()
     end)
     btn.tooltip= WoWTools_DataMixin.Icon.icon2
-        ..(WoWTools_DataMixin.onlyChinese and '自动出售' or format(GARRISON_FOLLOWER_NAME, SELF_CAST_AUTO, AUCTION_HOUSE_SELL_TAB))
+        ..(WoWTools_L['Auto sell'])
         ..'|n|cnGREEN_FONT_COLOR:Alt+ '..(WoWTools_L.INTERRUPT)
         ..'|r|n|n|cnWARNING_FONT_COLOR:'
-        ..(WoWTools_DataMixin.onlyChinese and '危险！' or VOICEMACRO_1_Sc_0)
+        ..(WoWTools_L.VOICEMACRO_1_Sc_0)
 
     btn:setting()
 end
@@ -396,7 +396,7 @@ local function Update_Total_Price(frame)
                 end
             else
                 col='|cnWARNING_FONT_COLOR:'
-                text= col..(WoWTools_DataMixin.onlyChinese and '危险' or VOICEMACRO_1_Sc_0)
+                text= col..(WoWTools_L['VOICEMACRO_1_Sc_0~2'])
                 --Solo avisar: antes se sacaba el objeto del marco de venta y se ocultaba para siempre
             end
         end

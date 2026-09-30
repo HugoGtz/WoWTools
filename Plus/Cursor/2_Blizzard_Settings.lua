@@ -51,7 +51,7 @@ local function Init_Cursor_Options(panel)
     panel.sliderMaxParticles:SetPoint("TOPLEFT", panel.cursorCheck, 'BOTTOMLEFT', 0, -20)
 
     local sliderMinDistance = WoWTools_SliderMixin:CSlider(panel, {min=1, max=10, value=Save().minDistance, setp=1, color=true,
-    text=WoWTools_DataMixin.onlyChinese and '最小距离' or MINIMUM..TRACKER_SORT_PROXIMITY,
+    text=WoWTools_L['Minimum distance'],
     func=function(self, value)
         value= math.floor(value)
         self:SetValue(value)
@@ -107,7 +107,7 @@ local function Init_Cursor_Options(panel)
     sliderRate:SetPoint("TOPLEFT", sliderY, 'BOTTOMLEFT', 0, -20)
 
     local sliderRotate = WoWTools_SliderMixin:CSlider(panel, {min=0, max=32, value=Save().rotate, setp=1,
-    text=WoWTools_DataMixin.onlyChinese and '旋转' or HUD_EDIT_MODE_SETTING_MINIMAP_ROTATE_MINIMAP:gsub(MINIMAP_LABEL, ''),
+    text=WoWTools_L['Rotate'],
     func=function(self, value)
         value= math.floor(value)
         self:SetValue(value)
@@ -609,7 +609,7 @@ local function Init_Options(panel)
     --随机, 图片
     panel.randomTextureCheck= CreateFrame('CheckButton', nil, panel, "InterfaceOptionsCheckButtonTemplate")
     panel.randomTextureCheck:SetPoint("LEFT", notUseColorCheck.text, 'RIGHT', 10,0)
-    panel.randomTextureCheck.text:SetText('|TInterface\\PVPFrame\\Icons\\PVP-Banner-Emblem-47:0|t'..(WoWTools_DataMixin.onlyChinese and '随机图标' or WoWTools_L['Random icon']..EMBLEM_SYMBOL))
+    panel.randomTextureCheck.text:SetText('|TInterface\\PVPFrame\\Icons\\PVP-Banner-Emblem-47:0|t'..(WoWTools_L['Random icon']))
     panel.randomTextureCheck:SetChecked(Save().randomTexture)
     panel.randomTextureCheck:SetScript('OnMouseDown', function()
         Save().randomTexture= not Save().randomTexture and true or false
@@ -624,7 +624,7 @@ local function Init_Options(panel)
         GameTooltip:ClearLines()
         GameTooltip:AddLine(WoWTools_L.EVENTS_LABEL)
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine('Cursor', (WoWTools_DataMixin.onlyChinese and '战斗中: 移动' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT..': '..NPE_MOVE))
+        GameTooltip:AddDoubleLine('Cursor', (WoWTools_L['In combat: move']))
         GameTooltip:AddDoubleLine(' ', (WoWTools_L.OTHER)..WoWTools_DataMixin.Icon.left)
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine('GCD', WoWTools_TextMixin:GetEnabeleDisable(true))

@@ -22,11 +22,11 @@ local function Init_Menu(self, root)
          WoWTools_EncounterMixin:Init_JourneysList()
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要重新加载' or WoWTools_Join(LANDING_PAGE_RENOWN_LABEL, 'List'))
+        tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '名望列表' or WoWTools_Join(JOURNEYS_RENOWN_LABEL, 'List'),
+        WoWTools_L['Renown list'],
     function()
         return not Save().JourneysList.disabled
     end, function()
@@ -51,7 +51,7 @@ local function Init_Menu(self, root)
     end)
 --副本列表
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '副本列表' or WoWTools_Join(INSTANCE, 'List'),
+        WoWTools_L['Instance listings'],
     function()
         return not Save().hideInsList
     end, function()
@@ -145,7 +145,7 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWTools_L.EDIT_TICKET)
         tooltip:AddLine(' ')
         tooltip:AddLine('EJ Tier|cffffffff '..tier)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '仅限：重载时' or format(LFG_LIST_CROSS_FACTION, RELOADUI))
+        tooltip:AddLine(WoWTools_L['Only on reload'])
     end)
 
 
@@ -176,7 +176,7 @@ Menu.ModifyMenu("MENU_EJ_EXPANSION", function(_, root)
         local tier= Save().EncounterJournalTier or EJ_GetCurrentTier() or 1
         local name= EJ_GetTierInfo(tier)
         tooltip:AddLine(WoWTools_DataMixin.Icon.icon2..WoWTools_TextMixin:CN(name)..' tier|cffffffff '..tier)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '仅限：重载时' or format(LFG_LIST_CROSS_FACTION, RELOADUI))
+        tooltip:AddLine(WoWTools_L['Only on reload'])
     end)
 end)
 ]]

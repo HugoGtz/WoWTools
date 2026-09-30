@@ -638,7 +638,7 @@ local function Init_StackSplitFrame()
         root:CreateDivider()
         WoWTools_MenuMixin:OpenOptions(root, {
             name=WoWTools_MerchantMixin.addName,
-            name2='|A:communities-icon-addgroupplus:0:0|a'..(WoWTools_DataMixin.onlyChinese and '商人 Plus' or  WoWTools_Join(MERCHANT, 'Plus'))
+            name2='|A:communities-icon-addgroupplus:0:0|a'..(WoWTools_L['Merchant Plus'])
         })
     end)
 

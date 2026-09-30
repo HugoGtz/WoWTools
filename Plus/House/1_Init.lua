@@ -440,7 +440,7 @@ local function Add_label(frame, name, layoutIndex, text)
     frame.TextContainer:AddLayoutChildren(frame.TextContainer[name])
 
     if name=='TagsText' then
-        frame.TextContainer[name].tooltip= WoWTools_DataMixin.onlyChinese and '标签' or format('CHAT_TAB_NAME', '')
+        frame.TextContainer[name].tooltip= WoWTools_L['Tab']
         Set_Alpha(frame.TextContainer[name])
     end
 end

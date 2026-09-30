@@ -47,7 +47,7 @@ local function Init()
             return
         end
         local sub= root:CreateCheckbox(
-            WoWTools_DataMixin.onlyChinese and '兽栏' or STABLE_STABLED_PET_LIST_LABEL
+            WoWTools_L.STABLE_STABLED_PET_LIST_LABEL
             ..WoWTools_DataMixin.Icon.icon2,
         function()
             return StableFrame and StableFrame:IsShown()
@@ -94,7 +94,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             WoWToolsPlusSave['Plus_StableFrame']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_StableFrame'], P_Save)
             P_Save= nil
 
-            WoWTools_HunterMixin.addName= '|A:groupfinder-icon-class-hunter:0:0|a'..(WoWTools_DataMixin.onlyChinese and '猎人兽栏' or  WoWTools_Join(UnitClass('player'), STABLE_STABLED_PET_LIST_LABEL))
+            WoWTools_HunterMixin.addName= '|A:groupfinder-icon-class-hunter:0:0|a'..(WoWTools_L['Hunter stable'])
 
             --添加控制面板
                 WoWTools_PanelMixin:OnlyCheck({

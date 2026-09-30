@@ -58,7 +58,7 @@ local function Init_Menu(self, root)
             self:Init_Sell_Item_Button()
             print(
                 WoWTools_AuctionHouseMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                WoWTools_DataMixin.onlyChinese and '清除隐藏物品' or WoWTools_Join(SLASH_STOPWATCH_PARAM_STOP2, WoWTools_Join(HIDE, ITEMS))
+                WoWTools_L['Clear hidden items']
             )
         end})
         return MenuResponse.Open

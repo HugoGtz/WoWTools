@@ -5,7 +5,7 @@ function WoWTools_MacroMixin:GetName(name, icon)
         return
             '|T'..(icon or 134400)..':0|t'
             ..(name:gsub('  ', '')==' '
-            and (WoWTools_DataMixin.onlyChinese and '(空格)' or ('('..KEY_SPACE..')'))
+            and (WoWTools_L['(Space)'])
             or name)
     end
 end

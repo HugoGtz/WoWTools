@@ -724,7 +724,7 @@ local function Init_Menu(self, root)
     root:CreateDivider()
 
     root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '仅限: 正在活动' or LFG_LIST_CROSS_FACTION:format(CALENDAR_TOOLTIP_ONGOING),
+        WoWTools_L['Ongoing only'],
     function()
         return Save().onGoing
     end, function()

@@ -68,7 +68,7 @@ local function Init_Menu(self, root)
 
 --更多颜色
 	sub=root:CreateCheckbox(
-		WoWTools_DataMixin.onlyChinese and '更多颜色' or (COLORS..' 2'),
+		WoWTools_L['More colors'],
 	function()
 		return Save().selectType2
 	end, function()

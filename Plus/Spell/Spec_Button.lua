@@ -77,7 +77,7 @@ local function Init_Spec_Menu(self, root)
 
 --自动隐藏
         --[[sub2:CreateCheckbox(
-            WoWTools_DataMixin.onlyChinese and '自动隐藏' or format(GARRISON_FOLLOWER_NAME, SELF_CAST_AUTO, HIDE),
+            WoWTools_L['SELF_CAST_AUTO+HIDE'],
         function()
             return Save().hideInCombat
         end, function()

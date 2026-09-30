@@ -106,7 +106,7 @@ local function Save_Macro_Menu(frame, root)
                 tooltip:AddLine(' ')
                 tooltip:AddLine('|cnGREEN_FONT_COLOR:'..'|A:communities-chat-icon-plus:0:0|a'..(WoWTools_L.NEW)..WoWTools_DataMixin.Icon.left)
             else
-                tooltip:AddLine((WoWTools_DataMixin.onlyChinese '无' or NONE))
+                tooltip:AddLine((WoWTools_L.NONE))
             end
         end)
 --删除

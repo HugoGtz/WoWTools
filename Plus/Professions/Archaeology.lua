@@ -276,7 +276,7 @@ local function Init_ProgressBar()
         MenuUtil.CreateContextMenu(self, function(_, root)
             local sub=root:CreateCheckbox(
                 (select(3, GetProfessions()) and '' or '|cff626262')
-                ..(WoWTools_DataMixin.onlyChinese and '自动显示' or  format(GARRISON_FOLLOWER_NAME, SELF_CAST_AUTO, SHOW)),
+                ..(WoWTools_L['SELF_CAST_AUTO+SHOW']),
             function()
                 return Save().showArcheologyBar
             end, function()

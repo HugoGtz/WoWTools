@@ -394,7 +394,7 @@ local function Init()
                     local specA=''
                     local class
                     table.sort(specTable, function (a2, b2) return a2<b2 end)
-                    tips= WoWTools_DataMixin.onlyChinese and '拾取专精' or format(PROFESSIONS_SPECIALIZATION_TITLE, UNIT_FRAME_DROPDOWN_SUBSECTION_TITLE_LOOT )
+                    tips= WoWTools_L['Loot specialization']
                     for _,  specID in pairs(specTable) do
                         local _, name,_, icon2, _, classFile= GetSpecializationInfoByID(specID)
                         if icon2 and classFile then

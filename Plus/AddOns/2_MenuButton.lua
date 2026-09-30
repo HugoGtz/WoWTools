@@ -77,13 +77,13 @@ local function Init_Menu(self, root)
         WoWTools_AddOnsMixin:Init_Bottom_Buttons()
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '仅限有图标' or format(LFG_LIST_CROSS_FACTION, EMBLEM_SYMBOL))
+        tooltip:AddLine(WoWTools_L['Only with icons'])
         tooltip:AddLine(WoWTools_L.SPELL_FAILED_ALREADY_OPEN)
     end)
 
 --位置：上面
     sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '位置：上面' or (CHOOSE_LOCATION..': '..HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP),
+        WoWTools_L['Position: top'],
     function()
         return Save().load_list_top
     end, function()
@@ -93,7 +93,7 @@ local function Init_Menu(self, root)
 
 --仅图标
      sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '仅图标' or (format(LFG_LIST_CROSS_FACTION, EMBLEM_SYMBOL)),
+        WoWTools_L['Icon only'],
     function()
         return Save().load_list_onlyIcon
     end, function()
