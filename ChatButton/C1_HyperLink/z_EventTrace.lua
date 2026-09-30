@@ -354,7 +354,7 @@ local function Init_EditBox()
     end)
 
 
-    Init_Plus=function()end
+    Init_EditBox=function()end--antes reasignaba 'Init_Plus' (global)
 end
 
 
@@ -443,7 +443,7 @@ local function Init()
 
     Frame:SetScript('OnEvent', function(self, event, arg1, ...)
         if not EventTabs[event] then
-            arg= arg1 and {[arg1]=1} or {}
+            local arg= arg1 and {[arg1]=1} or {}
             self.index= self.index+1
 
             EventTabs[event]={

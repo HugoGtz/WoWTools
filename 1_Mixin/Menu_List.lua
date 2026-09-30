@@ -163,6 +163,7 @@ function WoWTools_MenuMixin:LootSpecialization(root)
                 format('|T%d:0|t', select(3, PlayerUtil.GetSpecName()) or 0)
             )
         else
+            local _
             specID, name, _, icon, role= C_SpecializationInfo.GetSpecializationInfo(specIndex, false, false, nil,  WoWTools_DataMixin.Player.Sex)
 
         end

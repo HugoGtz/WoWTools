@@ -58,10 +58,6 @@ local function Init_Menu(self, root)
         return not Save().disabledKeyColor
     end, function()
         Save().disabledKeyColor= not Save().disabledKeyColor and true or nil
-        for t in pairs(WoWToolsPlusPlayerDate['HyperLinkColorText']) do
-            WoWTools_Print(t)
-            break
-        end
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.HyperLink.KeyColor'])
 

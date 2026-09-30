@@ -251,7 +251,7 @@ local function Init_Buttons()
     ChallengesKeystoneFrame.TimeLimit:SetJustifyH('RIGHT')
 
 
-    Create_Buttons= function()end
+    Init_Buttons= function()end--antes reasignaba 'Create_Buttons' y creaba una global
 end
 
 

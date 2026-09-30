@@ -26,7 +26,7 @@ local function On_Show(frame)
         return
     end
 
-    if not ListButton:GetParent()~=frame then
+    if ListButton:GetParent()~=frame then
         ListButton:SetParent(frame)
     end
 

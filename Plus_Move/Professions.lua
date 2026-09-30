@@ -21,7 +21,7 @@ end
 local function initFunc()
 
 
-    Init=function()end
+    initFunc=function()end--antes reasignaba 'Init' y creaba una global
 end
 
 

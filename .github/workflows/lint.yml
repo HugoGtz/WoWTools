@@ -1,0 +1,34 @@
+name: Revisión
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lua:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar LuaJIT y luacheck
+        run: sudo apt-get update && sudo apt-get install -y luajit lua-check
+
+      - name: Sintaxis (reglas de Lua 5.1, como WoW)
+        run: |
+          fail=0
+          while IFS= read -r -d '' f; do
+            luajit -b "$f" /dev/null || { echo "::error file=$f::error de sintaxis"; fail=1; }
+          done < <(git ls-files -z -- '*.lua')
+          exit $fail
+
+      - name: luacheck (.luacheckrc)
+        run: luacheck .
+
+      - name: Archivos del .toc
+        run: |
+          fail=0
+          while IFS= read -r f; do
+            f="${f//\\//}"
+            [ -f "$f" ] || [ -f "$(dirname "$f")/$(basename "$f" | sed 's/^z_/Z_/')" ] || { echo "::error::el .toc carga un archivo que no existe: $f"; fail=1; }
+          done < <(tr -d '\r' < WoWToolsPlus.toc | grep -E '\.(lua|xml)$' | grep -v '^#')
+          exit $fail
