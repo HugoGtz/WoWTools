@@ -371,6 +371,16 @@ end
 --el portal cuya descripción o nombre menciona la mazmorra.
 local PortalCache= {}
 
+--Portales que el jugador puede no tener aprendidos (y por eso su desplegable no está en el libro de hechizos).
+--Se asignan a su mazmorra por la descripción, igual que los demás. Midnight, temporada 2:
+local ExtraPortals= {
+    1286801,--Path of the Blooming Verdure (El Valle Encegador)
+    1286804,--Path of the Brutal Combatant (Arena de la Cicatriz del Vacío)
+    1286807,--Path of the Worthy Aspirant (Guarida de Nalorakk)
+    1286809,--Path of the Devious Smuggler (Frontal de la Muerte)
+    1286812,--Path of Venomous Evolution (Altar de los Colmillos)
+}
+
 local function Get_Flyouts()
     local list, seen= {}, {}
     for _, info in ipairs(WoWTools_DataMixin.FlyoutID or {}) do
@@ -446,6 +456,13 @@ function WoWTools_ChallengeMixin:GetPortalSpellID(mapID)
                 table.insert(portals, {spellID=spellID, desc=desc, name=spellName or ''})
             end
         end
+    end
+    for _, spellID in ipairs(ExtraPortals) do
+        local desc= C_Spell.GetSpellDescription(spellID) or ''
+        if desc=='' then
+            C_Spell.RequestLoadSpellData(spellID)
+        end
+        table.insert(portals, {spellID=spellID, desc=desc, name=C_Spell.GetSpellName(spellID) or ''})
     end
 
     --Del nombre más completo al más corto: así "Operación" no elige el portal de otra "Operación: …"
