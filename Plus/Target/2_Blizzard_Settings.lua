@@ -8,7 +8,7 @@ local function TargetTextureSave()
     return WoWToolsPlusPlayerDate['TargetTexture'] or {}
 end
 
-local function set_Target_Color(self, isInCombat)--设置，颜色
+local function set_Target_Color(self, isInCombat)
     if self then
         if isInCombat then
             self:SetVertexColor(Save().targetInCombatColor.r, Save().targetInCombatColor.g, Save().targetInCombatColor.b, Save().targetInCombatColor.a)
@@ -146,11 +146,10 @@ local function Init_Options()
         self2:SetAlpha(0.3)
     end)
 
-    Frame.tipTargetTexture= Frame:CreateTexture()--目标，图片，提示
+    Frame.tipTargetTexture= Frame:CreateTexture()
     Frame.tipTargetTexture:SetPoint("TOP")
-    --set_Target_Texture(Frame.tipTargetTexture)--设置，图片
-    Frame.tipTargetTexture:SetSize(Save().w, Save().h)--设置，大小
-    set_Target_Color(Frame.tipTargetTexture, false)--设置，颜色
+    Frame.tipTargetTexture:SetSize(Save().w, Save().h)
+    set_Target_Color(Frame.tipTargetTexture, false)
 
     local combatCheck=CreateFrame('CheckButton', nil, Frame, "InterfaceOptionsCheckButtonTemplate")
     combatCheck:SetPoint('LEFT', sel.Text, 'RIGHT', 15,0)
@@ -201,7 +200,7 @@ local function Init_Options()
     end)
 
 
-    local menuPoint= CreateFrame("DropdownButton", nil, Frame, "WowStyle1DropdownTemplate")--下拉，菜单
+    local menuPoint= CreateFrame("DropdownButton", nil, Frame, "WowStyle1DropdownTemplate")
     menuPoint:SetPoint("LEFT", combatCheck.Text, 'RIGHT', 15, 0)
     menuPoint:SetWidth(195)
     menuPoint.Text:ClearAllPoints()
@@ -259,7 +258,7 @@ local function Init_Options()
         self2:SetValue(value)
         self2.Text:SetText(value)
         Save().w= value
-        Frame.tipTargetTexture:SetSize(Save().w, Save().h)--设置，大小
+        Frame.tipTargetTexture:SetSize(Save().w, Save().h)
         WoWTools_TargetMixin:Set_All_Init()
     end})
     sliderW:SetPoint("LEFT", sliderY, 'RIGHT',15,0)
@@ -270,7 +269,7 @@ local function Init_Options()
         self2:SetValue(value)
         self2.Text:SetText(value)
         Save().h= value
-        Frame.tipTargetTexture:SetSize(Save().w, Save().h)--设置，大小
+        Frame.tipTargetTexture:SetSize(Save().w, Save().h)
         WoWTools_TargetMixin:Set_All_Init()
     end})
     sliderH:SetPoint("LEFT", sliderW, 'RIGHT',15,0)
@@ -302,7 +301,7 @@ local function Init_Options()
     sliderElapsed:SetPoint("LEFT", sliderScale, 'RIGHT',15, 0)
 
 
-    local menu= CreateFrame("DropdownButton", nil, Frame, "WowStyle1DropdownTemplate")--下拉，菜单
+    local menu= CreateFrame("DropdownButton", nil, Frame, "WowStyle1DropdownTemplate")
     menu:SetPoint("TOPLEFT", sel, 'BOTTOMRIGHT', -16,-82)
     menu:SetWidth(445)
     menu:SetDefaultText(Save().targetTextureName)
@@ -386,7 +385,6 @@ local function Init_Options()
         self.add:SetShown(name and not TargetTextureSave()[name])
     end)
 
-    --删除，图片
     menu.edit.del= WoWTools_ButtonMixin:Cbtn(menu.edit, {atlas='xmarksthespot', size=23})
     menu.edit.del:SetPoint('LEFT', menu, 'RIGHT',2,0)
     menu.edit.del:SetScript('OnClick', function(self)
@@ -403,8 +401,7 @@ local function Init_Options()
         end
     end)
 
-    --添加按钮
-    menu.edit.add= WoWTools_ButtonMixin:Cbtn(menu.edit, {atlas='common-icon-checkmark', size=23})--添加, 按钮
+    menu.edit.add= WoWTools_ButtonMixin:Cbtn(menu.edit, {atlas='common-icon-checkmark', size=23})
     menu.edit.add:SetPoint('LEFT', menu.edit, 'RIGHT', 5,0)
     menu.edit.add:SetScript('OnClick', function(self)
         local parent= self:GetParent()
@@ -474,7 +471,6 @@ local function Init_Options()
 end
 
 
---添加控制面板
 local function Init()
     Frame= CreateFrame('Frame', nil, SettingsPanel)
 
@@ -484,7 +480,7 @@ local function Init()
         disabled= Save().disabled
     })
 
-    WoWTools_PanelMixin:ReloadButton({panel=Frame, addName= WoWTools_TargetMixin.addName, restTips=nil, checked=not Save().disabled, clearTips=nil, reload=false,--重新加载UI, 重置, 按钮
+    WoWTools_PanelMixin:ReloadButton({panel=Frame, addName= WoWTools_TargetMixin.addName, restTips=nil, checked=not Save().disabled, clearTips=nil, reload=false,
         disabledfunc=function()
             Save().disabled= not Save().disabled and true or nil
 

@@ -168,13 +168,13 @@ local function Set_Mount_Sub_Options(root, data)--icon,col,mountID,spellID,itemI
     end)
 
     if mountID then
-        WoWTools_MenuMixin:OpenJournal(root, {--战团藏品
+        WoWTools_MenuMixin:OpenJournal(root, {
             name=WoWTools_L.SETTINGS,
             index=1,
             moutID=mountID,
         })
     else
-        WoWTools_MenuMixin:OpenSpellBook(root)--天赋和法术书,
+        WoWTools_MenuMixin:OpenSpellBook(root)
     end
 
     root:CreateDivider()
@@ -205,9 +205,9 @@ local function Set_Mount_Menu(root, mountType, spellID, num, index)
     local sub, icon, isUsable, _, isCollected, col, name, mountName
     if mountID then
         mountName, _, icon, _, isUsable, _, _, _, _, _, isCollected =C_MountJournal.GetMountInfoByID(mountID)
-        if not isCollected then--没收集
+        if not isCollected then
             col= '|cff626262'
-        elseif not isUsable then--不可用
+        elseif not isUsable then
             col= '|cnWARNING_FONT_COLOR:'
         end
     end
@@ -274,7 +274,7 @@ local function Init_Menu_Mount(root, mountType)
         root,
         mountType,
         tab2[1],
-        WoWTools_MountMixin:Get_Table_Num(mountType),--检测,表里的数量
+        WoWTools_MountMixin:Get_Table_Num(mountType),
         nil
     )
 
@@ -313,7 +313,7 @@ local function Init_Menu_ShiftAltCtrl(root, mountType)
         root,
         mountType,
         tab2[1],
-        WoWTools_MountMixin:Get_Table_Num(mountType),--检测,表里的数量,
+        WoWTools_MountMixin:Get_Table_Num(mountType),
         nil
     )
 
@@ -500,7 +500,7 @@ local function Init_Menu(self, root)
             end
 
             icon= icon or 0
-            num= WoWTools_MountMixin:Get_Table_Num(mountType)--检测,表里的数量
+            num= WoWTools_MountMixin:Get_Table_Num(mountType)
 
             local name= WoWTools_MountMixin.TypeName[mountType] or mountType
 
@@ -537,10 +537,8 @@ local function Init_Menu(self, root)
         else
             Init_Menu_Mount(root, mountType)
         end
---列表总数
     end
 
---选项
     root:CreateDivider()
     sub=root:CreateButton(
         '|T413588:0|t'
@@ -553,7 +551,6 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWTools_L['Summon random favorite mount'], nil,nil,nil)
     end)
 
---设置捷键
     sub:CreateSpacer()
     WoWTools_KeyMixin:SetMenu(self, sub, {
         icon='|A:NPE_ArrowDown:0:0|a',
@@ -561,15 +558,14 @@ local function Init_Menu(self, root)
         key=Save().KEY,
         GetKey=function(key)
             Save().KEY=key
-            WoWTools_KeyMixin:Setup(self)--设置捷键
+            WoWTools_KeyMixin:Setup(self)
         end,
         OnAlt=function()
             Save().KEY=nil
-            WoWTools_KeyMixin:Setup(self)--设置捷键
+            WoWTools_KeyMixin:Setup(self)
         end,
     })
 
---全部重置
     WoWTools_MenuMixin:RestData(sub,
         WoWTools_MountMixin.addName..'|n|cnGREEN_FONT_COLOR:'
         ..(WoWTools_L.RELOADUI)..'|r',
@@ -580,17 +576,14 @@ local function Init_Menu(self, root)
         end
     )
 
---驭空术
     sub:CreateDivider()
     WoWTools_MenuMixin:OpenDragonriding(sub)
 
---战团藏品
     WoWTools_MenuMixin:OpenJournal(sub, {
         index=1,
         icon='|A:hud-microbutton-Mounts-Up:0:0|a'}
     )
 
---选项
     WoWTools_ToolsMixin:OpenMenu(sub, WoWTools_MountMixin.addName)
 end
 

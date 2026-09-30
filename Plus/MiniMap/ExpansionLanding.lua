@@ -43,7 +43,6 @@ end
 
 
 function WoWTools_MinimapMixin:Init_ExpansionLanding()
-    --要塞，图标
     if not ExpansionLandingPageMinimapButton then
         return
     end
@@ -61,7 +60,7 @@ function WoWTools_MinimapMixin:Init_ExpansionLanding()
             setResizeButtonPoint={
                 nil, nil, nil, -2, 2
             }})
-            C_Timer.After(8, function()--盟约图标停止闪烁
+            C_Timer.After(8, function()
                 ExpansionLandingPageMinimapButton.MinimapLoopPulseAnim:Stop()
             end)
         end)

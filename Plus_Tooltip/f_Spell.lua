@@ -2,7 +2,6 @@
 
 
 
---猎人兽栏，宠物
 local CALL_PET_SPELL_IDS = {
 	[0883]=1,
 	[83242]=2,
@@ -101,13 +100,13 @@ function WoWTools_TooltipMixin:Set_Spell(tooltip, spellID)--, actionID)
         ..'|cnHIGHLIGHT_FONT_COLOR:'..spellID
     )
 
-    Set_HunterPet(tooltip, spellID, self.iconSize)--猎人兽栏，宠物
+    Set_HunterPet(tooltip, spellID, self.iconSize)
 
-    local mountID = spellID~=150544 and C_MountJournal.GetMountFromSpell(spellID)--坐骑
+    local mountID = spellID~=150544 and C_MountJournal.GetMountFromSpell(spellID)
     if mountID then
         self:Set_Mount(tooltip, mountID)
     else
-        self:Set_Web_Link(tooltip, {type='spell', id=spellID, name=name, col=nil, isPetUI=false})--取得网页，数据链接
+        self:Set_Web_Link(tooltip, {type='spell', id=spellID, name=name, col=nil, isPetUI=false})
     end
 
     --tooltip.Portrait:settings(spellTexture)

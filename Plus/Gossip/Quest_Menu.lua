@@ -14,7 +14,6 @@ end
 local function Init_Menu(self, root)
     local sub, sub2, num
 
---启用
     sub=root:CreateCheckbox(
         (WoWTools_L.ENABLE)
         ..'|A:UI-HUD-UnitFrame-Target-PortraitOn-Boss-Quest:0:0|a',
@@ -28,9 +27,8 @@ local function Init_Menu(self, root)
         tooltip:AddLine('Alt+'..(WoWTools_L['BOOSTED_CHAR_SPELL_TEMPLOCK+DISABLE']))
     end)
 
---低等级任务
     sub2=sub:CreateCheckbox(
-        '|A:TrivialQuests:0:0|a'..(WoWTools_L.MINIMAP_TRACKING_TRIVIAL_QUESTS),--低等任务
+        '|A:TrivialQuests:0:0|a'..(WoWTools_L.MINIMAP_TRACKING_TRIVIAL_QUESTS),
     function()
         return WoWTools_MapMixin:Get_Minimap_Tracking(MINIMAP_TRACKING_TRIVIAL_QUESTS, false)
     end, function()
@@ -41,7 +39,6 @@ local function Init_Menu(self, root)
         tooltip:AddLine('|A:UI-HUD-Minimap-Tracking-Mouseover:0:0|a'..(WoWTools_L.TRACKING))
     end)
 
---自动:选择奖励
     root:CreateDivider()
     num= CountTable(Save().questRewardCheck or {})
     sub=root:CreateCheckbox(
@@ -60,7 +57,6 @@ local function Init_Menu(self, root)
         tooltip:AddLine('|cff0000ff'..(WoWTools_L.GARRISON_MISSION_RARE)..'|r')
     end)
 
---子目录，自动:选择奖励
     for questID, index in pairs(Save().questRewardCheck) do
        WoWTools_DataMixin:Load(questID, 'quest')
         sub2=sub:CreateCheckbox(
@@ -74,7 +70,6 @@ local function Init_Menu(self, root)
     end
     if num>1 then
         sub:CreateDivider()
---全部清除
         WoWTools_MenuMixin:ClearAll(sub, function()
             Save().questRewardCheck={}
         end)
@@ -82,7 +77,6 @@ local function Init_Menu(self, root)
     end
 
 
---自定义任务
     num= CountTable(Save().questOption or {})
     
     sub=root:CreateButton(
@@ -98,7 +92,6 @@ local function Init_Menu(self, root)
     end)
 
 
---子目录，自定义任务
     for questID, text in pairs(Save().questOption) do
         WoWTools_DataMixin:Load(questID, 'quest')
         sub2=sub:CreateCheckbox(
@@ -113,7 +106,6 @@ local function Init_Menu(self, root)
 
     if num>1 then
         sub:CreateDivider()
---全部清除
         WoWTools_MenuMixin:ClearAll(sub, function()
             Save().questOption={}
         end)
@@ -122,7 +114,6 @@ local function Init_Menu(self, root)
 
 
 
---共享任务
     root:CreateDivider()
     sub=root:CreateCheckbox(
         (IsInGroup() and '' or '|cff626262')
@@ -132,8 +123,8 @@ local function Init_Menu(self, root)
         return Save().pushable
     end, function()
         Save().pushable= not Save().pushable and true or nil
-        self:set_Event()--设置事件
-        self:set_PushableQuest()--共享,任务
+        self:set_Event()
+        self:set_PushableQuest()
     end)
     sub:SetTooltip(function(tooltip)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Gossip.QuestShare'])
@@ -142,7 +133,6 @@ local function Init_Menu(self, root)
         )
     end)
 
---数量
     sub=root:CreateCheckbox(
         (WoWTools_L.AUCTION_HOUSE_QUANTITY_LABEL),
     function()
@@ -150,7 +140,7 @@ local function Init_Menu(self, root)
     end, function()
         Save().showAllQuestNum= not Save().showAllQuestNum and true or nil
         self:set_Quest_Num_Text()
-        self:set_Event()--设置事件
+        self:set_Event()
     end)
     sub:SetTooltip(function(tooltip)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Gossip.QuestNum'])
@@ -162,15 +152,12 @@ local function Init_Menu(self, root)
         )
     end)
 
---文本转语音
 
 
 
---追踪
     root:CreateDivider()
     root:CreateTitle(WoWTools_L.TRACKING)
 
---自动任务追踪
     sub=root:CreateCheckbox(
         (WoWTools_L.AUTO_QUEST_WATCH_TEXT),
     function()
@@ -187,15 +174,14 @@ local function Init_Menu(self, root)
     sub:SetEnabled(not InCombatLockdown())
 
 
---当前地图
     root:CreateCheckbox(
         WoWTools_L['REFORGE_CURRENT+WORLD_MAP'],
     function()
         return Save().autoSortQuest
     end, function()
         Save().autoSortQuest= not Save().autoSortQuest and true or nil
-        self:set_Event()--仅显示本地图任务,事件
-        self:set_Only_Show_Zone_Quest()--显示本区域任务
+        self:set_Event()
+        self:set_Only_Show_Zone_Quest()
     end):SetTooltip(function(tooltip)
         tooltip:AddLine(WoWTools_L['Untracks every quest that is not on the current map, including the ones you track manually.'], nil, nil, nil, true)
     end)

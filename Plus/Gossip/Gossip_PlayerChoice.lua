@@ -5,7 +5,6 @@ end
 
 --local SHADOWLANDS_EXPERIENCE_THREADS_OF_FATE_CONFIRMATION_STRING= SHADOWLANDS_EXPERIENCE_THREADS_OF_FATE_CONFIRMATION_STRING
 
- --自动选择奖励 Blizzard_PlayerChoice.lua
 local function Send_Player_Choice_Response(optionInfo)
     if not optionInfo or not optionInfo.buttons or not optionInfo.buttons[1] then
         return
@@ -231,7 +230,6 @@ local function Init()
 
 
     --PlayerChoiceGenericPowerChoiceOptionTemplat
---BUFF信息
     WoWTools_DataMixin:Hook(PlayerChoicePowerChoiceTemplateMixin, 'Setup', function(frame)
         if frame.settings then
             frame:settings()

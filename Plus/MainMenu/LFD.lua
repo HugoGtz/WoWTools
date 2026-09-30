@@ -1,4 +1,3 @@
---地下城查找器
 
 
 
@@ -34,7 +33,7 @@ local function Init()
         frame:settings()
         GameTooltip:AddLine(' ')
 
-        local find= WoWTools_ChallengeMixin:ActivitiesTooltip()--周奖励，提示
+        local find= WoWTools_ChallengeMixin:ActivitiesTooltip()
         local link= WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Keystone.link
         if link then
             GameTooltip:AddLine(WoWTools_HyperLink:CN_Link(link, {isName=true}))
@@ -99,6 +98,6 @@ end
 
 
 
-function WoWTools_MainMenuMixin:Init_LFD()--地下城查找器
+function WoWTools_MainMenuMixin:Init_LFD()
     Init()
 end

@@ -1,4 +1,3 @@
---玩具界面, 菜单
 
 
 local function Save()
@@ -15,7 +14,7 @@ end
 
 
 
-local function Create_Button(btn)--标记, 是否已选取
+local function Create_Button(btn)
     btn.useItem= WoWTools_ButtonMixin:Cbtn(btn,{
         size=16,
         atlas='soulbinds_tree_conduit_icon_utility'
@@ -91,7 +90,7 @@ end
 
 
 local function Init()
-    WoWTools_DataMixin:Hook('ToySpellButton_UpdateButton', function(btn)--玩具界面, 菜单
+    WoWTools_DataMixin:Hook('ToySpellButton_UpdateButton', function(btn)
         if not btn.useItem then
            Create_Button(btn)
         end

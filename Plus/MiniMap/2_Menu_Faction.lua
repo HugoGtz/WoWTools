@@ -1,7 +1,6 @@
 
 
 
---菜单, 派系声望
 local function Set_Faction_Menu(root, factionID)
     local info= WoWTools_FactionMixin:GetInfo(factionID)
     if not info.name then
@@ -34,7 +33,7 @@ local function Set_Faction_Menu(root, factionID)
         if EncounterJournalJourneysFrame then
             return EncounterJournalJourneysFrame and EncounterJournalJourneysFrame.JourneyProgress.majorFactionData.factionID==data.factionID
 
-        elseif MajorFactionRenownFrame then--12.0没有了
+        elseif MajorFactionRenownFrame then
             return MajorFactionRenownFrame and MajorFactionRenownFrame.majorFactionID==data.factionID
         end
     end, function(data)
@@ -48,11 +47,9 @@ local function Set_Faction_Menu(root, factionID)
 end
 
 
---派系声望
 function WoWTools_MinimapMixin:Faction_Menu(_, root)
     local sub
 
---打开选项
     sub=root:CreateButton(
         '|A:VignetteEvent-SuperTracked:0:0|a'
         ..(WoWTools_L.LANDING_PAGE_RENOWN_LABEL),
@@ -65,7 +62,6 @@ function WoWTools_MinimapMixin:Faction_Menu(_, root)
 
 
 
---当前版本
     local tab= C_MajorFactions.GetMajorFactionIDs()
 
     table.sort(tab, function(a, b)
@@ -98,7 +94,6 @@ function WoWTools_MinimapMixin:Faction_Menu(_, root)
     end
 
 
---旧数据
     WoWTools_MenuMixin:SetScrollMode(sub)
 end
 

@@ -2,8 +2,6 @@
 local P_Save={
     fishing='BUTTON1',
     archaeology='F',
-    --save_fishing=true,--启动时，设置KEY
-    --save_archaeology=true--启动时，设置KEY
 }
 local function Save()
     return WoWToolsPlusSave['Tools_Professions']
@@ -29,7 +27,6 @@ local function Create_Button(index)
 end
 
 
---主要专业 1, 2
 local function Init_Professions(index)
     local button=  Create_Button(index)
     if not button then return end
@@ -70,7 +67,7 @@ local function Init_Cooking(index)
     end
 
     if PlayerHasToy(134020) then
-        local toyName=C_Item.GetItemNameByID(134020)--玩具,大厨的帽子
+        local toyName=C_Item.GetItemNameByID(134020)
         if toyName then
             macro= (macro and macro..'\n' or '')..'/use '..toyName
         end
@@ -154,7 +151,6 @@ local function Init_KeyButton_Menu(self, root)
     sub:SetEnabled(not isInCombat)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Professions.Key'])
 
---设置KEY
     WoWTools_KeyMixin:SetMenu(self, sub,  {
         icon='|A:NPE_ArrowDown:0:0|a',
         name=WoWTools_TextMixin:CN(self.name),
@@ -164,7 +160,6 @@ local function Init_KeyButton_Menu(self, root)
         end,
     })
 
---启动时，设置KEY
     sub2=sub:CreateCheckbox(
         WoWTools_L.SAVE,
     function()
@@ -180,9 +175,9 @@ end
 
 
 local function Init_KeyButton(index, type)
-    local spellID, spellID2, icon= 131474, 271990, 4620674--131474/钓鱼 271990/钓鱼日志
+    local spellID, spellID2, icon= 131474, 271990, 4620674
     if type=='archaeology' then
-        spellID, spellID2, icon= 80451, 278910, 134435--80451/勘测 278910/考古学
+        spellID, spellID2, icon= 80451, 278910, 134435
     end
 
     local button=  Create_Button(index)
@@ -194,7 +189,7 @@ local function Init_KeyButton(index, type)
     button.spellID2= spellID2
 
     button:SetAttribute('type1', 'spell')
-    button:SetAttribute('spell1', C_Spell.GetSpellName(spellID) or spellID)--钓鱼
+    button:SetAttribute('spell1', C_Spell.GetSpellName(spellID) or spellID)
     button.texture:SetTexture(C_Spell.GetSpellTexture(spellID) or icon)
 
     button:SetScript('OnMouseDown', function(self, d)
@@ -254,7 +249,7 @@ local function Init_KeyButton(index, type)
             WoWTools_Print(WoWTools_DataMixin.addName, '|cnWARNING_FONT_COLOR:'..(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT))
             return
         end
-        self:set_key(d==1)-- 1上, -1下
+        self:set_key(d==1)
         self:set_tooltip()
     end)
 
@@ -282,12 +277,10 @@ local function Init_KeyButton(index, type)
 
     WoWTools_KeyMixin:Init(button, nil, true)
 
-    --设置KEY
     function button:GetKEY()
         return Save()[self.type] or (self.type=='fishing' and 'BUTTON1') or 'F'
     end
 
---启动时，设置KEY
     if Save()['save_'..type] then
        button:set_key(true)
     end
@@ -307,12 +300,10 @@ local function Init()
         Init_Cooking(cooking)
     end
 
---钓鱼
     if fishing and fishing>0 then
         Init_KeyButton(fishing, 'fishing')
     end
 
---考古学
     if archaeology and archaeology>0 then
         Init_KeyButton(archaeology, 'archaeology')
     end
@@ -320,7 +311,6 @@ end
 
 
 --###########
---加载保存数据
 --###########
 local panel= CreateFrame("Frame")
 panel:RegisterEvent("ADDON_LOADED")

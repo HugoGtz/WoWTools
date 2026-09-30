@@ -1,5 +1,5 @@
-local AddList={}--插件表，所有，选项用 {name=name, tooltip=tooltip})
-local Buttons={}--存放所有, 按钮 {btn1, btn2,}
+local AddList={}
+local Buttons={}
 --RaidButton.canOpenOnEnter
 local Name= 'WoWToolsChatMenuButton_'
 
@@ -9,11 +9,11 @@ local function Save()
 end
 
 
-WoWTools_ChatMixin.AnchorMenuTab={--菜单位置
-        {"TOPLEFT",  "BOTTOMLEFT"},--下
-        {"BOTTOMLEFT",  "TOPLEFT"},--上
-        {"TOPRIGHT",  "TOPLEFT"},--左
-        {"TOPLEFT",  "TOPRIGHT"},--右
+WoWTools_ChatMixin.AnchorMenuTab={
+        {"TOPLEFT",  "BOTTOMLEFT"},
+        {"BOTTOMLEFT",  "TOPLEFT"},
+        {"TOPRIGHT",  "TOPLEFT"},
+        {"TOPLEFT",  "TOPRIGHT"},
     }
 local AnchorTooltip={
     'ANCHOR_LEFT',
@@ -137,7 +137,7 @@ local function Set_Button(btn)
         self:ClearAllPoints()
 
         local parent=  Buttons[index-1] and _G[Name..Buttons[index-1]] or _G['WoWToolsChatButtonMainButton']
-        if Save().isVertical then--方向, 竖
+        if Save().isVertical then
             self:SetPoint('BOTTOM', parent, 'TOP', 0, s)
         else
             self:SetPoint('LEFT', parent, 'RIGHT', s, 0)
@@ -150,7 +150,6 @@ local function Set_Button(btn)
     end
 
 
---菜单，Tooltip, 位置
     Set_Button_Script(btn)
     btn:SetAllSettings()
 end
@@ -172,7 +171,7 @@ function WoWTools_ChatMixin:CreateButton(name, addName)
         return
     end
 
-    table.insert(AddList, {name=name, tooltip=addName})--选项用
+    table.insert(AddList, {name=name, tooltip=addName})
 
     if Save().disabledADD[name] then
         return

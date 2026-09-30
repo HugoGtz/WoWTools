@@ -1,4 +1,3 @@
---背包，菜单，增强 ContainerFrame.lua
 local function Save()
     return WoWToolsPlusSave['Plus_Container'] or {}
 end
@@ -31,7 +30,6 @@ local function Set_GetColumns(self)
 
     local value= Save()[name..'Columns']
     if value then
---替换，原生
         function self:GetColumns()
             return Get_Columns(self)
         end
@@ -164,7 +162,6 @@ if Save().enabledCombinedColumns then
         end
 
 
---列表
         for _, num in pairs({5, 10, 15, 20, 25, 30, 35 ,40}) do
             sub2=sub:CreateRadio(
                 num,
@@ -215,12 +212,9 @@ if Save().enabledCombinedColumns then
 
     root:CreateDivider()
 
---打开选项界面
     sub=WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_BagMixin.addName})
---重载
     WoWTools_MenuMixin:Reload(sub)
     sub:CreateDivider()
---重置数据
     WoWTools_MenuMixin:RestData(sub, WoWTools_BagMixin.addName, function()
         WoWToolsPlusSave['Plus_Container']= nil
         WoWTools_DataMixin:Reload()
@@ -242,7 +236,6 @@ end
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Bag.DeleteButton'])
         GameTooltip_AddErrorLine(tooltip, WoWTools_L.REQUIRES_RELOAD)
     end)
---重载
     WoWTools_MenuMixin:Reload(sub)
     WoWTools_MenuMixin:OpenOptions(sub, {name=WoWTools_BagMixin.addName})
 end
@@ -256,7 +249,6 @@ local function Init()
 
         local frame= self:GetParent()
         local bagID = frame:GetBagID()
---全部启用
         if ContainerFrame_CanContainerUseFilterMenu(bagID) then
             local sub
             --root:CreateDivider()
@@ -281,7 +273,6 @@ local function Init()
                 tooltip:AddLine(WoWTools_L['Assign To'])
                 tooltip:AddDoubleLine(WoWTools_BagMixin.addName, WoWTools_DataMixin.addName)
             end)
---全部禁用
             sub=root:CreateCheckbox(
                 WoWTools_L.DISABLE_ALL_ADDONS,
             function(data)
@@ -383,7 +374,6 @@ local function Init()
 
 
     if Save().enabledCombinedColumns then
---ContainerFrame1 到 13 11.2版本是 6
         for bagID= 1, NUM_CONTAINER_FRAMES do
             local frame= _G['ContainerFrame'..bagID]
             if frame then
@@ -392,7 +382,6 @@ local function Init()
         end
 --ContainerFrameCombinedBags
         Set_GetColumns(ContainerFrameCombinedBags)
---设置 SearchBox
         WoWTools_DataMixin:Hook(ContainerFrame1, 'SetSearchBoxPoint', function(_, searchBox)
             searchBox:SetPoint('RIGHT', -28-23, 0)
         end)
@@ -401,7 +390,6 @@ local function Init()
         end)
     end
 
---读取，数据
     for name, bool in pairs(Save().cvar) do
         if C_Container['Set'..name] and C_Container['Get'..name] then
             if C_Container['Get'..name]()~=bool then

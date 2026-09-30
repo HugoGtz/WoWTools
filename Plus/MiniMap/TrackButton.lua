@@ -1,6 +1,6 @@
 
 local TrackButton
-local WorldMapButton--世界地图，添加一个按钮
+local WorldMapButton
 
 local Buttons={}
 
@@ -15,9 +15,7 @@ end
 
 
 --#######################
---小地图, 标记, 监视，文本
 --#######################
---世界任务 文本
 local function get_Quest_Text(questID)
     local text, itemTexture, atlas
     if C_TaskQuest.IsActive(questID) then
@@ -124,7 +122,6 @@ end
 
 
 --##############
---areaPoiID 文本
 --##############
 local function Get_areaPoiID_Text(uiMapID, areaPoiID)
     local poiInfo = C_AreaPoiInfo.GetAreaPOIInfo(uiMapID, areaPoiID) or {}
@@ -197,8 +194,8 @@ local function Get_Current_Vignettes()
                 and (info.name or info.atlasName)
                 and not info.isDead
                 and (
-                    (info.onMinimap and not hideOnMinimap)--当前，小地图，标记
-                    or (info.onWorldMap and not hideWorldMap)--当前，世界地图，标记
+                    (info.onMinimap and not hideOnMinimap)
+                    or (info.onWorldMap and not hideWorldMap)
                 )
             then
 
@@ -207,7 +204,7 @@ local function Get_Current_Vignettes()
                 end
                 local name= WoWTools_TextMixin:CN(info.name, {vignetteID= info.vignetteID})
 
-                if info.vignetteID == 5715 or info.vignetteID==5466 then--翻动的泥土堆
+                if info.vignetteID == 5715 or info.vignetteID==5466 then
                     name= name..'|T1059121:0|t'
                 elseif info.vignetteID== 5485 then
                     name= name..'|A:majorfactions_icons_Tuskarr512:0:0|a'
@@ -215,14 +212,14 @@ local function Get_Current_Vignettes()
                     name= name..'|A:majorfactions_icons_Expedition512:0:0|a'
                 end
 
-                if info.rewardQuestID then--任务，奖励
+                if info.rewardQuestID then
                     local itemTexture= WoWTools_QuestMixin:GetRewardInfo(info.rewardQuestID).texture
                     if itemTexture then
                         name= name..'|T'..itemTexture..':0|t'
                     end
                 end
 
-                if index==bestUniqueVignetteIndex then--唯一
+                if index==bestUniqueVignetteIndex then
                     name= '|cnGREEN_FONT_COLOR:'..name..'|r'..'|A:auctionhouse-icon-favorite:0:0|a'
                 end
 
@@ -249,11 +246,10 @@ end
 
 
 --##########
---小按钮，提示
 --VignetteDataProvider.lua VignettePinMixin:OnMouseEnte
 local function set_OnEnter_btn_tips(self)
     local widgetSetID, vignetteID
-    if self.questID then--任务
+    if self.questID then
         GameTooltip_AddQuest(self, self.questID)
 
     elseif self.vignetteGUID then--vigentte
@@ -376,7 +372,6 @@ local function set_OnEnter_btn_tips(self)
 end
 
 
---小按钮，点击
 local function set_OnClick_btn(self)
     local text
     if self.areaPoiID and self.uiMapID then
@@ -441,7 +436,7 @@ local function Create_Button(index)
     btn.text= WoWTools_LabelMixin:Create(btn)
 
     function btn:settings(tables)
-        self.questID= tables.questID--任务
+        self.questID= tables.questID
 
         self.vignetteGUID= tables.vignetteGUID--vigentte
         self.rewardQuestID= tables.rewardQuestID
@@ -472,7 +467,7 @@ local function Create_Button(index)
             self:SetNormalTexture(tables.texture or 0)
         end
         self:SetShown(tables.name)
-        self.onMinimap:SetShown(tables.vignetteGUID and tables.onMinimap)--提示， 在小地图
+        self.onMinimap:SetShown(tables.vignetteGUID and tables.onMinimap)
     end
 
     function btn:set_point()
@@ -525,7 +520,6 @@ local function Create_Button(index)
 end
 
 
---TrackButton 文本
 local function set_Button_Text()
     local allTable={}
 
@@ -538,21 +532,21 @@ local function set_Button_Text()
         table.insert(allTable, vigenttes)
     end
 
-    for questID, _ in pairs(Save().questIDs) do--世界任务
+    for questID, _ in pairs(Save().questIDs) do
         local name, itemTexture, atlas= get_Quest_Text(questID)
         if name then
             table.insert(allTable, {questID=questID, name=name, texture=itemTexture, atlas= atlas})
         end
     end
 
-    for areaPoiID, uiMapID in pairs(Save().areaPoiIDs) do--自定义 areaPoiID
+    for areaPoiID, uiMapID in pairs(Save().areaPoiIDs) do
         local name, atlas, widgetSetData= Get_areaPoiID_Text(uiMapID, areaPoiID, true)
         if name then
             table.insert(allTable, {name=name, areaPoiID=areaPoiID, uiMapID=uiMapID, widgetSetData=widgetSetData, atlas=atlas})
         end
     end
 
-    for uiMapID, _ in pairs(Save().uiMapIDs) do--地图ID
+    for uiMapID, _ in pairs(Save().uiMapIDs) do
         local tab={}
         for _, areaPoiID in pairs(C_AreaPoiInfo.GetAreaPOIForMap(uiMapID) or {}) do
             if not Save().areaPoiIDs[areaPoiID] and not tab[areaPoiID] then
@@ -598,7 +592,7 @@ local function set_Button_Text()
     TrackButton.Bg:ClearAllPoints()
     if num>0 then
         TrackButton.Bg:SetPoint('LEFT', _G['WoWToolsMinimapTrackButton'..1], -1, 0)
-        if Save().textToDown then--向下滚动
+        if Save().textToDown then
            TrackButton.Bg:SetPoint('TOP' ,_G['WoWToolsMinimapTrackButton'..1].nameText, 0, 1)
             TrackButton.Bg:SetPoint('BOTTOM' ,_G['WoWToolsMinimapTrackButton'..num].text, 0, -1)
         else
@@ -619,9 +613,8 @@ local function set_Button_Text()
 end
 
 
-local function Init_Menu(self, root)--菜单
+local function Init_Menu(self, root)
     local sub, sub2
---显示
     sub=root:CreateCheckbox(
         WoWTools_L.SHOW,
     function()
@@ -635,7 +628,6 @@ local function Init_Menu(self, root)--菜单
 
 
 
---当前
     root:CreateDivider()
     sub=root:CreateCheckbox(
         (WoWTools_L.REFORGE_CURRENT)..(Save().vigentteSound and '|A:chatframe-button-icon-voicechat:0:0|a' or ' ')..'Vignette',
@@ -645,7 +637,6 @@ local function Init_Menu(self, root)--菜单
         Save().hideVigentteCurrent= not Save().hideVigentteCurrent and true or nil
     end)
 
---小地图
     local tipSub= sub:CreateCheckbox(
         (WoWTools_L.HUD_EDIT_MODE_MINIMAP_LABEL),
     function()
@@ -656,7 +647,6 @@ local function Init_Menu(self, root)--菜单
     WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.MiniMap.VignetteMinimap'])
 
 
---世界地图
     local tipSub= sub:CreateCheckbox(
         (WoWTools_L.WORLDMAP_BUTTON),
     function()
@@ -666,7 +656,6 @@ local function Init_Menu(self, root)--菜单
     end)
     WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.MiniMap.VignetteWorldMap'])
 
---播放声音
     local tipSub= sub:CreateCheckbox(
         '|A:chatframe-button-icon-voicechat:0:0|a'
         ..(Save().hideVigentteCurrentOnWorldMap and '|cff626262' or '')
@@ -685,7 +674,6 @@ local function Init_Menu(self, root)--菜单
     end)
     WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.MiniMap.VignetteSound'])
 
---世界任务
     local num=0
     for questID in pairs(Save().questIDs) do
         num= num+1
@@ -720,7 +708,6 @@ local function Init_Menu(self, root)--菜单
 
     if num>1 then
         sub:CreateDivider()
---全部清除
         WoWTools_MenuMixin:ClearAll(sub, function()
             Save().questIDs={}
         end)
@@ -753,14 +740,12 @@ local function Init_Menu(self, root)--菜单
 
     if num>1 then
         sub:CreateDivider()
---全部清除
         WoWTools_MenuMixin:ClearAll(sub, function()
             Save().areaPoiIDs={}
         end)
         WoWTools_MenuMixin:SetScrollMode(sub)
     end
 
---地图
     num= CountTable(Save().uiMapIDs or {})
 
     sub=root:CreateButton(
@@ -786,7 +771,6 @@ local function Init_Menu(self, root)--菜单
 
     if num>1 then
         sub:CreateDivider()
---全部清除
         WoWTools_MenuMixin:ClearAll(sub, function()
             Save().uiMapIDs={}
         end)
@@ -794,7 +778,6 @@ local function Init_Menu(self, root)--菜单
     end
 
 
---打开选项
     root:CreateDivider()
     sub= WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_MinimapMixin.addName})
 
@@ -815,7 +798,6 @@ local function Init_Menu(self, root)--菜单
     end)
     WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.MiniMap.TrackTextDown'])
 
---缩放
     WoWTools_MenuMixin:Scale(self, sub, function()
         return Save().vigentteButtonTextScale
     end, function(value)
@@ -823,7 +805,6 @@ local function Init_Menu(self, root)--菜单
         self:set_scale()
     end)
 
-    --背景, 透明度
     WoWTools_MenuMixin:BgAplha(sub,
     function()
         return Save().trackBgAlpha or 0.5
@@ -843,13 +824,11 @@ local function Init_Menu(self, root)--菜单
         self:set_strata()
     end)
 
---重置位置
     sub:CreateDivider()
     WoWTools_MenuMixin:RestPoint(self, sub, Save().pointVigentteButton, WoWTools_MinimapMixin.Rest_TrackButton_Point)
 end
 
 
---小地图, 标记, 文本
 local function Init_Button()
     TrackButton= CreateFrame('Button', 'WoWToolsMinimapTrackMainButton', UIParent, 'WoWToolsButtonTemplate')
     TrackButton.texture= TrackButton:CreateTexture(nil, 'BORDER')
@@ -888,7 +867,7 @@ local function Init_Button()
         self.text:SetAlpha(isShow and 1 or 0)
     end
 
-    function TrackButton:set_point()--设置，位置
+    function TrackButton:set_point()
         if Save().pointVigentteButton then
             self:SetPoint(Save().pointVigentteButton[1], UIParent, Save().pointVigentteButton[3], Save().pointVigentteButton[4], Save().pointVigentteButton[5])
         else
@@ -914,7 +893,7 @@ local function Init_Button()
     end)
 
     TrackButton:SetScript('OnMouseUp', ResetCursor)
-    TrackButton:SetScript('OnMouseDown', function(self, d)--显示，隐藏
+    TrackButton:SetScript('OnMouseDown', function(self, d)
         if d=='RightButton' and IsAltKeyDown() then
             SetCursor('UI_MOVE_CURSOR')
         else
@@ -936,7 +915,7 @@ local function Init_Button()
         GameTooltip:Show()
     end
 
-    TrackButton:SetScript('OnMouseWheel', function(self, d)--缩放
+    TrackButton:SetScript('OnMouseWheel', function(self, d)
         --Save().vigentteButtonTextScale= WoWTools_FrameMixin:ScaleFrame(self, d, Save().vigentteButtonTextScale, nil)
         Save().vigentteButtonShowText= d==-1
         self:set_shown()
@@ -1012,7 +991,7 @@ local function Init_Button()
     end)
 
 
-    function TrackButton:set_scale()--设置，Button的 Frame Text 属性
+    function TrackButton:set_scale()
         self.Frame:SetScale(Save().vigentteButtonTextScale or 1)
     end
 
@@ -1047,7 +1026,7 @@ local function Init_Button()
                         self.SpeakTextTab[info.name]=nil
                     elseif not self.SpeakTextTab[info.name] then
                         if not find then
-                            WoWTools_DataMixin:PlayText(info.name)--播放声音
+                            WoWTools_DataMixin:PlayText(info.name)
                             find=true
                         end
                         self.SpeakTextTab[info.name]=true
@@ -1071,7 +1050,6 @@ local function Init_Button()
 end
 
 
---世界地图，添加一个按钮
 local function Init_WorldFrame_Button()
     --WorldMapButton= WoWTools_ButtonMixin:Cbtn(WorldMapFrame, {size=20, name='WoWTools_Minimap_WorldTrackButton'})
     WorldMapButton= CreateFrame('Button', 'WoWToolsMinimapWorldTrackButton', WorldMapFrame, 'WoWToolsButtonTemplate')
@@ -1113,22 +1091,21 @@ local function Init_WorldFrame_Button()
             GameTooltip:Show()
         end
     end)
-    WoWTools_DataMixin:Hook(WorldMapFrame, 'OnMapChanged', function() WorldMapButton:set_texture() end)--uiMapIDs, 添加，移除 --Blizzard_WorldMap.lua
+    WoWTools_DataMixin:Hook(WorldMapFrame, 'OnMapChanged', function() WorldMapButton:set_texture() end)
     WoWTools_TextureMixin:SetButton(WorldMapButton, {all=true, alpha=0.7})
 
     Init_WorldFrame_Button=function()end
 end
 
 
---世界地图，事件
 local function Init_WorldFrame_Event()
-    WoWTools_DataMixin:Hook('TaskPOI_OnEnter', function(self)--世界任务，提示 WorldMapFrame.lua
+    WoWTools_DataMixin:Hook('TaskPOI_OnEnter', function(self)
         if WoWTools_QuestMixin:IsValidQuestID(self.questID) and self.OnMouseClickAction then
             GameTooltip:AddDoubleLine(WoWTools_MinimapMixin.addName2..(Save().questIDs[self.questID] and format('|A:%s:0:0|a', 'common-icon-checkmark') or ''), 'Alt+'..WoWTools_DataMixin.Icon.left)
             GameTooltip:Show()
         end
     end)
-    WoWTools_DataMixin:Hook(WorldQuestPinMixin, 'RefreshVisuals', function(self)--世界任务，添加/移除 WorldQuestDataProvider.lua self.tagInfo
+    WoWTools_DataMixin:Hook(WorldQuestPinMixin, 'RefreshVisuals', function(self)
         if not self.OnMouseClickAction or self.setTracking then
             return
         end
@@ -1144,7 +1121,7 @@ local function Init_WorldFrame_Event()
         self.setTracking=true
     end)
 
-    WoWTools_DataMixin:Hook(AreaPOIPinMixin,'TryShowTooltip', function(self)--areaPoiID,提示 AreaPOIDataProvider.lua
+    WoWTools_DataMixin:Hook(AreaPOIPinMixin,'TryShowTooltip', function(self)
         if GameTooltip:HasSecretValues() and canaccessvalue(self.areaPoiID) and self.areaPoiID and self:GetMap() and self:GetMap():GetMapID() then
             
             GameTooltip:AddDoubleLine(
@@ -1155,7 +1132,7 @@ local function Init_WorldFrame_Event()
             GameTooltip:Show()
         end
     end)
-    WoWTools_DataMixin:Hook(AreaPOIPinMixin, 'OnAcquired', function(self)---areaPoiID, 添加/移除 AreaPOIDataProvider.lua
+    WoWTools_DataMixin:Hook(AreaPOIPinMixin, 'OnAcquired', function(self)
         if self.setTracking then
             return
         end
@@ -1165,7 +1142,7 @@ local function Init_WorldFrame_Event()
                 if uiMapID then
                     Save().areaPoiIDs[self.areaPoiID]= not Save().areaPoiIDs[self.areaPoiID] and uiMapID or nil
                     local poiInfo = C_AreaPoiInfo.GetAreaPOIInfo(uiMapID, self.areaPoiID) or {}
-                    local name= get_AreaPOIInfo_Name(poiInfo)--取得 areaPoiID 名称
+                    local name= get_AreaPOIInfo_Name(poiInfo)
                     name= name=='' and 'areaPoiID '..self.areaPoiID or name
                     WoWTools_Print(WoWTools_MinimapMixin.addName2..WoWTools_DataMixin.Icon.icon2,
                         (C_Map.GetMapInfo(uiMapID) or {}).name or ('uiMapID '..uiMapID),
@@ -1183,7 +1160,6 @@ local function Init_WorldFrame_Event()
 end
 
 
---小地图, 标记, 文本
 function WoWTools_MinimapMixin:Init_TrackButton()
     if not Save().vigentteButton or TrackButton then
         if TrackButton then
@@ -1193,13 +1169,12 @@ function WoWTools_MinimapMixin:Init_TrackButton()
     end
 
 
-    Init_Button()--小地图, 标记, 文本
-    Init_WorldFrame_Button()--世界地图，添加一个按钮
-    Init_WorldFrame_Event()--世界地图，事件
+    Init_Button()
+    Init_WorldFrame_Button()
+    Init_WorldFrame_Event()
 end
 
 
---重置位置
 function WoWTools_MinimapMixin:Rest_TrackButton_Point()
     if TrackButton then
         Save().pointVigentteButton=nil

@@ -1,4 +1,3 @@
---宠物，信息，提示
 
 if WoWTools_DataMixin.Player.Class~='HUNTER' then
     return
@@ -13,7 +12,6 @@ end
 
 
 
---宠物，信息，提示
 local function SetTooltip(frame, pet)
     if WoWToolsPlusSave['Plus_StableFrame'].HideTips then
         return

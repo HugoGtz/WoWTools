@@ -14,7 +14,7 @@ local function Init()
         for _, btn in pairs(frame:GetFrames() or {}) do
 
             local all, num= 0, 0
-            local isRefundable= false--可退款
+            local isRefundable= false
 
             for _, itemID in pairs( btn.categoryID and C_AccountStore.GetCategoryItems(btn.categoryID) or {}) do
                 local itemInfo= C_AccountStore.GetItemInfo(itemID)

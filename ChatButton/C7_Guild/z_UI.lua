@@ -25,11 +25,9 @@ end
 
 
 
- --公会和社区 Blizzard_Communities
 
 
---公会和社区
-function WoWTools_MoveMixin.Events:Blizzard_Communities()--公会和社区
+function WoWTools_MoveMixin.Events:Blizzard_Communities()
 
 
     local function set_size(frame)
@@ -74,10 +72,10 @@ function WoWTools_MoveMixin.Events:Blizzard_Communities()--公会和社区
             btn.Description:ClearAllPoints()
             btn.Description:SetPoint('LEFT', btn.LogoBorder, 'RIGHT', 12,0)
             btn.Description:SetPoint('RIGHT', btn.RequestJoin, 'LEFT', -26,0)
-            btn.Background:SetPoint('RIGHT', -12,0)--移动背景
+            btn.Background:SetPoint('RIGHT', -12,0)
             local cardInfo= btn.cardInfo-- or {}-- clubFinderGUID, isCrossFaction, clubId, 
 
-            if not btn.corssFactionTexture and cardInfo.isCrossFaction then--跨阵营
+            if not btn.corssFactionTexture and cardInfo.isCrossFaction then
                 btn.corssFactionTexture= btn:CreateTexture(nil, 'OVERLAY')
                 btn.corssFactionTexture:SetSize(18,18)
                 btn.corssFactionTexture:SetAtlas('CrossedFlags')
@@ -86,7 +84,7 @@ function WoWTools_MoveMixin.Events:Blizzard_Communities()--公会和社区
             if btn.corssFactionTexture then
                 btn.corssFactionTexture:SetShown(true)--not cardInfo.isCrossFaction)
             end
-            local autoAccept--自动，批准, 无效
+            local autoAccept
             local clubStatus= cardInfo.clubFinderGUID and C_ClubFinder.GetPlayerClubApplicationStatus(cardInfo.clubFinderGUID)
             btn:SetAlpha(btn.RequestJoin:IsShown() and 1 or 0.3)
             if clubStatus then
@@ -111,7 +109,6 @@ function WoWTools_MoveMixin.Events:Blizzard_Communities()--公会和社区
     WoWTools_DataMixin:Hook(CommunitiesFrame.MaxMinButtonFrame, 'Minimize', set_size)--maximizedCallback
     WoWTools_DataMixin:Hook(CommunitiesFrame.MaxMinButtonFrame, 'Maximize', set_size)
 
---公会奖励
     CommunitiesFrame.GuildBenefitsFrame.Perks:SetPoint('TOPRIGHT', CommunitiesFrame.GuildBenefitsFrame, 'TOP', -17, 0)
     CommunitiesFrame.GuildBenefitsFrame.Rewards:SetPoint('LEFT', CommunitiesFrame.GuildBenefitsFrame.Perks, 'RIGHT', 15, 0)
     CommunitiesFrame.GuildBenefitsFrame.FactionFrame.Bar:SetPoint('TOPRIGHT', CommunitiesFrame.GuildBenefitsFrame.Perks, 'BOTTOMRIGHT')
@@ -119,12 +116,10 @@ function WoWTools_MoveMixin.Events:Blizzard_Communities()--公会和社区
     CommunitiesFrame.GuildBenefitsFrame.Perks:GetRegions():SetPoint('BOTTOMRIGHT', 14, 0)--bg
     CommunitiesFrame.GuildBenefitsFrame.Rewards:GetRegions():SetPoint('BOTTOMRIGHT', 14, 0)
 
---寻找社区
     WoWTools_DataMixin:Hook(ClubFinderCommunityAndGuildFinderFrame.CommunityCards.ScrollBox, 'Update', Init_Update)
     
 
 
---公会信息
     CommunitiesFrameGuildDetailsFrameInfo:SetWidth(272)
 
 
@@ -148,7 +143,6 @@ function WoWTools_MoveMixin.Events:Blizzard_Communities()--公会和社区
         sub.Details:SetPoint('RIGHT', CommunitiesFrameGuildDetailsFrameInfo.DetailsFrame, 0, 4)
     end
 
---公会新闻
     CommunitiesFrameGuildDetailsFrameNews:SetPoint('LEFT', CommunitiesFrameGuildDetailsFrameInfo, 'RIGHT', 15, 0)
     CommunitiesFrameGuildDetailsFrameNews.ScrollBox:SetPoint('BOTTOMRIGHT')
     CommunitiesFrameGuildDetailsFrameNews.Header:SetPoint('RIGHT', -14, 0)
@@ -205,31 +199,26 @@ function WoWTools_MoveMixin.Events:Blizzard_Communities()--公会和社区
 
     self:Setup(CommunitiesTicketManagerDialog)
 
---新闻过滤
     self:Setup(CommunitiesGuildNewsFiltersFrame)
 
 
---成员,叙述 CommunitiesGuildMemberDetailMixin
     self:Setup(CommunitiesFrame.GuildMemberDetailFrame, {frame=CommunitiesFrame})
     WoWTools_DataMixin:Hook(CommunitiesFrame.GuildMemberDetailFrame, 'DisplayMember', function(frame)
         frame:SetHeight(frame:GetHeight()+15)
     end)
     CommunitiesFrame.GuildMemberDetailFrame.NoteBackground.PersonalNoteText:SetNonSpaceWrap(true)
 
---信息，查看记录
     self:Setup(CommunitiesGuildLogFrame, {
     sizeRestFunc=function(frame)
         frame:SetSize(384, 432)
     end})
 
---公会信息， 点击以编辑
     self:Setup(CommunitiesGuildTextEditFrame, {
     sizeRestFunc=function(frame)
         frame:SetSize(295, 295)
     end})
 
 
---新建，公会, 签名
     self:Setup(PetitionFrame, {
     sizeRestFunc=function(frame)
         frame:SetSize(338, 424)
@@ -237,11 +226,9 @@ function WoWTools_MoveMixin.Events:Blizzard_Communities()--公会和社区
     PetitionFrame.Bg:SetPoint('BOTTOMRIGHT',-32,30)
 
 
---公会和社区，列表
     CommunitiesFrameCommunitiesList:SetPoint('BOTTOMRIGHT', CommunitiesFrame, 'BOTTOMLEFT', 170, 3)
 
 
---设计，公会战袍
     self:Setup(TabardFrame, {
     sizeRestFunc=function(frame)
         frame:SetSize(338, 424)
@@ -286,7 +273,6 @@ function WoWTools_MoveMixin.Events:Blizzard_Communities()--公会和社区
     end)
 
 
---公会设置
     self:Setup(GuildControlUI, {
     sizeRestFunc=function(frame)
         frame:SetSize(338, 444)
@@ -294,23 +280,16 @@ function WoWTools_MoveMixin.Events:Blizzard_Communities()--公会和社区
     GuildControlUIRankBankFrameInset:SetPoint('LEFT', 2, 0)
     GuildControlUIRankBankFrameInset:SetPoint('BOTTOMRIGHT', -2, 2)
 
---社区设置
---修改，图标, 可能会有BUG
-    --宏列表，按钮宽，数量
 end
 
 
---公会，可以使用的服务
 
---公会，可以使用的服务
 function WoWTools_MoveMixin.Frames:GuildRegistrarFrame()
     self:Setup(GuildRegistrarFrame)
 
---注册公会
     WoWTools_EditBoxMixin:Setup(GuildRegistrarFrameEditBox,  {isMaxLetter=true, maxLetterPoint=function(edit, label)
         label:SetPoint('BOTTOMRIGHT', edit, 'TOPRIGHT')
     end})
---公会更名
     WoWTools_EditBoxMixin:Setup(GuildRenameFrame.RenameFlow.NameBox,  {isMaxLetter=true, maxLetterPoint=function(edit, label)
         label:SetPoint('BOTTOMRIGHT', edit, 'TOPRIGHT')
     end})

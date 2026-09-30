@@ -1,18 +1,14 @@
 
 local P_Save={
-	factions={},--指定,显示,声望
-	btnstr=true,--文本
-	scaleTrackButton=1,--缩放
-	--notAutoHideTrack=true,--自动隐藏
-	toRightTrackText=true,--向右平移
-	--toTopTrack=true,--向上
+	factions={},
+	btnstr=true,
+	scaleTrackButton=1,
+	toRightTrackText=true,
 
-	factionUpdateTips=true,--更新, 提示
-	--indicato=true,--指定
+	factionUpdateTips=true,
 	--notPlus=true,
 
 	hideRenownFrame={},
-	--hide_MajorFactionRenownFrame_Button=true,--隐藏，派系声望，列表，图标
 	--MajorFactionRenownFrame_Button_Scale
 }
 
@@ -36,7 +32,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
 			WoWTools_FactionMixin.addName= format('|A:%s:0:0|a%s', WoWTools_DataMixin.Icon[WoWTools_DataMixin.Player.Faction] or 'ParagonReputation_Glow', WoWTools_L['Module.Reputation'])
 
-			--添加控制面板
 			WoWTools_PanelMixin:OnlyCheck({
 				name= WoWTools_FactionMixin.addName,
 				tooltip= WoWTools_L['Tip.Faction.Enable']..'|n|n'..WoWTools_L.REQUIRES_RELOAD,
@@ -55,23 +50,23 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 				self:RegisterEvent('PLAYER_ENTERING_WORLD')
 
 				if C_AddOns.IsAddOnLoaded('Blizzard_MajorFactions') then
-					WoWTools_FactionMixin:Init_MajorFactionRenownFrame()--名望
+					WoWTools_FactionMixin:Init_MajorFactionRenownFrame()
 				end
 				if C_AddOns.IsAddOnLoaded('Blizzard_CovenantRenown') then
-					WoWTools_FactionMixin:Init_CovenantRenown(CovenantRenownFrame)--盟约 9.0
+					WoWTools_FactionMixin:Init_CovenantRenown(CovenantRenownFrame)
 				end
 			else
 				self:SetScript('OnEvent', nil)
 			end
 
 		elseif arg1=='Blizzard_MajorFactions' and WoWToolsPlusSave then
-			WoWTools_FactionMixin:Init_MajorFactionRenownFrame()--名望
+			WoWTools_FactionMixin:Init_MajorFactionRenownFrame()
 			if C_AddOns.IsAddOnLoaded('Blizzard_CovenantRenown') then
 				self:UnregisterEvent(event)
 			end
 
 		elseif arg1=='Blizzard_CovenantRenown' and WoWToolsPlusSave then
-			WoWTools_FactionMixin:Init_CovenantRenown(CovenantRenownFrame)--盟约 9.0
+			WoWTools_FactionMixin:Init_CovenantRenown(CovenantRenownFrame)
 			if C_AddOns.IsAddOnLoaded('Blizzard_MajorFactions') then
 				self:UnregisterEvent(event)
 			end

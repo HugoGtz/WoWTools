@@ -11,7 +11,6 @@
 
 
 
---盟约 9.0
 local function Set_Covenant_Button(frame, covenantID)
     local info = C_Covenants.GetCovenantData(covenantID) or {}
 
@@ -107,7 +106,6 @@ end
 
 
 
---盟约 9.0
 function WoWTools_FactionMixin:Init_CovenantRenown(frame)
     if frame then
         Init(frame)

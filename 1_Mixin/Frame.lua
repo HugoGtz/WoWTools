@@ -18,7 +18,6 @@ function WoWTools_FrameMixin:IsLocked(frame)
 end
 
 
---确认框架中心点，在屏幕内
 function WoWTools_FrameMixin:IsInSchermo(frame)
     if not frame or not frame:IsVisible() then
         return false
@@ -62,7 +61,6 @@ end
 
 
 
---缩放，Frame
 function WoWTools_FrameMixin:ScaleFrame(frame, delta, value, func)
     local n= value
     if WoWTools_FrameMixin:IsLocked(frame) then--antes con punto: nunca detectaba el combate
@@ -113,13 +111,11 @@ function WoWTools_FrameMixin:Create(parent, tab)
 
     local frame= CreateFrame('Frame', name or ('WoWTools_EditBoxFrame'..getIndex()), parent, template, setID)
 
---Esc 键
     if isEsc then
         tinsert(UISpecialFrames, name)
     end
 
     frame:SetToplevel(true)
---设置大小
     local w, h= Get_Size(size)
     frame:SetSize(w, h)
     frame.width= w
@@ -128,7 +124,6 @@ function WoWTools_FrameMixin:Create(parent, tab)
 
     frame:SetFrameStrata(strata)
 
---设置，位置
     if restPointFunc then
         frame.restPointFunc= restPointFunc
     else
@@ -164,7 +159,6 @@ function WoWTools_FrameMixin:Create(parent, tab)
         end
     end)
 
---移动
     WoWTools_MoveMixin:Setup(frame, {
         --needMove=true,
         minW=minW or 370,
@@ -181,7 +175,6 @@ function WoWTools_FrameMixin:Create(parent, tab)
     WoWTools_MoveMixin:Setup(frame.Header, {frame=frame})
     WoWTools_MoveMixin:Setup(frame.Border, {frame=frame})
 
---材质
     WoWTools_TextureMixin:SetButton(frame.CloseButton)
 
     WoWTools_TextureMixin:Init_BGMenu_Frame(frame, {
@@ -199,7 +192,6 @@ function WoWTools_FrameMixin:Create(parent, tab)
 end
 
 
---设置，提示
 function WoWTools_FrameMixin:HelpFrame(tab)--WoWTools_FrameMixin:HelpFrame({frame=, topoint=, point='left', size={40,40}, color={r=1,g=0,b=0,a=1}, onlyOne=nil, show=, y=-10, hideTime=3})
     if tab.show and not tab.frame.HelpTips then
         tab.frame.HelpTips= WoWTools_ButtonMixin:Cbtn(tab.frame, {layer='OVERLAY',size=tab.size and {tab.size[1], tab.size[2]} or {40,40}})-- button:CreateTexture(nil, 'OVERLAY')

@@ -30,7 +30,6 @@ local function Opentions_Menu(root, num)
         root:CreateDivider()
     end
 
---打开选项界面
     WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_HolidayMixin.addName})
 --SetScrollMod
     WoWTools_MenuMixin:SetScrollMode(root)
@@ -52,7 +51,7 @@ end
 local function Init_WoW_Menu(_, root)
     local sub
     local num=0
-    local map=WoWTools_MapMixin:GetUnit('player')--玩家区域名称
+    local map=WoWTools_MapMixin:GetUnit('player')
 
     for i=1 ,BNGetNumFriends() do
         local wow=C_BattleNet.GetFriendAccountInfo(i) or {}
@@ -64,7 +63,7 @@ local function Init_WoW_Menu(_, root)
                 reName=true,
                 reRealm=true
             })
-            if wowInfo.areaName then --位置
+            if wowInfo.areaName then
                 if wowInfo.areaName==map then
                     text=text..'|A:poi-islands-table:0:0|a'
                 else
@@ -115,7 +114,7 @@ end
 local function Init_Friend_Menu(_, root)
     local sub
     local num=0
-    local map=WoWTools_MapMixin:GetUnit('player')--玩家区域名称
+    local map=WoWTools_MapMixin:GetUnit('player')
 
     for i=1 , C_FriendList.GetNumFriends() do
         local game=C_FriendList.GetFriendInfoByIndex(i)
@@ -127,7 +126,7 @@ local function Init_Friend_Menu(_, root)
             })
 
             if game.area and game.connected then
-                if game.area == map then--地区
+                if game.area == map then
                     text= text..'|A:poi-islands-table:0:0|a'
                 else
                     text= text..' |cnGREEN_FONT_COLOR:'..game.area..'|r'
@@ -192,7 +191,7 @@ local function Init_Guild_Menu(_, root)
                 reRealm=true,
                 levle=lv
             })
-            if zone then--地区
+            if zone then
                 text= zone==map and text..'|A:poi-islands-table:0:0|a' or text..' '..zone
             end
             text= rankName and text..' '..rankName..(rankIndex or '') or text

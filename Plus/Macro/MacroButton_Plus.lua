@@ -42,9 +42,7 @@ end
 
 
 
---选定, 操作
 local function Init_Menu(self, root)
---战斗中
     if WoWTools_MenuMixin:CheckInCombat(root) then
         return
     end
@@ -60,10 +58,8 @@ local function Init_Menu(self, root)
     local index= WoWTools_MacroMixin:GetSelectIndex()
     local isSelect= self:GetSelectorFrame():IsSelected(self.selectionIndex)--self.selectionIndex and self.selectionIndex==MacroFrame:GetSelectedIndex()
 
---保存
     WoWTools_MacroMixin:Save_Macro_Menu(self, root)
 
---修改
     sub=root:CreateButton(
         '|A:QuestLegendary:0:0|a'..(WoWTools_L.EDIT),
     function()
@@ -75,7 +71,6 @@ local function Init_Menu(self, root)
     sub:SetEnabled(isSelect)
     WoWTools_MacroMixin:SetMenuTooltip(sub)
 
---删除
     root:CreateDivider()
     sub=root:CreateButton(
         '|A:XMarksTheSpot:0:0|a'
@@ -86,12 +81,11 @@ local function Init_Menu(self, root)
     sub:SetEnabled(isSelect)
     WoWTools_MacroMixin:SetMenuTooltip(sub)
 
---新建
     root:CreateDivider()
     sub=root:CreateButton(
         '|A:communities-chat-icon-plus:0:0|a'..(WoWTools_L.NEW),
     function()
-        WoWTools_MacroMixin:CreateMacroNew()--新建，宏
+        WoWTools_MacroMixin:CreateMacroNew()
         return MenuResponse.Open
     end)
     sub:SetEnabled(WoWTools_MacroMixin:IsCanCreateNewMacro())
@@ -109,34 +103,31 @@ end
 
 
 
---列表，按钮，操作
 local function Set_OnLoad(btn)
     if btn.OnDoubleClick then
         return
     end
 
-    function btn:set_on_enter()--设置，宏，提示
+    function btn:set_on_enter()
         WoWTools_MacroMixin:SetTooltips(self)
     end
     btn:HookScript('OnEnter', btn.set_on_enter)
     btn:HookScript('OnLeave', GameTooltip_Hide)
 
     local texture2= btn:GetRegions()
-    texture2:SetAlpha(0.3)--按钮，背景
-    btn.Name:SetWidth(48)--名称，长度
-    btn.SelectedTexture:ClearAllPoints()--设置，选项，特效
+    texture2:SetAlpha(0.3)
+    btn.Name:SetWidth(48)
+    btn.SelectedTexture:ClearAllPoints()
     btn.SelectedTexture:SetPoint('CENTER')
     btn.SelectedTexture:SetSize(44,44)
     btn.SelectedTexture:SetVertexColor(0,1,1)
 
---删除，宏 Alt+双击
     btn:SetScript('OnDoubleClick', function(self)
        if IsAltKeyDown() then
             Delete_Macro(self)
        end
     end)
 
---右击，菜单
     btn:HookScript('OnMouseDown', function(frame, d)
         if d=='RightButton' then
             MenuUtil.CreateContextMenu(frame, Init_Menu)
@@ -162,12 +153,10 @@ end
 
 
 local function Init()
-    --列表，按钮，操作
     WoWTools_DataMixin:Hook(MacroButtonMixin, 'OnLoad', function(...)
         Set_OnLoad(...)
     end)
 
-    --宏，名称，修改，字符长度
     WoWTools_DataMixin:Hook(MacroFrame.MacroSelector, 'setupCallback', function(self, _, name)--Blizzard_MacroUI.lua
         if name ~= nil then
             self.Name:SetText(WoWTools_TextMixin:sub(name, 2, 4))

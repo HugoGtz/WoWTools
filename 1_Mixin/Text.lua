@@ -94,8 +94,7 @@ end
 
 
 
---垂直文字
-function WoWTools_TextMixin:Vstr(text)--垂直文字
+function WoWTools_TextMixin:Vstr(text)
     if type(text)~='string' then
         return text
     end
@@ -111,7 +110,6 @@ end
 
 
 
---取得中文
 function WoWTools_TextMixin:CN(text, tab)--{gossipOptionID=, questID=}
     if WoWTools_ChineseMixin and WoWTools_DataMixin.onlyChinese and (text or tab) then
         local data= WoWTools_ChineseMixin:GetData(text, tab)
@@ -123,7 +121,6 @@ function WoWTools_TextMixin:CN(text, tab)--{gossipOptionID=, questID=}
 end
 
 
---截取, 字符
 function WoWTools_TextMixin:sub(text, size, letterSize, lower)
     if not canaccessvalue(text)
         or type(text)~='string'
@@ -136,7 +133,7 @@ function WoWTools_TextMixin:sub(text, size, letterSize, lower)
 
     text= self:CN(text)
 
-    if not text:find("[\228-\233][\128-\191][\128-\191]") then--检查 UTF-8 字符
+    if not text:find("[\228-\233][\128-\191][\128-\191]") then
         --Cortar por caracteres UTF-8, no por bytes: antes partía letras con acento (á, ñ...)
         local n, out= letterSize or size, {}
         for char in text:gmatch("[%z\1-\127\194-\244][\128-\191]*") do
@@ -196,7 +193,7 @@ function WoWTools_TextMixin:GetShowHide(sh, all)
 	end
 end
 
-function WoWTools_TextMixin:GetEnabeleDisable(ed, all)--启用或禁用字符
+function WoWTools_TextMixin:GetEnabeleDisable(ed, all)
     if all then
         if ed==nil then
             return WoWTools_L['Enable/Disable']

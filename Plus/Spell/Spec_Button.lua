@@ -11,13 +11,11 @@ local function Init_Spec_Menu(self, root)
     root:CreateTitle(self.name)
 
 
---专精
     root:CreateDivider()
 
     WoWTools_MenuMixin:Set_Specialization(root)
     root:CreateDivider()
 
---打开选项界面
     sub=WoWTools_MenuMixin:OpenOptions(root, {
         name=WoWTools_SpellMixin.addName,
         category=WoWTools_SpellMixin.Category
@@ -49,7 +47,6 @@ local function Init_Spec_Menu(self, root)
 
 
 
---向上
         WoWTools_MenuMixin:ToTop(self, sub2, {GetValue=function()
             return Save().isToTOP
         end, SetValue=function ()
@@ -60,7 +57,6 @@ local function Init_Spec_Menu(self, root)
 
 
 
---自动隐藏
 
 
 --FrameStrata
@@ -72,7 +68,6 @@ local function Init_Spec_Menu(self, root)
         end)
 
 --    sub:CreateDivider()
---缩放
     WoWTools_MenuMixin:Scale(self, sub2, function()
         return Save().scale or 1
     end, function(value)
@@ -81,7 +76,6 @@ local function Init_Spec_Menu(self, root)
     end)
 
     sub:CreateDivider()
---重新加载UI
     WoWTools_MenuMixin:Reload(sub)
 end
 
@@ -260,7 +254,6 @@ local function Create_Spec_Button(index)
 end
 
 
---天赋，添加专精按钮
 local function Init()
     if not Save().enabled then
         return

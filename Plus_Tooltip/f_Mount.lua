@@ -1,7 +1,7 @@
 
 
 
-function WoWTools_TooltipMixin:Set_Mount(tooltip, mountID, type)--坐骑
+function WoWTools_TooltipMixin:Set_Mount(tooltip, mountID, type)
     if self:IsInCombatDisabled(tooltip)
         or not canaccessvalue(mountID)
         or not mountID
@@ -9,7 +9,7 @@ function WoWTools_TooltipMixin:Set_Mount(tooltip, mountID, type)--坐骑
         return
 
     elseif mountID==268435455 then
-        self:Set_Spell(tooltip, 150544)--法术
+        self:Set_Spell(tooltip, 150544)
         return
     end
 
@@ -62,19 +62,17 @@ function WoWTools_TooltipMixin:Set_Mount(tooltip, mountID, type)--坐骑
         )
     end
 
-    if source then--显示来源
+    if source then
         tooltip:AddLine(' ')
         tooltip:AddLine(WoWTools_TextMixin:CN(source), nil,nil,nil,true)
     end
 
---设置, 3D模型
     self:Set_Item_Model(tooltip, {
         creatureDisplayID=creatureDisplayInfoID,
         animID=animID,
         spellVisualKitID=spellVisualKitID,
     })
 
---召唤坐骑 
     local can= isCollected and isUsable and not isActive and not UnitCastingInfo('player')
     if can and IsAltKeyDown() then
         C_MountJournal.SummonByID(mountID)
@@ -95,12 +93,11 @@ function WoWTools_TooltipMixin:Set_Mount(tooltip, mountID, type)--坐骑
                     and '|cnGREEN_FONT_COLOR:'..(WoWTools_L.COLLECTED)..'|r'
                     or ('|cnWARNING_FONT_COLOR:'..(WoWTools_L.NOT_COLLECTED)..'|r')
 
---嵌入式
     tooltip:Set_TopLabel(textLeft, nil, textRight, nil)
 
     tooltip.Portrait:settings(icon)
 
-    self:Set_Web_Link(tooltip, {type='spell', id=spellID, name=creatureName, col=nil, isPetUI=false})--取得网页，数据链接    
+    self:Set_Web_Link(tooltip, {type='spell', id=spellID, name=creatureName, col=nil, isPetUI=false})
 
     WoWTools_TooltipMixin:Show(tooltip)
 end

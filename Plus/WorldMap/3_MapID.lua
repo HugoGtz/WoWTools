@@ -1,5 +1,4 @@
 
---地图ID，信息
 
 local function Save()
     return  WoWToolsPlusSave['Plus_WorldMap']
@@ -45,7 +44,7 @@ local function Set_Text()
     Frame.Text:SetText(m or '')
 
 
-    achievementID = C_QuestLog.GetZoneStoryInfo(uiMapID)--当前地图，故事任务
+    achievementID = C_QuestLog.GetZoneStoryInfo(uiMapID)
     if achievementID then
         local completed, _, icon
         story, _, completed, _, _, _, _, _, icon= select(2, GetAchievementInfo(achievementID))
@@ -107,7 +106,7 @@ local function Init()
         if b=='RightButton' then
             WoWTools_Print(GetAchievementLink(self.achievementID) or self.achievementID)
         else
-            WoWTools_LoadUIMixin:Achievement(self.achievementID)--打开成就
+            WoWTools_LoadUIMixin:Achievement(self.achievementID)
         end
         self:SetAlpha(0.3)
     end)
@@ -119,7 +118,6 @@ local function Init()
 
     --WoWTools_DataMixin:Hook(WorldMapFrame.ScrollContainer, 'SetMapID', function(self, mapID)--MapCanvasScrollControllerMixin
     WoWTools_DataMixin:Hook(WorldMapFrame, 'OnMapChanged', function() Set_Text() end)--Blizzard_WorldMap.lua    
-    --WoWTools_DataMixin:Hook('QuestMapLogTitleButton_OnClick',function(self, button)--任务日志 展开所有, 收起所有--QuestMapFrame.lua
 
 
     Frame:SetScript('OnShow', function() Set_Text() end)

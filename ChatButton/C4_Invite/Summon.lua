@@ -16,13 +16,12 @@ end
 
 
 
---接受, 召唤
 local function Init()
     WoWTools_DataMixin:Hook(StaticPopupDialogs["CONFIRM_SUMMON"], "OnUpdate", function(self)
         if IsModifierKeyDown() or self.isCancelledAuto or not Save().Summon then
             if not self.isCancelledAuto then
-                WoWTools_CooldownMixin:Setup(self, nil, C_SummonInfo.GetSummonConfirmTimeLeft(), nil, true, true, nil)--冷却条
-                if self.SummonTimer then--取消，计时
+                WoWTools_CooldownMixin:Setup(self, nil, C_SummonInfo.GetSummonConfirmTimeLeft(), nil, true, true, nil)
+                if self.SummonTimer then
                     self.SummonTimer:Cancel()
                     self.SummonTimer=nil
                 end
@@ -31,14 +30,14 @@ local function Init()
             return
         end
 
-        if not InCombatLockdown() and PlayerCanTeleport() then--启用，召唤
+        if not InCombatLockdown() and PlayerCanTeleport() then
             if not self.enabledAutoSummon then
                 self.enabledAutoSummon= true
                 if self.SummonTimer then
                     self.SummonTimer:Cancel()
                     self.SummonTimer= nil
                 end
-                WoWTools_CooldownMixin:Setup(self, nil, 3, nil, true, true, nil)--冷却条
+                WoWTools_CooldownMixin:Setup(self, nil, 3, nil, true, true, nil)
 
                 self.SummonTimer= C_Timer.NewTimer(3, function()
                     if not InCombatLockdown() and PlayerCanTeleport() then
@@ -48,9 +47,9 @@ local function Init()
                 end)
             end
 
-        elseif self.enabledAutoSummon then--取消，召唤
-            WoWTools_CooldownMixin:Setup(self, nil, C_SummonInfo.GetSummonConfirmTimeLeft(), nil, true, true, nil)--冷却条
-            if self.SummonTimer then--取消，计时
+        elseif self.enabledAutoSummon then
+            WoWTools_CooldownMixin:Setup(self, nil, C_SummonInfo.GetSummonConfirmTimeLeft(), nil, true, true, nil)
+            if self.SummonTimer then
                 self.SummonTimer:Cancel()
                 self.SummonTimer=nil
             end
@@ -74,7 +73,7 @@ local function Init()
     end
 
     WoWTools_DataMixin:Hook(StaticPopupDialogs["CONFIRM_SUMMON"], "OnShow",function()--StaticPopup.lua
-        WoWTools_DataMixin:PlaySound(SOUNDKIT.IG_PLAYER_INVITE)--播放, 声音
+        WoWTools_DataMixin:PlaySound(SOUNDKIT.IG_PLAYER_INVITE)
         local name= C_SummonInfo.GetSummonConfirmSummoner()
         local info= WoWTools_DataMixin.GroupGuid[name]
         if info and info.guid then

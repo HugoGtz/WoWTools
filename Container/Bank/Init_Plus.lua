@@ -4,21 +4,20 @@ end
 
 
 local C_BAG_FILTER_LABELS = {
-	[Enum.BagSlotFlags.ClassEquipment]= 'Warfronts-BaseMapIcons-Alliance-Armory-Minimap',--装备 BAG_FILTER_EQUIPMENT 2
-	[Enum.BagSlotFlags.ClassConsumables]= 'Food',--消耗品 BAG_FILTER_CONSUMABLES 4
-	[Enum.BagSlotFlags.ClassProfessionGoods]= 'Profession', --专业技能货物 BAG_FILTER_PROFESSION_GOODS 8
-	[Enum.BagSlotFlags.ClassJunk]= 'Coin-Silver',--垃圾 BAG_FILTER_JUNK 16
-	[Enum.BagSlotFlags.ClassQuestItems]= 'AdventureMapIcon-SandboxQuest',--任务物品 BAG_FILTER_QUEST_ITEMS 32
-	[Enum.BagSlotFlags.ClassReagents]= 'Professions_Tracking_Fish',--材料 BAG_FILTER_REAGENTS 128
+	[Enum.BagSlotFlags.ClassEquipment]= 'Warfronts-BaseMapIcons-Alliance-Armory-Minimap',
+	[Enum.BagSlotFlags.ClassConsumables]= 'Food',
+	[Enum.BagSlotFlags.ClassProfessionGoods]= 'Profession',
+	[Enum.BagSlotFlags.ClassJunk]= 'Coin-Silver',
+	[Enum.BagSlotFlags.ClassQuestItems]= 'AdventureMapIcon-SandboxQuest',
+	[Enum.BagSlotFlags.ClassReagents]= 'Professions_Tracking_Fish',
 
-    [Enum.BagSlotFlags.ExpansionCurrent]= 'QuestLegendary',--内容更新:仅限当前内容 256
-    [Enum.BagSlotFlags.ExpansionLegacy]= 'QuestDaily',--内容更新:仅限旧版内容 512
-    [Enum.BagSlotFlags.DisableAutoSort]= 'bags-button-autosort-up',--忽略此标签 1
+    [Enum.BagSlotFlags.ExpansionCurrent]= 'QuestLegendary',
+    [Enum.BagSlotFlags.ExpansionLegacy]= 'QuestDaily',
+    [Enum.BagSlotFlags.DisableAutoSort]= 'bags-button-autosort-up',
 }
 
 
 local function Init()
---清理战团银行
     BankPanel.AutoSortButton:HookScript('OnEnter', function()
         GameTooltip:AddLine(
             (WoWTools_L['OKAY~2'])..': '
@@ -63,7 +62,6 @@ local function Init()
 
 
 
---下面, Tab，加颜色
     for _, btn in pairs(BankFrame.TabSystem.tabs) do--TabSystemMixin
         local ID= btn:GetTabID()
         if ID==BankFrame.accountBankTabID then
@@ -88,7 +86,6 @@ local function Init()
         end
     end
 
---BankFrame，标题，加颜色
 --Antes se sustituía BankPanel:RequestTitleRefresh (contamina BankFrame); ahora se post-procesa con hook
     local function Set_Title(self)
         local name, freeAll, numAll
@@ -125,7 +122,6 @@ local function Init()
         end
     end)
 
---右边Tab, 右击，选项面板，图标提示
     for _, check in ipairs(BankPanel.TabSettingsMenu.DepositSettingsMenu.DepositSettingsCheckboxes) do
         local atlas= C_BAG_FILTER_LABELS[check.settingFlag]
         if atlas then
@@ -149,7 +145,6 @@ local function Init()
         end
     end)
 
---购买标签，按钮, 不好点击
     --BankPanel.PurchasePrompt.TabCostFrame.PurchaseButton:SetFrameStrata('HIGH')
     BankFrame.NineSlice:SetFrameLevel(BankPanel:GetFrameLevel()+1)
 
@@ -157,7 +152,6 @@ local function Init()
 end
 
 
---替换，原生 右边Tab OnEnter
 local function AddBankTabSettingsToTooltip(self, tabData)
     if not tabData or not tabData.depositFlags or not tabData.ID or tabData.ID==-1 then
         return
@@ -234,16 +228,13 @@ local function GetFlagsText(flags, isNewLine)
             table.insert(tab, C_BAG_FILTER_LABELS[filter])
         end
     end
---内容更新:仅限当前内容)
     if FlagsUtil.IsSet(flags, Enum.BagSlotFlags.ExpansionCurrent) then
         table.insert(tab, C_BAG_FILTER_LABELS[Enum.BagSlotFlags.ExpansionCurrent])
 
---内容更新:仅限旧版内容
     elseif FlagsUtil.IsSet(flags, Enum.BagSlotFlags.ExpansionLegacy) then
         table.insert(tab, C_BAG_FILTER_LABELS[Enum.BagSlotFlags.ExpansionLegacy])
     end
 
---忽略此标签 1
     if FlagsUtil.IsSet(flags, Enum.BagSlotFlags.DisableAutoSort) then
         table.insert(tab, C_BAG_FILTER_LABELS[Enum.BagSlotFlags.DisableAutoSort])
     end
@@ -280,7 +271,6 @@ local function Init_TabSystem()
         return
     end
 
---右边 Tab 添加，提示
     WoWTools_DataMixin:Hook(BankPanelTabMixin, 'Init', function(btn, tabData)--bankType name ID depositFlags icon tabNameEditBoxHeader tabCleanupConfirmation
         if not tabData or btn:IsPurchaseTab() then
             return
@@ -342,16 +332,13 @@ local function Init_TabSystem()
 
 
 
---当选项面板显示，清队EditBox焦点
 
---修该长度，中文会被截断
     BankPanel.TabSettingsMenu.DepositSettingsMenu.AssignProfessionGoodsCheckbox.Text:SetPoint('RIGHT', BankPanel.TabSettingsMenu.DepositSettingsMenu)
 
     Init_TabSystem=function()end
 end
 
 
---ItemButton 索引
 local function Init_IndexText()
     if not Save().plusIndex then
         return

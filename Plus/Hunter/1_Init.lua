@@ -4,17 +4,11 @@ if WoWTools_DataMixin.Player.Class~='HUNTER' then
 end
 
 local P_Save={
-    --hideIndex=true,--隐藏索引
-    --hideTalent=true,--隐藏天赋
     -- modelScale=0.65,
 
     --line=15,
 
     --10.2.7
-    --show_All_List=true,显示，所有宠物，图标列表
-    --sortDown= true,--排序, 降序
-    --all_List_Size==28--图标表表，图标大小
-    --showTexture=true,--显示，材质
     sortType='specialization',
     all_List_Size=28
 }
@@ -96,7 +90,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
             WoWTools_HunterMixin.addName= '|A:groupfinder-icon-class-hunter:0:0|a'..(WoWTools_L['Module.Hunter stable'])
 
-            --添加控制面板
                 WoWTools_PanelMixin:OnlyCheck({
                 name= WoWTools_HunterMixin.addName,
                 tooltip= WoWTools_L['Tip.Hunter.Enable'],

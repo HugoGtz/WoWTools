@@ -127,7 +127,6 @@ local function QuestList_Tooltip(tooltip, data)
 end
 
 
---设置菜单
 local function Init_Menu(self, root)
     if not self:IsMouseOver() then
         return
@@ -162,25 +161,20 @@ local function Init_Menu(self, root)
 
             Num.All= Num.All+1
 
-    --frequency 数量
             if info.frequency then
                 Num.QuestFrequency[info.frequency]= (Num.QuestFrequency[info.frequency] or 0)+1
             end
-    --classification 数量
             if info.questClassification	then
                 Num.QuestClassification[info.questClassification]= (Num.QuestClassification[info.questClassification] or 0)+1
             end
-    --完成数量
             if C_QuestLog.IsComplete(info.questID) then
                 Num.Complete= Num.Complete+1
             else
                 Num.Incomplete= Num.Incomplete+1
             end
-    --低等任务
             if C_QuestLog.IsQuestTrivial(info.questID) then
                 Num.Trivial= Num.Trivial+1
             end
-    --加载数据
             if info then
                 WoWTools_DataMixin:Load(info.questID, 'quest')
             end
@@ -227,7 +221,6 @@ local function Init_Menu(self, root)
         end)
         end
     end
-    --滚动条
     WoWTools_MenuMixin:SetScrollMode(sub)
 
 --CVar

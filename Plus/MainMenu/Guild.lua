@@ -1,5 +1,4 @@
 
---公会 GuildMicroButton
 
 
 
@@ -64,7 +63,7 @@ local function Init()
         if IsInGuild() then
             GameTooltip:AddLine(' ')
         end
-        WoWTools_GuildMixin:OnEnter_GuildInfo()--公会，社区，信息
+        WoWTools_GuildMixin:OnEnter_GuildInfo()
         GameTooltip:Show()
     end)
 
@@ -79,6 +78,6 @@ end
 
 
 
-function WoWTools_MainMenuMixin:Init_Guild()--公会
+function WoWTools_MainMenuMixin:Init_Guild()
     Init()
 end

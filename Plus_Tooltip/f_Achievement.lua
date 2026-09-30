@@ -1,7 +1,7 @@
 
 
 
-function WoWTools_TooltipMixin:Set_Achievement(tooltip, achievementID)--成就
+function WoWTools_TooltipMixin:Set_Achievement(tooltip, achievementID)
     if self:IsInCombatDisabled(tooltip)
         or not canaccessvalue(achievementID)
         or not achievementID
@@ -10,7 +10,6 @@ function WoWTools_TooltipMixin:Set_Achievement(tooltip, achievementID)--成就
     end
 
     local _, name, points, completed, _, _, _, _, flags, icon, rewardText, isGuild = GetAchievementInfo(achievementID)
---奖励
     if rewardText and rewardText~='' then
         tooltip:AddLine(' ')
         local itemID= C_AchievementInfo.GetRewardItemID(achievementID)
@@ -36,18 +35,14 @@ function WoWTools_TooltipMixin:Set_Achievement(tooltip, achievementID)--成就
         ..(flags==0x20000 and '|cff00ccff'..WoWTools_DataMixin.Icon.wow2 or '|cffffffff')
         ..achievementID
     )
---点数
     local textLeft= (points or 0)..(WoWTools_L.RESAMPLE_QUALITY_POINT)
---否是完成
     local text2Left= completed
                     and '|cnGREEN_FONT_COLOR:'..(WoWTools_L.CRITERIA_COMPLETED)
                     or '|cnWARNING_FONT_COLOR:'..(WoWTools_L.ACHIEVEMENTFRAME_FILTER_INCOMPLETE)
---公会成就
     local textRight= (isGuild or flags==0x4000) and (WoWTools_L.GUILD_ACHIEVEMENTS_TITLE) or nil
---是，战团通用
     local text2Right= flags==0x20000 and (WoWTools_DataMixin.Icon.net2..'|cff00ccff'..(WoWTools_L.ITEM_UPGRADE_DISCOUNT_TOOLTIP_ACCOUNT_WIDE)) or nil
 
-    if tooltip.IsEmbedded then--嵌入式
+    if tooltip.IsEmbedded then
         tooltip:AddLine(textLeft)
         tooltip:AddLine(text2Left)
         tooltip:AddLine(textRight)
@@ -61,7 +56,7 @@ function WoWTools_TooltipMixin:Set_Achievement(tooltip, achievementID)--成就
 
     tooltip.Portrait:settings(icon)
 
-    WoWTools_TooltipMixin:Set_Web_Link(tooltip, {type='achievement', id=achievementID, name=name, col=nil, isPetUI=false})--取得网页，数据链接
+    WoWTools_TooltipMixin:Set_Web_Link(tooltip, {type='achievement', id=achievementID, name=name, col=nil, isPetUI=false})
 
     WoWTools_TooltipMixin:Show(tooltip)
 end

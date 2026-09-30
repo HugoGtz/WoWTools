@@ -1,4 +1,3 @@
---角色 CharacterMicroButton 
 
 --MainMenuBarMicroButtons.lua
 
@@ -19,22 +18,22 @@ local function Init()
     table.insert(WoWTools_MainMenuMixin.Labels, frame.Text2)
 
     function frame:settings()
-        local to, cu= GetAverageItemLevel()--装等
+        local to, cu= GetAverageItemLevel()
         local text
         if to and cu and to>0 then
             text=math.modf(cu)
             if to-cu>10 then
                 text='|cnWARNING_FONT_COLOR:'..text..'|r'
                 if IsInsane() and not WoWTools_MapMixin:IsInPvPArea() then
-                    WoWTools_FrameMixin:HelpFrame({frame=self, topoint=self.Text, point='left', size={40,40}, color={r=1,g=0,b=0,a=1}, show=true})--设置，提示
+                    WoWTools_FrameMixin:HelpFrame({frame=self, topoint=self.Text, point='left', size={40,40}, color={r=1,g=0,b=0,a=1}, show=true})
                 end
             end
         end
         self.Text:SetText(text or '')
 
-        local text2, value= WoWTools_DurabiliyMixin:Get(false)--耐久度
+        local text2, value= WoWTools_DurabiliyMixin:Get(false)
         self.Text2:SetText(text2:gsub('%%', ''))
-        WoWTools_FrameMixin:HelpFrame({frame=CharacterMicroButton, topoint=self.Text2, point='left', size={40,40}, color={r=1,g=0,b=0,a=1}, onlyOne=true, show=value<30})--设置，提示
+        WoWTools_FrameMixin:HelpFrame({frame=CharacterMicroButton, topoint=self.Text2, point='left', size={40,40}, color={r=1,g=0,b=0,a=1}, onlyOne=true, show=value<30})
     end
 
     frame:RegisterEvent('EQUIPMENT_SWAP_FINISHED')

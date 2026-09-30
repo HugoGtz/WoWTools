@@ -23,7 +23,6 @@ local function Init_Menu(self, root)
 	WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Color.Show'])
 
 	root:CreateDivider()
---缩放
 	WoWTools_MenuMixin:Scale(self, root, function()
 		return Save().scale or 1
 	end, function(value)
@@ -31,7 +30,6 @@ local function Init_Menu(self, root)
 		self:Settings()
 	end)
 
---清除记录
 	sub=root:CreateButton(
 		'|A:bags-button-autosort-up:0:0|a'
 		..(WoWTools_L['SLASH_STOPWATCH_PARAM_STOP2+EVENTTRACE_LOG_HEADER']),
@@ -48,14 +46,13 @@ local function Init_Menu(self, root)
 	end)
 	WoWTools_MenuMixin:SetRightText(sub)
 
---设置，最多保存30个颜色
 	sub:CreateSpacer()
 	WoWTools_MenuMixin:CreateSlider(sub, {
 		getValue=function()
 			return Save().logMaxColor or 10
 		end, setValue=function(value)
 			Save().logMaxColor=value
-			WoWTools_ColorMixin:Set_SaveLogList()--设置，记录
+			WoWTools_ColorMixin:Set_SaveLogList()
 		end,
 		name=WoWTools_L.AUCTION_HOUSE_QUANTITY_LABEL,
 		minValue=0,
@@ -68,7 +65,6 @@ local function Init_Menu(self, root)
 	})
 	sub:CreateSpacer()
 
---更多颜色
 	sub=root:CreateCheckbox(
 		WoWTools_L['More colors'],
 	function()
@@ -81,11 +77,9 @@ local function Init_Menu(self, root)
 		tooltip:AddLine( WoWTools_L.REQUIRES_RELOAD)
 	end)
 
---重新加载UI
 	WoWTools_MenuMixin:Reload(sub)
 
 
---禁止自动隐藏
 	sub=root:CreateCheckbox(
 		'|A:newplayertutorial-drag-cursor:0:0|a'
 		..(WoWTools_L['SELF_CAST_AUTO+HIDE']),
@@ -101,7 +95,6 @@ local function Init_Menu(self, root)
 	end)
 
 
---自动显示
 	root:CreateDivider()
 	sub=root:CreateCheckbox(
 		WoWTools_L['SELF_CAST_AUTO+SHOW'],
@@ -117,7 +110,6 @@ local function Init_Menu(self, root)
 	end)
 
 
---打开选项界面
 	root:CreateDivider()
 	WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_ColorMixin.addName})
 end
@@ -169,7 +161,6 @@ local function Init()
 	btn.frame:SetPoint('BOTTOMRIGHT')
 	btn.frame:SetSize(1,1)
 
---原生，去掉，在框架外，会自动关闭, 提示
 	btn.autoHideTexture= btn:CreateTexture(nil, 'BORDER')
 	btn.autoHideTexture:SetSize(23,23)
 	btn.autoHideTexture:SetPoint('LEFT', ColorPickerFrame.Footer.CancelButton, 'RIGHT', 0, -1)

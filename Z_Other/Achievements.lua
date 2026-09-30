@@ -51,7 +51,6 @@ local function Get_List_Tab(instanceID)
 
         if name and icon~=136243 then-- and icon~=136243 then
         --isGuild= isGuild or flags==0x4000
---奖励
             local itemID= C_AchievementInfo.GetRewardItemID(achievementID)
             local itemIcon= itemID and select(5, C_Item.GetItemInfoInstant(itemID))
             WoWTools_DataMixin:Load(itemID, 'item')
@@ -64,12 +63,12 @@ local function Get_List_Tab(instanceID)
                     ..WoWTools_TextMixin:CN(name)
                     ..'|r'
                     ..(itemIcon and '|T'..itemIcon..':0|t' or (rewardText and rewardText~='' and '|A:VignetteLoot:0:0|a') or '')
-                    ..(wasEarnedByMe and WoWTools_DataMixin.Icon.Player or '')--此角色，是否完成
+                    ..(wasEarnedByMe and WoWTools_DataMixin.Icon.Player or '')
                     ..(isGuild and '|A:communities-guildbanner-background:0:0|a' or '' ),
                 achievementID= achievementID,
             })
             if isInGuild or not isGuild then
-                if completed then--不在公会时，不显示公会成就
+                if completed then
                     co=co+1
                 end
                 to= to+1
@@ -106,7 +105,6 @@ local function Init_Menu(self, root)
         return
     end
 
---列表
     local tab= Get_List_Tab(self.instanceID)
     if tab then
         Set_Menu(root, tab)
@@ -129,7 +127,6 @@ local function Init_Menu(self, root)
         end
     end
 
---打开选项界面
     WoWTools_MenuMixin:OpenOptions(root, {
         name=addName,
         name2= WoWTools_TextMixin:CN(self.name),
@@ -181,18 +178,16 @@ end
 
 
 
---已完成，背景 alpha
 local function Set_AchievementTemplate(self, show)
     local alpha= Save().completedAlpha or 1
     alpha= (self.completed and not self:IsSelected() and not show) and alpha or 1
 
     WoWTools_TextureMixin:SetFrame(self, {alpha=alpha, notColor=true})
-    self.Shield.Icon:SetAlpha(alpha)--点数，外框
+    self.Shield.Icon:SetAlpha(alpha)
 end
 
 
 local function Init_Achievement()
---选中，提示
     local back= CreateFrame('Button', 'WoWToolsAchievementBackButton', AchievementFrame, 'WoWToolsButtonTemplate')
     back:SetFrameStrata('HIGH')
     back:SetSize(20,20)
@@ -209,7 +204,6 @@ local function Init_Achievement()
         WoWTools_LoadUIMixin:Achievement(self.achievementID)
     end)
 
---点击，提示
     local next= CreateFrame('Button', 'WoWToolsAchievementNextButton', AchievementFrame, 'WoWToolsButtonTemplate')
     next:SetFrameStrata('HIGH')
     next:SetSize(20,20)
@@ -227,18 +221,15 @@ local function Init_Achievement()
     end)
 
 
---选中，提示
     WoWTools_DataMixin:Hook('AchievementFrame_SelectAchievement', function(achievementID)
         Set_Icon(_G['WoWToolsAchievementBackButton'], achievementID)
     end)
---点击，提示
     WoWTools_DataMixin:Hook(AchievementTemplateMixin, 'OnClick', function(self)
         Set_Icon(_G['WoWToolsAchievementNextButton'], self.id)
     end)
 
 
 
---已完成，背景 alpha
     Menu.ModifyMenu("MENU_ACHIEVEMENT_FILTER", function(self, root)
         if not self:IsMouseOver() then
             return
@@ -258,7 +249,6 @@ local function Init_Achievement()
             Save().completedAlpha= nil
         end, true)
 
---打开选项界面
         WoWTools_MenuMixin:OpenOptions(sub, {
             name=addName,
             category=WoWTools_OtherMixin.Category
@@ -267,7 +257,6 @@ local function Init_Achievement()
 
 
     WoWTools_DataMixin:Hook(AchievementTemplateMixin, 'OnLoad', function(btn)
---完成 目标数量
         btn.completedLable= btn.Icon:CreateFontString(nil, 'ARTWORK', 'GameFontNormalSmall2')
         btn.completedLable:SetPoint('LEFT', btn.PlusMinus, 'RIGHT', 4,1)
         btn.completedLable:EnableMouse(true)
@@ -286,7 +275,6 @@ local function Init_Achievement()
             )
             GameTooltip:Show()
         end)
---是否是统计成就
         btn.statisticTexture= btn.Icon:CreateTexture(nil, 'ARTWORK')
         btn.statisticTexture:SetAtlas('racing')
         btn.statisticTexture:SetPoint('LEFT', btn.completedLable, 'RIGHT', 4, -1)
@@ -306,7 +294,6 @@ local function Init_Achievement()
             )
             GameTooltip:Show()
         end)
---是否是此角色完成 wasEarnedByMe
         btn.byMeTexture= btn.Icon:CreateTexture(nil, 'ARTWORK')
         btn.byMeTexture:SetAtlas(WoWTools_DataMixin.Icon.Player:match('|A:(.-):'))
         btn.byMeTexture:SetSize(20,20)
@@ -326,7 +313,6 @@ local function Init_Achievement()
             )
             GameTooltip:Show()
         end)
---奖励提示
         btn.rewardTexture= btn.Icon:CreateTexture(nil, 'ARTWORK')
         btn.rewardTexture:SetPoint('TOPLEFT', btn.byMeTexture, 'BOTTOMLEFT')
         btn.rewardTexture:SetSize(20,20)
@@ -343,10 +329,8 @@ local function Init_Achievement()
                 self:SetAlpha(0.5)
             end
         end)
---成就ID提示
         btn.idLabel= btn.Shield:CreateFontString(nil, 'ARTWORK', 'GameFontNormalSmall2')
         btn.idLabel:SetPoint('TOP', btn.Shield.Icon)
---点击，Tooltip, 超连接
         btn.Shield:SetScript('OnLeave', function(self)
             Set_AchievementTemplate(self:GetParent(), false)
             self:SetAlpha(1)
@@ -388,7 +372,6 @@ local function Init_Achievement()
     WoWTools_DataMixin:Hook(AchievementTemplateMixin, 'Init', function(btn)
         Set_AchievementTemplate(btn, nil)
 
---完成 目标数量
         local id, _, _, isCompleted, _, _, _, _, flags, _, rewardText, _, wasEarnedByMe, _, isStatistic= GetAchievementInfo(btn.id)
         id= id or btn.id or -1
         flags= flags or 0
@@ -413,14 +396,12 @@ local function Init_Achievement()
         end
         btn.completedLable:SetText(completedText or "")
 
---成就图标外框，完成颜色提示
         if isCompleted then
             btn.Icon.frame:SetVertexColor(0,1,0)
         else
             btn.Icon.frame:SetVertexColor(1,1,1)
         end
 
---奖励提示
         local itemID= C_AchievementInfo.GetRewardItemID(id)
         local itemIcon
         if itemID then
@@ -438,15 +419,12 @@ local function Init_Achievement()
         btn.rewardTexture:SetTexture(itemIcon or 0)
         btn.rewardTexture:SetShown(itemIcon)
 
---成就ID提示
         if bit.band(flags, ACHIEVEMENT_FLAGS_ACCOUNT) == ACHIEVEMENT_FLAGS_ACCOUNT then
             btn.idLabel:SetText(WoWTools_DataMixin.Icon.net2..'|cff00ccff'..id..'|r')
         else
             btn.idLabel:SetText(id)
         end
---是否是此角色完成 wasEarnedByMe
         btn.byMeTexture:SetShown(wasEarnedByMe)
---是否是统计成就
         btn.statisticTexture:SetShown(isStatistic)
     end)
 
@@ -461,7 +439,6 @@ local function Init_Achievement()
 
 
 
---副本成就提示
     Create_Button(AchievementFrameCloseButton, function(btn)
         btn:SetPoint('RIGHT', next, 'LEFT', 2, 0)
     end)
@@ -472,7 +449,7 @@ local function Init_Achievement()
     end)
 
 
-    WoWTools_DataMixin:Hook('AchievementFrameComparison_UpdateDataProvider', function()--比较成就, Blizzard_AchievementUI.lua
+    WoWTools_DataMixin:Hook('AchievementFrameComparison_UpdateDataProvider', function()
         local frame= AchievementFrameComparison.AchievementContainer.ScrollBox
         if not frame:HasView() then
             return
@@ -503,8 +480,8 @@ local function Init_Achievement()
             end
         end
     end)
-    WoWTools_DataMixin:Hook('AchievementFrameComparison_SetUnit', function(unit)--比较成就
-        local text= WoWTools_UnitMixin:GetPlayerInfo(unit, nil, nil, {reName=true, reRealm=true})--玩家信息图标
+    WoWTools_DataMixin:Hook('AchievementFrameComparison_SetUnit', function(unit)
+        local text= WoWTools_UnitMixin:GetPlayerInfo(unit, nil, nil, {reName=true, reRealm=true})
         if text~='' then
             AchievementFrameComparisonHeaderName:SetText(text)
         end
@@ -522,7 +499,7 @@ local function Init_Achievement()
             end
         end)
     end
-    if Save().AchievementFrameFilterDropDown then--保存，过滤
+    if Save().AchievementFrameFilterDropDown then
         AchievementFrame_SetFilter(Save().AchievementFrameFilterDropDown)
     end
     WoWTools_DataMixin:Hook('AchievementFrame_SetFilter', function(value)
@@ -530,7 +507,6 @@ local function Init_Achievement()
     end)
 
 
---为目录，添加 完成/总计
     WoWTools_DataMixin:Hook(AchievementCategoryTemplateMixin, 'OnLoad', function(frame)
         frame.completedBar= CreateFrame('StatusBar', nil, frame.Button)
         frame.completedBar:SetHeight(2)
@@ -546,7 +522,7 @@ local function Init_Achievement()
     WoWTools_DataMixin:Hook(AchievementCategoryTemplateMixin, 'Init', function(frame, elementData)
         local id = elementData.id
 	    local numAchievements, numCompleted
-        local isSummary= id == "summary"--总览
+        local isSummary= id == "summary"
         if isSummary then
             numAchievements, numCompleted = GetNumCompletedAchievements(InGuildView())
         else
@@ -575,7 +551,6 @@ local function Init_Achievement()
         end
     end)
 
---近期成就，添加，百份比
     local function Get_ValeText(total, completed)
         if total and total>0 and completed then
             return WoWTools_DataMixin:MK(completed, 3).."/"..WoWTools_DataMixin:MK(total, 3)
@@ -602,7 +577,6 @@ end
 
 
 local function Init_EncounterJournal()
---列表， 添加按钮
     local function Init_Box(frame)
         if not frame:HasView() then
             return
@@ -629,7 +603,6 @@ local function Init_EncounterJournal()
         Init_Box(frame)
     end)
 
---SearchBox,右边，添加一个按按钮
     Create_Button(EncounterJournalSearchBox, function(btn) btn:SetPoint('RIGHT', EncounterJournalSearchBox, 'LEFT', -8, 0) end)
     WoWTools_DataMixin:Hook('EncounterJournal_DisplayInstance', function(instanceID)
         EncounterJournalSearchBox.achievementButton.instanceID=  instanceID and select(10, EJ_GetInstanceInfo(instanceID)) or nil
@@ -648,7 +621,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         WoWToolsPlusSave['Plus_Achievement']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Achievement'], {completedAlpha=1})
         addName= '|A:UI-Achievement-Shield-NoPoints:0:0|a'..(WoWTools_L.ACHIEVEMENTS)
 
-        --添加控制面板
         WoWTools_PanelMixin:OnlyCheck({
             name= addName,
             Value= not Save().disabled,

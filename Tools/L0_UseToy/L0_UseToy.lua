@@ -17,22 +17,22 @@ local P_Items={
     [35227]=true,[169303]=true,[166779]=true,[79769]=true,[134022]=true,[174874]=true,[183903]=true,
     [122119]=true,[183856]=true,[64997]=true,[138900]=true,[49703]=true,[190333]=true,[184223]=true,
     [52201]=true,[166308]=true,[122117]=true,[129113]=true,
-    [198537]=true,--[泰瓦恩的小号]
-    [191891]=true,--[啾讽教授完美得无可置喙的鹰身人伪装]
-    [202022]=true,--[耶努的风筝]
-    [198039]=true,--感激之岩
-    [205963]=true,--闻盐
-    [208658]=true,--谦逊之镜 使用: 变身为一个悔改的堕落艾瑞达。 (2​小时 冷却)
-    [210656]=true,--冬幕节袜子
-    [217726]=true,--砮皂之韧 10.2.7 
+    [198537]=true,
+    [191891]=true,
+    [202022]=true,
+    [198039]=true,
+    [205963]=true,
+    [208658]=true,
+    [210656]=true,
+    [217726]=true,
     [217724]=true,
     [217723]=true,
     [217725]=true,
     [220777]=true,--
-    [224552]=true,--洞穴探索者的火炬
-    [228914]=true,--爱蛛者眼镜
-    [245567]=true,--卡雷什记忆水晶
-    [147843]=true,--赛拉的备用斗篷
+    [224552]=true,
+    [228914]=true,
+    [245567]=true,
+    [147843]=true,
 }
 local ModifiedTab={
 }
@@ -50,9 +50,9 @@ local P_Save={
     showBindNameShort=true,
     showBindName=true,
     lockedToy=nil,
-    Alt=69775,--维库饮水角
-    Ctrl=109183,--世界缩小器
-    Shift=86568,--重拳先生的铜罗盘
+    Alt=69775,
+    Ctrl=109183,
+    Shift=86568,
 
 }
 
@@ -67,9 +67,9 @@ end
 local ToyButton
 local function Set_Alt_Table()
     ModifiedTab={
-        [Save().Alt or 69775]='Alt',--维库饮水角
-        [Save().Ctrl or 109183]='Ctrl',--世界缩小器
-        [Save().Shift or 86568]='Shift',--精英旗帜
+        [Save().Alt or 69775]='Alt',
+        [Save().Ctrl or 109183]='Ctrl',
+        [Save().Shift or 86568]='Shift',
     }
     ModifiedMenuTab={
         {type='Alt', itemID= Save().Alt or 69775},
@@ -105,7 +105,7 @@ local function Set_Alt_Menu(root, itemID)
 end
 
 
-local function Remove_Toy(itemID)--移除
+local function Remove_Toy(itemID)
     Save().items[itemID]=nil
     local isSelect, isLock= ToyButton:Check_Random_Value(itemID)
     if isLock or isSelect then
@@ -123,28 +123,27 @@ end
 
 
 
-local function Add_Toy(itemID)--添加
+local function Add_Toy(itemID)
     Save().items[itemID]= true
-    ToyButton:Init_Random(Save().lockedToy)--初始
+    ToyButton:Init_Random(Save().lockedToy)
 end
 
 
 
-local function Add_Remove_Toy(itemID)--移除/添加
+local function Add_Remove_Toy(itemID)
     if itemID then
         if Save().items[itemID] then
-            Remove_Toy(itemID)--移除
+            Remove_Toy(itemID)
         else
-            Add_Toy(itemID)--添加
+            Add_Toy(itemID)
         end
     end
 end
 
 
---设置，物品，提示
 local function Set_Menu_Tooltip(tooltip, desc)
     if desc.data then
-        WoWTools_SetTooltipMixin:Setup(tooltip, {itemID=desc.data.itemID})--设置，物品，提示
+        WoWTools_SetTooltipMixin:Setup(tooltip, {itemID=desc.data.itemID})
     end
 end
 
@@ -166,7 +165,7 @@ end
 
 
 
-local function get_not_cooldown_toy()--发现就绪
+local function get_not_cooldown_toy()
     local duration = select(2, C_Item.GetItemCooldown(ToyButton.itemID))
     if duration and duration>3 then
         for itemID in pairs(P_Items) do
@@ -203,7 +202,6 @@ local function Init_Menu_Toy(_, root)
             ..(Save().Shift==itemID and 'S' or '')
         alt= alt~='' and '|cnGREEN_FONT_COLOR:['..alt..']|r' or alt
 
---名称，锁定
         local has= PlayerHasToy(itemID)
         local isLoked= Save().lockedToy==itemID
 
@@ -211,7 +209,7 @@ local function Init_Menu_Toy(_, root)
             (isLoked and '|cnGREEN_FONT_COLOR:' or (has and '' or '|cff626262'))
             ..alt..icon
             ..name
-            ..(isLoked and '|A:AdventureMapIcon-Lock:0:0|a' or '')--锁定
+            ..(isLoked and '|A:AdventureMapIcon-Lock:0:0|a' or '')
             ..(has and WoWTools_CooldownMixin:GetText(nil, itemID) or ''),--CD
         function(data)
             return ToyButton.itemID==data.itemID
@@ -246,7 +244,6 @@ local function Init_Menu_Toy(_, root)
             Set_Menu_Tooltip(tooltip, desc)
         end)
 
---设置
         sub2=sub:CreateButton(
             '|A:common-icon-zoomin:0:0|a'
             ..MicroButtonTooltipText(WoWTools_L.COLLECTIONS, "TOGGLECOLLECTIONS"),
@@ -259,12 +256,11 @@ local function Init_Menu_Toy(_, root)
 
         Set_Alt_Menu(sub, itemID)
 
---移除
         sub:CreateDivider()
         sub2=sub:CreateButton(
             '|A:common-icon-redx:0:0|a'..(WoWTools_L.REMOVE),
         function(data)
-            Remove_Toy(data.itemID)--移除
+            Remove_Toy(data.itemID)
             return MenuResponse.Refresh
         end, {itemID=itemID, name=toyName})
         sub2:SetTooltip(Set_Menu_Tooltip)
@@ -275,16 +271,13 @@ end
 
 
 --#####
---主菜单
 --#####
 local function Init_Menu(self, root)
     local sub, sub2, name
---选项
 
     sub=WoWTools_ToolsMixin:OpenMenu(root, addName)
 
 
---移除未收集
     name= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L['REMOVE+NOT_COLLECTED'])
     sub:CreateButton(
         name,
@@ -310,7 +303,6 @@ local function Init_Menu(self, root)
     end, {name=name})
 
 
---全部清除
     name='|A:common-icon-redx:0:0|a'..(WoWTools_L.CLEAR_ALL)
     sub:CreateButton(
         name,
@@ -326,7 +318,6 @@ local function Init_Menu(self, root)
     end, {name=name})
 
 
---还原
     local all= CountTable(P_Items or {})
     name= '|A:common-icon-undo:0:0|a'..(WoWTools_L.TRANSMOGRIFY_TOOLTIP_REVERT)..' '..all
     sub2=sub:CreateButton(
@@ -344,7 +335,6 @@ local function Init_Menu(self, root)
     end, {name=name})
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.UseToy.RevertList'])
 
---设置
     sub:CreateDivider()
     sub2=sub:CreateButton(
         '|A:common-icon-zoomin:0:0|a'
@@ -355,17 +345,16 @@ local function Init_Menu(self, root)
         tooltip:AddLine((WoWTools_L.SETTINGS))
     end)
 
---设置捷键
     WoWTools_KeyMixin:SetMenu(self, sub, {
         name=addName,
         key=Save().KEY,
         GetKey=function(key)
             Save().KEY=key
-            WoWTools_KeyMixin:Setup(ToyButton)--设置捷键
+            WoWTools_KeyMixin:Setup(ToyButton)
         end,
         OnAlt=function(s)
             Save().KEY=nil
-            WoWTools_KeyMixin:Setup(ToyButton)--设置捷键
+            WoWTools_KeyMixin:Setup(ToyButton)
         end,
     })
 
@@ -380,9 +369,8 @@ end
 
 
 --#############
---玩具界面, 按钮
 --#############
-local function setToySpellButton_UpdateButton(btn)--标记, 是否已选取
+local function setToySpellButton_UpdateButton(btn)
     if not btn.useToy then
         btn.useToy= WoWTools_ButtonMixin:Cbtn(btn,{size=16, texture=133567})
         btn.useToy:SetPoint('TOPLEFT',btn.name,'BOTTOMLEFT', 16, 0)
@@ -409,7 +397,7 @@ local function setToySpellButton_UpdateButton(btn)--标记, 是否已选取
         end
         btn.useToy:SetScript('OnMouseDown', function(self, d)
             if d=='LeftButton' then
-                Add_Remove_Toy(self:get_itemID())--移除/添加
+                Add_Remove_Toy(self:get_itemID())
                 self:set_tooltips()
                 self:set_alpha()
             else
@@ -430,7 +418,6 @@ end
 
 
 --###
---初始
 --###
 local function Init()
     WoWTools_KeyMixin:Init(ToyButton, function() return Save().KEY end)
@@ -444,7 +431,6 @@ local function Init()
     ToyButton.text:SetPoint('BOTTOMRIGHT', ToyButton)
 
 
-    --设置 Alt Shift Ctrl
     function ToyButton:set_alt()
         self.isAltEvent=nil
         if not self:CanChangeAttribute() then
@@ -461,7 +447,7 @@ local function Init()
 
     --CD
     function ToyButton:set_cool()
-        WoWTools_CooldownMixin:SetFrame(self, {itemID=self.itemID})--主图标冷却
+        WoWTools_CooldownMixin:SetFrame(self, {itemID=self.itemID})
     end
 
 
@@ -522,7 +508,6 @@ local function Init()
         )
 
 
---发现就绪
         local duration=self.itemID and select(2, C_Item.GetItemCooldown(self.itemID))
         if duration and duration>4 then
             ToyButton:Get_Random_Value()
@@ -548,7 +533,7 @@ local function Init()
         end)
 
         if self:CanChangeAttribute() then
-            local itemID= Save().lockedToy or get_not_cooldown_toy()--发现就绪
+            local itemID= Save().lockedToy or get_not_cooldown_toy()
             if itemID then
                 self.Selected_Value=itemID
                 self:Set_Random_Value(itemID)
@@ -580,7 +565,7 @@ local function Init()
 
     Mixin(ToyButton, WoWTools_RandomMixin)
 
-    function ToyButton:Get_Random_Data()--取得数据库, {数据1, 数据2, 数据3, ...}
+    function ToyButton:Get_Random_Data()
         local tab={}
         for itemID in pairs(Save().items) do
             WoWTools_DataMixin:Load(itemID, 'item')
@@ -594,7 +579,7 @@ local function Init()
         return tab
     end
 
-    function ToyButton:Set_Random_Value(itemID)--设置，随机值
+    function ToyButton:Set_Random_Value(itemID)
         self.is_Random_Eevent=nil
         if not self:CanChangeAttribute() then
             self.is_Random_Eevent=true
@@ -613,11 +598,11 @@ local function Init()
         self:set_cool()
         self.text:SetText(self.Random_Numeri>0 and self.Random_Numeri or '')
     end
-    function ToyButton:Set_OnlyOneValue_Random()--当数据 <=1 时，设置值
+    function ToyButton:Set_OnlyOneValue_Random()
         self:Set_Random_Value( self.Locked_Value or self.Selected_Value or self.Random_List[1] or 6948)
     end
 
-    ToyButton:Init_Random(Save().lockedToy)--初始
+    ToyButton:Init_Random(Save().lockedToy)
 
 
     function ToyButton:set_event()
@@ -629,7 +614,7 @@ local function Init()
         else
             self:UnregisterAllEvents()
         end
-        WoWTools_CooldownMixin:SetFrame(self)--主图标冷却
+        WoWTools_CooldownMixin:SetFrame(self)
     end
 
     ToyButton:SetScript('OnShow', function(self)
@@ -661,7 +646,6 @@ end
 
 
 --###########
---加载保存数据
 --###########
 local panel= CreateFrame("Frame")
 panel:RegisterEvent("ADDON_LOADED")
@@ -695,7 +679,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         end
 
     elseif event == 'PLAYER_ENTERING_WORLD' then
-        Init()--初始
+        Init()
         self:SetScript('OnEvent', nil)
         self:UnregisterEvent(event)
     end

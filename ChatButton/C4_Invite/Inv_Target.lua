@@ -20,7 +20,7 @@ local frame
 local function Init()
     frame= CreateFrame('Frame')
 
-    function frame:set_event()--设置, 邀请目标事件
+    function frame:set_event()
         self:UnregisterAllEvents()
         if Save().InvTar and select(2, IsInInstance())=='none' then
             self:RegisterEvent('PLAYER_TARGET_CHANGED')
@@ -29,10 +29,9 @@ local function Init()
 
     function frame:InviteTarget()
         if not Save().InvTar
-        --or WoWTools_InviteMixin.InvPlateGuid[guid]--已邀请
         or WoWTools_UnitMixin:UnitIsUnit('player','target')~=false
         or not WoWTools_UnitMixin:UnitGUID('target')
-        or not WoWTools_InviteMixin:Get_Leader()--取得权限
+        or not WoWTools_InviteMixin:Get_Leader()
         or UnitInAnyGroup('target')
         or WoWTools_UnitMixin:UnitIsAFK('target')
         or not UnitIsConnected('target')
@@ -53,13 +52,12 @@ local function Init()
             return
         end
 
-        --toRaidOrParty(co)--自动, 转团
 
         C_PartyInfo.InviteUnit(name)
 
         local guid=UnitGUID('target')
         if guid then
-            WoWTools_InviteMixin.InvPlateGuid[guid]=name--保存到已邀请列表
+            WoWTools_InviteMixin.InvPlateGuid[guid]=name
         end
         WoWTools_Print(
             WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,

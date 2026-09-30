@@ -5,14 +5,14 @@ end
 
 local TargetColor={
     --[0]= NORMAL_FONT_COLOR,
-    [1]= YELLOW_FONT_COLOR,-- {r=1, g=1, b=0, col='|cffffff00'},--星星, 黄色
-    [2]= ORANGE_FONT_COLOR,-- {r=1, g=0.45, b=0.04, col='|cffff7f3f'},--圆形, 橙色
-    [3]= EPIC_PURPLE_COLOR,--{r=1, g=0, b=1, col='|cffa335ee'},--菱形, 紫色
-    [4]= GREEN_FONT_COLOR, --CreateColor(0, 1, 0),--{r=0, g=1, b=0, col='|cff1eff00'},--三角, 绿色
-    [5]= HIGHLIGHT_FONT_COLOR,-- CreateColor(1, 1, 1),--{r=0.6, g=0.6, b=0.6, col='|cffffffff'},--月亮, 白色
-    [6]= BLUE_FONT_COLOR,-- CreateColor(),--{r=0.1, g=0.2, b=1, col='|cff0070dd'},--方块, 蓝色
-    [7]= RED_FONT_COLOR,-- CreateColor(),--{r=1, g=0, b=0, col='|cffff2020'},--十字, 红色
-    [8]= DISABLED_FONT_COLOR,--CreateColor(),--{r=1, g=1, b=1, col='|cffffffff'},--骷髅,白色
+    [1]= YELLOW_FONT_COLOR,
+    [2]= ORANGE_FONT_COLOR,
+    [3]= EPIC_PURPLE_COLOR,
+    [4]= GREEN_FONT_COLOR,
+    [5]= HIGHLIGHT_FONT_COLOR,
+    [6]= BLUE_FONT_COLOR,
+    [7]= RED_FONT_COLOR,
+    [8]= DISABLED_FONT_COLOR,
 }
 
 
@@ -28,7 +28,7 @@ local MarkerButtons={}
 
 
 
-local function Get_Tank()--设置队伍标记
+local function Get_Tank()
     local isInRaid= IsInRaid()
     if not IsInGroup()
         or (isInRaid and not (UnitIsGroupAssistant('player') or UnitIsGroupLeader('player')))
@@ -38,7 +38,7 @@ local function Get_Tank()--设置队伍标记
     local tank, health
 
     if isInRaid then
-        local tab={}--设置团队标记
+        local tab={}
         for index=1, MAX_RAID_MEMBERS do
             local online, _, role, _, combatRole= select(8, GetRaidRosterInfo(index))
             if canaccessvalue(online) and online and (role=='TANK' or combatRole=='TANK') then
@@ -62,7 +62,7 @@ local function Get_Tank()--设置队伍标记
         tank= tab[1] and tab[1].unit or nil
         health= tab[2] and tab[2].unit or nil
 
-    else--设置队伍标记
+    else
         for index=1, MAX_PARTY_MEMBERS+1 do
             local unit= index <= MAX_PARTY_MEMBERS and 'party'..index or 'player'
             local role= UnitGroupRolesAssigned(unit)
@@ -121,14 +121,13 @@ local function Init_Menu(self, root)
         return Save().isShowHotKey
     end, function()
         Save().isShowHotKey= not Save().isShowHotKey and true or nil
-        self:set_all_hotkey()--设置全部，快捷键
+        self:set_all_hotkey()
     end)
     sub:SetTooltip(function(tooltip)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Marker.HotKey'])
         tooltip:AddLine(WoWTools_L.CHARACTER_CUSTOMIZATION_TUTORIAL_TITLE)
     end)
 
---打开选项，信号系统
     sub2=sub:CreateButton(
         WoWTools_L.PING_SYSTEM_LABEL,
     function()
@@ -141,7 +140,6 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWTools_L.SETTINGS_TITLE)
     end)
 
---打开选项，队伍标记
     sub2=sub:CreateButton(
         WoWTools_L.BINDING_HEADER_RAID_TARGET,
     function()
@@ -174,7 +172,6 @@ local function Init_Menu(self, root)
         self:set_scale()
     end)
 
---显示背景 
     WoWTools_MenuMixin:BgAplha(root, function()
         return Save().bgAlpha or 0.5
     end, function(value)
@@ -183,7 +180,6 @@ local function Init_Menu(self, root)
     end)
 
 
---位于上方
     WoWTools_MenuMixin:ToTop(self, root, {
         name=nil,
         GetValue=function()
@@ -196,7 +192,6 @@ local function Init_Menu(self, root)
         tooltip=false,
     })
 
---HUD提示信息
    sub=root:CreateCheckbox(
         WoWTools_L.HUD_EDIT_MODE_HUD_TOOLTIP_LABEL,
     function()
@@ -215,11 +210,9 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Marker.TooltipLeft'])
 
---选项
     root:CreateDivider()
     sub = WoWTools_OtherMixin:OpenOption(root, 'MarkerFrame', addName)
 
---倒计时
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
@@ -238,7 +231,6 @@ local function Init_Menu(self, root)
     })
     sub:CreateSpacer()
 
---重置位置
     WoWTools_MenuMixin:RestPoint(self, sub, Save().point, function()
         Save().point=nil
         self:set_point()
@@ -264,7 +256,6 @@ end
 
 
 
---是否显示，HUD提示信息
 local function Tooltip_SetOwner()
     if not Save().hideTooltip then
         if Save().isTooltipLeft then
@@ -290,11 +281,10 @@ end
 
 
 
---设置标记, 框架
-local function Init()--设置标记, 框架
+local function Init()
     MakerFrame= CreateFrame('Button', 'WoWToolsMarkerMoveButton', UIParent, 'WoWToolsButtonTemplate')
     MakerFrame:SetClampedToScreen(true)
-    MakerFrame:SetSize(23,23)--大小
+    MakerFrame:SetSize(23,23)
 
 
 
@@ -415,7 +405,6 @@ local function Init()--设置标记, 框架
             GameTooltip:Show()
         end)
 
---快捷键
         btn.HotKey= btn:CreateFontString(nil, 'ARTWORK', 'WoWToolsFont2')
         btn.HotKey:SetPoint('TOPRIGHT', 1, 2)
         function btn:set_hotkey()
@@ -429,8 +418,7 @@ local function Init()--设置标记, 框架
 
 
 
---这个是被保护
-    hooksecurefunc(PingListenerFrame, 'SetupCooldownTimer', function(self)--冷却，时间
+    hooksecurefunc(PingListenerFrame, 'SetupCooldownTimer', function(self)
         if MakerFrame.ping:IsVisible() and canaccessvalue(self.cooldownInfo.endTimeMs) then
             local cooldownDuration = (self.cooldownInfo.endTimeMs / 1000) - GetTime()
             for _, name in pairs(PingButtons) do
@@ -449,7 +437,6 @@ local function Init()--设置标记, 框架
 
 
 
---倒计时
     MakerFrame.countdown= CreateFrame('Button', 'WoWToolsMarkersCountdownButton', MakerFrame, 'WoWToolsButtonTemplate')
 
     table.insert(Buttons, 'WoWToolsMarkersCountdownButton')
@@ -518,7 +505,7 @@ local function Init()--设置标记, 框架
                 self.timer=C_Timer.NewTimer(timeRemaining or totalTime, function() self.star=nil end)
                 self.star=true
             end
-            WoWTools_CooldownMixin:Setup(self, nil, timeRemaining or totalTime, nil, true)--冷却条
+            WoWTools_CooldownMixin:Setup(self, nil, timeRemaining or totalTime, nil, true)
         end
     end)
     MakerFrame.countdown:set_event()
@@ -570,7 +557,6 @@ local function Init()--设置标记, 框架
 
 
 
---就绪
     MakerFrame.check= CreateFrame('Button', 'WoWToolsMarkesCheckButton', MakerFrame, 'WoWToolsButtonTemplate')
 
     table.insert(Buttons, 'WoWToolsMarkesCheckButton')
@@ -615,7 +601,7 @@ local function Init()--设置标记, 框架
         self:set_event()
     end)
     MakerFrame.check:SetScript('OnEvent', function(self, event, _, arg2)
-        WoWTools_CooldownMixin:Setup(self, nil, event=='READY_CHECK_FINISHED' and 0 or arg2 or 0, nil, true, true)--冷却条
+        WoWTools_CooldownMixin:Setup(self, nil, event=='READY_CHECK_FINISHED' and 0 or arg2 or 0, nil, true, true)
     end)
     MakerFrame.check:set_event()
 
@@ -667,7 +653,6 @@ local function Init()--设置标记, 框架
 
 
 
---队伍标记
     MakerFrame.target= CreateFrame("Frame", 'WoWToolsMakersTargetFrame', MakerFrame)
     MakerFrame.target:SetSize(23, 23)
     table.insert(Buttons, 'WoWToolsMakersTargetFrame')
@@ -692,7 +677,6 @@ local function Init()--设置标记, 框架
 
 
 
---目标，标记
     for index = 0, NUM_RAID_ICONS do
         local btn= CreateFrame('Button', 'WoWToolsMakersTargetButton'..index, MakerFrame.target, "SecureActionButtonTemplate WoWToolsButtonTemplate", index)
 
@@ -876,7 +860,6 @@ local function Init()--设置标记, 框架
                 end
             end
 
---快捷键
             btn.HotKey= btn:CreateFontString(nil, 'ARTWORK', 'WoWToolsFont2')
             btn.HotKey:SetPoint('TOPRIGHT', 1, 2)
             function btn:set_hotkey()
@@ -921,7 +904,6 @@ local function Init()--设置标记, 框架
 
 
 
---世界标记
     MakerFrame.marker= CreateFrame("Frame", 'WoWToolsMarkersWorldFrame', MakerFrame)
     MakerFrame.marker:SetSize(23, 23)
     table.insert(Buttons, 'WoWToolsMarkersWorldFrame')
@@ -1067,7 +1049,6 @@ local function Init()--设置标记, 框架
             self:SetFrameStrata(Save().strata or 'MEDIUM')
         end
     end
---位置
     function MakerFrame:set_point()
         if self:CanChangeAttribute() then
             self:ClearAllPoints()
@@ -1078,7 +1059,6 @@ local function Init()--设置标记, 框架
             end
         end
     end
---缩放
     function MakerFrame:set_scale()
         if self:CanChangeAttribute() then
             self:SetScale(Save().scale or 1)
@@ -1099,7 +1079,7 @@ local function Init()--设置标记, 框架
 
         local isAssistant= UnitIsGroupAssistant('player')
         local isLeader= UnitIsGroupLeader('player')
-        local isLeaderORAssistant= isAssistant or isLeader--队长(团长)或助理
+        local isLeaderORAssistant= isAssistant or isLeader
 
         local isGroup= IsInGroup()
         local isParty= isGroup and not IsInRaid()
@@ -1120,16 +1100,16 @@ local function Init()--设置标记, 框架
         self.ping:SetShown(ping)
 
         local target= (not isGroup or isLeaderORAssistant or isParty)-- and isNotPvP
-        self.target:SetShown(target)--目标标记
+        self.target:SetShown(target)
 
         local marker= isGroup and (isParty or isLeaderORAssistant)
-        self.marker:SetShown(marker)--世界标记
+        self.marker:SetShown(marker)
 
         local check= isGroup and isLeader
-        self.check:SetShown(check)--就绪
+        self.check:SetShown(check)
 
         local countdown= isParty or (isGroup and isLeaderORAssistant)
-        self.countdown:SetShown(countdown)--倒计时
+        self.countdown:SetShown(countdown)
 
         local rolepoll= isGroup and isLeaderORAssistant
         self.RolePoll:SetShown(rolepoll)
@@ -1143,7 +1123,7 @@ local function Init()--设置标记, 框架
         if not self:IsShown() then
             return
         end
-        self:RegisterEvent('PLAYER_ENTERING_WORLD')--显示/隐藏
+        self:RegisterEvent('PLAYER_ENTERING_WORLD')
         self:RegisterEvent('CVAR_UPDATE')
         self:RegisterEvent('GROUP_ROSTER_UPDATE')
         self:RegisterEvent('GROUP_LEFT')
@@ -1245,7 +1225,7 @@ local function Init()--设置标记, 框架
         end
     end)
 
-    if MovieFrame_OnMovieFinished then--11.05没有了
+    if MovieFrame_OnMovieFinished then
         WoWTools_DataMixin:Hook('MovieFrame_PlayMovie', function()
             MakerFrame:set_shown()
         end)
@@ -1265,7 +1245,6 @@ local function Init()--设置标记, 框架
 
 
 
---背景
     WoWTools_TextureMixin:CreateBG(MakerFrame.ping, {isColor=true})
     MakerFrame.ping.Background:SetPoint('BOTTOMRIGHT', _G[PingButtons[1]])
     MakerFrame.ping.Background:SetPoint('TOPLEFT', _G[PingButtons[#PingButtons]])
@@ -1292,16 +1271,13 @@ local function Init()--设置标记, 框架
     end
 
 
---设置全部，快捷键
     function MakerFrame:set_all_hotkey()
         for _, name in pairs(PingButtons) do
             if _G[name].set_hotkey then
                 _G[name]:set_hotkey()
             end
         end
---倒计时
         MakerFrame.countdown:set_hotkey()
---队伍标记
         for _, name in pairs(TargetButtons) do
             if _G[name].set_hotkey then
                 _G[name]:set_hotkey()
@@ -1309,7 +1285,6 @@ local function Init()--设置标记, 框架
         end
     end
 
---位于上方
     function MakerFrame:set_all_point()
         if not self:CanChangeAttribute() then
             return

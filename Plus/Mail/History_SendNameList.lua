@@ -1,4 +1,3 @@
---收件人，历史记录
 local function Save()
     return WoWToolsPlusSave['Plus_Mail']
 end
@@ -30,7 +29,7 @@ local function created_button(index)
         frame:SetAlpha(1)
     end)
     btn:SetScript('OnClick', function(frame)
-          WoWTools_MailMixin:SetSendName(frame.name)--设置，收件人，名字
+          WoWTools_MailMixin:SetSendName(frame.name)
     end)
     function btn:set_alpha()
         self:SetAlpha(self.alpha or 1)
@@ -61,7 +60,7 @@ end
 
 local function set_list()
     local num= #Save().lastSendPlayerList
-    Button.Text:SetText(num or '')--列表，数量
+    Button.Text:SetText(num or '')
 
     if Save().hideSendPlayerList then
         return
@@ -170,11 +169,10 @@ local function Init_Menu(self, root)
             tooltip:AddLine(description.data.name)
             tooltip:AddLine(' ')
             tooltip:AddLine(WoWTools_L.REMOVE)
-            tooltip:AddLine(WoWTools_MailMixin:GetRealmInfo(description.data.name))--该玩家与你不在同一个服务器
+            tooltip:AddLine(WoWTools_MailMixin:GetRealmInfo(description.data.name))
         end)
     end
 
---全部清除
     if num>0 then
         sub:CreateDivider()
     end
@@ -217,7 +215,6 @@ local function Init_Menu(self, root)
 
     WoWTools_MenuMixin:SetScrollMode(sub)
 
---缩放
     WoWTools_MenuMixin:Scale(self, root, function()
         return Save().scaleSendPlayerFrame or 1
     end, function(value)
@@ -225,7 +222,6 @@ local function Init_Menu(self, root)
         Set_Button()
     end)
 
---打开选项
     root:CreateDivider()
     WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_MailMixin.addName})
 end
@@ -252,16 +248,16 @@ local function Set_Event(self, event)
             WoWTools_MailMixin:SetSendName(self.SendName)
             return
 
-        elseif findIndex then--移除，已存在
+        elseif findIndex then
             table.remove(Save().lastSendPlayerList, findIndex)
 
-        elseif #Save().lastSendPlayerList>= Save().lastMaxSendPlayerList then--移除，最大保存数
+        elseif #Save().lastSendPlayerList>= Save().lastMaxSendPlayerList then
             table.remove(Save().lastSendPlayerList)
         end
 
         table.insert(Save().lastSendPlayerList, 1, self.SendName)
 
-        set_list()--设置，历史记录，内容
+        set_list()
         WoWTools_MailMixin:SetSendName(self.SendName)
     end
 
@@ -305,7 +301,7 @@ local function Init()
         self:SetShown(not Save().hideHistoryList)
     end
 
-    Button.Text= WoWTools_LabelMixin:Create(Button, {justifyH='CENTER', color={r=1,g=1,b=1}})--列表，数量
+    Button.Text= WoWTools_LabelMixin:Create(Button, {justifyH='CENTER', color={r=1,g=1,b=1}})
     Button.Text:SetPoint('CENTER')
 
     Button:SetScript('OnEvent', Set_Event)
@@ -333,7 +329,7 @@ local function Init()
 
     Button:SetScript('OnHide', Button.UnregisterAllEvents)
     Button:SetScript('OnShow', function(self)
-        self:RegisterEvent('MAIL_SEND_SUCCESS')--SendName，设置，发送成功，名字
+        self:RegisterEvent('MAIL_SEND_SUCCESS')
         self:RegisterEvent('MAIL_FAILED')
         set_list()
     end)
@@ -363,6 +359,6 @@ end
 
 
 
-function WoWTools_MailMixin:Init_Send_History_Name()--收件人，历史记录
+function WoWTools_MailMixin:Init_Send_History_Name()
     Init()
 end

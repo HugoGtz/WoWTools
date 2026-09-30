@@ -1,4 +1,3 @@
---添加 RELOAD 按钮
 local function Save()
     return WoWToolsPlusSave['ChatButton_HyperLink'] or {}
 end
@@ -40,21 +39,20 @@ end
 
 
 
---添加 RELOAD 按钮
 local function Init()
     if Save().not_Add_Reload_Button then
         return
     end
 
    local dataButton={--layoutIndex
-        [WoWTools_TextMixin:CN(GAMEMENU_OPTIONS)]= {'mechagon-projects', false},--选项
-        [WoWTools_TextMixin:CN(HUD_EDIT_MODE_MENU)]= {'UI-HUD-Minimap-CraftingOrder-Up', false},--编辑模式
-        [WoWTools_TextMixin:CN(MACROS)]= {'NPE_Icon', false},--宏命令设置
+        [WoWTools_TextMixin:CN(GAMEMENU_OPTIONS)]= {'mechagon-projects', false},
+        [WoWTools_TextMixin:CN(HUD_EDIT_MODE_MENU)]= {'UI-HUD-Minimap-CraftingOrder-Up', false},
+        [WoWTools_TextMixin:CN(MACROS)]= {'NPE_Icon', false},
 
-        [WoWTools_TextMixin:CN(ADDONS)]= {'dressingroom-button-appearancelist-up', false},--插件
-        [WoWTools_TextMixin:CN(LOG_OUT)]= {'perks-warning-large', false, {0,0.8,1}},--登出
-        [WoWTools_TextMixin:CN(EXIT_GAME)]= {'Ping_Chat_Warning', false, {0,0.8,1}},--退出游戏
-        [WoWTools_TextMixin:CN(RETURN_TO_GAME)]= {'poi-traveldirections-arrow', true, {0,1,0}},--返回游戏
+        [WoWTools_TextMixin:CN(ADDONS)]= {'dressingroom-button-appearancelist-up', false},
+        [WoWTools_TextMixin:CN(LOG_OUT)]= {'perks-warning-large', false, {0,0.8,1}},
+        [WoWTools_TextMixin:CN(EXIT_GAME)]= {'Ping_Chat_Warning', false, {0,0.8,1}},
+        [WoWTools_TextMixin:CN(RETURN_TO_GAME)]= {'poi-traveldirections-arrow', true, {0,1,0}},
     }
 
 
@@ -114,7 +112,6 @@ end
 
 
 
---添加 RELOAD 按钮
 function WoWTools_HyperLink:Init_Reload()
     Init()
 end

@@ -10,7 +10,7 @@ local function Save()
 end
 
 
-function WoWTools_InviteMixin:Get_Leader()--取得权限
+function WoWTools_InviteMixin:Get_Leader()
     return UnitIsGroupAssistant('player') or UnitIsGroupLeader('player') or not IsInGroup()
 end
 
@@ -41,23 +41,22 @@ end
 
 
 --####
---初始
 --####
 local function Init(btn)
     btn.texture:SetAtlas('communities-icon-addgroupplus')
 
-    btn.summonTips= btn:CreateTexture(nil,'OVERLAY')--召唤，提示
+    btn.summonTips= btn:CreateTexture(nil,'OVERLAY')
     btn.summonTips:SetPoint('BOTTOMLEFT', 0, 3)
     btn.summonTips:SetSize(16,16)
     btn.summonTips:SetAtlas('Raid-Icon-SummonPending')
 
-    btn.invTips= btn:CreateTexture(nil,'OVERLAY')--召唤，提示
+    btn.invTips= btn:CreateTexture(nil,'OVERLAY')
     btn.invTips:SetPoint('BOTTOMRIGHT', -2, 0)
     btn.invTips:SetSize(16,16)
     btn.invTips:SetAtlas('poi-traveldirections-arrow2')
 
     function btn:settings()
-        self.summonTips:SetShown(Save().Summon)--召唤，提示
+        self.summonTips:SetShown(Save().Summon)
         self.invTips:SetShown(Save().Channel and Save().ChannelText or Save().InvTar)
     end
 
@@ -76,7 +75,7 @@ local function Init(btn)
     WoWTools_InviteMixin:Setup_Menu(btn)
 
     function btn:set_OnMouseDown()
-        WoWTools_InviteMixin:Inv_All_Unit()--邀请，周围玩家
+        WoWTools_InviteMixin:Inv_All_Unit()
     end
 
     btn:settings()
@@ -85,13 +84,6 @@ local function Init(btn)
 
 
 
-    if (WoWTools_DataMixin.Player.Region==1 or WoWTools_DataMixin.Player.Region==3) then
-        WoWTools_InviteMixin.SummonThxText = '{rt1}'..WoWTools_L['Thanks for the summon']..'{rt1}'
-    elseif WoWTools_DataMixin.Player.Region==5 then
-        WoWTools_InviteMixin.SummonThxText= '{rt1}谢谢{rt1}, 拉我'
-    else
-        WoWTools_InviteMixin.SummonThxText= '{rt1}'..SUMMON..'{rt1} '..VOICEMACRO_16_Dw_1
-    end
 
 
 
@@ -122,19 +114,18 @@ panel:SetScript('OnEvent', function(self, event, arg1)
 
             WoWToolsPlusSave['ChatButton_Invite']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['ChatButton_Invite'], {
                 InvNoFriend={},
-                --LFGListAceInvite=true,--接受,LFD, 邀请
-                FriendAceInvite=true,--接受, 好友, 邀请
-                InvNoFriendNum=0,--拒绝, 次数
-                restingTips=true,--休息区提示
-                ChannelText=WoWTools_DataMixin.Player.IsCN and '1' or 'inv',--频道, 邀请, 事件,内容
+                FriendAceInvite=true,
+                InvNoFriendNum=0,
+                restingTips=true,
+                ChannelText=WoWTools_DataMixin.Player.IsCN and '1' or 'inv',
 
-                Summon= nil,--接受, 召唤 (opcional: te teletransporta sin preguntar)
-                notSummonChat=nil,--不说 (clave antigua, ya no se usa)
+                Summon= nil,
+                notSummonChat=nil,
                 SummonChat=nil,--decir gracias al grupo (opcional)
-                SummonThxText=nil,--自定义THX内容
-                SummonThxInRaid=nil,--在团里也说谢谢
+                SummonThxText=nil,
+                SummonThxInRaid=nil,
 
-                setFrameFun= true,--跟随，密语
+                setFrameFun= true,
                 focusKey= 'Shift',
             })
 
@@ -151,11 +142,11 @@ panel:SetScript('OnEvent', function(self, event, arg1)
         end
 
     elseif event=='PLAYER_ENTERING_WORLD' then
-        WoWTools_InviteMixin:Init_Chanell()--设置,内容,频道, 邀请,事件
-        WoWTools_InviteMixin:Init_Focus()--Shift+点击设置焦点
+        WoWTools_InviteMixin:Init_Chanell()
+        WoWTools_InviteMixin:Init_Focus()
         WoWTools_InviteMixin:Init_Summon()
-        WoWTools_InviteMixin:Init_Resting()--设置, 休息区提示事件
-        WoWTools_InviteMixin:Init_Target()--设置, 邀请目标
+        WoWTools_InviteMixin:Init_Resting()
+        WoWTools_InviteMixin:Init_Target()
         WoWTools_InviteMixin:Init_StaticPopup()
 
         self:UnregisterEvent(event)

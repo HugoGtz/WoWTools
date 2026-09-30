@@ -1,4 +1,3 @@
---物品
 local function Save()
     return WoWToolsPlusSave['Plus_PaperDoll']
 end
@@ -10,15 +9,15 @@ end
 
 
 
-local pvpItemStr= PVP_ITEM_LEVEL_TOOLTIP:gsub('%%d', '%(%%d%+%)')--"装备：在竞技场和战场中将物品等级提高至%d。"
-local enchantStr= ENCHANTED_TOOLTIP_LINE:gsub('%%s','(.+)')--附魔
-local upgradeStr= ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT:gsub('%%s/%%s','(.-%%d%+/%%d%+)')-- "升级：%s/%s"
+local pvpItemStr= PVP_ITEM_LEVEL_TOOLTIP:gsub('%%d', '%(%%d%+%)')
+local enchantStr= ENCHANTED_TOOLTIP_LINE:gsub('%%s','(.+)')
+local upgradeStr= ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT:gsub('%%s/%%s','(.-%%d%+/%%d%+)')
 
-local ITEM_CREATED_BY_Str= ITEM_CREATED_BY:gsub('%%s','(.+)')--"|cff00ff00<由%s制造>|r"
+local ITEM_CREATED_BY_Str= ITEM_CREATED_BY:gsub('%%s','(.+)')
 
 
 
-local InventSlot_To_ContainerSlot={}--背包数
+local InventSlot_To_ContainerSlot={}
 for i=1, NUM_TOTAL_EQUIPPED_BAG_SLOTS  do
     local bag=C_Container.ContainerIDToInventoryID(i)
     if bag then
@@ -41,8 +40,6 @@ end
 
 
 
---增加 [潘达利亚工程学: 地精滑翔器] recipeID 126392
---[诺森德工程学: 氮气推进器] ricipeID 55016
 local function set_Engineering(btn, slot, link, use, isPaperDollItemSlot)
     if not (
             (slot==15 and C_TradeSkillUI.IsRecipeProfessionLearned(126392))
@@ -118,23 +115,22 @@ end
 
 
 local subClassToSlot={
-    [1]= 0,--头	
-    [2]= 1,--脖子	
-    [3]= 2,--肩膀	
-    [15]= 3,--披风	
-    [5]= 4,--胸部	
-    [9]= 5,--手腕	
-    [10]= 6,--手
-    [6]= 7,--腰部	
-    [7]= 8,--腿	
-    [8]= 9,--脚	
-    [11]= 10,--手指	
-    [12]= 10,--手指	
-    [16]= 11,--武器	单手武器
-    --[16]= 12,--	双手武器	
-    [17]= 13,--盾牌/副手	
+    [1]= 0,
+    [2]= 1,
+    [3]= 2,
+    [15]= 3,
+    [5]= 4,
+    [9]= 5,
+    [10]= 6,
+    [6]= 7,
+    [7]= 8,
+    [8]= 9,
+    [11]= 10,
+    [12]= 10,
+    [16]= 11,
+    [17]= 13,
 }
-local function get_no_Enchant_Bag(slot)--取得，物品，bag, slot    
+local function get_no_Enchant_Bag(slot)
     for bagIndex= Enum.BagIndex.Backpack, NUM_BAG_FRAMES + NUM_REAGENTBAG_FRAMES do--Constants.InventoryConstants.NumBagSlots
         for slotIndex=1, C_Container.GetContainerNumSlots(bagIndex) do
             local info = C_Container.GetContainerItemInfo(bagIndex, slotIndex)
@@ -148,14 +144,14 @@ local function get_no_Enchant_Bag(slot)--取得，物品，bag, slot
     end
 end
 
-local function set_no_Enchant(btn, slot, find, isPaperDollItemSlot)--附魔，按钮
+local function set_no_Enchant(btn, slot, find, isPaperDollItemSlot)
     if not subClassToSlot[slot] then
         return
     end
 
     local tab
     if find and isPaperDollItemSlot then
-        tab=get_no_Enchant_Bag(slot)--取得，物品，bag, slot
+        tab=get_no_Enchant_Bag(slot)
         --botón seguro: no crearlo en combate (ADDON_ACTION_BLOCKED)
         if tab and not btn.noEnchant and not InCombatLockdown() then
             local h=btn:GetHeight()/3
@@ -209,7 +205,7 @@ local function set_no_Enchant(btn, slot, find, isPaperDollItemSlot)--附魔，�
                     self:UnregisterEvent('PLAYER_REGEN_ENABLED')
                 end
                 if self:CanChangeAttribute() then
-                    local tab2=get_no_Enchant_Bag(self.slot)--取得，物品，bag, slot
+                    local tab2=get_no_Enchant_Bag(self.slot)
                     --sin pergamino: limpiar el atributo para no usar otro objeto del mismo hueco
                     self:SetAttribute("item", tab2 and tab2.bag..' '..tab2.slot or nil)
                     self.tab= tab2
@@ -255,11 +251,10 @@ end
 
 
 
---宝石信息
 local function Set_Item_Gem(self, link, isLeftSlot)
 
     if not PlayerIsTimerunning() then
-        if link then--宝石
+        if link then
             local numSockets= C_Item.GetItemNumSockets(link) or 0--MAX_NUM_SOCKETS
             for n=1, numSockets do
                 local gemLink= select(2, C_Item.GetItemGem(link, n))
@@ -282,7 +277,7 @@ local function Set_Item_Gem(self, link, isLeftSlot)
                         end
                     end)
 
-                    if isLeftSlot then--左边插曹
+                    if isLeftSlot then
                         if n==1 then
                             gem:SetPoint('BOTTOMLEFT', self, 'BOTTOMRIGHT', 8, 0)
                         else
@@ -308,8 +303,6 @@ local function Set_Item_Gem(self, link, isLeftSlot)
                     gem:SetAtlas(gemLink and 'Islands-QuestDisable' or 'FlightPath')--'socket-hydraulic-background')
                 end
                 gem:SetShown(true)
-                --local x= isLeftSlot and 8 or -8--左边插曹
-                --x= isLeftSlot and x+ 12.3 or x- 12.3--左边插曹
             end
             for n=numSockets+1, MAX_NUM_SOCKETS do
                 local gem= self['gem'..n]
@@ -381,7 +374,6 @@ end
 
 
 
---耐久度
 local function Set_Item_Durability(btn, link, slot, isPaperDollItemSlot, isLeftSlot)
     local du, min, max
     if link then
@@ -393,7 +385,7 @@ local function Set_Item_Durability(btn, link, slot, isPaperDollItemSlot, isLeftS
     if not btn.du and du and isPaperDollItemSlot then
         btn.du= CreateFrame('StatusBar', nil, btn)
         btn.du:SetFrameStrata('HIGH')
-        local wq= slot==16 or slot==17 or slot==18--武器
+        local wq= slot==16 or slot==17 or slot==18
         if wq then
             btn.du:SetPoint('TOP', btn, 'BOTTOM')
         elseif isLeftSlot then
@@ -464,7 +456,7 @@ end
 
 
 
-local function set_Item_Tips(btn, slot, link, isPaperDollItemSlot)--附魔, 使用, 属性
+local function set_Item_Tips(btn, slot, link, isPaperDollItemSlot)
     if Save().hide then
         link= nil
     end
@@ -476,11 +468,11 @@ local function set_Item_Tips(btn, slot, link, isPaperDollItemSlot)--附魔, 使�
     local isLeftSlot= WoWTools_PaperDollMixin:Is_Left_Slot(slot)
 
     if link and not C_Item.IsCorruptedItem(link) then
-        local dateInfo= WoWTools_ItemMixin:GetTooltip({hyperLink=link, text={enchantStr, pvpItemStr, upgradeStr,ITEM_CREATED_BY_Str}, onlyText=true})--物品提示，信息
+        local dateInfo= WoWTools_ItemMixin:GetTooltip({hyperLink=link, text={enchantStr, pvpItemStr, upgradeStr,ITEM_CREATED_BY_Str}, onlyText=true})
         enchant, use, pvpItem, upgradeItem, createItem= dateInfo.text[enchantStr], dateInfo.red, dateInfo.text[pvpItemStr], dateInfo.text[upgradeStr], dateInfo.text[ITEM_CREATED_BY_Str]
     end
 
-    if enchant and not btn.enchant then--附魔
+    if enchant and not btn.enchant then
         local h=btn:GetHeight()/3
         btn.enchant= btn:CreateTexture()
         btn.enchant:SetSize(h,h)
@@ -507,9 +499,9 @@ local function set_Item_Tips(btn, slot, link, isPaperDollItemSlot)--附魔, 使�
         btn.enchant:SetShown(enchant and true or false)
     end
 
-    set_no_Enchant(btn, slot, not enchant and link, isPaperDollItemSlot)--附魔，按钮
+    set_no_Enchant(btn, slot, not enchant and link, isPaperDollItemSlot)
 
-    use=  link and select(2, C_Item.GetItemSpell(link))--物品是否可使用
+    use=  link and select(2, C_Item.GetItemSpell(link))
     if use and not btn.use  then
         local h=btn:GetHeight()/3
         btn.use= btn:CreateTexture()
@@ -537,7 +529,7 @@ local function set_Item_Tips(btn, slot, link, isPaperDollItemSlot)--附魔, 使�
         btn.use.spellID= use
         btn.use:SetShown(use and true or false)
     end
-    set_Engineering(btn, slot, link, use, isPaperDollItemSlot)--地精滑翔,氮气推进器
+    set_Engineering(btn, slot, link, use, isPaperDollItemSlot)
 
 
 
@@ -545,7 +537,6 @@ local function set_Item_Tips(btn, slot, link, isPaperDollItemSlot)--附魔, 使�
 
 
 
---提示PvP装备
     if pvpItem and not btn.pvpItem then
         local h=btn:GetHeight()/3
         btn.pvpItem=btn:CreateTexture(nil,'OVERLAY',nil,7)
@@ -573,7 +564,7 @@ local function set_Item_Tips(btn, slot, link, isPaperDollItemSlot)--附魔, 使�
         btn.pvpItem:SetShown(pvpItem and true or false)
     end
 
-    if upgradeItem and not btn.upgradeItem then--"升级：%s/%s"
+    if upgradeItem and not btn.upgradeItem then
         if isLeftSlot then
             btn.upgradeItem= WoWTools_LabelMixin:Create(btn, {color={r=0,g=1,b=0}, mouse=true})
             btn.upgradeItem:SetPoint('BOTTOMLEFT', btn, 'BOTTOMRIGHT',1,0)
@@ -610,7 +601,7 @@ local function set_Item_Tips(btn, slot, link, isPaperDollItemSlot)--附魔, 使�
     end
 
     local upgradeItemText
-    local upText= upgradeItem and upgradeItem:match('(.-)%d+/%d+')--"升级：%s %s/%s"
+    local upText= upgradeItem and upgradeItem:match('(.-)%d+/%d+')
     if upText then
         upgradeItemText= strlower(WoWTools_TextMixin:sub(upText,1,3, true))
         if not btn.upgradeItemText then
@@ -634,17 +625,17 @@ local function set_Item_Tips(btn, slot, link, isPaperDollItemSlot)--附魔, 使�
             btn.upgradeItemText:SetScript('OnLeave', function(self2) GameTooltip:Hide() self2:SetAlpha(1) end)
         end
         btn.upgradeItemText.tips= upgradeItem
-        local quality = GetInventoryItemQuality(unit, slot)--颜色
+        local quality = GetInventoryItemQuality(unit, slot)
         upgradeItemText= WoWTools_ItemMixin:GetColor(quality, {text=upgradeItemText})
     end
-    if  btn.upgradeItemText then--"升级：%s %s/%s"
+    if  btn.upgradeItemText then
         btn.upgradeItemText:SetText(upgradeItemText or '')
     end
 
 
 
 
-    if createItem and not btn.createItem then--"|cff00ff00<由%s制造>|r" ITEM_CREATED_BY 
+    if createItem and not btn.createItem then
         if isLeftSlot then
             btn.createItem= WoWTools_LabelMixin:Create(btn, {color={r=0,g=1,b=0}, mouse=true})
             btn.createItem:SetPoint('LEFT', btn, 'RIGHT',1,0)
@@ -668,12 +659,9 @@ local function set_Item_Tips(btn, slot, link, isPaperDollItemSlot)--附魔, 使�
         btn.createItem:SetText(createItem and '|A:communities-icon-notification:10:10|a' or '')
     end
 
---宝石信息
     Set_Item_Gem(btn, link, isLeftSlot)
---耐久度
     Set_Item_Durability(btn, link, slot, isPaperDollItemSlot, isLeftSlot)
 
---物品是否为首选护甲类型
     local iconTexture= GetItemButtonIconTexture(btn)
     if iconTexture then
         iconTexture:SetDesaturated(not isEquipType)
@@ -692,7 +680,7 @@ end
 
 
 
-local function set_Slot_Num_Label(frame, slot, isEquipped)--栏位
+local function set_Slot_Num_Label(frame, slot, isEquipped)
     local show= not Save().hide
     if not frame.slotText and show and not isEquipped then
         frame.slotText=WoWTools_LabelMixin:Create(frame, {color=true, justifyH='CENTER', mouse=true})
@@ -740,7 +728,6 @@ local function Init()
         return
     end
 
---装备属性
     WoWTools_DataMixin:Hook('PaperDollItemSlotButton_Update',  function(self)--PaperDollFrame.lua
         local slot= self:GetID()
 
@@ -748,18 +735,18 @@ local function Init()
             local show= not Save().hide
             local textureName = GetInventoryItemTexture("player", slot)
             local hasItem = textureName ~= nil and show
-            local link= hasItem and GetInventoryItemLink('player', slot) or nil--装等                
+            local link= hasItem and GetInventoryItemLink('player', slot) or nil
             if slot~=4 and slot~=19 then
                 set_Item_Tips(self, slot, link, true)
                 WoWTools_ItemMixin:SetItemStats(self, link, {point=self.icon, size=Save().statFontSize, equipSlot=slot})
             end
-            set_Slot_Num_Label(self, slot, link and true or nil)--栏位
-            self.icon:SetAlpha((hasItem or not show) and 1 or 0.3)--图标透明度
+            set_Slot_Num_Label(self, slot, link and true or nil)
+            self.icon:SetAlpha((hasItem or not show) and 1 or 0.3)
 
         elseif InventSlot_To_ContainerSlot[slot] then
             local numFreeSlots, numAllSlots, slot2
             local isbagEquipped= self:HasBagEquipped()
-            if isbagEquipped then--背包数
+            if isbagEquipped then
                 slot2= InventSlot_To_ContainerSlot[slot]
                 numFreeSlots= C_Container.GetContainerNumFreeSlots(slot2)
                 numAllSlots= C_Container.GetContainerNumSlots(slot2)
@@ -781,7 +768,7 @@ local function Init()
                 self.numAllSlots:SetText((numAllSlots and numAllSlots>0) and numAllSlots or '')
             end
 
-            set_Slot_Num_Label(self, InventSlot_To_ContainerSlot[slot], isbagEquipped)--栏位
+            set_Slot_Num_Label(self, InventSlot_To_ContainerSlot[slot], isbagEquipped)
         end
     end)
 
@@ -810,11 +797,11 @@ local function Init()
 
         if InspectFrame and InspectLevelText.set_font_size then
             InspectLevelText:set_font_size()
-            InspectFrame:set_status_label()--目标，属性
+            InspectFrame:set_status_label()
             InspectFrame.ShowHideButton:settings()
             if InspectFrame:IsShown() then
                 WoWTools_DataMixin:Call('InspectPaperDollFrame_UpdateButtons')--InspectPaperDollFrame.lua
-                WoWTools_DataMixin:Call('InspectPaperDollFrame_SetLevel')--目标,天赋 装等
+                WoWTools_DataMixin:Call('InspectPaperDollFrame_SetLevel')
             end
         end
     end

@@ -89,7 +89,6 @@ local function Init_Menu(self, root)
 		tooltip:AddLine(name..' #|cffffffff'..num)
 	end)
 
---选项
 	sub2=sub:CreateCheckbox(
 		WoWTools_L.SHOW_QUICK_BUTTON,
 	function()
@@ -100,7 +99,6 @@ local function Init_Menu(self, root)
 	end)
 	WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.CopyChat.ShowButton'])
 
---聊天记录
 	sub:CreateDivider()
 	sub2=sub:CreateCheckbox(
 		WoWTools_L.SLASH_CHATLOG2,
@@ -121,7 +119,6 @@ local function Init_Menu(self, root)
 		tooltip:AddLine(WoWTools_L.CHATLOGENABLED)
 	end)
 
---战斗日志
 	sub2=sub:CreateCheckbox(
 		WoWTools_L.SLASH_COMBATLOG1,
 	function()
@@ -141,7 +138,6 @@ local function Init_Menu(self, root)
 		tooltip:AddLine(WoWTools_L.COMBATLOGENABLED)
 	end)
 
---打开，选项面板
 	sub:CreateDivider()
 	WoWTools_ChatMixin:Open_SettingsPanel(sub, addName)
 

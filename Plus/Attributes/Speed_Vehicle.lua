@@ -1,14 +1,13 @@
 
---载具，移动，速度
 local function Init()
     --if WoWToolsPlusSave['Plus_Attributes'].disabledVehicleSpeed then
         --return
     --end
 
     for _, name in pairs({
-        'MainMenuBarVehicleLeaveButton',--没有车辆，界面 / Taxi, 移动, 速度
-        'OverrideActionBarLeaveFrameLeaveButton',--有车辆，界面
-        'MainActionBarVehicleLeaveButton',--没有车辆，界面 / Taxi, 移动, 速度
+        'MainMenuBarVehicleLeaveButton',
+        'OverrideActionBarLeaveFrameLeaveButton',
+        'MainActionBarVehicleLeaveButton',
     }) do
         local frame= _G[name]
         if frame and not frame.speedText then--evitar crear el texto y el hook dos veces

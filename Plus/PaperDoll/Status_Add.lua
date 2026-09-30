@@ -1,6 +1,5 @@
 
---属性，增强 PaperDollFrame.lua
-if WoWTools_DataMixin.Player.Ver<120005 then--11.0.5会出错误
+if WoWTools_DataMixin.Player.Ver<120005 then
     return
 end
 
@@ -27,7 +26,7 @@ end
 
 
 
-local function Find_Stats(stat, index, P)--查找
+local function Find_Stats(stat, index, P)
     local tabs
     if P then
         tabs=P_PAPERDOLL_STATCATEGORIES[index]
@@ -58,7 +57,7 @@ local function Find_Roles(roles)
     return tank, n, dps
 end
 
-local function Add_Stat(tab)--添加
+local function Add_Stat(tab)
     local index= tab.index
     local stat=tab.stat
     if not PAPERDOLL_STATCATEGORIES[index] then
@@ -81,7 +80,7 @@ local function Add_Stat(tab)--添加
             CharacterStatsPane[categoryFrame]= frame
         end
     end
-    local P_tab= Find_Stats(stat, index, true)--查找
+    local P_tab= Find_Stats(stat, index, true)
     if not PAPERDOLL_STATCATEGORIES[index] then
         PAPERDOLL_STATCATEGORIES[index]= {categoryFrame= index}
     end
@@ -99,7 +98,7 @@ local function Add_Stat(tab)--添加
     --WoWTools_Print(WoWTools_DataMixin.Icon.icon2..WoWTools_PaperDollMixin.addName, format('|cnGREEN_FONT_COLOR:%s|r', stat), ADD)
 end
 
-local function Remove_Stat(tab)--移除        
+local function Remove_Stat(tab)
     local index= tab.index
     local stat= tab.stat
     --local name= tab.name
@@ -115,7 +114,7 @@ local function Remove_Stat(tab)--移除
     --WoWTools_Print(WoWTools_DataMixin.Icon.icon2..WoWTools_PaperDollMixin.addName, format('|cnWARNING_FONT_COLOR:%s|r', TAXI_PATH_UNREACHABLE), stat, name)
 end
 
-local function Get_Primary_Text(primary)--主属性, 文本
+local function Get_Primary_Text(primary)
     if primary then
         if primary==LE_UNIT_STAT_STRENGTH then
             return format('|cffc69b6d%s|r', WoWTools_L.SPEC_FRAME_PRIMARY_STAT_STRENGTH)
@@ -128,7 +127,7 @@ local function Get_Primary_Text(primary)--主属性, 文本
 end
 
 
-local function Get_Role_Text(roleIndex)--职责
+local function Get_Role_Text(roleIndex)
     return
         roleIndex== Enum.LFGRole.Tank and format('%s%s', WoWTools_DataMixin.Icon.TANK, WoWTools_L.TANK)
         or (roleIndex==Enum.LFGRole.Healer and format('%s%s', WoWTools_DataMixin.Icon.HEALER, WoWTools_L.HEALER))
@@ -165,7 +164,6 @@ local function Init_Sub_Menu(_, root, stat, index, name)
     local sub
     root:CreateTitle(name..' '..stat..' '..index)
 
---自动隐藏 -1 0
     root:CreateDivider()
     for va=-1, 0 do
         sub=root:CreateCheckbox(
@@ -199,11 +197,10 @@ local function Init_Sub_Menu(_, root, stat, index, name)
         end)
     end
 
---职责，设置
     root:CreateDivider()
     for i= Enum.LFGRole.Tank, Enum.LFGRole.Damage, 1 do
         sub=root:CreateCheckbox(
-            Get_Role_Text(i)--职责
+            Get_Role_Text(i)
             ..(p_stats.roles and (p_stats.roles[1]==i or p_stats.roles[2]==i or p_stats.roles[3]==i) and '|A:auctionhouse-icon-favorite:0:0|a' or ''),
         function(data)
             local tank, n, dps= Find_Roles(stats.roles)
@@ -222,7 +219,7 @@ local function Init_Sub_Menu(_, root, stat, index, name)
                     if not tab.roles then
                         tab.roles={data.value}
                     else
-                        findTank, findN, findDps= Find_Roles(stats.roles)--职责，设置                                    
+                        findTank, findN, findDps= Find_Roles(stats.roles)
                         if data.value==Enum.LFGRole.Tank then
                             findTank = not findTank and true or false
                         elseif data.value==Enum.LFGRole.Healer then
@@ -260,7 +257,6 @@ local function Init_Sub_Menu(_, root, stat, index, name)
         end)
     end
 
---主属性，条件
     root:CreateDivider()
     for _, primary in pairs({LE_UNIT_STAT_STRENGTH, LE_UNIT_STAT_AGILITY , LE_UNIT_STAT_INTELLECT}) do
         sub=root:CreateRadio(
@@ -330,7 +326,6 @@ local function Init_Menu(self, root)
     local sub
 
 
---属性，选项
     for _, tab in pairs(AttributesCategory) do
         if tab.stat=='-' then
             root:CreateDivider()
@@ -340,18 +335,17 @@ local function Init_Menu(self, root)
             local name= tab.name or WoWTools_TextMixin:CN(_G[stat] or _G['STAT_'..stat]) or stat
 
             local stats= Find_Stats(stat, index, false) or {}
-            local tank, n, dps= Find_Roles(stats.roles)--职责
+            local tank, n, dps= Find_Roles(stats.roles)
             local role= format(
                 '%s%s%s',
                 tank and WoWTools_DataMixin.Icon.TANK or '',
                 n and WoWTools_DataMixin.Icon.HEALER or '',
                 dps and WoWTools_DataMixin.Icon.DAMAGER or ''
             )
-            --autoHide= format('|cnGREEN_FONT_COLOR:%s|r', stats.hideAt or '')--隐藏 0， -1
             
             local primary
             if stats.primary and tab.primary and stats.primary~=tab.primary then
-                primary=Get_Primary_Text(stats and stats.primary)--主属性
+                primary=Get_Primary_Text(stats and stats.primary)
             end
             sub=root:CreateCheckbox(
                 name..(role or '')..(primary or ''),
@@ -375,11 +369,9 @@ local function Init_Menu(self, root)
 
 
     root:CreateDivider()
---打开选项界面
     sub= WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_PaperDollMixin.addName})
 
 
---全部清除
     local clearName= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.CLEAR_ALL)
     local tipSub= sub:CreateButton(
         clearName,
@@ -395,7 +387,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.PaperDoll.StatClear'])
 
---还原
     local restName= (Save().PAPERDOLL_STATCATEGORIES and '' or '|cff626262')
         ..'|A:uitools-icon-refresh:0:0|a'
         ..(WoWTools_L.TRANSMOGRIFY_TOOLTIP_REVERT)
@@ -453,14 +444,13 @@ end
 
 
 --CharacterStatsPane
---显示/藏装备管理框选项
 local function Init()
     if Save().notStatusPlus then
         return
     end
 
 
-    if Save().PAPERDOLL_STATCATEGORIES then--加载，数据
+    if Save().PAPERDOLL_STATCATEGORIES then
         PAPERDOLL_STATCATEGORIES= Save().PAPERDOLL_STATCATEGORIES
     end
 
@@ -533,7 +523,6 @@ end
 
 
 
---属性，增强 PaperDollFrame.lua
 function WoWTools_PaperDollMixin:Init_Status()
     Init()
 end

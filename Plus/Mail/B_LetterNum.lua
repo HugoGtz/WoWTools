@@ -9,8 +9,7 @@ end
 
 
 
-local function Init()--字数
-    --清除，收件人
+local function Init()
     SendMailNameEditBox.clearButton= WoWTools_ButtonMixin:Cbtn(SendMailNameEditBox, {
         size=22,
         atlas='bags-button-autosort-up',
@@ -32,11 +31,10 @@ local function Init()--字数
         WoWTools_MailMixin:RefreshAll()
     end)
 
---收件人
     SendMailNameEditBox.playerTipsLable= WoWTools_LabelMixin:Create(SendMailNameEditBox, {justifyH='CENTER', size=10})
     SendMailNameEditBox.playerTipsLable:SetPoint('BOTTOM', SendMailNameEditBox, 'TOP',0,-3)
-    function SendMailNameEditBox:save_log()--保存内容
-        Save().lastSendPlayer= Save().logSendInfo and WoWTools_UnitMixin:GetFullName(self:GetText()) or nil--收件人
+    function SendMailNameEditBox:save_log()
+        Save().lastSendPlayer= Save().logSendInfo and WoWTools_UnitMixin:GetFullName(self:GetText()) or nil
     end
     SendMailNameEditBox:HookScript('OnTextChanged', function(self)
         local name= WoWTools_UnitMixin:GetFullName(self:GetText())
@@ -53,7 +51,6 @@ local function Init()--字数
         self.clearButton:SetShown(self:HasText())
     end)
 
---清除，主题
     SendMailSubjectEditBox.clearButton= WoWTools_ButtonMixin:Cbtn(SendMailSubjectEditBox, {
         size=22,
         atlas='bags-button-autosort-up',
@@ -74,11 +71,10 @@ local function Init()--字数
         self:GetParent():SetText('')
     end)
 
---主题
     SendMailSubjectEditBox.numLetters= WoWTools_LabelMixin:Create(SendMailSubjectEditBox)
     SendMailSubjectEditBox.numLetters:SetPoint('RIGHT')
     SendMailSubjectEditBox.numLetters:SetAlpha(0)
-    function SendMailSubjectEditBox:save_log()--保存内容
+    function SendMailSubjectEditBox:save_log()
         local text
         if Save().logSendInfo then
             text= self:GetText() or ''
@@ -98,18 +94,17 @@ local function Init()--字数
         self.numLetters:SetAlpha(0)
     end)
 
-    --内容
     SendMailBodyEditBox.numLetters= WoWTools_LabelMixin:Create(SendMailBodyEditBox)
     SendMailBodyEditBox.numLetters:SetPoint('BOTTOMRIGHT')
     SendMailBodyEditBox.numLetters:SetAlpha(0)
     function SendMailBodyEditBox:wowtools_settings()
         local has= self:HasFocus()
         local alpha= has and 1 or 0.5
-        SendStationeryBackgroundLeft:SetAlpha(alpha)--背景，透明度
+        SendStationeryBackgroundLeft:SetAlpha(alpha)
         SendStationeryBackgroundRight:SetAlpha(alpha)
         self.numLetters:SetAlpha(has and 1 or 0)
     end
-    function SendMailBodyEditBox:save_log()--保存内容
+    function SendMailBodyEditBox:save_log()
         local text
         if Save().logSendInfo then
             text= self:GetText() or ''

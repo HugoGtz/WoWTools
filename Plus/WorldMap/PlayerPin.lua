@@ -5,7 +5,7 @@ local function SaveWoW()
     return WoWToolsPlusPlayerDate.PlayerMapPin
 end
 
-local PinHeight= 12--默认大小
+local PinHeight= 12
 local Button
 
 
@@ -184,14 +184,12 @@ function WoWToolsWorldMapPinMixin:OnLoad()
     end)
 
     self:RegisterForDrag("RightButton")
---开始移动
     self:SetScript("OnDragStart", function(btn, d)
         if d=='RightButton' and IsAltKeyDown() then
             btn:StartMoving()
             btn.isMoving = true
         end
     end)
---停止移动
     self:SetScript("OnDragStop", function(btn)
         btn:StopMovingOrSizing()
         if not btn.isMoving then
@@ -206,7 +204,7 @@ function WoWToolsWorldMapPinMixin:OnLoad()
         local oldXY= btn.xy
 
         if newXY and oldXY~=newXY and SaveWoW()[mapID] and SaveWoW()[mapID][oldXY] then
-            local delTab= SaveWoW()[mapID][newXY]--如果已存在
+            local delTab= SaveWoW()[mapID][newXY]
             if delTab then
                 WoWTools_Print(
                     WoWTools_DataMixin.Icon.icon2
@@ -218,7 +216,7 @@ function WoWToolsWorldMapPinMixin:OnLoad()
                 )
             end
             SaveWoW()[mapID][newXY]= CopyTable(SaveWoW()[mapID][oldXY])
-            SaveWoW()[mapID][oldXY]= nil--清除原来的
+            SaveWoW()[mapID][oldXY]= nil
 
             WoWToolsWorldMapDataProvider:RefreshAllData()
             WoWTools_WorldMapMixin:PlayerPin_RefreshUI({mapID=mapID, xy=newXY})
@@ -400,7 +398,6 @@ local function Init_Menu(self, root)
         root:CreateDivider()
     end
 
---UI编辑
     sub=root:CreateButton(
         WoWTools_L['Edit UI']..WoWTools_DataMixin.Icon.mid,
     function()
@@ -423,12 +420,11 @@ local function Init_Menu(self, root)
     end)
 
     sub:CreateDivider()
---重置位置
     sub:CreateButton(
         (WoWTools_MoveMixin:GetPoint(nil, uiName) and '' or '|cff626262')
         ..(WoWTools_L.RESET_POSITION),
     function()
-        WoWTools_MoveMixin:ClearPoint(nil, uiName)--重置位置
+        WoWTools_MoveMixin:ClearPoint(nil, uiName)
         local frame= WoWTools_WorldMapMixin:PlayerPin_GetUIFrame()
         if frame then
             frame:ClearAllPoints()
@@ -437,7 +433,6 @@ local function Init_Menu(self, root)
         return MenuResponse.Refresh
     end)
 
---打开选项
     --root:CreateDivider()
     sub= WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_WorldMapMixin.addName, name2=WoWTools_WorldMapMixin.addName2})
 
@@ -456,7 +451,6 @@ local function Init_Menu(self, root)
     end)
 
     sub:CreateDivider()
---重新加载UI
     WoWTools_MenuMixin:Reload(sub)
 end
 

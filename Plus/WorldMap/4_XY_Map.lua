@@ -1,5 +1,4 @@
 
---地图坐标
 
 local function Save()
     return  WoWToolsPlusSave['Plus_WorldMap']
@@ -16,7 +15,6 @@ end
 
 
 
---自定义，地图标记，XY
 local function Set_Map_Waypoint(self)
     local mapID = WorldMapFrame.mapID
     if not mapID then
@@ -32,7 +30,6 @@ local function Set_Map_Waypoint(self)
     text= text:gsub('%p', function(t) if t~='.' then return ' ' end end)
     text= text:gsub('%a', function(t) if t~='.' then return ' ' end end)
 
-    text= text:gsub('，', ' ')
     text= text:gsub('%s%s', ' ')
 
 --100.10 100.10
@@ -103,7 +100,7 @@ local function Init_Menu(self, root)
         ..'|A:Waypoint-MapPin-ChatIcon:0:0|a'
         ..(WoWTools_L.SOCIAL_SHARE_TEXT),
     function()
-        WoWTools_WorldMapMixin:SendPlayerPoint()--发送玩家位置
+        WoWTools_WorldMapMixin:SendPlayerPoint()
         return MenuResponse.Open
     end)
     WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.WorldMap.SharePos'])
@@ -195,14 +192,14 @@ local function Init()
             if not self.edit:HasFocus() then
                 self.edit:SetText(WoWTools_WorldMapMixin:GetTextForXY(nil, nil, nil, true) or '')
             end
-            btn.Text:SetText(WoWTools_WorldMapMixin:GetTextForXY(nil, nil, true, nil) or '')--当前世界地图位置
+            btn.Text:SetText(WoWTools_WorldMapMixin:GetTextForXY(nil, nil, true, nil) or '')
         end
     end)
 
     btn:SetScript('OnMouseDown', function(self, d)
         if d=='LeftButton' then
             self:CloseMenu()
-            WoWTools_WorldMapMixin:SendPlayerPoint()--发送玩家位置
+            WoWTools_WorldMapMixin:SendPlayerPoint()
         end
     end)
 
@@ -215,8 +212,8 @@ local function Init()
     end)
 
     btn.edit= CreateFrame("EditBox", nil, btn, 'InputBoxTemplate')--'InputBoxVisualTemplate')--InputBoxTemplate')
-    WoWTools_TextureMixin:SetEditBox(btn.edit)--外框，颜色
-    WoWTools_ColorMixin:SetLabelColor(btn.edit)--字体颜色
+    WoWTools_TextureMixin:SetEditBox(btn.edit)
+    WoWTools_ColorMixin:SetLabelColor(btn.edit)
     btn.edit:SetHeight(20)
 
     btn.edit:SetAutoFocus(false)
@@ -244,7 +241,7 @@ local function Init()
         )
     end)
 
-    btn.edit:SetScript("OnEnterPressed", Set_Map_Waypoint)--自定义，地图标记，XY
+    btn.edit:SetScript("OnEnterPressed", Set_Map_Waypoint)
     btn.edit:SetScript('OnLeave', GameTooltip_Hide)
     btn.edit:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
@@ -265,7 +262,7 @@ local function Init()
         GameTooltip:Show()
     end)
 
-    btn.Text= btn:CreateFontString(nil, nil, 'GameFontNormal')-- WoWTools_LabelMixin:Create(btn, {copyFont=WorldMapFrameTitleText})--玩家当前坐标
+    btn.Text= btn:CreateFontString(nil, nil, 'GameFontNormal')
     btn.Text:SetPoint('LEFT',btn.edit, 'RIGHT', 2, 0)
 
     btn.Bg= btn:CreateTexture(nil, 'BACKGROUND')

@@ -1,4 +1,3 @@
---新建，公会, 签名 OfferPetition
 
 local function Save()
     return WoWToolsPlusSave['ChatButtonGuild'] or {}
@@ -111,6 +110,6 @@ end
 
 
 
-function WoWTools_GuildMixin:Init_PetitionFrame()--新建，公会, 签名 OfferPetition
+function WoWTools_GuildMixin:Init_PetitionFrame()
     Init()
 end

@@ -153,7 +153,7 @@ function WoWTools_MenuMixin:LootSpecialization(root)
 	end
 
     local specID, name, role, icon, sub
-    local curSpecIndex= GetSpecialization() or 0--当前，专精
+    local curSpecIndex= GetSpecialization() or 0
     --local lootSpecID= GetLootSpecialization() or 0
 
     for specIndex=0, numSpec do
@@ -229,7 +229,7 @@ function WoWTools_MenuMixin:Set_Specialization(root)
 
     local sub--, specID, name, icon, role
     local isInCombat= InCombatLockdown()
-    local curSpecIndex= GetSpecialization() or 0--当前，专精
+    local curSpecIndex= GetSpecialization() or 0
     local sex= WoWTools_DataMixin.Player.Sex
 
     for specIndex=1, numSpec, 1 do

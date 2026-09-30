@@ -2,11 +2,11 @@
 local InvPlateTimer
 
 
-function WoWTools_InviteMixin:Inv_All_Unit()--邀请，周围玩家
+function WoWTools_InviteMixin:Inv_All_Unit()
     local p= C_CVar.GetCVarBool('nameplateShowFriendlyPlayers')
     local all= C_CVar.GetCVarBool('nameplateShowAll')
 
-    if not WoWTools_InviteMixin:Get_Leader() then--取得权限
+    if not WoWTools_InviteMixin:Get_Leader() then
         WoWTools_Print(
             WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,
             '|cnWARNING_FONT_COLOR:',
@@ -47,7 +47,6 @@ function WoWTools_InviteMixin:Inv_All_Unit()--邀请，周围玩家
         elseif co==40 then
             return
         else
-            --toRaidOrParty(co)--自动, 转团
             local tab= C_NamePlate.GetNamePlates(issecure()) or {}
             do 
             for _, v in pairs(tab) do

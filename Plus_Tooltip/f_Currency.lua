@@ -1,7 +1,7 @@
 
 
 
-function WoWTools_TooltipMixin:Set_Currency(tooltip, currencyID)--货币
+function WoWTools_TooltipMixin:Set_Currency(tooltip, currencyID)
     if self:IsInCombatDisabled(tooltip)
         or not canaccessvalue(currencyID)
         or not currencyID
@@ -25,7 +25,7 @@ function WoWTools_TooltipMixin:Set_Currency(tooltip, currencyID)--货币
         (WoWTools_L.CURRENCY)..WoWTools_DataMixin.Icon.icon2..'|cffffffff'..currencyID..icon
     )
 
-    local factionID = C_CurrencyInfo.GetFactionGrantedByCurrency(currencyID)--派系声望
+    local factionID = C_CurrencyInfo.GetFactionGrantedByCurrency(currencyID)
     if factionID and factionID>0 then
         local name= (C_Reputation.GetFactionDataByID(factionID) or {}).name
         if name then
@@ -39,12 +39,11 @@ function WoWTools_TooltipMixin:Set_Currency(tooltip, currencyID)--货币
 
 
     local num, data= 0, {}
---战团可转移货币
     if isTrans then
         num, data= WoWTools_CurrencyMixin:GetAccountInfo(currencyID)
 
     elseif not isWide then
-        for guid, info in pairs(WoWToolsPlus_WoWDate or {}) do--帐号数据
+        for guid, info in pairs(WoWToolsPlus_WoWDate or {}) do
             if guid~=WoWTools_DataMixin.Player.GUID then
                 local quantity=info.Currency[currencyID]
                 if quantity and quantity>0 then
@@ -85,7 +84,7 @@ function WoWTools_TooltipMixin:Set_Currency(tooltip, currencyID)--货币
     local text2Left= (col or '|cnGREEN_FONT_COLOR:')..(icon~='' and icon or WoWTools_DataMixin.Icon.wow2)..WoWTools_DataMixin:MK(num, 3)
     local textRight= col..WoWTools_DataMixin:MK(info2.quantity or 0, 3)
 
-    if tooltip.IsEmbedded then--嵌入式
+    if tooltip.IsEmbedded then
         tooltip:AddLine(textLeft)
         tooltip:AddLine(text2Left)
         tooltip:AddLine(textRight)
@@ -97,7 +96,7 @@ function WoWTools_TooltipMixin:Set_Currency(tooltip, currencyID)--货币
 
     tooltip.Portrait:settings(info2.iconFileID )
 
-    WoWTools_TooltipMixin:Set_Web_Link(tooltip, {type='currency', id=currencyID, name=info2.name, col=nil, isPetUI=false})--取得网页，数据链接 npc item spell currency
+    WoWTools_TooltipMixin:Set_Web_Link(tooltip, {type='currency', id=currencyID, name=info2.name, col=nil, isPetUI=false})
 
     --tooltip:Show()
     WoWTools_TooltipMixin:Show(tooltip)

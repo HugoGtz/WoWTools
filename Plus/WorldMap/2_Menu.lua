@@ -5,7 +5,6 @@ end
 
 
 
---隐藏，标题
 local function ShowHideTitle()
     local text= ''
     if not Save().HideTitle then
@@ -24,16 +23,15 @@ local function Init_OnEnter(self)
     GameTooltip_SetTitle(GameTooltip, WoWTools_WorldMapMixin.addName..WoWTools_DataMixin.Icon.icon2)
     GameTooltip:AddLine(' ')
 
---位面
     if WoWTools_DataMixin.Player.Layer then
         GameTooltip:AddLine(WoWTools_DataMixin.Language.layer..'|cffffffff'..WoWTools_DataMixin.Player.Layer)
     end
 
-    local uiMapID = WorldMapFrame.mapID or WorldMapFrame:GetMapID("current")--地图信息
+    local uiMapID = WorldMapFrame.mapID or WorldMapFrame:GetMapID("current")
     if uiMapID then
         local info = C_Map.GetMapInfo(uiMapID)
         if info then
-            GameTooltip:AddDoubleLine(info.name, 'uiMapID|A:poi-islands-table:0:0|a|cffffffff'..(info.mapID or uiMapID))--地图ID
+            GameTooltip:AddDoubleLine(info.name, 'uiMapID|A:poi-islands-table:0:0|a|cffffffff'..(info.mapID or uiMapID))
             local uiMapGroupID = C_Map.GetMapGroupID(uiMapID)
             if uiMapGroupID then
                 GameTooltip:AddDoubleLine(WoWTools_L.FLOOR, 'uiMapGroupID g |cffffffff'..uiMapGroupID)
@@ -54,7 +52,7 @@ local function Init_OnEnter(self)
                 end
             end
         end
-        if select(2, IsInInstance())~='none' then--副本数据
+        if select(2, IsInInstance())~='none' then
             local instanceID, _, LfgDungeonID =select(8, GetInstanceInfo())
             if instanceID and instanceID>0 then
                 GameTooltip:AddDoubleLine(WoWTools_L.INSTANCE, '|cffffffff'..instanceID)
@@ -116,7 +114,6 @@ local function Init_Menu(self, root)
 
     local sub, sub2
 
---地图和任务日志
     sub= root:CreateCheckbox(
         WoWTools_L.MAP_AND_QUEST_LOG,
     function()
@@ -133,7 +130,6 @@ local function Init_Menu(self, root)
     root:CreateDivider()
 
 
---显示地图ID
     sub= root:CreateCheckbox(
         (WoWTools_L.WORLD_MAP)..' ID',
     function()
@@ -144,7 +140,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.WorldMap.MapID'])
 
---背景, 透明度
     WoWTools_MenuMixin:BgAplha(sub,
     function()
         return Save().MapIDBgAlpha or 0.5
@@ -197,7 +192,6 @@ local function Init_Menu(self, root)
     end)
 
 
---地图坐标
     sub= root:CreateCheckbox(
         (WoWTools_L.WORLD_MAP)..' XY',
     function()
@@ -208,7 +202,7 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.WorldMap.MapXY'])
 
-    sub:CreateSpacer()--宽度
+    sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
             return Save().MapXY_W or 90
@@ -257,13 +251,12 @@ local function Init_Menu(self, root)
     })
     sub:CreateSpacer()
 
---缩放
     WoWTools_MenuMixin:ScaleRoot(self, sub, function()
         return Save().MapXYScale or 1
     end, function(value)
         Save().MapXYScale= value
         WoWTools_WorldMapMixin:Init_XY_Map()
-    end, function()--重置
+    end, function()
         Save().MapXYScale= nil
         Save().MapXY_W= nil
         Save().MapXY_X= nil
@@ -271,7 +264,6 @@ local function Init_Menu(self, root)
         WoWTools_WorldMapMixin:Init_XY_Map()
     end)
 
---玩家当前位置
     sub=root:CreateCheckbox(
         WoWTools_DataMixin.Icon.Player..' XY',
     function()
@@ -295,14 +287,13 @@ local function Init_Menu(self, root)
 
     
 
---地下城，加名称
     sub=root:CreateCheckbox(
         '|A:Dungeon:0:0|a'..(WoWTools_L.DUNGEONS),
     function()
         return Save().ShowDungeon_Name
     end, function()
         Save().ShowDungeon_Name= not Save().ShowDungeon_Name and true or false
-        WoWTools_WorldMapMixin:Init_Dungeon_Name()--地下城，加名称
+        WoWTools_WorldMapMixin:Init_Dungeon_Name()
         WoWTools_WorldMapMixin:Refresh()
     end)
     sub:SetTooltip(function(tooltip)
@@ -311,7 +302,6 @@ local function Init_Menu(self, root)
         --tooltip:AddLine(WoWTools_Join(NEED, REFRESH))
     end)
 
---字体大小
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         name= WoWTools_L.FONT_SIZE,
@@ -327,14 +317,13 @@ local function Init_Menu(self, root)
         --tooltip=WoWTools_Join(NEED, REFRESH)
     })
 
---世界地图任务，加名称
     sub=root:CreateCheckbox(
         '|A:Quest-Campaign-Available:0:0|a'..(WoWTools_L.WORLD_MAP_FILTER_LABEL_WORLD_QUESTS_SUBMENU),
     function()
         return Save().ShowWorldQues_Name
     end, function()
         Save().ShowWorldQues_Name= not Save().ShowWorldQues_Name and true or false
-        WoWTools_WorldMapMixin:Init_WorldQuest_Name()--世界地图任务，加名称
+        WoWTools_WorldMapMixin:Init_WorldQuest_Name()
         WoWTools_WorldMapMixin:Refresh()
     end)
     sub:SetTooltip(function(tooltip)
@@ -342,7 +331,6 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWTools_L['SELF_HIGHLIGHT_ICON~2'])
     end)
 
---地图标记
     sub=root:CreateCheckbox(
         WoWTools_WorldMapMixin.addName2,
     function()
@@ -373,15 +361,13 @@ local function Init_Menu(self, root)
         )
     end)
 
---重新加载UI
     root:CreateDivider()
     sub= WoWTools_MenuMixin:Reload(root)
---打开选项
     WoWTools_MenuMixin:OpenOptions(sub, {name=WoWTools_WorldMapMixin.addName})
 end
 
 
-local function Init()--显示地图ID
+local function Init()
     local MenuButton= CreateFrame('DropdownButton', 'WoWToolsWorldMapMenuButton', WorldMapFrameCloseButton, 'WoWToolsMenuTemplate')
     MenuButton:SetFrameStrata('HIGH')
     MenuButton:SetFrameLevel(WorldMapFrameCloseButton:GetFrameLevel()+2)--no usar 999: tapaba desplegables de otros addons
@@ -430,7 +416,7 @@ local function Init_Set_Title()
         end
     end)
 
-    if Save().HideTitle then--隐藏，标题
+    if Save().HideTitle then
         ShowHideTitle()
     end
 end

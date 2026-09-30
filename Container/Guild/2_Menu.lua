@@ -14,7 +14,6 @@ local function Init_Menu(self, root)
 
     local sub
 
---标签
     sub=root:CreateCheckbox(
         WoWTools_L['Tab'],
     function()
@@ -25,18 +24,16 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.GuildBank.PlusTab'])
 
---索引
     sub=root:CreateCheckbox(
         WoWTools_L['Index'],
     function()
         return Save().showIndex
     end, function()
-        Save().showIndex= not Save().showIndex and true or false--显示，索引
+        Save().showIndex= not Save().showIndex and true or false
         WoWTools_GuildBankMixin:Init_Plus()
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.GuildBank.PlusIndex'])
 
---物品信息
     sub=root:CreateCheckbox(
         WoWTools_L['ITEMS+INFO'],
     function()
@@ -48,7 +45,6 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.GuildBank.PlusItem'])
 
 
---打开，背包
     sub= root:CreateCheckbox(
         WoWTools_L.HUD_EDIT_MODE_BAGS_LABEL,
     function()

@@ -5,13 +5,11 @@ end
 
 
 
---货币，转移
 local function Init()
 	if Save().notPlus then
 		return
 	end
 
---有时会有BUG, 加个 重新加载UI 按钮
 	local reload= CreateFrame('Button', nil, CurrencyTransferMenuCloseButton, 'WoWToolsButtonTemplate')
     reload:SetNormalAtlas('common-icon-exit')
     reload:SetPoint('RIGHT', CurrencyTransferMenuCloseButton, 'LEFT', -2, 0)
@@ -63,7 +61,7 @@ local function Init()
 		end
 	end)
 
-	WoWTools_DataMixin:Hook(content.SourceSelector, 'RefreshPlayerName', function(self)--收取人，我 提示
+	WoWTools_DataMixin:Hook(content.SourceSelector, 'RefreshPlayerName', function(self)
 		local name= WoWTools_UnitMixin:GetPlayerInfo(nil, WoWTools_DataMixin.Player.GUID, nil, {reName=true})
 		if name~='' then
 			self.PlayerName:SetFormattedText(WoWTools_L.CURRENCY_TRANSFER_DESTINATION, name)
@@ -88,7 +86,6 @@ local function Init()
 	content.SourceBalancePreview.BalanceInfo.Amount:SetTextColor(1, 0, 0)
 	content.PlayerBalancePreview.BalanceInfo.Amount:SetTextColor(0, 1, 0)
 
---总数
 	CurrencyTransferMenu.wowNumLabel= CurrencyTransferMenu:CreateFontString(nil, 'BORDER', 'GameFontNormal') -- WoWTools_LabelMixin:Create(content, {color={r=0,g=0.8,b=1}, size=16, mouse=true})
 	CurrencyTransferMenu.wowNumLabel:SetPoint('BOTTOM', content.SourceSelector.Dropdown, 'TOP', 0, 2)
 	CurrencyTransferMenu.wowNumLabel:SetScript('OnLeave', function(self)

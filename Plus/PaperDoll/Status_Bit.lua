@@ -3,7 +3,6 @@ local function Save()
 end
 
 
- --自定，数据
 local function status_set_rating(frame, rating)
     local num= rating and GetCombatRating(rating)
     if not canaccessvalue(num) or not num then
@@ -41,7 +40,7 @@ end
 
 -- General
 local function Init_General()
-    WoWTools_DataMixin:Hook('PaperDollFrame_SetHealth', function(frame)--生命
+    WoWTools_DataMixin:Hook('PaperDollFrame_SetHealth', function(frame)
         if frame.numLabel then
             frame.numLabel:SetText('')
         end
@@ -60,7 +59,7 @@ end
 
 
 --Base stats
-local function Init_Base_Stats(frame, unit, statIndex)--主属性
+local function Init_Base_Stats(frame, unit, statIndex)
     if create_status_label(frame) then
         local tooltipText
         local _, _, posBuff, negBuff = UnitStat(unit, statIndex)
@@ -79,7 +78,7 @@ end
 
 --Enhancement
 local function Init_Enhancements()
-    WoWTools_DataMixin:Hook('PaperDollFrame_SetCritChance', function(frame)--爆击
+    WoWTools_DataMixin:Hook('PaperDollFrame_SetCritChance', function(frame)
         if create_status_label(frame) then
             local rating, spellCrit, rangedCrit, meleeCrit
             local holySchool = 2
@@ -103,13 +102,13 @@ local function Init_Enhancements()
             status_set_rating(frame, rating)
         end
     end)
-    WoWTools_DataMixin:Hook('PaperDollFrame_SetHaste', function(frame)--急速
+    WoWTools_DataMixin:Hook('PaperDollFrame_SetHaste', function(frame)
         create_status_label(frame, CR_HASTE_MELEE)
     end)
-    WoWTools_DataMixin:Hook('PaperDollFrame_SetMastery', function(frame)--精通
+    WoWTools_DataMixin:Hook('PaperDollFrame_SetMastery', function(frame)
         create_status_label(frame, CR_MASTERY)
     end)
-    WoWTools_DataMixin:Hook('PaperDollFrame_SetVersatility', function(frame)--全能
+    WoWTools_DataMixin:Hook('PaperDollFrame_SetVersatility', function(frame)
         if create_status_label(frame) then
             local text
             local versatility = GetCombatRating(CR_VERSATILITY_DAMAGE_DONE)
@@ -123,25 +122,25 @@ local function Init_Enhancements()
             frame.numLabel:SetText(text or '')
         end
     end)
-    WoWTools_DataMixin:Hook('PaperDollFrame_SetLifesteal', function(frame)--吸
+    WoWTools_DataMixin:Hook('PaperDollFrame_SetLifesteal', function(frame)
         create_status_label(frame, CR_LIFESTEAL)
     end)
-    WoWTools_DataMixin:Hook('PaperDollFrame_SetAvoidance', function(frame)--闪避
+    WoWTools_DataMixin:Hook('PaperDollFrame_SetAvoidance', function(frame)
         create_status_label(frame, CR_AVOIDANCE)
     end)
-    WoWTools_DataMixin:Hook('PaperDollFrame_SetSpeed', function(frame)--速度
+    WoWTools_DataMixin:Hook('PaperDollFrame_SetSpeed', function(frame)
         create_status_label(frame, CR_SPEED)
     end)
 end
 
 
 local function Init_Attack()
-    WoWTools_DataMixin:Hook('PaperDollFrame_SetDamage', function(frame)--伤害
+    WoWTools_DataMixin:Hook('PaperDollFrame_SetDamage', function(frame)
         if create_status_label(frame) then
             frame.numLabel:SetText(canaccessvalue(frame.damage) and frame.damage and frame.damage:match('(|c.-|r)') or '')
         end
     end)
-    WoWTools_DataMixin:Hook('PaperDollFrame_SetAttackPower', function(frame)--功击强度
+    WoWTools_DataMixin:Hook('PaperDollFrame_SetAttackPower', function(frame)
         if frame.numLabel then
             frame.numLabel:SetText('')
         end
@@ -181,7 +180,7 @@ end
 
 
 local function Init_Defense()
-    WoWTools_DataMixin:Hook('PaperDollFrame_SetArmor', function(frame, unit)--护甲
+    WoWTools_DataMixin:Hook('PaperDollFrame_SetArmor', function(frame, unit)
         if create_status_label(frame) then
             local effectiveArmor = select(2, UnitArmor(unit))
             local text
@@ -198,13 +197,13 @@ local function Init_Defense()
             frame.numLabel:SetText(text or '')
         end
     end)
-    WoWTools_DataMixin:Hook('PaperDollFrame_SetDodge', function(frame)--躲闪
+    WoWTools_DataMixin:Hook('PaperDollFrame_SetDodge', function(frame)
         create_status_label(frame, CR_DODGE)
     end)
-    WoWTools_DataMixin:Hook('PaperDollFrame_SetParry', function(frame)--招架
+    WoWTools_DataMixin:Hook('PaperDollFrame_SetParry', function(frame)
         create_status_label(frame, CR_PARRY)
     end)
-    WoWTools_DataMixin:Hook('PaperDollFrame_SetBlock', function(frame, unit)--格挡
+    WoWTools_DataMixin:Hook('PaperDollFrame_SetBlock', function(frame, unit)
         if create_status_label(frame) then--, CR_BLOCK)
             local text
             local shieldBlockArmor = GetShieldBlock()
@@ -221,7 +220,7 @@ local function Init_Defense()
             frame.numLabel:SetText(text or '')
         end
     end)
-    WoWTools_DataMixin:Hook('PaperDollFrame_SetResilience', function(frame)--韧性
+    WoWTools_DataMixin:Hook('PaperDollFrame_SetResilience', function(frame)
         create_status_label(frame, COMBAT_RATING_RESILIENCE_PLAYER_DAMAGE_TAKEN)
     end)
 
@@ -239,7 +238,7 @@ local function Init()
         return
     end
 
-    WoWTools_DataMixin:Hook('PaperDollFrame_SetItemLevel', function(statFrame)--物品等级，小数点
+    WoWTools_DataMixin:Hook('PaperDollFrame_SetItemLevel', function(statFrame)
         local bit= Save().itemLevelBit or -1
         if statFrame:IsShown() and bit>=0 then
             local avgItemLevel, avgItemLevelEquipped, avgItemLevelPvP = GetAverageItemLevel()

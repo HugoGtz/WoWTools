@@ -4,8 +4,8 @@ local function Save()
 end
 
 local ListTab={
-    OutfitCollection= {minValue= 83, rest=312, title=TRANSMOG_OUTFIT_NAME_DEFAULT},--外观方案
-    CharacterPreview= {minValue=300, rest=657, title=MODEL},--模型
+    OutfitCollection= {minValue= 83, rest=312, title=TRANSMOG_OUTFIT_NAME_DEFAULT},
+    CharacterPreview= {minValue=300, rest=657, title=MODEL},
 }
 
 local function Set_TransmogWidth(onlyName)
@@ -33,7 +33,6 @@ local function Rest_Size()
 end
 
 
---增加，按钮宽度，按钮 WoWToolsTransmogOutfitCollectionResizeButton WoWToolsTransmogCharacterPreviewResizeButton
 local function Create_ResizeButton(name, data)
     local btn= CreateFrame('Button', 'WoWToolsTransmog'..name..'ResizeButton', TransmogFrame[name], 'WoWToolsButtonTemplate')
 
@@ -111,10 +110,6 @@ end
 
 
 local function Init()
-    if WoWTools_DataMixin.onlyChinese and not LOCALE_zhCN then
-        ListTab.OutfitCollection.title= '外观方案'
-        ListTab.CharacterPreview.title= '模型'
-    end
     for name, data in pairs(ListTab) do
         data.rest= math.floor(TransmogFrame[name]:GetWidth())
     end
@@ -122,9 +117,7 @@ local function Init()
     TransmogFrame.HelpPlateButton:SetFrameLevel(WorldMapFrame.BorderFrame.TitleContainer:GetFrameLevel()+1)
 
 
---左边
     TransmogFrame.OutfitCollection:SetPoint('BOTTOM')
---方案，列表按钮
     WoWTools_DataMixin:Hook(TransmogOutfitEntryMixin, 'OnLoad', function(frame)
         frame.OutfitButton:SetPoint('RIGHT', frame, -3, 0)
         frame.OutfitButton.Glow:SetPoint('LEFT')
@@ -138,12 +131,10 @@ local function Init()
         frame.OutfitButton.SelectedPurple:SetPoint('RIGHT')
         frame.OutfitButton.TextContent:SetPoint('RIGHT', -10, 0)
     end)
---保存外观方案按钮
     TransmogFrame.OutfitCollection.SaveOutfitButton:ClearAllPoints()
     TransmogFrame.OutfitCollection.SaveOutfitButton:SetPoint('BOTTOM', 9, 9)
     TransmogFrame.OutfitCollection.SaveOutfitButton:SetText(WoWTools_L.SAVE)
     TransmogFrame.OutfitCollection.SaveOutfitButton:SetWidth(TransmogFrame.OutfitCollection.SaveOutfitButton:GetTextWidth()+24)
---移动，购买外观方案栏位
     TransmogFrame.OutfitCollection.PurchaseOutfitButton:ClearAllPoints()
     TransmogFrame.OutfitCollection.PurchaseOutfitButton:SetPoint('RIGHT', TransmogFrame.OutfitCollection.SaveOutfitButton, 'LEFT')
     TransmogFrame.OutfitCollection.PurchaseOutfitButton:SetSize(23, 23)
@@ -175,27 +166,21 @@ local function Init()
 		end
         GameTooltip:Show()
     end)
---钱
     TransmogFrame.OutfitCollection.MoneyFrame:ClearAllPoints()
     TransmogFrame.OutfitCollection.MoneyFrame:SetPoint('BOTTOMLEFT', TransmogFrame.CharacterPreview, 9, 3)
 
---锁定外观，按钮
     TransmogFrame.OutfitCollection.ShowEquippedGearSpellFrame:SetPoint('RIGHT')
---方案，列表
     TransmogFrame.OutfitCollection.OutfitList:SetPoint('RIGHT')
     TransmogFrame.OutfitCollection.OutfitList:SetPoint('BOTTOM', TransmogFrame.OutfitCollection.SaveOutfitButton, 'TOP', 0, 9)
     TransmogFrame.OutfitCollection.DividerBar:SetPoint('BOTTOMRIGHT', 2, 0)
---分割线
     TransmogFrame.OutfitCollection.OutfitList.DividerTop:SetPoint('RIGHT', -26, 0)
     TransmogFrame.OutfitCollection.OutfitList.DividerTop:SetPoint('LEFT', 13, 0)
     TransmogFrame.OutfitCollection.OutfitList.DividerBottom:SetPoint('RIGHT', -26, 0)
     TransmogFrame.OutfitCollection.OutfitList.DividerBottom:SetPoint('LEFT', 13, 0)
 
 
---中间
 
---隐藏已忽略栏位
-    if not TransmogFrame.CharacterPreview.ToggleOptions then--11.0.5才有
+    if not TransmogFrame.CharacterPreview.ToggleOptions then
         WoWTools_DataMixin:Hook(TransmogFrame.CharacterPreview, 'RefreshHideIgnoredToggle', function(frame)
             local icon= frame.HideIgnoredToggle.Checkbox:GetRegions()
             if icon then
@@ -229,7 +214,7 @@ local function Init()
                 "ANCHOR_LEFT"
             )
         end)
-        WoWTools_DataMixin:Call(TransmogFrame.CharacterPreview.RefreshHideIgnoredToggle, TransmogFrame.CharacterPreview)--原生，没有加上
+        WoWTools_DataMixin:Call(TransmogFrame.CharacterPreview.RefreshHideIgnoredToggle, TransmogFrame.CharacterPreview)
         C_Timer.After(0.3, function()
             TransmogFrame.CharacterPreview.HideIgnoredToggle.Checkbox:set_icon()
         end)
@@ -242,14 +227,11 @@ local function Init()
     TransmogFrame.CharacterPreview.Gradients.GradientLeft:SetPoint('BOTTOMLEFT')
     TransmogFrame.CharacterPreview.Gradients.GradientRight:SetPoint('TOPRIGHT')
     TransmogFrame.CharacterPreview.Gradients.GradientRight:SetPoint('BOTTOMRIGHT')
---取消所有的待定改动, 按钮
     TransmogFrame.CharacterPreview.ClearAllPendingButton:ClearAllPoints()
     TransmogFrame.CharacterPreview.ClearAllPendingButton:SetPoint('BOTTOMRIGHT', -46, 25)
 
---自定义套装 <Anchor point="TOPLEFT" x="26" y="-72"/> <Anchor point="BOTTOMRIGHT" x="-26" y="10"/>
     TransmogFrame.WardrobeCollection.TabContent.CustomSetsFrame.PagedContent:SetPoint('TOPLEFT', 26, -26)
     TransmogFrame.WardrobeCollection.TabContent.CustomSetsFrame.PagedContent:SetPoint('BOTTOMRIGHT', -26, 10)
---新增自定义套装
     TransmogFrame.WardrobeCollection.TabContent.CustomSetsFrame.NewCustomSetButton:ClearAllPoints()
     TransmogFrame.WardrobeCollection.TabContent.CustomSetsFrame.NewCustomSetButton:SetPoint('BOTTOMRIGHT', -28, 13)
 
@@ -270,19 +252,16 @@ local function Init()
     end)
 
 
---右边
     TransmogFrame.WardrobeCollection:SetPoint('BOTTOMRIGHT')
     TransmogFrame.WardrobeCollection.TabContent:SetPoint('BOTTOMRIGHT')
     TransmogFrame.WardrobeCollection.TabContent.Background:SetPoint('BOTTOMRIGHT', -4, 4)
     TransmogFrame.WardrobeCollection.TabContent.Border:SetPoint('BOTTOMRIGHT', 8, -8)
 
---情景
     TransmogFrame.WardrobeCollection.TabContent.SituationsFrame.Situations:SetPoint('RIGHT', -43, 0)
     TransmogFrame.WardrobeCollection.TabContent.SituationsFrame.Situations:SetPoint('BOTTOM', 0, 43)
 
     TransmogFrame.WardrobeCollection.TabContent.SituationsFrame.DescriptionText:SetPoint('RIGHT', -23, 0)--TransmogFrame.WardrobeCollection.TabContent.SituationsFrame.DefaultsButton, 'LEFT', -4,0)
     TransmogFrame.WardrobeCollection.TabContent.SituationsFrame.DescriptionText:SetPoint('BOTTOM', TransmogFrame.WardrobeCollection.TabContent.SituationsFrame.EnabledToggle, 'TOP', 0, 4)
---默认，按钮
     TransmogFrame.WardrobeCollection.TabContent.SituationsFrame.DefaultsButton:ClearAllPoints()
     TransmogFrame.WardrobeCollection.TabContent.SituationsFrame.DefaultsButton:SetPoint('BOTTOMRIGHT', TransmogFrame.WardrobeCollection.TabContent.SituationsFrame.Situations, 'TOPRIGHT', 0, 13)
 
@@ -295,13 +274,11 @@ local function Init()
             pool:SetPoint('RIGHT')
         end
     end)
---应用改动，按钮
     TransmogFrame.WardrobeCollection.TabContent.SituationsFrame.ApplyButton:ClearAllPoints()
     TransmogFrame.WardrobeCollection.TabContent.SituationsFrame.ApplyButton:SetPoint('BOTTOM', TransmogFrame.WardrobeCollection.TabContent.SituationsFrame.Situations, 0, 23)
     TransmogFrame.WardrobeCollection.TabContent.SituationsFrame.ApplyButton:SetFrameLevel(TransmogFrame.WardrobeCollection.TabContent.SituationsFrame.ApplyButton:GetFrameLevel()+1)
 
 
---增加，按钮宽度，按钮
     for name, data in pairs(ListTab) do
         Create_ResizeButton(name, data)
     end

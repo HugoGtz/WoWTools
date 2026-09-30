@@ -4,48 +4,48 @@ if WoWTools_DataMixin.Player.Class~='MAGE' and true then
 end
 
 local Tab={}
-if WoWTools_DataMixin.Player.Faction=='Horde' then--部落
+if WoWTools_DataMixin.Player.Faction=='Horde' then
     Tab={
-        {spell=1259190, spell2=1259194, name='银月城', luce=true},
+        {spell=1259190, spell2=1259194, luce=true},
 
-        {spell=3567, spell2=11417, name='奥格瑞玛', luce=true},
-        {spell=3563, spell2=11418, name='幽暗城'},
-        {spell=3566, spell2=11420, name='雷霆崖'},
-        {spell=32272, spell2=32267, name='银月城(旧)', old=true},--mismo nombre que 1259190 (Midnight)
-        {spell=49358, spell2=49361, name='斯通纳德'},
-        {spell=35715, spell2=35717, name='沙塔斯'},
-        {spell=53140, spell2=53142, name='诺森德'},
-        {spell=88344, spell2=88346, name='托尔巴拉德'},
-        {spell=132627, spell2=132626, name='锦绣谷'},
-        {spell=176242, spell2=176244, name='战争之矛'},
-        {spell=224869, spell2=224871, name='破碎群岛'},
-        {spell=281404, spell2=281402, name='达萨罗'},
-        {spell=344587, spell2=344597, name='奥利波斯'},
-        {spell=395277, spell2=395289,  name='瓦德拉肯'},
-        {spell=446540, spell2=446534, name='多恩诺嘉尔'},
-        {spell=120145, name='远古传送'},
-        {spell=193759, name='守护者圣殿'},
+        {spell=3567, spell2=11417, luce=true},
+        {spell=3563, spell2=11418},
+        {spell=3566, spell2=11420},
+        {spell=32272, spell2=32267, old=true},--mismo nombre que 1259190 (Midnight)
+        {spell=49358, spell2=49361},
+        {spell=35715, spell2=35717},
+        {spell=53140, spell2=53142},
+        {spell=88344, spell2=88346},
+        {spell=132627, spell2=132626},
+        {spell=176242, spell2=176244},
+        {spell=224869, spell2=224871},
+        {spell=281404, spell2=281402},
+        {spell=344587, spell2=344597},
+        {spell=395277, spell2=395289},
+        {spell=446540, spell2=446534},
+        {spell=120145},
+        {spell=193759},
     }
 elseif WoWTools_DataMixin.Player.Faction=='Alliance' then
     Tab={
-        {spell=1259190, spell2=1259194, name='银月城', luce=true},
-        {spell=3561, spell2=10059,  name='暴风城', luce=true},
-        {spell=3562, spell2=11416, name='铁炉堡'},
-        {spell=3565, spell2=11419, name='达纳苏斯'},
-        {spell=32271, spell2=32266, name='埃索达'},
-        {spell=49359, spell2=49360, name='塞拉摩'},
-        {spell=33690, spell2=33691, name='沙塔斯'},
-        {spell=53140, spell2=53142, name='诺森德'},
-        {spell=88342, spell2=88345, name='托尔巴拉德'},
-        {spell=132621, spell2=132620, name='锦绣谷'},
-        {spell=176248, spell2=176246, name='暴风之盾'},
-        {spell=224869, spell2=224871, name='破碎群岛'},
-        {spell=281403, spell2=281400, name='伯拉勒斯'},
-        {spell=344587, spell2=344597, name='奥利波斯'},
-        {spell=395277, spell2=395289,  name='瓦德拉肯'},
-        {spell=446540, spell2=446534, name='多恩诺嘉尔'},
-        {spell=120145, name='远古传送'},
-        {spell=193759, name='守护者圣殿'},
+        {spell=1259190, spell2=1259194, luce=true},
+        {spell=3561, spell2=10059, luce=true},
+        {spell=3562, spell2=11416},
+        {spell=3565, spell2=11419},
+        {spell=32271, spell2=32266},
+        {spell=49359, spell2=49360},
+        {spell=33690, spell2=33691},
+        {spell=53140, spell2=53142},
+        {spell=88342, spell2=88345},
+        {spell=132621, spell2=132620},
+        {spell=176248, spell2=176246},
+        {spell=224869, spell2=224871},
+        {spell=281403, spell2=281400},
+        {spell=344587, spell2=344597},
+        {spell=395277, spell2=395289},
+        {spell=446540, spell2=446534},
+        {spell=120145},
+        {spell=193759},
     }
 else
     return
@@ -74,7 +74,6 @@ local function Get_Spell_Label(spellID, text)
     if text then
         text= WoWTools_TextMixin:CN(text, {spellID=spellID, isName=true})
         text=text:gsub('(.+):','')
-        text=text:gsub('(.+)：','');
         text=text:gsub('(.+)-','');
         return text
     end
@@ -128,7 +127,7 @@ local function Init_Options(category, layout)
         GetValue= function() return Save().isLeft end,
         SetValue= function()
             Save().isLeft= not Save().isLeft and true or false
-            WoWTools_ToolsMixin:RestAllPoint()--重置所有按钮位置
+            WoWTools_ToolsMixin:RestAllPoint()
             Set_Button_All_Label()
         end
     }, initializer)
@@ -171,11 +170,10 @@ local function Init_Button(tab)
     btn.spellID2= tab.spell2
     btn.luce= tab.luce
     btn.old= tab.old
-    btn.name1= WoWTools_DataMixin.onlyChinese and tab.name
 
     function btn:set_cool()
         if self:IsVisible() then
-            WoWTools_CooldownMixin:SetFrame(self, {spellID=self.spellID2})--设置冷却
+            WoWTools_CooldownMixin:SetFrame(self, {spellID=self.spellID2})
         else
             WoWTools_CooldownMixin:SetFrame(self)
         end
@@ -190,7 +188,7 @@ local function Init_Button(tab)
         local icon1= C_Spell.GetSpellTexture(self.spellID)
         local done=false
         if name1 and icon1 then
-            self:SetAttribute('type', 'spell')--设置属性
+            self:SetAttribute('type', 'spell')
             --mismo nombre en dos hechizos (Lunargenta): por ID para no lanzar el otro
             self:SetAttribute('spell', self.old and self.spellID or name1)
             if icon1 then
@@ -224,7 +222,7 @@ local function Init_Button(tab)
 
 
     if tab.luce then
-        btn.border:SetAtlas('bag-border')--设置高亮
+        btn.border:SetAtlas('bag-border')
     end
     btn.luce= tab.luce
 
@@ -256,7 +254,7 @@ local function Init_Button(tab)
 
     btn:SetScript("OnEvent", function(self, event, arg1, arg2)
         if event=='SPELL_UPDATE_COOLDOWN' then
-            WoWTools_CooldownMixin:SetFrame(self, {spellID=self.spellID2})--设置冷却
+            WoWTools_CooldownMixin:SetFrame(self, {spellID=self.spellID2})
 
         elseif event=='SPELL_DATA_LOAD_RESULT' and arg1 and arg2 then
             if (arg1==self.spellID or arg1==self.spellID2) then
@@ -315,7 +313,6 @@ end
 
 
 --###########
---加载保存数据
 --###########
 local panel=CreateFrame("Frame")
 panel:RegisterEvent("ADDON_LOADED")

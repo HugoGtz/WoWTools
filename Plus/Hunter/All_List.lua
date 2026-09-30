@@ -172,7 +172,6 @@ end
 
 
 
---初始，宠物列表
 local function Init()
     if not Save().show_All_List then
         return
@@ -248,7 +247,6 @@ local function Init()
     end)
 
 
-    --第6个，提示，如果，没有专精支持，它会禁用，所有，建立一个
     AllListFrame.btn6= created_button(MAX_SUMMONABLE_HUNTER_PETS)
     AllListFrame.btn6:SetPoint('BOTTOM', AllListFrame.Buttons[EXTRA_PET_STABLE_SLOT_LUA_INDEX],'TOP')
     function AllListFrame.btn6:settings()

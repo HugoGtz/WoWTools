@@ -1,7 +1,5 @@
 
 --Minimap.lua
---更新地区时,缩小化地图
---当前缩放，显示数值
 local function Save()
     return  WoWToolsPlusSave['Minimap_Plus']
 end
@@ -114,7 +112,7 @@ local function Init()
         end
     end
 
-    function Frame:ZONE_CHANGED()--更新地区时,缩小化地图
+    function Frame:ZONE_CHANGED()
         local value= Save().ZoomOut
         if value==nil then
             return
@@ -131,7 +129,7 @@ local function Init()
         end
     end
 
-    function Frame:MINIMAP_UPDATE_ZOOM()--当前缩放，显示数值
+    function Frame:MINIMAP_UPDATE_ZOOM()
         local level = Minimap:GetZoom()
         local max= Minimap:GetZoomLevels()
         Minimap.zoomText:SetText(

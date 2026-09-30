@@ -1,4 +1,3 @@
---每秒帧数 Plus
 
 local function Save()
     return WoWToolsPlusSave['Plus_MainMenu']
@@ -48,7 +47,7 @@ local function Init()
     end)
     FramerateButton:SetScript("OnMouseUp", ResetCursor)
     FramerateButton:SetScript('OnMouseDown', function(_, d)
-        if d=='RightButton' then--移动光标
+        if d=='RightButton' then
             SetCursor('UI_MOVE_CURSOR')
         end
     end)
@@ -83,12 +82,12 @@ local function Init()
         self:set_tooltips()
     end)
 
-    function FramerateButton:set_size()--修改大小
+    function FramerateButton:set_size()
         WoWTools_LabelMixin:Create(nil, {size=Save().framerateSize or 12, changeFont=FramerateFrame.FramerateText, color=true})--Save().size, nil , Labels.fpsms, true)    
     end
     FramerateButton:set_size()
 
-    FramerateFrame.Label:SetText('')--去掉FPS
+    FramerateFrame.Label:SetText('')
     FramerateFrame.Label:SetShown(false)
     FramerateFrame:SetMovable(true)
     FramerateFrame:SetClampedToScreen(true)
@@ -100,7 +99,7 @@ local function Init()
     end)
     FramerateFrame:SetFrameStrata('HIGH')
 
-    if Save().framerateLogIn and not FramerateFrame:IsShown() then--自动，打开
+    if Save().framerateLogIn and not FramerateFrame:IsShown() then
         FramerateFrame:Toggle()
     end
 

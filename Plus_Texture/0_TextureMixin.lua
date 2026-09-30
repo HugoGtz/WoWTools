@@ -56,7 +56,6 @@ function WoWTools_TextureMixin:CreateBG(frame, tab)
     local atlas= tab.atlas or 'ChallengeMode-guild-background'
 
     frame.Background= frame:CreateTexture(nil, 'BACKGROUND')
---位置
     if isAllPoint==true then
         frame.Background:SetAllPoints()
     elseif point then
@@ -67,7 +66,6 @@ function WoWTools_TextureMixin:CreateBG(frame, tab)
             frame.Background:SetPoint('BOTTOMRIGHT', point, 1, -1)
         end
     end
---颜色
     if isColor then
         frame.Background:SetColorTexture(0, 0, 0, alpha)
     else
@@ -117,14 +115,14 @@ function WoWTools_TextureMixin:SetTexture(region, textureID)
     local isAtlas, texture, icon
     if region then
         isAtlas, texture, icon= self:IsAtlas(textureID)
-        if region.SetTexture then--图片
+        if region.SetTexture then
             if isAtlas then
                 region:SetAtlas(texture)
             else
                 region:SetTexture(texture or 0)
             end
 
-        elseif region.SetNormalTexture then--按钮
+        elseif region.SetNormalTexture then
             if isAtlas then
                 region:SetNormalAtlas(texture)
             else

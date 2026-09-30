@@ -1,8 +1,8 @@
 
 --Patrones de búsqueda (se crean en Init_Chat_MSG). Los textos de formato siguen siendo los globales de Blizzard:
 --antes el patrón sustituía al texto de formato y format() daba error en cada ganancia de reputación
-local PATTERN_INCREASED--"你在%s中的声望值提高了%d点。"
-local PATTERN_INCREASED_ACCOUNT_WIDE--"你的战团在%s中的声望值提高了%d点。"
+local PATTERN_INCREASED
+local PATTERN_INCREASED_ACCOUNT_WIDE
 
 
 
@@ -20,7 +20,6 @@ local PATTERN_INCREASED_ACCOUNT_WIDE--"你的战团在%s中的声望值提高了
 
 
 --#############
---声望更新, 提示
 --#############
 local function EventFilter(_, _, text, ...)
 	if not WoWToolsPlusSave['Plus_Faction'].factionUpdateTips then
@@ -84,11 +83,11 @@ end
 
 local function Init_Check()
     local text
-    for i=1, C_Reputation.GetNumFactions() do--声望更新, 提示
+    for i=1, C_Reputation.GetNumFactions() do
         local data= C_Reputation.GetFactionDataByIndex(i) or {}
         local name= data.name
         local factionID= data.factionID
-        if name and factionID and C_Reputation.IsFactionParagon(factionID) and select(4, C_Reputation.GetFactionParagonInfo(factionID)) then--奖励
+        if name and factionID and C_Reputation.IsFactionParagon(factionID) and select(4, C_Reputation.GetFactionParagonInfo(factionID)) then
             text= text and text..' ' or ''
 
             local repInfo = C_GossipInfo.GetFriendshipReputation(factionID)
@@ -130,12 +129,12 @@ end
 
 
 function WoWTools_FactionMixin:Init_Chat_MSG()
-	PATTERN_INCREASED= LOCALE_zhCN and '你在(.+)中的声望值提高了.+点。' or WoWTools_TextMixin:Magic(FACTION_STANDING_INCREASED)
-	PATTERN_INCREASED_ACCOUNT_WIDE= LOCALE_zhCN and '你的战团在(.+)中的声望值提高了.+点。' or WoWTools_TextMixin:Magic(FACTION_STANDING_INCREASED_ACCOUNT_WIDE)
+	PATTERN_INCREASED=WoWTools_TextMixin:Magic(FACTION_STANDING_INCREASED)
+	PATTERN_INCREASED_ACCOUNT_WIDE=WoWTools_TextMixin:Magic(FACTION_STANDING_INCREASED_ACCOUNT_WIDE)
 
     ChatFrame_AddMessageEventFilter('CHAT_MSG_COMBAT_FACTION_CHANGE', EventFilter)
 
-    if WoWToolsPlusSave['Plus_Faction'].factionUpdateTips then--声望更新, 提示
+    if WoWToolsPlusSave['Plus_Faction'].factionUpdateTips then
         C_Timer.After(4, Init_Check)
     end
 end

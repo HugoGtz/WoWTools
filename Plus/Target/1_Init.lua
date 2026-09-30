@@ -6,9 +6,9 @@ local P_Save= {
     --targetTextureNewTab={},
     targetTextureName='common-icon-rotateright',
 
-    targetColor= {r=1,g=1,b=1,a=1},--颜色
-    targetInCombat=true,--战斗中，提示
-    targetInCombatColor={r=1, g=0, b=0, a=1},--战斗中，颜色
+    targetColor= {r=1,g=1,b=1,a=1},
+    targetInCombat=true,
+    targetInCombatColor={r=1, g=0, b=0, a=1},
     w=40,
     h=20,
     x=0,
@@ -16,15 +16,11 @@ local P_Save= {
     scale=1.5,
     elapsed=0.5,
     TargetFramePoint='LEFT',--'TOP', 'HEALTHBAR','LEFT'
-    --top=true,--位于，目标血条，上方
 
-    creature= true,--怪物数量
+    creature= true,
     creatureFontSize=10,
-    --creatureNotParentTarget=true,--自定义位置
-    --creatureUIParent=true,--放在UIPrent
-    --creaturePoint={},--位置
 
-    unitIsMe=true,--提示， 目标是你
+    unitIsMe=true,
     unitIsMeTextrue= 'auctionhouse-icon-favorite',
     unitIsMeSize=12,
     unitIsMePoint='TOPLEFT',
@@ -34,8 +30,7 @@ local P_Save= {
     unitIsMeColor={r=1,g=1,b=1,a=1},
 
     quest= true,
-    --questShowAllFaction=nil,--显示， 所有玩家派系
-    questShowPlayerClass=true,--显示，玩家职业
+    questShowPlayerClass=true,
 }
 
 

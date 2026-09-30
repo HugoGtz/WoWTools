@@ -54,7 +54,7 @@ end
 
 
 local function Init()
-    WoWTools_DataMixin:Hook(CalendarViewHolidayFrame, 'update', function(...) calendar_Uptate(...) end)--提示节目ID
+    WoWTools_DataMixin:Hook(CalendarViewHolidayFrame, 'update', function(...) calendar_Uptate(...) end)
     WoWTools_DataMixin:Hook('CalendarViewHolidayFrame_Update', function(...) calendar_Uptate(...) end)
 
     local btn= WoWTools_ButtonMixin:Cbtn(CalendarFrame.FilterButton, {

@@ -19,7 +19,7 @@ local function Init()
     table.insert(WoWTools_MainMenuMixin.Labels, frame.label)
     table.insert(WoWTools_MainMenuMixin.Labels, frame.label2)
 
-    frame.currencyID= 3363--https://www.wowhead.com/cn/currency=3363/社区礼券
+    frame.currencyID= 3363
 
     function frame:set_currency()
         local _, num, _, _, isMax= WoWTools_CurrencyMixin:GetInfo(self.currencyID)
@@ -33,7 +33,7 @@ local function Init()
     function frame:Set_InitiativesLastPoints()
         local value
         if C_NeighborhoodInitiative.IsInitiativeEnabled() then
-            value= GetCVar('endeavorInitiativesLastPoints')--11.0.5没有了
+            value= GetCVar('endeavorInitiativesLastPoints')
             if value then
                 value= tonumber(value)
             end
@@ -128,6 +128,6 @@ local function Init()
 
     Init=function() end
 end
-function WoWTools_MainMenuMixin:HousingMicroButton()--住宅信息板
+function WoWTools_MainMenuMixin:HousingMicroButton()
     Init()
 end

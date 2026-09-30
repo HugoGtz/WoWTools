@@ -1,14 +1,11 @@
 local P_Save= {
 	--disabled=true,
 	--hide=true,
-	--autoShow=true,--自动显示
 	--sacle=1,
 
-	logColor={},--保存，历史记录
-	--logMaxColor=10,--设置，最多保存30个颜色
-	--selectType2=true,--更多颜色
+	logColor={},
 
-	saveColor={},--保存4个颜色
+	saveColor={},
 }
 
 
@@ -39,13 +36,12 @@ end
 
 
 
---原生，去掉，在框架外，会自动关闭
 local function Set_Event(self, event)
 	if event == "GLOBAL_MOUSE_DOWN" then
 		if self:IsShown()
 			and not DoesAncestryIncludeAny(self, GetMouseFoci())
 			--and not _G['WoWToolsColorPickerFrameButton']:IsMenuOpen()
-			and not Save().notHideFuori--自动隐藏
+			and not Save().notHideFuori
 			and not Menu.GetManager():IsAnyMenuOpen()
 
 		then
@@ -89,7 +85,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
 			WoWTools_ColorMixin.addName= '|A:colorblind-colorwheel:0:0|a'..(WoWTools_L['Module.Color picker'])
 
-			--添加控制面板
 			WoWTools_PanelMixin:Check_Button({
 				checkName= WoWTools_ColorMixin.addName,
 				tooltip= WoWTools_L['Tip.Color.Enable']..'|n|n'..WoWTools_L.REQUIRES_RELOAD,
@@ -116,7 +111,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
 			else
 				self:RegisterEvent('PLAYER_ENTERING_WORLD')
-				ColorPickerFrame:SetScript('OnEvent', Set_Event)--原生，去掉，在框架外，会自动关闭
+				ColorPickerFrame:SetScript('OnEvent', Set_Event)
 
 				ColorPickerFrame:HookScript('OnShow', function()
 					Init()

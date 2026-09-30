@@ -20,8 +20,7 @@ local function get_info(currencyID, index, link)
 end
 
 
---移过，提示
-function WoWTools_CurrencyMixin:Find(currencyID, name)--选中提示
+function WoWTools_CurrencyMixin:Find(currencyID, name)
     if not TokenFrame:IsShown() then
         return
     end
@@ -87,11 +86,11 @@ function WoWTools_CurrencyMixin:GetAccountIcon(currencyID, index, link)
     end
 
     if currencyID and currencyID>0 then
-        if C_CurrencyInfo.IsAccountTransferableCurrency(currencyID) then--可转移
+        if C_CurrencyInfo.IsAccountTransferableCurrency(currencyID) then
             local isTrans= true
             return '|A:warbands-transferable-icon:18:0|a', false, isTrans, '|cff00ccff', 'warbands-transferable-icon'
 
-        elseif C_CurrencyInfo.IsAccountWideCurrency(currencyID) then--战网
+        elseif C_CurrencyInfo.IsAccountWideCurrency(currencyID) then
             local isWide= true
             return '|A:questlog-questtypeicon-account:0:0|a', isWide, false, '|cffff7c0a', 'questlog-questtypeicon-account'
         end
@@ -125,15 +124,15 @@ function WoWTools_CurrencyMixin:GetInfo(currencyID, index, link)
         return
     end
 
-    local canQuantity= info.maxQuantity and info.maxQuantity>0--最大数 quantity maxQuantity
-    local canEarned= info.useTotalEarnedForMaxQty and canQuantity--赛季 totalEarned已获取 maxQuantity
-    local canWeek= info.canEarnPerWeek and info.quantityEarnedThisWeek and info.maxWeeklyQuantity and info.maxWeeklyQuantity>0--本周 quantityEarnedThisWeek maxWeeklyQuantity
+    local canQuantity= info.maxQuantity and info.maxQuantity>0
+    local canEarned= info.useTotalEarnedForMaxQty and canQuantity
+    local canWeek= info.canEarnPerWeek and info.quantityEarnedThisWeek and info.maxWeeklyQuantity and info.maxWeeklyQuantity>0
 
     --local isMax= C_CurrencyInfo.PlayerHasMaxQuantity(currencyID) or C_CurrencyInfo.PlayerHasMaxWeeklyQuantity(currencyID)    
     --local canWeek= info.canEarnPerWeek and not C_CurrencyInfo.PlayerHasMaxWeeklyQuantity(currencyID)
-    local isMax= canQuantity and C_CurrencyInfo.PlayerHasMaxQuantity(currencyID)--已最大数
-            or (info.canEarnPerWeek and not canWeek)--本周不能获取
-            or (info.useTotalEarnedForMaxQty and not canEarned)--赛季不能获取
+    local isMax= canQuantity and C_CurrencyInfo.PlayerHasMaxQuantity(currencyID)
+            or (info.canEarnPerWeek and not canWeek)
+            or (info.useTotalEarnedForMaxQty and not canEarned)
             --(canWeek and info.maxWeeklyQuantity==info.quantityEarnedThisWeek)
             --or (canEarned and info.totalEarned==info.maxQuantity)
             --or (canQuantity and info.quantity==info.maxQuantity)
@@ -171,17 +170,14 @@ function WoWTools_CurrencyMixin:GetName(currencyID, index, link)
         return
     end
 
-    local accountIcon= self:GetAccountIcon(info.currencyID)--战团图标
+    local accountIcon= self:GetAccountIcon(info.currencyID)
     local color= info.isAccountTransferable and ACCOUNT_WIDE_FONT_COLOR
                 or (info.isAccountWide and ORANGE_FONT_COLOR)
                 or WoWTools_ItemMixin:GetColor(info.quality)
 
     return
---图标
         '|T'..(info.iconFileID or 0)..':0|t'
---颜色, 名称
         ..color:WrapTextInColorCode(WoWTools_TextMixin:CN(info.name))
---数量，颜色
         ..(
             isMax and '|cnWARNING_FONT_COLOR:'
             or (accountIcon and '|cff00ccff')
@@ -190,14 +186,10 @@ function WoWTools_CurrencyMixin:GetName(currencyID, index, link)
             or '|cffffffff'
 
         )
---数量
         ..' '..WoWTools_DataMixin:MK(num, 3)
---战团图标
         ..(accountIcon or '')
---可取，周 赛季 最大数
         ..(percent and format(' %d%%', percent) or '')
         ..'|r',
---返回，参数
         info, num, totale, percent, isMax, canWeek, canEarned, canQuantity
 end
 

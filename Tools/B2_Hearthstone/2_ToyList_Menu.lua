@@ -1,4 +1,3 @@
---玩具界面, 按钮
 
 local function Save()
     return WoWToolsPlusSave['Tools_Hearthstone']
@@ -7,10 +6,9 @@ local function SaveItems()
     return WoWToolsPlusPlayerDate['HearthstoneItems']
 end
 
---设置，物品，提示
 local function Set_Menu_Tooltip(tooltip, desc)
     if desc.data then
-        WoWTools_SetTooltipMixin:Setup(tooltip, {itemID=desc.data.itemID})--设置，物品，提示
+        WoWTools_SetTooltipMixin:Setup(tooltip, {itemID=desc.data.itemID})
     end
     WoWTools_ToolsMixin:Get_ButtonForName('Hearthstone'):set_tooltip_location(tooltip)
 end
@@ -39,14 +37,13 @@ function WoWTools_HearthstoneMixin:Init_Menu_Toy(frame, root)
             name='itemID '.. itemID
         end
 
---名称
         local has= PlayerHasToy(itemID)
         local isLoked= Save().lockedToy==itemID
         sub=root:CreateCheckbox(
             (isLoked and '|cnGREEN_FONT_COLOR:' or (has and '' or '|cff626262'))
             ..icon
             ..name
-            ..(isLoked and '|A:AdventureMapIcon-Lock:0:0|a' or '')--锁定
+            ..(isLoked and '|A:AdventureMapIcon-Lock:0:0|a' or '')
             ..(has and WoWTools_CooldownMixin:GetText(nil, itemID) or ''),--CD
             function(data)
                 return frame.itemID==data.itemID
@@ -108,7 +105,7 @@ function WoWTools_HearthstoneMixin:Init_Menu_Toy(frame, root)
         sub2=sub:CreateButton(
             '|A:common-icon-redx:0:0|a'..(WoWTools_L.REMOVE),
             function(data)
-                WoWTools_HearthstoneMixin:Remove_Toy(data.itemID)--移除
+                WoWTools_HearthstoneMixin:Remove_Toy(data.itemID)
                 return MenuResponse.Open
             end,
             {itemID=itemID, name=toyName}

@@ -14,7 +14,7 @@ end
 
 
 local MicroButtonNames = {
-    'CharacterMicroButton',--菜单
+    'CharacterMicroButton',
     'ProfessionMicroButton',
     'PlayerSpellsMicroButton',
     'AchievementMicroButton',
@@ -27,7 +27,7 @@ local MicroButtonNames = {
     'HelpMicroButton',
     'StoreMicroButton',
     'HousingMicroButton',
-    'MainMenuBarBackpackButton',--背包
+    'MainMenuBarBackpackButton',
 }
 
 local BagButtonNames={

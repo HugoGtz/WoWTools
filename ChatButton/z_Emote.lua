@@ -1,10 +1,10 @@
 local P_Save= {
     emoji={'DANCE'},
-    chat={},--聊天
-    command={},--宏
+    chat={},
+    command={},
 
-    useChat={},--自定义，聊天
-    useCommand={}--自定义，宏
+    useChat={},
+    useCommand={}
 }
 local P_SaveUse={
     use={
@@ -160,7 +160,7 @@ local function On_Click(self)
 end
 local function On_Enter(self)
     local isUIParent= Save().isUIParent
-    if WoWToolsPlusSave['ChatButton'].disabledTooltiip and not isUIParent then--禁用提示
+    if WoWToolsPlusSave['ChatButton'].disabledTooltiip and not isUIParent then
         return
     end
 
@@ -475,7 +475,6 @@ function Init_Button()
 end
 
 
---添加，自定义
 local function Init_UseFrame()
     local typeTab={
         chat= WoWTools_L.CHAT,
@@ -487,7 +486,7 @@ local function Init_UseFrame()
         name='WoWToolsEmoteUseAddFrame',
         size={400, 250},
     })
-    frame.type= Save().useFrameType or 'chat'--保存上次值
+    frame.type= Save().useFrameType or 'chat'
 
     local function Get_TypeNum(t)
         t= t or frame.type
@@ -583,7 +582,7 @@ local function Init_UseFrame()
                 list:set_text()
                 editText.editBox.Instructions:SetText(typeTab[data.type])
                 Settings()
-                Save().useFrameType= data.type--保存上次值
+                Save().useFrameType= data.type
             end, {type=type})
             if type=='command' then
                 sub:SetTooltip(function(tooltip)
@@ -687,7 +686,6 @@ local function Set_Menu(root, tab, tabName, rootName)
     end, {rightText=#Save()[tabName]})
     WoWTools_MenuMixin:SetRightText(root)
 
---是否使用，安全按钮
     if isCommand then
         sub= root:CreateCheckbox(
             'SecureActionButton',
@@ -705,7 +703,6 @@ local function Set_Menu(root, tab, tabName, rootName)
     end
 
 
-    --勾选所有
     sub=root:CreateButton(
         (WoWTools_L.EVENTTRACE_BUTTON_ENABLE_FILTERS)
         ..' #'..#tab,
@@ -720,7 +717,6 @@ local function Set_Menu(root, tab, tabName, rootName)
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Emote.SelectAll'])
 
---撤选所有
     sub=root:CreateButton(
         WoWTools_L.EVENTTRACE_BUTTON_DISABLE_FILTERS,
      function()
@@ -804,11 +800,8 @@ local function Init_Menu(self, root)
         WoWTools_MenuMixin:SetRightText(root)
     end
 
---表情
     Set_Menu(root, EmoteList, 'emoji', WoWTools_L.EMOTE_MESSAGE)
---谈话
     Set_Menu(root, TextEmoteSpeechList, 'emoji', WoWTools_L.VOICEMACRO_LABEL)
---合集
     for i= 1, MAXEMOTEINDEX do
         local value= _G["EMOTE"..i.."_CMD1"] and _G['EMOTE'..i..'_TOKEN']
         if value then
@@ -817,19 +810,16 @@ local function Init_Menu(self, root)
     end
     Set_Menu(root, _tab, 'emoji', WoWTools_L.ALL)
 
---聊天
     _tab={'SAY', 'PARTY', 'RAID', 'INSTANCE_CHAT', 'GUILD', 'YELL', 'WHISPER','REPLY',}
     root:CreateDivider()
     Set_Menu(root, _tab, 'chat', WoWTools_L.CHAT)
 
---自定义聊天
     _tab={}
     for value in pairs(SaveUse('chat')) do
         table.insert(_tab, value)
     end
     Set_Menu(root, _tab, 'useChat', WoWTools_L.CUSTOM)
 
---宏
     root:CreateDivider()
     _tab= {}
     for value in pairs(SLASH_COMMAND) do
@@ -838,7 +828,6 @@ local function Init_Menu(self, root)
     table.sort(_tab)
     Set_Menu(root, _tab, 'command', WoWTools_L.MACRO)
 
---自定义宏
     _tab={}
     for value in pairs(SaveUse('command')) do
         table.insert(_tab, value)
@@ -846,7 +835,6 @@ local function Init_Menu(self, root)
     Set_Menu(root, _tab, 'useCommand', WoWTools_L.CUSTOM)
 
 
---添加，自定义
     root:CreateDivider()
     sub=root:CreateButton(
         WoWTools_L['ADD+CUSTOM'],
@@ -855,14 +843,11 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Emote.AddCustom'])
---打开选项界面
 
     sub= WoWTools_ChatMixin:Open_SettingsPanel(root, addName)
 
---选项
 
 
---撤选所有
     local sub2
     sub2=sub:CreateButton(
         WoWTools_L.EVENTTRACE_BUTTON_DISABLE_FILTERS,
@@ -882,7 +867,6 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Emote.ClearAll'])
 
 
---自定义位置
     sub:CreateDivider()
     sub2=sub:CreateCheckbox(
         'UIParent',
@@ -895,7 +879,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Emote.UIParent'])
 
---自定义位置
     if Save().isUIParent then
 --FrameStrata
         WoWTools_MenuMixin:FrameStrata(self, sub, function(data)
@@ -905,7 +888,6 @@ local function Init_Menu(self, root)
             Init_Button()
             return MenuResponse.Refresh
         end)
---数量
         sub:CreateSpacer()
         local w= Save().width or 32
         WoWTools_MenuMixin:CreateSlider(sub, {
@@ -921,7 +903,6 @@ local function Init_Menu(self, root)
             maxValue= math.modf(UIParent:GetWidth()/(w==0 and 12 or w)),
             step=1,
         })
---背景 Alpha
         sub:CreateSpacer()
         WoWTools_MenuMixin:CreateSlider(sub, {
             getValue=function()
@@ -943,7 +924,6 @@ local function Init_Menu(self, root)
 
 
 
---字体缩放
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
@@ -975,7 +955,6 @@ local function Init_Menu(self, root)
         step=1,
     })
 
---背景, 透明度
     sub:CreateSpacer()
     WoWTools_MenuMixin:BgAplha(sub,
     function()--GetValue
@@ -1015,7 +994,6 @@ local function Init_Menu(self, root)
         step=1,
     })
 
---缩放
     WoWTools_MenuMixin:ScaleRoot(self, sub, function()
         return Save().scale or 1
     end, function(value)
@@ -1023,7 +1001,6 @@ local function Init_Menu(self, root)
         Init_Button()
     end)
 
---重置
     sub:CreateDivider()
     sub:CreateButton(
         '|A:bags-button-autosort-up:0:0|a'

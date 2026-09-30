@@ -1,6 +1,5 @@
 
 
---设置单位, 玩家
 function WoWTools_TooltipMixin:Set_Unit_Player(tooltip, name, unit, guid)
     if self:IsInCombatDisabled(tooltip)
         --or not WoWTools_UnitMixin:UnitExists(unit)
@@ -11,10 +10,10 @@ function WoWTools_TooltipMixin:Set_Unit_Player(tooltip, name, unit, guid)
         return
     end
 
-    local realm= select(2, UnitName(unit)) or WoWTools_DataMixin.Player.Realm--服务器
+    local realm= select(2, UnitName(unit)) or WoWTools_DataMixin.Player.Realm
     local isPlayer = UnitIsPlayer(unit)
-    local isSelf= WoWTools_UnitMixin:UnitIsUnit('player', unit)--我
-    local isGroupPlayer= (not isSelf and WoWTools_DataMixin.GroupGuid[guid]) and true or nil--队友
+    local isSelf= WoWTools_UnitMixin:UnitIsUnit('player', unit)
+    local isGroupPlayer= (not isSelf and WoWTools_DataMixin.GroupGuid[guid]) and true or nil
 
     local color= WoWTools_UnitMixin:GetColor(unit, guid)
 
@@ -27,44 +26,40 @@ function WoWTools_TooltipMixin:Set_Unit_Player(tooltip, name, unit, guid)
 
     guid= guid or UnitGUID(unit)
 
---图像
     tooltip.Portrait:SetAtlas(WoWTools_DataMixin.Icon[englishFaction] or 'Neutral')
     --tooltip.Portrait:SetShown(true)
 
---取得玩家信息
     local data= WoWTools_DataMixin.PlayerInfo[guid]
     if data then
 
-        textLeft= data.itemLevel----设置装等
+        textLeft= data.itemLevel
 
-        if data.specID then--设置天赋
+        if data.specID then
             local icon, role= select(4, GetSpecializationInfoByID(data.specID))
             if icon then
                 text2Left= '|T'..icon..':0|t'..(WoWTools_DataMixin.Icon[role] or '')
             end
         end
     else
-        WoWTools_UnitMixin:GetNotifyInspect(nil, unit)--取得装等
+        WoWTools_UnitMixin:GetNotifyInspect(nil, unit)
     end
 
---设置，背景
     tooltip:Set_BG_Color(color, 0.2)
 
 
---设置 textLeft
-    local isWarModeDesired= C_PvP.IsWarModeDesired()--争模式
-    local statusIcon, statusText= WoWTools_UnitMixin:GetOnlineInfo(unit)--单位，状态信息
+    local isWarModeDesired= C_PvP.IsWarModeDesired()
+    local statusIcon, statusText= WoWTools_UnitMixin:GetOnlineInfo(unit)
     if statusIcon and statusText then
         textLeft= textLeft..statusIcon..statusText
 
-    elseif isGroupPlayer then--队友
+    elseif isGroupPlayer then
         local reason=UnitPhaseReason(unit)
         if reason then
             if reason==0 then
                 textLeft= (WoWTools_L['Different phase'])..textLeft
             elseif reason==1 then
                 textLeft= format(WoWTools_L['Not in the same layer %s'], WoWTools_DataMixin.Player.layer or '')..textLeft
-            elseif reason==2 then--战争模
+            elseif reason==2 then
                 textLeft= (isWarModeDesired and (WoWTools_L.ERR_PVP_WARMODE_TOGGLE_OFF) or (WoWTools_L.ERR_PVP_WARMODE_TOGGLE_ON))..textLeft
             elseif reason==3 then
                 textLeft= (WoWTools_L.PLAYER_DIFFICULTY_TIMEWALKER)..textLeft
@@ -75,13 +70,10 @@ function WoWTools_TooltipMixin:Set_Unit_Player(tooltip, name, unit, guid)
         text2Left= text2Left..'|T236347:0|t'
     end
 
---设置 textRight text2Right
     if isSelf then
---魔兽世界时光徽章
         C_WowTokenPublic.UpdateMarketPrice()
         local price= C_WowTokenPublic.GetCurrentMarketPrice()
         if price and price>0 then
---取得WOW物品数量
             local all, numPlayer= WoWTools_ItemMixin:GetWoWCount(122284, nil, true)
             text2Right= all
                 ..(numPlayer>1 and '('..numPlayer..')' or '')
@@ -90,7 +82,6 @@ function WoWTools_TooltipMixin:Set_Unit_Player(tooltip, name, unit, guid)
                 ..'|A:Front-Gold-Icon:0:0|a'
         end
 
---头衔
         local titleID= GetCurrentTitle()
         if titleID and titleID>0 then
             local titleName= GetTitleName(titleID)
@@ -101,7 +92,7 @@ function WoWTools_TooltipMixin:Set_Unit_Player(tooltip, name, unit, guid)
         end
     else
 
-        local lineLeft1=_G[tooltipName..'TextLeft1']--名称
+        local lineLeft1=_G[tooltipName..'TextLeft1']
         if lineLeft1 then
             local t= lineLeft1:GetText()
             if canaccessvalue(t) and t then
@@ -127,7 +118,7 @@ function WoWTools_TooltipMixin:Set_Unit_Player(tooltip, name, unit, guid)
 
 
 
-    local lineLeft1=_G[tooltipName..'TextLeft1']--名称
+    local lineLeft1=_G[tooltipName..'TextLeft1']
     if lineLeft1 then
         lineLeft1:SetText(
             '|A:common-icon-rotateright:0:0|a'
@@ -137,7 +128,7 @@ function WoWTools_TooltipMixin:Set_Unit_Player(tooltip, name, unit, guid)
         )
         local lineRight1= _G[tooltipName..'TextRight1']
         if lineRight1 then
-            local region= WoWTools_RealmMixin:Get_Region(realm)--服务器，EU， US
+            local region= WoWTools_RealmMixin:Get_Region(realm)
             lineRight1:SetText(realm
                 ..(isSelf
                 and '|A:auctionhouse-icon-favorite:0:0|a'
@@ -150,7 +141,6 @@ function WoWTools_TooltipMixin:Set_Unit_Player(tooltip, name, unit, guid)
         end
     end
 
---公会
     local isInGuild= IsPlayerInGuildFromGUID(guid)
     local lineLeft2= isInGuild and _G[tooltipName..'TextLeft2']
     if lineLeft2 then
@@ -187,7 +177,7 @@ function WoWTools_TooltipMixin:Set_Unit_Player(tooltip, name, unit, guid)
 
     local lineLeft3= isInGuild and _G[tooltipName..'TextLeft3'] or _G[tooltipName..'TextLeft2']
     if lineLeft3 then
-        local classFilename= select(2, UnitClass(unit))--职业名称
+        local classFilename= select(2, UnitClass(unit))
         local sex = UnitSex(unit)
         local raceName, raceFile= UnitRace(unit)
         local level= UnitLevel(unit)
@@ -206,7 +196,7 @@ function WoWTools_TooltipMixin:Set_Unit_Player(tooltip, name, unit, guid)
             text= text..'(|cnGREEN_FONT_COLOR:'..effectiveLevel..'|r) '
         end
 
-        local info= C_PlayerInfo.GetPlayerMythicPlusRatingSummary(unit)--挑战, 分数
+        local info= C_PlayerInfo.GetPlayerMythicPlusRatingSummary(unit)
         if info and info.currentSeasonScore and info.currentSeasonScore>0 then
             text= text..' '..(WoWTools_UnitMixin:GetRaceIcon(unit, guid, raceFile, {sex=sex, size=self.iconSize}) or '')
                     ..' '..WoWTools_UnitMixin:GetClassIcon(nil, nil, classFilename, {size=self.iconSize})
@@ -234,7 +224,7 @@ function WoWTools_TooltipMixin:Set_Unit_Player(tooltip, name, unit, guid)
 
     end
 
-    local hideLine--取得网页，数据链接
+    local hideLine
     local num= isInGuild and 4 or 3
     for i=1, tooltip:NumLines() or 0, 1 do
         local lineLeft=_G[tooltipName..'TextLeft'..i]
@@ -242,7 +232,6 @@ function WoWTools_TooltipMixin:Set_Unit_Player(tooltip, name, unit, guid)
             local show=true
             if i==num then
                 if isSelf then
---位面ID, 战争模式
                     lineLeft:SetText(
                         WoWTools_DataMixin.Player.Layer
                         and WoWTools_DataMixin.Language.layer..WoWTools_DataMixin.Player.Layer
@@ -257,8 +246,8 @@ function WoWTools_TooltipMixin:Set_Unit_Player(tooltip, name, unit, guid)
                         end
                         lineLeft:SetShown(true)
                     end
-                elseif isGroupPlayer then--队友位置
-                    local mapID= C_Map.GetBestMapForUnit(unit)--地图ID
+                elseif isGroupPlayer then
+                    local mapID= C_Map.GetBestMapForUnit(unit)
                     if mapID then
                         local mapInfo= C_Map.GetMapInfo(mapID)
                         if mapInfo and mapInfo.name then
@@ -306,16 +295,15 @@ function WoWTools_TooltipMixin:Set_Unit_Player(tooltip, name, unit, guid)
             hideLine:SetShown(false)
         end
     else
-        self:Set_Web_Link(hideLine, {unitName=name, realm=realm, col=color:GenerateHexColorMarkup()})--取得单位, raider.io 网页，数据链接
+        self:Set_Web_Link(hideLine, {unitName=name, realm=realm, col=color:GenerateHexColorMarkup()})
     end
 
     if tooltip.StatusBar then
         tooltip.StatusBar:SetStatusBarColor(color:GetRGB())
     end
 
-    self:Set_Item_Model(tooltip, {unit=unit, guid=guid})--设置, 3D模型
+    self:Set_Item_Model(tooltip, {unit=unit, guid=guid})
 
-    --self:Set_Width(tooltip)--设置，宽度
 
     WoWTools_TooltipMixin:Show(tooltip)
     --if hideLine then

@@ -10,7 +10,6 @@ local function Is_InEditMode()
 end
 
 
---成员派系
 local function Create_frame(partyFrame)
     local frame= CreateFrame("Frame", nil, partyFrame)
 
@@ -55,7 +54,6 @@ local function Create_frame(partyFrame)
 end
 
 
---战斗指示
 local function Create_combatFrame(frame)
     frame.combatFrame= CreateFrame('Frame', nil, frame)
 
@@ -96,19 +94,16 @@ local function Create_combatFrame(frame)
 end
 
 
---队友位置
 local function Create_positionFrame(frame)
 
     local Frame= CreateFrame("Frame", nil, frame)
     Frame:SetPoint('LEFT', frame.PartyMemberOverlay.LeaderIcon, 'RIGHT')
     Frame:SetSize(1,1)
---地图，位置
     Frame.map= CreateFrame('Frame', nil, Frame)
     Frame.map.Text= Frame.map:CreateFontString(nil, 'BORDER', 'WoWToolsFont')--  WoWTools_LabelMixin:Create(Frame.map)
     Frame.map.Text:SetFontHeight(10)
     Frame.map.Text:SetPoint('LEFT', Frame)
     Frame.map:Hide()
---距离
     Frame.xy= CreateFrame('Frame', nil, Frame)
     Frame.xy:SetSize(1,1)
     Frame.xy:SetPoint('RIGHT', frame.Portrait, 'LEFT')
@@ -129,23 +124,19 @@ local function Create_positionFrame(frame)
         local text
         text= ''
 
---挑战, 分数
         local info= C_PlayerInfo.GetPlayerMythicPlusRatingSummary(self.unit)
         if info and info.currentSeasonScore and info.currentSeasonScore>0 then
             text= WoWTools_ChallengeMixin:KeystoneScorsoColor(info.currentSeasonScore, true)
         end
 
-        local mapID= C_Map.GetBestMapForUnit(self.unit)--地图ID
+        local mapID= C_Map.GetBestMapForUnit(self.unit)
         local mapInfo= mapID and C_Map.GetMapInfo(mapID)
         if mapInfo and mapInfo.name then
             local mapID2= C_Map.GetBestMapForUnit('player')
---在同一地图上
             text= text.. '|A:'..(mapID2== mapID and 'common-icon-checkmark' or 'poi-islands-table')..':0:0|a'
---地图名称
             text= text..WoWTools_TextMixin:CN(mapInfo.name)
         end
 
---距离
         local distanceSquared, checkedDistance = UnitDistanceSquared(self.unit)
         if canaccessvalue(distanceSquared) and distanceSquared and checkedDistance then
             text= text..' '..WoWTools_DataMixin:MK(math.sqrt(distanceSquared), 0)--la API devuelve el cuadrado
@@ -200,7 +191,6 @@ local function Create_positionFrame(frame)
 end
 
 
---队友，死亡 Save().PartyDeadData={ [GetUnitName(self.unit, true) ] = 死亡次数 0}
 local function Rest_AllDeadData()
      Save().PartyDeadData={}
      for i=1, MAX_PARTY_MEMBERS+1 do
@@ -279,7 +269,6 @@ local function Create_deadFrame(frame)
     end
 
     function deadFrame:settings()
---死亡，次数
         local name= self:GetName()
         local text
         if name then
@@ -288,7 +277,6 @@ local function Create_deadFrame(frame)
         self.Text:SetText(text or '')
     end
 
---编辑模式
 
 
     deadFrame:SetScript('OnEvent', function(self, event)
@@ -300,7 +288,7 @@ local function Create_deadFrame(frame)
             end
 
         else
-            if UnitIsDeadOrGhost(self.unit) then--死亡，次数 UnitInPartyIsAI
+            if UnitIsDeadOrGhost(self.unit) then
                 if not self.deadBool then
                     self.deadBool=true
 
@@ -337,14 +325,13 @@ local function Create_deadFrame(frame)
 end
 
 
---先使用一次，用以Shift+点击，设置焦点功能, Invite.lua
 local function Init()--PartyFrame.lua
     if WoWToolsPlusSave['Plus_UnitFrame'].hidePartyFrame then
         return
     end
 
     EventRegistry:RegisterFrameEventAndCallback("GROUP_LEFT", function()
-        Save().PartyDeadData= {}--队友，死亡，次数
+        Save().PartyDeadData= {}
     end)
 
     PartyFrame.Background:SetWidth(124)--144
@@ -381,16 +368,15 @@ local function Init()--PartyFrame.lua
             end
             --frame.PortraitMask:SetAlpha(0)
             --frame.Texture:SetAlpha(0)
-            --Create_castFrame(frame)--队友，施法
-            Create_frame(frame)--队伍, 标记, 成员派系
-            Create_combatFrame(frame, false)--战斗指示
+            Create_frame(frame)
+            Create_combatFrame(frame, false)
 
-            Create_positionFrame(frame)--队友位置
-            Create_deadFrame(frame)--队友，死亡
-
+            Create_positionFrame(frame)
+            Create_deadFrame(frame)
 
 
-            WoWTools_DataMixin:Hook(frame, 'UpdateAssignedRoles', function(self)--隐藏, DPS 图标
+
+            WoWTools_DataMixin:Hook(frame, 'UpdateAssignedRoles', function(self)
                 self.PartyMemberOverlay.RoleIcon:SetAlpha(UnitGroupRolesAssigned(self.unit)== 'DAMAGER' and 0 or 1)
             end)
 
@@ -434,6 +420,6 @@ local function Init()--PartyFrame.lua
 end
 
 
-function WoWTools_UnitMixin:Init_PartyFrame()--小队
+function WoWTools_UnitMixin:Init_PartyFrame()
     Init()
 end

@@ -20,7 +20,7 @@ local function Set_SaveLogList()
 		local icon= Textures[i]
 		local col= logColor[i]
 		if not Textures[i] then
-			icon= WoWTools_ColorMixin:Create_Texture(col.r, col.g, col.b, col.a)--记录，打开时的颜色， 和历史
+			icon= WoWTools_ColorMixin:Create_Texture(col.r, col.g, col.b, col.a)
 			if i==1 then
 				icon:SetPoint('TOPRIGHT', ColorPickerFrame, "TOPLEFT", 0, -20)
 			else
@@ -110,21 +110,18 @@ local function Init()
 	Set_SaveLogList()
 
 
---保存，记录数量
 	ColorPickerFrame.Footer.OkayButton:HookScript('OnClick', function()
 		local logNum= Save().logMaxColor or 10
 		if logNum==0 then
 			Save().logColor={}
 			return
 		end
---检测，已存在
 		local r, g, b, a= WoWTools_ColorMixin:Get_ColorFrameRGBA()
 		for _, col in pairs(Save().logColor) do
 			if col.r==r and col.g==g and col.b==b and col.a== a then
 				return
 			end
 		end
---移除，最后，记录数量
 		local num= #Save().logColor
 		do
 			for i= num, logNum, -1 do
@@ -136,7 +133,6 @@ local function Init()
 	end)
 
 
---保存，颜色
 	for index, color in pairs(
 		{
 			{NORMAL_FONT_COLOR:GetRGBA()},
@@ -147,7 +143,7 @@ local function Init()
 	) do
 		local c= Save().saveColor[index] or color
 		local r,g,b,a= c[1] or 1, c[2] or 1, c[3] or 1, c[4] or 1
-		local icon= WoWTools_ColorMixin:Create_Texture(r,g,b,a)--记录，打开时的颜色， 和历史
+		local icon= WoWTools_ColorMixin:Create_Texture(r,g,b,a)
 		local s= icon:GetWidth()
 		if index==1 then
 			icon:SetPoint('TOPLEFT', ColorPickerFrame.Content.ColorSwatchOriginal, 'BOTTOMLEFT', 0, 0)
@@ -200,7 +196,6 @@ local function Init()
 
 					local sub
 					local col= select(5, WoWTools_ColorMixin:Get_ColorFrameRGBA())
---当前
 					sub= root:CreateButton(
 						WoWTools_L.REFORGE_CURRENT,
 					function (data)
@@ -209,7 +204,6 @@ local function Init()
 					end, {r=self.r, g=self.g, b=self.b, a=self.a or 1})
 					sub:AddInitializer(add_icon)
 					sub:SetTooltip(set_tooltip)
---选择
 					sub= root:CreateButton(
 						WoWTools_L.CHOOSE,
 					function(data)
@@ -221,7 +215,6 @@ local function Init()
 						WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Color.SlotChoose'])
 						set_tooltip(tooltip, desc)
 					end)
---默认
 					sub= root:CreateButton(
 						WoWTools_L.DEFAULT,
 					function (data)
@@ -259,7 +252,6 @@ function WoWTools_ColorMixin:Init_Log()
 end
 
 
---设置，记录
 function WoWTools_ColorMixin:Set_SaveLogList()
 	Set_SaveLogList()
 end

@@ -1,4 +1,3 @@
---颜色: 关键词
 local function Save()
     return WoWToolsPlusSave['ChatButton_HyperLink'] or {}
 end
@@ -79,7 +78,7 @@ local function Init()
         self:GetParent().ChangeTexture:SetShown(false)
     end)
 
-    local label=WoWTools_LabelMixin:Create(frame)--内容加颜色
+    local label=WoWTools_LabelMixin:Create(frame)
     label:SetPoint('BOTTOMLEFT', editBox, 'TOPLEFT', 0, 6)
     label:SetText(
         WoWTools_L['Color: keywords separated by |cnGREEN_FONT_COLOR:(Space)|r']
@@ -141,7 +140,7 @@ local function Init()
         self:GetParent().ChangeTexture:SetShown(false)
     end)
 
-    local label2=WoWTools_LabelMixin:Create(frame)--频道名称替换
+    local label2=WoWTools_LabelMixin:Create(frame)
     label2:SetPoint('BOTTOMLEFT', editBox2, 'TOPLEFT', 0, 6)
     label2:SetText(WoWTools_L['Channel name replacement: keyword|cnGREEN_FONT_COLOR:=|rreplacement'])
 

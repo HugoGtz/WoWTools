@@ -12,7 +12,6 @@ end
 
 
 
---自动出售
 local function Init()
     local AutoSellJunkCheck=CreateFrame('CheckButton', 'WoWTools_AutoSellJunkCheck', MerchantSellAllJunkButton, "InterfaceOptionsCheckButtonTemplate")
     WoWTools_TextureMixin:SetCheckBox(AutoSellJunkCheck)
@@ -36,7 +35,7 @@ local function Init()
     end
     function AutoSellJunkCheck:settings()
         self:SetChecked(not Save().notSellJunk)
-        self:set_sell_junk()--出售物品
+        self:set_sell_junk()
     end
     AutoSellJunkCheck:SetScript('OnClick', function(self)
         Save().notSellJunk= not Save().notSellJunk and true or nil
@@ -47,7 +46,7 @@ local function Init()
     AutoSellJunkCheck:SetScript('OnEnter', AutoSellJunkCheck.set_tooltip)
 
 
-    function AutoSellJunkCheck:set_sell_junk()--出售物品
+    function AutoSellJunkCheck:set_sell_junk()
         if IsModifierKeyDown()
             or not C_MerchantFrame.IsSellAllJunkEnabled()
             or InCombatLockdown()
@@ -60,7 +59,7 @@ local function Init()
         local num, gruop, preceTotale= 0, 0, 0
 
         for bag= Enum.BagIndex.Backpack, NUM_BAG_FRAMES + NUM_REAGENTBAG_FRAMES do
-            for slot=1, C_Container.GetContainerNumSlots(bag) do--背包数量
+            for slot=1, C_Container.GetContainerNumSlots(bag) do
                 local info = C_Container.GetContainerItemInfo(bag,slot)
 
                 if IsModifierKeyDown()
@@ -79,20 +78,20 @@ local function Init()
                     and info.quality
                     and (info.quality<Enum.ItemQuality.Legendary or Sell[info.itemID] and not notSellCustom)
                 then
-                    local checkText= WoWTools_MerchantMixin:CheckSellItem(info.itemID, info.hyperlink, info.quality, info.isBound)--检察 ,boss掉落, 指定 或 出售灰色,宠物
+                    local checkText= WoWTools_MerchantMixin:CheckSellItem(info.itemID, info.hyperlink, info.quality, info.isBound)
                     if not info.isLocked and checkText then
 
                         do
-                            C_Container.UseContainerItem(bag, slot)--买出
+                            C_Container.UseContainerItem(bag, slot)
                         end
 
                         local prece =0
-                        if not info.hasNoValue then--卖出钱
-                            prece = (select(11, C_Item.GetItemInfo(info.hyperlink)) or 0) * (info.stackCount or 1)--价格
+                        if not info.hasNoValue then
+                            prece = (select(11, C_Item.GetItemInfo(info.hyperlink)) or 0) * (info.stackCount or 1)
                             preceTotale = preceTotale + prece
                         end
                         gruop= gruop+ 1
-                        num= num+ (info.stackCount or 1)--数量
+                        num= num+ (info.stackCount or 1)
 
                         WoWTools_Print(
                             '|cnWARNING_FONT_COLOR:'..gruop..')|r',
@@ -135,7 +134,6 @@ local function Init()
 
     AutoSellJunkCheck:SetChecked(not Save().notSellJunk)
 
---提示，垃圾，数量
     MerchantSellAllJunkButton:HookScript('OnEnter', function()
         GameTooltip:AddDoubleLine(WoWTools_L.BAG_FILTER_JUNK , '|cnGREEN_FONT_COLOR:'..(C_MerchantFrame.GetNumJunkItems() or 0))
         GameTooltip:Show()
@@ -167,7 +165,7 @@ end
 local Frame= CreateFrame('Frame')
 Frame:RegisterEvent('ENCOUNTER_LOOT_RECEIVED')
 Frame:SetScript("OnEvent", function(_, event, _, itemID, itemLink, _, playerName)--encounterID, itemID, itemLink, quantity, playerName, classFileName
-    if event=='ENCOUNTER_LOOT_RECEIVED' then--买出BOOS装备
+    if event=='ENCOUNTER_LOOT_RECEIVED' then
         local save= Save()
         if not save or save.disabled or not save.sellBoss then
             return
@@ -179,19 +177,19 @@ Frame:SetScript("OnEvent", function(_, event, _, itemID, itemLink, _, playerName
             local avgItemLevel= GetAverageItemLevel() or 30
             local other= classID==15 and subclassID==0
 
-            if itemEquipLoc--绑定
-                and itemQuality and itemQuality<=4--最高史诗
-                and (classID==2 or classID==3 or classID==4 or other)--2武器 3宝石 4盔甲
-                and bindType == Enum.ItemBind.OnAcquire--1     LE_ITEM_BIND_ON_ACQUIRE    拾取绑定
+            if itemEquipLoc
+                and itemQuality and itemQuality<=4
+                and (classID==2 or classID==3 or classID==4 or other)
+                and bindType == Enum.ItemBind.OnAcquire
                 and (
                         (itemLevel and itemLevel>1 and avgItemLevel-itemLevel>=30)
-                        or (WoWTools_DataMixin.Player.isMaxLevel and expansionID and expansionID<WoWTools_DataMixin.ExpansionLevel)--旧版本
+                        or (WoWTools_DataMixin.Player.isMaxLevel and expansionID and expansionID<WoWTools_DataMixin.ExpansionLevel)
                     )
                 and not WoWToolsPlusPlayerDate['SellBuyItems'].noSell[itemID]
             then
 
                 if other then
-                    local dateInfo= WoWTools_ItemMixin:GetTooltip({hyperLink=itemLink, red=true, onlyRed=true})--物品提示，信息
+                    local dateInfo= WoWTools_ItemMixin:GetTooltip({hyperLink=itemLink, red=true, onlyRed=true})
                     if not dateInfo.red then
                         return
                     end
@@ -224,7 +222,6 @@ end)
 
 
 
---自动出售
 function WoWTools_MerchantMixin:Init_Auto_Sell_Junk()
     Init()
 end

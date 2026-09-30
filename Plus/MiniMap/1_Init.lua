@@ -4,49 +4,44 @@ WoWTools_MinimapMixin={}
 
 local P_Save={
     scale=0.85,
-    ZoomOutInfo=true,--小地图, 缩放, 信息
+    ZoomOutInfo=true,
 
     vigentteButtonShowText=true,
     vigentteButtonTextScale=1,
-    hideVigentteCurrentOnMinimap=nil,--当前，小地图，标记
-    hideVigentteCurrentOnWorldMap=nil,--当前，世界地图，标记
-    questIDs={},--世界任务, 监视, ID {[任务ID]=true}
-    areaPoiIDs={[7943]= 2248},--{[areaPoiID]= 地图ID}
-    uiMapIDs= {},--地图ID 监视, areaPoiIDs，
-    currentMapAreaPoiIDs=true,--当前地图，监视, areaPoiIDs，
+    hideVigentteCurrentOnMinimap=nil,
+    hideVigentteCurrentOnWorldMap=nil,
+    questIDs={},
+    areaPoiIDs={[7943]= 2248},
+    uiMapIDs= {},
+    currentMapAreaPoiIDs=true,
 
-    miniMapPoint={},--保存小图地, 按钮位置
-
-    --disabledInstanceDifficulty=true,--副本，难图，指示
-    --hideMPortalRoomLabels=true,--'10.2 副本，挑战专送门'
+    miniMapPoint={},
 
 
-    --时钟
-    useServerTimer=true,--小时图，使用服务器, 时间
 
-    --秒表
-
-    hideExpansionLandingPageMinimapButton= true,--隐藏，图标
-    --moveExpansionLandingPageMinimapButton=true,--移动动图标
+    useServerTimer=true,
 
 
-    Icons={--收集图标
+    hideExpansionLandingPageMinimapButton= true,
+
+
+    Icons={
         disabled= true,
-        noAdd={--过滤
+        noAdd={
             --['BugSack']=true,
         },
-        hideAdd={--隐藏
+        hideAdd={
             ['WoWToolsPlus']=true,
         },
-        userAdd={},--自定义
+        userAdd={},
         numLine=1,
-        hideInMove= true,--移动时，隐藏
-        hideInCombat=true,--进入战斗，隐藏
-        isEnterShow=true,--Enter显示
+        hideInMove= true,
+        hideInCombat=true,
+        isEnterShow=true,
         alphaBG=0,--bg
-        bgAlpha=0.75,--收集图标
+        bgAlpha=0.75,
         borderAlpha=0,
-        bgAlpha2=0.75,--Minimap上
+        bgAlpha2=0.75,
         borderAlpha2=0.5,
     },
 }
@@ -74,15 +69,14 @@ local function Init()
        WoWTools_DataMixin:Load(questID, 'quest')
     end
     do
-        WoWTools_MinimapMixin:Init_Icon()--添加，图标
+        WoWTools_MinimapMixin:Init_Icon()
     end
 
-    WoWTools_MinimapMixin:Init_InstanceDifficulty()--副本，难度，指示
-    WoWTools_MinimapMixin:Init_TrackButton()--小地图, 标记, 文本
+    WoWTools_MinimapMixin:Init_InstanceDifficulty()
+    WoWTools_MinimapMixin:Init_TrackButton()
     WoWTools_MinimapMixin:Init_ExpansionLanding()
-    WoWTools_MinimapMixin:Init_Minimap_Zoom()--缩放数值, 缩小化地图
+    WoWTools_MinimapMixin:Init_Minimap_Zoom()
 
---CVar 镇民
     Menu.ModifyMenu("MENU_MINIMAP_TRACKING", function(self, root)
         if not self:IsMouseOver() then
             return
@@ -162,8 +156,8 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         )
                     else
                         Init()
-                        WoWTools_MinimapMixin:Init_TimeManager()--秒表
-                        WoWTools_MinimapMixin:Init_Collection_Icon()--收集插件图标
+                        WoWTools_MinimapMixin:Init_TimeManager()
+                        WoWTools_MinimapMixin:Init_Collection_Icon()
                     end
 
                 end,
@@ -173,11 +167,11 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         StopwatchFrame:rest_point()
                     end
 
-                    WoWTools_MinimapMixin:Rest_TimeManager_Point()--重置，TimeManager位置
-                    WoWTools_MinimapMixin:Rest_TrackButton_Point()--重置，TrackButton位置
+                    WoWTools_MinimapMixin:Rest_TimeManager_Point()
+                    WoWTools_MinimapMixin:Rest_TrackButton_Point()
 
                     Save().Icons.point=nil
-                    WoWTools_MinimapMixin:Init_Collection_Icon()--重置，收集图标，按钮位置
+                    WoWTools_MinimapMixin:Init_Collection_Icon()
 
                     WoWTools_Print(
                         WoWTools_MinimapMixin.addName..WoWTools_DataMixin.Icon.icon2,
@@ -195,18 +189,18 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 Init()
 
                 if C_AddOns.IsAddOnLoaded('Blizzard_TimeManager') then
-                    WoWTools_MinimapMixin:Init_TimeManager()--秒表
+                    WoWTools_MinimapMixin:Init_TimeManager()
                     self:UnregisterEvent(event)
                 end
             end
 
         elseif arg1=='Blizzard_TimeManager' and WoWToolsPlusSave then
-            WoWTools_MinimapMixin:Init_TimeManager()--秒表
+            WoWTools_MinimapMixin:Init_TimeManager()
             self:UnregisterEvent(event)
         end
 
     elseif event=='PLAYER_ENTERING_WORLD' then
-        WoWTools_MinimapMixin:Init_Collection_Icon()--收集插件图标
+        WoWTools_MinimapMixin:Init_Collection_Icon()
         self:UnregisterEvent(event)
     end
 end)

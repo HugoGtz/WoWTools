@@ -1,4 +1,3 @@
---宏列表，位置
 
 local function Save()
     return WoWToolsPlusSave['Plus_Macro2']
@@ -18,13 +17,12 @@ local Button, TargetButton, AttackButton, NoteEditBox
 
 
 local function Init_Menu(self, root)
-    if not self:IsMouseOver() or WoWTools_MenuMixin:CheckInCombat(root) then--战斗中
+    if not self:IsMouseOver() or WoWTools_MenuMixin:CheckInCombat(root) then
         return
     end
 
     local sub, sub2, sub3
 
---备注
     sub=root:CreateButton(
         '|A:dressingroom-button-appearancelist-up:0:0|a'..(WoWTools_L.LABEL_NOTE),
     function()
@@ -45,7 +43,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Macro.Note'])
 
---布局
     root:CreateDivider()
     sub=root:CreateButton(
         WoWTools_L['Layout'],
@@ -86,7 +83,6 @@ local PointTab={
         end
     end
 
---按钮增强
     sub=root:CreateCheckbox(
         WoWTools_L['Button Plus'],
     function()
@@ -94,12 +90,11 @@ local PointTab={
     end, function()
         Save().hideBottomList= not Save().hideBottomList and true or nil
         WoWTools_MacroMixin:Init_List_Button()
-        WoWTools_MacroMixin:Init_AddNew_Button()--创建，空，按钮
+        WoWTools_MacroMixin:Init_AddNew_Button()
         TargetButton:settings()
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Macro.ButtonPlus'])
 
---缩放
     WoWTools_MenuMixin:Scale(self, sub,
     function()
         return Save().bottomListScale or 1
@@ -111,7 +106,6 @@ local PointTab={
         WoWTools_MacroMixin:Init_List_Button()
     end)
 
---背景, 透明度
     WoWTools_MenuMixin:BgAplha(sub,
     function()
         return Save().bottomListAlpha or 0.5
@@ -123,7 +117,6 @@ local PointTab={
         WoWTools_MacroMixin:Init_List_Button()
     end)
 
---打开，选项界面
     root:CreateDivider()
     sub=WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_MacroMixin.addName,})
 
@@ -132,7 +125,6 @@ local PointTab={
     local delete= WARNING_FONT_COLOR:WrapTextInColorCode(
         WoWTools_L['DELETE+ALL']
     )
---全部删除
     --root:CreateDivider()
     sub2=sub:CreateButton(
         delete,
@@ -141,7 +133,6 @@ local PointTab={
     end, {rightText= num..' + '..num2})
     WoWTools_MenuMixin:SetRightText(sub2)
 
---删除，通用宏
     sub3=sub2:CreateButton(
         '|A:XMarksTheSpot:0:0|a'
         ..(WoWTools_L.GENERAL_MACROS),
@@ -181,7 +172,6 @@ local PointTab={
 
 
 
---删除,专用宏
     sub2:CreateDivider()
     local text2=format(
             WoWTools_L.CHARACTER_SPECIFIC_MACROS,
@@ -221,7 +211,6 @@ local PointTab={
     end)
 
     sub:CreateDivider()
---重新加载UI
     WoWTools_MenuMixin:Reload(sub)
 end
 
@@ -238,7 +227,6 @@ end
 
 
 
---创建，目标，功击，按钮
 --####################
 local function Create_Button(name)
     local btn= WoWTools_ButtonMixin:Cbtn(TargetButton or MacroFrameSelectedMacroButton, {size={60,22}, isUI=true})
@@ -295,7 +283,6 @@ end
 
 
 local function Init_Created()
---备注 EditBox
     NoteEditBox=WoWTools_EditBoxMixin:CreateFrame(MacroFrame, {
         text= WoWTools_L.LABEL_NOTE,
         name= 'WoWToolsMacroPlusNoteEditBox'
@@ -304,7 +291,7 @@ local function Init_Created()
     NoteEditBox:SetPoint('TOPLEFT', 8, -65)
     NoteEditBox:SetPoint('BOTTOMRIGHT', MacroFrame, 'RIGHT', -6, 0)
     NoteEditBox:Hide()
-    NoteEditBox.editBox:SetScript('OnHide', function(self)--保存备注
+    NoteEditBox.editBox:SetScript('OnHide', function(self)
         WoWToolsPlusPlayerDate['MacroNoteText']= self:GetText()
         self:SetText("")
         self:ClearFocus()
@@ -314,7 +301,6 @@ local function Init_Created()
     end)
 
 
---目标
     TargetButton= Create_Button(WoWTools_L.TARGET)
     WoWTools_MacroMixin.TargetButton= WoWTools_MacroMixin
     --TargetButton:SetPoint('LEFT', MacroEditButton, 'RIGHT',8,0)
@@ -328,7 +314,7 @@ local function Init_Created()
     function TargetButton:settings()
         self:ClearAllPoints()
         local point= Save().toRightLeft
-        if point==4 then--左|右
+        if point==4 then
             self:SetPoint('BOTTOMRIGHT', MacroFrame, 'BOTTOM', 0, 4)
         else
             self:SetPoint('LEFT', MacroEditButton, 'RIGHT',8,0)
@@ -337,7 +323,6 @@ local function Init_Created()
     end
     TargetButton:settings()
 
---攻击
     AttackButton= Create_Button(WoWTools_L.ATTACK)
     AttackButton:SetPoint('LEFT', TargetButton, 'RIGHT')
     AttackButton.text= '/petattack\n/startattack\n'

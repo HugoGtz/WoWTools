@@ -50,17 +50,14 @@ function WoWTools_MoveMixin.Events:Blizzard_HouseEditor()
 
     --WoWTools_TextureMixin:CreateBG(HouseEditorFrame.StoragePanel, {isColor=true, isAllpoint=true, alpha=0.5})
     HouseEditorFrame.StoragePanel.SearchBox:SetPoint('TOPLEFT', 43, -20)--<Anchor point="TOPLEFT" x="20" y="-20"/>]]
---编辑住宅器
     Set_Move(HouseEditorFrame.StoragePanel, 'HouseStorage', true)
 
---编辑住宅外观
     Set_Move(HouseEditorFrame.ExteriorCustomizationModeFrame.FixtureOptionList, 'HouseExterior', true)
 
     Set_Move(HouseEditorFrame.StorageButton, 'HouseStorageButton', false)
 
     Set_Move(HouseEditorFrame.ModeBar, 'HouseBar', false)
 
---菜单
     local menu= CreateFrame('DropdownButton', 'WoWToolsHouseEditorFrameMenuButton', HouseEditorFrame.StoragePanel, 'WoWToolsMenuTemplate')
     menu:SetPoint('TOPLEFT', 23, 0)
     function menu:set_scale()
@@ -69,19 +66,15 @@ function WoWTools_MoveMixin.Events:Blizzard_HouseEditor()
     end
     menu:set_scale()
 
---菜单
     menu:SetupMenu(function(frame, root)
- --缩放
         WoWTools_MenuMixin:ScaleRoot(frame, root, function()
             return self:Save().scale['HouseStorage'] or 1
         end, function(value)
             self:Save().scale['HouseStorage']= value
             frame:set_scale()
         end, function()
---重置缩放
             self:Save().scale['HouseStorage']= nil
             frame:set_scale()
---重置位置
             if self:Save().point['HouseStorage'] then
                 self:Save().point['HouseStorage']= nil
                 HouseEditorFrame.StoragePanel:ClearAllPoints()
@@ -103,7 +96,7 @@ function WoWTools_MoveMixin.Events:Blizzard_HouseEditor()
 
     C_Timer.After(0.1, function()
         HouseEditorFrame.StoragePanel.ResizeButton:SetMinHeight(525)
-        HouseEditorFrame.StoragePanel.ResizeButton:SetMinWidth(220)--需要延迟
+        HouseEditorFrame.StoragePanel.ResizeButton:SetMinWidth(220)
         HouseEditorFrame.StoragePanel.ResizeButton.maxWidth = nil
         HouseEditorFrame.StoragePanel.ResizeButton.maxHeight = nil
         local size= self:Save().size['HouseStorage']
@@ -145,7 +138,6 @@ function WoWTools_MoveMixin.Events:Blizzard_HousingDashboard()
         minH=455,
     sizeRestFunc=function(f)
         f:SetSize(814, 544)
---这个是修改参数，可能会有BUG
         f.baseWidth, f.baseHeight= 814, 544
     end})
 
@@ -158,7 +150,6 @@ end
 
 
 
---住房
 function WoWTools_MoveMixin.Events:Blizzard_HousingBulletinBoard()
     HousingBulletinBoardFrame.ResidentsTab:SetPoint('BOTTOMRIGHT')
     self:Setup(HousingBulletinBoardFrame, {
@@ -185,7 +176,6 @@ end
 
 
 
---住宅区登记表
 function WoWTools_MoveMixin.Events:Blizzard_HousingCreateNeighborhood()
     self:Setup(HousingCreateNeighborhoodCharterFrame)
 end
@@ -199,7 +189,6 @@ end
 
 
 
---住宅信息板
 function WoWTools_MoveMixin.Events:Blizzard_HousingCornerstone()
     self:Setup(HousingCornerstoneVisitorFrame)
     self:Setup(HousingCornerstonePurchaseFrame)
@@ -216,7 +205,6 @@ end
 
 
 
---住宅搜索器
 function WoWTools_MoveMixin.Events:Blizzard_HousingHouseFinder()
     HouseFinderFrame.HouseFinderMapCanvasFrame:SetPoint('BOTTOMRIGHT')
     HouseFinderFrame.NeighborhoodListFrame:SetPoint('BOTTOM')

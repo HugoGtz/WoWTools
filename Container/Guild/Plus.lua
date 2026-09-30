@@ -12,7 +12,6 @@ local NUM_SLOTS_PER_GUILDBANK_GROUP = 14
 
 
 local function Init_Button()
---按钮，边框
     local showIndex= Save().showIndex
 
     for slotID=1, MAX_GUILDBANK_SLOTS_PER_TAB do
@@ -24,11 +23,9 @@ local function Init_Button()
         local btn= GuildBankFrame.Columns[column].Buttons[btnIndex]
         if btn then
             if not btn.indexText then
---索引
                 WoWTools_TextureMixin:SetAlphaColor(btn.NormalTexture, nil, true, 0.2)
                 btn.indexText= WoWTools_LabelMixin:Create(btn, {color={r=1,g=1,b=1, a=0.3}, layer='BACKGROUND'})
                 btn.indexText:SetPoint('CENTER')
---物品信息
                 WoWTools_DataMixin:Hook(btn, 'SetMatchesSearch', function(self)
                     WoWTools_ItemMixin:SetupInfo(self, Save().plusItem and {guidBank= {tab=GetCurrentGuildBankTab(), slot=self:GetID()}} or nil)
                 end)
@@ -51,10 +48,10 @@ end
 
 
 
-local TabData={}--系统只记录当前tabID数据
+local TabData={}
 
 local function UpdateTabs(self)
-    local currentIndex= GetCurrentGuildBankTab()--当前 Tab
+    local currentIndex= GetCurrentGuildBankTab()
     local plusTab= Save().plusTab
 
     for tabID= 1, GetNumGuildBankTabs(), 1 do
@@ -74,7 +71,7 @@ local function UpdateTabs(self)
         if isViewable and plusTab then
             local isCurrent= currentIndex==tabID
             local accessIcon, access= WoWTools_GuildBankMixin:Get_Access()
-            local remaining--%s的每日提取额度剩余
+            local remaining
 
             if isCurrent then
                 if remainingWithdrawals==0 then
@@ -138,7 +135,6 @@ local function Init()
         UpdateTabs(self)
     end)
 
---等级名称 RankName
     GuildBankFrame.Emblem.Name= WoWTools_LabelMixin:Create(GuildBankFrame.Emblem, {justifyH='CENTER'})
     GuildBankFrame.Emblem.Name:SetPoint('BOTTOM', GuildBankEmblemBorderBL, 'BOTTOMRIGHT')
     WoWTools_DataMixin:Hook(GuildBankFrame, 'UpdateTabard', function(self)

@@ -14,14 +14,12 @@ local function Init_Menu(self, root)
     end
     local sub, sub2
 
---Plus 必需重新载加，因为hook Mixin
     sub= root:CreateButton(
         'Plus',
     function()
         return MenuResponse.Open
     end)
 
---标签
     sub2=sub:CreateCheckbox(
         WoWTools_L['Tab'],
     function()
@@ -35,11 +33,10 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 
---索引
     sub2=sub:CreateCheckbox(WoWTools_L['Index'], function()
         return Save().plusIndex
     end, function()
-        Save().plusIndex= not Save().plusIndex and true or false--显示，索引
+        Save().plusIndex= not Save().plusIndex and true or false
         WoWTools_BankMixin:Init_BankPlus()
     end)
     sub2:SetTooltip(function(tooltip)
@@ -47,11 +44,10 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 
---物品信息
     sub2=sub:CreateCheckbox(WoWTools_L['ITEMS+INFO'], function()
         return Save().plusItem
     end, function()
-        Save().plusItem= not Save().plusItem and true or false--显示，索引
+        Save().plusItem= not Save().plusItem and true or false
         WoWTools_BankMixin:Init_BankPlus()
     end)
     sub2:SetTooltip(function(tooltip)
@@ -83,7 +79,6 @@ local function Init_Menu(self, root)
 
 
 
---转化为联合的大包
     root:CreateSpacer()
     sub=root:CreateCheckbox(
         '|cnWARNING_FONT_COLOR:'
@@ -115,7 +110,6 @@ local function Init_Menu(self, root)
 
 
 
---行数
     --root:CreateDivider()
     sub:CreateSpacer()
     sub2=WoWTools_MenuMixin:CreateSlider(sub, {
@@ -133,7 +127,6 @@ local function Init_Menu(self, root)
     })
     sub2:SetEnabled(Save().allBank)
 
---间隔
     sub:CreateSpacer()
     sub:CreateSpacer()
     sub2=WoWTools_MenuMixin:CreateSlider(sub, {
@@ -153,9 +146,7 @@ local function Init_Menu(self, root)
 
 
     root:CreateDivider()
---重新加载UI
     sub=WoWTools_MenuMixin:Reload(root)
---打开选项界面
     WoWTools_MenuMixin:OpenOptions(sub, {name=WoWTools_BankMixin.addName})
 end
 

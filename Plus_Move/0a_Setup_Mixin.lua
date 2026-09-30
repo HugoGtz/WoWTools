@@ -15,8 +15,7 @@ function WoWTools_MoveMixin:GetSize(name)
 end
 
 
---移动, 位置
-local function Set_Frame_Point(self, name)--设置, 移动, 位置
+local function Set_Frame_Point(self, name)
     local data= self and self.moveFrameData
 
     local p
@@ -64,7 +63,6 @@ local function Set_OnDragStart(self, d)
         return
     end
 
---保护
     if frame:IsProtected() then
         frame._moveOwnerID= EventRegistry:RegisterFrameEventAndCallback("PLAYER_REGEN_DISABLED", function(owner)
             ResetCursor()
@@ -85,7 +83,6 @@ local function Set_OnDragStop(self)
 
     ResetCursor()
 
---保护，清除
     if frame._moveOwnerID then
         EventRegistry:UnregisterCallback('PLAYER_REGEN_DISABLED', frame._moveOwnerID)
         frame._moveOwnerID= nil
@@ -103,7 +100,6 @@ local function Set_OnDragStop(self)
     end
 end
 
---设置光标
 local function Set_OnMouseDown(self, d)
     local data= self.moveFrameData
     local frame= _G[data.target] or self
@@ -122,9 +118,7 @@ end
 
 local function Set_Move_Frame(frame, target, click, notSave, isAltKeyDown)
 
-      --  WoWTools_Print('移动', '|cnWARNING_FONT_COLOR:已有别的插件设置|r', frame:GetName(), frame.moveFrameData)
 
---设置，数据
     frame.moveFrameData={
         target= target and target:GetName() or nil,
         click= click,
@@ -132,14 +126,12 @@ local function Set_Move_Frame(frame, target, click, notSave, isAltKeyDown)
         isAltKeyDown= isAltKeyDown,
     }
 
---设置，可移动
     frame:SetMovable(true)
 
     if target and not target.moveFrameData then
         target:SetMovable(true)
     end
 
---设置，响应事件
     if click=='RightButton' then
         frame:RegisterForDrag("RightButton")
     elseif click=='LeftButton' then
@@ -148,13 +140,9 @@ local function Set_Move_Frame(frame, target, click, notSave, isAltKeyDown)
         frame:RegisterForDrag("LeftButton", "RightButton")
     end
 
---开始移动
     frame:SetScript("OnDragStart", Set_OnDragStart)
---停止移动
     frame:SetScript("OnDragStop", Set_OnDragStop)
---设置光标
     frame:HookScript("OnMouseDown", Set_OnMouseDown)
---还原光标
    frame:HookScript("OnMouseUp", ResetCursor)
 end
 
@@ -197,18 +185,17 @@ function WoWTools_MoveMixin:Setup(frame, tab)
 
     if frame.TitleContainer then
         Set_Move_Frame(frame.TitleContainer, target or frame, click, notSave, isAltKeyDown)
---会点不中，关闭按钮
         if frame.CloseButton then
             frame.CloseButton:SetFrameLevel(frame.TitleContainer:GetFrameLevel()+1)
         end
     end
 
     --también con asa (target): antes la posición se guardaba pero no se restauraba
-    Set_Frame_Point(frame, name)--设置, 移动, 位置
+    Set_Frame_Point(frame, name)
 end
 
 
-function WoWTools_MoveMixin:SetPoint(frame, name)--设置, 移动,
+function WoWTools_MoveMixin:SetPoint(frame, name)
     name= name or (frame and frame:GetName())
     if not name or not frame then
         return
@@ -225,7 +212,7 @@ function WoWTools_MoveMixin:SetPoint(frame, name)--设置, 移动,
     end
 end
 
-function WoWTools_MoveMixin:GetPoint(frame, name)--得到,位置数据
+function WoWTools_MoveMixin:GetPoint(frame, name)
     name= name or (frame and frame:GetName())
     if not name then
         return
@@ -233,7 +220,7 @@ function WoWTools_MoveMixin:GetPoint(frame, name)--得到,位置数据
     return Save().point[name]
 end
 
-function WoWTools_MoveMixin:ClearPoint(frame, name)--重置位置
+function WoWTools_MoveMixin:ClearPoint(frame, name)
     name= name or (frame and frame:GetName())
     if not name then
         return

@@ -1,7 +1,6 @@
 --CommunitiesUtil.lua
 WoWTools_GuildMixin = {}
 
---图标会长或官员
 function WoWTools_GuildMixin:Get_Rank_Texture(rankIndex, reColor)
     local icon
     if rankIndex ==0 then
@@ -15,7 +14,6 @@ function WoWTools_GuildMixin:Get_Rank_Texture(rankIndex, reColor)
     return icon or ''
 end
 
---会长或官员
 function WoWTools_GuildMixin:IsLeaderOrOfficer()
     return C_GuildInfo.IsGuildOfficer() or IsGuildLeader()
 end
@@ -23,28 +21,25 @@ end
 
 
 
---加载，Club,数据 CommunitiesFrameMixin:RequestSubscribedClubFinderPostingInfo()
-function WoWTools_GuildMixin:Load_Club(clubID)--加载，Club,数据
+function WoWTools_GuildMixin:Load_Club(clubID)
     clubID= clubID or C_Club.GetGuildClubId()
     if clubID and not C_ClubFinder.RequestPostingInformationFromClubId(clubID) then
         C_ClubFinder.RequestSubscribedClubPostingIDs()
     end
 end
 
---Club, 超链接
 function WoWTools_GuildMixin:GetClubLink(clubID, clubGUID)
     clubID= clubID or C_Club.GetGuildClubId()
     local club= clubID and C_ClubFinder.GetRecruitingClubInfoFromClubID(clubID)
                 or (clubGUID and C_ClubFinder.GetRecruitingClubInfoFromFinderGUID(clubGUID))
     clubGUID= club and club.clubFinderGUID or clubGUID
     if clubGUID then
-        return GetClubFinderLink(clubGUID, club and club.name or COMMUNITIES_INVITE_MEMBERS)--不查用中文
+        return GetClubFinderLink(clubGUID, club and club.name or COMMUNITIES_INVITE_MEMBERS)
     end
 end
 
 
 
---Club,列出查找，过期时间
 function WoWTools_GuildMixin:GetClubFindDay(clubID)
     if C_ClubFinder.IsEnabled() then
         clubID= clubID or C_Club.GetGuildClubId()
@@ -55,7 +50,6 @@ function WoWTools_GuildMixin:GetClubFindDay(clubID)
     end
 end
 
---在线成员
 --CommunitiesUtil.GetOnlineMembers
 function WoWTools_GuildMixin:GetNumOnline(clubID)
     local online, all, onlineTab= 0, 0, {}
@@ -70,9 +64,9 @@ function WoWTools_GuildMixin:GetNumOnline(clubID)
                     if memberInfo and memberInfo.name then
                         if not memberInfo.isSelf then
                             if
-                                memberInfo.presence == Enum.ClubMemberPresence.Online--在线
-                                or memberInfo.presence == Enum.ClubMemberPresence.Away--离开
-                                or memberInfo.presence == Enum.ClubMemberPresence.Busy--忙碌
+                                memberInfo.presence == Enum.ClubMemberPresence.Online
+                                or memberInfo.presence == Enum.ClubMemberPresence.Away
+                                or memberInfo.presence == Enum.ClubMemberPresence.Busy
                             then
                                 online= online+1
                                 table.insert(onlineTab, memberInfo)
@@ -89,20 +83,17 @@ end
 
 
 
---公会，社区，信息
 function WoWTools_GuildMixin:OnEnter_GuildInfo()
 
     if IsInGuild() then
         local all, online, app = GetNumGuildMembers()
         local guildName, guildRankName, guildRankIndex, realm = GetGuildInfo('player')
---在线成员：
         GameTooltip:AddLine(
             guildName
             ..(realm and realm~=WoWTools_DataMixin.Player.Realm and '-'..realm or ' ')
             ..' ('..all..')',
             nil, nil, nil, true
         )
---会长或官员
         GameTooltip:AddLine(
             self:Get_Rank_Texture(guildRankIndex, false)
             ..guildRankName
@@ -110,7 +101,6 @@ function WoWTools_GuildMixin:OnEnter_GuildInfo()
             , nil, nil, nil, true
         )
 
---今天信息
 
         local day= not InCombatLockdown() and GetGuildRosterMOTD()
         if day and day~='' then
@@ -139,7 +129,7 @@ function WoWTools_GuildMixin:OnEnter_GuildInfo()
 
     for _, tab in pairs(clubs) do
         if canaccessvalue(tab.clubId) then
-            online, all= self:GetNumOnline(tab.clubId)--在线成员
+            online, all= self:GetNumOnline(tab.clubId)
 
             if tab.clubId==guildClubId then
                 icon= '|A:auctionhouse-icon-favorite:0:0|a'
@@ -154,12 +144,10 @@ function WoWTools_GuildMixin:OnEnter_GuildInfo()
             col= online>0 and '|cnGREEN_FONT_COLOR:' or '|cff626262'
 
             name= col..tab.name..'|r'
-    --未读信息
             if WoWTools_GuildMixin:DoesCommunityHaveUnreadMessages(tab.clubId) then
                 name= name..'|A:communities-icon-notification:0:0|a'
             end
 
-    --申请者
             applicantList= self:GetApplicantList(tab.clubId)
             num = applicantList and #applicantList
             if num then
@@ -172,7 +160,7 @@ function WoWTools_GuildMixin:OnEnter_GuildInfo()
     end
 
 
-    local hasMsg= CommunitiesUtil.DoesAnyCommunityHaveUnreadMessages()--未读信息
+    local hasMsg= CommunitiesUtil.DoesAnyCommunityHaveUnreadMessages()
     local hasPlayer= numApplicant>0
     if hasMsg or hasPlayer then
         GameTooltip:AddLine(' ')

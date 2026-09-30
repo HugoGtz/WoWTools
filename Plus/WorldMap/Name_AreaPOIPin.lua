@@ -1,4 +1,3 @@
---地图POI提示 AreaPOIDataProvider.lua
 local function Save()
     return WoWToolsPlusSave['Plus_WorldMap']
 end
@@ -26,7 +25,7 @@ local function Set_Update(self, elapsed)
 
         elseif self.widgetID then
             local widgetInfo = C_UIWidgetManager.GetTextWithStateWidgetVisualizationInfo(self.widgetID)
-            if widgetInfo and widgetInfo.shownState== 1 and widgetInfo.text and widgetInfo.hasTimer then--剩余时间：
+            if widgetInfo and widgetInfo.shownState== 1 and widgetInfo.text and widgetInfo.hasTimer then
                 local cn= WoWTools_TextMixin:CN(widgetInfo.text)
                 self.Text:SetText(cn:gsub(HEADER_COLON, '|n'))
             end
@@ -35,7 +34,6 @@ local function Set_Update(self, elapsed)
 end
 
 
---地图POI提示 AreaPOIDataProvider.lua
 local function Init()
     if not Save().ShowAreaPOI_Name then
         return
@@ -58,9 +56,9 @@ local function Init()
         local text
         if poiInfo and Save().ShowAreaPOI_Name and not SaveWoW().noShow[poiInfo.areaPoiID] then
 
-            text= SaveWoW().pinName[poiInfo.areaPoiID]--自定义名称
+            text= SaveWoW().pinName[poiInfo.areaPoiID]
 
-            if not text then--取得默认名称
+            if not text then
 
                 if poiInfo.areaPoiID and C_AreaPoiInfo.IsAreaPOITimed(poiInfo.areaPoiID) then
                     self.WoWToolsFrame.areaPoiID= poiInfo.areaPoiID
@@ -72,14 +70,14 @@ local function Init()
                             local widgetInfo = C_UIWidgetManager.GetTextWithStateWidgetVisualizationInfo(widget.widgetID)
                             if widgetInfo and widgetInfo.shownState==Enum.WidgetShownState.Shown then
 
-                                if widgetInfo.hasTimer then--剩余时间：
+                                if widgetInfo.hasTimer then
                                     self.WoWToolsFrame.widgetID= widget.widgetID
                                     self.WoWToolsFrame:SetScript('OnUpdate', Set_Update)
                                     break
 
                                 elseif widgetInfo.text and widgetInfo.text~='' then
                                     local icon, num= widgetInfo.text:match('(|T.-|t).-]|r.-(%d+)')
-                                    local text2= widgetInfo.text:match('(%d+/%d+)')--次数
+                                    local text2= widgetInfo.text:match('(%d+/%d+)')
 
                                     if icon and num then
                                         text= icon..'|cff00ff00'..num..'|r'
@@ -96,7 +94,7 @@ local function Init()
 
                 text= text or WoWTools_TextMixin:CN(poiInfo.name)
                 if text then
-                    text= text:match('%((.+)%)') or text:match('（(.+)）')  or text
+                    text= text:match('%((.+)%)')  or text
                 end
             end
         end
@@ -106,7 +104,6 @@ local function Init()
     end)
 
 
-    --POI提示 AreaPOIDataProvider.lua
     --AreaPOIPinMixin:TryShowTooltip
 
     if WorldMapFrame:IsShown() then
@@ -128,7 +125,6 @@ end
 
 function WoWTools_WorldMapMixin:AreaPOINameMenu(_, root)
     local sub, sub2
---AreaPOI名称
     sub=root:CreateCheckbox(
         '|A:minimap-genericevent-hornicon:0:0|aAreaPOI',
     function()
@@ -143,7 +139,6 @@ function WoWTools_WorldMapMixin:AreaPOINameMenu(_, root)
         --tooltip:AddLine('|cnWARNING_FONT_COLOR:BUG')
     end)
 
---字体大小
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         name= WoWTools_L.FONT_SIZE,

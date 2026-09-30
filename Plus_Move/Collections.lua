@@ -1,6 +1,4 @@
---收藏
 function WoWTools_MoveMixin.Events:Blizzard_Collections()
---坐骑
     MountJournal.RightInset:ClearAllPoints()
     MountJournal.RightInset:SetWidth(400)
     MountJournal.RightInset:SetPoint('TOPRIGHT', -6, -60)
@@ -39,7 +37,6 @@ function WoWTools_MoveMixin.Events:Blizzard_Collections()
     end)
 
 
---宠物
     PetJournalRightInset:ClearAllPoints()
     PetJournalRightInset:SetPoint('TOPRIGHT', PetJournalPetCardInset, 'BOTTOMRIGHT', 0, -22)
     PetJournalRightInset:SetSize(411,171)
@@ -49,7 +46,6 @@ function WoWTools_MoveMixin.Events:Blizzard_Collections()
 
 
 
---外观，物品 WardrobeFrame 12.0 没有了
     WardrobeCollectionFrame:HookScript('OnSizeChanged', function(frame)
         local itemFrame= frame.ItemsCollectionFrame
 
@@ -63,8 +59,8 @@ function WoWTools_MoveMixin.Events:Blizzard_Collections()
         if self:Save().size['CollectionsJournal'] then
             itemFrame.ModelR1C1:SetPoint("TOPLEFT", itemFrame, 6, -60)
             itemFrame.PagingFrame:SetPoint('BOTTOM', 0, 2)
-            cols= math.modf((itemFrame:GetWidth()-46)/(w+10))--行，数量
-            rows= math.modf((itemFrame:GetHeight()-86)/(h+10))--列，数量
+            cols= math.modf((itemFrame:GetWidth()-46)/(w+10))
+            rows= math.modf((itemFrame:GetHeight()-86)/(h+10))
         else
             cols= itemFrame.NUM_COLS or 6
             rows= itemFrame.NUM_ROWS or 3
@@ -72,18 +68,18 @@ function WoWTools_MoveMixin.Events:Blizzard_Collections()
             itemFrame.PagingFrame:SetPoint('BOTTOM', 0, 35)
         end
 
-        cols= max(cols, 6)--行，数量
-        rows= max(rows, 3)--列，数量
+        cols= max(cols, 6)
+        rows= max(rows, 3)
 
-        local num= cols * rows--总数
-        local numModel= #itemFrame.Models--已存，数量
+        local num= cols * rows
+        local numModel= #itemFrame.Models
 
-        for _ = numModel+1, num, 1 do--创建，MODEL
+        for _ = numModel+1, num, 1 do
             local model= CreateFrame('DressUpModel', nil, itemFrame, 'WardrobeItemsModelTemplate')
             table.insert(itemFrame.Models, model)
         end
 
-        for i=2, num do--设置位置
+        for i=2, num do
             local model= itemFrame.Models[i]
             model:ClearAllPoints()
             model:SetPoint('LEFT', itemFrame.Models[i-1], 'RIGHT', 16, 0)
@@ -95,12 +91,11 @@ function WoWTools_MoveMixin.Events:Blizzard_Collections()
             model:SetPoint('TOP', itemFrame.Models[i-cols], 'BOTTOM', 0, -10)
         end
 
-        itemFrame.PAGE_SIZE= num--设置，总数
+        itemFrame.PAGE_SIZE= num
 
         for i= num+1, #itemFrame.Models, 1 do
             itemFrame.Models[i]:SetShown(false)
         end
---更新
         if itemFrame:IsVisible() then
             itemFrame:RefreshVisualsList()
             itemFrame:UpdateItems()
@@ -110,7 +105,6 @@ function WoWTools_MoveMixin.Events:Blizzard_Collections()
     end)
 
 
---外观，套装
     WardrobeCollectionFrame.SetsCollectionFrame.RightInset:ClearAllPoints()
     WardrobeCollectionFrame.SetsCollectionFrame.RightInset:SetWidth(410)
     WardrobeCollectionFrame.SetsCollectionFrame.RightInset:SetPoint('TOPRIGHT', 2, 0)
@@ -210,7 +204,6 @@ function WoWTools_MoveMixin.Events:Blizzard_Collections()
     end)
 
 
---这个有人出错
     MountJournal.FilterDropdown:ClearAllPoints()
     MountJournal.FilterDropdown:SetPoint('TOPRIGHT', MountJournal.LeftInset, -5, -10)
     MountJournalSearchBox:ClearAllPoints()

@@ -27,7 +27,7 @@ local function Quest_Costs_Resources(questID)
 end
 
 
-local function select_Reward(questID)--自动:选择奖励
+local function select_Reward(questID)
     local numQuests = GetNumQuestChoices() or 0
     if numQuests <2 then
         local frame=_G['QuestInfoRewardsFrameQuestInfoItem1']
@@ -105,13 +105,12 @@ local function select_Reward(questID)--自动:选择奖励
                 if Save().autoSelectReward
                     and itemID
                     and not (classID==19 or (classID==4 and subclassID==5) or itemLevel==1)
-                    and itemQuality and itemQuality<4--最高 稀有的 3
-                    and not C_Item.IsCosmeticItem(itemLink)--装饰品
+                    and itemQuality and itemQuality<4
+                    and not C_Item.IsCosmeticItem(itemLink)
                     and not setID
-                    and not isCraftingReagent--附魔, 19专业装备 ,7商业技能
-                    and not C_Item.IsDecorItem(itemLink)--住宅装饰
-                    --and not C_ToyBox.GetToyInfo(itemID)--玩具
-                    and not C_MountJournal.GetMountFromItem(itemID)--坐骑
+                    and not isCraftingReagent
+                    and not C_Item.IsDecorItem(itemLink)
+                    and not C_MountJournal.GetMountFromItem(itemID)
                     and isUsable
                 then
                     --puntuación: mejora de equipo (3) > sin coleccionar (2) > precio de venta (1)
@@ -130,7 +129,7 @@ local function select_Reward(questID)--自动:选择奖励
                     end
 
                     if tier==0 then
-                        local isCollected, isSelf= select(2, WoWTools_CollectionMixin:Item(itemLink))--物品是否收集 
+                        local isCollected, isSelf= select(2, WoWTools_CollectionMixin:Item(itemLink))
                         if isCollected==false and isSelf then
                             tier, value= 2, 0
                         end
@@ -165,7 +164,6 @@ end
 
 
 --###########
---任务，初始化
 --###########
 local function Init()
 
@@ -189,7 +187,7 @@ local function Init()
 
     QuestButton:SetPoint('RIGHT', _G['WoWToolsGossipButton'], 'LEFT')
 
-    function QuestButton:set_Only_Show_Zone_Quest()--显示本区域任务
+    function QuestButton:set_Only_Show_Zone_Quest()
         if not Save().autoSortQuest or IsInInstance() or InCombatLockdown() then
             return
         end
@@ -228,7 +226,7 @@ local function Init()
         end)
     end
 
-    function QuestButton:set_PushableQuest(questID)--共享,任务
+    function QuestButton:set_PushableQuest(questID)
         if IsInGroup() and Save().pushable then
             if questID then
                 if IsInGroup() and C_QuestLog.IsPushableQuest(questID) then
@@ -251,7 +249,7 @@ local function Init()
     function QuestButton:set_Alpha()
         self.texture:SetAlpha(Save().quest and 1 or 0.3)
     end
-    function QuestButton:set_Texture()--设置，图片
+    function QuestButton:set_Texture()
         --self.texture:SetDesaturated(not Save().quest)
         if Save().quest then
             self.texture:SetAtlas('UI-HUD-UnitFrame-Target-PortraitOn-Boss-Quest')--AutoQuest-Badge-Campaign
@@ -262,29 +260,29 @@ local function Init()
     end
 
 
-    function QuestButton:not_Ace_QuestTrivial(questID)--其它任务,低等任务
+    function QuestButton:not_Ace_QuestTrivial(questID)
         return C_QuestLog.IsQuestTrivial(questID) and not IsQuestTrivialTracking
     end
 
 
 
-    function QuestButton:set_Event()--设置事件
+    function QuestButton:set_Event()
         self:UnregisterAllEvents()
 
-        self:RegisterEvent("QUEST_LOG_UPDATE")--更新数量
-        self:RegisterEvent('MINIMAP_UPDATE_TRACKING')--其它任务,低等任务,追踪
-        if Save().autoSortQuest then----显示本区域任务
+        self:RegisterEvent("QUEST_LOG_UPDATE")
+        self:RegisterEvent('MINIMAP_UPDATE_TRACKING')
+        if Save().autoSortQuest then
             self:RegisterEvent('PLAYER_ENTERING_WORLD')
             self:RegisterEvent('ZONE_CHANGED')
             self:RegisterEvent('ZONE_CHANGED_NEW_AREA')
             self:RegisterEvent('SCENARIO_UPDATE')
         end
-        if Save().pushable then--共享,任务
+        if Save().pushable then
             self:RegisterEvent('GROUP_ROSTER_UPDATE')
             self:RegisterEvent('GROUP_JOINED')
             self:RegisterEvent('QUEST_ACCEPTED')
         end
-        if Save().showAllQuestNum then--显示所有任务数量, 过区域时，更新当前地图任务，数量
+        if Save().showAllQuestNum then
             self:RegisterEvent('ZONE_CHANGED_NEW_AREA')
         end
         self:RegisterEvent('PLAYER_ENTERING_WORLD')
@@ -297,7 +295,7 @@ local function Init()
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_GossipMixin.addName2)
         GameTooltip:AddLine(' ')
-        WoWTools_QuestMixin:GetQuestAll()--所有，任务，提示
+        WoWTools_QuestMixin:GetQuestAll()
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(WoWTools_TextMixin:GetEnabeleDisable(Save().quest),WoWTools_DataMixin.Icon.left)
         GameTooltip:AddDoubleLine((WoWTools_L.SLASH_TEXTTOSPEECH_MENU),WoWTools_DataMixin.Icon.right)
@@ -310,7 +308,7 @@ local function Init()
         if IsInInstance() then
             self.Text:SetText('')
         else
-            if Save().showAllQuestNum then--显示所有任务数量
+            if Save().showAllQuestNum then
                 local numQuest, dayNum, weekNum, campaignNum, legendaryNum, storyNum, bountyNum, inMapNum = 0, 0, 0, 0, 0, 0, 0,0
                 for index=1, C_QuestLog.GetNumQuestLogEntries() do
                     local info = C_QuestLog.GetInfo(index)
@@ -318,10 +316,10 @@ local function Init()
                         if info.frequency== 0 then
                             numQuest= numQuest+ 1
 
-                        elseif info.frequency==  Enum.QuestFrequency.Daily then--日常
+                        elseif info.frequency==  Enum.QuestFrequency.Daily then
                             dayNum= dayNum+ 1
 
-                        elseif info.frequency== Enum.QuestFrequency.Weekly then--周常
+                        elseif info.frequency== Enum.QuestFrequency.Weekly then
                             weekNum= weekNum+ 1
                         end
 
@@ -356,27 +354,27 @@ local function Init()
     end
     QuestButton:SetScript("OnEvent", function(self, event, arg1)
         if event=='MINIMAP_UPDATE_TRACKING' then
-            IsQuestTrivialTracking= WoWTools_MapMixin:Get_Minimap_Tracking(MINIMAP_TRACKING_TRIVIAL_QUESTS, false)--其它任务,低等任务,追踪
+            IsQuestTrivialTracking= WoWTools_MapMixin:Get_Minimap_Tracking(MINIMAP_TRACKING_TRIVIAL_QUESTS, false)
 
-        elseif event=='QUEST_LOG_UPDATE' or event=='PLAYER_ENTERING_WORLD' or event=='ZONE_CHANGED_NEW_AREA' then--更新数量
+        elseif event=='QUEST_LOG_UPDATE' or event=='PLAYER_ENTERING_WORLD' or event=='ZONE_CHANGED_NEW_AREA' then
             self:set_Quest_Num_Text()
 
         elseif event=='GROUP_ROSTER_UPDATE' then
-            self:set_PushableQuest()--共享,任务
+            self:set_PushableQuest()
 
-        elseif event=='QUEST_ACCEPTED' then---共享,任务
+        elseif event=='QUEST_ACCEPTED' then
             if arg1 then
-                self:set_PushableQuest(arg1)--共享,任务
+                self:set_PushableQuest(arg1)
             end
         else
-            self:set_Only_Show_Zone_Quest()--显示本区域任务
+            self:set_Only_Show_Zone_Quest()
         end
     end)
 
 
     function QuestButton:set_enable()
         Save().quest= not Save().quest and true or false
-        self:set_Texture()--设置，图片
+        self:set_Texture()
         self:set_tooltip()
         if not Save().quest then
             C_VoiceChat.StopSpeakingText()
@@ -399,14 +397,14 @@ local function Init()
         self:set_tooltip()
     end)
 
-    QuestButton.questSelect={}--已选任务, 提示用
-    QuestButton:set_Texture()--设置，图片
-    QuestButton:set_Event()--仅显示本地图任务,事件
+    QuestButton.questSelect={}
+    QuestButton:set_Texture()
+    QuestButton:set_Event()
 
-    C_Timer.After(2, function() QuestButton:set_Only_Show_Zone_Quest() end)--显示本区域任务
+    C_Timer.After(2, function() QuestButton:set_Only_Show_Zone_Quest() end)
 
 
-    local check= CreateFrame('CheckButton', 'WoWToolsQuestFrameNPCCheckBox', QuestFrame.TitleContainer, 'UICheckButtonArtTemplate')--禁用此npc,任务,选项
+    local check= CreateFrame('CheckButton', 'WoWToolsQuestFrameNPCCheckBox', QuestFrame.TitleContainer, 'UICheckButtonArtTemplate')
     check:SetSize(18,18)
     check:SetCheckedTexture('ChallengeMode-icon-redline')
     WoWTools_TextureMixin:SetCheckBox(check, 0.5)
@@ -441,7 +439,6 @@ local function Init()
     end)
 
 
---添加任务ID
     local function set_label(label)
         label:EnableMouse(true)
         label:SetAlpha(0.3)
@@ -462,7 +459,6 @@ local function Init()
         end
     end
 
---世界地图，任务
     local mapLabel= QuestMapDetailsScrollFrame:CreateFontString('WoWToolsQuestWorldMapIDLabel', 'OVERLAY', 'GameFontNormal')
     mapLabel:SetPoint('LEFT', QuestMapFrame.QuestsFrame.DetailsFrame.BackFrame.BackButton, 'RIGHT', 2, 0)
     set_label(mapLabel)
@@ -470,7 +466,6 @@ local function Init()
         _G['WoWToolsQuestWorldMapIDLabel']:settings(questID)
     end)
 
---任务框架
     local questLable= QuestFrame:CreateFontString('WoWToolsQuestFrameIDLabel', 'OVERLAY', 'GameFontNormal')
     questLable:SetPoint('RIGHT', QuestFrame.AccountCompletedNotice.AccountCompletedIcon, 'LEFT')
     set_label(questLable)
@@ -481,7 +476,6 @@ local function Init()
     end
 
 
-    --任务框, 自动选任务    
     QuestFrameGreetingPanel:HookScript('OnShow', function()--QuestFrame.lua QuestFrameGreetingPanel_OnShow
         Set_QuestID()
 
@@ -517,7 +511,6 @@ local function Init()
     end)
 
 
-    --任务进度, 继续, 完成 QuestFrame.lua
     WoWTools_DataMixin:Hook('QuestFrameProgressItems_Update', function()
         Set_QuestID()
 
@@ -540,7 +533,7 @@ local function Init()
         if not IsQuestCompletable() then--or not C_QuestOffer.GetHideRequiredItemsOnTurnIn() then
             if questID then
                 local link
-                local buttonIndex = 1--物品数量
+                local buttonIndex = 1
                 for i=1, GetNumQuestItems() do
                     local hidden = IsQuestItemHidden(i)
                     if (hidden == 0) then
@@ -568,7 +561,7 @@ local function Init()
             end
             WoWTools_DataMixin:Call('QuestGoodbyeButton_OnClick')
         else
-            if not QuestButton.questSelect[questID] then--已选任务, 提示用
+            if not QuestButton.questSelect[questID] then
                 C_Timer.After(0.5, function()
                     WoWTools_Print(
                     WoWTools_DataMixin.Icon.icon2,
@@ -582,7 +575,6 @@ local function Init()
     end)
 
 
-    --自动接取任务, 仅一个任务
     WoWTools_DataMixin:Hook('QuestInfo_Display', function(template, parentFrame, acceptButton)--, material, mapView)--QuestInfo.lua
         Set_QuestID()
 
@@ -616,11 +608,11 @@ local function Init()
 
         local complete=IsQuestCompletable() or  C_QuestLog.IsComplete(questID)--QuestFrame.lua QuestFrameProgressPanel_OnShow(self) C_QuestLog.IsComplete(questID)
         if complete then
-            select_Reward(questID)--自动:选择奖励
+            select_Reward(questID)
         end
 
         local itemLink=''--QuestInfo.lua QuestInfo_ShowRewards()
-        for index=1, GetNumQuestChoices() do--物品
+        for index=1, GetNumQuestChoices() do
             local questItem = QuestInfo_GetRewardButton(QuestInfoFrame.rewardsFrame, index)
             if questItem then
                 local link=GetQuestItemLink(questItem.type, index)
@@ -637,12 +629,12 @@ local function Init()
             itemLink= itemLink.. (spellLink or (' spellID'..spellID))
         end
 
-        local skillName, skillIcon, skillPoints = GetRewardSkillPoints()--专业
+        local skillName, skillIcon, skillPoints = GetRewardSkillPoints()
         if skillName then
             itemLink= itemLink..(C_Spell.GetSpellLink(skillName) or ((skillIcon and '|T'..skillIcon..':0|t' or '')..skillName))..(skillPoints and '|cnGREEN_FONT_COLOR:+'..skillPoints..'|r' or '')
         end
 
-        local majorFactionRepRewards = C_QuestOffer.GetQuestOfferMajorFactionReputationRewards()--名望
+        local majorFactionRepRewards = C_QuestOffer.GetQuestOfferMajorFactionReputationRewards()
         if majorFactionRepRewards then
 			for _, rewardInfo in ipairs(majorFactionRepRewards) do
                 if rewardInfo.factionID and rewardInfo.rewardAmount then
@@ -654,7 +646,7 @@ local function Init()
             end
         end
 
-        if not QuestButton.questSelect[questID] then--已选任务, 提示用
+        if not QuestButton.questSelect[questID] then
 
             C_Timer.After(0.5, function()
                 WoWTools_Print(

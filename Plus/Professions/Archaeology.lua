@@ -1,4 +1,3 @@
---考古学
 local function Save()
     return WoWToolsPlusSave['Plus_Professions']
 end
@@ -7,7 +6,6 @@ end
 
 
 --local ArcheologyButton
---item=87399/修复的遗物
 
 
 
@@ -41,7 +39,7 @@ local function Init_ArchaeologyFrame()
     end
 
 
-    WoWTools_DataMixin:Hook(ArchaeologyFrame.completedPage, 'UpdateFrame', function(self)--提示
+    WoWTools_DataMixin:Hook(ArchaeologyFrame.completedPage, 'UpdateFrame', function(self)
         if not IsArtifactCompletionHistoryAvailable() then
             return
         end
@@ -54,10 +52,10 @@ local function Init_ArchaeologyFrame()
                     local sub= raceName
                     if rarity == 0 then
                         name= '|cffffffff'..name..'|r'
-                        sub= sub.."-"..WoWTools_ItemMixin.QualityText[1]--普通
+                        sub= sub.."-"..WoWTools_ItemMixin.QualityText[1]
                     else
                         name='|cff0070dd'..name..'|r'
-                        sub= sub.."-"..WoWTools_ItemMixin.QualityText[3]--精良
+                        sub= sub.."-"..WoWTools_ItemMixin.QualityText[3]
                     end
                     btn.artifactName:SetText(name)
                     btn.artifactSubText:SetText(sub..' |cnGREEN_FONT_COLOR:'..completionCount..'|r')
@@ -66,7 +64,6 @@ local function Init_ArchaeologyFrame()
         end
     end)
 
---增加一个按钮， 提示物品
     WoWTools_DataMixin:Hook('ArchaeologyFrame_CurrentArtifactUpdate', function()
         local itemID= select(3, GetArchaeologyRaceInfo(ArchaeologyFrame.artifactPage.raceID))
         local btn= ArchaeologyFrame.artifactPagGameTooltipButton
@@ -167,7 +164,7 @@ local function Init_ProgressBar()
 
     function btn:play_sound()
         WoWTools_DataMixin:PlaySound()
-        WoWTools_FrameMixin:HelpFrame({frame=ArcheologyDigsiteProgressBar, point='left', topoint=self, size={40,40}, color={r=1,g=0,b=0,a=1}, show=true, hideTime=3, y=0})--设置，提示
+        WoWTools_FrameMixin:HelpFrame({frame=ArcheologyDigsiteProgressBar, point='left', topoint=self, size={40,40}, color={r=1,g=0,b=0,a=1}, show=true, hideTime=3, y=0})
     end
 
     btn:SetScript('OnClick', function(self)
@@ -212,7 +209,7 @@ local function Init_ProgressBar()
 
     bar.texture= bar:CreateTexture(nil, "BORDER")
     bar.texture:SetPoint('TOPLEFT')
-    bar.texture:SetSize(36, 36)--23x23 显示图片太小了，只能大些
+    bar.texture:SetSize(36, 36)
 
     bar.Text= bar:CreateFontString(nil, 'BORDER', 'GameFontNormal')
     bar.Text:SetPoint('BOTTOM', bar, 'TOP')
@@ -387,7 +384,7 @@ local function Init_ProgressBar()
     bar:RegisterEvent('ARCHAEOLOGY_FIND_COMPLETE')
     bar:RegisterEvent('ARTIFACT_DIGSITE_COMPLETE')
 
-    bar:RegisterEvent('RESEARCH_ARTIFACT_COMPLETE')--当通过考古学解决某个物品时触发。
+    bar:RegisterEvent('RESEARCH_ARTIFACT_COMPLETE')
     bar:RegisterEvent('RESEARCH_ARTIFACT_UPDATE')
 
     bar:SetScript('OnEvent', function(self, event, ...)

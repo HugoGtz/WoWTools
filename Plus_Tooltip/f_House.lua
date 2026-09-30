@@ -23,7 +23,6 @@ function WoWTools_TooltipMixin:Set_HouseItem(tooltip, entryInfo)
         )
     end
 
---室内, 室外
 
     tooltip:AddDoubleLine(
         (entryInfo.isAllowedIndoors and GREEN_FONT_COLOR:GenerateHexColorMarkup() or NORMAL_FONT_COLOR:GenerateHexColorMarkup())
@@ -35,7 +34,6 @@ function WoWTools_TooltipMixin:Set_HouseItem(tooltip, entryInfo)
         ..(WoWTools_L.HOUSING_CATALOG_FILTERS_OUTDOORS)..'|A:house-outdoor-budget-icon:0:0|a'
     )
 
---匠心房间
     if entryInfo.isPrefab then
         tooltip:AddLine(
             (entryInfo.isPrefab and GREEN_FONT_COLOR:GenerateHexColorMarkup() or NORMAL_FONT_COLOR:GenerateHexColorMarkup())
@@ -54,7 +52,6 @@ function WoWTools_TooltipMixin:Set_HouseItem(tooltip, entryInfo)
 
 
 
---来源
     local sourceText
     if entryInfo.sourceText and entryInfo.sourceText~='' then
         sourceText=  WoWTools_TextMixin:CN(entryInfo.sourceText)
@@ -66,7 +63,6 @@ function WoWTools_TooltipMixin:Set_HouseItem(tooltip, entryInfo)
         tooltip:AddLine(sourceText, 1, 0.82, 0, true)
     end
 
---关键词
     local tag= WoWTools_HouseMixin:GetTagsText(entryInfo)
     if tag then
         tooltip:AddLine(' ')

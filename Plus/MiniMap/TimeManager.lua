@@ -7,7 +7,6 @@ local function Save()
 end
 
 
---秒表
 local function Init_Stopwatch_Menu(self, root)
     local sub, sub2
 
@@ -41,7 +40,6 @@ local function Init_Stopwatch_Menu(self, root)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.MiniMap.ClockPlus'])
 
 
---背景, 透明度
     WoWTools_MenuMixin:BgAplha(sub,
     function()
         return Save().timeManagerBgAlpha or 0.5
@@ -58,7 +56,6 @@ local function Init_Stopwatch_Menu(self, root)
     end)
 
 
---缩放
     WoWTools_MenuMixin:Scale(self, sub, function()
         return Save().StopwatchFrameScale
     end, function(value)
@@ -79,14 +76,12 @@ local function Init_Stopwatch_Menu(self, root)
     end)
 
 
---重置位置
     WoWTools_MenuMixin:RestPoint(self, sub, Save().TimeManagerClockButtonPoint, function()
         if StopwatchFrame.rest_point then
             StopwatchFrame:rest_point()
         end
     end)
 
---重新加载
     sub:CreateDivider()
     sub2= WoWTools_MenuMixin:Reload(sub, nil)
     WoWTools_MenuMixin:OpenOptions(sub2, {name=WoWTools_MinimapMixin.addName})
@@ -97,7 +92,6 @@ local function Init_Stopwatch_Menu(self, root)
 end
 
 
---时间信息
 local function Init_TimeManager_Menu(self, root)
 --plus
     local sub=root:CreateCheckbox('|A:auctionhouse-icon-clock:0:0:|a Plus', function()
@@ -111,17 +105,14 @@ local function Init_TimeManager_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.MiniMap.ClockPlus'])
 
---重新加载
     WoWTools_MenuMixin:Reload(sub, nil)
     sub:CreateDivider()
     WoWTools_MenuMixin:OpenOptions(sub, {name=WoWTools_MinimapMixin.addName})
 
     if not Save().disabledClockPlus then
-    --显示背景
         root:CreateDivider()
 
         
-    --缩放
         WoWTools_MenuMixin:Scale(self, root, function()
             return Save().TimeManagerClockButtonScale
         end, function(value)
@@ -142,11 +133,9 @@ local function Init_TimeManager_Menu(self, root)
         end)
 
 
-    --重置位置
         WoWTools_MenuMixin:RestPoint(self, root, Save().TimeManagerClockButtonPoint,  WoWTools_MinimapMixin.Rest_TimeManager_Point)
     end
 
---秒表
     root:CreateDivider()
     sub=root:CreateCheckbox(
         '|TInterface\\Icons\\INV_Misc_PocketWatch_01:0:|t'
@@ -178,7 +167,6 @@ local function Init_TimeManager()
     btn:set_strata()
 
 
---时钟，设置位置
     btn.rePoint={btn:GetPoint(1)}
     btn:SetMovable(true)
     btn:SetClampedToScreen(true)
@@ -223,7 +211,6 @@ local function Init_TimeManager()
     btn:set_point()
 
 
---时钟，缩放
     btn:EnableMouseWheel(true)
     btn:HookScript('OnMouseWheel', function(self, d)
         Save().TimeManagerClockButtonScale=WoWTools_FrameMixin:ScaleFrame(self, d, Save().TimeManagerClockButtonScale, nil)
@@ -244,13 +231,12 @@ local function Init_TimeManager()
     end)
 
 
---设置，时间，颜色
     TimeManagerClockTicker:SetShadowOffset(1, -1)
     local function set_textcolor()
         if TimeManagerAlarmEnabledButton:GetChecked() then
             TimeManagerClockTicker:SetTextColor(0,1,0,1)
         else
-            WoWTools_ColorMixin:SetLabelColor(TimeManagerClockTicker)--设置颜色
+            WoWTools_ColorMixin:SetLabelColor(TimeManagerClockTicker)
         end
     end
     set_textcolor()
@@ -262,7 +248,6 @@ TimeManagerAlarmFiredTexture:ClearAllPoints()
 TimeManagerAlarmFiredTexture:SetPoint('TOPLEFT', -6, 4)
 TimeManagerAlarmFiredTexture:SetPoint('BOTTOMRIGHT', 8, -8)
 
---显示背景
     WoWTools_TextureMixin:CreateBG(btn, {
         point=function(texture)
             texture:SetPoint('TOPLEFT', TimeManagerClockTicker, -1, -1)
@@ -276,7 +261,6 @@ TimeManagerAlarmFiredTexture:SetPoint('BOTTOMRIGHT', 8, -8)
 end
 
 
---秒表
 local function Init_StopwatchFrame()
 
 --Tooltip
@@ -309,7 +293,6 @@ local function Init_StopwatchFrame()
     end)
 
 
---缩放
     function StopwatchFrame:set_scale()
         self:SetScale(Save().StopwatchFrameScale or 1)
     end
@@ -330,7 +313,6 @@ local function Init_StopwatchFrame()
     StopwatchFrame:set_strata()
 
 
---加载游戏时，显示秒表
     StopwatchFrame:HookScript('OnShow', function()
         Save().showStopwatchFrame=true
     end)
@@ -343,7 +325,6 @@ local function Init_StopwatchFrame()
     end
 
 
---移动
     function StopwatchFrame:rest_point()
         StopwatchFrame:ClearAllPoints()
         StopwatchFrame:SetPoint("TOPRIGHT", UIParent, -250, -300);
@@ -361,7 +342,7 @@ local function Init_StopwatchFrame()
         elseif d=='LeftButton' then
             if Save().StopwatchOnClickPause then
                 do
-                    WoWTools_DataMixin:Call('StopwatchPlayPauseButton_OnClick', StopwatchPlayPauseButton)--开始/暂停
+                    WoWTools_DataMixin:Call('StopwatchPlayPauseButton_OnClick', StopwatchPlayPauseButton)
                 end
             end
         elseif d=='RightButton' then
@@ -370,7 +351,6 @@ local function Init_StopwatchFrame()
     end)
 
 
---开始/暂停，颜色, 提示
     StopwatchCloseButton:ClearAllPoints()
     StopwatchCloseButton:SetPoint('TOPLEFT')
 
@@ -402,7 +382,6 @@ local function Init_StopwatchFrame()
     end)
 
 
---设置，提示
     StopwatchPlayPauseButton:SetScript('OnLeave', function(self) GameTooltip:Hide() self:SetAlpha(self.alpha or 1) end)
     StopwatchPlayPauseButton:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
@@ -446,7 +425,6 @@ local function Init_StopwatchFrame()
     end
 
 
---显示背景
     WoWTools_TextureMixin:CreateBG(StopwatchFrame, {
         point=function(texture)
             texture:SetPoint('TOPLEFT', StopwatchTickerHour, -1, -1.5)
@@ -515,7 +493,6 @@ function WoWTools_MinimapMixin:Init_TimeManager()
 end
 
 
---重置，TimeManager位置
 function WoWTools_MinimapMixin:Rest_TimeManager_Point()
     Save().TimeManagerClockButtonPoint=nil
     Save().TimeManagerClockButtonScale=nil

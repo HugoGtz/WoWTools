@@ -40,7 +40,6 @@ local function Init_Menu(self, root)
 
 
 
---装备管理
     local equipNum= #C_EquipmentSet.GetEquipmentSetIDs()
     sub=root:CreateCheckbox(
         (equipNum>0 and '' or DISABLED_FONT_COLOR:GenerateHexColorMarkup())
@@ -54,7 +53,6 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.PaperDoll.EquipSetButton'])
     WoWTools_MenuMixin:SetRightText(sub)
 
---重置位置
     WoWTools_MenuMixin:RestPoint(self, sub, Save().EquipSet.point, function()
         Save().EquipSet.point=nil
         WoWTools_PaperDollMixin:Init_EquipSetButton()
@@ -62,20 +60,18 @@ local function Init_Menu(self, root)
     end)
 
 
---装备管理 Plus
     sub=root:CreateCheckbox(
         WoWTools_PaperDollMixin.addName2..' Plus',
     function()
         return not Save().notEquipSetPLus
     end, function()
         Save().notEquipSetPLus= not Save().notEquipSetPLus and true or nil
-        WoWTools_PaperDollMixin:Init_EquipSetPlus()--装备管理，Plus
+        WoWTools_PaperDollMixin:Init_EquipSetPlus()
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.PaperDoll.EquipSetPlus'])
 
     
---属性
-    if WoWTools_DataMixin.Player.Ver>=120005 then--11.0.5会出错误
+    if WoWTools_DataMixin.Player.Ver>=120005 then
         root:CreateDivider()
         sub=root:CreateCheckbox(
             WoWTools_L.STAT_CATEGORY_ATTRIBUTES,
@@ -91,7 +87,6 @@ local function Init_Menu(self, root)
         end)
     end
 
---属性小数
     sub=root:CreateCheckbox(
         WoWTools_L['Attribute decimals'],
     function()
@@ -109,7 +104,6 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetRightText(sub)
 
 
---小数点
     local bitColor=  Save().notStatusPlusFunc and '|cff626262' or ''
     for i=-1, 4 do
         local tipSub= sub:CreateRadio(
@@ -128,7 +122,6 @@ local function Init_Menu(self, root)
 
 
 
- --服务器
     root:CreateDivider()
     local tipSub= root:CreateCheckbox(
         WoWTools_L.VAS_REALM_LABEL,
@@ -148,7 +141,7 @@ local function Init_Menu(self, root)
         return not Save().notLevel
     end, function()
         Save().notLevel= not Save().notLevel and true or nil
-        WoWTools_PaperDollMixin:Init_SetLevel()--更改,等级文本
+        WoWTools_PaperDollMixin:Init_SetLevel()
 
     end)
     WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.PaperDoll.Level'])
@@ -168,7 +161,6 @@ local function Init_Menu(self, root)
         tooltip:AddLine('EquipmentFlyoutFrame')
     end)
 
---缩放
     WoWTools_MenuMixin:ScaleRoot(self, sub, function()
         return Save().flyoutScale or 1
     end, function(value)
@@ -194,7 +186,6 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWTools_L.GEARSETS_TITLE)
     end)
 
---打开选项界面
     root:CreateDivider()
     sub= WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_PaperDollMixin.addName})
 
@@ -211,22 +202,22 @@ local function Init()
     menu:SetupMenu(Init_Menu)
 
 
-    WoWTools_PaperDollMixin:Init_EquipSetPlus()--装备管理，Plus
+    WoWTools_PaperDollMixin:Init_EquipSetPlus()
 
-    if WoWTools_PaperDollMixin.Init_Status then--11.0.5会出错误
-        WoWTools_PaperDollMixin:Init_Status()--属性，增强
+    if WoWTools_PaperDollMixin.Init_Status then
+        WoWTools_PaperDollMixin:Init_Status()
     end
-    WoWTools_PaperDollMixin:Init_Status_Bit()--属性，位数
+    WoWTools_PaperDollMixin:Init_Status_Bit()
 
-    WoWTools_PaperDollMixin:Init_Reaml()--服务器
-    WoWTools_PaperDollMixin:Init_SetLevel()--更改,等级文本
+    WoWTools_PaperDollMixin:Init_Reaml()
+    WoWTools_PaperDollMixin:Init_SetLevel()
 
-    WoWTools_PaperDollMixin:Init_EquipmentFlyout()--装备弹出
+    WoWTools_PaperDollMixin:Init_EquipmentFlyout()
     WoWTools_PaperDollMixin:Init_TabPlus()
 
-    WoWTools_PaperDollMixin:Init_InspectUI()--目标, 装备
+    WoWTools_PaperDollMixin:Init_InspectUI()
 
-    WoWTools_PaperDollMixin:Init_Item_PoaperDll()--物品
+    WoWTools_PaperDollMixin:Init_Item_PoaperDll()
 
 
     Init=function()end
@@ -241,17 +232,17 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         if arg1== 'WoWToolsPlus' then
 
             WoWToolsPlusSave['Plus_PaperDoll']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_PaperDoll'], {
-                StatusPlus_OnEnter_show_menu=true,--移过图标时，显示菜单
-                itemLevelBit= 1,--物品等级，位数
-                itemSlotScale=1, --栏位，按钮，缩放
+                StatusPlus_OnEnter_show_menu=true,
+                itemLevelBit= 1,
+                itemSlotScale=1,
 
-                EquipSet={--装备管理，数据
+                EquipSet={
                     disabled= true,
                 },
 
             })
 
-            if not Save().EquipSet then--旧数据
+            if not Save().EquipSet then
                 Save().EquipSet= {
                     disabled= Save().equipment,
                     point= Save().Equipment,
@@ -272,7 +263,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 Save().trackButtonShowItemLeve= nil
             end
 
-            if WoWTools_DataMixin.Player.Ver>=120005 and Save().PAPERDOLL_STATCATEGORIES then--11.0.5会出错误
+            if WoWTools_DataMixin.Player.Ver>=120005 and Save().PAPERDOLL_STATCATEGORIES then
                 Save().PAPERDOLL_STATCATEGORIES= nil
                 Save().notStatusPlus=nil
             end
@@ -284,7 +275,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
             --WoWTools_PaperDollMixin.addName3= '|A:loottoast-arrow-orange:0:0|a'..(STAT_CATEGORY_ATTRIBUTES)
 
-            --添加控制面板
             WoWTools_PanelMixin:OnlyCheck({
                 name= WoWTools_PaperDollMixin.addName,
                 GetValue= function() return not Save().disabled end,
@@ -310,7 +300,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         end
 
     elseif event=='PLAYER_ENTERING_WORLD' then
-        WoWTools_PaperDollMixin:Init_EquipSetButton()--装备管理框
+        WoWTools_PaperDollMixin:Init_EquipSetButton()
 
         self:UnregisterEvent(event)
 

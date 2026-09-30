@@ -1,4 +1,3 @@
---专业训练师
 function WoWTools_MoveMixin.Events:Blizzard_TrainerUI()
     ClassTrainerFrame.ScrollBox:ClearAllPoints()
     ClassTrainerFrame.ScrollBox:SetPoint('BOTTOMRIGHT', -26, 34)
@@ -14,17 +13,14 @@ function WoWTools_MoveMixin.Events:Blizzard_TrainerUI()
     end})
 end
 
---小时图，时间
 function WoWTools_MoveMixin.Events:Blizzard_TimeManager()
     self:Setup(TimeManagerFrame, {save=true})
 end
 
---黑市
 function WoWTools_MoveMixin.Events:Blizzard_BlackMarketUI()
     self:Setup(BlackMarketFrame)
 end
 
---日历
 function WoWTools_MoveMixin.Events:Blizzard_Calendar()
     self:Setup(CalendarFrame)
     self:Setup(CalendarEventPickerFrame, {frame=CalendarFrame})
@@ -36,20 +32,18 @@ function WoWTools_MoveMixin.Events:Blizzard_Calendar()
     self:Setup(CalendarViewRaidFrame, {frame=CalendarFrame})
 end
 
---要塞
 function WoWTools_MoveMixin.Events:Blizzard_GarrisonUI()
-    self:Setup(GarrisonShipyardFrame)--海军行动
-    self:Setup(GarrisonMissionFrame)--要塞任务
-    self:Setup(GarrisonCapacitiveDisplayFrame)--要塞订单
+    self:Setup(GarrisonShipyardFrame)
+    self:Setup(GarrisonMissionFrame)
+    self:Setup(GarrisonCapacitiveDisplayFrame)
     self:Setup(CovenantMissionFrame)
 
-    self:Setup(GarrisonLandingPage,{--要塞报告
+    self:Setup(GarrisonLandingPage,{
     })
-    self:Setup(OrderHallMissionFrame)--侦查地图
+    self:Setup(OrderHallMissionFrame)
     self:Setup(AdventureMapQuestChoiceDialog, {frame=OrderHallMissionFrame})
 end
 
---任务选择
 function WoWTools_MoveMixin.Events:Blizzard_PlayerChoice()
     self:Setup(PlayerChoiceFrame)
 
@@ -64,7 +58,6 @@ end
 
 
 
---飞行地图
 function WoWTools_MoveMixin.Events:Blizzard_FlightMap()
     self:Setup(FlightMapFrame)
 end
@@ -80,26 +73,22 @@ function WoWTools_MoveMixin.Events:Blizzard_GenericTraitUI()
     self:Setup(GenericTraitFrame.ButtonsParent, {frame=GenericTraitFrame})
 end
 
---周奖励面板
 function WoWTools_MoveMixin.Events:Blizzard_WeeklyRewards()
     self:Setup(WeeklyRewardsFrame, {onShowFunc=true})
     self:Setup(WeeklyRewardsFrame.Blackout, {frame=WeeklyRewardsFrame})
 end
 
 
---装备升级,界面
 function WoWTools_MoveMixin.Events:Blizzard_ItemUpgradeUI()
     self:Setup(ItemUpgradeFrame)
 end
 
---玩家, 观察角色, 界面
 function WoWTools_MoveMixin.Events:Blizzard_InspectUI()
     if InspectFrame then
         self:Setup(InspectFrame)
     end
 end
 
---套装, 转换
 function WoWTools_MoveMixin.Events:Blizzard_ItemInteractionUI()
     C_Timer.After(2, function()
         self:Setup(ItemInteractionFrame)
@@ -109,12 +98,10 @@ end
 
 
 
---时光漫游
 function WoWTools_MoveMixin.Events:Blizzard_ChromieTimeUI()
     self:Setup(ChromieTimeFrame)
 end
 
---侦查地图
 function WoWTools_MoveMixin.Events:Blizzard_BFAMissionUI()
     self:Setup(BFAMissionFrame)
 end
@@ -122,7 +109,6 @@ end
 
 
 
---死亡
 function WoWTools_MoveMixin.Events:Blizzard_DeathRecap()
     self:Setup(DeathRecapFrame, {
         minW=254,minH=143,
@@ -131,7 +117,6 @@ function WoWTools_MoveMixin.Events:Blizzard_DeathRecap()
     end})
 end
 
---点击，施法
 function WoWTools_MoveMixin.Events:Blizzard_ClickBindingUI()
     ClickBindingFrame.TutorialButton:SetFrameLevel(ClickBindingFrame.TitleContainer:GetFrameLevel()+1)
 
@@ -261,11 +246,9 @@ function WoWTools_MoveMixin.Events:Blizzard_DebugTools()
 end
 
 
---拍卖行
 --Shared
 --Blizzard_AuctionHouseTableBuilder.lua
 function WoWTools_MoveMixin.Events:Blizzard_AuctionHouseUI()
---批量出售条
     AuctionHouseMultisellProgressFrame:HookScript('OnShow', function(frame)
         frame:ClearAllPoints()
         frame:SetPoint('TOPRIGHT', AuctionHouseFrame, 'BOTTOMRIGHT', 0, -2)
@@ -313,7 +296,6 @@ function WoWTools_MoveMixin.Events:Blizzard_AuctionHouseUI()
     end)
 
     --AuctionHouseItemListMixin:UpdateTableBuilderLayout() TableBuilderMixin:ArrangeHeaders()
---添加，数据，可能会污染
     local function Rest()
         for _, frame in pairs({
             AuctionHouseFrame.BrowseResultsFrame.ItemList,
@@ -359,7 +341,6 @@ function WoWTools_MoveMixin.Events:Blizzard_AuctionHouseUI()
 end
 
 
---成就
 function WoWTools_MoveMixin.Events:Blizzard_AchievementUI()
     AchievementFrameCategories:ClearAllPoints()
     AchievementFrameCategories:SetPoint('TOPLEFT', 21, -19)
@@ -371,7 +352,6 @@ function WoWTools_MoveMixin.Events:Blizzard_AchievementUI()
     AchievementFrameMetalBorderLeft:SetPoint('BOTTOM', AchievementFrameMetalBorderBottomLeft, 'TOP')
 
     --WoWTools_DataMixin:Hook(AchievementTemplateMixin, 'OnLoad', function(f)
---成就，显示，按钮
     WoWTools_DataMixin:Hook(AchievementTemplateMixin, 'OnLoad', function(f)
         f.Label:SetPoint('RIGHT', f.Shield.Icon, 'LEFT')
         f.Label:SetPoint('LEFT', f.PlusMinus, 'RIGHT')
@@ -389,13 +369,10 @@ function WoWTools_MoveMixin.Events:Blizzard_AchievementUI()
     local left= -38
     AchievementFrameAchievements:SetPoint('RIGHT', left, 0)
     AchievementFrameStats:SetPoint('RIGHT', left, 0)
---总览
     AchievementFrameSummary:SetPoint('RIGHT', left, 0)
 
---统计
     AchievementFrameStatsBG:SetPoint('RIGHT')
 
---比较
     AchievementFrameComparison:SetPoint('RIGHT')
 
     AchievementFrameComparison.AchievementContainer:SetPoint('RIGHT', left, 0)
@@ -425,7 +402,6 @@ function WoWTools_MoveMixin.Events:Blizzard_AchievementUI()
     })
     self:Setup(AchievementFrame.Header, {frame=AchievementFrame})
 
---比较
     self:Setup(AchievementFrameComparisonHeader, {frame=AchievementFrame})
     self:Setup(AchievementFrameComparison, {frame=AchievementFrame})
     self:Setup(AchievementFrameComparison.AchievementContainer, {frame=AchievementFrame})
@@ -436,13 +412,11 @@ function WoWTools_MoveMixin.Events:Blizzard_AchievementUI()
         end
     end)
 
---Search 结果
     AchievementFrame.SearchResults:SetPoint('TOP', 0, -14)
     self:Setup(AchievementFrame.SearchResults, {frame=AchievementFrame})
 end
 
 
---聊天设置
 function WoWTools_MoveMixin.Events:Blizzard_Channels()
     self:Setup(CreateChannelPopup)
 
@@ -456,7 +430,6 @@ function WoWTools_MoveMixin.Events:Blizzard_Channels()
     end})
 end
 
---选项
 function WoWTools_MoveMixin.Events:Blizzard_Settings_Shared()
     for _, region in pairs({SettingsPanel:GetRegions()}) do
         if region:IsObjectType('Texture') then
@@ -482,20 +455,18 @@ function WoWTools_MoveMixin.Events:Blizzard_ChatFrame()
 end
 
 
---菜单
 function WoWTools_MoveMixin.Events:Blizzard_GameMenu()
     self:Setup(GameMenuFrame)
 end
 
 
 function WoWTools_MoveMixin.Events:Blizzard_ActionBar()
-    self:Setup(ExtraActionButton1, {click='RightButton', notSave=true, notMoveAlpha=true})--额外技能
+    self:Setup(ExtraActionButton1, {click='RightButton', notSave=true, notMoveAlpha=true})
 end
 
 function WoWTools_MoveMixin.Events:Blizzard_UnitFrame()
     --self:Setup(PartyFrame.Background, {frame=PartyFrame, notZoom=true, notSave=true})
 
---其它
     self:Setup(OpacityFrame)
     self:Setup(ArcheologyDigsiteProgressBar, {notZoom=true})
     self:Setup(VehicleSeatIndicator, {notZoom=true, notSave=true})
@@ -517,7 +488,6 @@ function WoWTools_MoveMixin.Events:Blizzard_UnitFrame()
 end
 
 
---移动 ETRACE
 function WoWTools_MoveMixin.Events:Blizzard_EventTrace()
     EventTrace.Log.Bar.SearchBox:SetPoint('LEFT', EventTrace.Log.Bar.Label, 'RIGHT')
     EventTrace.Log.Bar.SearchBox:SetScript('OnEditFocusGained', function(frame)
@@ -527,7 +497,6 @@ function WoWTools_MoveMixin.Events:Blizzard_EventTrace()
 end
 
 
---商店
 function WoWTools_MoveMixin.Events:Blizzard_AccountStore()
     self:Setup(AccountStoreFrame, {
         minH=537,
@@ -538,7 +507,6 @@ function WoWTools_MoveMixin.Events:Blizzard_AccountStore()
 end
 
 
---专业书
 function WoWTools_MoveMixin.Events:Blizzard_ProfessionsBook()
     self:Setup(ProfessionsBookFrame)
 end
@@ -617,10 +585,8 @@ end
 
 
 
---隐藏, 团队, 材质 Blizzard_CompactRaidFrameManager.lua
 function WoWTools_MoveMixin.Events:Blizzard_CompactRaidFrames()
 
---展开: se engancha a la función de Blizzard en vez de reemplazarla (evita taint y ADDON_ACTION_BLOCKED en combate)
     WoWTools_DataMixin:Hook('CompactRaidFrameManager_Expand', function()
         if CompactRaidFrameManager:CanChangeAttribute() then
             CompactRaidFrameManager:ClearAllPoints()
@@ -638,9 +604,8 @@ function WoWTools_MoveMixin.Events:Blizzard_CompactRaidFrames()
             end
         end
         CompactRaidFrameManager.ResizeButton:SetShown(true)
-        self:Save().CompactRaidFrameManagerIsExpand= true--保存上次显或展开
+        self:Save().CompactRaidFrameManagerIsExpand= true
     end)
---收起
     WoWTools_DataMixin:Hook('CompactRaidFrameManager_Collapse', function()
         if CompactRaidFrameManager:CanChangeAttribute() then
             CompactRaidFrameManager:ClearAllPoints()
@@ -661,7 +626,6 @@ function WoWTools_MoveMixin.Events:Blizzard_CompactRaidFrames()
     end})
 
 
---保存上次显或展开
     if self:Save().CompactRaidFrameManagerIsExpand then
         WoWTools_DataMixin:Call('CompactRaidFrameManager_Expand')
     else

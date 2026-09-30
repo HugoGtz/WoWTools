@@ -3,7 +3,6 @@
 
 
 
---声望
 function WoWTools_TooltipMixin:Set_Faction(tooltip, factionID)--, frame)
     local info= not self:IsInCombatDisabled(tooltip)
             and canaccessvalue(factionID)
@@ -26,15 +25,12 @@ function WoWTools_TooltipMixin:Set_Faction(tooltip, factionID)--, frame)
 
 
     tooltip:AddDoubleLine(
---战团声望
         (C_Reputation.IsAccountWideReputation(factionID) and '|A:questlog-questtypeicon-account:0:0|a' or '')
---名称
         ..(
             info.friendshipID and 'friendshipID'
             or (info.isMajor and (WoWTools_L.JOURNEYS_RENOWN_LABEL))
             or (WoWTools_L.REPUTATION)
         )
---图标
         ..icon
         ..'|cffffffff'..info.factionID,
 
@@ -68,7 +64,7 @@ function WoWTools_TooltipMixin:Set_Faction(tooltip, factionID)--, frame)
     end
     
 
-    WoWTools_TooltipMixin:Set_Web_Link(tooltip, {type='faction', id=info.friendshipID or info.factionID, name=info.name, col=nil, isPetUI=false})--取得网页，数据链接
+    WoWTools_TooltipMixin:Set_Web_Link(tooltip, {type='faction', id=info.friendshipID or info.factionID, name=info.name, col=nil, isPetUI=false})
     tooltip:Show()
 end
 

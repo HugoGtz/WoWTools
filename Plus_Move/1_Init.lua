@@ -1,24 +1,21 @@
 
 
 local P_Save={
-    --disabledMove=true,--禁用移动
-    point={},--移动
-    SavePoint= true,--保存窗口,位置 (antes solo para el autor: los paneles volvían a su sitio sin explicación)
+    point={},
+    SavePoint= true,
 
-    --disabledZoom=true,--禁用缩放
-    scale={},--缩放 (antes 0.85 por defecto en ZoneAbilityFrame, UIWidgetPowerBarContainerFrame y BankFrame)
+    scale={},
     size={},
     disabledSize={
         ['WorldMapFrame']= true
     },
 
-    --notMoveAlpha=true,--是否设置，移动时，设置透明度
     alpha=0.5,
     disabledAlpha={},
 
     UIPanelWindows={},
-    Esc={['CooldownViewerSettings']=false},--1=移除, 2=添加
-    no={},--禁用
+    Esc={['CooldownViewerSettings']=false},
+    no={},
 
 
     --disablesWorldMapFrameSize= true
@@ -124,8 +121,8 @@ end
 
 
 local function Init()
-    WoWTools_MoveMixin:Init_AddButton()--添加，移动/缩放，按钮
-    WoWTools_MoveMixin:Init_Class_Power()--职业，能量条
+    WoWTools_MoveMixin:Init_AddButton()
+    WoWTools_MoveMixin:Init_Class_Power()
 
     for name, func in pairs(WoWTools_MoveMixin.Events) do
         if C_AddOns.IsAddOnLoaded(name) and func then

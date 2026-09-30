@@ -1,31 +1,23 @@
 local P_Save={
 
-    linkIcon=true, --超链接，图标
-    --notShowPlayerInfo=true,--不处理，玩家信息
+    linkIcon=true,
     showCVarName=nil,
 
-    channels={--频道名称替换 
-        --['世界'] = '[世]',
+    channels={
     },
-    disabledKeyColor= true,--禁用，内容颜色，和频道名称替换
+    disabledKeyColor= true,
 
-    --groupWelcomeText= WoWTools_DataMixin.Player.IsCN and '{rt1}欢迎{rt1}' or '{rt1}Hi{rt1}',
 
-    --guildWelcomeText= WoWTools_DataMixin.Player.IsCN and '宝贝，欢迎你加入' or EMOTE103_CMD1:gsub('/',''),
 
-    welcomeOnlyHomeGroup=true,--仅限, 手动组队
+    welcomeOnlyHomeGroup=true,
 
     Cvar={},
-    --disabledNPCTalking=true,--禁用，隐藏NPC发言    
 
-    not_Add_Reload_Button= true,--添加 RELOAD 按钮
-    autoHideTableAttributeDisplay=true,--自动关闭，Fstack
+    not_Add_Reload_Button= true,
+    autoHideTableAttributeDisplay=true,
 
-    --hideEventTracePlus=true 隐藏 EventTrace Plus
-    --eventTracePrint 事件输出
 
-    showCopyChatButton=true,--显示 复制聊天 按钮
-    --copyChatSetText=nil,--处理，文本
+    showCopyChatButton=true,
 
 }
 
@@ -67,10 +59,9 @@ local function Init()
         end
     end
 
-    WoWTools_HyperLink:Init_Link_Icon()--超链接，图标
-    WoWTools_HyperLink:Init_Event_Sound()--播放, 事件声音
+    WoWTools_HyperLink:Init_Link_Icon()
+    WoWTools_HyperLink:Init_Event_Sound()
 
---聊天频道，名称 增强
     WoWTools_DataMixin:Hook(ChannelRosterButtonMixin, 'UpdateName', function(self)
         if self:IsLocalPlayer() then
             local region= WoWTools_RealmMixin:Get_Region(WoWTools_DataMixin.Player.Realm)
@@ -87,28 +78,21 @@ local function Init()
             local name= self:GetMemberName()
             if canaccessvalue(name) and name then
                 local t=''
---欧美，服务器语言
                 local region= WoWTools_RealmMixin:Get_Region(name:match('%-(.+)') or '', guid)
                 if region then
                     t= t..region.col
                 end
---种族
                 t= t..(WoWTools_UnitMixin:GetRaceIcon(nil, guid) or '')
---职业
                 t= t..(WoWTools_UnitMixin:GetClassIcon(nil, guid) or '')
---等级
                 local data= WoWTools_DataMixin.PlayerInfo[guid]
                 if data then
---专精
                     if data.specID then
                         t= t..'|T'..(select(4, GetSpecializationInfoByID(data.specID)) or 0)..':0|t'
                     end
---装等
                     if data.itemLevel then
                         t= t..'|cnGREEN_FONT_COLOR:[|r|cffffffff'..data.itemLevel..'|r|cnGREEN_FONT_COLOR:]|r'
                     end
                 end
---处理，服务器名称
                 if name:find('%-') then
                     if name:find('%-'..WoWTools_DataMixin.Player.Realm) then
                         t= t..name:gsub('%-'..WoWTools_DataMixin.Player.Realm, '')
@@ -139,18 +123,16 @@ panel:SetScript('OnEvent', function(self, event, arg1)
             P_Save=nil
 
             Save().disabledTalkingPringText= nil
-            WoWToolsPlusSave['ChatButton_Markers']= nil--12.0不能用了
+            WoWToolsPlusSave['ChatButton_Markers']= nil
 
             WoWToolsPlusPlayerDate['HyperLinkColorText']= WoWToolsPlusPlayerDate['HyperLinkColorText'] or {[ACHIEVEMENTS]=true}
-            WoWToolsPlusPlayerDate['HyperLinkGuildWelcomeText']= WoWToolsPlusPlayerDate['HyperLinkGuildWelcomeText'] or (WoWTools_DataMixin.Player.IsCN and '欢迎' or EMOTE103_CMD1:gsub('/',''))
-            WoWToolsPlusPlayerDate['HyperLinkGroupWelcomeText']= WoWToolsPlusPlayerDate['HyperLinkGroupWelcomeText'] or (WoWTools_DataMixin.Player.IsCN and '{rt1}欢迎{rt1}' or '{rt1}Hi{rt1}')
 
             WoWTools_HyperLink.addName= '|A:voicechat-icon-STT-on:0:0|a'..(WoWTools_L['COMMUNITIES_INVITE_MANAGER_COLUMN_TITLE_LINK+EMBLEM_SYMBOL'])
 
 
             if WoWTools_ChatMixin:CreateButton('HyperLink', WoWTools_HyperLink.addName) then
                 Init()
-                self:RegisterEvent('PLAYER_ENTERING_WORLD')--需要这个，表情，中文化，需要这个
+                self:RegisterEvent('PLAYER_ENTERING_WORLD')
             else
 
                 self:SetScript('OnEvent', nil)
@@ -159,8 +141,7 @@ panel:SetScript('OnEvent', function(self, event, arg1)
         end
 
     elseif event=='PLAYER_ENTERING_WORLD' then
-        --WoWTools_HyperLink:Init_NPC_Talking()--隐藏NPC发言
-        WoWTools_HyperLink:Init_Reload()--添加 RELOAD 按钮
+        WoWTools_HyperLink:Init_Reload()
         --WoWTools_HyperLink:Init_EmojiButton()
         --WoWTools_HyperLink:Init_CopyChat()
     end

@@ -7,57 +7,43 @@ WoWTools_ItemLocationMixin={
 
 
 
---清除
 function WoWTools_ItemLocationMixin:Clear()
     self.itemLocation={}
 end
---是否，有数扰
 function WoWTools_ItemLocationMixin:HasAnyLocation()
 	return self:IsEquipmentSlot() or self:IsBagAndSlot();
 end
---是否，存在，物品
 function WoWTools_ItemLocationMixin:IsValid()
 	if self:HasAnyLocation() then
 		return C_Item.DoesItemExist(self.itemLocation)
 	end
 end
 
---设置，背包，bagID, slotIndex
 function WoWTools_ItemLocationMixin:SetBagAndSlot(bagID, slotIndex)
 	self:Clear();
 	self.itemLocation.bagID = bagID;
 	self.itemLocation.slotIndex = slotIndex;
 end
---得到，背包，bagID, slotIndex
 function WoWTools_ItemLocationMixin:GetBagAndSlot()
 	return self.itemLocation.bagID, self.itemLocation.slotIndex
 end
---是否，背包
 function WoWTools_ItemLocationMixin:IsBagAndSlot()
 	return self.itemLocation.bagID ~= nil and self.itemLocation.slotIndex ~= nil;
 end
---是否是，当前背包，位置
 
 
 
---设置，装备槽
---得到，装备槽
 function WoWTools_ItemLocationMixin:GetEquipmentSlot()
 	return self.itemLocation.equipmentSlotIndex;
 end
---是否，装备槽
 function WoWTools_ItemLocationMixin:IsEquipmentSlot()
 	return self.itemLocation.equipmentSlotIndex ~= nil;
 end
---是否，装备到批定槽
 
 
---是装备到其它 槽
 
 
---背包，信息
 
---取得，背包或装备 ID
 function WoWTools_ItemLocationMixin:GetItemID()
 	if self:IsValid() then
 		if self:IsBagAndSlot() then
@@ -68,7 +54,6 @@ function WoWTools_ItemLocationMixin:GetItemID()
 	end
 end
 
---背包或装备 ItemLink
 function WoWTools_ItemLocationMixin:GetItemLink()
 	if self:IsValid() then
 		if self:IsBagAndSlot() then
@@ -79,7 +64,6 @@ function WoWTools_ItemLocationMixin:GetItemLink()
 	end
 end
 
---背包或装备 数量
 function WoWTools_ItemLocationMixin:GetItemCount()
 	local count
 	if self:IsValid() then
@@ -98,7 +82,6 @@ function WoWTools_ItemLocationMixin:GetItemCount()
 	return count or 0, text
 end
 
---物品冷却 start, duration, enable
 function WoWTools_ItemLocationMixin:GetItemCooldown()
 	if self:IsValid() then
 		if self:IsBagAndSlot() then
@@ -110,7 +93,6 @@ function WoWTools_ItemLocationMixin:GetItemCooldown()
 	end
 end
 
---物品冷却 start, duration, enable
 function WoWTools_ItemLocationMixin:GetItemQuality()
 	if self:IsValid() then
 		if self:IsBagAndSlot() then
@@ -124,9 +106,7 @@ function WoWTools_ItemLocationMixin:GetItemQuality()
 	end
 end
 
---物品名称, name, WoWTools_TextMixin:CN(name)
 
---物品名称, name, WoWTools_TextMixin:CN(name)
 function WoWTools_ItemLocationMixin:GetItemName(isText)
 	if self:IsValid() then
 		local itemID= self:GetItemID()

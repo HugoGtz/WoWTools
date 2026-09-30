@@ -1,4 +1,3 @@
---受限模式
 WoWTools_MailMixin={}
 
 
@@ -8,7 +7,6 @@ local function Save()
 end
 
 
---设置，发送名称
 function WoWTools_MailMixin:SetSendName(name, guid)
     name= name or WoWTools_UnitMixin:GetFullName(nil, nil, guid)
     if not name then
@@ -27,13 +25,12 @@ function WoWTools_MailMixin:SetSendName(name, guid)
     end)
 end
 
---名称，信息
 function WoWTools_MailMixin:GetNameInfo(name)
     if not name then
         return
     end
     local reName
-    name = WoWTools_UnitMixin:GetFullName(name)--取得全名
+    name = WoWTools_UnitMixin:GetFullName(name)
     for guid, tab in pairs(WoWToolsPlus_WoWDate) do
         if name== WoWTools_UnitMixin:GetFullName(nil, nil, guid) then
             reName= WoWTools_UnitMixin:GetPlayerInfo(nil, guid, nil, {faction=tab.faction, reName=true, realm=true})
@@ -45,7 +42,6 @@ function WoWTools_MailMixin:GetNameInfo(name)
 end
 
 
---服务器，信息
 function WoWTools_MailMixin:GetRealmInfo(name)
     if not name then
         return
@@ -69,25 +65,24 @@ function WoWTools_MailMixin:RefreshAll()
 end
 
 
---初始
 local function Init()--SendMailNameEditBox
     --rellenar con lo último enviado solo si el jugador activó guardarlo (logSendInfo)
-    if Save().logSendInfo and Save().lastSendPlayer then--收件人
-        WoWTools_MailMixin:SetSendName(Save().lastSendPlayer)--设置，发送名称，文
+    if Save().logSendInfo and Save().lastSendPlayer then
+        WoWTools_MailMixin:SetSendName(Save().lastSendPlayer)
     end
 
-    if Save().logSendInfo and Save().lastSendSub then--主题
+    if Save().logSendInfo and Save().lastSendSub then
         SendMailSubjectEditBox:SetText(Save().lastSendSub)
     end
 
-    if Save().logSendInfo and Save().lastSendBody then--内容
+    if Save().logSendInfo and Save().lastSendBody then
         SendMailBodyEditBox:SetText(Save().lastSendBody)
     end
     SendMailNameEditBox:ClearFocus()
 
     if not Save().notAutoToSendFrame and not GameLimitedMode_IsActive() then
         C_Timer.After(Save().autoToSendFrameSecond or 1, function()
-            if GetInboxNumItems()==0 then--如果没有信，转到，发信
+            if GetInboxNumItems()==0 then
                 MailFrameTab_OnClick(nil, 2)
             end
         end)
@@ -95,21 +90,17 @@ local function Init()--SendMailNameEditBox
 
     WoWTools_MailMixin:Init_Menu_Button()
 
---收件箱 Plus
-    WoWTools_MailMixin:Init_InBox()--收信箱，物品，提示
+    WoWTools_MailMixin:Init_InBox()
 
 --UI Plus
-    WoWTools_MailMixin:Init_Edit_Letter_Num()--字数
-    WoWTools_MailMixin:Init_Clear_All_Send_Items()--清除所有，要发送物品
+    WoWTools_MailMixin:Init_Edit_Letter_Num()
+    WoWTools_MailMixin:Init_Clear_All_Send_Items()
 
---名单列表
-    WoWTools_MailMixin:Init_Send_Name_List()--收件人，列表
+    WoWTools_MailMixin:Init_Send_Name_List()
 
 
---历史收件人
-    WoWTools_MailMixin:Init_Send_History_Name()--收件人，历史记录
+    WoWTools_MailMixin:Init_Send_History_Name()
 
---物品快捷键
     WoWTools_MailMixin:Init_Fast_Button()
 
     Init=function()end
@@ -125,35 +116,26 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         if arg1== 'WoWToolsPlus' then
 
             WoWToolsPlusSave['Plus_Mail']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Mail'], {
-                --hide=true,--隐藏
                 --hideUIPlus=true,
                 --hideSendNameList=true,
                 --hideHistoryList=true,
                 --hideItemButtonList=true
 
-                --notAutoToSendFrame=true,--自动转到，收件箱
                 --autoToSendFrameSecond=1,
 
-                lastSendPlayerList= {},--历史记录, {'名字-服务器',},
-                --hideSendPlayerList=true,--隐藏，历史记录
-                lastMaxSendPlayerList=20,--记录, 最大数
-                show={--显示离线成员
-                    ['FRIEND']=true,--好友
-                    --['GUILD']=true,--公会
+                lastSendPlayerList= {},
+                lastMaxSendPlayerList=20,
+                show={
+                    ['FRIEND']=true,
                 },
-                fast={},--快速，加载，物品，指定玩家
-                fastShow=true,--显示/隐藏，快速，加载，按钮
-                --scaleSendPlayerFrame=1.2,--清除历史数据，缩放
+                fast={},
+                fastShow=true,
                 scaleFastButton=1.3,
                 --INBOXITEMS_TO_DISPLAY=7,
-                --lastSendPlayer='Fuocco-server',--收件人
-                --lastSendSub=主题
-                --lastSendBody=内容
             })
 
             WoWTools_MailMixin.addName= '|A:UI-HUD-Minimap-Mail-Mouseover:0:0|a'..(WoWTools_L['Module.Mail'])
 
---添加控制面板
             WoWTools_PanelMixin:OnlyCheck({
                 name= WoWTools_MailMixin.addName,
                 GetValue= function() return not Save().disabled end,

@@ -22,7 +22,7 @@ end
 
 
 
-function WoWTools_SpellMixin:GetName(spellID)--取得法术，名称
+function WoWTools_SpellMixin:GetName(spellID)
     if not spellID then
         return
     end
@@ -32,7 +32,7 @@ function WoWTools_SpellMixin:GetName(spellID)--取得法术，名称
    WoWTools_DataMixin:Load(spellID, 'spell')
 
     local mountID = C_MountJournal.GetMountFromSpell(spellID)
-    if mountID then--坐骑
+    if mountID then
         if not select(11, C_MountJournal.GetMountInfoByID(mountID)) then
             col='|cnWARNING_FONT_COLOR:'
             desc='|A:Islands-QuestBangDisable:0:0|a'..(WoWTools_L.NOT_COLLECTED )

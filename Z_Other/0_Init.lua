@@ -51,7 +51,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
     WoWToolsPlusSave['Other']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Other'], {disabledADD={}})
 
---旧数据
     if WoWToolsPlusSave['Other_ClassMenuColor'] and WoWToolsPlusSave['Other_ClassMenuColor'].disabled then
         WoWTools_OtherMixin:Save().disabledADD.ClassMenuColor= true
         WoWToolsPlusSave['Other_ClassMenuColor'].disabled= nil

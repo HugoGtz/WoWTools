@@ -121,7 +121,6 @@ end
 
 
 
---缩放, 单行
 function WoWTools_MenuMixin:ScaleRoot(frame, root, GetValue, SetValue, ResetValue)
     local isLocked= WoWTools_FrameMixin:IsLocked(frame)
     root:CreateSpacer()
@@ -159,7 +158,6 @@ function WoWTools_MenuMixin:ScaleRoot(frame, root, GetValue, SetValue, ResetValu
 end
 
 
---缩放
 function WoWTools_MenuMixin:Scale(frame, root, GetValue, SetValue, ResetValue)
     local isLocked=  WoWTools_FrameMixin:IsLocked(frame)
     local sub= root:CreateButton(
@@ -249,7 +247,6 @@ function WoWTools_MenuMixin:FrameStrata(frame, root, GetValue, SetValue)
 end
 
 
---背景, 透明度
 function WoWTools_MenuMixin:BgAplha(root, GetValue, SetValue, RestFunc, onlyRoot)
     local sub, sub2
     if onlyRoot then
@@ -305,7 +302,6 @@ function WoWTools_MenuMixin:BgAplha(root, GetValue, SetValue, RestFunc, onlyRoot
 end
 
 
---重置位置
 function WoWTools_MenuMixin:RestPoint(frame, root, point, SetValue)
     local sub= root:CreateButton(
         '|A:characterundelete-RestoreButton:0:0|a'
@@ -318,7 +314,6 @@ function WoWTools_MenuMixin:RestPoint(frame, root, point, SetValue)
 end
 
 
---重置数据
 function WoWTools_MenuMixin:RestData(root, name, SetValue)
     local sub= root:CreateButton(
         '|A:bags-button-autosort-up:0:0|a'
@@ -331,7 +326,6 @@ function WoWTools_MenuMixin:RestData(root, name, SetValue)
     return sub
 end
 
---重新加载UI
 function WoWTools_MenuMixin:Reload(root, isControlKeyDown)
     local sub=root:CreateButton(
         '|TInterface\\Vehicles\\UI-Vehicles-Button-Exit-Up:0|t'
@@ -371,8 +365,8 @@ function WoWTools_MenuMixin:ToTop(frame, root, tab)
             tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
         end
     end)
-    if tab.isReload then--重新加载UI
-        WoWTools_MenuMixin:Reload(sub)--重新加载UI
+    if tab.isReload then
+        WoWTools_MenuMixin:Reload(sub)
     end
 end
 
@@ -393,7 +387,6 @@ end
 
 
 
---战团藏品
 function WoWTools_MenuMixin:OpenJournal(root, tab)
     local sub=root:CreateButton(
         (tab.icon or '|A:OptionsIcon-Brown:0:0|a')..(tab.name or (WoWTools_L.COLLECTIONS)),
@@ -422,7 +415,7 @@ end
 --if tab.index== PlayerSpellsUtil.FrameTabs.ClassSpecializations then--1
 --PlayerSpellsUtil.OpenToSpellBookTab() bug
 
-function WoWTools_MenuMixin:OpenSpellBook(root, index)--天赋和法术书
+function WoWTools_MenuMixin:OpenSpellBook(root, index)
     index= index or 1
     local isSpellBook= index==3
 
@@ -445,7 +438,6 @@ end
 
 
 
---驭空术，return 名称，点数 11.2.7 没有了
 function WoWTools_MenuMixin:GetDragonriding()
     local dragonridingConfigID = C_Traits.GetConfigIDBySystemID(1);
     if dragonridingConfigID then
@@ -460,7 +452,6 @@ function WoWTools_MenuMixin:GetDragonriding()
     end
 end
 
---驭空术 TraitUtil.OpenTraitFrame(Constants.MountDynamicFlightConsts.TREE_ID)
 function WoWTools_MenuMixin:OpenDragonriding(root)
     local configID = C_Traits.GetConfigIDByTreeID(Constants.MountDynamicFlightConsts.TREE_ID);
     local uiWidgetSetID = configID and C_Traits.GetTraitSystemWidgetSetID(configID) or nil
@@ -473,7 +464,7 @@ function WoWTools_MenuMixin:OpenDragonriding(root)
         function()
             if not DragonridingUtil.IsDragonridingTreeOpen() then
                 GenericTraitUI_LoadUI()
-                if GenericTraitFrame.SetConfigIDBySystemID then--11.2.7才有
+                if GenericTraitFrame.SetConfigIDBySystemID then
                     GenericTraitFrame:SetConfigIDBySystemID(Constants.MountDynamicFlightConsts.TRAIT_SYSTEM_ID)
                     GenericTraitFrame:SetTreeID(Constants.MountDynamicFlightConsts.TREE_ID)
                 else
@@ -550,7 +541,6 @@ function WoWTools_MenuMixin:ClearAll(root, SetValue)
 end
 
 
---文本转语音
 function WoWTools_MenuMixin:TTsMenu(root)
     local sub= self:CVar(root, 'textToSpeech', '|A:chatframe-button-icon-TTS:0:0|a'..(WoWTools_L.TEXT_TO_SPEECH), '/tts')
     if sub then
@@ -564,7 +554,6 @@ function WoWTools_MenuMixin:TTsMenu(root)
 end
 
 
---仅支持 0 1
 function WoWTools_MenuMixin:CVar(root, name, showName, tooltip, eventFunc)
     local value, defaultValue= C_CVar.GetCVarInfo(name)
     if not value then
@@ -613,7 +602,7 @@ function WoWTools_MenuMixin:CVar(root, name, showName, tooltip, eventFunc)
     return sub
 end
 
-function WoWTools_MenuMixin:SetRightText(root)--rightText，rightColor
+function WoWTools_MenuMixin:SetRightText(root)
     root:AddInitializer(function(btn, desc)
         local rightText= desc.data and desc.data.rightText
         if not rightText then

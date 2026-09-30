@@ -1,5 +1,4 @@
 
---任务目标，类型提示
 local function Init()
     WoWTools_DataMixin:Hook('QuestInfo_Display', function()
         if not WoWToolsPlusSave['Plus_Gossip'].quest then

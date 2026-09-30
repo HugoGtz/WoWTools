@@ -6,7 +6,6 @@ local MAX_GUILDBANK_SLOTS_PER_TAB= 98
 local StopRun
 
 
---提取
 local function Check_Bank_Item(tabID, slotID, classID, subClassID, onlyItem)
     local itemLink= GetGuildBankItemLink(tabID, slotID)
     local locked, isFiltered = select(3, GetGuildBankItemInfo(tabID, slotID))
@@ -27,11 +26,9 @@ local function Check_Bank_Item(tabID, slotID, classID, subClassID, onlyItem)
 end
 
 
---提取
---numOut 可提取：数字，true无限，false禁用
 local function Out_Bank(self, tabID, classID, subClassID, onlyItem, numOut)
-    if WoWTools_GuildBankMixin.isInRun then--禁用，按钮移动事件
-        StopRun=true--停止，已运行
+    if WoWTools_GuildBankMixin.isInRun then
+        StopRun=true
         return
     end
 
@@ -125,7 +122,6 @@ local function Get_Bank_Num(tabID, classID, subClassID, onlyItem)
 end
 
 
---存放
 local function Check_Bag_Item(itemInfo, classID, subClassID, onlyItem)
     if not itemInfo or not itemInfo.itemID then
         return
@@ -146,10 +142,9 @@ local function Check_Bag_Item(itemInfo, classID, subClassID, onlyItem)
 end
 
 
---存放
 local function Out_Bags(self, tabID, classID, subClassID, onlyItem)
-    if WoWTools_GuildBankMixin.isInRun then--禁用，按钮移动事件
-        StopRun=true--停止，已运行
+    if WoWTools_GuildBankMixin.isInRun then
+        StopRun=true
         return
     end
 
@@ -326,10 +321,8 @@ local function Set_ItemList_Tooltip(sub, description)
 end
 
 
---生成,物品列表
 local function Init_SubMenu(self, root, tabID, isOut, numOutorIn, onlyItem, title)
     local sub
---物品
     if onlyItem  then
         for _, classID in pairs({0, 1, 2, 3, 4, 5, 7, 8, 9, 12, 13, 15, 16, 17, 19}) do
             local num, items
@@ -346,9 +339,9 @@ local function Init_SubMenu(self, root, tabID, isOut, numOutorIn, onlyItem, titl
                 ..WoWTools_TextMixin:CN(C_Item.GetItemClassInfo(classID))
                 ..' #'..num,
             function(data)
-                if isOut then--提取
+                if isOut then
                     Out_Bank(self, tabID, data.classID, nil, onlyItem, numOutorIn)
-                else--存放
+                else
                     Out_Bags(self, tabID, data.classID, nil, onlyItem)
                 end
                 return MenuResponse.Open
@@ -356,7 +349,6 @@ local function Init_SubMenu(self, root, tabID, isOut, numOutorIn, onlyItem, titl
             Set_ItemList_Tooltip(sub)
         end
     else
---材料
         for subClassID= 1, 20 do
             local num, items
             if isOut then
@@ -371,9 +363,9 @@ local function Init_SubMenu(self, root, tabID, isOut, numOutorIn, onlyItem, titl
                 ..WoWTools_TextMixin:CN(C_Item.GetItemSubClassInfo(7, subClassID))
                 ..' #'..num,
             function(data)
-                if isOut then--提取
+                if isOut then
                     Out_Bank(self, tabID, 7, data.subClassID, onlyItem, numOutorIn)
-                else--存放
+                else
                     Out_Bags(self, tabID, 7, data.subClassID, onlyItem)
                 end
                 return MenuResponse.Open
@@ -387,13 +379,11 @@ local function Init_SubMenu(self, root, tabID, isOut, numOutorIn, onlyItem, titl
 end
 
 
---提取
---numOut 可提取：数字，true无限，false禁用
 local function Init_Out_Bank_Menu(self, root)
     if not self:IsMouseOver() then
         return
-    elseif WoWTools_GuildBankMixin.isInRun then--禁用，按钮移动事件
-        StopRun=true--停止，已运行
+    elseif WoWTools_GuildBankMixin.isInRun then
+        StopRun=true
     end
 
     local tabID= GetCurrentGuildBankTab()
@@ -403,7 +393,6 @@ local function Init_Out_Bank_Menu(self, root)
     local sub, name, num, items
     local disabled= numOut==false
 
---提取物品
     num, items= Get_Bank_Num(tabID, nil, nil, true)
     name= ((disabled or num==0) and '|cff828282' or '')
         ..'|A:Cursor_OpenHand_32:0:0|a'
@@ -421,7 +410,6 @@ local function Init_Out_Bank_Menu(self, root)
         Init_SubMenu(self, sub, tabID, true, numOut, true, name)
     end
 
---提取材料
     num, items= Get_Bank_Num(tabID, nil, nil, false)
     name= ((disabled or num==0) and '|cff828282' or '')
         ..'|A:Cursor_OpenHand_32:0:0|a'
@@ -441,13 +429,11 @@ local function Init_Out_Bank_Menu(self, root)
 end
 
 
---存放
---numIn 是否放入：true, false
 local function Init_Out_Bag_Menu(self, root)
     if not self:IsMouseOver() then
         return
-    elseif WoWTools_GuildBankMixin.isInRun then--禁用，按钮移动事件
-        StopRun=true--停止，已运行
+    elseif WoWTools_GuildBankMixin.isInRun then
+        StopRun=true
     end
 
     local tabID= GetCurrentGuildBankTab()
@@ -457,7 +443,6 @@ local function Init_Out_Bag_Menu(self, root)
     local sub, name, num, items
     local disabled= numIn==false
 
---存放物品
     num, items= Get_Bag_Num(nil, nil, true)
     name= ((disabled or num==0) and '|cff828282' or '')
         ..'|A:bag-main:0:0|a'
@@ -476,7 +461,6 @@ local function Init_Out_Bag_Menu(self, root)
         Init_SubMenu(self, sub, tabID, false, numIn, true, name)
     end
 
---存放材料
     num, items= Get_Bag_Num(nil, nil, false)
     name= ((disabled or num==0) and '|cff828282' or '')
         ..'|A:bag-main:0:0|a'

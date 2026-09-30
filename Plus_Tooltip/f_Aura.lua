@@ -29,7 +29,7 @@ function WoWTools_TooltipMixin:Set_All_Aura(tooltip, data)
     if mountID then
         WoWTools_TooltipMixin:Set_Mount(tooltip, mountID, 'aura')
     else
-        WoWTools_TooltipMixin:Set_Web_Link(tooltip, {type='spell', id=spellID, name=name, col=nil, isPetUI=false})--取得网页，数据链接
+        WoWTools_TooltipMixin:Set_Web_Link(tooltip, {type='spell', id=spellID, name=name, col=nil, isPetUI=false})
     end
 
     tooltip.Portrait:settings(icon)
@@ -38,7 +38,6 @@ end
 
 
 
---来源
 function WoWTools_TooltipMixin:Set_Buff(_, tooltip, ...)
     if self:IsInCombatDisabled(tooltip) then
         return

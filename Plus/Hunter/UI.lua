@@ -15,7 +15,6 @@ function WoWTools_MoveMixin.Events:Blizzard_StableUI()
 end
 
 
- --移动，缩放
 local function Init_MoveUI()
     StableFrame.PetModelScene:ClearAllPoints()
     StableFrame.PetModelScene:SetPoint('TOPLEFT', StableFrame, 330, -86)
@@ -78,10 +77,9 @@ local function Init_MoveUI()
     StableFrame.ActivePetList.ListName:ClearAllPoints()
     StableFrame.ActivePetList.ListName:SetPoint('BOTTOMLEFT', StableFrame.ActivePetList.ActivePetListBG, 'TOPLEFT',0,-6)
 
-    --激活栏，添加材质
     StableFrame.ActivePetList.ActivePetListBG:SetAtlas('wood-topper')
 
-    StableFrame.PetModelScene.PetInfo.NameBox.EditButton:SetHighlightAtlas('AlliedRace-UnlockingFrame-BottomButtonsSelectionGlow')--修该，名称
+    StableFrame.PetModelScene.PetInfo.NameBox.EditButton:SetHighlightAtlas('AlliedRace-UnlockingFrame-BottomButtonsSelectionGlow')
     StableFrame.PetModelScene.PetInfo.NameBox.EditButton:HookScript('OnLeave', GameTooltip_Hide)
     StableFrame.PetModelScene.PetInfo.NameBox.EditButton:HookScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
@@ -135,7 +133,7 @@ local function Set_BG(self, texture, alpha)
     StableFrame.PetModelScene.Inset.Bg:SetAlpha(alpha)
 
     local bgAlpha= texture and 1 or alpha or 1
-    for _, btn in ipairs(StableFrame.ActivePetList.PetButtons) do--已激，宠物栏，提示
+    for _, btn in ipairs(StableFrame.ActivePetList.PetButtons) do
         if btn.model and btn.model.bg then
             btn.model.bg:SetAlpha(bgAlpha)
         end

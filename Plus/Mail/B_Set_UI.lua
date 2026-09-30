@@ -1,7 +1,7 @@
-function WoWTools_MoveMixin.Events:Blizzard_MailFrame()--收信箱，物品，提示
+function WoWTools_MoveMixin.Events:Blizzard_MailFrame()
     local P_INBOXITEMS_TO_DISPLAY= INBOXITEMS_TO_DISPLAY--7
 
-    local function Set_Inbox_btn_Point(btn, index)--设置，模板，内容，位置
+    local function Set_Inbox_btn_Point(btn, index)
         if not btn then
             return
         end
@@ -25,19 +25,19 @@ function WoWTools_MoveMixin.Events:Blizzard_MailFrame()--收信箱，物品，�
         end
     end
 
-    local function Set_Inbox_Button()--显示，隐藏，建立，收件，物品
+    local function Set_Inbox_Button()
         for i=P_INBOXITEMS_TO_DISPLAY +1, INBOXITEMS_TO_DISPLAY, 1 do
             local btn= _G['MailItem'..i]
             if not btn then
                 btn= CreateFrame('Frame', 'MailItem'..i, InboxFrame, 'MailItemTemplate')
                 btn:SetPoint('TOPLEFT', _G['MailItem'..(i-1)], 'BOTTOMLEFT')
-                Set_Inbox_btn_Point(btn, i)--设置，模板，内容，位置
+                Set_Inbox_btn_Point(btn, i)
             end
 
             btn:SetShown(true)
         end
 
-        local index= INBOXITEMS_TO_DISPLAY+1--隐藏    
+        local index= INBOXITEMS_TO_DISPLAY+1
         while _G['MailItem'..index] do
             local btn= _G['MailItem'..index]
             btn:SetShown(false)
@@ -50,7 +50,7 @@ function WoWTools_MoveMixin.Events:Blizzard_MailFrame()--收信箱，物品，�
 
     if self:Save().INBOXITEMS_TO_DISPLAY then
         INBOXITEMS_TO_DISPLAY= self:Save().INBOXITEMS_TO_DISPLAY
-        Set_Inbox_Button()--显示，隐藏，建立，收件，物品    
+        Set_Inbox_Button()
     end
 
     WoWTools_MoveMixin:Setup(MailFrame, {
@@ -62,7 +62,7 @@ function WoWTools_MoveMixin.Events:Blizzard_MailFrame()--收信箱，物品，�
             num= num+ math.modf(h/45)
         end
         INBOXITEMS_TO_DISPLAY=num
-        Set_Inbox_Button()--显示，隐藏，建立，收件，物品
+        Set_Inbox_Button()
         self:Save().INBOXITEMS_TO_DISPLAY= num>P_INBOXITEMS_TO_DISPLAY and num or nil
         WoWTools_MailMixin:RefreshAll()
     end,
@@ -70,7 +70,7 @@ function WoWTools_MoveMixin.Events:Blizzard_MailFrame()--收信箱，物品，�
         f:SetSize(338, 424)
         self:Save().INBOXITEMS_TO_DISPLAY=nil
         INBOXITEMS_TO_DISPLAY= P_INBOXITEMS_TO_DISPLAY
-        Set_Inbox_Button()--显示，隐藏，建立，收件，物品
+        Set_Inbox_Button()
         WoWTools_MailMixin:RefreshAll()
     end})
 
@@ -78,20 +78,18 @@ function WoWTools_MoveMixin.Events:Blizzard_MailFrame()--收信箱，物品，�
     WoWTools_MoveMixin:Setup(OpenMailFrame)
 
 
---收件箱
     InboxFrame:SetPoint('RIGHT')
     for i= 1, INBOXITEMS_TO_DISPLAY do--7
-        Set_Inbox_btn_Point(_G['MailItem'..i], i)--设置，模板，内容，位置
+        Set_Inbox_btn_Point(_G['MailItem'..i], i)
     end
 
     InboxFrame:SetPoint('BOTTOMRIGHT')
     InboxPrevPageButton:ClearAllPoints()
     InboxPrevPageButton:SetPoint('BOTTOMLEFT', 10, 10)
     InboxNextPageButton:SetPoint('BOTTOMRIGHT', -10, 10)
-    OpenAllMail:ClearAllPoints()--全部打开
+    OpenAllMail:ClearAllPoints()
     OpenAllMail:SetPoint('BOTTOM', 0, 10)
 
---发件箱
     SendMailFrame:SetPoint('BOTTOMRIGHT', 384-338, 424-512)
     SendMailHorizontalBarLeft:ClearAllPoints()
     SendMailHorizontalBarLeft:SetPoint('BOTTOMLEFT', SendMailMoneyButton, 'TOPLEFT', -14, -4)
@@ -106,7 +104,7 @@ function WoWTools_MoveMixin.Events:Blizzard_MailFrame()--收信箱，物品，�
 
     SendMailBodyEditBox:SetPoint('BOTTOMRIGHT', SendMailScrollFrame)
 
-    SendMailSubjectEditBox:SetPoint('RIGHT', MailFrame, -28, 0)--主题
+    SendMailSubjectEditBox:SetPoint('RIGHT', MailFrame, -28, 0)
     SendMailSubjectEditBoxMiddle:SetPoint('RIGHT', -8, 0)
     SendMailNameEditBox:SetPoint("TOPLEFT", 80, -30)
     SendMailNameEditBox:SetPoint('RIGHT', -75, -30)
@@ -120,7 +118,7 @@ function WoWTools_MoveMixin.Events:Blizzard_MailFrame()--收信箱，物品，�
     SendMailBodyEditBox:HookScript('OnEditFocusLost', function()
         SendMailCostMoneyFrame:Show()
     end)
-    SendMailCostMoneyFrame:SetScript('OnLeave', GameTooltip_Hide)--隐藏， 邮资：，文本
+    SendMailCostMoneyFrame:SetScript('OnLeave', GameTooltip_Hide)
     SendMailCostMoneyFrame:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
@@ -143,7 +141,6 @@ function WoWTools_MoveMixin.Events:Blizzard_MailFrame()--收信箱，物品，�
 
 
 
---收件人：
     for _, region in pairs({SendMailNameEditBox:GetRegions()}) do
         if region:IsObjectType('FontString') and region:GetText()==MAIL_TO_LABEL then
             region:SetText('')
@@ -157,11 +154,10 @@ function WoWTools_MoveMixin.Events:Blizzard_MailFrame()--收信箱，物品，�
     SendMailNameEditBox:HookScript('OnTextChanged', function(s)
         s.Instructions:SetShown(s:GetText() == "")
     end)
---主题
     for _, region in pairs({SendMailSubjectEditBox:GetRegions()}) do
         if region:IsObjectType('FontString')  then
             local text= region:GetText()
-            if text==MAIL_SUBJECT_LABEL or text=='主题：' then
+            if text==MAIL_SUBJECT_LABEL then
                 region:SetText('')
                 break
             end
@@ -183,7 +179,6 @@ function WoWTools_MoveMixin.Events:Blizzard_MailFrame()--收信箱，物品，�
         end
     end)
 
-    --12.2.7 中 会重叠
     SendMailSendMoneyButton:SetPoint('TOPLEFT', SendMailMoney,'TOPRIGHT', 7, 12)--<Anchor point="TOPLEFT" relativeTo="SendMailMoney" relativePoint="TOPRIGHT" x="0" y="12"/>
 end
 
@@ -203,4 +198,3 @@ end
 
 
 
---信箱

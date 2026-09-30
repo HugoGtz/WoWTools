@@ -61,10 +61,8 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         if arg1== 'WoWToolsPlus' then
 
             WoWToolsPlusSave['Plus_Holiday']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Holiday'], {
-                onGoing=true,--仅限: 正在活动
+                onGoing=true,
                 disabled= true
-                --toTopTrack=true,--向上
-                --showDate= true,--时间
             })
 
             WoWTools_HolidayMixin.addName= '|A:GarrisonTroops-Health:0:0|a'..(WoWTools_L['Module.Holidays'])

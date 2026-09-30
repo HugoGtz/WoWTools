@@ -1,4 +1,3 @@
---专业
 --lizzard_Professions.lua
 function WoWTools_TooltipMixin.Events:Blizzard_Professions()
     WoWTools_DataMixin:Hook(Professions, 'SetupProfessionsCurrencyTooltip', function(currencyInfo)
@@ -7,13 +6,12 @@ function WoWTools_TooltipMixin.Events:Blizzard_Professions()
             local currencyTypesID = nodeID and Professions.GetCurrencyTypesID(nodeID)
             if currencyTypesID then
                 GameTooltip_AddBlankLineToTooltip(GameTooltip)
-                self:Set_Currency(GameTooltip, currencyTypesID)--货币
+                self:Set_Currency(GameTooltip, currencyTypesID)
                 GameTooltip:AddDoubleLine('nodeID', '|cffffffff'..nodeID..'|r')
             end
         end
     end)
 
-    --专精，技能，查询
     WoWTools_DataMixin:Hook(ProfessionsSpecPathMixin, 'OnEnter', function(f)
         if f.nodeID then--f.nodeInfo.ID
             GameTooltip:AddLine(' ')
@@ -46,7 +44,6 @@ function WoWTools_TooltipMixin.Events:Blizzard_RemixArtifactUI()
     end)
 
 
---需要花费，提示
     local function Setup_Coat(frame, treeID)
         if not treeID or not frame:IsShown() then
             return
@@ -143,7 +140,6 @@ function WoWTools_TooltipMixin.Events:Blizzard_RemixArtifactUI()
     end)
 
 
---学习, 还原 按钮
     local b= WoWTools_ButtonMixin:Cbtn(RemixArtifactFrame.CloseButton, {
         atlas='common-dropdown-icon-play',
         size=23,
@@ -185,7 +181,6 @@ function WoWTools_TooltipMixin.Events:Blizzard_RemixArtifactUI()
         end
     end)
 
---为最高级，添加 一键升级按钮
 C_Timer.After(0.5, function()
     for btn in RemixArtifactFrame:EnumerateAllTalentButtons() do
         local data= btn:GetNodeInfo() or {}
@@ -243,7 +238,6 @@ function WoWTools_TooltipMixin.Events:Blizzard_PlayerChoice()
 end
 
 
---要塞，技能树
 function WoWTools_TooltipMixin.Events:Blizzard_OrderHallUI()
 
     WoWTools_DataMixin:Hook(GarrisonTalentButtonMixin, 'OnEnter', function(f)--Blizzard_OrderHallTalents.lua
@@ -258,7 +252,7 @@ function WoWTools_TooltipMixin.Events:Blizzard_OrderHallUI()
         end
         WoWTools_TooltipMixin:Show()
     end)
-    WoWTools_DataMixin:Hook(GarrisonTalentButtonMixin, 'SetTalent', function(f)--是否已激活, 和等级
+    WoWTools_DataMixin:Hook(GarrisonTalentButtonMixin, 'SetTalent', function(f)
         local info= f.talent
         if not info or not info.id then
             return
@@ -329,7 +323,6 @@ function WoWTools_TooltipMixin.Events:Blizzard_GenericTraitUI()
 end
 
 
---挑战, AffixID
 function WoWTools_TooltipMixin.Events:Blizzard_ChallengesUI()
     WoWTools_DataMixin:Hook(ChallengesKeystoneFrameAffixMixin, 'OnEnter',function(f)
         if not f.affixID then
@@ -349,14 +342,13 @@ function WoWTools_TooltipMixin.Events:Blizzard_ChallengesUI()
             GameTooltip:AddLine(description, nil, nil, nil, true)
         end
         GameTooltip:AddDoubleLine('affixID '..f.affixID, filedataid and '|T'..filedataid..':0|t'..filedataid or ' ')
-        self:Set_Web_Link(GameTooltip, {type='affix', id=f.affixID, name=name, isPetUI=false})--取得网页，数据链接
+        self:Set_Web_Link(GameTooltip, {type='affix', id=f.affixID, name=name, isPetUI=false})
         WoWTools_TooltipMixin:Show()
         --GameTooltip:Show()
     end)
 end
 
 
---商店
 function WoWTools_TooltipMixin.Events:Blizzard_AccountStore()
     WoWTools_DataMixin:Hook(AccountStoreBaseCardMixin, 'OnEnter', function(frame)
         local info= frame.itemInfo
@@ -376,7 +368,6 @@ function WoWTools_TooltipMixin.Events:Blizzard_AccountStore()
         tooltip:Show()
     end)
 
---霸业商店
     AccountStoreFrame.StoreDisplay.Footer.CurrencyAvailable:HookScript('OnEnter', function()
         local accountStoreCurrencyID = C_AccountStore.GetCurrencyIDForStore(Constants.AccountStoreConsts.PlunderstormStoreFrontID);
         if accountStoreCurrencyID then
@@ -415,9 +406,8 @@ function WoWTools_TooltipMixin.Events:Blizzard_OverrideActionBar()
 end
 
 
---挑战, AffixID Blizzard_ScenarioObjectiveTracker.lua
 function WoWTools_TooltipMixin.Events:Blizzard_ObjectiveTracker()
-    WoWTools_DataMixin:Hook(ScenarioChallengeModeAffixMixin, 'OnEnter', function(frame)--ScenarioObjectiveTracker 12.0 才有
+    WoWTools_DataMixin:Hook(ScenarioChallengeModeAffixMixin, 'OnEnter', function(frame)
         if frame.affixID then
             local name, description, filedataid = C_ChallengeMode.GetAffixInfo(frame.affixID)
             GameTooltip_SetTitle(GameTooltip, WoWTools_TextMixin:CN(name), nil, true)
@@ -426,7 +416,7 @@ function WoWTools_TooltipMixin.Events:Blizzard_ObjectiveTracker()
                 filedataid and '|T'..filedataid..':'..WoWTools_TooltipMixin.iconSize..'|t|cffffffff'..filedataid,
                 'affixID|cffffffff'..WoWTools_DataMixin.Icon.icon2..frame.affixID
             )
-            WoWTools_TooltipMixin:Set_Web_Link(GameTooltip, {type='affix', id=frame.affixID, name=name, isPetUI=false})--取得网页，数据链接
+            WoWTools_TooltipMixin:Set_Web_Link(GameTooltip, {type='affix', id=frame.affixID, name=name, isPetUI=false})
             GameTooltip:Show()
         end
     end)

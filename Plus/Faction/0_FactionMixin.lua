@@ -16,7 +16,6 @@ function WoWTools_FactionMixin:GetInfo(factionID, toLeft)
     local isMajor = C_Reputation.IsMajorFaction(factionID)
     local data= C_Reputation.GetFactionDataByID(factionID)
 
---没有声望，标题
     if data then
         if data.isHeader and not data.isHeaderWithRep or not data.factionID then
             return {}
@@ -29,13 +28,12 @@ function WoWTools_FactionMixin:GetInfo(factionID, toLeft)
     local name, factionStandingtext, value, texture, atlas, barColor, isCapped, isUnlocked, expansionID, xp
     local toRight= not toLeft
 
---个人声望
     local friendshipID
     local repInfo = C_GossipInfo.GetFriendshipReputation(factionID)
     if repInfo and repInfo.friendshipFactionID and repInfo.friendshipFactionID> 0 then
 
         name= repInfo.name
-        texture=repInfo.texture--图标
+        texture=repInfo.texture
         friendshipID= repInfo.friendshipFactionID
         isCapped= not repInfo.nextThreshold
         isUnlocked= true
@@ -52,7 +50,6 @@ function WoWTools_FactionMixin:GetInfo(factionID, toLeft)
             value= format('|A:GarrMission_CurrencyIcon-Xp:0:0|a%i%%', currentExperience/nextLevelAt*100)
         end
 
---名望
     elseif isMajor then
         local major = C_MajorFactions.GetMajorFactionData(factionID)
         if major then
@@ -116,9 +113,8 @@ function WoWTools_FactionMixin:GetInfo(factionID, toLeft)
 
 
 
-    local isParagon = C_Reputation.IsFactionParagon(factionID)--巅峰声望
+    local isParagon = C_Reputation.IsFactionParagon(factionID)
     local hasRewardPending
---是否有，奖励
     if isParagon and isUnlocked and isCapped then
         local currentValue, threshold, questID, hasReward, tooLowLevelForParagon, paragonStorageLevel = C_Reputation.GetFactionParagonInfo(factionID)
 
@@ -133,7 +129,6 @@ function WoWTools_FactionMixin:GetInfo(factionID, toLeft)
             hasRewardPending= hasRewardPending or format('|A:GarrMission-%sChest:0:0|a', WoWTools_DataMixin.Player.Faction)
         end
     
-        --本周已满
         if C_MajorFactions.IsWeeklyRenownCapped(factionID) then
             barColor= WARNING_FONT_COLOR
             value= WoWTools_L['Capped this week']
@@ -141,16 +136,15 @@ function WoWTools_FactionMixin:GetInfo(factionID, toLeft)
 
         elseif currentValue and threshold then
 
-            local completed= paragonStorageLevel or math.modf(currentValue/threshold)--完成次数
+            local completed= paragonStorageLevel or math.modf(currentValue/threshold)
             currentValue= completed>0 and currentValue - threshold * completed or currentValue
 
-            if toRight then--向右平移 
+            if toRight then
                 value= format('%i%%', currentValue/threshold*100)..' ('..completed..')'
             else
                 value= '('..completed..') '..format('%i%%', currentValue/threshold*100)
             end
 
---等级太低
             if tooLowLevelForParagon then
                 barColor= DISABLED_FONT_COLOR
             elseif hasReward then
@@ -196,7 +190,7 @@ function WoWTools_FactionMixin:GetInfo(factionID, toLeft)
         factionID= factionID,
         friendshipID= friendshipID,
         isMajor=isMajor,
-        isParagon= isParagon,--巅峰声望
+        isParagon= isParagon,
 
         factionStandingtext= factionStandingtext,
         valueText= value,
@@ -221,26 +215,26 @@ function WoWTools_FactionMixin:GetName(factionID)
     return
         (data.atlas and ('|A:'..data.atlas..':0:0|a') or (data.texture and '|T'..data.texture..':0|t') or '')
 
-        ..(isAccount and '|cff00ccff' or (data.isCapped and '|cffff7f00') or '|cff00ff00')--战团声望， 已满
-        ..WoWTools_TextMixin:CN(data.name)--名称
+        ..(isAccount and '|cff00ccff' or (data.isCapped and '|cffff7f00') or '|cff00ff00')
+        ..WoWTools_TextMixin:CN(data.name)
         ..'|r '
 
         ..(data.isUnlocked and
             '|cffffffff'
-            ..(--等级
+            ..(
                 data.isCapped and ''
                 or (data.factionStandingtext and data.factionStandingtext..' ')
                 or ''
             )
-            ..((data.isCapped or data.isParagon) and data.valueText or '')--值
+            ..((data.isCapped or data.isParagon) and data.valueText or '')
             ..'|r'
 
-            or '|A:Professions_Specialization_Lock_Glow:0:0|a'--未解锁
+            or '|A:Professions_Specialization_Lock_Glow:0:0|a'
         )
 
         ..(isAccount and '|A:questlog-questtypeicon-account:0:0|a' or '')
 
-        ..(data.hasRewardPending--有奖励，可取
+        ..(data.hasRewardPending
             and (WoWTools_DataMixin.Player.Faction=='Alliance' and '|A:GarrMission-AllianceChest:0:0|a' or '|A:GarrMission-HordeChest:0:0|a')
             or ''
         )
@@ -249,8 +243,7 @@ end
 
 
 
---移过，提示
-function WoWTools_FactionMixin:Find(factionID)--选中提示
+function WoWTools_FactionMixin:Find(factionID)
     if ReputationFrame:IsVisible() then
         if factionID then
             for index=1, C_Reputation.GetNumFactions() do
@@ -295,7 +288,6 @@ function WoWTools_FactionMixin:UpdatList()
 end
 
 
---伙伴
 --C_DelvesUI.GetDelvesFactionForSeason()
 function WoWTools_FactionMixin:GetCompanionInfo(companionID, tooltip)
 
@@ -304,14 +296,14 @@ function WoWTools_FactionMixin:GetCompanionInfo(companionID, tooltip)
     local seasonFactionID= C_DelvesUI.GetDelvesFactionForSeason()
     if seasonFactionID then
         local major= C_MajorFactions.GetMajorFactionData(seasonFactionID)
-        if major and major.playerCompanionID then--地下堡，第3赛季 factionID 2272
+        if major and major.playerCompanionID then
             companionID= companionID or major.playerCompanionID
             playerCompanionID= major.playerCompanionID
         end
     end
 
 
-    local factionID = C_DelvesUI.GetFactionForCompanion(companionID)--factionID 2640 布莱恩.铜须
+    local factionID = C_DelvesUI.GetFactionForCompanion(companionID)
     local info= factionID and C_Reputation.GetFactionDataByID(factionID)
 
     if not info or not info.name then
@@ -335,7 +327,6 @@ function WoWTools_FactionMixin:GetCompanionInfo(companionID, tooltip)
                 local nextLevelAt = companionRepInfo.nextThreshold - companionRepInfo.reactionThreshold
                 level= format('%d|A:GarrMission_CurrencyIcon-Xp:0:0|a%i%%', level, currentExperience/nextLevelAt*100)
             else
-                --已最高级
                 level= ACCOUNT_WIDE_FONT_COLOR:GenerateHexColorMarkup()..level..'|r'
             end
         end

@@ -123,7 +123,6 @@ local function Init()
 
 
 
---第几赛季
     Frame.Text= WoWTools_LabelMixin:Create(Frame, {color=true, mouse=true, size=32})
     Frame.Text:SetPoint('BOTTOMRIGHT', Frame.ScrollBar, 'TOPRIGHT',9, 3)
     Frame.Text:SetScript('OnLeave', function(self)

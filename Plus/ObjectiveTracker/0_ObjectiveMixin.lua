@@ -1,7 +1,6 @@
 WoWTools_ObjectiveMixin={}
 
 
---清除，全部，按钮
 function WoWTools_ObjectiveMixin:Add_ClearAll_Button(frame, tooltip, func)
     if not frame or WoWTools_FrameMixin:IsLocked(frame) then
         return
@@ -97,7 +96,6 @@ function WoWTools_ObjectiveMixin:Get_Block(f, index)
 end
 
 
---清除，成就
 function WoWTools_ObjectiveMixin:Clear_Achievement(isPrint)
     local num=0
     for index, achievementID in pairs(C_ContentTracking.GetTrackedIDs(Enum.ContentTrackingType.Achievement) or {}) do
@@ -117,7 +115,6 @@ function WoWTools_ObjectiveMixin:Clear_Achievement(isPrint)
 end
 
 
---清除，配方
 local function clear_Recipe(isPrint, isRecrafting)
     local num= 0
     isRecrafting= isRecrafting and true or false
@@ -140,7 +137,6 @@ function WoWTools_ObjectiveMixin:Clear_ProfessionsRecipe(isPrint, isRecrafting)
 end
 
 
---清除，任务
 function WoWTools_ObjectiveMixin:Clear_Quest(isPrint)
     local num = 0
     for i= 1, C_QuestLog.GetNumQuestWatches() or 0, 1 do
@@ -158,7 +154,6 @@ function WoWTools_ObjectiveMixin:Clear_Quest(isPrint)
 end
 
 
---清除，世界任务
 function WoWTools_ObjectiveMixin:Clear_WorldQuest(isPrint)
     local index=0
     for i= 1, C_QuestLog.GetNumWorldQuestWatches() or 0, 1 do
@@ -175,7 +170,6 @@ end
 
 
 
---清除，战役任务
 function WoWTools_ObjectiveMixin:Clear_CampaignQuest(isPreint)
     local num= 0
     for i= 1, C_QuestLog.GetNumQuestWatches() or 0, 1 do
@@ -183,7 +177,7 @@ function WoWTools_ObjectiveMixin:Clear_CampaignQuest(isPreint)
         if questID
             and questID>0
             and C_CampaignInfo.IsCampaignQuest(questID)
-            and C_QuestLog.RemoveQuestWatch(questID)--移除
+            and C_QuestLog.RemoveQuestWatch(questID)
         then
             num= num+1
             if isPreint then
@@ -194,7 +188,6 @@ function WoWTools_ObjectiveMixin:Clear_CampaignQuest(isPreint)
 end
 
 
---清除，旅行者日志 任务
 function WoWTools_ObjectiveMixin:Clear_MonthlyActivities(isPring)
     local num= 0
     for _, perksActivityIDs in pairs(C_PerksActivities.GetTrackedPerksActivities() or {}) do

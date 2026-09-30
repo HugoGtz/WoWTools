@@ -58,9 +58,9 @@ do
     local index=0
     for _, data in pairs(WoWTools_ToolsMixin:Get_AddList()) do
         initializer=nil
-        if not data.isPlayerSetupOptions then--用户，自定义设置，选项，法师
+        if not data.isPlayerSetupOptions then
             index= index+1
-            if data.isMoveButton then--食物
+            if data.isMoveButton then
                 initializer= WoWTools_PanelMixin:OnlyCheck({
                     category= WoWTools_ToolsMixin.Category,
                     name= data.tooltip,
@@ -88,7 +88,7 @@ do
                     end,
                     DropDownSetValue=function(value)
                         Save().BottomPoint[data.name]= value==2 and true or nil
-                        WoWTools_ToolsMixin:RestAllPoint()--重置所有按钮位置
+                        WoWTools_ToolsMixin:RestAllPoint()
                     end,
                     GetOptions=function()
                         local container = Settings.CreateControlTextContainer()
@@ -143,7 +143,6 @@ local function Init_Menu(self, root)
         tooltip:AddLine((InCombatLockdown() and '|cnWARNING_FONT_COLOR:' or '')..(WoWTools_L['HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_OUT_OF_COMBAT~2']))
     end)
 
---显示
     sub:CreateTitle(WoWTools_L.SHOW)
     sub2=sub:CreateCheckbox('|A:newplayertutorial-drag-cursor:0:0|a'..(WoWTools_L['ENTER_LFG+EMBLEM_SYMBOL']), function()
         return Save().isEnterShow
@@ -152,7 +151,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Tools.EnterShow'])
 
---隐藏
     sub:CreateTitle(WoWTools_L.HIDE)
     sub2=sub:CreateCheckbox('|A:Warfronts-BaseMapIcons-Horde-Barracks-Minimap:0:0|a'..(WoWTools_L.ENTERING_COMBAT), function()
         return Save().isCombatHide
@@ -181,7 +179,6 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Tools.MainMenuHide'])
 
 
---选项
     root:CreateDivider()
     sub=WoWTools_ToolsMixin:OpenMenu(root)
 
@@ -209,16 +206,14 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWTools_TextMixin:GetShowHide(nil, true))
     end)
 
---显示背景
     WoWTools_MenuMixin:BgAplha(sub,
     function()
         return Save().bgAlpha
     end, function(value)
         Save().bgAlpha= value
-        WoWTools_ToolsMixin:ShowBackground()--显示背景
+        WoWTools_ToolsMixin:ShowBackground()
     end)
 
---缩放
    WoWTools_MenuMixin:Scale(self, sub, function()
         return Save().scale
     end, function(data)
@@ -240,7 +235,6 @@ local function Init_Menu(self, root)
 
 
 
---外框，透明度
     sub2=sub:CreateButton(
         '|A:bag-reagent-border:0:0|a'..(WoWTools_L.EMBLEM_BORDER),
     function()
@@ -249,7 +243,6 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetRightText(sub2)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Tools.BorderAlpha'])
 
---Border 透明度
     sub2:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub2, {
         getValue=function()
@@ -278,7 +271,6 @@ local function Init_Menu(self, root)
         self:set_point()
     end)
 
---重新加载UI
     sub:CreateDivider()
     WoWTools_MenuMixin:Reload(sub, false)
 end
@@ -383,7 +375,7 @@ local function Init()
 
     btn:SetScript("OnMouseUp", ResetCursor)
     btn:SetScript("OnMouseDown", function(_, d)
-        if IsAltKeyDown() and d=='RightButton' then--移动光标
+        if IsAltKeyDown() and d=='RightButton' then
             SetCursor('UI_MOVE_CURSOR')
         end
     end)
@@ -430,11 +422,11 @@ local function Init()
     btn.Frame:SetScript('OnEvent', function(self, event)
         if event=='PLAYER_REGEN_DISABLED' then
             if self:IsShown() then
-                self:SetShown(false)--设置, TOOLS 框架,隐藏
+                self:SetShown(false)
             end
         elseif event=='PLAYER_STARTED_MOVING' then
             if self:CanChangeAttribute() and self:IsShown() then
-                self:SetShown(false)--设置, TOOLS 框架,隐藏
+                self:SetShown(false)
             end
         end
     end)
@@ -536,14 +528,12 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             self:UnregisterEvent(event)
         end
 
---为了最后加载，才加个事件
     elseif event=='PLAYER_ENTERING_WORLD' then
         if C_AddOns.IsAddOnLoaded('Blizzard_Settings') then
             Init_Panel()
         end
         self:UnregisterEvent(event)
 
---保存，记录
     elseif event == "PLAYER_LOGOUT" then
         if not WoWTools_DataMixin.ClearAllSave then
             local btn= WoWTools_ToolsMixin:Get_MainButton()

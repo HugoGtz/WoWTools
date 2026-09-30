@@ -3,25 +3,21 @@
 local P_Save={
     --disabled=true,
     --disabledTexture=true,
-    --useColor=true,自定义，颜色
     alpha= 0.5,
 
-    --disabledChatBubble=true,--禁用，聊天泡泡
-    chatBubbleAlpha= 0.5,--聊天泡泡
+    chatBubbleAlpha= 0.5,
     chatBubbleSacal= 0.85,
 
     classPowerNumSize= 23,
 
-    --disabledMainMenu= true, --主菜单，颜色，透明度
-    --disabledHelpTip=true,--隐藏所有教程
 
     Bg={
-        All={--统一设置
+        All={
             texture='Interface\\AddOns\\WoWToolsPlus\\Source\\Background\\Black.tga',
             alpha=0.75,
             nineSlice=0,
         },
-        Add={--分开设置
+        Add={
 
         },
         Anims={
@@ -30,7 +26,7 @@ local P_Save={
             speed=10,
         }
     },
-    no={},--禁用
+    no={},
 }
 
 
@@ -42,7 +38,6 @@ local function SaveLog()
 end
 
 
---自定义，颜色
 local function Set_Color()
     local color= Save().useColor and SaveLog()[WoWTools_DataMixin.Player.Class]
     if color and color.r and color.g and color.b then
@@ -75,7 +70,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             Save().Bg.Anims= Save().Bg.Anims or P_Save.Bg.Anims
             Save().no= Save().no or {}
 
-            Set_Color()--自定义，颜色
+            Set_Color()
 
             P_Save= nil
 

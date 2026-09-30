@@ -17,15 +17,11 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
             WoWToolsPlusSave['Plus_FriendsList']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_FriendsList'], {
                 Friends={},
-                disabledBNFriendInfo=true and true or nil,--禁用战网，好友信息，提示
-                --allFriendInfo= true,--仅限，WoW，好友
-                --showInCombatFriendInfo=true,--仅限，不在战斗中，好友，提示
-                --showFriendInfoOnlyFavorite=true,--仅限收藏好友
+                disabledBNFriendInfo=true and true or nil,
             })
 
             WoWTools_FriendsMixin.addName= '|A:socialqueuing-icon-group:0:0|a'..(WoWTools_L['Module.Friends list'])
 
-            --添加控制面板
             WoWTools_PanelMixin:OnlyCheck({
                 name= WoWTools_FriendsMixin.addName,
                 tooltip= WoWTools_L['Tip.Friends.Enable'],

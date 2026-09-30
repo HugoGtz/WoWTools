@@ -1,4 +1,3 @@
---声望
 function WoWTools_TooltipMixin.Frames:ReputationFrame()
 
     WoWTools_DataMixin:Hook(ReputationEntryMixin, 'ShowStandardTooltip', function(frame)
@@ -69,7 +68,6 @@ function WoWTools_TooltipMixin.Frames:ReputationFrame()
     EventRegistry:RegisterCallback('ReputationFrame.NewFactionSelected', function()
         factionIDText:settings()
     end)
---第一次，需要刷新
     WoWTools_DataMixin:Hook(ReputationFrame.ReputationDetailFrame, 'Refresh', function()
         factionIDText:settings()
     end)
@@ -108,7 +106,6 @@ function WoWTools_TooltipMixin.Frames:QuestFrame()
         frame.IDLabel:SetShown(text)
     end)
 
---任务日志 显示ID
     WoWTools_DataMixin:Hook("QuestMapLogTitleButton_OnEnter", function(frame)
         local info= frame.questLogIndex and C_QuestLog.GetInfo(frame.questLogIndex)
         local questID= info and info.questID or frame.questID
@@ -116,7 +113,7 @@ function WoWTools_TooltipMixin.Frames:QuestFrame()
             return
         end
 
-        self:Set_Quest(GameTooltip, questID, info)--任务
+        self:Set_Quest(GameTooltip, questID, info)
 
         if IsInGroup() then
             local n=GetNumGroupMembers()
@@ -154,7 +151,6 @@ end
 
 
 function WoWTools_TooltipMixin.Frames:GearManagerPopupFrame()
-    --图标，修该, 提示，图标
     local function Set_SetIconTexture(btn, iconTexture)
         if not btn.Text then
             btn.Text= WoWTools_LabelMixin:Create(btn, {color={r=1,g=1,b=1, mouse=true}})
@@ -181,9 +177,7 @@ function WoWTools_TooltipMixin.Frames:GearManagerPopupFrame()
         end
         btn.Text:SetText(iconTexture or '')
     end
---装备管理
     WoWTools_DataMixin:Hook(GearManagerPopupFrame.BorderBox.SelectedIconArea.SelectedIconButton, 'SetIconTexture', Set_SetIconTexture)
---图标，修改
     WoWTools_DataMixin:Hook(SelectedIconButtonMixin, 'SetIconTexture', Set_SetIconTexture)
 end
 

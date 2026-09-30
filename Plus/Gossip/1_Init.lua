@@ -1,6 +1,5 @@
 WoWTools_GossipMixin= {}
---更新GossipFrame
-function WoWTools_GossipMixin:UpdateGossip()--更新GossipFrame
+function WoWTools_GossipMixin:UpdateGossip()
     if GossipFrame:IsShown() then
         GossipFrame:Update()
     end
@@ -33,15 +32,15 @@ end
 
 
 local function Init()
-    WoWTools_GossipMixin:Init_Gossip_Data()--自定义，对话，文本
+    WoWTools_GossipMixin:Init_Gossip_Data()
     WoWTools_GossipMixin:Init_WoW_MoveList()
 
     do
-        WoWTools_GossipMixin:Init_Gossip()--对话，初始化
+        WoWTools_GossipMixin:Init_Gossip()
     end
 
-    WoWTools_GossipMixin:Init_Quest()--任务，初始化
-    WoWTools_GossipMixin:Init_QuestInfo_Display()--任务目标，类型提示
+    WoWTools_GossipMixin:Init_Quest()
+    WoWTools_GossipMixin:Init_QuestInfo_Display()
 
     WoWTools_GossipMixin:Init_StaticPopupDialogs()
     WoWTools_GossipMixin:Init_Delves()
@@ -71,26 +70,24 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         if arg1== 'WoWToolsPlus' then
 
             WoWToolsPlusSave['Plus_Gossip']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Gossip'], {
-                NPC={--禁用NPC
+                NPC={
                     ['223594']=true,
-                    ['150122']=true,--荣耀堡法师 50005 我必须向黑暗之门报到。
+                    ['150122']=true,
                 },
                 gossip= true,
 
-                unique= true,--唯一对话
+                unique= true,
                 gossipOption={--gossipID= text
-                    --[123201]=2,--跳过，任务
-                    [123176]=2,--跳过，去11.0地图任务
+                    [123176]=2,
 
                 },
                 choice={},--PlayerChoiceFrame
-                --movie={},--电影
-                stopMovie=true,--如果已播放，停止播放
-                stopCinematicsInInstance=true,--仅限在副本里
+                stopMovie=true,
+                stopCinematicsInInstance=true,
 
                 quest= true,
                 questOption={},
-                questRewardCheck={},--{任务ID= index}    
+                questRewardCheck={},
 
                 --questPlayTextStopMove=true,
 
@@ -99,18 +96,15 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 --bgAlpha=0.5,
                 --point=nil,
 
-                --not_Gossip_Text_Icon=true,--自定义，对话，文本
 
                 Gossip_Text_Icon_Size=14,
 
-                --Gossip_Text_Icon_cnFont=nil,--仅限，外文, 修该字体
 
                 Dialogs={}
             })
 
             WoWToolsPlusPlayerDate.GossipMovie= WoWToolsPlusPlayerDate.GossipMovie or {}
 
---玩家，自定义，对话，文本
             WoWToolsPlusPlayerDate.GossipTextIcon= WoWToolsPlusPlayerDate.GossipTextIcon or {
                 [55193]={
                     icon='communities-icon-invitemail',
@@ -124,7 +118,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             WoWTools_GossipMixin.addName2= '|A:UI-HUD-UnitFrame-Target-PortraitOn-Boss-Quest:0:0|a'
                 ..(WoWTools_L['QUESTS_LABEL+GAMEMENU_OPTIONS'])
 
---添加控制面板
             WoWTools_PanelMixin:Check_Button({
                  checkName= WoWTools_GossipMixin.addName,
                  GetValue= function() return not Save().disabled end,

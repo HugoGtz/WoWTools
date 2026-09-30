@@ -22,14 +22,13 @@ end
 
 local function Init_Menu(_, root)
     local sub
-    --所有宠物
         sub=root:CreateCheckbox(
             '|A:dressingroom-button-appearancelist-up:0:0|a'..(WoWTools_L.BATTLE_PETS_TOTAL_PETS),
         function()
             return Save().show_All_List
         end, function()
             Save().show_All_List= not Save().show_All_List and true or nil
-            WoWTools_HunterMixin:Set_StableFrame_List()--初始，宠物列表
+            WoWTools_HunterMixin:Set_StableFrame_List()
             return MenuResponse.Close
         end)
         WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Hunter.AllList'])
@@ -37,7 +36,6 @@ local function Init_Menu(_, root)
         root:CreateDivider()
 
         if Save().show_All_List then
-    --排序
             sub=root:CreateCheckbox(
                 WoWTools_L.PERKS_PROGRAM_ASCENDING,
             function()
@@ -71,7 +69,6 @@ local function Init_Menu(_, root)
                 end)
             end
 
-    --图标尺寸
             root:CreateDivider()
             root:CreateSpacer()
             WoWTools_MenuMixin:CreateSlider(root, {
@@ -106,7 +103,6 @@ local function Init_Menu(_, root)
         WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Hunter.Tooltips'])
 
 
-    --选项
         root:CreateDivider()
         WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_HunterMixin.addName})
     end

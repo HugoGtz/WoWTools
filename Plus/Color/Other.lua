@@ -16,11 +16,9 @@ local function OnColorSelect(self, r, g, b)
 
 	a = a or 1
 
---透明度值
 
 	self.alphaText:SetText(alphaText or '')
 
---修改材质颜色
 	for _, icon in pairs({ColorPickerFrame.Border:GetRegions()}) do
 		if icon:IsObjectType('Texture')then
 			icon:SetVertexColor(r,g,b)
@@ -57,7 +55,6 @@ end
 
 
 local function Init()
---修改，透明度值，MouseWheel
 	ColorPickerFrame.Content.ColorPicker:EnableMouseWheel(true)
 	ColorPickerFrame.Content.ColorPicker:HookScript('OnMouseWheel', function(self, d)
 		if Save().hide then
@@ -100,11 +97,9 @@ local function Init()
 
 
 
---透明度值
 	ColorPickerFrame.Content.ColorPicker.alphaText=WoWTools_LabelMixin:Create(ColorPickerFrame.Content.ColorPicker)
 	ColorPickerFrame.Content.ColorPicker.alphaText:SetPoint('BOTTOM', ColorPickerFrame.Content.ColorPicker.Alpha, 'TOP',0,1)
 
---修改材质颜色
 	ColorPickerFrame.Content.ColorPicker:HookScript("OnColorSelect", OnColorSelect)
 	OnColorSelect(ColorPickerFrame.Content.ColorPicker, ColorPickerFrame:GetColorRGB())
 

@@ -14,7 +14,6 @@ end
 
 
 
---新建按钮
 local function Init()
 
 
@@ -28,14 +27,14 @@ local function Init()
 
     NewButton:SetPoint('TOPRIGHT', AddonList, -6, -32)
     NewButton:SetScript('OnEnter', function(self)
-        WoWTools_AddOnsMixin:Update_Usage()--更新，使用情况
+        WoWTools_AddOnsMixin:Update_Usage()
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName , WoWTools_AddOnsMixin.addName)
         GameTooltip:AddLine(WoWTools_L.CREATE_NEW_COMPACT_UNIT_FRAME_PROFILE)
         GameTooltip:AddLine(' ')
 
-        WoWTools_AddOnsMixin:Show_Select_Tooltip()--提示，当前，选中
+        WoWTools_AddOnsMixin:Show_Select_Tooltip()
 
         GameTooltip:AddLine(' ')
         GameTooltip:AddLine('|A:communities-chat-icon-plus:0:0|a'..(WoWTools_L.NEW)..WoWTools_DataMixin.Icon.left)
@@ -77,7 +76,7 @@ local function Init()
 
 
 
-    NewButton.Text2= NewButton:CreateFontString(nil, 'BORDER', 'WoWToolsFont2')--WoWTools_LabelMixin:Create(NewButton, {justifyH='RIGHT'})--总内存
+    NewButton.Text2= NewButton:CreateFontString(nil, 'BORDER', 'WoWToolsFont2')
     --NewButton.Text2:SetPoint('BOTTOMRIGHT', -5, -22)
     NewButton.Text2:EnableMouse(true)
     NewButton.Text2:SetPoint('LEFT', AddonList.Performance.Header, 'RIGHT', 6, 0)
@@ -87,7 +86,7 @@ local function Init()
         self:SetAlpha(1)
     end)
     NewButton.Text2:SetScript('OnEnter', function(self)
-        WoWTools_AddOnsMixin:Update_Usage()--更新，使用情况
+        WoWTools_AddOnsMixin:Update_Usage()
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
 
@@ -96,7 +95,7 @@ local function Init()
         for index=1, C_AddOns.GetNumAddOns() do
             local isLoaded= C_AddOns.IsAddOnLoaded(index)
             local dema= select(2, C_AddOns.IsAddOnLoadable(index))=='DEMAND_LOADED'
-            if isLoaded or dema then--已加载, 带加载
+            if isLoaded or dema then
                 local title = C_AddOns.GetAddOnTitle(index)
                 local iconTexture = C_AddOns.GetAddOnMetadata(index, "IconTexture")
                 local iconAtlas = C_AddOns.GetAddOnMetadata(index, "IconAtlas")
@@ -131,7 +130,7 @@ local function Init()
            GameTooltip:AddDoubleLine(left, tab.right)
         end
 
-        local allMemberText=''--内存
+        local allMemberText=''
         if allMomo>0 then
             GameTooltip:AddLine(' ')
             if allMomo<1000 then
@@ -156,7 +155,7 @@ local function Init()
 
 
 
-    NewButton.Text3= NewButton:CreateFontString(nil, 'BORDER', 'WoWToolsFont2')--WoWTools_LabelMixin:Create(NewButton, {justifyH='RIGHT'})--总已加载，数量
+    NewButton.Text3= NewButton:CreateFontString(nil, 'BORDER', 'WoWToolsFont2')
     NewButton.Text3:EnableMouse(true)
     --NewButton.Text3:SetPoint('RIGHT', NewButton.Text2, 'LEFT', -8, 0)
     NewButton.Text3:SetPoint('LEFT', NewButton.Text2, 'RIGHT', 6, 0)
@@ -183,7 +182,7 @@ local function Init()
         self.elapsed= (self.elapsed or 3) +elapsed
         if self.elapsed>3 or InCombatLockdown() then
             self.elapsed=0
-            WoWTools_AddOnsMixin:Update_Usage()--更新，使用情况
+            WoWTools_AddOnsMixin:Update_Usage()
             local value, text= 0, ''
             for i=1, C_AddOns.GetNumAddOns() do
                 if C_AddOns.IsAddOnLoaded(i) then
@@ -203,7 +202,7 @@ local function Init()
 
 
     AddonList.Dropdown.Text:SetJustifyH('CENTER')
-    NewButton.Text= NewButton:CreateFontString(nil, 'BORDER', 'WoWToolsFont2')--WoWTools_LabelMixin:Create(NewButton)--已选中，数量
+    NewButton.Text= NewButton:CreateFontString(nil, 'BORDER', 'WoWToolsFont2')
     NewButton.Text:SetPoint('LEFT', NewButton.Text3, 'RIGHT', 6, 0)
     NewButton.Text:EnableMouse(true)
     NewButton.Text:SetScript('OnLeave', function(self)
@@ -220,7 +219,7 @@ local function Init()
 
 
 
-    local Label= AddonList.EnableAllButton:CreateFontString('WoWToolsAllNumAddonLable', nil, 'WoWToolsFont2') --WoWTools_LabelMixin:Create(NewButton)--插件，总数
+    local Label= AddonList.EnableAllButton:CreateFontString('WoWToolsAllNumAddonLable', nil, 'WoWToolsFont2')
     Label:SetPoint('LEFT', AddonList.EnableAllButton, 3, 0)
     Label:SetText(C_AddOns.GetNumAddOns())
 

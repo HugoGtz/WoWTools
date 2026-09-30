@@ -30,7 +30,6 @@ end
 local function Init_Menu(self, root)
     local sub, sub2, num, num2
 
---启用
     sub=root:CreateCheckbox(
         (WoWTools_L.ENABLE)..'|A:SpecDial_LastPip_BorderGlow:0:0|a',
     function()
@@ -44,14 +43,13 @@ local function Init_Menu(self, root)
         tooltip:AddLine('Alt+'..(WoWTools_L.DISABLE))
         tooltip:AddLine(WoWTools_L.BOOSTED_CHAR_SPELL_TEMPLOCK)
     end)
---唯一对话  
     sub=root:CreateCheckbox(
         WoWTools_L['ITEM_UNIQUE+ENABLE_DIALOG'],
     function()
         return  Save().unique
     end, function ()
         Save().unique= not Save().unique and true or false
-        WoWTools_GossipMixin:UpdateGossip()--更新GossipFrame
+        WoWTools_GossipMixin:UpdateGossip()
     end)
     sub:SetTooltip(function(tooltip)
         tooltip:AddLine(WoWTools_L['When there is only one option, select it automatically.'], nil, nil,nil, true)
@@ -66,7 +64,6 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Gossip.UniqueChoice'])
 
 
---自定义,闲话
     root:CreateDivider()
     num= CountTable(Save().gossipOption or {})
 
@@ -79,7 +76,6 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gossip.CustomList'])
     WoWTools_MenuMixin:SetRightText(sub)
 
---列表，自定义,闲话
     for gossipOptionID, text in pairs(Save().gossipOption) do
         sub2=sub:CreateCheckbox(
             text==true and gossipOptionID or text,
@@ -87,7 +83,7 @@ local function Init_Menu(self, root)
             return Save().gossipOption[data.gossipOptionID]
         end, function(data)
             Save().gossipOption[data.gossipOptionID]= not Save().gossipOption[data.gossipOptionID] and data.text or nil
-            WoWTools_GossipMixin:UpdateGossip()--更新GossipFrame
+            WoWTools_GossipMixin:UpdateGossip()
         end, {gossipOptionID=gossipOptionID, text=text})
         sub2:SetTooltip(function(tooltip, description)
             WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Gossip.CustomItem'])
@@ -95,7 +91,6 @@ local function Init_Menu(self, root)
         end)
     end
 
---全部清除
     sub:CreateDivider()
     WoWTools_MenuMixin:ClearAll(sub, function()
         Save().gossipOption={}
@@ -104,7 +99,6 @@ local function Init_Menu(self, root)
 
 
 
---对话替换
     --root:CreateDivider()
     num= CountTable(WoWToolsPlusPlayerDate['GossipTextIcon'] or {})
     num2= CountTable(WoWTools_GossipMixin:Get_GossipData() or {})
@@ -119,12 +113,11 @@ local function Init_Menu(self, root)
     end, function()
         Save().not_Gossip_Text_Icon= not Save().not_Gossip_Text_Icon and true or nil
         WoWTools_GossipMixin:Init_Gossip_Data()
-        WoWTools_GossipMixin:UpdateGossip()--更新GossipFrame
+        WoWTools_GossipMixin:UpdateGossip()
     end, {rightText=num..'/'..num2, rightColor= (num+num2==0) and DISABLED_FONT_COLOR or nil})
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gossip.ReplaceText'])
     WoWTools_MenuMixin:SetRightText(sub)
 
---对话替换, 打开自定义, Frame
     sub2= sub:CreateButton(
         '|A:mechagon-projects:0:0|a'
         ..(WoWTools_L.CUSTOM),
@@ -135,12 +128,11 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Gossip.ReplaceEdit'])
     WoWTools_MenuMixin:SetRightText(sub)
 
-    --重置位置
     sub:CreateButton(
         (WoWTools_MoveMixin:GetPoint(nil, 'WoWToolsGossipTextIconOptionsFrame') and '' or '|cff626262')
         ..(WoWTools_L.RESET_POSITION),
     function()
-        WoWTools_MoveMixin:ClearPoint(nil, 'WoWToolsGossipTextIconOptionsFrame')--重置位置
+        WoWTools_MoveMixin:ClearPoint(nil, 'WoWToolsGossipTextIconOptionsFrame')
         local frame= _G['WoWToolsGossipTextIconOptionsFrame']
         if frame then
             frame:ClearAllPoints()
@@ -150,7 +142,6 @@ local function Init_Menu(self, root)
     end)
 
 
---默认
     num= CountTable(WoWTools_GossipMixin:Get_GossipData() or {})
     
     sub:CreateDivider()
@@ -161,12 +152,11 @@ local function Init_Menu(self, root)
     end, function()
         Save().notGossipPlayerData= not Save().notGossipPlayerData and true or nil
         WoWTools_GossipMixin:Init_Gossip_Data()
-        WoWTools_GossipMixin:UpdateGossip()--更新GossipFrame
+        WoWTools_GossipMixin:UpdateGossip()
     end, {rightText=num})
     WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Gossip.ReplaceDefault'])
     WoWTools_MenuMixin:SetRightText(sub)
 
---禁用NPC, 闲话,任务, 选项
     num= CountTable(Save().NPC or {})
     
     sub=root:CreateButton(
@@ -180,8 +170,7 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetRightText(sub)
 
---列表，禁用NPC, 闲话,任务, 选项
-    for npcID, name in pairs(Save().NPC) do--npcID 是字符
+    for npcID, name in pairs(Save().NPC) do
         sub2=sub:CreateCheckbox(
             WoWTools_TextMixin:CN(nil, {npcID=npcID, isName=true})
             or (name~=true and name)
@@ -197,7 +186,6 @@ local function Init_Menu(self, root)
         end)
     end
 
---全部清除
     sub:CreateDivider()
     WoWTools_MenuMixin:ClearAll(sub, function()
         Save().NPC={}
@@ -219,7 +207,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetRightText(sub)
 
---列表，PlayerChoiceFrame
     for spellID, rarity in pairs(Save().choice) do
         sub2=sub:CreateCheckbox(
             WoWTools_SpellMixin:GetName(spellID)
@@ -233,7 +220,6 @@ local function Init_Menu(self, root)
         WoWTools_SetTooltipMixin:Set_Menu(sub2)
     end
 
---全部清除
     sub:CreateDivider()
     WoWTools_MenuMixin:ClearAll(sub, function()
         Save().choice={}
@@ -245,14 +231,12 @@ local function Init_Menu(self, root)
     WoWTools_GossipMixin:Init_MoveListMenu(self, root)
 
 
---打开选项界面
     root:CreateDivider()
     sub=WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_GossipMixin.addName})
 
 
 
 
---缩放
     WoWTools_MenuMixin:Scale(self, sub, function()
         return Save().scale or 1
     end, function(value)
@@ -261,7 +245,6 @@ local function Init_Menu(self, root)
     end)
 
 
---背景, 透明度
     WoWTools_MenuMixin:BgAplha(sub,
     function()--GetValue
         return Save().bgAlpha or 0.5
@@ -284,7 +267,6 @@ local function Init_Menu(self, root)
     end)
 
 
---重置位置
     sub:CreateDivider()
     WoWTools_MenuMixin:RestPoint(self, sub, Save().point, function()
         Save().point=nil

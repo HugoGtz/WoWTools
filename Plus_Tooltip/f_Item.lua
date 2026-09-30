@@ -1,4 +1,3 @@
---设置,物品信息
 
 
 local function Get_SlotLevel(slot)
@@ -18,18 +17,15 @@ end
 
 local function Set_Equip(self, tooltip, itemID, itemLink, itemLevel, itemEquipLoc, bindType, color)
     local textLeft, text2Left
---装等
     itemLevel= itemLink and WoWTools_ItemMixin:GetItemLevel(itemLink) or itemLevel
     local portrait
     if itemLevel and itemLevel>1 then
---比较装等
         local slot= {WoWTools_ItemMixin:GetEquipSlotID(itemEquipLoc)}
         if slot[1] then
             local slotTexture= select(2, WoWTools_ItemMixin:GetEquipSlotIcon(slot[1]))
             if slotTexture then
                 portrait=slotTexture
             end
---栏位
             tooltip:AddDoubleLine(
                 (WoWTools_TextMixin:CN(_G[itemEquipLoc]) or '')..' |cffffffff'..(itemEquipLoc or ''),
                 ( WoWTools_L.TRADESKILL_FILTER_SLOTS)..' |cffffffff'..slot[1]
@@ -55,7 +51,7 @@ local function Set_Equip(self, tooltip, itemID, itemLink, itemLevel, itemEquipLo
         end
     end
 
-    local appearanceID, sourceID = C_TransmogCollection.GetItemInfo(itemLink or itemID)--幻化
+    local appearanceID, sourceID = C_TransmogCollection.GetItemInfo(itemLink or itemID)
     local visualID
     if sourceID then
         local sourceInfo = C_TransmogCollection.GetSourceInfo(sourceID)
@@ -64,13 +60,12 @@ local function Set_Equip(self, tooltip, itemID, itemLink, itemLevel, itemEquipLo
             text2Left=sourceInfo.isCollected and '|cnGREEN_FONT_COLOR:'..(WoWTools_L.COLLECTED)..'|r' or '|cnWARNING_FONT_COLOR:'..(WoWTools_L.NOT_COLLECTED)..'|r'
         end
     end
-    self:Set_Item_Model(tooltip, {itemID=itemID, sourceID=sourceID, appearanceID=appearanceID, visualID=visualID})--设置, 3D模型
+    self:Set_Item_Model(tooltip, {itemID=itemID, sourceID=sourceID, appearanceID=appearanceID, visualID=visualID})
 
-    if bindType==Enum.ItemBind.OnEquip or bindType==Enum.ItemBind.OnUse then--绑定装备,使用时绑定
+    if bindType==Enum.ItemBind.OnEquip or bindType==Enum.ItemBind.OnUse then
         portrait='Professions_Specialization_Lock_Glow'
     end
 
---专精图标
     local specTable = itemLink and C_Item.GetItemSpecInfo(itemLink)
     if specTable and #specTable>0 then
         
@@ -93,21 +88,20 @@ end
 
 
 local StatsValue= {
-    ['ITEM_MOD_VERSATILITY']= CR_VERSATILITY_DAMAGE_DONE,--全能 29
+    ['ITEM_MOD_VERSATILITY']= CR_VERSATILITY_DAMAGE_DONE,
 
-    ['ITEM_MOD_HASTE_RATING_SHORT']= CR_HASTE_MELEE,--急速 18
-    ['ITEM_MOD_MASTERY_RATING_SHORT']= CR_MASTERY,--精通 26
-    ['ITEM_MOD_CRIT_RATING_SHORT']= CR_CRIT_MELEE,--爆击 9
+    ['ITEM_MOD_HASTE_RATING_SHORT']= CR_HASTE_MELEE,
+    ['ITEM_MOD_MASTERY_RATING_SHORT']= CR_MASTERY,
+    ['ITEM_MOD_CRIT_RATING_SHORT']= CR_CRIT_MELEE,
 
-    ['ITEM_MOD_CR_AVOIDANCE_SHORT']= CR_AVOIDANCE,--闪避 21
-    ['ITEM_MOD_CR_LIFESTEAL_SHORT']= CR_LIFESTEAL,--吸血 17
-    ['ITEM_MOD_CR_SPEED_SHORT']= CR_SPEED,--加速 14
-    ['ITEM_MOD_BLOCK_RATING_SHORT']= CR_BLOCK,--格挡 5
-    ['ITEM_MOD_PARRY_RATING_SHORT'] = CR_PARRY,--招架 4
+    ['ITEM_MOD_CR_AVOIDANCE_SHORT']= CR_AVOIDANCE,
+    ['ITEM_MOD_CR_LIFESTEAL_SHORT']= CR_LIFESTEAL,
+    ['ITEM_MOD_CR_SPEED_SHORT']= CR_SPEED,
+    ['ITEM_MOD_BLOCK_RATING_SHORT']= CR_BLOCK,
+    ['ITEM_MOD_PARRY_RATING_SHORT'] = CR_PARRY,
 }
 
 
---次属性 %值
 local function Set_ItemStatus(tooltip, itemLink)
     local stats= C_Item.GetItemStats(itemLink)
     if not stats then
@@ -205,7 +199,7 @@ local function Set_keystonee(tooltip, itemLink)
     end
 
 
-    local text=WoWTools_ChallengeMixin:GetRewardText(Enum.WeeklyRewardChestThresholdType.Activities)--得到，周奖励，信息
+    local text=WoWTools_ChallengeMixin:GetRewardText(Enum.WeeklyRewardChestThresholdType.Activities)
 
 
     local score= WoWTools_ChallengeMixin:KeystoneScorsoColor(C_ChallengeMode.GetOverallDungeonScore(), true)
@@ -213,7 +207,7 @@ local function Set_keystonee(tooltip, itemLink)
         textLeft=(text and '|cnGREEN_FONT_COLOR:'..text..'|r ' or '')..(score or '')
     end
 
-    local info = C_MythicPlus.GetRunHistory(false, true) or {}--本周记录
+    local info = C_MythicPlus.GetRunHistory(false, true) or {}
 
     num= 0
     local completedNum=0
@@ -239,7 +233,7 @@ end
 
 
 local function Set_Item_Num(tooltip, itemID)
-    local bagAll,bankAll,numPlayer=0,0,0--帐号数据
+    local bagAll,bankAll,numPlayer=0,0,0
     local new={}
     local tab
     for guid, info in pairs(WoWToolsPlus_WoWDate or {}) do
@@ -312,7 +306,6 @@ function WoWTools_TooltipMixin:Set_Item(tooltip, itemLink, itemID)
 
     local text2Left, textLeft, textRight, text2Right
 
---版本数据, 图标，名称，版本
     if expacID or setID then
         tooltip:AddDoubleLine(
             WoWTools_DataMixin:GetExpansionText(expacID, nil) or '  ',
@@ -320,7 +313,6 @@ function WoWTools_TooltipMixin:Set_Item(tooltip, itemLink, itemID)
         )
     end
 
---物品法术
     local spellName, spellID = C_Item.GetItemSpell(itemID)
     if spellName and spellID then
         local spellTexture= C_Spell.GetSpellTexture(spellID)
@@ -334,7 +326,6 @@ function WoWTools_TooltipMixin:Set_Item(tooltip, itemLink, itemID)
 
     itemTexture= itemTexture or select(5, C_Item.GetItemInfoInstant(itemID or itemLink))
 
---itemID,  图标
     tooltip:AddDoubleLine(
         itemTexture and '|T'..itemTexture..':'..self.iconSize..'|t|cffffffff'..itemTexture or ' ',
 
@@ -343,7 +334,6 @@ function WoWTools_TooltipMixin:Set_Item(tooltip, itemLink, itemID)
         ..itemID
     )
 
---物品，类型
     if classID or subclassID then
         tooltip:AddDoubleLine(
             classID and NORMAL_FONT_COLOR:WrapTextInColorCode((WoWTools_TextMixin:CN(itemType) or 'itemType'))..' |cffffffff'..classID or ' ',
@@ -351,11 +341,9 @@ function WoWTools_TooltipMixin:Set_Item(tooltip, itemLink, itemID)
         )
     end
 
---套装：炎阳珠衣装
     local transmogSetID= C_Item.GetItemLearnTransmogSet(itemID)
 
     local portrait
---住宅装饰
     if C_Item.IsDecorItem(itemLink or itemID) then
 
         local entryInfo = C_HousingCatalog.GetCatalogEntryInfoByItem(itemLink or itemID, true)
@@ -367,7 +355,6 @@ function WoWTools_TooltipMixin:Set_Item(tooltip, itemLink, itemID)
             end
         end
 
---套装：炎阳珠衣装
     elseif transmogSetID then
         local collect, numAll = select(2, WoWTools_CollectionMixin:SetID(transmogSetID))
         if numAll then
@@ -380,18 +367,14 @@ function WoWTools_TooltipMixin:Set_Item(tooltip, itemLink, itemID)
             end
         end
         tooltip:AddLine('transmogSetID|cffffffff'..WoWTools_DataMixin.Icon.icon2..transmogSetID)
---装备
     elseif classID==2 or classID==4 then
         textLeft, text2Left, portrait= Set_Equip(self, tooltip, itemID, itemLink, itemLevel, itemEquipLoc, bindType, color)
---次属性 %值
         if not PlayerIsTimerunning() then
             Set_ItemStatus(tooltip, itemLink)
         end
---炉石
     elseif itemID==6948 then
         textLeft= WoWTools_TextMixin:CN(GetBindLocation())
 
---玩具
     elseif C_ToyBox.GetToyInfo(itemID) then
         text2Left= PlayerHasToy(itemID) and '|cnGREEN_FONT_COLOR:'..(WoWTools_L.COLLECTED)..'|r' or '|cnWARNING_FONT_COLOR:'..(WoWTools_L.NOT_COLLECTED)..'|r'
 
@@ -406,17 +389,17 @@ function WoWTools_TooltipMixin:Set_Item(tooltip, itemLink, itemID)
 
 
     else
-        local mountID = C_MountJournal.GetMountFromItem(itemID)--坐骑物品
+        local mountID = C_MountJournal.GetMountFromItem(itemID)
         local speciesID = select(13, C_PetJournal.GetPetInfoByItemID(itemID))
         if mountID then
-            self:Set_Mount(tooltip, mountID, 'item')--坐骑
+            self:Set_Mount(tooltip, mountID, 'item')
         elseif speciesID then
-            self:Set_Pet(tooltip, speciesID)--宠物
+            self:Set_Pet(tooltip, speciesID)
         end
     end
 
     if itemQuality==0 and(classID==2 or classID==15) then
-        local petText= WoWTools_CollectionMixin:GetPet9Item(itemID)--宠物兑换, wow9.0
+        local petText= WoWTools_CollectionMixin:GetPet9Item(itemID)
         if petText then
             tooltip:AddLine(petText)
         end
@@ -425,7 +408,7 @@ function WoWTools_TooltipMixin:Set_Item(tooltip, itemLink, itemID)
 
     tooltip.Portrait:settings(portrait or itemTexture)
 
-    if C_Item.IsItemKeystoneByID(itemID) then--挑战
+    if C_Item.IsItemKeystoneByID(itemID) then
         textLeft, text2Left, text2Right= Set_keystonee(tooltip, itemLink)
     else
         Set_Item_Num(tooltip, itemID)
@@ -433,12 +416,10 @@ function WoWTools_TooltipMixin:Set_Item(tooltip, itemLink, itemID)
 
     textRight= textRight or WoWTools_ItemMixin:GetCount(itemID)
 
---嵌入式
     tooltip:Set_TopLabel(textLeft, text2Left, textRight, text2Right)
 
     tooltip:Set_BG_Color(color, 0.15)
-    --setItemCooldown(tooltip, itemID)--物品冷却
-    self:Set_Web_Link(tooltip, {type='item', id=itemID, name=itemName, col=color:GenerateHexColorMarkup(), isPetUI=false})--取得网页，数据链接
+    self:Set_Web_Link(tooltip, {type='item', id=itemID, name=itemName, col=color:GenerateHexColorMarkup(), isPetUI=false})
 
     WoWTools_TooltipMixin:Show(tooltip)
     --tooltip:Show()

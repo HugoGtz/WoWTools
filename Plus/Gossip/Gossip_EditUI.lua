@@ -62,7 +62,6 @@ local function Chat_Menu(_, root)
 end
 
 
---自定义，对话，文本，放在主菜单，前
 local function Init(isShow)
     if isShow==false then
         return
@@ -148,7 +147,7 @@ local function Init(isShow)
     function List:set_list()
         if self:IsShown() then
             local n=0
-            local gossipNum=0--GossipFrame 有多少对话
+            local gossipNum=0
             self.dataProvider = CreateDataProvider()
             if GossipFrame:IsShown() then
                 local tabs={}
@@ -168,7 +167,6 @@ local function Init(isShow)
                 for _, data in pairs(tabs) do
                     self.dataProvider:Insert({gossipID=data.gossipOptionID, icon=data.icon, name=data.name, hex=data.hex, spellID=data.spellID})
                 end
---GossipFrame 有多少已设置
                 self.chat.Text:SetFormattedText('%s%d',
                     gossipNum>0 and '|cnGREEN_FONT_COLOR:' or '|cff626262',
                     gossipNum
@@ -221,10 +219,10 @@ local function Init(isShow)
     end
 
 
-    function List:get_gossipID()--取得gossipID
+    function List:get_gossipID()
         return self.ID:GetNumber() or 0
     end
-    function List:get_name()--取得，名称
+    function List:get_name()
         local name= self.Name:GetText()
         if name=='' then
             return
@@ -232,11 +230,11 @@ local function Init(isShow)
             return name
         end
     end
-    function List:get_icon()--设置，图片
+    function List:get_icon()
         local isAtlas, texture= WoWTools_TextureMixin:IsAtlas(self.Icon:GetText())
         return texture, isAtlas
     end
-    function List:set_texture_size()--图片，大小
+    function List:set_texture_size()
         self.Texture:SetSize(Save().Gossip_Text_Icon_Size, Save().Gossip_Text_Icon_Size)
     end
 
@@ -253,10 +251,10 @@ local function Init(isShow)
 
         local hex = self.Color.hex or 'ff000000'
         if info then
-            if info.icon==icon and info.name==name and (info.hex==hex or (not info.hex and hex=='ff000000')) then--一样，数据
+            if info.icon==icon and info.name==name and (info.hex==hex or (not info.hex and hex=='ff000000')) then
                 self.Add:SetNormalAtlas('VignetteEvent')
                 self.Add.tooltip=WoWTools_L['UPDATE~2']
-            else--需要，更新，数据
+            else
                 self.Add:SetNormalAtlas('common-icon-checkmark')
                 self.Add.tooltip=WoWTools_L['NEED+UPDATE']
             end
@@ -264,11 +262,10 @@ local function Init(isShow)
             self.Add:SetNormalAtlas('bags-icon-addslots')
             self.Add.tooltip=WoWTools_L.ADD
         end
-        self.Delete:SetShown(self.gossipID and true or false)--显示/隐藏，删除按钮
-        self.Add:SetShown(num>0 and (name or icon or hex~='ff000000') and true or false)--显示/隐藏，添加按钮
+        self.Delete:SetShown(self.gossipID and true or false)
+        self.Add:SetShown(num>0 and (name or icon or hex~='ff000000') and true or false)
     end
 
---设置，颜色，颜色按钮，
     function List:set_color(r, g, b, hex)
         if hex and hex~='' then
             r,g,b= WoWTools_ColorMixin:HEXtoRGB(hex)
@@ -286,7 +283,6 @@ local function Init(isShow)
     function List:get_saved_all_date(gossipID)
         return PlayerDataSave()[gossipID] or WoWTools_GossipMixin:Get_GossipData()[gossipID]
     end
---读取，已保存数据
     function List:set_date(gossipID)
         if not gossipID then
             return
@@ -336,7 +332,7 @@ local function Init(isShow)
                 hex= hex,
             }
             self.gossipID= num
-            WoWTools_GossipMixin:UpdateGossip()--更新GossipFrame
+            WoWTools_GossipMixin:UpdateGossip()
             self:set_list()
         end
 
@@ -348,7 +344,7 @@ local function Init(isShow)
             local info=PlayerDataSave()[gossipID]
             PlayerDataSave()[gossipID]=nil
             self:set_list()
-            WoWTools_GossipMixin:UpdateGossip()--更新GossipFrame
+            WoWTools_GossipMixin:UpdateGossip()
             WoWTools_Print(
                 WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 '|cnWARNING_FONT_COLOR:'..(WoWTools_L.DELETE)..'|r|n',
@@ -409,30 +405,25 @@ local function Init(isShow)
         List:set_all()
     end)
 
-    --设置，TAB键
     List.tabGroup= CreateTabGroup(List.ID, List.Name, List.Icon)
     List.ID:SetScript('OnTabPressed', function() List.tabGroup:OnTabPressed() end)
     List.Icon:SetScript('OnTabPressed', function() List.tabGroup:OnTabPressed() end)
     List.Name:SetScript('OnTabPressed', function() List.tabGroup:OnTabPressed() end)
 
-    --设置，Enter键
     List.ID:SetScript('OnEnterPressed', function() List:add_gossip() end)
     List.Icon:SetScript('OnEnterPressed', function() List:add_gossip() end)
     List.Name:SetScript('OnEnterPressed', function() List:add_gossip() end)
 
 
 
-    --图标
     List.Texture= Frame:CreateTexture()
     List.Texture:SetPoint('BOTTOM', List.ID, 'TOP' , 0, 2)
     List:set_texture_size()
 
-    --对话，内容
     List.GossipText= WoWTools_LabelMixin:Create(Frame)
     List.GossipText:SetPoint('TOP', List.Icon, 'BOTTOM', 0,-2)
 
 
-    --查找，图标，按钮
     List.FindIcon= WoWTools_ButtonMixin:Cbtn(Frame, {size=22, atlas='mechagon-projects'})
     List.FindIcon:SetPoint('LEFT', List.Icon, 'RIGHT', 2,0)
     List.FindIcon:SetScript('OnLeave', GameTooltip_Hide)
@@ -469,7 +460,7 @@ local function Init(isShow)
     --end)
 
 
-    if _G['TAV_CoreFrame'] then--查找，图标，按钮， Texture Atlas Viewer， 插件
+    if _G['TAV_CoreFrame'] then
         List.tav= WoWTools_ButtonMixin:Cbtn(Frame, {size=22, atlas='communities-icon-searchmagnifyingglass'})
         List.tav:SetPoint('TOP', List.FindIcon, 'BOTTOM', 0, -2)
         List.tav:SetScript('OnClick', function()
@@ -490,7 +481,6 @@ local function Init(isShow)
             GameTooltip:Show()
         end)
 
-        --插件
         local tavFrame= _G['TAV_InfoPanel']
         if tavFrame and tavFrame.Name and tavFrame.Name.GetText then
             local btn= CreateFrame('Button', 'WoWToolsGossipEditUITavCopyButton', tavFrame, 'WoWToolsButtonTemplate')--  WoWTools_ButtonMixin:Cbtn(Frame, {atlas='Gear'})
@@ -508,7 +498,6 @@ local function Init(isShow)
         end
     end
 
-    --颜色
     List.Color= CreateFrame('Button', Name..'ListColorButton', Frame, 'ColorSwatchTemplate')--ColorSwatchMixin
     List.Color:SetPoint('LEFT', List.ID, 'RIGHT', 2,0)
     List.Color:RegisterForClicks(WoWTools_DataMixin.LeftButtonDown, WoWTools_DataMixin.RightButtonDown)
@@ -544,7 +533,6 @@ local function Init(isShow)
         self:set_tooltips()
     end)
 
-    --添加
     List.Add= WoWTools_ButtonMixin:Cbtn(Frame, {size=22})
     List.Add:SetPoint('LEFT', List.Color, 'RIGHT', 2, 0)
     List.Add:SetScript('OnLeave', GameTooltip_Hide)
@@ -568,7 +556,6 @@ local function Init(isShow)
         List:add_gossip()
     end)
 
-    --删除，内容
     List.Delete= WoWTools_ButtonMixin:Cbtn(Frame, {size=22, atlas='common-icon-redx'})
     List.Delete:SetPoint('BOTTOM', List.Add, 'TOP', 0,2)
     List.Delete:Hide()
@@ -585,7 +572,6 @@ local function Init(isShow)
         List:delete_gossip(List.gossipID)
     end)
 
-    --删除，玩家数据
     List.DeleteAllPlayerData=WoWTools_ButtonMixin:Cbtn(Frame, {
         size=22,
         atlas='bags-button-autosort-up',
@@ -617,14 +603,12 @@ local function Init(isShow)
         end})
     end)
 
-    --自定义，对话，文本，数量
     List.NumLabel= WoWTools_LabelMixin:Create(Frame)
     List.NumLabel:SetPoint('LEFT', List.DeleteAllPlayerData, 'RIGHT')
 
 
 
 
-    --图标大小, 设置
     List.Size= WoWTools_SliderMixin:CSlider(Frame, {min=8, max=72, value=Save().Gossip_Text_Icon_Size, setp=1, color=false, w=255,
         text= WoWTools_L.SELF_HIGHLIGHT_ICON,
         func=function(frame, value)
@@ -634,17 +618,16 @@ local function Init(isShow)
             frame.Text:SetText(value)
             Save().Gossip_Text_Icon_Size= value
             List:set_texture_size()
-            local icon= List.Texture:GetTexture()--设置，图片，如果没有
+            local icon= List.Texture:GetTexture()
             if not icon or icon==0 then
                 List.Texture:SetTexture(3847780)
             end
-            WoWTools_GossipMixin:UpdateGossip()--更新GossipFrame
+            WoWTools_GossipMixin:UpdateGossip()
     end})
     List.Size:SetPoint('TOP', List.Icon, 'BOTTOM', 0, -36)
 
 
 
-    --修改，为中文，字体
     --if LOCALE_zhCN or LOCALE_zhTW then
       --  Save().Gossip_Text_Icon_cnFont=nil
     --elseif WoWTools_DataMixin.onlyChinese then
@@ -661,12 +644,11 @@ local function Init(isShow)
             GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName , WoWTools_GossipMixin.addName)
             GameTooltip:AddLine(' ')
             GameTooltip:AddDoubleLine('Fonts\\ARHei.ttf', WoWTools_L['ARHei'])
-           -- GameTooltip:AddDoubleLine('Interface\\AddOns\\WoWToolsPlus\\Source\\ARHei.TTF', '方正准圆')
             GameTooltip:Show()
         end)
         List.font:SetScript('OnMouseDown', function()
             Save().Gossip_Text_Icon_cnFont= not Save().Gossip_Text_Icon_cnFont and true or false
-            WoWTools_GossipMixin:UpdateGossip()--更新GossipFrame
+            WoWTools_GossipMixin:UpdateGossip()
             List:set_list()
             if not Save().Gossip_Text_Icon_cnFont then
                 WoWTools_Print(
@@ -678,7 +660,6 @@ local function Init(isShow)
         end)
     --end
 
-    --已打开，对话，列表
     List.chat= WoWTools_ButtonMixin:Cbtn(Frame, {size=22, atlas='transmog-icon-chat'})
     List.chat:SetNormalAtlas('transmog-icon-chat')
     List.chat:SetPoint('LEFT', List.Name, 'RIGHT', 2, 0)
@@ -697,18 +678,16 @@ local function Init(isShow)
         end)
     end)
 
-    --GossipFrame 有多少对话
     List.chat.Text= WoWTools_LabelMixin:Create(List.chat, {justifyH='CENTER'})
     List.chat.Text:SetPoint('CENTER', 1, 4.2)
 
 
 
-    --默认，自定义，列表
     List.System= WoWTools_ButtonMixin:Cbtn(Frame, {size=22})
     List.System:SetPoint('BOTTOMRIGHT', List.ID, 'TOPRIGHT', 0, 2)
     List.System.Text= WoWTools_LabelMixin:Create(List.System)
     List.System.Text:SetPoint('CENTER')
-    function List.System:set_num()--默认，自定义，列表        
+    function List.System:set_num()
         local n= CountTable(WoWTools_GossipMixin:Get_GossipData() or {})
 
         self:SetNormalTexture(0)
@@ -736,7 +715,6 @@ local function Init(isShow)
 
 
 
-    --导入数据
     List.DataFrame=WoWTools_EditBoxMixin:CreateFrame(Frame,{
         name=Name..'OutInScrollFrame'
     })
@@ -774,7 +752,7 @@ local function Init(isShow)
         end
     end
 
-    function List.DataFrame.enter:set_date(tooltips)--导入数据，和提示
+    function List.DataFrame.enter:set_date(tooltips)
         local frame= List.DataFrame
         if not frame then
             return
@@ -850,7 +828,7 @@ local function Init(isShow)
         self:set_date(true)
         GameTooltip:Show()
     end)
-    List.DataFrame.enter:SetScript('OnClick', function(self)--导入
+    List.DataFrame.enter:SetScript('OnClick', function(self)
        self:set_date()
     end)
 
@@ -900,11 +878,10 @@ local function Init(isShow)
 
     List:set_list()
     List:set_color()
-    WoWTools_GossipMixin:UpdateGossip()--更新GossipFrame
+    WoWTools_GossipMixin:UpdateGossip()
 
 
---GossipFrame事件
-    GossipFrame:HookScript('OnShow', function()--已打开，对话，列表
+    GossipFrame:HookScript('OnShow', function()
         if Frame:IsShown() then
             List.chat:SetShown(true)
             List:set_list()
@@ -924,9 +901,8 @@ local function Init(isShow)
     --Frame:SetFrameStrata('HIGH')
 
 
---Frame 设置
     Frame:SetScript('OnHide', function()
-        WoWTools_GossipMixin:UpdateGossip()--更新GossipFrame
+        WoWTools_GossipMixin:UpdateGossip()
         List:set_list()
         if GossipFrame:IsShown() and GossipFrame.GreetingPanel.ScrollBox:HasView() then
            for _, b in pairs(GossipFrame.GreetingPanel.ScrollBox:GetFrames() or {}) do
@@ -939,7 +915,7 @@ local function Init(isShow)
     end)
 
     Frame:SetScript('OnShow', function()
-        WoWTools_GossipMixin:UpdateGossip()--更新GossipFrame
+        WoWTools_GossipMixin:UpdateGossip()
         List:set_list()
         if _G['WoWToolsGossipEditUITavCopyButton'] then
             _G['WoWToolsGossipEditUITavCopyButton']:Show()

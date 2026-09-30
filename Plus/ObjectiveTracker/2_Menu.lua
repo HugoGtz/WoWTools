@@ -58,7 +58,6 @@ local function Init_Menu(self, root)
     local sub, sub2
     local col= Is_Locked() and '|cff828282' or ''
 
---收起选项
     sub=root:CreateButton(
         col
         ..(WoWTools_L['HUD_EDIT_MODE_COLLAPSE_OPTIONS~3']),
@@ -68,7 +67,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Objective.CollapseAll'])
 
---战斗中
     sub2= sub:CreateCheckbox(
         '|cnWARNING_FONT_COLOR:'
         ..(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT),
@@ -84,7 +82,6 @@ local function Init_Menu(self, root)
     end)
 
 
---展开选项
     sub=root:CreateButton(
         col
         ..(WoWTools_L['HUD_EDIT_MODE_EXPAND_OPTIONS~2']),
@@ -94,7 +91,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Objective.ExpandAll'])
 
---自动
     sub=root:CreateCheckbox(
         WoWTools_L.SELF_CAST_AUTO,
     function()
@@ -131,7 +127,6 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWTools_L.OBJECTIVES_STOP_TRACKING)
     end)
 
---缩放
     root:CreateDivider()
     WoWTools_MenuMixin:Scale(ObjectiveTrackerFrame, root, function()
         return Save().scale
@@ -142,7 +137,6 @@ local function Init_Menu(self, root)
         end
     end)
 
---透明度
     sub= root:CreateButton(
         '|A:MonkUI-LightOrb:0:0|a'..(WoWTools_L.HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY),
     function()
@@ -170,7 +164,6 @@ local function Init_Menu(self, root)
     sub:CreateSpacer()
 
 
---选项
     sub= WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_ObjectiveMixin.addName, tooltip=function(tooltip)
         tooltip:AddLine(' ')
         tooltip:AddLine('|cnWARNING_FONT_COLOR:BUG')
@@ -271,12 +264,11 @@ local function Init()
     end)
 
     WoWTools_DataMixin:Hook(ObjectiveTrackerFrame.Header, 'SetCollapsed', function(_, collapsed)
-        Save().initIsCollapsed= collapsed--保存，上次
+        Save().initIsCollapsed= collapsed
         MenuButton:set_shown()
     end)
 
 
---初始
     WoWTools_DataMixin:Hook(ObjectiveTrackerManager, 'ReleaseFrame', function(_, line)
         if line.Icon2 then
             line.Icon2:SetTexture(0)
@@ -288,7 +280,7 @@ local function Init()
     MenuButton:set_event()
     MenuButton:set_shown()
 
-    if Save().autoHide and Save().initIsCollapsed and not Is_Locked()  then--保存，上次
+    if Save().autoHide and Save().initIsCollapsed and not Is_Locked()  then
         ObjectiveTrackerFrame:SetCollapsed(true)--:ToggleCollapsed()
     end
 

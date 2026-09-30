@@ -1,4 +1,3 @@
---清除所有，要发送物品
 
 
 
@@ -33,7 +32,7 @@ local function Init()
     clearSendItem.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2)
 
 
-    WoWTools_DataMixin:Hook('SendMailFrame_Update', function()--发信箱，物品，信息
+    WoWTools_DataMixin:Hook('SendMailFrame_Update', function()
         local hasItem, btn, num= nil, nil, 0
         for i=1, ATTACHMENTS_MAX_SEND do
             btn = SendMailFrame.SendMailAttachments[i]
@@ -58,7 +57,7 @@ local function Init()
         end)
     end
 
-    local btn= _G['SendMailAttachment'..ATTACHMENTS_MAX_SEND]--最大数，提示
+    local btn= _G['SendMailAttachment'..ATTACHMENTS_MAX_SEND]
     if btn then
         btn.max= btn:CreateTexture(nil, 'OVERLAY')
         btn.max:SetSize(20, 30)
@@ -66,14 +65,14 @@ local function Init()
         btn.max:SetAlpha(0.5)
         btn.max:SetPoint('LEFT', btn, 'RIGHT', -2, 0)
     end
-    for i=1, ATTACHMENTS_MAX_SEND do--索引，提示
+    for i=1, ATTACHMENTS_MAX_SEND do
         btn= _G['SendMailAttachment'..i]
         if btn then
             btn.indexLable= WoWTools_LabelMixin:Create(btn, {layer='BORDER'})
             btn.indexLable:SetPoint('CENTER')
             btn.indexLable:SetAlpha(0.3)
             btn.indexLable:SetText(i)
-            for _, region in pairs({btn:GetRegions()}) do--背景，透明度
+            for _, region in pairs({btn:GetRegions()}) do
                 if region:IsObjectType('Texture')then
                     region:SetAlpha(0.5)
                     break
@@ -96,6 +95,6 @@ end
 
 
 
-function WoWTools_MailMixin:Init_Clear_All_Send_Items()--清除所有，要发送物品
+function WoWTools_MailMixin:Init_Clear_All_Send_Items()
     Init()
 end

@@ -1,5 +1,4 @@
 
---实时玩家当前坐标
 
 local function Save()
     return WoWToolsPlusSave['Plus_WorldMap'].PlayerXY
@@ -8,7 +7,6 @@ end
 
 
 
---实时玩家当前坐标，选项
 local function Init_Menu(self, root)
     local sub
 
@@ -16,7 +14,7 @@ local function Init_Menu(self, root)
         '|A:Waypoint-MapPin-ChatIcon:0:0|a'
         ..(WoWTools_L.SOCIAL_SHARE_TEXT),
     function()
-        WoWTools_WorldMapMixin:SendPlayerPoint()--发送玩家位置
+        WoWTools_WorldMapMixin:SendPlayerPoint()
         return MenuResponse.Open
     end)
     sub:SetTooltip(function(tooltip)
@@ -66,7 +64,6 @@ local function Init_Menu(self, root)
 
 
 
---延迟容限
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
@@ -82,7 +79,6 @@ local function Init_Menu(self, root)
         bit='%.2f',
     })
 
---图像大小
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
@@ -126,7 +122,6 @@ local function Init_Menu(self, root)
         self:Settings()
     end)
 
---缩放
     WoWTools_MenuMixin:Scale(self, sub, function()
         return Save().scale or 1
     end, function(value)
@@ -134,12 +129,11 @@ local function Init_Menu(self, root)
         self:Settings()
     end)
 
---重置数据
     sub:CreateDivider()
     local tipSub= sub:CreateButton(
         (WoWTools_L.DAMAGE_METER_RESET_ALL_SESSIONS),
     function()
-        WoWToolsPlusSave['Plus_WorldMap'].PlayerXY={--实时玩家当前坐标
+        WoWToolsPlusSave['Plus_WorldMap'].PlayerXY={
             textY=-2,
         }
         self:Settings()
@@ -174,7 +168,7 @@ local function Init()
     btn.Portrait:SetAllPoints()
 
     function btn:set_texture()
-        SetPortraitTexture(self.Portrait, 'player')--图像
+        SetPortraitTexture(self.Portrait, 'player')
     end
 
 
@@ -253,9 +247,7 @@ local function Init()
     end)
 
     function btn:Settings()
---大小
         self:SetScale(Save().scale or 1)
---位置
         self:ClearAllPoints()
         local p= Save().point
         if p and p[1] then
@@ -266,10 +258,8 @@ local function Init()
         end
 --Strata
         self:SetFrameStrata(Save().strata or 'MEDIUM')
---按钮，大小
         local size= Save().size or 23
         self:SetSize(size, size)
---Text 设置
         self.Text:ClearAllPoints()
         if Save().toLeft then
             self.Text:SetPoint('RIGHT', btn, "LEFT", 0, Save().textY or -2)
@@ -280,7 +270,6 @@ local function Init()
         end
 --Background
         self.Bg:SetColorTexture(0, 0, 0, Save().bgAlpha or 0.5)
---延迟容限
         self.time= Save().elapsed or 0.3
 
         self:UnregisterAllEvents()
@@ -315,7 +304,7 @@ local function Init()
     btn:Settings()
     if not btn.Portrait:GetTexture() then
         C_Timer.After(2, function()
-            SetPortraitTexture(btn.Portrait, 'player')--图像
+            SetPortraitTexture(btn.Portrait, 'player')
         end)
     end
 

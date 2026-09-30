@@ -1,4 +1,3 @@
---传送门
 local function Save()
     return WoWToolsPlusSave['Plus_Challenges'] or {}
 end
@@ -169,7 +168,6 @@ end
 
 
 --####
---初始
 --####
 local function Init()
     if Save().hidePort then

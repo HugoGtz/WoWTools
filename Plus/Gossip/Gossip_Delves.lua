@@ -1,4 +1,3 @@
---地下堡 C_DelvesUI.GetTraitTreeForCompanion()
 local function Save()
     return WoWToolsPlusSave['Plus_Gossip']
 end
@@ -166,7 +165,6 @@ end
 
 --Menu.ModifyMenu("MENU_DELVES_DIFFICULTY", Init_Menu)
 local function Init()
---最高等级
     maxCheck= CreateFrame('CheckButton', 'WoWToolsDelveDifficultyMaxCheck', DelvesDifficultyPickerFrame.CloseButton, 'UICheckButtonTemplate')
     function maxCheck:clear()
         self:UnregisterEvent('MODIFIER_STATE_CHANGED')
@@ -217,7 +215,6 @@ local function Init()
 
 
 
---已完成，这个可能没用
     completeCheck= CreateFrame('CheckButton', 'WoWToolsDelveDifficultyCompleteCheck', DelvesDifficultyPickerFrame.CloseButton, 'UICheckButtonTemplate')
     WoWTools_TextureMixin:SetCheckBox(completeCheck)
     completeCheck:SetPoint('TOPLEFT', maxCheck, 'BOTTOMLEFT')
@@ -275,7 +272,6 @@ local function Init()
         maxCheck:clear()
     end)
 
---自动选择
     DelvesDifficultyPickerFrame:HookScript('OnShow', function(self)
         if
             not canaccesstable(self.gossipOptions)
@@ -291,7 +287,7 @@ local function Init()
             Set_DelvesDifficultyPickerFrame(Option)
         end
         if isEnabled and self.EnterDelveButton:IsEnabled() then
-            WoWTools_CooldownMixin:Setup(self, nil, 3, nil, true, true, nil)--冷却条
+            WoWTools_CooldownMixin:Setup(self, nil, 3, nil, true, true, nil)
             maxCheck:RegisterEvent('MODIFIER_STATE_CHANGED')
 
             if maxCheck.time then
@@ -327,7 +323,6 @@ local function Init()
     end)
 
 
---等级说明
     DelvesDifficultyPickerFrame.Text2= maxCheck:CreateFontString(nil, 'BORDER', 'ChatFontNormal')
     DelvesDifficultyPickerFrame.Text2:SetTextColor(NORMAL_FONT_COLOR:GetRGB())
     DelvesDifficultyPickerFrame.Text2:SetPoint('TOP', DelvesDifficultyPickerFrame.Dropdown, 'BOTTOM', 0, -12)

@@ -7,8 +7,8 @@ end
 
 
 
-local function InvPlateGuidFunc()--从已邀请过列表里, 再次邀请 
-    if not WoWTools_InviteMixin:Get_Leader() then--取得权限
+local function InvPlateGuidFunc()
+    if not WoWTools_InviteMixin:Get_Leader() then
         WoWTools_Print(
             WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,
             WoWTools_L.ERR_GUILD_PERMISSIONS
@@ -29,7 +29,6 @@ local function InvPlateGuidFunc()--从已邀请过列表里, 再次邀请
             return
         end
 
-        --toRaidOrParty(num)--自动, 转团,转小队
         if name then
             C_PartyInfo.InviteUnit(name)
             n=n+1
@@ -158,7 +157,6 @@ local function Init_Menu(self, root)
 
 
 
---接受邀请
     root:CreateDivider()
     sub=root:CreateCheckbox(
         '|A:communities-icon-notification:0:0|a'..(WoWTools_L.INVITE),
@@ -219,14 +217,13 @@ local function Init_Menu(self, root)
 
 
 
---召唤
     sub=root:CreateCheckbox(
         '|A:RaidFrame-Icon-SummonPending:0:0|a'..(WoWTools_L.SUMMON),
     function()
         return Save().Summon
     end, function()
         Save().Summon= not Save().Summon and true or false
-        self:settings()--召唤，提示
+        self:settings()
     end)
     sub:SetTooltip(function(tooltip)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Invite.Summon'])
@@ -244,7 +241,7 @@ local function Init_Menu(self, root)
         return Save().restingTips
     end, function()
         Save().restingTips= not Save().restingTips and true or false
-        WoWTools_InviteMixin:Resting_Settings()--设置, 休息区提示
+        WoWTools_InviteMixin:Resting_Settings()
     end)
     sub:SetTooltip(function(tooltip)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Invite.RestingTips'])
@@ -264,7 +261,6 @@ local function Init_Menu(self, root)
 
 
 
---焦点
     sub=root:CreateCheckbox((WoWTools_L.HUD_EDIT_MODE_FOCUS_FRAME_LABEL)..(Save().setFucus and ' |cnGREEN_FONT_COLOR:'..Save().focusKey..'|r + '..WoWTools_DataMixin.Icon.left or ''), function()
         return Save().setFucus
     end, function()

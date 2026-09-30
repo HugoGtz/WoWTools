@@ -1,6 +1,4 @@
---更改,等级文本
 --PaperDollFrame.lua
---Init_ChromieTime()--时空漫游战役, 提示
 local function Save()
     return WoWToolsPlusSave['Plus_PaperDoll']
 end
@@ -52,7 +50,7 @@ local function Init()
 
         GameTooltip:AddLine(' ')
 
-        local expansionID = UnitChromieTimeID('player')--时空漫游战役 PartyUtil.lua
+        local expansionID = UnitChromieTimeID('player')
         local option = C_ChromieTime.GetChromieTimeExpansionOption(expansionID)
         local expansion = option and WoWTools_TextMixin:CN(option.name) or (WoWTools_L.NONE)
         if option and option.previewAtlas then
@@ -115,7 +113,7 @@ local function Init()
         end
 
         if effectiveLevel ~= level then
-            levelText = EFFECTIVE_LEVEL_FORMAT:format('|cnGREEN_FONT_COLOR:'..effectiveLevel..'|r', levelText)--%s（%s）
+            levelText = EFFECTIVE_LEVEL_FORMAT:format('|cnGREEN_FONT_COLOR:'..effectiveLevel..'|r', levelText)
         end
 
         CharacterLevelText:SetTextToFit(
@@ -127,7 +125,6 @@ local function Init()
     end)
 
 
---专精，职责
     CharacterFrame.PortraitSpecRole= CharacterFrame.PortraitContainer:CreateTexture('WoWToolsPaperDollSpecRoleTexture', 'OVERLAY', nil, 7)
     CharacterFrame.PortraitSpecRole:SetSize(22,22)
     CharacterFrame.PortraitSpecRole:SetPoint('BOTTOMRIGHT', CharacterFramePortrait, -5,8)
@@ -158,7 +155,6 @@ local function Init()
 
 
 
---战争模式
     local war= CreateFrame("Button", 'WoWToolsPaperDollWarModeButton', btn, 'WoWToolsButton2Template')
     war:SetPoint('RIGHT', btn, 'LEFT')
     war:SetSize(18, 18)
@@ -235,7 +231,6 @@ local function Init()
 
 
 
---装备,总耐久度
     local du= CreateFrame('Button', 'WoWToolsPaperDollDurabiliyButton', btn, 'WoWToolsButton2Template')
     du:SetPoint('RIGHT', war, 'LEFT')
     du:SetSize(18, 18)

@@ -1,5 +1,3 @@
---添加，移动/缩放，按钮
---创建, 一个移动按钮
 local function Save()
     return WoWToolsPlusSave['Plus_Move']
 end
@@ -33,7 +31,6 @@ end
 
 local function Init_Menu(self, root)
     if self.setZoom then
---缩放
         WoWTools_MenuMixin:Scale(self, root, function()
             return Save().scale[self.name] or 1
         end, function(value)
@@ -61,7 +58,6 @@ local function Init_Menu(self, root)
     end)
 
     root:CreateDivider()
---打开选项界面
     WoWTools_MenuMixin:OpenOptions(root, {
         name=WoWTools_MoveMixin.addName,
         category=WoWTools_MoveMixin.Category
@@ -99,7 +95,6 @@ local function SetupButton(frame, tab)
     btn.alpha= alpha
     btn.pointSave= {frame:GetPoint(1)}
 
---透明度
     function btn:set_alpha()
         if self.alpha~=1 then
             self:SetAlpha(self:IsMouseOver() and 1 or self.alpha)
@@ -107,7 +102,6 @@ local function SetupButton(frame, tab)
     end
     btn:set_alpha()
 
---位置
     if setPoint then
         setPoint(btn)
     else
@@ -115,7 +109,6 @@ local function SetupButton(frame, tab)
     end
     btn:SetFrameLevel(frame:GetFrameLevel()+7)-- 9999)
 
---提示
     btn:SetScript("OnLeave", function(self)
         ResetCursor()
         GameTooltip:Hide()
@@ -126,7 +119,6 @@ local function SetupButton(frame, tab)
         self:set_alpha()
     end)
 
---菜单
     btn:SetScript('OnMouseDown', function(self, d)
         if d=='RightButton' and not IsModifierKeyDown() then
             MenuUtil.CreateContextMenu(self, function(...)
@@ -135,7 +127,6 @@ local function SetupButton(frame, tab)
         end
     end)
 
---缩放
     if setZoom then
         local scale= Save().scale[name]
         if scale and scale~=1 then
@@ -163,7 +154,7 @@ local function SetupButton(frame, tab)
     
 
     --tab.name= name
-    tab.click= 'RightButton'--点击，移动
+    tab.click= 'RightButton'
     tab.isAltKeyDown= true
 
     WoWTools_MoveMixin:Setup(btn, tab)
@@ -173,8 +164,7 @@ local function SetupButton(frame, tab)
 end
 
 
---移动, 能量条
-local function Init_UIWidgetPowerBarContainerFrame()--移动, 能量条
+local function Init_UIWidgetPowerBarContainerFrame()
     local frame= UIWidgetPowerBarContainerFrame
     if not frame then
         return
@@ -220,9 +210,8 @@ end
 local function Init()
     SetupButton(ZoneAbilityFrame)
 
-    Init_UIWidgetPowerBarContainerFrame()--移动, 能量条
+    Init_UIWidgetPowerBarContainerFrame()
 
---宠物对战
     SetupButton(PetBattleFrame.BottomFrame, {
         name='PetBattleFrame_BottomFrame',
         size= {20, 26},
@@ -232,12 +221,10 @@ local function Init()
     })
 
     C_Timer.After(4, function()
-    --小眼睛
         SetupButton(QueueStatusButton, {save=true, notZoom=true, show=true})
 
-    --编辑模式
         WoWTools_DataMixin:Hook(EditModeManagerFrame, 'ExitEditMode', function()
-            WoWTools_MoveMixin:SetPoint(QueueStatusButton)--小眼睛, 
+            WoWTools_MoveMixin:SetPoint(QueueStatusButton)
         end)
     end)
 

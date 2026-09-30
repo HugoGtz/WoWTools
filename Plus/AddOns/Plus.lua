@@ -16,8 +16,7 @@ end
 
 
 
---依赖，移过，提示
-local function Find_AddOn_Dependencies(find, check)--依赖，提示
+local function Find_AddOn_Dependencies(find, check)
     local addonIndex= check:GetID()
     local tab={}
     for _, depName in pairs({C_AddOns.GetAddOnDependencies(addonIndex)}) do
@@ -65,7 +64,7 @@ local function Create_Check(frame)
     WoWTools_TextureMixin:SetCheckBox(frame.check)
 
 
-    frame.check:SetSize(20,20)--Fast，选项
+    frame.check:SetSize(20,20)
     frame.check:SetPoint('RIGHT', frame.Status, 'LEFT')
 
     frame.check:SetScript('OnClick', function(self)
@@ -74,7 +73,7 @@ local function Create_Check(frame)
     end)
 
 
-    frame.check.dep= frame:CreateLine()--依赖，提示
+    frame.check.dep= frame:CreateLine()
     frame.check.dep:Hide()
     frame.check.dep:SetColorTexture(1, 0.82, 0)
     frame.check.dep:SetStartPoint('BOTTOMLEFT', 55,2)
@@ -82,13 +81,13 @@ local function Create_Check(frame)
     frame.check.dep:SetThickness(0.5)
     frame.check.dep:SetAlpha(0.2)
 
-    frame.check.select= frame:CreateTexture(nil, 'OVERLAY')--光标，移过提示
+    frame.check.select= frame:CreateTexture(nil, 'OVERLAY')
     frame.check.select:SetAtlas('CreditsScreen-Selected')
     frame.check.select:SetAllPoints()
     frame.check.select:SetAlpha(0.3)
     frame.check.select:Hide()
 
-    frame.check.Text:SetParent(frame)--索引
+    frame.check.Text:SetParent(frame)
     frame.check.Text:ClearAllPoints()
     frame.check.Text:SetPoint('RIGHT', frame.check, 'LEFT')
 
@@ -128,13 +127,13 @@ local function Create_Check(frame)
         self.Text:SetAlpha(C_AddOns.GetAddOnDependencies(addonIndex) and 0.3 or 1)
         local check= self:GetParent().Enabled
         check:SetAlpha(check:GetChecked() and 1 or 0)
-        Find_AddOn_Dependencies(false, self)--依赖，移过，提示
+        Find_AddOn_Dependencies(false, self)
     end
     function frame.check:set_enter_alpha()
         self:SetAlpha(1)
         self.Text:SetAlpha(1)
         self:GetParent().Enabled:SetAlpha(1)
-        Find_AddOn_Dependencies(true, self)--依赖，移过，提示
+        Find_AddOn_Dependencies(true, self)
     end
 
 
@@ -184,7 +183,6 @@ end
 
 
 
---列表，内容
 local function Init_Set_List(self, addonIndex)
     if not addonIndex then
         if self.check then
@@ -207,7 +205,7 @@ local function Init_Set_List(self, addonIndex)
     local iconTexture = C_AddOns.GetAddOnMetadata(addonIndex, "IconTexture")
     local iconAtlas = C_AddOns.GetAddOnMetadata(addonIndex, "IconAtlas")
 
-    if not iconTexture and not iconAtlas then--去掉，没有图标，提示
+    if not iconTexture and not iconAtlas then
        self.Title:SetText(title or name)
     end
 
@@ -218,13 +216,13 @@ local function Init_Set_List(self, addonIndex)
     self.check:SetChecked(isChecked)--fast
     self.check:SetAlpha(isChecked and 1 or 0.1)
 
-    self.check.Text:SetText(addonIndex or '')--索引
+    self.check.Text:SetText(addonIndex or '')
     self.check.memoFrame:SetID(addonIndex)
     self.check.memoFrame.name=name
     self.check.memoFrame:SetShown(C_AddOns.IsAddOnLoaded(addonIndex))
 
 
-    if self.check.isDependencies then--依赖
+    if self.check.isDependencies then
         self.check.select:SetVertexColor(0,1,0)
         self.check.Text:SetTextColor(0.5,0.5,0.5)
         self.check.Text:SetAlpha(0.3)
@@ -264,7 +262,7 @@ local function Init()
 
     WoWTools_DataMixin:Hook('AddonList_InitAddon', function(entry, treeNode)
         local addonIndex = treeNode:GetData().addonIndex
-        Init_Set_List(entry, addonIndex)--列表，内容
+        Init_Set_List(entry, addonIndex)
     end)
 
     WoWTools_DataMixin:Hook('AddonTooltip_Update', function(self)
@@ -283,7 +281,6 @@ local function Init()
 
 
 
---不禁用，本插件
     local btn= CreateFrame('Button', 'WoWToolsAddonsNotDisableButton', AddonList, 'WoWToolsButtonTemplate', 0)
     btn:SetSize(18, 18)
     btn:SetPoint('LEFT', AddonList.DisableAllButton, 'RIGHT', 2,0)
@@ -393,12 +390,11 @@ local function Init()
 
 
 
---加载过期插件
     AddonList.ForceLoad:ClearAllPoints()
     AddonList.ForceLoad:SetPoint('LEFT', AddonList.Dropdown, 'RIGHT')
     for _, label in pairs({AddonList.ForceLoad:GetRegions()}) do
         local text= label:IsObjectType('FontString') and label:GetText()
-        if text and (text==ADDON_FORCE_LOAD or text=='加载过期插件') then
+        if text and (text==ADDON_FORCE_LOAD) then
             label:SetText('')
             label:ClearAllPoints()
             break

@@ -1,4 +1,3 @@
---传家宝, 按钮，提示 4
 --Blizzard_HeirloomCollection.lua
 local function Save()
     return WoWToolsPlusSave['Plus_Collection'] or {}
@@ -44,7 +43,7 @@ local function Init()
         local maxUp=C_Heirloom.GetHeirloomMaxUpgradeLevel(button.itemID) or 0
         local level= maxUp-(upgradeLevel or 0)
         local has = C_Heirloom.PlayerHasHeirloom(button.itemID)
-        if has then--需要升级数
+        if has then
             if not button.upLevel then
                 button.upLevel = button:CreateTexture(nil, 'OVERLAY')
                 button.upLevel:SetPoint('TOPLEFT', -4, 4)
@@ -104,7 +103,7 @@ local function Init()
         if button.isPvP then
             button.isPvP:SetShown(isPvP)
         end
-        if not button.moved and button.level then--设置，等级数字，位置
+        if not button.moved and button.level then
             button.level:ClearAllPoints()
             button.level:SetPoint('TOPRIGHT', button, 'TOPRIGHT')
 
@@ -112,7 +111,7 @@ local function Init()
             button.levelBackground:SetPoint('TOPRIGHT', button, 'TOPRIGHT',-2,-2)
             button.levelBackground:SetAlpha(0.5)
 
-            button.slotFrameCollected:SetTexture(0)--外框架
+            button.slotFrameCollected:SetTexture(0)
             button.slotFrameCollected:SetShown(false)
             button.slotFrameCollected:SetAlpha(0)
             button.moved= true
@@ -122,7 +121,7 @@ local function Init()
         end
         button.levelBackground:SetShown(level>0 and has)
 
-        WoWTools_ItemMixin:SetItemStats(button, C_Heirloom.GetHeirloomLink(button.itemID), {point=button.iconTexture, itemID=button.itemID, hideSet=true, hideLevel=not has, hideStats=not has})--设置，物品，4个次属性，套装，装等，
+        WoWTools_ItemMixin:SetItemStats(button, C_Heirloom.GetHeirloomLink(button.itemID), {point=button.iconTexture, itemID=button.itemID, hideSet=true, hideLevel=not has, hideStats=not has})
     end)
 
 
@@ -143,6 +142,6 @@ end
 
 
 
-function WoWTools_CollectionMixin:Init_Heirloom()--传家宝 4
+function WoWTools_CollectionMixin:Init_Heirloom()
     Init()
 end

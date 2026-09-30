@@ -1,24 +1,5 @@
---所有，出售物品, 列表
 
 
-  --[[双击，取消拍卖
-  local function OnDoubleClick_AllAuctionsList(frame)
-    if not frame:HasView() then
-        return
-    end
-    for _, btn in pairs(frame:GetFrames() or {}) do
-        if not btn.setOnDoubleClick then
-            --Doble clic: el primer clic selecciona la fila; se usa el botón de Blizzard, que pide confirmación
-            btn:SetScript('OnDoubleClick', function(self)
-                local cancelBtn= AuctionHouseFrameAuctionsFrame.CancelAuctionButton
-                if self.rowData and self.rowData.auctionID and cancelBtn and cancelBtn:IsEnabled() then
-                    cancelBtn:Click()
-                end
-            end)
-            btn.setOnDoubleClick=true
-        end
-    end
-end]]
 
 local function get_auctionID()
     local tab={}
@@ -66,7 +47,6 @@ local function Cancel_Auction()
 end
 
 
---取消,按钮
 local function Init_Cancel_Button()
 
     local cancelButton= WoWTools_ButtonMixin:Cbtn(AuctionHouseFrameAuctionsFrame.CancelAuctionButton, {
@@ -122,12 +102,10 @@ local function Init()
         return
     end
 
---移动，刷新，按钮
     AuctionHouseFrameAuctionsFrame.AllAuctionsList.RefreshFrame.RefreshButton:ClearAllPoints()
     AuctionHouseFrameAuctionsFrame.AllAuctionsList.RefreshFrame.RefreshButton:SetPoint('RIGHT', AuctionHouseFrameAuctionsFrame.CancelAuctionButton, 'LEFT', -4, 0)
 
 
---双击，取消拍卖
     for _, frame in pairs({
         AuctionHouseFrameAuctionsFrame.AllAuctionsList,
         AuctionHouseFrameAuctionsFrame.ItemList,
@@ -154,7 +132,6 @@ local function Init()
         end)
     end
 
---拍卖，数量
     local frame= CreateFrame('Frame', nil, AuctionHouseFrameAuctionsTab)
     frame:SetPoint('BOTTOMRIGHT', AuctionHouseFrameAuctionsTab, -4, 4)
     frame:SetSize(1,1)
@@ -198,14 +175,12 @@ local function Init()
     frame:updata_data()
 
 
---取消,按钮
     Init_Cancel_Button()
 
     Init= function()end
 end
 
 
---所有，出售物品, 列表
 function WoWTools_AuctionHouseMixin:Init_AllAuctions()
     Init()
 end

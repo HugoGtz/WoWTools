@@ -17,7 +17,7 @@ end
 
 
 
-local function Init()--预创建队伍增强
+local function Init()
     if not Save().LFGPlus then
         return
     end
@@ -55,7 +55,6 @@ local function Init()--预创建队伍增强
             end
         end)
 
---重新加载UI
         root:CreateDivider()
         WoWTools_MenuMixin:Reload(root)
     end)
@@ -92,7 +91,6 @@ local function Init()--预创建队伍增强
 
 
 
---显示，更多，副本，列表
     WoWTools_DataMixin:Hook('LFGListEntryCreation_SetupGroupDropdown', function(self)
         if not self.useMoreButton then
             self.useMoreButton= CreateFrame('Button', 'WoWToolsLFGPlusUseMoreButton', self, 'WoWToolsButtonTemplate') --[[WoWTools_ButtonMixin:Cbtn(self, {
@@ -137,7 +135,6 @@ local function Init()--预创建队伍增强
 
 
 
---预创建队伍， 双击创建， 右击寻找
     LFGListFrame.EntryCreation.ActivityFinder.Dialog.EntryBox:SetScript('OnEscapePressed', function(self)
         self:ClearFocus()
     end)
@@ -198,7 +195,6 @@ local function Init()--预创建队伍增强
 
 
 
---预创建队伍增强
     local function getIndex(values, val)
         local index={}
         for k,v in pairs(values) do
@@ -221,8 +217,8 @@ local function Init()--预创建队伍增强
         local text, color, autoAccept = nil, nil, nil
         text=''
         if not isAppFinished then
-            text, color= WoWTools_ChallengeMixin:KeystoneScorsoColor(info.leaderOverallDungeonScore, true)--地下城, 分数
-            if info.leaderPvpRatingInfo and info.leaderPvpRatingInfo.rating and info.leaderPvpRatingInfo.rating>0 then--PVP, 分数
+            text, color= WoWTools_ChallengeMixin:KeystoneScorsoColor(info.leaderOverallDungeonScore, true)
+            if info.leaderPvpRatingInfo and info.leaderPvpRatingInfo.rating and info.leaderPvpRatingInfo.rating>0 then
                 local text2, color2=WoWTools_ChallengeMixin:KeystoneScorsoColor(info.leaderPvpRatingInfo.rating)
                 local icon= info.leaderPvpRatingInfo.tier and info.leaderPvpRatingInfo.tier>0 and ('|A:honorsystem-icon-prestige-'..info.leaderPvpRatingInfo.tier..':0:0|a') or '|A:pvptalents-warmode-swords:0:0|a'
                 if info.isWarMode then
@@ -234,16 +230,16 @@ local function Init()--预创建队伍增强
 
             end
             color= color or {r=1,g=1,b=1}
-            if info.numBNetFriends and info.numBNetFriends>0 then--好友, 数量
+            if info.numBNetFriends and info.numBNetFriends>0 then
                 text= text..' '..WoWTools_DataMixin.Icon.wow2..info.numBNetFriends
             end
-            if info.numCharFriends and info.numCharFriends>0 then--好友, 数量
+            if info.numCharFriends and info.numCharFriends>0 then
                 text= text..' |A:socialqueuing-icon-group:0:0|a'..info.numCharFriends
             end
-            if info.numGuildMates and info.numGuildMates>0 then--好友, 数量
+            if info.numGuildMates and info.numGuildMates>0 then
                 text= text..' |A:UI-HUD-MicroMenu-GuildCommunities-Mouseover:0:0|a'..info.numCharFriends
             end
-            autoAccept= info.autoAccept--自动, 邀请
+            autoAccept= info.autoAccept
         end
         if text~='' and not self.scorsoText then
             self.scorsoText= WoWTools_LabelMixin:Create(self, {justifyH='RIGHT'})
@@ -256,7 +252,7 @@ local function Init()--预创建队伍增强
                 self.Name:SetTextColor(color.r, color.g, color.b)
             end
         end
-        if autoAccept and not self.autoAcceptTexture then--自动, 邀请
+        if autoAccept and not self.autoAcceptTexture then
             self.autoAcceptTexture=self:CreateTexture(nil,'OVERLAY')
             self.autoAcceptTexture:SetPoint('LEFT')
             self.autoAcceptTexture:SetAtlas('common-icon-checkmark')
@@ -278,7 +274,7 @@ local function Init()--预创建队伍增强
         local realm, realmText
         if info.leaderName and not isAppFinished then
             local server= info.leaderName:match('%-(.+)') or WoWTools_DataMixin.Player.Realm
-            server=WoWTools_RealmMixin:Get_Region(server)--服务器，EU， US {col, text}
+            server=WoWTools_RealmMixin:Get_Region(server)
             realm= server and server.col
             realmText=server and server.realm
         end
@@ -304,7 +300,7 @@ local function Init()--预创建队伍增强
         end
 
         if not self.OnDoubleClick then
-            self:SetScript('OnDoubleClick', function(f)--LFGListApplicationDialogSignUpButton_OnClick(LFDButton) LFG队长分数, 双击加入 LFGListSearchPanel_UpdateResults
+            self:SetScript('OnDoubleClick', function(f)
                 if InCombatLockdown() then
                     return
                 end
@@ -313,7 +309,7 @@ local function Init()--预创建队伍增强
                 end
                 local frame=LFGListApplicationDialog
                 if not frame.TankButton.CheckButton:GetChecked() and not frame.HealerButton.CheckButton:GetChecked() and not frame.DamagerButton.CheckButton:GetChecked() then
-                    local specID=GetSpecialization()--当前专精
+                    local specID=GetSpecialization()
                     if specID then
                         local role = select(5, C_SpecializationInfo.GetSpecializationInfo(specID))
                         if role=='DAMAGER' and frame.DamagerButton:IsShown() then
@@ -400,7 +396,6 @@ local function Init()--预创建队伍增强
 
 
 
---预创建队伍增强, 提示
     WoWTools_DataMixin:Hook('LFGListUtil_SetSearchEntryTooltip', function(tooltip, resultID)--, autoAcceptOption)
         if InCombatLockdown() then
             return
@@ -480,7 +475,6 @@ end
 
 
 
---预创建队伍增强
 function WoWTools_LFDMixin:Init_LFG_Plus()
     Init()
 end

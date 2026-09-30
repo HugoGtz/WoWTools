@@ -1,4 +1,3 @@
---提示，背包，总数
 
 
 
@@ -87,7 +86,6 @@ local function Init()
                 break
             end
         end
---合计
         if numPlayer>1 then
             local left= format(CHARACTER_CUSTOMIZATION_CHOICE_NAME_AND_ID, numPlayer, WoWTools_L.CHARACTER)--%d %s
             GameTooltip:AddDoubleLine(
@@ -96,7 +94,6 @@ local function Init()
                 '|cnGREEN_FONT_COLOR:'..(allMoney >=10000 and WoWTools_DataMixin:MK(allMoney/10000, 3)..'|A:Coin-Gold:0:0|a' or C_CurrencyInfo.GetCoinTextureString(allMoney))
             )
         end
---银行
         local account= C_Bank.FetchDepositedMoney(Enum.BankType.Account)
         if account then
             local text= '|A:questlog-questtypeicon-account:0:0|a|cff00ccff'
@@ -116,7 +113,6 @@ local function Init()
 
 
 
---背包，数量
         local num, use= 0, 0
         tab={}
         for i = BACKPACK_CONTAINER, NUM_TOTAL_EQUIPPED_BAG_SLOTS do
@@ -177,7 +173,7 @@ local function Init()
 
 
     MainMenuBarBackpackButtonCount:SetShadowOffset(1, -1)
-    WoWTools_ColorMixin:SetLabelColor(MainMenuBarBackpackButtonCount)--设置颜色
+    WoWTools_ColorMixin:SetLabelColor(MainMenuBarBackpackButtonCount)
 
     WoWTools_DataMixin:Hook(MainMenuBarBackpackButton, 'UpdateFreeSlots', function(self)
         local freeSlots=self.freeSlots
@@ -197,7 +193,6 @@ local function Init()
         end
     end)
 
---收起，背包小按钮
     if C_CVar.GetCVarBool("expandBagBar") and C_CVar.GetCVarBool("combinedBags") and not InCombatLockdown() then--MainMenuBarBagButtons.lua
         C_CVar.SetCVar("expandBagBar", '0')
     end
@@ -212,7 +207,7 @@ local function Init()
     MainMenuBarBackpackButton:EnableMouseWheel(true)
     MainMenuBarBackpackButton:SetScript('OnMouseWheel', function(_, d)
         local isShow= d==1
-        WoWTools_DataMixin:OpenWoWItemListFrame('Item', isShow)--战团，物品列表
+        WoWTools_DataMixin:OpenWoWItemListFrame('Item', isShow)
     end)
 
 
@@ -232,6 +227,6 @@ end
 
 
 
-function WoWTools_MainMenuMixin:Init_Bag()--背包
+function WoWTools_MainMenuMixin:Init_Bag()
     Init()
 end

@@ -1,7 +1,6 @@
 
 
 
---要塞,任务，列表
 local function Get_Garrison_List_Num(followerType)
     local num, all, text= 0, 0, ''
     if followerType then
@@ -70,7 +69,7 @@ local function Init_GarrisonList()
     garrisonType= Enum.GarrisonType.Type_7_0_Garrison,
     garrFollowerTypeID= Enum.GarrisonFollowerType.FollowerType_7_0_GarrisonFollower,
     frame='OrderHallMissionFrame',
-    atlas= WoWTools_UnitMixin:GetClassIcon('player', nil, nil, {reAtlas=true}),--职业图标 -- WoWTools_DataMixin.Player.Class == "EVOKER" and "UF-Essence-Icon-Active" or string.format("legionmission-landingbutton-%s-up", WoWTools_DataMixin.Player.Class),
+    atlas= WoWTools_UnitMixin:GetClassIcon('player', nil, nil, {reAtlas=true}),
     --tooltip= MINIMAP_ORDER_HALL_LANDING_PAGE_TOOLTIP,
     },
 
@@ -90,11 +89,9 @@ local function Init_GarrisonList()
 end
 
 
---要塞报告 GarrisonBaseUtils.lua
 function WoWTools_MinimapMixin:Garrison_Menu(_, root)
     local sub
 
---宏伟宝库
     local hasRewar= C_WeeklyRewards.HasAvailableRewards()
     sub=root:CreateButton(
         (hasRewar and '|cnGREEN_FONT_COLOR:' or '')
@@ -107,11 +104,10 @@ function WoWTools_MinimapMixin:Garrison_Menu(_, root)
         return MenuResponse.Open
     end)
     sub:SetTooltip(function(tooltip)
-        WoWTools_ChallengeMixin:ActivitiesTooltip(tooltip)--周奖励，提示
+        WoWTools_ChallengeMixin:ActivitiesTooltip(tooltip)
     end)
 
 
---驭空术
     WoWTools_MenuMixin:OpenDragonriding(root)
 
     do
@@ -166,7 +162,6 @@ function WoWTools_MinimapMixin:Garrison_Menu(_, root)
             end
             sub:SetEnabled(not disabled and true or false)
 
---盟约 9.0
             if info.garrisonType== Enum.GarrisonType.Type_9_0_Garrison then
                 for covenantID=1, 4 do
                     local info2 = C_Covenants.GetCovenantData(covenantID)

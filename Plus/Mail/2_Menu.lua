@@ -20,7 +20,7 @@ local function Init_Menu(self, root)
         return not Save().hide
     end, function()
         Save().hide= not Save().hide and true or nil
-        WoWTools_MailMixin:Init_InBox()--收信箱，物品，提示
+        WoWTools_MailMixin:Init_InBox()
     end)
     WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Mail.InBoxPlus'])
 
@@ -33,7 +33,7 @@ local function Init_Menu(self, root)
         return not Save().hideSendNameList
     end, function()
         Save().hideSendNameList= not Save().hideSendNameList and true or nil
-        WoWTools_MailMixin:Init_Send_Name_List()--收件人，列表
+        WoWTools_MailMixin:Init_Send_Name_List()
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Mail.NameList'])
 
@@ -44,7 +44,7 @@ local function Init_Menu(self, root)
         return not Save().hideHistoryList
     end, function()
         Save().hideHistoryList= not Save().hideHistoryList and true or nil
-        WoWTools_MailMixin:Init_Send_History_Name()--收件人，历史记录
+        WoWTools_MailMixin:Init_Send_History_Name()
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Mail.History'])
 
@@ -90,7 +90,6 @@ local function Init_Menu(self, root)
     root:CreateDivider()
 
 
---打开选项界面
     sub= WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_MailMixin.addName})
     WoWTools_MenuMixin:Reload(sub)
 end

@@ -4,7 +4,6 @@
 
 
 
---职业, 图标， 颜色
 local function Craete_Frame(frame, portrait)
     frame.classFrame= CreateFrame('Frame', nil, frame)
     frame.classFrame:SetFrameStrata('HIGH')
@@ -15,11 +14,11 @@ local function Craete_Frame(frame, portrait)
     frame.classFrame.Portrait:SetAllPoints()
     WoWTools_ButtonMixin:AddMask(frame.classFrame, true, frame.classFrame.Portrait)
 
-    frame.classFrame.Texture= frame.classFrame:CreateTexture(nil, 'BACKGROUND')--加个外框
+    frame.classFrame.Texture= frame.classFrame:CreateTexture(nil, 'BACKGROUND')
     frame.classFrame.Texture:SetAtlas('talents-node-choiceflyout-circle-greenglow')
     frame.classFrame.Texture:SetPoint('TOPLEFT', frame.classFrame, -2, 2)
     frame.classFrame.Texture:SetPoint('BOTTOMRIGHT', frame.classFrame, 2, -2)
-    frame.classFrame.itemLevel= frame.classFrame:CreateFontString(nil, 'BORDER', 'WoWToolsFont')-- WoWTools_LabelMixin:Create(frame.classFrame, {size=12})--装等
+    frame.classFrame.itemLevel= frame.classFrame:CreateFontString(nil, 'BORDER', 'WoWToolsFont')
     frame.classFrame.itemLevel:SetPoint('LEFT', frame.classFrame.Portrait, 'RIGHT', -2, 0)
 
     function frame.classFrame:get_guid()
@@ -35,7 +34,7 @@ local function Craete_Frame(frame, portrait)
     function frame.classFrame:get_playerinfo()
         local guid, unit= self:get_guid()
         if guid and not WoWTools_DataMixin.PlayerInfo[guid] then
-            WoWTools_UnitMixin:GetNotifyInspect(nil, unit)--取得玩家信息
+            WoWTools_UnitMixin:GetNotifyInspect(nil, unit)
         end
     end
 
@@ -79,7 +78,7 @@ local function Craete_Frame(frame, portrait)
     end
 
     frame.classFrame:SetScript('OnEvent', function(self)
-        WoWTools_UnitMixin:GetNotifyInspect(nil, self:GetParent().unit)--取得玩家信息
+        WoWTools_UnitMixin:GetNotifyInspect(nil, self:GetParent().unit)
     end)
 
     frame:HookScript('OnShow', function(self)
@@ -110,7 +109,6 @@ end
 
 
 --UnitFrame.lua
---职业, 图标， 颜色
 local function Init()
     if WoWToolsPlusSave['Plus_UnitFrame'].hideClassColor then
         return
@@ -123,7 +121,6 @@ local function Init()
         [PartyFrame.MemberFrame2]=PartyFrame.MemberFrame2.Portrait,
         [PartyFrame.MemberFrame3]=PartyFrame.MemberFrame3.Portrait,
         [PartyFrame.MemberFrame4]=PartyFrame.MemberFrame4.Portrait,
-        --[TargetFrameToT]= TargetFrameToT.Portrait,--不知哪里出问题，刷新太快
         --[FocusFrame]= FocusFrame.TargetFrameContainer.Portrait,
     }) do
         if frame and portrait then
@@ -145,7 +142,6 @@ local function Init()
 
         local color= WoWTools_UnitMixin:GetColor(unit)
 
-    --名称
         if frame.name then
             if WoWTools_UnitMixin:UnitIsUnit(unit, 'pet') then
                 frame.name:SetText('|A:auctionhouse-icon-favorite:0:0|a')
@@ -171,12 +167,10 @@ local function Init()
         end
 
 
-    --生命条，颜色，材质
         if frame.healthbar then
             frame.healthbar:SetStatusBarTexture('UI-HUD-UnitFrame-Player-PortraitOn-Bar-Health-Status')
-            frame.healthbar:SetStatusBarColor(color:GetRGB())--颜色
+            frame.healthbar:SetStatusBarColor(color:GetRGB())
         end
-    --外框
         if frame.Texture then
             frame.Texture:SetVertexColor(color:GetRGB())
         end

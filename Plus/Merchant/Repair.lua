@@ -11,7 +11,6 @@ end
 
 
 
---自动修理
 local function Init_Auto_Repair()
     local AutoRepairCheck= CreateFrame('CheckButton', 'WoWTools_AutoRepairCheck', MerchantRepairAllButton, "InterfaceOptionsCheckButtonTemplate")
     WoWTools_TextureMixin:SetCheckBox(AutoRepairCheck)
@@ -66,7 +65,6 @@ local function Init_Auto_Repair()
 
 
 
-    --修理
     function AutoRepairCheck:set_repair_all()
         if Save().notAutoRepairAll or not CanMerchantRepair() or IsModifierKeyDown() then
             return
@@ -144,7 +142,6 @@ end
 
 local function Init()
 
---公会修理
     MerchantGuildBankRepairButton.Text= WoWTools_LabelMixin:Create(MerchantGuildBankRepairButton, {justifyH='RIGHT'})
     MerchantGuildBankRepairButton.Text:SetPoint('BOTTOMRIGHT', 2, -2)
     function MerchantGuildBankRepairButton.Text:settings()
@@ -168,11 +165,10 @@ local function Init()
         MerchantGuildBankRepairButton.Text:settings()
     end)
 
---修理一件
     MerchantRepairItemButton.Text=WoWTools_LabelMixin:Create(MerchantRepairItemButton)
     MerchantRepairItemButton.Text:SetPoint('BOTTOM', MerchantRepairItemButton, 'TOP', 0, -6)
 
-    MerchantRepairItemButton:SetScript('OnEnter', function(self)--替换，源FUNC
+    MerchantRepairItemButton:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
 		GameTooltip_SetTitle(GameTooltip,
             WoWTools_DataMixin.Icon.icon2..(WoWTools_L.REPAIR_AN_ITEM)
@@ -188,19 +184,17 @@ local function Init()
     end)
 
 
---全部修理
     MerchantRepairAllButton.Text=WoWTools_LabelMixin:Create(MerchantRepairAllButton)
     MerchantRepairAllButton.Text:SetPoint('BOTTOM', MerchantRepairAllButton, 'TOP', 0, -6)
     function MerchantRepairAllButton.Text:settings()
         if not MerchantRepairAllButton:IsShown() then
             return
         end
-        local co = GetRepairAllCost()--显示，修理所有，金钱
+        local co = GetRepairAllCost()
         local col= co==0 and '|cff626262' or (co<= GetMoney() and '|cnGREEN_FONT_COLOR:') or '|cnWARNING_FONT_COLOR:'
         self:SetText(col..WoWTools_DataMixin:MK(co/10000, 0)..'|A:auctionhouse-icon-coin-gold:8:8|a')
 
---修理一件
-        local num=0--提示，可修理，件数
+        local num=0
         for i= 1, 18 do
             local cur2, max2 = GetInventoryItemDurability(i)
             if cur2 and max2 and max2>cur2 and max2>0 then
@@ -220,7 +214,6 @@ local function Init()
         MerchantRepairAllButton.Text:settings()
     end)
 
---替换，源生
     MerchantRepairAllButton:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
         local repairAllCost, canRepair = GetRepairAllCost()
@@ -250,7 +243,6 @@ end
 
 
 
---自动修理
 function WoWTools_MerchantMixin:Init_Auto_Repair()
     Init()
     Init_Auto_Repair()

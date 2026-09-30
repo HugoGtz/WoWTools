@@ -1,4 +1,3 @@
---战团，物品列表
 --Item Bank Currency Money Time Instance Rare Worldboss
 
 
@@ -37,7 +36,6 @@ local function Init_TypeTabs_Data()
 TypeTabs= {
 
 
---物品
     ['Item']= {
     atlas='bag-main',
     tooltip=WoWTools_L.ITEMS,
@@ -136,7 +134,6 @@ TypeTabs= {
     end},
 
 
---银行
     ['Bank']= {
     atlas='Banker',
     tooltip=WoWTools_L.BANK,
@@ -223,7 +220,6 @@ TypeTabs= {
 
 
 
---货币
     ['Currency']= {
     atlas='legionmission-icon-currency',--'PH-currency-icon',
     tooltip=WoWTools_L.CURRENCY,
@@ -312,7 +308,6 @@ TypeTabs= {
     end},
 
 
---钱
     ['Money']= {
     atlas='Auctioneer',
     tooltip=WoWTools_L.MONEY,
@@ -389,7 +384,6 @@ TypeTabs= {
     end},
 
 
---游戏时间
     ['Time']= {
     atlas='clock-icon',
     tooltip=WoWTools_L['Game time'],
@@ -473,7 +467,6 @@ TypeTabs= {
     end},
 
 
---副本
     ['Instance']= {
     atlas='poi-rift1',
     tooltip=WoWTools_L.INSTANCE,
@@ -508,7 +501,7 @@ TypeTabs= {
         local data, num= CreateDataProvider(), 0
         local guid= Frame.guid
         local info= guid and WoWToolsPlus_WoWDate[Frame.guid]
-        for insName, tab in pairs(info and info.Instance.ins or {}) do--{[instanceID]={[difficultyID]=已击杀数}}
+        for insName, tab in pairs(info and info.Instance.ins or {}) do
             local text
             for difficuly, killNum in pairs(tab) do
                 text= (text and text..' ' or '')..WoWTools_MapMixin:GetDifficultyColor(difficuly)..killNum
@@ -536,7 +529,6 @@ TypeTabs= {
     end},
 
 
---稀有
     ['Rare']= {
     atlas='UI-HUD-UnitFrame-Target-PortraitOn-Boss-Rare-Star',
     tooltip=WoWTools_L.MAP_LEGEND_RARE,
@@ -613,7 +605,6 @@ TypeTabs= {
     end},
 
 
---世界首领
     ['Worldboss']= {
     atlas='vignettekillboss',
     tooltip=WoWTools_L.MAP_LEGEND_WORLDBOSS,
@@ -809,10 +800,8 @@ local function Init_Left_List()
 
     Frame.view2:SetDataProvider(data, ScrollBoxConstants.RetainScrollPosition)
 
---数量
     Frame.NumLabel2:SetText(num or '')
 
---头像
     Frame:set_portrait()
 
     for _, btn in pairs(List2Buttons) do
@@ -934,13 +923,11 @@ local function Init_Right_List()
     Frame.ScrollBox:SetDataProvider(data, ScrollBoxConstants.RetainScrollPosition)
     Frame.NumLabel:SetText(num or '')
 
---转到以前，指定位置
     if findData then
         Frame.ScrollBox:ScrollToElementData(findData)
         --Frame.ScrollBox:Rebuild(ScrollBoxConstants.RetainScrollPosition)
     end
 
---刷新，列表
     if Frame.guid then
         Init_Left_List()
     end
@@ -952,14 +939,11 @@ local function Settings_Right_Button(btn, data)
 
 
     local isNotBattle= data.battleTag~=WoWTools_DataMixin.Player.BattleTag
---玩家，图标
     btn.Icon:SetAtlas(WoWTools_UnitMixin:GetRaceIcon(nil, data.guid, nil, {reAtlas=true}) or '')
 
---玩家等级
     btn.PlayerLevelText:SetText(data.playerLevel~=GetMaxLevelForPlayerExpansion() and data.playerLevel or '')
     --btn.PlayerLevelText:SetTextColor(color:GetRGB())
 
---玩家，名称
     if data.guid== WoWTools_DataMixin.Player.GUID then
         btn.Name:SetText(
             (WoWTools_L.COMBATLOG_FILTER_STRING_ME)
@@ -968,7 +952,7 @@ local function Settings_Right_Button(btn, data)
     else
         local name= data.name or ''
         btn.Name:SetText(
-            name:gsub('-'..WoWTools_DataMixin.Player.Realm, '')--取得全名
+            name:gsub('-'..WoWTools_DataMixin.Player.Realm, '')
             ..(WoWTools_DataMixin.Player.BattleTag~= data.battleTag and WoWTools_DataMixin.Player.BattleTag and data.battleTag
                 and '|A:tokens-guildRealmTransfer-small:0:0|a' or ''
             )
@@ -978,13 +962,11 @@ local function Settings_Right_Button(btn, data)
     btn.Name:SetTextColor(color:GetRGB())
 
 
---提示，不同战网
     btn.BattleTag:SetText(isNotBattle and data.battleTag or '')
     btn.Battle.alpha= isNotBattle and 1 or 0.3
     btn.Battle:SetAlpha(btn.Battle.alpha)
     btn.BattleTag:SetTextColor(color:GetRGB())
 
---魔兽世界时光徽章
     local itemTab= WoWToolsPlus_WoWDate[data.guid] and WoWToolsPlus_WoWDate[data.guid].Item and WoWToolsPlus_WoWDate[data.guid].Item[btn.WoWToken.itemID] or {}
     local tokenCount= (itemTab.bag or 0)+ (itemTab.bank or 0)
     btn.WoWTokenCount:SetText((tokenCount==0 and '|cff626262' or '')..tokenCount)
@@ -995,7 +977,6 @@ local function Settings_Right_Button(btn, data)
         btn.WoWTokenCount:SetTextColor(color:GetRGB())
     end
 
---职业
     btn.Class:SetAtlas('classicon-'..(select(2, GetPlayerInfoByGUID(data.guid)) or ''))
 
 --Affix
@@ -1003,11 +984,9 @@ local function Settings_Right_Button(btn, data)
     affix= affix:gsub(':0|t', ':17|t')
     btn.AffixText:SetText(affix)
 
---专精，天赋
     local sex=  select(5, GetPlayerInfoByGUID(data.guid))
     btn.Spec:SetTexture(data.specID>0 and select(4, GetSpecializationInfoForSpecID(data.specID, sex)) or 0)
 
---装等
     if data.itemLevel and data.itemLevel>0 then
         local item= data.itemLevel- (WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].itemLevel or 0)
         btn.ItemLevelText:SetText(
@@ -1019,7 +998,6 @@ local function Settings_Right_Button(btn, data)
     end
     btn.ItemLevelText.tooltip=data.itemLevel
 
---公会信息
     local guild= data.guild
     local guidName= guild and guild.data and guild.data[1]
     if guidName then--SetLargeGuildTabardTextures(unit, emblemTexture, backgroundTexture, borderTexture, tabardData)
@@ -1029,17 +1007,15 @@ local function Settings_Right_Button(btn, data)
     btn.GuildText:SetText(guidName or '')
     btn.GuildText:SetTextColor(color:GetRGB())
 
---钥石，名称
     local itemName= WoWTools_HyperLink:CN_Link(data.itemLink, {isName=true})
     if itemName then
         itemName= itemName:match('%[(.-)]') or itemName
-        itemName= itemName:match(CHALLENGE_MODE_KEYSTONE_NAME) or itemName:match('钥石：(.+)') or itemName:match('钥石: (.+)') or itemName
+        itemName= itemName:match(CHALLENGE_MODE_KEYSTONE_NAME) or itemName
     end
     btn.ItemName:SetText(itemName or '')
     btn.ItemName:SetTextColor(color:GetRGB())
     btn.Item:SetAlpha(itemName and 1 or 0.3)
 
---背景
     btn.Background:SetAtlas(
         data.guid==WoWTools_DataMixin.Player.GUID and 'StoryHeader-BG'
         or (data.faction=='Alliance' and 'Campaign_Alliance')
@@ -1062,7 +1038,6 @@ local function Settings_Right_Button(btn, data)
     btn.World:SetAlpha(data.world and 1 or 0.3)
     btn.PvP:SetAlpha(data.pvp and 1 or 0.3)
 
---分数
     btn.Score:SetAlpha(data.score>0 and 1 or 0.3)
     btn.ScoreText:SetText(
         WoWTools_ChallengeMixin:KeystoneScorsoColor(data.score)
@@ -1070,21 +1045,18 @@ local function Settings_Right_Button(btn, data)
     )
     btn.ScoreText:SetTextColor(color:GetRGB())
 
---本周次数
     btn.WeekNum:SetAlpha(data.weekNum>0 and 1 or 0.3)
     btn.WeekNumText:SetText(
         data.weekNum==0 and '' or data.weekNum
     )
     btn.WeekNumText:SetTextColor(color:GetRGB())
 
---本周最高
     btn.WeekLevel:SetAlpha(data.weekLevel>0 and 1 or 0.3)
     btn.WeekLevelText:SetText(
         data.weekLevel==0 and '' or data.weekLevel
     )
     btn.WeekLevelText:SetTextColor(color:GetRGB())
 
---背景
     btn.Background:SetAlpha(isNotBattle and 0.5 or 1)
     btn.Background:SetDesaturated(WoWTools_DataMixin.Player.Region~=data.region)
 
@@ -1193,7 +1165,6 @@ local function OnMouseDown_RightButton(self, d)
             local battleTag= self.data.battleTag
             local faction= self.data.faction
             local player= WoWTools_UnitMixin:GetPlayerInfo(nil, guid, nil, {faction=faction, reName=true, reRealm=true})
---全部清除
             local sub=root:CreateButton(
                 WoWTools_DataMixin.Icon.wow2
                 ..(WoWTools_L.CLEAR_ALL),
@@ -1228,7 +1199,6 @@ local function OnMouseDown_RightButton(self, d)
                     tootip:AddLine(WoWTools_L.RELOADUI)
                 end
             end)
---清除，角色数据库
             root:CreateDivider()
             for name, info in pairs(TypeTabs) do
                 if info.clear_wow then
@@ -1312,7 +1282,6 @@ local function Init_Right_Menu(self, root)
         end
     end
 
---清除不同地区
     local regionText= '|A:bags-button-autosort-up:0:0|a'
             ..(WoWTools_L.ERR_TRAVEL_PASS_DIFFERENT_REGION)
     sub= root:CreateButton(
@@ -1337,7 +1306,6 @@ local function Init_Right_Menu(self, root)
         set_right_tooltip(tooltip, desc)
     end)
 
---清除不同战网
     local tagTtext= '|A:bags-button-autosort-up:0:0|a'
             ..(WoWTools_L['OTHER+COMMUNITY_COMMAND_BATTLENET~2'])
     sub= root:CreateButton(
@@ -1363,7 +1331,6 @@ local function Init_Right_Menu(self, root)
     end)
 
 
---清除WoW数据
     root:CreateSpacer()
     local allTtext= '|A:bags-button-autosort-up:0:0|a'
         ..(WoWTools_L.CLEAR_ALL)
@@ -1386,7 +1353,6 @@ local function Init_Right_Menu(self, root)
     end)
 
 
---重新加载UI
     root:CreateDivider()
     WoWTools_MenuMixin:Reload(root)
 end
@@ -1706,7 +1672,6 @@ local function Init_List(showListType, isShow)
     Frame.Menu:SetupMenu(Init_Right_Menu)
     WoWTools_TextureMixin:SetButton(Frame.Menu)
 
---数量
     Frame.NumLabel= WoWTools_LabelMixin:Create(Frame, {color=true})
     Frame.NumLabel:SetPoint('RIGHT', Frame.SearchBox, 'LEFT', -6, 0)
 
@@ -1783,7 +1748,6 @@ local function Init_List(showListType, isShow)
         Settings_Left_Button(btn)
     end)
 
---头像
     Frame.Portrait=Frame:CreateTexture(nil, 'ARTWORK')
     Frame.Portrait:SetPoint('RIGHT', Frame.SearchBox2, 'LEFT', -4, 0)
     Frame.Portrait:SetSize(23,23)
@@ -1796,7 +1760,6 @@ local function Init_List(showListType, isShow)
         end
     end
 
-    --数量
     Frame.NumLabel2= WoWTools_LabelMixin:Create(Frame, {color=true})
     Frame.NumLabel2:SetPoint('BOTTOMLEFT', Frame.Portrait, 'TOPLEFT', -15, -6 )
 
@@ -1941,7 +1904,7 @@ function WoWTools_DataMixin:CreateWoWItemListButton(frame, tab)
 end
 
 
-function WoWTools_DataMixin:OpenWoWItemListMenu(_, root, showListType)--战团，物品列表
+function WoWTools_DataMixin:OpenWoWItemListMenu(_, root, showListType)
     local sub= root:CreateButton(
         WoWTools_DataMixin.Icon.wow2
         ..(WoWTools_L['ACCOUNT_QUEST_LABEL+ITEMS']),
@@ -1956,6 +1919,6 @@ function WoWTools_DataMixin:OpenWoWItemListMenu(_, root, showListType)--战团�
 end
 
 --Item Bank Currency Money Time Instance Rare Worldboss
-function WoWTools_DataMixin:OpenWoWItemListFrame(showListType, isShow)--战团，物品列表
+function WoWTools_DataMixin:OpenWoWItemListFrame(showListType, isShow)
     Init_List(showListType, isShow)
 end

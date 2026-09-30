@@ -49,7 +49,6 @@ local function Init_Menu(self, root)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Encounter.Plus'])
         tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
---副本列表
     sub=root:CreateCheckbox(
         WoWTools_L['Instance listings'],
     function()
@@ -63,7 +62,6 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 
---副本列表，缩放
     sub:CreateSpacer()
     WoWTools_MenuMixin:ScaleRoot(self, sub, function()
         return Save().insListScale or 1
@@ -76,7 +74,6 @@ local function Init_Menu(self, root)
     end)
 
 
---专精拾取
     sub=root:CreateCheckbox(
         WoWTools_L.SELECT_LOOT_SPECIALIZATION,
     function()
@@ -110,7 +107,6 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 
---按钮，缩放
     sub:CreateSpacer()
     WoWTools_MenuMixin:ScaleRoot(self, sub, function()
         return Save().lootScale or 1
@@ -123,7 +119,6 @@ local function Init_Menu(self, root)
     end)
 
 
---记录上次选择版本
     root:CreateDivider()
     local tier= Save().EncounterJournalTier or EJ_GetCurrentTier() or 1
     local tierName= EJ_GetTierInfo(tier)
@@ -144,12 +139,10 @@ local function Init_Menu(self, root)
     end)
 
 
---打开选项界面
     root:CreateDivider()
     
     sub= WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_EncounterMixin.addName})
     WoWTools_MenuMixin:Reload(sub)
---重新加载UI
 
 end
 
@@ -182,7 +175,7 @@ local function Init()
     wow:SetPoint('RIGHT', great, 'LEFT', -4, 0)
 
 
-    local key =WoWTools_ButtonMixin:Cbtn(menu, {size=22})--所有角色,挑战
+    local key =WoWTools_ButtonMixin:Cbtn(menu, {size=22})
     key:SetPoint('RIGHT', wow, 'LEFT', -4, 0)
     key.texture= key:CreateTexture(nil,'BORDER')
     key.texture:SetPoint('TOPLEFT', 2, -2)
@@ -191,7 +184,7 @@ local function Init()
     key:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        local find= WoWTools_ChallengeMixin:ActivitiesTooltip()--周奖励，提示
+        local find= WoWTools_ChallengeMixin:ActivitiesTooltip()
         local link= WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Keystone.link
         if link then
             GameTooltip:AddLine(WoWTools_HyperLink:CN_Link(link, {isName=true}))
@@ -270,7 +263,6 @@ local function Init()
                     local info= WoWTools_FactionMixin:GetCompanionInfo(companionID)
                     if info then
                         local sub=root:CreateButton(
-    --可修该
                             (info.configID and enabled  and '' or DISABLED_FONT_COLOR:GenerateHexColorMarkup())
                             ..info.compaionName
                             ..(info.compaionLevel and ' '..info.compaionLevel or ''),

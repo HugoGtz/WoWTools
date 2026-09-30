@@ -16,7 +16,6 @@ end
 
 
 local function Init()
---场景
     ScenarioObjectiveTracker.Header.numStagesLabel= WoWTools_LabelMixin:Create(ScenarioObjectiveTracker.Header, {copyFont=ScenarioObjectiveTracker.StageBlock.Name, justifyH='RIGHT'})
     ScenarioObjectiveTracker.Header.numStagesLabel:SetPoint('LEFT', ScenarioObjectiveTracker.Header.Text, 'RIGHT')
 
@@ -47,7 +46,6 @@ local function Init()
 
 
 --QuestObjectiveItemButtonTemplate
---物品按钮左边,放大
     WoWTools_DataMixin:Hook(QuestObjectiveItemButtonMixin, 'SetUp', function(self)
         if not WoWTools_FrameMixin:IsLocked(self) and not self.isSetTexture then
             self:SetSize(42,42)
@@ -60,7 +58,6 @@ local function Init()
     end)
 
 
---成就 AchievementObjectiveTracker
     WoWTools_ObjectiveMixin:Add_ClearAll_Button(
         AchievementObjectiveTracker,
         WoWTools_L.TRACKER_HEADER_ACHIEVEMENTS,
@@ -89,7 +86,6 @@ local function Init()
     end)
 
 
---专业技能 ProfessionsRecipeTracker
     WoWTools_ObjectiveMixin:Add_ClearAll_Button(
         ProfessionsRecipeTracker,
         WoWTools_L.PROFESSIONS_TRACKER_HEADER_PROFESSION,
@@ -137,7 +133,6 @@ local function Init()
     end)
 
 
---任务 QuestObjectiveTracker QuestObjectiveTrackerMixin
     WoWTools_ObjectiveMixin:Add_ClearAll_Button(
     QuestObjectiveTracker,
         WoWTools_L.TRACKER_HEADER_QUESTS,
@@ -156,7 +151,6 @@ local function Init()
     end)
 
 
---战役，任务 CampaignQuestObjectiveTracker
     WoWTools_ObjectiveMixin:Add_ClearAll_Button(
         CampaignQuestObjectiveTracker,
         WoWTools_L.TRACKER_HEADER_CAMPAIGN_QUESTS,
@@ -165,7 +159,6 @@ local function Init()
     end)
 
 
---世界，任务 WorldQuestObjectiveTracker
     WoWTools_ObjectiveMixin:Add_ClearAll_Button(
         WorldQuestObjectiveTracker,
         WoWTools_L.TRACKER_HEADER_WORLD_QUESTS,
@@ -174,7 +167,6 @@ local function Init()
     end)
 
 
---旅行者日志 MonthlyActivitiesObjectiveTracker
     WoWTools_ObjectiveMixin:Add_ClearAll_Button(
         MonthlyActivitiesObjectiveTracker,
         WoWTools_L.TRACKER_HEADER_MONTHLY_ACTIVITIES,
@@ -182,7 +174,6 @@ local function Init()
         WoWTools_ObjectiveMixin:Clear_MonthlyActivities(true)
     end)
 
---收藏
     WoWTools_ObjectiveMixin:Add_ClearAll_Button(
         AdventureObjectiveTracker,
         WoWTools_L.FAVORITES,
@@ -191,7 +182,6 @@ local function Init()
     end)
 
 
---文化节
     WoWTools_ObjectiveMixin:Add_ClearAll_Button(
         InitiativeTasksObjectiveTracker,
         WoWTools_L.HOUSING_DASHBOARD_INITIATIVES,
@@ -218,7 +208,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
     WoWTools_ObjectiveMixin.addName= '|A:Objective-Nub:0:0|a|cnWARNING_FONT_COLOR:'..(WoWTools_L['Module.Objective tracker'])..'|r'
 
-    --添加控制面板
     WoWTools_PanelMixin:OnlyCheck({
         name=WoWTools_ObjectiveMixin.addName,
         tooltip=WoWTools_L['Tip.Objective.Module']..'|n|n'..'|cnWARNING_FONT_COLOR:Bug',

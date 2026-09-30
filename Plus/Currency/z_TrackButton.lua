@@ -6,7 +6,6 @@ end
 local TrackButton, Frame
 
 
---圆形 11.1.5
 local qualityToIconBorderAtlas = AUCTION_HOUSE_ITEM_QUALITY_ICON_BORDER_ATLASES  or {
 	[Enum.ItemQuality.Poor] = "auctionhouse-itemicon-border-gray",
 	[Enum.ItemQuality.Common] = "auctionhouse-itemicon-border-white",
@@ -20,7 +19,6 @@ local qualityToIconBorderAtlas = AUCTION_HOUSE_ITEM_QUALITY_ICON_BORDER_ATLASES 
 }
 
 
---物品，菜单
 local function MenuList_Item(self, root)
 	local sub, sub2
 
@@ -66,14 +64,12 @@ local function MenuList_Item(self, root)
 	end
 
 
---全部清除
 	sub:CreateDivider()
 	WoWTools_MenuMixin:ClearAll(sub, function()
 		Save().item={}
 		self:settings()
 	end)
 
---使用物品
 	sub2=sub:CreateCheckbox(
 		WARNING_FONT_COLOR:WrapTextInColorCode(WoWTools_L.USE_ITEM),
 	function()
@@ -94,7 +90,6 @@ local function MenuList_Item(self, root)
 end
 
 
---指定货币
 local function Init_CurrencyMenu(self, root)
 	local  sub, sub2
 
@@ -154,10 +149,10 @@ local function Init_CurrencyMenu(self, root)
 
 			sub2:SetTooltip(function(tooltip, description)
 				tooltip:SetCurrencyByID(description.data.currencyID)
-				WoWTools_CurrencyMixin:Find(description.data.currencyID, nil)--选中提示
+				WoWTools_CurrencyMixin:Find(description.data.currencyID, nil)
 			end)
 			sub2:SetOnLeave(function()
-				WoWTools_CurrencyMixin:Find(nil, nil)--选中提示
+				WoWTools_CurrencyMixin:Find(nil, nil)
 				GameTooltip:Hide()
 			end)
 
@@ -167,7 +162,6 @@ local function Init_CurrencyMenu(self, root)
 
 
 
---添加
 	sub:CreateDivider()
 	sub2=sub:CreateButton(
 		WoWTools_L.ADD,
@@ -187,7 +181,6 @@ local function Init_CurrencyMenu(self, root)
 	WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Currency.AddByID'])
 
 
---全部清除
 	sub:CreateDivider()
 	WoWTools_MenuMixin:ClearAll(sub, function()
 		Save().tokens={}
@@ -199,12 +192,10 @@ local function Init_CurrencyMenu(self, root)
 end
 
 
---追踪
 local function Init_Menu(self, root)
 
     local sub
 
---显示
     sub=root:CreateCheckbox(
         WoWTools_L.SHOW,
     function()
@@ -215,7 +206,6 @@ local function Init_Menu(self, root)
     end)
 	WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Currency.ShowList'])
 
---自动隐藏
 	sub=root:CreateCheckbox(
 		WoWTools_L['SELF_CAST_AUTO+HIDE'],
 	function()
@@ -237,15 +227,12 @@ local function Init_Menu(self, root)
 	root:CreateDivider()
 	Init_CurrencyMenu(self, root)
 
---物品
 	MenuList_Item(self, root)
 
 	root:CreateDivider()
---打开选项
     sub= WoWTools_MenuMixin:OpenOptions(root, {name= WoWTools_CurrencyMixin.addName})
 
 
---显示名称
     local sub2= sub:CreateCheckbox(
         WoWTools_L.PROFESSIONS_FLYOUT_SHOW_NAME,
     function ()
@@ -256,7 +243,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Currency.ShowName'])
 
---向右平移
     sub2= sub:CreateCheckbox(
         (WoWTools_L.BINDING_NAME_STRAFERIGHT),
     function ()
@@ -268,7 +254,6 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Currency.TextRight'])
 
 
---上
     sub2= sub:CreateCheckbox(
         (WoWTools_L.HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_UP)..'|A:bags-greenarrow:0:0|a',
     function ()
@@ -279,7 +264,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Currency.GrowUp'])
 
---缩放
     WoWTools_MenuMixin:Scale(self, sub, function()
         return Save().scaleTrackButton
     end, function(value)
@@ -295,7 +279,6 @@ local function Init_Menu(self, root)
         self:settings()
     end)
 
---背景, 透明度
 	WoWTools_MenuMixin:BgAplha(sub,
 	function()--GetValue
 		return Save().trackBgAlpha or 0.5
@@ -308,20 +291,16 @@ local function Init_Menu(self, root)
 	end)--onlyRoot
 
 	sub:CreateDivider()
---重置位置
 	 WoWTools_MenuMixin:RestPoint(self, sub, Save().point, function()
 		Save().point=nil
 		self:settings()
 	end)
---重新加载UI
 	WoWTools_MenuMixin:Reload(sub)
 end
 
 
 --###########
---监视声望按钮
 --###########
---物品
 local function Set_ItemName(self)
 	local itemID= self.itemID
 	local itemQuality = C_Item.GetItemQualityByID(itemID) or 1
@@ -334,13 +313,11 @@ local function Set_ItemName(self)
 	end
 
 	if text or numText then
---向右平移
 		if Save().toRightTrackText then
 			text=(text or '')..(text and numText and ' ' or '')..(numText or '')
 		else
 			text=(numText or '')..(text and numText and ' ' or '')..(text or '')
 		end
---设置颜 local itemQuality = C_Item.GetItemQualityByID(itemID)
 		text= WoWTools_ItemMixin:GetColor(itemQuality, {text=text})
 	end
 
@@ -378,7 +355,6 @@ local function Set_ItemAttribute(btn)
 end
 
 
---货币
 local function Set_CurrencyName(btn)
 	local info, num2, _, percent, isMax, canWeek, canEarned, canQuantity= WoWTools_CurrencyMixin:GetInfo(btn.currencyID)
 	local text, icon
@@ -427,7 +403,7 @@ local function Set_ItemButton(btn)
 	btn:SetScript('OnLeave', function(self)
         GameTooltip:Hide()
         if self.itemID then
-            WoWTools_BagMixin:Find(false)--查询，背包里物品
+            WoWTools_BagMixin:Find(false)
 		end
     end)
 	function btn:set_tooltip()
@@ -455,7 +431,7 @@ local function Set_ItemButton(btn)
 	end
 	btn:SetScript('OnEnter', function(self)
 		self:set_tooltip()
-        WoWTools_BagMixin:Find(true, {itemID=self.itemID})--查询，背包里物品
+        WoWTools_BagMixin:Find(true, {itemID=self.itemID})
     end)
 	btn:SetScript('OnMouseUp', function(self)
 		C_Timer.After(0.5, function()
@@ -530,7 +506,7 @@ local function Set_CurrencyButton(btn)
 
 	btn:SetScript('OnLeave', function()
         GameTooltip:Hide()
-		WoWTools_CurrencyMixin:Find(nil, nil)--选中提示
+		WoWTools_CurrencyMixin:Find(nil, nil)
     end)
 
     btn:SetScript('OnEnter', function(self)
@@ -543,7 +519,7 @@ local function Set_CurrencyButton(btn)
 		GameTooltip:SetCurrencyByID(self.currencyID)
 		local link= C_CurrencyInfo.GetCurrencyLink(self.currencyID) or (WoWTools_L.COMMUNITIES_INVITE_MANAGER_COLUMN_TITLE_LINK)
 		GameTooltip:AddDoubleLine(link..'|A:transmog-icon-chat:0:0|a', WoWTools_DataMixin.Icon.left)
-		WoWTools_CurrencyMixin:Find(self.currencyID, nil)--选中提示
+		WoWTools_CurrencyMixin:Find(self.currencyID, nil)
     end)
 
     btn:SetScript("OnMouseDown", function(self)
@@ -581,7 +557,6 @@ local function Init_Button(self)
 	if Save().indicato then
 		for currencyID in pairs(Save().tokens) do
 			local data= C_CurrencyInfo.GetCurrencyInfo(currencyID)
-			--local text, icon= Get_Currency(currencyID, nil)--货币
 			if data and data.currencyID then
 				table.insert(tab, {currencyID=data.currencyID})
 			end
@@ -591,7 +566,6 @@ local function Init_Button(self)
 		end)
 	else
 		for index=1, C_CurrencyInfo.GetCurrencyListSize() do
-			--local text, icon, currencyID = Get_Currency(nil, index)--货币
 			local data= C_CurrencyInfo.GetCurrencyListInfo(index)
 			if data and data.currencyID and not data.isHeader and data.quantity>0 then
 				table.insert(tab, {currencyID=data.currencyID})
@@ -635,7 +609,7 @@ local function Init_Button(self)
 	local isUsaButton= Save().itemButtonUse
 	for _, tables in pairs(tab) do
 		local itemID= tables.itemID
-        local itemButtonUse=(isUsaButton and itemID) and true or nil--使用物品
+        local itemButtonUse=(isUsaButton and itemID) and true or nil
 
 		local btn= itemButtonUse and self.frame.itemPool2:Acquire() or (itemID and self.frame.itemPool:Acquire()) or self.frame.pool:Acquire()
 
@@ -844,7 +818,7 @@ local function Init()
 	TrackButton:SetScript("OnMouseUp", ResetCursor)
 
 	TrackButton:SetScript("OnMouseDown", function(self, d)
-		if d=='RightButton' and IsAltKeyDown() then--右击,移动
+		if d=='RightButton' and IsAltKeyDown() then
 			SetCursor('UI_MOVE_CURSOR')
 			return
 		end
@@ -866,7 +840,7 @@ local function Init()
 			Init_Button(self)
 
 		elseif d=='LeftButton' and not IsModifierKeyDown() then
-			ToggleCharacter("TokenFrame")--打开货币
+			ToggleCharacter("TokenFrame")
 
 		elseif d=='RightButton' and not IsModifierKeyDown() then
 			MenuUtil.CreateContextMenu(self, Init_Menu)

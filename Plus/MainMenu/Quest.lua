@@ -1,4 +1,3 @@
---任务
 
 
 
@@ -34,7 +33,7 @@ local function Init()
             return
         end
         GameTooltip:AddLine(' ')
-        WoWTools_QuestMixin:GetQuestAll()--所有，任务，提示
+        WoWTools_QuestMixin:GetQuestAll()
         GameTooltip:Show()
     end)
 
@@ -46,6 +45,6 @@ end
 
 
 
-function WoWTools_MainMenuMixin:Init_Quest()--任务
+function WoWTools_MainMenuMixin:Init_Quest()
     Init()
 end

@@ -1,4 +1,3 @@
---拍卖行
 
 local function Save()
     return WoWToolsPlusSave['Plus_AuctionHouse'] or {}
@@ -75,13 +74,13 @@ local function Create_Button()
         if not self.itemLocation then
             return
         end
-        if d=='LeftButton' then--放入，物品
+        if d=='LeftButton' then
             if AuctionHouseMultisellProgressFrame:IsShown() then
                 C_AuctionHouse.CancelSell()
             end
             AuctionHouseFrame:SetPostItem(self.itemLocation)--ContainerFrame.lua
 
-        elseif d=='RightButton' then--隐藏，物品
+        elseif d=='RightButton' then
             local itemID= C_Item.GetItemID(self.itemLocation)
             if itemID then
                 if self.isPet then
@@ -90,7 +89,7 @@ local function Create_Button()
                     Save().hideSellItem[itemID]= not Save().hideSellItem[itemID] and true or nil
                 end
 
-                if Save().hideSellItemListButton then--隐藏物品列表，隐藏按钮
+                if Save().hideSellItemListButton then
                     WoWTools_AuctionHouseMixin:Init_Sell_Item_Button()
                 else
                     self:set_alpha()
@@ -122,7 +121,7 @@ local function Init_Sell_Item_Button()
        return
     end
 
-    local isCheckHideItem= Save().hideSellItemListButton--隐藏物品列表，隐藏按钮
+    local isCheckHideItem= Save().hideSellItemListButton
     local isCommoditiesSellFrame, isItemSellFrame= WoWTools_AuctionHouseMixin:GetDisplayMode()
 
     local Tab={}
@@ -135,7 +134,7 @@ local function Init_Sell_Item_Button()
                     status= itemCommodityStatus,
                     count= info.stackCount,
                     itemID= info.itemID,
-                    isPet= info.hyperlink:match('Hbattlepet:(%d+)')-- 注意，isPet 这个是字符
+                    isPet= info.hyperlink:match('Hbattlepet:(%d+)')
                 })
 
             end
@@ -227,7 +226,6 @@ local function Init()
 
 
 
---按钮
     function AuctionHouseButton:set_tooltips()
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
         GameTooltip_SetTitle(GameTooltip, WoWTools_AuctionHouseMixin.addName..WoWTools_DataMixin.Icon.icon2)
@@ -257,17 +255,14 @@ local function Init()
         C_Timer.After(0.3, Init_Sell_Item_Button)
     end)
 
---菜单
     WoWTools_AuctionHouseMixin:Sell_Setup_Menu(AuctionHouseButton)
 
     AuctionHouseButton:Settings()
 
---当页面是 出售 时，显示按钮
     function AuctionHouseButton:set_shown()
         local isCommoditiesSellFrame, isItemSellFrame= WoWTools_AuctionHouseMixin:GetDisplayMode()
         self:SetShown(AuctionHouseFrame:IsShown() and (isCommoditiesSellFrame or isItemSellFrame))
     end
---设置事件
     function AuctionHouseButton:set_event()
         if self:IsShown() then
             self:RegisterEvent('BAG_UPDATE_DELAYED')
@@ -275,7 +270,6 @@ local function Init()
             self:UnregisterEvent('BAG_UPDATE_DELAYED')
         end
     end
---事件
     WoWTools_DataMixin:Hook(AuctionHouseFrame, 'SetDisplayMode', function(self, displayMode)
         if not displayMode or not self:IsShown() then
             return
@@ -296,7 +290,6 @@ local function Init()
 
 
 
---提示，已放入物品
     function AuctionHouseButton:set_select_tips()
         local isCommoditiesSellFrame, isItemSellFrame= WoWTools_AuctionHouseMixin:GetDisplayMode()
         local itemLocation
@@ -317,18 +310,18 @@ local function Init()
 
     WoWTools_DataMixin:Hook(AuctionHouseFrame.CommoditiesSellFrame, 'SetItem', function(self)
         C_Timer.After(0.3, function()
-            AuctionHouseButton:set_select_tips()--提示，已放入物品
+            AuctionHouseButton:set_select_tips()
             if Save().isMaxSellItem and self.QuantityInput.MaxButton:IsEnabled() then
-                self:SetToMaxQuantity()--出售物品时，使用，最大数量
+                self:SetToMaxQuantity()
             end
         end)
 
     end)
     WoWTools_DataMixin:Hook(AuctionHouseFrame.ItemSellFrame, 'SetItem', function(self)
         C_Timer.After(0.3, function()
-            AuctionHouseButton:set_select_tips()--提示，已放入物品
+            AuctionHouseButton:set_select_tips()
             if Save().isMaxSellItem and self.QuantityInput.MaxButton:IsEnabled() then
-                self:SetToMaxQuantity()--出售物品时，使用，最大数量
+                self:SetToMaxQuantity()
             end
         end)
     end)

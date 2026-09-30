@@ -5,7 +5,6 @@ end
 local EventTabs={}
 
 
---点击，事件
 local ArgumentColors =
 {
     ["string"] = GREEN_FONT_COLOR,
@@ -63,11 +62,10 @@ local function AddTooltipArguments(args)
 end
 
 
---左边列表
 local function Init_LeftList()
     local Pause, Clear, Refresh, Menu
     local size=28
-    local IsLogging= not Save().eventTraceIsPased--暂停，事件
+    local IsLogging= not Save().eventTraceIsPased
 
 
 --ScrollBox
@@ -76,7 +74,7 @@ local function Init_LeftList()
     ScrollBox:SetPoint('BOTTOMLEFT', EventTrace, 'BOTTOMLEFT', 5, 0)
     ScrollBox.events={}
     ScrollBox.num=0
-    ScrollBox.width=100--宽度
+    ScrollBox.width=100
 
 --ScrollBar
     local ScrollBar= CreateFrame("EventFrame", 'WoWToolsEventTraceScrollBar', EventTrace.Log, "MinimalScrollBar")
@@ -87,7 +85,6 @@ local function Init_LeftList()
     ScrollBox.view = CreateScrollBoxListLinearView()
     ScrollUtil.InitScrollBoxListWithScrollBar(ScrollBox, ScrollBar, ScrollBox.view)
 
---重置
     Refresh= WoWTools_ButtonMixin:Cbtn(EventTrace.Log, {
         name='WoWToolsEventTraceRefresh',
         size=size,
@@ -115,7 +112,6 @@ local function Init_LeftList()
         ScrollBox:settings()
     end)
 
---暂停
     Pause= WoWTools_ButtonMixin:Cbtn(Refresh, {
         name='WoWToolsEventTracePause',
         size=size,
@@ -161,7 +157,6 @@ local function Init_LeftList()
     end
     Pause:set_texture()
 
---清除
     Clear= WoWTools_ButtonMixin:Cbtn(Refresh, {
         name='WoWToolsEventTraceClear',
         size=size,
@@ -183,12 +178,10 @@ local function Init_LeftList()
     end)
 
 
---数量
     ScrollBox.Text= WoWTools_LabelMixin:Create(Refresh, {color={r=0.5,g=0.5,b=0.5}})
     ScrollBox.Text:SetPoint('RIGHT', Clear, 'LEFT', 0, 1)
 
 
---初始
     ScrollBox.view:SetElementInitializer('EventSchedulerHeaderTemplate', function(frame, data)
         if frame.Init then
             frame.Background:SetVertexColor(0.1, 0.1, 0.1, 0.7)
@@ -208,13 +201,10 @@ local function Init_LeftList()
         end
 
         frame.event= data.event
-    --内容
         frame.Label:SetText(data.num..' '..data.event)
-    --宽度
         ScrollBox.width= math.max(frame.Label:GetStringWidth(), ScrollBox.width)
     end)
 
-    --设置，列表
     function ScrollBox:settings(isClear)
         local data = CreateDataProvider()--DataProviderMixin
         local all=0
@@ -226,15 +216,13 @@ local function Init_LeftList()
             data:SetSortComparator(function(a,b) return a.num> b.num end)
         else
             self.events={}
-            self.width=50--宽度
+            self.width=50
         end
         self.view:SetDataProvider(data, ScrollBoxConstants.RetainScrollPosition)
         self.Text:SetText(all)
-    --设置，宽度
         self:SetPoint('LEFT', EventTrace, 'LEFT', -(self.width)-2, 0)
     end
 
-    --添加，事件
     WoWTools_DataMixin:Hook(EventTrace, 'LogLine', function(_, data)
         if not data.displayEvent and data.event then
             local find= ScrollBox.events[data.event] or 0
@@ -247,19 +235,16 @@ local function Init_LeftList()
         end
     end)
 
-    --全部清除
     EventTrace.Log.Bar.DiscardAllButton:HookScript('OnClick', function()
         ScrollBox:settings(true)
     end)
 
-    --刷新，事件
     WoWTools_DataMixin:Hook(EventTrace, 'TogglePause', function(self)
         if not self.isLoggingPaused then
             ScrollBox:settings()
         end
     end)
 
-    --过滤，事件
     WoWTools_DataMixin:Hook(EventTrace, 'RemoveEventFromDataProvider', function(_, _, event)
         if ScrollBox.events[event] then
             ScrollBox.events[event]= nil
@@ -271,7 +256,6 @@ local function Init_LeftList()
 end
 
 
---上面 EditBox
 local function Init_EditBox()
     local Frame= WoWTools_EditBoxMixin:CreateFrame(EventTrace, {
         text= WoWTools_L.VIEW,
@@ -283,7 +267,6 @@ local function Init_EditBox()
     Frame:SetPoint('BOTTOMRIGHT', EventTrace, 'TOPRIGHT',-23 ,0)
     Frame:SetHeight(23)
 
---查看，按钮
     Frame.View= WoWTools_ButtonMixin:Cbtn(Frame, {atlas='Perks-PreviewOn', isType2=true, notBorder=true, notLocked=true})
     Frame.View.texture:SetDesaturated(true)
     Frame.View:SetPoint('LEFT', Frame, 'RIGHT', 0, 6)
@@ -306,7 +289,6 @@ local function Init_EditBox()
     end)
     --Frame.View:Hide()
 
---清除，按钮
     Frame.clearButton= CreateFrame('Button', nil, Frame)
     Frame.clearButton:SetSize(14,14)
     Frame.clearButton:SetPoint('TOPRIGHT', -2, 4)
@@ -318,7 +300,6 @@ local function Init_EditBox()
     Frame.clearButton:SetScript('OnEnter', function(s) s:SetAlpha(1) end)
     Frame.clearButton:SetScript('OnMouseDown', function(s) s:GetParent().editBox:SetText('') s:SetAlpha(0.5) end)
 
---设置 OnTextChanged
     Frame.editBox:SetScript('OnTextChanged', function(self)
         local isText= self:GetText()~= ""
         local numLine= self:GetNumLines() or 0
@@ -333,7 +314,6 @@ local function Init_EditBox()
 
 
     WoWTools_DataMixin:Hook(EventTraceLogEventButtonMixin, 'OnLoad', function(self)
---隐藏事件按钮，提示 OnEnter
         self.HideButton:SetScript('OnLeave', function(s)
             GameTooltip:Hide()
             s:GetParent().MouseoverOverlay:SetShown(false)
@@ -350,7 +330,6 @@ local function Init_EditBox()
         end)
 
 
---点击，事件
         local function set_script(s)
             local data = s:GetElementData()
             local t=''
@@ -395,16 +374,12 @@ local function Init_Plus()
         return
     end
 
---上面 EditBox
     Init_EditBox()
---左边列表
     Init_LeftList()
 
 
---关闭按钮
     --EventTraceCloseButton:SetFrameLevel(EventTrace.TitleContainer:GetFrameLevel()+1)
 
---OnEnter 提示
     WoWTools_DataMixin:Hook(EventTraceLogEventButtonMixin, 'OnEnter', function()
         EventTraceTooltip:AddLine(' ')
         EventTraceTooltip:AddDoubleLine(
@@ -423,7 +398,6 @@ local function Init_Plus()
     end)
 
 
---暂停/开始按钮，颜色
     EventTrace.Log.Bar.PlaybackButton.Label:SetTextColor(0,1,0)
     WoWTools_DataMixin:Hook(EventTrace, 'UpdatePlaybackButton', function(self)
         if self:IsLoggingPaused() then

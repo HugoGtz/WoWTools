@@ -24,11 +24,11 @@ local function Init_Button(btn)
         GameTooltip:Hide()
     end)
 
-    btn.version= btn:CreateFontString(nil, 'BORDER', 'GameFontNormal') --WoWTools_LabelMixin:Create(btn)--版本
+    btn.version= btn:CreateFontString(nil, 'BORDER', 'GameFontNormal')
     btn.version:SetJustifyH('RIGHT')
     btn.version:SetPoint('BOTTOMRIGHT',-5, 5)
 
-    btn.limited=btn.IconFrame:CreateTexture(nil, 'OVERLAY')--限时
+    btn.limited=btn.IconFrame:CreateTexture(nil, 'OVERLAY')
     btn.limited:SetSize(12, 12)
     btn.limited:SetAtlas('socialqueuing-icon-clock')
     btn.limited:SetPoint('TOPRIGHT', btn.IconFrame.Icon)
@@ -92,28 +92,28 @@ local function Set_List_Button(btn, displayData)
     end
     SetsDataProvider:ClearSets()
 
-    local text, isLimited, patch, version, expansionID--版本
+    local text, isLimited, patch, version, expansionID
 
     for _, info in pairs(variantSets) do
         if info and info.setID then
             local meno, collect, numAll = WoWTools_CollectionMixin:SetID(info.setID)
             if meno and numAll then
 
-                text= (text or '').. meno..' '--未收集，数量
+                text= (text or '').. meno..' '
 
-                isLimited= isLimited or info.limitedTimeSet--限时套装
+                isLimited= isLimited or info.limitedTimeSet
 
                 local name= info.description or info.name or ''
                 name= WoWTools_TextMixin:CN(name)
-                name= numAll==collect and '|cnGREEN_FONT_COLOR:'..name..'|r' or name--已收集
+                name= numAll==collect and '|cnGREEN_FONT_COLOR:'..name..'|r' or name
 
-                local isCollected= collect== numAll--是否已收
+                local isCollected= collect== numAll
 
                 local tip= (collect==0 and '|cff626262'..collect..'|r' or collect)
-                            ..'/'..numAll--收集数量
+                            ..'/'..numAll
                             ..' '..meno..(not isCollected and ' ' or '')
-                            ..name--名称
-                            ..(info.limitedTimeSet and '|A:socialqueuing-icon-clock:0:0|a' or '')--限时套装
+                            ..name
+                            ..(info.limitedTimeSet and '|A:socialqueuing-icon-clock:0:0|a' or '')
                             ..' '..info.setID
                             --..(info.setID==btn.setID and ' '..'|A:common-icon-rotateleft:0:0|a' or '')
                 tipsText= tipsText..'|n'..(isCollected and '|cnGREEN_FONT_COLOR:'..tip..'|r' or tip)
@@ -135,10 +135,10 @@ local function Set_List_Button(btn, displayData)
     btn.Label:SetText(text)
     btn.Label:SetTextColor(r, g, b)
 
-    btn.limited:SetShown(isLimited)--限时
+    btn.limited:SetShown(isLimited)
 
 
-    btn.version:SetText(version or '')--版本
+    btn.version:SetText(version or '')
     btn.version:SetWidth(btn.version:GetStringWidth()+12)
     btn.version:SetTextColor(r, g, b)
 
@@ -150,7 +150,6 @@ local function Set_List_Button(btn, displayData)
 end
 
 
---套装物品 Link
 local function Init_Wardrobe_DetailsFrame(_, itemFrame)
     if Save().hideSets  then
         if itemFrame.indexbtn then
@@ -242,7 +241,6 @@ local function Init()
     SetsDataProvider= CreateFromMixins(WardrobeSetsDataProviderMixin)
 
     local detailsFrame= WardrobeCollectionFrame.SetsCollectionFrame.DetailsFrame
---点击，按钮信息
     TipsLabel= detailsFrame:CreateFontString(nil, 'OVERLAY', 'WoWToolsFont')-- WoWTools_LabelMixin:Create(detailsFrame, {size=14})
     TipsLabel:SetPoint('BOTTOMLEFT', detailsFrame, 'BOTTOMRIGHT', 8, 8)
     if not detailsFrame.Background then
@@ -252,13 +250,12 @@ local function Init()
         texture:SetPoint('BOTTOMRIGHT', TipsLabel)
     end
 
---点击，显示套装情况Blizzard_Wardrobe.lua
     WoWTools_DataMixin:Hook(WardrobeSetsScrollFrameButtonMixin, 'OnClick', function(btn, buttonName)
         if not btn:IsVisible() then
             return
         end
         if buttonName == "LeftButton" or not Save().hideSets then
-            TipsLabel:SetText(btn.tooltip or '')--点击，按钮信息
+            TipsLabel:SetText(btn.tooltip or '')
         else
             TipsLabel:SetText("")
         end
@@ -269,13 +266,11 @@ local function Init()
         end
     end)
 
---套装，列表
     WoWTools_DataMixin:Hook(WardrobeSetsScrollFrameButtonMixin, 'Init', Set_List_Button)
 
 
 
 
-    --套装,物品, Link WardrobeSetsCollectionMixin
     WoWTools_DataMixin:Hook(WardrobeCollectionFrame.SetsCollectionFrame, 'SetItemFrameQuality', function(...) Init_Wardrobe_DetailsFrame(...) end)
      --WoWTools_DataMixin:Hook(WardrobeCollectionFrame.SetsCollectionFrame, 'DisplaySet', function(...)
 
@@ -284,6 +279,6 @@ local function Init()
 end
 
 
-function WoWTools_CollectionMixin:Init_Wardrober_Sets()--幻化,套装 5
+function WoWTools_CollectionMixin:Init_Wardrober_Sets()
     Init()
 end

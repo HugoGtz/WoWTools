@@ -2,7 +2,7 @@
 local function Save()
     return WoWToolsPlusSave['Plus_AddOns'] or {}
 end
-local Buttons={}--快捷键
+local Buttons={}
 local LeftFrame
 local Name= 'WoWToolsAddOnsLeftListButton'
 

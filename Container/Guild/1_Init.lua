@@ -4,11 +4,10 @@ local P_Save={
     plusItem=true,
     plusTab=true,
 
-    --autoOutMoney=0,--自动取钱，0：全部提取 数值：指定数量 nil:禁用
-    onlyMemberOutMoney=true,--仅限成员
+    onlyMemberOutMoney=true,
 
-    saveItemSeconds=0.8,--保存，提取物品，延迟
-    sortRightToLeft=true,--排序，从后到前
+    saveItemSeconds=0.8,
+    sortRightToLeft=true,
 }
 
 
@@ -24,7 +23,6 @@ local function Init()
     WoWTools_GuildBankMixin:Init_InOut_Item()
     WoWTools_GuildBankMixin:Init_Out_Money()
 
---自动，打开背包 
     GuildBankFrame:HookScript('OnShow', function(self)
         if WoWToolsPlusSave['Plus_GuildBank'].autoOpenBags and not InCombatLockdown() then
             do
@@ -50,7 +48,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
             WoWTools_GuildBankMixin.addName= '|A:VignetteLoot:0:0|a'..(WoWTools_L['Module.Guild bank'])
 
-            --添加控制面板
             WoWTools_PanelMixin:OnlyCheck({
                 name= WoWTools_GuildBankMixin.addName,
                 tooltip= WoWTools_L['Tip.GuildBank.Option']..'|n|n'..WoWTools_L.RELOADUI,

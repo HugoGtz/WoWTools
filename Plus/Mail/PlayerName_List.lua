@@ -1,4 +1,3 @@
---收件人，列表
 local function Save()
     return WoWToolsPlusSave['Plus_Mail']
 end
@@ -7,7 +6,6 @@ end
 local listButton
 
 
---我
 local function Init_IsSelf(root)
     local new={}
     for guid, data in pairs(WoWToolsPlus_WoWDate) do
@@ -17,14 +15,14 @@ local function Init_IsSelf(root)
     end
 
     for _, currencyID in pairs({
-        3316,--/虚光灰岩
-        2003,--巨龙群岛补给
-        1767,--冥殇
-        1560,--战争物资
-        1220,--职业大厅资源
-        823,--/埃匹希斯水晶
-        777,--永恒铸币
-        241,--冠军的徽记
+        3316,
+        2003,
+        1767,
+        1560,
+        1220,
+        823,
+        777,
+        241,
     }) do
         local accountCurrencyData= select(2, WoWTools_CurrencyMixin:GetAccountInfo(currencyID))
         for _, data in pairs(accountCurrencyData or {}) do
@@ -193,7 +191,7 @@ local function Init_Guild(root)
         local name, rankName, rankIndex, lv, _, _, _, _, isOnline, _, _, _, _, _, _, _, guid = GetGuildRosterInfo(index)
         --if name and guid and (isOnline or rankIndex<2 or (Save().show['GUILD'] and num<60)) and not WoWToolsPlus_WoWDate[guid] then
         if name and guid and (isOnline or rankIndex<2 or Save().show['GUILD']) and not WoWToolsPlus_WoWDate[guid] and not WoWTools_MailMixin:GetRealmInfo(name) then
-            local text= WoWTools_UnitMixin:GetPlayerInfo(nil, guid, nil, {reName=true, reRealm=true, level=lv})--角色信息
+            local text= WoWTools_UnitMixin:GetPlayerInfo(nil, guid, nil, {reName=true, reRealm=true, level=lv})
 
             if not isOnline then
                 text= text..'|cff626262'..(WoWTools_L.FRIENDS_LIST_OFFLINE)..'|r'
@@ -244,7 +242,7 @@ local function Init_Club(root, clubID)
         if tab and tab.guid and tab.name and (tab.zone or tab.role<4 or (Save().show['CLUB'])) and not WoWToolsPlus_WoWDate[tab.guid] then
             if not WoWTools_MailMixin:GetRealmInfo(tab.name) then
                 local faction= tab.faction==Enum.PvPFaction.Alliance and 'Alliance' or tab.faction==Enum.PvPFaction.Horde and 'Horde'
-                local  text= WoWTools_UnitMixin:GetPlayerInfo(nil, tab.guid, nil, {reName=true, reRealm=true, faction=faction, level=tab.level})--角色信息
+                local  text= WoWTools_UnitMixin:GetPlayerInfo(nil, tab.guid, nil, {reName=true, reRealm=true, faction=faction, level=tab.level})
                 if not tab.zone then
                     text= text..'|cff626262'..(WoWTools_L.FRIENDS_LIST_OFFLINE)..'|r'
                 end
@@ -290,7 +288,6 @@ end
 
 local function Init_Menu(_, root)
     local sub
---我
     sub=root:CreateButton(
         '|A:auctionhouse-icon-favorite:0:0|a'..(WoWTools_L.COMBATLOG_FILTER_STRING_ME),
     function()
@@ -298,7 +295,6 @@ local function Init_Menu(_, root)
     end)
     Init_IsSelf(sub)
 
---战网
     sub=root:CreateButton(
         WoWTools_DataMixin.Icon.net2..(WoWTools_L.COMMUNITY_COMMAND_BATTLENET),
     function()
@@ -306,7 +302,6 @@ local function Init_Menu(_, root)
     end)
     Init_WoW(sub)
 
---好友
     sub=root:CreateButton(
         '|A:groupfinder-icon-friend:0:0|a'..(WoWTools_L.FRIEND),
     function()
@@ -314,7 +309,6 @@ local function Init_Menu(_, root)
     end)
     Init_Friend(sub)
 
---公会
     sub=root:CreateButton(
         '|A:communities-guildbanner-background:0:0|a'..(WoWTools_L.GUILD),
     function()
@@ -322,7 +316,6 @@ local function Init_Menu(_, root)
     end)
     Init_Guild(sub)
 
---社区
     local clubs= C_Club.GetSubscribedClubs()
     if canaccesstable(clubs) and clubs then
         for _, tab in pairs(clubs) do
@@ -341,10 +334,9 @@ local function Init_Menu(_, root)
         end
     end
 
---保存内容
     root:CreateDivider()
     sub=root:CreateCheckbox(
-        WoWTools_L['Saved content'],--"%s 记录"
+        WoWTools_L['Saved content'],
     function()
         return Save().logSendInfo
     end, function()
@@ -359,14 +351,12 @@ local function Init_Menu(_, root)
         tooltip:AddLine(WoWTools_L.MAIL_SUBJECT_LABEL)
     end)
 
---打开选项
     WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_MailMixin.addName})
 
     WoWTools_MenuMixin:SetScrollMode(root)
 end
 
 
---收件人，列表
 local function Init()
     if Save().hideSendNameList then
         return
@@ -375,7 +365,6 @@ local function Init()
 
 
 
-    --下拉，菜单
     listButton= CreateFrame('DropdownButton', 'WoWToolsSendMailPlayerNameListButton', SendMailNameEditBox, 'WoWToolsMenu3Template') --WoWTools_ButtonMixin:Cbtn(SendMailNameEditBox, {size=22, atlas='common-icon-rotateleft'})
     listButton:SetNormalAtlas('common-icon-rotateleft')
 
@@ -384,7 +373,6 @@ local function Init()
 
 
 
-    --目标，名称
     listButton.btn= WoWTools_ButtonMixin:Cbtn(listButton, {size=22})
     listButton.btn:SetPoint('TOP', listButton, 'BOTTOM')
     listButton.btn:SetScript('OnClick', function(self)
@@ -410,7 +398,7 @@ local function Init()
     function listButton:Settings()
         local name
         if WoWTools_UnitMixin:UnitGUID('target') and UnitIsPlayer('target') and WoWTools_UnitMixin:UnitIsUnit('player', 'target')==false then
-            name= WoWTools_UnitMixin:GetFullName(nil, 'target', nil)--取得全名
+            name= WoWTools_UnitMixin:GetFullName(nil, 'target', nil)
             if name then
                 local atlas, texture
                 local index= GetRaidTargetIndex('target') or 0
@@ -437,7 +425,7 @@ local function Init()
     listButton:SetScript('OnEvent',  listButton.Settings)
     listButton:SetScript('OnHide', listButton.UnregisterAllEvents)
     listButton:SetScript('OnShow', function(self)
-        self:RegisterEvent('PLAYER_TARGET_CHANGED')--SendName，设置，发送成功，名字
+        self:RegisterEvent('PLAYER_TARGET_CHANGED')
         self:RegisterEvent('RAID_TARGET_UPDATE')
         self:Settings()
     end)
@@ -460,6 +448,6 @@ local function Init()
 end
 
 
-function WoWTools_MailMixin:Init_Send_Name_List()--收件人，列表
+function WoWTools_MailMixin:Init_Send_Name_List()
     Init()
 end

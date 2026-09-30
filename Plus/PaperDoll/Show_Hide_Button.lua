@@ -1,4 +1,3 @@
---显示，隐藏，按钮
 local function Save()
     return WoWToolsPlusSave['Plus_PaperDoll']
 end
@@ -20,11 +19,11 @@ local function Settings()
 
     if InspectFrame and InspectLevelText.set_font_size then
         InspectLevelText:set_font_size()
-        InspectFrame:set_status_label()--目标，属性
+        InspectFrame:set_status_label()
         InspectFrame.ShowHideButton:settings()
         if InspectFrame:IsShown() then
             WoWTools_DataMixin:Call('InspectPaperDollFrame_UpdateButtons')--InspectPaperDollFrame.lua
-            WoWTools_DataMixin:Call('InspectPaperDollFrame_SetLevel')--目标,天赋 装等
+            WoWTools_DataMixin:Call('InspectPaperDollFrame_SetLevel')
         end
     end
     

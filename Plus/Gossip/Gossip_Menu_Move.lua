@@ -407,7 +407,6 @@ local function Set_StopMove()
 end
 
 
---下载
 local function Movie_SubMenu(root, movieID)
     if IsMovieLocal(movieID) then
         return
@@ -420,7 +419,6 @@ local function Movie_SubMenu(root, movieID)
         return MenuResponse.Open
     end, {movieID=movieID})
 
---进度        
     sub:SetTooltip(function(tooltip, description)
         local inProgress, downloaded, total = GetMovieDownloadProgress(description.data.movieID)
         if inProgress and downloaded and total and total>0 then
@@ -435,7 +433,6 @@ end
 
 local function Init_Menu(_, root)
     local sub, sub2
---视频
     local num= CountTable(WoWToolsPlusPlayerDate.GossipMovie or {})
 
     root= root:CreateButton(
@@ -446,7 +443,6 @@ local function Init_Menu(_, root)
     WoWTools_MenuMixin:SetRightText(root)
 
 
---跳过，视频，
     sub=root:CreateCheckbox(
         WoWTools_L['Skip movies'],
     function()
@@ -463,7 +459,6 @@ local function Init_Menu(_, root)
         )
     end)
 
---动画字幕
     sub2=sub:CreateCheckbox(
         WoWTools_L.CINEMATIC_SUBTITLES,
     function()
@@ -482,7 +477,6 @@ local function Init_Menu(_, root)
     end)
     sub2:SetEnabled(not InCombatLockdown())
 
---跳过，过场动画
     sub=root:CreateCheckbox(
         WoWTools_L['RENOWN_LEVEL_UP_SKIP_BUTTON+CINEMATICS'],
     function()
@@ -495,7 +489,6 @@ local function Init_Menu(_, root)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Gossip.SkipCinematic'])
         tooltip:AddLine('CINEMATIC_START')
     end)
---仅限在副本里
     local tipSub= sub:CreateCheckbox(
         WoWTools_L['Only in instances'],
     function()
@@ -536,7 +529,6 @@ local function Init_Menu(_, root)
                     tooltip:AddLine('|A:'..(desc.data.atlas or '')..':134:246|a')
                 end
             end)
---下载
             Movie_SubMenu(sub2, movieID)
         end
     end
@@ -571,11 +563,10 @@ local function Init_Menu(_, root)
                 tooltip:AddLine('|A:'..(desc.data.atlas or '')..':134:246|a')
             end
         end)
-        Movie_SubMenu(sub2, movieID)--下载
+        Movie_SubMenu(sub2, movieID)
     end
     WoWTools_MenuMixin:SetScrollMode(sub)
 
---列表，电影
     root:CreateDivider()
     local _num= 0
     for movieID, dateTime in pairs(WoWToolsPlusPlayerDate.GossipMovie) do
@@ -591,7 +582,6 @@ local function Init_Menu(_, root)
         Movie_SubMenu(sub, movieID, dateTime)
     end
 
---全部清除
     sub=root:CreateButton(
         (_num==0 and '|cff626262' or '')
         ..(WoWTools_L.CLEAR_ALL),

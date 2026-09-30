@@ -14,7 +14,6 @@ local function Init_Menu(self, root)
 	local sub
 
 
---追踪
 	sub=root:CreateCheckbox(
 		WoWTools_L.TRACKING,
 	function()
@@ -27,13 +26,11 @@ local function Init_Menu(self, root)
 
 
 
---重置位置
 	WoWTools_MenuMixin:RestPoint(self, sub, Save().point, function()
 		Save().point=nil
 		WoWTools_CurrencyMixin:Init_TrackButton()
 	end)
 
---达到上限
 	root:CreateDivider()
 	sub=root:CreateCheckbox(
 		'|A:communities-icon-chat:0:0|a'..(WoWTools_L['CAPPED~2']),
@@ -68,9 +65,7 @@ local function Init_Menu(self, root)
 
 
 	root:CreateDivider()
---打开选项
     sub= WoWTools_MenuMixin:OpenOptions(root, {name= WoWTools_CurrencyMixin.addName})
---重新加载UI
 	WoWTools_MenuMixin:Reload(sub)
 end
 
@@ -86,7 +81,7 @@ local function Init()
 
 	WoWTools_CurrencyMixin:Init_Plus()
 	WoWTools_CurrencyMixin:Init_TrackButton()
-	WoWTools_CurrencyMixin:Init_Currency_Transfer()--货币，转移
+	WoWTools_CurrencyMixin:Init_Currency_Transfer()
 
 
 
@@ -107,15 +102,13 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 				item={},
 				Hide=true,
 				str=true,
-				toRightTrackText=true,--向右平移
-				--hideCurrencyMax=true,--达到上限
+				toRightTrackText=true,
 			})
 
 			Save().ItemInteractionID= nil
 
 			WoWTools_CurrencyMixin.addName= '|A:bags-junkcoin:0:0|a'..(WoWTools_L['Module.Currencies'])
 
---添加控制面板
 			WoWTools_PanelMixin:OnlyCheck({
 				name= WoWTools_CurrencyMixin.addName,
 				tooltip= WoWTools_L['Tip.Currency.Enable'],
@@ -131,7 +124,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 				end
 			})
 
-			--WoWTools_DataMixin.CurrencyUpdateItemLevelID= Save().ItemInteractionID--套装，转换，货币
 			--WoWTools_CurrencyMixin:Init_ItemInteractionFrame()
 
 

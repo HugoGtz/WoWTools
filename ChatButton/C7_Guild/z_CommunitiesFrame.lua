@@ -1,4 +1,3 @@
---社区 Plus
 
 
 
@@ -22,7 +21,6 @@ local function Create_Texture(btn)
         return
     end
 
---总人数
     btn.allText= WoWTools_LabelMixin:Create(btn)--, {color=true})
     btn.allText:SetPoint('TOPLEFT', btn.Icon, 'BOTTOMLEFT')
     btn.allText.tooltip= (WoWTools_L.CLUB_FINDER_SORT_BY_MOST_MEMBERS)
@@ -31,7 +29,6 @@ local function Create_Texture(btn)
     Set_Sctipt(btn.allText)
 
 
---是否有申请人
     btn.inviteTexture= btn:CreateTexture(nil, 'BORDER',nil, 2)
     btn.inviteTexture:SetPoint('RIGHT',-6,0)
     btn.inviteTexture:SetSize(20,20)
@@ -39,7 +36,6 @@ local function Create_Texture(btn)
     btn.inviteTexture.tooltip= WoWTools_L.CLUB_FINDER_APPLICANTS
     Set_Sctipt(btn.inviteTexture)
 
---是否有未读信息
     btn.msgTexture= btn:CreateTexture(nil, 'BORDER', nil, 2)
     btn.msgTexture:SetPoint('RIGHT',-6,-20)
     btn.msgTexture:SetSize(20,20)
@@ -47,7 +43,6 @@ local function Create_Texture(btn)
     btn.msgTexture.tooltip= WoWTools_L.COMMUNITIES_CHAT_FRAME_UNREAD_MESSAGES_NOTIFICATION
     Set_Sctipt(btn.msgTexture)
 
---是否跨派系
     btn.factionTexture= btn:CreateTexture(nil, 'BORDER', nil, 2)
     btn.factionTexture:SetPoint('RIGHT',-6,20)
     btn.factionTexture:SetSize(20,20)
@@ -60,7 +55,6 @@ end
 
 
 --local COMMUNITIES_DELETE_CONFIRM_STRING= COMMUNITIES_DELETE_CONFIRM_STRING
---公会，社区，在线人数
 local function Init()
     WoWTools_DataMixin:Hook(CommunitiesListEntryMixin, 'Init', function(btn, elementData)
         local clubID= btn.clubId

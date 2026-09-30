@@ -84,8 +84,6 @@ local function Init()
 
 
 
---模型: 显示名称
---物品
     WoWTools_DataMixin:Hook(TransmogItemModelMixin, 'OnLoad', function(self)
         Create_ModelName(self)
     end)
@@ -99,11 +97,9 @@ local function Init()
         self.Name:SetText(itemLink or '')
         self.nameBG:SetShown(itemLink)
     end)
---套装，自定义套装
     WoWTools_DataMixin:Hook(TransmogSetBaseModelMixin, 'OnLoad', function(self)
         Create_ModelName(self)
     end)
---套装
     WoWTools_DataMixin:Hook(TransmogSetModelMixin, 'UpdateSet', function(self)
         local name
         if self.elementData and not Save().hideTransmogModelName then
@@ -147,7 +143,6 @@ local function Init()
 
 
 
---自定义套装
     WoWTools_DataMixin:Hook(TransmogCustomSetModelMixin, 'UpdateSet', function(self)
         local name
         if self.elementData and not Save().hideTransmogModelName then

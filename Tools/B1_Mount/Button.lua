@@ -5,7 +5,7 @@ end
 
 local ShiJI--local antes de set_ShiJI, si no se asignaba a una global
 
-local function set_ShiJI()--召唤司机 代驾型机械路霸
+local function set_ShiJI()
     ShiJI= WoWTools_DataMixin.Player.Faction=='Horde' and 179244 or (WoWTools_DataMixin.Player.Faction=='Alliance' and 179245) or nil--"Alliance", "Horde", "Neutral"
 end
 
@@ -14,7 +14,7 @@ local XD
 local MountTab={}
 
 
-local function XDInt()--德鲁伊设置
+local function XDInt()
     XD=nil
     if WoWTools_DataMixin.Player.Class=='DRUID' then
         local ground=C_SpellBook.IsSpellInSpellBook(768) and 768
@@ -33,7 +33,7 @@ end
 
 
 
-local function checkSpell(self)--检测法术
+local function checkSpell(self)
     self.spellID2=nil
     if XD and XD.Ground then
         self.spellID2=XD.Ground
@@ -48,7 +48,7 @@ local function checkSpell(self)--检测法术
 end
 
 
-local function checkItem(self)--检测物品
+local function checkItem(self)
     self.itemID=nil
 
     for itemID in pairs(SaveLog().Item or {}) do
@@ -65,8 +65,8 @@ end
 
 
 
-local function checkMount()--检测坐骑
-    local uiMapID= C_Map.GetBestMapForUnit("player")--当前地图
+local function checkMount()
+    local uiMapID= C_Map.GetBestMapForUnit("player")
 
     for _, mountType in pairs(WoWTools_MountMixin.MountType) do
 
@@ -109,7 +109,7 @@ end
 
 
 
-local function getRandomRoll(muntType)--随机坐骑
+local function getRandomRoll(muntType)
     local tab=MountTab[muntType] or {}
     local num= #tab
     if num>0 then
@@ -140,7 +140,7 @@ end
 
 
 
-local function setShiftCtrlAltAtt(self)--设置Shift Ctrl Alt 属性
+local function setShiftCtrlAltAtt(self)
     if not self:CanChangeAttribute() then
         self.Combat=true
         return
@@ -163,7 +163,7 @@ local function setShiftCtrlAltAtt(self)--设置Shift Ctrl Alt 属性
 end
 
 
-local function setTextrue(self)--设置图标
+local function setTextrue(self)
     local icon= self.iconAtt
     if IsMounted() then
         icon=136116
@@ -177,7 +177,7 @@ local function setTextrue(self)--设置图标
         end
     end
     self.texture:SetTexture(icon or 0)
-    WoWTools_CooldownMixin:SetFrame(self, {itemID=self.itemID, spellID=self.spellID})--设置冷却
+    WoWTools_CooldownMixin:SetFrame(self, {itemID=self.itemID, spellID=self.spellID})
 end
 
 
@@ -188,7 +188,7 @@ end
 
 
 
-local function setClickAtt(self)--设置 Click属性
+local function setClickAtt(self)
     if not self:CanChangeAttribute() then
         self.Combat=true
         return
@@ -213,15 +213,15 @@ local function setClickAtt(self)--设置 Click属性
 
     elseif not self.itemID or not C_PlayerInfo.CanUseItem(self.itemID) then
         spellID= (IsIndoors() or isMoving or isBat) and self.spellID2
-            or getRandomRoll('Floor')--区域
-            or (IsSubmerged() and getRandomRoll('Aquatic'))--水平中
-            or ((isAdvancedFlyableArea or C_Spell.IsSpellUsable(368896)) and (-- [368896]=true,--[复苏始祖幼龙] 
-                C_UnitAuras.GetAuraDataBySpellName('player', C_Spell.GetSpellName(404468), 'HELPFUL')--404468/飞行模式：稳定
+            or getRandomRoll('Floor')
+            or (IsSubmerged() and getRandomRoll('Aquatic'))
+            or ((isAdvancedFlyableArea or C_Spell.IsSpellUsable(368896)) and (
+                C_UnitAuras.GetAuraDataBySpellName('player', C_Spell.GetSpellName(404468), 'HELPFUL')
                     and getRandomRoll('Flying')
                     or getRandomRoll('Dragonriding')
                 ))
-            or (isFlyableArea and getRandomRoll('Flying'))--飞行区域
-            or (IsOutdoors() and getRandomRoll('Ground'))--室内
+            or (isFlyableArea and getRandomRoll('Flying'))
+            or (IsOutdoors() and getRandomRoll('Ground'))
             or self.spellID
             or ShiJI
     end
@@ -232,14 +232,14 @@ local function setClickAtt(self)--设置 Click属性
         name= C_Spell.GetSpellName(spellID)
         icon= C_Spell.GetSpellTexture(spellID)
         if name and icon then
-            if spellID==6544 or spellID==189110 then--6544英勇飞跃 189110地狱火撞击
+            if spellID==6544 or spellID==189110 then
                 self:SetAttribute("type1", "macro")
                 self:SetAttribute("macrotext1", format('/cast [@cursor]%s', name))
                 self:SetAttribute('unit', nil)
             else
                 self:SetAttribute("type1", "spell")
                 self:SetAttribute("spell1", name)
-                if spellID==121536 then--天堂之羽 
+                if spellID==121536 then
                     self:SetAttribute('unit', "player")--mouseover player
                 else
                     self:SetAttribute('unit', nil)
@@ -279,7 +279,7 @@ local function setClickAtt(self)--设置 Click属性
     self.iconAtt=icon
     self.Combat=nil
 
-    setTextrue(self)--设置图标
+    setTextrue(self)
 end
 
 
@@ -338,8 +338,8 @@ local function Set_Item_Spell_Edit(info)
             end,
             OnAlt = function()
                 SaveLog().Floor[spellID]=nil
-                checkMount()--检测坐骑
-                setClickAtt(WoWTools_ToolsMixin:Get_ButtonForName('Mount'))--设置 Click属性
+                checkMount()
+                setClickAtt(WoWTools_ToolsMixin:Get_ButtonForName('Mount'))
                 if MountJournal and MountJournal:IsVisible() then
                     WoWTools_DataMixin:Call('MountJournal_UpdateMountList')
                 end
@@ -419,7 +419,7 @@ local function Init()
     btn:SetAttribute("shift-type1", "spell")
     btn:SetAttribute("ctrl-type1", "spell")
 
-    btn.textureModifier=btn:CreateTexture(nil,'OVERLAY')--提示 Shift, Ctrl, Alt
+    btn.textureModifier=btn:CreateTexture(nil,'OVERLAY')
     btn.textureModifier:SetAllPoints(btn.texture)
     btn.textureModifier:AddMaskTexture(btn.IconMask)
 
@@ -448,7 +448,6 @@ local function Init()
             if IsMounted() then
                 C_MountJournal.Dismiss()
 
-            --战斗中，可用，驭空术
             elseif InCombatLockdown() and not IsPlayerMoving() and C_Spell.IsSpellUsable(368896) then
                 local spellID2= getRandomRoll('Dragonriding')
                 local mountID= C_MountJournal.GetMountFromSpell(spellID2 or 368896)--368896 es spellID
@@ -504,7 +503,7 @@ local function Init()
 
     btn:SetScript("OnLeave",function(self)
         GameTooltip:Hide()
-        setClickAtt(self)--设置属性
+        setClickAtt(self)
         ResetCursor()
         self.border:SetAtlas('bag-reagent-border')
         self:SetScript('OnUpdate',nil)
@@ -528,23 +527,22 @@ local function Init()
 
 
     function btn:settings()
-        set_ShiJI()--召唤司机
-        --set_OkMout()--是否已学, 骑术
-        XDInt()--德鲁伊设置
-        checkSpell(self)--检测法术
-        checkItem(self)--检测物品
-        checkMount()--检测坐骑
-        setClickAtt(self)--设置
-        setShiftCtrlAltAtt(self)--设置Shift Ctrl Alt 属性
+        set_ShiJI()
+        XDInt()
+        checkSpell(self)
+        checkItem(self)
+        checkMount()
+        setClickAtt(self)
+        setShiftCtrlAltAtt(self)
     end
 
     btn:settings()
 
     C_Timer.After(4, function()
         if btn:CanChangeAttribute() then
-            setShiftCtrlAltAtt(btn)--设置Shift Ctrl Alt 属性
-            setClickAtt(btn)--设置
-            WoWTools_CooldownMixin:SetFrame(btn, {itemID=btn.itemID, spellID=btn.spellID})--设置冷却
+            setShiftCtrlAltAtt(btn)
+            setClickAtt(btn)
+            WoWTools_CooldownMixin:SetFrame(btn, {itemID=btn.itemID, spellID=btn.spellID})
         end
     end)
 
@@ -586,7 +584,7 @@ local function Init()
     btn:RegisterUnitEvent("UNIT_EXITED_VEHICLE", "player")
 
     btn:RegisterEvent('PLAYER_STOPPED_MOVING')
-    btn:RegisterEvent('PLAYER_STARTED_MOVING')--设置, TOOLS 框架,隐藏
+    btn:RegisterEvent('PLAYER_STARTED_MOVING')
     btn:RegisterEvent('NEUTRAL_FACTION_SELECT_RESULT')
 
 
@@ -607,13 +605,13 @@ local function Init()
 
     btn:SetScript("OnEvent", function(self, event, arg1, arg2)
         if event=='PLAYER_REGEN_DISABLED' then
-                setClickAtt(self)--设置属性
+                setClickAtt(self)
 
         elseif event=='PLAYER_REGEN_ENABLED' then
             if self.Combat then
                 C_Timer.After(0.3, function()
-                    setClickAtt(self)--设置属性
-                    setShiftCtrlAltAtt(self)--设置Shift Ctrl Alt 属性
+                    setClickAtt(self)
+                    setShiftCtrlAltAtt(self)
                     self.Combat=nil
                 end)
             end
@@ -624,22 +622,22 @@ local function Init()
                 self.recheckPending=true
                 C_Timer.After(0.2, function()
                     self.recheckPending=nil
-                    checkSpell(self)--检测法术
-                    XDInt()--德鲁伊设置
-                    checkMount()--检测坐骑
-                    setClickAtt(self)--设置属性
+                    checkSpell(self)
+                    XDInt()
+                    checkMount()
+                    setClickAtt(self)
                 end)
             end
 
         elseif event=='BAG_UPDATE_DELAYED' then
-            checkItem(self)--检测物品
+            checkItem(self)
 
         elseif event=='NEW_MOUNT_ADDED' then
-            checkMount()--检测坐骑
+            checkMount()
 
         elseif event=='ZONE_CHANGED' or event=='ZONE_CHANGED_INDOORS' or event=='ZONE_CHANGED_NEW_AREA' then
             if not XD then
-                checkMount()--检测坐骑
+                checkMount()
             end
 
 
@@ -656,7 +654,7 @@ local function Init()
             or event=='UNIT_EXITED_VEHICLE'
 
         then-- or event=='AREA_POIS_UPDATED' then
-            setClickAtt(self)--设置属性
+            setClickAtt(self)
 
         elseif event=='MODIFIER_STATE_CHANGED' then
             local icon
@@ -671,10 +669,10 @@ local function Init()
             self.textureModifier:SetShown(icon)
 
         elseif event=='SPELL_UPDATE_COOLDOWN' then
-            WoWTools_CooldownMixin:SetFrame(self, {itemID=self.itemID, spellID=self.spellID})--设置冷却
+            WoWTools_CooldownMixin:SetFrame(self, {itemID=self.itemID, spellID=self.spellID})
 
         elseif event=='SPELL_UPDATE_USABLE' then
-            setTextrue(self)--设置图标
+            setTextrue(self)
 
         elseif event=='NEUTRAL_FACTION_SELECT_RESULT' then
             WoWTools_MountMixin.faction= WoWTools_DataMixin.Player.Faction=='Horde' and 0 or (WoWTools_DataMixin.Player.Faction=='Alliance' and 1)

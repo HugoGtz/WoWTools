@@ -1,4 +1,3 @@
---释放, 复活
 
 local function Save()
     return WoWToolsPlusSave['ChatButton_LFD'] or {}
@@ -56,7 +55,7 @@ local function Init()
                 return
             end
 
-            RepopMe()--死后将你的幽灵释放到墓地。
+            RepopMe()
 
             if HasNoReleaseAura() then
                 if WoWTools_MapMixin:IsInPvPArea() then
@@ -79,7 +78,7 @@ local function Init()
 
         elseif event=='AREA_SPIRIT_HEALER_IN_RANGE' then
 
-            AcceptAreaSpiritHeal()--在范围内时在战场上注册灵魂治疗师的复活计时器
+            AcceptAreaSpiritHeal()
 
             WoWTools_Print(
                 WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
@@ -100,7 +99,7 @@ local function Init()
             if time==0 then
 
                 C_Timer.After(1, function()
-                    RetrieveCorpse()--当玩家站在它的尸体附近时复活。
+                    RetrieveCorpse()
                     WoWTools_Print(
                         WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         '|cnGREEN_FONT_COLOR:'..(WoWTools_L.RESURRECT)
@@ -139,7 +138,7 @@ local function Init()
             self:Hide()
 
         elseif GetCorpseRecoveryDelay()==0 then
-            C_Timer.After(1, function() RetrieveCorpse() end)--当玩家站在它的尸体附近时复活。
+            C_Timer.After(1, function() RetrieveCorpse() end)
             self:Hide()
         end
     end)
@@ -162,6 +161,6 @@ end
 
 
 
-function WoWTools_LFDMixin:Init_RepopMe()--释放, 复活
+function WoWTools_LFDMixin:Init_RepopMe()
     Init()
 end

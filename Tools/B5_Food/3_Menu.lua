@@ -1,4 +1,3 @@
---主菜单
 
 local function Save()
     return WoWToolsPlusSave['Tools_Foods']
@@ -16,7 +15,6 @@ end
 local function AltSpell_Menu(_, root)
     root:CreateDivider()
 
-    --法术书
     local sub,sub2, sub3, spellSub, num
     local spells= Save().spells[WoWTools_DataMixin.Player.Class]
     --local item, alt, ctrl, shift= tab.item, tab.alt, tab.ctrl, tab.shift
@@ -31,7 +29,7 @@ local function AltSpell_Menu(_, root)
 
         sub=root:CreateCheckbox(
             tab.type
-            ..(WoWTools_SpellMixin:GetName(tab.spellID) or ''),--取得法术，名称
+            ..(WoWTools_SpellMixin:GetName(tab.spellID) or ''),
 
         function(data)
             return Save().spells[WoWTools_DataMixin.Player.Class][data.type]==data.spellID and data.spellID~=nil
@@ -162,7 +160,6 @@ local function Check_All_Menu(_, root, setClassID)
         sub:SetTooltip(function(tooltip) tooltip:AddLine('|cnGREEN_FONT_COLOR:Ctrl+'..WoWTools_DataMixin.Icon.left) end)
     end
 
-    --撤选所有
     sub=root:CreateButton(WoWTools_L.UNCHECK_ALL, function(data)
         if IsControlKeyDown() or data.classID then
             if data.classID then
@@ -220,7 +217,6 @@ local function Init_Menu(self, root)
         end
     end
 
---查找
     sub=root:CreateButton(
         (Save().autoWho and '|cnGREEN_FONT_COLOR:' or '')
         ..'|A:common-icon-zoomin:0:0|a'
@@ -231,7 +227,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Food.Search'])
 
---隐藏
     sub2=sub:CreateButton(WoWTools_L.HIDE, function() return MenuResponse.Open end)
     for classID=0, 20 do
         class= C_Item.GetItemClassInfo(classID)
@@ -247,7 +242,6 @@ local function Init_Menu(self, root)
         end
     end
 
---禁用
     sub2=sub:CreateButton(WoWTools_L.DISABLE, function() return MenuResponse.Open end)
     find=0
     for itemID in pairs(Save().noUseItems) do
@@ -281,7 +275,6 @@ local function Init_Menu(self, root)
 
 
 
---登录游戏时: 查找
     sub:CreateDivider()
     sub2=sub:CreateCheckbox(WoWTools_L['On login: search'], function()
         return Save().autoLogin
@@ -293,7 +286,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Food.AutoLogin'])
 
---自动查找
     sub2=sub:CreateCheckbox(WoWTools_L['SELF_CAST_AUTO+UPDATE'], function()
         return Save().autoWho
     end, function()
@@ -311,8 +303,7 @@ local function Init_Menu(self, root)
         GameTooltip_AddErrorLine(tooltip, WoWTools_L['High CPU'])
     end)
 
---仅当前版本物品
-    if not PlayerIsTimerunning() then--时光
+    if not PlayerIsTimerunning() then
         sub2=sub:CreateCheckbox(
             WoWTools_L['Only current version items'],
         function()
@@ -324,7 +315,6 @@ local function Init_Menu(self, root)
         WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Food.OnlyCurrentExp'])
     end
 
---仅限 C_Item.GetItemSpell(itemID)
     sub2=sub:CreateCheckbox(WoWTools_L['Usable only'], function()
         return Save().olnyUsaItem
     end, function()
@@ -335,10 +325,8 @@ local function Init_Menu(self, root)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Food.UsableOnly'])
         tooltip:AddLine('C_Item.GetItemSpell(itemID)')
     end)
---缩放
     sub:CreateDivider()
 
---显示背景
     WoWTools_MenuMixin:BgAplha(sub,
     function()
         return Save().bgAlpha or 0
@@ -364,7 +352,6 @@ local function Init_Menu(self, root)
     end)
 
 
---数量
     sub2=sub:CreateButton(
         '|A:newplayertutorial-icon-key:0:0|a'
         ..(WoWTools_L.AUCTION_HOUSE_QUANTITY_LABEL),
@@ -392,7 +379,6 @@ local function Init_Menu(self, root)
     sub2:CreateSpacer()
 
 
---外框，透明度
     sub2=sub:CreateButton(
         '|A:bag-reagent-border:0:0|a'
         ..(WoWTools_L.EMBLEM_BORDER),
@@ -401,7 +387,6 @@ local function Init_Menu(self, root)
     end, {rightText= Save().borderAlpha or 0})
     WoWTools_MenuMixin:SetRightText(sub2)
 
---Border 透明度
     sub2:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub2, {
         getValue=function()
@@ -418,7 +403,6 @@ local function Init_Menu(self, root)
     })
 
 
---重置位置
     sub:CreateDivider()
     WoWTools_MenuMixin:RestPoint(self, sub, Save().point , function()
         if self:CanChangeAttribute() then
@@ -427,10 +411,8 @@ local function Init_Menu(self, root)
         end
     end)
 
---打开选项界面
-    WoWTools_ToolsMixin:OpenMenu(sub, WoWTools_FoodMixin.addName)--打开, 选项界面，菜单
+    WoWTools_ToolsMixin:OpenMenu(sub, WoWTools_FoodMixin.addName)
 
---自定义
     sub=root:CreateButton(WoWTools_L.CUSTOM, function() return MenuResponse.Open end)
     sub:SetTooltip(function(tooltip)
         tooltip:AddLine(WoWTools_L['Drag item to add'])
@@ -451,7 +433,6 @@ local function Init_Menu(self, root)
         end)
     end
 
---全部清除
     sub:CreateDivider()
     name= WoWTools_L.CLEAR_ALL
     sub:CreateButton(
@@ -469,7 +450,6 @@ local function Init_Menu(self, root)
 
     WoWTools_MenuMixin:SetScrollMode(sub)
 
---总是显示
     sub2=sub:CreateCheckbox(WoWTools_L.BATTLEFIELD_MINIMAP_SHOW_ALWAYS, function()
         return Save().addItemsShowAll
     end, function()

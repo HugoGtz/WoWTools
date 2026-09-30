@@ -1,5 +1,4 @@
 local P_Save={
-    --load_Button_Name=BASE_SETTINGS_TAB,--记录，已加载方案
     buttons={
         [BASE_SETTINGS_TAB]={
             ['BugSack']=true,
@@ -39,14 +38,11 @@ local P_Save={
     load_list_size=22,
 
     rightListScale=1,
-    --hideRightList=true, 隐藏右边列表
 
     leftListScale=1,
     --hideLeftList
 
-    --disabledInfoPlus=true,禁用plus
     --bgAlpha=0.3
-    --addonProfilerEnabled= true,--启用，CPU分析功能,默认开启
 }
 
 
@@ -57,7 +53,6 @@ end
 
 
 --#####
---初始化
 --#####
 local function Init()
     WoWTools_AddOnsMixin:Init_Menu_Button()
@@ -83,7 +78,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
     WoWTools_AddOnsMixin.addName='|A:Garr_Building-AddFollowerPlus:0:0|a'..(WoWTools_L['Module.AddOn manager'])
 
-    --添加控制面板
     WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_AddOnsMixin.addName,
         tooltip= WoWTools_L['Tip.AddOns.Enable']..'|n|n'..WoWTools_L['REQUIRES_RELOAD~2'],

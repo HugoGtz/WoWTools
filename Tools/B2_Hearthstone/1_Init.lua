@@ -19,46 +19,46 @@ end
 
 
 local P_Items={
-    [142542]=true,--城镇传送之书
-    [162973]=true,--冬天爷爷的炉石
-    [163045]=true,--无头骑士的炉石
-    [165669]=true,--春节长者的炉石
-    [165670]=true,--小匹德菲特的可爱炉石
-    [165802]=true,--复活节的炉石
-    [166746]=true,--吞火者的炉石
-    [166747]=true,--美酒节狂欢者的炉石
-    [168907]=true,--全息数字化炉石
-    [172179]=true,--永恒旅者的炉石
-    [188952]=true,--被统御的炉石
-    [190196]=true,--开悟者炉石
-    [190237]=true,--掮灵传送矩阵
-    [193588]=true,--时光旅行者的炉石
-    [200630]=true,--欧恩伊尔轻风贤者的炉石, 找不到数据
-    [209035]=true,--烈焰炉石
-    [212337]=true,--炉之石
-    [210455]=true,--德莱尼全息宝石
-    [93672]=true,--黑暗之门
-    [206195]=true,--纳鲁之路
-    [208704]=true,--幽邃住民的土灵炉石
-    [236687]=true,--高爆炉石
-    [228940]=true,--恶名丝线炉石
-    [235016]=true,--重部署模块
-    [246565]=true,--星瀚炉石
-    [245970]=true,--P.O.S.T.总管的特快炉石 11.2.7
-    [257736]=true,--圣光呼唤炉石 12.0
-    [265100]=true,--核心守卫的炉石
+    [142542]=true,
+    [162973]=true,
+    [163045]=true,
+    [165669]=true,
+    [165670]=true,
+    [165802]=true,
+    [166746]=true,
+    [166747]=true,
+    [168907]=true,
+    [172179]=true,
+    [188952]=true,
+    [190196]=true,
+    [190237]=true,
+    [193588]=true,
+    [200630]=true,
+    [209035]=true,
+    [212337]=true,
+    [210455]=true,
+    [93672]=true,
+    [206195]=true,
+    [208704]=true,
+    [236687]=true,
+    [228940]=true,
+    [235016]=true,
+    [246565]=true,
+    [245970]=true,
+    [257736]=true,
+    [265100]=true,
 }
 
 
 
 local ModifiedMenuTab={
-    {type='Alt', itemID=140192, icon=1444943},--达拉然炉石
-    {type='Ctrl', itemID=110560, icon=1041860},--要塞炉石
-    {type='Shift', itemID=6948, icon=134414},----炉石
+    {type='Alt', itemID=140192, icon=1444943},
+    {type='Ctrl', itemID=110560, icon=1041860},
+    {type='Shift', itemID=6948, icon=134414},
 }
 
 
-local function get_not_cooldown_toy(self)--发现就绪
+local function get_not_cooldown_toy(self)
     local duration = select(2, C_Item.GetItemCooldown(self.itemID))
     if duration and duration>3 then
         for itemID in pairs(P_Items) do
@@ -77,7 +77,6 @@ local function Init_Menu(self, root)
     local sub, sub2, name
     WoWTools_HearthstoneMixin:Init_Menu_Toy(self, root)
 
---选项
     root:CreateDivider()
     sub=WoWTools_ToolsMixin:OpenMenu(root, WoWTools_HearthstoneMixin.addName)
 
@@ -85,7 +84,7 @@ local function Init_Menu(self, root)
         return Save().showBindName
     end, function()
         Save().showBindName= not Save().showBindName and true or false
-        self:set_location()--显示, 炉石, 绑定位置
+        self:set_location()
     end)
     sub2:SetTooltip(function(tooltip)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Hearthstone.BindName'])
@@ -96,11 +95,10 @@ local function Init_Menu(self, root)
         return Save().showBindNameShort
     end, function()
         Save().showBindNameShort= not Save().showBindNameShort and true or false
-        self:set_location()--显示, 炉石, 绑定位置
+        self:set_location()
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Hearthstone.BindNameShort'])
 
---移除未收集
     sub:CreateDivider()
     name= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L['REMOVE+NOT_COLLECTED'])
     sub:CreateButton(
@@ -126,7 +124,6 @@ local function Init_Menu(self, root)
     end, {name=name})
 
 
---全部清除
     name= '|A:common-icon-redx:0:0|a'..(WoWTools_L.CLEAR_ALL)
     sub:CreateButton(
         name,
@@ -144,7 +141,6 @@ local function Init_Menu(self, root)
 
 
 
---还原
     local all= CountTable(P_Items or {})
     name= '|A:common-icon-undo:0:0|a'..(WoWTools_L.TRANSMOGRIFY_TOOLTIP_REVERT)..' '..all
     sub2= sub:CreateButton(
@@ -163,7 +159,6 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Hearthstone.RevertList'])
 
 
---设置
     sub:CreateDivider()
     sub2=sub:CreateButton(
         '|A:common-icon-zoomin:0:0|a'..(WoWTools_L.SETTINGS),
@@ -199,11 +194,11 @@ local function Init()
         icon:SetSize(10, 10)
         icon:SetTexture(data.icon)
 
-        if data.type=='Alt' then--达拉然炉石
+        if data.type=='Alt' then
             icon:SetPoint('BOTTOMRIGHT',-3,3)
-        elseif data.type=='Ctrl' then--要塞炉石
+        elseif data.type=='Ctrl' then
             icon:SetPoint('BOTTOMLEFT',2,2)
-        elseif data.type=='Shift' then--炉石
+        elseif data.type=='Shift' then
             icon:SetPoint('TOPLEFT',2,-2)
         end
 
@@ -215,7 +210,6 @@ local function Init()
     end
 
 
-    --设置 Alt Shift Ctrl
     function btn:set_alt()
         self.isAltEvent=nil
         if not self:CanChangeAttribute() then
@@ -274,12 +268,10 @@ local function Init()
     end
 
 
-    --取得，炉石, 绑定位置
     function btn:get_location()
         return WoWTools_TextMixin:CN(GetBindLocation())
     end
 
-    --显示, 炉石, 绑定位置
     function btn:set_location()
         local text
         if Save().showBindName then
@@ -291,7 +283,6 @@ local function Init()
         self.text:SetText(text or '')
     end
 
-    --提示, 炉石, 绑定位置，文本
     function btn:set_tooltip_location(tooltip)
         if tooltip.textLeft then
             tooltip.textLeft:SetText(self:get_location() or '')
@@ -300,7 +291,7 @@ local function Init()
 
     --CD
     function btn:set_cool(itemID)
-        WoWTools_CooldownMixin:SetFrame(self, {itemID=itemID or self.itemID})--主图标冷却
+        WoWTools_CooldownMixin:SetFrame(self, {itemID=itemID or self.itemID})
     end
 
 
@@ -377,7 +368,6 @@ local function Init()
             )
 
 
---发现就绪
             local duration= self.itemID and select(2, C_Item.GetItemCooldown(self.itemID))
             if duration and duration>3 then
                 local itemID= get_not_cooldown_toy(self)
@@ -411,7 +401,7 @@ local function Init()
             end
         end)
         if self:CanChangeAttribute() then
-            local itemID= get_not_cooldown_toy(self)--发现就绪
+            local itemID= get_not_cooldown_toy(self)
             if itemID then
                 self.Selected_Value=itemID
                 self:Set_Random_Value(itemID)
@@ -446,7 +436,7 @@ local function Init()
 
     Mixin(btn, WoWTools_RandomMixin)
 
-    function btn:Get_Random_Data()--取得数据库, {数据1, 数据2, 数据3, ...}
+    function btn:Get_Random_Data()
         local tab={}
         for itemID in pairs(SaveItems()) do
             if PlayerHasToy(itemID) then
@@ -456,7 +446,7 @@ local function Init()
         return tab
     end
 
-    function btn:Set_Random_Value(itemID)--设置，随机值
+    function btn:Set_Random_Value(itemID)
         self.is_Random_Eevent=nil
         if not self:CanChangeAttribute() then
             self.is_Random_Eevent=true
@@ -469,11 +459,11 @@ local function Init()
         self.texture:SetTexture(select(5, C_Item.GetItemInfoInstant(itemID)) or 134414)
         self:set_cool()
     end
-    function btn:Set_OnlyOneValue_Random()--当数据 <=1 时，设置值
-        self:Set_Random_Value(self.Selected_Value or self.Locked_Value or self.Random_List[1] or 200869)--欧恩牌清淡饮水角
+    function btn:Set_OnlyOneValue_Random()
+        self:Set_Random_Value(self.Selected_Value or self.Locked_Value or self.Random_List[1] or 200869)
     end
 
-    btn:Init_Random(Save().lockedToy)--初始
+    btn:Init_Random(Save().lockedToy)
 
 
     function btn:set_event()
@@ -487,7 +477,7 @@ local function Init()
             self:Get_Random_Value()
         else
             self:UnregisterAllEvents()
-            WoWTools_CooldownMixin:SetFrame(self)--主图标冷却
+            WoWTools_CooldownMixin:SetFrame(self)
         end
     end
 

@@ -1,5 +1,4 @@
 
---插件，管理
 
 
 
@@ -9,7 +8,6 @@
 
 
 
---插件
 function WoWTools_MoveMixin.Events:Blizzard_AddOnList()
     AddonList.ScrollBox:ClearAllPoints()
     AddonList.ScrollBox:SetPoint('LEFT', 7, 0)

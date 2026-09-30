@@ -1,4 +1,3 @@
---宠物 2
 --Blizzard_PetCollection.lua
 
 local function Save()
@@ -29,7 +28,6 @@ end
 
 
 
---类型
 local function Set_Type(frame, petType, isRight)
     if not frame.indicatoUp then
         frame.typeTexture= frame:CreateTexture(nil, 'OVERLAY', nil, 7)
@@ -108,8 +106,7 @@ local function Init()
         return
     end
 
---增加，总数
-    PetJournal.PetCount.Label:ClearAllPoints()--太长了，
+    PetJournal.PetCount.Label:ClearAllPoints()
     PetJournal.PetCount.Label:SetPoint('RIGHT', PetJournal.PetCount.Count, 'LEFT', -2, 0)
     PetJournal.PetCount.Label:SetJustifyH('RIGHT')
 
@@ -120,7 +117,6 @@ local function Init()
         PetJournal.PetCount.Count:SetFormattedText('%d/%d', C_PetJournal.GetNumPets())
     end)
 
---列表
     WoWTools_DataMixin:Hook('PetJournal_InitPetButton', function(pet, data)
         local abilityIconA, abilityIconB
         if not Save().hidePets and Save().petListIconSize~=0 then
@@ -215,7 +211,6 @@ local function Init()
 
 
 
---1,2,3 PetCard, 技能
     WoWTools_DataMixin:Hook('PetJournal_UpdatePetLoadOut', function()
         local frame, petType, nextAbilityID
         local isEnabled= not Save().hidePets
@@ -223,7 +218,6 @@ local function Init()
             local loadoutPlate = PetJournal.Loadout["Pet"..i]
             local petID = C_PetJournal.GetPetLoadOutInfo(i)
             petType = petID and select(10, C_PetJournal.GetPetInfoByPetID(petID))
---类型
             Set_Type(loadoutPlate, petType, true)
 
             for abilityIndex= 1, 3 do--CompanionLoadOutSpellTemplate
@@ -252,7 +246,6 @@ local function Init()
                 end
                 frame.typeTexture:SetTexture(petType and 'Interface\\TargetingFrame\\PetBadge-'..PET_TYPE_SUFFIX[petType] or 0)
 
---显示，没用选中，技能
                 nextAbilityID= frame.abilityID == loadoutPlate.abilities[abilityIndex] and loadoutPlate.abilities[abilityIndex+3] or loadoutPlate.abilities[abilityIndex]
 
                 local nextAbilityIcon, nextAbilityType
@@ -272,6 +265,6 @@ end
 
 
 
-function WoWTools_CollectionMixin:Init_Pet()--宠物 2
+function WoWTools_CollectionMixin:Init_Pet()
     Init()
 end

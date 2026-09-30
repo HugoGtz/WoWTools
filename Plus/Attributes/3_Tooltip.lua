@@ -14,7 +14,6 @@ local Show_Tooltip={}
 
 
 --set_STATUS_Tooltip
---主属性
 Show_Tooltip.STATUS= function(frame)
     local currentSpec= GetSpecialization() or 0
     local PrimaryStat= select(6, C_SpecializationInfo.GetSpecializationInfo(currentSpec, nil, nil, nil, WoWTools_DataMixin.Player.Sex))
@@ -105,7 +104,6 @@ end
 
 
 --set_CRITCHANCE_Tooltip
---爆击2
 Show_Tooltip.CRITCHANCE= function(frame)
     local spellCrit = WoWTools_AttributesMixin:Get_MinCrit()
 	local rangedCrit = GetRangedCritChance()
@@ -158,7 +156,6 @@ end
 
 
 --set_HASTE_Tooltip
---急速3
 Show_Tooltip.HASTE= function(frame)
     local haste = GetHaste()
 	local rating = CR_HASTE_MELEE
@@ -189,7 +186,6 @@ end
 
 
 --set_VERSATILITY_Tooltip
---全能5
 Show_Tooltip.VERSATILITY= function(frame)
     local versatility = GetCombatRating(CR_VERSATILITY_DAMAGE_DONE)
 	local versatilityDamageBonus = GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_DONE) + GetVersatilityBonus(CR_VERSATILITY_DAMAGE_DONE)
@@ -198,8 +194,7 @@ Show_Tooltip.VERSATILITY= function(frame)
     GameTooltip:AddLine(' ')
 	GameTooltip:AddLine(
         format(
-            WoWTools_DataMixin.onlyChinese and "造成的"..INLINE_DAMAGER_ICON.."伤害值和"..INLINE_HEALER_ICON.."治疗量提高%.2f%%，|n"..INLINE_TANK_ICON.."受到的伤害降低%.2f%%。|n|n全能：%s [%.2f%%/%.2f%%]"
-            or CR_VERSATILITY_TOOLTIP,
+            CR_VERSATILITY_TOOLTIP,
             versatilityDamageBonus,
             versatilityDamageTakenReduction,
             BreakUpLargeNumbers(versatility),
@@ -217,7 +212,6 @@ end
 
 
 --set_LIFESTEAL_Tooltip
---吸血6
 Show_Tooltip.LIFESTEAL= function(frame)
     local lifesteal = GetLifesteal()
 	GameTooltip:AddDoubleLine(frame.nameText or frame.name or ' ', format("%0.2f%%", lifesteal), frame.r, frame.g, frame.b, frame.r, frame.g, frame.b)
@@ -235,7 +229,6 @@ end
 
 
 
---护甲
 --set_ARMOR_Tooltip
 Show_Tooltip.ARMOR= function(frame)
     local _, effectiveArmor = UnitArmor('player')
@@ -267,7 +260,6 @@ end
 
 
 --set_AVOIDANCE_Tooltip
---闪避7
 Show_Tooltip.AVOIDANCE= function(frame)
     local Avoidance = GetAvoidance()
 	GameTooltip:AddDoubleLine(frame.nameText or frame.name or ' ',  format("%0.2f%%", Avoidance), frame.r, frame.g, frame.b, frame.r, frame.g, frame.b)
@@ -289,7 +281,6 @@ end
 
 
 --set_DODGE_Tooltip
---躲闪8
 Show_Tooltip.DODGE= function(frame)
     local chance = GetDodgeChance()
 	GameTooltip:AddDoubleLine(frame.nameText or frame.name or ' ',  format("%0.2f%%", chance), frame.r, frame.g, frame.b, frame.r, frame.g, frame.b)
@@ -311,7 +302,6 @@ end
 
 
 --set_PARRY_Tooltip
---招架9
 Show_Tooltip.PARRY= function(frame)
     local chance = GetParryChance()
 	GameTooltip:AddDoubleLine(frame.nameText or frame.name or ' ',  format("%0.2f%%", chance), frame.r, frame.g, frame.b, frame.r, frame.g, frame.b)
@@ -335,7 +325,6 @@ end
 
 
 --set_BLOCK_Tooltip
---格挡10
 Show_Tooltip.BLOCK= function(frame)
     local chance = GetBlockChance()
     GameTooltip:AddDoubleLine(frame.nameText or frame.name or ' ', format("%0.2f%%", chance), frame.r, frame.g, frame.b, frame.r, frame.g, frame.b)
@@ -367,7 +356,6 @@ end
 
 
 --set_STAGGER_Tooltip
---醉拳11
 Show_Tooltip.STAGGER= function(frame)
     local stagger, staggerAgainstTarget = C_PaperDollInfo.GetStaggerPercentage('player')
     if not stagger then
@@ -394,7 +382,6 @@ end
 
 
 --set_SPEED_Tooltip
---移动12
 Show_Tooltip.SPEED= function(frame)
     local currentSpeed, runSpeed, flightSpeed, swimSpeed = GetUnitSpeed('player')
     GameTooltip:AddDoubleLine(frame.nameText or frame.name or ' ', 'player', frame.r, frame.g, frame.b, frame.r, frame.g, frame.b)

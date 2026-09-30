@@ -1,4 +1,3 @@
---生命条提示
 
 
 
@@ -8,18 +7,17 @@
 
 
 
---生命条提示
 local function Init()--WoWTools_DataMixin:Hook(GameTooltipStatusBar, 'UpdateUnitHealth', function(tooltip)
     if WoWToolsPlusSave['Plus_Tootips'].hideHealth then
         return
     end
 
     GameTooltipStatusBar.text= WoWTools_LabelMixin:Create(GameTooltipStatusBar, {justifyH='CENTER'})
-    GameTooltipStatusBar.text:SetPoint('TOP', GameTooltipStatusBar, 'BOTTOM')--生命条
+    GameTooltipStatusBar.text:SetPoint('TOP', GameTooltipStatusBar, 'BOTTOM')
     GameTooltipStatusBar.textLeft = WoWTools_LabelMixin:Create(GameTooltipStatusBar, {justifyH='LEFT'})
-    GameTooltipStatusBar.textLeft:SetPoint('TOPLEFT', GameTooltipStatusBar, 'BOTTOMLEFT')--生命条
+    GameTooltipStatusBar.textLeft:SetPoint('TOPLEFT', GameTooltipStatusBar, 'BOTTOMLEFT')
     GameTooltipStatusBar.textRight = WoWTools_LabelMixin:Create(GameTooltipStatusBar, {size=18, justifyH='RIGHT'})
-    GameTooltipStatusBar.textRight:SetPoint('TOPRIGHT',0, -2)--生命条
+    GameTooltipStatusBar.textRight:SetPoint('TOPRIGHT',0, -2)
     GameTooltipStatusBar:HookScript("OnValueChanged", function(self)
         local unit= select(2, GameTooltip:GetUnit())-- TooltipUtil.GetDisplayedUnit(GameTooltip))
         if WoWTools_FrameMixin:IsLocked(self)

@@ -73,7 +73,7 @@ local function Init_Frame()
     frame:RegisterEvent('CONFIRM_LOOT_ROLL')
 
     frame:SetScript('OnEvent', function(self, event, arg1, arg2)
-        if event=='LFG_COMPLETION_REWARD' or event=='LOOT_CLOSED' then--or event=='SCENARIO_COMPLETED' then--自动离开
+        if event=='LFG_COMPLETION_REWARD' or event=='LOOT_CLOSED' then
             if Save().leaveInstance
                 and IsInLFGDungeon()
                 and IsLFGComplete()
@@ -82,7 +82,7 @@ local function Init_Frame()
                 and not ExitCancelled
                 and not ExitTimer
                 and not StaticPopup_Visible('WoWTools_LFD_ExitIns') then
-                    WoWTools_DataMixin:PlaySound()--播放, 声音
+                    WoWTools_DataMixin:PlaySound()
                     local leaveSce= 30
                     if Save().autoROLL and event=='LOOT_CLOSED' then
                         leaveSce= WoWToolsPlusSave['ChatButton_LFD'].sec
@@ -93,11 +93,11 @@ local function Init_Frame()
                     StaticPopupDialogs['WoWTools_LFD_ExitIns'].timeout= leaveSce
                     StaticPopup_Show('WoWTools_LFD_ExitIns', leaveSce)
 
-                    WoWTools_CooldownMixin:Setup(WoWTools_DataMixin:StaticPopup_FindVisible('WoWTools_LFD_ExitIns') or StaticPopup1, nil, leaveSce, nil, true, true)--冷却条
+                    WoWTools_CooldownMixin:Setup(WoWTools_DataMixin:StaticPopup_FindVisible('WoWTools_LFD_ExitIns') or StaticPopup1, nil, leaveSce, nil, true, true)
             end
 
         elseif event=='PLAYER_ENTERING_WORLD' then
-            if select(2, IsInInstance())~='none' then--自动离开
+            if select(2, IsInInstance())~='none' then
                 self:RegisterEvent('LOOT_CLOSED')
             else
                 self:UnregisterEvent('LOOT_CLOSED')
@@ -106,12 +106,12 @@ local function Init_Frame()
             ExitCancelled=nil
             Cancel_Exit_Timer()
 
-        elseif event=='ISLAND_COMPLETED' then--离开海岛
+        elseif event=='ISLAND_COMPLETED' then
             Save_Instance_Num('island')
             if not Save().leaveInstance then
                 return
             end
-            WoWTools_DataMixin:PlaySound()--播放, 声音
+            WoWTools_DataMixin:PlaySound()
             C_PartyInfo.LeaveParty(LE_PARTY_CATEGORY_INSTANCE)
             LFGTeleport(true)
             WoWTools_Print(
@@ -120,9 +120,9 @@ local function Init_Frame()
                 WoWTools_LFDMixin:Get_Instance_Num('island')
             )
 
-        elseif event=='PVP_MATCH_COMPLETE' then--离开战场
+        elseif event=='PVP_MATCH_COMPLETE' then
             if Save().leaveInstance then
-                WoWTools_DataMixin:PlaySound()--播放, 声音
+                WoWTools_DataMixin:PlaySound()
                 if PVPMatchResults and PVPMatchResults.buttonContainer and PVPMatchResults.buttonContainer.leaveButton then
                     WoWTools_CooldownMixin:Setup(PVPMatchResults.buttonContainer.leaveButton, nil, WoWToolsPlusSave['ChatButton_LFD'].sec, nil, true, true)
                 end
@@ -204,10 +204,10 @@ local function Init()
         end
     end)
 
-    WoWTools_ChatMixin:GetButtonForName('LFD').leaveInstance:SetShown(Save().leaveInstance)--自动离开,指示图标
+    WoWTools_ChatMixin:GetButtonForName('LFD').leaveInstance:SetShown(Save().leaveInstance)
 
     Init=function()
-         WoWTools_ChatMixin:GetButtonForName('LFD').leaveInstance:SetShown(Save().leaveInstance)--自动离开,指示图标
+         WoWTools_ChatMixin:GetButtonForName('LFD').leaveInstance:SetShown(Save().leaveInstance)
     end
 end
 

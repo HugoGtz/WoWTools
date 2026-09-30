@@ -11,7 +11,6 @@ local wowheadIcon= '|TInterface\\AddOns\\WoWToolsPlus\\Source\\Texture\\Wowhead.
 
 
 --################
---取得网页，数据链接
 --################
 local function Init_WoWHeadText()
     local WoWHead= 'https://www.wowhead.com/'
@@ -71,7 +70,7 @@ end
 
 local function Create_Button(tooltip)
 
-    tooltip.WoWHeadButton=WoWTools_ButtonMixin:Cbtn(tooltip, {--取得网页，数据链接
+    tooltip.WoWHeadButton=WoWTools_ButtonMixin:Cbtn(tooltip, {
         size=24,
         isUI=true,
         name=tooltip:GetName()..'_WoWToolsURLButton',
@@ -101,7 +100,7 @@ local function Create_Button(tooltip)
     end
 
 
-    tooltip.AchievementButton=WoWTools_ButtonMixin:Cbtn(tooltip, {--取得网页，数据链接
+    tooltip.AchievementButton=WoWTools_ButtonMixin:Cbtn(tooltip, {
         size=24,
         isUI=true,
         name=tooltip:GetName()..'_WoWToolsAchievementButton',

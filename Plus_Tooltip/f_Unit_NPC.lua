@@ -16,7 +16,6 @@ local function Set_BrannBronzebeard(tooltip, unit, size)
 
     local rankInfo = C_GossipInfo.GetFriendshipReputationRanks(companionFactionID)
     if rankInfo and rankInfo.currentLevel and rankInfo.maxLevel then
---等级
         if rankInfo.currentLevel == rankInfo.maxLevel then
             left= (left or '')..format(WoWTools_L.UNIT_LEVEL_TEMPLATE, rankInfo.currentLevel)
         else
@@ -24,9 +23,7 @@ local function Set_BrannBronzebeard(tooltip, unit, size)
 
             local repInfo = C_GossipInfo.GetFriendshipReputation(companionFactionID)
             if repInfo and repInfo.nextThreshold and repInfo.standing and repInfo.nextThreshold>0 then
---经验
                 left= (left or '')..format('|A:GarrMission_CurrencyIcon-Xp:0:0|a|cnGREEN_FONT_COLOR:%i%%|r', repInfo.standing/repInfo.nextThreshold*100)
---图标
                 if repInfo.texture and repInfo.texture>0 then
                     right= '|T'..repInfo.texture..':'..size..'|t'..repInfo.texture
                 end
@@ -44,7 +41,6 @@ local function Set_BrannBronzebeard(tooltip, unit, size)
 end
 
 
---设置单位, NPC
 function WoWTools_TooltipMixin:Set_Unit_NPC(tooltip, name, unit, guid)
     if self:IsInCombatDisabled(tooltip)
         --or not WoWTools_UnitMixin:UnitExists(unit)
@@ -58,23 +54,22 @@ function WoWTools_TooltipMixin:Set_Unit_NPC(tooltip, name, unit, guid)
     local textLeft, text2Left, textRight, text2Right=' ', '', '', ''
     local tooltipName=tooltip:GetName() or 'GameTooltip'
 
-    --怪物, 图标
-    if UnitIsQuestBoss(unit) then--任务
+    if UnitIsQuestBoss(unit) then
         tooltip.Portrait:SetAtlas('UI-HUD-UnitFrame-Target-PortraitOn-Boss-Quest')
         --tooltip.Portrait:SetShown(true)
 
-    elseif UnitIsBossMob(unit) then--世界BOSS
+    elseif UnitIsBossMob(unit) then
         text2Left= WoWTools_L.BOSS
         tooltip.Portrait:SetAtlas('UI-HUD-UnitFrame-Target-PortraitOn-Boss-Rare')
         --tooltip.Portrait:SetShown(true)
     else
         local classification = UnitClassification(unit)--TargetFrame.lua
-        if classification == "rareelite" then--稀有, 精英
+        if classification == "rareelite" then
             text2Left= WoWTools_L.GARRISON_MISSION_RARE
             tooltip.Portrait:SetAtlas('UI-HUD-UnitFrame-Target-PortraitOn-Boss-Rare')
             --tooltip.Portrait:SetShown(true)
 
-        elseif classification == "rare" then--稀有
+        elseif classification == "rare" then
             text2Left= WoWTools_L.GARRISON_MISSION_RARE
             tooltip.Portrait:SetAtlas('UnitFrame-Target-PortraitOn-Boss-Rare-Star')
             --tooltip.Portrait:SetShown(true)
@@ -84,9 +79,8 @@ function WoWTools_TooltipMixin:Set_Unit_NPC(tooltip, name, unit, guid)
         end
     end
 
-    local creatureName=UnitCreatureType(unit)--生物类型
+    local creatureName=UnitCreatureType(unit)
     if creatureName and not creatureName:find(COMBAT_ALLY_START_MISSION) then
-        --textRight=WoWTools_TextMixin:CN(creatureName)--WoWTools_TextMixin:CN(type)翻译出错
         _G[tooltipName.."TextRight1"]:SetText(WoWTools_TextMixin:CN(creatureName))
         _G[tooltipName.."TextRight1"]:SetShown(true)
     end
@@ -98,13 +92,11 @@ function WoWTools_TooltipMixin:Set_Unit_NPC(tooltip, name, unit, guid)
 
     local zone, npc
     if guid then
---位面,NPCID
         npc, zone= WoWTools_UnitMixin:GetNpcID(unit, guid)
---布莱恩·铜须
         textLeft= Set_BrannBronzebeard(tooltip, unit, self.iconSize) or textLeft
         if zone then
             tooltip:AddLine(WoWTools_DataMixin.Language.layer..zone)
-            WoWTools_DataMixin.Player.Layer=zone--字符
+            WoWTools_DataMixin.Player.Layer=zone
         end
         if npc then
             tooltip:AddLine(
@@ -112,17 +104,15 @@ function WoWTools_TooltipMixin:Set_Unit_NPC(tooltip, name, unit, guid)
                 ..WoWTools_DataMixin.Icon.icon2
                 ..npc
             )
-            self:Set_Web_Link(tooltip, {type='npc', id=npc, name=name, isPetUI=false})--取得网页，数据链接 
+            self:Set_Web_Link(tooltip, {type='npc', id=npc, name=name, isPetUI=false})
         end
     end
 
-    --NPC 中文名称
 
---嵌入式
     tooltip:Set_TopLabel(textLeft, text2Left, textRight, text2Right)
 
     if not WoWToolsPlusSave['Plus_Tootips'].disabledNPCcolor then
-        local color= WoWTools_UnitMixin:GetColor(unit, guid)--颜色
+        local color= WoWTools_UnitMixin:GetColor(unit, guid)
         local r,g,b= color:GetRGB()
 
         local lineLeft, lineRight
@@ -147,9 +137,8 @@ function WoWTools_TooltipMixin:Set_Unit_NPC(tooltip, name, unit, guid)
         end
     end
 
-    self:Set_Item_Model(tooltip, {unit=unit, guid=guid})--设置, 3D模型
+    self:Set_Item_Model(tooltip, {unit=unit, guid=guid})
 
-    --self:Set_Width(tooltip)--设置，宽度
     WoWTools_TooltipMixin:Show(tooltip)
 end
 

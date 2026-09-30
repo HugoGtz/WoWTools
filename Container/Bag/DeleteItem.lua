@@ -154,7 +154,6 @@ end
 
 local function Init_Menu(self, root)
     if not self:IsMouseOver()
-       -- or WoWTools_MenuMixin:CheckInCombat(root)--战斗中
     then
         return
     end
@@ -167,7 +166,6 @@ local function Init_Menu(self, root)
 
     local sub, sub2
 
---摧毁全部
     sub= root:CreateButton(
         --(HOUSING_DECOR_STORAGE_ITEM_DESTROY_ALL)
         (WoWTools_L.HOUSING_DECOR_STORAGE_ITEM_DESTROY)
@@ -209,7 +207,6 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Bag.DeleteInCombat'])
 
 
---勾选所有
     sub2=sub:CreateButton(
         WoWTools_L.EVENTTRACE_BUTTON_ENABLE_FILTERS,
     function()
@@ -221,7 +218,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Bag.DeleteCheckAll'])
 
---撤选所有
     sub2=sub:CreateButton(
         WoWTools_L.EVENTTRACE_BUTTON_DISABLE_FILTERS,
      function()
@@ -252,7 +248,6 @@ local function Init_Menu(self, root)
 
 
 
---品质，列表
     root:CreateDivider()
     for _, quality in pairs({
         Enum.ItemQuality.Poor,
@@ -275,7 +270,6 @@ local function Init_Menu(self, root)
         WoWTools_MenuMixin:SetRightText(sub)
 
 
-        --勾选所有
         sub2=sub:CreateButton(
             WoWTools_L.EVENTTRACE_BUTTON_ENABLE_FILTERS,
         function(data)
@@ -287,7 +281,6 @@ local function Init_Menu(self, root)
         end, qualityTab)
         WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Bag.DeleteQualityAdd'])
 
-    --撤选所有
         sub2=sub:CreateButton(
             WoWTools_L.EVENTTRACE_BUTTON_DISABLE_FILTERS,
         function(data)
@@ -320,7 +313,6 @@ local function Init_Menu(self, root)
     end
 
 
---打开选项界面
     root:CreateDivider()
     WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_BagMixin.addName})
 end
@@ -372,7 +364,7 @@ local function Create_Button(frame)
                 '%s%s: %s (%s)',
                 WoWTools_DataMixin.Icon.icon2,
                 WoWTools_L.HOUSING_DECOR_STORAGE_ITEM_DESTROY,
-                WoWTools_ItemMixin.QualityText[2],--优秀  
+                WoWTools_ItemMixin.QualityText[2],
                 WoWTools_L.VIDEO_OPTIONS_ULTRA_HIGH
             ),
             (Save().auto and '|cnGREEN_FONT_COLOR:' or '|cff626262')

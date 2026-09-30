@@ -13,7 +13,6 @@ end
 
 
 
---公会，名称
 local function Get_Guild_Name()
     local clubID= C_Club.GetGuildClubId()
     local clubInfo = canaccessvalue(clubID) and clubID and C_Club.GetClubInfo(clubID) or {}--C_Club.GetClubInfo(clubID) C_ClubFinder.GetRecruitingClubInfoFromClubID() ClubFinderGetCurrentClubListingInfo(guildClubId)
@@ -46,8 +45,6 @@ end
 
 
 
---公会信息
---分享链接至聊天栏 ToggleGuildFrame()
 local function Init_Guild_Menu(self, root)
     local sub, sub2
 
@@ -130,13 +127,12 @@ local function Init_Guild_Menu(self, root)
 
 
 
-    --公会信息
     sub:CreateDivider()
     sub2=sub:CreateCheckbox(WoWTools_L.GUILD_INFORMATION, function()
         return Save().guildInfo
     end, function()
         Save().guildInfo= not Save().guildInfo and true or nil
-        self:set_guildinfo_event()--事件, 公会新成员, 队伍新成员
+        self:set_guildinfo_event()
     end)
     sub2:SetTooltip(function(tooltip)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Guild.GuildInfo'])
@@ -156,7 +152,7 @@ local function Init_Guild_Menu(self, root)
         end,
         name=WoWTools_L['Truncate'] ,
         minValue=0,
-        maxValue=93,--最长31英文字符
+        maxValue=93,
         step=1,
         tooltip=function(tooltip)
             WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Guild.Truncate'])
@@ -184,7 +180,6 @@ end
 
 
 
---帐号，公会，数据  WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Guild.data[4]= WoWTools_DataMixin.Player.Realm
 local function WoW_List(_, root)
     local sub, sub2
 
@@ -294,7 +289,6 @@ end
 
 
 
---公会在线列表
 local function Guild_Player_List(_, root)
     if not Save().showListName then
         return
@@ -324,18 +318,18 @@ local function Guild_Player_List(_, root)
             publicNote= publicNote~='' and publicNote or nil
             officerNote= officerNote~='' and officerNote or nil
             sub=root:CreateButton(
-                (--状态
+                (
                     status==1 and format('|T%s:0|t', FRIENDS_TEXTURE_AFK)
                     or (status==2 and format('|T%s:0|t', FRIENDS_TEXTURE_DND))
                     or (not isOnline and format('|T%s:0|t', FRIENDS_TEXTURE_OFFLINE))
                     or (isOnline and showNotOnLine and format('|T%s:0|t', FRIENDS_TEXTURE_ONLINE))
                     or '  '
                 )
-                ..WoWTools_GuildMixin:Get_Rank_Texture(rankIndex)--官员
-                ..WoWTools_UnitMixin:GetPlayerInfo(nil, guid, name, {reName=true, reRealm=true})--名称
-                ..(level and level~=maxLevel and ' |cnGREEN_FONT_COLOR:'..level..'|r' or '')--等级
-                ..(isOnline and zone and (zone==map and '|A:poi-islands-table:0:0|a' or WoWTools_TextMixin:CN(zone)) or '')--地区
-                ..((publicNote or officerNote) and '|A:QuestLegendary:0:0|a' or ''),--提示有备注
+                ..WoWTools_GuildMixin:Get_Rank_Texture(rankIndex)
+                ..WoWTools_UnitMixin:GetPlayerInfo(nil, guid, name, {reName=true, reRealm=true})
+                ..(level and level~=maxLevel and ' |cnGREEN_FONT_COLOR:'..level..'|r' or '')
+                ..(isOnline and zone and (zone==map and '|A:poi-islands-table:0:0|a' or WoWTools_TextMixin:CN(zone)) or '')
+                ..((publicNote or officerNote) and '|A:QuestLegendary:0:0|a' or ''),
 
 
             function(data)
@@ -387,7 +381,6 @@ end
 
 
 
---主菜单
 local function Init_Menu(self, root)
     if not self:IsMouseOver() then
         return
@@ -395,13 +388,11 @@ local function Init_Menu(self, root)
 
     local sub
 
---无公会
     if not IsInGuild() then
         WoW_List(self, root)
         return
     end
 
---弹劾
     if CanReplaceGuildMaster() then
         root:CreateButton(
             WoWTools_L.GUILD_IMPEACH_POPUP_CONFIRM,
@@ -409,13 +400,10 @@ local function Init_Menu(self, root)
         root:CreateDivider()
     end
 
---公会信息
     Init_Guild_Menu(self, root)
 
---帐号，公会，数据
     WoW_List(self, root)
 
---弹劾
     if CanReplaceGuildMaster() then
         root:CreateDivider()
         sub=root:CreateButton(
@@ -426,7 +414,6 @@ local function Init_Menu(self, root)
         end)
     end
 
---公会在线列表
     Guild_Player_List(self, root)
 end
 

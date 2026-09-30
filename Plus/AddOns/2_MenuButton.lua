@@ -21,7 +21,6 @@ local function Init_Menu(self, root)
 
     local sub, num
 
---快捷键
     num= CountTable(Save().fast or {})
 
     sub=root:CreateCheckbox(
@@ -40,7 +39,6 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWTools_L.SETTINGS_KEYBINDINGS_LABEL)
     end)
 
---缩放
     WoWTools_MenuMixin:Scale(self, sub, function()
         return Save().leftListScale or 1
     end, function(value)
@@ -69,7 +67,6 @@ local function Init_Menu(self, root)
 
 
     
---加载插件 Bottom
     sub=root:CreateCheckbox(
         (WoWTools_L['ADDONS+EMBLEM_SYMBOL']),
     function()
@@ -84,7 +81,6 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWTools_L.SPELL_FAILED_ALREADY_OPEN)
     end)
 
---位置：上面
     sub2=sub:CreateCheckbox(
         WoWTools_L['Position: top'],
     function()
@@ -95,7 +91,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.AddOns.BottomListTop'])
 
---仅图标
     sub2=sub:CreateCheckbox(
         WoWTools_L['Icon only'],
     function()
@@ -106,7 +101,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.AddOns.BottomListIconOnly'])
 
---大小
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
@@ -134,7 +128,6 @@ local function Init_Menu(self, root)
 
 
 
---方案列表 Right
     num= CountTable(Save().buttons or {})
 
     sub=root:CreateCheckbox(
@@ -153,7 +146,6 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWTools_L.PAPERDOLL_NEWEQUIPMENTSET)
     end)
 
---缩放
     WoWTools_MenuMixin:Scale(self, sub, function()
         return Save().rightListScale or 1
     end, function(value)
@@ -209,7 +201,6 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 
---重新加载UI
     root:CreateDivider()
     sub=WoWTools_MenuMixin:Reload(root)
 
@@ -229,7 +220,6 @@ local function Init_Menu(self, root)
         WoWTools_AddOnsMixin:Init_Right_Buttons()
     end)--onlyRoot
 
---打开选项界面
     sub:CreateDivider()
     WoWTools_MenuMixin:OpenOptions(sub, {name=WoWTools_AddOnsMixin.addName})
 end
@@ -265,7 +255,6 @@ local function Init()
     --})
     btn:SetPoint('RIGHT', AddonListCloseButton, 'LEFT', -2, 0)
 
---提升 Strata
     --AddonListCloseButton:SetFrameStrata(AddonList.TitleContainer:GetFrameStrata())
     --AddonListCloseButton:GetFrameLevel(AddonList.TitleContainer:GetFrameLevel()+1)
 

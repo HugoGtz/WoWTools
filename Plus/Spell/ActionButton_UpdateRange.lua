@@ -1,4 +1,3 @@
---法术按键, 颜色 ActionButton.lua
 
 --restaura el color como ActionButton:UpdateUsable(), sin llamar al método del botón seguro (taint)
 local function Set_UsableColor(frame)
@@ -80,6 +79,6 @@ end
 
 
 
-function WoWTools_SpellMixin:Init_ActionButton_UpdateRange()--法术按键, 颜色
+function WoWTools_SpellMixin:Init_ActionButton_UpdateRange()
     Init()
 end

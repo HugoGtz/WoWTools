@@ -3,7 +3,7 @@ local function Save()
     return WoWToolsPlusSave['Plus_AddOns'] or {}
 end
 
-local Buttons={}--方案
+local Buttons={}
 local RightFrame
 local Name= 'WoWToolsAddOnsRightListButton'
 
@@ -57,7 +57,6 @@ local function Init_Button_Menu(self, root)
         tooltip:AddDoubleLine(WoWTools_L.RELOADUI, '/reload')
     end)
 
---替换
     root:CreateDivider()
     local player, allTab= select(2, WoWTools_AddOnsMixin:Get_AddListInfo())
     sub=root:CreateButton(
@@ -83,7 +82,6 @@ local function Init_Button_Menu(self, root)
         WoWTools_AddOnsMixin:Show_Select_Tooltip(tooltip, description.data.tab)
     end)
 
---修改名称/图标
     root:CreateButton(
         '|A:QuestLegendaryTurnin:0:0|a'
         ..(WoWTools_L.EQUIPMENT_SET_EDIT),
@@ -112,7 +110,6 @@ local function Init_Button_Menu(self, root)
         })
     end, {name=self.name})
 
---删除
     root:CreateButton(
         '|A:XMarksTheSpot:0:0|a'..(WoWTools_L.DELETE),
     function(data)
@@ -178,7 +175,7 @@ local function Create_Button(index)
     btn:SetupMenu(Init_Button_Menu)
 
     btn:SetScript('OnEnter', function(self)
-        WoWTools_AddOnsMixin:Update_Usage()--更新，使用情况
+        WoWTools_AddOnsMixin:Update_Usage()
 
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
         GameTooltip:ClearLines()
@@ -213,20 +210,20 @@ local function Set_Right_Buttons()
     local load, need, player= 0, 0, 0
     for i=1, C_AddOns.GetNumAddOns() do
 
-        if select(2, C_AddOns.IsAddOnLoadable(i, WoWTools_DataMixin.Player.GUID))=='DEMAND_LOADED' then--需要时加载
+        if select(2, C_AddOns.IsAddOnLoadable(i, WoWTools_DataMixin.Player.GUID))=='DEMAND_LOADED' then
             need= need+1
-        elseif C_AddOns.IsAddOnLoaded(i) then--已加载
+        elseif C_AddOns.IsAddOnLoaded(i) then
             load= load+1
         end
 
         local stat= C_AddOns.GetAddOnEnableState(i, WoWTools_DataMixin.Player.GUID)
-        if stat>Enum.AddOnEnableState.None then--角色专用
+        if stat>Enum.AddOnEnableState.None then
             player= player +1
         end
     end
 
     _G['WoWToolsAddonsNewButton'].Text:SetText(WoWTools_DataMixin.Icon.Player..player)
-    _G['WoWToolsAddonsNewButton'].Text3:SetFormattedText('|cnGREEN_FONT_COLOR:%d|r + |cffff00ff%d|r', load,  need)--总已加载，数量
+    _G['WoWToolsAddonsNewButton'].Text3:SetFormattedText('|cnGREEN_FONT_COLOR:%d|r + |cffff00ff%d|r', load,  need)
 
     local index=1
     local w=0
@@ -293,7 +290,6 @@ local function Init()
 end
 
 
---方案，按钮
 function WoWTools_AddOnsMixin:Init_Right_Buttons()
     Init()
 end

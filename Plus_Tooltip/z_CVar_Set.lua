@@ -1,6 +1,5 @@
 
 
---设置Cvar
 function WoWTools_TooltipMixin:Set_CVar(reset, tips, notPrint)
     local tab={
         {   name='missingTransmogSourceInItemTooltips',
@@ -22,16 +21,6 @@ function WoWTools_TooltipMixin:Set_CVar(reset, tips, notPrint)
         {   name="alwaysCompareItems",
              value= "1",
              msg= WoWTools_L['Always compare items']
-        },
-        {   name="profanityFilter",
-            value= '0',
-            msg= '禁用语言过虑 /reload',
-            zh=true,
-        },
-        {   name="overrideArchive",
-            value= '0',
-            msg= '反和谐 /reload',
-            zh=true
         },
         {   name='cameraDistanceMaxZoomFactor',
             value= '2.6',
@@ -84,8 +73,7 @@ end
 
 function WoWTools_TooltipMixin:Init_CVar()
     if WoWToolsPlusSave['Plus_Tootips'].setCVar and not InCombatLockdown() then
-        WoWTools_TooltipMixin:Set_CVar(nil, nil, true)--设置CVar
+        WoWTools_TooltipMixin:Set_CVar(nil, nil, true)
     end
 
---为自已开启，功能
 end

@@ -14,7 +14,7 @@ local function Set_Description(check, text)
     check:HookScript('OnLeave', GameTooltip_Hide)
 end
 
-local function Set_Color()--颜色
+local function Set_Color()
     if Save().notUseColor then
         WoWTools_CursorMixin.Color= CreateColor(1,1,1,1)
     elseif Save().usrClassColor or not Save().color then
@@ -39,7 +39,6 @@ end
 
 
 
---Curor, 添加控制面板
 local function Init_GCD_Options(panel)
     if Save().disabledGCD then
         return
@@ -109,15 +108,15 @@ local function Init_GCD_Options(panel)
     checkDrawBling:SetPoint("LEFT", checkReverse.text, 'RIGHT', 2, 00)
     Set_Description(checkDrawBling, WoWTools_L['Tip.Cursor.GCDDrawBling'])
 
-    local dropDown = CreateFrame("DropdownButton", nil, panel, "WowStyle1DropdownTemplate")--下拉，菜单
-    local delColorButton= WoWTools_ButtonMixin:Cbtn(panel, {size=20})--删除, 按钮
+    local dropDown = CreateFrame("DropdownButton", nil, panel, "WowStyle1DropdownTemplate")
+    local delColorButton= WoWTools_ButtonMixin:Cbtn(panel, {size=20})
     local addColorEdit= CreateFrame("EditBox", nil, panel, 'InputBoxTemplate')--EditBox
-    local addColorButton= WoWTools_ButtonMixin:Cbtn(panel, {size=20})--添加, 按钮
-    local numColorText= WoWTools_LabelMixin:Create(panel, {justifyH='RIGHT'})--nil, nil, nil, nil, nil, 'RIGHT')--颜色，数量
+    local addColorButton= WoWTools_ButtonMixin:Cbtn(panel, {size=20})
+    local numColorText= WoWTools_LabelMixin:Create(panel, {justifyH='RIGHT'})
     numColorText:SetPoint('RIGHT', dropDown, 'LEFT')
     numColorText:SetText(#Save().GCDTexture)
 
-    local function set_panel_Texture()--大图片
+    local function set_panel_Texture()
         local texture= Save().GCDTexture[Save().gcdTextureIndex]
         texture= texture or WoWTools_CursorMixin.DefaultGCDTexture
         panel.Texture:SetTexture(texture)
@@ -126,7 +125,6 @@ local function Init_GCD_Options(panel)
     end
 
 
-    --下拉，菜单
     dropDown:SetPoint("TOPLEFT", checkReverse, 'BOTTOMLEFT', 0,-15)
     dropDown:SetWidth(195)
     dropDown.Text:ClearAllPoints()
@@ -172,7 +170,6 @@ local function Init_GCD_Options(panel)
         WoWTools_MenuMixin:SetScrollMode(root)
     end)
 
-    --删除，图片
     delColorButton:SetPoint('LEFT', dropDown, 'RIGHT',2,0)
     delColorButton:SetSize(20,20)
     delColorButton:SetNormalAtlas('xmarksthespot')
@@ -192,7 +189,6 @@ local function Init_GCD_Options(panel)
         )
     end)
 
-    --添加，自定义，图片
     local function add_Color()
         local text= addColorEdit:GetText() or ''
         if text:gsub(' ','')~='' then
@@ -221,7 +217,6 @@ local function Init_GCD_Options(panel)
     addColorEdit:SetScript('OnEnterPressed', add_Color)
     addColorEdit:SetScript('OnHide', addColorEdit.ClearFocus)
 
-    --添加按钮
     addColorButton:SetPoint('LEFT', addColorEdit, 'RIGHT', 5,0)
     addColorButton:SetNormalAtlas('common-icon-checkmark')
     addColorButton:SetScript('OnClick', add_Color)
@@ -261,16 +256,14 @@ local function Init_Options(panel)
         return
     end
 
-    --设置, 大图片
-    panel.Texture= panel:CreateTexture()--大图片
+    panel.Texture= panel:CreateTexture()
     panel.Texture:SetPoint('TOPRIGHT', panel, 'TOP', -20, 10)
     panel.Texture:SetSize(80,80)
 
-    local useClassColorCheck= CreateFrame('CheckButton', nil, panel, "InterfaceOptionsCheckButtonTemplate")--职业颜色
-    local colorText= WoWTools_LabelMixin:Create(panel, {color=WoWTools_CursorMixin.Color})--自定义,颜色
-    local notUseColorCheck= CreateFrame('CheckButton', nil, panel, "InterfaceOptionsCheckButtonTemplate")--不使用，颜色
+    local useClassColorCheck= CreateFrame('CheckButton', nil, panel, "InterfaceOptionsCheckButtonTemplate")
+    local colorText= WoWTools_LabelMixin:Create(panel, {color=WoWTools_CursorMixin.Color})
+    local notUseColorCheck= CreateFrame('CheckButton', nil, panel, "InterfaceOptionsCheckButtonTemplate")
 
-    --职业颜色
     useClassColorCheck:SetPoint("BOTTOMLEFT")
     useClassColorCheck.text:SetText(WoWTools_L.CLASS_COLORS)
     useClassColorCheck.text:SetTextColor(PlayerUtil.GetClassColor():GetRGB())
@@ -284,7 +277,6 @@ local function Init_Options(panel)
     end)
     Set_Description(useClassColorCheck, WoWTools_L['Tip.Cursor.ClassColor'])
 
-    --自定义,颜色
     colorText:SetPoint('LEFT', useClassColorCheck.text, 'RIGHT', 4,0)
     colorText:SetText('|A:colorblind-colorwheel:0:0|a'..(WoWTools_L['CUSTOM~2']))
     colorText:EnableMouse(true)
@@ -333,7 +325,6 @@ local function Init_Options(panel)
         GameTooltip:Hide()
     end)
 
-    --不使用，颜色
     notUseColorCheck:SetPoint("LEFT", colorText, 'RIGHT')
     notUseColorCheck.text:SetText(WoWTools_L.NONE)
     notUseColorCheck:SetChecked(Save().notUseColor)
@@ -345,7 +336,6 @@ local function Init_Options(panel)
     end)
     Set_Description(notUseColorCheck, WoWTools_L['Tip.Cursor.NoColor'])
 
-    --随机, 图片
     panel.randomTextureCheck= CreateFrame('CheckButton', nil, panel, "InterfaceOptionsCheckButtonTemplate")
     panel.randomTextureCheck:SetPoint("LEFT", notUseColorCheck.text, 'RIGHT', 10,0)
     panel.randomTextureCheck.text:SetText('|TInterface\\PVPFrame\\Icons\\PVP-Banner-Emblem-47:0|t'..(WoWTools_L['Random icon']))
@@ -409,7 +399,7 @@ local function Init(panel)
         restTips=true,
         checked=nil,
         clearTips=nil,
-        reload=false,--重新加载UI, 重置, 按钮
+        reload=false,
         disabledfunc=nil,
         clearfunc= function()
             WoWToolsPlusSave['Plus_Cursor']=nil
@@ -417,9 +407,7 @@ local function Init(panel)
         end}
     )
 
---Cursor, 启用/禁用
 
---GCD, 启用/禁用
     panel.gcdCheck=CreateFrame('CheckButton', nil, panel, "InterfaceOptionsCheckButtonTemplate")
     panel.gcdCheck:SetChecked(not Save().disabledGCD)
     panel.gcdCheck:SetPoint("TOPLEFT", 0, -35)

@@ -22,12 +22,10 @@ local function Create_Frame(btn)
 	end)
 
 
---图标
 	local h=btn:GetHeight() or 20
 	btn.texture= btn.Content.ReputationBar:CreateTexture(nil, 'OVERLAY')
 	btn.texture:SetPoint('RIGHT', btn.Content.Name, 'RIGHT',6,0)
 	btn.texture:SetSize(h, h)
---等级
 	btn.levelText= btn.Content.ReputationBar:CreateFontString(nil, 'ARTWORK', 'GameFontNormal')--WoWTools_LabelMixin:Create(btn.Content.ReputationBar, {size=10})
 	--btn.levelText:SetFontHeight(10)
 	btn.levelText:SetPoint('LEFT')
@@ -112,7 +110,6 @@ local function Init()
 
 		if data.color then
 			btn.Content.Name:SetTextColor(data.color:GetRGB())
---这个，替换原生，可能会出现错误 ReputationBarMixin.UpdateBarColor
 			--btn.Content.ReputationBar.UpdateBarColor= function()end
 			btn.Content.ReputationBar:SetStatusBarColor(data.color:GetRGB());
 		else
@@ -200,12 +197,10 @@ local function Init()
 			for index= 1, numList do
 				data= C_Reputation.GetFactionDataByIndex(index)
 				if data then
-	--查找 ID
 					if factionID and data.factionID==factionID then
 						data.factionIndex = index
 						tinsert(factionList, data)
 						break
-	--查找 名称
 					elseif data.name and name then
 						local cn= WoWTools_TextMixin:CN(data.name)
 						cn= cn~=data.name and cn:upper() or nil

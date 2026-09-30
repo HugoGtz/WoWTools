@@ -2,7 +2,6 @@ local function Save()
     return WoWToolsPlusSave['Plus_UnitFrame'] or {}
 end
 local Category, Layout
-    --添加控制面板
 
 
 
@@ -42,7 +41,6 @@ local function Init()
     WoWTools_PanelMixin:Header(Layout, WoWTools_L['Frames to enhance'])
 
 
---玩家框体
     WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_L.HUD_EDIT_MODE_PLAYER_FRAME_LABEL,
         tooltip= WoWTools_L['Tip.Unit.PlayerFrame']..'|n|n'..WoWTools_L.REQUIRES_RELOAD,
@@ -56,7 +54,7 @@ local function Init()
                     WoWTools_L.REQUIRES_RELOAD
                 )
             else
-                WoWTools_UnitMixin:Init_PlayerFrame()--玩家
+                WoWTools_UnitMixin:Init_PlayerFrame()
             end
         end,
         category= Category,
@@ -64,7 +62,6 @@ local function Init()
 
 
 
---目标框体
     WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_L.HUD_EDIT_MODE_TARGET_FRAME_LABEL,
         tooltip= WoWTools_L['Tip.Unit.TargetFrame']..'|n|n'..WoWTools_L.REQUIRES_RELOAD,
@@ -78,14 +75,13 @@ local function Init()
                     WoWTools_L.REQUIRES_RELOAD
                 )
             else
-                WoWTools_UnitMixin:Init_TargetFrame()--目标
+                WoWTools_UnitMixin:Init_TargetFrame()
             end
         end,
         category= Category,
     })
 
 
---小队框体
     WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_L.HUD_EDIT_MODE_PARTY_FRAMES_LABEL,
         tooltip= WoWTools_L['Tip.Unit.PartyFrame']..'|n|n'..WoWTools_L.REQUIRES_RELOAD,
@@ -99,15 +95,14 @@ local function Init()
                     WoWTools_L.REQUIRES_RELOAD
                 )
             else
-                WoWTools_UnitMixin:Init_PartyFrame()--小队
-                WoWTools_UnitMixin:Init_PartyFrame_Compact()--小队, 使用团框架
+                WoWTools_UnitMixin:Init_PartyFrame()
+                WoWTools_UnitMixin:Init_PartyFrame_Compact()
             end
         end,
         category= Category,
     })
 
 
---首领框体
     WoWTools_PanelMixin:OnlyCheck({
         name= (WoWTools_L.HUD_EDIT_MODE_BOSS_FRAMES_LABEL),
         tooltip= WoWTools_L['Tip.Unit.BossFrame']..'|n|n'..WoWTools_L.REQUIRES_RELOAD,
@@ -130,7 +125,6 @@ local function Init()
 
 
 
---职业图标
     WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_L['CLASS+EMBLEM_SYMBOL'],
         tooltip=WoWTools_L['Tip.Unit.ClassTexture']..'|n|n'..WoWTools_L['Color, icon'] ,

@@ -28,8 +28,8 @@ local function Edit_Item(self, info)
             local edit= s.editBox or s:GetEditBox()
             local b3= s.button3 or s:GetButton3()
             edit:SetNumeric(true)
-            local useStr=ITEM_SPELL_TRIGGER_ONUSE..'(.+)'--使用：
-            local dateInfo= WoWTools_ItemMixin:GetTooltip({--物品提示，信息 使用：
+            local useStr=ITEM_SPELL_TRIGGER_ONUSE..'(.+)'
+            local dateInfo= WoWTools_ItemMixin:GetTooltip({
                 hyperLink=data.itemLink,
                 itemID=data.itemID,
                 text={useStr},
@@ -52,7 +52,7 @@ local function Edit_Item(self, info)
             num = num<1 and 1 or num
             Save().use[data.itemID]=num
             Save().no[data.itemID]=nil
-            WoWTools_OpenItemMixin:Get_Item()--取得背包物品信息                        
+            WoWTools_OpenItemMixin:Get_Item()
             WoWTools_Print(WoWTools_DataMixin.Icon.icon2..WoWTools_OpenItemMixin.addName,
                 WoWTools_ItemMixin:GetLink(data.itemID),
                 num>1 and
@@ -63,7 +63,7 @@ local function Edit_Item(self, info)
         OnAlt=function(_, data)
             Save().no[data.itemID]=true
             Save().use[data.itemID]=nil
-            WoWTools_OpenItemMixin:Get_Item()--取得背包物品信息
+            WoWTools_OpenItemMixin:Get_Item()
             WoWTools_Print(WoWTools_DataMixin.addName, WoWTools_OpenItemMixin.addName,
                 WoWTools_ItemMixin:GetLink(info.itemID),
                 self.noText
@@ -121,7 +121,6 @@ local function Remove_NoUse_Menu(self, root, itemID, type, numUse, index)
         end, {itemID=itemID, type=type})
         sub:CreateDivider()
     end
---移除
     sub:CreateButton(
         '|A:common-icon-redx:0:0|a'..(WoWTools_L.REMOVE),
     function(data)
@@ -228,7 +227,6 @@ local function Init_Menu(self, root)
     local no= CountTable(Save().no or {})
     local use= CountTable(Save().use or {})
 
---自定义禁用列表
     sub= root:CreateButton(
         self.noText,
     function()
@@ -248,7 +246,6 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetScrollMode(sub)
 
 
---自定义使用列表
     sub=root:CreateButton(
         self.useText,
     function()
@@ -316,11 +313,9 @@ local OptionsList={{
 
     root:CreateDivider()
 
---打开, 选项界面，菜单
 
     sub= WoWTools_ToolsMixin:OpenMenu(root, WoWTools_OpenItemMixin.addName, self:get_key_text())
 
---设置捷键
     WoWTools_KeyMixin:SetMenu(self, sub, {
         name= WoWTools_OpenItemMixin.addName,
         key=Save().KEY,

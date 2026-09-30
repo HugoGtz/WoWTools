@@ -4,13 +4,13 @@ end
 local Frame
 
 
-local function GetNum(mapID, all)--取得完成次数,如 1/10
+local function GetNum(mapID, all)
     local nu, to=0,0
     local info
     if all then
-        info=C_MythicPlus.GetRunHistory(true, true) or {}--全部
+        info=C_MythicPlus.GetRunHistory(true, true) or {}
     else
-        info=C_MythicPlus.GetRunHistory(false, true) or {}--本周
+        info=C_MythicPlus.GetRunHistory(false, true) or {}
     end
     for _,v in pairs(info) do
         if v.mapChallengeModeID==mapID then
@@ -47,7 +47,7 @@ local function Set_OnEnter(self)
         for index, info in pairs(intimeInfo.members) do
             if info.name then
                 if index==1 then
-                    if intimeInfo.completionDate and intimeInfo.level then--完成,日期
+                    if intimeInfo.completionDate and intimeInfo.level then
                         local d=intimeInfo.completionDate
                         local time= format('|cnGREEN_FONT_COLOR:%s:%s %d/%d/%d %s', d.hour<10 and '0'..d.hour or d.hour, d.minute<10 and '0'..d.minute or d.minute, d.day, d.month, d.year, '('..intimeInfo.level..')')
                         local time2
@@ -115,10 +115,10 @@ local function Set_OnEnter(self)
 
     local timeLimit, texture, backgroundTexture = select(3, C_ChallengeMode.GetMapUIInfo(self.mapID))
 
-    local a=GetNum(self.mapID, true)--所有
+    local a=GetNum(self.mapID, true)
         or ('|cnWARNING_FONT_COLOR:'..(WoWTools_L.NONE)..'|r')
 
-    local w=GetNum(self.mapID)--本周
+    local w=GetNum(self.mapID)
         or ('|cnWARNING_FONT_COLOR:'..(WoWTools_L.NONE)..'|r')
 
     GameTooltip:AddDoubleLine(
@@ -174,7 +174,6 @@ end
 
 local function Create_Label(frame)
 
---副本 完成/总次数 (全部)
     frame.completedLable=WoWTools_LabelMixin:Create(Frame, {mouse=true})
     frame.completedLable:SetPoint('TOPLEFT', frame)
     frame.completedLable:SetScript('OnLeave', function(self) GameTooltip:Hide() self:SetAlpha(1) end)
@@ -203,7 +202,6 @@ local function Create_Label(frame)
 
 
 
---分数，最佳
     frame.scoreLable=WoWTools_LabelMixin:Create(Frame, {size=10, mouse=true})
     frame.scoreLable:SetPoint('BOTTOMLEFT', frame, 0, 24)
     frame.scoreLable:SetScript('OnLeave', function(self) GameTooltip:Hide() self:SetAlpha(1) end)
@@ -220,7 +218,6 @@ local function Create_Label(frame)
 
 
 
---移动层数位置
     if frame.HighestLevel then
         frame.HighestLevel:ClearAllPoints()
         frame.HighestLevel:SetPoint('LEFT', 0, 12)
@@ -242,7 +239,6 @@ local function Create_Label(frame)
 
 
 
---提示, 包里KEY地图
     frame.currentKey= Frame:CreateTexture(nil, 'OVERLAY')
 
     frame.currentKey:SetPoint('RIGHT', frame, 0, 8)
@@ -270,7 +266,7 @@ local function Create_Label(frame)
     frame.currentKey:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        local bagID, slotID= select(2, WoWTools_BagMixin:Ceca(nil, {isKeystone=true}))--查找，包的key
+        local bagID, slotID= select(2, WoWTools_BagMixin:Ceca(nil, {isKeystone=true}))
         if bagID and slotID then
             GameTooltip:SetBagItem(bagID, slotID)
         end
@@ -281,13 +277,11 @@ local function Create_Label(frame)
         self.label:SetAlpha(0.5)
     end)
 
---当前KEY，等级
     frame.currentKey.label= WoWTools_LabelMixin:Create(Frame)
     frame.currentKey.label:SetPoint('TOP', frame.currentKey, -2, 2)
 
 
 
---名称, 缩写
     frame.nameLable=WoWTools_LabelMixin:Create(Frame, {size=10, mouse= true, justifyH='CENTER'})
     --frame.nameLable:SetPoint('BOTTOM', frame, 'TOP', 0, 3)
     frame.nameLable:SetPoint('BOTTOMLEFT', frame, 'TOPLEFT', 0, 3)
@@ -311,7 +305,6 @@ local function Create_Label(frame)
 
 
 
---提示
     frame:EnableMouse(true)
     frame:HookScript('OnEnter', function(self)
         if not Save().hideIns then
@@ -421,14 +414,13 @@ local function SetUp(self)
     end
 
 
---名称, 缩写
     local insNamegsub= Save().insNamegsub
-    local nameText = C_ChallengeMode.GetMapUIInfo(self.mapID)--名称
+    local nameText = C_ChallengeMode.GetMapUIInfo(self.mapID)
     self.nameLable.name= nameText
 
     if nameText then
         nameText=nameText:match('%((.+)%)') or nameText
-        nameText=nameText:match('%（(.+)%）') or nameText
+        nameText=nameText
         nameText=nameText:match('%- (.+)') or nameText
         nameText=nameText:match(HEADER_COLON..'(.+)') or nameText
         nameText=nameText:match('·(.+)') or nameText
@@ -443,7 +435,6 @@ local function SetUp(self)
 
 
 
---分数，最佳
     -- local intimeInfo, overtimeInfo = C_MythicPlus.GetSeasonBestForMap(self.mapID)
     local affixScores, overAllScore = C_MythicPlus.GetSeasonBestAffixScoreInfoForMap(self.mapID)
     overAllScore= overAllScore or 0
@@ -482,11 +473,10 @@ local function SetUp(self)
         end
     end
 
---副本 完成/总次数 (全部)
     local numText
-    local allText, completed, totale= GetNum(self.mapID, true)--所有
+    local allText, completed, totale= GetNum(self.mapID, true)
 
-    local weekText= GetNum(self.mapID)--本周
+    local weekText= GetNum(self.mapID)
 
     numText= allText
         ..(
@@ -501,11 +491,9 @@ local function SetUp(self)
     self.completedLable.totale= totale
     self.completedLable:SetText(numText)
 
---提示, 包里KEY地图
     local findKey= C_MythicPlus.GetOwnedKeystoneChallengeMapID()== self.mapID
     self.currentKey:SetShown(findKey)
 
---当前KEY，等级
     self.currentKey.label:SetText(findKey and (C_MythicPlus.GetOwnedKeystoneLevel() or '0') or '')
 end
 
@@ -561,7 +549,6 @@ end
 
 
 --####
---初始
 --####
 local function Init()
     if Save().hideIns then
@@ -589,7 +576,6 @@ local function Init()
         end
     end)
 
---替换，原生
     ChallengesFrame.WeeklyInfo.Child.DungeonScoreInfo:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT", 0, 0)
         local desc= WoWTools_L.DUNGEON_SCORE_DESC
@@ -606,7 +592,7 @@ local function Init()
     end)
 
 
-    ChallengesFrame.WeeklyInfo.Child.SeasonBest:SetText('')--隐藏, 赛季最佳
+    ChallengesFrame.WeeklyInfo.Child.SeasonBest:SetText('')
 
     C_Timer.After(0.3, function()
         if ChallengesFrame.WeeklyInfo.Child.Description:IsShown() then

@@ -10,13 +10,13 @@ local function Init()
 
     button.frame= CreateFrame("Frame",nil,button)
 
-    button.classPortrait= button:CreateTexture(nil, 'OVERLAY', nil)--加个外框
+    button.classPortrait= button:CreateTexture(nil, 'OVERLAY', nil)
     button.classPortrait:SetPoint('CENTER')
     button.classPortrait:SetSize(24,24)
     button.classPortrait:SetAtlas('bag-reagent-border')
     WoWTools_TextureMixin:SetAlphaColor(button.classPortrait, true)
 
-    function button:get_Att_Text_Chat()--属性，内容
+    function button:get_Att_Text_Chat()
         local text=''
         local specIndex= GetSpecialization()
         if specIndex then
@@ -70,7 +70,7 @@ local function Init()
         end
     end
 
-    function button:send_Att_Chat()--发送信息
+    function button:send_Att_Chat()
         local text= self:get_Att_Text_Chat()
         if ChatEdit_GetActiveWindow() then
             ChatEdit_InsertLink(text)
@@ -83,14 +83,14 @@ local function Init()
         end
     end
 
-    function button:set_Show_Hide()--显示， 隐藏
+    function button:set_Show_Hide()
         self.frame:SetShown(not Save().hide)
         self.texture:SetAlpha(Save().hide and 1 or Save().buttonAlpha or 0.3)
         self.classPortrait:SetAlpha(Save().hide and 1 or Save().buttonAlpha or 0)
         self:SetScale(Save().buttonScale or 1)
     end
 
-    function button:set_Point()--设置, 位置
+    function button:set_Point()
         self:ClearAllPoints()
         if Save().point then
             button:SetPoint(Save().point[1], UIParent, Save().point[3], Save().point[4], Save().point[5])
@@ -142,7 +142,7 @@ local function Init()
             SetCursor('UI_MOVE_CURSOR')
 
         elseif d=='LeftButton' and not IsModifierKeyDown() then
-            WoWTools_AttributesMixin:Frame_Init(true)--初始， 或设置
+            WoWTools_AttributesMixin:Frame_Init(true)
             WoWTools_Print(
                 WoWTools_AttributesMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 '|cnGREEN_FONT_COLOR:'..(WoWTools_L.DAMAGE_METER_RESET_ALL_SESSIONS)..'|r',
@@ -150,7 +150,7 @@ local function Init()
             )
 
         elseif d=='RightButton' and IsShiftKeyDown() then
-            self:send_Att_Chat()--发送信息
+            self:send_Att_Chat()
 
         elseif d=='RightButton' and not IsModifierKeyDown() then
             WoWTools_AttributesMixin:Init_Menu(self)
@@ -167,7 +167,7 @@ local function Init()
         elseif d==-1 then
             Save().hide= nil
         end
-        self:set_Show_Hide()--显示， 隐藏
+        self:set_Show_Hide()
         self:set_tooltip()
     end)
 
@@ -223,15 +223,15 @@ local function Init()
 
     button:set_event()
     button:settings()
-    button:set_Point()--设置, 位置
-    button:set_Show_Hide()--显示， 隐藏
+    button:set_Point()
+    button:set_Show_Hide()
     button:set_strata()
 
 
     C_Timer.After(4, function()
         button.frame:SetPoint('BOTTOM')
         button.frame:SetSize(1, 1)
-        if Save().scale and Save().scale~=1 then--缩放
+        if Save().scale and Save().scale~=1 then
             button.frame:SetScale(Save().scale)
         end
         button.frame:RegisterUnitEvent("PLAYER_SPECIALIZATION_CHANGED", "player")
@@ -252,7 +252,7 @@ local function Init()
 
         button.frame:SetScript("OnEvent", function(_, event)
             if event=='PLAYER_SPECIALIZATION_CHANGED' then
-                WoWTools_AttributesMixin:Frame_Init(true)--初始， 或设置
+                WoWTools_AttributesMixin:Frame_Init(true)
             elseif event=='AVOIDANCE_UPDATE'
                 or event=='LIFESTEAL_UPDATE'
                 or event=='UNIT_DAMAGE'
@@ -264,15 +264,15 @@ local function Init()
                     button.frame.pendingInit= true
                     C_Timer.After(0.2, function()
                         button.frame.pendingInit= nil
-                        WoWTools_AttributesMixin:Frame_Init()--初始， 或设置
+                        WoWTools_AttributesMixin:Frame_Init()
                     end)
                 end
             else
-                WoWTools_AttributesMixin:Frame_Init(true)--初始， 或设置
+                WoWTools_AttributesMixin:Frame_Init(true)
             end
         end)
 
-        WoWTools_AttributesMixin:Frame_Init(true)--初始， 或设置
+        WoWTools_AttributesMixin:Frame_Init(true)
     end)
 
 

@@ -3,80 +3,59 @@
 
 local P_Mouts_Tab={
     Item={
-        [174464]=true,--幽魂缰绳
-        [168035]=true,--噬渊鼠缰绳
-        --[37011]=true,--/魔法扫帚
+        [174464]=true,
+        [168035]=true,
     },
     Spell={
-        [2645]=true,--幽魂之狼
-        [111400]=true,--爆燃冲刺
-        [2983]=true,--疾跑
-        [190784]=true,--神圣马驹
-        [48265]=true,--死亡脚步
-        [186257]=true,--猎豹守护
-        [6544]=true,--英勇飞跃
-        [358267]= true,--悬空
-        [1953]=true,--闪现术
-        [109132]=true,--滚地翻
-        [121536]=true,--天堂之羽
-        [189110]=true,--地狱火撞击
-        [195072]=true,--邪能冲撞
+        [2645]=true,
+        [111400]=true,
+        [2983]=true,
+        [190784]=true,
+        [48265]=true,
+        [186257]=true,
+        [6544]=true,
+        [358267]= true,
+        [1953]=true,
+        [109132]=true,
+        [121536]=true,
+        [189110]=true,
+        [195072]=true,
     },
     Floor={},--{[spellID]={uiMapID1=true, uiMapID2=true, ...}
     Ground={
-        --[339588]=true,--[罪奔者布兰契]
-        --[163024]=true,--战火梦魇兽
-        --[366962]=true,--[艾什阿达，晨曦使者]
-        [256123]=true,--[斯克维里加全地形载具]
+        [256123]=true,
     },
     Flying={
-        --[339588]=true,--[罪奔者布兰契]
-        [163024]=true,--战火梦魇兽
-        --[366962]=true,--[艾什阿达，晨曦使者]
-        --[107203]=true,--泰瑞尔的天使战马
-        --[419345]=true,--伊芙的森怖骑行扫帚
+        [163024]=true,
     },
     Aquatic={
-        --[359379]=true,--闪光元水母
-        --[376912]=true,--[热忱的载人奥獭]
-        --[342680]=true,--[深星元水母]
-        --[30174]=true,--[乌龟坐骑]
         [98718]=true,
-        --[64731]=true,--[海龟]
     },
     Dragonriding={
-        [368896]=true,--[复苏始祖幼龙]
-        --[368901]=true,--[崖际荒狂幼龙]
-        --[368899]=true,--[载风迅疾幼龙]
-        --[360954]=true,--[高地幼龙]
-        --[339588]=true,--[罪奔者布兰契]
-        --[134359]=true,--飞天魔像
+        [368896]=true,
     },
     Shift={
-        [359379]=true,--闪光元水母
-        [376912]=true,--[热忱的载人奥獭]
-        [342680]=true,--[深星元水母]
-        [30174]=true,--[乌龟坐骑]
+        [359379]=true,
+        [376912]=true,
+        [342680]=true,
+        [30174]=true,
         [98718]=true,
-        [64731]=true,--[海龟]
+        [64731]=true,
     },
     Alt={
-        [264058]=true,--雄壮商队雷龙
-        [122708]=true,--雄壮远足牦牛
-        [61425]=true,--旅行者的苔原猛犸象
+        [264058]=true,
+        [122708]=true,
+        [61425]=true,
     },
     Ctrl={
-        [256123]=true,--斯克维里加全地形载具
-        --[118089]=true,--天蓝水黾
-        --[127271]=true,--猩红水黾
-        --[107203]=true,--泰瑞尔的天使战马
+        [256123]=true,
      },
 }
 
 
 local P_Save={
-    mountShowTime=3,--坐骑秀，时间
-    showFlightModeButton=true, --切换飞行模式
+    mountShowTime=3,
+    showFlightModeButton=true,
     --toFrame=nil,
 }
 
@@ -111,7 +90,7 @@ WoWTools_MountMixin={
     }
 }
 
-function WoWTools_MountMixin:Get_Table_Num(mountType)--检测,表里的数量
+function WoWTools_MountMixin:Get_Table_Num(mountType)
     return CountTable(WoWToolsPlusPlayerDate['Tools_Mounts'][mountType] or {})
 end
 
@@ -137,7 +116,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             WoWToolsPlusSave['Tools_Mounts']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Tools_Mounts'], P_Save)
             P_Save= nil
 
-            if Save().Mounts then--旧数据
+            if Save().Mounts then
                 WoWToolsPlusPlayerDate['Tools_Mounts']={
                     Item= Save().Mounts[ITEMS] or P_Mouts_Tab.Item or {},--antes .Items (errata)
                     Spell= Save().Mounts[SPELLS] or P_Mouts_Tab.Spell or {},
@@ -161,18 +140,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             })
 
             if WoWTools_ToolsMixin:Get_ButtonForName('Mount') then
-                if WoWTools_DataMixin.onlyChinese and not LOCALE_zhCN then
-                    WoWTools_MountMixin.TypeName={
-                        Spell= '法术',
-                        Item= '物品',
-                        Ground= '地面',
-                        Aquatic= '水栖',
-                        Flying= '飞行',
-                        Dragonriding= '驭空术',
-                        Floor= '区域',
-                        
-                    }
-                end
 
                 self:RegisterEvent('PLAYER_ENTERING_WORLD')
 
@@ -185,7 +152,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 end
 
                 WoWTools_MountMixin:Init_MountJournal()
-                WoWTools_MountMixin:Init_UI_SpellBook_Menu()--法术书，选项
+                WoWTools_MountMixin:Init_UI_SpellBook_Menu()
 
             else
                 self:SetScript('OnEvent', nil)
@@ -200,4 +167,3 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         self:SetScript('OnEvent', nil)
     end
 end)
---436854 C_MountJournal.GetDynamicFlightModeSpellID() 切换飞行模式

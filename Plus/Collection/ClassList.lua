@@ -156,13 +156,12 @@ local function Init()
     ListButton.specID= 0
 
 
-    --过滤，按钮
     ListButton.frame= CreateFrame('Frame', nil, ListButton)
     ListButton.frame:SetPoint('TOPLEFT', ListButton, 'BOTTOMLEFT', 0, 0)--antes '0 -80' (faltaba la coma): x=-80 lo metía dentro del diario
     ListButton.frame:SetSize(26, 1)
 
 
-    for i = 1, GetNumClasses() do--设置，职业
+    for i = 1, GetNumClasses() do
 		local data = C_CreatureInfo.GetClassInfo(i)
         if data and data.classFile and data.classID then
             local atlas
@@ -212,6 +211,6 @@ end
 
 
 
-function WoWTools_CollectionMixin:Init_ClassList()--职业列表
+function WoWTools_CollectionMixin:Init_ClassList()
     Init()
 end

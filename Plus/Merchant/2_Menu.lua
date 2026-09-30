@@ -9,7 +9,6 @@ local function SellBuyItemsSave()
 end
 
 
---出售自定义
 local function Player_Sell_Menu(_, root)
     local num, sub, sub2
     num= CountTable(SellBuyItemsSave().sell or {})
@@ -29,7 +28,6 @@ local function Player_Sell_Menu(_, root)
     end)
     WoWTools_MenuMixin:SetRightText(sub)
 
-    --列表, 出售自定义
     num=0
     for itemID in pairs(SellBuyItemsSave().sell or {}) do
         num=num+1
@@ -64,12 +62,11 @@ local function Player_Sell_Menu(_, root)
 end
 
 
---回购
 local function Buyback_Menu(_, root)
     local num, sub, sub2
     num=''
     if _G['WoWTools_BuybackButton'] then
-        num= _G['WoWTools_BuybackButton']:set_text()--回购，数量，提示
+        num= _G['WoWTools_BuybackButton']:set_text()
     end
     sub=root:CreateButton(
         '    |A:common-icon-undo:0:0|a'
@@ -80,7 +77,6 @@ local function Buyback_Menu(_, root)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Merchant.BuybackList'])
     WoWTools_MenuMixin:SetRightText(sub)
 
---列表，回购
     num=0
     for itemID in pairs(SellBuyItemsSave().noSell or {}) do
         num= num+1
@@ -96,7 +92,7 @@ local function Buyback_Menu(_, root)
             end
             local btn= _G['WoWTools_BuybackButton']
             if btn then
-                btn:set_text()--回购，数量，提示
+                btn:set_text()
             end
         end, {itemID=itemID})
         WoWTools_SetTooltipMixin:Set_Menu(sub2)
@@ -120,7 +116,6 @@ local function Buyback_Menu(_, root)
 end
 
 
---购买物品
 local function BuyItem_Menu(self, root)
     if not self:IsMouseOver() then
         return
@@ -129,7 +124,7 @@ local function BuyItem_Menu(self, root)
     local num, sub, sub2
     num=''
     if _G['WoWTools_BuyItemButton'] then
-        num= _G['WoWTools_BuyItemButton']:set_text()--回购，数量，提示
+        num= _G['WoWTools_BuyItemButton']:set_text()
     end
     sub=root:CreateCheckbox(
         '|A:Perks-ShoppingCart:0:0|a'
@@ -140,14 +135,13 @@ local function BuyItem_Menu(self, root)
         Save().notAutoBuy= not Save().notAutoBuy and true or nil
         WoWTools_MerchantMixin:Update_MerchantFrame()
         if _G['WoWTools_BuyItemButton'] then
-            _G['WoWTools_BuyItemButton']:set_text()--回购，数量，提示
+            _G['WoWTools_BuyItemButton']:set_text()
         end
     end, {rightText=num})
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Merchant.AutoBuy'])
     WoWTools_MenuMixin:SetRightText(sub)
 
 
-    --列表，购买
     local guid= WoWTools_DataMixin.Player.GUID
     num=0
     for itemID, numItem in pairs(SellBuyItemsSave().buy[guid] or {}) do
@@ -167,7 +161,7 @@ local function BuyItem_Menu(self, root)
             WoWTools_MerchantMixin:Update_MerchantFrame()
             local btn= _G['WoWTools_BuybackButton']
             if btn then
-                btn:set_text()--回购，数量，提示
+                btn:set_text()
             end
         end, {itemID=itemID, num= SellBuyItemsSave().buy[guid][itemID] or 1})
         WoWTools_SetTooltipMixin:Set_Menu(sub2)
@@ -186,7 +180,7 @@ local function BuyItem_Menu(self, root)
                 WoWTools_MerchantMixin:Update_MerchantFrame()
                 local btn= _G['WoWTools_BuybackButton']
                 if btn then
-                    btn:set_text()--回购，数量，提示
+                    btn:set_text()
                 end
             end})
             return MenuResponse.Open
@@ -203,7 +197,6 @@ local function Init_Menu(self, root)
 
     local sub, sub2, num
 
---自动出售垃圾
     sub=root:CreateCheckbox(
         '|A:bags-button-autosort-up:0:0|a'
         ..(WoWTools_L['SELF_CAST_AUTO+SELL_ALL_JUNK_ITEMS_EXCLUDE_HEADER']),
@@ -225,11 +218,9 @@ local function Init_Menu(self, root)
     end)
 
 
---出售自定义
     Player_Sell_Menu(self, root)
 
 
---出售BOSS掉落
     num= CountTable(Save().bossItems or {})
 
     sub=root:CreateCheckbox(
@@ -283,7 +274,6 @@ local function Init_Menu(self, root)
         WoWTools_MenuMixin:SetScrollMode(sub)
     end
 
---保存 BOSS列表    
     local tipSub= sub:CreateCheckbox(
         WoWTools_L.SAVE,
     function()
@@ -296,15 +286,12 @@ local function Init_Menu(self, root)
 
 
 
---回购
     root:CreateDivider()
     Buyback_Menu(self, root)
 
---购买物品
     BuyItem_Menu(self, root)
 
 
---自动修理
     root:CreateDivider()
     sub=root:CreateCheckbox(
         '|A:SpellIcon-256x256-RepairAll:0:0|a'..(WoWTools_L['SELF_CAST_AUTO+REPAIR_ALL_ITEMS']),
@@ -340,14 +327,12 @@ local function Init_Menu(self, root)
     sub:CreateTitle((WoWTools_L.GUILDCONTROL_OPTION15_TOOLTIP)..': '..C_CurrencyInfo.GetCoinTextureString(CanGuildBankRepair() and GetGuildBankMoney() or 0))
 
 
---商人 Plus
     sub=root:CreateCheckbox(
         '|A:communities-icon-addgroupplus:0:0|a'..(WoWTools_L['Merchant Plus']),
     function()
         return not Save().notPlus
     end, function()
         Save().notPlus = not Save().notPlus and true or nil
-        --商人 Plus
         WoWTools_MerchantMixin:Init_WidthX2()
         WoWTools_MerchantMixin:Plus_ItemInfo()
     end)
@@ -356,11 +341,9 @@ local function Init_Menu(self, root)
         GameTooltip_AddErrorLine(tooltip, WoWTools_L.REQUIRES_RELOAD)
     end)
 
---增加，按钮宽度，按钮，菜单
     WoWTools_MerchantMixin:ResizeButton2_Menu(self, sub)
 
 
---自动拾取 plus
     sub=root:CreateCheckbox(
         '|A:Cursor_lootall_128:0:0|a'..(WoWTools_L.AUTO_LOOT_DEFAULT_TEXT)..' Plus',
     function()
@@ -380,14 +363,11 @@ local function Init_Menu(self, root)
     end)
 
 
---打开选项界面
     root:CreateDivider()
     sub= WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_MerchantMixin.addName})
 
---删除字符
     WoWTools_OtherMixin:OpenOption(sub, '|A:XMarksTheSpot:0:0|a'..(WoWTools_L.DELETE_ITEM_CONFIRM_STRING))
 
---重置数据
     sub:CreateDivider()
     WoWTools_MenuMixin:RestData(sub, WoWTools_MerchantMixin.addName, function()
         WoWToolsPlusPlayerDate['Plus_SellBuy']=nil
@@ -396,7 +376,6 @@ local function Init_Menu(self, root)
     end)
 
     sub:CreateDivider()
---重新加载UI
     WoWTools_MenuMixin:Reload(sub)
 end
 
@@ -415,17 +394,14 @@ function WoWTools_MerchantMixin:Init_Menu()
     Init()
 end
 
---购买物品
 function WoWTools_MerchantMixin:BuyItem_Menu(frame, root)
     BuyItem_Menu(frame, root)
 end
 
---回购
 function WoWTools_MerchantMixin:Buyback_Menu(frame, root)
     Buyback_Menu(frame, root)
 end
 
---出售自定义
 function WoWTools_MerchantMixin:Player_Sell_Menu(frame, root)
     Player_Sell_Menu(frame, root)
 end

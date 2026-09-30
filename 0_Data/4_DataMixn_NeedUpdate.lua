@@ -1,7 +1,6 @@
 
 
 --z_ItemInteractionFrame.lua
---套装，转换，货币, 不指定, 值可能是nil
 --WoWTools_DataMixin.CurrencyUpdateItemLevelID=nil
 --C_MythicPlus.GetCurrentSeason()
 
@@ -9,22 +8,17 @@
 
 
 --WoWTools_LabelMixin:ItemCurrencyTips
-WoWTools_DataMixin.ItemCurrencyTips= {---物品升级界面，挑战界面，物品，货币提示
-    --{type='currency', id=3008},--神勇石
-
-    --{type='currency', id=3289},--符文虚灵纹章 11.2
-    --{type='currency', id=3291},--鎏金虚灵纹章
-
-    {type='currency', id=3378},--黎明之光法力熔剂
+WoWTools_DataMixin.ItemCurrencyTips= {
 
 
-    --{type='currency', id=WoWTools_DataMixin.CurrencyUpdateItemLevelID, show=true},--套装，转换，货币
-    {type='currency', id=1602, line=true},--征服点数
-    {type='currency', id=1191},--勇气点数
+    {type='currency', id=3378},
+
+
+    {type='currency', id=1602, line=true},
+    {type='currency', id=1191},
 }
 
 
---挑战数据 Challenges.lua C_MythicPlus.GetRewardLevelForDifficultyLevel()
 --https://www.wowhead.com/guide/midnight/season-1-overview-dungeons-raids-dates#dungeon-pool
 
 local endOfRunRewardLevel={--Midnight: Season 1 Mythic+ Item Level Table
@@ -51,7 +45,7 @@ function Init_WeekItemLevel()
         ['Myth']= format('|cffff8000%s|r', WoWTools_L.ITEM_QUALITY4_DESC),
     }
     WeekItemLevel={
-        [2]='%d'..tab['Champion']..'2/6  %d'..tab['Hero']..'1/6|T7639519:0|t10',--需要修改
+        [2]='%d'..tab['Champion']..'2/6  %d'..tab['Hero']..'1/6|T7639519:0|t10',
         [3]='%d'..tab['Champion']..'2/6  %d'..tab['Hero']..'1/6|T7639519:0|t12',
         [4]='%d'..tab['Champion']..'3/6  %d'..tab['Hero']..'2/6|T7639521:0|t14',
         [5]='%d'..tab['Champion']..'4/6  %d'..tab['Hero']..'2/6|T7639521:0|t16',
@@ -97,10 +91,8 @@ end
 
 
 -- TWW Season 2 (Sort:[1](Level 4+);[2](Level 7+);[3](Level 10+);[4](Level 12+))
--- Information from(资料来自)：https://www.wowhead.com/guide/mythic-plus-dungeons/the-war-within-season-2/overview
 -- AngryKeystones Schedule
-WoWTools_DataMixin.SeasonAffixSchedule= 17--第几赛季--C_MythicPlus.GetCurrentSeason()
-	-- Information from(资料来自)：https://www.wowhead.com/guide/midnight/mythic-plus-season-1-overview
+WoWTools_DataMixin.SeasonAffixSchedule= 17
 	--{ [1] = 162, [2] = 10, [3] = 9 , [4] = 147, }
 WoWTools_DataMixin.affixSchedule = {
     {162, 10, 9, 147},
@@ -110,29 +102,29 @@ WoWTools_DataMixin.affixSchedule = {
 
 
 WoWTools_ChallengesSpellData={
-    [399]= {spell=393256, ins=1202},--传送到红玉新生法池的入口。 利爪防御者之路
-    [400]= {spell=393262, ins=1198},--传送至诺库德阻击战的入口。 啸风平原之路
-    [401]= {spell=393279, ins=1203},--传送至碧蓝魔馆的入口。 奥秘之路
-    [402]= {spell=393273, ins=1201},--传送到艾杰斯亚学院的入口。 巨龙学位之路
-    [403]= {spell=393222, ins=1197},--传送到奥达曼：提尔的遗产的入口 看护者遗产之路    
-    [404]= {spell=393276, ins=1199},--传送到奈萨鲁斯的入口。 黑曜宝藏之路
-    [405]= {spell=393267, ins=1196},--传送到蕨皮山谷的入口。 腐木之路
-    [406]= {spell=393283, ins=1204},----传送到注能大厅的入口 泰坦水库之路
+    [399]= {spell=393256, ins=1202},
+    [400]= {spell=393262, ins=1198},
+    [401]= {spell=393279, ins=1203},
+    [402]= {spell=393273, ins=1201},
+    [403]= {spell=393222, ins=1197},
+    [404]= {spell=393276, ins=1199},
+    [405]= {spell=393267, ins=1196},
+    [406]= {spell=393283, ins=1204},
 
-    [198]= {spell=424163, ins=762},--黑心林地 Darkheart Thicket (Legion)
-    [199]= {spell=424153, ins=740},--黑鸦堡垒 Black Rook Hold (Legion)
-    [168]= {spell=159901, ins=556},--永茂林地 The Everbloom (Warlords of Draenor)    
-    [248]= {spell=424167, ins=1021},--维克雷斯庄园 Waycrest Manor (Battle for Azeroth)
-    [244]= {spell=424187, ins=1176},--阿塔达萨 Atal'Dazar (Battle for Azeroth)
-    [463]= {spell=424197, ins=1209, insName='永恒黎明'},--永恒黎明：迦拉克隆的陨落 Dawn of the Infinite: Galakrond's Fall
-    [464]= {spell=424197, ins=1209, insName='永恒黎明'},--永恒黎明：姆诺兹多的崛起 Dawn of the Infinite: Murozond's Rise    
-    [456]= {spell=424142, ins=65},--潮汐王座 Throne of the Tides (Cataclysm)
+    [198]= {spell=424163, ins=762},
+    [199]= {spell=424153, ins=740},
+    [168]= {spell=159901, ins=556},
+    [248]= {spell=424167, ins=1021},
+    [244]= {spell=424187, ins=1176},
+    [463]= {spell=424197, ins=1209},
+    [464]= {spell=424197, ins=1209},
+    [456]= {spell=424142, ins=65},
 
-    [206]= {spell=410078, ins=767},--奈萨里奥的巢穴
-    [245]= {spell=410071, ins=1001},--自由镇
-    [251]= {spell=410074, ins=1022},--地渊孢林
-    [438]= {spell=410080, ins=68},--旋云之巅
-    [353]= {spell=464256, ins=1023},--围攻伯拉勒斯
+    [206]= {spell=410078, ins=767},
+    [245]= {spell=410071, ins=1001},
+    [251]= {spell=410074, ins=1022},
+    [438]= {spell=410080, ins=68},
+    [353]= {spell=464256, ins=1023},
     [247]= {spell=467555, ins=1012},
 
 
@@ -207,37 +199,31 @@ WoWTools_ChallengesSpellData={
     [583]= {spell=nil, ins=1753},
 
 }
---[161]={spell=159898, ins=476, name='通天峰', spellName='通天之路', spellDes='传送至|cff00ccff通天峰|r入口处。'},
---https://www.wowhead.com/cn/spell=1254557/加冕巅峰之路 传送到通天峰的入口
 
---双法术
 if WoWTools_DataMixin.Player.Faction=='Alliance' then
-    WoWTools_ChallengesSpellData[353].spell= 445418 --围攻伯拉勒斯
-    WoWTools_ChallengesSpellData[247].spell= 467553 --暴富矿区
+    WoWTools_ChallengesSpellData[353].spell= 445418
+    WoWTools_ChallengesSpellData[247].spell= 467553
 end
 
 
 --https://wago.tools/db2/SpellFlyout?locale=zhCN
 --Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoW\\0.tga
 WoWTools_DataMixin.FlyoutID={
-    {flyoutID= 246, ver=11},--英雄之路：“至暗之夜”
+    {flyoutID= 246, ver=11},
 
-    {flyoutID= 244, ver=10},--英雄之路：“地心之战”第3赛季
-    {flyoutID= 232, ver=10},--'英雄之路：地心之战--11
-    {flyoutID= 242, ver=10, isRaid=true},--英雄之路：地心之战团队副本
+    {flyoutID= 244, ver=10},
+    {flyoutID= 232, ver=10},
+    {flyoutID= 242, ver=10, isRaid=true},
 
-    {flyoutID= 227, ver=9},--巨龙时代 10
-    {flyoutID= 231, ver=9, isRaid=true},--英雄之路：巨龙时代团队副本
+    {flyoutID= 227, ver=9},
+    {flyoutID= 231, ver=9, isRaid=true},
 
-    {flyoutID= 220, ver=8},--暗影国度 9
-    {flyoutID= 222, ver=8, isRaid=true},--英雄之路：暗影国度团队副本
+    {flyoutID= 220, ver=8},
+    {flyoutID= 222, ver=8, isRaid=true},
 
-    {flyoutID= 223, ver=7},--争霸艾泽拉斯 8
-    {flyoutID= 224, ver=6},--军团再临 7
-    {flyoutID= 96, ver=5},--德拉诺这王 6
-    {flyoutID= 84, ver=4},--熊猫人之谜 5
-    {flyoutID= 230, ver=3},--大地的裂变 4
-    --巫妖王之怒 3
-    --燃烧的远征 2
-    --经典旧世 1
+    {flyoutID= 223, ver=7},
+    {flyoutID= 224, ver=6},
+    {flyoutID= 96, ver=5},
+    {flyoutID= 84, ver=4},
+    {flyoutID= 230, ver=3},
 }

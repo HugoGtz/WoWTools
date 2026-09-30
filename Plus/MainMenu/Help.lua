@@ -1,4 +1,3 @@
---帮助
 
 
 
@@ -44,7 +43,6 @@ local function Init()
 
 
 
-    --添加版本号 MainMenuBar.lua
     WoWTools_DataMixin:Hook('MainMenuBarPerformanceBarFrame_OnEnter', function()
         if not MainMenuMicroButton.hover or KeybindFrames_InQuickKeybindMode() or Kiosk.IsEnabled() then
             return
@@ -105,7 +103,7 @@ local function Init()
     end)
 
 
-    MainMenuMicroButton:EnableMouseWheel(true)--主菜单, 打开插件选项
+    MainMenuMicroButton:EnableMouseWheel(true)
     MainMenuMicroButton:HookScript('OnMouseWheel', function(_, d)
         if KeybindFrames_InQuickKeybindMode() or Kiosk.IsEnabled() then
             return
@@ -151,6 +149,6 @@ end
 
 
 
-function WoWTools_MainMenuMixin:Init_Help()--帮助
+function WoWTools_MainMenuMixin:Init_Help()
     Init()
 end

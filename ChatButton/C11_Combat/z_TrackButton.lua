@@ -12,37 +12,35 @@ end
 
 local btn
 
-local OnCombatTime--战斗时间
-local OnAFKTime--AFK时间
-local OnPetTime--宠物战斗
---local OnInstanceTime--副本
+local OnCombatTime
+local OnAFKTime
+local OnPetTime
 
-local LastText--最后时间提示
-local OnInstanceDeadCheck--副本,死亡,测试点
+local LastText
+local OnInstanceDeadCheck
 
-local PetAll={num= 0,  win=0, capture=0}--宠物战斗,全部,数据
-local PetRound={}--宠物战斗, 本次,数据
---local InstanceDate={num= 0, time= 0, kill=0, dead=0}--副本数据{dead死亡,kill杀怪, map地图}
-local IsInArena--是否在战场
+local PetAll={num= 0,  win=0, capture=0}
+local PetRound={}
+local IsInArena
 
 local EventTab={
     'PLAYER_FLAGS_CHANGED',--AFK
-    'PET_BATTLE_OPENING_DONE',--宠物战斗
+    'PET_BATTLE_OPENING_DONE',
     'PET_BATTLE_CLOSE',
     'PET_BATTLE_PET_ROUND_RESULTS',
     'PET_BATTLE_FINAL_ROUND',
     'PET_BATTLE_CAPTURED',
     'PET_BATTLE_PET_ROUND_PLAYBACK_COMPLETE',
-    'PLAYER_ENTERING_WORLD',--副本,杀怪,死亡
+    'PLAYER_ENTERING_WORLD',
     'PLAYER_REGEN_DISABLED',
     'PLAYER_REGEN_ENABLED',
 }
 
 local InstanceEventTab={
-    'PLAYER_DEAD',--死亡
+    'PLAYER_DEAD',
     'PLAYER_UNGHOST',
     'PLAYER_ALIVE',
-    'UNIT_FLAGS',--杀怪
+    'UNIT_FLAGS',
 }
 
 
@@ -91,7 +89,6 @@ function WoWTools_CombatMixin:Set_Combat_Tooltip(tooltip)
         tooltip:AddLine(' ')
     end
 
---在线时间
     tooltip:AddDoubleLine(
         (WoWTools_L.GUILD_ONLINE_LABEL)
         ..'|A:socialqueuing-icon-clock:0:0|a',
@@ -113,11 +110,10 @@ function WoWTools_CombatMixin:Set_Combat_Tooltip(tooltip)
 end
 
 
-local function Set_Text()--设置显示内容
+local function Set_Text()
     local text
     local isClockType= not Save().isNotClockType
 
---战斗时间
     if OnCombatTime then
         text= '|A:warfronts-basemapicons-horde-barracks-minimap:0:0|a|cnWARNING_FONT_COLOR:'
             ..WoWTools_TimeMixin:Info(OnCombatTime, isClockType)
@@ -152,7 +148,7 @@ local function Set_Text()--设置显示内容
 end
 
 
-local function set_Pet_Text()--宠物战斗, 设置显示内容
+local function set_Pet_Text()
     local text= format(WoWTools_L.PET_BATTLE_COMBAT_LOG_NEW_ROUND, PetRound.round or 0)
     if  C_PetBattles.IsWildBattle() then
         text=text..'|A:worldquest-icon-petbattle:0:0|a'
@@ -168,17 +164,16 @@ local function set_Pet_Text()--宠物战斗, 设置显示内容
 end
 
 
-local function Init_Date()--初始, 数据
+local function Init_Date()
     local time=GetTime()
     local log= SaveLog()
     local isClockType= not Save().isNotClockType
 
 
---AFK时间
     if WoWTools_UnitMixin:UnitIsAFK('player') then
-        if not OnAFKTime then--AFk时,播放声音
+        if not OnAFKTime then
             OnAFKTime= time
-            WoWTools_DataMixin:PlaySound(SOUNDKIT.READY_CHECK)--播放, 声音
+            WoWTools_DataMixin:PlaySound(SOUNDKIT.READY_CHECK)
         end
         LastText=nil
 
@@ -194,7 +189,6 @@ local function Init_Date()--初始, 数据
         OnAFKTime=nil
     end
 
---战斗时间
     if PlayerIsInCombat() then
         OnCombatTime= OnCombatTime or time
         LastText=nil
@@ -209,20 +203,19 @@ local function Init_Date()--初始, 数据
         --chatStarTime=nil
     end
 
---宠物战斗
     if C_PetBattles.IsInBattle() then
         OnPetTime= OnPetTime or time
         LastText=nil
     elseif OnPetTime then
-        if PetRound.win then--赢
+        if PetRound.win then
             PetAll.win= PetAll.win +1
             log.pet.win= log.pet.win +1
-            if PetRound.capture then--捕获
+            if PetRound.capture then
                 PetAll.capture= PetAll.capture +1
                 log.pet.capture= log.pet.capture +1
             end
         end
-        PetAll.num= PetAll.num +1--次数
+        PetAll.num= PetAll.num +1
         log.pet.num= log.pet.num +1
 
         LastText=(PetRound.text or '')..(PetRound.win and '|T646379:0|t' or ' ')..WoWTools_TimeMixin:Info(OnPetTime, isClockType)
@@ -242,7 +235,7 @@ local function Init_Date()--初始, 数据
         )
     end
 
-    if select(2, IsInInstance())~='none' then--副本
+    if select(2, IsInInstance())~='none' then
         SaveInstancData().onInsTime= SaveInstancData().onInsTime or time
         SaveInstancData().map= SaveInstancData().map or WoWTools_MapMixin:GetUnit('player')
 
@@ -267,7 +260,7 @@ local function Init_Date()--初始, 数据
             text
         )
 
-        WoWToolsPlusSave['ChatButton_Combat'].button.InstanceDate= {num=0, time=0, kill=0, dead=0, map=nil, onInsTime=nil}--副本数据{dead死亡,kill杀怪, map地图}
+        WoWToolsPlusSave['ChatButton_Combat'].button.InstanceDate= {num=0, time=0, kill=0, dead=0, map=nil, onInsTime=nil}
         SaveInstancData().onInsTime=nil
     end
 
@@ -281,18 +274,18 @@ end
 
 
 local function Rest_Data()
-    OnCombatTime= nil--战斗时间
-    OnAFKTime= nil--AFK时间
-    OnPetTime= nil--宠物战斗
-    SaveInstancData().onInsTime= nil--副本
+    OnCombatTime= nil
+    OnAFKTime= nil
+    OnPetTime= nil
+    SaveInstancData().onInsTime= nil
 
     LastText= nil
 
-    PetAll={num= 0,  win=0, capture=0}--宠物战斗,全部,数据
-    PetRound={}--宠物战斗, 本次,数据
-    WoWToolsPlusSave['ChatButton_Combat'].button.InstanceDate={num=0, time=0, kill=0, dead=0, map=nil}--副本数据{dead死亡,kill杀怪, map地图}
+    PetAll={num= 0,  win=0, capture=0}
+    PetRound={}
+    WoWToolsPlusSave['ChatButton_Combat'].button.InstanceDate={num=0, time=0, kill=0, dead=0, map=nil}
 
-    if select(2, IsInInstance())=='party' and C_ChallengeMode.IsChallengeModeActive() then--挑战时，死亡，数据
+    if select(2, IsInInstance())=='party' and C_ChallengeMode.IsChallengeModeActive() then
         SaveInstancData().dead= C_ChallengeMode.GetDeathCount() or 0
     end
 
@@ -342,7 +335,6 @@ local function Init_Menu(self, root)
         self:settings()
     end)
 
---Text 缩放
     WoWTools_MenuMixin:Scale(self, root, function()
         return Save().scale or 1
     end, function(value)
@@ -363,7 +355,6 @@ local function Init_Menu(self, root)
     root:CreateDivider()
     sub= WoWTools_ChatMixin:Open_SettingsPanel(root, WoWTools_CombatMixin.addName)
 
---重置位置
     
     sub:CreateButton(
         (Save().point and '' or '|cff626262')
@@ -388,7 +379,7 @@ local function Init_Menu(self, root)
                 Rest_Data()
 
                 WoWToolsPlusPlayerDate['CombatTimeLog']= {
-                    bat={num= 0, time= 0},--战斗数据
+                    bat={num= 0, time= 0},
                     pet={num= 0, win=0, capture=0},
                     ins={num= 0, time= 0, kill=0, dead=0},
                     afk={num= 0, time= 0},
@@ -407,7 +398,7 @@ local function Init_Menu(self, root)
 end
 
 
-local function Init()--设置显示内容, 父框架TrackButton, 内容btn.text
+local function Init()
     if Save().disabled then
         return
     end
@@ -464,7 +455,7 @@ local function Init()--设置显示内容, 父框架TrackButton, 内容btn.text
 
     btn:SetScript("OnMouseUp", ResetCursor)
     btn:SetScript("OnMouseDown", function(self, d)
-        if d=='RightButton' and IsAltKeyDown() then--移动光标
+        if d=='RightButton' and IsAltKeyDown() then
             SetCursor('UI_MOVE_CURSOR')
         else
             MenuUtil.CreateContextMenu(self, Init_Menu)
@@ -493,32 +484,32 @@ local function Init()--设置显示内容, 父框架TrackButton, 内容btn.text
 
     btn:SetScript('OnEvent', function(self, event, arg1)
         if event=='PLAYER_FLAGS_CHANGED' then--AFK
-            Init_Date()--初始, 数据
+            Init_Date()
 
         elseif event=='PET_BATTLE_OPENING_DONE' then
-            Init_Date()--初始, 数据
+            Init_Date()
 
-        elseif event=='PET_BATTLE_PVP_DUEL_REQUESTED' then--宠物战斗
+        elseif event=='PET_BATTLE_PVP_DUEL_REQUESTED' then
             PetRound.PVP =true
-            set_Pet_Text()--宠物战斗, 设置显示内容
+            set_Pet_Text()
         elseif (event=='PET_BATTLE_PET_ROUND_RESULTS' or event=='PET_BATTLE_PET_ROUND_PLAYBACK_COMPLETE') and arg1 then
             PetRound.round=arg1
-            set_Pet_Text()--宠物战斗, 设置显示内容
-        elseif event=='PET_BATTLE_CAPTURED' and arg1 and arg1==2 then--捕获
+            set_Pet_Text()
+        elseif event=='PET_BATTLE_CAPTURED' and arg1 and arg1==2 then
             PetRound.capture=true
-            set_Pet_Text()--宠物战斗, 设置显示内容
-        elseif event=='PET_BATTLE_FINAL_ROUND' and arg1 then--结束
-            if arg1==1 then--赢
+            set_Pet_Text()
+        elseif event=='PET_BATTLE_FINAL_ROUND' and arg1 then
+            if arg1==1 then
                 PetRound.win=true
             end
-            set_Pet_Text()--宠物战斗, 设置显示内容
+            set_Pet_Text()
         elseif event=='PET_BATTLE_CLOSE' then
-            Init_Date()--初始, 数据
+            Init_Date()
 
-        elseif event=='PLAYER_ENTERING_WORLD' then--副本,杀怪,死亡
-            Init_Date()--初始, 数据
+        elseif event=='PLAYER_ENTERING_WORLD' then
+            Init_Date()
             self:set_event()
-            IsInArena= WoWTools_MapMixin:IsInPvPArea()--是否在，PVP区域中
+            IsInArena= WoWTools_MapMixin:IsInPvPArea()
 
         elseif event=='PLAYER_DEAD' or event=='PLAYER_UNGHOST' or event=='PLAYER_ALIVE' then
             if event=='PLAYER_DEAD' and not OnInstanceDeadCheck then
@@ -528,7 +519,7 @@ local function Init()--设置显示内容, 父框架TrackButton, 内容btn.text
             else
                 OnInstanceDeadCheck=nil
             end
-        elseif event=='UNIT_FLAGS' then--杀怪,数量
+        elseif event=='UNIT_FLAGS' then
             if canaccessvalue(arg1) and arg1 and arg1:find('nameplate') and UnitIsEnemy(arg1, 'player') and UnitIsDead(arg1) then
                 if not IsInArena or UnitIsPlayer(arg1) then
                     SaveInstancData().kill= SaveInstancData().kill +1
@@ -536,7 +527,7 @@ local function Init()--设置显示内容, 父框架TrackButton, 内容btn.text
                 end
             end
         elseif event=='PLAYER_REGEN_DISABLED' or event=='PLAYER_REGEN_ENABLED' then
-            Init_Date()--初始, 数据
+            Init_Date()
         end
     end)
 
@@ -545,7 +536,7 @@ local function Init()--设置显示内容, 父框架TrackButton, 内容btn.text
         self.text:SetScale(Save().scale or 1)
         self.Bg:SetAlpha(Save().bgAlpha or 0.5)
         self:SetFrameStrata(Save().strata or 'MEDIUM')
-        if select(2, IsInInstance())=='party' and C_ChallengeMode.IsChallengeModeActive() then--挑战时，死亡，数据
+        if select(2, IsInInstance())=='party' and C_ChallengeMode.IsChallengeModeActive() then
             SaveInstancData().dead= C_ChallengeMode.GetDeathCount() or 0
         end
 
@@ -557,7 +548,7 @@ local function Init()--设置显示内容, 父框架TrackButton, 内容btn.text
             self:SetPoint('BOTTOMLEFT', WoWTools_ChatMixin:GetButtonForName('Combat'), 'BOTTOMRIGHT')
         end
 
-        Init_Date()--初始, 数据
+        Init_Date()
     end
 
     btn.Frame=CreateFrame("Frame", nil, btn)
@@ -565,7 +556,7 @@ local function Init()--设置显示内容, 父框架TrackButton, 内容btn.text
         self.elapsed = (self.elapsed or 0.3) + elapsed
         if self.elapsed > 0.3 then
             self.elapsed = 0
-            Set_Text()--设置显示内容
+            Set_Text()
         end
     end)
 

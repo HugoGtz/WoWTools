@@ -96,7 +96,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 return
             end
 
---添加控制面板
             WoWTools_PanelMixin:OnlyCheck({
                 name= WoWTools_BankMixin.addName,
                 GetValue=function() return not Save().disabled end,

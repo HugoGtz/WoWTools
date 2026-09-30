@@ -6,7 +6,6 @@ local Button
 local Buttons={}
 
 
---取得，等级，派系声望
 local function Get_Major_Faction_Level(factionID, level)
 
     local text= ''
@@ -22,11 +21,11 @@ local function Get_Major_Faction_Level(factionID, level)
     level= level or 0
 
     if C_MajorFactions.HasMaximumRenown(factionID) then
-        if C_Reputation.IsFactionParagon(factionID) then--奖励
+        if C_Reputation.IsFactionParagon(factionID) then
             local currentValue, threshold, _, hasRewardPending2, tooLowLevelForParagon = C_Reputation.GetFactionParagonInfo(factionID)
             if not tooLowLevelForParagon and currentValue and threshold and threshold>0 then
                 --hasRewardPending= hasRewardPending2
-                local completed= math.modf(currentValue/threshold)--完成次数
+                local completed= math.modf(currentValue/threshold)
                 currentValue= completed>0 and currentValue - threshold * completed or currentValue
                 if hasRewardPending2 then
                     text= format('|cnGREEN_FONT_COLOR:%i%%|A:GarrMission-%sChest:0:0|a%s%d|r', currentValue/threshold*100, WoWTools_DataMixin.Player.Faction, hasRewardPending and format('|A:%s:0:0|a', 'common-icon-checkmark') or '', completed)
@@ -51,7 +50,6 @@ local function Get_Major_Faction_Level(factionID, level)
 end
 
 
---取得，所有，派系声望
 local function Get_Major_Faction_List()
     local tab=C_MajorFactions.GetMajorFactionIDs()
     table.sort(tab, function(a,b) return a>b end)
@@ -101,7 +99,7 @@ local function Create_Button(index)
     btn.SelectTexture:SetAtlas('auctionhouse-nav-button-select')
     btn.SelectTexture:SetAlpha(0.5)
 
-    btn.ANCHOR_RIGHT= true--提示，位置用
+    btn.ANCHOR_RIGHT= true
     Buttons[index]= btn
 
     return btn
@@ -114,7 +112,6 @@ local function Settings()
         return
     end
 
-    --所有，派系声望
     local selectFactionID= MajorFactionRenownFrame:GetCurrentFactionID()
 
 
@@ -122,7 +119,7 @@ local function Settings()
     local btn, isSelect, atlas, text, isLocked
     local onlyUnlockRenownFrame= Save().onlyUnlockRenownFrame
 
-    for _, factionID in pairs(Get_Major_Faction_List()) do--取得，所有，派系声望
+    for _, factionID in pairs(Get_Major_Faction_List()) do
         local info= (
                     factionID
                     and factionID>0
@@ -156,7 +153,7 @@ local function Settings()
 
             --btn:SetPushedAtlas('majorfactions_icons_'..(info.textureKit or '')..'512')
             text, isLocked= Get_Major_Faction_Level(factionID, info.renownLevel)
-            btn.Text:SetText(text)--等级
+            btn.Text:SetText(text)
             btn:SetShown(true)
             btn.texture2:SetDesaturated(isLocked)
             btn:GetNormalTexture():SetDesaturated(isLocked)
@@ -197,7 +194,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Faction.RenownList'])
 
---隐藏
     root:CreateDivider()
     sub=root:CreateButton(
         (WoWTools_L.HIDE)..' #'..#Save().hideRenownFrame,
@@ -216,9 +212,8 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Faction.RenownUnlockedOnly'])
 
---隐藏，列表
     sub:CreateDivider()
-    for index, factionID in pairs(Get_Major_Faction_List()) do--取得，所有，派系声望
+    for index, factionID in pairs(Get_Major_Faction_List()) do
         sub2=sub:CreateCheckbox(
            index..')'.. WoWTools_FactionMixin:GetName(factionID),
         function(data)
@@ -234,11 +229,9 @@ local function Init_Menu(self, root)
 --SetScrollMod
     WoWTools_MenuMixin:SetScrollMode(sub)
 
---打开选项
     root:CreateDivider()
     sub= WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_FactionMixin.addName})
 
---缩放
     WoWTools_MenuMixin:ScaleRoot(self, sub,
     function()
         return Save().MajorFactionRenownFrame_Button_Scale or 1
@@ -252,7 +245,6 @@ local function Init_Menu(self, root)
 end
 
 
---派系，列表 MajorFactionRenownFrame
 local function Init()
     Button= WoWTools_ButtonMixin:Cbtn(MajorFactionRenownFrame.CloseButton, {size=22})
 
@@ -329,7 +321,7 @@ end
 
 function WoWTools_FactionMixin:Init_MajorFactionRenownFrame()
     if MajorFactionRenownFrame then
-        self:Init_CovenantRenown(MajorFactionRenownFrame)--盟约 9.0
+        self:Init_CovenantRenown(MajorFactionRenownFrame)
         Init()
     end
 end

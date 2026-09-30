@@ -17,7 +17,7 @@ local function Init()
         end
     })
 
-    WoWTools_BagMixin:Init_Container_Menu()--背包，菜单，增强
+    WoWTools_BagMixin:Init_Container_Menu()
     WoWTools_BagMixin:Init_DeleteItem()
 
     Init=function()end
@@ -51,7 +51,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
             WoWTools_BagMixin.addName= '|A:bag-main:0:0|a'..(WoWTools_L['Module.Bags'])
 
---添加控制面板
             WoWTools_PanelMixin:OnlyCheck({
                 name= WoWTools_BagMixin.addName,
                 GetValue= function() return not Save().disabled end,

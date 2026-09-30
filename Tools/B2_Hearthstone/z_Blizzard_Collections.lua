@@ -1,4 +1,3 @@
---玩具界面, 按钮
 
 local function Save()
     return WoWToolsPlusSave['Tools_Hearthstone']
@@ -13,7 +12,7 @@ end
 
 
 
-local function Remove_Toy(itemID)--移除
+local function Remove_Toy(itemID)
     local btn= WoWTools_ToolsMixin:Get_ButtonForName('Hearthstone')
     if not btn then
         return
@@ -36,15 +35,15 @@ end
 
 
 
-local function Add_Remove_Toy(itemID)--移除/添加
+local function Add_Remove_Toy(itemID)
     local btn= WoWTools_ToolsMixin:Get_ButtonForName('Hearthstone')
     if itemID and btn then
         if SaveItems()[itemID] then
-            Remove_Toy(itemID)--移除
-        else--添加
+            Remove_Toy(itemID)
+        else
             SaveItems()[itemID]= true
             if btn then
-                btn:Init_Random(Save().lockedToy)--初始
+                btn:Init_Random(Save().lockedToy)
             end
         end
     end
@@ -58,7 +57,7 @@ end
 
 
 
-local function Create_Button(btn)--标记, 是否已选取
+local function Create_Button(btn)
     btn.hearthstone= WoWTools_ButtonMixin:Cbtn(btn,{size=16, texture=134414})
     btn.hearthstone:SetPoint('TOPLEFT',btn.name,'BOTTOMLEFT')
 
@@ -85,7 +84,7 @@ local function Create_Button(btn)--标记, 是否已选取
     end
     btn.hearthstone:SetScript('OnMouseDown', function(self, d)
         if d=='LeftButton' then
-            Add_Remove_Toy(self:get_itemID())--移除/添加
+            Add_Remove_Toy(self:get_itemID())
             self:set_tooltips()
             self:set_alpha()
         else
@@ -105,7 +104,7 @@ end
 
 
 local function Init()
-    WoWTools_DataMixin:Hook('ToySpellButton_UpdateButton', function(btn)--标记, 是否已选取
+    WoWTools_DataMixin:Hook('ToySpellButton_UpdateButton', function(btn)
         if not btn.hearthstone then
             Create_Button(btn)
         end

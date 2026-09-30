@@ -1,6 +1,5 @@
 WoWTools_CollectionMixin={}
 
---宠物数量 WoWTools_PetBattleMixin:Collected(speciesID, itemID, onlyNum, petOwner, petIndex)--总收集数量， 25 25 25， 3/3
 
 
 function WoWTools_CollectionMixin:Refresh_TransmogItems()
@@ -19,7 +18,7 @@ end
 
 
 
-function WoWTools_CollectionMixin:Mount(mountID, itemID)--坐骑, 收集数量
+function WoWTools_CollectionMixin:Mount(mountID, itemID)
     mountID= mountID or (itemID and C_MountJournal.GetMountFromItem(itemID))
     if mountID then
         if select(11, C_MountJournal.GetMountInfoByID(mountID)) then
@@ -30,7 +29,7 @@ function WoWTools_CollectionMixin:Mount(mountID, itemID)--坐骑, 收集数量
     end
 end
 
-function WoWTools_CollectionMixin:Toy(itemID)--玩具,是否收集
+function WoWTools_CollectionMixin:Toy(itemID)
     if C_ToyBox.GetToyInfo(itemID) then
         if PlayerHasToy(itemID) then
             return '|cnGREEN_FONT_COLOR:'..(WoWTools_L.COLLECTED)..'|r', true, '|A:CovenantSanctum-Renown-Checkmark-Large:0:0|a'
@@ -41,7 +40,7 @@ function WoWTools_CollectionMixin:Toy(itemID)--玩具,是否收集
 end
 
 
-function WoWTools_CollectionMixin:Item(itemIDOrLink, sourceID, isIcon, onlyBool)--物品是否收集 --if itemIDOrLink and IsCosmeticItem(itemIDOrLink) then isCollected= C_TransmogCollection.PlayerHasTransmogByItemInfo(itemIDOrLink)
+function WoWTools_CollectionMixin:Item(itemIDOrLink, sourceID, isIcon, onlyBool)
     sourceID= sourceID or (itemIDOrLink and select(2, C_TransmogCollection.GetItemInfo(itemIDOrLink)))
 
     local sourceInfo = sourceID and C_TransmogCollection.GetSourceInfo(sourceID)
@@ -67,9 +66,9 @@ function WoWTools_CollectionMixin:Item(itemIDOrLink, sourceID, isIcon, onlyBool)
         if isCollected==true then
             if isIcon then
                 if isSelf then
-                    text='|A:common-icon-checkmark:0:0|a'--绿色√
+                    text='|A:common-icon-checkmark:0:0|a'
                 else
-                    text= '|A:Adventures-Checkmark:0:0|a'--黄色√
+                    text= '|A:Adventures-Checkmark:0:0|a'
                 end
             else
                 text= '|cnGREEN_FONT_COLOR:'..(WoWTools_L.COLLECTED)..'|r'
@@ -90,7 +89,7 @@ function WoWTools_CollectionMixin:Item(itemIDOrLink, sourceID, isIcon, onlyBool)
 end
 
 
-function WoWTools_CollectionMixin:SetID(setID, itemLinkOrID, isLoot)--套装 , 收集数量, 返回: 图标, 数量, 最大数, 文本
+function WoWTools_CollectionMixin:SetID(setID, itemLinkOrID, isLoot)
     local numCollected, numAll=0,0
 
     setID= setID or (itemLinkOrID and  C_Item.GetItemLearnTransmogSet(itemLinkOrID))
@@ -141,8 +140,8 @@ function WoWTools_CollectionMixin:SetID(setID, itemLinkOrID, isLoot)--套装 , �
 end
 
 
-function WoWTools_CollectionMixin:GetPet9Item(itemID, find)--宠物兑换, wow9.0
-    if itemID==11406 or itemID==11944 or itemID==25402 then--[黄晶珠蜒]
+function WoWTools_CollectionMixin:GetPet9Item(itemID, find)
+    if itemID==11406 or itemID==11944 or itemID==25402 then
         if find then
             return true
         else
@@ -153,7 +152,7 @@ function WoWTools_CollectionMixin:GetPet9Item(itemID, find)--宠物兑换, wow9.
                 ..'|T133053:0|t'..C_Item.GetItemCount(25402, true)
         end
 
-    elseif itemID==3300 or itemID==3670 or itemID==6150 then--[绿松石珠蜒]
+    elseif itemID==3300 or itemID==3670 or itemID==6150 then
         if find then
             return true
         else
@@ -164,7 +163,7 @@ function WoWTools_CollectionMixin:GetPet9Item(itemID, find)--宠物兑换, wow9.
                     ..'|T133676:0|t'..C_Item.GetItemCount(6150, true)
         end
 
-    elseif itemID==36812 or itemID==62072 or itemID==67410 then--[红宝石珠蜒]
+    elseif itemID==36812 or itemID==62072 or itemID==67410 then
         if find then
             return true
         else

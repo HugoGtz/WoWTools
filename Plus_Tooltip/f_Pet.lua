@@ -1,7 +1,7 @@
 
 
 
-function WoWTools_TooltipMixin:Set_Pet(tooltip, speciesID)--宠物
+function WoWTools_TooltipMixin:Set_Pet(tooltip, speciesID)
     if self:IsInCombatDisabled(tooltip)
         or not canaccessvalue(speciesID)
         or not speciesID
@@ -36,7 +36,6 @@ function WoWTools_TooltipMixin:Set_Pet(tooltip, speciesID)--宠物
         companionID and 'companionID|cffffffff'..WoWTools_DataMixin.Icon.icon2..companionID
     )
 
---技能图标
     if canBattle then
         local abilityIconA, abilityIconB = WoWTools_PetBattleMixin:GetAbilityIcon(speciesID, nil, nil, false, self.iconSize)
         if abilityIconA or abilityIconB then
@@ -45,17 +44,14 @@ function WoWTools_TooltipMixin:Set_Pet(tooltip, speciesID)--宠物
             tooltip:AddLine(abilityIconB)
         end
     else
---该生物无法对战。
         GameTooltip_AddErrorLine(tooltip, WoWTools_L.BATTLE_PET_CANNOT_BATTLE)
     end
 
---该宠物不可交易
     if not isTradeable then
         GameTooltip_AddErrorLine(tooltip, WoWTools_L.BATTLE_PET_NOT_TRADABLE)
     end
 
     tooltip:AddLine(' ')
---中文， 来源 名称
     local sourceInfo= WoWTools_TextMixin:CN(nil, {speciesID=speciesID}) or {}
     local cnName= WoWTools_TextMixin:CN(nil, {npcID=companionID, isName=true})
 
@@ -64,17 +60,16 @@ function WoWTools_TooltipMixin:Set_Pet(tooltip, speciesID)--宠物
     end
 
     if tooltipDescription or sourceInfo[1] then
-        tooltip:AddLine(sourceInfo[1] or tooltipDescription, nil,nil,nil, true)--来源
+        tooltip:AddLine(sourceInfo[1] or tooltipDescription, nil,nil,nil, true)
     end
     if tooltipSource or sourceInfo[2] then
-        tooltip:AddLine(sourceInfo[2] or tooltipSource,nil,nil,nil, true)--来源
+        tooltip:AddLine(sourceInfo[2] or tooltipSource,nil,nil,nil, true)
     end
 
 
     --local cardModelSceneID, loadoutModelSceneID = C_PetJournal.GetPetModelSceneInfoBySpeciesID(speciesID);
 
 	--loadoutPlate.modelScene:TransitionToModelSceneID(loadoutModelSceneID, CAMERA_TRANSITION_TYPE_IMMEDIATE, CAMERA_MODIFICATION_TYPE_DISCARD)
---设置, 3D模型
     self:Set_Item_Model(tooltip, {
        -- modelSceneID= loadoutModelSceneID,
         creatureDisplayID=creatureDisplayID
@@ -84,7 +79,7 @@ function WoWTools_TooltipMixin:Set_Pet(tooltip, speciesID)--宠物
         and not InCombatLockdown()
         and (not tooltip.JournalClick or not tooltip.JournalClick:IsShown())
     then
-        if IsAltKeyDown() then--宠物手册，设置名称
+        if IsAltKeyDown() then
             WoWTools_LoadUIMixin:Journal(2, {petSpeciesID=speciesID})
             --PetJournalSearchBox:SetText(speciesName)
         end
@@ -92,7 +87,6 @@ function WoWTools_TooltipMixin:Set_Pet(tooltip, speciesID)--宠物
         tooltip:AddLine('|A:NPE_Icon:0:0|aAlt |TInterface\\Icons\\PetJournalPortrait:0|t'..(WoWTools_L.SEARCH))
     end
 
---强弱
     if petType and PET_TYPE_SUFFIX[petType] then
         typeTexture= "Interface\\TargetingFrame\\PetBadge-"..PET_TYPE_SUFFIX[petType]
 
@@ -102,23 +96,18 @@ function WoWTools_TooltipMixin:Set_Pet(tooltip, speciesID)--宠物
             ..'|cnWARNING_FONT_COLOR:>|r|T'..weakHintsTexture..':'..self.iconSize..'|t'
     end
 
---图像
     tooltip.Portrait:SetTexture(typeTexture or 0)
     --tooltip.Portrait:SetShown(typeTexture)
 
---收集数量
-    if obtainable then--可得到的
+    if obtainable then
         AllCollected, CollectedNum, CollectedText= WoWTools_PetBattleMixin:Collected(speciesID)
     end
 
---嵌入式
     tooltip:Set_TopLabel(CollectedNum, CollectedText, AllCollected, text2Right)
 
 
---取得网页，数据链接
     self:Set_Web_Link(tooltip, {type='npc', id=companionID, name=speciesName, col= nil, isPetUI=false})
 
---PetBattle.lua 联动
     WoWTools_PetBattleMixin:Show_TypeButton_Type(petType)
 
     WoWTools_TooltipMixin:Show(tooltip)

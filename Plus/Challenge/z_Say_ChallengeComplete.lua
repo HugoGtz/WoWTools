@@ -1,4 +1,3 @@
---挑战结束时，显示按钮
 local function Save()
     return WoWToolsPlusSave['Plus_Challenges'] or {}
 end
@@ -51,15 +50,12 @@ end
 --C_ChatInfo.SendChatMessage("My, you're a tall one!", "WHISPER", nil, UnitName("target"))
 
 
---修改，添加内容
 local function Edit_Say_Text()
     StaticPopup_Show('WoWTools_EditText',
     (WoWTools_L.ADD),
     nil,
     {
         text= WoWToolsPlusPlayerDate.EndKeystoneSayText
-            or (WoWTools_DataMixin.Player.Region==5 and '{rt1}你们还继续吗? ')
-            or (WoWTools_DataMixin.Player.Region==4 and '{rt1}還要繼續嗎? ')
             or (WoWTools_DataMixin.Player.Region==2 and '{rt1}계속하시겠습니까? ')
             or ((GetLocale()=='esES' or GetLocale()=='esMX') and '{rt1}¿Seguimos? ')
             or '{rt1}Want to continue? ',
@@ -98,7 +94,6 @@ local function Say_Menu(_, root)
     end)
     Set_Say_Menu_Tooltip(sub, WoWTools_L['Tip.Challenge.Say'])
 
---修改
     sub2=sub:CreateButton(
         WoWTools_L.EDIT,
     function()
@@ -111,7 +106,6 @@ local function Say_Menu(_, root)
     local isRaid= IsInRaid()
     local isParty= not isRaid and IsInGroup()
     local isGuild= IsInGuild()
---目标
     root:CreateDivider()
     local target
     if WoWTools_UnitMixin:UnitGUID('target') and UnitIsPlayer('target') and UnitIsFriend('target', 'player') then
@@ -127,7 +121,6 @@ local function Say_Menu(_, root)
     end)
     Set_Say_Menu_Tooltip(sub, WoWTools_L['Tip.Challenge.SayTarget'])
 
-    --小队
     sub=root:CreateButton(
         (isFind and isParty and '' or '|cff828282')
         ..(WoWTools_L.CHAT_MSG_PARTY),
@@ -137,7 +130,6 @@ local function Say_Menu(_, root)
     end)
     Set_Say_Menu_Tooltip(sub, WoWTools_L['Tip.Challenge.SayParty'])
 
-    --团队
     sub=root:CreateButton(
         (isFind and isRaid and '' or '|cff828282')
         ..(WoWTools_L.RAID),
@@ -147,7 +139,6 @@ local function Say_Menu(_, root)
     end)
     Set_Say_Menu_Tooltip(sub, WoWTools_L['Tip.Challenge.SayRaid'])
 
-    --公会
     sub=root:CreateButton(
         (isFind and isGuild and '' or '|cff828282')
         ..(WoWTools_L.GUILD),
@@ -157,7 +148,6 @@ local function Say_Menu(_, root)
     end)
     Set_Say_Menu_Tooltip(sub, WoWTools_L['Tip.Challenge.SayGuild'])
 
---发送信息
     local tipSub= root:CreateButton(
         (isFind and '' or '|cff828282')
         ..(WoWTools_L.SEND_MESSAGE),
@@ -170,7 +160,6 @@ local function Say_Menu(_, root)
     end)
     WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Challenge.SendKey'])
 
---发送信息
     local tipSub= root:CreateButton(
         (isFind and '' or '|cff828282')
         ..(WoWTools_L.COMMUNITIES_INVITE_MANAGER_LINK_TO_CHAT),
@@ -183,7 +172,6 @@ local function Say_Menu(_, root)
     end)
     WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Challenge.LinkKey'])
 
---史诗钥石评分
     sub=root:CreateButton(
         WoWTools_L.DUNGEON_SCORE,
     function()
@@ -215,14 +203,12 @@ local function Init_Menu(self, root)
 
     Say_Menu(self, root)
 
---打开选项界面
     root:CreateDivider()
     sub= WoWTools_MenuMixin:OpenOptions(root, {
         name=WoWTools_ChallengeMixin.addName,
         name2='|A:UI-HUD-MicroMenu-Groupfinder-Mouseover:0:0|a'..(WoWTools_L.OPTIONS)}
     )
 
---总是显示
     local tipSub= sub:CreateCheckbox(
         WoWTools_L.BATTLEFIELD_MINIMAP_SHOW_ALWAYS,
     function()
@@ -232,7 +218,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Challenge.AlwaysShow'])
 
---缩放
     WoWTools_MenuMixin:Scale(self, sub, function()
         return Save().endKeystoneSayScale or 1
     end, function(value)
@@ -248,7 +233,6 @@ local function Init_Menu(self, root)
         self:set_scale()
     end)
 
---插入史诗钥石，打开界面
     sub:CreateDivider()
     sub2=sub:CreateButton(
         '|A:ChallengeMode-KeystoneSlotFrame:0:0|a'
@@ -264,7 +248,6 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWTools_L['Show UI'])
     end)
 
---显示/隐藏
     sub:CreateDivider()
     sub:CreateButton(
         self:IsShown()
@@ -317,7 +300,7 @@ local function Init()
 
     SayButton:SetScript("OnMouseUp", ResetCursor)
     SayButton:SetScript("OnMouseDown", function(self, d)
-        if IsAltKeyDown() and d=='RightButton' then--移动光标
+        if IsAltKeyDown() and d=='RightButton' then
             SetCursor('UI_MOVE_CURSOR')
         elseif d=='LeftButton' then
             Settings(true)

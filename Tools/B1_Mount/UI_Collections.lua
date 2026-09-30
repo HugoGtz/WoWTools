@@ -1,4 +1,3 @@
---界面，菜单
 local function SaveLog()
     return WoWToolsPlusPlayerDate['Tools_Mounts']
 end
@@ -63,12 +62,11 @@ local function Init_Menu(self, root)
             elseif data.type=='Floor' then
                 WoWTools_MountMixin:Set_Item_Spell_Edit(data)
             else
-                if data.type=='Shift' or data.type=='Alt' or data.type=='Ctrl' then--唯一
+                if data.type=='Shift' or data.type=='Alt' or data.type=='Ctrl' then
                     SaveLog()[data.type]={[data.spellID]=true}
                 else
                     SaveLog()[data.type][data.spellID]=true
                 end
---移除, 表里, 其他同样的项目
                 for muntType in pairs(SaveLog()) do
                     if muntType~=data.type and muntType~='Floor' then
                         SaveLog()[muntType][data.spellID]=nil
@@ -102,7 +100,6 @@ local function Init_Menu(self, root)
         WoWTools_MenuMixin:SetRightText(sub)
         WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Mount.AssignType'])
 
---二级，菜单
         WoWTools_MountMixin:Set_Mount_Sub_Options(sub, tab)
     end
 
@@ -130,7 +127,7 @@ end
 
 
 local function Updata_MountJournal_FullUpdate(self)
-    MountJournal_FullUpdate= function()--过滤，列表，Func
+    MountJournal_FullUpdate= function()
         if not MountJournal:IsVisible() then
             return
         end
@@ -171,7 +168,6 @@ end
 
 
 
---过滤，列表，菜单
 local function Init_UI_List_Menu(self, root)
     if not self:IsMouseOver() then
         return
@@ -294,7 +290,7 @@ local function Create_Button(frame)
                 text= text..(WoWTools_MountMixin.TypeName[mountType] or mountType)
             end
         end
-        self.Text:SetText(text or '')--提示， 文本
+        self.Text:SetText(text or '')
     end
 end
 
@@ -309,7 +305,6 @@ end
 
 
 
---初始，坐骑界面
 local function Init()
     WoWTools_DataMixin:Hook('MountJournal_InitMountButton',function(frame)--Blizzard_MountCollection.lua
         if not frame.spellID or not frame.mountID then
@@ -347,7 +342,6 @@ local function Init()
         self.Type={}
     end
 
---重置
     btn.ResetButton:SetScript('OnClick', function(self)
         local p= self:GetParent()
         MountJournal_FullUpdate= p.MountJournal_FullUpdate
@@ -363,7 +357,7 @@ local function Init()
     MountJournal.MountCount:SetPoint('BOTTOMRIGHT', MountJournalSearchBox, 'TOPRIGHT', 0, 4)
 
     btn:rest_type()
-    btn:SetupMenu(Init_UI_List_Menu)--过滤，列表，菜单
+    btn:SetupMenu(Init_UI_List_Menu)
 
     Init=function()end
 end

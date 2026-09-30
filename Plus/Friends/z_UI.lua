@@ -1,6 +1,5 @@
 
 
---好友召募
 function WoWTools_MoveMixin.Events:Blizzard_RecruitAFriend()
     RecruitAFriendFrame.RecruitList.ScrollBox:SetPoint('BOTTOMRIGHT', -20,0)
     RecruitAFriendFrame.RewardClaiming.Background:SetPoint('LEFT')
@@ -14,7 +13,6 @@ end
 --function WoWTools_MoveMixin.Events:Blizzard_RaidFrame()
 
 
---团队信息， 副本击杀信息
 function WoWTools_MoveMixin.Events:Blizzard_RaidFrame()
     RaidInfoFrame.ScrollBox:SetPoint('BOTTOMRIGHT',-35, 38)
     RaidInfoDetailFooter:SetPoint('RIGHT', -12, 0)
@@ -45,7 +43,7 @@ end
 
 
 
-function WoWTools_MoveMixin.Events:Blizzard_FriendsFrame()--好友列表
+function WoWTools_MoveMixin.Events:Blizzard_FriendsFrame()
     local function Set_RaidFrame_Button_size()
         local w= FriendsFrame:GetWidth()/2-8
         for i=1, 8 do
@@ -79,7 +77,6 @@ function WoWTools_MoveMixin.Events:Blizzard_FriendsFrame()--好友列表
 
     FriendsListFrame.ScrollBox:SetPoint('BOTTOMRIGHT', -24, 30)
 
---团队
     RaidFrame:HookScript('OnShow', function(...) Set_RaidFrame_Button_size(...) end)
 
     WoWTools_DataMixin:Hook(FriendsListButtonMixin, 'OnLoad', function(btn)
@@ -105,7 +102,6 @@ function WoWTools_MoveMixin.Events:Blizzard_FriendsFrame()--好友列表
     })
 
 
---好友的好友，列表
 
     FriendsFriendsFrame.ScrollFrameBorder:SetPoint('BOTTOMRIGHT', -25, 55)
     WoWTools_DataMixin:Hook('FriendsFriends_InitButton', function(btn)
@@ -125,7 +121,6 @@ function WoWTools_MoveMixin.Events:Blizzard_FriendsFrame()--好友列表
         frame:SetSize(314, 345)
     end})
 
---好友 屏蔽列表
     --FriendsFrame.IgnoreListWindow.CloseButton:SetFrameStrata(FriendsFrame.IgnoreListWindow.TitleContainer:GetFrameStrata())
     --FriendsFrame.IgnoreListWindow.CloseButton:SetFrameLevel(FriendsFrame.IgnoreListWindow.TitleContainer:GetFrameLevel()+1)
     FriendsFrame.IgnoreListWindow:ClearAllPoints()
@@ -134,11 +129,9 @@ function WoWTools_MoveMixin.Events:Blizzard_FriendsFrame()--好友列表
     self:Setup(FriendsFrame.IgnoreListWindow, {frame=FriendsFrame})
 
     --WoWTools_TextureMixin:SetButton(FriendsFrame.IgnoreListWindow.ResizeButton)
---通告
     self:Setup(FriendsFrameBattlenetFrame.BroadcastFrame, {frame=FriendsFrame})
 end
 
 
---好友列表
 
 

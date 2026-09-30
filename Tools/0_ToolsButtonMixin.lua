@@ -13,7 +13,7 @@ local MainButton
 
 local SetID=0
 
-local AddList={}--所有, 按钮 {isPlayerSetupOptions=true, option=option}
+local AddList={}
 
 local AllButtons={}--{'HEARTHSTONE', 'USETOY'}
 local LeftButtons1={}
@@ -45,11 +45,11 @@ local function Set_BottomPoint(frame)
     frame:SetPoint('BOTTOMRIGHT', MainButton, 'TOPRIGHT')
 end
 
-local function Get_ParentFrame(tab)--取得 Parent
-    if tab.parentFrame then--指定
+local function Get_ParentFrame(tab)
+    if tab.parentFrame then
         return tab.parentFrame
 
-    elseif Save().BottomPoint[tab.name]--选项，自定义，
+    elseif Save().BottomPoint[tab.name]
         or tab.isMoveButton
     then
         return MainButton
@@ -60,12 +60,10 @@ end
 
 
 local function Set_ButtonPoint(btn, tab)
-    btn.IsShownFrameEnterButton=nil--为显示/隐藏Frame用
+    btn.IsShownFrameEnterButton=nil
     local name= tab.name
 
---最左(右)边，一行，给法师传送门用
     if tab.isLeftOnlyLine then
---左边
         if tab.isLeftOnlyLine() then
             local num= #LeftButtons2
             if num==0 then
@@ -78,7 +76,6 @@ local function Set_ButtonPoint(btn, tab)
             Set_BG(MainButton.LeftFrame2)
             table.insert(LeftButtons2, name)
         else
---右边
             local num= #RightButtons
             if num==0 then
                 Set_RightPoint(btn)
@@ -96,7 +93,6 @@ local function Set_ButtonPoint(btn, tab)
         if Save().BottomPoint[name] or tab.isMoveButton then
             local num=#BottomButtons
             if num==0 then
---为显示/隐藏Frame用
                 btn.IsShownFrameEnterButton=true
                 Set_BottomPoint(btn)
                 MainButton.BottomFrame:SetHeight(30)
@@ -105,11 +101,10 @@ local function Set_ButtonPoint(btn, tab)
             end
             Set_BG(MainButton.BottomFrame)
             if not tab.isMoveButton then
-                MainButton.BottomFrame:SetPoint('TOPLEFT', btn)--需要，设置宽 LEFT
+                MainButton.BottomFrame:SetPoint('TOPLEFT', btn)
                 table.insert(BottomButtons, name)
             end
         else
---上面，合集
             local num=#LeftButtons1
             if num==0 then
                 LeftNewLineButton=name
@@ -192,12 +187,10 @@ function WoWTools_ToolsMixin:Init()
     MainButton.Frame= CreateFrame('Frame', nil, MainButton)
     MainButton.Frame:SetAllPoints()
     MainButton.Frame:SetShown(Save().show)
---为显示Frame用
     MainButton.IsShownFrameEnterButton=true
 
 
 
---底部,需要，设置高 宽
 
     local bgSet= {isAllPoint=true, isColor=true, alpha= Save().bgAlpha}
     MainButton.LeftFrame1= CreateFrame('Frame', nil , MainButton.Frame)
@@ -209,7 +202,6 @@ function WoWTools_ToolsMixin:Init()
     MainButton.RightFrame= CreateFrame('Frame', nil, MainButton.Frame)
     WoWTools_TextureMixin:CreateBG(MainButton.RightFrame, bgSet)
 
---需要，设置 LEFT
     MainButton.BottomFrame= CreateFrame('Frame', nil, MainButton)
     WoWTools_TextureMixin:CreateBG(MainButton.BottomFrame, bgSet)
 
@@ -224,7 +216,6 @@ function WoWTools_ToolsMixin:Init()
 end
 
 
---显示背景
 function WoWTools_ToolsMixin:ShowBackground()
     Set_BG(MainButton.LeftFrame1)
     Set_BG(MainButton.LeftFrame2)
@@ -233,7 +224,6 @@ function WoWTools_ToolsMixin:ShowBackground()
 end
 
 
---重置所有按钮位置
 function WoWTools_ToolsMixin:RestAllPoint()
     if not MainButton:CanChangeAttribute() then
         return
@@ -258,7 +248,7 @@ function WoWTools_ToolsMixin:RestAllPoint()
             table.insert(buttons, name)
         end
 
-        LeftButtons1={}--按钮 {btn1, btn2,}
+        LeftButtons1={}
         LeftButtons2={}
         RightButtons={}
         BottomButtons={}
@@ -288,7 +278,6 @@ function WoWTools_ToolsMixin:RestAllPoint()
 end
 
 
---当Enter图标是，显示Tools Frame
 function WoWTools_ToolsMixin:EnterShowFrame(btn)
     if btn.IsShownFrameEnterButton and Save().isEnterShow and not MainButton.Frame:IsShown() then
         MainButton:set_shown()
@@ -298,8 +287,7 @@ end
 
 
 
---打开选项界面
-function WoWTools_ToolsMixin:OpenMenu(root, name, showText)--打开, 选项界面，菜单
+function WoWTools_ToolsMixin:OpenMenu(root, name, showText)
     return WoWTools_MenuMixin:OpenOptions(root, {
         name=name or self.addName,
         name2=showText,
@@ -308,7 +296,6 @@ function WoWTools_ToolsMixin:OpenMenu(root, name, showText)--打开, 选项界�
 end
 
 
---用户，自定义设置，选项
 function WoWTools_ToolsMixin:Set_AddList(option)
     table.insert(AddList, {isPlayerSetupOptions=true, option=option})
 end

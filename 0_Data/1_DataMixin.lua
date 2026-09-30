@@ -1,6 +1,5 @@
 --EventRegistry:TriggerEvent("PerksProgram.UpdateCartShown", showCart)
 --EventRegistry:RegisterCallback("PerksProgram.UpdateCartShown", self.OnShoppingCartVisibilityUpdated, self);
---TimerunningUtil.TimerunningEnabledForPlayer() PlayerIsTimerunning(),--1=幻境新生：潘达利亚 
 --CombatLogGetCurrentEventInfo
 
 
@@ -16,9 +15,9 @@ WoWTools_DataMixin= {
 
     LeftButtonDown= C_CVar.GetCVarBool("ActionButtonUseKeyDown") and 'LeftButtonDown' or 'LeftButtonUp',
     RightButtonDown= C_CVar.GetCVarBool("ActionButtonUseKeyDown") and 'RightButtonDown' or 'RightButtonUp',
-    ExpansionLevel= math.max(GetAccountExpansionLevel(), GetExpansionLevel()),--GetClientDisplayExpansionLevel(), --math.max(GetAccountExpansionLevel(), GetExpansionLevel()),-- GetClampedCurrentExpansionLevel() math.max(GetAccountExpansionLevel(), GetExpansionLevel()),-- GetExpansionLevel() or 1,--版本数据
+    ExpansionLevel= math.max(GetAccountExpansionLevel(), GetExpansionLevel()),
 
-    StausText={},--属性，截取表 API_Panel.lua
+    StausText={},
     UnitItemLevel={},
     Language={},
     ClientSceneType= nil,
@@ -27,8 +26,6 @@ WoWTools_DataMixin= {
 
 
 
---WoWTools_DataMixin.IsSetPlayerSound= enabled--播放, 事件声音
---WoWTools_DataMixin.ClearAllSave= true 全部重置，插件设置
 
 local battleTag= select(2, BNGetInfo())
 --local baseClass= UnitClassBase('player')
@@ -37,7 +34,7 @@ local currentRegion= GetCurrentRegion()
 --local r, g, b, hex= GetClassColor(baseClass)
 
 
-local function GetWeek()--周数
+local function GetWeek()
     --Clave de semana según el reinicio real del servidor (antes: medianoche local, borraba bloqueos antes de tiempo)
     local secs= C_DateAndTime and C_DateAndTime.GetSecondsUntilWeeklyReset and C_DateAndTime.GetSecondsUntilWeeklyReset()
     local now= GetServerTime and GetServerTime()
@@ -69,7 +66,7 @@ end
 WoWTools_DataMixin.Player={
     Ver= select(4,GetBuildInfo()),
     Realm= playerRealm,
-    Realms= {},--多服务器
+    Realms= {},
 
     Name_Realm= UnitName('player')..'-'..playerRealm,
     --Name= UnitName('player'),
@@ -81,18 +78,16 @@ WoWTools_DataMixin.Player={
     IsCN= currentRegion==5 or currentRegion==4,
 
     --col= '|c'..hex,
-    --UseColor= {r=r, g=g, b=b, a=1, hex='|c'..hex},--使用颜色
     --Color= PlayerUtil.GetClassColor(),
 
     --Lo= GetLocale(),
-    Week= GetWeek(),--周数 date('%W')
+    Week= GetWeek(),
     GUID= UnitGUID('player'),
-    IsMaxLevel= UnitLevel('player')==GetMaxLevelForLatestExpansion(), --GetMaxLevelForPlayerExpansion(),--玩家是否最高等级 MAX_PLAYER_LEVEL
+    IsMaxLevel= UnitLevel('player')==GetMaxLevelForLatestExpansion(),
     Level= UnitLevel('player') or 1,--UnitEffectiveLevel('player')
     BattleTag= battleTag,
-    Faction= UnitFactionGroup('player'),--玩家, 派系  "Alliance", "Horde", "Neutral"
-    Layer= nil, --位面数字
-    --Language={},--多语言，文本
+    Faction= UnitFactionGroup('player'),
+    Layer= nil,
 }
 for realmIndex, realmName in pairs(GetAutoCompleteRealms() or {}) do
     WoWTools_DataMixin.Player.Realms[realmName]=realmIndex
@@ -100,7 +95,7 @@ end
 
 
 WoWTools_DataMixin.Icon={
-    Player= '',--玩家图标icon  WoWTools_UnitMixin:GetRaceIcon('player') 
+    Player= '',
     icon= 'Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools',
     icon2='|TInterface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools:0|t',
 
@@ -109,8 +104,6 @@ WoWTools_DataMixin.Icon={
     mid='|A:newplayertutorial-icon-mouse-middlebutton:0:0|a',
     wow2='|A:glues-characterSelect-iconShop-hover:0:0|a',--'|A:questlog-questtypeicon-account:0:0|a',--,--'|A:tokens-WoW-generic-regular:0:0|a',
     net2= '|A:gmchat-icon-blizz:0:0|a',--'|A:Battlenet-ClientIcon-App:0:0|a',--'|A:questlog-questtypeicon-account:0:0|a',-- '|A:gmchat-icon-blizz:0:0|a',-- BNet_GetClientEmbeddedTexture(-2, 32, 32)
-    --toLeft='common-icon-rotateleft',--向左
-    --toRight='common-icon-rotateright',--向右
 
 --Blizzard_FrameXMLBase/Constants.lua
     TANK='|A:UI-LFG-RoleIcon-Tank:0:0|a',--INLINE_TANK_ICON CreateAtlasMarkup(GetMicroIconForRole("TANK"), 16, 16) 
@@ -123,7 +116,7 @@ WoWTools_DataMixin.Icon={
     Neutral='nameplates-icon-flag-neutral',
 
 --ColorConstants.lua
-    [Enum.ItemQuality.Poor] = "dressingroom-itemborder-gray",--0  C_Item.GetItemQualityByID(ID) 方块
+    [Enum.ItemQuality.Poor] = "dressingroom-itemborder-gray",
 	[Enum.ItemQuality.Common] = "dressingroom-itemborder-white",
 	[Enum.ItemQuality.Uncommon] = "dressingroom-itemborder-green",
 	[Enum.ItemQuality.Rare] = "dressingroom-itemborder-blue",
@@ -139,17 +132,7 @@ WoWTools_DataMixin.Icon={
 }
 
 
-if LOCALE_zhCN then
-    WoWTools_DataMixin.Language= {
-        layer='位面',
-        key='关键词',
-    }
-elseif LOCALE_zhTW then
-    WoWTools_DataMixin.Language={
-        layer='位面',
-        key='關鍵詞',
-    }
-elseif LOCALE_koKR then
+if LOCALE_koKR then
     WoWTools_DataMixin.Language={
         layer='층',
         key='키워드',
@@ -164,7 +147,7 @@ elseif LOCALE_deDE then
         layer='Schicht',
         key='Schlüsselwörter',
     }
-elseif LOCALE_esES or LOCALE_esMX then--西班牙语
+elseif LOCALE_esES or LOCALE_esMX then
     WoWTools_DataMixin.Language={
         layer='Capa',
         key='Palabras clave',
@@ -174,7 +157,7 @@ elseif LOCALE_ruRU then
         layer='слой',
         key='Ключевые слова',
     }
-elseif LOCALE_ptBR then--葡萄牙语
+elseif LOCALE_ptBR then
     WoWTools_DataMixin.Language={
         layer='Camada',
         key='Palavras-chave',

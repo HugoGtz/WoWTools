@@ -1,4 +1,3 @@
---专业
 local function Save()
     return WoWToolsPlusSave['Plus_Move']
 end
@@ -36,7 +35,6 @@ function WoWTools_MoveMixin.Events:Blizzard_Professions()
 
     
     ProfessionsFrame.CraftingPage.P_GetDesiredPageWidth= ProfessionsFrame.CraftingPage.GetDesiredPageWidth
---替换，原生
     function ProfessionsFrame.CraftingPage:GetDesiredPageWidth()--Blizzard_ProfessionsCrafting.lua
         local size, scale
         local frame= self:GetParent()

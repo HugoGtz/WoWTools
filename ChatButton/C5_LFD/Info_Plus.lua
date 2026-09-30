@@ -1,5 +1,4 @@
 
---小眼睛, 更新信息
 
 local function Save()
     return WoWToolsPlusSave['ChatButton_LFD'] or {}
@@ -13,7 +12,6 @@ local Button
 
 
 
---职责确认，信息
 local RoleC
 local function get_Role_Info(env, Name, isT, isH, isD)
     if env=='LFG_ROLE_CHECK_DECLINED' then
@@ -56,7 +54,7 @@ local function get_Role_Info(env, Name, isT, isH, isD)
         return
     end
 
-    if env=='LFG_ROLE_CHECK_ROLE_CHOSEN' then--队长重新排本
+    if env=='LFG_ROLE_CHECK_ROLE_CHOSEN' then
         if RoleC and RoleC[Name] then
             local u=RoleC[Name].unit
             if u and UnitIsGroupLeader(u) then
@@ -154,7 +152,7 @@ local function get_Role_Info(env, Name, isT, isH, isD)
             end)
             Button:SetScript('OnLeave', GameTooltip_Hide)
             Button:SetScript('OnMouseDown', function(self, d)
-                if d=='RightButton' then--移动光标
+                if d=='RightButton' then
                     SetCursor('UI_MOVE_CURSOR')
                 elseif d=='LeftButton' then
                     self.text:SetText('')
@@ -206,7 +204,7 @@ local function Init()
     frame:RegisterEvent('PLAYER_ROLES_ASSIGNED')
 
     frame:SetScript('OnEvent', function(self, ...)
-        get_Role_Info(...)--职责确认        
+        get_Role_Info(...)
     end)
 
 end
@@ -214,6 +212,6 @@ end
 
 
 
-function WoWTools_LFDMixin:Init_Role_CheckInfo()--职责确认，信息
+function WoWTools_LFDMixin:Init_Role_CheckInfo()
     Init()
 end

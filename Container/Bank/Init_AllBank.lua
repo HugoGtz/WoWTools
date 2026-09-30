@@ -36,7 +36,6 @@ end
 
 
 local function Init()
-    --BankPanel 标题
     BankPanel.Header.Text:SetShadowOffset(1, -1)
 
 --Post-proceso con hook (antes se sustituía el método de Blizzard: taint en BankFrame)
@@ -54,7 +53,6 @@ local function Init()
         end
     end)
 
---提取，菜单
     BankPanel.Header.Text:EnableMouse(true)
     BankPanel.Header.Text:SetScript('OnLeave', function(self)
         self:SetAlpha(1)
@@ -101,9 +99,7 @@ local function Init_UI()
         return
     end
 
---新建，标签，提示
     BankPanel.tabNames= {}
---更新，信息
     WoWTools_DataMixin:Hook(BankPanel.TabSettingsMenu, 'OkayButton_OnClick', function()
         if not Save().allBank then
             return
@@ -124,7 +120,6 @@ local function Init_UI()
     BankItemSearchBox:ClearAllPoints()
     BankItemSearchBox:SetPoint('TOPRIGHT', -56, -25)--<Anchor point="TOPRIGHT" x="-56" y="-33"/>
 
---存放各种材料
     BankPanel.AutoDepositFrame:ClearAllPoints()
     BankPanel.AutoDepositFrame:SetWidth(47)
     BankPanel.AutoDepositFrame:SetPoint('RIGHT', BankItemSearchBox, 'LEFT', -42,0)
@@ -158,7 +153,6 @@ local function Init_UI()
         GameTooltip:Show()
     end)
 
---Check 包括可交易的材料
     BankPanel.AutoDepositFrame.IncludeReagentsCheckbox:ClearAllPoints()--24,23
     BankPanel.AutoDepositFrame.IncludeReagentsCheckbox:SetPoint('RIGHT', BankPanel.AutoDepositFrame.DepositButton, 'LEFT')
     BankPanel.AutoDepositFrame.IncludeReagentsCheckbox:SetScript('OnLeave', GameTooltip_Hide)
@@ -171,7 +165,6 @@ local function Init_UI()
     BankPanel.AutoDepositFrame.IncludeReagentsCheckbox.Text:ClearAllPoints()
     BankPanel.AutoDepositFrame.IncludeReagentsCheckbox.Text:SetAlpha(0)
 
---钱
     WoWTools_TextureMixin:CreateBG(BankPanel.MoneyFrame, {point=function(icon)
         icon:SetPoint('TOPLEFT', BankPanelGoldButtonText, -2, 2)
         icon:SetPoint('BOTTOMRIGHT', BankPanelCopperButtonText, 2, -2)
@@ -233,14 +226,12 @@ local function Create_Tab_Label(frame, indexTab)
         if not tabData or not tabData.ID or tabData.ID==-1 then
             return
         end
---提取
         if d=='LeftButton' then
             MenuUtil.CreateContextMenu(frame, function(_, root)
                 WoWTools_BankMixin:Init_Out_Menu(root, tabData)
             end)
             Set_Tab_Label_OnEnter(self, tabID)
         else
---设置
            for btn in BankPanel.bankTabPool:EnumerateActive() do
                 if btn.tabData and btn.tabData.ID==tabID then
                     btn:OnClick(d)
@@ -256,7 +247,6 @@ end
 
 
 
---整全一起
 local function Init_All()
     if not Save().allBank then
         return
@@ -284,12 +274,10 @@ local function Init_All()
         for _, bankTabData in ipairs(self.purchasedBankTabData or {}) do
             local numSlot= C_Container.GetContainerNumSlots(bankTabData.ID)
             for containerSlotID = 1, numSlot do
-    --新建
                 local btn = self.itemButtonPool:Acquire()--37 x 37
                 btn:SetPoint("TOPLEFT", self, "TOPLEFT", x, y)
                 btn:Init(self.bankType, bankTabData.ID, containerSlotID)
                 btn:Show()
-    --Tab名称 和 空格
                 if containerSlotID==1 and y==-63 then
                     indexTab= indexTab+1
                     Create_Tab_Label(self, indexTab)
@@ -314,21 +302,18 @@ local function Init_All()
             index= 0
         end
 
-    --清除，其它
         for i= indexTab+1, #self.tabNames do
             if self.tabNames[i] then
                 self.tabNames[i]:SetText('')
             end
         end
 
-    --设置大小
         BankFrame:SetSize(
             width- line+ 3 -newContainer,
             63+ (37+line)*num -line + BODER_LEFT+3
         )
     end
 
---替换，原生
     BankPanel.GenerateItemSlotsForSelectedTab= GenerateItemSlotsForSelectedTab
 
     BankPanel:HookScript('OnEvent', function(self, event, ...)
@@ -374,7 +359,6 @@ end
 --C_Container.SortBank(Enum.BankType.Guild)
 
 
---移动，银行
 local function Init_Move()
     BankPanel:SetPoint('TOPRIGHT')
     BankPanel:SetPoint('BOTTOMRIGHT')
@@ -432,6 +416,6 @@ end
 function WoWTools_BankMixin:Init_AllBank()
     Init()
     Init_UI()
-    Init_All()--整全一起
-    Init_Move()--移动，银行
+    Init_All()
+    Init_Move()
 end

@@ -1,28 +1,24 @@
 local P_Save= {
-    items={--禁用，自动添加，物品
-        --+精通
-        [210715]=true,--缺口精湛紫晶 
-        [216640]=true,--瑕疵精湛紫晶
-        [211106]=true,--精湛紫晶
-        [211108]=true,--完美精湛紫晶
+    items={
+        [210715]=true,
+        [216640]=true,
+        [211106]=true,
+        [211108]=true,
 
-        --+爆击
-        [210714]=true,--缺口致命蓝玉
-        [216644]=true,--瑕疵致命蓝玉
-        [211123]=true,--致命蓝玉
-        [211102]=true,--完美致命蓝玉
+        [210714]=true,
+        [216644]=true,
+        [211123]=true,
+        [211102]=true,
 
-        --+急速
-        [210681]=true,--缺口迅捷黄晶
-        [216643]=true,--瑕疵迅捷黄晶
-        [211107]=true,--迅捷黄晶
-        [211110]=true,--完美迅捷黄晶
+        [210681]=true,
+        [216643]=true,
+        [211107]=true,
+        [211110]=true,
 
-        --+全能
-        [220371]=true,--缺口万能钻石
-        [220372]=true,--瑕疵万能钻石
-        [220374]=true,--万能钻石
-        [220373]=true,--完美万能钻石
+        [220371]=true,
+        [220372]=true,
+        [220374]=true,
+        [220373]=true,
     },
 }
 
@@ -56,7 +52,7 @@ local function can_scrap_item(bag, slot, onlyEquip, classID)
 
     if itemLocation and itemLocation:IsValid() and C_Item.CanScrapItem(itemLocation) then
         local itemID= C_Item.GetItemID(itemLocation)
-        if Save().items[itemID] then--禁用，自动添加，物品
+        if Save().items[itemID] then
             return
         end
 
@@ -67,12 +63,12 @@ local function can_scrap_item(bag, slot, onlyEquip, classID)
         local itemLink= C_Item.GetItemLink(itemLocation)
         if itemLink then
             local itemEquipLoc, _, classID2 = select(4, C_Item.GetItemInfoInstant(itemLink))
-            if onlyEquip then--装备
+            if onlyEquip then
                 local invSlot= WoWTools_ItemMixin:GetEquipSlotID(itemEquipLoc)
                 if invSlot then
                     return itemLocation
                 end
-            elseif classID then--类型
+            elseif classID then
                 if classID== classID2 then
                     return itemLocation
                 end
@@ -94,7 +90,7 @@ local ButtonList={
                 return
             end
             for bag= Enum.BagIndex.Backpack, NUM_BAG_FRAMES+NUM_REAGENTBAG_FRAMES do
-                for slot=1, C_Container.GetContainerNumSlots(bag) do--背包数量
+                for slot=1, C_Container.GetContainerNumSlots(bag) do
                     if can_scrap_item(bag, slot, nil, 3) then
                         C_Container.UseContainerItem(bag, slot)
                         free= free-1
@@ -115,7 +111,7 @@ local ButtonList={
                 return
             end
             for bag= Enum.BagIndex.Backpack, NUM_BAG_FRAMES+NUM_REAGENTBAG_FRAMES do
-                for slot=1, C_Container.GetContainerNumSlots(bag) do--背包数量
+                for slot=1, C_Container.GetContainerNumSlots(bag) do
                     if can_scrap_item(bag, slot, true, nil) then
                         C_Container.UseContainerItem(bag, slot)
                         free= free-1
@@ -142,7 +138,7 @@ local ButtonList={
                 return
             end
             for bag= Enum.BagIndex.Backpack, NUM_BAG_FRAMES+NUM_REAGENTBAG_FRAMES do
-                for slot=1, C_Container.GetContainerNumSlots(bag) do--背包数量
+                for slot=1, C_Container.GetContainerNumSlots(bag) do
                     if can_scrap_item(bag, slot, nil, nil) then
                         C_Container.UseContainerItem(bag, slot)
                         free= free-1
@@ -179,7 +175,7 @@ local function Init_Menu(self, root)
     local tab={}
 
     for bag= Enum.BagIndex.Backpack, NUM_BAG_FRAMES+NUM_REAGENTBAG_FRAMES do
-        for slot=1, C_Container.GetContainerNumSlots(bag) do--背包数量
+        for slot=1, C_Container.GetContainerNumSlots(bag) do
             local itemLocation= can_scrap_item(bag, slot, nil, nil)
             local itemLink= itemLocation and C_Item.GetItemLink(itemLocation)
             if itemLink then
@@ -226,7 +222,6 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Scrapping.ClearExcluded'])
 
 
---打开选项界面
     root:CreateDivider()
     WoWTools_MenuMixin:OpenOptions(root, {
     name=addName,
@@ -359,7 +354,6 @@ end
 
 
 local function Init()
-    --拆解法术，提示
     ScrappingMachineFrame.ScrapButton:HookScript('OnLeave', GameTooltip_Hide)
     ScrappingMachineFrame.ScrapButton:HookScript('OnEnter', function(self)
         local spellID= C_ScrappingMachineUI.GetScrapSpellID()
@@ -372,7 +366,6 @@ local function Init()
         GameTooltip:Show()
     end)
 
-    --物品，提示
     for btn in ScrappingMachineFrame.ItemSlots.scrapButtons:EnumerateActive() do
         if (btn) then
             WoWTools_DataMixin:Hook(btn, 'RefreshIcon', function(self)
@@ -401,7 +394,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
         addName= '|TInterface\\Icons\\inv_gizmo_03:0|t'..(WoWTools_L.SCRAPPING_MACHINE_TITLE)
 
-        --添加控制面板
         WoWTools_PanelMixin:OnlyCheck({
             name= addName,
             Value= not Save().disabled,
@@ -425,7 +417,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             end
         end
 
-    elseif arg1=='Blizzard_ScrappingMachineUI' and WoWToolsPlusSave then--分解 ScrappingMachineFrame
+    elseif arg1=='Blizzard_ScrappingMachineUI' and WoWToolsPlusSave then
         Init()
         self:SetScript('OnEvent', nil)
         self:UnregisterEvent(event)

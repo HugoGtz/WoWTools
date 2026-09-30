@@ -1,8 +1,7 @@
- --冒险指南
 
 
 local function Get_Perks_Info()
-    local activitiesInfo = C_PerksActivities.GetPerksActivitiesInfo()--贸易站, 点数Blizzard_MonthlyActivities.lua
+    local activitiesInfo = C_PerksActivities.GetPerksActivitiesInfo()
     if not activitiesInfo then
         return
     end
@@ -125,6 +124,6 @@ local function Init()
 end
 
 
-function WoWTools_MainMenuMixin:Init_EJ()--冒险指南
+function WoWTools_MainMenuMixin:Init_EJ()
     Init()
 end

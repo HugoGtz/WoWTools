@@ -36,16 +36,16 @@ function WoWTools_MerchantMixin:CheckSellItem(itemID, itemLink, quality, isBound
     end
 
     if quality==0 then
-        if WoWTools_CollectionMixin:GetPet9Item(itemID, true) then--宠物兑换, wow9.0
+        if WoWTools_CollectionMixin:GetPet9Item(itemID, true) then
             return WoWTools_L.PET
 
-        elseif not Save().notSellJunk then--垃圾
+        elseif not Save().notSellJunk then
             if isBound==true then
                 return WoWTools_L.BAG_FILTER_JUNK
             else
                 local classID, subclassID = select(6, C_Item.GetItemInfoInstant(itemID))
                 if (classID==2 or classID==4) and subclassID~=0 then
-                    local isCollected = select(2, WoWTools_CollectionMixin:Item(itemID, nil, nil))--物品是否收集
+                    local isCollected = select(2, WoWTools_CollectionMixin:Item(itemID, nil, nil))
                     if isCollected==false then
                         return
                     end

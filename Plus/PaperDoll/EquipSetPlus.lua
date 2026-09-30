@@ -1,4 +1,3 @@
---装备管理，Plus
 --PaperDollFrame.lua
 local function Save()
     return WoWToolsPlusSave['Plus_PaperDoll']
@@ -45,7 +44,6 @@ local function Create_Button(btn)
         GameTooltip:Show()
     end)
 
---件数，提示
     btn.topRight= btn:CreateFontString(nil, 'ARTWORK', 'GameFontHighlightSmall2')
     btn.topRight:SetPoint('TOPRIGHT' ,-2, -2)
     btn.topRight:SetJustifyH('RIGHT')
@@ -56,7 +54,6 @@ local function Create_Button(btn)
     --btn.count:SetJustifyH('CENTER')
 
 
---新建，空
     btn.createButton= CreateFrame('Button', nil, btn, 'WoWToolsButtonTemplate')
     btn.createButton:SetSize(30,30)
     btn.createButton.texture= btn.createButton:CreateTexture()
@@ -165,7 +162,6 @@ local function Init()
 	end)
 
 
---新建 空装，按钮 .addSetButton GearSetButtonTemplate
     WoWTools_DataMixin:Hook('PaperDollEquipmentManagerPane_InitButton', function(btn, elementData)
         local count, topRight, isEquipped
 
@@ -221,6 +217,6 @@ end
 
 
 
-function WoWTools_PaperDollMixin:Init_EquipSetPlus()--装备管理，Plus
+function WoWTools_PaperDollMixin:Init_EquipSetPlus()
     Init()
 end

@@ -11,7 +11,6 @@ local function Init_Menu(self, root)
         return
     end
 
---战斗信息
     local sub=root:CreateCheckbox(WoWTools_L['COMBAT+INFO'], function()
         return not Save().button.disabled
     end, function()
@@ -19,7 +18,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Combat.TrackInfo'])
 
---重置位置
     sub:CreateButton(
         (Save().textFramePoint and '' or '|cff626262')
         ..(WoWTools_L.RESET_POSITION),
@@ -28,10 +26,8 @@ local function Init_Menu(self, root)
         WoWTools_CombatMixin:Init_TrackButton()
         return MenuResponse.Refresh
     end)
---战斗信息, 选项
     --WoWTools_CombatMixin:Init_TrackMenu(self, sub)
 
---缩放
     root:CreateDivider()
 
     sub= WoWTools_MenuMixin:Scale(self, root, function()
@@ -55,7 +51,6 @@ local function Init_Menu(self, root)
         end)
     end
 
---游戏时间
     local tab=WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Time
     sub=root:CreateCheckbox(
         tab.totalTime and WoWTools_TimeMixin:SecondsToFullTime(tab.totalTime, tab.upData)
@@ -78,7 +73,7 @@ local function Init_Menu(self, root)
         )
     end)
 
-    WoWTools_DataMixin:OpenWoWItemListMenu(self, root, 'Time')--战团，物品列表
+    WoWTools_DataMixin:OpenWoWItemListMenu(self, root, 'Time')
 
     root:CreateDivider()
     sub=root:CreateButton(
@@ -116,12 +111,12 @@ local function Init()
 
     function btn:set_texture()
         self.texture:SetAtlas(WoWTools_DataMixin.Icon[WoWTools_DataMixin.Player.Faction] or WoWTools_DataMixin.Icon['Neutral'])
-        self.texture:SetDesaturated(Save().button.disabled and true or false)--禁用/启用 TrackButton, 提示
+        self.texture:SetDesaturated(Save().button.disabled and true or false)
     end
 
 
 
-    function btn:set_Sacle_InCombat(bat)--提示，战斗中
+    function btn:set_Sacle_InCombat(bat)
         self.texture2:SetShown(bat)
         self:SetScale(bat and Save().inCombatScale or 1)
     end
@@ -160,9 +155,9 @@ local function Init()
     btn:RegisterEvent('PLAYER_REGEN_ENABLED')
     btn:RegisterEvent('NEUTRAL_FACTION_SELECT_RESULT')
 
-    btn:SetScript("OnEvent", function(self, event)--提示，战斗中, 是否在战场
+    btn:SetScript("OnEvent", function(self, event)
         if event=='PLAYER_REGEN_ENABLED' then
-            self:set_Sacle_InCombat(false)--提示，战斗中
+            self:set_Sacle_InCombat(false)
 
         elseif event=='PLAYER_REGEN_DISABLED' then
             self:set_Sacle_InCombat(true)
@@ -172,7 +167,7 @@ local function Init()
         end
     end)
 
-    btn:set_Sacle_InCombat(InCombatLockdown())--提示，战斗中  
+    btn:set_Sacle_InCombat(InCombatLockdown())
     btn:set_texture()
 
     btn:SetupMenu(Init_Menu)
@@ -191,7 +186,7 @@ panel:SetScript('OnEvent', function(self, event, arg1)
 
     WoWToolsPlusSave['ChatButton_Combat']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['ChatButton_Combat'], {
         textScale=1,
-        inCombatScale=1,--战斗中缩放
+        inCombatScale=1,
         button={
             disabled= true,
             InstanceDate={num=0, time=0, kill=0, dead=0, map=nil, onInsTime=nil},
@@ -200,13 +195,13 @@ panel:SetScript('OnEvent', function(self, event, arg1)
 
 
     WoWToolsPlusPlayerDate['CombatTimeLog']= WoWToolsPlusPlayerDate['CombatTimeLog'] or {
-        bat={num= 0, time= 0},--战斗数据
+        bat={num= 0, time= 0},
         pet={num= 0, win=0, capture=0},
         ins={num= 0, time= 0, kill=0, dead=0},
         afk={num= 0, time= 0},
     }
 
-    if not Save().button then--旧数据
+    if not Save().button then
         Save().button= {
             disabled= Save().disabledText,
             isNotClockType= Save().timeTypeText,
@@ -231,14 +226,14 @@ panel:SetScript('OnEvent', function(self, event, arg1)
     local notData= not WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Time.totalTime
                 or not WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Time.upData
 
-    if WoWTools_ChatMixin:CreateButton('Combat', WoWTools_CombatMixin.addName) then--禁用Chat Button
+    if WoWTools_ChatMixin:CreateButton('Combat', WoWTools_CombatMixin.addName) then
 
         Init()
 
         WoWTools_CombatMixin:Init_TrackButton()
 
         if Save().AllOnlineTime or notData then
-            RequestTimePlayed()--总游戏时间
+            RequestTimePlayed()
         end
 
     elseif notData then

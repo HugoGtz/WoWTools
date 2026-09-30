@@ -19,7 +19,6 @@ local function Init_Menu(self, root)
     end
 
 	local sub, sub2, num
---追踪
 	sub=root:CreateCheckbox(
 		WoWTools_L.TRACKING,
 	function()
@@ -36,7 +35,6 @@ local function Init_Menu(self, root)
 	end)
 	WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Faction.Track'])
 
---自动隐藏
 	sub2=sub:CreateCheckbox(
 		WoWTools_L['SELF_CAST_AUTO+HIDE'],
 	function()
@@ -54,7 +52,6 @@ local function Init_Menu(self, root)
 		tooltip:AddLine(WoWTools_L.AGGRO_WARNING_IN_INSTANCE)
 	end)
 
---重置位置
 	sub:CreateDivider()
 	WoWTools_MenuMixin:RestPoint(self, sub, Save().point, function()
 		Save().point=nil
@@ -65,7 +62,6 @@ local function Init_Menu(self, root)
 		)
 	end)
 
---指定
 	local new={}
 	for factionID in pairs(Save().factions) do
 		table.insert(new, factionID)
@@ -85,7 +81,6 @@ local function Init_Menu(self, root)
 	WoWTools_MenuMixin:SetRightText(sub)
 	WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Faction.TrackSelected'])
 
---指定，列表
 	for _, factionID in pairs(new) do
 		sub2=sub:CreateCheckbox(
 			WoWTools_FactionMixin:GetName(factionID),
@@ -99,7 +94,6 @@ local function Init_Menu(self, root)
 	end
 	WoWTools_MenuMixin:SetScrollMode(sub)
 
---全部清除
 	sub:CreateDivider()
 	WoWTools_MenuMixin:ClearAll(sub, function()
 		Save().factions={}
@@ -107,7 +101,6 @@ local function Init_Menu(self, root)
 	end)
 
 
---声望变化
 	root:CreateDivider()
 	sub=root:CreateCheckbox(
 		'|A:voicechat-icon-textchat-silenced:0:0|a'
@@ -149,11 +142,9 @@ local function Init_Menu(self, root)
 	end)
 
 
---打开选项界面
 	root:CreateDivider()
 	sub=WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_FactionMixin.addName})
 
---重新加载UI
     WoWTools_MenuMixin:Reload(sub)
 end
 

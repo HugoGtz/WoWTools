@@ -9,7 +9,7 @@ local MaxTabs={}
 
 
 
-local function Currency_Max(_, curID)--已达到资源上限
+local function Currency_Max(_, curID)
 
     local tab, num= {}, 0
     if curID then

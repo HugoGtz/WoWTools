@@ -1,12 +1,11 @@
 
---目标, 装备
 local function Save()
     return WoWToolsPlusSave['Plus_PaperDoll']
 end
 
 
-local KeystoneLabel--挑战, 分数
-local StatusLabel--装备，属性
+local KeystoneLabel
+local StatusLabel
 
 
 local function set_InspectPaperDollItemSlotButton_Update(frame)
@@ -14,12 +13,12 @@ local function set_InspectPaperDollItemSlotButton_Update(frame)
 
     local slot= frame:GetID()
 	local link= (WoWTools_UnitMixin:UnitExists(unit) and not Save().hide) and GetInventoryItemLink(unit, slot) or nil
-	WoWTools_DataMixin:Load(link, 'item')--加载 item quest spell
+	WoWTools_DataMixin:Load(link, 'item')
 
     --set_Gem(frame, slot, link)
 
     WoWTools_PaperDollMixin:Set_Item_Tips(frame, slot, link, false)
-    WoWTools_PaperDollMixin:Set_Slot_Num_Label(frame, slot, link and true or false)--栏位, 帐号最到物品等级
+    WoWTools_PaperDollMixin:Set_Slot_Num_Label(frame, slot, link and true or false)
     WoWTools_ItemMixin:SetItemStats(frame, link, {point=frame.icon})
     if not frame.OnEnter and not Save().hide then
         frame:SetScript('OnEnter', function(self)
@@ -88,7 +87,7 @@ local function set_InspectPaperDollItemSlotButton_Update(frame)
 end
 
 
-local function set_InspectPaperDollFrame_SetLevel()--目标,天赋 装等
+local function set_InspectPaperDollFrame_SetLevel()
     local key
     local unit= InspectFrame.unit or 'target'
     if not Save().hide and unit and WoWTools_UnitMixin:UnitExists(unit) then
@@ -119,7 +118,7 @@ local function set_InspectPaperDollFrame_SetLevel()--目标,天赋 装等
             InspectLevelText:SetText(text)
         end
 
-        local info= C_PlayerInfo.GetPlayerMythicPlusRatingSummary(unit)--挑战, 分数
+        local info= C_PlayerInfo.GetPlayerMythicPlusRatingSummary(unit)
         if info and info.currentSeasonScore and info.currentSeasonScore>0 then
             key= WoWTools_ChallengeMixin:KeystoneScorsoColor(info.currentSeasonScore,true)
         end
@@ -132,10 +131,8 @@ end
 local function Init_UI()
 
 
---显示/隐藏，按钮
     WoWTools_PaperDollMixin:Init_ShowHideButton(InspectFrame)
 
---更改, 名称大小
     function InspectLevelText:set_font_size()
         WoWTools_LabelMixin:Create(nil, {changeFont=self, size= Save().hide and 12 or 22, justifyH='CENTER'})
     end
@@ -144,7 +141,6 @@ local function Init_UI()
         InspectLevelText:set_font_size()
     end
 
---装备，属性
     StatusLabel= WoWTools_LabelMixin:Create(InspectPaperDollFrame, {size=14})
     StatusLabel:SetPoint('TOPLEFT', InspectFrameTab1, 'BOTTOMLEFT',0,-4)
 
@@ -178,11 +174,9 @@ local function Init_UI()
         self:set_status_label()
     end)
 
---挑战, 分数
     KeystoneLabel=  WoWTools_LabelMixin:Create(InspectPaperDollFrame, {size=18})
     KeystoneLabel:SetPoint('BOTTOMLEFT', 10, 5)
 
---试衣间, 按钮
     InspectPaperDollFrame.ViewButton:ClearAllPoints()
     InspectPaperDollFrame.ViewButton:SetPoint('TOPRIGHT', -5, -28)
     InspectPaperDollFrame.ViewButton:SetSize(28,28)
@@ -196,7 +190,6 @@ local function Init_UI()
         GameTooltip:Show()
     end)
 
---天赋，按钮
     InspectPaperDollItemsFrame.InspectTalents:SetSize(28,28)
     InspectPaperDollItemsFrame.InspectTalents:SetText(WoWTools_TextMixin:sub(TALENT,1))
     InspectPaperDollItemsFrame.InspectTalents:HookScript('OnLeave', GameTooltip_Hide)
@@ -207,16 +200,15 @@ local function Init_UI()
         GameTooltip:Show()
     end)
 
-    WoWTools_DataMixin:Hook('InspectPaperDollItemSlotButton_Update', function(self)--目标, 装备
+    WoWTools_DataMixin:Hook('InspectPaperDollItemSlotButton_Update', function(self)
         set_InspectPaperDollItemSlotButton_Update(self)
     end)
 
-    WoWTools_DataMixin:Hook('InspectPaperDollFrame_SetLevel', function()--目标,天赋 装等
+    WoWTools_DataMixin:Hook('InspectPaperDollFrame_SetLevel', function()
         set_InspectPaperDollFrame_SetLevel()
     end)
 
 
-    --替换，原生 出错
     function InspectGuildFrame_Update()
         local guildPoints, guildNumMembers, guildName, guildRealmName = C_PaperDollInfo.GetInspectGuildInfo(InspectFrame.unit)
         local _, guildFactionName = UnitFactionGroup(InspectFrame.unit)

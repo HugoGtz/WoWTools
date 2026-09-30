@@ -1,12 +1,10 @@
 
 local P_Save={
-    --hide=true,--显示，隐藏 Frame
-    --scale=1,--缩放
     favorites={},--{itemID=true},
-    gemLeft={},--右边，按钮
+    gemLeft={},
     gemTop={},
     gemRight={},
-    disableSpell=true,--禁用，法术按钮
+    disableSpell=true,
     gemLoc= {}--{class={['INVSLOT_LEGS']={1=gemID, 2=gemID, 3=gemID}}
 }
 
@@ -16,8 +14,7 @@ local Frame
 local Set_Gem
 
 local SpellsTab={
-    433397,--取出宝石
-    --405805,--拔出始源之石
+    433397,
 }
 
 local function Save()
@@ -31,11 +28,10 @@ end
 
 
 
-local CurTypeGemTab={}--当前，宝石，类型
+local CurTypeGemTab={}
 
 
 
---保存，slot, 数据
 local function set_save_gem(itemEquipLoc, gemLink, index)
     if not itemEquipLoc then
         return
@@ -269,7 +265,7 @@ function Set_Gem()--Blizzard_ItemSocketingUI.lua MAX_NUM_SOCKETS
                 local level= WoWTools_ItemMixin:GetItemLevel(info.hyperlink) or 0
                 local classID, subclassID, _, expacID= select(12, C_Item.GetItemInfo(info.hyperlink))
                 if classID==3
-                    and (PlayerIsTimerunning() or (WoWTools_DataMixin.Player.IsMaxLevel and WoWTools_DataMixin.ExpansionLevel== expacID or not WoWTools_DataMixin.Player.IsMaxLevel))--最高等级
+                    and (PlayerIsTimerunning() or (WoWTools_DataMixin.Player.IsMaxLevel and WoWTools_DataMixin.ExpansionLevel== expacID or not WoWTools_DataMixin.Player.IsMaxLevel))
                 then
                     local tab={
                         info= info,
@@ -335,7 +331,7 @@ function Set_Gem()--Blizzard_ItemSocketingUI.lua MAX_NUM_SOCKETS
         y=y-40
     end
 
-    x, y= -10, 0--左边
+    x, y= -10, 0
     local w, h= ItemSocketingFrame:GetSize()
     Set_Sort_Button(gemLeft)
     for _, info in pairs(gemLeft) do
@@ -369,7 +365,7 @@ function Set_Gem()--Blizzard_ItemSocketingUI.lua MAX_NUM_SOCKETS
     end
 
 
-    x, y= 10, 0--右边
+    x, y= 10, 0
     Set_Sort_Button(gemRight)
     for _, info in pairs(gemRight) do
         local btn= Frame.buttons[index] or creatd_button(index)
@@ -392,7 +388,6 @@ function Set_Gem()--Blizzard_ItemSocketingUI.lua MAX_NUM_SOCKETS
 end
 
 
---433397/取出宝石
 local function Init_Spell_Button()
     if Save().disableSpell then
         return
@@ -507,9 +502,8 @@ local function Init_Spell_Button()
 end
 
 
---宝石，数据
 local function Init_ItemSocketingFrame_Update()
-    ItemSocketingDescription:SetMinimumWidth(ItemSocketingScrollFrame:GetWidth()-36, true)--调整，宽度
+    ItemSocketingDescription:SetMinimumWidth(ItemSocketingScrollFrame:GetWidth()-36, true)
 
     local numSockets = C_ItemSocketInfo.GetNumSockets() or 0
     CurTypeGemTab={}
@@ -538,7 +532,7 @@ local function Init_ItemSocketingFrame_Update()
             ItemSocketingSocket3 or ItemSocketingFrame.SocketingContainer.Socket3
         }
 
-    for i, btn in ipairs(Sockets) do--插槽，名称
+    for i, btn in ipairs(Sockets) do
         if ( i <= numSockets ) then
             local name= C_ItemSocketInfo.GetSocketTypes(i)
             name= name and _G['EMPTY_SOCKET_'..string.upper(name)]
@@ -567,7 +561,7 @@ local function Init_ItemSocketingFrame_Update()
                 btn.rightText=WoWTools_LabelMixin:Create(btn)
                 btn.rightText:SetPoint('TOPRIGHT', btn, 'BOTTOMRIGHT')
 
-                btn.gemButton=WoWTools_ButtonMixin:Cbtn(btn, {frameType='ItemButton'})--使用过宝石，提示
+                btn.gemButton=WoWTools_ButtonMixin:Cbtn(btn, {frameType='ItemButton'})
                 btn.gemButton:SetPoint('BOTTOMLEFT', btn, 'BOTTOMRIGHT', 6, 0)
                 btn.gemButton:Hide()
                 function btn.gemButton:set_event()
@@ -635,9 +629,9 @@ local function Init_ItemSocketingFrame_Update()
                 btn.qualityTexture:SetTexture(0)
             end
 
-            local gemID--使用过宝石，提示
+            local gemID
             if itemEquipLoc then
-                gemID= set_save_gem(itemEquipLoc, gemLinkExist, i)--保存，slot, 数据
+                gemID= set_save_gem(itemEquipLoc, gemLinkExist, i)
             end
             btn.gemButton.gemID= gemID
             btn.gemButton:settings()
@@ -646,7 +640,7 @@ local function Init_ItemSocketingFrame_Update()
         end
     end
 
-    if numSockets==1 then--宝石，位置
+    if numSockets==1 then
         Sockets[1]:ClearAllPoints()
         Sockets[1]:SetPoint('BOTTOM', 0, 33)
     elseif numSockets==2 then
@@ -709,7 +703,6 @@ local function Init_Menu(self, root)
         return MenuResponse.Refresh
     end)
 
---清除左边
     num= CountTable(Save().gemLeft or {})
 
     sub=root:CreateButton(
@@ -724,7 +717,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gem.ClearColumn'])
 
---清除上面
     num= CountTable(Save().gemTop or {})
     
     sub=root:CreateButton(
@@ -739,7 +731,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gem.ClearColumn'])
 
---清除右边
     num= CountTable(Save().gemRight or {})
     
     sub=root:CreateButton(
@@ -771,7 +762,6 @@ local function Init_Menu(self, root)
 end
 
 
---总开关
 local function Init_Button_All()
     local btn= WoWTools_ButtonMixin:Cbtn(ItemSocketingFrame.TitleContainer, {
             size=22,
@@ -877,7 +867,7 @@ local function Init()
     Frame:SetScript('OnEvent', function() Set_Gem() end)
     Frame:set_event()
 
-    if ItemSocketingSocket3Left then--11.2.7 没有了 改为  ItemSocketingFrame.SocketingContainer.Socket1
+    if ItemSocketingSocket3Left then
         ItemSocketingSocket3Left:ClearAllPoints()
         ItemSocketingSocket2Left:ClearAllPoints()
         ItemSocketingSocket1Left:ClearAllPoints()
@@ -886,7 +876,7 @@ local function Init()
         ItemSocketingSocket3Right:ClearAllPoints()
     else
         for i=1, 3 do
-            local slot= ItemSocketingFrame.SocketingContainer['Socket'..i]--11.2.7才有
+            local slot= ItemSocketingFrame.SocketingContainer['Socket'..i]
             if slot then
                 WoWTools_TextureMixin:HideFrame(slot, {index=2})
                 WoWTools_TextureMixin:HideTexture(slot.RightFiligree)
@@ -897,7 +887,7 @@ local function Init()
     ItemSocketingFrame['SocketFrame-Left']:SetPoint('TOPRIGHT', ItemSocketingFrame, 'BOTTOM',0, 77)
     ItemSocketingFrame['SocketFrame-Right']:SetPoint('BOTTOMLEFT', ItemSocketingFrame, 'BOTTOM', 0, 26)
 
-    WoWTools_DataMixin:Hook('ItemSocketingFrame_Update', function(...)--宝石，数据
+    WoWTools_DataMixin:Hook('ItemSocketingFrame_Update', function(...)
         Init_ItemSocketingFrame_Update(...)
     end)
 
@@ -911,7 +901,6 @@ local function Init()
 
 
 
---Plus_Tooltip 加上的
     C_Timer.After(0.3, function()
         if not ItemSocketingDescription.textLeft then
             return
@@ -974,7 +963,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     WoWTools_GemMixin= WoWTools_GemMixin or {}--para agrupar el módulo en la página principal
     WoWTools_GemMixin.addName= addName
 
---添加控制面板
     WoWTools_PanelMixin:OnlyCheck({
         name= addName,
         tooltip= WoWTools_L['Tip.Gem.Enable'],
@@ -999,7 +987,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 end)
 
 
---镶嵌宝石，界面
 function WoWTools_MoveMixin.Events:Blizzard_ItemSocketingUI()
     ItemSocketingScrollFrame:SetPoint('BOTTOMRIGHT', -22, 90)
     ItemSocketingScrollChild:ClearAllPoints()
@@ -1010,7 +997,7 @@ function WoWTools_MoveMixin.Events:Blizzard_ItemSocketingUI()
     ItemSocketingDescription:SetAllPoints()
 
     ItemSocketingFrame:HookScript('OnSizeChanged', function()
-        ItemSocketingDescription:SetMinimumWidth(ItemSocketingScrollFrame:GetWidth()-36, true)--调整，宽度
+        ItemSocketingDescription:SetMinimumWidth(ItemSocketingScrollFrame:GetWidth()-36, true)
     end)
 
     self:Setup(ItemSocketingFrame, {
@@ -1019,10 +1006,10 @@ function WoWTools_MoveMixin.Events:Blizzard_ItemSocketingUI()
     sizeRestFunc=function(frame)
         frame:SetSize(338, 424)
         Set_Gem()
-        ItemSocketingDescription:SetMinimumWidth(ItemSocketingScrollFrame:GetWidth()-36, true)--调整，宽度
+        ItemSocketingDescription:SetMinimumWidth(ItemSocketingScrollFrame:GetWidth()-36, true)
     end, sizeUpdateFunc=function()
         Set_Gem()
-        ItemSocketingDescription:SetMinimumWidth(ItemSocketingScrollFrame:GetWidth()-36, true)--调整，宽度
+        ItemSocketingDescription:SetMinimumWidth(ItemSocketingScrollFrame:GetWidth()-36, true)
     end})
     self:Setup(ItemSocketingScrollChild, {frame=ItemSocketingFrame})
     self:Setup(ItemSocketingFrameInset, {frame=ItemSocketingFrame})

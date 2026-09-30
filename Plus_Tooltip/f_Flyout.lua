@@ -1,7 +1,6 @@
 
 
 
---法术, 弹出框
 function WoWTools_TooltipMixin:Set_Flyout(tooltip, flyoutID)
     if self:IsInCombatDisabled(tooltip)
         or not canaccessvalue(flyoutID)

@@ -102,9 +102,7 @@ end
 
 
 
---坐骑, 界面
 local function Init()
---总数
     MountJournal.MountCount.Count:SetPoint('RIGHT', -4,0)
     MountJournal.MountCount.Label:ClearAllPoints()
     MountJournal.MountCount.Label:SetPoint('RIGHT', MountJournal.MountCount.Count, 'LEFT', -4, 0)
@@ -121,7 +119,7 @@ local function Init()
         end
     end)
 
-    WoWTools_DataMixin:Hook('MountJournal_UpdateMountDisplay',  function()--坐骑
+    WoWTools_DataMixin:Hook('MountJournal_UpdateMountDisplay',  function()
         UpdateMountDisplay()
     end)
 end
@@ -139,6 +137,6 @@ end
 
 
 
-function WoWTools_CollectionMixin:Init_Mount()--坐骑 1
+function WoWTools_CollectionMixin:Init_Mount()
     Init()
 end

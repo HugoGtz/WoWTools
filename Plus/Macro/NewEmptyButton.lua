@@ -1,11 +1,9 @@
---创建，空，按钮
 
 local function Save()
     return WoWToolsPlusSave['Plus_Macro2']
 end
 
 
---新建，宏，列表
 --#############
 local MacroButtonList={
     {macro='/reload', name='reload'},--134400
@@ -17,9 +15,7 @@ local MacroButtonList={
 }
 
 
---保存，宏
 local function Save_Macro_Menu(frame, root)
---战斗中
     if WoWTools_MenuMixin:CheckInCombat(root) then
         return
     end
@@ -28,7 +24,6 @@ local function Save_Macro_Menu(frame, root)
 
     local index= selectIndex and MacroFrame:GetMacroDataIndex(selectIndex)
 
---保存
     local sub, sub2, sub3, name, icon, body, num, header, spellID, itemName, itemLink
     if index then
         name, icon, body = GetMacroInfo(index)
@@ -58,7 +53,7 @@ local function Save_Macro_Menu(frame, root)
             end
         end, {name=name, icon=icon, body=body, header=header, itemLink=itemLink, spellID=spellID})
 
-        WoWTools_MacroMixin:SetMenuTooltip(sub, WoWTools_L['Tip.Macro.Favorite'])--宏，提示
+        WoWTools_MacroMixin:SetMenuTooltip(sub, WoWTools_L['Tip.Macro.Favorite'])
     else
         root:CreateTitle(
             '|A:PetJournal-FavoritesIcon:0:0|a'
@@ -68,14 +63,12 @@ local function Save_Macro_Menu(frame, root)
     end
 
 
---保存，列表
     num=0
     for head2, tab in pairs(Save().macro) do
---新建, 列表内容
         sub2=sub:CreateButton(
             head2,
         function(data)
-            WoWTools_MacroMixin:CreateMacroNew(data.tab.name, data.tab.icon, data.tab.body)--新建，宏
+            WoWTools_MacroMixin:CreateMacroNew(data.tab.name, data.tab.icon, data.tab.body)
             return MenuResponse.Open
         end, {saveName=head2, tab=tab})
         sub2:SetTooltip(function(tooltip, description)
@@ -88,7 +81,6 @@ local function Save_Macro_Menu(frame, root)
                 tooltip:AddLine((WoWTools_L.NONE))
             end
         end)
---删除
         sub3=sub2:CreateCheckbox(
             '|A:XMarksTheSpot:0:0|a'
             ..(WoWTools_L.REMOVE),
@@ -113,12 +105,11 @@ local function Save_Macro_Menu(frame, root)
                 )
             end
         end, {head2=head2, name=tab.name, icon=tab.icon, body=tab.body})
-        WoWTools_MacroMixin:SetMenuTooltip(sub3, WoWTools_L['Tip.Macro.FavoriteRemove'])--宏，提示
+        WoWTools_MacroMixin:SetMenuTooltip(sub3, WoWTools_L['Tip.Macro.FavoriteRemove'])
         num=num+1
     end
 
     if num>1 then
---全部清除
         sub:CreateDivider()
         WoWTools_MenuMixin:ClearAll(sub, function()
             Save().macro={}
@@ -133,7 +124,6 @@ local function Init_Menu(self, root)
     if not self:IsMouseOver() then
         return
     end
---战斗中/已满
     local notMax= MacroNewButton:IsEnabled()
     if WoWTools_MenuMixin:CheckInCombat(root) then
         return
@@ -141,16 +131,13 @@ local function Init_Menu(self, root)
 
     local sub
 
---列表    
     for _, tab in pairs(MacroButtonList) do
         sub=root:CreateButton(
             '|T'..(tab.icon or 0)..':0|t'..tab.name,
         function(data)
---新建，宏
             WoWTools_MacroMixin:CreateMacroNew(data.name, data.icon, data.macro)
             return MenuResponse.Open
         end, {name=tab.name, icon=tab.icon, macro=tab.macro})
---提示
         sub:SetTooltip(function(tooltip, description)
             WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Macro.Preset'])
             tooltip:AddLine(WoWTools_MacroMixin:GetName(description.data.name, description.data.icon))
@@ -160,13 +147,11 @@ local function Init_Menu(self, root)
         sub:SetEnabled(notMax)
     end
 
---保存
     root:CreateDivider()
     Save_Macro_Menu(self, root)
 end
 
 
---创建，空，按钮
 --#############
 local function Init()
     if Save().hideBottomList then
@@ -184,7 +169,7 @@ local function Init()
         )
     end
     btn:SetScript('OnClick', function()
-        WoWTools_MacroMixin:CreateMacroNew()--新建，宏
+        WoWTools_MacroMixin:CreateMacroNew()
     end)
 
     local menu= CreateFrame('DropdownButton', 'WoWToolsMacroEmptyMenuButton', btn, 'WoWToolsMenuTemplate')
@@ -209,7 +194,7 @@ local function Init()
 end
 
 
-function WoWTools_MacroMixin:Init_AddNew_Button()--创建，空，按钮
+function WoWTools_MacroMixin:Init_AddNew_Button()
     Init()
 end
 

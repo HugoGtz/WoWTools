@@ -1,7 +1,6 @@
 
 
 local function Init()
---添加一个按钮，打开挑战界面
     local btn= CreateFrame('Button', 'WoWToolsWeeklyRewardsOpenChallengesButton', WeeklyRewardsFrame.CloseButton, 'WoWToolsButtonTemplate')
     btn.textrue= btn:CreateTexture(nil, 'BORDER')
     btn.textrue:SetAllPoints()
@@ -15,7 +14,6 @@ local function Init()
         self:SetButtonState('NORMAL')
     end)
 
---旅程
     btn= CreateFrame('Button', 'WoWToolsWeeklyRewardsOpenJournalButton', btn, 'WoWToolsButtonTemplate')
     btn.textrue= btn:CreateTexture(nil, 'BORDER')
     btn.textrue:SetAllPoints()
@@ -31,15 +29,13 @@ local function Init()
 
 
 
---移动，图片
     WoWTools_DataMixin:Hook(WeeklyRewardsFrame, 'UpdateOverlay', function(self)--Blizzard_WeeklyRewards.lua
-        if self.Overlay and self.Overlay:IsShown() then--未提取,提示
+        if self.Overlay and self.Overlay:IsShown() then
             self.Overlay:ClearAllPoints()
             self.Overlay:SetPoint('TOPLEFT', 23,-23)
         end
     end)
 
-    --未提取,提示
     if WeeklyRewardExpirationWarningDialog then
         function WeeklyRewardExpirationWarningDialog:set_hide()--GreatVaultRetirementWarningFrameMixin:OnShow()
             if not C_WeeklyRewards.HasInteraction() then

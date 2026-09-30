@@ -4,51 +4,48 @@ WoWTools_FoodMixin={}
 
 
 
---5512/治疗石 113509/魔法汉堡
 local ClassSpells={--{item=5512, alt=nil, shift=nil, ctrl=nil}
-    WARRIOR= {shift=6673},--zs 6673/战斗怒吼
+    WARRIOR= {shift=6673},
     PALADIN= {},--qs
     HUNTER= {},--lr
     ROGUE= {},--dz
-    PRIEST= {shift=21562,},--ms 21562/真言术：韧
+    PRIEST= {shift=21562,},
     DEATHKNIGHT= {},--dk
-    SHAMAN= {shift=462854},--sm 462854/天怒
-    MAGE= {item=113509, shift=1459, alt=190336},--fs 113509/魔法汉堡 190336/造餐术 190336/造餐术
-    WARLOCK= {alt=29893, shift=698, ctrl=6201},--ss 29893/制造灵魂之井 6201/制造治疗石 698/召唤仪式
+    SHAMAN= {shift=462854},
+    MAGE= {item=113509, shift=1459, alt=190336},
+    WARLOCK= {alt=29893, shift=698, ctrl=6201},
     MONK= {},--ws
-    DRUID= {shift=1126},--xd 1126/野性印记
+    DRUID= {shift=1126},
     DEMONHUNTER= {},--dh
-    EVOKER= {shift=364342},--ev 364342/青铜龙的祝福
+    EVOKER= {shift=364342},
 }
 
 
 local P_Save={
-    noUseItems={},--禁用物品
-    --onlyMaxExpansion=true,--仅本版本物品
+    noUseItems={},
     borderAlpha= 0,
     bgAlpha=0.5,
     olnyUsaItem=true,
     numLine=12,
     class={
         [0]={
-            [1]=true,--药水
-            [2]=true,--药剂
-            [3]=true,--合计
-            [5]=true,--食物
+            [1]=true,
+            [2]=true,
+            [3]=true,
+            [5]=true,
             --[7]=false,
-            --[8]=false,--其它
         },
         [15]={
             [4]=true,
         }
     },
     addItems={
-        [113509]=true,--魔法汉堡
-        [80610]=true,--魔法布丁
-        [65499]=true,--魔法蛋糕
-        [43523]=true,--魔法酪饼
-        [43518]=true,--魔法馅饼
-        [5512]=true,--治疗石
+        [113509]=true,
+        [80610]=true,
+        [65499]=true,
+        [43523]=true,
+        [43518]=true,
+        [5512]=true,
     },
     DisableClassID={
         [1]=true,
@@ -81,12 +78,12 @@ end
 
 
 local PaneIDs={
-    [113509]=1,--魔法汉堡
-    [80610]=1,--魔法布丁
-    [65499]=1,--魔法蛋糕
-    [43523]=1,--魔法酪饼
-    [43518]=1,--魔法馅饼
-    [5512]=1,--治疗石
+    [113509]=1,
+    [80610]=1,
+    [65499]=1,
+    [43523]=1,
+    [43518]=1,
+    [5512]=1,
 }
 
 

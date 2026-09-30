@@ -3,14 +3,13 @@ local function Save()
 end
 
 
---num 以金为单位
 local function Save_Value(num)
     num= num or Save().autoSaveMoney
     if num then
         num= num *10000
         local money= GetMoney()-num
         if money>0 then
-            return money--铜
+            return money
         end
     end
 end
@@ -46,7 +45,6 @@ local function Save_Tooltip(tooltip, num)
     )
 end
 
---自动存钱
 local function Save_Money(num)
     local money= C_Bank.CanDepositMoney(Enum.BankType.Account)
                 and Save_Value(num)
@@ -69,7 +67,6 @@ local function Save_Money(num)
 end
 
 
---WITHDRAW = "填充";
 local function Out_Value(num)
     num= num or Save().autoOutMoney
     if num then
@@ -77,7 +74,7 @@ local function Out_Value(num)
         local bank= C_Bank.FetchDepositedMoney(Enum.BankType.Account) or 0
         local money= num-GetMoney()
         if money>0 and bank>=money then
-            return money--铜
+            return money
         end
     end
 end
@@ -115,7 +112,6 @@ local function Out_Tooltip(tooltip, num)
     )
 end
 
---自动填充
 local function Out_Money(num)
     local money= C_Bank.CanWithdrawMoney(Enum.BankType.Account)
                 and Out_Value(num)
@@ -137,7 +133,6 @@ local function Out_Money(num)
 end
 
 
---存钱
 local function Init_Save_Menu(self, root)
     if not C_Bank.CanDepositMoney(Enum.BankType.Account) then
         root:CreateTitle('|cff606060'..(WoWTools_L.DEPOSIT))
@@ -146,7 +141,6 @@ local function Init_Save_Menu(self, root)
 
     local sub, sub2
 
---存钱
     local autoSub=root:CreateButton(
         Save_Text(),
     function()
@@ -170,7 +164,6 @@ local function Init_Save_Menu(self, root)
         Save_Tooltip(tooltip)
     end)
 
---自动存钱
     local deposit= Save().autoSaveMoney or 500
     sub=autoSub:CreateCheckbox(
         '|cff00ccff'
@@ -189,7 +182,6 @@ local function Init_Save_Menu(self, root)
         end
     end)
 
---自定义数量
     --autoSub:CreateSpacer()
     sub=WoWTools_MenuMixin:CreateSlider(autoSub, {
         getValue=function()
@@ -221,7 +213,6 @@ local function Init_Save_Menu(self, root)
     autoSub:CreateSpacer()
 
 
---全部存钱
     sub=root:CreateButton(
         '|cff00ccff'
         ..(WoWTools_L['ALL+DEPOSIT~2']),
@@ -243,7 +234,6 @@ local function Init_Save_Menu(self, root)
         )
     end)
 
---存钱 100, 500, 1000, 5000, 10000
     for _, num in pairs({100000,50000, 10000,5000, 1000, 500, 100}) do
         sub2= sub:CreateButton(
             WoWTools_DataMixin:MK(num, 0)
@@ -278,7 +268,6 @@ local function Init_Save_Menu(self, root)
 end
 
 
---提取
 local function Init_Out_Menu(self, root)
     if not C_Bank.CanWithdrawMoney(Enum.BankType.Account) then
         root:CreateTitle('|cff606060'..(WoWTools_L['WITHDRAW~4']))
@@ -287,7 +276,6 @@ local function Init_Out_Menu(self, root)
 
     local sub, sub2
 
---提取
     local autoSub=root:CreateButton(
         Out_Text(),
     function()
@@ -311,7 +299,6 @@ local function Init_Out_Menu(self, root)
         Out_Tooltip(tooltip)
     end)
 
---自动提取
     local out= Save().autoOutMoney or 500
     sub=autoSub:CreateCheckbox(
         WoWTools_ColorMixin:SetStringColor(
@@ -331,7 +318,6 @@ local function Init_Out_Menu(self, root)
         end
     end)
 
---自定义数量
     --autoSub:CreateSpacer()
     sub=WoWTools_MenuMixin:CreateSlider(autoSub, {
         getValue=function()
@@ -363,7 +349,6 @@ local function Init_Out_Menu(self, root)
     autoSub:CreateSpacer()
 
 
---全部提取
     sub=root:CreateButton(
         WoWTools_ColorMixin:SetStringColor(WoWTools_L['ALL+DEPOSIT']),
     function()
@@ -387,7 +372,6 @@ local function Init_Out_Menu(self, root)
         )
     end)
 
---填充 100, 500, 1000, 5000, 10000
     for _, num in pairs({100000,50000, 10000,5000, 1000, 500, 100}) do
         sub2= sub:CreateButton(
             WoWTools_DataMixin:MK(num, 0)
@@ -451,7 +435,6 @@ local function Init_Menu(self, root)
 
     local sub, sub2
 
---过滤器
     local num= CountTable(Save().filterSaveMoney or {})
     root:CreateDivider()
     sub=root:CreateButton(
@@ -460,7 +443,6 @@ local function Init_Menu(self, root)
     function()
         return MenuResponse.Open
     end)
---我
     sub2=sub:CreateCheckbox(
         WoWTools_UnitMixin:GetPlayerInfo(nil, WoWTools_DataMixin.Player.GUID, nil, {faction=WoWTools_DataMixin.Player.Faction, reName=true,reRealm=true, level=WoWTools_DataMixin.Player.Level}),
     function()
@@ -470,7 +452,6 @@ local function Init_Menu(self, root)
         self:settings()
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Bank.MoneyFilter'])
---战团
     for guid, wow in pairs(WoWToolsPlus_WoWDate) do
         if guid~=WoWTools_DataMixin.Player.GUID
             and wow.region== WoWTools_DataMixin.Player.Region
@@ -487,7 +468,6 @@ local function Init_Menu(self, root)
         end
     end
     sub:CreateDivider()
---勾选所有
     sub2=sub:CreateCheckbox(
         WoWTools_L.EVENTTRACE_BUTTON_ENABLE_FILTERS,
     function()
@@ -507,7 +487,6 @@ local function Init_Menu(self, root)
         self:settings()
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Bank.MoneyFilterAll'])
---撤选所有
     sub2=sub:CreateCheckbox(
         WoWTools_L.EVENTTRACE_BUTTON_DISABLE_FILTERS,
     function()
@@ -524,7 +503,6 @@ local function Init_Menu(self, root)
 
 
 
---打开选项界面
     root:CreateDivider()
     sub=WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_BankMixin.addName})
 end
@@ -613,9 +591,9 @@ local function Init()
     end)
     BankFrame:HookScript('OnShow', function()
         if
-            C_Bank.FetchBankLockedReason(Enum.BankType.Account)==nil--锁定
-            and C_Bank.DoesBankTypeSupportMoneyTransfer(Enum.BankType.Account)--不可用
-            and not Save().filterSaveMoney[WoWTools_DataMixin.Player.GUID]--过滤GUID
+            C_Bank.FetchBankLockedReason(Enum.BankType.Account)==nil
+            and C_Bank.DoesBankTypeSupportMoneyTransfer(Enum.BankType.Account)
+            and not Save().filterSaveMoney[WoWTools_DataMixin.Player.GUID]
             and not IsModifierKeyDown()
         then
             if not Save_Money() then
@@ -624,7 +602,6 @@ local function Init()
         end
     end)
 
---提升，有时头像会 覆盖
     BankPanel.MoneyFrame:SetFrameStrata('HIGH')
     Init=function()end
 end

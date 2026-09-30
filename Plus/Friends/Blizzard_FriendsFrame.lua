@@ -1,4 +1,3 @@
---好友列表, 模块
 local function Save()
     return WoWToolsPlusSave['Plus_FriendsList']
 end
@@ -174,9 +173,7 @@ end
 
 local TitleIconCache={}--[clientProgram]= texture
 
---处理，好友，在线信息
 local function Set_Friend_Event(self, _, friendIndex)
---战斗中，不显示，好友，提示
     if (not Save().showInCombatFriendInfo and InCombatLockdown() and IsInInstance()) then
         self.tips=nil
         return
@@ -186,7 +183,7 @@ local function Set_Friend_Event(self, _, friendIndex)
 
     if not accountInfo
         or (
-            not Save().allFriendInfo--仅限，WoW，好友
+            not Save().allFriendInfo
             and accountInfo.gameAccountInfo.isOnline
             and (
                     accountInfo.gameAccountInfo.clientProgram ~= BNET_CLIENT_WOW
@@ -194,14 +191,14 @@ local function Set_Friend_Event(self, _, friendIndex)
                     or not accountInfo.gameAccountInfo.isInCurrentRegion
                 )
             )
-        or (not accountInfo.isFavorite and Save().showFriendInfoOnlyFavorite)--仅限收藏好友
+        or (not accountInfo.isFavorite and Save().showFriendInfoOnlyFavorite)
     then
         return
     end
 
-    local text= ((accountInfo.note and accountInfo.note:gsub(' ', '')~='') and accountInfo.note or accountInfo.accountName or accountInfo.battleTag or '')--备注 或名称 战网名称
+    local text= ((accountInfo.note and accountInfo.note:gsub(' ', '')~='') and accountInfo.note or accountInfo.accountName or accountInfo.battleTag or '')
     text= '|cff00ccff['..GetBNPlayerLink(accountInfo.accountName, text, accountInfo.bnetAccountID, 0, 0, 0)..'] '
-    if accountInfo.gameAccountInfo.isOnline then--是不在线
+    if accountInfo.gameAccountInfo.isOnline then
         if accountInfo.isAFK or accountInfo.gameAccountInfo.isGameAFK then
             text= text..'|T'..FRIENDS_TEXTURE_AFK..':0|t'
         elseif accountInfo.isDND or accountInfo.gameAccountInfo.isGameBusy then
@@ -213,7 +210,7 @@ local function Set_Friend_Event(self, _, friendIndex)
         text= text..'|T'..FRIENDS_TEXTURE_OFFLINE..':0|t'
     end
 
-    if accountInfo.gameAccountInfo.characterLevel and accountInfo.gameAccountInfo.characterLevel>0 and accountInfo.gameAccountInfo.characterLevel~= GetMaxLevelForLatestExpansion() then--角色等级
+    if accountInfo.gameAccountInfo.characterLevel and accountInfo.gameAccountInfo.characterLevel>0 and accountInfo.gameAccountInfo.characterLevel~= GetMaxLevelForLatestExpansion() then
         text= text..'|cnGREEN_FONT_COLOR:'..accountInfo.gameAccountInfo.characterLevel..'|r '
     end
 
@@ -300,7 +297,7 @@ local function Set_Friend_Event(self, _, friendIndex)
 end
 
 
-local function Init()--好友列表, 初始化
+local function Init()
     OptionText= (WoWTools_L.SETTINGS).."|T%s:0:|t %s"
     RegionNames = {
         [1] = WoWTools_L.NORTH_AMERICA,
@@ -309,7 +306,7 @@ local function Init()--好友列表, 初始化
         [4] = WoWTools_L.TAIWAN,
         [5] = WoWTools_L.CHINA,
     }
-    FriendsFrameStatusDropdown:SetSize(58, 25)--原生，有点问题
+    FriendsFrameStatusDropdown:SetSize(58, 25)
 
     FriendsButton= CreateFrame('DropdownButton', 'WoWToolsFriendsMenuButton', FriendsListFrame, 'WoWToolsMenu3Template')
 
@@ -320,7 +317,6 @@ local function Init()--好友列表, 初始化
 
     FriendsButton.playerRealmID = GetRealmID()
 
---处理，好友，在线信息
     FriendsButton:SetScript('OnEvent', Set_Friend_Event)
 
 
@@ -336,7 +332,6 @@ local function Init()--好友列表, 初始化
 
 
     --#######
-    --好友列表
     --#######
 
     function FriendsButton:set_status(showPrint)
@@ -406,7 +401,6 @@ local function Init()--好友列表, 初始化
     FriendsButton:set_status(true)
 
 
---好友PLUS FriendsFrame.lua
      WoWTools_DataMixin:Hook('FriendsFrame_UpdateFriendButton', function(self)
         if Save().disabledFriendPlus then
             return
@@ -423,22 +417,21 @@ local function Init()--好友列表, 初始化
                 self.info:SetText(text)
             end
 
-        elseif self.buttonType == FRIENDS_BUTTON_TYPE_BNET then--2战网                
+        elseif self.buttonType == FRIENDS_BUTTON_TYPE_BNET then
             local accountInfo = C_BattleNet.GetFriendAccountInfo(self.id)
             if not accountInfo then
                 return
             end
-            if accountInfo.note and accountInfo.note:gsub(' ','')~='' then--备注，提示
+            if accountInfo.note and accountInfo.note:gsub(' ','')~='' then
                 self.name:SetText(accountInfo.accountName..' ('..accountInfo.note..')')
             end
-            if not accountInfo.gameAccountInfo.isInCurrentRegion then--不在，当前地区
+            if not accountInfo.gameAccountInfo.isInCurrentRegion then
                 if accountInfo.gameAccountInfo.regionID and RegionNames[accountInfo.gameAccountInfo.regionID] then
                     self.info:SetText('|cnWARNING_FONT_COLOR:'..RegionNames[accountInfo.gameAccountInfo.regionID])
                 end
                 return
             elseif not accountInfo.gameAccountInfo.isOnline then--or accountInfo.gameAccountInfo.wowProjectID~=WOW_PROJECT_ID then
                 return
---不同版本 WOW PROJECT ID FriendsListButtonMixin:OnEnter()
             elseif accountInfo.gameAccountInfo.clientProgram ~= BNET_CLIENT_WOW or accountInfo.gameAccountInfo.wowProjectID~= WOW_PROJECT_ID then
                 if accountInfo.gameAccountInfo.wowProjectID and accountInfo.gameAccountInfo.clientProgram then
                     self.info:SetText('|cnWARNING_FONT_COLOR:'..accountInfo.gameAccountInfo.clientProgram.. accountInfo.gameAccountInfo.wowProjectID)
@@ -448,12 +441,12 @@ local function Init()--好友列表, 初始化
 
             local text=''
 
-            if accountInfo.gameAccountInfo.characterLevel and accountInfo.gameAccountInfo.characterLevel>0 and accountInfo.gameAccountInfo.characterLevel~= GetMaxLevelForLatestExpansion() then--角色等级
+            if accountInfo.gameAccountInfo.characterLevel and accountInfo.gameAccountInfo.characterLevel>0 and accountInfo.gameAccountInfo.characterLevel~= GetMaxLevelForLatestExpansion() then
                 text= text..'|cnGREEN_FONT_COLOR:'..accountInfo.gameAccountInfo.characterLevel..'|r '
             end
             text= text.. WoWTools_UnitMixin:GetPlayerInfo(nil, accountInfo.gameAccountInfo.playerGuid, nil, {reName=true, reRealm=true, faction=accountInfo.gameAccountInfo.factionName })
 
-            if accountInfo.gameAccountInfo.isOnline and accountInfo.gameAccountInfo.areaName then--区域
+            if accountInfo.gameAccountInfo.isOnline and accountInfo.gameAccountInfo.areaName then
                 text= text..' '..accountInfo.gameAccountInfo.areaName
             end
             if accountInfo.gameAccountInfo.playerGuid then
@@ -467,7 +460,6 @@ local function Init()--好友列表, 初始化
      end)
 
 
-    --查询, 名单列表
     local function set_WhoList_Update(scrollBox)
         scrollBox= scrollBox or WhoFrame.ScrollBox
         if not scrollBox:HasView() then
@@ -569,7 +561,7 @@ local function Init()--好友列表, 初始化
                     if info.fullName==player then
                         btn.Name:SetText('|A:common-icon-rotateright:0:0|a'..(WoWTools_L.COMBATLOG_FILTER_STRING_ME)..'|A:common-icon-rotateleft:0:0|a')
                     else
-                        local nameText= WoWTools_UnitMixin:GetIsFriendIcon(nil, nil, info.fullName)--检测, 是否好友
+                        local nameText= WoWTools_UnitMixin:GetIsFriendIcon(nil, nil, info.fullName)
                         if nameText then
                             nameText= nameText..info.fullName
                             if info.fullName==player then
@@ -603,7 +595,6 @@ local function Init()--好友列表, 初始化
         set_WhoList_Update(self)
     end)
 
-    --WoWTools_DataMixin:Hook('WhoList_InitButton', function(btn, data)可用
 
     FriendsFrame:HookScript('OnShow', function(self)
         local isConnected= BNConnected()
@@ -622,7 +613,6 @@ local function Init()--好友列表, 初始化
 
 
 
---屏蔽列表 FriendsIgnoreListMixin
         WoWTools_DataMixin:Hook('IgnoreList_InitButton', function(btn, info)
         if btn.indexLable then
             btn.indexLable:SetText(btn.index or '')

@@ -1,4 +1,3 @@
---播放, 事件声音
 local function Save()
     return WoWToolsPlusSave['ChatButton_HyperLink'] or {}
 end
@@ -12,7 +11,7 @@ local TimerType, Timer0, Timer1, Timer2, Timer3, Timer4
 
 
 
-local function Set_PlayerSound()--事件, 声音
+local function Set_PlayerSound()
     if not Save().setPlayerSound then
         return
     end
@@ -128,7 +127,7 @@ end
 local function Init(btn)
     local enabled= Save().setPlayerSound
 
-    WoWTools_DataMixin.IsSetPlayerSound= enabled--播放, 事件声音
+    WoWTools_DataMixin.IsSetPlayerSound= enabled
 
     if enabled then
         Init_Settings()

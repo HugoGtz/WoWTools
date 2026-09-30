@@ -1,4 +1,3 @@
---商站 Blizzard_PerksProgramElements.lua
 
 
 
@@ -44,14 +43,12 @@ local function Set_ItemType(btn, itemInfo)
                 elseif itemType then
                     text= WoWTools_TextMixin:CN(itemType)
                 end
-                --不可装备
                 if not C_Item.IsEquippableItem(itemID) then
                     hex= '|cff808080'
                 end
             end
             text= text or _G[itemEquipLoc] or (WoWTools_L.ITEM_COSMETIC)
 
---不可幻化
             if not hex and select(3, WoWTools_CollectionMixin:Item(itemID))==false then
                 hex= '|cff808080'
             else
@@ -72,7 +69,6 @@ end
 
 
 function WoWTools_ItemMixin.Events:Blizzard_PerksProgram()
---左边，列表
     WoWTools_DataMixin:Hook( PerksProgramProductButtonMixin, 'OnLoad', function(btn)
         if btn:HasSecretValues() then
             return
@@ -80,7 +76,6 @@ function WoWTools_ItemMixin.Events:Blizzard_PerksProgram()
 
         Create_ItemTypeLabel(btn)
 
-    --双击， 移队/加入购物车
         btn:SetScript('OnDoubleClick', function(b)
             b.ContentsContainer.CartToggleButton:Click()
         end)
@@ -102,12 +97,10 @@ function WoWTools_ItemMixin.Events:Blizzard_PerksProgram()
     end)
     Create_ItemTypeLabel(PerksProgramFrame.ProductsFrame.ProductsScrollBoxContainer.PerksProgramHoldFrame.FrozenProductContainer.ProductButton)
 
---左边，底部
     --WoWTools_DataMixin:Hook(PerksProgramFrozenProductButtonMixin, 'SetItemInfo', function(itemInfo)
 
 
 
---右边，列表
     WoWTools_DataMixin:Hook(PerksProgramScrollItemDetailsMixin, 'InitItem', function(frame, data)
          WoWTools_ItemMixin:SetupInfo(frame, {itemID=data.itemID, point=frame.Icon})
     end)

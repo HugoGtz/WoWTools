@@ -1,4 +1,3 @@
---点击移动
 local function Save()
     return WoWToolsPlusSave['Plus_PetBattle2'].ClickMoveButton
 end
@@ -210,7 +209,6 @@ local function Init_Menu(self, root)
     local sub, sub2
     local col= InCombatLockdown() and '|cnWARNING_FONT_COLOR:' or ''
 
---点击移动
     sub=root:CreateCheckbox(
         col
         ..CVarNameTabs['autoInteract'],
@@ -261,15 +259,12 @@ local function Init_Menu(self, root)
     Init_ClickToMove_Menu(self, sub)
 
 
---点击移动, 镜头跟随模式
     root:CreateTitle(WoWTools_L.MOUSE_LABEL)
     Init_CVar_Menu(self, root, 'cameraSmoothTrackingStyle', col)
 
---移动，镜头跟随模式
     root:CreateTitle(WoWTools_L.CAMERA_LABEL)
     Init_CVar_Menu(self, root, 'cameraSmoothStyle', col)
 
---打开选项界面
     root:CreateDivider()
     sub=  WoWTools_MenuMixin:OpenOptions(root, {
             category=WoWTools_PetBattleMixin.Category,
@@ -277,7 +272,6 @@ local function Init_Menu(self, root)
             name2= WoWTools_PetBattleMixin.addName3
         })
 
---缩放
     WoWTools_MenuMixin:Scale(self, sub, function()
         return Save().Scale or 1
     end, function(value)
@@ -308,7 +302,6 @@ local function Init_Menu(self, root)
     end)
 
     sub:CreateDivider()
---重置
     sub:CreateButton(
         (WoWTools_L.RESET),
     function()
@@ -369,7 +362,7 @@ local function Init_Button()
         self:ClearAllPoints()
         if Save().PlayerFrame then
             local contextual= PlayerFrame_GetPlayerFrameContentContextual()
-            if contextual.PrestigePortrait:GetScale()~=0.6 and not InCombatLockdown() then--PlayerFranme.lua中有设置过了，这里就不重复设置了
+            if contextual.PrestigePortrait:GetScale()~=0.6 and not InCombatLockdown() then
                 contextual.PrestigePortrait:SetScale(0.6)
                 contextual.PrestigeBadge:SetScale(0.6)
             end

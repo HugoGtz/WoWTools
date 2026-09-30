@@ -5,16 +5,15 @@ local P_Save={
     },
     scale= 1,
     strata='MEDIUM',
-    --isVertical=nil,--方向, 竖
 
-    borderAlpha=0,--外框，透明度
+    borderAlpha=0,
     bgAlpha=0,
 
     pointX=0,
-    anchorMenuIndex=1,--菜单位置 下，上，左，右
-    setChatFrameLeft=nil,--放到聊天框左边
+    anchorMenuIndex=1,
+    setChatFrameLeft=nil,
 
-    disabledTooltiip=nil,--禁用提示
+    disabledTooltiip=nil,
 
 }
 
@@ -42,7 +41,6 @@ local function Init_Menu(self, root)
     end
 
     local sub, sub2
---缩放
     WoWTools_MenuMixin:Scale(self, root, function()
         return Save().scale
     end, function(value)
@@ -50,7 +48,6 @@ local function Init_Menu(self, root)
         self:settings()
     end)
 
---显示背景
     sub=WoWTools_MenuMixin:BgAplha(root, function()
         return Save().bgAlpha or 0
     end, function(value)
@@ -62,7 +59,6 @@ local function Init_Menu(self, root)
         self:set_backgroud()
     end)
 
---职业颜色
     sub:CreateSpacer()
     sub2=sub:CreateCheckbox(
         WoWTools_L.CLASS_COLORS,
@@ -84,7 +80,6 @@ local function Init_Menu(self, root)
         return MenuResponse.Refresh
     end)
 
---外框，透明度
     sub=root:CreateButton(
         '|A:bag-reagent-border:0:0|a'..(WoWTools_L.EMBLEM_BORDER),
     function()
@@ -93,7 +88,6 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetRightText(sub)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Chat.Border'])
 
---Border 透明度
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
@@ -136,7 +130,6 @@ local function Init_Menu(self, root)
     end)
 
 
---方向, 竖
     sub=root:CreateCheckbox(
         '|A:bags-greenarrow:0:0|a'
         ..(WoWTools_L.HUD_EDIT_MODE_SETTING_BAGS_DIRECTION),
@@ -151,7 +144,6 @@ local function Init_Menu(self, root)
 
 
 
---菜单位置
     local textTab={
       '|cnGREEN_FONT_COLOR:'..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN),
       WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP,
@@ -177,7 +169,6 @@ local function Init_Menu(self, root)
         end)
     end
 
---HUD提示信息
 
     sub=root:CreateCheckbox(
         WoWTools_L.HUD_EDIT_MODE_HUD_TOOLTIP_LABEL,
@@ -208,7 +199,6 @@ local function Init_Menu(self, root)
         tooltip:AddLine('SetParent '..'|cnGREEN_FONT_COLOR:'..self:GetParent():GetName())
     end)
 --WoWTools_Join(HUD_EDIT_MODE_CHAT_FRAME_LABEL, HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_DOWN),
---放到聊天框左边
 
     sub=root:CreateCheckbox(
         WoWTools_L.HUD_EDIT_MODE_CHAT_FRAME_LABEL,
@@ -224,7 +214,6 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Chat.ChatFrameLeft'])
 
 
---移过图标
     sub=root:CreateCheckbox(
         '|A:newplayertutorial-drag-cursor:0:0|a'
         ..(WoWTools_L['ENTER_LFG+EMBLEM_SYMBOL']),
@@ -240,11 +229,9 @@ local function Init_Menu(self, root)
 
 
 
---打开选项界面
     root:CreateDivider()
     sub= WoWTools_ChatMixin:Open_SettingsPanel(root, nil)
 
-    --重置位置
     WoWTools_MenuMixin:RestPoint(self, sub, Save().Point, function()
         Save().Point=nil
         self:settings()
@@ -303,7 +290,7 @@ local function Init()
     WoWTools_TextureMixin:SetEditBox(SELECTED_DOCK_FRAME.editBox, {alpha=1})
 
     function btn:settings()
-        if Save().isVertical then--方向, 竖
+        if Save().isVertical then
             self:SetSize(30,10)
         else
             self:SetSize(10,30)
@@ -366,7 +353,7 @@ local function Init()
         ResetCursor()
     end)
     btn:SetScript("OnMouseDown", function(self, d)
-        if IsAltKeyDown() and d=='RightButton' and self:IsMovable() then--移动光标
+        if IsAltKeyDown() and d=='RightButton' and self:IsMovable() then
             SetCursor('UI_MOVE_CURSOR')
             self:CloseMenu()
         end

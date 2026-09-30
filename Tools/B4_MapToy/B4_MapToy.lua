@@ -1,37 +1,35 @@
 
---https://www.wowhead.com/cn/spell=431280/瞬息全战团地图
 local SpellID= 431280
 
 local Tab={
-    --{itemID=228412, achievements={16334, 19309, 17766, 16761, 17739, 16363, 16336, 15394}},--巨龙群岛探路者 侦察地图：巨龙群岛的天空
 
-    {itemID=187869, achievements={14663, 14303, 14304, 14305, 14306}},--暗影界
+    {itemID=187869, achievements={14663, 14303, 14304, 14305, 14306}},
 
-    {itemID=187875, achievements={10665,10666, 10667, 10668, 10669, 11543}},--破碎群岛
+    {itemID=187875, achievements={10665,10666, 10667, 10668, 10669, 11543}},
 
-    {itemID=187900, achievements={12558, 12556, 13776, 12557, 12559, 13712, 12560, 12561}},--库尔提拉斯和赞达拉 侦察地图：库尔提拉斯和赞达拉的奇景
+    {itemID=187900, achievements={12558, 12556, 13776, 12557, 12559, 13712, 12560, 12561}},
 
-    {itemID=187895, achievements={8938, 8939, 8940, 8941, 8937, 8942, 10260}},--德拉诺
+    {itemID=187895, achievements={8938, 8939, 8940, 8941, 8937, 8942, 10260}},
 
-    {itemID=187896, achievements={6977, 6975, 6976, 6979, 6351, 6978, 6969}},--潘达利亚旅行指南
+    {itemID=187896, achievements={6977, 6975, 6976, 6979, 6351, 6978, 6969}},
 
-    {itemID=187897, achievements={4864, 4863, 4866, 4865, 4825}},--大灾变
+    {itemID=187897, achievements={4864, 4863, 4866, 4865, 4825}},
 
-    {itemID=187898, achievements={1267, 1264, 1268, 1269, 1265, 1266, 1263, 1457, 1270}},--诺森德
+    {itemID=187898, achievements={1267, 1264, 1268, 1269, 1265, 1266, 1263, 1457, 1270}},
 
-    {itemID=187899, achievements={865, 862, 866, 843, 864, 867, 863}},--外域
+    {itemID=187899, achievements={865, 862, 866, 843, 864, 867, 863}},
 
 }
 
 if WoWTools_DataMixin.Player.Faction=='Alliance' then
     --LM
-    table.insert(Tab, {itemID=150743, achievements={736, 842, 750, 851, 857, 855, 853, 856, 850, 845, 848, 852, 854, 847, 728, 849, 844, 4996, 846, 861, 860}})--卡利姆多
-    table.insert(Tab, {itemID=150746, achievements={858, 859, 627, 776, 775, 768, 765, 802, 782, 766, 772, 777, 779, 770, 774, 780, 769, 773, 778, 841, 4995, 761, 771, 781, 868}})--东部王国
+    table.insert(Tab, {itemID=150743, achievements={736, 842, 750, 851, 857, 855, 853, 856, 850, 845, 848, 852, 854, 847, 728, 849, 844, 4996, 846, 861, 860}})
+    table.insert(Tab, {itemID=150746, achievements={858, 859, 627, 776, 775, 768, 765, 802, 782, 766, 772, 777, 779, 770, 774, 780, 769, 773, 778, 841, 4995, 761, 771, 781, 868}})
 
 elseif WoWTools_DataMixin.Player.Faction=='Horde' then
     --BL
-    table.insert(Tab, {itemID=150744, achievements={736, 842, 750, 851, 857, 855, 853, 856, 850, 845, 848, 852, 854, 847, 728, 849, 844, 4996, 846, 861, 860}})--卡利姆多
-    table.insert(Tab, {itemID=150745, achievements={858, 859, 627, 776, 775, 768, 765, 802, 782, 766, 772, 777, 779, 770, 774, 780, 769, 773, 778, 841, 4995, 761, 771, 781, 868}})--东部王国
+    table.insert(Tab, {itemID=150744, achievements={736, 842, 750, 851, 857, 855, 853, 856, 850, 845, 848, 852, 854, 847, 728, 849, 844, 4996, 846, 861, 860}})
+    table.insert(Tab, {itemID=150745, achievements={858, 859, 627, 776, 775, 768, 765, 802, 782, 766, 772, 777, 779, 770, 774, 780, 769, 773, 778, 841, 4995, 761, 771, 781, 868}})
 end
 
 
@@ -70,10 +68,10 @@ local function Is_Completed(tab)
         local _, name, _, _, _, _, _, _, _, icon, _, _, wasEarnedByMe= GetAchievementInfo(achievementID)
         if name then
             if not wasEarnedByMe then
-                num= num+1--没完成
+                num= num+1
             end
         else
-            isNotChecked=true--没发现，数据
+            isNotChecked=true
         end
         table.insert(new, {
             achievementID= achievementID,
@@ -85,9 +83,9 @@ local function Is_Completed(tab)
 
     return {
         itemID= tab.itemID,
-        hasToy= C_ToyBox.GetToyInfo(tab.itemID) and PlayerHasToy(tab.itemID) or C_Item.GetItemCount(tab.itemID)>0,--没收集 ==false
-        num=num,--没完成，数量
-        isNotChecked=isNotChecked,--没数据 ==nil
+        hasToy= C_ToyBox.GetToyInfo(tab.itemID) and PlayerHasToy(tab.itemID) or C_Item.GetItemCount(tab.itemID)>0,
+        num=num,
+        isNotChecked=isNotChecked,
         data=new,
     }
 end
@@ -296,7 +294,6 @@ local function Init()
         GameTooltip:Show()
     end
 
---CD 主图标冷却
     function btn:set_cool()
         WoWTools_CooldownMixin:SetFrame(self, {
             itemID=self.itemID,
@@ -319,7 +316,7 @@ local function Init()
         end
     end
 
-    function btn:settings(itemID)--设置，随机值
+    function btn:settings(itemID)
         if not self:CanChangeAttribute() then
             self:RegisterEvent('PLAYER_REGEN_ENABLED')
             return
@@ -332,7 +329,7 @@ local function Init()
         else
             self:SetAttribute("type1", "spell")
             spellID= SpellID
-            spellName= C_Spell.GetSpellName(spellID) or (LOCALE_zhCN and '瞬息全战团地图') or SpellID
+            spellName= C_Spell.GetSpellName(spellID) or SpellID
         end
         self:SetAttribute('toy1', itemID)
         self:SetAttribute('spell1', spellName or SpellID)
@@ -380,7 +377,6 @@ end
 
 
 --###########
---加载保存数据
 --###########
 local panel= CreateFrame("Frame")
 panel:RegisterEvent("ADDON_LOADED")
@@ -396,7 +392,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 maxLevelIsDisabled=true,
             })
 
---旧数据
             Save().autoAddDisabled= nil
 
             addName= '|A:Taxi_Frame_Yellow:0:0|a'..(WoWTools_L.ADVENTURE_MAP_TITLE)

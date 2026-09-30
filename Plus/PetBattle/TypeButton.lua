@@ -120,7 +120,6 @@ local function Init_Buttons()
         end
     end
 
---显示背景 Background
     WoWTools_TextureMixin:CreateBG(TypeButton.frame,
     {point=function(texture)
         local num= #Buttons
@@ -136,7 +135,6 @@ end
 
 local function Init_Menu(self, root)
     local sub, sub2
---打开，宠物手册
     sub=root:CreateButton(
         '|TInterface\\Icons\\PetJournalPortrait:0|t'..(WoWTools_L.PET_JOURNAL),
     function()
@@ -157,7 +155,6 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.PetBattle.OpenJournalAfter'])
 
     root:CreateDivider()
---显示
     sub2=root:CreateCheckbox(
         WoWTools_DataMixin.Icon.left..(WoWTools_L.SHOW),
     function()
@@ -168,7 +165,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.PetBattle.TypeShow'])
 
---打开选项界面
     root:CreateDivider()
     sub=WoWTools_MenuMixin:OpenOptions(root, {
             category=WoWTools_PetBattleMixin.Category,
@@ -176,7 +172,6 @@ local function Init_Menu(self, root)
             name2= WoWTools_PetBattleMixin.addName4
         })
 
---总是显示
     sub2=sub:CreateCheckbox(
         WoWTools_L.BATTLEFIELD_MINIMAP_SHOW_ALWAYS,
     function()
@@ -195,7 +190,6 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWTools_L.PET_BATTLE_PVP_QUEUE)
     end)
 
---显示背景
     WoWTools_MenuMixin:BgAplha(sub,
     function()
         return Save().TypeButton.bgAlpha or 0.5
@@ -204,7 +198,6 @@ local function Init_Menu(self, root)
         self:set_Background()
     end)
 
---缩放
     WoWTools_MenuMixin:Scale(self, sub, function()
         return Save().TypeButton.scale or 1
     end, function(value)
@@ -221,7 +214,6 @@ local function Init_Menu(self, root)
         self:set_scale()
     end)
 
---重置位置
     WoWTools_MenuMixin:RestPoint(self, sub, Save().TypeButton.Point, function()
         Save().TypeButton.point= nil
         self:set_point()
@@ -230,7 +222,6 @@ local function Init_Menu(self, root)
 end
 
 
---提示,类型
 local function Init(isShow)
     if Save().TypeButton.disabled then
         return
@@ -260,7 +251,7 @@ local function Init(isShow)
     function TypeButton:set_event()
         self:UnregisterAllEvents()
         if not Save().TypeButton.disabled then
-            self:RegisterEvent('PET_BATTLE_OPENING_DONE')--显示，隐藏
+            self:RegisterEvent('PET_BATTLE_OPENING_DONE')
             self:RegisterEvent('PET_BATTLE_CLOSE')
             self:RegisterEvent('PLAYER_REGEN_DISABLED')
             self:RegisterEvent('PLAYER_REGEN_ENABLED')
@@ -340,7 +331,7 @@ local function Init(isShow)
             else
                 MenuUtil.CreateContextMenu(self, Init_Menu)
             end
-        elseif d=='LeftButton' then--显示，隐藏
+        elseif d=='LeftButton' then
             Save().TypeButton.hideFrame= not Save().TypeButton.hideFrame and true or nil
             self:set_Frame_shown()
         end

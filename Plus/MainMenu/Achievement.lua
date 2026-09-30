@@ -1,4 +1,3 @@
---成就
 
 
 
@@ -46,6 +45,6 @@ local function Init()
 end
 
 
-function WoWTools_MainMenuMixin:Init_Achievement()--成就
+function WoWTools_MainMenuMixin:Init_Achievement()
     Init()
 end

@@ -1,4 +1,3 @@
---拍卖行, 受限模式
 --if GameLimitedMode_IsActive() or PlayerIsTimerunning() then
 --    WoWTools_AuctionHouseMixin.disabled=true
 
@@ -59,11 +58,9 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 
---打开，选项
     root:CreateDivider()
     sub=WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_AuctionHouseMixin.addName})
 
---重新加载UI
     WoWTools_MenuMixin:Reload(sub)
 end
 
@@ -104,28 +101,25 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         if arg1== 'WoWToolsPlus' then
 
             WoWToolsPlusSave['Plus_AuctionHouse']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_AuctionHouse'], {
-                numButton=14,--行数
-                scaleSellButton=0.95,--综合
-                isMaxSellItem= true,--出售物品时，使用，最大数量
-                hideSellItem={--跳过，拍卖行物品
-                    [201469]=true,--翡翠青苹果
-                    [202071]=true,--元素微粒
-                    [192658]=true,--高纤维树叶
-                    [192615]=true,--幽光液体
+                numButton=14,
+                scaleSellButton=0.95,
+                isMaxSellItem= true,
+                hideSellItem={
+                    [201469]=true,
+                    [202071]=true,
+                    [192658]=true,
+                    [192615]=true,
                 },
                 hideSellPet={
-                    --[speciaID]=true, --speciaID 为字符
                 },
-                sellItemQualiy=1,--物品列表，检测有效物品
-                SellItemDefaultPrice={},--默认价格
+                sellItemQualiy=1,
+                SellItemDefaultPrice={},
             })
---宠物笼
             Save().hideSellPet= Save().hideSellPet or {}
-            Save().sellItemQualiy= Save().sellItemQualiy or 1--物品列表，检测有效物品
+            Save().sellItemQualiy= Save().sellItemQualiy or 1
 
             WoWTools_AuctionHouseMixin.addName= '|A:Auctioneer:0:0|a'..(WoWTools_L['Module.Auction House'])
 
---添加控制面板
             WoWTools_PanelMixin:OnlyCheck({
                 name= WoWTools_AuctionHouseMixin.addName,
                 Value= not Save().disabled,

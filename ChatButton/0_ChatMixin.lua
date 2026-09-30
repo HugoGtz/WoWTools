@@ -41,7 +41,6 @@ function WoWTools_ChatMixin:Chat(text, name, printText)
 end
 
 
---ChatFrameEditBoxMixin.SendText 11.2.7才有
 function WoWTools_ChatMixin:SendText(text)
     if not text then
         return

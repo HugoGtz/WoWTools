@@ -2,62 +2,57 @@ local function Save()
     return WoWToolsPlusSave['Plus_Gossip']
 end
 local GossipButton, NumGossipCNLabel
-local GreetingTextEmpty={}--没有选项时，自动关闭
-local SelectGissipIDTab= {}--GossipFrame，显示时用
+local GreetingTextEmpty={}
+local SelectGissipIDTab= {}
 
 
 
 local DisableGossipTab={
-    [135061]=true,-- 给我换一批研究任务吧。
-    [135603]=true,-- （英雄世界难度）我准备好接受你最难的挑战了。
+    [135061]=true,
+    [135603]=true,
 }
 
 local DisableQuestTab={
     --[questID]=true
 }
 
---自动，对话 [gossipID]=总数
 local AutoGossipTab={
-    [56363]=3,--奥达曼， 传送门
+    [56363]=3,
     [56364]=2,
     [56365]=1,
 
-    [107451]=1,--魔馆，传送门
+    [107451]=1,
     [107092]=2,
     [107093]=3,
 }
-local AutoRepairTab={--修理
-    [107572]=true,--挑战，模式, 修理
-    [122661]=true,--地下堡
+local AutoRepairTab={
+    [107572]=true,
+    [122661]=true,
 }
 local SXBuff={
-    [57723]= true,--筋疲力尽
-    [57724]= true,--心满意足
-    [264689]= true,--疲倦
-    [80354]= true,--时空错位
-    [390435]= true,--筋疲力尽
+    [57723]= true,
+    [57724]= true,
+    [264689]= true,
+    [80354]= true,
+    [390435]= true,
 
 }
---[466904]= true,--鹞鹰尖啸 LR
 
---自定义NPC对话
 local NpcGossipTab={
-    ['217863']={--任务 大概没事吧
+    ['217863']={
         [121100]=1,
         [121103]=1,
     }
 }
---instanceID 总是选取最高
 local SelectMaxGossipTab={
-    [938]=1,--时光之末
+    [938]=1,
 }
 
 
 
 
---自动对话
 local function Get_Auto_Instance_Gossip(gossipID, numGossip)
-    if gossipID==107571 then--挑战，模式，去 SX buff
+    if gossipID==107571 then
         if WoWTools_AuraMixin:Get('player', SXBuff, AuraUtil.AuraFilters.Harmful) then
             return true
         end
@@ -67,9 +62,9 @@ local function Get_Auto_Instance_Gossip(gossipID, numGossip)
             return true
         end
 
-    elseif AutoGossipTab[gossipID]==numGossip then--自动，对话 [gossipID]=总数
+    elseif AutoGossipTab[gossipID]==numGossip then
         return true
-    else --总是选取最高
+    else
         local instanceID= select(8, GetInstanceInfo())
         if instanceID and SelectMaxGossipTab[instanceID] then
             return numGossip
@@ -78,7 +73,6 @@ local function Get_Auto_Instance_Gossip(gossipID, numGossip)
 end
 
 
---自定义，对话，文本
 local function Set_Gossip_Text(self, info)
     local save= Save()
     if save.not_Gossip_Text_Icon then
@@ -126,7 +120,6 @@ end
 
 
 --###########
---对话，初始化
 --###########
 local function Init()
     GossipButton= CreateFrame('Button', 'WoWToolsGossipButton', UIParent, 'WoWToolsButtonTemplate')
@@ -149,7 +142,7 @@ local function Init()
 
 
 
-    function GossipButton:set_point()--设置位置
+    function GossipButton:set_point()
         self:ClearAllPoints()
         if Save().point then
             self:SetPoint(Save().point[1], UIParent, Save().point[3], Save().point[4], Save().point[5])
@@ -157,7 +150,7 @@ local function Init()
             self:SetPoint('BOTTOM', _G['!KalielsTrackerFrame'] or ObjectiveTrackerFrame, 'TOP', 0 , 0)
         end
     end
-    function GossipButton:settings()--设置，缩放
+    function GossipButton:settings()
         self:SetScale(Save().scale or 1)
         self:SetFrameStrata(Save().strata or 'MEDIUM')
         self.Background:SetColorTexture(0, 0, 0, Save().bgAlpha or 0.5)
@@ -165,7 +158,7 @@ local function Init()
     function GossipButton:set_alpha()
         self.texture:SetAlpha(Save().gossip and 1 or 0.3)
     end
-    function GossipButton:set_texture()--设置，图片 
+    function GossipButton:set_texture()
         if Save().gossip then
             self.texture:SetAtlas('SpecDial_LastPip_BorderGlow')
             _G['WoWToolsOpenGossipIconTextButton']:SetNormalAtlas('SpecDial_LastPip_BorderGlow')
@@ -197,7 +190,7 @@ local function Init()
 
 
 
-    GossipButton:SetMovable(true)--移动
+    GossipButton:SetMovable(true)
     GossipButton:SetClampedToScreen(true)
     GossipButton:RegisterForDrag('RightButton')
     GossipButton:SetScript('OnDragStart',function(self)
@@ -222,19 +215,19 @@ local function Init()
     function GossipButton:set_enable()
         Save().gossip= not Save().gossip and true or false
         WoWTools_GossipMixin:Init_Gossip_Data()
-        self:set_texture()--设置，图片
+        self:set_texture()
         self:set_tooltip()
         WoWTools_GossipMixin:Init_Gossip()
         WoWTools_GossipMixin:Init_Delves()
     end
     GossipButton:SetScript('OnMouseDown', function(self, d)
-        if d=='RightButton' and IsAltKeyDown() then--移动
+        if d=='RightButton' and IsAltKeyDown() then
             SetCursor('UI_MOVE_CURSOR')
         else
             local key=IsModifierKeyDown()
-            if d=='LeftButton' and not key then--禁用，启用
+            if d=='LeftButton' and not key then
                 self:set_enable()
-            elseif d=='RightButton' and not key then--菜单
+            elseif d=='RightButton' and not key then
                 WoWTools_GossipMixin:Init_Menu_Gossip(self)
             end
         end
@@ -252,8 +245,7 @@ local function Init()
     GossipButton:SetScript('OnEvent', GossipButton.set_shown)
 
 
-    --禁用此npc闲话选项
-    local check= CreateFrame('CheckButton', 'WoWToolsGossipNPCCheckBox', GossipFrame.TitleContainer, 'UICheckButtonArtTemplate')--禁用此npc,任务,选项
+    local check= CreateFrame('CheckButton', 'WoWToolsGossipNPCCheckBox', GossipFrame.TitleContainer, 'UICheckButtonArtTemplate')
     WoWTools_TextureMixin:SetCheckBox(check, 0.5)
 
     check:SetSize(18,18)
@@ -296,14 +288,12 @@ local function Init()
 
     GossipFrame:HookScript('OnShow', function ()
         if _G['WoWToolsGossipQuestMainButton'] then
-            _G['WoWToolsGossipQuestMainButton'].questSelect={}--已选任务, 提示用
+            _G['WoWToolsGossipQuestMainButton'].questSelect={}
         end
-        --SelectGissipIDTab= {}--GossipFrame，显示时用
         _G['WoWToolsGossipNPCCheckBox']:settings()
     end)
 
 
---打开，自定义，对话，文本，按钮
     local GButton2= CreateFrame('Button', 'WoWToolsOpenGossipIconTextButton', GossipFrame, 'WoWToolsButtonTemplate')
 
     GButton2:SetAlpha(0.3)
@@ -327,7 +317,6 @@ local function Init()
     end)
 
 
---当前对话， 有多少已修该
     NumGossipCNLabel= WoWTools_LabelMixin:Create(GButton2, {
         name= 'WoWToolsOpenGossipNumCNLabel',
     })
@@ -354,7 +343,6 @@ local function Init()
 end
 
 
---建立，自动选取，选项
 local function Create_GossipOptionCheckBox(btn, info)
     btn.gossipCheckBox= CreateFrame('CheckButton', nil, btn, 'UICheckButtonArtTemplate')--InterfaceOptionsCheckButtonTemplate')--ChatConfigCheckButtonTemplate
 
@@ -366,7 +354,6 @@ local function Create_GossipOptionCheckBox(btn, info)
     btn.gossipCheckBox.Text= btn.gossipCheckBox:CreateFontString(nil, 'ARTWORK', 'QuestFont')
     btn.gossipCheckBox.Text:SetPoint('RIGHT', btn.gossipCheckBox, 'LEFT')
 
---调整，宽度
     btn:GetFontString():SetPoint('RIGHT', btn.gossipCheckBox.Text, 'LEFT',-2, 0)
 
     function btn.gossipCheckBox:set_alpha(isShow)
@@ -406,7 +393,7 @@ local function Create_GossipOptionCheckBox(btn, info)
 
 
         if showFrame and not ColorPickerFrame:IsShown() then
-            _G['WoWToolsGossipTextIconOptionsList']:set_date(self.gossipOptionID)--设置，数据
+            _G['WoWToolsGossipTextIconOptionsList']:set_date(self.gossipOptionID)
 
         elseif not Save().not_Gossip_Text_Icon and (WoWToolsPlusPlayerDate['GossipTextIcon'][self.gossipOptionID] or WoWTools_GossipMixin:Get_GossipData()[self.gossipOptionID]) then
             for _, info2 in pairs( C_GossipInfo.GetOptions() or {}) do
@@ -417,7 +404,7 @@ local function Create_GossipOptionCheckBox(btn, info)
             end
         end
         if self.gossipOptionID then
-            WoWTools_TooltipMixin:Set_Web_Link(GameTooltip, {type=nil, id=nil, name=self.gossipOptionID..(self.name and ' '..self.name or ''), isPetUI=false})--取得网页，数据链接 
+            WoWTools_TooltipMixin:Set_Web_Link(GameTooltip, {type=nil, id=nil, name=self.gossipOptionID..(self.name and ' '..self.name or ''), isPetUI=false})
         end
         GameTooltip:Show()
         self:set_alpha(true)
@@ -556,15 +543,14 @@ local function Init_Hook()
 
 
 
---自定义闲话选项, 按钮 GossipFrameShared.lua https://wago.io/MK7OiGqCu https://wago.io/hR_KBVGdK
     WoWTools_DataMixin:Hook(GossipOptionButtonMixin, 'Setup', function(self, info)--GossipFrameShared.lua
         if not self.gossipCheckBox then
-            Create_GossipOptionCheckBox(self, info)--建立，自动选取，选项
+            Create_GossipOptionCheckBox(self, info)
         else
             self.gossipCheckBox:set_data(info)
         end
 
-        Set_Gossip_Text(self, info)--自定义，对话，文本
+        Set_Gossip_Text(self, info)
 
         if not info
             or not info.gossipOptionID
@@ -579,7 +565,7 @@ local function Init_Hook()
         local gossip= C_GossipInfo.GetOptions() or {}
         local allGossip= #gossip
         local name=info.name
-        local npc=WoWTools_UnitMixin:GetNpcID()--npc是字符 不是数字
+        local npc=WoWTools_UnitMixin:GetNpcID()
 
         if IsModifierKeyDown() or not index or SelectGissipIDTab[index] then
             return
@@ -590,16 +576,13 @@ local function Init_Hook()
         local quest= FlagsUtil.IsSet(info.flags, Enum.GossipOptionRecFlags.QuestLabelPrepend)--local quest= FlagsUtil.IsAnySet(info.flags, bit.bor(Enum.GossipOptionRecFlags.QuestLabelPrepend, Enum.GossipOptionRecFlags.PlayMovieLabelPrepend))
 
 
---自定义对话
         if Save().gossipOption[index] then
             C_GossipInfo.SelectOption(index)
             find=true
 
---禁用NPC
         elseif Save().NPC[npc] or DisableGossipTab[index] then
             return
 
---自定义NPC对话
         elseif NpcGossipTab[npc] then
             if NpcGossipTab[npc][index] then
                 C_GossipInfo.SelectOption(index)
@@ -615,7 +598,7 @@ local function Init_Hook()
                 or name:find(LOOT_JOURNAL_LEGENDARIES_SOURCE_QUEST, 1, true)
                 --Ya no se elige sola una opción solo porque contenga "Saltar" (RENOWN_LEVEL_UP_SKIP_BUTTON)
             )
-        then--任务
+        then
             if quest then
                 name= WoWTools_TextMixin:CN(info.name)..'<|cnGREEN_FONT_COLOR:'..(WoWTools_L.QUESTS_LABEL)..'|r>'
             end
@@ -623,7 +606,7 @@ local function Init_Hook()
             find=true
 
         --Opción única: no dentro de instancias, donde suele iniciar eventos o encuentros
-        elseif allGossip==1 and Save().unique and select(2, IsInInstance())=='none' then--仅一个
+        elseif allGossip==1 and Save().unique and select(2, IsInInstance())=='none' then
 
             local tab= C_GossipInfo.GetActiveQuests() or {}
             for _, questInfo in pairs(tab) do
@@ -647,7 +630,7 @@ local function Init_Hook()
             C_GossipInfo.SelectOption(index)
             find=true
 
-        elseif select(2, IsInInstance())~='none' then--自动对话
+        elseif select(2, IsInInstance())~='none' then
             if Get_Auto_Instance_Gossip(index, allGossip) then
                 C_GossipInfo.SelectOption(index)
                 find=true
@@ -669,7 +652,6 @@ local function Init_Hook()
     end)
 
 
-    --自动接取任务,多个任务GossipFrameShared.lua questInfo.questID, questInfo.title, questInfo.isIgnored, questInfo.isTrivial
     WoWTools_DataMixin:Hook(GossipSharedAvailableQuestButtonMixin, 'Setup', function(self, info)
         if not self.availableQuestCheckBox then
             Create_AvailableQuestCheck(self, info)
@@ -677,7 +659,7 @@ local function Init_Hook()
             self.availableQuestCheckBox:set_data(info)
         end
 
-        Set_Gossip_Text(self, info)--自定义，对话，文本
+        Set_Gossip_Text(self, info)
 
         local questID=info and info.questID or self:GetID()
         if not questID
@@ -691,7 +673,7 @@ local function Init_Hook()
 
         local npc=WoWTools_UnitMixin:GetNpcID()
 
-        if Save().questOption[questID] then--自定义
+        if Save().questOption[questID] then
            C_GossipInfo.SelectAvailableQuest(questID)--or self:GetID()
 
         elseif
@@ -709,15 +691,14 @@ local function Init_Hook()
     end)
 
 
-    --完成已激活任务,多个任务GossipFrameShared.lua
     WoWTools_DataMixin:Hook(GossipSharedActiveQuestButtonMixin, 'Setup', function(self, info)
          if not self.gossipCheckBox then
-            Create_GossipOptionCheckBox(self, info)--建立，自动选取，选项
+            Create_GossipOptionCheckBox(self, info)
         else
             self.gossipCheckBox:set_data(info)
         end
 
-        Set_Gossip_Text(self, info)--自定义，对话，文本
+        Set_Gossip_Text(self, info)
 
         local npc=WoWTools_UnitMixin:GetNpcID()
 
@@ -729,11 +710,11 @@ local function Init_Hook()
         then
             return
 
-        elseif Save().questOption[questID] then--自定义
+        elseif Save().questOption[questID] then
             C_GossipInfo.SelectActiveQuest(questID)
             return
 
-        elseif not Save().quest--禁用
+        elseif not Save().quest
             or Save().NPC[npc]
             or DisableQuestTab[questID]
         then
@@ -747,7 +728,6 @@ local function Init_Hook()
 
 
     --C_GossipInfo.ForceGossip()
---当没有选项时，闭关
 
     local GreetingFrame= CreateFrame('Frame', 'WoWToolsGreetingTextFrame')
     GreetingFrame:SetScript('OnEvent', function(self, event)

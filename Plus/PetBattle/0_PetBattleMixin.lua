@@ -5,7 +5,7 @@ WoWTools_PetBattleMixin={}
 
 
 
-function WoWTools_PetBattleMixin:GetPetStrongWeakHints(petType)--取得对战宠物, 强弱 SharedPetBattleTemplates.lua
+function WoWTools_PetBattleMixin:GetPetStrongWeakHints(petType)
     if not petType then
         return
     end
@@ -35,11 +35,11 @@ end
 
 
 
-function WoWTools_PetBattleMixin:Collected(speciesID, itemID, onlyNum, petOwner, petIndex)--总收集数量， 25 25 25， 3/3
+function WoWTools_PetBattleMixin:Collected(speciesID, itemID, onlyNum, petOwner, petIndex)
     if not speciesID then
         if petOwner and petIndex then
             speciesID= C_PetBattles.GetPetSpeciesID(petOwner, petIndex)
-        elseif itemID then--宠物物品
+        elseif itemID then
             speciesID= select(13, C_PetJournal.GetPetInfoByItemID(itemID))
         end
     else
@@ -57,7 +57,6 @@ function WoWTools_PetBattleMixin:Collected(speciesID, itemID, onlyNum, petOwner,
 
     local AllCollected, CollectedNum, CollectedText
 
---返回所有，数据
     if not onlyNum then
         local numPets = C_PetJournal.GetNumPets()
         local ownedPetIDs = C_PetJournal.GetOwnedPetIDs()
@@ -85,7 +84,7 @@ function WoWTools_PetBattleMixin:Collected(speciesID, itemID, onlyNum, petOwner,
         end
     end
 
-    local isCollectedAll= false--是否已全部收集
+    local isCollectedAll= false
     if numCollected==0 then
         CollectedText='|cnWARNING_FONT_COLOR:'..numCollected..'|r/'..limit
     elseif limit and numCollected==limit and limit>0 then
@@ -99,7 +98,6 @@ function WoWTools_PetBattleMixin:Collected(speciesID, itemID, onlyNum, petOwner,
 end
 
 
---技能列表图标
 function WoWTools_PetBattleMixin:GetAbilityIcon(speciesID, petIndex, petID, onlyIcon, size)
     if not speciesID then
         if petIndex then

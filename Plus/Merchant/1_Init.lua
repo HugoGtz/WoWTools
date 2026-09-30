@@ -13,16 +13,15 @@ end
 
 local function Init()
     WoWTools_MerchantMixin:Init_AutoLoot()
-    WoWTools_MerchantMixin:Init_Auto_Repair()--自动修理
+    WoWTools_MerchantMixin:Init_Auto_Repair()
 
 
-    WoWTools_MerchantMixin:Init_Auto_Sell_Junk()--自动出售
+    WoWTools_MerchantMixin:Init_Auto_Sell_Junk()
 
-    WoWTools_MerchantMixin:Init_Buy_Items_Button()--购买物品
-    WoWTools_MerchantMixin:Init_Buyback_Button()--回购物品
+    WoWTools_MerchantMixin:Init_Buy_Items_Button()
+    WoWTools_MerchantMixin:Init_Buyback_Button()
     WoWTools_MerchantMixin:Init_Menu()
 
---商人 Plus
     WoWTools_MerchantMixin:Init_WidthX2()
     WoWTools_MerchantMixin:Plus_ItemInfo()
 
@@ -48,24 +47,17 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 --noSell={},
                 --Sell={},
                 --buyItems={},
-                notAutoLootPlus= true,--打开拾取窗口时，下次禁用，自动拾取
-                --notPlus=true,--商人 Plus,加宽
+                notAutoLootPlus= true,
 
-                --notSellBoss=true,--出售，BOSS，掉落
                 bossItems={},
 
-                --notAutoRepairAll=true,--自动修理
 
-                MERCHANT_ITEMS_PER_PAGE= 24,--页，物品数量
-                numLine=6,--行数
-                --repairItems={date=date('%x'), player=0, guild=0, num=0},旧数据，已不用
+                MERCHANT_ITEMS_PER_PAGE= 24,
+                numLine=6,
 
-                --notItemInfo=true,--禁用物品信息
-                --notIsUsableAlpha=1,--无法使用物品，alpha
-                --ShowBackground=false,--显示背景
             })
 
-            Save().notDELETE= nil--旧数据， 你确定要摧毁%s吗？|n|n此操作无法撤销。|n|n请输入“%s”进行确认
+            Save().notDELETE= nil
 
             if Save().repairItems then
                 WoWToolsPlusPlayerDate['RepairMoney']= Save().repairItems
@@ -77,18 +69,18 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             WoWToolsPlusPlayerDate['SellBuyItems']= WoWToolsPlusPlayerDate['SellBuyItems'] or {
                 buy={},--[guid]={[itemID]=numbre,}
                 sell={
-                    [34498]=true,--[纸飞艇工具包]
+                    [34498]=true,
                 },
                 noSell={
-                    [144341]=true,--[可充电的里弗斯电池]
-                    [49040]=true,--[基维斯]
-                    [114943]=true,--[终极版侏儒军刀]
-                    [103678]=true,--迷时神器
-                    [142469]=true,--魔导大师的紫罗兰印戒
-                    [139590]=true,--[传送卷轴：拉文霍德]
-                    [144391]=true,--拳手的重击指环
-                    [144392]=true,--拳手的重击指环
-                    [37863]=true,--[烈酒的遥控器]
+                    [144341]=true,
+                    [49040]=true,
+                    [114943]=true,
+                    [103678]=true,
+                    [142469]=true,
+                    [139590]=true,
+                    [144391]=true,
+                    [144392]=true,
+                    [37863]=true,
                 },
             }
 
@@ -100,7 +92,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
             WoWTools_MerchantMixin.addName= '|A:SpellIcon-256x256-SellJunk:0:0|a'..(WoWTools_L['Module.Merchant'])
 
---添加控制面板
             WoWTools_PanelMixin:OnlyCheck({
                 name= WoWTools_MerchantMixin.addName,
                 GetValue= function() return not Save().disabled end,

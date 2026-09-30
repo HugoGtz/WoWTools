@@ -1,7 +1,6 @@
 
 
 
---节日, 提示, button.texture
 local function Check_Holiday(dungeonIndex)
     local dungeonID, name = GetLFGRandomDungeonInfo(dungeonIndex)
     if not dungeonID or not name then
@@ -18,7 +17,6 @@ local function Check_Holiday(dungeonIndex)
         return
     end
 
---奖励物品
     local numRewards = select(6, GetLFGDungeonRewards(dungeonID)) or 0
     if numRewards==0 then
         return
@@ -59,7 +57,7 @@ local function Set_Holiday()
 
     local categoryType= dungeonID and LE_LFG_CATEGORY_LFD or nil
 
-    WoWTools_LFDMixin:Set_LFDButton_Data(dungeonID, categoryType, WoWTools_TextMixin:CN(name), texture,  atlas)--设置图标
+    WoWTools_LFDMixin:Set_LFDButton_Data(dungeonID, categoryType, WoWTools_TextMixin:CN(name), texture,  atlas)
 end
 
 
@@ -71,7 +69,6 @@ local function Init(btn)
     btn.IconMask:SetPoint("TOPLEFT", btn, "TOPLEFT", 5, -5)
     btn.IconMask:SetPoint("BOTTOMRIGHT", btn, "BOTTOMRIGHT", -7, 7)
 
-    --自动离开,指示图标
     btn.leaveInstance=btn:CreateTexture(nil, 'ARTWORK', nil, 1)
     btn.leaveInstance:SetPoint('BOTTOMLEFT',4, 0)
     btn.leaveInstance:SetSize(12,12)
@@ -81,7 +78,7 @@ local function Init(btn)
 
     function btn:set_tooltip()
         self:set_owner()
-        WoWTools_ChallengeMixin:ActivitiesTooltip()--周奖励，提示
+        WoWTools_ChallengeMixin:ActivitiesTooltip()
 
         if self.name and (self.dungeonID or self.RaidID) then
             GameTooltip:AddLine(' ')
@@ -111,14 +108,14 @@ local function Init(btn)
 
 
     WoWTools_LFDMixin:Init_Menu(btn)
-    WoWTools_LFDMixin:Init_Queue_Status()--建立，小眼睛, 更新信息
-    WoWTools_LFDMixin:Init_Loot_Plus()--历史, 拾取框
-    WoWTools_LFDMixin:Init_Roll_Plus()--自动 ROLL
+    WoWTools_LFDMixin:Init_Queue_Status()
+    WoWTools_LFDMixin:Init_Loot_Plus()
+    WoWTools_LFDMixin:Init_Roll_Plus()
     WoWTools_LFDMixin:Init_RolePollPopup()
-    WoWTools_LFDMixin:Init_Exit_Instance()--离开副本
+    WoWTools_LFDMixin:Init_Exit_Instance()
     WoWTools_LFDMixin:Init_LFG_Plus()--
-    WoWTools_LFDMixin:Init_Role_CheckInfo()--职责确认，信息
-    WoWTools_LFDMixin:Init_RepopMe()--释放, 复活
+    WoWTools_LFDMixin:Init_Role_CheckInfo()
+    WoWTools_LFDMixin:Init_RepopMe()
 
      EventRegistry:RegisterFrameEventAndCallback("LFG_UPDATE_RANDOM_INFO", Set_Holiday)
     C_Timer.After(2, Set_Holiday)
@@ -135,15 +132,12 @@ panel:SetScript('OnEvent', function(self, event, arg1)
     end
 
     WoWToolsPlusSave['ChatButton_LFD']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['ChatButton_LFD'], {
-        --disabledLootPlus=true 禁用，战利品Plus
-        --hideDontEnterMenu=true 隐藏，不可能副本，列表
-        ReMe=true,--仅限战场，释放，复活
+        ReMe=true,
         autoSetRole=true,
-        tipsScale=1,--提示内容,缩放
-        sec=3,--时间 timer
+        tipsScale=1,
+        sec=3,
         wow={
             --['island']=0,
-            --[副本名称]=0,
         },
     })
 

@@ -1,5 +1,4 @@
 
---飞行点名称
 local function Save()
    return WoWToolsPlusSave['Plus_WorldMap']
 end
@@ -76,7 +75,6 @@ local function Init()
         WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.WorldMap.FlightMapName'])
 
 
---缩放
         root:CreateDivider()
         WoWTools_MenuMixin:Scale(self, root,
         function()--GetValue
@@ -89,7 +87,6 @@ local function Init()
             RefreshAll()
         end)
 
---打开选项
         WoWTools_MenuMixin:OpenOptions(root, {name= WoWTools_WorldMapMixin.addName})
     end)
 
@@ -97,7 +94,6 @@ local function Init()
 
 
 
---飞行点，加名称
     WoWTools_DataMixin:Hook(FlightMap_FlightPointPinMixin, 'OnMouseEnter', function(self)
         local info= self.taxiNodeData
         if not info or not info.nodeID then

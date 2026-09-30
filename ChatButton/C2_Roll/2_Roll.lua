@@ -1,6 +1,6 @@
 local P_Save={
-    autoClear=true,--进入战斗时,清除数据
-    save={},--保存数据,最多30个
+    autoClear=true,
+    save={},
 }
 
 local function Save()
@@ -13,14 +13,14 @@ local RollTab={}
 
 local panel= CreateFrame('Frame')
 
-local RANDOM_ROLL_RESULT= WoWTools_TextMixin:Magic(RANDOM_ROLL_RESULT)--"%s掷出%d（%d-%d）";
+local RANDOM_ROLL_RESULT= WoWTools_TextMixin:Magic(RANDOM_ROLL_RESULT)
 
 
 --local MaxPlayer, MinPlayer
 
 
 local Max, Min
-local function findRolled(name)--查找是否ROLL过
+local function findRolled(name)
     for _, tab in pairs(RollTab) do
         if tab.name==name then
             return true
@@ -105,7 +105,7 @@ end
 
 
 
-local function get_Save_Max()--清除时,保存数据
+local function get_Save_Max()
     if not Save().saveLog then
         return
     end
@@ -128,8 +128,8 @@ local function get_Save_Max()--清除时,保存数据
     end
 end
 
-local function setRest()--重置
-    get_Save_Max()--清除时,保存数据
+local function setRest()
+    get_Save_Max()
     RollTab={}
     Max, Min= nil, nil
     RollButton.rightBottomText:SetText('')
@@ -138,7 +138,7 @@ end
 
 
 
-local function setAutoClearRegisterEvent()--注册自动清除事件
+local function setAutoClearRegisterEvent()
     if Save().autoClear then
         panel:RegisterEvent('PLAYER_REGEN_DISABLED')
     else
@@ -164,7 +164,6 @@ end
 
 
 --#####
---主菜单
 --#####
 
 local function Init_Menu(self, root)
@@ -179,7 +178,7 @@ local function Init_Menu(self, root)
     sub=root:CreateButton(
         '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.CLEAR_ALL),
     function()
-        setRest()--重置
+        setRest()
         return MenuResponse.Close
     end, {rightText=#RollTab})
     sub:SetTooltip(function(tooltip)
@@ -188,7 +187,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetRightText(sub)
 
---1000点
     sub2=sub:CreateCheckbox(
         '1000',
     function()
@@ -209,12 +207,11 @@ local function Init_Menu(self, root)
         return Save().autoClear
     end, function ()
         Save().autoClear= not Save().autoClear and true or false
-        setAutoClearRegisterEvent()--注册自动清除事件
+        setAutoClearRegisterEvent()
     end)
     sub2:SetTooltip(function (tooltip)
         GameTooltip_SetTitle(tooltip, WoWTools_L['Entering combat: Clear'])
     end)
---清除记录
     sub2=sub:CreateButton(
         '|A:bags-button-autosort-up:0:0|a'
         ..(WoWTools_L['SLASH_STOPWATCH_PARAM_STOP2+EVENTTRACE_LOG_HEADER']),
@@ -225,7 +222,6 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetRightText(sub2)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Roll.ClearLog'])
 
---不保存
     sub2= sub2:CreateCheckbox(
         (WoWTools_L.SAVE)
         .. ' 40 '
@@ -344,7 +340,6 @@ end
 
 
 --####
---初始
 --####
 local function Init()
 
@@ -395,7 +390,7 @@ local function Init()
 
     RollButton:SetupMenu(Init_Menu)
 
-    setAutoClearRegisterEvent()--注册自动清除事件
+    setAutoClearRegisterEvent()
 end
 
 
@@ -447,14 +442,14 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
     elseif event == "PLAYER_LOGOUT" then
         if not WoWTools_DataMixin.ClearAllSave then
-            get_Save_Max()--清除时,保存数据
+            get_Save_Max()
         end
 
     elseif event=='CHAT_MSG_SYSTEM' then
         setCHAT_MSG_SYSTEM(arg1)
 
     elseif event=='PLAYER_REGEN_DISABLED' then
-        setRest()--重置
+        setRest()
 
     end
 end)

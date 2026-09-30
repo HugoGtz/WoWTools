@@ -4,10 +4,9 @@ end
 local Frame
 
 
-local function Set_Text()--所有记录
+local function Set_Text()
     local w= 0
 
---历史
 
     Frame.history:SetText(
         (WoWTools_L.HISTORY)
@@ -17,7 +16,6 @@ local function Set_Text()--所有记录
     w= Frame.history:GetStringWidth()
 
 
---本周记录
     local completed, all= 0,0
     local tabs={}
     for _, tab in pairs(C_MythicPlus.GetRunHistory(false, true) or {}) do
@@ -26,7 +24,7 @@ local function Set_Text()--所有记录
             if not tabs[mapID] then
                 tabs[mapID]={
                     LV={},--{level, completed}
-                    runScore= 0,--分数
+                    runScore= 0,
                     c=0,
                     t=0,
                     completed=false,
@@ -82,18 +80,16 @@ local function Set_Text()--所有记录
 
     w= math.max(Frame.week:GetStringWidth(), w)
 
---难度 每周 掉落
     Frame.loot:SetText(
         WoWTools_L['Difficulty Loot Weekly']
     )
     w= math.max(Frame.loot:GetStringWidth(), w)
     w= math.max(Frame.week:GetStringWidth(), w)
 
---限制，显示等级
     local curLevel=0
     local curKey= C_MythicPlus.GetOwnedKeystoneLevel() or 0
 
-    for _, info in pairs(C_MythicPlus.GetRunHistory(false, true) or {}) do--本周记录
+    for _, info in pairs(C_MythicPlus.GetRunHistory(false, true) or {}) do
         if info.completed and info.level and info.level>curLevel then
             curLevel= info.level
         end
@@ -104,7 +100,6 @@ local function Set_Text()--所有记录
     Frame.loot.curLevel= curLevel
     Frame.loot.curKey= curKey
 
---显示，物品等级
     local min, max= WoWTools_DataMixin:GetChallengesWeekItemLevel(nil, true)
     local minNum= math.max(min, curLevel-3)
     local maxNum = math.min(curLevel+4, max)
@@ -119,7 +114,6 @@ local function Set_Text()--所有记录
     Frame.loot2:SetText(lootText or '')
     w= math.max(Frame.loot2:GetStringWidth(), w)
 
---物品，货币提示
 
     local last= WoWTools_LabelMixin:ItemCurrencyTips({
         frame=Frame,
@@ -152,11 +146,11 @@ local function History_Tooltip(self)
         local mapID=info.mapChallengeModeID
         tabs[mapID]= tabs[mapID] or
                     {
-                        level=0,--最高等级
+                        level=0,
                         c=0,
                         t=0,
                         mapID= mapID,
-                        isCurrent= curMaps[mapID],--本赛季
+                        isCurrent= curMaps[mapID],
                     }
         tabs[mapID].t= tabs[mapID].t+1
         if info.completed then
@@ -200,7 +194,6 @@ end
 
 local function Create_Label()
 
---历史
     Frame.history= WoWTools_LabelMixin:Create(Frame, {mouse=true, size=14})
     --Frame.history:SetPoint('TOPLEFT', Frame.dungeonScore, 'BOTTOMLEFT',0,-12)
     Frame.history:SetPoint('TOPLEFT')
@@ -210,12 +203,10 @@ local function Create_Label()
         self:SetAlpha(0.5)
     end)
 
---本周记录
-    Frame.week= WoWTools_LabelMixin:Create(Frame)--最右边, 数据
+    Frame.week= WoWTools_LabelMixin:Create(Frame)
     Frame.week:SetPoint('TOPLEFT', Frame.history, 'BOTTOMLEFT')
 
---难度 每周 掉落
-    Frame.loot= WoWTools_LabelMixin:Create(Frame, {mouse=true, size=14})--最右边, 数据
+    Frame.loot= WoWTools_LabelMixin:Create(Frame, {mouse=true, size=14})
     Frame.loot:SetPoint('TOPLEFT', Frame.week, 'BOTTOMLEFT',0,-12)
     function Frame.loot:get_Loot_itemLevel(level)
         local weeklyRewardLevel2 = C_MythicPlus.GetRewardLevelForDifficultyLevel(level)
@@ -230,8 +221,8 @@ local function Create_Label()
         local isCurLevel= self.curLevel==level
 
         local text= week
-            ..(isCurKey and '|T4352494:0|t' or '')--当前Key
-            ..(isCurLevel and '|A:common-icon-checkmark:0:0|a' or '')--最高等级
+            ..(isCurKey and '|T4352494:0|t' or '')
+            ..(isCurLevel and '|A:common-icon-checkmark:0:0|a' or '')
 
         return isCurKey and '|cffffffff'..text..'|r' or (isCurLevel and '|cnGREEN_FONT_COLOR:'..text..'|r') or text
     end
@@ -244,15 +235,14 @@ local function Create_Label()
         GameTooltip:ClearLines()
         GameTooltip:AddLine(self:GetText())
         local min, max= WoWTools_DataMixin:GetChallengesWeekItemLevel(nil, true)
-        for level=min, max do--限制，显示等级                
+        for level=min, max do
             GameTooltip:AddLine(self:get_Loot_itemLevel(level))
         end
         GameTooltip:Show()
         self:SetAlpha(0.5)
     end)
 
---显示，物品等级
-    Frame.loot2= WoWTools_LabelMixin:Create(Frame)--最右边, 数据
+    Frame.loot2= WoWTools_LabelMixin:Create(Frame)
     Frame.loot2:SetPoint('TOPLEFT', Frame.loot, 'BOTTOMLEFT')
 end
 

@@ -1,4 +1,3 @@
---法术书，选项
 local function SaveLog()
     return WoWToolsPlusPlayerDate['Tools_Mounts']
 end
@@ -75,7 +74,7 @@ end
 
 
 
-function WoWTools_MountMixin:Init_UI_SpellBook_Menu()--法术书，选项
+function WoWTools_MountMixin:Init_UI_SpellBook_Menu()
 
     if C_AddOns.IsAddOnLoaded('Blizzard_PlayerSpells') then
         Init()

@@ -22,7 +22,6 @@ local function Init()
     WoWTools_SpellMixin:Init_SpellBookFrame()
     WoWTools_SpellMixin:Init_Spec_Button()
 
---添加一个按钮
     local reload= CreateFrame('Button', 'WoWToolsSpellBookReloadButton', PlayerSpellsFrame.TitleContainer, 'WoWToolsButtonTemplate')
     reload:SetPoint('LEFT', 28, -3)
     reload:SetNormalAtlas('common-icon-exit')
@@ -49,7 +48,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if event=='ADDON_LOADED' then
         if arg1== 'WoWToolsPlus' then
 
-            WoWToolsPlusSave['Other_SpellFrame']=nil--旧数扰
+            WoWToolsPlusSave['Other_SpellFrame']=nil
             WoWToolsPlusSave['Other_SpellFlyout']=nil
 
             WoWToolsPlusSave['Plus_Spell']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Spell'], {
@@ -58,7 +57,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 --isToTOP=true
                 --point={}
                 --strata='MEDIUM'
-                hideInCombat=true,--自动隐藏
+                hideInCombat=true,
                 enabled=true,
                 },
 
@@ -69,7 +68,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 },
                 setUITexture=true,
 
-                flyoutText=true,--法术弹出框
+                flyoutText=true,
                 actionButtonRangeColor=true,
 
                 spellBookPlus=true,
@@ -98,7 +97,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         WoWTools_SpellMixin:Init_Options()
         WoWTools_SpellMixin:Init_Spec_Button()
         WoWTools_SpellMixin:Init_Spell_Flyout()
-        WoWTools_SpellMixin:Init_ActionButton_UpdateRange()--法术按键, 颜色
+        WoWTools_SpellMixin:Init_ActionButton_UpdateRange()
         self:SetScript('OnEvent', nil)
         self:UnregisterEvent(event)
     end

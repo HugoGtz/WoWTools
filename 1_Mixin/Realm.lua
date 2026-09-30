@@ -167,7 +167,7 @@ local regionColor = {--https://wago.io/6-GG3RMcC
 }
 
 
-function WoWTools_RealmMixin:Get_Region(realm, guid, unit, disabled)--WoWTools_RealmMixin:Get_Region(server, guid, unit)--服务器，EU， US {col=, text=, realm=}
+function WoWTools_RealmMixin:Get_Region(realm, guid, unit, disabled)
     if disabled then
         regionColor={}
         Realms={}

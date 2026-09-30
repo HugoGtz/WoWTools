@@ -52,7 +52,6 @@ local function ShowMajorFactionRenownTooltip(frame)
 	RenownRewardUtil.AddMajorFactionToTooltip(GameTooltip, factionID, GenerateClosure(ShowMajorFactionRenownTooltip, frame))
 	EventRegistry:TriggerEvent("ShowMajorFactionRenown.Tooltip.OnEnter", frame, GameTooltip, factionID)
 
---未解锁
 	local major= C_MajorFactions.GetMajorFactionData(factionID)
 	if major and not major.isUnlocked and major.unlockDescription and major.unlockDescription~='' then
 		GameTooltip_AddBlankLineToTooltip(GameTooltip)
@@ -91,7 +90,6 @@ local function ShowStandardTooltip(frame)
 end
 
 
---需要GameTooltip:Show() EmbeddedItemTooltip_Hide(EmbeddedItemTooltip)
 function WoWTools_SetTooltipMixin:Faction(frame)--ANCHOR_RIGHT=true
 	local factionID
 	if frame then

@@ -6,12 +6,10 @@ end
 local function Init_Plus_Menu(self, root)
     local sub
 
---要塞，图标，移动/隐藏，选项
     WoWTools_MinimapMixin:ExpansionLanding_Menu(self, root)
 
     root:CreateDivider()
 
---追踪 AreaPoiID
     sub= root:CreateCheckbox(
         '|A:VignetteKillElite:0:0|a'..(WoWTools_L.TRACKING)..' AreaPoi',
     function()
@@ -29,11 +27,9 @@ local function Init_Plus_Menu(self, root)
         --tooltip:AddLine('|cnWARNING_FONT_COLOR:'..('Memory will continue to increase')..' (Bug)')
     end)
 
---追踪 AreaPoiID 菜单
     --WoWTools_MinimapMixin:Init_TrackButton_Menu(self, sub)
     sub:SetEnabled(select(2, IsInInstance())=='none' and not WoWTools_MapMixin:IsInDelve())
 
---镜头视野范围
     sub=root:CreateCheckbox(
         '|A:common-icon-zoomin:0:0|a'..(WoWTools_L.CAMERA_FOV),
     function()
@@ -50,7 +46,6 @@ local function Init_Plus_Menu(self, root)
         )
     end)
 
---缩小地图
     sub=root:CreateCheckbox(
         '|A:UI-HUD-Minimap-Zoom-Out:0:0|a'..(WoWTools_L.BINDING_NAME_MINIMAPZOOMOUT),
     function()
@@ -65,7 +60,6 @@ local function Init_Plus_Menu(self, root)
     end)
     WoWTools_MinimapMixin:Zoom_Menu(self, sub)
 
---地下城难度
     sub=root:CreateCheckbox(
         '|A:DungeonSkull:0:0|a'..(WoWTools_L.DUNGEON_DIFFICULTY),
     function()
@@ -83,7 +77,6 @@ local function Init_Plus_Menu(self, root)
         WoWTools_MinimapMixin:InstanceDifficulty_Tooltip(nil, tooltip)
     end)
 
---CVar 镇民
     root:CreateDivider()
     sub=root:CreateCheckbox(
         '|A:UI-HUD-Minimap-Tracking-Mouseover:0:0|a'..(WoWTools_L.TOWNSFOLK_TRACKING_TEXT),
@@ -101,7 +94,6 @@ local function Init_Plus_Menu(self, root)
         [[SetCVar("minimapTrackingShowAll", "1")]])
     end)
 
---收集图标
     sub= root:CreateCheckbox(
         WoWTools_DataMixin.Icon.icon2
         ..'|cnWARNING_FONT_COLOR:'
@@ -118,7 +110,6 @@ local function Init_Plus_Menu(self, root)
     end)
 
 if Save().Icons.disabled then
---过滤 Border 透明度
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
@@ -135,7 +126,6 @@ if Save().Icons.disabled then
     })
     sub:CreateSpacer()
 
---过滤 Bg Alpha
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
@@ -156,18 +146,14 @@ end
 end
 
 
---主菜单
 local function Init_Menu(self, root)
---战斗中，不显示
     if WoWTools_MenuMixin:CheckInCombat(root) then
         return
     end
 
     local sub
---要塞，菜单
     WoWTools_MinimapMixin:Garrison_Menu(self, root)
 
---派系，菜单
     WoWTools_MinimapMixin:Faction_Menu(self, root)
 
 
@@ -175,7 +161,6 @@ local function Init_Menu(self, root)
 
 --Plus
 
---打开，选项
     sub= WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_MinimapMixin.addName})
 
 --Plus

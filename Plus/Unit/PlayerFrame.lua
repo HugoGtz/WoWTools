@@ -1,4 +1,3 @@
---玩家 PlayerFrame.lua
 local function Save()
     return WoWToolsPlusSave['Plus_UnitFrame']
 end
@@ -14,15 +13,12 @@ local function Init()
 
 
 
---战斗中，提示
---PlayerPlayTime "您的在线时间已经超过3小时。您的游戏收益将降为正常值的50%%，为了您的健康，请尽快下线休息，做适当身体活动，合理安排学习生活。累计下线%d小时后，您将恢复正常的游戏收益。";
 --point="TOPLEFT" relativePoint="TOPRIGHT" x="-21" y="-24"/>
     contextual.PlayerPlayTime:ClearAllPoints()
     contextual.PlayerPlayTime:SetPoint('RIGHT', contextual.GuideIcon, 'LEFT')
-    contextual.PlayerPlayTime:SetSize(20,20)--原29x29
+    contextual.PlayerPlayTime:SetSize(20,20)
 
 
---处理,小队, 号码
     PlayerFrameGroupIndicatorText:ClearAllPoints()
     PlayerFrameGroupIndicatorText:SetPoint('RIGHT', PlayerLevelText, 'LEFT')
 
@@ -42,20 +38,18 @@ local function Init()
 
 
 
---玩家, 治疗，爆击，数字
     PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.HitIndicator.HitText:SetScale(0.75)
-    WoWTools_ColorMixin:SetLabelColor(PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.HitIndicator.HitText)--设置颜色
+    WoWTools_ColorMixin:SetLabelColor(PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.HitIndicator.HitText)
     PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.HitIndicator.HitText:ClearAllPoints()
     PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.HitIndicator.HitText:SetPoint('TOPLEFT', PlayerFrame.PlayerFrameContainer.PlayerPortrait, 'BOTTOMLEFT', 0, -5)
 
 
---战斗中，提示
 --<Anchor point="TOPLEFT" x="64" y="-62"/>
     contextual.AttackIcon:ClearAllPoints()
     contextual.AttackIcon:SetPoint('RIGHT', PlayerName, 'LEFT', -2, 0)
     --contextual.AttackIcon:SetPoint('TOPLEFT', 68, -43)
     contextual.AttackIcon:SetVertexColor(1,0,0)
-    contextual.AttackIcon.Bg= contextual:CreateTexture(nil, 'BACKGROUND')--加个外框
+    contextual.AttackIcon.Bg= contextual:CreateTexture(nil, 'BACKGROUND')
     contextual.AttackIcon.Bg:SetAtlas('talents-node-choiceflyout-circle-greenglow')
     contextual.AttackIcon.Bg:SetPoint('TOPLEFT', contextual.AttackIcon, -4, 4)
     contextual.AttackIcon.Bg:SetPoint('BOTTOMRIGHT', contextual.AttackIcon, 4, -4)
@@ -71,14 +65,12 @@ local function Init()
     contextual.PlayerPortraitCornerIcon:SetVertexColor(0,1,0)
 
 
---等级，颜色
     WoWTools_DataMixin:Hook('PlayerFrame_UpdateLevel', function()
         PlayerLevelText:SetAlpha(
             UnitEffectiveLevel(PlayerFrame.unit or 'player')== GetMaxLevelForLatestExpansion() and 0 or 1
         )
         WoWTools_ColorMixin:SetLabelColor(PlayerLevelText)
     end)
---宠物
     if PetHitIndicator then
         PetHitIndicator:ClearAllPoints()
         PetHitIndicator:SetPoint('TOPLEFT', PetPortrait or PetHitIndicator:GetParent(), 'BOTTOMLEFT')
@@ -86,19 +78,16 @@ local function Init()
     end
 
 
---外框
-    PlayerFrame.PlayerFrameContainer.FrameTexture:SetVertexColor(PlayerUtil.GetClassColor():GetRGB())--设置颜色
+    PlayerFrame.PlayerFrameContainer.FrameTexture:SetVertexColor(PlayerUtil.GetClassColor():GetRGB())
 
 
---移动，缩小，开启战争模式时，PVP图标
-    WoWTools_DataMixin:Hook('PlayerFrame_UpdatePvPStatus', function()--开启战争模式时，PVP图标
+    WoWTools_DataMixin:Hook('PlayerFrame_UpdatePvPStatus', function()
         contextual.PVPIcon:SetSize(25,25)
         contextual.PVPIcon:ClearAllPoints()
         contextual.PVPIcon:SetPoint('RIGHT', PlayerFrame.PlayerFrameContainer.PlayerPortrait, 'LEFT', 13, -24)
     end)
 
 
---修改, 宠物, 名称)
     WoWTools_DataMixin:Hook('UnitFrame_OnEvent', function(self, event)
         if self.unit=='pet' and event == "UNIT_NAME_UPDATE" then
             self.name:SetText('|A:auctionhouse-icon-favorite:0:0|a')
@@ -108,11 +97,9 @@ local function Init()
 
 
 
---移动zzZZ, 睡着
     contextual.PlayerRestLoop.RestTexture:SetPoint('TOPRIGHT', PlayerFrame.portrait, 14, 38)
 
 
-    --全部有权限，助手，提示
     local AssisterButton= CreateFrame('Button', 'WoWToolsPlayerFrameAssisterButton', contextual, 'WoWToolsButtonTemplate')
     AssisterButton:SetFrameStrata('HIGH')
     AssisterButton:SetAllPoints(contextual.LeaderIcon)
@@ -144,11 +131,11 @@ local function Init()
             WoWTools_TextMixin:GetEnabeleDisable(IsEveryoneAssistant())
         )
     end)
-    AssisterButton.Icon= AssisterButton:CreateTexture(nil, 'OVERLAY', nil, 1)--助手，提示 PlayerFrame.xml
+    AssisterButton.Icon= AssisterButton:CreateTexture(nil, 'OVERLAY', nil, 1)
     AssisterButton.Icon:SetAllPoints(AssisterButton)
     AssisterButton.Icon:SetTexture('Interface\\GroupFrame\\UI-Group-AssistantIcon')
     --AssisterButton.Icon:Hide()
-    AssisterButton.EveryoneAssistantIcon= AssisterButton:CreateTexture(nil, 'OVERLAY', nil, 6)--所有限员，有权限，提示
+    AssisterButton.EveryoneAssistantIcon= AssisterButton:CreateTexture(nil, 'OVERLAY', nil, 6)
     AssisterButton.EveryoneAssistantIcon:SetPoint('CENTER', AssisterButton)
     AssisterButton.EveryoneAssistantIcon:SetAtlas('runecarving-menu-reagent-selected')
     AssisterButton.EveryoneAssistantIcon:SetSize(16,16)
@@ -163,7 +150,6 @@ local function Init()
     end)
 
 
---拾取专精
     local LootButton= CreateFrame('DropdownButton', 'WoWToolsPlayerFrameLootButton', contextual, 'WoWToolsMenu3Template')
     LootButton:SetPoint('BOTTOMLEFT', contextual.LeaderIcon, 'BOTTOMRIGHT')
     LootButton:SetSize(size, size)
@@ -255,12 +241,10 @@ local function Init()
     end)
 
 
---图标
     local RaidButton= CreateFrame('DropdownButton', 'WoWToolsPlayerFrameRaidButton', contextual, 'WoWToolsMenu3Template')
     RaidButton:SetSize(size, size)
     RaidButton:SetPoint('BOTTOMLEFT', LootButton, 'BOTTOMRIGHT')
 
---10人，25人
     RaidButton.text= RaidButton:CreateFontString(nil, 'ARTWORK', 'WoWToolsFont2')-- WoWTools_LabelMixin:Create(InsFrame, {color=true})
     RaidButton.text:SetPoint('CENTER')
     RaidButton.text:SetJustifyH('CENTER')
@@ -336,8 +320,7 @@ local function Init()
     RaidButton:RegisterEvent('GROUP_ROSTER_UPDATE')
     RaidButton:RegisterEvent('PLAYER_DIFFICULTY_CHANGED')
     RaidButton:SetScript('OnEvent', function(self)
-        if select(2, IsInInstance())~='none' and not IsInRaid()--不在团本里
-            --or (IsInGroup() and not isInRaid and not UnitIsGroupLeader("player"))--队伍没有权限
+        if select(2, IsInInstance())~='none' and not IsInRaid()
         then
             self:SetShown(false)
             return
@@ -508,7 +491,6 @@ local function Init()
     end)
 
 
---挑战，数据
     local KeyButton= CreateFrame("Button", 'WoWToolsPlayerFrameKeystoneButton', contextual, 'WoWToolsButtonTemplate')
     KeyButton:SetSize(size, size)
 
@@ -536,12 +518,12 @@ local function Init()
 
         if show then
             local score= C_ChallengeMode.GetOverallDungeonScore() or 0
-            local activeText= WoWTools_ChallengeMixin:GetRewardText(1)--得到，周奖励，信息
+            local activeText= WoWTools_ChallengeMixin:GetRewardText(1)
 
             text= WoWTools_ChallengeMixin:KeystoneScorsoColor(score)
-                    ..(activeText and ' ('..activeText..') ' or '')--分数
+                    ..(activeText and ' ('..activeText..') ' or '')
 
-            local info = C_MythicPlus.GetRunHistory(false, true) or {}--次数
+            local info = C_MythicPlus.GetRunHistory(false, true) or {}
 
             local num= #info
             if num>0 then
@@ -555,8 +537,8 @@ local function Init()
     end
 
     KeyButton:RegisterEvent('PLAYER_ENTERING_WORLD')
-    KeyButton:RegisterEvent('CHALLENGE_MODE_MAPS_UPDATE')--地下城挑战
-    KeyButton:RegisterEvent('WEEKLY_REWARDS_UPDATE')--地下城挑战
+    KeyButton:RegisterEvent('CHALLENGE_MODE_MAPS_UPDATE')
+    KeyButton:RegisterEvent('WEEKLY_REWARDS_UPDATE')
     KeyButton:RegisterEvent('CHALLENGE_MODE_COMPLETED')
     KeyButton:RegisterEvent('PLAYER_LEVEL_UP')
 
@@ -565,7 +547,7 @@ local function Init()
     end)
 
     KeyButton:SetScript('OnMouseDown', function()
-        WoWTools_DataMixin:OpenWoWItemListFrame()--战团，物品列表
+        WoWTools_DataMixin:OpenWoWItemListFrame()
     end)
     --KeyButton:set_settings()
 
@@ -581,7 +563,7 @@ local function Init()
 end
 
 
-function WoWTools_UnitMixin:Init_PlayerFrame()--玩家
+function WoWTools_UnitMixin:Init_PlayerFrame()
     Init()
 end
 

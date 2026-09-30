@@ -12,7 +12,7 @@ local function Init_Menu(self, root)
     sub=root:CreateButton(
         '|A:characterundelete-RestoreButton:0:0|a'..(WoWTools_L['RESET+STATUS_TEXT_VALUE']),
     function()
-        WoWTools_AttributesMixin:Frame_Init(true)--初始， 或设置
+        WoWTools_AttributesMixin:Frame_Init(true)
         WoWTools_Print(
             WoWTools_AttributesMixin.addName..WoWTools_DataMixin.Icon.icon2,
             '|cnGREEN_FONT_COLOR:',
@@ -29,14 +29,14 @@ local function Init_Menu(self, root)
         return self.frame:IsShown()
     end, function()
         Save().hide= not Save().hide and true or nil
-        self:set_Show_Hide()--显示， 隐藏
+        self:set_Show_Hide()
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Attributes.Show'])
 
     sub=root:CreateButton(
         '|A:communities-icon-chat:0:0|a'..(WoWTools_L.SEND_MESSAGE),
     function()
-        self:send_Att_Chat()--发送信息
+        self:send_Att_Chat()
         return MenuResponse.Open
     end)
     sub:SetTooltip(function(tooltip)
@@ -46,26 +46,23 @@ local function Init_Menu(self, root)
     end)
 
     root:CreateDivider()
---专精
     WoWTools_MenuMixin:Set_Specialization(root)
 
 
     root:CreateDivider()
 
---选项
     sub=WoWTools_AttributesMixin:Open_Options(root)
 
 
---背景, 透明度
     WoWTools_MenuMixin:BgAplha(sub,
     function()--GetValue
         return Save().bgAlpha or 0.5
     end, function(value)--SetValue
         Save().bgAlpha=value
-        WoWTools_AttributesMixin:Frame_Init(true)--初始， 或设置
+        WoWTools_AttributesMixin:Frame_Init(true)
     end, function()--RestFunc
         Save().bgAlpha= 0.5
-        WoWTools_AttributesMixin:Frame_Init(true)--初始， 或设置
+        WoWTools_AttributesMixin:Frame_Init(true)
     end)--onlyRoot
 
 --FrameStrata
@@ -78,10 +75,9 @@ local function Init_Menu(self, root)
 
 
     sub:CreateDivider()
---重置位置
     WoWTools_MenuMixin:RestPoint(self, sub, Save().point, function()
         Save().point=nil
-        self:set_Point()--设置, 位置
+        self:set_Point()
         return MenuResponse.Open
     end)
 end

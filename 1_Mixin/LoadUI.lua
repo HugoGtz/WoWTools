@@ -9,7 +9,7 @@ end
 
 
 
-function WoWTools_LoadUIMixin:Journal(index, tab)--加载，收藏，UI
+function WoWTools_LoadUIMixin:Journal(index, tab)
     if
         self:IsDisabledOpenFrame()
         or InCombatLockdown()
@@ -34,7 +34,6 @@ function WoWTools_LoadUIMixin:Journal(index, tab)--加载，收藏，UI
         return
     end
 
---玩具
     if tab.toyItemID then
         if index==3 then
             local name2= select(2, C_ToyBox.GetToyInfo(tab.toyItemID))
@@ -45,7 +44,6 @@ function WoWTools_LoadUIMixin:Journal(index, tab)--加载，收藏，UI
                 end
             end
         end
---宠物
     elseif (tab.petOwner and tab.petIndex) or tab.petSpeciesID then
         local speciesID = tab.petSpeciesID or C_PetBattles.GetPetSpeciesID(tab.petOwner, tab.petIndex)
         if speciesID then
@@ -59,10 +57,8 @@ end
 
 
 
---打开/关闭角色界面
---MicroButtonTooltipText('角色信息', "TOGGLECHARACTER0")
 --C_CurrencyInfo.GetCurrencyListSize() <= 0
-function WoWTools_LoadUIMixin:OpenPaperDoll(frameIndex, tabIndex)--打开/关闭角色界面
+function WoWTools_LoadUIMixin:OpenPaperDoll(frameIndex, tabIndex)
     if self:IsDisabledOpenFrame()
         or C_GameRules.IsGameRuleActive(Enum.GameRule.CharacterPanelDisabled)
     then
@@ -89,7 +85,6 @@ function WoWTools_LoadUIMixin:OpenPaperDoll(frameIndex, tabIndex)--打开/关闭
 end
 
 
---概要 ExpansionLandingPageMinimapButtonMixin:RefreshButton(forceUpdateIcon)
 function WoWTools_LoadUIMixin:ToggleLandingPage()
 
     local mode= C_Garrison.GetLandingPageGarrisonType()
@@ -104,7 +99,6 @@ function WoWTools_LoadUIMixin:ToggleLandingPage()
 end
 
 
---专业
 function WoWTools_LoadUIMixin:Professions(recipeID)
     if self:IsDisabledOpenFrame() then
         return
@@ -129,7 +123,6 @@ function WoWTools_LoadUIMixin:Professions(recipeID)
 end
 
 
---宏伟宝库
 function WoWTools_LoadUIMixin:WeeklyRewards()
     if
         InCombatLockdown()
@@ -178,7 +171,7 @@ function WoWTools_LoadUIMixin:OpenFaction(factionID)
 
         EJ_ContentTab_Select(EncounterJournal.JourneysTab:GetID())
 
-        if factionID and EncounterJournalJourneysFrame then--12.0才有
+        if factionID and EncounterJournalJourneysFrame then
             EncounterJournalJourneysFrame:ResetView(C_MajorFactions.GetMajorFactionData(factionID), factionID)
             EncounterJournal_OpenToJourney(factionID)
         end
@@ -215,7 +208,6 @@ local function SetupTextureKit(frame, regions, covenantData)
 end
 
 
---盟约 9.0
 function WoWTools_LoadUIMixin:CovenantRenown(frame, covenantID)
     if
         self:IsDisabledOpenFrame()
@@ -283,7 +275,7 @@ function WoWTools_LoadUIMixin:SpellBook(index, spellID)
         PlayerSpellsUtil.OpenToClassSpecializationsTab()
     elseif index==2 then
         PlayerSpellsUtil.OpenToClassTalentsTab()
-    else--这个有BUG
+    else
         if spellID then
             local knownSpellsOnly, toggleFlyout, flyoutReason = true, true, nil;
             PlayerSpellsUtil.OpenToSpellBookTabAtSpell(spellID, knownSpellsOnly, toggleFlyout, flyoutReason)
@@ -294,7 +286,6 @@ function WoWTools_LoadUIMixin:SpellBook(index, spellID)
 end
 
 
---打开成就
 -- AchievementObjectiveTrackerMixin:OnBlockHeaderClick
 --AchievementFrameAchievements.selection ~= achievementID
 --CanShowAchievementUI()

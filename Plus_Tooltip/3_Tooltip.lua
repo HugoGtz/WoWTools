@@ -1,14 +1,13 @@
 function WoWTools_TooltipMixin.Frames:TooltipDataProcessor()
     TooltipDataProcessor.AddTooltipPostCall(TooltipDataProcessor.AllTypes, function(tooltip, data)
         if not tooltip.textLeft then
-            WoWTools_TooltipMixin:Set_Init_Item(tooltip)--创建，设置，内容
+            WoWTools_TooltipMixin:Set_Init_Item(tooltip)
         end
         if tooltip==ItemRefTooltip then
-            WoWTools_TooltipMixin:Set_Init_Item(tooltip, true)--创建，设置，内容
+            WoWTools_TooltipMixin:Set_Init_Item(tooltip, true)
         end
     end)
 
---物品 0
     TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Item, function(tooltip, data)
         if tooltip==ShoppingTooltip1 or ShoppingTooltip2==tooltip then
             return
@@ -18,12 +17,10 @@ function WoWTools_TooltipMixin.Frames:TooltipDataProcessor()
         WoWTools_TooltipMixin:Set_Item(tooltip, itemLink, itemID)
     end)
 
---法术 1
     TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Spell, function(tooltip, data)
         WoWTools_TooltipMixin:Set_Spell(tooltip, data.id)
     end)
 
---单位 Unit 2
     TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Unit, function(tooltip)
         WoWTools_TooltipMixin:Set_Unit(tooltip)
     end)
@@ -32,25 +29,21 @@ function WoWTools_TooltipMixin.Frames:TooltipDataProcessor()
 --Object 4
 
 
---货币 5
     TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Currency, function(tooltip, data)
         WoWTools_TooltipMixin:Set_Currency(tooltip, data.id)
     end)
 
 --BattlePet 6
 
---UnitAura 7 12.0 会出错
     TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.UnitAura, function(tooltip, data)  
        WoWTools_TooltipMixin:Set_All_Aura(tooltip, data)
     end)
---艾泽拉斯之心 8
     TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.AzeriteEssence, function(tooltip, data)
         WoWTools_TooltipMixin:Set_Azerite(tooltip, data.id)
     end)
 
 --CompanionPet 9
 
---坐骑 10
     TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Mount, function(tooltip, data)
         WoWTools_TooltipMixin:Set_Mount(tooltip, data.id)
     end)
@@ -61,7 +54,6 @@ function WoWTools_TooltipMixin.Frames:TooltipDataProcessor()
         local spellID = select(7, GetPetActionInfo(action and action:GetID() or 0))
         WoWTools_TooltipMixin:Set_Spell(tooltip, spellID)
     end)
---成就 12
     TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Achievement, function(tooltip, data)
         WoWTools_TooltipMixin:Set_Achievement(tooltip, data.id)
     end)
@@ -75,7 +67,6 @@ function WoWTools_TooltipMixin.Frames:TooltipDataProcessor()
 --RecipeRankInfo 17
 --Totem 18
 
---玩具 19
     TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Toy, function(tooltip, data)
         if tooltip==ShoppingTooltip1 or ShoppingTooltip2==tooltip then
             return
@@ -88,21 +79,18 @@ function WoWTools_TooltipMixin.Frames:TooltipDataProcessor()
 --CorruptionCleanser 20
 --MinimapMouseover 21
 
---法术弹出框 22
     TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Flyout, function(tooltip, data)
         WoWTools_TooltipMixin:Set_Flyout(tooltip, data.id)
     end)
 
---任务 25
     TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Quest, function(tooltip, data)
         WoWTools_TooltipMixin:Set_Quest(tooltip, data.id, data)
     end)
 
 --QuestPartyProgress 24
 
---宏 Macro 25
     TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType.Macro, function(tooltip)
-        local frame= tooltip:GetOwner()--宏 11版本
+        local frame= tooltip:GetOwner()
         if frame and frame.action then
             local type, macroID, subType= GetActionInfo(frame.action)
             if type=='macro' and macroID then
@@ -142,13 +130,12 @@ end
 
 
 function WoWTools_TooltipMixin.Frames:ShoppingTooltip1()
---装备，对比，提示
     for i=1, 2 do
         local tooltip= _G['ShoppingTooltip'..i]
 
-        WoWTools_TextureMixin:SetFrame(tooltip.CompareHeader, {alpha=1})--11.2.7才有
+        WoWTools_TextureMixin:SetFrame(tooltip.CompareHeader, {alpha=1})
 
-        tooltip.Portrait2= tooltip:CreateTexture(nil, 'BACKGROUND',nil, 2)--右上角图标
+        tooltip.Portrait2= tooltip:CreateTexture(nil, 'BACKGROUND',nil, 2)
         tooltip.Portrait2:SetPoint('TOPRIGHT',-2, -3)
         tooltip.Portrait2:SetSize(40,40)
         tooltip:HookScript('OnShow', function(t)
@@ -190,7 +177,6 @@ end
 
 
 function WoWTools_TooltipMixin.Events:Blizzard_GameTooltip()
---宠物，技能书，提示
     WoWTools_DataMixin:Hook(GameTooltip, 'SetSpellBookItem', function(frame, slot, unit)
         if unit==Enum.SpellBookSpellBank.Pet and slot then
             local data= C_SpellBook.GetSpellBookItemInfo(slot, Enum.SpellBookSpellBank.Pet) or {}
@@ -216,7 +202,6 @@ function WoWTools_TooltipMixin.Events:Blizzard_GameTooltip()
         end
     end)
 
---添加 WidgetSetID
     WoWTools_DataMixin:Hook('GameTooltip_AddWidgetSet', function(tooltip, uiWidgetSetID)
         if uiWidgetSetID then
             tooltip:AddLine('widgetSetID|cffffffff'..WoWTools_DataMixin.Icon.icon2..uiWidgetSetID)
@@ -224,7 +209,6 @@ function WoWTools_TooltipMixin.Events:Blizzard_GameTooltip()
         end
     end)
 
---Buff, 来源, 数据, 不可删除，如果删除，目标buff没有数据
     WoWTools_DataMixin:Hook(GameTooltip, "SetUnitBuff", function(...)
         WoWTools_TooltipMixin:Set_Buff('Buff', ...)
     end)
@@ -250,9 +234,8 @@ end
 
 
 
---选项 SettingsTooltip
 function WoWTools_TooltipMixin.Frames:SettingsTooltip()
-    SettingsTooltip:HookScript('OnShow', function(tooltip)--选项面板，值提示
+    SettingsTooltip:HookScript('OnShow', function(tooltip)
         local frame= tooltip:GetOwner():GetParent()
 
         for i=1, 4 do
@@ -313,7 +296,6 @@ end
 
 
 
---战斗宠物，技能 SharedPetBattleTemplates.lua  SharedPetBattleAbilityTooltipTemplate
 --PetBattlePrimaryAbilityTooltip
 --PetJournalPrimaryAbilityTooltip
 --FloatingPetBattleAbilityTooltip
@@ -339,18 +321,17 @@ function WoWTools_TooltipMixin.Frames:BattlePetTooltip()
             ..(self:Save().ctrl and not InCombatLockdown() and '  |A:NPE_Icon:0:0|aCtrl+Shift|TInterface\\AddOns\\WoWToolsPlus\\Source\\Texture\\Wowhead.tga:0|t' or '')
         )
 
-        self:Set_Web_Link(frame, {type='pet-ability', id=abilityID, name=name, col=nil, isPetUI=false})--取得网页，数据链接 npc item spell currency
+        self:Set_Web_Link(frame, {type='pet-ability', id=abilityID, name=name, col=nil, isPetUI=false})
     end)
 
---宠物面板提示
     WoWTools_DataMixin:Hook("BattlePetToolTip_Show", function(...)--BattlePetTooltip.lua 
         self:Set_Battle_Pet(BattlePetTooltip, ...)
     end)
     WoWTools_DataMixin:Hook('FloatingBattlePet_Show', function(...)--FloatingPetBattleTooltip.lua
         self:Set_Battle_Pet(FloatingBattlePetTooltip, ...)
     end)
-    WoWTools_DataMixin:Hook(GameTooltip, "SetCompanionPet", function(frame, petGUID)--设置宠物信息
+    WoWTools_DataMixin:Hook(GameTooltip, "SetCompanionPet", function(frame, petGUID)
         local speciesID= petGUID and C_PetJournal.GetPetInfoByPetID(petGUID)
-        self:Set_Pet(frame, speciesID)--宠物
+        self:Set_Pet(frame, speciesID)
     end)
 end

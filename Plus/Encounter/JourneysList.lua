@@ -1,4 +1,3 @@
---旅程 12.0才有
 local function Save()
     return WoWToolsPlusSave['Adventure_Journal'].JourneysList
 end
@@ -140,7 +139,6 @@ local function Init_Menu(self, root)
         return
     end
     local sub
---显示名称
     sub=root:CreateButton(
         WoWTools_L.NAME,
     function()
@@ -160,7 +158,6 @@ local function Init_Menu(self, root)
         end, expansionID)
     end
     sub:CreateDivider()
---勾选所有
     sub:CreateButton(
         WoWTools_L.EVENTTRACE_BUTTON_ENABLE_FILTERS,
     function()
@@ -170,7 +167,6 @@ local function Init_Menu(self, root)
         self:settings()
         return MenuResponse.Refresh
     end)
---撤选所有
     sub:CreateButton(
         WoWTools_L.EVENTTRACE_BUTTON_DISABLE_FILTERS,
      function()
@@ -180,7 +176,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetGridMode(sub)
 
---版本
     sub=root:CreateButton(
         WoWTools_L.DISABLE,
     function ()
@@ -200,7 +195,6 @@ local function Init_Menu(self, root)
         end, expansionID)
     end
     sub:CreateDivider()
---勾选所有
     sub:CreateButton(
         WoWTools_L.EVENTTRACE_BUTTON_ENABLE_FILTERS,
     function()
@@ -210,7 +204,6 @@ local function Init_Menu(self, root)
         self:settings()
         return MenuResponse.Refresh
     end)
---撤选所有
     sub:CreateButton(
         WoWTools_L.EVENTTRACE_BUTTON_DISABLE_FILTERS,
      function()
@@ -221,7 +214,6 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetGridMode(sub)
 
     root:CreateDivider()
-    --背景, 透明度
     WoWTools_MenuMixin:BgAplha(root,
     function()
         return Save().bgAlpha or 0.5
@@ -233,7 +225,6 @@ local function Init_Menu(self, root)
         self:settings()
     end)
 
---缩放
     WoWTools_MenuMixin:Scale(self, root,
     function()--GetValue
         return Save().scale or 1

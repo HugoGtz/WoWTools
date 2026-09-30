@@ -1,4 +1,3 @@
---战团藏品
 
 
 
@@ -73,6 +72,6 @@ end
 
 
 
-function WoWTools_MainMenuMixin:Init_Collections()--收藏
+function WoWTools_MainMenuMixin:Init_Collections()
     Init()
 end

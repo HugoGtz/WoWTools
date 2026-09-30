@@ -4,8 +4,8 @@ end
 
 
 local Role, PrimaryStat, Tabs
-local RedColor--变小值
-local GreenColor--变大值
+local RedColor
+local GreenColor
 
 
 
@@ -23,7 +23,7 @@ function WoWTools_AttributesMixin:Set_Color()
 end
 
 
-local function get_PrimaryStat()--取得主属
+local function get_PrimaryStat()
     local spec= GetSpecialization() or 0
     Role= GetSpecializationRole(spec)--DAMAGER, TANK, HEALER
     local icon, _
@@ -36,7 +36,7 @@ end
 
 
 local function set_Tabs()
-    get_PrimaryStat()--取得主属
+    get_PrimaryStat()
 
     local r,g,b= PlayerUtil.GetClassColor():GetRGB()
     Tabs={
@@ -87,15 +87,15 @@ local function set_Tabs()
         Tabs[index].textValue= Save().setMaxMinValue and Tabs[index].textValue or false
 
         Tabs[index].hide= Save().tab[info.name].hide
-        Tabs[index].zeroShow= info.zeroShow--等于0， 时也要显示
+        Tabs[index].zeroShow= info.zeroShow
         if not Tabs[index].hide then
-            if info.name=='STAGGER' and (WoWTools_DataMixin.Player.Class~='MONK' or Role~='TANK') then--武僧, 醉拳
+            if info.name=='STAGGER' and (WoWTools_DataMixin.Player.Class~='MONK' or Role~='TANK') then
                 Tabs[index].hide= true
-            elseif info.dps then--四属性, DPS
+            elseif info.dps then
                 if Role~='DAMAGER' and Role~='HEALER' and Save().onlyDPS then
                     Tabs[index].hide= true
                 end
-            elseif info.tank then--坦克
+            elseif info.tank then
                 if Role~='TANK' then
                     Tabs[index].hide= true
                 end
@@ -106,7 +106,6 @@ end
 
 
 --###########
---设置，当前值
 --###########
 local function set_Text_Value(frame, value, value2)
     value= canaccessvalue(value) and value > 0 and value or 0
@@ -178,13 +177,13 @@ local function set_Text_Value(frame, value, value2)
             frame.textValue:SetText('')
         else
             local text, icon
-            if frame.value< value then--加
+            if frame.value< value then
                 if frame.useNumber then
                     icon, text= '|A:UI-HUD-Minimap-Zoom-In:8:8|a', WoWTools_DataMixin:MK(value-frame.value, frame.bit)
                 else
                     icon, text= '|A:UI-HUD-Minimap-Zoom-In:8:8|a', format('%.'..frame.bit..'f', value-frame.value)
                 end
-            else--减
+            else
                 if frame.useNumber then
                     icon, text= '|A:UI-HUD-Minimap-Zoom-Out:6:6|a', WoWTools_DataMixin:MK(frame.value-value, frame.bit)
                 else
@@ -226,10 +225,9 @@ local function set_Text_Value(frame, value, value2)
 end
 
 
---主属性
 local function set_STATUS_Text(frame)
     if not PrimaryStat then
-        get_PrimaryStat()--取得主属
+        get_PrimaryStat()
     end
     if not PrimaryStat then
         return
@@ -242,7 +240,6 @@ local function set_STATUS_Text(frame)
 end
 
 
---爆击
 local function get_minCrit()
     local holySchool = 2
     local minCrit = GetSpellCritChance(holySchool) or 0
@@ -285,12 +282,11 @@ local function set_CRITCHANCE_Text(frame)
     if not frame then
         return critChance or 0
     else
-        set_Text_Value(frame, critChance)--设置，当前值
+        set_Text_Value(frame, critChance)
     end
 end
 
 
---急速
 local function set_HASTE_Text(frame)
     local haste
     if Save().useNumber then
@@ -301,12 +297,11 @@ local function set_HASTE_Text(frame)
     if not frame then
         return haste or 0
     else
-        set_Text_Value(frame, haste)--设置，当前值
+        set_Text_Value(frame, haste)
     end
 end
 
 
---精通
 --PaperDollFrame.lua
 local function set_MASTERY_Text(frame)
     local mastery
@@ -318,12 +313,11 @@ local function set_MASTERY_Text(frame)
     if not frame then
         return mastery or 0
     else
-        set_Text_Value(frame, mastery)--设置，当前值
+        set_Text_Value(frame, mastery)
     end
 end
 
 
---全能, 5
 local function set_VERSATILITY_Text(frame)
     local value, value2
     if Save().useNumber then
@@ -343,12 +337,11 @@ local function set_VERSATILITY_Text(frame)
     if not frame then
         return value or 0, value2 or 0
     else
-        set_Text_Value(frame, value, value2)--设置，当前值
+        set_Text_Value(frame, value, value2)
     end
 end
 
 
---吸血, 6
 local function set_LIFESTEAL_Text(frame)
     local lifesteal
     if Save().useNumber then
@@ -359,12 +352,11 @@ local function set_LIFESTEAL_Text(frame)
     if not frame then
         return lifesteal or 0
     else
-        set_Text_Value(frame, lifesteal)--设置，当前值
+        set_Text_Value(frame, lifesteal)
     end
 end
 
 
---闪避, 7
 local function set_AVOIDANCE_Text(frame)
     local avoidance
     if Save().useNumber then
@@ -375,12 +367,11 @@ local function set_AVOIDANCE_Text(frame)
     if not frame then
         return avoidance or 0
     else
-        set_Text_Value(frame, avoidance)--设置，当前值
+        set_Text_Value(frame, avoidance)
     end
 end
 
 
---躲闪, 8
 local function set_DODGE_Text(frame)
     local chance
     if Save().useNumber then
@@ -391,12 +382,11 @@ local function set_DODGE_Text(frame)
     if not frame then
         return chance or 0
     else
-        set_Text_Value(frame, chance)--设置，当前值
+        set_Text_Value(frame, chance)
     end
 end
 
 
---护甲 local baselineArmor, effectiveArmor, armor, bonusArmor = UnitArmor('player')
 local function set_ARMOR_Text(frame)
     local value, value2
     local effectiveArmor= select(2, UnitArmor('player'))
@@ -415,11 +405,10 @@ local function set_ARMOR_Text(frame)
         end
     end
 
-    set_Text_Value(frame, value, value2)--设置，当前值
+    set_Text_Value(frame, value, value2)
 end
 
 
---招架
 local function set_PARRY_Text(frame)
     local chance
     if Save().useNumber then
@@ -430,12 +419,11 @@ local function set_PARRY_Text(frame)
     if not frame then
         return chance or 0
     else
-        set_Text_Value(frame, chance)--设置，当前值
+        set_Text_Value(frame, chance)
     end
 end
 
 
---格挡10
 local function set_BLOCK_Text(frame)
     local chance
     if Save().useNumber then
@@ -446,19 +434,17 @@ local function set_BLOCK_Text(frame)
     if not frame then
         return chance or 0
     else
-        set_Text_Value(frame, chance)--设置，当前值
+        set_Text_Value(frame, chance)
     end
 end
 
 
---醉拳11
 local function set_STAGGER_Text(frame)
     local stagger, staggerAgainstTarget = C_PaperDollInfo.GetStaggerPercentage('player')
-    set_Text_Value(frame, stagger, staggerAgainstTarget)--设置，当前值
+    set_Text_Value(frame, stagger, staggerAgainstTarget)
 end
 
 
---移动12
 local function set_SPEED_Text(frame, elapsed)
     frame.elapsed= frame.elapsed + elapsed
     if frame.elapsed < 0.3 then
@@ -479,12 +465,10 @@ local function set_SPEED_Text(frame, elapsed)
 end
 
 
-local function set_Frame(frame, rest)--设置, frame
+local function set_Frame(frame, rest)
     if rest then
-        --frame, 数值
-        frame:SetSize(Save().horizontal, 12+ (Save().vertical or 3))--设置，大小
+        frame:SetSize(Save().horizontal, 12+ (Save().vertical or 3))
 
-        --名称
         frame.label:ClearAllPoints()
         if Save().toLeft then
             frame.label:SetPoint('LEFT', frame, 'RIGHT',-5,0)
@@ -493,17 +477,16 @@ local function set_Frame(frame, rest)--设置, frame
         end
 
         local text= frame.nameText
-        if Save().strupper then--大写
+        if Save().strupper then
             text= strupper(text)
-        elseif Save().strlower then--小写
+        elseif Save().strlower then
             text= strlower(text)
         end
-        if Save().gsubText then--文本，截取
+        if Save().gsubText then
             text= WoWTools_TextMixin:sub(text, Save().gsubText)
         end
         frame.label:SetText(text or '')
 
-        --数值,text
         frame.text:ClearAllPoints()
         if Save().toLeft then
             frame.text:SetPoint('RIGHT', frame, 'LEFT', 5,0)
@@ -518,10 +501,9 @@ local function set_Frame(frame, rest)--设置, frame
             frame.label:SetJustifyH('RIGHT')
             frame.text:SetJustifyH('LEFT')
         end
-        WoWTools_AttributesMixin:Set_Shadow(frame.label)--设置，字体阴影
-        WoWTools_AttributesMixin:Set_Shadow(frame.text)--设置，字体阴影
+        WoWTools_AttributesMixin:Set_Shadow(frame.label)
+        WoWTools_AttributesMixin:Set_Shadow(frame.text)
 
---背景
         frame.bg:ClearAllPoints()
         if Save().toLeft then
             frame.bg:SetPoint('TOPRIGHT', frame.label, 1, 1)
@@ -540,7 +522,7 @@ local function set_Frame(frame, rest)--设置, frame
                 if frame.name=='STATUS' then
                     value= set_STATUS_Text() or 1000
                 else
-                    value= max(--取得Bar，最高值
+                    value= max(
                         set_CRITCHANCE_Text(),
                         set_HASTE_Text(),
                         set_MASTERY_Text(),
@@ -586,7 +568,7 @@ local function set_Frame(frame, rest)--设置, frame
             frame.barTexture:SetSize(frame.bar:GetWidth(), 10)
         end
 
-        if frame.textValue then--数值 + -
+        if frame.textValue then
             frame.textValue:ClearAllPoints()
             frame.textValue:SetTextColor(frame.r,frame.g,frame.b,frame.a)
             if not Save().notText then
@@ -595,7 +577,7 @@ local function set_Frame(frame, rest)--设置, frame
                 else
                     frame.textValue:SetPoint('LEFT', frame.text, 'RIGHT')--, 30+(frame.bit*6), 0)
                 end
-            else--不显示，数值
+            else
                 if Save().toLeft then
                     frame.text:SetPoint('RIGHT', frame, 'LEFT')
                 else
@@ -606,53 +588,49 @@ local function set_Frame(frame, rest)--设置, frame
         end
     end
 
-    if frame.name=='STATUS' then--主属性1
+    if frame.name=='STATUS' then
         if not PrimaryStat or not Role then
-            get_PrimaryStat()--取得主属
+            get_PrimaryStat()
         end
         set_STATUS_Text(frame)
-    elseif frame.name=='CRITCHANCE' then--爆击2
+    elseif frame.name=='CRITCHANCE' then
         set_CRITCHANCE_Text(frame)
-    elseif frame.name=='HASTE' then--急速3
+    elseif frame.name=='HASTE' then
         set_HASTE_Text(frame)
-    elseif frame.name=='MASTERY' then--精通4
+    elseif frame.name=='MASTERY' then
         set_MASTERY_Text(frame)
-    elseif frame.name=='VERSATILITY' then--全能5
+    elseif frame.name=='VERSATILITY' then
         set_VERSATILITY_Text(frame)
-    elseif frame.name=='LIFESTEAL' then--吸血6
+    elseif frame.name=='LIFESTEAL' then
         set_LIFESTEAL_Text(frame)
-    elseif frame.name=='ARMOR' then--护甲
+    elseif frame.name=='ARMOR' then
         set_ARMOR_Text(frame)
-    elseif frame.name=='AVOIDANCE' then--闪避
+    elseif frame.name=='AVOIDANCE' then
         set_AVOIDANCE_Text(frame)
-    elseif frame.name=='DODGE' then--躲闪
+    elseif frame.name=='DODGE' then
         set_DODGE_Text(frame)
-    elseif frame.name=='PARRY' then--招架
+    elseif frame.name=='PARRY' then
         set_PARRY_Text(frame)
-    elseif frame.name=='BLOCK' then--格挡
+    elseif frame.name=='BLOCK' then
         set_BLOCK_Text(frame)
-    elseif frame.name=='STAGGER' then--醉拳
+    elseif frame.name=='STAGGER' then
         set_STAGGER_Text(frame)
     end
 end
 
 
 local EventsTable={}
---主属性1
 EventsTable.STATUS= function(frame)
     frame:RegisterUnitEvent('UNIT_STATS', 'player')
     frame:SetScript('OnEvent', set_STATUS_Text)
 end
 
---EventsTable.HASTE= function(frame)--爆击2
 
---急速3
 EventsTable.HASTE= function(frame)
     frame:RegisterUnitEvent('UNIT_SPELL_HASTE', 'player')
     frame:SetScript('OnEvent', set_HASTE_Text)
 end
 
---精通4
 EventsTable.MASTERY= function(frame)
     frame:RegisterEvent('MASTERY_UPDATE')
     frame:SetScript('OnEvent', function()
@@ -661,29 +639,24 @@ EventsTable.MASTERY= function(frame)
     frame.onEnterFunc = Mastery_OnEnter
 end
 
---吸血6
 EventsTable.LIFESTEAL= function()
     _G['WoWToolsAttributesMainButton'].frame:RegisterEvent('LIFESTEAL_UPDATE')
 end
 
---护甲
 EventsTable.ARMOR= function(frame)
     frame:RegisterEvent('PLAYER_TARGET_CHANGED')
     frame:SetScript('OnEvent', set_ARMOR_Text)
 end
 
---闪避7
 EventsTable.AVOIDANCE= function()
     _G['WoWToolsAttributesMainButton'].frame:RegisterEvent('AVOIDANCE_UPDATE')
 end
 
---醉拳11
 EventsTable.STAGGER= function(frame)
     frame:RegisterEvent('PLAYER_TARGET_CHANGED')
     frame:SetScript('OnEvent', set_STAGGER_Text)
 end
 
---移动12
 EventsTable.SPEED= function(frame)
     frame.frame=CreateFrame('Frame', nil, frame)
     frame.frame.elapsed= 0.3
@@ -693,7 +666,6 @@ EventsTable.SPEED= function(frame)
 end
 
 
---初始， 或设置
 local function Frame_Init(rest)
     if rest or not Tabs then
         set_Tabs()
@@ -744,13 +716,12 @@ local function Frame_Init(rest)
                 end
             end
 
-            --重置, 数值
             if rest then
                 frame.isBar= info.bar
                 frame.bar:SetShown(info.bar)
                 frame.barTextureSpark:SetShown(false)
 
-                if info.textValue and not frame.textValue then--数值 + -
+                if info.textValue and not frame.textValue then
                     frame.textValue=WoWTools_LabelMixin:Create(frame)
                 end
                 if frame.textValue then
@@ -765,8 +736,8 @@ local function Frame_Init(rest)
                 end
 
                 frame.r, frame.g, frame.b, frame.a= info.r,info.g,info.b,info.a
-                frame.damageAndDefense= info.damageAndDefense--全能5
-                frame.onlyDefense= info.onlyDefense--全能5
+                frame.damageAndDefense= info.damageAndDefense
+                frame.onlyDefense= info.onlyDefense
                 frame.bit= info.bit or 0
                 frame.useNumber= info.useNumber
                 frame.name= info.name
@@ -795,7 +766,7 @@ local function Frame_Init(rest)
 end
 
 
-function WoWTools_AttributesMixin:Set_Shadow(label)--设置，字体阴影
+function WoWTools_AttributesMixin:Set_Shadow(label)
     if label then
         label:SetShadowColor(Save().font.r, Save().font.g, Save().font.b, Save().font.a)
         label:SetShadowOffset(Save().font.x, Save().font.y)

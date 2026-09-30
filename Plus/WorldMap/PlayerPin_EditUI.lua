@@ -6,7 +6,7 @@ local function SaveWoW()
 end
 
 local Frame
-local PinHeight= 12--默认大小
+local PinHeight= 12
 local IconTabs={
     ['MonsterEnemy']=1,
     ['MonsterFriend']=1,
@@ -21,8 +21,8 @@ local IconTabs={
     ['Professions_Tracking_Herb_Special']=1,
 }
 local NameTabs= {
-    [BANK]= 1,--银行";
-    [MINIMAP_TRACKING_AUCTIONEER]= 1,--拍卖师";
+    [BANK]= 1,
+    [MINIMAP_TRACKING_AUCTIONEER]= 1,
 }
 
 
@@ -68,7 +68,7 @@ local function GetClassName(classID)
     if classInfo and classInfo.className and classInfo.classFile then
         local color= RAID_CLASS_COLORS[classInfo.classFile] or HIGHLIGHT_FONT_COLOR
         local icon= WoWTools_UnitMixin:GetClassIcon(nil, nil, classInfo.classFile)
-        return (icon or '')--职业图标
+        return (icon or '')
             ..color:WrapTextInColorCode(WoWTools_TextMixin:CN(classInfo.className))
             ..(classID== PlayerUtil.GetClassID() and '|A:recipetoast-icon-star:0:0|a' or ''),
             color,--2
@@ -287,7 +287,6 @@ local function Refresh_All(pinData)
     local mapID= pinData.mapID or Frame.mapID or WoWTools_WorldMapMixin:GetMapID()
     Frame.mapID= mapID
 
---新建
     if pinData.isNew then
         if SaveWoW()[pinData.mapID] and SaveWoW()[pinData.mapID][pinData.xy] then
             Set_FrameSelect({
@@ -463,12 +462,9 @@ local function Initializer(self, data)
 
     self.data= data
 
---图标
     WoWTools_TextureMixin:SetTexture(self.Icon, data.pin.icon)
---名称
     local name= WoWTools_TextMixin:CN(_G[data.pin.name]) or data.pin.name
     self.Name:SetText(name or '')
---颜色
     if name then
         local color= data.pin.color
         if color then
@@ -480,15 +476,11 @@ local function Initializer(self, data)
 --xy
     self.Sub:SetText(data.xy)
 
---备注，设置
-    local note= (GetProfessionIcon(data.pin.profession) or '')--仅限专业
-    note= note..(GetClassIcon(data.pin.class) or '')--仅限职业
+    local note= (GetProfessionIcon(data.pin.profession) or '')
+    note= note..(GetClassIcon(data.pin.class) or '')
     self.Sub2:SetText(note..(data.pin.note or ''))
---索引
     self.Index:SetText(self:GetElementDataIndex())
---任务
     self.QuestIcon:SetShown(data.pin.questID)
---成就
     local achievementID= data.pin.achievementID
     self.AchievementIcon:SetShown(achievementID)
     local achievementTexture= achievementID and select(10, GetAchievementInfo(achievementID))
@@ -498,7 +490,6 @@ local function Initializer(self, data)
         self.AchievementIcon:SetAtlas('AutoQuest-Badge-Campaign')
     end
     self.AchievementIndex:SetText(data.pin.achievementIndex or '')
---专业，职业，任务，成就，检查
     self.CheckIcon:SetShown(not WoWTools_WorldMapMixin:Check_PinData(data.pin))
     self:set_event()
 end
@@ -524,41 +515,32 @@ end
 
 
 
---更新数据
 local function Add_Updata_Data(isUpdate)
     local mapID= Frame.mapID
---名称
     local name= Frame.nameEdit:GetText()
     name= name:gsub(' ', '')~='' and name or nil
---图标
     local icon= Frame.iconEdit.icon
 
---xy 50.00 50.00 这个是字符
     local xy= Frame.xyEdit.xy
---如没有地图，坐标，名称或图标都没有，就不保存了
     if not mapID or not xy or not (name or icon) then
         return
     end
 
---备注
     local note= Frame.noteEdit:GetText()
     note= note:gsub(' ', '')~='' and note or nil
 
---仅限专业
     local profession
     profession= Frame.professionMenu.profession
     if profession and CountTable(profession)==0 then
         profession = nil
     end
 
---仅限职业
     local class
     class= Frame.classMenu.class
     if class and CountTable(class)==0 then
         class = nil
     end
 
---颜色 {r=r, g=g, b=b}
     local color
     if name and Frame.colorButton.color and not tCompare(Frame.colorButton.color, Frame.colorButton.valueColor) then
         local r,g,b= Frame.colorButton.color:GetRGB()
@@ -567,9 +549,7 @@ local function Add_Updata_Data(isUpdate)
         end
     end
 
---任务
     local questID= Frame.questEdit.questID
---成就
     local achievementID= Frame.achievementEdit.achievementID
     local achievementIndex= Frame.achievementButton.index
 
@@ -580,7 +560,6 @@ local function Add_Updata_Data(isUpdate)
         fontH= Frame.fontH.value or PinHeight
     }
 
---如果是更新，先删除原来
     if isUpdate and SaveWoW()[mapID][Frame.selectXY] then
         SaveWoW()[mapID][Frame.selectXY]= nil
     end
@@ -626,7 +605,6 @@ end
 
 
 
---导出，导入
 
 local function Zip_Data(zipData)
     if not zipData then
@@ -904,7 +882,6 @@ local function Init()
     })
 
 
---列表
     Frame.ScrollBox = CreateFrame("Frame", nil, Frame, "WowScrollBoxList")
     Frame.ScrollBox:SetPoint("TOPLEFT", 12, -55)
     Frame.ScrollBox:SetPoint("BOTTOMRIGHT", Frame, 'BOTTOM', -100, 6)
@@ -982,7 +959,6 @@ local function Init()
         count= nil
     end)
 
---数量
     Frame.numLabel= Frame:CreateFontString(nil, "BORDER", 'WoWToolsFonts')
     Frame.numLabel:SetPoint('RIGHT', Frame.search, 'LEFT', -4, 0)
     Frame.numLabel:SetTextColor(DISABLED_FONT_COLOR:GetRGB())
@@ -1005,7 +981,7 @@ local function Init()
 
 
 
-    Frame.mapMenu = CreateFrame("DropdownButton", nil, Frame, "WowStyle1DropdownTemplate")--下拉，菜单
+    Frame.mapMenu = CreateFrame("DropdownButton", nil, Frame, "WowStyle1DropdownTemplate")
     --Frame.mapMenu:SetPoint('LEFT',Frame.newButton, 'RIGHT', 6, 0)
     Frame.mapMenu:SetPoint('BOTTOMLEFT', Frame.ScrollBox, 'TOPRIGHT', 52, -2)
     Frame.mapMenu:SetPoint('RIGHT', -50, 0)
@@ -1173,7 +1149,6 @@ local function Init()
 
 
 
---图标 大小
     Frame.iconS= CreateFrame("Slider", nil, Frame, 'MinimalSliderTemplate')
     Frame.iconS:SetPoint('TOPLEFT', Frame.mapMenu, 'BOTTOMLEFT', -6, -2)
     Frame.iconS:SetPoint('TOPRIGHT', Frame.mapMenu, 'BOTTOM', -6, -2)
@@ -1215,7 +1190,6 @@ local function Init()
     Frame.iconS:SetValue(PinHeight)
     WoWTools_TextureMixin:SetSlider(Frame.iconS)
 
---名称 大小
     Frame.fontH= CreateFrame("Slider", nil, Frame, 'MinimalSliderTemplate')
     Frame.fontH:SetPoint('LEFT', Frame.iconS, 'RIGHT', 12, 0)
     Frame.fontH:SetPoint('TOPRIGHT', Frame.mapMenu, 'BOTTOMRIGHT', 0, -2)
@@ -1235,7 +1209,6 @@ local function Init()
     WoWTools_TextureMixin:SetSlider(Frame.fontH)
 
 
---同时设置，图标和名称 大小
     local fontIconMenu= CreateFrame('DropdownButton', nil, Frame, 'WoWToolsMenu3Template')
     fontIconMenu:SetPoint('LEFT', Frame.fontH, 'RIGHT', 3, 0)
     fontIconMenu:SetNormalAtlas('Professions-Crafting-Orders-Icon')
@@ -1271,7 +1244,6 @@ local function Init()
 
 
 
---捕捉，名称
     Frame.getNameButton= CreateFrame('DropdownButton', nil, Frame, 'WoWToolsMenu3Template')
     Frame.getNameButton:SetPoint('TOPLEFT', worldButton, 'BOTTOMLEFT', 0, -52)
     Frame.getNameButton.tooltip= (WoWTools_L['UNIT_CAPTURABLE+NAME'])
@@ -1352,7 +1324,6 @@ local function Init()
             end
         end)
     end)
---中文
     if WoWTools_ChineseMixin and WoWTools_DataMixin.onlyChinese then
         for name in pairs(NameTabs) do
             local text= WoWTools_TextMixin:CN(name)
@@ -1467,7 +1438,6 @@ local function Init()
 
 
 
- --颜色
     Frame.colorButton= CreateFrame('DropdownButton', nil, Frame, 'WoWToolsMenu3Template ColorSwatchTemplate')--ColorSwatchMixin
     Frame.colorButton.tooltip= (WoWTools_L.COLOR)
         ..WoWTools_DataMixin.Icon.left..WoWTools_DataMixin.Icon.right
@@ -1634,7 +1604,7 @@ local function Init()
     end)
 
 
-    if _G['TAV_CoreFrame'] then--查找，图标，按钮， Texture Atlas Viewer， 插件
+    if _G['TAV_CoreFrame'] then
         local tav= CreateFrame('Button', nil, Frame, 'WoWToolsButtonTemplate')-- WoWTools_ButtonMixin:Cbtn(Frame, {size=22, atlas='communities-icon-searchmagnifyingglass'})
         tav:SetNormalAtlas("communities-icon-searchmagnifyingglass")
         tav:SetPoint('LEFT', Frame.iconEdit.iconButton, 'RIGHT')
@@ -1648,7 +1618,6 @@ local function Init()
         tav.owner= 'ANCHOR_RIGHT'
         tav.tooltip= 'Texture Atlas Viewer'
 
-        --插件
         local tavFrame= _G['TAV_InfoPanel']
         if tavFrame and tavFrame.Name and tavFrame.Name.GetText then
             local btn= CreateFrame('Button', 'WoWToolsPlayerPinEditUITavCopyButton', tavFrame, 'WoWToolsButtonTemplate')--  WoWTools_ButtonMixin:Cbtn(Frame, {atlas='Gear'})
@@ -1836,7 +1805,6 @@ local function Init()
 
 
 
---划条，X，如果OnMouseWheel 会自动更新
     Frame.sliderX= CreateFrame("Slider", nil, Frame, 'MinimalSliderTemplate')
     Frame.sliderX:SetPoint('TOPLEFT', Frame.xyEdit, 'BOTTOMLEFT',6, -3)
     Frame.sliderX:SetPoint('TOPRIGHT', Frame.xyEdit, 'BOTTOM', -6, -3)
@@ -1965,7 +1933,7 @@ local function Init()
 
 
 
-    Frame.professionMenu= CreateFrame("DropdownButton", nil, Frame, "WowStyle1DropdownTemplate")--下拉，菜单
+    Frame.professionMenu= CreateFrame("DropdownButton", nil, Frame, "WowStyle1DropdownTemplate")
     Frame.professionMenu:SetPoint('TOPLEFT', Frame.noteEdit, 'BOTTOMLEFT', -6, -12)
     Frame.professionMenu:SetPoint('TOPRIGHT', Frame.noteEdit, 'BOTTOM', -6, -20)
     Frame.professionMenu:SetDefaultText(DISABLED_FONT_COLOR:WrapTextInColorCode(format(WoWTools_L.LFG_LIST_CROSS_FACTION, WoWTools_L.PROFESSIONS_BUTTON)))
@@ -2028,7 +1996,7 @@ local function Init()
         end
     end)
 
-    Frame.classMenu= CreateFrame("DropdownButton", nil, Frame, "WowStyle1DropdownTemplate")--下拉，菜单
+    Frame.classMenu= CreateFrame("DropdownButton", nil, Frame, "WowStyle1DropdownTemplate")
     Frame.classMenu:SetPoint('LEFT', Frame.professionMenu, 'RIGHT', 6, 0)
     Frame.classMenu:SetPoint('RIGHT', -13, 0)
     Frame.classMenu:SetDefaultText(DISABLED_FONT_COLOR:WrapTextInColorCode(format(WoWTools_L.LFG_LIST_CROSS_FACTION, WoWTools_L.CLASS)))
@@ -2394,7 +2362,6 @@ local function Init()
     Frame.achievementButton:set_text()
     Frame.achievementButton.index= nil--achievementIndex
     Frame.achievementButton:SetupMenu(function(self, root)
-        --if not self:IsMouseOver() then return end--下面有判断了，再次打开，不需要了
         local sub
         local achievementID= Frame.achievementEdit.achievementID
         if achievementID then
@@ -2462,7 +2429,6 @@ local function Init()
                             C_Timer.After(0.09, function() self:OpenMenu() end)
                            return MenuResponse.Close
                         end, {rightText=achievementIndex, achievementID=achievementID,})
---显示,成就UI
                         sub:CreateButton(
                             WoWTools_L.SHOW,
                         function(data)
@@ -2493,7 +2459,6 @@ local function Init()
 
 
 
---设置，TAB键
     Frame.tabGroup= CreateTabGroup(Frame.nameEdit, Frame.xyEdit)--, Frame.iconEdit, Frame.noteEdit)
     Frame.nameEdit:SetScript('OnTabPressed', function() Frame.tabGroup:OnTabPressed() end)
     Frame.xyEdit:SetScript('OnTabPressed', function() Frame.tabGroup:OnTabPressed() end)
@@ -2515,7 +2480,6 @@ local function Init()
 
 
 
-    --导入数据
     Frame.dataFrame=WoWTools_EditBoxMixin:CreateFrame(Frame, {
         name='WoWToolsPlayerPinEditUIOutInScrollFrame'
     })
@@ -2555,7 +2519,7 @@ local function Init()
     end)
 
 
-    Frame.dataFrame.enter:SetScript('OnClick', function()--导入
+    Frame.dataFrame.enter:SetScript('OnClick', function()
         StaticPopup_Show('WoWTools_OK',
         WoWTools_L.COOLDOWN_VIEWER_SETTINGS_IMPORT_LAYOUT,
         nil,
@@ -2629,7 +2593,7 @@ local function Init()
         if _G['WoWToolsPlayerPinEditUITavCopyButton'] then
             _G['WoWToolsPlayerPinEditUITavCopyButton']:Hide()
         end
-        if WorldMapFrame:IsShown() then--刷新
+        if WorldMapFrame:IsShown() then
             WoWTools_WorldMapMixin:Init_PlayerPin()
         end
     end)
@@ -2637,7 +2601,7 @@ local function Init()
         if _G['WoWToolsPlayerPinEditUITavCopyButton'] then
             _G['WoWToolsPlayerPinEditUITavCopyButton']:Show()
         end
-        if WorldMapFrame:IsShown() then--刷新
+        if WorldMapFrame:IsShown() then
             WoWTools_WorldMapMixin:Init_PlayerPin()
         end
     end)

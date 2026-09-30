@@ -11,7 +11,6 @@ end
 
 
 --####
---初始
 --####
 local function Init()
     local btn= CreateFrame('Button', 'WoWToolsBrewfestButton', UIParent, 'WoWToolsButtonTemplate')
@@ -21,11 +20,11 @@ local function Init()
     btn:SetShown(false)
 
     btn.topText= WoWTools_LabelMixin:Create(btn, {size=22})--debuff
-    btn.centerText= WoWTools_LabelMixin:Create(btn, {size=22})--持续，时间
-    btn.speedText= WoWTools_LabelMixin:Create(btn, {size=16})--移动，速度
-    btn.itemText= WoWTools_LabelMixin:Create(btn, {size=16})--物品，数量
-    btn.timeText= WoWTools_LabelMixin:Create(btn, {size=16})--坐骑，剩余，时间
-    btn.rightText= WoWTools_LabelMixin:Create(btn, {size=16})--本次，物品，收入
+    btn.centerText= WoWTools_LabelMixin:Create(btn, {size=22})
+    btn.speedText= WoWTools_LabelMixin:Create(btn, {size=16})
+    btn.itemText= WoWTools_LabelMixin:Create(btn, {size=16})
+    btn.timeText= WoWTools_LabelMixin:Create(btn, {size=16})
+    btn.rightText= WoWTools_LabelMixin:Create(btn, {size=16})
 
     btn.topText:SetPoint('BOTTOM', btn, 'TOP')
     btn.centerText:SetPoint('CENTER')
@@ -85,7 +84,7 @@ local function Init()
     function btn:set_Scale()
         self:SetScale(Save().scale or 1)
     end
-    btn:SetScript('OnMouseWheel', function(self, d)--缩放
+    btn:SetScript('OnMouseWheel', function(self, d)
         local sacle= Save().scale or 1
         if d==1 then
             sacle= sacle+0.05
@@ -260,7 +259,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
             WoWToolsPlusSave['Other_Brewfest']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Other_Brewfest'], {disabled=true})
 
---添加控制面板
             addName= '|T132248:0|t'..(WoWTools_TextMixin:CN(C_Item.GetItemNameByID(33976), {itemID=33976, isName=true}) or 'Brewfest')
 
             WoWTools_PanelMixin:Check_Button({
@@ -294,7 +292,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             })
 
             if not Save().disabled then
-                WoWTools_DataMixin:Load(33976, 'item')--美酒节赛羊
+                WoWTools_DataMixin:Load(33976, 'item')
                 self:RegisterEvent('PLAYER_ENTERING_WORLD')
             else
                 self:SetScript('OnEvent', nil)

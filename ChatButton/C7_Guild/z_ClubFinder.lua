@@ -13,7 +13,6 @@ end
 
 
 --###############
---自动选取当前专精
 --###############
 local function set_RequestToJoinFrame(frame)
     if WoWTools_FrameMixin:IsLocked(frame) then
@@ -27,7 +26,7 @@ local function set_RequestToJoinFrame(frame)
         local cd= WoWTools_DataMixin.Player.Region==1 or WoWTools_DataMixin.Player.Region==3
         text= format(cd and 'Level %d' or UNIT_LEVEL_TEMPLATE, UnitLevel('player') or 0)
         text= text..'|n' ..format((cd and 'Item' or ITEMS)..' %d', avgItemLevel or 0)
-        text= text..'|n'..format('PvP %d', avgItemLevelPvp or 0)--PvP物品等级 %d
+        text= text..'|n'..format('PvP %d', avgItemLevelPvp or 0)
         local data= C_PlayerInfo.GetPlayerMythicPlusRatingSummary('player') or {}
         if data.currentSeasonScore then
             text= text..'|n'..(cd and 'Challenge' or PLAYER_DIFFICULTY5)..' '..data.currentSeasonScore
@@ -37,7 +36,7 @@ local function set_RequestToJoinFrame(frame)
 
 
     local text2
-    if frame.SpecsPool then--专精，职责，图标，自动选取当前专精
+    if frame.SpecsPool then
         local _, name, _, icon, role
         local currSpecID= C_SpecializationInfo.GetSpecializationInfo(GetSpecialization() or 0)
 
@@ -46,7 +45,7 @@ local function set_RequestToJoinFrame(frame)
             local box= btn.Checkbox or btn.CheckBox
             if box then
                 if check and not box:GetChecked() then
-                    box:Click()--自动选取当前专精
+                    box:Click()
                 end
                 _, name, _, icon, role= GetSpecializationInfoByID(btn.specID)
                 if name then
@@ -84,7 +83,6 @@ end
 
 
 --####################
---设置，自动申请，check
 --####################
 local function set_check(frame)
     local check= WoWTools_ButtonMixin:Cbtn(frame, {

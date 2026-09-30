@@ -38,7 +38,7 @@ function WoWTools_TimeMixin:Info(value, chat, time, expirationTime)
         else
             return SecondsToTime(time), time
         end
-    elseif expirationTime and expirationTime>0 then--到期
+    elseif expirationTime and expirationTime>0 then
         time= time or GetTime()
 
         while time> expirationTime do
@@ -61,7 +61,6 @@ function WoWTools_TimeMixin:Info(value, chat, time, expirationTime)
 end
 
 
--- upData 是上次更新时间，格式为 date('%Y-%m-%d %H:%M:%S')
 -- (%d+)%-(%d+)%-(%d+) (%d+):(%d+):(%d+)
 function WoWTools_TimeMixin:GetUpdate_Seconds(upData, curData)
     local seconds=0

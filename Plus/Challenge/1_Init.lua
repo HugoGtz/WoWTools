@@ -28,28 +28,21 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         if arg1== 'WoWToolsPlus' then
 
             WoWToolsPlusSave['Plus_Challenges']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Challenges'], {
-                --hideIns=true,--隐藏，副本，挑战，信息
-                --insScale=0.8,--副本，缩放
 
-                --hideTips=true,--提示信息
-                --tipsScale=0.8,--提示信息，缩放
-                rightX= 2,--右边，提示，位置
+                rightX= 2,
                 rightY= -22,
 
-                hidePort= true,--传送门
-                portScale=1,--传送门, 缩放
+                hidePort= true,
+                portScale=1,
 
-                --hideKeyUI=true,--挑战,钥石,插入界面
 
-                --EndKeystoneSayText= WoWTools_DataMixin.Player.Region==5 and '{rt1}你们还继续吗? ' or '{rt1}Want to continue? ',
             })
 
 
-            Save().hideAffixSay= nil--已弃用
+            Save().hideAffixSay= nil
 
             WoWTools_ChallengeMixin.addName= '|A:UI-HUD-MicroMenu-Groupfinder-Mouseover:0:0|a'..(WoWTools_L['Module.Mythic+'])
 
---添加控制面板
             WoWTools_PanelMixin:OnlyCheck({
                 name= WoWTools_ChallengeMixin.addName,
                 GetValue= function() return not Save().disabled end,
@@ -86,7 +79,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 end
             end
 
-        elseif arg1=='Blizzard_ChallengesUI' and WoWToolsPlusSave then--挑战,钥石,插入界面
+        elseif arg1=='Blizzard_ChallengesUI' and WoWToolsPlusSave then
             Init()
 
         elseif arg1=='Blizzard_WeeklyRewards' and WoWToolsPlusSave then
@@ -94,17 +87,15 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         end
 
     elseif event=='CHALLENGE_MODE_COMPLETED' then
-        WoWTools_ChallengeMixin:Say_ChallengeComplete()--挑战结束时， 显示按钮
+        WoWTools_ChallengeMixin:Say_ChallengeComplete()
 
-    --elseif event=='CHALLENGE_MODE_START' then --赏金, 说 Bounty
         --WoWTools_ChallengeMixin:Chat_Affix()
 
     elseif event=='PLAYER_ENTERING_WORLD' then
-        WoWTools_ChallengeMixin:AvailableRewards() --打开周奖励时，提示拾取专精
+        WoWTools_ChallengeMixin:AvailableRewards()
 
---总是显示
         if Save().allShowEndKeystoneSay then
-            WoWTools_ChallengeMixin:Say_ChallengeComplete()--挑战结束时， 显示按钮
+            WoWTools_ChallengeMixin:Say_ChallengeComplete()
         end
         self:UnregisterEvent(event)
     end

@@ -3,7 +3,6 @@ local function Save()
 end
 
 
---[itemID]={num=数量,quality=品质}}
 local function Save_Items(self)
     local guid= WoWTools_DataMixin.Player.GUID
 

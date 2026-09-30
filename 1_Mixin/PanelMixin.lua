@@ -1,11 +1,9 @@
---插件名称
 local Category, Layout = Settings.RegisterVerticalLayoutCategory('|TInterface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools.tga:0|t|cffff00ffWoW|r|cff00ff00Tools|r|cff00ccffPlus|r')
 Settings.RegisterAddOnCategory(Category)
 
 WoWTools_PanelMixin={}
 
 
---创建, 添加控制面板
 local variableIndex=0
 local function Set_VariableIndex()
     variableIndex= variableIndex+1
@@ -25,7 +23,6 @@ end
 
 
 
---打开，选项
 --Settings.OpenToCategory(categoryID, scrollToElementName)
 function WoWTools_PanelMixin:Open(category, name)
     if InCombatLockdown() then
@@ -45,7 +42,6 @@ function WoWTools_PanelMixin:Open(category, name)
 end
 
 
---添加，子目录
 function WoWTools_PanelMixin:AddSubCategory(tab)
     local disabled
     if type(tab.disabled)=='function' then
@@ -64,7 +60,6 @@ function WoWTools_PanelMixin:AddSubCategory(tab)
 end
 
 
---添加，标题
 function WoWTools_PanelMixin:Header(layout, title)
     layout= layout or Layout
     layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(title))
@@ -96,7 +91,6 @@ local function Get_Default(default, getValue, value2)
     return getValue() or value2
 end
 
---添加，Check
 function WoWTools_PanelMixin:OnlyCheck(tab, root)
     local setting=Settings.RegisterProxySetting(
         tab.category or Category,
@@ -117,7 +111,6 @@ function WoWTools_PanelMixin:OnlyCheck(tab, root)
     return sub
 end
 
---添加，按钮
 --CreateSettingsButtonInitializer(name, buttonText, buttonClick, tooltip, addSearchTags)
 function WoWTools_PanelMixin:OnlyButton(tab, root)
     local layout= tab.layout or Layout
@@ -138,7 +131,6 @@ function WoWTools_PanelMixin:OnlyButton(tab, root)
 end
 
 
---添加，下拉菜单
 function WoWTools_PanelMixin:OnlyMenu(tab, root)
     local setting= Settings.RegisterProxySetting(--categoryTbl, variable, variableType, name, defaultValue, getValue, setValue
         tab.category or Category,
@@ -211,7 +203,6 @@ function WoWTools_PanelMixin:CheckMenu(tab, root)
 end
 
 
---添加，Check 和 按钮
 
 --CreateSettingsCheckboxWithButtonInitializer(setting, buttonText, buttonClick, evaluateState, clickRequiresSet, tooltip)
 
@@ -291,7 +282,6 @@ end
 
 
 
---添加，划动条
 function WoWTools_PanelMixin:OnlySlider(tab, root)
     local setting = Settings.RegisterProxySetting(
         tab.category or Category,
@@ -319,7 +309,6 @@ function WoWTools_PanelMixin:OnlySlider(tab, root)
 end
 
 
---重新加载UI, 重置, 按钮
 function WoWTools_PanelMixin:ReloadButton(tab)
     local rest= WoWTools_ButtonMixin:Cbtn(tab.panel, {isUI=true, size=25})
     rest:SetNormalAtlas('bags-button-autosort-up')

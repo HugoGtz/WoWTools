@@ -1,7 +1,5 @@
 local P_Save={
-    --useCustomColor= nil,--使用, 自定义, 颜色
     --useColor=1,
-    --useCustomColorTab= {r=1, g=0.82, b=0, a=1, hex='|cffffd100'},--自定义, 颜色, 表
 }
 
 local function Save()
@@ -21,7 +19,6 @@ end
 
 
 --####
---开始
 --####
 --Sección "Datos y restablecimiento": se añade al final, después de los módulos
 local function Init_Data()
@@ -63,7 +60,6 @@ local function Init_Data()
 
 
 
---清除玩家输入数据
     local playerHeader= WoWTools_L['Clear input data']
     WoWTools_PanelMixin:OnlyButton({
         title= '|A:UI-HUD-UnitFrame-Player-Group-FriendOnlineIcon:0:0|a'..playerHeader,
@@ -98,7 +94,6 @@ local function Init_Data()
 
 
 
---清除战网数据
     local wowHeader= WoWTools_L['Clear Warband data']
     WoWTools_PanelMixin:OnlyButton({
         title= WoWTools_DataMixin.Icon.wow2..wowHeader,
@@ -129,12 +124,11 @@ local function Init_Data()
     })
 
 
---显示战网物品
     WoWTools_PanelMixin:OnlyButton({
         title= WoWTools_DataMixin.Icon.wow2..WoWTools_L['ACCOUNT_QUEST_LABEL+ITEMS'],
         buttonText= WoWTools_L.SHOW,
         SetValue= function()
-           WoWTools_DataMixin:OpenWoWItemListFrame()--战团，物品列表
+           WoWTools_DataMixin:OpenWoWItemListFrame()
         end,
         tooltip= WoWTools_L['Tip.Panel.WarbandItems']
     })
@@ -147,7 +141,6 @@ local function Init_Data()
 
 
 
---全部清除
     local header= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.CLEAR_ALL)
     WoWTools_PanelMixin:OnlyButton({
         title= WoWTools_L['All addon data'],
@@ -198,7 +191,7 @@ local function Init_Options()
 
 
 
-    if WoWTools_DataMixin.Player.Region==1 or WoWTools_DataMixin.Player.Region==3 then--US EU realm提示
+    if WoWTools_DataMixin.Player.Region==1 or WoWTools_DataMixin.Player.Region==3 then
         local function get_tooltip()
             local tabs= WoWTools_DataMixin.Player.Region==3 and
                 {
@@ -279,7 +272,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     P_Save= nil
 
 
---旧数据
     --Save().useColor= Save().useColor or 1
     --Save().useCustomColorTab= Save().useCustomColorTab or {r=1, g=0.82, b=0, a=1, hex='|cffffd100'}
     Save().useColor= nil
@@ -299,12 +291,12 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         [ITEM_MOD_CR_AVOIDANCE_SHORT]= WoWTools_TextMixin:sub(ITEM_MOD_CR_AVOIDANCE_SHORT, 1, 2, true),
         [ITEM_MOD_CR_LIFESTEAL_SHORT]= WoWTools_TextMixin:sub(ITEM_MOD_CR_LIFESTEAL_SHORT, 1, 2, true),
         [ITEM_MOD_CR_SPEED_SHORT]= WoWTools_TextMixin:sub(ITEM_MOD_CR_SPEED_SHORT, 1,2,true),
-        [ITEM_MOD_PARRY_RATING_SHORT]=WoWTools_TextMixin:sub(PARRY, 1,2,true), --= "招架";
+        [ITEM_MOD_PARRY_RATING_SHORT]=WoWTools_TextMixin:sub(PARRY, 1,2,true),
 
-        [ITEM_MOD_MODIFIED_CRAFTING_STAT_1] = WoWTools_TextMixin:sub(ITEM_MOD_MODIFIED_CRAFTING_STAT_1, 1,2,true),-- "随机属性1"
-        [ITEM_MOD_MODIFIED_CRAFTING_STAT_2] = WoWTools_TextMixin:sub(ITEM_MOD_MODIFIED_CRAFTING_STAT_2, 1,2,true),-- "随机属性2"
-        [ITEM_MOD_BLOCK_RATING_SHORT] = WoWTools_TextMixin:sub(ITEM_MOD_BLOCK_RATING_SHORT, 1,2,true),-- "格挡"
-        [ITEM_MOD_ATTACK_POWER_SHORT] = WoWTools_TextMixin:sub(ITEM_MOD_ATTACK_POWER_SHORT, 1,2,true),-- "攻击强度"]]
+        [ITEM_MOD_MODIFIED_CRAFTING_STAT_1] = WoWTools_TextMixin:sub(ITEM_MOD_MODIFIED_CRAFTING_STAT_1, 1,2,true),
+        [ITEM_MOD_MODIFIED_CRAFTING_STAT_2] = WoWTools_TextMixin:sub(ITEM_MOD_MODIFIED_CRAFTING_STAT_2, 1,2,true),
+        [ITEM_MOD_BLOCK_RATING_SHORT] = WoWTools_TextMixin:sub(ITEM_MOD_BLOCK_RATING_SHORT, 1,2,true),
+        [ITEM_MOD_ATTACK_POWER_SHORT] = WoWTools_TextMixin:sub(ITEM_MOD_ATTACK_POWER_SHORT, 1,2,true),
         [ITEM_MOD_EXTRA_ARMOR_SHORT]= WoWTools_TextMixin:sub(ARMOR, 1,2,true),
     }
 

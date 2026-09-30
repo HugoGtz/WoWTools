@@ -59,7 +59,6 @@ end
 
 
 
---战役 ID 提示 CampaignOverviewMixin
 local function Set_Campaign_OnEnter(self)
     local campaign= self.campaign or self:GetParent().campaign
     local campaignID= campaign and campaign:GetID()
@@ -71,19 +70,16 @@ local function Set_Campaign_OnEnter(self)
         GameTooltip:SetOwner(self, 'ANCHOR_RIGHT')
         GameTooltip:ClearLines()
     end
---名称
     local name= WoWTools_TextMixin:CN(campaign.name, {campaignID=campaignID, isName=true})
     if name then
         GameTooltip:AddLine(WoWTools_DataMixin.Icon.icon2..name)
     end
---中文 Description
     local cnData= WoWTools_TextMixin:CN(nil, {campaignID=campaignID})
     if cnData and cnData.D then
         GameTooltip:AddLine(cnData.D, nil, nil, nil, true)
     end
 --ID
     GameTooltip:AddDoubleLine('campaignID', '|cffffffff'..campaignID)
---章节数量
     local count= campaign:GetChapterCount() or 0
     if count>0 then
         local chapterIDs={}
@@ -105,7 +101,6 @@ local function Set_Campaign_OnEnter(self)
             (campaign.isWarCampaign and (WoWTools_L.WAR_CAMPAIGN))
             or (WoWTools_L.CONTAINER_CAMPAIGN_PROGRESS)
         )
---章节
         for index, chapterID in pairs(chapterIDs) do
             local col= index==chapterIndex and '|cnGREEN_FONT_COLOR:' or (index>chapterIndex and '|cffffffff') or '|cff626262'
             GameTooltip:AddDoubleLine(
@@ -135,7 +130,6 @@ end
 
 
 local function Init_BountyDropdown(frame)
---声望，字体
     frame.factionText= frame:CreateFontString(nil, 'ARTWORK', 'WoWToolsWorldFont')
     frame.factionText:SetPoint('TOPLEFT', frame.Icon, 'BOTTOMLEFT', 0, 10)
     frame.factionText:EnableMouse(true)
@@ -157,7 +151,6 @@ local function Init_BountyDropdown(frame)
     WoWTools_TextureMixin:HideTexture(frame.IconBorder)
     WoWTools_TextureMixin:HideTexture(frame.Background)
 
---菜单
     Menu.ModifyMenu("MENU_WORLD_MAP_ACTIVITY_TRACKER", function(self, root)
         if not self:IsMouseOver() then
             return
@@ -165,7 +158,6 @@ local function Init_BountyDropdown(frame)
         root:CreateDivider()
         local sub= WoWTools_MenuMixin:OpenOptions(root, {name= WoWTools_WorldMapMixin.addName})--root:CreateButton(WoWTools_L.HOUSING_EXPERT_DECOR_SUBMODE_SCALE)
 
---声望，字体，缩放
         sub:CreateSpacer()
         WoWTools_MenuMixin:CreateSlider(sub, {
             getValue=function()
@@ -181,7 +173,6 @@ local function Init_BountyDropdown(frame)
             bit='%.1f',
         })
 
---缩放
         WoWTools_MenuMixin:ScaleRoot(self, sub, function()
             return Save().activityTrackerScale or 1
         end, function(value)
@@ -210,8 +201,6 @@ local function Init_BountyDropdown(frame)
     Bounty_Setting(frame)
 
 
---保存上次，操作 WorldMapActivityTrackerMixin 
---12.01可能无效
     local _bountyInfo= Save().bountyInfo
     if _bountyInfo and WorldMapFrame.ScrollContainer:HasZoomLevels() and not TableIsEmpty(_bountyInfo) then
         WorldMapFrame.ScrollContainer:HasZoomLevels()
@@ -252,7 +241,6 @@ local function Init()
 
 
 
---缩放, 声望追踪，圆形图标
     for _, frame in ipairs(WorldMapFrame.overlayFrames or {}) do
         if frame.BountyDropdown then--frame BountyFrameMixin
             Init_BountyDropdown(frame)
@@ -264,8 +252,6 @@ local function Init()
 
 
 
---战役 ID 提示 CampaignOverviewMixin
---列表中，标题
     WoWTools_DataMixin:Hook(CampaignHeaderDisplayMixin, 'SetCampaign', function(self)
         if not self.chapterLabel then
             self:HookScript('OnLeave', function()
@@ -291,7 +277,6 @@ local function Init()
         end
         self.chapterLabel:SetText(text or '')
     end)
---列表中，战役，进入 详细 按钮
     WoWTools_DataMixin:Hook(CampaignLoreButtonMixin, 'OnLeave', function()
         if QuestScrollFrame.CampaignTooltip then
             QuestScrollFrame.CampaignTooltip:SetShown(false)
@@ -300,7 +285,6 @@ local function Init()
     end)
     WoWTools_DataMixin:Hook(CampaignLoreButtonMixin, 'OnEnter', function(...) Set_Campaign_OnEnter(...) end)
 
---战役，详细中，返回按钮
     QuestMapFrame.QuestsFrame.CampaignOverview.Header.BackButton:HookScript('OnLeave', GameTooltip_Hide)
     QuestMapFrame.QuestsFrame.CampaignOverview.Header.BackButton:HookScript('OnEnter', function(...) Set_Campaign_OnEnter(...) end)
 
@@ -315,7 +299,6 @@ local function Init()
 
 
 
---SearchBox，添加按钮
     QuestScrollFrame.SearchBox:SetWidth(301- 20*2)
 
     local btnCollapse= WoWTools_ButtonMixin:Cbtn(QuestScrollFrame.SearchBox, {size=22, atlas='NPE_ArrowUp'})--campaign_headericon_closed

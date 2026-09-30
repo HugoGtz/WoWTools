@@ -13,7 +13,7 @@ local Category, Layout
 
 
 
-local function Init_Options()--初始, 选项
+local function Init_Options()
     WoWTools_PanelMixin:Header(Layout,
         (Save().disabled and '|cff828282' or '')
         ..'1) Plus'
@@ -165,22 +165,22 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
         if not WoWToolsPlusSave['Plus_MainMenu'].disabled then
             WoWTools_MainMenuMixin:Settings()
-            WoWTools_MainMenuMixin:Init_Character()--角色
-            WoWTools_MainMenuMixin:Init_Professions()--专业
-            WoWTools_MainMenuMixin:Init_Talent()--天赋
-            WoWTools_MainMenuMixin:Init_Achievement()--成就
-            WoWTools_MainMenuMixin:HousingMicroButton()--住宅信息板
-            WoWTools_MainMenuMixin:Init_Quest()--任务
-            WoWTools_MainMenuMixin:Init_Guild()--公会
-            WoWTools_MainMenuMixin:Init_LFD()--地下城查找器
-            WoWTools_MainMenuMixin:Init_Collections()--收藏
-            WoWTools_MainMenuMixin:Init_EJ()--冒险指南
-            WoWTools_MainMenuMixin:Init_Store()--商店
-            WoWTools_MainMenuMixin:Init_Help()--帮助
-            WoWTools_MainMenuMixin:Init_Bag()--背包
+            WoWTools_MainMenuMixin:Init_Character()
+            WoWTools_MainMenuMixin:Init_Professions()
+            WoWTools_MainMenuMixin:Init_Talent()
+            WoWTools_MainMenuMixin:Init_Achievement()
+            WoWTools_MainMenuMixin:HousingMicroButton()
+            WoWTools_MainMenuMixin:Init_Quest()
+            WoWTools_MainMenuMixin:Init_Guild()
+            WoWTools_MainMenuMixin:Init_LFD()
+            WoWTools_MainMenuMixin:Init_Collections()
+            WoWTools_MainMenuMixin:Init_EJ()
+            WoWTools_MainMenuMixin:Init_Store()
+            WoWTools_MainMenuMixin:Init_Help()
+            WoWTools_MainMenuMixin:Init_Bag()
         end
 
-        WoWTools_MainMenuMixin:Init_Framerate_Plus()--系统，fts
+        WoWTools_MainMenuMixin:Init_Framerate_Plus()
 
         if C_AddOns.IsAddOnLoaded('Blizzard_Settings') then
             Init_Options()

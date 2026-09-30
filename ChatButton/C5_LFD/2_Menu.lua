@@ -177,8 +177,7 @@ end
 --LFGIsIDHeader(id)
 
 
---追随者，副本 specific follower
-local function Init_Follower_Specific_Menu(root, listType)--追随者，副本
+local function Init_Follower_Specific_Menu(root, listType)
 	local followerList= Get_Follower_Specific_List(listType)
 
     local header= NORMAL_FONT_COLOR:WrapTextInColorCode(
@@ -236,7 +235,7 @@ local function Init_Follower_Specific_Menu(root, listType)--追随者，副本
                         WoWTools_DataMixin:Call('LFDQueueFrame_SetTypeInternal', data.listType)--follower, specific
                         WoWTools_DataMixin:Call('LFDQueueFrame_SetType', data.dungeonID)
                         WoWTools_DataMixin:Call('LFDQueueFrame_Join')
-                        WoWTools_LFDMixin:Set_LFDButton_Data(data.dungeonID, LE_LFG_CATEGORY_LFD, WoWTools_TextMixin:CN(data.dungeonName), nil)--设置图标, 点击,提示
+                        WoWTools_LFDMixin:Set_LFDButton_Data(data.dungeonID, LE_LFG_CATEGORY_LFD, WoWTools_TextMixin:CN(data.dungeonName), nil)
                     end
                     return MenuResponse.Open
                 end, {
@@ -267,7 +266,6 @@ local function Init_Follower_Specific_Menu(root, listType)--追随者，副本
 end
 
 
---场景战役 SCENARIOS
 local function Init_Scenarios_Menu(root)--ScenarioFinder.lua
     local sub, sub2, reward, rewardIndex, rewardType, rewardArg
     local numScenario= GetNumRandomScenarios() or 0
@@ -297,7 +295,7 @@ local function Init_Scenarios_Menu(root)--ScenarioFinder.lua
                         LeaveLFG(LE_LFG_CATEGORY_SCENARIO)
                     else
                         LFG_JoinDungeon(LE_LFG_CATEGORY_SCENARIO, data.dungeonID, ScenariosList, ScenariosHiddenByCollapseList)--ScenarioQueueFrame_Join() 
-                        WoWTools_LFDMixin:Set_LFDButton_Data(data.dungeonID, LE_LFG_CATEGORY_LFD, data.dungeonName, nil)--设置图标, 点击,提示
+                        WoWTools_LFDMixin:Set_LFDButton_Data(data.dungeonID, LE_LFG_CATEGORY_LFD, data.dungeonName, nil)
                     end
                     return MenuResponse.Open
 
@@ -355,9 +353,6 @@ local function Init_Scenarios_Menu(root)--ScenarioFinder.lua
 end
 
 
---随机地下城
---副本， 菜单列表
---5人，随机 LFDFrame.lua
 local function set_Party_Menu_List(root2)
     local isMaxLevel= WoWTools_DataMixin.Player.IsMaxLevel
     local header= NORMAL_FONT_COLOR:WrapTextInColorCode(WoWTools_L['LFG_TYPE_RANDOM_DUNGEON~2'])
@@ -385,7 +380,6 @@ local function set_Party_Menu_List(root2)
 
     local root
     if isMaxLevel then
---二级root
         root= root2:CreateButton(
             header,
         function()
@@ -417,7 +411,7 @@ local function set_Party_Menu_List(root2)
                     LFDQueueFrame_SetTypeInternal('specific')
                     LFDQueueFrame_SetType(data.dungeonID)
                     LFDQueueFrame_Join()
-                    WoWTools_LFDMixin:Set_LFDButton_Data(data.dungeonID, LE_LFG_CATEGORY_LFD, WoWTools_TextMixin:CN(data.dungeonName), nil)--设置图标, 点击,提示
+                    WoWTools_LFDMixin:Set_LFDButton_Data(data.dungeonID, LE_LFG_CATEGORY_LFD, WoWTools_TextMixin:CN(data.dungeonName), nil)
                 end
                 return MenuResponse.Open
 
@@ -471,7 +465,6 @@ local function set_Party_Menu_List(root2)
     end
 
     if isMaxLevel then
---二级root
         root:SetData({rightText=find})
         WoWTools_MenuMixin:SetRightText(root)
         WoWTools_MenuMixin:SetScrollMode(root)
@@ -480,7 +473,6 @@ local function set_Party_Menu_List(root2)
 end
 
 
---团队本
 local function set_Raid_Menu_List(root2)
     local isMaxLevel= WoWTools_DataMixin.Player.IsMaxLevel
     local hide= Save().hideDontEnterMenu --and isMaxLevel
@@ -554,7 +546,7 @@ local function set_Raid_Menu_List(root2)
 
     local currentMapName, sub, icon, reward, rewardIndex, rewardType, rewardArg
     local scenarioInfo = C_ScenarioInfo.GetScenarioInfo() or {}
-    local scenarioName= scenarioInfo.name--场景名称
+    local scenarioName= scenarioInfo.name
     if scenarioName then
         scenarioName= strlower(scenarioName)
     end
@@ -616,9 +608,9 @@ local function set_Raid_Menu_List(root2)
 
             sub=root:CreateButton(
                 (isKillAll and '|cff626262' or '')
-                ..WoWTools_TextMixin:CN(dungeonName)--名称
+                ..WoWTools_TextMixin:CN(dungeonName)
                 ..(modifiedIcon or '')-- '|T0:0|t')
-                ..((LfgDungeonID==dungeonID or scenarioName== strlower(dungeonName)) and '|A:auctionhouse-icon-favorite:0:0|a' or '')-- '|T0:0|t')--在当前副本
+                ..((LfgDungeonID==dungeonID or scenarioName== strlower(dungeonName)) and '|A:auctionhouse-icon-favorite:0:0|a' or '')
                 ..reward
                 ..killText,
             function(data)
@@ -627,8 +619,7 @@ local function set_Raid_Menu_List(root2)
                 else
                     WoWTools_DataMixin:Call('RaidFinderQueueFrame_SetRaid', data.dungeonID)
                     WoWTools_DataMixin:Call('RaidFinderQueueFrame_Join')
-                    --printListInfo()--输出当前列表
-                    WoWTools_LFDMixin:Set_LFDButton_Data(data.dungeonID, LE_LFG_CATEGORY_RF, WoWTools_TextMixin:CN(data.dungeonName), nil)--设置图标, 点击,提示
+                    WoWTools_LFDMixin:Set_LFDButton_Data(data.dungeonID, LE_LFG_CATEGORY_RF, WoWTools_TextMixin:CN(data.dungeonName), nil)
                 end
                 return MenuResponse.Open
 
@@ -683,7 +674,6 @@ local function set_Raid_Menu_List(root2)
 end
 
 
---职责，可选列表
 local function Init_All_Role(_, root)
     local sub, isLeader, isTank, isHealer, isDPS, tank, healer, dps
     local canBeTank, canBeHealer, canBeDamager = UnitGetAvailableRoles("player")
@@ -745,7 +735,7 @@ local function Init_All_Role(_, root)
 
     root:CreateDivider()
 
-    tank, healer, dps = GetPVPRoles()--检测是否选定角色PVP
+    tank, healer, dps = GetPVPRoles()
 
     for _, role in pairs({'TANK', 'HEALER', 'DAMAGER'}) do
         sub= root:CreateCheckbox(
@@ -807,18 +797,16 @@ local function Init_All_Role(_, root)
 end
 
 
---初始菜单
 local function Init_Menu(self, root)
     if not self:IsMouseOver() then
         return
     end
 
     local sub, sub2, sub3, num
-    local isLeader, isTank, isHealer, isDPS = GetLFGRoles()--角色职责
+    local isLeader, isTank, isHealer, isDPS = GetLFGRoles()
     local tank, healer, dps
 
 
---设置
     local text=''
     if (isTank or isHealer or isDPS) then
         text= (isTank and WoWTools_DataMixin.Icon.TANK or '')
@@ -829,11 +817,9 @@ local function Init_Menu(self, root)
         text='|A:QuestLegendaryTurnin:0|a|cnWARNING_FONT_COLOR:'..(WoWTools_L.NO_ROLE)..'|r'
     end
 
---离开副本
     if Save().leaveInstance then
         text= text..'|A:common-icon-rotateleft:0:0|a'
     end
---释放, 复活
     if Save().ReMe and (Save().ReMe_AllZone and (select(2, IsInInstance())=='none' or not IsInGroup())) then
         text= text..'|A:poi-soulspiritghost:0:0|a'
     end
@@ -849,7 +835,6 @@ local function Init_Menu(self, root)
     end)
 
 
---设置, 小眼睛, 信息
     sub2=sub:CreateCheckbox('|A:common-icon-rotateleft:0:0|a'..(WoWTools_L['LEAVE+INSTANCE']), function()
         return Save().leaveInstance
     end, function()
@@ -865,7 +850,6 @@ local function Init_Menu(self, root)
     end)
 
 
---设置, 信息 QueueStatusFrame.lua
     sub2=sub:CreateCheckbox('|A:groupfinder-eye-frame:0:0|a'..(WoWTools_L['SOCIAL_QUEUE_TOOLTIP_HEADER+INFO']), function()
         return not Save().hideQueueStatus
     end, function()
@@ -889,7 +873,6 @@ local function Init_Menu(self, root)
     end)
 
 
---设置, 预创建队伍增强
     sub2=sub:CreateCheckbox('|A:UI-HUD-MicroMenu-Groupfinder-Mouseover:0:0|a'..WoWTools_L['Premade Groups Plus'], function()
         return Save().LFGPlus
     end, function()
@@ -909,13 +892,11 @@ local function Init_Menu(self, root)
             tooltip:AddLine(WoWTools_L['REQUIRES_RELOAD~2'])
         end
     end)
---重新加载UI
     WoWTools_MenuMixin:Reload(sub2)
 
 
 
 
---职责确认
     sub2=sub:CreateCheckbox('|A:quest-legendary-turnin:0:0|a'..(WoWTools_L.ROLE_POLL), function()
         return Save().autoSetPvPRole
     end, function()
@@ -927,13 +908,11 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 
---职责，可选列表
     Init_All_Role(self, sub2)
 
 
---设置,战场
     sub:CreateDivider()
-    tank, healer, dps = GetPVPRoles()--检测是否选定角色PVP
+    tank, healer, dps = GetPVPRoles()
     sub:CreateTitle(
         (WoWTools_L.BATTLEFIELDS)
         ..(tank and WoWTools_DataMixin.Icon.TANK or '')
@@ -941,7 +920,6 @@ local function Init_Menu(self, root)
         ..(dps and WoWTools_DataMixin.Icon.DAMAGER or '')
     )
 
---释放, 复活    
     sub2=sub:CreateCheckbox(
         '|A:poi-soulspiritghost:0:0|a'
         ..WoWTools_L['Release, Resurrect'],
@@ -953,7 +931,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.LFD.ReleaseRes'])
 
---所有地区
     sub3=sub2:CreateCheckbox(
         WoWTools_L.OTHER,
     function()
@@ -968,7 +945,6 @@ local function Init_Menu(self, root)
     end)
 
 
---隐藏，不可能副本，列表
     sub:CreateDivider()
     sub:CreateTitle(
         WoWTools_L['Instance listings']
@@ -988,7 +964,6 @@ local function Init_Menu(self, root)
     end)
 
 
---副本， 次数
     sub:CreateDivider()
     num= 0
     for _, complete in pairs(Save().wow) do
@@ -1052,7 +1027,6 @@ local function Init_Menu(self, root)
     sub:CreateSpacer()
 
 
---战利品掷骰
     sub=root:CreateButton(
         (Save().autoROLL and '|TInterface\\PVPFrame\\Icons\\PVP-Banner-Emblem-47:0|t' or '|A:Levelup-Icon-Bag:0:0|a')
         ..(WoWTools_L.LOOT_ROLL),
@@ -1095,7 +1069,6 @@ local function Init_Menu(self, root)
     root:CreateDivider()
 
 
---副本，逃亡者
     local deserterExpiration = GetLFGDeserterExpiration()
     local shouldtext
     local cooldowntext
@@ -1129,18 +1102,16 @@ local function Init_Menu(self, root)
     end
 
 
---显示 LFGDungeonReadyDialog
     if not WoWTools_LFDMixin:ShowMenu_LFGDungeonReadyDialog(root) then
---副本，列表
-        Init_Scenarios_Menu(root)--场景
+        Init_Scenarios_Menu(root)
 
         --if not PlayerIsTimerunning() then
-            Init_Follower_Specific_Menu(root, 'follower')--追随者，副本
+            Init_Follower_Specific_Menu(root, 'follower')
         --end
 
-        Init_Follower_Specific_Menu(root, 'specific')--指定地下城
+        Init_Follower_Specific_Menu(root, 'specific')
 
-        set_Party_Menu_List(root)--随机
+        set_Party_Menu_List(root)
 
         if cooldowntext then
             root:CreateDivider()
@@ -1148,13 +1119,12 @@ local function Init_Menu(self, root)
             root:CreateDivider()
         end
 
-        set_Raid_Menu_List(root)--团本        
+        set_Raid_Menu_List(root)
     end
 
     root:CreateDivider()
 
 
---离开所有队列
     sub=root:CreateButton(
         WoWTools_L.LEAVE_ALL_QUEUES,
     function()
@@ -1188,7 +1158,6 @@ local function Init_Menu(self, root)
     end)
 
 
---离开地下堡
     sub:CreateButton(
         (WoWTools_MapMixin:IsInDelve() and '' or '|cff626262')
         ..(WoWTools_L.INSTANCE_WALK_IN_LEAVE),
@@ -1207,7 +1176,6 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end)
 
---离开副本
     sub2=sub:CreateButton(
         (select(10, GetInstanceInfo()) and '' or '|cff626262')
         ..(WoWTools_L.INSTANCE_LEAVE),
@@ -1233,7 +1201,6 @@ local function Init_Menu(self, root)
 
 
 
---离开载具
     sub:CreateButton(
         (CanExitVehicle() and '' or '|cff626262')--UnitControllingVehicle("player"
         ..(WoWTools_L.BINDING_NAME_VEHICLEEXIT),

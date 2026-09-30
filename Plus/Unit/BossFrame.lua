@@ -13,9 +13,8 @@ local function Init()
         local frame= _G[name]
         if frame then
 
-            frame.healthbar:SetStatusBarTexture('UI-HUD-UnitFrame-Player-PortraitOn-Bar-Health-Status')--生命条，颜色，材质
+            frame.healthbar:SetStatusBarTexture('UI-HUD-UnitFrame-Player-PortraitOn-Bar-Health-Status')
 
-            --Create_BossButton(frame)--Boss图标，按钮
             WoWTools_UnitMixin:CreateUnitButton(frame, {
                 name= name,
                 point=function(btn, f)

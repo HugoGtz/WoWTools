@@ -1,4 +1,3 @@
---购买物品
 local function Save()
     return WoWToolsPlusSave['Plus_SellBuy']
 end
@@ -11,12 +10,12 @@ end
 local function Get_Buy_Num(itemID)
     if itemID then
         if SellBuyItemsSave().buy and SellBuyItemsSave().buy[WoWTools_DataMixin.Player.GUID] then
-            return SellBuyItemsSave().buy[WoWTools_DataMixin.Player.GUID][itemID]--数量
+            return SellBuyItemsSave().buy[WoWTools_DataMixin.Player.GUID][itemID]
         end
     end
 end
 
-local function SaveBuyItem(itemID, num)--当num=nil时，会清除    
+local function SaveBuyItem(itemID, num)
     if SellBuyItemsSave().buy and SellBuyItemsSave().buy[WoWTools_DataMixin.Player.GUID] then
         WoWToolsPlusPlayerDate['SellBuyItems'].buy[WoWTools_DataMixin.Player.GUID][itemID]=num
     end
@@ -53,7 +52,7 @@ local function set_buy_item()
             elseif (price and price > 0) then
                 canAfford = floor(GetMoney() / (price / stackCount))
             else
-                canAfford= info.stackCount--测试服中
+                canAfford= info.stackCount
             end
 
             if info.hasExtendedCost then
@@ -139,17 +138,17 @@ local function Sell_Items(tab)
 
         data= info.info
         do
-            C_Container.UseContainerItem(info.bag, info.slot)--买出
+            C_Container.UseContainerItem(info.bag, info.slot)
         end
 
         local prece =0
-        if not info.hasNoValue then--卖出钱
-            prece = (select(11, C_Item.GetItemInfo(data.hyperlink)) or 0) * (data.stackCount or 1)--价格
+        if not info.hasNoValue then
+            prece = (select(11, C_Item.GetItemInfo(data.hyperlink)) or 0) * (data.stackCount or 1)
             preceTotale = preceTotale + prece
         end
 
         gruop= gruop+ 1
-        num= num+ (data.stackCount or 1)--数量
+        num= num+ (data.stackCount or 1)
         WoWTools_Print(
             WoWTools_DataMixin.Icon.icon2..'|cnWARNING_FONT_COLOR:'..gruop..')|r',
             data.hyperlink,
@@ -198,7 +197,6 @@ local function Set_SellMenu_Tooltip(tooltip, desc)
 end
 
 
---出售菜单
 local function Init_Menu_Sell(_, root)
     if WoWTools_MenuMixin:CheckInCombat(root) then
         return
@@ -239,7 +237,6 @@ local function Init_Menu_Sell(_, root)
     local num= #items
     local regionNum= #regents
 
---出售全部
     sub= root:CreateButton(
         sellText,
         --..' #|cnGREEN_FONT_COLOR:'
@@ -360,9 +357,9 @@ local function Init()
                     '|cnGREEN_FONT_COLOR:'..(WoWTools_L.PURCHASE)..'|rx|cffff00ff'..num..'|r',
                     select(2, C_Item.GetItemInfo(data.itemID)) or data.name or data.itemID
                 )
-                set_buy_item()--购买物品
+                set_buy_item()
             end
-            BuyItemButton:set_text()--回购，数量，提示
+            BuyItemButton:set_text()
             WoWTools_MerchantMixin:Update_MerchantFrame()
         end,
         OnAlt=function(_, data)
@@ -425,7 +422,7 @@ local function Init()
                     self.texture:SetTexture(icon)
                 end
             end
-        elseif infoType=='merchant' and itemIDorIndex then--购买物品
+        elseif infoType=='merchant' and itemIDorIndex then
             local itemID= GetMerchantItemID(itemIDorIndex)
             local info= C_MerchantFrame.GetItemInfo(itemIDorIndex)
             local icon= info and info.texture
@@ -446,7 +443,7 @@ local function Init()
         else
 
             --GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_MerchantMixin.addName)
-            local num= self:set_text()--回购，数量，提示
+            local num= self:set_text()
             GameTooltip:AddDoubleLine(
                 '|A:Perks-ShoppingCart:0:0|a|cffff00ff'
                 ..(WoWTools_L['SELF_CAST_AUTO+PURCHASE']),
@@ -478,7 +475,6 @@ local function Init()
     end)
 
 
---购买
     BuyItemButton:SetScript('OnMouseDown', function(self, d)
         local infoType, itemID, itemLink = GetCursorInfo()
         if infoType=='item' and itemID then
@@ -500,13 +496,13 @@ local function Init()
                     itemLink
                 )
                 if _G['WoWTools_AutoSellJunkCheck'] then
-                    _G['WoWTools_AutoSellJunkCheck']:set_sell_junk()--出售物品
+                    _G['WoWTools_AutoSellJunkCheck']:set_sell_junk()
                 end
             end
             ClearCursor()
-            self:set_text()--回购，数量，提示
+            self:set_text()
 
-        elseif infoType=='merchant' and itemID then--购买物品, itemID 为 index
+        elseif infoType=='merchant' and itemID then
             itemID= GetMerchantItemID(itemID)
 
             if not itemID then
@@ -538,18 +534,17 @@ local function Init()
     end)
 
 
---购买物品
 
     BuyItemButton:RegisterEvent('MERCHANT_SHOW')
     BuyItemButton:SetScript('OnEvent', function()
-        set_buy_item()--购买物品
+        set_buy_item()
     end)
 
     BuyItemButton.Text= WoWTools_LabelMixin:Create(BuyItemButton, {justifyH='RIGHT', color={r=1,g=1,b=1}})
     BuyItemButton.Text:SetPoint('BOTTOMRIGHT')
 
 
-    function BuyItemButton:set_text()--回购，数量，提示
+    function BuyItemButton:set_text()
         local num=  CountTable(SellBuyItemsSave().buy[WoWTools_DataMixin.Player.GUID] or {})
 
         self.Text:SetText(not Save().notAutoBuy and num or '')
@@ -557,13 +552,13 @@ local function Init()
         return num
     end
 
-    BuyItemButton:set_text()--回购，数量，提示
+    BuyItemButton:set_text()
     BuyItemButton:set_texture()
 
     Init=function()end
 end
 
 
-function WoWTools_MerchantMixin:Init_Buy_Items_Button()--购买物品
+function WoWTools_MerchantMixin:Init_Buy_Items_Button()
     Init()
 end

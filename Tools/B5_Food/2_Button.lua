@@ -28,7 +28,7 @@ local function Set_AltSpell()
     WoWTools_DataMixin:Load(ctrl, 'spell')
     WoWTools_DataMixin:Load(shift, 'spell')
 
-    btn.itemID= item or 5512--治疗石
+    btn.itemID= item or 5512
 
     btn:SetAttribute('alt-spell1', alt and C_Spell.GetSpellName(alt) or alt or nil)
     btn.alt= alt
@@ -96,7 +96,7 @@ local function Init()
         end
     end
     btn.CheckFrame:SetScript('OnEvent', function(self, event)
-        WoWTools_FoodMixin:Check_Items()--检查,物品
+        WoWTools_FoodMixin:Check_Items()
         if event=='PLAYER_REGEN_DISABLED' then
             self:StopMovingOrSizing()
             self:UnregisterEvent(event)
@@ -107,7 +107,6 @@ local function Init()
     btn.RePoint={btn:GetPoint(1)}
     btn.texture:SetTexture(538745)
 
---显示背景 Background
     WoWTools_TextureMixin:CreateBG(btn, {
         isColor=true,
         alpha= Save().bgAlpha or 0.5,
@@ -189,10 +188,10 @@ local function Init()
         end
 
         if d=='RightButton' then
-            if not IsModifierKeyDown() then--菜单
+            if not IsModifierKeyDown() then
                 WoWTools_FoodMixin:Init_Menu(self)
                 self:set_tooltip()
-            elseif IsAltKeyDown() and not WoWTools_FrameMixin:IsLocked(self) then--移动
+            elseif IsAltKeyDown() and not WoWTools_FrameMixin:IsLocked(self) then
                 SetCursor('UI_MOVE_CURSOR')
             end
         end
@@ -251,7 +250,7 @@ local function Init()
 
     btn:SetScript('OnLeave', function(self)
         GameTooltip_Hide()
-        WoWTools_BagMixin:Find()--查询，背包里物品
+        WoWTools_BagMixin:Find()
         self:set_alpha()
         self:set_count()
         self:set_cool()
@@ -278,7 +277,7 @@ local function Init()
         if self:CanChangeAttribute() then
             self:set_attribute()
         end
-        WoWTools_BagMixin:Find(true, {itemID= self.itemID})--查询，背包里物品
+        WoWTools_BagMixin:Find(true, {itemID= self.itemID})
     end)
 
 

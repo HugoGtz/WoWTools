@@ -25,7 +25,6 @@ end
 local function Init()
     addName= '|A:TalkingHeads-Glow-TopSpike:0:0|a'..(WoWTools_L['HIDE+VOICE_TALKING'])
 
-    --添加控制面板
     local root= WoWTools_PanelMixin:OnlyCheck({
         name= addName,
         tooltip=WoWTools_L['Tip.Talking.Hide']..'|n|n'

@@ -35,7 +35,7 @@ local function get_Faction_Info(factionID)
 
 	if not data.factionID
 		or not data.isUnlocked
-		or (data.isCapped and not data.isParagon) --声望已满，没有奖励
+		or (data.isCapped and not data.isParagon)
 		or (Save().onlyIcon and not (data.atlas or data.texture))
 		or (Save().onlyMajor and not data.isMajor)
 		or not (data.factionStandingtext or data.valueText)
@@ -43,29 +43,25 @@ local function get_Faction_Info(factionID)
 		return
 	end
 
---名称
 	local name
-	if Save().onlyIcon then--仅显示有图标
+	if Save().onlyIcon then
 		name=nil
 	elseif data.name then
 		name= WoWTools_TextMixin:CN(data.name)
 		name= name:match('%- (.+)') or name
 	end
---等级
 	local factionStandingtext
 	if not data.isCapped and data.isUnlocked then
 		factionStandingtext= data.factionStandingtext
 	end
 
---值
 	local value= data.valueText
 	local xp= data.xp
 
---有奖励
 	local hasRewardPending= data.hasRewardPending or ''
 
 	local text
-	if Save().toRightTrackText then--向右平移 
+	if Save().toRightTrackText then
 
 		text= factionStandingtext
 
@@ -214,7 +210,6 @@ end
 
 
 
---设置 Text
 local function TrackButton_Settings()
 	if not TrackButton:IsShown() or not Frame:IsShown()  then
 		return
@@ -311,7 +306,6 @@ end
 
 local function Init_Menu(self, root)
 	local sub, sub2
---显示
 	sub=root:CreateCheckbox(
 		WoWTools_L.SHOW,
 	function()
@@ -326,7 +320,6 @@ local function Init_Menu(self, root)
 		tooltip:AddLine(WoWTools_L['Show/Hide'])
 	end)
 
---向右平移
 	sub2=sub:CreateCheckbox(
 		WoWTools_L.BINDING_NAME_STRAFERIGHT,
 	function()
@@ -343,7 +336,6 @@ local function Init_Menu(self, root)
 	end)
 	WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Faction.TrackTextRight'])
 
---上
 	sub2=sub:CreateCheckbox(
 		'|A:bags-greenarrow:0:0|a'
 		..(WoWTools_L.HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_UP),
@@ -366,7 +358,6 @@ local function Init_Menu(self, root)
 	end)
 	WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Faction.TrackGrowUp'])
 
---隐藏名称
 	sub2=sub:CreateCheckbox(
 		WoWTools_L.PROFESSIONS_FLYOUT_SHOW_NAME,
 	function()
@@ -382,7 +373,6 @@ local function Init_Menu(self, root)
 		)
 		TrackButton_Settings()
 	end)
---仅限名望
 	sub2= sub:CreateCheckbox(
 		WoWTools_L['Renown only'],
 	function()
@@ -393,7 +383,6 @@ local function Init_Menu(self, root)
 	end)
 	WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Faction.TrackRenownOnly'])
 
---缩放
 	WoWTools_MenuMixin:Scale(self, sub, function()
 		return Save().scaleTrackButton or 1
 	end, function(value)
@@ -409,7 +398,6 @@ local function Init_Menu(self, root)
 		self:set_strata()
 	end)
 
---背景, 透明度
 	WoWTools_MenuMixin:BgAplha(sub,
 	function()--GetValue
 		return Save().trackBgAlpha or 0.5
@@ -421,7 +409,6 @@ local function Init_Menu(self, root)
 		self:set_bgalpha()
 	end)--onlyRoot
 
---自动隐藏
 	sub2=sub:CreateCheckbox(
 		WoWTools_L['SELF_CAST_AUTO+HIDE'],
 	function()
@@ -439,7 +426,6 @@ local function Init_Menu(self, root)
 		tooltip:AddLine(WoWTools_L.AGGRO_WARNING_IN_INSTANCE)
 	end)
 
---重置位置
 	sub:CreateDivider()
 	WoWTools_MenuMixin:RestPoint(self, sub, Save().point, function()
 		Save().point=nil
@@ -451,7 +437,6 @@ local function Init_Menu(self, root)
 		)
 	end)
 
-	--打开选项界面
 	root:CreateDivider()
     WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_FactionMixin.addName})
 end
@@ -472,7 +457,6 @@ end
 
 
 
---初始，监视, 文本
 local function Init()
 	if not Save().btn then
 		return
@@ -486,8 +470,8 @@ local function Init()
 	Frame:SetSize(1,1)
 
 	TrackButton.Bg= Frame:CreateTexture(nil, "BACKGROUND")
-	TrackButton.numButton=0--这个是总数量
-	TrackButton.NumButton=0--物品按钮，总数量
+	TrackButton.numButton=0
+	TrackButton.NumButton=0
 	TrackButton.bgWidth=0
 	function TrackButton:set_bgalpha()
 		self.Bg:SetColorTexture(0, 0, 0, Save().trackBgAlpha or 0.5)
@@ -633,7 +617,7 @@ local function Init()
 		if d=='RightButton' and IsAltKeyDown() then
 			SetCursor('UI_MOVE_CURSOR')
 
-		elseif d=='LeftButton' and not IsModifierKeyDown() then--右击, 移动
+		elseif d=='LeftButton' and not IsModifierKeyDown() then
 			ToggleCharacter("ReputationFrame")
 
 
@@ -669,7 +653,7 @@ local function Init()
 
 
 
-	WoWTools_DataMixin:Hook(ReputationEntryMixin, 'OnEnter', function(self)--角色栏,声望
+	WoWTools_DataMixin:Hook(ReputationEntryMixin, 'OnEnter', function(self)
 		local factionID= self.elementData and self.elementData.factionID
 		if not factionID then
 			return
@@ -685,7 +669,7 @@ local function Init()
 			end
 		end
     end)
-	WoWTools_DataMixin:Hook(ReputationEntryMixin, 'OnLeave', function()--角色栏,声望
+	WoWTools_DataMixin:Hook(ReputationEntryMixin, 'OnLeave', function()
 		for index= 1, NumButton do
 			local btn= _G['WoWToolsFactionTrackButton'..index]
 			if btn then
@@ -695,7 +679,7 @@ local function Init()
     end)
 
 	WoWTools_DataMixin:Hook(ReputationFrame, 'Update', function()
-		TrackButton_Settings()--更新, 监视, 文本
+		TrackButton_Settings()
 	end)
 
 	Init=function()

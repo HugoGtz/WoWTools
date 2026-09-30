@@ -1,4 +1,3 @@
---小眼睛, 更新信息
 
 local function Save()
     return WoWToolsPlusSave['ChatButton_LFD']
@@ -129,7 +128,7 @@ local function set_tipsFrame_Tips(text, LFGListTab)
 end
 
 
-local function get_Status_Text(status)--列表，状态，信息
+local function get_Status_Text(status)
     return status=='queued' and ('|cnGREEN_FONT_COLOR:'..(WoWTools_L.BATTLEFIELD_QUEUE_STATUS)..'|r')
         or status=='confirm' and ('|cnGREEN_FONT_COLOR:'..(WoWTools_L.READY)..'|r')
         or status=='active' and ('|cnGREEN_FONT_COLOR:'..(WoWTools_L.SPEC_ACTIVE)..'|r')
@@ -141,8 +140,8 @@ local function get_Status_Text(status)--列表，状态，信息
 end
 
 
-local function Set_Queue_Status()--小眼睛, 信息
-    if Save().hideQueueStatus then--列表信息 
+local function Set_Queue_Status()
+    if Save().hideQueueStatus then
         set_tipsFrame_Tips(nil, {})
        return
     end
@@ -162,7 +161,7 @@ local function Set_Queue_Status()--小眼睛, 信息
         end
     end
     if pve then
-        local _, tank, healer, dps= GetLFGRoles()--检测是否选定角色pve
+        local _, tank, healer, dps= GetLFGRoles()
         text= text and text..'|n' or ''
         text= text..'|A:groupfinder-icon-friend:0:0|a|cnGREEN_FONT_COLOR:'..(WoWTools_L['TRANSMOG_SET_PVE~2'])..'|r'
                 ..(tank and INLINE_TANK_ICON or '')
@@ -239,7 +238,7 @@ local function Set_Queue_Status()--小眼睛, 信息
         text= text..pet
     end
 
-    local lfg--LFG，申请，列表
+    local lfg
     local LFGTab= C_LFGList.GetApplications() or {}
     for index, applicantID in pairs(LFGTab) do
         local _, appStatus, _, appDuration, role = C_LFGList.GetApplicationInfo(applicantID)-- id, appStatus, pendingStatus, appDuration, role 
@@ -248,7 +247,7 @@ local function Set_Queue_Status()--小眼睛, 信息
 
             if info and info.activityID and info.name and not info.autoAccept and not info.isDelisted then
 
-                local pvpRating--PVP分数
+                local pvpRating
                 local pvpIcon
                 if info.leaderPvpRatingInfo then
                     if info.leaderPvpRatingInfo.tier and info.leaderPvpRatingInfo.tier>0 then
@@ -261,7 +260,7 @@ local function Set_Queue_Status()--小眼睛, 信息
                     end
                 end
 
-                local numMembers--人数
+                local numMembers
                 if info.numMembers and info.numMembers>0 then
                     numMembers= ' |A:socialqueuing-icon-group:0:0|a'..info.numMembers--..(WoWTools_L.PLAYERS_IN_GROUP)
                     local friendly
@@ -279,14 +278,14 @@ local function Set_Queue_Status()--小眼睛, 信息
                     end
                 end
 
-                local factionText--指定，派系 info.crossFactionListing
+                local factionText
                 if info.leaderFactionGroup==0 and WoWTools_DataMixin.Player.Faction=='Alliance' then
                     factionText= format('|A:%s:0:0|a', WoWTools_DataMixin.Icon.Horde)
                 elseif info.leaderFactionGroup==1 and WoWTools_DataMixin.Player.Faction=='Horde' then
                     factionText= format('|A:%s:0:0|a', WoWTools_DataMixin.Icon.NONE)
                 end
 
-                local roleText--职责
+                local roleText
                 if role~='NONE' then
                     roleText= WoWTools_DataMixin.Icon[role]
                 end
@@ -304,7 +303,7 @@ local function Set_Queue_Status()--小眼睛, 信息
                     ..(info.isWarMode and '|A:pvptalents-warmode-swords:0:0|a' or '')
                     ..(factionText or '')
                     ..(roleText or '')
-                    ..' '..WoWTools_TimeMixin:SecondsToClock(appDuration)--过期，时间
+                    ..' '..WoWTools_TimeMixin:SecondsToClock(appDuration)
                     ..' '
             end
 
@@ -316,14 +315,13 @@ local function Set_Queue_Status()--小眼睛, 信息
         text= text..'|n'..lfg
     end
 
-    --已激活LFG
     local LFGListTab= {}
     if C_LFGList.HasActiveEntryInfo() then
         local list
         local info= C_LFGList.GetActiveEntryInfo()
 
         if info and info.name then
-            local applicants =C_LFGList.GetApplicants() or {}--申请人数
+            local applicants =C_LFGList.GetApplicants() or {}
             local applicantsNum= #applicants
 
             local member
@@ -341,14 +339,14 @@ local function Set_Queue_Status()--小眼睛, 信息
                             local name, class, _, level, itemLevel, honorLevel, tank, healer, dps, _, _, dungeonScore, pvpItemLevel= C_LFGList.GetApplicantMemberInfo(applicantID, index)
                             local icon= WoWTools_UnitMixin:GetClassIcon(nil, nil, class)
                             if icon and name and class then
-                                local col= '|c'..select(4, GetClassColor(class))--颜色
+                                local col= '|c'..select(4, GetClassColor(class))
 
-                                local levelText--等级
+                                local levelText
                                 if level and level~=maxLevel then
                                     levelText=' |cnWARNING_FONT_COLOR:'..level..'|r'
                                 end
 
-                                local itemLevelText--装等/PVP装有情
+                                local itemLevelText
                                 if  itemLevel and itemLevel>20 then
                                     itemLevelText= format('%i',itemLevel)
                                     if pvpItemLevel and pvpItemLevel-itemLevel>9 then
@@ -356,7 +354,7 @@ local function Set_Queue_Status()--小眼睛, 信息
                                     end
                                 end
 
-                                local realmText--服务器，名称
+                                local realmText
                                 local realm= name:match('%-(.+)')
                                 if realm then
                                     local realmTab = WoWTools_RealmMixin:Get_Region(realm)
@@ -367,7 +365,7 @@ local function Set_Queue_Status()--小眼睛, 信息
                                     end
                                 end
 
-                                local scorsoText= WoWTools_ChallengeMixin:KeystoneScorsoColor(dungeonScore, false) or ''--挑战分数，荣誉等级
+                                local scorsoText= WoWTools_ChallengeMixin:KeystoneScorsoColor(dungeonScore, false) or ''
                                 if honorLevel and honorLevel>1 then
                                     scorsoText= scorsoText~='' and scorsoText..' ' or scorsoText
                                     scorsoText= scorsoText..'|A:pvptalents-warmode-swords:0:0|a'..honorLevel
@@ -391,17 +389,17 @@ local function Set_Queue_Status()--小眼睛, 信息
                                     ..(realmText or '')
                                     ..'|r '
 
-                                local roleIndex2= tank and 1 or healer and 2 or 3--索引
+                                local roleIndex2= tank and 1 or healer and 2 or 3
                                 roleIndex= roleIndex< roleIndex2 and roleIndex2 or roleIndex
                                 if index==1 then
                                     leaderName= name
                                 end
-                                if itemLevel then--物品等级
+                                if itemLevel then
                                     unitItemLevel= itemLevel> unitItemLevel and itemLevel or unitItemLevel
                                 end
                             end
                         end
-                        if memberText and isLeader then--队长, 内容
+                        if memberText and isLeader then
                             table.insert(LFGListTab, {
                                 text= memberText,
                                 applicantID= applicantID,
@@ -418,15 +416,15 @@ local function Set_Queue_Status()--小眼睛, 信息
                 end
             end
 
-            local name2= info.activityID and C_LFGList.GetActivityFullName(info.activityID)--名称
-            list= '   '..info.name--名称
-                ..' |cFF00FF00#'..applicantsNum..'|r'--数量
-                ..(info.autoAccept and '|A:runecarving-icon-reagent-empty:0:0|a' or '')--自动邀请
-                ..(name2 and ' '..name2 or '')--名称
-                ..(info.privateGroup and  (WoWTools_L.LFG_LIST_PRIVATE) or '')--私人
-                ..(info.duration and  ' '..WoWTools_TimeMixin:SecondsToClock(info.duration) or '')--时间
+            local name2= info.activityID and C_LFGList.GetActivityFullName(info.activityID)
+            list= '   '..info.name
+                ..' |cFF00FF00#'..applicantsNum..'|r'
+                ..(info.autoAccept and '|A:runecarving-icon-reagent-empty:0:0|a' or '')
+                ..(name2 and ' '..name2 or '')
+                ..(info.privateGroup and  (WoWTools_L.LFG_LIST_PRIVATE) or '')
+                ..(info.duration and  ' '..WoWTools_TimeMixin:SecondsToClock(info.duration) or '')
 
-            if member and not isLeader then--不是队长, 显示, 内容
+            if member and not isLeader then
                 list= list..'|n'..member
             end
         end
@@ -444,7 +442,6 @@ end
 
 local function Init_Menu(self, root)
     local sub
---队伍查找器
     root:CreateButton(
         WoWTools_DataMixin.Icon.mid
         ..MicroButtonTooltipText(WoWTools_L.DUNGEONS_BUTTON, "TOGGLEGROUPFINDER"),
@@ -453,7 +450,6 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end)
 
---离开所有队列
     root:CreateDivider()
     sub=root:CreateButton(
         WoWTools_DataMixin.Icon.left
@@ -464,7 +460,6 @@ local function Init_Menu(self, root)
     sub:SetEnabled(UnitIsGroupLeader("player"))
 
     root:CreateDivider()
---打开选项界面
     sub= WoWTools_MenuMixin:OpenOptions(root, {
         name=WoWTools_LFDMixin.addName,
         category=WoWTools_ChatMixin.Category
@@ -479,14 +474,12 @@ local function Init_Menu(self, root)
         self:settings()
     end)
 
---缩放
     WoWTools_MenuMixin:Scale(self, sub, function()
         return Save().tipsScale or 1
     end, function(value)
         Save().tipsScale= value
         self:settings()
     end)
---背景, 透明度
     WoWTools_MenuMixin:BgAplha(sub,
     function()
         return Save().tipsAlpha or 0.5
@@ -499,7 +492,6 @@ local function Init_Menu(self, root)
 end)
 
     sub:CreateDivider()
---重置位置
     WoWTools_MenuMixin:RestPoint(self, sub, Save().tipsFramePoint, function()
         Save().tipsFramePoint=nil
         self:settings()
@@ -584,7 +576,7 @@ local function Init()
     end)
     Button:SetScript('OnEnter', function(self)
         self:set_tooltip()
-        Set_Queue_Status()--小眼睛, 更新信息
+        Set_Queue_Status()
         WoWTools_ChatMixin:GetButtonForName('LFD'):SetButtonState('PUSHED')
     end)
 
@@ -626,5 +618,5 @@ function WoWTools_LFDMixin:Set_Queue_Status()
 end
 function WoWTools_LFDMixin:Init_Queue_Status()
     Init()
-    WoWTools_DataMixin:Hook(QueueStatusFrame, 'Update', Set_Queue_Status)--小眼睛, 更新信息, QueueStatusFrame.luaend
+    WoWTools_DataMixin:Hook(QueueStatusFrame, 'Update', Set_Queue_Status)
 end

@@ -16,7 +16,6 @@ end
 
 local function Init()
     --###
-    --数量
     --Blizzard_Professions.lua  ProfessionsRecipeSchematicFormMixin:Init
     WoWTools_DataMixin:Hook(Professions,'SetupOutputIconCommon', function(outputIcon, quantityMin, quantityMax, icon, itemIDOrLink, quality)
         local num
@@ -24,7 +23,7 @@ local function Init()
             num= C_Item.GetItemCount(itemIDOrLink, true, false, true)
             local itemID= C_Item.GetItemInfoInstant(itemIDOrLink)
             if itemID then
-                local all= 0--帐号数据
+                local all= 0
                 for guid, info in pairs(WoWToolsPlus_WoWDate or {}) do
                     if guid and info and guid~=WoWTools_DataMixin.Player.GUID then
                         local tab=info.Item[itemID]
@@ -49,7 +48,6 @@ local function Init()
 
 
     --##################
-    --移过，列表，物品提示
     --Blizzard_ProfessionsRecipeList.lua
     WoWTools_DataMixin:Hook(ProfessionsRecipeListRecipeMixin, 'OnEnter', function(self)
         local elementData = self:GetElementData()
@@ -79,7 +77,6 @@ local function Init()
     end)
 
 
-    --专业，列表，增加图标, 颜色
     WoWTools_DataMixin:Hook(ProfessionsRecipeListRecipeMixin, 'Init', function(self, node)
         local elementData = node:GetData();
         local recipeInfo = Professions.GetHighestLearnedRecipe(elementData.recipeInfo) or elementData.recipeInfo
@@ -97,7 +94,6 @@ local function Init()
             self.texture:SetTexture(recipeInfo.icon and recipeInfo.icon>0 and recipeInfo.icon or 0)
         end
 
---颜色
         if recipeInfo.learned or recipeInfo.isRecraf then
             local color= WoWTools_ItemMixin:GetColor(nil, {itemLink=recipeInfo.hyperlink})
             self.Label:SetTextColor(color:GetRGB())
@@ -108,7 +104,6 @@ local function Init()
 
 
     --######
-    --附魔纸
     --Blizzard_ProfessionsRecipeSchematicForm.lua
     WoWTools_DataMixin:Hook(ProfessionsFrame.CraftingPage.SchematicForm, 'Init', function(frame, recipeInfo)--, isRecraftOverride)
         local recipeID = recipeInfo and recipeInfo.recipeID
@@ -117,8 +112,7 @@ local function Init()
         if not isEnchant
             or not frame.enchantSlot
             or not frame.enchantSlot:IsShown()
-            --or Save().disabled--禁用，按钮
-            or ItemUtil.GetCraftingReagentCount(38682)==0--没有， 附魔纸
+            or ItemUtil.GetCraftingReagentCount(38682)==0
         then
             if frame.enchantSlot and frame.enchantSlot.btn then
                 frame.enchantSlot.btn:SetShown(false)
@@ -169,7 +163,7 @@ local function Init()
 
         local candidateGUIDs = C_TradeSkillUI.GetEnchantItems(recipeID);
         for index, item in ipairs(ItemUtil.TransformItemGUIDsToItems(candidateGUIDs)) do
-            if candidateGUIDs[index] and item and item:GetItemID()== 38682 then--附魔纸
+            if candidateGUIDs[index] and item and item:GetItemID()== 38682 then
                 local itemLocal= Item:CreateFromItemGUID(candidateGUIDs[index])
                 if itemLocal then
                     frame.transaction:SetEnchantAllocation(itemLocal);
@@ -183,7 +177,6 @@ local function Init()
 
 
     --Blizzard_ProfessionsSpecializations.lua
-    --全加点，专精，
     WoWTools_DataMixin:Hook(ProfessionsFrame.SpecPage, 'UpdateDetailedPanel', function(frame, setLocked)
         local button=frame.DetailedView.SpendAllPointsButton
         if not button then
@@ -216,7 +209,6 @@ local function Init()
     end)
 
 
-    --可加点数， 提示
     WoWTools_DataMixin:Hook(ProfessionsSpecPathMixin, 'UpdateProgressBar', function(frame)
         if not frame.ProgressBar:IsShown() then
             return

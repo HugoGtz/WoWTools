@@ -13,8 +13,8 @@ local RestIcon= 'Interface\\AddOns\\WoWToolsPlus\\Source\\Background\\Black.tga'
 
 local function SaveData(name)
     if Save().Add[name].enabled then
-        return Save().Add[name]--分开设置
-    else--统一设置
+        return Save().Add[name]
+    else
         local data= Save().All or {}
         data.alpha= data.alpha or 0.5
         data.texture= data.texture or RestIcon
@@ -187,18 +187,17 @@ local function Set_BGTexture(self, name)
     elseif self.BorderContainer then
         WoWTools_TextureMixin:SetFrame(self.BorderContainer, {alpha=nineSliceAlpha})
     else
---BaseFrame 外框
         WoWTools_TextureMixin:SetBaseFrame(self, nineSliceAlpha)
     end
 
 
 
 --PortraitContainer
-    if self.PortraitOverlay then--公会
+    if self.PortraitOverlay then
         self.PortraitOverlay:SetAlpha(portraitAlpha)
     elseif self.PortraitContainer then
         WoWTools_TextureMixin:SetAlphaColor(self.PortraitContainer.portrait, nil, true, portraitAlpha)
-    elseif self.Emblem then--公会银行就用这个
+    elseif self.Emblem then
         WoWTools_TextureMixin:SetFrame(self.Emblem, {notColor=true, alpha=portraitAlpha})
     elseif self.Header then
         WoWTools_TextureMixin:SetFrame(self.Header, {alpha=portraitAlpha})
@@ -211,13 +210,10 @@ end
 
 
 
---BG, 设置
 local function Settings(self)
---单独设置
     if self then
         Set_BGTexture(self)
     else
---统一设置
         for name in pairs(Save().Add) do
             self=_G[name]
             if self then
@@ -228,7 +224,6 @@ local function Settings(self)
 end
 
 
---材质，列表, 菜单
 local function texture_list(self, root, name, icon, texture, isAdd)
     local sub
     local isAtlas, textureID, icon2= WoWTools_TextureMixin:IsAtlas(texture, {248, 126})
@@ -241,10 +236,10 @@ local function texture_list(self, root, name, icon, texture, isAdd)
     function()
         return texture== SaveData(name).texture
     end, function()
-        if IsEnabledSaveBg(name) then--仅限
+        if IsEnabledSaveBg(name) then
             SaveData(name).texture= SaveData(name).texture~=texture and texture or nil
             Settings(self)
-        else--统一设置
+        else
             SaveData(name).texture= texture
             Settings()
         end
@@ -293,7 +288,6 @@ local function texture_list(self, root, name, icon, texture, isAdd)
 end
 
 
---材质，列表
 local function Texture_List_Menu(self, root, icon, name)
     local addButton= root:CreateButton(
         WoWTools_L.ADD,
@@ -354,7 +348,6 @@ local function Texture_List_Menu(self, root, icon, name)
         find=true
     end
 
---全部清除
     if find then
         WoWTools_MenuMixin:ClearAll(root, function()
             WoWToolsPlusPlayerDate['BGTexture']={}
@@ -377,7 +370,6 @@ local function Texture_List_Menu(self, root, icon, name)
 end
 
 
---分开设置, 列表
 local function Add_Frame_Menu(self, root)
     local sub, sub2
     sub=root:CreateButton(
@@ -404,7 +396,6 @@ local function Add_Frame_Menu(self, root)
 
 
 
---勾选所有
     sub2=sub:CreateButton(
         WoWTools_L.CHECK_ALL,
     function()
@@ -419,7 +410,6 @@ local function Add_Frame_Menu(self, root)
         tooltip:AddLine(string.format(WoWTools_L.LFG_LIST_CROSS_FACTION, ''))
     end)
 
---撤选所有
     sub2=sub:CreateButton(
         WoWTools_L.UNCHECK_ALL,
     function()
@@ -434,7 +424,6 @@ local function Add_Frame_Menu(self, root)
         tooltip:AddLine(WoWTools_L['ALL~2'])
     end)
 
---全部清除
     sub:CreateDivider()
     sub2= WoWTools_MenuMixin:ClearAll(sub, function()
         Save().Add={}
@@ -537,7 +526,6 @@ local function Add_Frame_Menu(self, root)
 end
 
 
---BG, 主菜单
 local function Init_Menu(self, root, isSub)
     local icon= self[BGName]
     local name= self:GetName()
@@ -570,7 +558,6 @@ local function Init_Menu(self, root, isSub)
     end
     sub:CreateSpacer()
 
---自定义，设置，分开或统一
     sub2= sub:CreateCheckbox(
         format(WoWTools_L.LFG_LIST_CROSS_FACTION, ''),
     function()
@@ -589,17 +576,15 @@ local function Init_Menu(self, root, isSub)
         if textureID then
             tooltip:AddLine(textureID)
         else
-            GameTooltip_AddErrorLine(tooltip, WoWTools_L.NONE)--红色
+            GameTooltip_AddErrorLine(tooltip, WoWTools_L.NONE)
         end
     end)
 
---材质，列表
     Texture_List_Menu(self, sub2, icon, name)
 
 
 
     sub:CreateSpacer()
---透明度
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
@@ -622,13 +607,12 @@ local function Init_Menu(self, root, isSub)
             end
             if not SaveData(name).texture then
                 tooltip:AddLine(' ')
-                GameTooltip_AddErrorLine(tooltip, WoWTools_L.NONE)--红色
+                GameTooltip_AddErrorLine(tooltip, WoWTools_L.NONE)
             end
         end
     })
     sub:CreateSpacer()
 
---NineSlice 透明度
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
@@ -655,7 +639,6 @@ local function Init_Menu(self, root, isSub)
     })
     sub:CreateSpacer()
 
---头像
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
@@ -686,12 +669,10 @@ local function Init_Menu(self, root, isSub)
         self:addMenu(root)
     end
 
---分开设置, 全部列表
     Add_Frame_Menu(self, sub)
     --sub:CreateSpacer()
 
 
---打开选项界面
     --sub:CreateSpacer()
     sub2=WoWTools_MenuMixin:OpenOptions(sub, {
         category= WoWTools_TextureMixin.Category,
@@ -712,7 +693,6 @@ local function Init_Menu(self, root, isSub)
 
 
 
---关闭
     sub3= sub2:CreateButton(
         '|A:RedButton-Exit:0:0|a'
         ..(WoWTools_FrameMixin:IsLocked(self) and '|cff626262' or '')
@@ -725,13 +705,10 @@ local function Init_Menu(self, root, isSub)
     end)
 
     sub2:CreateDivider()
---重新加载UI
     WoWTools_MenuMixin:Reload(sub2)
 end
 
 
---设置 菜单
---记录 [BGName]
 local function Set_Frame_Menu(frame, tab)
 
     frame.addMenu= tab.addMenu
@@ -887,14 +864,12 @@ function WoWTools_TextureMixin:Init_BGMenu_Frame(frame, tab)
         notLayer=tab.notLayer,
     }
 
---创建图片
     frame[BGName]= frame:CreateTexture(nil, 'BACKGROUND', nil, -8)
 
     if not tab.bgPoint then
         frame[BGName]:SetPoint('TOPLEFT', 3, -3)
         frame[BGName]:SetPoint('BOTTOMRIGHT',-3, 3)
     end
---调用，设置
     if tab.bgPoint then
         tab.bgPoint(frame[BGName])
     end
@@ -909,11 +884,8 @@ function WoWTools_TextureMixin:Init_BGMenu_Frame(frame, tab)
         settings= tab.settings,
     }
 
---创建，菜单按钮
     Create_Button(frame, tab)
---设置，调用，菜单
     Set_Frame_Menu(frame, tab)
---BG, 设置
     Settings(frame)
 end
 

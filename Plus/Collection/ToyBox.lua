@@ -1,4 +1,3 @@
---玩具 3
 
 
 
@@ -29,7 +28,7 @@ end
 
 
 
-function WoWTools_CollectionMixin:Init_ToyBox()--玩具 3
+function WoWTools_CollectionMixin:Init_ToyBox()
     WoWTools_DataMixin:Hook('ToySpellButton_UpdateButton', Update_Button)
     ToyBox.searchBox:SetPoint('LEFT', ToyBox.progressBar, 'RIGHT', 12,0)
 end

@@ -7,12 +7,12 @@ local MAX_GUILDBANK_SLOTS_PER_TAB= 98
 local StopRun, IsInRun
 
 local function Init_Sort()
-    if IsInRun then--禁用，按钮移动事件
-        StopRun=true--停止，已运行
+    if IsInRun then
+        StopRun=true
         return
     end
 
-    local currentIndex = GetCurrentGuildBankTab() or 0 -- 当前 Tab
+    local currentIndex = GetCurrentGuildBankTab() or 0
     local numOut= WoWTools_GuildBankMixin:GetNumWithdrawals(currentIndex)
     if not numOut or numOut==0 then
         return
@@ -157,8 +157,8 @@ local function Init_Menu(self, root)
         return Save().sortRightToLeft
     end, function()
         Save().sortRightToLeft= not Save().sortRightToLeft and true or false
-         if IsInRun then--禁用，按钮移动事件
-            StopRun=true--停止，已运行
+         if IsInRun then
+            StopRun=true
         end
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.GuildBank.SortReverse'])
@@ -168,8 +168,6 @@ end
 
 
 
---REVERSE_CLEAN_UP_BAGS_TEXT = "反向整理背包";
---G_CLEANUP_BANK = "整理银行";
 --..(BAG_CLEANUP_BANK)
 local function Init()
     local btn= WoWTools_ButtonMixin:Cbtn(GuildBankFrame, {atlas='bags-button-autosort-up'})

@@ -5,7 +5,7 @@ end
 
 
 local function Set_PvERoles()
-    local isTank, isHealer, isDPS = select(2, GetLFGRoles())--检测是否选定角色pve
+    local isTank, isHealer, isDPS = select(2, GetLFGRoles())
 
     if Save().autoSetRole or not (isTank or isHealer or isDPS) then
         local role = select(5, C_SpecializationInfo.GetSpecializationInfo(GetSpecialization() or 0))
@@ -24,7 +24,7 @@ local function Set_PvERoles()
 end
 
 
-local function Set_PvPRoles()--检测是否选定角色pvp
+local function Set_PvPRoles()
     local tank, healer, dps = GetPVPRoles()
 
     if Save().autoSetRole or not (tank or healer or dps) then
@@ -57,13 +57,13 @@ local function Init()
 
 
     PVPReadyDialog:HookScript('OnShow', function(self)
-        WoWTools_DataMixin:PlaySound()--播放, 声音
-        WoWTools_CooldownMixin:Setup(self, nil, BATTLEFIELD_TIMER_THRESHOLDS[3] or 60, nil, true)--冷却条
+        WoWTools_DataMixin:PlaySound()
+        WoWTools_CooldownMixin:Setup(self, nil, BATTLEFIELD_TIMER_THRESHOLDS[3] or 60, nil, true)
     end)
 
     PVPTimerFrame:HookScript('OnShow', function(self)
-        WoWTools_DataMixin:PlaySound()--播放, 声音
-        WoWTools_CooldownMixin:Setup(self, nil, BATTLEFIELD_TIMER_THRESHOLDS[3] or 60, nil, true)--冷却条
+        WoWTools_DataMixin:PlaySound()
+        WoWTools_CooldownMixin:Setup(self, nil, BATTLEFIELD_TIMER_THRESHOLDS[3] or 60, nil, true)
     end)
 
 
@@ -79,13 +79,13 @@ local function Init()
                 WoWTools_CooldownMixin:Setup(self)
             end
         else
-            WoWTools_CooldownMixin:Setup(self, nil, seconds, nil, true, true)--设置冷却
+            WoWTools_CooldownMixin:Setup(self, nil, seconds, nil, true, true)
         end
     end
 
 
 
-    LFDRoleCheckPopup:HookScript("OnUpdate",function(self)--副本职责
+    LFDRoleCheckPopup:HookScript("OnUpdate",function(self)
         if IsModifierKeyDown() then
             self:CancellORSetTime(nil)
         end
@@ -96,17 +96,17 @@ local function Init()
         self.onShowTime=nil
     end)
 
-    LFDRoleCheckPopup:HookScript("OnShow",function(self)--副本职责
+    LFDRoleCheckPopup:HookScript("OnShow",function(self)
         self.onShowTime= GetTime()
 
-        WoWTools_DataMixin:PlaySound()--播放, 声音
+        WoWTools_DataMixin:PlaySound()
         if IsModifierKeyDown() then
             return
         end
 
         local _, _, _, _, _, isBGRoleCheck = GetLFGRoleUpdate();
         if isBGRoleCheck  then
-            Set_PvPRoles()--检测是否选定角色pvp
+            Set_PvPRoles()
         else
             Set_PvERoles()
         end
@@ -145,9 +145,8 @@ local function Init()
     end)
 
 
---职责确认 RolePoll.lua
     WoWTools_DataMixin:Hook('RolePollPopup_Show', function(self)
-        WoWTools_DataMixin:PlaySound()--播放, 声音
+        WoWTools_DataMixin:PlaySound()
         if IsModifierKeyDown() or InCombatLockdown() then
             return
         end
@@ -172,7 +171,7 @@ local function Init()
         if btn2 then
             btn2.checkButton:SetChecked(true)
             WoWTools_DataMixin:Call('RolePollPopupRoleButtonCheckButton_OnClick', btn2.checkButton, btn2)
-            WoWTools_CooldownMixin:Setup(self, nil, Save().sec or 5, nil, true)--冷却条
+            WoWTools_CooldownMixin:Setup(self, nil, Save().sec or 5, nil, true)
             self.aceTime=C_Timer.NewTimer(Save().sec or 5, function()
                 if self.acceptButton:IsEnabled()
                     and self:IsShown()
@@ -199,7 +198,7 @@ local function Init()
                 self.aceTime:Cancel()
                 self.aceTime= nil
             end
-            WoWTools_CooldownMixin:Setup(self)--冷却条
+            WoWTools_CooldownMixin:Setup(self)
         end
     end)
 
@@ -208,15 +207,13 @@ local function Init()
             self.aceTime:Cancel()
             self.aceTime= nil
         end
-        --WoWTools_CooldownMixin:Setup(self)--冷却条
     end)
 
 
---队伍查找器, 邀请信息
     LFGListInviteDialog:HookScript("OnShow", function(self)
-        WoWTools_DataMixin:PlaySound(SOUNDKIT.IG_PLAYER_INVITE)--播放, 声音
+        WoWTools_DataMixin:PlaySound(SOUNDKIT.IG_PLAYER_INVITE)
 
-        WoWTools_CooldownMixin:Setup(self, nil, StaticPopupTimeoutSec, nil, true, true, nil)--冷却条
+        WoWTools_CooldownMixin:Setup(self, nil, StaticPopupTimeoutSec, nil, true, true, nil)
 
         if not self.resultID then
             return
@@ -236,25 +233,25 @@ local function Init()
 
             info.leaderOverallDungeonScore and info.leaderOverallDungeonScore>0 and
                 '|T4352494:0|t'..WoWTools_ChallengeMixin:KeystoneScorsoColor(info.leaderOverallDungeonScore)
-            or '',--地下城史诗,分数
+            or '',
 
             info.leaderPvpRatingInfo and info.leaderPvpRatingInfo.rating and info.leaderPvpRatingInfo.rating>0 and
                 '|A:pvptalents-warmode-swords:0:0|a|cnWARNING_FONT_COLOR:'..info.leaderPvpRatingInfo.rating..'|r'
-            or '',--PVP 分数
+            or '',
 
             (info.leaderName or leaderGuid) and format(
                 WoWTools_L.COMMUNITY_INVITATION_FRAME_INVITATION_TEXT,
                 WoWTools_UnitMixin:GetLink(nil, leaderGuid, info.leaderName, false)..' '
             )
-            or '',--%s邀请你加入
+            or '',
 
-            info.name,--名称
+            info.name,
 
             WoWTools_DataMixin.Icon[role] or '',
 
             info.numMembers and info.numMembers>0 and
                 (WoWTools_L.PLAYERS_IN_GROUP)..'|cff00ff00 '..info.numMembers..'|r'
-            or '',--队伍成员数量
+            or '',
 
             info.numBNetFriends and info.numBNetFriends>0 and
             '|cff00ccff'..WoWTools_DataMixin.Icon.wow2..(WoWTools_L['PLAYERS_IN_GROUP~2'])..' '..info.numMembers..'|r'
@@ -266,11 +263,11 @@ local function Init()
 
             info.autoAccept and
                 '|cnGREEN_FONT_COLOR:'..(WoWTools_L['SELF_CAST_AUTO+INVITE'])..'|r'
-            or '',--对方是否开启, 自动邀请
+            or '',
 
             info.activityID and
                 '|cffff00ff'..WoWTools_TextMixin:CN(C_LFGList.GetActivityFullName(info.activityID))..'|r'
-            or '',--查找器,类型
+            or '',
 
             info.isWarMode and-- info.isWarMode ~= C_PvP.IsWarModeDesired() and
                 '|A:pvptalents-warmode-swords:0:0|a|cnWARNING_FONT_COLOR:'..(WoWTools_L.TALENT_FRAME_LABEL_WARMODE)..'|r'
@@ -279,14 +276,13 @@ local function Init()
     end)
 
 
---确定，进入副本，信息
-    LFGInvitePopup:HookScript("OnShow", function(self)--自动进入FB
-        WoWTools_DataMixin:PlaySound()--播放, 声音
+    LFGInvitePopup:HookScript("OnShow", function(self)
+        WoWTools_DataMixin:PlaySound()
         WoWTools_CooldownMixin:Setup(self, nil, self.timeOut and StaticPopupTimeoutSec, nil, true, true)
     end)
 
-    LFGDungeonReadyDialog:HookScript("OnShow", function(self)--自动进入FB
-        WoWTools_DataMixin:PlaySound()--播放, 声音
+    LFGDungeonReadyDialog:HookScript("OnShow", function(self)
+        WoWTools_DataMixin:PlaySound()
         WoWTools_CooldownMixin:Setup(self, nil, self.timeOut or 38, nil, true, true)
     end)
     WoWTools_DataMixin:Hook('LFGDungeonReadyPopup_OnFail', function()
@@ -297,7 +293,6 @@ local function Init()
 
 
 
---确定，进入副本
     LFGDungeonReadyDialog.bossTipsLabel= WoWTools_LabelMixin:Create(LFGDungeonReadyDialog)
     LFGDungeonReadyDialog.bossTipsLabel:SetPoint('LEFT', LFGDungeonReadyDialog, 'RIGHT', 4, 0)
 
@@ -351,7 +346,7 @@ local function Init()
 
     Menu.ModifyMenu("MENU_QUEUE_STATUS_FRAME", function(self, root)
         if self:IsMouseOver() then
-            WoWTools_LFDMixin:ShowMenu_LFGDungeonReadyDialog(root)--显示 LFGDungeonReadyDialog
+            WoWTools_LFDMixin:ShowMenu_LFGDungeonReadyDialog(root)
         end
     end)
 
@@ -369,7 +364,6 @@ local function Init()
         Set_PvERoles()
         Set_PvPRoles()
 
---确定，进入副本
         if GetLFGProposal() and not LFGDungeonReadyPopup:IsShown() then
             StaticPopupSpecial_Show(LFGDungeonReadyPopup)
             WoWTools_DataMixin:Call('LFGDungeonReadyPopup_Update')

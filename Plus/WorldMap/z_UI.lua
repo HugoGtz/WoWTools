@@ -1,7 +1,5 @@
---世界地图
 
 
---因为修改，内置参数，可能会出现，错误
 --WorldMapFrame:IsSidePanelShown()
 --WoWTools_DataMixin:Hook(WorldMapFrame.SidePanelToggle, 'Refresh', Save_Size)
 function WoWTools_MoveMixin.Events:Blizzard_WorldMap()
@@ -158,7 +156,6 @@ function WoWTools_MoveMixin.Events:Blizzard_WorldMap()
     self:Setup(QuestMapFrame.DetailsFrame, {frame=WorldMapFrame})
     self:Setup(QuestMapDetailsScrollFrame, {frame=WorldMapFrame})
 
---战役
     QuestMapFrame.QuestsFrame.CampaignOverview.Header:SetFrameLevel(QuestMapFrame.QuestsFrame.CampaignOverview.BorderFrame:GetFrameLevel()+1)
     self:Setup(QuestMapFrame.QuestsFrame.CampaignOverview.BorderFrame, {frame=WorldMapFrame})
 end

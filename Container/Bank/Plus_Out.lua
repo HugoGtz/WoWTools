@@ -182,7 +182,6 @@ end
 
 local function Init()
 
---右边Tab
     WoWTools_DataMixin:Hook(BankPanelTabMixin, 'OnLoad', function(btn)
         btn:SetScript('OnMouseWheel', function(self)
             MenuUtil.CreateContextMenu(self, function(_, root)

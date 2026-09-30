@@ -58,7 +58,7 @@ local function Set_Script(btn)
         if self.itemID then
             start, duration, enable = C_Item.GetItemCooldown(self.itemID)--C_Container.GetItemCooldown(self.itemID)
         end
-        WoWTools_CooldownMixin:Setup(self, start, duration, nil, true, nil, true)--冷却条
+        WoWTools_CooldownMixin:Setup(self, start, duration, nil, true, nil, true)
         btn.enableCooldown= enable
     end
 
@@ -186,7 +186,7 @@ local function Create_Button(index)
 
         self:settings()
         self:set_attribute()
-        WoWTools_BagMixin:Find(true, {itemID= self.itemID})--查询，背包里物品
+        WoWTools_BagMixin:Find(true, {itemID= self.itemID})
     end)
 
     btn:SetScript('OnMouseDown',function(self, d)
@@ -212,19 +212,18 @@ local function Create_Button(index)
 
 
 
-    table.insert(Buttons, name)--添加
+    table.insert(Buttons, name)
 
 
     return btn
 end
 
 
---检查,物品
 local IsChecking
 function WoWTools_FoodMixin:Check_Items(isPrint)
     local btn= WoWTools_ToolsMixin:Get_ButtonForName('Food')
 
-    if IsChecking or not btn then--正在查询
+    if IsChecking or not btn then
         return
 
     elseif not btn:CanChangeAttribute() then
@@ -262,7 +261,7 @@ function WoWTools_FoodMixin:Check_Items(isPrint)
 
 
     for index, itemID in pairs(new) do
-        local b= _G[Buttons[index]] or Create_Button(index)--创建
+        local b= _G[Buttons[index]] or Create_Button(index)
         b.itemID= itemID
         b:settings()
         b:set_attribute()

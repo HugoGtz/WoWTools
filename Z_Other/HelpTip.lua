@@ -5,14 +5,13 @@ local function Init()
         C_CVar.SetCVar("showNPETutorials",'0')
     end
 
-    WoWTools_DataMixin:Hook(HelpTip, 'Show', function(self)--, parent)--隐藏所有HelpTip HelpTip.lua
+    WoWTools_DataMixin:Hook(HelpTip, 'Show', function(self)
         for frame in self.framePool:EnumerateActive() do
             frame:Hide()
         end
     end)
 
 
---Blizzard_TutorialPointerFrame.lua 隐藏, 新手教程
     WoWTools_DataMixin:Hook(TutorialPointerFrame, 'Show',function(self, content, direction, anchorFrame)
         if not anchorFrame or not self.DirectionData[direction] then
             return

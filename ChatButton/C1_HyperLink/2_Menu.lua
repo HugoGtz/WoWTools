@@ -3,7 +3,6 @@ local function Save()
 end
 
 
---主菜单
 --#####
 local function Init_Menu(self, root)
     if not self:IsMouseOver() then
@@ -13,7 +12,6 @@ local function Init_Menu(self, root)
     local sub, sub2, col
     local isInBat= InCombatLockdown()
 
---超链接图标
     sub= root:CreateCheckbox(
         (C_SocialRestrictions.IsChatDisabled() and '|cff828282' or '')
         ..WoWTools_HyperLink.addName,
@@ -30,7 +28,6 @@ local function Init_Menu(self, root)
         end
     end)
 
---图标尺寸
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
@@ -55,7 +52,6 @@ local function Init_Menu(self, root)
     })
     sub:CreateSpacer()
 
---关键词, 内容颜色，和频道名称替换
     sub2=sub:CreateCheckbox(
         WoWTools_DataMixin.Language.key,
     function()
@@ -69,7 +65,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.HyperLink.KeyColor'])
 
---设置关键词
     sub2:CreateButton(
         (InCombatLockdown() and '|cff626262' or '')
         ..'|A:mechagon-projects:0:0|a'
@@ -82,7 +77,6 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end)
 
---玩家信息
     sub2= sub:CreateCheckbox(
         WoWTools_L.PLAYER_MESSAGES,
     function()
@@ -98,7 +92,6 @@ local function Init_Menu(self, root)
     end)
 
 
---物品数量
     sub2= sub:CreateCheckbox(
         WoWTools_L['ITEMS+AUCTION_HOUSE_QUANTITY_LABEL'],
     function()
@@ -113,7 +106,6 @@ local function Init_Menu(self, root)
     end)
 
 
---地图标记
     sub2= sub:CreateCheckbox(
         WoWTools_L.MAP_PIN,
     function()
@@ -129,7 +121,6 @@ local function Init_Menu(self, root)
 
 
     sub:CreateDivider()
---CVar 名称
     sub2=sub:CreateCheckbox(
         'CVar '..(WoWTools_L.LFG_LIST_TITLE ),
     function()
@@ -154,7 +145,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.HyperLink.CVarTest'])
 
---关闭聊天
     sub2=sub:CreateCheckbox(
         (C_SocialRestrictions.IsChatDisabled() and '|cnWARNING_FONT_COLOR:' or '')
         ..(WoWTools_L.RESTRICT_CHAT_CONFIG_DISABLE),
@@ -173,7 +163,6 @@ local function Init_Menu(self, root)
     end)
 
 
---事件声音
     col= isInBat and '|cff828282' or (
             not C_CVar.GetCVarBool('Sound_EnableAllSound')
             or C_CVar.GetCVar('Sound_MasterVolume')=='0'
@@ -192,7 +181,7 @@ local function Init_Menu(self, root)
         Save().setPlayerSound= not Save().setPlayerSound and true or nil
 
         if Save().setPlayerSound then
-            WoWTools_DataMixin:PlaySound()--播放, 声音
+            WoWTools_DataMixin:PlaySound()
         end
 
         WoWTools_HyperLink:Init_Event_Sound()
@@ -211,7 +200,6 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWTools_DataMixin:Get_CVar_Tooltips({name='Sound_EnableDialog', msg=WoWTools_L['ENABLE_DIALOG~2'] }))
     end)
 
---打开，音频
     sub2=sub:CreateButton(
         col..(WoWTools_L.AUDIO_LABEL),
     function()
@@ -226,14 +214,11 @@ local function Init_Menu(self, root)
 
 
 
---文本转语音   
     WoWTools_MenuMixin:TTsMenu(root)
     root:CreateDivider()
 
---表情，按钮
     --WoWTools_HyperLink:EmojiButton_Menu(self, root)
 
---颜色选择器    
     root:CreateButton(
         '|A:colorblind-colorwheel:0:0|a'..(WoWTools_L.COLOR_PICKER),
     function()
@@ -344,13 +329,11 @@ local function Init_Menu(self, root)
     WoWTools_OtherMixin:OpenOption(sub, 'Plus')
 
 
---添加按钮
     root:CreateDivider()
 
 --/reload
     sub=WoWTools_MenuMixin:Reload(root, false)
 
---添加按钮
     sub2=sub:CreateCheckbox(
         WoWTools_L['Add button'],
     function ()

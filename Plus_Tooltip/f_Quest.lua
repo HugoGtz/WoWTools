@@ -1,7 +1,6 @@
 
 
 
---任务
 function WoWTools_TooltipMixin:Set_Quest(tooltip, questID, info)
     if self:IsInCombatDisabled(tooltip)
         or not canaccessvalue(questID)
@@ -16,9 +15,9 @@ function WoWTools_TooltipMixin:Set_Quest(tooltip, questID, info)
         return
     end
 
-    tooltip:AddLine(WoWTools_DataMixin:GetExpansionText(nil, questID))--任务版本
+    tooltip:AddLine(WoWTools_DataMixin:GetExpansionText(nil, questID))
 
-    local lv=C_QuestLog.GetQuestDifficultyLevel(questID)--等级
+    local lv=C_QuestLog.GetQuestDifficultyLevel(questID)
     local levelText
     if lv then
         if lv<WoWTools_DataMixin.Player.Level then
@@ -62,7 +61,6 @@ function WoWTools_TooltipMixin:Set_Quest(tooltip, questID, info)
         end
     end
 
---货币
     local data= WoWTools_QuestMixin:GetRewardInfo(questID)
     local currencyID= data and data.currencyID
     if  data and data.currencyID then
@@ -87,7 +85,7 @@ function WoWTools_TooltipMixin:Set_Quest(tooltip, questID, info)
 
     end
 
-    self:Set_Web_Link(tooltip, {type='quest', id=questID, name=name or C_QuestLog.GetTitleForQuestID(questID), col=nil, isPetUI=false})--取得网页，数据链接
+    self:Set_Web_Link(tooltip, {type='quest', id=questID, name=name or C_QuestLog.GetTitleForQuestID(questID), col=nil, isPetUI=false})
 
     WoWTools_TooltipMixin:Show(tooltip)
 end

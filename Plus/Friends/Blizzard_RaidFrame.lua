@@ -1,4 +1,3 @@
---团队信息，副本信息
 
 local function Init()
     WoWTools_DataMixin:Hook('RaidInfoFrame_InitButton', function(btn, elementData)

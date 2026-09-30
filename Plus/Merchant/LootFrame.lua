@@ -1,4 +1,3 @@
---自动拾取 Plus
 local check
 local function Init()
     check=CreateFrame('CheckButton', nil, LootFrame.TitleContainer, "InterfaceOptionsCheckButtonTemplate")

@@ -3,13 +3,12 @@ local function Save()
     return WoWToolsPlusSave['ChatButtonGuild'] or {}
 end
 
-local G_GUILD_INFO_TEMPLATE= GUILD_INFO_TEMPLATE:gsub('(%%.+)', '')--公会创立
+local G_GUILD_INFO_TEMPLATE= GUILD_INFO_TEMPLATE:gsub('(%%.+)', '')
 
 
 local function Set_Text(self)
     local isInGuild= IsInGuild()
 
-    --设置背景
     if isInGuild then
         self.texture2:SetAtlas(
             isInGuild and 'UI-HUD-MicroMenu-GuildCommunities-Up'
@@ -21,7 +20,6 @@ local function Set_Text(self)
         self.texture2:SetAtlas('honorsystem-prestige-laurel-bg-alliance')
     end
 
---图标
     if isInGuild then--GuildUtil.lua
         SetLargeGuildTabardTextures(-- SetSmallGuildTabardTextures(
             'player',
@@ -33,7 +31,6 @@ local function Set_Text(self)
     end
     self.texture:SetShown(isInGuild)
 
---在线人数
     local online=1
     if isInGuild then
         online = select(2, GetNumGuildMembers()) or 1
@@ -44,11 +41,10 @@ local function Set_Text(self)
 
     local bottomText
     if isInGuild then
---弹劾
-        if CanReplaceGuildMaster() then--弹劾
+        if CanReplaceGuildMaster() then
             bottomText= WoWTools_L['Impeach (short)']
         elseif WoWTools_GuildMixin:IsLeaderOrOfficer() and CanGuildInvite() then
-            bottomText= WoWTools_GuildMixin:GetClubFindDay(nil)--Club,列出查找，过期时间
+            bottomText= WoWTools_GuildMixin:GetClubFindDay(nil)
         end
     end
     self.bottomText:SetText(bottomText or (WoWTools_L['g']))
@@ -97,7 +93,6 @@ local function Init()
         end
     end
 
---申请者
     function btn:set_new_application(isInit)
         local isInviete, isMessage= false, false
         local clubs= C_ClubFinder.IsEnabled() and C_Club.GetSubscribedClubs()
@@ -134,9 +129,9 @@ local function Init()
         if not IsInGuild() then
             GameTooltip:AddLine('|cff626262'..(WoWTools_L.ITEM_REQ_PURCHASE_GUILD)..WoWTools_DataMixin.Icon.left)
         else
-            WoWTools_GuildMixin:Load_Club(nil)--加载，Club,数据
+            WoWTools_GuildMixin:Load_Club(nil)
         end
-        WoWTools_GuildMixin:OnEnter_GuildInfo()--公会，社区，信息
+        WoWTools_GuildMixin:OnEnter_GuildInfo()
         GameTooltip:Show()
     end
 
@@ -145,7 +140,6 @@ local function Init()
         WoWTools_ChatMixin:Say('/g')
     end
 
---事件
     btn:RegisterEvent('GUILD_ROSTER_UPDATE')
     btn:RegisterEvent('PLAYER_GUILD_UPDATE')
 
@@ -158,7 +152,6 @@ local function Init()
 
     btn:SetScript('OnEvent', function(self, event, arg1)
         if
---更新，数据
             event=='PLAYER_GUILD_UPDATE'
             or event=='GUILD_ROSTER_UPDATE'
             or event=='CLUB_FINDER_RECRUITMENT_POST_RETURNED'
@@ -166,7 +159,6 @@ local function Init()
         then
             Set_Text(self)
 
---公会创立，信息
         elseif event=='CHAT_MSG_SYSTEM' then
             if canaccessvalue(arg1) and arg1 and arg1:find(G_GUILD_INFO_TEMPLATE) then
                 WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Guild.text= arg1
@@ -187,10 +179,10 @@ local function Init()
     btn:set_guildinfo_event()
 
     if not InCombatLockdown() then
-        btn:set_new_application(WoWTools_GuildMixin:IsLeaderOrOfficer())--申请者
+        btn:set_new_application(WoWTools_GuildMixin:IsLeaderOrOfficer())
     else
         EventRegistry:RegisterFrameEventAndCallback("PLAYER_REGEN_ENABLED", function(owner)
-            btn:set_new_application(WoWTools_GuildMixin:IsLeaderOrOfficer())--申请者
+            btn:set_new_application(WoWTools_GuildMixin:IsLeaderOrOfficer())
             EventRegistry:UnregisterCallback('PLAYER_REGEN_ENABLED', owner)
         end)
     end

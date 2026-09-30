@@ -13,7 +13,7 @@ local function InstanceDifficulty_Tooltip(tooltip, difficultyID)
         DifficultyUtil.ID.DungeonChallenge,
         DifficultyUtil.ID.RaidTimewalker,
         25,
-        205,--Seguace (5)LFG_TYPE_FOLLOWER_DUNGEON = "追随者地下城"
+        205,
         208,
         220,
     }) do
@@ -45,7 +45,7 @@ local function Init()
     WoWTools_TextureMixin:SetAlphaColor(btn.Guild.Border, true)
     WoWTools_TextureMixin:SetAlphaColor(btn.ChallengeMode.Border, true)
 
-    WoWTools_LabelMixin:Create(nil,{size=12, copyFont=btn.Text, changeFont= btn.Default.Text})--字体，大小
+    WoWTools_LabelMixin:Create(nil,{size=12, copyFont=btn.Text, changeFont= btn.Default.Text})
     btn.Default.Text:SetShadowOffset(1,-1)
 
 --InstanceDifficulty.lua
@@ -64,7 +64,7 @@ local function Init()
         end
 
         local difficultyID
-        if isChallengeMode then--挑战
+        if isChallengeMode then
             difficultyName, color= WoWTools_MapMixin:GetDifficultyColor(nil, DifficultyUtil.ID.DungeonChallenge)
 
         elseif IsInInstance() then

@@ -5,7 +5,6 @@ end
 
 
 
---列表，数量 ScrollingHousingCatalogMixin
 local function Catalog_ListNum(frame)
     if not frame or frame.numItemLabel then
         return
@@ -51,16 +50,13 @@ end
 
 
 local function Create_Button(btn)
---有点大
     btn.InfoText:SetFontObject('GameFontWhite')
     btn.InfoText:ClearAllPoints()
     btn.InfoText:SetPoint('BOTTOMRIGHT' , -6, 2)
---可制定
     btn.CustomizeIcon:ClearAllPoints()--size 16,16
     btn.CustomizeIcon:SetPoint('BOTTOM', btn.InfoText, 'TOP')
 
 
---添加，追踪，按钮
     btn.trackableButton= CreateFrame('Button', nil, btn, 'WoWToolsButtonTemplate')
     btn.trackableButton:Hide()
     btn.trackableButton:SetSize(18,18)
@@ -145,7 +141,6 @@ local function Create_Button(btn)
         self:tooltip()
     end)
 
---预览不可用
     btn.NotAsset= btn:CreateTexture()
     btn.NotAsset:SetPoint('LEFT', btn.trackableButton, 'RIGHT')
     btn.NotAsset:SetSize(16,16)
@@ -155,7 +150,6 @@ local function Create_Button(btn)
 
 
 
---可放置，室内，提示
     btn.Indoors= btn:CreateTexture()
     btn.Indoors:SetPoint('TOP', btn.trackableButton, 'BOTTOM')
     btn.Indoors:SetAtlas('house-room-limit-icon')
@@ -163,7 +157,6 @@ local function Create_Button(btn)
     Set_Texture(btn.Indoors)
 
 
---可放置，室外，提示
     btn.Outdoors= btn:CreateTexture()
     btn.Outdoors:SetPoint('TOP', btn.Indoors, 'BOTTOM')
     btn.Outdoors:SetAtlas('house-outdoor-budget-icon')
@@ -171,7 +164,6 @@ local function Create_Button(btn)
     Set_Texture(btn.Outdoors)
 
 
-    --匠心房间
     btn.IsPrefab= btn:CreateTexture()
     btn.IsPrefab:SetPoint('TOPLEFT', btn.Outdoors, 'BOTTOMLEFT')
     btn.IsPrefab:SetAtlas('house-chest-room-prefab-icon')
@@ -182,21 +174,18 @@ local function Create_Button(btn)
         self:SetAlpha(self:IsMouseOver() and 0.3 or 1)
     end
 
---可获得首次收集奖励
     btn.firstXP= btn:CreateTexture()
     btn.firstXP:SetPoint('TOP', btn.IsPrefab,'BOTTOM', -1, 4)
     btn.firstXP:SetAtlas('GarrMission_CurrencyIcon-Xp')
     btn.firstXP.tooltip= WoWTools_L.HOUSING_DECOR_FIRST_ACQUISITION_AVAILABLE
     Set_Texture(btn.firstXP)
     btn.firstXP:SetSize(20, 20)
---空间，大小
     btn.placementCostLabel= btn:CreateFontString(nil, nil, 'GameFontWhite')
     btn.placementCostLabel:SetPoint('TOPLEFT', btn.firstXP, 'BOTTOMLEFT', 5, 5)
     btn.placementCostLabel.tooltip= WoWTools_L.HOUSING_DECOR_PLACEMENT_COST_TOOLTIP
     Set_Texture(btn.placementCostLabel)
 
 
---索引
     btn.indexLabel= btn:CreateFontString(nil, 'BORDER', 'GameFontDisable')
     btn.indexLabel:SetFontHeight(10)
     btn.indexLabel:SetPoint('TOPLEFT',0, 7)
@@ -204,7 +193,6 @@ local function Create_Button(btn)
 
 
 
---选定，提示
     btn.selectBG= btn:CreateTexture()
     btn.selectBG:SetPoint('TOPLEFT', -16, 18)
     btn.selectBG:SetAlpha(0.5)
@@ -269,7 +257,6 @@ local function Init_HousingTemplates()
     end)
 
 
---列表，数量 ScrollingHousingCatalogMixin
     WoWTools_DataMixin:Hook(ScrollingHousingCatalogMixin, 'OnLoad', Catalog_ListNum)
 
     WoWTools_DataMixin:Hook(HousingCatalogDecorEntryMixin, 'OnLoad', Create_Button)
@@ -308,9 +295,8 @@ local function Init_HousingTemplates()
             end
 
             if entryInfo.entryID then
-                show= ContentTrackingUtil.IsContentTrackingEnabled()--追踪当前可用
-                    and C_ContentTracking.IsTrackable(Enum.ContentTrackingType.Decor, entryInfo.entryID.recordID)--追踪功能对此物品可用
-                --isTrackable= show and C_ContentTracking.IsTracking(Enum.ContentTrackingType.Decor, entryInfo.entryID.recordID)--正在追踪
+                show= ContentTrackingUtil.IsContentTrackingEnabled()
+                    and C_ContentTracking.IsTrackable(Enum.ContentTrackingType.Decor, entryInfo.entryID.recordID)
             end
 
 
@@ -369,7 +355,6 @@ local function Set_EntryInfo(frame, entryInfo)
 
         local obj, color
 
---来源
         if entryInfo then
             if (not entryInfo.sourceText or entryInfo.sourceText=='') then
                 obj= WoWTools_HouseMixin:GetObjectiveText(entryInfo)
@@ -378,20 +363,15 @@ local function Set_EntryInfo(frame, entryInfo)
         end
         frame:SetTextOrHide(frame.TextContainer.TrackingObjectiveText, obj)
 
---拥有数量
         local totalOwned = entryInfo.numPlaced + entryInfo.quantity + entryInfo.remainingRedeemable;
 	    local totalOwnedText = format('|A:house-decor-budget-icon:16:16|a%d |A:house-chest-icon:16:16|a %d', entryInfo.numPlaced, totalOwned)
         frame:SetTextOrHide(frame.TextContainer.NumOwned, totalOwnedText);
 
---关键词
         frame:SetTextOrHide(frame.TextContainer.TagsText, WoWTools_HouseMixin:GetTagsText(entryInfo))
---室内，外
         frame.TextContainer.InDoorsText:SetShown(entryInfo.isAllowedIndoors)
         frame.TextContainer.OutDoorsText:SetShown(entryInfo.isAllowedOutdoors)
---品质
         frame.NameContainer.Name:SetTextColor(color:GetRGB())
 
---设置，内容
         frame.TextContainer:SetFixedWidth(frame.TextContainer:GetWidth())
         frame.TextContainer:Layout()
     end
@@ -416,11 +396,8 @@ local function Init_HousingModelPreview()
         for _, label in pairs({self.TextContainer:GetRegions()}) do
             layoutIndex= math.max(label.layoutIndex or 0, layoutIndex)
         end
---来源
         Add_label(self, 'TrackingObjectiveText', layoutIndex+1)
---关键词
         Add_label(self, 'TagsText', layoutIndex+2)
---室内，外
         Add_label(self, 'InDoorsText', layoutIndex+3, '|A:house-room-limit-icon:0:0|a'..(WoWTools_L.HOUSING_CATALOG_FILTERS_INDOORS))
         Add_label(self, 'OutDoorsText', layoutIndex+4, '|A:house-outdoor-budget-icon:0:0|a'..(WoWTools_L.HOUSING_CATALOG_FILTERS_OUTDOORS))
     end)
@@ -437,11 +414,8 @@ local function Init_HousingModelPreview()
         for _, label in pairs({frame.ModelPreview.TextContainer:GetRegions()}) do
             layoutIndex= math.max(label.layoutIndex or 0, layoutIndex)
         end
---来源
         Add_label(frame.ModelPreview, 'TrackingObjectiveText', layoutIndex+1)
---关键词
         Add_label(frame.ModelPreview, 'TagsText', layoutIndex+2)
---室内，外
         Add_label(frame.ModelPreview, 'InDoorsText', layoutIndex+3, '|A:house-room-limit-icon:0:0|a'..(WoWTools_L.HOUSING_CATALOG_FILTERS_INDOORS))
         Add_label(frame.ModelPreview, 'OutDoorsText', layoutIndex+4, '|A:house-outdoor-budget-icon:0:0|a'..(WoWTools_L.HOUSING_CATALOG_FILTERS_OUTDOORS))
 
@@ -456,7 +430,6 @@ local function Init_HousingModelPreview()
 end
 
 
---住宅信息板
 local function Init_HousingDashboard()
     if not C_AddOns.IsAddOnLoaded('Blizzard_HousingDashboard') then
         EventRegistry:RegisterFrameEventAndCallback("ADDON_LOADED", function(owner, arg1)
@@ -476,14 +449,12 @@ local function Init_HousingDashboard()
         end
 
         local sub=WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_HouseMixin.addName})
---摧毁
         WoWTools_OtherMixin:OpenOption(sub,
             '|A:XMarksTheSpot:0:0|a'..(WoWTools_L.DELETE_ITEM_CONFIRM_STRING),
             '|A:XMarksTheSpot:0:0|a'..(WoWTools_L.HOUSING_DECOR_STORAGE_ITEM_DESTROY_CONFIRMATION_STRING)
         )
     end)
 
---添加一个图标
     HousingDashboardFrame.CatalogContent.PreviewFrame.TextContainer.CollectionBonus:SetText(
         '|A:GarrMission_CurrencyIcon-Xp:0:0|a'
         ..(WoWTools_L.HOUSING_DECOR_FIRST_ACQUISITION_AVAILABLE)
@@ -491,7 +462,6 @@ local function Init_HousingDashboard()
 
 
 
---列表，数量 ScrollingHousingCatalogMixin
     Catalog_ListNum(HousingDashboardFrame.CatalogContent.OptionsContainer)
 
 

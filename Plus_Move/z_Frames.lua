@@ -1,4 +1,3 @@
---商人
 function WoWTools_MoveMixin.Frames:MerchantFrame()
     if WoWToolsPlusSave['Plus_SellBuy'] then
         if WoWToolsPlusSave['Plus_SellBuy'].notPlus or WoWToolsPlusSave['Plus_SellBuy'].disabled then
@@ -10,7 +9,6 @@ end
 
 
 
---对话
 function WoWTools_MoveMixin.Frames:GossipFrame()
     WoWTools_DataMixin:Hook(GossipGreetingTextMixin, 'Setup', function(b)
         b.GreetingText:SetWidth(b:GetWidth()-22)
@@ -29,7 +27,6 @@ function WoWTools_MoveMixin.Frames:GossipFrame()
 end
 
 
---试衣间
 function WoWTools_MoveMixin.Frames:DressUpFrame()
     local function Set_Max(frame)
         local w, h= UIParent:GetSize()
@@ -80,7 +77,6 @@ function WoWTools_MoveMixin.Frames:DressUpFrame()
 end
 
 
---任务
 function WoWTools_MoveMixin.Frames:QuestFrame()
     --QuestFrame <Size x="338" y="496"/>
     QuestDetailScrollFrame:HookScript('OnSizeChanged', function(_, w)
@@ -127,7 +123,6 @@ function WoWTools_MoveMixin.Frames:QuestFrame()
     })
 end
 
---新内容
 function WoWTools_MoveMixin.Frames:SplashFrame()
     self:Setup(SplashFrame)
 end
@@ -135,7 +130,6 @@ end
 
 
 
---就绪
 function WoWTools_MoveMixin.Frames:ReadyCheckFrame()
     WoWTools_DataMixin:Hook('ShowReadyCheck', function(initiator)
         if canaccessvalue(initiator) and initiator==UnitName('player') then
@@ -146,14 +140,12 @@ function WoWTools_MoveMixin.Frames:ReadyCheckFrame()
     --self:Setup(ReadyCheckListenerFrame, {frame=ReadyCheckFrame})
 end
 
---颜色选择器
 function WoWTools_MoveMixin.Frames:ColorPickerFrame()
     self:Setup(ColorPickerFrame, {click='RightButton'})
     self:Setup(ColorPickerFrame.Header, {frame=ColorPickerFrame})
     self:Setup(ColorPickerFrame.Content, {frame=ColorPickerFrame})
 end
 
---物品拾取
 function WoWTools_MoveMixin.Frames:LootFrame()
 
     LootFrame.ScrollBox:SetPoint('RIGHT', -12, 0)
@@ -205,7 +197,6 @@ function WoWTools_MoveMixin.Frames:UIWidgetBelowMinimapContainerFrame()
 end
 
 
---职责选取框
 function WoWTools_MoveMixin.Frames:RolePollPopup()
     self:Setup(RolePollPopup)
 end

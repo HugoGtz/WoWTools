@@ -1,8 +1,5 @@
 local P_Save={
-    --disabledPetitionTarget=true,新建，自动要求签名目标
-    --guildInfo=true,公会信息
     --showNotOnLine=true,
-    --subGuildName= number or nil,截取公会名称
 }
 
 
@@ -34,10 +31,10 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
     elseif event=='PLAYER_ENTERING_WORLD' then
         WoWTools_GuildMixin:Init_Button()
-        WoWTools_GuildMixin:Init_Menu()--菜单
+        WoWTools_GuildMixin:Init_Menu()
         WoWTools_GuildMixin:Init_ClubFinder()
-        WoWTools_GuildMixin:Plus_CommunitiesFrame()--社区 Plus
-        WoWTools_GuildMixin:Init_PetitionFrame()--新建，公会, 签名 OfferPetition
+        WoWTools_GuildMixin:Plus_CommunitiesFrame()
+        WoWTools_GuildMixin:Init_PetitionFrame()
 
         self:SetScript('OnEvent', nil)
         self:UnregisterEvent(event)

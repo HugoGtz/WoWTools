@@ -17,7 +17,7 @@ local Events_All={
 }
 
 local Event_Unit={
-    'UNIT_ENTERED_VEHICLE',--车辆
+    'UNIT_ENTERED_VEHICLE',
     'UNIT_ENTERING_VEHICLE',
     'UNIT_EXITED_VEHICLE'
 }
@@ -70,7 +70,7 @@ local function Init()
                     BattlePetTooltip:SetShown(false)
                 end
             end
-            WoWTools_BagMixin:Find(true, {itemLink= itemLink})--查询，背包里物品
+            WoWTools_BagMixin:Find(true, {itemLink= itemLink})
         else
             GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_OpenItemMixin.addName)
             GameTooltip:AddLine(' ')
@@ -113,7 +113,7 @@ local function Init()
         GameTooltip_Hide()
         ResetCursor()
         WoWTools_OpenItemMixin:Get_Item()
-        WoWTools_BagMixin:Find(false)--查询，背包里物品
+        WoWTools_BagMixin:Find(false)
         self:SetScript('OnUpdate',nil)
     end)
 
@@ -160,7 +160,7 @@ local function Init()
             return
         end
         if d == 1 then
-            self:set_disabled_current_item()--禁用当物品
+            self:set_disabled_current_item()
             self:set_tooltips()
         elseif d==-1 then
             self:settings()
@@ -179,7 +179,7 @@ local function Init()
 
     btn:SetScript('OnEvent', function(self, event)
 
-        if event=='PLAYER_ENTERING_WORLD' or event=='PLAYER_MAP_CHANGED' then--出进副本
+        if event=='PLAYER_ENTERING_WORLD' or event=='PLAYER_MAP_CHANGED' then
             --self:settings()
             --if event=='PLAYER_MAP_CHANGED' then
                 C_Timer.After(2, function()
@@ -187,8 +187,8 @@ local function Init()
                 end)
             --end
 
-        elseif event=='PLAYER_MOUNT_DISPLAY_CHANGED'--上下坐骑
-            or event=='VEHICLE_ANGLE_UPDATE'--车辆
+        elseif event=='PLAYER_MOUNT_DISPLAY_CHANGED'
+            or event=='VEHICLE_ANGLE_UPDATE'
             or event=='UNIT_ENTERED_VEHICLE'
             or event=='UNIT_ENTERING_VEHICLE'
             or event=='UNIT_EXITED_VEHICLE'
@@ -200,11 +200,11 @@ local function Init()
         then
             self:settings()
 
-        elseif event=='BAG_UPDATE_COOLDOWN' then--冷却
+        elseif event=='BAG_UPDATE_COOLDOWN' then
             self:set_cooldown()
 
         elseif event=='PLAYER_REGEN_DISABLED' then
-            ClearOverrideBindings(self)--清除KEY
+            ClearOverrideBindings(self)
             WoWTools_KeyMixin:SetTexture(self)
 
         elseif event=='PLAYER_REGEN_ENABLED' then
@@ -244,7 +244,7 @@ local function Init()
         end
 
         if Save().KEY and not self.isDisabled then
-            self:RegisterEvent('PLAYER_MOUNT_DISPLAY_CHANGED')--上下坐骑
+            self:RegisterEvent('PLAYER_MOUNT_DISPLAY_CHANGED')
         else
             self:UnregisterEvent('PLAYER_MOUNT_DISPLAY_CHANGED')
         end
@@ -260,7 +260,6 @@ local function Init()
 
 
 
---设置捷键
     function btn:set_key(isDisabled)
         if Save().KEY then
             WoWTools_KeyMixin:Setup(self,
@@ -275,7 +274,6 @@ local function Init()
         end
     end
 
---是否已绑定KEY
     function btn:get_key()
         local key= Save().KEY
         if key then
@@ -284,7 +282,6 @@ local function Init()
         end
     end
 
---冷却条
     function btn:set_cooldown()
         local start, duration, enable
         if self:IsValid() then
@@ -295,7 +292,6 @@ local function Init()
     end
 
 
---禁用当物品
     function btn:set_disabled_current_item()
         if self:IsValid() then
             local itemID= self:GetItemID()

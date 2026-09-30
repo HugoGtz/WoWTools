@@ -109,7 +109,6 @@ local function set_areaPoiID(tooltip, uiMapID, areaPoiID)
 end
 
 
---专精，天赋
 local function Set_Specialization(tooltip, specIndex, specID)
     local name, description, icon, role, primaryStat, roleIcon
     if specIndex then
@@ -155,7 +154,6 @@ local function Set_Specialization(tooltip, specIndex, specID)
 end
 
 
---地下城挑战，分数，超链接
 local function Set_DungeonScore(self, dungeonScoreLink)
     dungeonScoreLink= dungeonScoreLink==true and WoWTools_ChallengeMixin:GetDungeonScoreLink() or dungeonScoreLink
 
@@ -275,7 +273,7 @@ local function Set_Quest(tooltip, questID)
 		return
 	end
 
-    local shouldShowObjectivesAsStatusBar= C_QuestLog.IsOnMap(questID)-- data.shouldShowObjectivesAsStatusBar--显示进度条,需要手动指定
+    local shouldShowObjectivesAsStatusBar= C_QuestLog.IsOnMap(questID)
 
 	local widgetSetAdded = false
 	local widgetSetID = C_TaskQuest.GetQuestUIWidgetSetByType(questID, Enum.MapIconUIWidgetSetType.Tooltip)
@@ -442,18 +440,18 @@ function WoWTools_SetTooltipMixin:Setup(tooltip, data, frame)
     local speciesID= data.speciesID
     local petID= data.petID
 
-    local specIndex= data.specIndex--天赋，专精
+    local specIndex= data.specIndex
     local specID= data.specID
 
     local questID= data.questID
 
     local dungeonScore= data.dungeonScore
 
-    local addTooltip= data.tooltip--添加，提示
+    local addTooltip= data.tooltip
 
 
     tooltip= tooltip or GameTooltip
-    local cooldown--冷却时间剩余
+    local cooldown
 
     if hyperLink then
         if tooltip==BattlePetTooltip or hyperLink:find('Hbattlepet:%d+') then
@@ -471,11 +469,11 @@ function WoWTools_SetTooltipMixin:Setup(tooltip, data, frame)
         else
             tooltip:SetItemByID(itemID)
         end
-        cooldown= WoWTools_CooldownMixin:GetText(nil, itemID)--冷却时间剩余
+        cooldown= WoWTools_CooldownMixin:GetText(nil, itemID)
 
     elseif spellID then
         tooltip:SetSpellByID(spellID)
-        cooldown= WoWTools_CooldownMixin:GetText(spellID, nil)--冷却时间剩余
+        cooldown= WoWTools_CooldownMixin:GetText(spellID, nil)
 
     elseif currencyID then
         tooltip:SetCurrencyByID(currencyID)
@@ -527,12 +525,11 @@ function WoWTools_SetTooltipMixin:Setup(tooltip, data, frame)
         Set_Specialization(tooltip, specIndex, specID)
 
     elseif dungeonScore then
-        Set_DungeonScore(tooltip, dungeonScore)--地下城挑战，分数，超链接
+        Set_DungeonScore(tooltip, dungeonScore)
     end
 
     Add_Tooltip(tooltip, addTooltip, data)
 
---冷却时间剩余
     if cooldown then
         Add_Tooltip(tooltip, ' ', nil)
         Add_Tooltip(tooltip, format(WoWTools_L.ITEM_COOLDOWN_TIME, cooldown), nil)

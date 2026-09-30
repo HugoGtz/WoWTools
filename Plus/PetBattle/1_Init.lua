@@ -10,7 +10,6 @@ local function Init_Panel()
 
     WoWTools_PanelMixin:Header(WoWTools_PetBattleMixin.Layout, WoWTools_L.OPTIONS)
 
---技能按钮
     WoWTools_PanelMixin:Check_Button({
         checkName= WoWTools_PetBattleMixin.addName6,
         GetValue= function() return not Save().AbilityButton.disabled end,
@@ -29,7 +28,6 @@ local function Init_Panel()
         category= WoWTools_PetBattleMixin.Category,
     })
 
---宠物类型, TypeButton
     WoWTools_PanelMixin:Check_Button({
         checkName= WoWTools_PetBattleMixin.addName4,
         GetValue= function() return not Save().TypeButton.disabled end,
@@ -54,7 +52,6 @@ local function Init_Panel()
     WoWTools_PanelMixin:Header(WoWTools_PetBattleMixin.Layout, WoWTools_L.OTHER)
 
 
---点击移动按钮
     WoWTools_PanelMixin:Check_Button({
         checkName= WoWTools_PetBattleMixin.addName3,
         GetValue= function() return not Save().ClickMoveButton.disabled end,
@@ -82,7 +79,6 @@ end
 
 
 
---点击移动按钮 SetParent
 
 
 
@@ -122,9 +118,9 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             SetValue= function()
                 Save().disabled= not Save().disabled and true or nil
                 Init_Panel()
-                WoWTools_PetBattleMixin:Init_TypeButton()--宠物，类型
-                WoWTools_PetBattleMixin:Init_AbilityButton()--宠物对战，技能按钮
-                WoWTools_PetBattleMixin:ClickToMove_Button()--点击移动，按钮
+                WoWTools_PetBattleMixin:Init_TypeButton()
+                WoWTools_PetBattleMixin:Init_AbilityButton()
+                WoWTools_PetBattleMixin:ClickToMove_Button()
             end,
             buttonText= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.RESET),
             buttonFunc= function()
@@ -141,9 +137,9 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         })
 
         if not Save().disabled then
-            WoWTools_PetBattleMixin:Init_TypeButton()--宠物，类型
-            WoWTools_PetBattleMixin:Init_AbilityButton()--宠物对战，技能按钮
-            WoWTools_PetBattleMixin:ClickToMove_Button()--点击移动，按钮
+            WoWTools_PetBattleMixin:Init_TypeButton()
+            WoWTools_PetBattleMixin:Init_AbilityButton()
+            WoWTools_PetBattleMixin:ClickToMove_Button()
         end
 
         if C_AddOns.IsAddOnLoaded('Blizzard_Settings') then

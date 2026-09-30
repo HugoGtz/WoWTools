@@ -1,4 +1,3 @@
---显示服务器名称
 local function Save()
     return WoWToolsPlusSave['Plus_PaperDoll']
 end
@@ -25,7 +24,7 @@ local function Init()
         WoWTools_SetTooltipMixin:Frame(self)
     end)
     wow:SetScript('OnMouseDown', function()
-        WoWTools_DataMixin:OpenWoWItemListFrame('Item')--战团，物品列表
+        WoWTools_DataMixin:OpenWoWItemListFrame('Item')
     end)
     wow.text= wow:CreateFontString('WoWToolsPaperDollRealmLabel', 'ARTWORK', 'WoWToolsFont2')
     wow.text:SetPoint("BOTTOMRIGHT", -1, 1)
@@ -51,7 +50,7 @@ local function Init()
     btn:SetPoint('LEFT', wow, 'RIGHT')
 
     function btn:tooltip()
-        local server= WoWTools_RealmMixin:Get_Region(WoWTools_DataMixin.Player.Realm, nil, nil)--服务器，EU， US {col=, text=, realm=}
+        local server= WoWTools_RealmMixin:Get_Region(WoWTools_DataMixin.Player.Realm, nil, nil)
         GameTooltip:AddDoubleLine(
             WoWTools_DataMixin.Icon.icon2
             ..(WoWTools_L.FRIENDS_LIST_REALM),
@@ -175,7 +174,6 @@ end
 
 
 
---显示服务器名称
 function WoWTools_PaperDollMixin:Init_Reaml()
     Init()
 end

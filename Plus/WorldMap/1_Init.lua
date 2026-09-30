@@ -5,20 +5,20 @@ end
 
 local function Init()
     do
-        WoWTools_WorldMapMixin:Init_Menu()--设置菜单
+        WoWTools_WorldMapMixin:Init_Menu()
     end
-    WoWTools_WorldMapMixin:Init_MpaID()--地图ID，信息
-    WoWTools_WorldMapMixin:Init_XY_Map()--地图坐标
-    WoWTools_WorldMapMixin:Init_XY_Player()--实时玩家当前坐标
+    WoWTools_WorldMapMixin:Init_MpaID()
+    WoWTools_WorldMapMixin:Init_XY_Map()
+    WoWTools_WorldMapMixin:Init_XY_Player()
 
-    WoWTools_WorldMapMixin:Init_AreaPOI_Name()--地图POI提示，加名称
-    WoWTools_WorldMapMixin:Init_Dungeon_Name()--地下城，加名称
-    WoWTools_WorldMapMixin:Init_WorldQuest_Name()--世界地图任务，加名称
+    WoWTools_WorldMapMixin:Init_AreaPOI_Name()
+    WoWTools_WorldMapMixin:Init_Dungeon_Name()
+    WoWTools_WorldMapMixin:Init_WorldQuest_Name()
 
-    WoWTools_WorldMapMixin:Init_Plus_Menu()--设置菜单
+    WoWTools_WorldMapMixin:Init_Plus_Menu()
     WoWTools_WorldMapMixin:Init_Plus()
 
-    WoWTools_WorldMapMixin:Init_FlightMap_Name()--飞行点，加名称
+    WoWTools_WorldMapMixin:Init_FlightMap_Name()
 
     WoWTools_WorldMapMixin:Init_PlayerPin()
 
@@ -36,9 +36,9 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     end
 
     WoWToolsPlusSave['Plus_WorldMap']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_WorldMap'], {
-        ShowMapID= true,--地图ID
-        ShowMapXY= true,--地图坐标
-        PlayerXY={--实时玩家当前坐标
+        ShowMapID= true,
+        ShowMapXY= true,
+        PlayerXY={
             disabled= true,
             textY=-2,
         },
@@ -63,7 +63,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         [2393]= {
             options={},
             ["50.02 74.76"]= {name=WoWTools_L['BUTTON_LAG_AUCTIONHOUSE~2'],},
-            ["47.40 52.60"]={name=PROFESSIONS_BUTTON,},--antes la condición estaba al revés y salía "专业" para todos
+            ["47.40 52.60"]={name=PROFESSIONS_BUTTON,},
         },
     }
 
@@ -71,7 +71,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
     WoWTools_WorldMapMixin.addName= '|A:poi-islands-table:0:0|a'..(WoWTools_L['Module.World map'])
     WoWTools_WorldMapMixin.addName2= '|A:Gear:0:0|a'..(WoWTools_L.MAP_PIN)
-    --添加控制面板
     WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_WorldMapMixin.addName,
         tooltip=  WoWTools_L['Tip.WorldMap.Enable']..'|n|n'..WoWTools_L.REQUIRES_RELOAD,

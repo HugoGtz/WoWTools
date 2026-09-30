@@ -16,24 +16,24 @@ local SlotsIcon = {
     "|A:transmog-gearSlot-unassigned-waist:0:0|a",--9
     "|A:transmog-gearSlot-unassigned-legs:0:0|a",--10
     "|A:transmog-gearSlot-unassigned-feet:0:0|a",--11
-    "|T135139:0|t",--12魔杖
-    '|T132392:0|t',--13单手斧
-    '|A:transmog-gearSlot-unassigned-mainhand:0:0|a',--14单手剑
-    '|T133476:0|t',--15单手锤
-    '|T132324:0|t',--16匕首
-    '|T132965:0|t',--17拳套
-    '|A:transmog-gearSlot-unassigned-offHand:0:0|a',--18副手
-    '|T652302:0|t',--19副手物品    
-    '|T132400:0|t',--20双手斧
-    '|T135327:0|t',--21双手剑
-    '|T133044:0|t',--22双手锤
-    '|T135145:0|t',--23法杖
-    '|T135129:0|t',--24长柄武器
-    '|T135490:0|t',--25弓
-    '|T135610:0|t',--26枪械
-    '|T135530:0|t',--27弩
-    '|A:transmog-gearSlot-unassigned-enchant:0:0|a',--28 武器附魔 WoWTools_L.WEAPON_ENCHANTMENT,
-    '|A:ElementalStorm-Lesser-Earth:0:0|a',--29'军团再临"神器
+    "|T135139:0|t",
+    '|T132392:0|t',
+    '|A:transmog-gearSlot-unassigned-mainhand:0:0|a',
+    '|T133476:0|t',
+    '|T132324:0|t',
+    '|T132965:0|t',
+    '|A:transmog-gearSlot-unassigned-offHand:0:0|a',
+    '|T652302:0|t',
+    '|T132400:0|t',
+    '|T135327:0|t',
+    '|T133044:0|t',
+    '|T135145:0|t',
+    '|T135129:0|t',
+    '|T135490:0|t',
+    '|T135610:0|t',
+    '|T135530:0|t',
+    '|A:transmog-gearSlot-unassigned-enchant:0:0|a',
+    '|A:ElementalStorm-Lesser-Earth:0:0|a',
 }
 
 
@@ -55,7 +55,7 @@ local function UpdateSlotButtons(self)
         if not Save().hideItems then
             local transmogLocation= btn.transmogLocation
             local slotID= transmogLocation:GetSlotID()
-            if ( transmogLocation:IsIllusion() ) then--武器，附魔
+            if ( transmogLocation:IsIllusion() ) then
                 if slotID~=17 then
                     for _, illusion in ipairs(C_TransmogCollection.GetIllusions() or {}) do
                         if ( illusion.isCollected ) then
@@ -63,7 +63,7 @@ local function UpdateSlotButtons(self)
                         end
                     end
                 end
-            elseif slotID==16 or slotID==17 then--武器, 副手
+            elseif slotID==16 or slotID==17 then
                 local tab= slotID==16 and {12, 13, 14, 15, 16, 17, 20, 21, 22, 23, 24, 25, 26, 27, 29} or {18, 19}
                 for _, category2 in pairs(tab) do
                     collected= collected+ (C_TransmogCollection.GetCategoryCollectedCount(category2) or 0)
@@ -107,7 +107,7 @@ local function UpdateSlotButtons(self)
                     collected= C_TransmogCollection.GetFilteredCategoryCollectedCount(category)
 
                     if collected==0 then-- and self.activeCategory== category then
-                        if TableIsEmpty(self.visualsList) then--第一次打开时，会是0
+                        if TableIsEmpty(self.visualsList) then
                             collected= C_TransmogCollection.GetCategoryCollectedCount(category)
 
                         else
@@ -143,9 +143,7 @@ end
 
 
 
---物品
-local function Init_Wardrober_Items()--物品, 幻化, 界面
-    --部位，已收集， 提示
+local function Init_Wardrober_Items()
     WoWTools_DataMixin:Hook(WardrobeCollectionFrame.ClassDropdown, 'SetClassFilter', function(self)
         C_Timer.After(0.3, function()
             UpdateSlotButtons(WardrobeCollectionFrame.ItemsCollectionFrame)
@@ -162,7 +160,7 @@ local function Init_Wardrober_Items()--物品, 幻化, 界面
             GameTooltip:AddLine(' ')
             local slotID= self.transmogLocation:GetSlotID()
             GameTooltip:AddLine('slotID '..slotID..' '..self.slot)
-            if self.transmogLocation:IsIllusion() then--武器，附魔            
+            if self.transmogLocation:IsIllusion() then
                 local collected, all= 0, 0
                 for _, illusion in ipairs(C_TransmogCollection.GetIllusions() or {}) do
                     if ( illusion.isCollected ) then
@@ -177,7 +175,7 @@ local function Init_Wardrober_Items()--物品, 幻化, 界面
                     )
                 end
 
-            elseif slotID==16 or slotID==17 then--武器, 副手
+            elseif slotID==16 or slotID==17 then
                 local tab= slotID==16 and {12, 13, 14, 15, 16, 17, 20, 21, 22, 23, 24, 25, 26, 27, 29} or {18, 19}
                 local n=1
                 for _, category in pairs(tab) do
@@ -233,11 +231,10 @@ end
 
 
 
---外观，物品，提示，索引 WardrobeCollectionFrame.ItemsCollectionFrame
 local function get_Link_Item_Type_Source(sourceID, itemOrIllusion)
     if sourceID then
         if itemOrIllusion=='item' then
-            return CollectionWardrobeUtil.GetAppearanceItemHyperlink(sourceID)--12.0为表格
+            return CollectionWardrobeUtil.GetAppearanceItemHyperlink(sourceID)
         else
             return select(2, C_TransmogCollection.GetIllusionStrings(sourceID))
         end
@@ -358,7 +355,7 @@ local function set_Items_Tooltips(self)--UpdateItems
                 if self.transmogLocation:IsIllusion() then--WardrobeItemsModelMixin:OnMouseDown(button)
                     local link= get_Link_Item_Type_Source(model.visualInfo.sourceID, 'illusion')--select(2, C_TransmogCollection.GetIllusionStrings(model.visualInfo.sourceID))
                     if link then
-                       WoWTools_DataMixin:Load(link, 'item')--加载 item quest spell
+                       WoWTools_DataMixin:Load(link, 'item')
                         --visualInfo={isHideVisual=, visualID=, isCollected=, sourceID=, icon=, isUsable=}
                         table.insert(itemLinks, {
                             link= link,
@@ -374,7 +371,7 @@ local function set_Items_Tooltips(self)--UpdateItems
                         local link= get_Link_Item_Type_Source(sources[index], 'item')--WardrobeCollectionFrame:GetAppearanceItemHyperlink(sources[index])
                         if link and not findLinks[link] then
                             --sources[index]= {sourceType=3, visualID=1, isCollected=, isValidSourceForPlayer, categoryID, isHideVisual, quality, invType, sourceID, playerCanCollect, inventorySlot, itemID, itemModID, name, canDisplayerOnPlayer}
-                           WoWTools_DataMixin:Load(link, 'item')--加载 item quest spell
+                           WoWTools_DataMixin:Load(link, 'item')
                             table.insert(itemLinks, {
                                 link=link,
                                 sourceID=sources[index],
@@ -435,7 +432,7 @@ local function set_Items_Tooltips(self)--UpdateItems
                 model.itemButton[index]:SetShown(false)
             end
 
-            local idex--索引
+            local idex
             if not Save().hideItems then
                 idex= i + idexOffset
                 if not model.Text then
@@ -458,7 +455,6 @@ end
 
 
 
- --幻化，套装，索引 WardrobeCollectionFrame.SetsTransmogFrame
 
 
 
@@ -485,10 +481,8 @@ local function Init()
     if Save().hideItems then
         return
     end
-    --外观，物品，提示, 索引
     WoWTools_DataMixin:Hook(WardrobeCollectionFrame.ItemsCollectionFrame, 'UpdateItems', set_Items_Tooltips)
 
-    --物品, 幻化, 界面
     Init_Wardrober_Items()
 
     Init=function()end
@@ -500,7 +494,7 @@ end
 
 
 
-function WoWTools_CollectionMixin:Init_Wardrober_Items()--幻化 5
+function WoWTools_CollectionMixin:Init_Wardrober_Items()
     Init()
 end
 

@@ -1,7 +1,7 @@
 WoWTools_ChallengeMixin={}
 
 
-function WoWTools_ChallengeMixin:GetRewardText(type)--得到，周奖励，信息
+function WoWTools_ChallengeMixin:GetRewardText(type)
     local text
     for _, info in pairs(C_WeeklyRewards.GetActivities(type) or {}) do
         if info.level and info.level>=0 and info.type==type then
@@ -23,7 +23,6 @@ local function GetActivities()--Enum.WeeklyRewardChestThresholdType
         if info.type and info.type>0 and info.level then--and info.type>= 1 and info.type<= 3
             local head
             local difficultyText
---史诗地下城 1
             if info.type == Enum.WeeklyRewardChestThresholdType.Activities then
                 head= WoWTools_L.MYTHIC_DUNGEONS
                 difficultyText= string.format(WoWTools_L.WEEKLY_REWARDS_MYTHIC, info.level)
@@ -31,7 +30,6 @@ local function GetActivities()--Enum.WeeklyRewardChestThresholdType
             elseif info.type == Enum.WeeklyRewardChestThresholdType.RankedPvP then
                 head= WoWTools_L.PVP
                 difficultyText=  difficultyText or PVPUtil.GetTierName(info.level)-- _G["PVP_RANK_"..tierEnum.."_NAME"] PVPUtil.lua
---团队副本 3
             elseif info.type == Enum.WeeklyRewardChestThresholdType.Raid then
                 head= WoWTools_L.RAIDS
                 difficultyText=  DifficultyUtil.GetDifficultyName(info.level)
@@ -42,7 +40,6 @@ local function GetActivities()--Enum.WeeklyRewardChestThresholdType
             elseif info.type== Enum.WeeklyRewardChestThresholdType.Concession then
                 head= WoWTools_L.WEEKLY_REWARDS_GET_CONCESSION
 
---世界 6
             elseif info.type== Enum.WeeklyRewardChestThresholdType.World then
                 head= WoWTools_L.WORLD
 
@@ -70,7 +67,7 @@ end
 
 
 function WoWTools_ChallengeMixin:ActivitiesTooltip(tooltip)
-    if (not WoWTools_DataMixin.Player.IsMaxLevel or PlayerIsTimerunning())--不是，最高等级时，退出
+    if (not WoWTools_DataMixin.Player.IsMaxLevel or PlayerIsTimerunning())
         and true
     then
         return
@@ -182,8 +179,8 @@ end
 
 
 
-function WoWTools_ChallengeMixin:ActivitiesFrame(frame, settings)--周奖励，提示
-    if not WoWTools_DataMixin.Player.IsMaxLevel and true then--不是，最高等级时，退出
+function WoWTools_ChallengeMixin:ActivitiesFrame(frame, settings)
+    if not WoWTools_DataMixin.Player.IsMaxLevel and true then
         return
     end
 
@@ -291,7 +288,7 @@ function WoWTools_ChallengeMixin:ActivitiesFrame(frame, settings)--周奖励，�
 end
 
 
-function WoWTools_ChallengeMixin:KeystoneScorsoColor(score, texture, overall)--地下城史诗, 分数, 颜色 C_ChallengeMode.GetOverallDungeonScore()
+function WoWTools_ChallengeMixin:KeystoneScorsoColor(score, texture, overall)
     score= score or 0
     score= type(score)~='number' and tonumber(score) or score or 0
     if score<=0 then
@@ -361,7 +358,7 @@ end
 
 local function Name_Variants(name)
     local list= {name}
-    for _, sep in ipairs({':', '：'}) do--búsqueda literal: '：' ocupa 3 bytes y no puede ir en una clase [ ]
+    for _, sep in ipairs({':'}) do
         local pos= name:find(sep, 1, true)
         if pos then
             local before= name:sub(1, pos-1):gsub('%s+$', '')

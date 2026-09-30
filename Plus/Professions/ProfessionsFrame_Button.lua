@@ -58,7 +58,6 @@ end
 
 
 
---烹饪用火
 local function Init_Fuoco_Button(button)
     local btn= WoWTools_ButtonMixin:Cbtn(button, {
         isSecure=true,
@@ -120,10 +119,9 @@ local function Init_Fuoco_Button(button)
     end)
 
     local name= C_Spell.GetSpellName(818)
-    local toyName=C_Item.GetItemNameByID(134020)--玩具,大厨的帽子
+    local toyName=C_Item.GetItemNameByID(134020)
 
     if name and toyName then
-        --toyName= '世界缩小器'
         btn:SetAttribute('type*', 'macro')
         btn:SetAttribute('macrotext*',  '/usetoy '..toyName..'\n/cast [@cursor]'..name)
     else
@@ -141,7 +139,6 @@ end
 
 
 
---专业界面, 按钮
 local function Init_Buttons()
     local last
     --GetProfessions() puede devolver nil en medio: lista sin huecos y arqueología al final
@@ -186,7 +183,7 @@ local function Init_Buttons()
             button.skillLine= skillLine
 
             if skillLine==185 and Save().showFuocoButton then
-                Init_Fuoco_Button(button)--烹饪用火
+                Init_Fuoco_Button(button)
             end
             last= button
         end
@@ -244,7 +241,6 @@ local function Init_Menu(self, root)
 
     local sub, sub2
 
---启用
     sub=root:CreateCheckbox(
         WoWTools_L['SHOW_QUICK_BUTTON~3'],
     function()
@@ -259,7 +255,6 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Professions.QuickButtons'])
 
 
---专业，界面上显示 烹饪用火按钮， 战斗不能隐藏
     sub2=sub:CreateCheckbox(
         WoWTools_SpellMixin:GetName(818),
     function()
@@ -278,12 +273,10 @@ local function Init_Menu(self, root)
     sub:CreateDivider()
     sub2=sub:CreateTitle('BUG')
 
---重新加载UI
     WoWTools_MenuMixin:Reload(sub)
 
 
 
-    --缩放
     WoWTools_MenuMixin:Scale(self, root, function()
         return Save().scaleButton or 1
     end, function(value)
@@ -294,7 +287,6 @@ local function Init_Menu(self, root)
     end)
 
     root:CreateDivider()
---打开选项界面
     WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_ProfessionMixin.addName})
 end
 

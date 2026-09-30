@@ -28,9 +28,8 @@ function WoWTools_WorldMapMixin:GetMapID()
 end
 
 
---玩家当前位置  x, y 是字符
 function WoWTools_WorldMapMixin:GetPlayerXY()
-    local uiMapID= C_Map.GetBestMapForUnit("player")--当前地图        
+    local uiMapID= C_Map.GetBestMapForUnit("player")
     if uiMapID then
         local position = C_Map.GetPlayerMapPosition(uiMapID, "player")
         if position then
@@ -45,7 +44,6 @@ function WoWTools_WorldMapMixin:GetPlayerXY()
     end
 end
 
---当前世界地图位置 x, y 是字符
 function WoWTools_WorldMapMixin:GetMapXY()
     local x, y = WorldMapFrame.ScrollContainer:GetNormalizedCursorPosition()
     if x and y then
@@ -54,7 +52,7 @@ function WoWTools_WorldMapMixin:GetMapXY()
 end
 
 
-function WoWTools_WorldMapMixin:SendPlayerPoint()--发送玩家位置
+function WoWTools_WorldMapMixin:SendPlayerPoint()
     local mapID = C_Map.GetBestMapForUnit("player")
     if mapID then
         --GetPlayerMapPosition puede ser nil (posición restringida) aunque se permitan waypoints

@@ -1,7 +1,6 @@
 WoWTools_DurabiliyMixin={}
 
 
---耐久度
 local function get_durabiliy_color(cur, max)
     if not cur or not max or max<=0 or cur>max then
         return '', 100, ''
@@ -30,7 +29,7 @@ local function get_durabiliy_color(cur, max)
 end
 
 
-function WoWTools_DurabiliyMixin:Get(reTexture)--耐久度
+function WoWTools_DurabiliyMixin:Get(reTexture)
     local cur, max= 0, 0
     for i= 1, 18 do
         local cur2, max2 = GetInventoryItemDurability(i)
@@ -47,7 +46,6 @@ function WoWTools_DurabiliyMixin:Get(reTexture)--耐久度
 end
 
 
---耐久度, 提示
 function WoWTools_DurabiliyMixin:OnEnter(tootip)
     tootip = tootip or GameTooltip
 
@@ -116,7 +114,7 @@ function WoWTools_DurabiliyMixin:OnEnter(tootip)
         --tootip:AddDoubleLine(s..(a or ' '), b..s)
     end
 
-    local euip=''--装备管理
+    local euip=''
     for _, setID in pairs(C_EquipmentSet.GetEquipmentSetIDs() or {}) do
         local name, texture, _, isEquipped= C_EquipmentSet.GetEquipmentSetInfo(setID)
         if isEquipped and name then

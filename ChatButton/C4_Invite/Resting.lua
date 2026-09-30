@@ -7,7 +7,6 @@ end
 
 
 
---休息区提示
 
 local function Init()
     local frame= CreateFrame('Frame')

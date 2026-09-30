@@ -200,7 +200,6 @@ local function Init_Panel()
         end
     })
 
-    --12.0  可能错误
         WoWTools_PanelMixin:OnlyCheck({
             name= WoWTools_L.HEALTH,
             tooltip= WoWTools_L['Tip.Tooltip.Health']..'|n|n'..reloadText,
@@ -376,7 +375,6 @@ local function Init_Panel()
 end
 
 
---初始
 local function Init()
     WoWTools_LoadUIMixin:Housing()
 
@@ -419,7 +417,7 @@ local function Init()
 
 
 
-    WoWTools_TooltipMixin:Init_StatusBar()--生命条提示
+    WoWTools_TooltipMixin:Init_StatusBar()
     WoWTools_TooltipMixin:Init_CVar()
 
     WoWTools_TooltipMixin:Set_Init_Item(GameTooltip)
@@ -465,22 +463,16 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         if arg1== 'WoWToolsPlus' then
 
             WoWToolsPlusSave['Plus_Tootips']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Tootips'], {
-                setDefaultAnchor=true,--指定点
-                --AnchorPoint={},--指定点，位置
+                setDefaultAnchor=true,
                 --cursorRight=nil,--'ANCHOR_CURSOR_RIGHT',
 
                 inCombatDefaultAnchor=true,
 
-                --模型
-                modelSize=100,--大小
-                --modelLeft=true,--左边
+                modelSize=100,
                 modelX= 0,
                 modelY= -15,
-                modelFacing= -0.3,--方向
-                --WidgetSetID=848,--自定义，监视 WidgetSetID
-                --disabledNPCcolor=true,--禁用NPC颜色
-                --hideHealth=true,----生命条提示
-                no={},--禁用
+                modelFacing= -0.3,
+                no={},
                 disabledFix={},
             })
 
@@ -532,7 +524,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 do
                     Init_Panel()
                 end
-                Init()--初始
+                Init()
             end
 
 

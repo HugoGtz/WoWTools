@@ -1,4 +1,3 @@
---宠物面板提示
 function WoWTools_TooltipMixin:Set_Battle_Pet(tooltip, speciesID, level, breedQuality, maxHealth, power, speed, customName)
     if self:IsInCombatDisabled(tooltip)
         or not canaccessvalue(speciesID)
@@ -19,7 +18,7 @@ function WoWTools_TooltipMixin:Set_Battle_Pet(tooltip, speciesID, level, breedQu
     local speciesName, speciesIcon, petType, companionID, tooltipSource, tooltipDescription, _, _, _, _, obtainable, creatureDisplayID = C_PetJournal.GetPetInfoBySpeciesID(speciesID)
 
 
-    self:Set_Item_Model(tooltip, {creatureDisplayID=creatureDisplayID})--设置, 3D模型
+    self:Set_Item_Model(tooltip, {creatureDisplayID=creatureDisplayID})
 
     if obtainable then
         local numCollected, limit = C_PetJournal.GetNumCollectedInfo(speciesID)
@@ -48,7 +47,6 @@ function WoWTools_TooltipMixin:Set_Battle_Pet(tooltip, speciesID, level, breedQu
 
     BattlePetTooltipTemplate_AddTextLine(tooltip, ' ')
 
---技能图标
     local abilityIconA, abilityIconB= WoWTools_PetBattleMixin:GetAbilityIcon(speciesID, nil, nil, false, self.iconSize)
     if abilityIconA and abilityIconB then
         BattlePetTooltipTemplate_AddTextLine(tooltip, abilityIconA)
@@ -57,7 +55,7 @@ function WoWTools_TooltipMixin:Set_Battle_Pet(tooltip, speciesID, level, breedQu
 
     BattlePetTooltipTemplate_AddTextLine(tooltip, ' ')
 
-    local npcName= WoWTools_TextMixin:CN(nil, {npcID=companionID, isName=true})--中文名称
+    local npcName= WoWTools_TextMixin:CN(nil, {npcID=companionID, isName=true})
     if npcName then
         BattlePetTooltipTemplate_AddTextLine(tooltip, npcName)
     end
@@ -66,20 +64,19 @@ function WoWTools_TooltipMixin:Set_Battle_Pet(tooltip, speciesID, level, breedQu
     local sourceInfo= WoWTools_TextMixin:CN(nil, {speciesID=speciesID}) or {}
     tooltipDescription= sourceInfo[1] or tooltipDescription
     if tooltipDescription then
-        BattlePetTooltipTemplate_AddTextLine(tooltip, tooltipDescription, nil, nil, nil, true)--来源提示
+        BattlePetTooltipTemplate_AddTextLine(tooltip, tooltipDescription, nil, nil, nil, true)
     end
 
---来源
     tooltipSource= sourceInfo[2] or tooltipSource
     if tooltipSource then
-        BattlePetTooltipTemplate_AddTextLine(tooltip, tooltipSource, nil, nil, nil, true)--来源提示--来源
+        BattlePetTooltipTemplate_AddTextLine(tooltip, tooltipSource, nil, nil, nil, true)
     end
 
     if obtainable
         and not InCombatLockdown()
         and (not tooltip.JournalClick or not tooltip.JournalClick:IsShown())
     then
-        if IsAltKeyDown() then--宠物手册，设置名称
+        if IsAltKeyDown() then
             WoWTools_LoadUIMixin:Journal(2, {petSpeciesID=speciesID})
         end
         BattlePetTooltipTemplate_AddTextLine(tooltip, ' ')
@@ -89,15 +86,12 @@ function WoWTools_TooltipMixin:Set_Battle_Pet(tooltip, speciesID, level, breedQu
         )
     end
 
---设置背影颜色
     local color= WoWTools_ItemMixin:GetColor(breedQuality)
     tooltip:Set_BG_Color(color, 0.15)
 
 
---收集数量
-    local AllCollected, CollectedNum, CollectedText= WoWTools_PetBattleMixin:Collected(speciesID)--收集数量
+    local AllCollected, CollectedNum, CollectedText= WoWTools_PetBattleMixin:Collected(speciesID)
     local text2Right
---强弱
      if petType and PET_TYPE_SUFFIX[petType] then
         local typeTexture= "Interface\\TargetingFrame\\PetBadge-"..PET_TYPE_SUFFIX[petType]
         local strongTexture, weakHintsTexture= WoWTools_PetBattleMixin:GetPetStrongWeakHints(petType)
@@ -109,11 +103,10 @@ function WoWTools_TooltipMixin:Set_Battle_Pet(tooltip, speciesID, level, breedQu
     tooltip.textLeft:SetText(CollectedNum or '')
     tooltip.text2Left:SetText(CollectedText or '')
     tooltip.textRight:SetText(AllCollected or '')
---强弱
     tooltip.text2Right:SetText(text2Right or '')
 
 
-    self:Set_Web_Link(tooltip, {type='npc', id=companionID, name=speciesName, col=nil, isPetUI=true})--取得网页，数据链接
+    self:Set_Web_Link(tooltip, {type='npc', id=companionID, name=speciesName, col=nil, isPetUI=true})
 
     --tooltip:Show()
     WoWTools_TooltipMixin:Show(tooltip)

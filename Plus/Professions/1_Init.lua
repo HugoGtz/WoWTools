@@ -15,12 +15,11 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
         WoWToolsPlusSave['Plus_Professions']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Professions'], {
             setButton=true,
-            ArcheologySound=true, --考古学
+            ArcheologySound=true,
         })
 
         WoWTools_ProfessionMixin.addName= '|A:Professions_Icon_FirstTimeCraft:0:0|a'..(WoWTools_L['Module.Professions'])
 
-        --添加控制面板
         WoWTools_PanelMixin:OnlyCheck({
             name= WoWTools_ProfessionMixin.addName,
             tooltip= WoWTools_L['Tip.Professions.Enable']..'|n|n'..WoWTools_ProfessionMixin.addName,
@@ -35,22 +34,22 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             self:SetScript('OnEvent', nil)
             self:UnregisterEvent(event)
         else
-            WoWTools_ProfessionMixin:Init_Archaeology()--考古学
+            WoWTools_ProfessionMixin:Init_Archaeology()
 
             if C_AddOns.IsAddOnLoaded("Blizzard_TrainerUI") then
-                WoWTools_ProfessionMixin:Init_Blizzard_TrainerUI()--添一个,全学,专业, 按钮
+                WoWTools_ProfessionMixin:Init_Blizzard_TrainerUI()
             end
             if C_AddOns.IsAddOnLoaded("Blizzard_Professions") then
-                WoWTools_ProfessionMixin:Init_ProfessionsFrame()--初始
+                WoWTools_ProfessionMixin:Init_ProfessionsFrame()
             end
  
         end
 
     elseif arg1== 'Blizzard_TrainerUI' and WoWToolsPlusSave then
-        WoWTools_ProfessionMixin:Init_Blizzard_TrainerUI()--添一个,全学,专业, 按钮
+        WoWTools_ProfessionMixin:Init_Blizzard_TrainerUI()
 
     elseif arg1== 'Blizzard_Professions' and WoWToolsPlusSave then --10.1.5
-        WoWTools_ProfessionMixin:Init_ProfessionsFrame()--初始
+        WoWTools_ProfessionMixin:Init_ProfessionsFrame()
 
 
     end

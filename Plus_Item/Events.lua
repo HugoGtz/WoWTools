@@ -1,6 +1,5 @@
 
 
---添加一个按钮, 打开，角色界面
 local function Add_OpenOptionButton(frame)
     if not frame then
         return
@@ -26,8 +25,7 @@ local function Add_OpenOptionButton(frame)
     end)
 
 
-    if frame==ItemUpgradeFrameCloseButton then--装备升级, 界面
-        --物品，货币提示
+    if frame==ItemUpgradeFrameCloseButton then
         WoWTools_LabelMixin:ItemCurrencyTips({frame=ItemUpgradeFrame, point={'TOPLEFT', nil, 'TOPLEFT', 2, -55}})
 
         btn:SetScript("OnEvent", function()
@@ -47,7 +45,6 @@ local function Add_OpenOptionButton(frame)
 end
 
 
---周奖励, 物品提示，信息
 function WoWTools_ItemMixin.Events:Blizzard_WeeklyRewards()
     local function set_Item(f)
         for _, activityInfo in ipairs(C_WeeklyRewards.GetActivities() or {}) do
@@ -58,7 +55,7 @@ function WoWTools_ItemMixin.Events:Blizzard_WeeklyRewards()
                 WoWTools_ItemMixin:SetItemStats(itemFrame, itemLink, {point=itemFrame.Icon})
                 if itemLink and frame.Progress then
                     local find= ITEM_UPGRADE_NEXT_UPGRADE..'(.+)'
-                    local dateInfo= WoWTools_ItemMixin:GetTooltip({hyperLink=itemLink, text={find}, onlyText=true})--物品提示，信息
+                    local dateInfo= WoWTools_ItemMixin:GetTooltip({hyperLink=itemLink, text={find}, onlyText=true})
                     local text= dateInfo.text[find]
                     if text then
                         frame.Progress:SetText(WoWTools_TextMixin:CN(text))
@@ -72,9 +69,8 @@ function WoWTools_ItemMixin.Events:Blizzard_WeeklyRewards()
 end
 
 
---套装转换, 界面
 function WoWTools_ItemMixin.Events:Blizzard_ItemInteractionUI()
-    Add_OpenOptionButton(ItemInteractionFrameCloseButton)--添加一个按钮, 打开选项
+    Add_OpenOptionButton(ItemInteractionFrameCloseButton)
 
     ItemInteractionFrame.Tip= CreateFrame('GameTooltip', nil, ItemInteractionFrame, 'GameTooltipTemplate')
     ItemInteractionFrame.Tip:SetScript('OnHide', ItemInteractionFrame.Tip.ClearLines)
@@ -87,7 +83,7 @@ function WoWTools_ItemMixin.Events:Blizzard_ItemInteractionUI()
             itemInteractionFrame.Tip:SetItemInteractionItem()
             itemLink= select(2, itemInteractionFrame.Tip:GetItem())
         end
-        WoWTools_ItemMixin:SetItemStats(frame, itemLink, {}) --设置，物品，次属性，表
+        WoWTools_ItemMixin:SetItemStats(frame, itemLink, {})
     end)
     WoWTools_DataMixin:Hook(ItemInteractionFrame.ItemConversionFrame.ItemConversionInputSlot, 'RefreshIcon', function(frame)
         local itemInteractionFrame = frame:GetParent():GetParent()
@@ -97,23 +93,20 @@ function WoWTools_ItemMixin.Events:Blizzard_ItemInteractionUI()
         if show then
             itemLink= C_Item.GetItemLink(itemLocation)
         end
-        WoWTools_ItemMixin:SetItemStats(frame, itemLink, {}) --设置，物品，次属性，表
+        WoWTools_ItemMixin:SetItemStats(frame, itemLink, {})
     end)
 end
 
 
---装备升级, 界面
 function WoWTools_ItemMixin.Events:Blizzard_ItemUpgradeUI()
-    Add_OpenOptionButton(ItemUpgradeFrameCloseButton)--添加一个按钮, 打开选项                       
+    Add_OpenOptionButton(ItemUpgradeFrameCloseButton)
 end
 
 
 function WoWTools_ItemMixin.Events:Blizzard_FrameXML()
-    --boss掉落，物品, 可能，会留下 StaticPopup1 框架
     --AlertFrames.xml
     --BossBanner_ConfigureLootFrame ya se engancha en Frames.lua (antes se aplicaba dos veces)
 
---拾取时, 弹出, 物品提示，信息, 战利品
 --GroupLootFrame.xml
 --AlertFrameSystems.lua
     WoWTools_DataMixin:Hook('DungeonCompletionAlertFrameReward_SetRewardItem', function(frame, itemLink)--,texture
@@ -143,7 +136,6 @@ end
 
 function WoWTools_ItemMixin.Events:Blizzard_ItemButton()
     WoWTools_DataMixin:Hook('SetItemButtonOverlay', function(btn, itemIDOrLink)--, quality, isBound)
---住宅装饰
         if C_Item.IsDecorItem(itemIDOrLink) then
             local entryInfo = C_HousingCatalog.GetCatalogEntryInfoByItem(itemIDOrLink, true)
             if entryInfo and entryInfo.quality then

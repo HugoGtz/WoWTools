@@ -1,11 +1,9 @@
---回购物品
 
 local function Save()
     return WoWToolsPlusSave['Plus_SellBuy']
 end
 
 
---购回物品
 local function set_buyback_item()
     local num= GetNumBuybackItems() or 0
     if IsModifierKeyDown() or num==0 then
@@ -52,7 +50,6 @@ local function set_buyback_item()
 end
 
 
---添加，移除，到Save
 local function Add_Remove_ToSave(itemID)
     local text
     if WoWToolsPlusPlayerDate['SellBuyItems'].noSell[itemID] then
@@ -119,7 +116,7 @@ local function Init_Menu(self, root)
         for index= allNum, 1, -1 do
             itemID, itemLink = C_MerchantFrame.GetBuybackItemID(index), GetMerchantItemLink(index)
             sub=root:CreateCheckbox(
-                WoWTools_ItemMixin:GetName(itemID, itemLink, nil),--取得物品，名称
+                WoWTools_ItemMixin:GetName(itemID, itemLink, nil),
             function(data)
                 return WoWToolsPlusPlayerDate['SellBuyItems'].noSell[data.itemID]
             end, function(data)
@@ -142,7 +139,6 @@ local function Init_Menu(self, root)
 end
 
 
---购回
 local function Init()
 
     local BuybackButton= CreateFrame('Button', 'WoWTools_BuybackButton', MerchantFrame, 'WoWToolsButtonTemplate')
@@ -200,7 +196,7 @@ local function Init()
 
     BuybackButton:SetScript('OnMouseDown', function(self, d)
         local infoType, itemID = GetCursorInfo()
-        if infoType=='merchant' and itemID then--购买物品
+        if infoType=='merchant' and itemID then
             itemID= GetMerchantItemID(itemID)
         end
 
@@ -231,7 +227,7 @@ local function Init()
     BuybackButton.Text= WoWTools_LabelMixin:Create(BuybackButton, {justifyH='RIGHT', color={r=1,g=1,b=1}})
     BuybackButton.Text:SetPoint('BOTTOMRIGHT')
 
-    function BuybackButton:set_text()--回购，数量，提示
+    function BuybackButton:set_text()
         local num= CountTable(WoWToolsPlusPlayerDate['SellBuyItems'].noSell or {})
 
         self.Text:SetText(num>0 and num or '')
@@ -245,15 +241,14 @@ local function Init()
     BuybackButton:RegisterEvent('MERCHANT_SHOW')
     BuybackButton:SetScript('OnEvent', set_buyback_item)
 
-    BuybackButton:set_text()--回购，数量，提示
+    BuybackButton:set_text()
     BuybackButton:set_texture()
 
---清除，回购买，图标
     MerchantBuyBackItemItemButton.UndoFrame.Arrow:ClearAllPoints()
     MerchantBuyBackItemItemButton.UndoFrame.Arrow:SetTexture(0)
 end
 
 
-function WoWTools_MerchantMixin:Init_Buyback_Button()--回购物品
+function WoWTools_MerchantMixin:Init_Buyback_Button()
     Init()
 end

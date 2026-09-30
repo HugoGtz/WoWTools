@@ -1,4 +1,3 @@
---GCD, 模块
 local function Save()
     return WoWToolsPlusSave['Plus_Cursor']
 end
@@ -6,14 +5,12 @@ end
 local GCDFrame
 
 
---随机GCD，图片
 local function set_GCD_Texture()
     local index= Save().randomTexture and random(1, #Save().GCDTexture) or Save().gcdTextureIndex
     GCDFrame.cooldown:SetSwipeTexture(Save().GCDTexture[index] or WoWTools_CursorMixin.DefaultGCDTexture)
 end
 
 
---设置,GCD,位置
 local gcdSize, gcdX, gcdY
 local function Set_Point()
     local x, y = GetCursorPosition()
@@ -62,8 +59,8 @@ local function GCD_Settings(isTest)
     GCDFrame:RegisterEvent('SPELL_UPDATE_COOLDOWN')
     GCDFrame:SetAlpha(Save().gcdAlpha)
 
-    GCDFrame.cooldown:SetReverse(Save().gcdReverse)--控制冷却动画的方向
-    GCDFrame.cooldown:SetDrawBling(Save().gcdDrawBling)--闪光
+    GCDFrame.cooldown:SetReverse(Save().gcdReverse)
+    GCDFrame.cooldown:SetDrawBling(Save().gcdDrawBling)
 
     if isTest then
         GCDFrame:SetShown(false)
@@ -84,7 +81,6 @@ end
 
 
 
---GCD, 初始化
 local function Init()
     if Save().disabledGCD then
         return
@@ -94,10 +90,10 @@ local function Init()
     GCDFrame:SetFrameStrata("TOOLTIP")
 
     GCDFrame.cooldown= CreateFrame("Cooldown", nil, GCDFrame, 'CooldownFrameTemplate')
-    GCDFrame.cooldown:SetHideCountdownNumbers(true)--隐藏数字
+    GCDFrame.cooldown:SetHideCountdownNumbers(true)
     GCDFrame.cooldown:SetEdgeTexture("Interface\\Cooldown\\edge")
-    GCDFrame.cooldown:SetDrawEdge(true)--冷却动画的移动边缘绘制亮线
-    GCDFrame.cooldown:SetUseCircularEdge(true)--设置边缘纹理是否应该遵循圆形图案而不是方形编辑框
+    GCDFrame.cooldown:SetDrawEdge(true)
+    GCDFrame.cooldown:SetUseCircularEdge(true)
     GCDFrame:Hide()
 
     GCDFrame:SetScript('OnEvent', function(self)
@@ -128,7 +124,7 @@ local function Init()
         end
     end)
 
-    GCD_Settings()--设置 GCD
+    GCD_Settings()
 
     Init=function(isTest2)
         GCD_Settings(isTest2)
@@ -147,7 +143,6 @@ end
 
 
 
---设置 GCD
 function WoWTools_CursorMixin:GCD_Settings(isTest)
     Init(isTest)
 end

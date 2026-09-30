@@ -9,8 +9,8 @@ local function Get_LeftTime()
     end
 end
 
-local AutoReadyTime--时间
-local PlayerNameText--就绪名称
+local AutoReadyTime
+local PlayerNameText
 
 
 
@@ -21,7 +21,6 @@ local PlayerNameText--就绪名称
 
 
 
---设置，就绪，未就绪
 local function Set_Ready(timeLeft)
     if AutoReadyTime then
         AutoReadyTime:Cancel()
@@ -49,7 +48,7 @@ local function Set_Ready(timeLeft)
         end)
     end
 
-    WoWTools_CooldownMixin:Setup(ReadyCheckListenerFrame, nil, timeLeft or Get_LeftTime() or 35, nil, true, true)--冷却条
+    WoWTools_CooldownMixin:Setup(ReadyCheckListenerFrame, nil, timeLeft or Get_LeftTime() or 35, nil, true, true)
 end
 
 
@@ -67,13 +66,12 @@ end
 
 
 
---自动就绪
 local function Init()
     ReadyCheckFrame:SetHeight(124)--100
     --ReadyCheckFrameText:SetPoint('TOP', 20, ---45)--="TOP" x="20" y="-37"/>
 
     WoWTools_DataMixin:Hook('ShowReadyCheck', function(initiator, timeLeft)--ReadyCheckListenerFrame
-        WoWTools_DataMixin:PlaySound(SOUNDKIT.READY_CHECK)--播放, 声音
+        WoWTools_DataMixin:PlaySound(SOUNDKIT.READY_CHECK)
 
         if not initiator or not ReadyCheckListenerFrame:IsVisible() then
             return
@@ -108,7 +106,7 @@ local function Init()
            ReadyCheckFrameText:SetFormattedText(WoWTools_L['%s|nhas initiated a ready check.'], name)
        end
 
-        Set_Ready(timeLeft)--设置，就绪，未就绪
+        Set_Ready(timeLeft)
     end)
 
 
@@ -141,7 +139,7 @@ local function Init()
                 '|cff00ff00'..(WoWTools_L.CANCEL)
             )
 
-            WoWTools_CooldownMixin:Setup(self, nil, Get_LeftTime(), nil, true, true)--冷却条
+            WoWTools_CooldownMixin:Setup(self, nil, Get_LeftTime(), nil, true, true)
         end
     end)
 
@@ -175,7 +173,7 @@ local function Init()
         check.value= i
         check:SetScript('OnMouseUp', function(self)
             Save().autoReady= self.value
-            Set_Ready()--设置，就绪，未就绪
+            Set_Ready()
             for index=0,2 do
                 if self.value~=index then
                     _G['WoWToolsReadyCheckButton'..index]:SetChecked(false)

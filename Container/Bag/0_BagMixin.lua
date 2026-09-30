@@ -1,7 +1,6 @@
 WoWTools_BagMixin={}
 
 
---得到包里物品
 function WoWTools_BagMixin:Ceca(itemID, tab)
     tab= tab or {}
     local isKeystone= tab.isKeystone
@@ -26,7 +25,6 @@ function WoWTools_BagMixin:Ceca(itemID, tab)
 end
 
 
---查询，背包里物品，itemName，itemLink，itemID，itemLocation，merchantIndex，BuybackIndex，itemKey，bag，guidBank，lootIndex
 function WoWTools_BagMixin:Find(find, tab)
 
     if not IsBagOpen(Enum.BagIndex.Backpack) and not IsBagOpen(NUM_TOTAL_EQUIPPED_BAG_SLOTS) then
@@ -39,7 +37,7 @@ function WoWTools_BagMixin:Find(find, tab)
     end
 
     local itemName, itemLink
-    if tab.itemName then--名称
+    if tab.itemName then
         itemName= tab.itemName
 
     elseif tab.itemLink then--itemLink
@@ -51,23 +49,23 @@ function WoWTools_BagMixin:Find(find, tab)
     elseif tab.itemLocation and tab.itemLocation:IsValid() then--itemLocation
         itemName= C_Item.GetItemName(tab.itemLocation)
 
-    elseif tab.merchantIndex then--商人
+    elseif tab.merchantIndex then
         local info = C_MerchantFrame.GetItemInfo(tab.merchantIndex)
         if info then
             itemName= info.name
         end
 
-    elseif tab.BuybackIndex then--商人，回购
+    elseif tab.BuybackIndex then
         itemName= GetBuybackItemInfo(tab.BuybackIndex)
 
     elseif tab.itemKey then--itemKey
         local itemKeyInfo = C_AuctionHouse.GetItemKeyInfo(tab.itemKey) or {}
         itemName= itemKeyInfo.itemName
 
-    elseif tab.bag then--背包 {}
+    elseif tab.bag then
         itemLink= C_Container.GetContainerItemLink(tab.bag.bag, tab.bag.slot)
 
-    elseif tab.guidBank then--公会银行 {}
+    elseif tab.guidBank then
         itemLink= GetGuildBankItemLink(tab.guidBank.tab, tab.guidBank.slot)
     elseif tab.lootIndex then
         local _, lootName, _, currencyID= GetLootSlotInfo(tab.lootIndex)
@@ -83,7 +81,6 @@ function WoWTools_BagMixin:Find(find, tab)
 end
 
 
---背包，空位, all 包含材料 C_Container.GetContainerNumSlots(i)
 function WoWTools_BagMixin:GetFree(isRegentBag)
 
     local free, all, regentsFree= 0, 0, 0--CalculateTotalNumberOfFreeBagSlots() MainMenuBarBagButtons.lua
@@ -120,7 +117,6 @@ function WoWTools_BagMixin:GetItems(checkAllBag, onlyItem, onlyRegents, checkBag
             then
 
                WoWTools_DataMixin:Load(info.itemID, 'item')
---仅物品，仅材料    
                 if onlyItem or onlyRegents then
 
                     isCraftingReagent= select(17, C_Item.GetItemInfo(info.itemID))
@@ -147,7 +143,6 @@ function WoWTools_BagMixin:GetItems(checkAllBag, onlyItem, onlyRegents, checkBag
 end
 
 
---打开， 背包
 function WoWTools_BagMixin:OpenBag(bagID, isBank)
     if bagID then
         if not IsBagOpen(bagID) then
@@ -166,7 +161,6 @@ function WoWTools_BagMixin:OpenBag(bagID, isBank)
     end
 end
 
---关闭， 背包
 function WoWTools_BagMixin:CloseBag(bagID, isBank)
     if bagID then
         if IsBagOpen(bagID) then

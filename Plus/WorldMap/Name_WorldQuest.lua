@@ -1,4 +1,3 @@
---世界地图任务
 local function Save()
     return  WoWToolsPlusSave['Plus_WorldMap']
 end
@@ -63,7 +62,7 @@ local function Init()
 
                 local setLevelUp
                 for _, invSlot in pairs({WoWTools_ItemMixin:GetEquipSlotID(itemEquipLoc)}) do
-                    if invSlot and data.name and data.itemLevel and data.itemLevel>1 then--装等
+                    if invSlot and data.name and data.itemLevel and data.itemLevel>1 then
                         local itemLinkPlayer =  GetInventoryItemLink('player', invSlot)
                         if itemLinkPlayer then
                             local lv= WoWTools_ItemMixin:GetItemLevel(itemLinkPlayer)
@@ -75,9 +74,9 @@ local function Init()
                     end
                 end
                 if not setLevelUp then
-                    local sourceID = select(2, C_TransmogCollection.GetItemInfo(data.itemID))--幻化
+                    local sourceID = select(2, C_TransmogCollection.GetItemInfo(data.itemID))
                     if sourceID then
-                        local collectedText, isCollected= WoWTools_CollectionMixin:Item(nil, sourceID, true)--物品是否收集 
+                        local collectedText, isCollected= WoWTools_CollectionMixin:Item(nil, sourceID, true)
                         if collectedText and isCollected==false then
                             text= (text or '')..collectedText
                         end

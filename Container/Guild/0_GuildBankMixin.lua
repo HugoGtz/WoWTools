@@ -1,7 +1,6 @@
 WoWTools_GuildBankMixin={}
 
 
---atlas==nil 没有<全部权限>
 function WoWTools_GuildBankMixin:Get_Access(tabID)
     tabID = tabID or GetCurrentGuildBankTab()
 
@@ -57,8 +56,6 @@ end
 
 
 
---numOut 可提取：数字，true无限，false禁用
---numIn 是否放入：true, false
 function WoWTools_GuildBankMixin:GetNumWithdrawals(tabID)
 
     tabID= tabID or GetCurrentGuildBankTab()
@@ -73,9 +70,9 @@ function WoWTools_GuildBankMixin:GetNumWithdrawals(tabID)
     local numIn= true
 
     if
-        (canDeposit and numWithdrawals==0) --锁定
-        or not canDeposit--只能提取
-        or numWithdrawals==0 --只能存放
+        (canDeposit and numWithdrawals==0)
+        or not canDeposit
+        or numWithdrawals==0
     then
         numIn= false
     end
@@ -83,10 +80,10 @@ function WoWTools_GuildBankMixin:GetNumWithdrawals(tabID)
     if remainingWithdrawals and remainingWithdrawals > 0 then
         numOut= remainingWithdrawals
 
-    elseif remainingWithdrawals==0 then--'无'
+    elseif remainingWithdrawals==0 then
         numOut=false
 
-    else --'无限制'
+    else
         numOut=true
     end
 

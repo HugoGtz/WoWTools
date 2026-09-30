@@ -52,7 +52,6 @@ local function Init_Menu(self, root)
                 '|T'..(C_Spell.GetSpellTexture(spellID) or 0)..':0|t'
                 ..(isKnown and '' or '|cnWARNING_FONT_COLOR:')
                 ..(WoWTools_TextMixin:CN(spellName, {spellID=spellID, isName=true}) or spellID)
-                --为挑战数据，标记是否有数据，需要更新
                 ,
             function(data)
                 local spellLink= WoWTools_SpellMixin:GetLink(data.spellID, false)
@@ -77,13 +76,11 @@ local function Init_Menu(self, root)
     end
 
     root:CreateDivider()
---打开选项界面
     sub=WoWTools_MenuMixin:OpenOptions(root, {
         name=WoWTools_SpellMixin.addName,
         category=WoWTools_SpellMixin.Category,
         name2='|A:spellbook-item-iconframe:0:0|a'..(WoWTools_L.SPELLBOOK),
     })
-    --重新加载UI
     WoWTools_MenuMixin:Reload(sub)
 
 --SetScrollMod
@@ -165,7 +162,6 @@ local function Init_All_Flyout()
         btn.Text= WoWTools_LabelMixin:Create(btn, {color={r=1,g=1,b=1}})
         btn.Text:SetPoint('BOTTOM',0,2)
 
---版本
         btn.ver= btn:CreateTexture(nil, "BORDER")
         btn.ver:SetSize(24,12)
         btn.ver:SetPoint('TOP', btn, 'BOTTOM', 0, 2)
@@ -257,7 +253,6 @@ local function Init()
 
 
 
-    --专精，职责
     PlayerSpellsFrame.PortraitSpecRole= PlayerSpellsFrame.PortraitContainer:CreateTexture('WoWToolsSpellBookSpecRoleTexture', 'OVERLAY', nil, 7)
     PlayerSpellsFrame.PortraitSpecRole:SetSize(22,22)
     PlayerSpellsFrame.PortraitSpecRole:SetPoint('BOTTOMRIGHT', PlayerSpellsFramePortrait, -5,8)

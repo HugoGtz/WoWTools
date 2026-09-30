@@ -1,5 +1,4 @@
 
---CVarCallbackRegistry:GetCVarValueBool("colorblindMode") --开启色盲模式界面
 WoWTools_ColorMixin={}
 
 
@@ -34,7 +33,6 @@ end
 
 
 
---RGB转HEX
 function WoWTools_ColorMixin:RGBtoHEX(r, g, b, a, frame)
     if r and g and b then
 
@@ -54,7 +52,6 @@ end
 
 
 --( ) . % + - * ? [ ^ $ 
---HEX转RGB -- ColorUtil.lua
 local function ExtractColorValueFromHex(str, index)
     local t= str:sub(index, index + 1)
     if t then
@@ -117,7 +114,6 @@ end
 
 
 
---取得, ColorFrame, 颜色
 function WoWTools_ColorMixin:Get_ColorFrameRGBA()
     local r,g,b= ColorPickerFrame:GetColorRGB()
     local a= ColorPickerFrame.hasOpacity and ColorPickerFrame:GetColorAlpha() or 1

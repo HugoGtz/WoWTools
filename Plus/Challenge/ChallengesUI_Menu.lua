@@ -13,7 +13,6 @@ local function Init_Menu(self, root)
     local isInCombat= InCombatLockdown()
 
 
---副本信息
     name='|A:QuestLegendary:0:0|a'..(WoWTools_L['INSTANCE+INFO'])
     sub= root:CreateCheckbox(
         name,
@@ -47,7 +46,6 @@ local function Init_Menu(self, root)
     })
     sub:CreateSpacer()
 
---缩放
     WoWTools_MenuMixin:ScaleRoot(self, sub,
     function()
         return Save().insScale or 1
@@ -60,12 +58,10 @@ local function Init_Menu(self, root)
         WoWTools_ChallengeMixin:ChallengesUI_Info()
     end)
 
---sub 提示
     sub:CreateSpacer()
     sub:CreateTitle(name)
 
 
---传送门
     sub= root:CreateCheckbox(
         '|A:WarlockPortal-Yellow-32x32:0:0|a|cnWARNING_FONT_COLOR:'
         ..(WoWTools_L['SPELLS~2']),
@@ -82,7 +78,6 @@ local function Init_Menu(self, root)
     end)
     sub:SetEnabled(not isInCombat)
 
---缩放
     WoWTools_MenuMixin:ScaleRoot(self, sub,
     function()
         return Save().portScale or 1
@@ -94,10 +89,9 @@ local function Init_Menu(self, root)
         WoWTools_ChallengeMixin:ChallengesUI_Porta()
     end)
 
---sub 提示
     sub:CreateDivider()
     --sub:CreateTitle(name)
-    WoWTools_MenuMixin:Reload(sub)--重新加载UI
+    WoWTools_MenuMixin:Reload(sub)
 
 
     root:CreateDivider()
@@ -105,7 +99,6 @@ local function Init_Menu(self, root)
     --WoWTools_ChallengeMixin:ChallengesUI_Left_Menu(self, root)
 
 
---宏伟宝库，内，左侧
     local hasRewar= C_WeeklyRewards.HasAvailableRewards()
     name= (hasRewar and '|cnGREEN_FONT_COLOR:' or '')
         ..'|A:'..(WoWTools_DataMixin.Player.Faction=='Alliance' and 'activities-chest-sw' or 'activities-chest-org')..':0:0|a'
@@ -122,10 +115,9 @@ local function Init_Menu(self, root)
     end)
     sub:SetTooltip(function(tooltip)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Challenge.Vault'])
-        WoWTools_ChallengeMixin:ActivitiesTooltip(tooltip)--周奖励，提示
+        WoWTools_ChallengeMixin:ActivitiesTooltip(tooltip)
     end)
 
---打开
     sub2=sub:CreateCheckbox(
         WoWTools_L.RATED_PVP_WEEKLY_VAULT,
     function()
@@ -136,7 +128,6 @@ local function Init_Menu(self, root)
     end)
     sub:CreateDivider()
 
---PvP信息
     local tipSub= sub:CreateCheckbox(
         'PvP '
         ..(WoWTools_L.INFO),
@@ -182,7 +173,6 @@ local function Init_Menu(self, root)
     })
     sub:CreateSpacer()
 
---缩放
     WoWTools_MenuMixin:ScaleRoot(self, sub,
     function()
         return Save().activitiesScale or 1
@@ -196,12 +186,10 @@ local function Init_Menu(self, root)
         WoWTools_ChallengeMixin:ChallengesUI_Activities()
     end)
 
---sub 提示
     sub:CreateSpacer()
     sub:CreateTitle(name)
 
 
---公会挑战，内侧，右上角
     local isInGuild= IsInGuild()
     name= '|A:communities-guildbanner-background:0:0|a'
         ..(isInGuild and '' or '|cff828282')
@@ -253,7 +241,6 @@ local function Init_Menu(self, root)
     sub:CreateSpacer()
 
 
---透明度
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
@@ -271,7 +258,6 @@ local function Init_Menu(self, root)
     sub:CreateSpacer()
 
     
---缩放
     sub:CreateSpacer()
     WoWTools_MenuMixin:ScaleRoot(self, sub,
     function()
@@ -287,12 +273,10 @@ local function Init_Menu(self, root)
         WoWTools_ChallengeMixin:ChallengesUI_Guild()
     end)
 
---sub 提示
     sub:CreateSpacer()
     sub:CreateTitle(name)
 
 
---词缀, 右下角
     name= '|T463829:0|t'
         ..(C_MythicPlus.GetCurrentSeason()==WoWTools_DataMixin.SeasonAffixSchedule and '' or '|cff828282')
         ..WoWTools_L['Affix list']
@@ -385,7 +369,6 @@ sub:CreateSpacer()
     })
     sub:CreateSpacer()
 
---缩放
     WoWTools_MenuMixin:ScaleRoot(self, sub,
     function()
         return Save().affixScale or 0.4
@@ -401,12 +384,10 @@ sub:CreateSpacer()
         WoWTools_ChallengeMixin:ChallengesUI_Affix()
     end)
 
---sub 提示
 sub:CreateSpacer()
 sub:CreateTitle(name)
 
 
---挑战信息 right
     name= '|A:challenges-medal-gold:0:0|a'
     ..(WoWTools_L['PLAYER_DIFFICULTY5+INFO'])
     sub= root:CreateCheckbox(
@@ -451,7 +432,6 @@ sub:CreateTitle(name)
         })
     sub:CreateSpacer()
 
---缩放
     WoWTools_MenuMixin:ScaleRoot(self, sub,
     function()
         return Save().rightScale or 1
@@ -465,7 +445,6 @@ sub:CreateTitle(name)
         WoWTools_ChallengeMixin:ChallengesUI_Right()
     end)
 
-    --sub 提示
     sub:CreateSpacer()
     sub:CreateTitle(name)
 
@@ -473,11 +452,9 @@ sub:CreateTitle(name)
 
 
     root:CreateDivider()
---战团，物品列表
     --WoWTools_DataMixin:OpenWoWItemListMenu(self, root, 'Instance')
 
 
---插入史诗钥石，打开界面
     sub=root:CreateButton(
         '|A:ChallengeMode-KeystoneSlotFrame:0:0|a'
         ..(WoWTools_L.CHALLENGE_MODE_INSERT_KEYSTONE),
@@ -489,10 +466,8 @@ sub:CreateTitle(name)
         tooltip:AddLine(WoWTools_L['Show UI'])
     end)
 
---菜单
     WoWTools_ChallengeMixin:ChallengesKeystoneFrame_Menu(self, sub)
 
---打开选项界面
     WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_ChallengeMixin.addName})
 end
 

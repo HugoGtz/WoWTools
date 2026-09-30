@@ -3,11 +3,9 @@
 
 local P_Save={
     --disabled= true,
-    toRightLeft=3, -- 1,2, 3, 4 左边 右边 默认 左|右
-    --旧版本 mcaro={},-- {name=tab.name, icon=tab.icon, body=tab.body}
+    toRightLeft=3,
     macro={},--{[|T..icon..:0|t..name..spllID..itemName]={name=tab.name, icon=tab.icon, body=tab.body}}
 
-    --hideBottomList=true,隐藏底部，列表
     bottomListScale=1,
 }
 
@@ -20,10 +18,10 @@ end
 
 local function Init_Load()
     WoWTools_MacroMixin:Init_Set_UI()
-    WoWTools_MacroMixin:Init_Button()--宏列表，位置
-    WoWTools_MacroMixin:Init_Select_Macro_Button()--选定宏，点击，弹出菜单，自定图标
-    WoWTools_MacroMixin:Init_List_Button()--命令，按钮，列表
-    WoWTools_MacroMixin:Init_AddNew_Button()--创建，空，按钮
+    WoWTools_MacroMixin:Init_Button()
+    WoWTools_MacroMixin:Init_Select_Macro_Button()
+    WoWTools_MacroMixin:Init_List_Button()
+    WoWTools_MacroMixin:Init_AddNew_Button()
     WoWTools_MacroMixin:Init_ChangeTab()
     WoWTools_MacroMixin:Init_MacroButton_Plus()
 
@@ -66,7 +64,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
             WoWTools_MacroMixin.addName= '|TInterface\\MacroFrame\\MacroFrame-Icon:0|t'..(WoWTools_L['Module.Macros'])
 
---添加控制面板
             WoWTools_PanelMixin:OnlyCheck({
                 name= WoWTools_MacroMixin.addName,
                 tooltip= WoWTools_L['Tip.Macro.Module']..'|n|n'..('|cnWARNING_FONT_COLOR:'..(WoWTools_L['HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT+ERRORS']))

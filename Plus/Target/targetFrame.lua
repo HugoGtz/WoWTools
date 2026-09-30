@@ -70,15 +70,15 @@ end
 
 
 local function Set_Texture()
-    targetFrame:SetSize(Save().w, Save().h)--设置大小
-    local isAtlas, texture= WoWTools_TextureMixin:IsAtlas(Save().targetTextureName)--设置，图片
+    targetFrame:SetSize(Save().w, Save().h)
+    local isAtlas, texture= WoWTools_TextureMixin:IsAtlas(Save().targetTextureName)
     if isAtlas then
         targetFrame.Texture:SetAtlas(texture)
     else
         targetFrame.Texture:SetTexture(texture or 0)
     end
 
-    targetFrame:SetScale(1)--缩放
+    targetFrame:SetScale(1)
     targetFrame:set_color(Save().targetInCombat and InCombatLockdown() or false)
 
     local scale= Save().scale or 1
@@ -109,7 +109,6 @@ local function Set_Texture()
 end
 
 
---指示目标 Blizzard_NamePlates.xml
 --HealthBarsContainer castBar WidgetContainer
 local function Init()
     if not Save().target then
@@ -170,7 +169,7 @@ local function Init()
         then
             C_Timer.After(0.15, function() Set_Target() end)
 
-        elseif event=='PLAYER_REGEN_DISABLED' or event=='PLAYER_REGEN_ENABLED' then--颜色
+        elseif event=='PLAYER_REGEN_DISABLED' or event=='PLAYER_REGEN_ENABLED' then
             self:set_color(event=='PLAYER_REGEN_DISABLED')
 
         end

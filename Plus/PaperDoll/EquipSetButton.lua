@@ -30,7 +30,6 @@ local function Init_Menu(self, root)
 
     root:CreateDivider()
 
---向右
     local tipSub= root:CreateCheckbox(
         '|A:common-icon-rotateright:0:0|a'..(WoWTools_L['HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_RIGHT~3']),
     function()
@@ -41,7 +40,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.PaperDoll.SetToRight'])
 
---装等
     sub=root:CreateCheckbox(
         WoWTools_L.ITEM_UPGRADE_STAT_AVERAGE_ITEM_LEVEL,
     function()
@@ -52,7 +50,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.PaperDoll.SetItemLevel'])
 
---缩放, 单行
     WoWTools_MenuMixin:ScaleRoot(self, sub, function()
         return Save().itemLevelScale or 1
     end, function(value)
@@ -81,7 +78,6 @@ local function Init_Menu(self, root)
     end)
 
 
---打开选项界面
     root:CreateDivider()
     sub= WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_PaperDollMixin.addName, name2=WoWTools_PaperDollMixin.addName2})
 
@@ -102,7 +98,6 @@ local function Init_Menu(self, root)
     end)
 
 
---缩放
     sub:CreateDivider()
     WoWTools_MenuMixin:Scale(self, sub, function()
         return Save().scale
@@ -119,7 +114,6 @@ local function Init_Menu(self, root)
         self:settings()
     end)
 
---背景, 透明度
     WoWTools_MenuMixin:BgAplha(sub,
     function()
         return Save().bgAlpha or 0.5
@@ -149,7 +143,6 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.PaperDoll.SetResetAll'])
 
 
---重置位置
     WoWTools_MenuMixin:RestPoint(self, sub, Save().point, function()
         Save().point=nil
         self:settings()
@@ -160,7 +153,6 @@ local function Init_Menu(self, root)
     end)
 
 
---重新加载UI
     sub:CreateDivider()
     WoWTools_MenuMixin:Reload(sub)
 end
@@ -187,7 +179,6 @@ end
 
 
 
---建立，按钮
 local function Create_Button(btn)
     btn.texture= btn:CreateTexture(nil, 'BORDER', nil, 1)
     btn.texture:SetAllPoints()
@@ -270,7 +261,7 @@ if not useSecureAction then
         if self.setID
             and not C_EquipmentSet.EquipmentSetContainsLockedItems(self.setID)
             and not InCombatLockdown()
-        then--装备管理，能否装备
+        then
             C_EquipmentSet.UseEquipmentSet(self.setID)
             if TrackButton.HelpTips then
                 TrackButton.HelpTips:SetShown(false)
@@ -375,7 +366,6 @@ end
 
 
 
---设置，初始，按钮
 local function Init_buttons()
     if WoWTools_FrameMixin:IsLocked(TrackButton) then
         TrackButton:RegisterEvent('PLAYER_REGEN_ENABLED')
@@ -441,9 +431,8 @@ end
 
 
 --#######
---装备管理
 --#######
-local function Init()--添加装备管理框
+local function Init()
     if Save().disabled then
         return
     end
@@ -451,7 +440,7 @@ local function Init()--添加装备管理框
     useSecureAction= Save().useSecureAction
 
 
-    TrackButton= CreateFrame('Button', 'WoWToolsEquipSetMainButton', UIParent, 'WoWToolsButtonTemplate') --WoWTools_ButtonMixin:Cbtn(UIParent, {size={23, 16}})--添加移动按钮
+    TrackButton= CreateFrame('Button', 'WoWToolsEquipSetMainButton', UIParent, 'WoWToolsButtonTemplate')
     if useSecureAction then
         TrackButton.pool= CreateFramePool('Button', TrackButton, 'WoWToolsButtonTemplate SecureActionButtonTemplate', nil, nil, Create_Button)
     else
@@ -461,14 +450,12 @@ local function Init()--添加装备管理框
     TrackButton.Bg= TrackButton:CreateTexture(nil, 'BACKGROUND')
     TrackButton.Bg:SetColorTexture(0,0,0)
 
---图标
     TrackButton.texture= TrackButton:CreateTexture(nil, 'BORDER')
     TrackButton.texture:SetTexture(WoWTools_DataMixin.Icon.icon)
     TrackButton.texture:SetSize(12,12)
     TrackButton.texture:SetPoint('CENTER')
     TrackButton.texture:SetAlpha(0.3)
 
---装等
     TrackButton.frame= CreateFrame('Frame', nil, TrackButton)
     TrackButton.frame:SetAllPoints()
     TrackButton.frame.text= TrackButton.frame:CreateFontString(nil, 'ARTWORK', 'WoWToolsFont') -- WoWTools_LabelMixin:Create(TrackButton, {size=Save().trackButtonFontSize or 10, color=true, justifyH='CENTER'})
@@ -523,7 +510,6 @@ local function Init()--添加装备管理框
 
 
 
---设置，显示
     function TrackButton:main_shown(sceneType)
         if WoWTools_FrameMixin:IsLocked(self) then
             self:RegisterEvent('PLAYER_REGEN_ENABLED')
@@ -539,7 +525,6 @@ local function Init()--添加装备管理框
         )
     end
 
---提示，没有装上
     function TrackButton:tips_not_equipment()
         if IsInInstance() or not self:IsShown() then-- or not IsInGroup() then
             return
@@ -587,7 +572,7 @@ local function Init()--添加装备管理框
         end
     end)
     TrackButton:SetScript('OnMouseDown', function(_, d)
-        if d=='RightButton' and IsAltKeyDown() then--移动图标
+        if d=='RightButton' and IsAltKeyDown() then
             SetCursor('UI_MOVE_CURSOR')
         end
     end)
@@ -598,7 +583,7 @@ local function Init()--添加装备管理框
             return
         end
         if d=='LeftButton' then
-            WoWTools_LoadUIMixin:OpenPaperDoll(1,3)--打开/关闭角色界面
+            WoWTools_LoadUIMixin:OpenPaperDoll(1,3)
 
         elseif d=='RightButton' then
             MenuUtil.CreateContextMenu(self, Init_Menu)
@@ -611,7 +596,7 @@ local function Init()--添加装备管理框
         GameTooltip_SetTitle(GameTooltip, WoWTools_PaperDollMixin.addName2..WoWTools_DataMixin.Icon.icon2)
         GameTooltip:AddLine(' ')
 
-        WoWTools_DurabiliyMixin:OnEnter()--耐久度, 提示
+        WoWTools_DurabiliyMixin:OnEnter()
 
         GameTooltip:AddLine(' ')
         GameTooltip_AddInstructionLine(
@@ -722,7 +707,6 @@ local function Init()--添加装备管理框
     end
 
 
---更新
     WoWTools_DataMixin:Hook('PaperDollEquipmentManagerPane_Update',  function()
         if TrackButton:IsShown() then
             Init_buttons()

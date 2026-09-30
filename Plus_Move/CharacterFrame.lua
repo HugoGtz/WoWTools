@@ -11,7 +11,7 @@ end
 
 
 
-function WoWTools_MoveMixin.Frames:CharacterFrame()--:Init_CharacterFrame()--角色
+function WoWTools_MoveMixin.Frames:CharacterFrame()
     PaperDollFrame.TitleManagerPane:ClearAllPoints()
     PaperDollFrame.TitleManagerPane:SetPoint('TOPLEFT', CharacterFrameInsetRight, 4, -4)
     PaperDollFrame.TitleManagerPane:SetPoint('BOTTOMRIGHT', CharacterFrameInsetRight, -4, 4)

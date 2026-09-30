@@ -1,8 +1,7 @@
---快速加入, 模块
 
 
 
-local function Init()--快速加入, 初始化 QuickJoin.lua
+local function Init()
 
     QuickJoinToastButton.Toast:ClearAllPoints()
     QuickJoinToastButton.Toast:SetPoint('BOTTOMLEFT', QuickJoinToastButton, 'TOPLEFT', 29, 2)
@@ -59,13 +58,13 @@ local function Init()--快速加入, 初始化 QuickJoin.lua
             end
         end
 
-        if not frame.OnDoubleClick then--设置, 双击, 加入
+        if not frame.OnDoubleClick then
             frame:HookScript("OnDoubleClick", function()--QuickJoin.lua
                 QuickJoinFrame:JoinQueue()
                 local frame2=LFGListApplicationDialog
                 if frame2:IsShown() then
                     if not frame2.TankButton.CheckButton:GetChecked() and not frame2.HealerButton.CheckButton:GetChecked() and not frame2.DamagerButton.CheckButton:GetChecked() then
-                        local specID=GetSpecialization()--当前专精
+                        local specID=GetSpecialization()
                         if specID then
                             local role = select(5, C_SpecializationInfo.GetSpecializationInfo(specID))
                             if role=='DAMAGER' and frame2.DamagerButton:IsShown() then
@@ -84,7 +83,7 @@ local function Init()--快速加入, 初始化 QuickJoin.lua
             end)
         end
 
-        local text--需求职责, 提示
+        local text
         if self.guid then
             local canJoin, numQueues, needTank, needHealer, needDamage, isSoloQueuePart, questSessionActive, leaderGUID = C_SocialQueue.GetGroupInfo(self.guid)
             if canJoin then
@@ -109,8 +108,8 @@ local function Init()--快速加入, 初始化 QuickJoin.lua
     end)
 
 
-    WoWTools_DataMixin:Hook(QuickJoinRoleSelectionFrame, 'ShowForGroup', function(self, guid)--职责选择框
-        local t, h ,dps=self.RoleButtonTank.CheckButton, self.RoleButtonHealer.CheckButton, self.RoleButtonDPS.CheckButton--选择职责
+    WoWTools_DataMixin:Hook(QuickJoinRoleSelectionFrame, 'ShowForGroup', function(self, guid)
+        local t, h ,dps=self.RoleButtonTank.CheckButton, self.RoleButtonHealer.CheckButton, self.RoleButtonDPS.CheckButton
         local t3, h3, dps3 =t:GetChecked(), h:GetChecked(), dps:GetChecked()
         if not t3 and not h3 and not dps3 then
             local sid=GetSpecialization()
@@ -126,7 +125,7 @@ local function Init()--快速加入, 初始化 QuickJoin.lua
             end
         end
 
-        local leaderGUID = select(8, C_SocialQueue.GetGroupInfo(guid))--玩家名称
+        local leaderGUID = select(8, C_SocialQueue.GetGroupInfo(guid))
         local link= leaderGUID and WoWTools_UnitMixin:GetPlayerInfo(nil, leaderGUID, nil, {reName=true, reRealm=true, reLink=true,})
         if link and not self.nameInfo then
             self.nameInfo= WoWTools_LabelMixin:Create(self)

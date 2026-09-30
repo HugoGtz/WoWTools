@@ -4,34 +4,30 @@
 --local openBracketAtlas = "socket-%s-open"
 
 local GEM_TYPE_INFO={
-['EMPTY_SOCKET_BLUE'] = "blue",-- "蓝色插槽";
-['EMPTY_SOCKET_COGWHEEL'] = 'cogwheel',--"齿轮插槽";
-['EMPTY_SOCKET_CYPHER'] = 'meta',--"晶态插槽"
-['EMPTY_SOCKET_DOMINATION'] = 'domination',--"统御插槽";
-['EMPTY_SOCKET_FIBER'] = 'hydraulic',-- "纤维镶孔";
-['EMPTY_SOCKET_FRAGRANCE'] = 'hydraulic',--"芬芳镶孔";
-['EMPTY_SOCKET_HYDRAULIC'] = 'hydraulic',--"染煞";
-['EMPTY_SOCKET_META'] = 'meta', --"多彩插槽";
-['EMPTY_SOCKET_PRIMORDIAL'] = 'meta',--"始源镶孔";
-['EMPTY_SOCKET_PRISMATIC'] = 'prismatic', --"棱彩插槽";
-['EMPTY_SOCKET_PUNCHCARDBLUE'] = 'punchcard-blue',-- "蓝色打孔卡插槽";
-['EMPTY_SOCKET_PUNCHCARDRED'] = 'punchcard-red',-- "红色打孔卡插槽";
-['EMPTY_SOCKET_PUNCHCARDYELLOW'] = 'punchcard-yellow', "黄色打孔卡插槽";
-['EMPTY_SOCKET_RED'] = 'red',-- "红色插槽";
-['EMPTY_SOCKET_SINGINGSEA'] =  'blue',--"吟海插槽";
-['EMPTY_SOCKET_SINGINGTHUNDER'] = 'yellow',-- "吟雷插槽";
-['EMPTY_SOCKET_SINGINGWIND'] = 'red', --"吟风插槽";
-['EMPTY_SOCKET_TINKER'] = 'punchcard-red',--"匠械插槽";
-['EMPTY_SOCKET_YELLOW'] = 'yellow',--"黄色插槽";
+['EMPTY_SOCKET_BLUE'] = "blue",
+['EMPTY_SOCKET_COGWHEEL'] = 'cogwheel',
+['EMPTY_SOCKET_CYPHER'] = 'meta',
+['EMPTY_SOCKET_DOMINATION'] = 'domination',
+['EMPTY_SOCKET_FIBER'] = 'hydraulic',
+['EMPTY_SOCKET_FRAGRANCE'] = 'hydraulic',
+['EMPTY_SOCKET_HYDRAULIC'] = 'hydraulic',
+['EMPTY_SOCKET_META'] = 'meta',
+['EMPTY_SOCKET_PRIMORDIAL'] = 'meta',
+['EMPTY_SOCKET_PRISMATIC'] = 'prismatic',
+['EMPTY_SOCKET_PUNCHCARDBLUE'] = 'punchcard-blue',
+['EMPTY_SOCKET_PUNCHCARDRED'] = 'punchcard-red',
+['EMPTY_SOCKET_PUNCHCARDYELLOW'] = 'punchcard-yellow',
+['EMPTY_SOCKET_RED'] = 'red',
+['EMPTY_SOCKET_SINGINGSEA'] =  'blue',
+['EMPTY_SOCKET_SINGINGTHUNDER'] = 'yellow',
+['EMPTY_SOCKET_SINGINGWIND'] = 'red',
+['EMPTY_SOCKET_TINKER'] = 'punchcard-red',
+['EMPTY_SOCKET_YELLOW'] = 'yellow',
 }
---[EMPTY_SOCKET_SINGING_SEA] = 'blue',--"吟海插槽";
---[EMPTY_SOCKET_SINGING_THUNDER] = 'yellow',--"吟雷插槽";
---[EMPTY_SOCKET_SINGING_WIND] =  'red', --"吟风插槽";
 
 --[ITEM_MOD_HASTE_RATING_SHORT]= WoWTools_TextMixin:sub(ITEM_MOD_HASTE_RATING_SHORT, 1, 2, true),
 
 
---物品, 宝石插槽, 属性
 local function Get_StatsGem(itemID, itemLink)
     local numSockets= C_Item.GetItemNumSockets(itemLink or itemID) or 0--MAX_NUM_SOCKETS
     local gem
@@ -50,7 +46,7 @@ local function Get_StatsGem(itemID, itemLink)
                 local g= _G[s]
                 local text= WoWTools_DataMixin.StausText[g]
                 if text then
-                    if g==ITEM_MOD_MODIFIED_CRAFTING_STAT_1 or g==ITEM_MOD_MODIFIED_CRAFTING_STAT_2 then--随机
+                    if g==ITEM_MOD_MODIFIED_CRAFTING_STAT_1 or g==ITEM_MOD_MODIFIED_CRAFTING_STAT_2 then
                         text= DISABLED_FONT_COLOR:WrapTextInColorCode(text)
                     end
                     table.insert(stats, text)
@@ -114,12 +110,10 @@ local function Get_Item(btn)
     local classID= select(6, C_Item.GetItemInfoInstant(itemID))
     local speciesID = select(13, C_PetJournal.GetPetInfoByItemID(itemID))
 
---专业装备
     if classID==19 then
         text= WoWTools_CollectionMixin:Item(itemLink or itemID, nil, true)
         stats= Get_Stat(itemLink)
 
---配方 是否，学习
     elseif classID==9 then
         local redInfo= WoWTools_ItemMixin:GetTooltip({
             itemKey=itemKey,
@@ -132,7 +126,6 @@ local function Get_Item(btn)
             text= '|A:worldquest-icon-firstaid:0:0|a'
         end
 
---背包, 多少格
     elseif classID==1 then
         local dateInfo= WoWTools_ItemMixin:GetTooltip({itemID=itemID, hyperLink=itemLink, index=3})
         local indexText= dateInfo.indexText
@@ -140,22 +133,18 @@ local function Get_Item(btn)
             text= indexText:match('%d+')
         end
 
---显示, 宝石, 属性
     elseif classID==3 then
         local t1, t2= WoWTools_ItemMixin:SetGemStats(nil, itemLink)
         if t1 then
             stats= t1..(t2 and PLAYER_LIST_DELIMITER..t2 or '')
         end
 
---住宅
     elseif C_Item.IsDecorItem(itemID) then
         local entryInfo= C_HousingCatalog.GetCatalogEntryInfoByItem(itemLink or itemID, true)
         if entryInfo then
---装饰放置成本
             if entryInfo.placementCost then
                 stats= format('|cffffffff%d|r|A:House-Decor-budget-icon:0:0|a', entryInfo.placementCost)
             end
---室内, 室外
             if entryInfo.isAllowedIndoors then
                 stats= (stats or '')..'|A:house-room-limit-icon:0:0|a'
             end
@@ -168,12 +157,10 @@ local function Get_Item(btn)
             if entryInfo.firstAcquisitionBonus and entryInfo.firstAcquisitionBonus>0 then
                     text= (text or '')..'|A:GarrMission_CurrencyIcon-Xp:0:0|a'
             end--if entryInfo.showQuantity then
---数量
                -- text= (WoWTools_ItemMixin:GetDecorItemCount(itemID, entryInfo, false) or '')..(text or '')
             --end
         end
 
---宠物
     elseif itemKeyInfo.isPet or (speciesID and speciesID>0) then
         local isCollectedAll, CollectedNum
         CollectedNum, text, isCollectedAll= select(2, WoWTools_PetBattleMixin:Collected(speciesID or itemKeyInfo.battlePetSpeciesID, itemID))
@@ -182,29 +169,24 @@ local function Get_Item(btn)
             text= '|A:CovenantSanctum-Renown-Checkmark-Large:0:0|a'
         end
         stats= CollectedNum
---幻化
     elseif C_Item.IsCosmeticItem(itemLink or itemID) then
         text= WoWTools_CollectionMixin:Item(itemID, nil, true)
         --stats= (WoWTools_ItemMixin:GetCount(itemID, {notZero= true}) or '')..'|A:transmog-gearSlot-transmogrified-HL:0:0|a'
         stats= '|A:transmog-gearSlot-transmogrified-HL:0:0|a'
 
---物品，属性, 宝石, 幻化
     elseif itemKeyInfo.isEquipment then
         text= WoWTools_CollectionMixin:Item(itemID, nil, true)
         stats= Get_StatsGem(itemID, itemLink)
 
 
---玩具,是否收集    
     elseif C_ToyBox.GetToyInfo(itemID) then
         text= select(3, WoWTools_CollectionMixin:Toy(itemID))
         --stats= WoWTools_ItemMixin:GetCount(itemID, {notZero= true})
 
---商品
     --elseif itemKeyInfo.isCommodity then
 
 
     else
---坐骑
         text= select(3, WoWTools_CollectionMixin:Mount(nil, itemID))
         --stats= WoWTools_ItemMixin:GetCount(itemID, {notZero= true})
     end
@@ -217,15 +199,12 @@ end
 local function Set_Button(btn)
     local text, stats= Get_Item(btn)
 
---各种提示
     btn.lable:SetPoint('RIGHT', btn.cells[2].Icon, 'LEFT')
     btn.lable:SetText(text or '')
 
---属性
     btn.statsLabel:SetPoint('RIGHT', btn.cells[2])
     btn.statsLabel:SetText(stats)
 
---自已出售，物品
     local isOwnerItem= btn.rowData and btn.rowData.containsOwnerItem
     --btn.OwnerItemTexture:SetPoint('RIGHT', btn.cells[4].FavoriteButton, 'LEFT')
     btn.OwnerItemTexture:SetShown(isOwnerItem)
@@ -234,13 +213,10 @@ local function Set_Button(btn)
 end
 
 local function Create_Label(btn)
---各种提示
     btn.lable= btn:CreateFontString(nil, 'ARTWORK', 'GameFontNormalSmall')
---属性
     btn.statsLabel= btn:CreateFontString(nil, 'ARTWORK', 'GameFontNormalSmall')
     btn.statsLabel:SetJustifyH('RIGHT')
 
---自已出售，物品
     btn.OwnerItemTexture= btn:CreateTexture(nil, 'ARTWORK')
     btn.OwnerItemTexture:SetSize(14,14)
     btn.OwnerItemTexture:SetAtlas(WoWTools_DataMixin.Icon.Player:match('|A:(.-):'))
@@ -271,11 +247,9 @@ local function Set_ItemBuyFrame(frame)
             end
         end
 
---自已出售，物品
         if btn.rowData and btn.rowData.containsOwnerItem then
             stats= WoWTools_DataMixin.Icon.Player..(stats or '')
         end
---属性
         if stats and not btn.statsLabel then
             btn.statsLabel= btn:CreateFontString(nil, 'ARTWORK', 'GameFontNormalSmall')
         end
@@ -292,7 +266,6 @@ local function Init()
     if WoWToolsPlusSave['Plus_AuctionHouse'].disabledBuyPlus then
         return
     end
---数量，提示
     hooksecurefunc(AuctionHouseTableCellFavoriteMixin, 'Populate', function(btn, rowData)
         if not btn.CountLabel then
             btn.CountLabel= btn:CreateFontString(nil, 'ARTWORK', 'GameFontNormalSmall')
@@ -327,7 +300,6 @@ local function Init()
     --WoWTools_DataMixin:Hook(AuctionHouseFrame.ItemBuyFrame.ItemList.ScrollBox, 'SetDataProvider', Set_ItemBuyFrame)
     WoWTools_DataMixin:Hook(AuctionHouseFrame.ItemBuyFrame.ItemList.ScrollBox, 'SetScrollTargetOffset', Set_ItemBuyFrame)
 
-    --双击，一口价
     WoWTools_DataMixin:Hook(AuctionHouseFrame.ItemBuyFrame.ItemList.ScrollBox, 'Update', function(frame)
         if not frame:HasView() then
             return
@@ -345,7 +317,6 @@ local function Init()
         end
     end)
 
-    --购买，数量
     AuctionHouseFrame.CommoditiesBuyFrame.BuyDisplay.QuantityInput.InputBox:HookScript('OnShow', function(self)
         if not self:HasText() then
             self:SetText(1)
@@ -353,12 +324,10 @@ local function Init()
     end)
 
 
---出售页面，买卖，物品信息 Blizzard_AuctionHouseSellFrame.lua
     WoWTools_DataMixin:Hook(AuctionHouseSellFrameMixin, 'SetItem', function(frame, itemLocation)
         WoWTools_ItemMixin:SetupInfo(frame.ItemDisplay.ItemButton, itemLocation and {itemLocation= itemLocation, size=12} or nil)
     end)
 
---购买，选定物品 AuctionHouseFrame.ItemBuyFrame.ItemDisplay.ItemButton
     WoWTools_DataMixin:Hook(AuctionHouseFrame, 'SelectBrowseResult', function(frame, browseResult)
         local itemKey = browseResult.itemKey
         local itemKeyInfo = itemKey and C_AuctionHouse.GetItemKeyInfo(itemKey) or {}

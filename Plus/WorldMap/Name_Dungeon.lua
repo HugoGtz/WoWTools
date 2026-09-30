@@ -1,4 +1,3 @@
---地下城，加名称
 local function Save()
     return  WoWToolsPlusSave['Plus_WorldMap']
 end

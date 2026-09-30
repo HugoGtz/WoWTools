@@ -64,7 +64,6 @@ local function Init_Menu(self, root)
     end
 
 
---清除 Boss 所有职业
     root:CreateDivider()
     local classTab={}
     local classNum=0
@@ -96,7 +95,6 @@ local function Init_Menu(self, root)
         GameTooltip_AddErrorLine(tooltip, WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2)
     end)
 
---清除 Boss 所有职业, 列表
     for className, specID in pairs(classTab) do
         local _, name, desc, icon, role = GetSpecializationInfoByID(specID)
         local color2= WoWTools_UnitMixin:GetColor(nil, nil, className)
@@ -125,7 +123,6 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetRightText(sub)
 
 
---当前职业，列表
     local classSpecTab={}
     for id, data in pairs(SaveUse()) do
         local specID= data.class[self.classFile]
@@ -149,7 +146,6 @@ local function Init_Menu(self, root)
         end
     end
 
---清除. 当前职业
     local classIcon= hex
         ..(WoWTools_UnitMixin:GetClassIcon(nil, nil, self.classFile) or '')
         ..(WoWTools_TextMixin:CN(self.className) or self.classFile)
@@ -177,7 +173,6 @@ local function Init_Menu(self, root)
     end)
 
 
---清除. 当前职业，列表
     table.sort(classSpecTab, function(a,b)
         if a.instanceID==b.instanceID then
             return a.index< b.index
@@ -188,9 +183,7 @@ local function Init_Menu(self, root)
 
     local pInstanceID
     for _, data in pairs(classSpecTab) do
---是否是当前副本
         local col2= EncounterJournal.instanceID==data.instanceID and '|cff00ccff'
-        --为不同副本，加分隔 
         if pInstanceID~=data.instanceID then
             sub:CreateTitle((col2 or '')..(data.insName or ' '))
             pInstanceID= data.instanceID
@@ -198,16 +191,13 @@ local function Init_Menu(self, root)
 
         sub2= sub:CreateCheckbox(
             (col2 or '|cffff00ff')..data.index..'|r'
---转精，图标，名称
             ..'|T'..(select(4, GetSpecializationInfoByID(data.specID)) or 0)..':0|t'
             ..'|T'..(data.bossIcon or "Interface\\EncounterJournal\\UI-EJ-BOSS-Default")..':0|t'
---副本名称
             ..(WoWTools_TextMixin:CN(data.bossName) or data.encounterID),
         function(d)
                 return SaveUse()[d.dungeonEncounterID] and SaveUse()[d.dungeonEncounterID].class[self.classFile]
         end, function(d)
             SaveUse()[d.dungeonEncounterID].class[self.classFile]= not SaveUse()[d.dungeonEncounterID].class[self.classFile] and d.specID or nil
---转到 副本
             if EncounterJournal.instanceID~= d.instanceID then
                 WoWTools_DataMixin:Call('EncounterJournal_DisplayInstance', d.instanceID)
             end
@@ -235,7 +225,6 @@ local function Init_Menu(self, root)
 
 
     root:CreateDivider()
---全部清除
     sub=root:CreateButton(
         '|A:bags-button-autosort-up:0:0|a'
         ..(WoWTools_L.CLEAR_ALL),
@@ -257,7 +246,6 @@ local function Init_Menu(self, root)
 end
 
 
---按钮，列表
 local function Init_Button(btn)
     btn.specButtons={}
     local isOnlyClass= Save().lootOnlyClass
@@ -277,14 +265,12 @@ local function Init_Button(btn)
             b:SetFrameLevel(level)
 
             local x= index +1
---当前职业，放到最前
             if isCurClass then
                 x=0
             else
                 index= index+1
             end
             b:SetPoint('BOTTOMRIGHT', (-x*(s+2))-5, -8)
---职业，背景颜色
             b.texture2= b:CreateTexture(nil, 'BACKGROUND', nil, -1)
             b.texture2:SetPoint('TOPLEFT', b, -1, 1)
             b.texture2:SetPoint('BOTTOMRIGHT', b, 1, -2)
@@ -325,7 +311,6 @@ local function Init_Button(btn)
 end
 
 
---设置拾取专精
 local function Set_LootSpec(self, encounterID)
     local data= SaveUse()[encounterID]
     local lootSpecID= data and data.class[WoWTools_DataMixin.Player.Class]
@@ -359,7 +344,6 @@ local function Set_LootSpec(self, encounterID)
     self.spceLog= logID
 end
 
---还原拾取专精
 local function Rest_LootSpec(self)
     if not self.spceLog  then
         return
@@ -386,10 +370,9 @@ local function Rest_LootSpec(self)
 end
 
 
---BOSS 列表
 local DisabledShowBoossTabs={
-    [2870]=1,--词缀
-    [2869]=1,--史诗钥石
+    [2870]=1,
+    [2869]=1,
 }
 local function Init_Loot()
     WoWTools_DataMixin:Hook(EncounterBossButtonMixin, 'Init', function(self, data)--{data={bossID index link rootSectionID, desctiption, name} }
@@ -435,16 +418,15 @@ local function Init()
     frame:set_event()
 
     frame:SetScript('OnEvent', function(self, event, encounterID)
-        if event=='ENCOUNTER_START' and encounterID then--BOSS战时, 指定拾取, 专精
+        if event=='ENCOUNTER_START' and encounterID then
             Set_LootSpec(self, encounterID)
 
-        elseif event=='ENCOUNTER_END' then--BOSS战时, 指定拾取, 专精, 还原, 专精拾取
+        elseif event=='ENCOUNTER_END' then
             Rest_LootSpec(self)
         end
     end)
 
 
---地图，BOOS图标
     WoWTools_DataMixin:Hook(EncounterJournalPinMixin, 'OnLoad', function(self)
         self.lootTexture= self:CreateTexture(nil, 'OVERLAY')
         self.lootTexture:SetSize(20,20)
@@ -464,7 +446,6 @@ local function Init()
         self.lootTexture:SetTexture(icon or 0)
     end)
 
---冒险指南界面
     if C_AddOns.IsAddOnLoaded('Blizzard_EncounterJournal') then
         Init_Loot()
     else

@@ -29,12 +29,12 @@ local function Out_Value(num)
 
     money= money*10000
 
-    local amount = Get_CanOut_Money()--可提取数量
+    local amount = Get_CanOut_Money()
     if not amount then
         return
     end
 
-    if money>0 then--等于0时，提取最大值
+    if money>0 then
         amount = min(amount, money)
     end
 
@@ -43,7 +43,6 @@ local function Out_Value(num)
     end
 end
 
---自动填充
 local function Out_Money(num)
     local money= Out_Value(num)
     if money then
@@ -168,7 +167,6 @@ local function Init_Menu(self, root)
 
 
 
---提取
     local autoSub=root:CreateButton(
         Out_Text(),
     function()
@@ -192,7 +190,6 @@ local function Init_Menu(self, root)
         Out_Tooltip(tooltip)
     end)
 
---自动提取
     local out= Save().autoOutMoney or 0
     sub=autoSub:CreateCheckbox(
         WoWTools_L['SELF_CAST_AUTO+WITHDRAW'],
@@ -205,7 +202,6 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.GuildBank.AutoWithdraw'])
 
 
---自定义数量
     autoSub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(autoSub, {
         getValue=function()
@@ -244,7 +240,6 @@ local function Init_Menu(self, root)
 
 
 
---全部提取
     sub=root:CreateButton(
         WoWTools_ColorMixin:SetStringColor(WoWTools_L['ALL+DEPOSIT']),
     function()
@@ -255,7 +250,6 @@ local function Init_Menu(self, root)
         Out_Tooltip(tooltip, 0)
     end)
 
---填充 100, 500, 1000, 5000, 10000
     for _, num in pairs({100000, 50000, 10000,5000, 1000, 500, 100}) do
         sub2= sub:CreateButton(
             WoWTools_DataMixin:MK(num, 0)
@@ -422,7 +416,6 @@ local function Init()
     end
 
 
---菜单
     btn:SetupMenu(Init_Menu)
 
 

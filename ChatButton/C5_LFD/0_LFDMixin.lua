@@ -3,7 +3,6 @@ WoWTools_LFDMixin={}
 
 
 
---离开所有队列
 function WoWTools_LFDMixin:Leave_All_LFG(isCheck)
     local isInGroup= IsInGroup()
     local isLeavel= not isCheck and (isInGroup and UnitIsGroupLeader("player") or not isInGroup)
@@ -33,7 +32,7 @@ function WoWTools_LFDMixin:Leave_All_LFG(isCheck)
     end
 
     if isLeavel then
-        RejectProposal()--拒绝 LFG 邀请并离开队列
+        RejectProposal()
     end
 
     for i=1, MAX_WORLD_PVP_QUEUES or 2 do --World PvP
@@ -46,7 +45,6 @@ function WoWTools_LFDMixin:Leave_All_LFG(isCheck)
         end
     end
 
---自己，创建
     if C_LFGList.HasActiveEntryInfo() then
         num= num+1
         if isLeavel then
@@ -55,7 +53,6 @@ function WoWTools_LFDMixin:Leave_All_LFG(isCheck)
         end
     end
 
-    --申请，列表
     local apps= C_LFGList.GetApplications() or {}
     if isLeavel then
         for _, resultID in pairs(apps) do
@@ -74,7 +71,6 @@ end
 
 
 
---副本，完成次数
 function WoWTools_LFDMixin:Get_Instance_Num(name)
     name= name or GetInstanceInfo()
     local num = WoWToolsPlusSave['ChatButton_LFD'].wow[name] or 0
@@ -92,7 +88,6 @@ end
 
 
 
---设置图标, 点击,提示
 function WoWTools_LFDMixin:Set_LFDButton_Data(dungeonID, categoryType, name, texture, atlas)
     local btn= WoWTools_ChatMixin:GetButtonForName('LFD')
     if not btn then
@@ -119,7 +114,6 @@ end
 
 
 
---显示 LFGDungeonReadyDialog
 function WoWTools_LFDMixin:ShowMenu_LFGDungeonReadyDialog(root)
     if not GetLFGProposal() then
         return
@@ -153,7 +147,6 @@ end
 
 
 
---排队情况
 function WoWTools_LFDMixin:GetQueuedList(category, reTips, reRole)
     local list= GetLFGQueuedList(category)
     local  hasData, _, tank, healer, dps, _, _, _, _, _, _, _, _, _, _, _, queuedTime = GetLFGQueueStats(category)
@@ -210,7 +203,7 @@ end
 
 
 
-function WoWTools_LFDMixin:GetRewardInfo(dungeonID)--, scenarioID)--FB奖励
+function WoWTools_LFDMixin:GetRewardInfo(dungeonID)
     local t=''
     if not dungeonID then
         return t
@@ -220,7 +213,7 @@ function WoWTools_LFDMixin:GetRewardInfo(dungeonID)--, scenarioID)--FB奖励
     local _, moneyAmount, _, _, experienceVar, numRewards = GetLFGDungeonRewards(dungeonID)
 
     local rewardIndex, rewardType, rewardArg
-    if numRewards and numRewards>0 then--奖励物品
+    if numRewards and numRewards>0 then
         for i=1 , numRewards do
             local texturePath, _, isBonusReward= select(2, GetLFGDungeonRewardInfo(dungeonID, i))
             if texturePath and not isBonusReward then
@@ -234,7 +227,7 @@ function WoWTools_LFDMixin:GetRewardInfo(dungeonID)--, scenarioID)--FB奖励
 
 
     if not IsInGroup(LE_PARTY_CATEGORY_HOME) then
-        local T,H,D--额外奖励
+        local T,H,D
         local canTank, canHealer, canDamage = C_LFGList.GetAvailableRoles()
         local eligible, forTank, forHealer, forDamage, itemCount
         for shortageIndex= 1, LFG_ROLE_NUM_SHORTAGE_TYPES do
@@ -267,7 +260,7 @@ function WoWTools_LFDMixin:GetRewardInfo(dungeonID)--, scenarioID)--FB奖励
         end
     end
 
-    if moneyAmount and moneyAmount>0 then--钱
+    if moneyAmount and moneyAmount>0 then
         t=t..'|A:Coin-Gold:0:0|a'
     end
 

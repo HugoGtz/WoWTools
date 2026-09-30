@@ -26,7 +26,7 @@ function WoWTools_LabelMixin:Create(frame, tab)
     if copyFont and copyFont.GetFont then
         local fontName2, size2, fontFlag2 = copyFont:GetFont()
         if WoWTools_DataMixin.onlyChinese and not LOCALE_zhCN then
-            fontName2= 'Fonts\\ARHei.ttf'--'Interface\\AddOns\\WoWToolsPlus\\Source\\ARHei.TTF'--黑体字
+            fontName2= 'Fonts\\ARHei.ttf'
         end
         font:SetFont(fontName2, size or size2, fontFlag2)
         font:SetTextColor(copyFont:GetTextColor())
@@ -40,7 +40,7 @@ function WoWTools_LabelMixin:Create(frame, tab)
         if WoWTools_DataMixin.onlyChinese or size then--THICKOUTLINE
             local fontName2, size2, fontFlag2= font:GetFont()
             if WoWTools_DataMixin.onlyChinese and not LOCALE_zhCN then
-                fontName2= 'Fonts\\ARHei.ttf'--'Interface\\AddOns\\WoWToolsPlus\\Source\\ARHei.TTF'--黑体字
+                fontName2= 'Fonts\\ARHei.ttf'
             end
             font:SetFont(fontName2, size or size2, notFlag and fontFlag2 or 'OUTLINE')
         end
@@ -51,7 +51,7 @@ function WoWTools_LabelMixin:Create(frame, tab)
         --font:SetShadowOffset(1, -1)
     --end
     if color~=false then
-        if color==true then--颜色
+        if color==true then
             WoWTools_ColorMixin:SetLabelColor(font)
 
         elseif type(color)=='table' then
@@ -104,7 +104,7 @@ local function Create_Tooltip_Label(frame, index, point, line, size)
 end
 
 
-function WoWTools_LabelMixin:ItemCurrencyTips(settings)--物品升级界面，挑战界面，物品，货币提示
+function WoWTools_LabelMixin:ItemCurrencyTips(settings)
     settings= settings or {}
     local frame= settings.frame
     local isClear= settings.frame and settings.isClear

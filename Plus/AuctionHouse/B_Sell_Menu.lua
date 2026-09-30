@@ -1,4 +1,3 @@
---拍卖行
 
 
 local function Save()
@@ -35,7 +34,6 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end)
 
---隐藏物品列表，隐藏按钮
     sub2=sub:CreateCheckbox(
         WoWTools_L.HIDE,
     function()
@@ -46,7 +44,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.AuctionHouse.HideMarked'])
 
---全部清除
     name= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.CLEAR_ALL)
     sub2=sub:CreateButton(
         name,
@@ -69,7 +66,6 @@ local function Init_Menu(self, root)
 
     sub:CreateDivider()
     local find=false
---隐藏，物品，列表
     for itemID in pairs(Save().hideSellItem) do
         sub2= sub:CreateCheckbox(
             WoWTools_ItemMixin:GetName(itemID, nil),
@@ -84,11 +80,10 @@ local function Init_Menu(self, root)
     end
 
 
---隐藏，宠物，列表
     if find then
         sub:CreateDivider()
     end
-    for speciesID, itemLink in pairs(Save().hideSellPet) do--speciesID是字符
+    for speciesID, itemLink in pairs(Save().hideSellPet) do
         local speciesName, speciesIcon, _, companionID = C_PetJournal.GetPetInfoBySpeciesID(speciesID)
         if speciesName then
             sub2= sub:CreateCheckbox(
@@ -112,7 +107,6 @@ local function Init_Menu(self, root)
     end
     WoWTools_MenuMixin:SetScrollMode(sub)
 
---物品品质
     sub= root:CreateButton(
         WoWTools_ItemMixin:GetColor(Save().sellItemQualiy, {text=WoWTools_Join(WoWTools_L.PROFESSIONS_COLUMN_HEADER_QUALITY,
             WoWTools_ItemMixin.QualityText[Save().sellItemQualiy] or Save().sellItemQualiy
@@ -125,7 +119,6 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWTools_L.MINIMUM)
         tooltip:AddLine(WoWTools_L.COLORBLIND_ITEM_QUALITY)
     end)
---物品品质 0, 8
     for quality= Enum.ItemQuality.Poor ,  Enum.ItemQuality.WoWToken do
         sub2=sub:CreateCheckbox(
             WoWTools_ItemMixin.QualityText[quality] or quality,
@@ -141,7 +134,6 @@ local function Init_Menu(self, root)
         end)
     end
 
---转到出售
     sub=root:CreateCheckbox(
         WoWTools_L['NPE_TURN+AUCTION_HOUSE_SELL_TAB'],
     function()
@@ -154,11 +146,9 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWTools_L['SHOW+BUTTON_LAG_AUCTIONHOUSE'])
     end)
 
---打开，选项
     root:CreateDivider()
     sub=WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_AuctionHouseMixin.addName})
 
---行数
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
@@ -174,7 +164,6 @@ local function Init_Menu(self, root)
     })
     sub:CreateSpacer()
 
---缩放
     WoWTools_MenuMixin:Scale(self, sub, function()
         return Save().scaleSellButton or 1
     end, function(value)

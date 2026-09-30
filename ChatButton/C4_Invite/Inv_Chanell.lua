@@ -52,14 +52,13 @@ local function Init()
             local text= arg1 and string.upper(arg1)
             if Save().Channel and text and text:find(Save().ChannelText) then
                 local co= GetNumGroupMembers()
-                --toRaidOrParty(co)--自动, 转团
                 if co<5 or (IsInRaid() and co<40) then
                     local guid= select(11, ...)
                     local name= ...
                     if guid and name and name~=WoWTools_DataMixin.Player.Name_Realm then
                         C_PartyInfo.InviteUnit(name)
 
-                        WoWTools_InviteMixin.InvPlateGuid[guid]=name--保存到已邀请列表
+                        WoWTools_InviteMixin.InvPlateGuid[guid]=name
 
                         WoWTools_Print(
                             WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,

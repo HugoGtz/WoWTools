@@ -4,7 +4,6 @@ local function Save()
 end
 
 
---添一个,全学,专业, 按钮, 插件 TrainAll 
 local function Init()
     ClassTrainerFrame.BuyAll= WoWTools_ButtonMixin:Cbtn(ClassTrainerFrame, {isUI=true, size={ClassTrainerTrainButton:GetSize()}})
     ClassTrainerFrame.BuyAll:SetPoint('RIGHT', ClassTrainerTrainButton, 'LEFT',-2,0)
@@ -140,7 +139,6 @@ local function Init()
     end)
 
 
-    --增加物品，品质，颜色
     WoWTools_DataMixin:Hook('ClassTrainerFrame_InitServiceButton', function(skillButton, elementData)
         local itemLink= GetTrainerServiceItemLink(elementData.skillIndex)
         local color= WoWTools_ItemMixin:GetColor(nil, {itemLink=itemLink})

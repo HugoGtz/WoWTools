@@ -15,19 +15,18 @@ local P_Save={
     duration=0.3,--0.1 4
     rotate=32,-- 0 32
     atlasIndex=1,
-    rate=0.03,--刷新
-    X=40,--移位
+    rate=0.03,
+    X=40,
     Y=-30,
-    alpha=1,--透明
-    maxParticles= 50,--数量
-    minDistance=3,--距离
-    randomTexture=true,--随机, 图片
-    --randomTextureInCombat=true,--战斗中，也随机，图片
+    alpha=1,
+    maxParticles= 50,
+    minDistance=3,
+    randomTexture=true,
     Atlas={
-        'bonusobjectives-bar-starburst',--星星
-        'Adventures-Buff-Heal-Burst',--雪
-        'OBJFX_StarBurst',--太阳
-        'worldquest-questmarker-glow',--空心圆
+        'bonusobjectives-bar-starburst',
+        'Adventures-Buff-Heal-Burst',
+        'OBJFX_StarBurst',
+        'worldquest-questmarker-glow',
         'Relic-Frost-TraitGlow',
         'Relic-Holy-TraitGlow',
         'Relic-Life-TraitGlow',

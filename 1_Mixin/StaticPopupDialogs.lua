@@ -2,7 +2,7 @@
 
 
 
-local function Get_UIMapIDs_Name(text)--从text取得uiMapID表
+local function Get_UIMapIDs_Name(text)
     local tab, reText={}, nil
     text:gsub('%d+', function(self)
         local uiMapID= tonumber(self)
@@ -22,7 +22,6 @@ end
 local function Init()
     --No se modifica StaticPopupDialogs['GAME_SETTINGS_APPLY_DEFAULTS'] (acceptDelay): escribir en tablas de Blizzard contamina el diálogo
 
---重置, 数据
 StaticPopupDialogs['WoWTools_RestData']= {
     text=WoWTools_DataMixin.addName
         ..'|n|n%s|n|n|cnWARNING_FONT_COLOR:'
@@ -139,7 +138,7 @@ StaticPopupDialogs['WoWTools_Item'] = {
 
 
 
-StaticPopupDialogs['WoWTools_GetMapID'] = {--区域,设置对话框
+StaticPopupDialogs['WoWTools_GetMapID'] = {
         text=WoWTools_DataMixin.addName..' '..(WoWTools_L.FLOOR)..'|n|n%s',
         button1=WoWTools_L.FLOOR,
         button2=WoWTools_L.CANCEL,

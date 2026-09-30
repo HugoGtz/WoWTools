@@ -1,4 +1,3 @@
---天赋
 
 
 local function Init()
@@ -64,7 +63,7 @@ local function Init()
             return
         end
         local a, b
-        local index= GetSpecialization()--当前专精
+        local index= GetSpecialization()
         local specID
         if index then
             local ID, _, _, icon, role = C_SpecializationInfo.GetSpecializationInfo(index)
@@ -119,7 +118,7 @@ local function Init()
         if KeybindFrames_InQuickKeybindMode() or InCombatLockdown() or Kiosk.IsEnabled() then
             return
         end
-        if d==1 then--上
+        if d==1 then
             if not ClickBindingFrame or not ClickBindingFrame:IsShown() then
                 ToggleClickBindingFrame()
             end
@@ -132,6 +131,6 @@ local function Init()
 end
 
 
-function WoWTools_MainMenuMixin:Init_Talent()--天赋
+function WoWTools_MainMenuMixin:Init_Talent()
     Init()
 end

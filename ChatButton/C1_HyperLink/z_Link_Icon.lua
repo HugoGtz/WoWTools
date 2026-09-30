@@ -22,9 +22,9 @@ local function FormatToPattern(fmt)
     return pat
 end
 
-local LOOT_ITEM = LOCALE_zhCN and '(.-)获得了战利品' or FormatToPattern(LOOT_ITEM)
-local IsShowTimestamps--聊天中时间戳
-local Size=':0:0'--图标大小
+local LOOT_ITEM =FormatToPattern(LOOT_ITEM)
+local IsShowTimestamps
+local Size=':0:0'
 --DEFAULT_CHAT_FRAME.P_AddMessage= DEFAULT_CHAT_FRAME.AddMessage
 
 
@@ -35,24 +35,22 @@ end
 
 
 local ChannelIcon= {
-['大脚世界频道']= '|A:tokens-WoW-generic-small:0:0|a',
-[TRADE]='|A:Banker:0:0|a',-- "交易";
+[TRADE]='|A:Banker:0:0|a',
 
-[CHAT_MSG_GUILD]='|A:UI-Achievement-Shield-NoPoints:0:0|a',--公会
-[CHAT_MSG_MONSTER_YELL]='|A:BuildanAbomination-32x32:0:0|a',--"怪物大喊";
-[CHAT_MSG_PARTY] = '|A:questlog-questtypeicon-group:0:0|a',-- ,--"小队";
-[CHAT_MSG_PARTY_LEADER] = '|A:Ping_Marker_Icon_Assist:0:0|a',--"小队队长";
-[CHAT_MSG_RAID] = '|A:groupfinder-waitdot:0:0|a',--"团队";
-[CHAT_MSG_RAID_LEADER] = '|A:Ping_Map_Whole_Assist_Deprecated:0:0|a',--"团队领袖";
-[CHAT_MSG_RAID_WARNING] = '|A:Ping_Marker_Icon_Threat:0:0|a',-- "团队通知";
+[CHAT_MSG_GUILD]='|A:UI-Achievement-Shield-NoPoints:0:0|a',
+[CHAT_MSG_MONSTER_YELL]='|A:BuildanAbomination-32x32:0:0|a',
+[CHAT_MSG_PARTY] = '|A:questlog-questtypeicon-group:0:0|a',
+[CHAT_MSG_PARTY_LEADER] = '|A:Ping_Marker_Icon_Assist:0:0|a',
+[CHAT_MSG_RAID] = '|A:groupfinder-waitdot:0:0|a',
+[CHAT_MSG_RAID_LEADER] = '|A:Ping_Map_Whole_Assist_Deprecated:0:0|a',
+[CHAT_MSG_RAID_WARNING] = '|A:Ping_Marker_Icon_Threat:0:0|a',
 
-[INSTANCE_CHAT]='|A:Raid:0:0|a',--副本
-[INSTANCE_CHAT_LEADER] = '|A:Ping_Marker_Icon_Assist:0:0|a',--"副本向导"
+[INSTANCE_CHAT]='|A:Raid:0:0|a',
+[INSTANCE_CHAT_LEADER] = '|A:Ping_Marker_Icon_Assist:0:0|a',
 
 }
 
 
---关键词,频道名称替换
 local function SetChannels(link)
     local name=link:match('%[(.-)]')
     if not name or Save().disabledKeyColor then
@@ -60,15 +58,15 @@ local function SetChannels(link)
     end
 
     if Save().channels then
-        for k, v in pairs(Save().channels) do--自定义
+        for k, v in pairs(Save().channels) do
             if name:find(k) then
                 return link:gsub('%[.-]', v)
             end
         end
     end
 
-    name= name:match('%d+%. (.+)') or name:match('%d+．(.+)') or name--去数字
-    name= name:match('%- (.+)') or name:match('：(.+)') or name:match(':(.+)') or name
+    name= name:match('%d+%. (.+)') or name
+    name= name:match('%- (.+)') or name:match(':(.+)') or name
 
     local icon= ChannelIcon[name]
     if icon then
@@ -79,7 +77,7 @@ local function SetChannels(link)
     return link:gsub('%[.-]', '['..name..']')
 end
 
-local function Set_Realm(link)--去服务器为*, 加队友种族图标,和N,T
+local function Set_Realm(link)
     local name
     local split= LinkUtil.SplitLink(link)
     if split then
@@ -124,7 +122,6 @@ local function Pet(speciesID)
         end
     end
 end
---坐骑
 local function Mount(itemID, spellID)
     local mountID= (
         itemID and C_MountJournal.GetMountFromItem(itemID)
@@ -137,7 +134,6 @@ local function Mount(itemID, spellID)
 end
 
 
---宠物类型
 local function PetType(petType)
     local type=PET_TYPE_SUFFIX[petType]
     if type then
@@ -146,7 +142,6 @@ local function PetType(petType)
 end
 
 
---物品，超链接
 local function Item(link)
     local itemID, _, _, _, icon, classID, subclassID= C_Item.GetItemInfoInstant(link)
 
@@ -155,18 +150,18 @@ local function Item(link)
     end
 
     local t= WoWTools_HyperLink:CN_Link(link, {itemID=itemID, isName=true})
-    t= icon and '|T'..icon..Size..'|t'..t or t--加图标
+    t= icon and '|T'..icon..Size..'|t'..t or t
     if classID==2 or classID==4 then
-        local lv= WoWTools_ItemMixin:GetItemLevel(link)--装等
+        local lv= WoWTools_ItemMixin:GetItemLevel(link)
         if lv and lv>10 then
             t=t..'['..lv..']'
         end
-        local sourceID=select(2,C_TransmogCollection.GetItemInfo(link))--幻化
+        local sourceID=select(2,C_TransmogCollection.GetItemInfo(link))
         if sourceID then
             local sourceInfo = C_TransmogCollection.GetSourceInfo(sourceID)
             if sourceInfo then
                 if not sourceInfo.isCollected then
-                    local hasItemData, canCollect = C_TransmogCollection.PlayerCanCollectSource(sourceID)--玩家是否可收集
+                    local hasItemData, canCollect = C_TransmogCollection.PlayerCanCollectSource(sourceID)
                     t=t..(
                         hasItemData and canCollect and
                         '|T132288:0|t'
@@ -176,21 +171,20 @@ local function Item(link)
             end
         end
     elseif classID==15 and (subclassID==2 or subclassID==5) then
-        if  subclassID==2 then--宠物数量
+        if  subclassID==2 then
             local _, _, petType, _, _, _, _, _, _, _, _, _, speciesID=C_PetJournal.GetPetInfoByItemID(itemID)
             t=(PetType(petType) or '')
                 ..t
                 ..(Pet(speciesID) or '')
 
-        elseif subclassID==5 then--坐骑是不收集            
+        elseif subclassID==5 then
             t= t..(Mount(itemID, nil) or '')
         end
 
-    elseif C_ToyBox.GetToyInfo(itemID) then--玩具
+    elseif C_ToyBox.GetToyInfo(itemID) then
         t= t..Get_CompletedIcon(PlayerHasToy(itemID))
     end
 
---物品数量
     local count= not Save().notShowItemCount and WoWTools_ItemMixin:GetCount(itemID, {notZero=true})
     if count then
         t=t..count
@@ -202,7 +196,6 @@ local function Item(link)
 end
 
 
---法术图标
 local function Spell(link)
     local spellID
     spellID= (C_Spell.GetSpellInfo(link) or {}).spellID
@@ -230,7 +223,7 @@ local function Spell(link)
     end
 end
 
-local function PetLink(link)--宠物超链接
+local function PetLink(link)
     local speciesID =link:match('Hbattlepet:(%d+)')
     if not speciesID  then
         return
@@ -245,7 +238,7 @@ end
 
 --battlePetAbil : abilityID : maxHealth : power : speed
 --|HbattlePetAbil:493:1465:264:301|h[Zoccolata]|h
-local function PetAblil(link, petChannel)--宠物技能
+local function PetAblil(link, petChannel)
     local abilityID=link:match('HbattlePetAbil:(%d+)')
     if not abilityID then
         return
@@ -266,7 +259,7 @@ local function PetAblil(link, petChannel)--宠物技能
     end
 end
 
-local function Trade(link)--贸易技能
+local function Trade(link)
     local id2=link:match('Htrade:.-:(%d+):')
     if not id2 then
         return
@@ -278,7 +271,7 @@ local function Trade(link)--贸易技能
         ..WoWTools_HyperLink:CN_Link(link)
 end
 
-local function Enchant(link)--附魔
+local function Enchant(link)
     local id2=link:match('Henchant:(%d+)')
     if not id2 then
         return
@@ -288,7 +281,7 @@ local function Enchant(link)--附魔
         ..WoWTools_HyperLink:CN_Link(link)
 end
 
-local function Currency(link)--货币 "|cffffffff|Hcurrency:1744|h[Corrupted Memento]|h|r"
+local function Currency(link)
     local info, num, _, _, isMax, canWeek, canEarned, canQuantity= WoWTools_CurrencyMixin:GetInfo(nil, nil, link)
     if not info or not info.iconFileID then
         return
@@ -302,7 +295,7 @@ local function Currency(link)--货币 "|cffffffff|Hcurrency:1744|h[Corrupted Mem
         ..(WoWTools_CurrencyMixin:GetAccountIcon(info.currencyID) or '')
 end
 
-local function Achievement(link)--成就
+local function Achievement(link)
     local id2=link:match('Hachievement:(%d+)')
     if not id2 then
         return
@@ -313,17 +306,17 @@ local function Achievement(link)--成就
         ..Get_CompletedIcon(completed)
 end
 
-local function Quest(link)--任务
+local function Quest(link)
     local id2=link:match('Hquest:(%d+)')
     if not id2 then
         return
     end
-    return (C_QuestLog.IsAccountQuest(id2) and WoWTools_DataMixin.Icon.wow2 or '')--帐号通用
+    return (C_QuestLog.IsAccountQuest(id2) and WoWTools_DataMixin.Icon.wow2 or '')
         ..WoWTools_HyperLink:CN_Link(link)
         ..Get_CompletedIcon(C_QuestLog.IsQuestFlaggedCompleted(id2))
 end
 
-local function Talent(link)--天赋
+local function Talent(link)
     local id2=link:match('Htalent:(%d+)')
     if not id2 then
         return
@@ -334,7 +327,7 @@ local function Talent(link)--天赋
         ..Get_CompletedIcon(known)
 end
 
-local function Pvptal(link)--pvp天赋
+local function Pvptal(link)
     local id2=link:match('Hpvptal:(%d+)')
     if not id2 then
         return
@@ -346,7 +339,6 @@ local function Pvptal(link)--pvp天赋
 end
 
 
---外观方案链接
 local function Outfit(link)
     local list = C_TransmogCollection.GetItemTransmogInfoListFromOutfitHyperlink(link)
     if not list then
@@ -388,7 +380,6 @@ local function Outfit(link)
     end
 end
 
---幻化
 local function Transmogillusion(link)
     local illusionID=link:match('Htransmogillusion:(%d+)')
     local info= illusionID and C_TransmogCollection.GetIllusionInfo(illusionID)
@@ -402,7 +393,6 @@ local function Transmogillusion(link)
         )
 end
 
---幻化
 local function TransmogAppearance(link)
     local appearanceID=link:match('Htransmogappearance:(%d+)')
     if appearanceID then
@@ -412,7 +402,6 @@ local function TransmogAppearance(link)
 end
 
 
---钥石
 local function Keystone(link)
     local itemID, _, _, affix1, affix2, affix3, affix4= link:match('Hkeystone:(%d+):(%d+):(%d+):(%d+):(%d+):(%d+):(%d+)')
     return
@@ -422,7 +411,6 @@ local function Keystone(link)
 end
 
 
---史诗钥石评分
 local function DungeonScore(link)
     local score, guid, itemLv=link:match('|HdungeonScore:(%d+):(.-):.-:%d+:(%d+):')
     local t=WoWTools_UnitMixin:GetPlayerInfo(nil, guid, nil)
@@ -434,7 +422,7 @@ local function DungeonScore(link)
     return t
 end
 
-local function Journal(link)--冒险指南 |Hjournal:0:1031:14|h[Uldir]|h 0=Instance, 1=Encounter, 2=Section
+local function Journal(link)
     local journalType, journalID, journalName=link:match('Hjournal:(%d+):(%d+):.-%[(.-)]')
     local type= journalID and journalType and tonumber(journalType)
     if  type then
@@ -478,7 +466,6 @@ local function Instancelock(link)
     end
 end
 
---旅行者日志
 --"|cffffff00|Hperksactivity:6|h[Completa 5 spedizioni Mitiche+]|h|r"
 local function Perksactivity(link)
     local perksActivityID, name
@@ -489,13 +476,11 @@ local function Perksactivity(link)
     end
 
     local t=link
---汉化
     local cnName= WoWTools_TextMixin:CN(name)
     if cnName and name~=cnName then
         t= t:gsub('|h%[(.+)]|h', '|h['..cnName..']|h')
     end
 
---是否完成
     local info= C_PerksActivities.GetPerksActivityInfo(perksActivityID)
     if info then
         t= t..Get_CompletedIcon(info.completed)
@@ -506,7 +491,7 @@ local function Perksactivity(link)
     end
 end
 
-local function TransmogSet(link)--幻化套装
+local function TransmogSet(link)
     local t= WoWTools_HyperLink:CN_Link(link)
     local setID=link:match('transmogset:(%d+)')
     local info= setID and C_TransmogSets.GetSetPrimaryAppearances(setID)
@@ -532,7 +517,7 @@ local function TransmogSet(link)--幻化套装
     end
 end
 
-local function setMount(link)--设置,坐骑
+local function setMount(link)
     local spellID= link:match('mount:(%d+)')
     local mount, icon= Mount(nil, spellID)
     if mount then
@@ -540,7 +525,6 @@ local function setMount(link)--设置,坐骑
     end
 end
 
---地图标记xy, 格式 60.10 70.50
 --|cffffff00|Hworldmap:84:7222:2550|h[|A:Waypoint-MapPin-ChatIcon:13:13:0:0|a Map Pin Location]|h|r
 local function Waypoint(text)
     local uiMapID= WoWTools_WorldMapMixin:GetMapID()
@@ -556,7 +540,6 @@ end
 
 
 
---社区查找器 |HclubFinder:ClubFinder-1-6991-3299-447003|h[Gilda: Test Guild]|h
 local function ClubFinder(link)
     local clubFinderGUID= link:match('|HclubFinder:(.-)|h%[')
     local clubInfo = clubFinderGUID and C_ClubFinder.GetRecruitingClubInfoFromFinderGUID(clubFinderGUID)
@@ -592,7 +575,7 @@ local function New_AddMessage(self, s, ...)
     s=s:gsub('|Htalent:.-]|h', Talent)
     s=s:gsub('|Hpvptal:.-]|h', Pvptal)
 
-    s=s:gsub('|Houtfit:.-]|h', Outfit)----外观方案链接    
+    s=s:gsub('|Houtfit:.-]|h', Outfit)
     s=s:gsub('|Htransmogillusion:.-]|h', Transmogillusion)
     s=s:gsub('|Htransmogappearance:.-]|h', TransmogAppearance)
     s=s:gsub('|Htransmogset:.-]|h', TransmogSet)
@@ -609,14 +592,14 @@ local function New_AddMessage(self, s, ...)
     --s=s:gsub('|HclubTicket:.-]|h', ClubTicket)
 
     if not Save().notShowMapPin then
-        s=s:gsub('(%d+%.%d%d %d+%.%d%d)', Waypoint)--地图标记xy, 格式 60.00 70.50
+        s=s:gsub('(%d+%.%d%d %d+%.%d%d)', Waypoint)
     end
 
 
-    if not Save().notShowPlayerInfo then--不处理，玩家信息
+    if not Save().notShowPlayerInfo then
         s=s:gsub('|Hplayer:.-]|h', Set_Realm)
         if not IsShowTimestamps then
-            local unitName= s:match(LOOT_ITEM)--	%s获得了战利品：%s。
+            local unitName= s:match(LOOT_ITEM)
             if unitName and unitName~='' then
                 if unitName==UnitName('player') or unitName==YOU then
                     s=s:gsub(EscapePattern(unitName), '[|A:auctionhouse-icon-favorite:0:0|a'..WoWTools_ColorMixin:SetStringColor(WoWTools_L.COMBATLOG_FILTER_STRING_ME)..']')
@@ -630,9 +613,8 @@ local function New_AddMessage(self, s, ...)
         end
     end
 
---关键词, 内容颜色，和频道名称替换
     if not Save().disabledKeyColor then
-        for k in pairs(WoWToolsPlusPlayerDate['HyperLinkColorText']) do--内容加颜色
+        for k in pairs(WoWToolsPlusPlayerDate['HyperLinkColorText']) do
             if type(k)=='string' and k~='' then
                 --palabra literal: con ( [ % - . daba "malformed pattern" y el chat dejaba de mostrarse
                 s=s:gsub(EscapePattern(k), function(m) return '|cnGREEN_FONT_COLOR:'..m..'|r' end)
@@ -683,7 +665,6 @@ end
 
 
 local function Init()
---是否有，聊天中时间戳
     IsShowTimestamps= C_CVar.GetCVar('showTimestamps')~='none'
 
     EventRegistry:RegisterFrameEventAndCallback("CVAR_UPDATE", function(_, arg1, arg2, ...)
@@ -702,7 +683,6 @@ local function Init()
         end
     end)
 
---CVar 名称
     WoWTools_DataMixin:Hook('ChatConfigFrame_OnChatDisabledChanged', function()
         Set_HyperLlinkIcon()
     end)
@@ -715,7 +695,6 @@ local function Init()
 end
 
 
---超链接，图标
 function WoWTools_HyperLink:Init_Link_Icon()
     self:Link_Icon_Settings()
     Init()

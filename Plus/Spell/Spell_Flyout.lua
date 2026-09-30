@@ -1,4 +1,3 @@
---Flyout, 技能，提示
 --'|A:common-icon-backarrow:0:0|a'..(WoWTools_L['Spell flyout'])
 
 local SpellTab={}--WoWTools_DataMixin.ChallengesSpellTabs
@@ -60,9 +59,6 @@ local function GetSpellText(spellID)
     des= WoWTools_TextMixin:CN(des)
     if des then
         text= des:match('|cff00ccff(.-)|r')
-            or des:match('传送至(.-)入口处')--传送至永茂林地入口处。
-            or des:match('传送到(.-)的入口')--传送到自由镇的入口
-            or des:match('将施法者传送到(.-)入口')--将施法者传送到青龙寺入口。
 
             or des:match('Teleportiert zum Eingang des (.-)%.')--Teleportiert zum Eingang des Immergrünen Flors.
             or des:match('Teleport to the entrance to (.-)%.')--Teleport to the entrance to The Everbloom.
@@ -87,7 +83,7 @@ local function GetSpellText(spellID)
             text= WoWTools_TextMixin:CN(text)
         end
         text=text:match('%-(.+)') or text
-        text=text:match('：(.+)') or text
+        text=text
         text=text:match(':(.+)') or text
         text=text:gsub(' %d','')
         text=text:gsub(SUMMONS,'')
@@ -107,7 +103,6 @@ end
 local function Init()
 
 
---Flyout, 技能，提示
     WoWTools_DataMixin:Hook(SpellFlyoutPopupButtonMixin, 'UpdateGlyphState', function(self)
         if not self.spellID then
             Set_Text(self, nil)
@@ -144,7 +139,7 @@ local function Init()
             end
 
             if not hunterPetText and not isLeftPoint then
-                text= WoWTools_TextMixin:Vstr(text)--垂直文字
+                text= WoWTools_TextMixin:Vstr(text)
             end
 
         elseif self.spellText then
@@ -155,7 +150,7 @@ local function Init()
         Set_Text(self, text)
     end)
 
-    WoWTools_DataMixin:Hook(SpellFlyout, 'Toggle',  GameTooltip_Hide)--隐藏
+    WoWTools_DataMixin:Hook(SpellFlyout, 'Toggle',  GameTooltip_Hide)
 
     Init=function()end
 end

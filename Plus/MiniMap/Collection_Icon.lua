@@ -30,7 +30,6 @@ local function Get_All_Objects()
 end
 
 
---锁定按钮
 local function Lock_Button(btn, name)--lib:Lock(name)
     btn= btn or Get_Button(name)
     if not btn or btn.WoWToolsIsLocked then
@@ -38,15 +37,12 @@ local function Lock_Button(btn, name)--lib:Lock(name)
     end
     btn.WoWToolsIsLocked=true
 
---清除，lib 按钮
     Objects[name]= btn
     libDBIcon.objects[name]=nil
 
---启用 FrameStrata
     btn:SetFixedFrameStrata(false)
     btn:SetParent(Button.frame)
 
---清除，事件
     if btn:GetScript('OnDragStart') then
         btn:SetScript("OnDragStart", nil)
         btn:SetScript("OnDragStop", nil)
@@ -55,7 +51,6 @@ end
 
 
 
---还原按钮
 local function Unlock_Button(btn, name)
     btn= btn or Get_Button(name)
     if not btn or not btn.WoWToolsIsLocked then
@@ -64,26 +59,21 @@ local function Unlock_Button(btn, name)
     btn.WoWToolsIsLocked=nil
     local db= btn.db
 
---还原，数据
     btn:ClearAllPoints()
     btn:SetFrameStrata('MEDIUM')
     btn:SetFixedFrameStrata(true)
     btn:SetParent(Minimap)
 
---还原按钮
     libDBIcon.objects[name]= btn
     Objects[name]=nil
 
---设置 OnDragStart
     if not db or not db.lock then
         libDBIcon:Unlock(name)
     end
 
---更新位置
     btn:ClearAllPoints()
     libDBIcon:SetButtonToPosition(btn, db and db.minimapPos or nil)
 
---还原，显示/隐藏
     if not db or not db.hide then
         libDBIcon:Show(name)
     else
@@ -199,7 +189,6 @@ local function Init_Buttons()
         end
     end
 
---排序
     table.sort(tab, function(a, b)
         if isSortUp then
             return a.name>b.name
@@ -208,7 +197,6 @@ local function Init_Buttons()
         end
     end)
 
---设置，位置
     local btn
     local num= #tab
 
@@ -236,7 +224,6 @@ local function Init_Buttons()
 end
 
 
---设置，按钮，材质
 local function Set_Button_Texture(btn, name)
     btn= btn or Get_Button(name)
 
@@ -250,10 +237,10 @@ local function Set_Button_Texture(btn, name)
 
     if not Save().Icons.disabled then
         if libDBIcon.objects[name] then
-            borderAlpha= Save().Icons.borderAlpha2--Minimap上
+            borderAlpha= Save().Icons.borderAlpha2
             bgAlpha= Save().Icons.bgAlpha2
         else
-            borderAlpha= Save().Icons.borderAlpha--收集图标
+            borderAlpha= Save().Icons.borderAlpha
             bgAlpha= Save().Icons.bgAlpha
         end
     elseif not Save().disabled then
@@ -307,14 +294,11 @@ local function Init_AllButton_Texture()
 end
 
 
---过滤，列表
 local function Init_noAdd_Menu(self, root)
     local sub
 
---过滤
     sub= root:CreateButton(WoWTools_L.AUCTION_HOUSE_SEARCH_BAR_FILTERS_LABEL, function() return MenuResponse.Open end)
 
---勾选所有    
     sub:CreateButton(
         WoWTools_L.CHECK_ALL,
     function()
@@ -326,7 +310,6 @@ local function Init_noAdd_Menu(self, root)
         Init_Buttons()
         return MenuResponse.Refresh
     end)
---撤选所有
     sub:CreateButton(
         WoWTools_L.UNCHECK_ALL,
     function()
@@ -340,7 +323,6 @@ local function Init_noAdd_Menu(self, root)
     sub:CreateSpacer()
 
 
---过滤 Border 透明度
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
@@ -357,7 +339,6 @@ local function Init_noAdd_Menu(self, root)
     })
     sub:CreateSpacer()
 
---过滤 Bg Alpha
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
@@ -375,7 +356,6 @@ local function Init_noAdd_Menu(self, root)
     sub:CreateSpacer()
 
 
---过滤列表
     root:CreateDivider()
     local index=0
     for name, btn in pairs(Get_All_Objects()) do
@@ -400,14 +380,12 @@ local function Init_noAdd_Menu(self, root)
 end
 
 
---隐藏，列表
 local function Init_hideAdd_Menu(self, root)
     local sub
     local index= 0
 
     sub= root:CreateButton(WoWTools_L.HIDE, function() return MenuResponse.Open end)
 
---勾选所有    
     sub:CreateButton(
         WoWTools_L.CHECK_ALL,
     function()
@@ -420,7 +398,6 @@ local function Init_hideAdd_Menu(self, root)
         return MenuResponse.Refresh
     end)
 
---撤选所有
     sub:CreateButton(
         WoWTools_L.UNCHECK_ALL,
     function()
@@ -432,7 +409,6 @@ local function Init_hideAdd_Menu(self, root)
         return MenuResponse.Refresh
     end)
 
---隐藏列表
     root:CreateDivider()
     for name, btn in pairs(Get_All_Objects()) do
         index= index+1
@@ -456,7 +432,6 @@ local function Init_hideAdd_Menu(self, root)
 end
 
 
---自定义，添加，列表
 local function Init_UserAdd_Menu(_, root)
     local sub, sub2
     local num= 0
@@ -527,7 +502,6 @@ local function Init_UserAdd_Menu(_, root)
     end)
 
     sub:CreateDivider()
---勾选所有    
     sub:CreateButton(
         WoWTools_L.CHECK_ALL,
     function()
@@ -537,7 +511,6 @@ local function Init_UserAdd_Menu(_, root)
         Init_Buttons()
         return MenuResponse.Refresh
     end)
---撤选所有
     sub:CreateButton(
         WoWTools_L.UNCHECK_ALL,
     function()
@@ -549,7 +522,6 @@ local function Init_UserAdd_Menu(_, root)
         return MenuResponse.Refresh
     end)
 
---全部清除
     sub:CreateDivider()
     sub:CreateButton(
         WoWTools_L.CLEAR_ALL,
@@ -568,7 +540,6 @@ local function Init_UserAdd_Menu(_, root)
     end)
 
 
---列表
     root:CreateDivider()
     num=1
     for name, value in pairs(Save().Icons.userAdd) do
@@ -621,7 +592,6 @@ end
 local function Init_Menu(self, root)
     local sub, sub2, num
 
---显示/隐藏
     sub=root:CreateCheckbox(
         WoWTools_L.SHOW,
     function()
@@ -636,7 +606,6 @@ local function Init_Menu(self, root)
 
 
     --sub:CreateDivider()
---显示
     sub:CreateTitle(WoWTools_L.SHOW)
     local tipSub= sub:CreateCheckbox('|A:newplayertutorial-drag-cursor:0:0|a'..(WoWTools_L['ENTER_LFG+EMBLEM_SYMBOL']), function()
         return Save().Icons.isEnterShow
@@ -645,9 +614,7 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.MiniMap.CollectEnterShow'])
 
---隐藏
     sub:CreateTitle(WoWTools_L.HIDE)
---进入战斗，隐藏
     local tipSub= sub:CreateCheckbox(
         '|A:Warfronts-BaseMapIcons-Horde-Barracks-Minimap:0:0|a'
         ..(WoWTools_L.ENTERING_COMBAT),
@@ -659,7 +626,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.MiniMap.CollectHideCombat'])
 
---移动时，隐藏
     local tipSub= sub:CreateCheckbox(
         '|A:transmog-gearSlot-unassigned-feet:0:0|a'
         ..(WoWTools_L.NPE_MOVE),
@@ -674,7 +640,6 @@ local function Init_Menu(self, root)
 
 
 
---Border 透明度
 
     sub:CreateSpacer()
     sub:CreateSpacer()
@@ -710,7 +675,6 @@ local function Init_Menu(self, root)
     })
     sub:CreateSpacer()
 
---按钮，间隔
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
@@ -726,7 +690,6 @@ local function Init_Menu(self, root)
     })
     sub:CreateSpacer()
 
---数量
     sub:CreateSpacer()
     num= CountTable(Get_All_Objects() or {})
     WoWTools_MenuMixin:CreateSlider(sub, {
@@ -743,7 +706,6 @@ local function Init_Menu(self, root)
     })
     sub:CreateSpacer()
 
---升序
     sub2= sub:CreateCheckbox(
         WoWTools_L.PERKS_PROGRAM_ASCENDING,
     function()
@@ -759,7 +721,6 @@ local function Init_Menu(self, root)
 
 
 
---刷新
     local tipSub= root:CreateButton(
         WoWTools_L.REFRESH,
     function()
@@ -775,7 +736,6 @@ local function Init_Menu(self, root)
 
 
     root:CreateDivider()
---过滤
     num=0
     for name in pairs(Save().Icons.noAdd) do
         if Get_Button(name) then
@@ -791,7 +751,6 @@ local function Init_Menu(self, root)
     Init_noAdd_Menu(self, sub)
 
 
---隐藏
     num=0
     for name in pairs(Save().Icons.hideAdd) do
         if Get_Button(name) then
@@ -807,7 +766,6 @@ local function Init_Menu(self, root)
     Init_hideAdd_Menu(self, sub)
 
 
---自定义，添加，列表
     num= 0
     for name, value in pairs(Save().Icons.userAdd) do
         if value and _G[name] and _G[name].GetFrameStrata then
@@ -824,14 +782,12 @@ local function Init_Menu(self, root)
 
 
     root:CreateDivider()
---打开，选项
     sub=WoWTools_MenuMixin:OpenOptions(root, {
         name=WoWTools_MinimapMixin.addName,
         name2=WoWTools_DataMixin.Icon.icon2..(WoWTools_L['WEEKLY_REWARDS_GET_CONCESSION+EMBLEM_SYMBOL'])
     })
 
 
---显示背景
     sub2= WoWTools_MenuMixin:BgAplha(sub,
     function()
         return Save().Icons.alphaBG or 0.5
@@ -842,7 +798,6 @@ local function Init_Menu(self, root)
 
 
 
---缩放
     WoWTools_MenuMixin:Scale(self, sub, function()
         return Save().Icons.scale or 1
     end, function(value)
@@ -859,7 +814,6 @@ local function Init_Menu(self, root)
     end)
 
     sub:CreateDivider()
---重置位置
     WoWTools_MenuMixin:RestPoint(self, sub, Save().Icons.point, function()
         Save().Icons.point=nil
         self:set_point()
@@ -905,7 +859,6 @@ local function Init()
     Button.frame= CreateFrame('Frame', nil, Button)
     Button.frame:SetAllPoints()
 
---显示背景 Background
     WoWTools_TextureMixin:CreateBG(Button)--, {frame=Button.frame})
     Button.Background:SetPoint('BOTTOMRIGHT', Button)
 
@@ -927,8 +880,8 @@ local function Init()
         end
     end)
 
-    Button:SetScript("OnMouseUp", ResetCursor)--停止移动
-    Button:SetScript("OnMouseDown", function(self, d)--设置, 光标
+    Button:SetScript("OnMouseUp", ResetCursor)
+    Button:SetScript("OnMouseDown", function(self, d)
         if d=='RightButton' and IsAltKeyDown() then
             SetCursor('UI_MOVE_CURSOR')
         elseif d=='RightButton' then
@@ -987,11 +940,9 @@ local function Init()
 
     function Button:set_event()
         self:UnregisterAllEvents()
---战斗
         if Save().Icons.hideInCombat then
             self:RegisterEvent('PLAYER_REGEN_DISABLED')
         end
---移动
         if Save().Icons.hideInMove then
             self:RegisterEvent("PLAYER_STARTED_MOVING")
         end
@@ -1015,7 +966,7 @@ local function Init()
 
             1,1,1,1,1,1
         )
-        GameTooltip:AddDoubleLine(--显示/隐藏
+        GameTooltip:AddDoubleLine(
             (WoWTools_FrameMixin:IsLocked(self) and '|cff626262' or '')
             ..WoWTools_TextMixin:GetShowHide(nil, true),
             'Alt+'..WoWTools_DataMixin.Icon.mid,
@@ -1122,7 +1073,6 @@ local function Init()
 end
 
 
---小地图
 
 
 

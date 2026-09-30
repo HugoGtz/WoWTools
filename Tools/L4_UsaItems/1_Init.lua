@@ -2,55 +2,52 @@ WoWTools_UseItemsMixin={}
 
 local P_Tabs={
     item={
-        --156833,--[凯蒂的印哨]
-        194885,--[欧胡纳栖枝]收信
-        40768,--[移动邮箱]
-        114943,--[终极版侏儒军刀]
-        168667,--[布林顿7000]
+        194885,
+        40768,
+        114943,
+        168667,
 
-        49040,--[基维斯]
-        144341,--[可充电的里弗斯电池]
+        49040,
+        144341,
 
-        128353,--[海军上将的罗盘]
-        167075,--[超级安全传送器：麦卡贡]
-        168222,--[加密的黑市电台]
-        184504, 184501, 184503, 184502, 184500, 64457,--[侍神者的袖珍传送门：奥利波斯]
-        221966,--虫洞发生器：卡兹阿加
-        198156,--龙洞发生器-巨龙群岛
-        172924,--[虫洞发生器：暗影界]
-        168807,--[虫洞发生器：库尔提拉斯]
-        168808,--[虫洞发生器：赞达拉]
-        151652,--[虫洞发生器：阿古斯]
-        112059,--[虫洞离心机]
-        87215,--[虫洞发生器：潘达利亚]
-        48933,--[虫洞发生器：诺森德]
-        30542,--[空间撕裂器 - 52区]
-        151016,--[开裂的死亡之颅]
-        136849, 52251,--[自然道标]
-        139590,--[传送卷轴：拉文霍德]
-        87216,--[热流铁砧]
-        85500,--[垂钓翁钓鱼筏]
-        37863,--[烈酒的遥控器]
-        --141605,--[飞行管理员的哨子]
-        200613,--艾拉格风石碎片
-        --226373,--恒久诺格弗格药剂
-        253629,--/奥术秘社的私人钥匙 12.0.1
+        128353,
+        167075,
+        168222,
+        184504, 184501, 184503, 184502, 184500, 64457,
+        221966,
+        198156,
+        172924,
+        168807,
+        168808,
+        151652,
+        112059,
+        87215,
+        48933,
+        30542,
+        151016,
+        136849, 52251,
+        139590,
+        87216,
+        85500,
+        37863,
+        200613,
+        253629,
     },
     spell={
-        436854,--/切换飞行模式
-        83958,--移动银行
-        69046,--[呼叫大胖],种族特性
-        50977,--[黑锋之门]
-        193753,--[传送：月光林地]
-        556,--[星界传送]
-        18960,--[梦境行者]
-        126892,--[禅宗朝圣]
+        436854,
+        83958,
+        69046,
+        50977,
+        193753,
+        556,
+        18960,
+        126892,
     },
     equip={
-        65274,65360, 63206, 63207, 63352, 63353,--协同披风
-        103678,--迷时神器
-        142469,--魔导大师的紫罗兰印戒
-        144391, 144392,--拳手的重击指环
+        65274,65360, 63206, 63207, 63352, 63353,
+        103678,
+        142469,
+        144391, 144392,
     },
     flyout={
     },
@@ -85,11 +82,11 @@ function WoWTools_UseItemsMixin:Init_Menu(root)
             text,
         function(data)
             if data.type=='item' then
-                WoWTools_LoadUIMixin:Journal(3)--加载，收藏，UI
+                WoWTools_LoadUIMixin:Journal(3)
             elseif data.type=='spell' then
                 PlayerSpellsUtil.OpenToSpellBookTab()
             else
-                WoWTools_LoadUIMixin:OpenPaperDoll(1, 1)--打开/关闭角色界面
+                WoWTools_LoadUIMixin:OpenPaperDoll(1, 1)
             end
             return MenuResponse.Open
         end, {type=type, rightText= num})
@@ -123,13 +120,10 @@ function WoWTools_UseItemsMixin:Init_Menu(root)
                 (isSpell and '|cnWARNING_FONT_COLOR:' or '')
                 ..name,
             function(data)
---玩具箱
                 if data.isToy then
                     WoWTools_LoadUIMixin:Journal(3, {toyItemID=data.itemID})
---已学，法术 bug
                 elseif data.spellID and C_SpellBook.IsSpellInSpellBook(data.spellID) then
                     WoWTools_LoadUIMixin:SpellBook(3, data.spellID)
---其他
                 else
                     StaticPopup_Show('WoWTools_OK',
                         (WoWTools_L.REMOVE)..'|n|n'..data.name..'|n',
@@ -154,7 +148,6 @@ function WoWTools_UseItemsMixin:Init_Menu(root)
         end
 
         if num>1 then
---全部清除
             WoWTools_MenuMixin:ClearAll(sub, function()
                 Save()[type]={}
                 WoWTools_Print(WoWTools_DataMixin.Icon.icon2..WoWTools_UseItemsMixin.addName, WoWTools_L.REQUIRES_RELOAD)
@@ -179,11 +172,9 @@ function WoWTools_UseItemsMixin:Init_Menu(root)
         WoWTools_MenuMixin:SetScrollMode(sub)
     end
 
---打开，选项
     root:CreateDivider()
     sub=WoWTools_ToolsMixin:OpenMenu(root, WoWTools_UseItemsMixin.addName)
 
---全部重置
     sub:CreateButton(
         WoWTools_L.RESET_ALL_BUTTON_TEXT,
     function()
@@ -199,7 +190,6 @@ function WoWTools_UseItemsMixin:Init_Menu(root)
     end)
     sub:CreateDivider()
 
---重新加载UI
     WoWTools_MenuMixin:Reload(sub)
 end
 
@@ -218,7 +208,7 @@ end
 
 
 local function Init()
-    StaticPopupDialogs['WoWToolsUseItemsADD']={--添加, 移除
+    StaticPopupDialogs['WoWToolsUseItemsADD']={
         text= WoWTools_UseItemsMixin.addName..'|n|n%s: %s',
         whileDead=true, hideOnEscape=true, exclusive=true,
         button1= WoWTools_L.ADD,
@@ -250,7 +240,7 @@ local function Init()
     })
     btn:SetPoint('TOPLEFT', WoWTools_ToolsMixin:Get_MainButton(), 'TOPRIGHT')
 
-    btn:SetScript('OnMouseDown',function(self, d)--添加, 移除
+    btn:SetScript('OnMouseDown',function(self, d)
         local infoType, itemID, itemLink ,spellID= GetCursorInfo()
         if infoType == "item" and itemID and itemLink then
             local itemEquipLoc= select(4, C_Item.GetItemInfoInstant(itemLink))
@@ -292,7 +282,7 @@ local function Init()
         btn:SetAlpha(0.3)
     end)
 
-    WoWTools_UseItemsMixin:Init_PlayerSpells()--法术书
+    WoWTools_UseItemsMixin:Init_PlayerSpells()
     WoWTools_UseItemsMixin:Init_UI_Toy()
 
     Init=function()end
@@ -307,7 +297,6 @@ end
 
 
 
---加载保存数据
 local panel= CreateFrame("Frame")
 panel:RegisterEvent("ADDON_LOADED")
 panel:SetScript("OnEvent", function(self, event, arg1)
@@ -328,7 +317,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 end})
             end)
 
---禁用，Tools模块，退出
             if WoWTools_ToolsMixin:Get_MainButton() and not Save().disabled then
                 self:RegisterEvent('PLAYER_ENTERING_WORLD')
 

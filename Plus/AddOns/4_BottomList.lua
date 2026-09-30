@@ -2,7 +2,7 @@
 local function Save()
     return WoWToolsPlusSave['Plus_AddOns'] or {}
 end
-local BottomFrame--已加载，插件列表
+local BottomFrame
 local Buttons={}
 local Name= 'WoWToolsAddOnsBottomListButton'
 
@@ -119,7 +119,6 @@ end
 
 
 
---已加载，插件列表
 local function Set_Load_Button()--LoadButtons
     local newTab={}
     local isOnlyIcon= Save().load_list_onlyIcon
@@ -134,7 +133,7 @@ local function Set_Load_Button()--LoadButtons
             local atlas = C_AddOns.GetAddOnMetadata(i, "IconAtlas")
             local name =  C_AddOns.GetAddOnName(i)
 
-            if Save().fast[name] then--上次的错误记录，需要改正
+            if Save().fast[name] then
 ---@diagnostic disable-next-line: assign-type-mismatch
                 Save().fast[name]=i
             end

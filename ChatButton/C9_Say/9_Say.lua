@@ -1,15 +1,13 @@
 
 local P_Save= {
-    saveWhisper=true,--保存, 密语
-    WhisperTab={},--保存, 密语, 内容 {name=name, wow=wow, guid=guid, msg={text=text, type=type,time=time}}
+    saveWhisper=true,
+    WhisperTab={},
 
 
-    --保存上次，内容
     type= SLASH_SAY1,
     --text= SAY
-    --name=玩家名称,
     --isWoW=bool,
-    numWhisper=0,--最后密语,数量
+    numWhisper=0,
 }
 
 local function Save()
@@ -20,22 +18,20 @@ local addName
 local SayButton
 
 
- --提示，聊天泡泡，开启/禁用
  local function set_chatBubbles_Tips()
     SayButton.tipBubbles:SetShown(not C_CVar.GetCVarBool("chatBubbles"))
 end
 
 
 --#######
---密语列表
 --#######
-local function set_numWhisper_Tips()--最后密语,数量, 提示
+local function set_numWhisper_Tips()
     SayButton.numWhisper:SetText(Save().numWhisper>0 and Save().numWhisper or '')
 end
 
-local function rest_numWhisper_Tips()--重置密语，数量
-    Save().numWhisper=0--最后密语,数量, 清空
-    set_numWhisper_Tips()--最后密语,数量, 提示
+local function rest_numWhisper_Tips()
+    Save().numWhisper=0
+    set_numWhisper_Tips()
 end
 
 local MaxWhisperMsg= 50--mensajes guardados por contacto (antes sin límite)
@@ -66,7 +62,7 @@ local function getWhisper(event, text, name, _, _, _, _, _, _, _, _, _, guid, bn
         return
     end
     if WoWTools_DataMixin.Player.Name_Realm~=name and name then
-        local type= event:find('INFORM') and true or nil--_INFORM 发送
+        local type= event:find('INFORM') and true or nil
         local wow= event:find('MSG_BN') and true or nil
         local battleTag
         if wow and canaccessvalue(bnSenderID) and bnSenderID then
@@ -90,14 +86,14 @@ local function getWhisper(event, text, name, _, _, _, _, _, _, _, _, _, guid, bn
             table.insert(Save().WhisperTab, 1, {name=name, wow=wow, battleTag=battleTag, guid=guid, msg={tab}})
         end
         if not type then
-            Save().numWhisper= Save().numWhisper + 1--最后密语,数量
-            set_numWhisper_Tips()--最后密语,数量, 提示
+            Save().numWhisper= Save().numWhisper + 1
+            set_numWhisper_Tips()
         end
     end
 end
 
 
-local function set_InInstance_Disabled_Bubbles()--副本禁用，其它开启
+local function set_InInstance_Disabled_Bubbles()
     if Save().inInstanceBubblesDisabled and not InCombatLockdown() then
         if select(2, IsInInstance())~='none' then
             C_CVar.SetCVar("chatBubbles", '0')
@@ -171,9 +167,7 @@ local function Init_Menu(self, root)
     end
 
 
---密语列表 --{name=name, wow=wow, guid=guid, msg={text=text, type=type,time=time}}
 
---全部清除
     num= #Save().WhisperTab
     if num>0 then
 
@@ -185,7 +179,7 @@ local function Init_Menu(self, root)
             nil,
             {SetValue=function()
                 Save().WhisperTab={}
-                rest_numWhisper_Tips()--重置密语，数量
+                rest_numWhisper_Tips()
             end})
             return MenuResponse.Open
         end, {rightText=num})
@@ -226,9 +220,9 @@ local function Init_Menu(self, root)
                 for _, msg in pairs(desc.data.msg) do
                     local player= msg.player and msg.player~=WoWTools_DataMixin.Player.Name_Realm and msg.player
 
-                    if msg.type then--发送
+                    if msg.type then
                         tooltip:AddLine((player and '|cnGREEN_FONT_COLOR:' or '|cff626262')..msg.time..' |A:voicechat-icon-textchat-silenced:0:0|a'..msg.text..'|r')
-                    else--接收
+                    else
                         tooltip:AddDoubleLine(
                             desc.data.hex..msg.time,
 
@@ -247,7 +241,7 @@ local function Init_Menu(self, root)
                     tooltip:AddLine(' ')
                 end
                 tooltip:AddLine((WoWTools_L.SLASH_TEXTTOSPEECH_WHISPER)..WoWTools_DataMixin.Icon.left)
-                rest_numWhisper_Tips()--重置密语，数量
+                rest_numWhisper_Tips()
             end)
 
             sub2:CreateButton(
@@ -265,13 +259,13 @@ local function Init_Menu(self, root)
                 local playerList={}
                 for _, msg in pairs(data.msg) do
                     text= text and text..'|n' or ''
-                    if msg.type then--发送
+                    if msg.type then
                         text= text..'|cff626262'..msg.time..' '..(msg.player or WoWTools_DataMixin.Player.Name_Realm)..': '..msg.text..'|r'
                         if msg.player and msg.player~=WoWTools_DataMixin.Player.Name_Realm then
                             playerList[msg.player]= true
                             text=text..' |cnGREEN_FONT_COLOR:*|r'
                         end
-                    else--接收
+                    else
                         text= text..data.hex..msg.time..' '..data.name..': '..msg.text..'|r'
                         if msg.player and msg.player~=WoWTools_DataMixin.Player.Name_Realm then
                             playerList[msg.player]= true
@@ -324,7 +318,6 @@ local function Init_Menu(self, root)
 
     root:CreateDivider()
 
---战网在线数量
     local numOline, onlineList= 0, {}
     local playerMapNamp=WoWTools_MapMixin:GetUnit('player')
     for i=1 ,BNGetNumFriends() do
@@ -353,21 +346,21 @@ local function Init_Menu(self, root)
         local zone
         if gameAccountInfo then
             if gameAccountInfo.clientProgram then
-                local atlas=BNet_GetBattlenetClientAtlas(gameAccountInfo.clientProgram)--在线图标
+                local atlas=BNet_GetBattlenetClientAtlas(gameAccountInfo.clientProgram)
                 if atlas then
                     text='|A:'..atlas..':0:0|a'.. text
                 end
             end
             if gameAccountInfo.playerGuid then
                 text= text..WoWTools_UnitMixin:GetPlayerInfo(nil, gameAccountInfo.playerGuid, nil, {faction=gameAccountInfo.factionName, reName=true, reRealm=true,})
-                if gameAccountInfo.areaName then --位置
+                if gameAccountInfo.areaName then
                     if gameAccountInfo.areaName==playerMapNamp then
                         text=text..'|A:poi-islands-table:0:0|a'
                     end
                     zone= gameAccountInfo.areaName
                 end
             end
-            if gameAccountInfo.characterLevel and gameAccountInfo.characterLevel~=maxLevel then--等级
+            if gameAccountInfo.characterLevel and gameAccountInfo.characterLevel~=maxLevel then
                 text=text ..' |cff00ff00'..gameAccountInfo.characterLevel..'|r'
             end
         end
@@ -394,7 +387,6 @@ local function Init_Menu(self, root)
 
 
 
---聊天泡泡
     root:CreateDivider()
     sub2=root:CreateCheckbox(WoWTools_L.CHAT_BUBBLES_TEXT, function()
         return C_CVar.GetCVarBool("chatBubbles")
@@ -417,7 +409,7 @@ local function Init_Menu(self, root)
         return Save().inInstanceBubblesDisabled
     end, function()
         Save().inInstanceBubblesDisabled= not Save().inInstanceBubblesDisabled and true or nil
-        set_InInstance_Disabled_Bubbles()--副本禁用，其它开启
+        set_InInstance_Disabled_Bubbles()
     end)
 
     sub3:SetTooltip(function(tooltip)
@@ -430,7 +422,6 @@ end
 
 
 --####
---初始
 --####
 local function Init()
     SayButton.typeText=WoWTools_LabelMixin:Create(SayButton, {color=true})--10, nil, nil, true)
@@ -441,7 +432,7 @@ local function Init()
     SayButton.tipBubbles:SetPoint('TOPLEFT', 3, -0)
     SayButton.tipBubbles:SetAtlas('talents-button-reset')
 
-    SayButton.numWhisper=WoWTools_LabelMixin:Create(SayButton, {color={r=0,g=1,b=0}})--最后密语,数量, 提示
+    SayButton.numWhisper=WoWTools_LabelMixin:Create(SayButton, {color={r=0,g=1,b=0}})
     SayButton.numWhisper:SetPoint('TOPRIGHT',-3, 0)
 
     SayButton.texture:SetAtlas('common-icon-speak')--transmog-icon-chat')
@@ -483,9 +474,7 @@ local function Init()
         Save().name= name
         Save().isWoW= isWoW
 
-        if text=='大喊' then
-            text='喊'
-        elseif type and text:find('%w') then--处理英文
+        if type and text:find('%w') then
             text=type:gsub('/','')
         else
             text=WoWTools_TextMixin:sub(text, 1, 3)
@@ -496,15 +485,14 @@ local function Init()
 
 
     SayButton:settings(Save().type, Save().text, Save().name, Save().isWoW)
-    set_chatBubbles_Tips() --提示，聊天泡泡，开启/禁用
-    set_numWhisper_Tips()--最后密语,数量, 提示
+    set_chatBubbles_Tips()
+    set_numWhisper_Tips()
 
     Init=function()end
 end
 
 
 --###########
---加载保存数据
 --###########
 local panel= CreateFrame('Frame')
 panel:RegisterEvent("ADDON_LOADED")
@@ -521,7 +509,7 @@ panel:SetScript("OnEvent", function(self, event, arg1, arg2, ...)
             addName= '|A:transmog-icon-chat:0:0|a'..(WoWTools_L.SAY)
             SayButton= WoWTools_ChatMixin:CreateButton('Say', addName)
 
-            if SayButton then--禁用Chat Button
+            if SayButton then
                 self:RegisterEvent("CHAT_MSG_WHISPER_INFORM")
                 self:RegisterEvent("CHAT_MSG_WHISPER")
                 self:RegisterEvent("CHAT_MSG_BN_WHISPER")
@@ -553,9 +541,9 @@ panel:SetScript("OnEvent", function(self, event, arg1, arg2, ...)
         getWhisper(event, arg1, arg2, ...)
 
     elseif event== 'PLAYER_ENTERING_WORLD' then
-        set_InInstance_Disabled_Bubbles()--副本禁用，其它开启
+        set_InInstance_Disabled_Bubbles()
 
     elseif event=='CVAR_UPDATE' and arg1=='chatBubbles' then
-        set_chatBubbles_Tips() --提示，聊天泡泡，开启/禁用
+        set_chatBubbles_Tips()
     end
 end)

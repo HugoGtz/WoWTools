@@ -104,8 +104,6 @@ end
 local function Init()
 
 
---右边
---职业 ColorUtil.lua
     local colorTab={}
     local x, y, n= 0, -22, 1
     for index = 1, GetNumClasses() do
@@ -142,7 +140,6 @@ local function Init()
         end
     end
 
---物品 UIParent.lua
     size, x, y, n= 16, x+size, -32, 0
 
     for index = 0, Enum.ItemQualityMeta.NumValues - 1 do
@@ -238,7 +235,6 @@ local function Init()
 
 
 
---上面
 --Color.lua
     size, x, y, n= 16, -88, -3, 1
     local Y=0
@@ -272,7 +268,6 @@ local function Init()
 
 
 
---颜色 选择器2
 	if WoWToolsPlusSave['Plus_Color'].selectType2 then
 		x, y, n= -102, y+3, 1
 		for r=0, 1, 0.2 do
