@@ -103,9 +103,7 @@ local function Set_Update()--Blizzard_ChallengesUI.lua
 
     for i=1, #self.maps do
         local frame = self.DungeonIcons[i]
-        local data= WoWTools_ChallengesSpellData[frame.mapID]
-
-        local spellID= data and data.spell
+        local spellID= WoWTools_ChallengeMixin:GetPortalSpellID(frame.mapID)--tabla o búsqueda en los desplegables de portales
 
         --spellID= 1543
 

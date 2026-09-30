@@ -364,3 +364,97 @@ function WoWTools_ChallengeMixin:GetDungeonScoreLink()
     local dungeonScore = C_ChallengeMode.GetOverallDungeonScore() or 0
     return GetDungeonScoreLink(dungeonScore, UnitName("player"))
 end
+
+--Hechizo de portal de una mazmorra de míticas+.
+--La tabla WoWTools_ChallengesSpellData está escrita a mano y se queda sin las mazmorras de temporadas nuevas:
+--si falta, se busca en los desplegables "Camino del héroe" (los conocidos y los que haya en el libro de hechizos)
+--el portal cuya descripción o nombre menciona la mazmorra.
+local PortalCache= {}
+
+local function Get_Flyouts()
+    local list, seen= {}, {}
+    for _, info in ipairs(WoWTools_DataMixin.FlyoutID or {}) do
+        if info.flyoutID and not info.isRaid and not seen[info.flyoutID] then
+            seen[info.flyoutID]= true
+            table.insert(list, info.flyoutID)
+        end
+    end
+    if C_SpellBook and C_SpellBook.GetNumSpellBookSkillLines and Enum.SpellBookItemType then
+        for line= 1, C_SpellBook.GetNumSpellBookSkillLines() or 0 do
+            local lineInfo= C_SpellBook.GetSpellBookSkillLineInfo(line)
+            if lineInfo and lineInfo.itemIndexOffset and lineInfo.numSpellBookItems then
+                for index= lineInfo.itemIndexOffset+1, lineInfo.itemIndexOffset+lineInfo.numSpellBookItems do
+                    local item= C_SpellBook.GetSpellBookItemInfo(index, Enum.SpellBookSpellBank.Player)
+                    if item and item.itemType==Enum.SpellBookItemType.Flyout and item.actionID and not seen[item.actionID] then
+                        seen[item.actionID]= true
+                        table.insert(list, item.actionID)
+                    end
+                end
+            end
+        end
+    end
+    return list
+end
+
+local function Name_Variants(name)
+    local list= {name}
+    for _, sep in ipairs({':', '：'}) do--búsqueda literal: '：' ocupa 3 bytes y no puede ir en una clase [ ]
+        local pos= name:find(sep, 1, true)
+        if pos then
+            local before= name:sub(1, pos-1):gsub('%s+$', '')
+            local after= name:sub(pos+#sep):gsub('^%s+', '')
+            if after~='' then
+                table.insert(list, after)--"Tazavesh: Calle…" -> "Calle…"
+            end
+            if before~='' then
+                table.insert(list, before)
+            end
+        end
+    end
+    return list
+end
+
+function WoWTools_ChallengeMixin:GetPortalSpellID(mapID)
+    if not mapID then
+        return
+    end
+    local data= WoWTools_ChallengesSpellData and WoWTools_ChallengesSpellData[mapID]
+    if data and data.spell then
+        return data.spell
+    end
+    if PortalCache[mapID] then
+        return PortalCache[mapID]
+    end
+
+    local mapName= C_ChallengeMode.GetMapUIInfo(mapID)
+    if type(mapName)~='string' or mapName=='' then
+        return
+    end
+    local names= Name_Variants(mapName)
+
+    --Portales disponibles (una sola pasada por los desplegables)
+    local portals= {}
+    for _, flyoutID in ipairs(Get_Flyouts()) do
+        local _, _, numSlots= GetFlyoutInfo(flyoutID)
+        for slot= 1, numSlots or 0 do
+            local spellID, _, _, spellName= GetFlyoutSlotInfo(flyoutID, slot)
+            if spellID then
+                local desc= C_Spell.GetSpellDescription(spellID) or ''
+                if desc=='' then
+                    C_Spell.RequestLoadSpellData(spellID)--la descripción llega más tarde; se reintenta en la próxima actualización
+                end
+                table.insert(portals, {spellID=spellID, desc=desc, name=spellName or ''})
+            end
+        end
+    end
+
+    --Del nombre más completo al más corto: así "Operación" no elige el portal de otra "Operación: …"
+    for _, name in ipairs(names) do
+        for _, portal in ipairs(portals) do
+            if portal.desc:find(name, 1, true) or portal.name:find(name, 1, true) then
+                PortalCache[mapID]= portal.spellID
+                return portal.spellID
+            end
+        end
+    end
+end

@@ -413,7 +413,7 @@ local function SetUp(self)
     --temporadas nuevas: sin ella se sigue mostrando la información, que sale del juego.
     local insTab= WoWTools_ChallengesSpellData[self.mapID] or {}
 
-    self.spellID= insTab.spell
+    self.spellID= WoWTools_ChallengeMixin:GetPortalSpellID(self.mapID)
     self.journalInstanceID= insTab.ins
 
     if not self.currentKey then
