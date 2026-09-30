@@ -335,10 +335,6 @@ Plus\AuctionHouse\C_AllAuctionsList.lua
 Plus\AuctionHouse\z_AccountStore.lua
 
 Plus\PetBattle\0_PetBattleMixin.lua
-Plus\PetBattle\1_Init.lua
-Plus\PetBattle\Click_To_Move.lua
-Plus\PetBattle\TypeButton.lua
-Plus\PetBattle\PetBattle_AbilityButton.lua
 Plus\AddOns\0_AddOnsMixin.lua
 Plus\AddOns\1_Init.lua
 Plus\AddOns\2_MenuButton.lua

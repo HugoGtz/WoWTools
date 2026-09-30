@@ -1,6 +1,5 @@
 --Estilo de barras de acción (recuperado del módulo Texturas del original):
---iconos sin marco con máscara, atajos más cortos, barra de vehículo y de habilidad de zona,
---y botones de las batallas de mascotas. Opción en Opciones -> WoWToolsPlus -> Interfaz.
+--iconos sin marco con máscara, atajos más cortos, barra de vehículo y de habilidad de zona. Opción en Opciones -> WoWToolsPlus -> Interfaz.
 WoWTools_ActionBarsMixin= {}
 
 local function Save()
@@ -165,73 +164,10 @@ local function Style_ZoneAbility(self)
     end)
 end
 
-local function Style_PetBattle(self)
-    self:HideTexture(PetBattleFrame.TopArtLeft)
-    self:HideTexture(PetBattleFrame.TopArtRight)
-    self:HideTexture(PetBattleFrame.TopVersus)
-    PetBattleFrame.TopVersusText:SetText('')
-    PetBattleFrame.TopVersusText:SetShown(false)
-    self:HideTexture(PetBattleFrame.WeatherFrame.BackgroundArt)
-
-    self:HideTexture(PetBattleFrameXPBarLeft)
-    self:HideTexture(PetBattleFrameXPBarRight)
-    self:HideTexture(PetBattleFrameXPBarMiddle)
-
-    self:HideTexture(PetBattleFrame.BottomFrame.LeftEndCap)
-    self:HideTexture(PetBattleFrame.BottomFrame.RightEndCap)
-    self:HideTexture(PetBattleFrame.BottomFrame.Background)
-
-    self:HideTexture(PetBattleFrame.BottomFrame.TurnTimer.ArtFrame2)
-    self:SetUIButton(PetBattleFrame.BottomFrame.TurnTimer.SkipButton)
-    for _, t in pairs({'ForfeitButton', 'CatchButton', 'SwitchPetButton'}) do
-        local btn= PetBattleFrame.BottomFrame[t]
-        if btn then
-            self:HideTexture(btn.NormalTexture)
-            WoWTools_ButtonMixin:AddMask(btn)
-        end
-    end
-    WoWTools_DataMixin:Hook('PetBattleAbilityButton_OnLoad', function(btn)
-        self:HideTexture(btn.NormalTexture)
-        WoWTools_ButtonMixin:AddMask(btn)
-    end)
-
-    PetBattleFrame.BottomFrame.FlowFrame:SetShown(false)
-    PetBattleFrame.BottomFrame.Delimiter:SetShown(false)
-
-    for i=1, NUM_BATTLE_PETS_IN_BATTLE do
-        local frame= PetBattleFrame.BottomFrame.PetSelectionFrame['Pet'..i]
-        if frame and frame.SelectedTexture then
-            frame.SelectedTexture:SetVertexColor(0,1,1)
-        end
-    end
-
-    WoWTools_DataMixin:Hook('PetBattleAbilityButton_UpdateHotKey', function(frame)
-        if not frame.HotKey:IsShown() then
-            return
-        end
-        local key= WoWTools_KeyMixin:GetHotKeyText(GetBindingKey("ACTIONBUTTON"..frame:GetID()), nil)
-        if key then
-            frame.HotKey:SetText(key)
-        end
-        frame.HotKey:SetTextColor(1,1,1)
-    end)
-
-    self:HideFrame(PetBattleFrame.BottomFrame.MicroButtonFrame)
-
-    WoWTools_DataMixin:Hook('PetBattleFrame_UpdatePassButtonAndTimer', function(frame)--Blizzard_PetBattleUI.lua
-        self:HideTexture(frame.BottomFrame.TurnTimer.TimerBG)
-        self:HideTexture(frame.BottomFrame.TurnTimer.ArtFrame)
-        self:HideTexture(frame.BottomFrame.TurnTimer.ArtFrame2)
-    end)
-
-    PetBattlePrimaryUnitTooltip:SetBackdropBorderColor(0,0,0, 0.1)
-    PetBattlePrimaryAbilityTooltip:SetBackdropBorderColor(0,0,0, 0.1)
-end
 
 local Styles= {
     Blizzard_ActionBar= Style_ActionBar,
     Blizzard_ZoneAbility= Style_ZoneAbility,
-    Blizzard_PetBattleUI= Style_PetBattle,
 }
 
 EventUtil.ContinueOnAddOnLoaded('WoWToolsPlus', function()
