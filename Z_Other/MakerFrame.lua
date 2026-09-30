@@ -1356,7 +1356,8 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     local isEnabled, sub= WoWTools_OtherMixin:AddOption('MarkerFrame', addName, WoWTools_L['Tip.Marker.Option'])
 
     WoWTools_PanelMixin:OnlyButton({
-        buttonText=WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2,
+        title= WoWTools_L['Reset raid marker tool'],--antes era un botón suelto sin título
+        buttonText=WoWTools_L.RESET,
         SetValue=function()
             StaticPopup_Show('WoWTools_RestData',
                 addName,

@@ -1183,6 +1183,9 @@ local enUS= {
     ['Replace Blizzard functions (advanced)']= 'Replace Blizzard functions (advanced)',
     ['Frames to enhance']= 'Frames to enhance',
     Extras= 'Extras',
+    ['Reset raid marker tool']= 'Reset raid marker tool',
+    ['Auto-fill confirmation words']= 'Auto-fill confirmation words (DELETE…)',
+    ['Frame inspector (/fstack)']= 'Frame inspector (/fstack)',
 }
 
 local esES= {
@@ -2440,6 +2443,9 @@ local esES= {
     ['Replace Blizzard functions (advanced)']= 'Reemplazar funciones de Blizzard (avanzado)',
     ['Frames to enhance']= 'Marcos a mejorar',
     Extras= 'Extras',
+    ['Reset raid marker tool']= 'Restablecer herramienta de marcas',
+    ['Auto-fill confirmation words']= 'Autocompletar palabras de confirmación (BORRAR…)',
+    ['Frame inspector (/fstack)']= 'Inspector de marcos (/fstack)',
 }
 
 local current= (locale=='esES' or locale=='esMX') and esES or enUS

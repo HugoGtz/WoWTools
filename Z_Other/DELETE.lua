@@ -23,7 +23,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     if arg1== 'WoWToolsPlus' then
         if WoWTools_OtherMixin:AddOption(
             'DELETE',
-            '|A:XMarksTheSpot:0:0|a'..(WoWTools_L.DELETE_ITEM_CONFIRM_STRING),
+            '|A:XMarksTheSpot:0:0|a'..WoWTools_L['Auto-fill confirmation words'],
             WoWTools_L['Tip.DELETE.Option']..'|n|n'
             ..(WoWTools_L.DELETE_ITEM_CONFIRM_STRING)..', '
             ..(WoWTools_L.UNLEARN_SKILL_CONFIRMATION)..', '

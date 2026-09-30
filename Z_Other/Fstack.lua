@@ -450,7 +450,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
         if WoWTools_OtherMixin:AddOption(
             'FSTACK',
-            '|A:QuestLegendaryTurnin:0:0|a|cff00ff00FST|rACK',
+            '|A:QuestLegendaryTurnin:0:0|a'..WoWTools_L['Frame inspector (/fstack)'],
             WoWTools_L['Tip.Fstack.Option']..'|n|nBlizzard_DebugTools|n/fstack'
         ) then
             Init()

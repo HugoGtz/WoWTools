@@ -406,10 +406,12 @@ end
 
 
 local function SetUp(self)
-    local insTab= WoWTools_ChallengesSpellData[self.mapID]
-    if not insTab or not insTab.spell then
+    if not self.mapID then
         return
     end
+    --La tabla de datos (hechizo de portal, diario) está escrita a mano y no incluye las mazmorras de
+    --temporadas nuevas: sin ella se sigue mostrando la información, que sale del juego.
+    local insTab= WoWTools_ChallengesSpellData[self.mapID] or {}
 
     self.spellID= insTab.spell
     self.journalInstanceID= insTab.ins
@@ -424,9 +426,9 @@ local function SetUp(self)
     local nameText = C_ChallengeMode.GetMapUIInfo(self.mapID)--名称
     self.nameLable.name= nameText
 
-    if WoWTools_DataMixin.onlyChinese and WoWTools_ChallengesSpellData[self.mapID] then
-        nameText= WoWTools_ChallengesSpellData[self.mapID].name
-    else
+    if WoWTools_DataMixin.onlyChinese and insTab.name then
+        nameText= insTab.name
+    elseif nameText then
         nameText=nameText:match('%((.+)%)') or nameText
         nameText=nameText:match('%（(.+)%）') or nameText
         nameText=nameText:match('%- (.+)') or nameText

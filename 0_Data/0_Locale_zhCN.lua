@@ -2346,4 +2346,7 @@ WoWTools_L_zhCN= {
     ['Replace Blizzard functions (advanced)']= '替换暴雪函数（高级）',
     ['Frames to enhance']= '要增强的框体',
     Extras= '其他功能',
+    ['Reset raid marker tool']= '重置团队标记工具',
+    ['Auto-fill confirmation words']= '自动输入确认文字（DELETE…）',
+    ['Frame inspector (/fstack)']= '框架检查器（/fstack）',
 }
