@@ -1,19 +1,5 @@
 WoWTools_ProfessionMixin={}
 
-function WoWTools_ProfessionMixin:IsKnown(skillLineTab)
-    local isKnown=nil
-    if skillLineTab then
-        for skillLineID in pairs(skillLineTab) do
-            if C_SpellBook.GetSkillLineIndexByID(skillLineID) then
-                isKnown= true
-                break
-            else
-                isKnown= false
-            end
-        end
-    end
-    return isKnown
-end
 
 function WoWTools_ProfessionMixin:GetName(skillLineID)
     local info= skillLineID and C_TradeSkillUI.GetProfessionInfoBySkillLineID(skillLineID)

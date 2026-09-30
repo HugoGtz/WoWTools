@@ -411,8 +411,6 @@ local function Init()
         for name in pairs(WoWTools_TooltipMixin.Frames) do
             if _G[name] and not Save().no[name] then
                 WoWTools_TooltipMixin.Frames[name](WoWTools_TooltipMixin)
-            elseif WoWTools_DataMixin.Player.husandro then
-                print('Tooltip Frames 没有发现|cnWARNING_FONT_COLOR:', name)
             end
             WoWTools_TooltipMixin.Frames[name]= nil
         end

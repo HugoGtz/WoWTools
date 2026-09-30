@@ -59,8 +59,6 @@ local function Init()
                 if not Save().No[name] then
                     func(WoWTools_ItemMixin)
                 end
-            elseif WoWTools_DataMixin.Player.husandro then
-                print('物品信息，没有发现Frames', name)
             end
         end
     end

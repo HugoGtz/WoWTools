@@ -37,21 +37,10 @@ function WoWTools_ItemLocationMixin:IsBagAndSlot()
 	return self.itemLocation.bagID ~= nil and self.itemLocation.slotIndex ~= nil;
 end
 --是否是，当前背包，位置
-function WoWTools_ItemLocationMixin:IsEqualToBagAndSlot(otherBagID, otherSlotIndex)
-	local bagID, slotIndex = self:GetBagAndSlot();
-	if bagID and slotIndex then
-		return bagID == otherBagID and slotIndex == otherSlotIndex;
-	end
-	return false;
-end
 
 
 
 --设置，装备槽
-function WoWTools_ItemLocationMixin:SetEquipmentSlot(equipmentSlotIndex)
-	self:Clear();
-	self.itemLocation.equipmentSlotIndex = equipmentSlotIndex;
-end
 --得到，装备槽
 function WoWTools_ItemLocationMixin:GetEquipmentSlot()
 	return self.itemLocation.equipmentSlotIndex;
@@ -61,40 +50,12 @@ function WoWTools_ItemLocationMixin:IsEquipmentSlot()
 	return self.itemLocation.equipmentSlotIndex ~= nil;
 end
 --是否，装备到批定槽
-function WoWTools_ItemLocationMixin:IsEqualToEquipmentSlot(otherEquipmentSlotIndex)
-	local equipmentSlotIndex = self:GetEquipmentSlot();
-	if equipmentSlotIndex then
-		return equipmentSlotIndex == otherEquipmentSlotIndex;
-	end
-	return false;
-end
 
 
 --是装备到其它 槽
-function WoWTools_ItemLocationMixin:IsEqualTo(otherItemLocation)
-	if otherItemLocation then
-		local bagID, slotIndex = self:GetBagAndSlot();
-		if bagID and slotIndex then
-			local otherBagID, otherSlotIndex = otherItemLocation:GetBagAndSlot();
-			return bagID == otherBagID and slotIndex == otherSlotIndex;
-		end
-		local equipmentSlotIndex = self:GetEquipmentSlot();
-		if equipmentSlotIndex then
-			local otherEquipmentSlotIndex = otherItemLocation:GetEquipmentSlot();
-			return equipmentSlotIndex == otherEquipmentSlotIndex;
-		end
-		return not otherItemLocation:HasAnyLocation();
-	end
-	return false;
-end
 
 
 --背包，信息
-function WoWTools_ItemLocationMixin:GetContainerInfo()
-	if self:IsBagAndSlot() then
-		return C_Container.GetContainerItemInfo(self:GetBagAndSlot())
-	end
-end
 
 --取得，背包或装备 ID
 function WoWTools_ItemLocationMixin:GetItemID()
@@ -164,17 +125,6 @@ function WoWTools_ItemLocationMixin:GetItemQuality()
 end
 
 --物品名称, name, WoWTools_TextMixin:CN(name)
-function WoWTools_ItemLocationMixin:GetItemTexture()
-	local texture
-	if self:IsValid() then
-		local itemID= self:GetItemID()
-		if itemID then
-			texture= select(5, C_Item.GetItemInfoInstant(itemID))
-		end
-	end
-	texture= texture or 0
-	return texture, format('|T%d:0|t', texture)
-end
 
 --物品名称, name, WoWTools_TextMixin:CN(name)
 function WoWTools_ItemLocationMixin:GetItemName(isText)

@@ -738,18 +738,12 @@ local function Set_Init_Frame(btn, target, size, initFunc)
             size=size,
             initFunc=initFunc
         })
-        if WoWTools_DataMixin.Player.husandro then
-            print(WoWTools_MoveMixin.addName, '|cff626262'..tostring(issecure())..'|r', target:GetName(), '|cnWARNING_FONT_COLOR:不能执行|r')
-        end
     else
         if size then
             Set_Frame_Size(target, size[1], size[2])--设置大小
         end
         if initFunc then
             initFunc(btn)
-        end
-        if WoWTools_DataMixin.Player.husandro then
-            print(WoWTools_MoveMixin.addName, '|cff626262'..tostring(issecure())..'|r', target:GetName(), '|cnGREEN_FONT_COLOR:执行|r')
         end
     end
 end

@@ -88,18 +88,4 @@ function WoWTools_TooltipMixin:Init_CVar()
     end
 
 --为自已开启，功能
-    if WoWTools_DataMixin.Player.husandro then
-        EventRegistry:RegisterFrameEventAndCallback("SETTINGS_LOADED", function(owner)
-            local set= Settings.GetSetting("PROXY_SHOW_ACTIONBAR_4")
-
-            if not InCombatLockdown() and(not set or not set:GetValue())  then
-                Settings.SetValue("PROXY_SHOW_ACTIONBAR_2", true)
-                Settings.SetValue("PROXY_SHOW_ACTIONBAR_3", true)
-                Settings.SetValue("PROXY_SHOW_ACTIONBAR_4", true)
-            end
-
-            EventRegistry:UnregisterCallback('SETTINGS_LOADED', owner)
-        end)
-      --  Enum.EditModeActionBarSetting.HideBarArt=0
-    end
 end

@@ -383,9 +383,6 @@ local function Init()
             end
         end
 
-        if WoWTools_DataMixin.Player.husandro then
-            WoWTools_DataMixin:Reload()
-        end
 
         WoWTools_DataMixin:Call('AddonList_Update')
     end)

@@ -512,14 +512,6 @@ function WoWTools_TextureMixin:SetBaseFrame(frame, alpha)
 end
 
 --DialogBorderTemplate
-function WoWTools_TextureMixin:SetBorder(frame, alpha)
-    if not frame or not frame.Bg then
-        return
-    end
-    alpha= alpha or self.min or 0.5
-
-    self:SetFrame(frame, alpha)
-end
 
 
 

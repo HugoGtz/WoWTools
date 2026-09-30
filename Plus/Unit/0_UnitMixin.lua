@@ -639,21 +639,10 @@ function WoWTools_UnitMixin:GetRange(unit, checkVisible)--WA Prototypes.lua
 end
 
 --距离
-function WoWTools_UnitMixin:CheckRange(unit, range, operator)
-    local min, max= LibRangeCheck:GetRange(unit, operator)
-    if (operator) then-- == "<=") then
-        return (max or 999) <= range
-    else
-        return (min or 0) >= range
-    end
-end
 
 
 function WoWTools_UnitMixin:SetRangeFrame(frame, size)
     if not frame.unit then
-        if WoWTools_DataMixin.Player.husandro then
-            print('WoWTools_UnitMixin:SetRangeFrame|cnWARNING_FONT_COLOR:', '没有发现', 'frame.unit')
-        end
         return
     end
 

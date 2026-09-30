@@ -10,9 +10,6 @@ function WoWTools_DataMixin:Call(func, ...)
         securecallfunction(func, ...)
         return
     end
-    if WoWTools_DataMixin.Player.husandro then
-        print('Call没有发现', func, ...)
-    end
 end
 --CanAccessObject(obj)
 --Rellena en los ajustes guardados las claves que faltan (tablas, números, textos) con los valores por defecto.
@@ -39,8 +36,6 @@ function WoWTools_DataMixin:Hook(obj, ...)
     if type(obj)=='string' then
         if type(_G[obj])=='function' then
             hooksecurefunc(obj, ...)
-        elseif WoWTools_DataMixin.Player.husandro then
-            print('|cnWARNING_FONT_COLOR:Hook没发现|r', obj)
         end
         return
     end
@@ -49,16 +44,10 @@ function WoWTools_DataMixin:Hook(obj, ...)
         return
     end
     if obj.IsForbidden and obj:IsForbidden() then--un objeto prohibido no se engancha
-        if WoWTools_DataMixin.Player.husandro then
-            print('|cnWARNING_FONT_COLOR:被保护|r', obj, ...)
-        end
         return
     end
     local method= ...
     if type(method)=='string' and type(obj[method])~='function' then
-        if WoWTools_DataMixin.Player.husandro then
-            print('|cnWARNING_FONT_COLOR:Hook没发现|r', method)
-        end
         return
     end
     hooksecurefunc(obj, ...)

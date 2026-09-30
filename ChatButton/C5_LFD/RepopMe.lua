@@ -28,20 +28,12 @@ local function Init()
                 self:RegisterEvent('PLAYER_DEAD')
                 self:RegisterEvent('AREA_SPIRIT_HEALER_IN_RANGE')
 
-                if WoWTools_DataMixin.Player.husandro then
-                    print(WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,'开启了PvP区域自动释放和复活')
-                end
 
             elseif Save().ReMe_AllZone and (select(2, IsInInstance())=='none' or not IsInGroup()) then
                 self:RegisterEvent('PLAYER_DEAD')
                 self:RegisterEvent('CORPSE_IN_RANGE')
                 self:RegisterEvent('CORPSE_OUT_OF_RANGE')
 
-                if WoWTools_DataMixin.Player.husandro then
-                    print(WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                        WoWTools_L['Auto release and resurrect enabled in all zones']
-                    )
-                end
             end
         end
     end

@@ -282,8 +282,6 @@ local function Init()
             if not Save().no[name] then
                 func(WoWTools_TextureMixin)
             end
-        elseif WoWTools_DataMixin.Player.husandro then
-            print(WoWTools_TextureMixin.addName, 'Frames[|cnWARNING_FONT_COLOR:'..name..'|r]', '没有发现')
         end
         WoWTools_TextureMixin.Frames[name]= nil
     end

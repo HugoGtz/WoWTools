@@ -140,8 +140,6 @@ local function Init()
     for name, func in pairs(WoWTools_MoveMixin.Frames) do
         if _G[name] and not Save().no[name] then
             func(WoWTools_MoveMixin)
-        elseif WoWTools_DataMixin.Player.husandro then
-            print(WoWTools_MoveMixin.addName, 'Frames[|cnWARNING_FONT_COLOR:'..name..'|r]', '没有发现')
         end
         WoWTools_MoveMixin.Frames[name]= nil
     end
@@ -158,9 +156,6 @@ local function Init()
             and not _G[name].ResizeButton
         then
             WoWTools_MoveMixin:Setup(_G[name])
-            if WoWTools_DataMixin.Player.husandro then
-                print(WoWTools_MoveMixin.addName, '没有添加', name)
-            end
         end
     end
 

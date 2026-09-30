@@ -459,29 +459,6 @@ end
 
 
  --幻化，套装，索引 WardrobeCollectionFrame.SetsTransmogFrame
- local function set_Sets_Tooltips(self)--UpdateSets
-    if not self:IsVisible() or WoWTools_FrameMixin:IsLocked(self) then
-        return
-    end
-    local idexOffset = (self.PagingFrame:GetCurrentPage() - 1) * self.PAGE_SIZE
-    for i= 1, self.PAGE_SIZE do
-        local model = self.Models[i]
-        if model and model:IsShown() then
-            local idex--索引
-            if not Save().hideItems then
-                idex= i + idexOffset
-                if not model.Text then
-                    model.Text= WoWTools_LabelMixin:Create(model)
-                    model.Text:SetPoint('TOPRIGHT',1,0)
-                    model.Text:SetAlpha(0.5)
-                end
-            end
-            if model.Text then
-                model.Text:SetText(idex or '')
-            end
-        end
-    end
-end
 
 
 

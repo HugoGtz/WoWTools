@@ -568,9 +568,6 @@ end
 function WoWTools_MenuMixin:CVar(root, name, showName, tooltip, eventFunc)
     local value, defaultValue= C_CVar.GetCVarInfo(name)
     if not value then
-        if WoWTools_DataMixin.Player.husandro then
-            print('|cnWARNING_FONT_COLOR:CVar|r', '没有发现')
-        end
         return
     end
 

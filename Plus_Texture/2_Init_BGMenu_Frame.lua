@@ -1046,9 +1046,6 @@ function WoWTools_TextureMixin:Init_BGMenu_Frame(frame, tab)
 
     local name
     if not frame then
-        if WoWTools_DataMixin.Player.husandro then
-            print(frame, 'Init_BGMenu_Frame',WARNING_FONT_COLOR:WrapTextInColorCode('没发现frame'))
-        end
         return
 
     else

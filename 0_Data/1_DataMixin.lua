@@ -89,7 +89,7 @@ WoWTools_DataMixin.Player={
     GUID= UnitGUID('player'),
     IsMaxLevel= UnitLevel('player')==GetMaxLevelForLatestExpansion(), --GetMaxLevelForPlayerExpansion(),--玩家是否最高等级 MAX_PLAYER_LEVEL
     Level= UnitLevel('player') or 1,--UnitEffectiveLevel('player')
-    husandro= battleTag== '古月剑龙#5972' or battleTag=='SandroChina#2690' or battleTag=='Sandro126#2297' or battleTag=='Sandro163EU#2603',
+    husandro= nil,--fork: sin modo autor (antes se activaba con las BattleTags del autor original)
     BattleTag= battleTag,
     Faction= UnitFactionGroup('player'),--玩家, 派系  "Alliance", "Horde", "Neutral"
     Layer= nil, --位面数字
@@ -99,9 +99,6 @@ for realmIndex, realmName in pairs(GetAutoCompleteRealms() or {}) do
     WoWTools_DataMixin.Player.Realms[realmName]=realmIndex
 end
 
-if WoWTools_DataMixin.Player.husandro then
-    SetConsoleKey("F9")
-end
 
 WoWTools_DataMixin.Icon={
     Player= '',--玩家图标icon  WoWTools_UnitMixin:GetRaceIcon('player') 
