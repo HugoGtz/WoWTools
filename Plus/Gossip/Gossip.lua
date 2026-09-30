@@ -786,9 +786,9 @@ local function Init_Hook()
                 or name:find('0000FF')--PURE_BLUE_COLOR
                -- or name:find('0000ff')
                 --or FlagsUtil.IsSet(info.flags, Enum.GossipOptionRecFlags.PlayMovieLabelPrepend)
-                or name:find(QUESTS_LABEL)
-                or name:find(LOOT_JOURNAL_LEGENDARIES_SOURCE_QUEST)
-                or name:find(RENOWN_LEVEL_UP_SKIP_BUTTON)
+                or name:find(QUESTS_LABEL, 1, true)
+                or name:find(LOOT_JOURNAL_LEGENDARIES_SOURCE_QUEST, 1, true)
+                --Ya no se elige sola una opción solo porque contenga "Saltar" (RENOWN_LEVEL_UP_SKIP_BUTTON)
             )
         then--任务
             if quest then
@@ -797,7 +797,8 @@ local function Init_Hook()
             C_GossipInfo.SelectOption(index)
             find=true
 
-        elseif allGossip==1 and Save().unique  then--仅一个
+        --Opción única: no dentro de instancias, donde suele iniciar eventos o encuentros
+        elseif allGossip==1 and Save().unique and select(2, IsInInstance())=='none' then--仅一个
 
             local tab= C_GossipInfo.GetActiveQuests() or {}
             for _, questInfo in pairs(tab) do
@@ -968,6 +969,8 @@ local function Init_Hook()
         if Save().gossip
             and not IsModifierKeyDown()
             and #C_GossipInfo.GetOptions()==0
+            and C_GossipInfo.GetNumAvailableQuests()==0--no cerrar si el NPC solo ofrece misiones
+            and C_GossipInfo.GetNumActiveQuests()==0
             and GossipFrame.GreetingPanel.GoodbyeButton:IsVisible()
             and not GossipButton:Is_ShowOptionsFrame()
         then

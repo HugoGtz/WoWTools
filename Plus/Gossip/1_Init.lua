@@ -143,7 +143,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                  buttonFunc= function()
                      Save().point=nil
                      if _G['WoWToolsGossipButton'] then
-                        _G['WoWToolsGossipButton']:set_Point()
+                        _G['WoWToolsGossipButton']:set_point()
                      end
                      print(
                         WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2,

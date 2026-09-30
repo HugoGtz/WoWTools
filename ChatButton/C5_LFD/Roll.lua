@@ -11,14 +11,14 @@ local function set_RollOnLoot(rollID, rollType, itemLink, notPrint)
 
     itemLink= itemLink or GetLootRollItemLink(rollID)
 
-    if not itemLink or not notPrint then
+    if not itemLink or notPrint then
         return
     end
 
     print(
         WoWTools_DataMixin.Icon.icon2
         ..'|A:groupfinder-eye-frame:0:0|a|cnGREEN_FONT_COLOR:'
-        ..(rollType==1 and '|A:lootroll-toast-icon-need-up:0:0|a' or '|A:lootroll-toast-icon-transmog-up:0:0|a')
+        ..(rollType==1 and '|A:lootroll-toast-icon-need-up:0:0|a' or rollType==2 and '|A:lootroll-toast-icon-greed-up:0:0|a' or '|A:lootroll-toast-icon-transmog-up:0:0|a')
         ..itemLink
     )
 end
@@ -66,7 +66,8 @@ local function set_ROLL_Check(frame, notPrint)
             if hasItemData and canCollect then
                 local sourceInfo = C_TransmogCollection.GetSourceInfo(sourceID)
                 if sourceInfo and not sourceInfo.isCollected then
-                    set_RollOnLoot(rollID, 1, itemLink, notPrint)
+                    --Apariencia no coleccionada: tirar Transfiguración, no Necesidad (no quitar mejoras a otros)
+                    set_RollOnLoot(rollID, Enum.LootRollType and Enum.LootRollType.Transmog or 2, itemLink, notPrint)
                     return
                 end
             end
@@ -113,8 +114,9 @@ local function set_ROLL_Check(frame, notPrint)
     elseif C_Item.IsDecorItem(itemLink) then
         set_RollOnLoot(rollID, 1, itemLink, notPrint)
         return
-    elseif classID==0 or subclassID==0 then
-        set_RollOnLoot(rollID, 1, itemLink, notPrint)
+    --Consumibles: Codicia. Antes subclassID==0 tiraba Necesidad en anillos, collares, abalorios y hachas
+    elseif classID==Enum.ItemClass.Consumable then
+        set_RollOnLoot(rollID, 2, itemLink, notPrint)
         return
     end
 

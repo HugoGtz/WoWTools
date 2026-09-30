@@ -46,7 +46,9 @@ local function return_delete_InBox(openMailID)--删除，或退信
     local icon=packageIcon or stationeryIcon
 
     local text= GetInboxText(openMailID) or ''
-    text= text:gsub(' ','') and nil or text
+    if text:gsub('%s','')=='' then
+        text= nil
+    end
 
     local delOrRe
     local canDelete= InboxItemCanDelete(openMailID)
@@ -56,7 +58,7 @@ local function return_delete_InBox(openMailID)--删除，或退信
         delOrRe= '|cFFFF00FF'..(WoWTools_DataMixin.onlyChinese and '退信' or MAIL_RETURN)..'|r'
     end
 
-    if canDelete and (not money or money==0) and (not CODAmount or CODAmount==0) and (not itemCount or itemCount) then
+    if canDelete and (not money or money==0) and (not CODAmount or CODAmount==0) and (not itemCount or itemCount==0) then
         DeleteInboxItem(openMailID)
     else
         InboxFrame.openMailID= openMailID

@@ -168,7 +168,11 @@ local Frame= CreateFrame('Frame')
 Frame:RegisterEvent('ENCOUNTER_LOOT_RECEIVED')
 Frame:SetScript("OnEvent", function(_, event, _, itemID, itemLink, _, playerName)--encounterID, itemID, itemLink, quantity, playerName, classFileName
     if event=='ENCOUNTER_LOOT_RECEIVED' then--买出BOOS装备
-        if IsInInstance() and  (playerName and playerName:find(UnitName('player')) or not IsInGroup()) then
+        local save= Save()
+        if not save or save.disabled or not save.sellBoss then
+            return
+        end
+        if IsInInstance() and  (playerName and Ambiguate(playerName, 'short')==UnitName('player') or not IsInGroup()) then
             local _, _, itemQuality, itemLevel, _, _, _, _, itemEquipLoc, _, _, classID, subclassID, bindType, expansionID = C_Item.GetItemInfo(itemLink)
             itemLevel= WoWTools_ItemMixin:GetItemLevel(itemLink) or itemLevel
 
@@ -195,7 +199,7 @@ Frame:SetScript("OnEvent", function(_, event, _, itemID, itemLink, _, playerName
 
                 Save().bossItems[itemID]= itemLevel
 
-                if not Save().notSellBoss then
+                if Save().sellBoss then
                     print(
                         WoWTools_MerchantMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         WoWTools_DataMixin.onlyChinese and '添加出售' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ADD, AUCTION_HOUSE_SELL_TAB),

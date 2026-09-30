@@ -146,7 +146,8 @@ local function Get_ValeItem(bag, slot)
         if Save().mago then--and not C_Item.IsCosmeticItem(info.itemID) then --and info.quality then
             local isCollected, isSelf= select(2, WoWTools_CollectionMixin:Item(info.hyperlink, nil, nil, true))
 
-            if isCollected==false and (isSelf or isWQ) then
+            --No equipar objetos sin ligar (BoE): se ligarían y perderían su valor
+            if isCollected==false and (isSelf or isWQ) and info.isBound then
                 info.IsEquipItem= true
 
                 return info

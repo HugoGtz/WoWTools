@@ -374,7 +374,7 @@ local function Update_Total_Price(frame)
         local itemLink = C_Item.GetItemLink(itemLocation);
         local vendorPrice =itemLink and select(11, C_Item.GetItemInfo(itemLink)) or 10000;
         local unitPrice= frame.GetUnitPrice and frame:GetUnitPrice() or frame.PriceInput:GetAmount();-- frame:GetUnitPrice()
-        unitPrice= (unitPrice==0 or not unitPrice) and 1 or unitPrice
+        unitPrice= unitPrice or 0--precio vacío o 0: no avisar mientras se escribe
         local col=''
         if vendorPrice and unitPrice and vendorPrice>0 and unitPrice>0 then
             if unitPrice> vendorPrice then
@@ -397,15 +397,7 @@ local function Update_Total_Price(frame)
             else
                 col='|cnWARNING_FONT_COLOR:'
                 text= col..(WoWTools_DataMixin.onlyChinese and '危险' or VOICEMACRO_1_Sc_0)
-                local itemID=  C_Item.GetItemID(itemLocation)
-                if itemID and not Save().hideSellItem[itemID] then--加入，隐藏，物品列表
-                    Save().hideSellItem[itemID]=true
-
-                    WoWTools_AuctionHouseMixin:Init_Sell_Item_Button()
-
-                    AuctionHouseFrame:ClearPostItem()
-                    C_Timer.After(0.3, function() WoWTools_AuctionHouseMixin:SetPostNextSellItem() end)--放入，第一个，物品
-                end
+                --Solo avisar: antes se sacaba el objeto del marco de venta y se ocultaba para siempre
             end
         end
         if vendorPrice then

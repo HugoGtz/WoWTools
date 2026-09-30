@@ -424,11 +424,8 @@ tableBuilder:AddFixedWidthColumn(owner, 0, 50, 0, STANDARD_PADDING, Enum.Auction
             if not btn.setOnDoubleClick then
                 btn:SetScript('OnDoubleClick', function()
                     if AuctionHouseFrame.ItemBuyFrame.BuyoutFrame.BuyoutButton and AuctionHouseFrame.ItemBuyFrame.BuyoutFrame.BuyoutButton:IsEnabled() then
-                        if StaticPopup1:IsShown() then
-                            StaticPopup1:Hide()
-                        else
-                            AuctionHouseFrame.ItemBuyFrame.BuyoutFrame.BuyoutButton:Click()
-                        end
+                        --Solo abre la confirmación de compra de Blizzard; no cerrar otros diálogos
+                        AuctionHouseFrame.ItemBuyFrame.BuyoutFrame.BuyoutButton:Click()
                     end
                 end)
                 btn.setOnDoubleClick=true

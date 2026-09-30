@@ -129,7 +129,7 @@ local function Run()
         return
     end
 
-    local isEnabled= Save().gossip and not IsModifierKeyDown()
+    local isEnabled= Save().gossip and Save().autoEnterDelve and not IsModifierKeyDown()
     if isEnabled then
         local Option= Get_Options(DelvesDifficultyPickerFrame)
 
@@ -218,7 +218,7 @@ local function Init()
 
 
 --已完成，这个可能没用
-    completeCheck= CreateFrame('CheckButton', 'WoWToolsDelveDifficultyMaxCheck', DelvesDifficultyPickerFrame.CloseButton, 'UICheckButtonTemplate')
+    completeCheck= CreateFrame('CheckButton', 'WoWToolsDelveDifficultyCompleteCheck', DelvesDifficultyPickerFrame.CloseButton, 'UICheckButtonTemplate')
     WoWTools_TextureMixin:SetCheckBox(completeCheck)
     completeCheck:SetPoint('TOPLEFT', maxCheck, 'BOTTOMLEFT')
     completeCheck.name=WoWTools_DataMixin.onlyChinese and '已完成' or ACCOUNT_COMPLETED_QUEST_NOTICE_LABEL
@@ -256,6 +256,25 @@ local function Init()
 
 
 
+--Entrar solo: opcional (autoEnterDelve), desactivado por defecto
+    local autoCheck= CreateFrame('CheckButton', 'WoWToolsDelveDifficultyAutoEnterCheck', DelvesDifficultyPickerFrame.CloseButton, 'UICheckButtonTemplate')
+    WoWTools_TextureMixin:SetCheckBox(autoCheck)
+    autoCheck:SetPoint('TOPLEFT', completeCheck, 'BOTTOMLEFT')
+    autoCheck.Text:SetText(WoWTools_DataMixin.onlyChinese and '自动进入' or WoWTools_L.AutoEnterDelve)
+    autoCheck:SetChecked(Save().autoEnterDelve)
+    autoCheck:SetScript('OnLeave', GameTooltip_Hide)
+    autoCheck:SetScript('OnEnter', function(self)
+        GameTooltip:SetOwner(self, 'ANCHOR_LEFT')
+        GameTooltip:ClearLines()
+        GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '3秒后自动进入。\nAlt 取消' or WoWTools_L.AutoEnterDelveTip, nil, nil, nil, true)
+        GameTooltip:AddDoubleLine(WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2, WoWTools_TextMixin:GetEnabeleDisable(Save().gossip))
+        GameTooltip:Show()
+    end)
+    autoCheck:SetScript('OnClick', function(self)
+        Save().autoEnterDelve= self:GetChecked() and true or nil
+        maxCheck:clear()
+    end)
+
 --自动选择
     DelvesDifficultyPickerFrame:HookScript('OnShow', function(self)
         if
@@ -266,7 +285,7 @@ local function Init()
             return
         end
 
-        local isEnabled= Save().gossip and not IsModifierKeyDown()
+        local isEnabled= Save().gossip and Save().autoEnterDelve and not IsModifierKeyDown()
         local Option, availableLevel, completeLevel, num= Get_Options(self)
         if Option then
             Set_DelvesDifficultyPickerFrame(Option)

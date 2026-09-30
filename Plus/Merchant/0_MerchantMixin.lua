@@ -24,9 +24,10 @@ function WoWTools_MerchantMixin:CheckSellItem(itemID, itemLink, quality, isBound
         return WoWTools_DataMixin.onlyChinese and '自定义' or CUSTOM
     end
 
-    if not PlayerIsTimerunning() and not Save().notSellBoss and itemLink then
+    --Vender botín de jefe es opcional (sellBoss, desactivado por defecto) y nunca vende apariencias sin coleccionar
+    if not PlayerIsTimerunning() and Save().sellBoss and itemLink then
         local level= Save().bossItems[itemID]
-        if level then
+        if level and select(2, WoWTools_CollectionMixin:Item(itemID, nil, nil))~=false then
             local itemLevel= WoWTools_ItemMixin:GetItemLevel(itemLink) or select(4, C_Item.GetItemInfo(itemLink))
             if level== itemLevel  then
                 return WoWTools_DataMixin.onlyChinese and '首领' or BOSS

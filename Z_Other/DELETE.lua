@@ -1,10 +1,5 @@
 local function Init()
-    StaticPopupDialogs["UNLEARN_SKILL"].acceptDelay= 2
-    StaticPopupDialogs["CONFIRM_DESTROY_COMMUNITY"].acceptDelay= 1
-
-    StaticPopupDialogs["DELETE_GOOD_QUEST_ITEM"].acceptDelay=0.5
-    StaticPopupDialogs["DELETE_GOOD_ITEM"].acceptDelay=0.5
-
+    --No se modifican los StaticPopupDialogs de Blizzard (taint); solo se rellena el texto de confirmación
     hooksecurefunc('ConfirmationEditBoxMatches', function(editBox, expectedText)
         if expectedText and not ConfirmationStringMatches(editBox:GetText(), expectedText) then
             editBox:SetText(expectedText)

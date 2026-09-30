@@ -14,17 +14,11 @@
     end
     for _, btn in pairs(frame:GetFrames() or {}) do
         if not btn.setOnDoubleClick then
+            --Doble clic: el primer clic selecciona la fila; se usa el botón de Blizzard, que pide confirmación
             btn:SetScript('OnDoubleClick', function(self)
-                if self.rowData and self.rowData.auctionID and C_AuctionHouse.CanCancelAuction(self.rowData.auctionID) then
-                    local cost= C_AuctionHouse.GetCancelCost(self.rowData.auctionID)
-                    local itemLink= WoWTools_AuctionHouseMixin:GetItemLink(self.rowData)
-                    C_AuctionHouse.CancelAuction(self.rowData.auctionID)
-                    print(
-                        WoWTools_AuctionHouseMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                        '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '取消拍卖' or AUCTION_HOUSE_CANCEL_AUCTION_BUTTON)..'|r',
-                        itemLink,
-                        cost and cost>0 and '|cnWARNING_FONT_COLOR:'..GetMoneyString(cost) or ''
-                    )
+                local cancelBtn= AuctionHouseFrameAuctionsFrame.CancelAuctionButton
+                if self.rowData and self.rowData.auctionID and cancelBtn and cancelBtn:IsEnabled() then
+                    cancelBtn:Click()
                 end
             end)
             btn.setOnDoubleClick=true
@@ -118,13 +112,18 @@ local function Init_Cancel_Button()
         end
         GameTooltip:AddDoubleLine(' ', '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '取消拍卖将使你失去保证金。' or CANCEL_AUCTION_CONFIRMATION))
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '备注' or LABEL_NOTE, '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '请不要太快' or ERR_GENERIC_THROTTLE))
+        GameTooltip:AddDoubleLine(' ', 'Shift+'..WoWTools_DataMixin.Icon.left)
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_AuctionHouseMixin.addName)
         GameTooltip:Show()
     end
 
     cancelButton:SetScript('OnLeave', GameTooltip_Hide)
     cancelButton:SetScript('OnEnter', cancelButton.set_tooltips)
+    --Cancela sin confirmación la subasta que antes expira: exige Shift para evitar clics accidentales
     cancelButton:SetScript('OnClick', function(self)
+        if not IsShiftKeyDown() then
+            return
+        end
         Cancel_Auction()
         self:set_tooltips()
     end)

@@ -337,7 +337,7 @@ local function Init()
                 return true
             end, function(data)
                 for _, flag in ContainerFrameUtil_EnumerateBagGearFilters() do
-                    C_Container.SetBagSlotFlag(data.bagID, flag, true)
+                    C_Container.SetBagSlotFlag(data.bagID, flag, false)--"Desactivar todo": antes ponía true y los activaba
                     ContainerFrameSettingsManager:SetFilterFlag(data.bagID, flag, false);
                 end
                 return MenuResponse.Close

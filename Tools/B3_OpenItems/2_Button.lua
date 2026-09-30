@@ -146,6 +146,12 @@ local function Init()
             if ScrappingMachineFrame and ScrappingMachineFrame:IsShown() and ScrappingMachineFrame:CanChangeAttribute() then
                 ScrappingMachineFrame:Hide()
             end
+            --Con banco, comercio o banco de hermandad abiertos, /use mueve el objeto allí en vez de usarlo
+            for _, frame in pairs({BankFrame, TradeFrame, GuildBankFrame}) do
+                if frame and frame:IsShown() and frame:CanChangeAttribute() then
+                    HideUIPanel(frame)
+                end
+            end
         end
     end)
 

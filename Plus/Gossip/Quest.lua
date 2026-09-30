@@ -7,6 +7,25 @@ end
 local IsQuestTrivialTracking
 local QuestButton
 
+--La misión consume oro, divisas u objetos que no son de misión (materiales, etc.)
+--En ese caso no se entrega sola, salvo que el jugador la haya elegido en questOption
+local function Quest_Costs_Resources(questID)
+    if questID and Save().questOption[questID] then
+        return false
+    end
+    if (GetQuestMoneyToGet() or 0)>0 or (GetNumQuestCurrencies() or 0)>0 then
+        return true
+    end
+    for i=1, GetNumQuestItems() or 0 do
+        local itemLink= GetQuestItemLink('required', i)
+        local classID= itemLink and select(6, C_Item.GetItemInfoInstant(itemLink))
+        if classID and classID~=Enum.ItemClass.Questitem then
+            return true
+        end
+    end
+    return false
+end
+
 
 
 
@@ -581,6 +600,10 @@ local function Init()
             or (Save().NPC[npc] and not Save().questOption[questID])
             or StaticPopup1:IsVisible()
         then
+            return
+        end
+
+        if IsQuestCompletable() and Quest_Costs_Resources(questID) then
             return
         end
 

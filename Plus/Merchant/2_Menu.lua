@@ -306,9 +306,9 @@ local function Init_Menu(self, root)
         --..(num==0 and '|cff626262' or '')
         --..' #'..num,
     function()
-        return not Save().notSellBoss
+        return Save().sellBoss
     end, function()
-        Save().notSellBoss= not Save().notSellBoss and true or nil
+        Save().sellBoss= not Save().sellBoss and true or nil
     end, {rightText=num})
     sub:SetTooltip(function(tooltip)
         local avgItemLevel= (GetAverageItemLevel() or 60)- 30

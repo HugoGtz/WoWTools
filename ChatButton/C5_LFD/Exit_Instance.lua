@@ -4,6 +4,15 @@ local function Save()
 end
 
 local ExitIns
+local ExitTimer--temporizador cancelable de la salida automática
+local ExitCancelled--el jugador canceló la salida en esta instancia: no volver a proponerla
+
+local function Cancel_Exit_Timer()
+    if ExitTimer then
+        ExitTimer:Cancel()
+        ExitTimer= nil
+    end
+end
 
 
 
@@ -18,6 +27,7 @@ end
 
 
 local function exit_Instance()
+    ExitTimer= nil
     local ins = select(2, IsInInstance())~='none'
     if not ExitIns or not ins or IsModifierKeyDown() or LFGDungeonReadyStatus:IsVisible() or LFGDungeonReadyDialog:IsVisible() then
         ExitIns= nil
@@ -106,6 +116,8 @@ local function Init_Frame()
                 and IsLFGComplete()
                 and not LFGDungeonReadyStatus:IsVisible()
                 and not LFGDungeonReadyDialog:IsVisible()
+                and not ExitCancelled
+                and not ExitTimer
                 and not StaticPopup_Visible('WoWTools_LFD_ExitIns') then
                     WoWTools_DataMixin:PlaySound()--播放, 声音
                     local leaveSce= 30
@@ -113,10 +125,10 @@ local function Init_Frame()
                         leaveSce= WoWToolsPlusSave['ChatButton_LFD'].sec
                     end
                     ExitIns=true
-                    C_Timer.After(leaveSce, function()
-                        exit_Instance()
-                    end)
-                    StaticPopup_Show('WoWTools_LFD_ExitIns')
+                    ExitTimer= C_Timer.NewTimer(leaveSce, exit_Instance)
+                    --El aviso muestra y dura los mismos segundos que el temporizador real
+                    StaticPopupDialogs['WoWTools_LFD_ExitIns'].timeout= leaveSce
+                    StaticPopup_Show('WoWTools_LFD_ExitIns', leaveSce)
 
                     WoWTools_CooldownMixin:Setup(WoWTools_DataMixin:StaticPopup_FindVisible('WoWTools_LFD_ExitIns') or StaticPopup1, nil, leaveSce, nil, true, true)--冷却条
             end
@@ -128,6 +140,8 @@ local function Init_Frame()
                 self:UnregisterEvent('LOOT_CLOSED')
             end
             ExitIns=nil
+            ExitCancelled=nil
+            Cancel_Exit_Timer()
 
         elseif event=='ISLAND_COMPLETED' then--离开海岛
             Save_Instance_Num('island')
@@ -186,17 +200,20 @@ local function Init()
             ..'|n|n|cff00ff00'
             ..(WoWTools_DataMixin.onlyChinese and '离开' or LEAVE)..'|r: '
             ..(WoWTools_DataMixin.onlyChinese and '副本' or INSTANCE)
-            ..'|cff00ff00 '..(Save().sec or 5)..' |r'
+            ..'|cff00ff00 %s |r'
             ..(WoWTools_DataMixin.onlyChinese and '秒' or LOSS_OF_CONTROL_SECONDS),
         button1 = WoWTools_DataMixin.onlyChinese and '离开' or  LEAVE,
         button2 = WoWTools_DataMixin.onlyChinese and '取消' or CANCEL,
         OnAccept=function()
             ExitIns=true
+            Cancel_Exit_Timer()
             exit_Instance()
         end,
         OnCancel=function(_, _, d)
             if d=='clicked' then
                 ExitIns=nil
+                ExitCancelled=true
+                Cancel_Exit_Timer()
                 print(
                     WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
                     '|cff00ff00'..(WoWTools_DataMixin.onlyChinese and '取消' or CANCEL)..'|r',
@@ -208,6 +225,8 @@ local function Init()
             if IsModifierKeyDown() or RolePollPopup:IsShown() then
                 self:Hide()
                 ExitIns=nil
+                ExitCancelled=true
+                Cancel_Exit_Timer()
             end
         end,
         --[[EditBoxOnEscapePressed = function(s)

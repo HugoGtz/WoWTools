@@ -65,6 +65,12 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         WoWToolsPlusSave['Other_MoneyFrame'].disabled= nil
     end
 
+    --Fork: autocompletar "DELETE" pasa a estar desactivado por defecto (se puede volver a activar en opciones)
+    if not WoWTools_OtherMixin:Save().forkDeleteOptIn then
+        WoWTools_OtherMixin:Save().disabledADD.DELETE= true
+        WoWTools_OtherMixin:Save().forkDeleteOptIn= true
+    end
+
 
     WoWTools_OtherMixin.addName= '|A:QuestNormal:0:0|a'..(WoWTools_DataMixin.onlyChinese and '其它' or OTHER)
 

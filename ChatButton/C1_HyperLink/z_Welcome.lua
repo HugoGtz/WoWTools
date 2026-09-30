@@ -22,7 +22,7 @@ local guildMS= ERR_GUILD_JOIN_S:gsub("%%s", "(.+)")--加入了公会
 
 
 local function Init()
-    if not Save().guildWelcome and Save().groupWelcome then
+    if not (Save().guildWelcome or Save().groupWelcome) then
         return
     end
 
@@ -31,7 +31,8 @@ local function Init()
             return
         end
 
-        local group= Save().groupWelcome and text:match(raidMS) or text:match(partyMS)
+        --Paréntesis: antes se saludaba al grupo aunque groupWelcome estuviera desactivado
+        local group= Save().groupWelcome and (text:match(raidMS) or text:match(partyMS))
         local guild= Save().guildWelcome and text:match(guildMS)
 
         if group then
