@@ -327,7 +327,7 @@ end
 
 local ExpansionIcon = {
 	[0] = {  -- Classic Era
-		textureFile = "Interface\\AddOns\\WoWTools\\Source\\Texture\\WoW\\0.tga",
+		textureFile = "Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoW\\0.tga",
 		textureWidth = 32,
 		textureHeight = 16,
 		aspectRatio = 31 / 16,
@@ -337,7 +337,7 @@ local ExpansionIcon = {
 		bottomTexel = 1
 	},
 	[1] = {  -- Burning Crusade
-		textureFile = "Interface\\AddOns\\WoWTools\\Source\\Texture\\WoW\\1.tga",
+		textureFile = "Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoW\\1.tga",
 		textureWidth = 32,
 		textureHeight = 16,
 		aspectRatio = 29 / 12,
@@ -347,7 +347,7 @@ local ExpansionIcon = {
 		bottomTexel = 0.875
 	},
 	[2] = {  -- Wrath of the Lich King
-		textureFile = "Interface\\AddOns\\WoWTools\\Source\\Texture\\WoW\\2.tga",
+		textureFile = "Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoW\\2.tga",
 		textureWidth = 64,
 		textureHeight = 32,
 		aspectRatio = 36 / 19,
@@ -357,7 +357,7 @@ local ExpansionIcon = {
 		bottomTexel = 0.78125
 	},
 	[3] = {  -- Cataclysm
-		textureFile = "Interface\\AddOns\\WoWTools\\Source\\Texture\\WoW\\3.tga",
+		textureFile = "Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoW\\3.tga",
 		textureWidth = 64,
 		textureHeight = 16,
 		aspectRatio = 38 / 15,
@@ -367,7 +367,7 @@ local ExpansionIcon = {
 		bottomTexel = 0.9375
 	},
 	[4] = {  -- Mists of Pandaria
-		textureFile = "Interface\\AddOns\\WoWTools\\Source\\Texture\\WoW\\4.tga",
+		textureFile = "Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoW\\4.tga",
 		textureWidth = 64,
 		textureHeight = 16,
 		aspectRatio = 46 / 14,
@@ -377,7 +377,7 @@ local ExpansionIcon = {
 		bottomTexel = 0.9375
 	},
 	[5] = {  -- Warlords of Draenor
-		textureFile = "Interface\\AddOns\\WoWTools\\Source\\Texture\\WoW\\5.tga",
+		textureFile = "Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoW\\5.tga",
 		textureWidth = 64,
 		textureHeight = 16,
 		aspectRatio = 46 / 13,
@@ -387,7 +387,7 @@ local ExpansionIcon = {
 		bottomTexel = 0.875
 	},
     [6] = {  -- Legion
-		textureFile = "Interface\\AddOns\\WoWTools\\Source\\Texture\\WoW\\6.tga",
+		textureFile = "Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoW\\6.tga",
 		textureWidth = 64,
 		textureHeight = 16,
 		aspectRatio = 40 / 15,
@@ -397,7 +397,7 @@ local ExpansionIcon = {
 		bottomTexel = 0.9375
 	},
 	[7] = {  -- Battle for Azeroth
-		textureFile = "Interface\\AddOns\\WoWTools\\Source\\Texture\\WoW\\7.tga",
+		textureFile = "Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoW\\7.tga",
 		textureWidth = 64,
 		textureHeight = 32,
 		aspectRatio = 48 / 17,
@@ -407,7 +407,7 @@ local ExpansionIcon = {
 		bottomTexel = 0.75
 	},
 	[8] = {  -- Shadowlands
-		textureFile = "Interface\\AddOns\\WoWTools\\Source\\Texture\\WoW\\8.tga",
+		textureFile = "Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoW\\8.tga",
 		textureWidth = 64,
 		textureHeight = 32,
 		aspectRatio = 43 / 17,
@@ -417,7 +417,7 @@ local ExpansionIcon = {
 		bottomTexel = 0.75
 	},
 	[9] = {  -- Dragonflight
-		textureFile = "Interface\\AddOns\\WoWTools\\Source\\Texture\\WoW\\9.tga",
+		textureFile = "Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoW\\9.tga",
 		textureWidth = 64,
 		textureHeight = 32,
 		aspectRatio = 42 / 17,
@@ -427,7 +427,7 @@ local ExpansionIcon = {
 		bottomTexel = 0.75
 	},
 	[10] = {  -- The War Within
-		textureFile = "Interface\\AddOns\\WoWTools\\Source\\Texture\\WoW\\10.tga",
+		textureFile = "Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoW\\10.tga",
 		textureWidth = 64,
 		textureHeight = 32,
 		aspectRatio = 42 / 17,
@@ -437,7 +437,7 @@ local ExpansionIcon = {
 		bottomTexel = 0.75
 	},
     [11] = {  -- The War Within
-		textureFile = "Interface\\AddOns\\WoWTools\\Source\\Texture\\WoW\\11.tga",
+		textureFile = "Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoW\\11.tga",
 		textureWidth = 64,
 		textureHeight = 32,
 		aspectRatio = 36 / 17,

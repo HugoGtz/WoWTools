@@ -146,7 +146,7 @@ panel:RegisterEvent("ADDON_LOADED")
 
 panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
-        if arg1== 'WoWTools' then
+        if arg1== 'WoWToolsPlus' then
 
             WoWToolsSave['Tools_Foods']= WoWToolsSave['Tools_Foods'] or P_Save
             P_Save= nil

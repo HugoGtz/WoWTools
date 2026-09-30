@@ -1,16 +1,14 @@
 ## Interface: 120005
-## Title: |cffff00ffWoW|r|cff00ff00Tools|r
-## Author: husandro
+## Title: |cffff00ffWoW|r|cff00ff00Tools|r|cff00ccffPlus|r
+## Author: husandro (fork: HugoGtz)
 ## Version: @project-version@
-## Notes: |A:Icon-WoW:0:0|aWoW |cffff4800Plus|r|n|A:WoWShare-TwitterLogo:0:0|a|cff00ccffhttps://github.com/husandro/WoWTools|r
+## Notes: Fork de WoWTools (husandro) con arreglos de bugs y localización es/en.|nNo activar junto al WoWTools original.
 ## SavedVariables: WoWToolsSave, WoWTools_WoWDate, WoWToolsPlayerDate
 ## DefaultState: Enabled
-## X-Wago-ID: baND1J6o
-## X-Curse-Project-ID: 715192
 ## X-Category: Plugins
-## IconTexture: Interface\AddOns\WoWTools\Source\Texture\WoWtools.tga
+## IconTexture: Interface\AddOns\WoWToolsPlus\Source\Texture\WoWtools.tga
 ###IconAtlas: orderhalltalents-done-glow
-## X-Website https://github.com/husandro/WoWTools
+## X-Website: https://github.com/HugoGtz/WoWTools
 ## OptionalDeps: LibStub-1.0, CallbackHandler-1.0, LibDataBroker-1.1, LibDBIcon-1.0, LibRangeCheck-3.0
 ####AddonCompartmentFunc: WowTools_OnAddonCompartmentClick
 ####AddonCompartmentFuncOnEnter: WowTools_OnAddonCompartmentFuncOnEnter
@@ -23,6 +21,7 @@ Source\Libs\LibDBIcon-1.0.lua
 Source\Libs\LibRangeCheck-3.0.lua
 
 ##主要function，不能删除
+0_Data\0_Conflict.lua
 0_Data\1_DataMixin.lua
 0_Data\z_Panel.lua
 0_Data\2_DataMixin_WoW.lua

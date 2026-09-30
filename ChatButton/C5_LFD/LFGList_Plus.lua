@@ -24,7 +24,7 @@ local function Init()--预创建队伍增强
 
     local btn= WoWTools_ButtonMixin:Menu(LFGListFrame, {
         size=16,
-        texture='Interface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools',
+        texture='Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools',
         name='WoWToolsLFGPlusMainButton',
     })
 

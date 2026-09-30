@@ -458,7 +458,7 @@ local panel= CreateFrame("Frame")
 panel:RegisterEvent("ADDON_LOADED")
 panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
-        if arg1== 'WoWTools' then
+        if arg1== 'WoWToolsPlus' then
 
             WoWToolsSave['ChatButton']= WoWToolsSave['ChatButton'] or P_Save
             Save().disabledADD= Save().disabledADD or {}

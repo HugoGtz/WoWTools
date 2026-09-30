@@ -6,14 +6,14 @@ local function Add_OpenOptionButton(frame)
         return
     end
 
-    local btn= CreateFrame('Button', 'WoWTools'..frame:GetParent():GetName()..'ItemInfoOptionsButton', frame, 'WoWToolsButtonTemplate')
+    local btn= CreateFrame('Button', 'WoWToolsPlus'..frame:GetParent():GetName()..'ItemInfoOptionsButton', frame, 'WoWToolsButtonTemplate')
     btn:SetSize(32,32)
     btn:SetNormalAtlas('charactercreate-icon-customize-body-selected')
     WoWTools_TextureMixin:SetAlphaColor(btn:GetNormalTexture(), true)
     --[[WoWTools_ButtonMixin:Cbtn(frame, {
         atlas='charactercreate-icon-customize-body-selected',
         size=40,
-        name='WoWTools'..frame:GetParent():GetName()..'ItemInfoOptionsButton'
+        name='WoWToolsPlus'..frame:GetParent():GetName()..'ItemInfoOptionsButton'
     })]]
 
     btn:SetPoint('TOPRIGHT',-5,-25)

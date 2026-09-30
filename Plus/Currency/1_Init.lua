@@ -116,7 +116,7 @@ panel:RegisterEvent('PLAYER_ENTERING_WORLD')
 
 panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
-        if arg1== 'WoWTools' then
+        if arg1== 'WoWToolsPlus' then
 
 			WoWToolsSave['Currency2']= WoWToolsSave['Currency2'] or {
 				tokens={},

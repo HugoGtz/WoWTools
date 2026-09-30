@@ -125,7 +125,7 @@ local function Set_Gossip_Text(self, info)
 
     if text then
         if isChangFont then
-            --self:GetFontString():SetFont('Interface\\AddOns\\WoWTools\\Source\\ARHei.TTF', size)
+            --self:GetFontString():SetFont('Interface\\AddOns\\WoWToolsPlus\\Source\\ARHei.TTF', size)
             self:GetFontString():SetFont('Fonts\\ARHei.ttf', size)
         else
             self:GetFontString():SetFontObject('QuestFontLeft')
@@ -226,8 +226,8 @@ local function Init()
             self.texture:SetAtlas('SpecDial_LastPip_BorderGlow')
             _G['WoWToolsOpenGossipIconTextButton']:SetNormalAtlas('SpecDial_LastPip_BorderGlow')
         else
-            self.texture:SetTexture('Interface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools')
-            _G['WoWToolsOpenGossipIconTextButton']:SetNormalTexture('Interface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools')
+            self.texture:SetTexture('Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools')
+            _G['WoWToolsOpenGossipIconTextButton']:SetNormalTexture('Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools')
         end
         --self.texture:SetDesaturated(not Save().gossip)
         self:set_alpha()

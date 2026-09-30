@@ -159,7 +159,7 @@ panel:RegisterEvent('ADDON_LOADED')
 
 panel:SetScript('OnEvent', function(self, event, arg1)
     if event=='ADDON_LOADED' then
-        if arg1== 'WoWTools' then
+        if arg1== 'WoWToolsPlus' then
 
             WoWToolsSave['ChatButton_HyperLink']= WoWToolsSave['ChatButton_HyperLink'] or P_Save
             P_Save=nil

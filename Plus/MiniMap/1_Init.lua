@@ -42,7 +42,7 @@ local P_Save={
             --['BugSack']=true,
         },
         hideAdd={--隐藏
-            ['WoWTools']=true,
+            ['WoWToolsPlus']=true,
         },
         userAdd={},--自定义
         numLine=1,
@@ -139,7 +139,7 @@ panel:RegisterEvent("ADDON_LOADED")
 
 panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
-        if arg1== 'WoWTools' then
+        if arg1== 'WoWToolsPlus' then
 
             WoWToolsSave['Minimap_Plus']= WoWToolsSave['Minimap_Plus'] or P_Save
 

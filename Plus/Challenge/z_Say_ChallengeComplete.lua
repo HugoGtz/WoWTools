@@ -23,7 +23,7 @@ local function Settings(isSay, sayType)
             SayButton:Reset()
             local icon = GetItemButtonIconTexture(SayButton)
             if icon then
-                icon:SetTexture('Interface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools')
+                icon:SetTexture('Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools')
             end
         end
 

@@ -52,21 +52,21 @@ end
 
 
 local function Init_Icon()
-    if not Save().Icons.disabled and Save().Icons.hideAdd['WoWTools'] then
+    if not Save().Icons.disabled and Save().Icons.hideAdd['WoWToolsPlus'] then
         return
     end
 
     local libDataBroker = LibStub:GetLibrary("LibDataBroker-1.1", true)
     local libDBIcon = LibStub("LibDBIcon-1.0", true)
     
-    local name='WoWTools'
+    local name='WoWToolsPlus'
     --if not libDBIcon:GetMinimapButton(name) then
-    libDBIcon:Register(name, libDataBroker:NewDataObject('WoWTools', {
+    libDBIcon:Register(name, libDataBroker:NewDataObject('WoWToolsPlus', {
         OnClick=On_Click,--fun(displayFrame: Frame, buttonName: string)
         --OnEnter=On_Enter,--fun(displayFrame: Frame)
         OnLeave=GameTooltip_Hide,--fun(displayFrame: Frame)
         OnTooltipShow=On_Enter,--fun(tooltip: Frame)
-        icon='Interface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools.tga',--string
+        icon='Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools.tga',--string
         iconB=nil,--number,
         iconCoords=nil,--table,
         iconG=nil,--number,

@@ -308,7 +308,7 @@ local function Init()
         if enabled then
             GameTooltip:AddLine(' ')
             GameTooltip_AddInstructionLine(GameTooltip, (WoWTools_DataMixin.onlyChinese and '启用' or ENABLE)..':')
-            GameTooltip_AddHighlightLine(GameTooltip, 'WoWTools')
+            GameTooltip_AddHighlightLine(GameTooltip, 'WoWToolsPlus')
             if C_AddOns.GetAddOnInfo('BugSack') then
                 GameTooltip_AddHighlightLine(GameTooltip, 'BugSack')
             end
@@ -333,7 +333,7 @@ local function Init()
 
         if addonIndex<1 then
             for i=1, C_AddOns.GetNumAddOns() do
-                if C_AddOns.GetAddOnName(i)== 'WoWTools' then
+                if C_AddOns.GetAddOnName(i)== 'WoWToolsPlus' then
                     addonIndex= i
                     break
                 end
@@ -345,7 +345,7 @@ local function Init()
     end)
     function btn:set_icon()
         if Save().enableAllButtn then
-            self:SetNormalTexture('Interface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools')
+            self:SetNormalTexture('Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools')
         else
             self:SetNormalAtlas('talents-button-reset')
         end
@@ -370,7 +370,7 @@ local function Init()
         local zh= LOCALE_zhCN
 
         for name, value in pairs({
-            ['WoWTools']=true,
+            ['WoWToolsPlus']=true,
             ['BugSack']=true,
             ['!BugGrabber']=true,
 

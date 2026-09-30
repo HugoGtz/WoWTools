@@ -5,7 +5,7 @@
 
 
 WoWTools_DataMixin= {
-    addName= '|TInterface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools.tga:0|t|cffff00ffWoW|r|cff00ff00Tools|r',
+    addName= '|TInterface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools.tga:0|t|cffff00ffWoW|r|cff00ff00Tools|r',
     onlyChinese= LOCALE_zhCN and true or false,
 
     --isRetail = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE and not C_AddOns.IsAddOnLoaded('Blizzard_PTRFeedback'),--Blizzard_PTRFeedback
@@ -119,8 +119,8 @@ WoWTools_UnitMixin:GetRaceIcon('player', nil, nil, {reAtlas=true})  玩家图标
 
 WoWTools_DataMixin.Icon={
     Player= '',--玩家图标icon  WoWTools_UnitMixin:GetRaceIcon('player') 
-    icon= 'Interface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools',
-    icon2='|TInterface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools:0|t',
+    icon= 'Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools',
+    icon2='|TInterface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools:0|t',
 
     right='|A:NPE_RightClick:0:0|a',
     left='|A:NPE_LeftClick:0:0|a',

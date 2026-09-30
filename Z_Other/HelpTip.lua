@@ -71,7 +71,7 @@ local panel= CreateFrame("Frame")
 panel:RegisterEvent("ADDON_LOADED")
 panel:SetScript("OnEvent", function(self, event, arg1)
     if event=='ADDON_LOADED' then
-        if arg1== 'WoWTools' then
+        if arg1== 'WoWToolsPlus' then
             if WoWTools_OtherMixin:AddOption(
                 'HelpTip',
                 '|A:newplayertutorial-drag-cursor:0:0|a'..(WoWTools_DataMixin.onlyChinese and '隐藏教程' or  format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, HIDE, SHOW_TUTORIALS)),

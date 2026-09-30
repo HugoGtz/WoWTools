@@ -308,7 +308,7 @@ local panel= CreateFrame("Frame")
 panel:RegisterEvent("ADDON_LOADED")
 panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
-        if arg1== 'WoWTools' then
+        if arg1== 'WoWToolsPlus' then
             WoWToolsPlayerDate['Tools_UseItems']= WoWToolsPlayerDate['Tools_UseItems'] or P_Tabs
 
             WoWTools_UseItemsMixin.addName= '|A:soulbinds_tree_conduit_icon_utility:0:0|a'..(WoWTools_DataMixin.onlyChinese and '使用物品' or USE_ITEM)

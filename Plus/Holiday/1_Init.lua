@@ -62,7 +62,7 @@ end
 
 panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
-        if arg1== 'WoWTools' then
+        if arg1== 'WoWToolsPlus' then
 
             WoWToolsSave['Plus_Holiday']= WoWToolsSave['Plus_Holiday'] or {
                 onGoing=true,--仅限: 正在活动

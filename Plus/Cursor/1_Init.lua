@@ -2,7 +2,7 @@
 WoWTools_CursorMixin={
     Color= PlayerUtil.GetClassColor(),
     DefaultTexture= 'bonusobjectives-bar-starburst',
-    DefaultGCDTexture= 'Interface\\Addons\\WoWTools\\Source\\Mouse\\Aura73',
+    DefaultGCDTexture= 'Interface\\Addons\\WoWToolsPlus\\Source\\Mouse\\Aura73',
 }
 
 local P_Save={
@@ -52,18 +52,18 @@ local P_Save={
         'housing-item-toast-leaf03',
         'housing-item-toast-leaf05',
 
-        [[Interface\Addons\WoWTools\Source\Mouse\Aura121]],
+        [[Interface\Addons\WoWToolsPlus\Source\Mouse\Aura121]],
 
-        [[Interface\Addons\WoWTools\Source\Mouse\Aura73.tga]],
-        [[Interface\Addons\WoWTools\Source\Mouse\Aura94.tga]],
-        [[Interface\Addons\WoWTools\Source\Mouse\Aura103.tga]],
-        [[Interface\Addons\WoWTools\Source\Mouse\Aura142.tga]],
+        [[Interface\Addons\WoWToolsPlus\Source\Mouse\Aura73.tga]],
+        [[Interface\Addons\WoWToolsPlus\Source\Mouse\Aura94.tga]],
+        [[Interface\Addons\WoWToolsPlus\Source\Mouse\Aura103.tga]],
+        [[Interface\Addons\WoWToolsPlus\Source\Mouse\Aura142.tga]],
     },
     GCDTexture={
-        [[Interface\Addons\WoWTools\Source\Mouse\Aura73.tga]],
-        [[Interface\Addons\WoWTools\Source\Mouse\Aura94.tga]],
-        [[Interface\Addons\WoWTools\Source\Mouse\Aura103.tga]],
-        [[Interface\Addons\WoWTools\Source\Mouse\Aura142.tga]],
+        [[Interface\Addons\WoWToolsPlus\Source\Mouse\Aura73.tga]],
+        [[Interface\Addons\WoWToolsPlus\Source\Mouse\Aura94.tga]],
+        [[Interface\Addons\WoWToolsPlus\Source\Mouse\Aura103.tga]],
+        [[Interface\Addons\WoWToolsPlus\Source\Mouse\Aura142.tga]],
     },
     gcdSize=15,
     gcdTextureIndex=1,
@@ -82,7 +82,7 @@ panel:RegisterEvent("ADDON_LOADED")
 
 panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
-        if arg1== 'WoWTools' then
+        if arg1== 'WoWToolsPlus' then
 
             WoWToolsSave['Plus_Cursor']= WoWToolsSave['Plus_Cursor'] or P_Save
             P_Save=nil

@@ -119,7 +119,7 @@ function WoWTools_FrameMixin:Create(parent, tab)
     tab= tab or {}
     parent= parent or UIParent
 
-    local name= tab.name or ((parent:GetName() or 'WoWTools')..'Frame'..getIndex())
+    local name= tab.name or ((parent:GetName() or 'WoWToolsPlus')..'Frame'..getIndex())
     local size= tab.size
     --local strata= tab.strata
     local template= tab.template-- or 'BasicFrameTemplate'-- or 'BaseBasicFrameTemplate'
@@ -168,7 +168,7 @@ function WoWTools_FrameMixin:Create(parent, tab)
 
 --Border
     frame.Border= CreateFrame('Frame', name..'Border', frame, 'DialogBorderTemplate')
-    frame.Border.Bg:SetTexture('Interface\\AddOns\\WoWTools\\Source\\Background\\Black.tga')
+    frame.Border.Bg:SetTexture('Interface\\AddOns\\WoWToolsPlus\\Source\\Background\\Black.tga')
 
 
 --Header

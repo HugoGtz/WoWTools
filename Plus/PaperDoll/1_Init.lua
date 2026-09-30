@@ -281,7 +281,7 @@ panel:RegisterEvent("ADDON_LOADED")
 
 panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
-        if arg1== 'WoWTools' then
+        if arg1== 'WoWToolsPlus' then
 
             WoWToolsSave['Plus_PaperDoll']= WoWToolsSave['Plus_PaperDoll'] or {
                 StatusPlus_OnEnter_show_menu=true,--移过图标时，显示菜单

@@ -246,7 +246,7 @@ end
 local function Create_Button(frame)
 
     frame.WoWToolsButton= CreateFrame('DropdownButton', nil, frame, 'WoWToolsMenuTemplate')
-    frame.WoWToolsButton:SetNormalTexture('Interface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools.tga')
+    frame.WoWToolsButton:SetNormalTexture('Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools.tga')
     frame.WoWToolsButton:SetPoint('BOTTOMRIGHT')
     frame.WoWToolsButton:SetupMenu(Init_Menu)
 

@@ -371,7 +371,7 @@ local frame= CreateFrame('Frame')
 frame:RegisterEvent('ADDON_LOADED')
 frame:SetScript('OnEvent', function(self, event, arg1)
 	--if event=='ADDON_LOADED' then
-	if arg1~= 'WoWTools' then
+	if arg1~= 'WoWToolsPlus' then
 		return
 	end
 

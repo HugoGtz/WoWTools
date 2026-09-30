@@ -426,7 +426,7 @@ end)]]
 
 
 EventRegistry:RegisterFrameEventAndCallback("ADDON_LOADED", function(owner, arg1)
-    if arg1~='WoWTools' then
+    if arg1~='WoWToolsPlus' then
         return
     end
 

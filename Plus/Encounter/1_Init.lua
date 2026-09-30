@@ -104,7 +104,7 @@ local panel= CreateFrame("Frame")
 panel:RegisterEvent("ADDON_LOADED")
 panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
-        if arg1== 'WoWTools' then
+        if arg1== 'WoWToolsPlus' then
 
             WoWToolsSave['Adventure_Journal']= WoWToolsSave['Adventure_Journal'] or {
                 favorites={},--副本收藏 WoWTools_DataMixin.Player.GUID= {}

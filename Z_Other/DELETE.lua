@@ -25,7 +25,7 @@ end
 local panel= CreateFrame("Frame")
 panel:RegisterEvent("ADDON_LOADED")
 panel:SetScript("OnEvent", function(self, event, arg1)
-    if arg1== 'WoWTools' then
+    if arg1== 'WoWToolsPlus' then
         if WoWTools_OtherMixin:AddOption(
             'DELETE',
             '|A:XMarksTheSpot:0:0|a'..(WoWTools_DataMixin.onlyChinese and 'DELETE' or DELETE_ITEM_CONFIRM_STRING),

@@ -912,7 +912,7 @@ local function Init_Button_All()
         if Save().hide then
             btn:SetNormalAtlas('talents-button-reset')
         else
-            btn:SetNormalTexture('Interface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools')
+            btn:SetNormalTexture('Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools')
         end
     end
     function btn:set_shown()
@@ -1135,7 +1135,7 @@ end
 local panel= CreateFrame("Frame")
 panel:RegisterEvent("ADDON_LOADED")
 panel:SetScript("OnEvent", function(self, event, arg1)
-    if arg1~= 'WoWTools' then
+    if arg1~= 'WoWToolsPlus' then
         return
     end
 

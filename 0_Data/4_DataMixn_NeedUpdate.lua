@@ -255,7 +255,7 @@ end
 
 
 --https://wago.tools/db2/SpellFlyout?locale=zhCN
---Interface\\AddOns\\WoWTools\\Source\\Texture\\WoW\\0.tga
+--Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoW\\0.tga
 WoWTools_DataMixin.FlyoutID={
     {flyoutID= 246, ver=11},--英雄之路：“至暗之夜”
 

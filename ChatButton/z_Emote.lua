@@ -1282,7 +1282,7 @@ MainButton:RegisterEvent('ADDON_LOADED')
 
 MainButton:SetScript('OnEvent', function(self, event, arg1)
     if event=='ADDON_LOADED' then
-        if arg1== 'WoWTools' then
+        if arg1== 'WoWToolsPlus' then
             WoWToolsSave['Plus_EmoteButton']= WoWToolsSave['Plus_EmoteButton'] or CopyTable(P_Save)
             WoWToolsPlayerDate['EmoteButton']= WoWToolsPlayerDate['EmoteButton'] or CopyTable(P_SaveUse)
             addName= '|A:newplayerchat-chaticon-newcomer:0:0|a'..(WoWTools_DataMixin.onlyChinese and '表情' or EMOTE_MESSAGE)

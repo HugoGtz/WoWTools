@@ -491,7 +491,7 @@ local function Init()
     EmojiButton.numAllFile= EmojiButton.numFile+8
 
     for index, text in pairs(EmojiText) do
-        TextToTexture['{'..text..'}']= '|TInterface\\Addons\\WoWTools\\Source\\Emojis\\'..EmojiText_EN[index]..':0|t'
+        TextToTexture['{'..text..'}']= '|TInterface\\Addons\\WoWToolsPlus\\Source\\Emojis\\'..EmojiText_EN[index]..':0|t'
     end
 
 
@@ -506,7 +506,7 @@ local function Init()
     function EmojiButton:get_texture(index)
         index= index or Save().clickIndex or 18
         if index<=self.numFile then
-            return 'Interface\\Addons\\WoWTools\\Source\\Emojis\\'..EmojiText_EN[index]
+            return 'Interface\\Addons\\WoWToolsPlus\\Source\\Emojis\\'..EmojiText_EN[index]
         else
             return 'Interface\\TargetingFrame\\UI-RaidTargetingIcon_'..(index-self.numFile)
         end
@@ -623,12 +623,12 @@ local panel= CreateFrame('Frame')
 panel:RegisterEvent('ADDON_LOADED')
 
 panel:SetScript('OnEvent', function(self, event, arg1)
-    if arg1== 'WoWTools' then
+    if arg1== 'WoWToolsPlus' then
 
         WoWToolsSave['ChatButton_Emoji']= WoWToolsSave['ChatButton_Emoji'] or P_Save
         P_Save=nil
 
-        addName= '|TInterface\\Addons\\WoWTools\\Source\\Emojis\\Embarrass:0|tEmoji'
+        addName= '|TInterface\\Addons\\WoWToolsPlus\\Source\\Emojis\\Embarrass:0|tEmoji'
         EmojiButton= WoWTools_ChatMixin:CreateButton('Emoji', addName)
 
         if EmojiButton then--禁用Chat Button

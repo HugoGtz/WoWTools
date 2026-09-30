@@ -116,7 +116,7 @@ local function Init()
         if Save().disabledClassTrainer then
             self:SetNormalAtlas('talents-button-reset')
         else
-            self:SetNormalTexture('Interface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools')
+            self:SetNormalTexture('Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools')
         end
     end
     btn2:set_icon()

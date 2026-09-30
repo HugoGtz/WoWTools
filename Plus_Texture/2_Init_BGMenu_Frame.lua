@@ -9,7 +9,7 @@ end
 local BGName= 'WoWTools_BG'
 
 
-local RestIcon= 'Interface\\AddOns\\WoWTools\\Source\\Background\\Black.tga'
+local RestIcon= 'Interface\\AddOns\\WoWToolsPlus\\Source\\Background\\Black.tga'
 
 local function SaveData(name)
     if Save().Add[name].enabled then
@@ -43,7 +43,7 @@ end
 
 local TextureTab={
 [RestIcon]=1,
-['Interface\\AddOns\\WoWTools\\Source\\Background\\White.tga']=1,
+['Interface\\AddOns\\WoWToolsPlus\\Source\\Background\\White.tga']=1,
 ['Interface\\DialogFrame\\UI-DialogBox-Background']=1,
 ['Interface\\DialogFrame\\UI-DialogBox-Background-Dark']=1,
 ['Interface\\DialogFrame\\UI-DialogBox-Gold-Background']=1,
@@ -349,7 +349,7 @@ local function texture_list(self, root, name, icon, texture, isAdd)
         function()
             StaticPopup_Show('WoWTools_OK',
             (WoWTools_DataMixin.onlyChinese and '清除' or SLASH_STOPWATCH_PARAM_STOP2)
-            ..'|n|n'..texture:gsub('Interface\\AddOns\\WoWTools\\Source\\Background\\', ''),
+            ..'|n|n'..texture:gsub('Interface\\AddOns\\WoWToolsPlus\\Source\\Background\\', ''),
             nil,
             {SetValue=function()
                 WoWToolsPlayerDate['BGTexture'][texture]= nil
@@ -383,7 +383,7 @@ local function Texture_List_Menu(self, root, icon, name)
                 local b1= s.button1 or s:GetButton1()
                 local edit= s.editBox or s:GetEditBox()
                 b1:SetText(WoWTools_DataMixin.onlyChinese and '添加' or ADD)
-                edit:SetText('Interface\\AddOns\\WoWTools\\Source\\Background\\')
+                edit:SetText('Interface\\AddOns\\WoWToolsPlus\\Source\\Background\\')
             end,
             SetValue= function(s)
                 local edit= s.editBox or s:GetEditBox()
@@ -401,7 +401,7 @@ local function Texture_List_Menu(self, root, icon, name)
             EditBoxOnTextChanged=function(s)
                 local textureID= select(2, WoWTools_TextureMixin:IsAtlas(s:GetText(), 0))
                 local enabled= textureID
-                    and textureID:gsub(' ', '')~='' and textureID~='Interface\\AddOns\\WoWTools\\Source\\Background\\'
+                    and textureID:gsub(' ', '')~='' and textureID~='Interface\\AddOns\\WoWToolsPlus\\Source\\Background\\'
 
                 local isAdd= WoWToolsPlayerDate['BGTexture'][textureID]
                 local isTextureTab= TextureTab[textureID]
@@ -1134,7 +1134,7 @@ local function Create_Button(self, tab)
 
     self.bgMenuButton= CreateFrame('DropdownButton', tab.name..'BGMenuButton', p, 'WoWToolsMenu3Template')
     --self.bgMenuButton.isMenuButton=true
-    self.bgMenuButton:SetNormalTexture('Interface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools')
+    self.bgMenuButton:SetNormalTexture('Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools')
     local icon= self.bgMenuButton:GetNormalTexture()
     icon:ClearAllPoints()
     icon:SetPoint('CENTER')
@@ -1143,7 +1143,7 @@ local function Create_Button(self, tab)
     --[[WoWTools_ButtonMixin:Cbtn(p, {
         size=23,
         name=tab.name..'BGMenuButton',
-        texture='Interface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools',
+        texture='Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools',
     })
     --self.bgMenuButton.isLeftShowMenu=true
 

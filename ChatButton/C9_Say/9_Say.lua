@@ -583,7 +583,7 @@ panel:RegisterEvent("ADDON_LOADED")
 
 panel:SetScript("OnEvent", function(self, event, arg1, arg2, ...)
     if event == "ADDON_LOADED" then
-        if arg1== 'WoWTools' then
+        if arg1== 'WoWToolsPlus' then
 
             WoWToolsSave['ChatButton_Say']= WoWToolsSave['ChatButton_Say'] or P_Save
             Save().text= Save().text or (WoWTools_DataMixin.onlyChinese and '说' or SAY)

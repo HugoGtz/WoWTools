@@ -30,7 +30,7 @@ function WoWTools_LabelMixin:Create(frame, tab)
 
     tab= tab or {}
     frame= frame or UIParent
-    local name= tab.name --or ((frame:GetName() or 'WoWTools')..'Label'..IndexLabel)
+    local name= tab.name --or ((frame:GetName() or 'WoWToolsPlus')..'Label'..IndexLabel)
     local alpha= tab.alpha or 1
     local font= tab.changeFont
     local layer= tab.layer or 'OVERLAY'--BACKGROUND BORDER ARTWORK OVERLAY HIGHLIGHT
@@ -49,7 +49,7 @@ function WoWTools_LabelMixin:Create(frame, tab)
     if copyFont and copyFont.GetFont then
         local fontName2, size2, fontFlag2 = copyFont:GetFont()
         if WoWTools_DataMixin.onlyChinese and not LOCALE_zhCN then
-            fontName2= 'Fonts\\ARHei.ttf'--'Interface\\AddOns\\WoWTools\\Source\\ARHei.TTF'--黑体字
+            fontName2= 'Fonts\\ARHei.ttf'--'Interface\\AddOns\\WoWToolsPlus\\Source\\ARHei.TTF'--黑体字
         end
         font:SetFont(fontName2, size or size2, fontFlag2)
         font:SetTextColor(copyFont:GetTextColor())
@@ -63,7 +63,7 @@ function WoWTools_LabelMixin:Create(frame, tab)
         if WoWTools_DataMixin.onlyChinese or size then--THICKOUTLINE
             local fontName2, size2, fontFlag2= font:GetFont()
             if WoWTools_DataMixin.onlyChinese and not LOCALE_zhCN then
-                fontName2= 'Fonts\\ARHei.ttf'--'Interface\\AddOns\\WoWTools\\Source\\ARHei.TTF'--黑体字
+                fontName2= 'Fonts\\ARHei.ttf'--'Interface\\AddOns\\WoWToolsPlus\\Source\\ARHei.TTF'--黑体字
             end
             font:SetFont(fontName2, size or size2, notFlag and fontFlag2 or 'OUTLINE')
         end

@@ -143,7 +143,7 @@ end
 --[[队友，施法
 local function Create_castFrame(frame)
     local unit= frame:GetUnit()
-    local castFrame= CreateFrame("Frame", 'WoWTools'..unit..'ToTCastingFrame', frame)
+    local castFrame= CreateFrame("Frame", 'WoWToolsPlus'..unit..'ToTCastingFrame', frame)
     castFrame:SetPoint('BOTTOMLEFT', frame.ToTButton, 'BOTTOMRIGHT')
     castFrame:SetSize(20,20)
 
@@ -245,7 +245,7 @@ end]]
 local function Create_frame(partyFrame)
     local frame= CreateFrame("Frame", nil, partyFrame)
 
-    frame.faction=frame:CreateTexture('WoWTools'..partyFrame.unit..'FactionTexture', 'ARTWORK')
+    frame.faction=frame:CreateTexture('WoWToolsPlus'..partyFrame.unit..'FactionTexture', 'ARTWORK')
     frame.faction:SetSize(14,14)
     frame.faction:SetPoint('TOPLEFT', partyFrame.Portrait)
 

@@ -107,7 +107,7 @@ local function Init(frame)
         if Save().hide then
             self:SetNormalAtlas('talents-button-reset')
         else
-            self:SetNormalTexture('Interface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools')
+            self:SetNormalTexture('Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools')
         end
     end
 

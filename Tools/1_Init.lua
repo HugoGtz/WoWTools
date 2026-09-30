@@ -297,7 +297,7 @@ local function Init()
     btn.texture:SetPoint('CENTER')
     btn.texture:SetSize(10,10)
     btn.texture:SetShown(Save().showIcon)
-    btn.texture:SetTexture('Interface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools')
+    btn.texture:SetTexture('Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools')
 
     function btn:set_size()
         self:SetSize(30, Save().height or 10)
@@ -465,7 +465,7 @@ panel:RegisterEvent("ADDON_LOADED")
 panel:RegisterEvent('PLAYER_ENTERING_WORLD')
 panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
-        if arg1== 'WoWTools' then
+        if arg1== 'WoWToolsPlus' then
             WoWToolsSave['WoWTools_ToolsButton']= WoWToolsSave['WoWTools_ToolsButton'] or {
                 --disabled=true,
 

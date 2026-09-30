@@ -240,7 +240,7 @@ local function Init_Achievement()
     back:SetFrameStrata('HIGH')
     back:SetSize(20,20)
     back:SetPoint('LEFT', AchievementFrameFilterDropdown, 'RIGHT', 2, 0)
-    back:SetNormalTexture(0)--'Interface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools.tga')
+    back:SetNormalTexture(0)--'Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools.tga')
     WoWTools_ButtonMixin:AddMask(back)
     back:SetScript('OnLeave', GameTooltip_Hide)
     back:SetScript('OnEnter', function(self)
@@ -257,7 +257,7 @@ local function Init_Achievement()
     next:SetFrameStrata('HIGH')
     next:SetSize(20,20)
     next:SetPoint('LEFT', back, 'RIGHT')
-    next:SetNormalTexture(0)--'Interface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools.tga')
+    next:SetNormalTexture(0)--'Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools.tga')
     WoWTools_ButtonMixin:AddMask(next)
     next:SetScript('OnLeave', GameTooltip_Hide)
     next:SetScript('OnEnter', function(self)
@@ -738,7 +738,7 @@ local panel= CreateFrame("Frame")
 panel:RegisterEvent("ADDON_LOADED")
 
 panel:SetScript("OnEvent", function(self, event, arg1)
-    if arg1== 'WoWTools' then
+    if arg1== 'WoWToolsPlus' then
         WoWToolsSave['Plus_Achievement']= WoWToolsSave['Plus_Achievement'] or {completedAlpha=1}
         addName= '|A:UI-Achievement-Shield-NoPoints:0:0|a'..(WoWTools_DataMixin.onlyChinese and '成就' or ACHIEVEMENTS)
 

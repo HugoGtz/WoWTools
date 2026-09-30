@@ -338,7 +338,7 @@ local function Init(isShow)
         local show= not Save().TypeButton.hideFrame
         self.frame:SetShown(show)
         if show then
-            self.texture:SetTexture('Interface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools')
+            self.texture:SetTexture('Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools')
         else
             self.texture:SetAtlas('WildBattlePetCapturable')
         end

@@ -6,14 +6,14 @@ local P_Save={
             ['!BugGrabber']=true,
             ['TextureAtlasViewer']=true,-- true, i or guid
             ['WoWTools_Chinese']=(not LOCALE_zhCN and not LOCALE_zhTW) and true or nil,
-            ['WoWTools']=true,
+            ['WoWToolsPlus']=true,
         }, [WoWTools_DataMixin.Player.husandro and '宠物对战' or PET_BATTLE_COMBAT_LOG]={
             ['BugSack']=true,
             ['!BugGrabber']=true,
             ['tdBattlePetScript']=true,
             --['zAutoLoadPetTeam_Rematch']=true,
             ['Rematch']=true,
-            ['WoWTools']=true,
+            ['WoWToolsPlus']=true,
         }, [WoWTools_DataMixin.Player.husandro and '副本' or INSTANCE]={
             ['BugSack']=true,
             ['!BugGrabber']=true,
@@ -23,12 +23,12 @@ local P_Save={
             ['DBM-Core']=true,
             ['DBM-Challenges']=true,
             ['DBM-StatusBarTimers']=true,
-            ['WoWTools']=true,
+            ['WoWToolsPlus']=true,
         }
     },
     fast={
         ['TextureAtlasViewer']=true,
-        ['WoWTools']=true,
+        ['WoWToolsPlus']=true,
         --['WeakAuras']=true,
         --['WeakAurasOptions']=true,
     },
@@ -107,7 +107,7 @@ local panel= CreateFrame("Frame")
 panel:RegisterEvent("ADDON_LOADED")
 
 panel:SetScript("OnEvent", function(self, event, arg1)
-    if arg1~= 'WoWTools' then
+    if arg1~= 'WoWToolsPlus' then
         return
     end
 

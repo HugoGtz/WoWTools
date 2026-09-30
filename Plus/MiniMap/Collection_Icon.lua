@@ -1078,7 +1078,7 @@ local function Init()
     Button.bg:SetPoint("CENTER", Button, "CENTER")
 
     Button.icon=Button:CreateTexture(nil, 'ARTWORK')
-    Button.icon:SetTexture('Interface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools')
+    Button.icon:SetTexture('Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools')
     Button.icon:SetPoint('CENTER')
     Button.icon:SetSize(18, 18)
 

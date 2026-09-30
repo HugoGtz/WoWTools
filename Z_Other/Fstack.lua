@@ -28,7 +28,7 @@ end
 
 local function Set_BGAlpha(self)
     if self.DialogBG then
-        self.DialogBG:SetTexture('Interface\\AddOns\\WoWTools\\Source\\Background\\Black.tga')
+        self.DialogBG:SetTexture('Interface\\AddOns\\WoWToolsPlus\\Source\\Background\\Black.tga')
         self.DialogBG:SetAlpha(Save().debugTooltBgAlpha or 0.75)
     end
 end
@@ -80,7 +80,7 @@ local function Init_Create(frame)
 
 --/fstack
     frame.WoWToolsButton= CreateFrame('Button', nil, frame, 'WoWToolsButtonTemplate')
-    frame.WoWToolsButton:SetNormalTexture('Interface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools')
+    frame.WoWToolsButton:SetNormalTexture('Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools')
     frame.WoWToolsButton:SetPoint('RIGHT', frame, 'TOPRIGHT', -20, -44)
 
 
@@ -442,7 +442,7 @@ end
 local panel= CreateFrame("Frame")
 panel:RegisterEvent("ADDON_LOADED")
 panel:SetScript("OnEvent", function(self, event, arg1)
-    if arg1== 'WoWTools' then
+    if arg1== 'WoWToolsPlus' then
         WoWToolsSave['Other_Fstack']= WoWToolsSave['Other_Fstack'] or {}
 
         if WoWTools_OtherMixin:AddOption(

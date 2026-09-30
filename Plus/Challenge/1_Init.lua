@@ -86,7 +86,7 @@ local panel= CreateFrame("Frame")
 panel:RegisterEvent("ADDON_LOADED")
 panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
-        if arg1== 'WoWTools' then
+        if arg1== 'WoWToolsPlus' then
 
             WoWToolsSave['Plus_Challenges']= WoWToolsSave['Plus_Challenges'] or {
                 --hideIns=true,--隐藏，副本，挑战，信息

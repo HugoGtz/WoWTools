@@ -312,7 +312,7 @@ panel:RegisterEvent("ADDON_LOADED")
 
 panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
-        if arg1== 'WoWTools' then
+        if arg1== 'WoWToolsPlus' then
 
             addName= '|T134863:0|t'..(WoWTools_DataMixin.onlyChinese and '诺格弗格药剂' or ItemName)
 

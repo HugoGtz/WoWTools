@@ -189,7 +189,7 @@ local function Init()
 	function btn:Settings()
 		local hide= Save().hide
 		if hide then
-			self:SetNormalTexture('Interface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools')
+			self:SetNormalTexture('Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools')
 		else
 			self:SetNormalAtlas('ui-questtrackerbutton-filter')
 		end

@@ -24,7 +24,7 @@ local P_Save={
 
         },]]
         All={--统一设置
-            texture='Interface\\AddOns\\WoWTools\\Source\\Background\\Black.tga',
+            texture='Interface\\AddOns\\WoWToolsPlus\\Source\\Background\\Black.tga',
             alpha=0.75,
             nineSlice=0,
         },
@@ -351,7 +351,7 @@ end
 
 panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
-        if arg1== 'WoWTools' then
+        if arg1== 'WoWToolsPlus' then
 
             WoWToolsSave['Plus_Texture']= WoWToolsSave['Plus_Texture'] or P_Save
             WoWToolsPlayerDate['TextureClassColor']= WoWToolsPlayerDate['TextureClassColor'] or {}
