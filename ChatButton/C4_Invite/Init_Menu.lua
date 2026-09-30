@@ -237,59 +237,6 @@ local function Init_Menu(self, root)
         end
     end)
 
-    local chatName= Save().SummonThxText or WoWTools_InviteMixin.SummonThxText
-    chatName= chatName:gsub('{rt%d}', function(a)
-         return '|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_'..a:match('%d')..':0|t'
-    end)
-    sub2=sub:CreateCheckbox(
-        chatName,
-    function()
-        return Save().SummonChat
-    end, function()
-        Save().SummonChat= not Save().SummonChat and true or nil
-    end)
-    sub2:SetTooltip(function(tooltip)
-        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Invite.SummonChat'])
-        tooltip:AddLine(
-            '|A:voicechat-icon-textchat-silenced:0:0|a'
-            ..(WoWTools_L.SAY)
-        )
-        tooltip:AddLine(Save().SummonThxText or WoWTools_InviteMixin.SummonThxText, HIGHLIGHT_FONT_COLOR:GetRGB())
-    end)
-
---修改    
-    sub2=sub:CreateButton(WoWTools_L['Modify'], function()
-        StaticPopup_Show('WoWTools_EditText',
-            (WoWTools_L.SUMMON),
-            nil,
-            {
-                text= Save().SummonThxText or WoWTools_InviteMixin.SummonThxText,
-                SetValue= function(s)
-                    local edit= s.editBox or s:GetEditBox()
-                    Save().SummonThxText=edit:GetText()
-                    print(
-                        WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                        Save().SummonThxText
-                    )
-                end,
-                OnAlt=function()
-                    Save().SummonThxText=nil
-                end,
-            }
-        )
-        return MenuResponse.Open
-    end)
-    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Invite.SummonText'])
-
-    sub:CreateDivider()
-    sub2=sub:CreateCheckbox(
-        WoWTools_L.RAID,
-    function()
-        return Save().SummonThxInRaid
-    end, function()
-        Save().SummonThxInRaid= not Save().SummonThxInRaid and true or nil
-    end)
-    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Invite.SummonRaid'])
 
 
 
@@ -364,19 +311,6 @@ local function Init_Menu(self, root)
     )
 
 
-    sub:CreateDivider()
-    sub2=sub:CreateCheckbox(WoWTools_L['Whisper/Follow'],function()
-        return Save().setFrameFun
-    end, function()
-        Save().setFrameFun= not Save().setFrameFun and true or false
-    end)
-    sub2:SetTooltip(function(tooltip)
-        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Invite.WheelWhisper'])
-        tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
-    end)
-
-    sub:CreateTitle(format('   |A:bags-greenarrow:0:0|a%s', WoWTools_L['Mouse wheel up: Whisper']))
-    sub:CreateTitle(format('   |A:UI-HUD-MicroMenu-StreamDLRed-Up:0:0|a%s', WoWTools_L['Mouse wheel down: Follow']))
 
 
 --reload

@@ -103,7 +103,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         end
 
     elseif event=='PLAYER_ENTERING_WORLD' then
-        WoWTools_CursorMixin:Cursor_Settings()
         WoWTools_CursorMixin:GCD_Settings()
         self:UnregisterEvent(event)
     end

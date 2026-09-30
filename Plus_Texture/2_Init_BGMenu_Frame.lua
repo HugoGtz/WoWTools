@@ -146,52 +146,6 @@ local TextureTab={
 }
 
 
-local function PlayStop_Anims(self)
-    local play= self:IsDrawLayerEnabled('BACKGROUND')
-            and self:IsVisible()
-            and not Save().Anims.disabled
-            and self.AirParticlesFar:GetAlpha()>0
-
-    self.AirParticlesFar:SetShown(play)
-    self.backgroundAnims:SetPlaying(play)
-end
-
--- 根据框架大小更新动画偏移量和速度的函数
-local function Update_Animation(self)
-    local width, height= 0, 0
-    if self and self.backgroundAnims and self.backgroundAnims.fadeIn then
-        width, height= self[BGName]:GetSize()
-    end
-
-    if width==0 or height==0 then
-        if self.backgroundAnims then
-            self.backgroundAnims:SetPlaying(false)
-            self.AirParticlesFar:SetShown(false)
-        end
-        return
-    end
-
-    -- 动画从左上角到右下角
-    local xOffset = width
-    local yOffset = -height
-
-    self.backgroundAnims.moveAnim:SetOffset(xOffset, yOffset)    -- 左上到右下
-    self.backgroundAnims.resetPos:SetOffset(-xOffset, -yOffset)  -- 回到左上
-
-    -- 根据对角线长度设置动画持续时间，保证速度一致
-    local distance = math.sqrt(xOffset * xOffset + yOffset * yOffset)
-    local speed = Save().Anims.speed or 10 -- 像素每秒，可根据需要调整
-    local duration = distance / speed
-    self.backgroundAnims.moveAnim:SetDuration(duration)
-
-    local alpha = Save().Anims.alpha or 0.75
-    self.backgroundAnims.fadeIn:SetToAlpha(alpha)   -- 变为不透明
-    self.backgroundAnims.fadeOut:SetFromAlpha(alpha)    -- 从不透明
-
-    PlayStop_Anims(self)
-end
-
-
 local function Set_BGTexture(self, name)
     local icon= self[BGName]
     if not icon then
@@ -253,8 +207,6 @@ local function Set_BGTexture(self, name)
 --DrawLayer
     self:SetDrawLayerEnabled('BACKGROUND', not Save().Add[name].notLayer)
 
---动画
-    Update_Animation(self)
 end
 
 
@@ -601,9 +553,6 @@ local function Init_Menu(self, root, isSub)
         local enabled= Save().Add[name].notLayer
         Save().Add[name].notLayer= not enabled and true or nil
         Settings(self)
-        if self.backgroundAnims then
-            self.backgroundAnims:SetPlaying(enabled or false)
-        end
     end)
     sub:SetTooltip(function(tooltip)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Texture.BgLayer'])
@@ -742,57 +691,6 @@ local function Init_Menu(self, root, isSub)
     --sub:CreateSpacer()
 
 
---动画
-    sub2=sub:CreateCheckbox(
-        WoWTools_L.ANIMATION,
-    function()
-        return not Save().Anims.disabled
-    end, function()
-        Save().Anims.disabled= not Save().Anims.disabled and true or nil
-        Settings()
-    end)
-    sub2:SetTooltip(function(tooltip)
-        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Texture.Anims'])
-        tooltip:AddLine('|cnGREEN_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD))
-    end)
-
-
---透明度
-    sub2:CreateSpacer()
-    WoWTools_MenuMixin:CreateSlider(sub2, {
-        getValue=function()
-            return Save().Anims.alpha or 0.75
-        end,
-        setValue=function(value)
-            Save().Anims.alpha=value
-            Settings()
-        end,
-        name=WoWTools_L.HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY,
-        minValue=0.1,
-        maxValue=1,
-        step=0.05,
-        bit='%.2f',
-    })
-    sub2:CreateSpacer()
-
---速度
-    sub2:CreateSpacer()
-    WoWTools_MenuMixin:CreateSlider(sub2, {
-        getValue=function()
-            return Save().Anims.speed or 10
-        end,
-        setValue=function(value)
-            Save().Anims.speed=value
-            Settings()
-        end,
-        name=WoWTools_L.SPEED,
-        minValue=1,
-        maxValue=130,
-        step=1,
-        --bit='%.2f',
-    })
-    sub2:CreateSpacer()
-
 --打开选项界面
     --sub:CreateSpacer()
     sub2=WoWTools_MenuMixin:OpenOptions(sub, {
@@ -829,91 +727,6 @@ local function Init_Menu(self, root, isSub)
     sub2:CreateDivider()
 --重新加载UI
     WoWTools_MenuMixin:Reload(sub2)
-end
-
-
---创建动画组
-local function Create_Anims(self, icon, tab)
-    if self.AirParticlesFar
-        or self.backgroundAnims
-        or tab.notAnims
-        or Save().Anims.disabled
-    then
-        return
-    end
-
-    local texture= tab.texture
-    local atlas= tab.atlas or 'talents-animations-particles'
-    local isType2= tab.isType2
-
-    self.AirParticlesFar = self:CreateTexture(nil, 'BACKGROUND', nil, 7)
-
-    if texture then
-        self.AirParticlesFar:SetTexture(texture)
-    else
-        self.AirParticlesFar:SetAtlas(atlas)
-    end
-
-
-    self.AirParticlesFar:SetAllPoints(icon)
-    self.AirParticlesFar:SetTexCoord(1, 0, 1, 0)
-
-    -- 设置混合模式为ADD，使粒子效果更亮 DISABLE, BLEND, ALPHAKEY, ADD, MOD
-    self.AirParticlesFar:SetBlendMode("ADD")
-
-    if not self.FullMask then
-        self.FullMask = self:CreateMaskTexture()
-        if isType2 then
-            self.FullMask:SetTexture('Interface\\CharacterFrame\\TempPortraitAlphaMask', "CLAMPTOBLACKADDITIVE" , "CLAMPTOBLACKADDITIVE")--ItemButtonTemplate.xml
-        else
-            self.FullMask:SetAtlas('UI-HUD-CoolDownManager-Mask')--UI-HUD-CoolDownManager-Mask
-        end
-        self.FullMask:SetPoint('TOPLEFT', icon, -15, 15)
-        self.FullMask:SetPoint('BOTTOMRIGHT', icon, 15, -15)
-    end
-    self.AirParticlesFar:AddMaskTexture(self.FullMask)
-
-    -- 创建动画组
-    self.backgroundAnims = self.AirParticlesFar:CreateAnimationGroup()
-    self.backgroundAnims:SetLooping("REPEAT") -- 设置循环播放
-
-    -- 透明度变化动画
-    self.backgroundAnims.fadeIn = self.backgroundAnims:CreateAnimation("Alpha")
-    self.backgroundAnims.fadeIn:SetFromAlpha(0) -- 从透明
-    --self.backgroundAnims.fadeIn:SetToAlpha(alpha)   -- 变为不透明
-    self.backgroundAnims.fadeIn:SetDuration(0)  -- 持续0秒
-    self.backgroundAnims.fadeIn:SetOrder(1)     -- 第一个播放
-
-    -- 创建淡出动画
-    self.backgroundAnims.fadeOut = self.backgroundAnims:CreateAnimation("Alpha")
-    --self.backgroundAnims.fadeOut:SetFromAlpha(alpha)    -- 从不透明
-    self.backgroundAnims.fadeOut:SetToAlpha(0)        -- 变为透明
-    self.backgroundAnims.fadeOut:SetDuration(0)       -- 持续0秒
-    self.backgroundAnims.fadeOut:SetOrder(2)          -- 第二个播放
-
-    -- 移动动画：从右下角移动到左上角
-    self.backgroundAnims.moveAnim = self.backgroundAnims:CreateAnimation("Translation")
-    self.backgroundAnims.moveAnim:SetOrder(1)           -- 第一个播放
-
-    -- 重置位置动画：瞬间回到原位
-    self.backgroundAnims.resetPos = self.backgroundAnims:CreateAnimation("Translation")
-    self.backgroundAnims.resetPos:SetDuration(0)        -- 瞬间完成
-    self.backgroundAnims.resetPos:SetOrder(2)           -- 第二个播放
-
-
--- 添加事件监听
-    self:HookScript("OnSizeChanged", function(frame)
-        Update_Animation(frame)
-    end)
-
-    self:HookScript("OnShow", function(frame)
-        Update_Animation(frame)
-        PlayStop_Anims(frame)
-    end)
-
-    self:HookScript("OnHide", function(frame)
-        frame.backgroundAnims:Stop()
-    end)
 end
 
 
@@ -1096,8 +909,6 @@ function WoWTools_TextureMixin:Init_BGMenu_Frame(frame, tab)
         settings= tab.settings,
     }
 
---创建动画组
-    Create_Anims(frame, frame[BGName], tab)
 --创建，菜单按钮
     Create_Button(frame, tab)
 --设置，调用，菜单

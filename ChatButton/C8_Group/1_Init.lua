@@ -564,9 +564,7 @@ local function Init()
     end
 
 
-    GroupButton:SetScript('OnMouseWheel', function(_, d)--发送自定义信息
-       Set_OnMouseWheel(d)
-    end)
+    --Ya no se envían mensajes al girar la rueda sobre el botón (se disparaba sin querer); se envían desde el menú
 
     GroupButton:SetupMenu(Init_Menu)
 

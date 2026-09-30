@@ -40,279 +40,6 @@ end
 
 
 --Curor, 添加控制面板
-local function Init_Cursor_Options(panel)
-    if Save().disabledCursor then
-        return
-    end
-
-    panel.sliderMaxParticles = WoWTools_SliderMixin:CSlider(panel, {
-        min=50,
-        max=4096,
-        value=Save().maxParticles,
-        setp=1,
-        text=WoWTools_L.PARTICLE_DENSITY,
-        func=function(self, value)
-            value= math.floor(value)
-            self:SetValue(value)
-            self.Text:SetText(value)
-            Save().maxParticles= value
-            WoWTools_CursorMixin:Cursor_Settings()
-        end
-    })
-    panel.sliderMaxParticles:SetPoint("TOPLEFT", panel.cursorCheck, 'BOTTOMLEFT', 0, -20)
-
-    local sliderMinDistance = WoWTools_SliderMixin:CSlider(panel, {min=1, max=10, value=Save().minDistance, setp=1, color=true,
-    text=WoWTools_L['Minimum distance'],
-    func=function(self, value)
-        value= math.floor(value)
-        self:SetValue(value)
-        self.Text:SetText(value)
-        Save().minDistance= value
-        WoWTools_CursorMixin:Cursor_Settings()
-    end})
-    sliderMinDistance:SetPoint("TOPLEFT", panel.sliderMaxParticles, 'BOTTOMLEFT', 0, -20)
-
-
-    local sliderSize = WoWTools_SliderMixin:CSlider(panel, {min=8, max=256, value=Save().size, setp=1,
-    text=WoWTools_L.HUD_EDIT_MODE_SETTING_BAGS_SIZE ,
-    func=function(self, value)
-        value= math.floor(value)
-        self:SetValue(value)
-        self.Text:SetText(value)
-        Save().size= value
-        WoWTools_CursorMixin:Cursor_Settings()
-    end})
-    sliderSize:SetPoint("TOPLEFT", sliderMinDistance, 'BOTTOMLEFT', 0, -20)
-
-    local sliderX = WoWTools_SliderMixin:CSlider(panel, {min=-100, max=100, value=Save().X, setp=1, color=true,
-    text='X',
-    func=function(self, value)
-        value= math.floor(value)
-        self:SetValue(value)
-        self.Text:SetText(value)
-        Save().X= value==0 and 0 or value
-        WoWTools_CursorMixin:Cursor_Settings()
-    end})
-    sliderX:SetPoint("TOPLEFT", sliderSize, 'BOTTOMLEFT', 0, -20)
-
-    local sliderY = WoWTools_SliderMixin:CSlider(panel, {min=-100, max=100, value=Save().Y, setp=1,
-    text='Y',
-    func=function(self, value)
-        value= math.floor(value)
-        self:SetValue(value)
-        self.Text:SetText(value)
-        Save().Y= value==0 and 0 or value
-        WoWTools_CursorMixin:Cursor_Settings()
-    end})
-    sliderY:SetPoint("TOPLEFT", sliderX, 'BOTTOMLEFT', 0, -20)
-
-    local sliderRate = WoWTools_SliderMixin:CSlider(panel, {min=0.001, max=0.1, value=Save().rate, setp=0.001, color=true,
-    text=WoWTools_L.REFRESH,
-    func=function(self, value)
-        value= tonumber(format('%.3f', value))
-        self:SetValue(value)
-        self.Text:SetText(value)
-        Save().rate= value
-        WoWTools_CursorMixin:Cursor_Settings()
-    end})
-    sliderRate:SetPoint("TOPLEFT", sliderY, 'BOTTOMLEFT', 0, -20)
-
-    local sliderRotate = WoWTools_SliderMixin:CSlider(panel, {min=0, max=32, value=Save().rotate, setp=1,
-    text=WoWTools_L['Rotate'],
-    func=function(self, value)
-        value= math.floor(value)
-        self:SetValue(value)
-        self.Text:SetText(value)
-        Save().rotate= value==0 and 0 or value
-        WoWTools_CursorMixin:Cursor_Settings()
-    end})
-    sliderRotate:SetPoint("TOPLEFT", sliderRate, 'BOTTOMLEFT', 0, -20)
-
-    local sliderDuration = WoWTools_SliderMixin:CSlider(panel, {min=0.1, max=4, value=Save().duration, setp=0.1, color=true,
-    text=WoWTools_L.AUCTION_DURATION,
-    func=function(self, value)
-        value= tonumber(format('%.1f', value))
-        self:SetValue(value)
-        self.Text:SetText(value)
-        Save().duration=  value
-        WoWTools_CursorMixin:Cursor_Settings()
-    end})
-    sliderDuration:SetPoint("TOPLEFT", sliderRotate, 'BOTTOMLEFT', 0, -20)
-
-    local sliderGravity = WoWTools_SliderMixin:CSlider(panel, {min=-512, max=512, value=Save().gravity, setp=1,
-    text=WoWTools_L.BATTLE_PET_SOURCE_1,
-    func=function(self, value)
-        value= math.floor(value)
-        self:SetValue(value)
-        self.Text:SetText(value)
-        Save().gravity= value==0 and 0 or value
-        WoWTools_CursorMixin:Cursor_Settings()
-    end})
-    sliderGravity:SetPoint("TOPLEFT", sliderDuration, 'BOTTOMLEFT', 0, -20)
-
-    local alphaSlider = WoWTools_SliderMixin:CSlider(panel, {min=0.1, max=1, value=Save().alpha, setp=0.1, color=true,
-    text=WoWTools_L.HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY,
-    func=function(self, value)
-        value= tonumber(format('%.1f', value))
-        self:SetValue(value)
-        self.Text:SetText(value)
-        Save().alpha= value
-        WoWTools_CursorMixin:Cursor_Settings()
-    end})
-    alphaSlider:SetPoint("TOPLEFT", sliderGravity, 'BOTTOMLEFT', 0, -20)
-
-
-    local dropDown = CreateFrame("DropdownButton", nil, panel, "WowStyle1DropdownTemplate")--下拉，菜单
-    local delColorButton= WoWTools_ButtonMixin:Cbtn(panel, {size=20})--删除, 按钮
-    local addColorEdit= CreateFrame("EditBox", nil, panel, 'InputBoxTemplate')--EditBox
-    local addColorButton= WoWTools_ButtonMixin:Cbtn(panel, {size=20})--添加, 按钮
-    local numColorText= WoWTools_LabelMixin:Create(panel, {justifyH='RIGHT'})--nil, nil, nil, nil, nil, 'RIGHT')--颜色，数量
-    numColorText:SetPoint('RIGHT', dropDown, 'LEFT')
-
-    local function set_panel_Texture()--大图片
-        local texture= Save().Atlas[Save().atlasIndex]
-        texture= texture or WoWTools_CursorMixin.DefaultTexture
-        if WoWTools_TextureMixin:IsAtlas(texture) then
-            panel.Texture:SetAtlas(texture)
-        else
-            panel.Texture:SetTexture(texture)
-        end
-        addColorEdit:SetText(texture)
-        numColorText:SetText(#Save().Atlas)
-    end
-    set_panel_Texture()
-
---下拉，菜单
-    dropDown:SetPoint("TOPLEFT", alphaSlider, 'BOTTOMLEFT', 0,-32)
-    dropDown:SetWidth(195)
-    dropDown.Text:ClearAllPoints()
-    dropDown.Text:SetPoint('CENTER')
-    dropDown:SetDefaultText(Save().Atlas[Save().atlasIndex] or select(3, WoWTools_TextureMixin:IsAtlas(WoWTools_CursorMixin.DefaultTexture, 0)))
-    dropDown:SetupMenu(function(self, root)
-        if not self:IsMouseOver() then
-            return
-        end
-
-        local sub
-        for index, texture in pairs(Save().Atlas) do
-            local isAtlas, _, icon= WoWTools_TextureMixin:IsAtlas(texture, 64)
-            sub=root:CreateCheckbox(
-                '',
-            function(data)
-                return Save().atlasIndex==data.index
-            end, function(data)
-                Save().atlasIndex=data.index
-                Save().randomTexture=nil
-                panel.randomTextureCheck:SetChecked(false)
-                self:SetDefaultText(data.icon)
-                set_panel_Texture()
-                WoWTools_CursorMixin:Cursor_Settings()
-            end, {index=index, icon=icon, texture=texture, isAtlas=isAtlas})
-
-            sub:SetTooltip(function(tooltip, desc)
-                WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Cursor.CursorTexture'])
-                tooltip:AddLine(desc.data.icon)
-                tooltip:AddLine(desc.data.texture)
-                tooltip:AddLine(WoWTools_L.COMBAT_ALLY_START_MISSION)
-            end)
-
-            sub:AddInitializer(function(btn, desc)
-                local t= btn:AttachTexture()
-                t:SetSize(32, 32)
-                t:SetPoint('CENTER')
-                if desc.data.isAtlas then
-                    t:SetAtlas(desc.data.texture)
-                else
-                    t:SetTexture(desc.data.texture)
-                end
-            end)
-        end
-        WoWTools_MenuMixin:SetScrollMode(root)
-    end)
-
-
-    --删除，图片
-    delColorButton:SetPoint('LEFT', dropDown, 'RIGHT', 2,0)
-    delColorButton:SetSize(20,20)
-    delColorButton:SetNormalAtlas('xmarksthespot')
-    delColorButton:SetScript('OnClick', function()
-        local texture= Save().Atlas[Save().atlasIndex]
-        local icon = select(3, WoWTools_TextureMixin:IsAtlas(texture))
-        table.remove(Save().Atlas, Save().atlasIndex)
-        Save().atlasIndex=1
-        set_panel_Texture()
-        WoWTools_CursorMixin:Cursor_Settings()
-        addColorEdit:SetText(texture or WoWTools_CursorMixin.DefaultTexture)
-        print(
-            WoWTools_CursorMixin.addName..WoWTools_DataMixin.Icon.icon2,
-            WoWTools_L.REMOVE,
-            icon,
-            texture
-        )
-    end)
-
-    --添加，自定义，图片
-    local function add_Color()
-        local text= addColorEdit:GetText() or ''
-        if text:gsub(' ','')~='' then
-            table.insert(Save().Atlas, text)
-            addColorEdit:SetText('')
-            numColorText:SetText(#Save().Atlas)
-        end
-    end
-    addColorEdit:SetPoint("TOPLEFT", dropDown, 'BOTTOMLEFT',2,-2)
-	addColorEdit:SetSize(192,20)
-	addColorEdit:SetAutoFocus(false)
-    addColorEdit:ClearFocus()
-    addColorEdit:SetScript('OnTextChanged', function(self, userInput)
-        if userInput then
-            local text= self:GetText()
-            if text:gsub(' ','')~='' then
-                if WoWTools_TextureMixin:IsAtlas(text) then
-                    panel.Texture:SetAtlas(text)
-                else
-                    panel.Texture:SetTexture(text)
-                end
-            end
-        end
-    end)
-    addColorEdit:SetScript('OnEnterPressed', add_Color)
-    addColorEdit:SetScript('OnHide', addColorEdit.ClearFocus)
-
-    --添加按钮
-    addColorButton:SetPoint('LEFT', addColorEdit, 'RIGHT', 5,0)
-    addColorButton:SetNormalAtlas('common-icon-checkmark')
-    addColorButton:SetScript('OnClick', add_Color)
-    addColorButton:SetScript('OnEnter', function(self)
-        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-        GameTooltip:ClearLines()
-        GameTooltip:AddDoubleLine('Atlas', 'Texture')
-        GameTooltip:Show()
-    end)
-    addColorButton:SetScript('OnLeave', function()
-        GameTooltip:Hide()
-    end)
-
-    Init_Cursor_Options=function()end
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---GCD, 添加控制面板
 local function Init_GCD_Options(panel)
     if Save().disabledGCD then
         return
@@ -530,7 +257,7 @@ end
 
 
 local function Init_Options(panel)
-    if (Save().disabledCursor and Save().disabledGCD) then
+    if Save().disabledGCD then
         return
     end
 
@@ -553,7 +280,6 @@ local function Init_Options(panel)
         Save().notUseColor=nil
         notUseColorCheck:SetChecked(false)
         Set_Color()
-        WoWTools_CursorMixin:Cursor_Settings()
         WoWTools_CursorMixin:GCD_Settings(true)
     end)
     Set_Description(useClassColorCheck, WoWTools_L['Tip.Cursor.ClassColor'])
@@ -577,7 +303,6 @@ local function Init_Options(panel)
             Save().color= {r=setR, g=setG, b=setB, a=setA}
             self:SetTextColor(setR, setG, setB, setA)
             Set_Color()
-            WoWTools_CursorMixin:Cursor_Settings()
             WoWTools_CursorMixin:GCD_Settings(true)
         end
         WoWTools_ColorMixin:ShowColorFrame(self.r, self.g, self.b,self.a, function()
@@ -587,12 +312,10 @@ local function Init_Options(panel)
                 setR, setG, setB, setA= valueR, valueG, valueB, valueA
                 if usrClassColor then
                     Save().usrClassColor=true
-                    WoWTools_CursorMixin:Cursor_Settings()
                     WoWTools_CursorMixin:GCD_Settings(true)
                     useClassColorCheck:SetChecked(true)
                 elseif notUseColor then
                     Save().notUseColor=true
-                    WoWTools_CursorMixin:Cursor_Settings()
                     WoWTools_CursorMixin:GCD_Settings(true)
                     notUseColorCheck:SetChecked(true)
                 end
@@ -618,7 +341,6 @@ local function Init_Options(panel)
         Save().notUseColor= not Save().notUseColor and true or nil
         Set_Color()
         useClassColorCheck:SetChecked(false)
-        WoWTools_CursorMixin:Cursor_Settings()
         WoWTools_CursorMixin:GCD_Settings(true)
     end)
     Set_Description(notUseColorCheck, WoWTools_L['Tip.Cursor.NoColor'])
@@ -630,7 +352,6 @@ local function Init_Options(panel)
     panel.randomTextureCheck:SetChecked(Save().randomTexture)
     panel.randomTextureCheck:SetScript('OnMouseDown', function()
         Save().randomTexture= not Save().randomTexture and true or false
-        WoWTools_CursorMixin:Cursor_Settings()
         WoWTools_CursorMixin:GCD_Settings(true)
     end)
     panel.randomTextureCheck:SetScript('OnLeave', function()
@@ -697,22 +418,12 @@ local function Init(panel)
     )
 
 --Cursor, 启用/禁用
-    panel.cursorCheck=CreateFrame('CheckButton', nil, panel, "InterfaceOptionsCheckButtonTemplate")
-    panel.cursorCheck:SetChecked(not Save().disabledCursor)
-    panel.cursorCheck:SetPoint("TOPLEFT", 0, -35)
-    panel.cursorCheck.text:SetText('1)'..(WoWTools_L.ENABLE).. ' Cursor')
-    panel.cursorCheck:SetScript('OnMouseDown', function()
-        Save().disabledCursor = not Save().disabledCursor and true or nil
-        WoWTools_CursorMixin:Cursor_Settings(true)
-        WoWTools_CursorMixin:Set_Options(panel)
-    end)
-    Set_Description(panel.cursorCheck, WoWTools_L['Tip.Cursor.EnableCursor'])
 
 --GCD, 启用/禁用
     panel.gcdCheck=CreateFrame('CheckButton', nil, panel, "InterfaceOptionsCheckButtonTemplate")
     panel.gcdCheck:SetChecked(not Save().disabledGCD)
-    panel.gcdCheck:SetPoint("TOPLEFT", panel, 'TOP', 0, -35)
-    panel.gcdCheck.text:SetText('2)'..(WoWTools_L.ENABLE).. ' GCD')
+    panel.gcdCheck:SetPoint("TOPLEFT", 0, -35)
+    panel.gcdCheck.text:SetText((WoWTools_L.ENABLE).. ' GCD')
     panel.gcdCheck:SetScript('OnMouseDown', function()
         Save().disabledGCD = not Save().disabledGCD and true or nil
         WoWTools_CursorMixin:GCD_Settings(true)
@@ -724,13 +435,11 @@ local function Init(panel)
 
     if C_AddOns.IsAddOnLoaded('Blizzard_Settings') then
         Init_Options(panel)
-        Init_Cursor_Options(panel)
         Init_GCD_Options(panel)
         Init=function()end
     else
         Init=function()
             Init_Options(panel)
-            Init_Cursor_Options(panel)
             Init_GCD_Options(panel)
         end
     end

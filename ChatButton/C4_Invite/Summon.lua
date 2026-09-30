@@ -44,13 +44,6 @@ local function Init()
                     if not InCombatLockdown() and PlayerCanTeleport() then
                         C_SummonInfo.ConfirmSummon()
                         StaticPopup_Hide("CONFIRM_SUMMON")
-                        if not IsInGroup() or not Save().SummonChat then
-                            return
-                        end
-                        local isInRaid= IsInRaid()
-                        if isInRaid and Save().SummonThxInRaid or not isInRaid then
-                            WoWTools_ChatMixin:Chat(Save().SummonThxText or WoWTools_InviteMixin.SummonThxText, nil, nil)
-                        end
                     end
                 end)
             end

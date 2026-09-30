@@ -33,26 +33,6 @@ function WoWTools_InviteMixin:SetFocusButton(frame)
 
     frame.isSetFoucs= true
 
---跟随，密语 
-    if not Save().setFrameFun then
-        return
-    end
-
-    frame:EnableMouseWheel(true)
-    frame:HookScript('OnMouseWheel', function(f, d)
-        local unit= f.unit
-        if WoWTools_UnitMixin:UnitIsUnit('player', unit)==false
-            and WoWTools_UnitMixin:UnitExists(unit)
-            and UnitIsPlayer(unit)
-            and UnitIsFriend('player', unit)
-        then
-            if d==1 then
-                WoWTools_ChatMixin:Say(nil, UnitName(unit), nil, nil)--密语
-            elseif d==-1 then
-                FollowUnit(unit)--跟随
-            end
-        end
-    end)
 
 end
 

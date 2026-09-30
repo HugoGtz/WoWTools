@@ -142,7 +142,6 @@ Tools\1_Init.lua
 Tools\B1_Mount\1_Init.lua
 Tools\B1_Mount\Button.lua
 Tools\B1_Mount\Menu.lua
-Tools\B1_Mount\Mount_Show.lua
 Tools\B1_Mount\UI_Collections.lua
 Tools\B1_Mount\UI_SpellBook.lua
 ##随机炉石
@@ -353,7 +352,6 @@ Plus\Gossip\Gossip_TextData.lua
 Plus\Gossip\Quest.lua
 Plus\Gossip\Quest_Menu.lua
 Plus\Gossip\Quest_QuestInfo.lua
-Plus\Gossip\Quest_PlayText.lua
 Plus\Gossip\Gossip_Menu_Move.lua
 Plus\Gossip\StaticPopupDialogs.lua
 
@@ -459,7 +457,6 @@ Plus\MainMenu\HousingMicroButton.lua
 ##鼠标 Mouse https://wago.io/CVmKEpl6E
 Plus\Cursor\1_Init.lua
 Plus\Cursor\2_Blizzard_Settings.lua
-Plus\Cursor\Cursor.lua
 Plus\Cursor\GCD.lua
 
 ##天赋和法术 法术弹出框，加名称, 和颜色
@@ -545,7 +542,6 @@ ChatButton\C1_HyperLink\z_EventTrace.lua
 ChatButton\C1_HyperLink\z_Link_Icon.lua
 ChatButton\C1_HyperLink\z_Event_Sound.lua
 ChatButton\C1_HyperLink\z_Reload_Button.lua
-ChatButton\C1_HyperLink\z_Welcome.lua
 
 
 ##ROLL

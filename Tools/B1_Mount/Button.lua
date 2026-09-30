@@ -466,13 +466,6 @@ local function Init()
         end
     end)
 
-    btn:SetScript('OnMouseWheel',function(_, d)
-        if d==1 then--坐骑秀
-            _G['WoWToolsToolsMountFrame']:initMountShow()
-        elseif d==-1 then--坐骑特效
-            _G['WoWToolsToolsMountFrame']:initSpecial()
-        end
-    end)
 
     function btn:set_tooltip()
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
@@ -504,10 +497,6 @@ local function Init()
             )
             GameTooltip:AddLine(' ')
 
-            GameTooltip:AddDoubleLine(WoWTools_L['Mount show'], '|A:bags-greenarrow:0:0|a')
-            GameTooltip:AddDoubleLine(WoWTools_L['Mount special'], '|A:UI-HUD-MicroMenu-StreamDLYellow-Up:0:0|a')
-
-            GameTooltip:AddLine(' ')
             GameTooltip:AddDoubleLine(WoWTools_L.SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
         end
         GameTooltip:Show()
@@ -693,7 +682,6 @@ local function Init()
         end
     end)
 
-    WoWTools_MountMixin:Init_Mount_Show()--坐骑秀
 
     Init=function()end
 end

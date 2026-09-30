@@ -163,7 +163,6 @@ local function Init_Menu(self, root)
     end)
 
 --文本转语音
-    WoWTools_GossipMixin:Init_QuestPlayTextMenu(self, root)
 
 
 

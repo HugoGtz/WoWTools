@@ -41,7 +41,6 @@ local function Init()
     end
 
     WoWTools_GossipMixin:Init_Quest()--任务，初始化
-    WoWTools_GossipMixin:Init_QuestPlayText()
     WoWTools_GossipMixin:Init_QuestInfo_Display()--任务目标，类型提示
 
     WoWTools_GossipMixin:Init_StaticPopupDialogs()

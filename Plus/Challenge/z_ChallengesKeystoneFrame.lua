@@ -93,38 +93,6 @@ end
 
 --插入, KEY时, 说
 
-local function Set_SlotKeystoneSay()
-    local mapChallengeModeID, affixes, powerLevel = C_ChallengeMode.GetSlottedKeystoneInfo()
-    --OnKeystoneSlotted se ejecuta con el marco abierto: no comprobar IsVisible
-    if not Save().slotKeystoneSay
-        or not mapChallengeModeID
-    then
-        return
-    end
-
-    local name, _, timeLimit= C_ChallengeMode.GetMapUIInfo(mapChallengeModeID)
-
-    if not name then
-        return
-    end
-
-
-    local journalInstanceID= WoWTools_ChallengesSpellData[mapChallengeModeID] and WoWTools_ChallengesSpellData[mapChallengeModeID].ins
-    if journalInstanceID then
-        name = select(8, EJ_GetInstanceInfo(journalInstanceID)) or ('|Hjournal:0:'..journalInstanceID..':23|h['..name..']|h')
-    end
-
-    local m= name..'('.. powerLevel..'): '
-
-    for _,v in pairs(affixes or {}) do
-        local name2=C_ChallengeMode.GetAffixInfo(v)
-        if name2 then
-            m=m..name2..', '
-        end
-    end
-    m=m..WoWTools_TimeMixin:SecondsToClock(timeLimit)
-    WoWTools_ChatMixin:Chat(m, nil, nil)
-end
 
 
 local function Init_Buttons()--挑战,钥石,插入界面
@@ -281,17 +249,7 @@ local function Init_Buttons()--挑战,钥石,插入界面
     stop:SetPoint('TOP', ChallengesKeystoneFrame, 'BOTTOM',-100, 5)
     stop:SetSize(100,24)
     stop:SetScript("OnMouseDown",function()
-        C_PartyInfo.DoCountdown(0)
-        WoWTools_ChatMixin:Chat(WoWTools_DataMixin.Player.IsCN and '停止! 停止! 停止!' or 'Stop! Stop! Stop!', nil, nil)
-    end)
-    stop:SetScript('OnLeave', GameTooltip_Hide)
-    stop:SetScript('OnEnter', function(self)
-        GameTooltip:SetOwner(self, "ANCHOR_LEFT")
-        GameTooltip_SetTitle(GameTooltip,
-            '|A:transmog-icon-chat:0:0|a'..(WoWTools_DataMixin.Player.IsCN and '停止! 停止! 停止!' or 'Stop! Stop! Stop!'),
-            WARNING_FONT_COLOR
-        )
-        GameTooltip:Show()
+        C_PartyInfo.DoCountdown(0)--antes también enviaba 'Stop! Stop! Stop!' al grupo
     end)
 
 
@@ -340,16 +298,6 @@ local function Init_Menu(self, root)
         ..(WoWTools_L.SAY)
     )
 
---插入史诗钥石
-    local tipSub= root:CreateCheckbox(
-        WoWTools_L.CHALLENGE_MODE_INSERT_KEYSTONE,
-    function()
-        return Save().slotKeystoneSay
-    end, function()
-        Save().slotKeystoneSay= not Save().slotKeystoneSay and true or nil
-        WoWTools_ChallengeMixin:ChallengesKeystoneFrame()
-    end)
-    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Challenge.SlotSay'])
 
 
 --挑战结束
@@ -438,13 +386,11 @@ local function Init()
 
     function KeyFrame:settings()
 
-        self.ChatTooltipTexture:SetShown(Save().slotKeystoneSay)
+        self.ChatTooltipTexture:SetShown(false)
         self:SetShown(not Save().hideKeyUI)
         self:SetScale(Save().keystoneScale or 1)
     end
 
---插入, KEY时, 说
-    WoWTools_DataMixin:Hook(ChallengesKeystoneFrame, 'OnKeystoneSlotted', Set_SlotKeystoneSay)--插入, KEY时, 说
 
 
     KeyFrame:settings()
