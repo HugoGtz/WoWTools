@@ -3,29 +3,7 @@ local function Save()
 end
 
 
-
-
-
---[[
-MERCHANT_ITEMS_PER_PAGE = 10;
-BUYBACK_ITEMS_PER_PAGE = 12;
-MAX_ITEM_COST = 3;
-MAX_MERCHANT_CURRENCIES = 6;
-<Size x="336" y="444"/>
-<Size x="153" y="44"/>
-]]
 --更新物品
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Create_Lable(btn)
@@ -52,11 +30,6 @@ local function Create_Lable(btn)
     btn.itemBG:SetAlpha(Save().btnBgAlpha or 0.5)
     btn.itemBG:Hide()
 
-    --[[local count= _G[name..'ItemButtonCount']
-    if count then
-        count:ClearAllPoints()
-        count:SetPoint('BOTTOMRIGHT', 0, 10)
-    end]]
 
 --查询，背包，物品
     btn.ItemButton:HookScript('OnEnter', function(self)
@@ -134,12 +107,6 @@ local function Create_ItemButton()
 end
 
 
-
-
-
-
-
-
 --移动，设置大小，缩放
 local function Size_Update()
     do
@@ -202,18 +169,6 @@ local function Size_Update()
         MerchantNextPageButton:SetShown(false)
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --增加，按钮宽度，按钮，菜单
@@ -394,45 +349,6 @@ local function ResizeButton2_Menu(self, root)
         end, i)
     end
 end
---[[    root:CreateSpacer()
-    root:CreateSpacer()
-    WoWTools_MenuMixin:CreateSlider(root, {
-        name= WoWTools_L.MOUNT_JOURNAL_FILTER_UNUSABLE,
-        getValue=function()
-            return Save().notIsUsableAlpha or 1
-        end, setValue=function(value)
-            Save().notIsUsableAlpha= value
-            WoWTools_MerchantMixin:Update_MerchantFrame()
-        end,
-        minValue=0,
-        maxValue=1,
-        step=0.1,
-        bit='%.1f',
-        tooltip= WoWTools_L['Opacity (unusable, cannot buy, collected)']
-    })
-
-    root:CreateSpacer()
-    sub:CreateButton(
-        WoWTools_L.RESET,
-    function()
-        Save().notIsUsableAlpha= nil
-        return MenuResponse.Refresh
-    end)]]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --WidthX2
@@ -462,13 +378,6 @@ local function Init_WidthX2()
         Save().MERCHANT_ITEMS_PER_PAGE= MERCHANT_ITEMS_PER_PAGE --按钮，数量
         WoWTools_MerchantMixin:Update_MerchantFrame()--更新物品
     end})
-
-
-
-
-
-
-
 
 
 --出售，卖
@@ -537,13 +446,6 @@ local function Init_WidthX2()
     end)
 
 
-
-
-
-
-
-
-
 --回购
     WoWTools_DataMixin:Hook('MerchantFrame_UpdateBuybackInfo', function()
         if not MerchantFrame:IsShown() then
@@ -586,14 +488,6 @@ local function Init_WidthX2()
             MerchantFrame.ResizeButton.setSize=nil
         end
     end)
-
-
-
-
-
-
-
-
 
 
     
@@ -674,10 +568,6 @@ local function Init_WidthX2()
     end)
 
 
-
-
-
-
     if MerchantFrame:IsShown() then
        WoWTools_MerchantMixin:Update_MerchantFrame()
     end
@@ -688,29 +578,6 @@ local function Init_WidthX2()
 
     Init_WidthX2=function()end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_MerchantMixin:Init_WidthX2()

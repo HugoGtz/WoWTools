@@ -27,15 +27,6 @@ end
 local BuyItemButton
 
 
-
-
-
-
-
-
-
-
-
 local function set_buy_item()
     local numAllItems= GetMerchantNumItems() or 0
 
@@ -125,29 +116,6 @@ local function set_buy_item()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Check_All(onlyRegents)
     return WoWTools_BagMixin:GetItems(nil, not onlyRegents, onlyRegents, function(_, _, info)
         return not info.isLocked
@@ -200,12 +168,6 @@ local function Sell_Items(tab)
 end
 
 
-
-
-
-
-
-
 local function Set_SellMenu_Tooltip(tooltip, desc)
     if not desc.data.tab then
         return
@@ -234,19 +196,6 @@ local function Set_SellMenu_Tooltip(tooltip, desc)
         )
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --出售菜单
@@ -368,26 +317,6 @@ local function Init_Menu_Sell(_, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
     StaticPopupDialogs['WoWTools_AutoBuy']= {
         text = WoWTools_DataMixin.Icon.icon2
@@ -458,11 +387,6 @@ local function Init()
     BuyItemButton:SetSize(35,35)
     BuyItemButton.texture= BuyItemButton:CreateTexture(nil, 'BORDER')
     BuyItemButton.texture:SetAllPoints()
-    --[[WoWTools_ButtonMixin:Cbtn(MerchantBuyBackItem, {
-        name='WoWTools_BuyItemButton',
-        addTexture=true,
-        size=35,
-    })]]
 
      if Save().notPlus then
         BuyItemButton:SetPoint('BOTTOMRIGHT', MerchantBuyBackItem, 6,-4)
@@ -554,17 +478,6 @@ local function Init()
     end)
 
 
-
-
-
-
-
-
-
-
-
-
-
 --购买
     BuyItemButton:SetScript('OnMouseDown', function(self, d)
         local infoType, itemID, itemLink = GetCursorInfo()
@@ -625,12 +538,6 @@ local function Init()
     end)
 
 
-
-
-
-
-
-
 --购买物品
 
     BuyItemButton:RegisterEvent('MERCHANT_SHOW')
@@ -655,19 +562,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_MerchantMixin:Init_Buy_Items_Button()--购买物品

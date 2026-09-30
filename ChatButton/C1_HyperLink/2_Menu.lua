@@ -3,11 +3,6 @@ local function Save()
 end
 
 
-
-
-
-
-
 --主菜单
 --#####
 local function Init_Menu(self, root)
@@ -133,9 +128,6 @@ local function Init_Menu(self, root)
     end)
 
 
-
-
-
     sub:CreateDivider()
 --CVar 名称
     sub2=sub:CreateCheckbox(
@@ -181,17 +173,6 @@ local function Init_Menu(self, root)
     end)
 
 
-
-
-
-
-
-
-
-
-
-
-
 --事件声音
     col= isInBat and '|cff828282' or (
             not C_CVar.GetCVarBool('Sound_EnableAllSound')
@@ -230,25 +211,6 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWTools_DataMixin:Get_CVar_Tooltips({name='Sound_EnableDialog', msg=WoWTools_L['ENABLE_DIALOG~2'] }))
     end)
 
---[[禁用，隐藏NPC发言
-    sub2=sub:CreateCheckbox(
-        WoWTools_L['Hide NPC talking'],
-    function()
-        return not Save().disabledNPCTalking
-    end, function()
-        Save().disabledNPCTalking= not Save().disabledNPCTalking and true or nil
-    end)
-    sub2:SetTooltip(function (tooltip)
-        tooltip:AddLine(WoWTools_L.HUD_EDIT_MODE_TALKING_HEAD_FRAME_LABEL)
-    end)
-
---文本
-    sub:CreateCheckbox('|A:communities-icon-chat:0:0|a'..(WoWTools_L.LOCALE_TEXT_LABEL), function()
-        return not Save().disabledTalkingPringText
-    end, function()
-        Save().disabledTalkingPringText= not Save().disabledTalkingPringText and true or nil
-    end)
-]]
 --打开，音频
     sub2=sub:CreateButton(
         col..(WoWTools_L.AUDIO_LABEL),
@@ -261,17 +223,6 @@ local function Init_Menu(self, root)
     sub2:SetTooltip(function (tooltip)
         tooltip:AddLine(WoWTools_L.OPTIONS)
     end)
-
-
-
-
-
-
-
-
-
-
-
 
 
 --欢迎加入
@@ -375,21 +326,6 @@ local function Init_Menu(self, root)
     end)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --文本转语音   
     WoWTools_MenuMixin:TTsMenu(root)
     root:CreateDivider()
@@ -408,9 +344,6 @@ local function Init_Menu(self, root)
         end
         return MenuResponse.Open
     end)
-
-
-
 
 
 --etrace
@@ -509,22 +442,6 @@ local function Init_Menu(self, root)
     end)
 
     WoWTools_OtherMixin:OpenOption(sub, 'Plus')
-    --[[sub:CreateCheckbox(
-        'Plus',
-    function()
-        return not Save().disabedFrameStackPlus
-    end, function()
-        Save().disabedFrameStackPlus= not Save().disabedFrameStackPlus and true or nil
-        WoWTools_HyperLink:Init_DebugTools()
-    end)]]
-
-
-
-
-
-
-
-
 
 
 --添加按钮
@@ -555,18 +472,6 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWTools_L.OPTIONS)
     end)
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_HyperLink:Init_Menu()

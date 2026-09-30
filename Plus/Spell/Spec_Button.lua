@@ -6,22 +6,6 @@ end
 local SpecFrame
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init_Spec_Menu(self, root)
     local sub, sub2
     root:CreateTitle(self.name)
@@ -77,14 +61,6 @@ local function Init_Spec_Menu(self, root)
 
 
 --自动隐藏
-        --[[sub2:CreateCheckbox(
-            WoWTools_L['SELF_CAST_AUTO+HIDE'],
-        function()
-            return Save().hideInCombat
-        end, function()
-            Save().hideInCombat= not Save().hideInCombat and true or false
-            SpecFrame:Settings()
-        end)]]
 
 
 --FrameStrata
@@ -110,28 +86,6 @@ local function Init_Spec_Menu(self, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Create_Spec_Button(index)
     local specID, name, _, texture= C_SpecializationInfo.GetSpecializationInfo(index, false, false, nil, WoWTools_DataMixin.Player.Sex)
     if not specID or specID==-1 then
@@ -149,12 +103,6 @@ local function Create_Spec_Button(index)
     --btn:SetClampedToScreen(true)
     --table.insert(SpecFrame.Buttons, btn)
 
-    --[[local btn= WoWTools_ButtonMixin:Cbtn(SpecFrame, {
-        texture= texture,
-        name='WoWToolsPlayerSpellsFrameSpecButton'..index,
-        size=32,
-        isMask=true,
-    })]]
 
     btn.specIndex= index
     btn.specID= specID
@@ -312,23 +260,6 @@ local function Create_Spec_Button(index)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --天赋，添加专精按钮
 local function Init()
     if not Save().enabled then
@@ -435,17 +366,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_SpellMixin:Init_Spec_Button()

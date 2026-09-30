@@ -1,31 +1,3 @@
---[[
-CreateSlider(root, tab)
-ScaleRoot
-Scale(
-
-BgAplha
-
-FrameStrata(frame, root, GetValue, SetValue)
-RestPoint(root, point, SetValue)
-RestData(root, name, SetValue)
-Reload(root, isControlKeyDown)
-
-ClearAll()
-ToTop(root, tab)
-
-CheckInCombat()
-
-OpenJournal(root, tab)
-OpenSpellBook(root, index)--天赋和法术书
-OpenDragonriding(root)
-OpenOptions(root, tab)
-
-WoWTools_MenuMixin:SetScrollMode(root)
-Set_Specialization
-
-
-GetDragonriding()
-]]
 local maxMenuButton= 35
 
 WoWTools_MenuMixin={}
@@ -147,19 +119,6 @@ function WoWTools_MenuMixin:CreateSlider(root, tab)
     return sub
 end
 
---[[
-WoWTools_MenuMixin:CreateSlider(root, {
-name= 
-getValue=function()
-end, setValue=function(value)
-end,
-minValue=0,
-maxValue=100,
-step=1,
---bit--='%.1f'
---tooltip--function, string, table
-})
-]]
 
 
 --缩放, 单行
@@ -200,9 +159,6 @@ function WoWTools_MenuMixin:ScaleRoot(frame, root, GetValue, SetValue, ResetValu
 end
 
 
-
-
-
 --缩放
 function WoWTools_MenuMixin:Scale(frame, root, GetValue, SetValue, ResetValue)
     local isLocked=  WoWTools_FrameMixin:IsLocked(frame)
@@ -235,14 +191,6 @@ function WoWTools_MenuMixin:Scale(frame, root, GetValue, SetValue, ResetValue)
 
     return sub, sub2
 end
---[[
---缩放
-WoWTools_MenuMixin:Scale(self, sub,
-function()--GetValue
-end, function(alpha)--SetValue
-end, function()--SetValue
-end)
-]]
 
 
 
@@ -299,16 +247,6 @@ function WoWTools_MenuMixin:FrameStrata(frame, root, GetValue, SetValue)
 
     return sub
 end
---[[
---FrameStrata
-    WoWTools_MenuMixin:FrameStrata(self, root,
-    function(strata)
-        return self:GetFrameStrata()==strata
-    end, function(strata)
-        Save().strata= strata
-        return MenuResponse.Refresh
-    end)
-]]
 
 
 --背景, 透明度
@@ -365,25 +303,6 @@ function WoWTools_MenuMixin:BgAplha(root, GetValue, SetValue, RestFunc, onlyRoot
     end
     return sub, sub2
 end
---[[
---背景, 透明度
-WoWTools_MenuMixin:BgAplha(sub,
-function()
-    return Save().bgAlpha or 0.5
-end, function(value)
-    Save().bgAlpha= value
-    self:settings()
-end, function()
-    Save().bgAlpha= nil
-    self:settings()
-end)
-]]
-
-
-
-
-
-
 
 
 --重置位置
@@ -397,15 +316,6 @@ function WoWTools_MenuMixin:RestPoint(frame, root, point, SetValue)
     sub:SetEnabled(frame:CanChangeAttribute())
     return sub
 end
---[[
---重置位置
-WoWTools_MenuMixin:RestPoint(self, sub, Save().point, function()
-    Save().point=nil
-    self:ClearAllPoints()
-    self:set_point()
-    return MenuResponse.Open
-end)
-]]
 
 
 --重置数据
@@ -437,16 +347,6 @@ function WoWTools_MenuMixin:Reload(root, isControlKeyDown)
     end)
     return sub
 end
---[[
---重新加载UI
-    WoWTools_MenuMixin:Reload(root)
-]]
-
-
-
-
-
-
 
 
 function WoWTools_MenuMixin:ToTop(frame, root, tab)
@@ -475,25 +375,6 @@ function WoWTools_MenuMixin:ToTop(frame, root, tab)
         WoWTools_MenuMixin:Reload(sub)--重新加载UI
     end
 end
---[[
---位于上方
-WoWTools_MenuMixin:ToTop(frame, root, {
-    name=nil,
-    GetValue=function()
-        return Save.toFrame
-    end,
-    SetValue=function()
-        Save.toFrame = not Save.toFrame and true or nil
-    end,
-    tooltip=false,
-    isReload=true,--重新加载UI
-})
-]]
-
-
-
-
-
 
 
 function WoWTools_MenuMixin:CheckInCombat(root)
@@ -508,12 +389,6 @@ function WoWTools_MenuMixin:CheckInCombat(root)
         end
     end
 end
---[[
---战斗中
-    if WoWTools_MenuMixin:CheckInCombat(root) then
-        return
-    end
-]]
 
 
 
@@ -539,13 +414,6 @@ function WoWTools_MenuMixin:OpenJournal(root, tab)
         tooltip:AddLine(MicroButtonTooltipText(WoWTools_L['UNWRAP+COLLECTIONS'], "TOGGLECOLLECTIONS"))
     end)
 end
---[[
-WoWTools_MenuMixin:OpenJournal(root, {--战团藏品
-    name=,
-    index=1,
-    moutID=mountID,
-})
-]]
 
 
 
@@ -576,17 +444,6 @@ end
 
 
 
---[[
-加载，Trait，UI
-function WoWTools_LoadUIMixin:GenericTraitUI(systemID, treeID)
-    TraitUtil.OpenTraitFrame(treeID)
-
-    --WoWTools_DataMixin:Call('GenericTraitUI_LoadUI')
-    --securecallfunction(GenericTraitFrame.SetSystemID, GenericTraitFrame, systemID)
-    --securecallfunction(GenericTraitFrame.SetTreeID, GenericTraitFrame, treeID)
-    --ToggleFrame(GenericTraitFrame)
-end
-]]
 
 --驭空术，return 名称，点数 11.2.7 没有了
 function WoWTools_MenuMixin:GetDragonriding()
@@ -627,10 +484,6 @@ function WoWTools_MenuMixin:OpenDragonriding(root)
             if GenericTraitFrame then
                 ToggleFrame(GenericTraitFrame)
             end
-            --[[WoWTools_LoadUIMixin:GenericTraitUI(--加载，Trait，UI
-                Constants.MountDynamicFlightConsts.TRAIT_SYSTEM_ID,
-                Constants.MountDynamicFlightConsts.TREE_ID
-            )]]
             return MenuResponse.Refresh
         end,
         {widgetSetID=uiWidgetSetID}--, tooltip=WoWTools_L.DRAGONFLIGHT_LANDING_PAGE_TITLE}
@@ -678,23 +531,6 @@ function WoWTools_MenuMixin:OpenOptions(root, tab)
     end)
     return sub
 end
---[[
---打开选项界面
-WoWTools_MenuMixin:OpenOptions(root, {
-name=,
-name2=,
-GetCategory=function()
-end,
-category=,
-tooltip=,
-})
-
-
-]]
-
-
-
-
 
 
 function WoWTools_MenuMixin:ClearAll(root, SetValue)
@@ -712,28 +548,6 @@ function WoWTools_MenuMixin:ClearAll(root, SetValue)
     self:SetDescription(sub, WoWTools_L['Tip.Menu.ClearAll'])
     return sub
 end
---[[
---全部清除
-    WoWTools_MenuMixin:ClearAll(sub, function() 
-
-    end)
-]]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --文本转语音
@@ -873,24 +687,11 @@ function WoWTools_MenuMixin:SetGridMode(sub, num)
         sub:SetGridMode(MenuConstants.VerticalGridDirection, math.ceil(num/maxMenuButton))
     end
 end
---[[
---SetGridMode
-WoWTools_MenuMixin:SetGridMode(sub, num)
-]]
 
 --SetScrollMode UIParent:GetHeight()
 function WoWTools_MenuMixin:SetScrollMode(root)
     root:SetScrollMode(math.max(200, GetScreenHeight()-70))--no pasar del alto de la pantalla (antes mínimo 700)
 end
---[[
---SetScrollMod
-WoWTools_MenuMixin:SetScrollMode(root)
-
---全部清除
-    WoWTools_MenuMixin:ClearAll(sub, function() 
-
-    end)
-]]
 
 --Descripción de una opción (qué hace), con salto de línea automático.
 --Usar dentro de un SetTooltip existente: WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Modulo.Opcion'])

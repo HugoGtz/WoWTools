@@ -1,7 +1,3 @@
---[[
-职业 1WARRIOR 2PALADIN 3HUNTER 4ROGUE 5PRIEST 6DEATHKNIGHT 7SHAMAN 8MAGE 9WARLOCK 10MONK 11DRUID 12DEMONHUNTER 13EVOKER
-ClassResourceBarMixin:UpdateMaxPower()
-]]
 local function Save()
     return WoWToolsPlusSave['Plus_Texture'] or {}
 end
@@ -22,11 +18,6 @@ local function set_Num_Texture(self, num, color, parent)
         end
     end
 end
-
-
-
-
-
 
 
 local function Init()
@@ -69,9 +60,6 @@ local function Init()
     WoWTools_TextureMixin:HideTexture(ClassNameplateBarPaladinFrame.ActiveTexture)
 
 
-
-
-
 --4 ROGUE 盗贼
     WoWTools_DataMixin:Hook(RogueComboPointBarFrame, 'UpdateMaxPower',function(self)
         for btn in self.classResourceButtonPool:EnumerateActive() do
@@ -99,9 +87,6 @@ local function Init()
             b.numTexture:SetShown(not b.isFull)
         end)
     end
-
-
-
 
 
 --6 DEATHKNIGHT 死亡骑士
@@ -163,10 +148,6 @@ local function Init()
     end)
 
 
-
-
-
-
 --7 SHAMAN 萨满
     for btn in TotemFrame.totemPool:EnumerateActive() do
         WoWTools_TextureMixin:SetAlphaColor(btn.Border, nil, nil, 0.3)
@@ -175,12 +156,6 @@ local function Init()
     WoWTools_DataMixin:Hook(TotemButtonMixin, 'OnLoad', function(self)
         WoWTools_TextureMixin:SetAlphaColor(self.Border, nil, nil, 0.3)
     end)
-
-
-
-
-
-
 
 
 --8 MAGE 法师
@@ -264,10 +239,6 @@ local function Init()
     end
 
 
-
-
-
-
 --11 DRUID 德鲁伊
     WoWTools_DataMixin:Hook(DruidComboPointBarFrame, 'UpdateMaxPower', function(frame)
         for btn in frame.classResourceButtonPool:EnumerateActive() do
@@ -291,13 +262,6 @@ local function Init()
             b.numTexture:SetAlpha(b.isActive and 0 or 1)
         end)
     end
-
-
-
-
-
-
-
 
 
 --13 EVOKER 龙人 唤魔者

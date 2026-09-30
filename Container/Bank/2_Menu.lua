@@ -152,34 +152,12 @@ local function Init_Menu(self, root)
     sub2:SetEnabled(Save().allBank)
 
 
-
-
-
-
-
-
-
     root:CreateDivider()
 --重新加载UI
     sub=WoWTools_MenuMixin:Reload(root)
 --打开选项界面
     WoWTools_MenuMixin:OpenOptions(sub, {name=WoWTools_BankMixin.addName})
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init()
@@ -204,17 +182,6 @@ local function Init()
 
 
 
-    --[[
-    sub=root:CreateCheckbox(
-        WoWTools_L['SAVE+ITEMS'],
-    function()
-        return Save().saveWoWData
-    end, function()
-        Save().saveWoWData= not Save().saveWoWData and true or nil
-        BankPanel:Clean()
-    end)
-    WoWTools_DataMixin:OpenWoWItemListMenu(self, sub)
-    ]]
     Init=function()end
 end
 

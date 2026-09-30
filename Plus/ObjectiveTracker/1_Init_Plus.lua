@@ -1,13 +1,3 @@
---[[
-local Frames={
-    'QuestObjectiveTracker',
-    'CampaignQuestObjectiveTracker',
-    'WorldQuestObjectiveTracker',
-    'AchievementObjectiveTracker',
-    'ProfessionsRecipeTracker',
-    'MonthlyActivitiesObjectiveTracker',
-    'BonusObjectiveTracker', --.Header
-}]]
 
 
 
@@ -23,14 +13,6 @@ local P_Save={
 local function Save()
     return WoWToolsPlusSave['ObjectiveTracker']
 end
-
-
-
-
-
-
-
-
 
 
 local function Init()
@@ -64,14 +46,6 @@ local function Init()
     end)
 
 
-
-
-
-
-
-
-
-
 --QuestObjectiveItemButtonTemplate
 --物品按钮左边,放大
     WoWTools_DataMixin:Hook(QuestObjectiveItemButtonMixin, 'SetUp', function(self)
@@ -84,25 +58,6 @@ local function Init()
             self.isSetTexture= true
         end
     end)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --成就 AchievementObjectiveTracker
@@ -132,17 +87,6 @@ local function Init()
             WoWTools_ObjectiveMixin:Set_Line_Icon(line, subIcon)
         end
     end)
-
-
-
-
-
-
-
-
-
-
-
 
 
 --专业技能 ProfessionsRecipeTracker
@@ -193,14 +137,6 @@ local function Init()
     end)
 
 
-
-
-
-
-
-
-
-
 --任务 QuestObjectiveTracker QuestObjectiveTrackerMixin
     WoWTools_ObjectiveMixin:Add_ClearAll_Button(
     QuestObjectiveTracker,
@@ -220,13 +156,6 @@ local function Init()
     end)
 
 
-
-
-
-
-
-
-
 --战役，任务 CampaignQuestObjectiveTracker
     WoWTools_ObjectiveMixin:Add_ClearAll_Button(
         CampaignQuestObjectiveTracker,
@@ -236,11 +165,6 @@ local function Init()
     end)
 
 
-
-
-
-
-
 --世界，任务 WorldQuestObjectiveTracker
     WoWTools_ObjectiveMixin:Add_ClearAll_Button(
         WorldQuestObjectiveTracker,
@@ -248,10 +172,6 @@ local function Init()
     function()
        WoWTools_ObjectiveMixin:Clear_WorldQuest(true)
     end)
-
-
-
-
 
 
 --旅行者日志 MonthlyActivitiesObjectiveTracker
@@ -283,21 +203,6 @@ local function Init()
     WoWTools_ObjectiveMixin:Init_Menu()
     Init=function()end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local panel= CreateFrame("Frame")

@@ -1,110 +1,6 @@
 
 
 
---[[
-WoWTools_BagMixin:GetItem_WoW_Num(itemID)--取得WOW物品数量  return all, numPlayer
-
-
-WoWToolsPlus_WoWDate[guid]= {--默认数据
-    Item={},--{itemID={bag=包, bank=银行}},
-    Currency={},--{[currencyID] = 数量}
-
-    Keystone={week=WoWTools_DataMixin.Player.Week},--{score=总分数, link=超连接, weekLevel=本周最高, weekNum=本周次数, all=总次数,week=周数},
-
-    Instance={ins={}, week=WoWTools_DataMixin.Player.Week, day=day},--ins={[名字]={[难度]=已击杀数}}
-    Worldboss={boss={}, week=WoWTools_DataMixin.Player.Week, day=day},--{week=周数, boss={[name]=worldBossID}}}
-    Rare={day=day, boss={[name]=guid}},--稀有 
-    Time={},--{totalTime=总游戏时间, levelTime=当前等级时间, upData=更新时间}总游戏时间
-    Guild={
-        guid= club.clubFinderGUID,
-        link= WoWTools_GuildMixin:GetClubLink(clubID, club.clubFinderGUID),
-        clubID= clubID,
-        data={guildName, guildRankName, guildRankIndex, realm or WoWTools_DataMixin.Player.Realm},
-        text= WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Guild.text
-    },
-    --Money=钱
-    Bank={},--{[itemID]={num=数量,quality=品质}}银行，数据
-    region= WoWTools_DataMixin.Player.Region
-    --specID 专精
-    --itemLevel 装等
-    --faction
-    --level
-    --battleTag
-}
-
-WoWTools_DataMixin.PlayerInfo=[guid] = {--玩家装等
-        itemLevel= C_PaperDollInfo.GetInspectItemLevel(unit) or (WoWTools_DataMixin.PlayerInfo[guid] and WoWTools_DataMixin.PlayerInfo[guid].itemLevel),
-        specID= GetInspectSpecialization(unit),
-        faction= UnitFactionGroup(unit),
-        col= hex,
-        r=r,
-        g=g,
-        b=b,
-    }
-WoWTools_UnitMixin:GetNotifyInspect(tab, unit)--取得装等
-WoWTools_DataMixin.GroupGuid[GetUnitName(unit, true) or guid]={--队伍数据
-            unit= unit,
-            combatRole= UnitGroupRolesAssigned(unit),
-            guid=guid,
-            faction= UnitFactionGroup(unit),
-            level=
-        }
-GetGroupGuidDate()--队伍数据收集
-]]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --地下城挑战
 local function Update_Challenge_Mode()--{score=总分数,itemLink={超连接}, weekLevel=本周最高, weekNum=本周次数, all=总次数,week=周数}
     local all, weekNum, weekLevel
@@ -158,11 +54,6 @@ EventRegistry:RegisterFrameEventAndCallback("WEEKLY_REWARDS_UPDATE", function()
 end)
 
 
-
-
-
-
-
 --挑战
 local function Get_Info_Challenge()--挑战
     C_MythicPlus.RequestCurrentAffixes()
@@ -176,24 +67,6 @@ end
 EventRegistry:RegisterFrameEventAndCallback("CHALLENGE_MODE_COMPLETED", function()
     Get_Info_Challenge()
 end)
-
---[[
-    C_MythicPlus.GetRunHistory(false, true)--本周记录      
-    RequestRatedInfo()--从服务器请求有关玩家 PvP 评分的信息。
-    RequestRandomBattlegroundInstanceInfo()--请求随机战场实例信息
-    RequestBattlefieldScoreData()--请求战地得分数据
-]]
-
-
-
-
-
-
-
-
-
-
-
 
 
 --更新物品
@@ -221,27 +94,6 @@ EventRegistry:RegisterFrameEventAndCallback("BAG_UPDATE_DELAYED", function()
 end)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --更新货币 {currencyID = 数量}
 EventRegistry:RegisterFrameEventAndCallback("CURRENCY_DISPLAY_UPDATE", function(_, arg1)
     if arg1 and arg1~=2032 then
@@ -265,21 +117,6 @@ EventRegistry:RegisterFrameEventAndCallback("CURRENCY_DISPLAY_UPDATE", function(
 end)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --##
 --钱
 --##
@@ -292,22 +129,6 @@ EventRegistry:RegisterFrameEventAndCallback("PLAYER_MONEY", function()
 end)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --总游戏时间：%s
 EventRegistry:RegisterFrameEventAndCallback("TIME_PLAYED_MSG", function(_, arg1, arg2)
     if arg1 and arg2 then
@@ -318,10 +139,6 @@ EventRegistry:RegisterFrameEventAndCallback("TIME_PLAYED_MSG", function(_, arg1,
         }
     end
 end)
-
-
-
-
 
 
 --副本, 世界BOSS
@@ -380,49 +197,9 @@ EventRegistry:RegisterFrameEventAndCallback("LOOT_OPENED", function()
 end)
 
 
-
-
-
-
 EventRegistry:RegisterFrameEventAndCallback("BOSS_KILL", function()
     RequestRaidInfo()
 end)
-
-
-
-
-
-
-
-
-
-
-
-
-
---[[给 e.Reload用
-EventRegistry:RegisterFrameEventAndCallback("ENCOUNTER_START", function(_, encounterID)
-    e.IsEncouter_Start= encounterID
-end)
-EventRegistry:RegisterFrameEventAndCallback("ENCOUNTER_END", function(_, arg1)
-    e.IsEncouter_Start= nil
-end)]]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --Crea las SavedVariables (y migra las del WoWTools original). Idempotente: la llama también
@@ -532,17 +309,6 @@ EventRegistry:RegisterFrameEventAndCallback("ADDON_LOADED", function(owner, arg1
 end)
 
 
-
-
-
-
-
-
-
-
-
-
-
 --保存公会数据，到WOW
 local function Save_WoWGuild()
     if IsInGuild() then
@@ -585,10 +351,6 @@ EventRegistry:RegisterFrameEventAndCallback('LOADING_SCREEN_DISABLED', function(
     C_Timer.After(2, Save_WoWGuild)
     EventRegistry:UnregisterCallback('LOADING_SCREEN_DISABLED', owner)
 end)
-
-
-
-
 
 
 EventRegistry:RegisterFrameEventAndCallback('PLAYER_ENTERING_WORLD', function(owner)

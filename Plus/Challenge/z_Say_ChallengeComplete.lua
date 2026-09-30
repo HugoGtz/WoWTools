@@ -6,12 +6,6 @@ end
 local SayButton
 
 
-
-
-
-
-
-
 local function Settings(isSay, sayType)
     local info, bagID, slotID= WoWTools_BagMixin:Ceca(nil, {isKeystone=true})
 
@@ -56,29 +50,6 @@ end
 
 --C_ChatInfo.SendChatMessage("My, you're a tall one!", "WHISPER", nil, UnitName("target"))
 
---[[
-"SAY"	/s, /say	
-
-"EMOTE"	/e, /emote
-"YELL"	/y, /yell	
-
-"PARTY"	/p, /party
-"RAID"	/ra, /raid
-"RAID_WARNING"	/rw
-"INSTANCE_CHAT"	/i, /instance
-"GUILD"	/g, /guild
-"OFFICER"	/o, /officer
-"WHISPER"	/w, /whisper
-/t, /tell
-"CHANNEL"	/1, /2, ...	
-
-"AFK"	/afk
-"DND"	/dnd
-"VOICE_TEXT"
-]]
-
-
-
 
 --修改，添加内容
 local function Edit_Say_Text()
@@ -104,20 +75,6 @@ local function Edit_Say_Text()
     }
 )
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Say_Menu(_, root)
@@ -242,12 +199,6 @@ local function Say_Menu(_, root)
 end
 
 
-
-
-
-
-
-
 local function Init_Menu(self, root)
     if not self then
         root:CreateButton(
@@ -323,20 +274,6 @@ local function Init_Menu(self, root)
         self:SetShown(not self:IsShown())
     end)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init()
@@ -447,18 +384,6 @@ local function Init()
         SayButton:SetShown(not Save().hideEndKeystoneSay)
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_ChallengeMixin:Say_ChallengeComplete()

@@ -30,21 +30,6 @@ local function Get_All_Objects()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --锁定按钮
 local function Lock_Button(btn, name)--lib:Lock(name)
     btn= btn or Get_Button(name)
@@ -171,21 +156,6 @@ local function Rest_Ueser_Button(btn)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init_Buttons()
     local isSortUp= Save().Icons.isSortUp
     local noAdd= Save().Icons.noAdd
@@ -266,27 +236,6 @@ local function Init_Buttons()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --设置，按钮，材质
 local function Set_Button_Texture(btn, name)
     btn= btn or Get_Button(name)
@@ -356,36 +305,6 @@ local function Init_AllButton_Texture()
         Set_Button_Texture(Button, nil)
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --过滤，列表
@@ -481,27 +400,6 @@ local function Init_noAdd_Menu(self, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --隐藏，列表
 local function Init_hideAdd_Menu(self, root)
     local sub
@@ -556,24 +454,6 @@ local function Init_hideAdd_Menu(self, root)
 
     WoWTools_MenuMixin:SetScrollMode(root)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --自定义，添加，列表
@@ -736,25 +616,6 @@ local function Init_UserAdd_Menu(_, root)
 
     WoWTools_MenuMixin:SetScrollMode(sub)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Menu(self, root)
@@ -962,25 +823,6 @@ local function Init_Menu(self, root)
     Init_UserAdd_Menu(self, sub)
 
 
-
-
---[[设置，按钮
-root:CreateDivider()
-    sub=root:CreateButton(
-        WoWTools_L['Button'],
-    function()
-        return MenuResponse.Open
-    end)
-
-    sub=root:CreateButton(WoWTools_L.SETTINGS)
-]]
-
-
-
-
-
-
-
     root:CreateDivider()
 --打开，选项
     sub=WoWTools_MenuMixin:OpenOptions(root, {
@@ -1027,42 +869,6 @@ root:CreateDivider()
 --/reload
     WoWTools_MenuMixin:Reload(sub, false)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init()
@@ -1268,10 +1074,6 @@ local function Init()
     end
 
 
-
-
-
-
     WoWTools_DataMixin:Hook(libDBIcon, 'IconCallback', function(_, _, name, key, value)
         local btn= Objects[name]
         if not btn or libDBIcon:GetMinimapButton(name) then
@@ -1304,9 +1106,6 @@ local function Init()
     end)
 
 
-
-
-
     Button:set_point()
     Button:settings()
 
@@ -1321,20 +1120,6 @@ local function Init()
         end
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --小地图

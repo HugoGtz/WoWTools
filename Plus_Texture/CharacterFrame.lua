@@ -7,15 +7,6 @@ function WoWTools_TextureMixin.Frames:CharacterFrame()
     self:HideTexture(CharacterFrame.TopTileStreaks)
 
     self:HideFrame(CharacterModelScene)
-    --[[self:HideTexture(PaperDollInnerBorderBottom)
-    self:HideTexture(PaperDollInnerBorderRight)
-    self:HideTexture(PaperDollInnerBorderLeft)
-    self:HideTexture(PaperDollInnerBorderTop)
-    self:HideTexture(PaperDollInnerBorderTopLeft)
-    self:HideTexture(PaperDollInnerBorderTopRight)
-    self:HideTexture(PaperDollInnerBorderBottomLeft)
-    self:HideTexture(PaperDollInnerBorderBottomRight)
-    self:HideTexture(PaperDollInnerBorderBottom2)]]
 
     self:HideTexture(PaperDollSidebarTabs.DecorRight)
     self:HideTexture(PaperDollSidebarTabs.DecorLeft)
@@ -90,11 +81,6 @@ function WoWTools_TextureMixin.Frames:CharacterFrame()
     self:SetIconSelectFrame(GearManagerPopupFrame)
     self:SetUIButton(GearManagerPopupFrame.BorderBox.OkayButton)
     self:SetUIButton(GearManagerPopupFrame.BorderBox.CancelButton)
-    --[[self:HideFrame(GearManagerPopupFrame.BorderBox)
-    self:SetAlphaColor(GearManagerPopupFrame.BG, nil, nil, 0.3)
-    self:SetScrollBar(GearManagerPopupFrame.IconSelector)
-    self:SetEditBox(GearManagerPopupFrame.BorderBox.IconSelectorEditBox)
-    self:SetMenu(GearManagerPopupFrame.BorderBox.IconTypeDropdown)]]
 
 --声望
     self:SetScrollBar(ReputationFrame)
@@ -146,20 +132,6 @@ function WoWTools_TextureMixin.Frames:CharacterFrame()
 
     self:Init_BGMenu_Frame(CharacterFrame)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --货币

@@ -11,10 +11,6 @@ local function PlayerDataSave()
 end
 
 
-
-
-
-
 local function Chat_Menu(_, root)
     local tab= C_GossipInfo.GetOptions() or {}
     table.sort(tab, function(a, b) return a.orderIndex< b.orderIndex end)
@@ -66,41 +62,6 @@ local function Chat_Menu(_, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --自定义，对话，文本，放在主菜单，前
 local function Init(isShow)
     if isShow==false then
@@ -118,40 +79,6 @@ local function Init(isShow)
         minH=240
     })
     Frame.Header:Setup('|A:SpecDial_LastPip_BorderGlow:0:0|a'..(WoWTools_L['DIALOG_VOLUME+REPLACE']))
-    --[[Frame= CreateFrame('Frame', Name, UIParent, 'DialogBorderTemplate')--, 'DialogBorderTemplate')--'ButtonFrameTemplate')
-    tinsert(UISpecialFrames, Name)
-    WoWTools_TextureMixin:SetFrame(Frame)
-    Frame:Hide()
---移动
-    WoWTools_MoveMixin:Setup(Frame, {
-        minW=370, minH=240,
-    sizeRestFunc=function(f)
-        f:SetSize(580, 370)
-    end})
-
-
-
-
-    local border= CreateFrame('Frame', Name..'Border', Frame,'DialogBorderTemplate')
-    local Header= CreateFrame('Frame', Name..'Header', Frame, 'DialogHeaderTemplate')--DialogHeaderMixin
-    Header:Setup('|A:SpecDial_LastPip_BorderGlow:0:0|a'..(WoWTools_L['DIALOG_VOLUME+REPLACE']))
-    Frame.CloseButton=CreateFrame('Button', Name..'CloseButton', Frame, 'UIPanelCloseButtonNoScripts')
-    Frame.CloseButton:SetPoint('TOPRIGHT')
-    Frame.CloseButton:SetScript("OnClick", function(self)
-        self:GetParent():Hide()
-    end)
-    WoWTools_TextureMixin:SetButton(Frame.CloseButton)
-
-
-    WoWTools_TextureMixin:SetFrame(border, {alpha=0.5})
-    WoWTools_TextureMixin:SetFrame(Header, {alpha=0.7})]]
-
-
-
-
-
-
-
 
 
     List = CreateFrame("Frame", 'WoWToolsGossipTextIconOptionsList', Frame, "WowScrollBoxList")
@@ -542,81 +469,6 @@ local function Init(isShow)
     --end)
 
 
-    --[[List.FindIcon.frame= CreateFrame('Frame', Name..'FindIcon', Frame, 'IconSelectorPopupFrameTemplate')
-    List.FindIcon.frame.IconSelector:SetPoint('BOTTOMRIGHT', -10, 36)
-
-    WoWTools_MoveMixin:Setup(List.FindIcon.frame, {
-        notMove=true,
-        minW=524,
-        minH=276,
-        maxW=524,
-    sizeRestFunc=function(frame)
-        frame:SetSize(524, 495)
-    end})
-
-    List.FindIcon.frame:Hide()
-    List.FindIcon.frame.BorderBox.SelectedIconArea.SelectedIconText.SelectedIconDescription:SetText(WoWTools_L.ICON_SELECTION_CLICK)
-    List.FindIcon.frame.BorderBox.IconSelectorEditBox:SetAutoFocus(false)
-    List.FindIcon.frame:SetScript('OnShow', function(self)
-        IconSelectorPopupFrameTemplateMixin.OnShow(self);
-        if self.iconDataProvider==nil then
-            self.iconDataProvider= CreateAndInitFromMixin(IconDataProviderMixin, IconDataProviderExtraType.None)
-        end
-        self:SetIconFilter(self:GetIconFilter() or IconSelectorPopupFrameIconFilterTypes.All);
-        --self.BorderBox.IconTypeDropDown:SetSelectedValue(self.BorderBox.IconTypeDropDown:GetSelectedValue() or IconSelectorPopupFrameIconFilterTypes.All);
-        self:Update()
-        self.BorderBox.IconSelectorEditBox:OnTextChanged()
-        local function OnIconSelected(_, icon)
-            self.BorderBox.SelectedIconArea.SelectedIconButton:SetIconTexture(icon);
-            self.BorderBox.IconSelectorEditBox:SetText(icon)
-        end
-        self.IconSelector:SetSelectedCallback(OnIconSelected);
-    end)
-
-    List.FindIcon.frame:SetScript('OnHide', function(self)
-        IconSelectorPopupFrameTemplateMixin.OnHide(self);
-        self.iconDataProvider:Release();
-        self.iconDataProvider = nil;
-    end)
-    function List.FindIcon.frame:Update()
-        local texture
-        texture= List:get_icon()
-        if texture then
-            texture=tonumber(texture)
-        end
-        if not texture then
-            self.origName = "";
-            self.BorderBox.IconSelectorEditBox:SetText("");
-            local initialIndex = 1;
-            self.IconSelector:SetSelectedIndex(initialIndex);
-            self.BorderBox.SelectedIconArea.SelectedIconButton:SetIconTexture(self:GetIconByIndex(initialIndex));
-        else
-            self.BorderBox.IconSelectorEditBox:SetText(texture);
-            self.BorderBox.IconSelectorEditBox:HighlightText();
-            self.IconSelector:SetSelectedIndex(self:GetIndexOfIcon(texture));
-            self.BorderBox.SelectedIconArea.SelectedIconButton:SetIconTexture(texture);
-        end
-        local getSelection = GenerateClosure(self.GetIconByIndex, self);
-        local getNumSelections = GenerateClosure(self.GetNumIcons, self);
-        self.IconSelector:SetSelectionsDataProvider(getSelection, getNumSelections);
-        self.IconSelector:ScrollToSelectedIndex();
-        self:SetSelectedIconText();
-    end
-    function List.FindIcon.frame:OkayButton_OnClick()
-        IconSelectorPopupFrameTemplateMixin.OkayButton_OnClick(self);
-        local iconTexture = self.BorderBox.SelectedIconArea.SelectedIconButton:GetIconTexture();
-        List.Icon:SetText(iconTexture or '')
-        local gossip= List:get_gossipID()
-        if gossip==0 then
-            List.ID:SetFocus()
-        else
-            List.Name:SetFocus()
-            List:add_gossip()
-        end
-    end]]
-
-
-
     if _G['TAV_CoreFrame'] then--查找，图标，按钮， Texture Atlas Viewer， 插件
         List.tav= WoWTools_ButtonMixin:Cbtn(Frame, {size=22, atlas='communities-icon-searchmagnifyingglass'})
         List.tav:SetPoint('TOP', List.FindIcon, 'BOTTOM', 0, -2)
@@ -892,9 +744,6 @@ local function Init(isShow)
     List.DataFrame:SetPoint('TOPLEFT', Frame, 'TOPRIGHT', 0, -10)
     List.DataFrame:SetPoint('BOTTOMRIGHT', 310, 8)
 
-    --[[List.DataFrame.Bg= List.DataFrame:CreateTexture(Name..'OutInScrollFrameBg', "BACKGROUND")
-    List.DataFrame.Bg:SetAllPoints()
-    List.DataFrame.Bg:SetColorTexture(0.3, 0.3, 0.3)]]
 
     List:SetScript('OnSizeChanged', function(self, w)
         self.DataFrame:SetPoint('BOTTOMRIGHT', w, 8)
@@ -911,11 +760,6 @@ local function Init(isShow)
 
     List.DataFrame.enter= CreateFrame("Button", Name..'OutInScrollFrameEnterButton', Frame, 'UIPanelButtonTemplate')
     List.DataFrame.enter:SetSize(100,23)
-    --[[ WoWTools_ButtonMixin:Cbtn(List.DataFrame, {
-        name= Name..'OutInScrollFrameEnterButton',
-        size={100, 23},
-        isUI=true
-    })]]
     List.DataFrame.enter:SetPoint('BOTTOM', List.DataFrame, 'TOP', 0, 5)
     List.DataFrame.enter:SetFormattedText('|A:Professions_Specialization_arrowhead:0:0|a%s', WoWTools_L.HUD_CLASS_TALENTS_IMPORT_LOADOUT_ACCEPT_BUTTON)
     List.DataFrame.enter:Hide()
@@ -1028,12 +872,6 @@ local function Init(isShow)
         end
         table.sort(tabs, function(a, b) return a.gossipID<b.gossipID end)
         for _, info in pairs(tabs) do
-            --[[text=text..format('[%d]={icon=%s, name=%s, hex=%s}|n',
-                            info.gossipID,
-                            info.icon or '',
-                            info.name or '',
-                            info.hex or ''
-                        )]]
             text=text..format('[%d]={icon="%s", name="%s", hex="%s"},|n',
                 info.gossipID,
                 info.icon or '',
@@ -1065,26 +903,6 @@ local function Init(isShow)
     WoWTools_GossipMixin:UpdateGossip()--更新GossipFrame
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --GossipFrame事件
     GossipFrame:HookScript('OnShow', function()--已打开，对话，列表
         if Frame:IsShown() then
@@ -1104,9 +922,6 @@ local function Init(isShow)
 
     --Frame:SetSize(580, 370)
     --Frame:SetFrameStrata('HIGH')
-
-
-
 
 
 --Frame 设置
@@ -1162,21 +977,6 @@ local function Init(isShow)
         Frame:set_point()
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_GossipMixin:Init_Options_Frame(isShow)

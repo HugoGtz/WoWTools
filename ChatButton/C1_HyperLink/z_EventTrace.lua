@@ -5,31 +5,6 @@ end
 local EventTabs={}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --点击，事件
 local ArgumentColors =
 {
@@ -86,29 +61,6 @@ local function AddTooltipArguments(args)
     end
     return text
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --左边列表
@@ -230,41 +182,10 @@ local function Init_LeftList()
         ScrollBox:settings(true)
     end)
 
---[[菜单
-    Menu= WoWTools_ButtonMixin:Cbtn(Refresh, {
-        name= 'WoWToolsEventTraceMenu',
-        atlas='GM-icon-settings-pressed',
-        size=size,
-        isType2=true,
-        notBorder=true,
-        notLocked=true
-    })
-    Menu:SetPoint('RIGHT', Clear, 'LEFT')
-    Menu.texture:SetVertexColor(0.5, 0.5, 0.5)
-    Menu:SetScript('OnLeave', function(self)
-        self.texture:SetVertexColor(0.5,0.5,0.5)
-    end)
-    Menu:SetScript('OnEnter', function(self)
-        self.texture:SetVertexColor(1,1,1)
-    end)
-    Menu:SetScript('OnClick', function()
-        WoWTools_ChatMixin:GetButtonForName('HyperLink'):OpenMenu()
-    end)]]
 
 --数量
     ScrollBox.Text= WoWTools_LabelMixin:Create(Refresh, {color={r=0.5,g=0.5,b=0.5}})
     ScrollBox.Text:SetPoint('RIGHT', Clear, 'LEFT', 0, 1)
-
-
-
-
-
-
-
-
-
-
-
 
 
 --初始
@@ -275,9 +196,6 @@ local function Init_LeftList()
             frame.Background:SetPoint('RIGHT')
             frame.Label:SetPoint('LEFT', frame,2,0)
             frame:SetScript("OnMouseDown", function(s)
-                --[[if not EventTrace:IsLoggingPaused() then--移过时，暂停
-                    EventTrace:TogglePause()
-                end]]
                 EventTrace.Log.Bar.SearchBox:SetText(s.event)
             end)
             frame:SetScript('OnLeave', function(s)
@@ -351,27 +269,6 @@ local function Init_LeftList()
 
     Init_LeftList= function()end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --上面 EditBox
@@ -482,22 +379,6 @@ local function Init_EditBox()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --Plus
 local function Init_Plus()
     if Save().hideEventTracePlus then
@@ -557,25 +438,6 @@ local function Init_Plus()
 
     Init_Plus=function()end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init()
@@ -641,9 +503,6 @@ local function Init()
         Frame:set_event()
     end
 end
-
-
-
 
 
                 

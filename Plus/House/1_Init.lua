@@ -1,7 +1,3 @@
---[[
-	<Button name="HousingCatalogDecorEntryTemplate" mixin="HousingCatalogDecorEntryMixin" inherits="BaseHousingCatalogEntryTemplate" virtual="true"/>
-	<Button name="HousingCatalogRoomEntryTemplate" mixin="HousingCatalogRoomEntryMixin" inherits="BaseHousingCatalogEntryTemplate" virtual="true">
-]]
 
 local function Save()
     return WoWToolsPlusSave['Plus_House']
@@ -35,10 +31,6 @@ local function Catalog_ListNum(frame)
 end
 
 
-
-
-
-
 local function Set_Alpha(region)
     region:EnableMouse(true)
     region:SetScript('OnLeave', WoWToolsButton_OnLeave)
@@ -56,10 +48,6 @@ local function Set_Texture(texture)
     texture.alpha=0.7
     Set_Alpha(texture)
 end
-
-
-
-
 
 
 local function Create_Button(btn)
@@ -182,16 +170,6 @@ local function Create_Button(btn)
     btn.Outdoors.tooltip= WoWTools_L.HOUSING_DECOR_ONLY_PLACEABLE_OUTSIDE
     Set_Texture(btn.Outdoors)
 
---[[是否可摧毁，此装饰无法被摧毁，也不会计入住宅收纳箱的容量限制
-    btn.NotCanDelete= btn:CreateTexture()
-    btn.NotCanDelete:SetPoint('TOPLEFT', btn.Outdoors, 'BOTTOMLEFT')
-    btn.NotCanDelete:SetAtlas('Objective-Fail')
-    btn.NotCanDelete.tooltip= WoWTools_L.HOUSING_DECOR_STORAGE_ITEM_CANNOT_DESTROY
-    Set_Texture(btn.NotCanDelete)
-    btn.NotCanDelete:SetAlpha(1)
-    function btn.NotCanDelete:set_alpha()
-        self:SetAlpha(self:IsMouseOver() and 0.3 or 1)
-    end]]
 
     --匠心房间
     btn.IsPrefab= btn:CreateTexture()
@@ -216,12 +194,6 @@ local function Create_Button(btn)
     btn.placementCostLabel:SetPoint('TOPLEFT', btn.firstXP, 'BOTTOMLEFT', 5, 5)
     btn.placementCostLabel.tooltip= WoWTools_L.HOUSING_DECOR_PLACEMENT_COST_TOOLTIP
     Set_Texture(btn.placementCostLabel)
-
-
-
-
-
-
 
 
 --索引
@@ -268,37 +240,6 @@ local function Create_Button(btn)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init_HousingTemplates()
 
     if not C_AddOns.IsAddOnLoaded('Blizzard_HousingTemplates') then
@@ -326,11 +267,6 @@ local function Init_HousingTemplates()
         end
         tooltip:Show()
     end)
-
-
-
-
-
 
 
 --列表，数量 ScrollingHousingCatalogMixin
@@ -377,9 +313,6 @@ local function Init_HousingTemplates()
                 --isTrackable= show and C_ContentTracking.IsTracking(Enum.ContentTrackingType.Decor, entryInfo.entryID.recordID)--正在追踪
             end
 
-            --[[if entryInfo.destroyableInstanceCount and entryInfo.destroyableInstanceCount<=0 then
-                notCanDelete= true
-            end]]
 
             isXP= entryInfo.firstAcquisitionBonus and entryInfo.firstAcquisitionBonus>0
             isIndoors= entryInfo.isAllowedIndoors
@@ -407,25 +340,6 @@ local function Init_HousingTemplates()
 
     Init_HousingTemplates=function()end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Add_label(frame, name, layoutIndex, text)
@@ -483,10 +397,6 @@ local function Set_EntryInfo(frame, entryInfo)
     end
 
 
-
-
-
-
 local function Init_HousingModelPreview()
 
     if not C_AddOns.IsAddOnLoaded('Blizzard_HousingModelPreview') then
@@ -542,29 +452,8 @@ local function Init_HousingModelPreview()
     end
 
 
-
-
-
-
     Init_HousingModelPreview=function()end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --住宅信息板
@@ -608,18 +497,6 @@ local function Init_HousingDashboard()
 
     Init_HousingDashboard=function()end
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local panel= CreateFrame("Frame")

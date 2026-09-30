@@ -3,14 +3,6 @@ local function Save()
 end
 
 
-
---[[local function Check(name)
-    if StaticPopupDialogs[name] then
-        return true, StaticPopupDialogs[name].timeout
-    end
-end]]
-
-
 local FORBIDDEN_ID
 
 local Err={}

@@ -70,9 +70,6 @@ function WoWTools_ItemLocationMixin:IsEqualToEquipmentSlot(otherEquipmentSlotInd
 end
 
 
-
-
-
 --是装备到其它 槽
 function WoWTools_ItemLocationMixin:IsEqualTo(otherItemLocation)
 	if otherItemLocation then
@@ -90,12 +87,6 @@ function WoWTools_ItemLocationMixin:IsEqualTo(otherItemLocation)
 	end
 	return false;
 end
-
-
-
-
-
-
 
 
 --背包，信息
@@ -197,80 +188,3 @@ function WoWTools_ItemLocationMixin:GetItemName(isText)
 end
 
 
---[[
-C_Container.GetContainerItemInfo
-iconFileID	number	
-stackCount	number	
-isLocked	boolean	
-quality	Enum.ItemQuality?🔗
-isReadable	boolean	
-hasLoot	boolean	
-hyperlink	string	
-isFiltered	boolean	
-hasNoValue	boolean	
-itemID	number	
-isBound	boolean
-
-
-CancelPendingEquip(index) - Cancels a pending equip confirmation.
-EquipPendingItem(invSlot) - Equips the currently pending Bind-on-Equip or Bind-on-Pickup item from the specified inventory slot.
-GetAverageItemLevel() - Returns the character's average item level.
-GetInventoryAlertStatus(index) - Returns the durability status of an equipped item.
-GetInventoryItemBroken(unit, invSlot) - Returns true if an inventory item has zero durability.
-GetInventoryItemCooldown(unit, invSlot) - Get cooldown information for an inventory item.
-GetInventoryItemCount(unit, invSlot) - Determine the quantity of an item in an inventory slot.
-GetInventoryItemDurability(invSlot) - Returns the durability of an equipped item.
-GetInventoryItemID(unit, invSlot) - Returns the item ID for an equipped item.
-GetInventoryItemLink(unit, invSlot) - Returns the item link for an equipped item.
-GetInventoryItemQuality(unit, invSlot) - Returns the quality of an equipped item.
-GetInventoryItemTexture(unit, invSlot) - Returns the texture for an equipped item.
-GetInventorySlotInfo(invSlotName) - Returns info for an equipment slot.
-HasWandEquipped() - Returns true if a wand is equipped.
-IsInventoryItemLocked(id) - Returns whether an inventory item is locked, usually as it awaits pending action.
-UpdateInventoryAlertStatus()
-UseInventoryItem(invSlot) #pro
-
-
-C_Container.ContainerIDToInventoryID(containerID) : inventoryID
-C_Container.ContainerRefundItemPurchase(containerIndex, slotIndex [, isEquipped])
-C_Container.GetBackpackAutosortDisabled() : isDisabled
-C_Container.GetBagName(bagIndex) : name
-C_Container.GetBagSlotFlag(bagIndex, flag) : isSet
-C_Container.GetBankAutosortDisabled() : isDisabled
-C_Container.GetContainerFreeSlots(containerIndex) : freeSlots
-C_Container.GetContainerItemCooldown(containerIndex, slotIndex) : startTime, duration, enable
-C_Container.GetContainerItemDurability(containerIndex, slotIndex) : durability, maxDurability
-C_Container.GetContainerItemEquipmentSetInfo(containerIndex, slotIndex) : inSet, setList
-C_Container.GetContainerItemID(containerIndex, slotIndex) : containerID
-C_Container.GetContainerItemInfo(containerIndex, slotIndex) : containerInfo
-C_Container.GetContainerItemLink(containerIndex, slotIndex) : itemLink
-C_Container.GetContainerItemPurchaseCurrency(containerIndex, slotIndex, itemIndex, isEquipped) : currencyInfo
-C_Container.GetContainerItemPurchaseInfo(containerIndex, slotIndex, isEquipped) : info
-C_Container.GetContainerItemPurchaseItem(containerIndex, slotIndex, itemIndex, isEquipped) : itemInfo
-C_Container.GetContainerItemQuestInfo(containerIndex, slotIndex) : questInfo
-C_Container.GetContainerNumFreeSlots(bagIndex) : numFreeSlots, bagFamily
-C_Container.GetContainerNumSlots(containerIndex) : numSlots
-C_Container.GetInsertItemsLeftToRight() : isEnabled
-C_Container.GetItemCooldown(itemID) : startTime, duration, enable
-C_Container.GetMaxArenaCurrency() : maxCurrency
-C_Container.GetSortBagsRightToLeft() : isEnabled
-C_Container.IsBattlePayItem(containerIndex, slotIndex) : isBattlePayItem
-C_Container.IsContainerFiltered(containerIndex) : isFiltered
-C_Container.PickupContainerItem(containerIndex, slotIndex)
-C_Container.PlayerHasHearthstone() : itemID
-C_Container.SetBackpackAutosortDisabled(disable)
-C_Container.SetBagPortraitTexture(texture, bagIndex)
-C_Container.SetBagSlotFlag(bagIndex, flag, isSet)
-C_Container.SetBankAutosortDisabled(disable)
-C_Container.SetInsertItemsLeftToRight(enable)
-C_Container.SetItemSearch(searchString)
-C_Container.SetSortBagsRightToLeft(enable)
-C_Container.ShowContainerSellCursor(containerIndex, slotIndex)
-C_Container.SocketContainerItem(containerIndex, slotIndex) : success
-C_Container.SortBags()
-C_Container.SortBankBags()
-C_Container.SortReagentBankBags()
-C_Container.SplitContainerItem(containerIndex, slotIndex, amount)
-C_Container.UseContainerItem(containerIndex, slotIndex, [unitToken], [reagentBankOpen])
-C_Container.UseHearthstone() : used
-]]

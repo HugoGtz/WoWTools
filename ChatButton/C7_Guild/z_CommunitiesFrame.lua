@@ -30,11 +30,6 @@ local function Create_Texture(btn)
                 ..'|n'..(WoWTools_L.GUILDCONTROL_GUILDRANKS)
     Set_Sctipt(btn.allText)
 
---[[在线人数
-    btn.onlineText=WoWTools_LabelMixin:Create(btn, {color=true})
-    btn.onlineText:SetPoint('BOTTOM', 0, 2)
-    btn.onlineText.tooltip= WoWTools_L.GUILD_MEMBERS_ONLINE
-    Set_Sctipt(btn.onlineText)]]
 
 --是否有申请人
     btn.inviteTexture= btn:CreateTexture(nil, 'BORDER',nil, 2)
@@ -60,8 +55,6 @@ local function Create_Texture(btn)
     btn.factionTexture.tooltip= WoWTools_L.COMMUNITIES_EDIT_DIALOG_CROSS_FACTION
     Set_Sctipt(btn.factionTexture)
 
-    --[[btn.rankText= WoWTools_LabelMixin:Create(btn, {color=true, layer='BORDER'})
-    btn.rankText:SetPoint('BOTTOMRIGHT', -6, 2)]]
 end
 
 

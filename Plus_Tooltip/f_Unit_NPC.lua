@@ -1,11 +1,3 @@
---[[
-npc=210759/布莱恩·铜须
-瓦莉拉·萨古纳尔 255252
-117694,布莱恩·铜须,,,,1,9,0,0,26353,0,0,0,1,0,0,0,1910,0,0
-https://www.wowhead.com/cn/faction=2744/瓦莉拉·萨古纳尔
-
- C_Item.GetDelvePreviewItemLink(self.id, self.context);
-]]
 local function Set_BrannBronzebeard(tooltip, unit, size)
     if not UnitInPartyIsAI(unit)
         or not WoWTools_MapMixin:IsInDelve()
@@ -42,9 +34,6 @@ local function Set_BrannBronzebeard(tooltip, unit, size)
         end
     end
 
-    --[[if left then
-        tooltip:AddLine(left)
-    end]]
 
     tooltip:AddLine(
         (WoWTools_L.REPUTATION)
@@ -53,13 +42,6 @@ local function Set_BrannBronzebeard(tooltip, unit, size)
 
     return left
 end
-
-
-
-
-
-
-
 
 
 --设置单位, NPC
@@ -135,11 +117,6 @@ function WoWTools_TooltipMixin:Set_Unit_NPC(tooltip, name, unit, guid)
     end
 
     --NPC 中文名称
-    --[[local data= WoWTools_TextMixin:CN(nil, {unit=unit, npcID=npc})
-    if data then
-        textLeft= data.T
-        text2Right= data.D
-    end]]
 
 --嵌入式
     tooltip:Set_TopLabel(textLeft, text2Left, textRight, text2Right)

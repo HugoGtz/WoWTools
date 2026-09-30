@@ -25,25 +25,7 @@ WoWTools_DataMixin= {
 }
 
 
---[[EventRegistry:RegisterFrameEventAndCallback("CLIENT_SCENE_OPENED", function(owner, arg1)
-    print('open')
-end)
-EventRegistry:RegisterFrameEventAndCallback("CLIENT_SCENE_CLOSED", function(owner, arg1)
-    print('CLOSED')
-end)]]
 
---[[
-UnitItemLevel[guid]={--玩家装等
-    itemLevel= itemLevel,
-    specID=specID,
-    faction= UnitFactionGroup(unit),
-    col= hex,
-    r=r,
-    g=g,
-    b=b,
-    level=UnitLevel(unit),
-}
-]]
 
 --WoWTools_DataMixin.IsSetPlayerSound= enabled--播放, 事件声音
 --WoWTools_DataMixin.ClearAllSave= true 全部重置，插件设置
@@ -120,13 +102,6 @@ end
 if WoWTools_DataMixin.Player.husandro then
     SetConsoleKey("F9")
 end
---[[
-zh= LOCALE_zhCN or LOCALE_zhTW,--GetLocale()== ("zhCN" or 'zhTW'),
-ver= select(4,GetBuildInfo())>=100100,--版本 100100
-disabledLUA={},--禁用插件 {save='', text} e.DisabledLua=true
-SetPortraitTexture(playerPoint:GetNormalTexture(), 'player')
-WoWTools_UnitMixin:GetRaceIcon('player', nil, nil, {reAtlas=true})  玩家图标icon 
-]]
 
 WoWTools_DataMixin.Icon={
     Player= '',--玩家图标icon  WoWTools_UnitMixin:GetRaceIcon('player') 
@@ -166,23 +141,6 @@ WoWTools_DataMixin.Icon={
     [STABLE_PET_SPEC_FEROCITY] = "ferocity-icon-small",
     [STABLE_PET_SPEC_TENACITY] = "tenacity-icon-small",
 }
-
-
---[[
-questlog-questtypeicon-account
-disabled='talents-button-reset', ChallengeMode-icon-redline
-select='common-icon-checkmark',--'GarrMission_EncounterBar-CheckMark',--绿色√   
-common-dropdown-icon-checkmark-yellow 黄色
-ChallengeMode-RankLineDivider
-CampCollection-icon-star auctionhouse-icon-favorite  recipetoast-icon-star 星
-]]
-
-
-
-
-
-
-
 
 
 if LOCALE_zhCN then
@@ -236,10 +194,6 @@ else
         key='Key words',
     }
 end
-
-
-
-
 
 
 function WoWTools_DataMixin:Info(data1)

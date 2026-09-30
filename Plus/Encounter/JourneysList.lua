@@ -38,20 +38,6 @@ local function Set_Text(self)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Create_Button(btn)
     btn.canClickForOptions= true
     btn.text=btn:CreateFontString(nil, 'BORDER', 'ChatFontSmall')
@@ -89,12 +75,6 @@ local function Create_Button(btn)
     --Buttons[index]= btn
     --return btn
 end
-
-
-
-
-
-
 
 
 local function Init_Button()
@@ -153,14 +133,6 @@ local function Init_Button()
     Button.Bg:SetPoint('BOTTOMLEFT', last or Button.frame, 1, -1)
     Button.Bg:SetWidth(w)
 end
-
-
-
-
-
-
-
-
 
 
 local function Init_Menu(self, root)
@@ -278,17 +250,6 @@ local function Init_Menu(self, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
     if Save().disabled then
         return
@@ -318,9 +279,6 @@ local function Init()
         self.text:SetFormattedText('%d', #C_MajorFactions.GetMajorFactionIDs())
         self:SetWidth(math.max(self.text:GetStringWidth()+8, 23))
     end)
-
-
-
 
 
     Button.frame:SetScript('OnHide', function(self)
@@ -353,72 +311,7 @@ local function Init()
 end
 
 
-
-
-
-
-
-
 function WoWTools_EncounterMixin:Init_JourneysList()
     Init()
 end
 
-    --[[menu.ScrollBox= CreateFrame('Frame', nil, menu.frame, 'WowScrollBoxList')
-    
-    menu.ScrollBox:SetPoint('TOPLEFT', EncounterJournal, 'TOPRIGHT', 8, -23)
-    menu.ScrollBox:SetPoint('BOTTOMLEFT', EncounterJournal, 'BOTTOMRIGHT', 8, 0)
-    menu.ScrollBox:SetWidth(200)
-
-    menu.ScrollBar= CreateFrame("EventFrame", nil, menu, "MinimalScrollBar")
-    menu.ScrollBar:SetPoint("TOPRIGHT", menu.ScrollBox, "TOPLEFT", 0, -12)
-    menu.ScrollBar:SetPoint("BOTTOMRIGHT", menu.ScrollBox, "BOTTOMLEFT", 0, 12)
-    WoWTools_TextureMixin:SetScrollBar(menu.ScrollBar)
-
-
-
-    menu.view = CreateScrollBoxListLinearView()
-    ScrollUtil.InitScrollBoxListWithScrollBar(menu.ScrollBox, menu.ScrollBar, menu.view)
-    menu.view:SetElementInitializer('WoWToolsButtonTemplate', Set_Button)
-
-    function menu:Init()
-        local data= CreateDataProvider()
-        local major= C_MajorFactions.GetMajorFactionIDs()
-
-        table.sort(major, function(a, b) return b<a end)
-
-        for _, factionID in pairs(major) do
-            data:Insert(factionID)
-        end
-        self.view:SetDataProvider(data, ScrollBoxConstants.RetainScrollPosition)
-    end
-
-    if EncounterJournalJourneysFrame:IsShown() then
-        menu:Init()
-    end
-
-    menu:SetScript('OnHide', function(self)
-        self.view:SetDataProvider(CreateDataProvider(), ScrollBoxConstants.RetainScrollPosition)
-    end)
-    menu:SetScript('OnShow', function(self)
-        self:Init()
-    end)
-    
-    
-    
-    
-    
-    
-    
-    提示factionID, 显示CheckBox
-	view:SetElementFactory(function(factory, elementData)
-		if elementData.category then
-			factory("JourneysListCategoryNameTemplate", CategoryNameInitializer);
-		elseif elementData.divider then
-			factory("JourneysListCategoryDividerTemplate", nop);
-		elseif elementData.isRenownJourney then
-			factory("RenownCardButtonTemplate", RenownCardInitializer);
-		else
-			factory("JourneyCardButtonTemplate", JourneyCardInitializer);
-		end
-	end);
-]]

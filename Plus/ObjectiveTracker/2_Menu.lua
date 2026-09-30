@@ -50,10 +50,6 @@ local function Set_Collapse(collapse, isAllCollapse)
 end
 
 
-
-
-
-
 local function Init_Menu(self, root)
     if not self:IsMouseOver() then
         return
@@ -174,10 +170,6 @@ local function Init_Menu(self, root)
     sub:CreateSpacer()
 
 
-
-
-
-
 --选项
     sub= WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_ObjectiveMixin.addName, tooltip=function(tooltip)
         tooltip:AddLine(' ')
@@ -189,19 +181,6 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:Reload(sub)
 
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init()
@@ -297,9 +276,6 @@ local function Init()
     end)
 
 
-
-
-
 --初始
     WoWTools_DataMixin:Hook(ObjectiveTrackerManager, 'ReleaseFrame', function(_, line)
         if line.Icon2 then
@@ -327,43 +303,8 @@ local function Init()
 end
 
 
-
-
-
-
-
-
 function WoWTools_ObjectiveMixin:Init_Menu()
     Init()
 end
 
---[[function WoWTools_ObjectiveMixin:Get_ObjectiveTab()
-    return WoWTools_ObjectiveTabs
-end
--移动
-    WoWTools_MoveMixin:Setup(ObjectiveTrackerFrame.Header, {
-        notSave=true,
-    })
-
-    ObjectiveTrackerFrame:SetMovable(true)
-    ObjectiveTrackerFrame.Header.MinimizeButton:RegisterForDrag("RightButton")
-
-    ObjectiveTrackerFrame.Header.MinimizeButton:SetScript("OnDragStart", function(self)
-        if not WoWTools_FrameMixin:IsLocked(self) then
-            self:GetParent():GetParent():StartMoving()
-            SetCursor('UI_MOVE_CURSOR')
-        end
-    end)
-    ObjectiveTrackerFrame.Header.MinimizeButton:SetScript("OnDragStop", function(self, d)
-        self:GetParent():GetParent():StopMovingOrSizing()
-        ResetCursor()
-    end)
-    ObjectiveTrackerFrame.Header.MinimizeButton:HookScript('OnMouseDown', function(_, d)
-        if d=='RightButton' then
-            SetCursor('UI_MOVE_CURSOR')
-        end
-    end)
-    ObjectiveTrackerFrame.Header.MinimizeButton:HookScript('OnMouseUp', function()
-        ResetCursor()
-    end)]]
 

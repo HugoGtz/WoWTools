@@ -1,16 +1,3 @@
---[[##############
-副本，难度，指示
-MinimapCluster.InstanceDifficulty.Default
-MinimapCluster.InstanceDifficulty.ChallengeMode.Text
-MinimapCluster.InstanceDifficulty.Guild.Border
-]]
-
-
-
-
-
-
-
 
 
 
@@ -40,13 +27,6 @@ local function InstanceDifficulty_Tooltip(tooltip, difficultyID)
         end
     end
 end
-
-
-
-
-
-
-
 
 
 local function Init()
@@ -133,12 +113,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
-
-
 
 
 function WoWTools_MinimapMixin:InstanceDifficulty_Tooltip(_, tooltip)

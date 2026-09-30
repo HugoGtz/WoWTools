@@ -1,13 +1,3 @@
---[[
-EncounterJournalEncounterFrameInfo
-EncounterJournal.encounter.info
-
-EncounterJournalEncounterFrameInstanceFrame
-EncounterJournal.encounter.instance
-
-EncounterJournalSuggestFrame.Suggestion1
-EncounterJournal.suggestFrame.Suggestion1
-]]
 
 function WoWTools_MoveMixin.Events:Blizzard_EncounterJournal()
     local icon

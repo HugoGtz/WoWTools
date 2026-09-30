@@ -4,17 +4,6 @@ local function Save()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
 --RaidFinder.lua
 local function isRaidFinderDungeonDisplayable(dungeonID)
     local _, _, _, minLevel, maxLevel, _, _, _, expansionLevel = GetLFGDungeonInfo(dungeonID)
@@ -26,12 +15,6 @@ local function isRaidFinderDungeonDisplayable(dungeonID)
 
     return myLevel >= minLevel and myLevel <= maxLevel and EXPANSION_LEVEL >= expansionLevel
 end
-
-
-
-
-
-
 
 
 local function Set_Tooltip(tooltip, desc)
@@ -108,11 +91,6 @@ local function Set_Tooltip(tooltip, desc)
 end
 
 
-
-
-
-
-
 local function Add_Initializer(btn, desc)
     --if not btn.leftTexture then
         btn.leftTexture = btn:AttachTexture()
@@ -161,21 +139,6 @@ local function Add_Initializer(btn, desc)
         self.elapsed=nil
     end)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function GetLFGLockList()
@@ -304,33 +267,6 @@ local function Init_Follower_Specific_Menu(root, listType)--追随者，副本
 end
 
 
-    --[[FollowerSpecific_Menu(
-        root,
-        specificList,
-        
-
-    )]]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --场景战役 SCENARIOS
 local function Init_Scenarios_Menu(root)--ScenarioFinder.lua
     local sub, sub2, reward, rewardIndex, rewardType, rewardArg
@@ -417,67 +353,6 @@ local function Init_Scenarios_Menu(root)--ScenarioFinder.lua
     WoWTools_MenuMixin:SetRightText(sub)
     WoWTools_MenuMixin:SetScrollMode(sub)
 end
-    --[[if find~=numScenario then
-        sub:AddInitializer(function(btn)
-            btn.fontString:SetText(
-                header
-                ..(find>0 and '|cnGREEN_FONT_COLOR:' or '|cff606060')
-                ..find
-            )
-        end)
-    end]]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---[[
-
-function LFDQueueFrameSpecificList_InitButton(button, elementData)
-	local dungeonID = elementData.dungeonID
-	local enabled, queued = LFGDungeonList_EvaluateListState(LE_LFG_CATEGORY_LFD)
-
-	local checkedList
-	if ( queued ) then
-		checkedList = LFGQueuedForList[LE_LFG_CATEGORY_LFD]
-	else
-		checkedList = LFGEnabledList
-	end
-
-	button:SetWidth(295)
-
-	LFGDungeonListButton_SetDungeon(button, dungeonID, enabled, checkedList)
-end
-]]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --随机地下城
@@ -603,36 +478,6 @@ local function set_Party_Menu_List(root2)
     end
 
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --团队本
@@ -838,37 +683,6 @@ local function set_Raid_Menu_List(root2)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --职责，可选列表
 local function Init_All_Role(_, root)
     local sub, isLeader, isTank, isHealer, isDPS, tank, healer, dps
@@ -993,24 +807,6 @@ local function Init_All_Role(_, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --初始菜单
 local function Init_Menu(self, root)
     if not self:IsMouseOver() then
@@ -1053,10 +849,6 @@ local function Init_Menu(self, root)
     end)
 
 
-
-
-
-
 --设置, 小眼睛, 信息
     sub2=sub:CreateCheckbox('|A:common-icon-rotateleft:0:0|a'..(WoWTools_L['LEAVE+INSTANCE']), function()
         return Save().leaveInstance
@@ -1075,9 +867,6 @@ local function Init_Menu(self, root)
             tooltip:AddLine(WoWTools_Join(SELF_CAST_AUTO, ROLL))
         end
     end)
-
-
-
 
 
 --设置, 信息 QueueStatusFrame.lua
@@ -1102,9 +891,6 @@ local function Init_Menu(self, root)
         end
         return MenuResponse.Open
     end)
-
-
-
 
 
 --设置, 预创建队伍增强
@@ -1149,10 +935,6 @@ local function Init_Menu(self, root)
     Init_All_Role(self, sub2)
 
 
-
-
-
-
 --设置,战场
     sub:CreateDivider()
     tank, healer, dps = GetPVPRoles()--检测是否选定角色PVP
@@ -1190,48 +972,6 @@ local function Init_Menu(self, root)
     end)
 
 
-
-
-
-
-
---[[前往副本 Plus
-    sub:CreateDivider()
-    sub2= sub:CreateCheckbox(
-        WoWTools_L['PET_ACTION_MOVE_TO+INSTANCE'],
-    function()
-        return not Save().disabledLFGDungeonReadyDialog
-    end, function()
-        Save().disabledLFGDungeonReadyDialog= not Save().disabledLFGDungeonReadyDialog and true or nil
-        WoWTools_LFDMixin:Init_LFGDungeonReadyDialog()
-    end)
-    sub2:SetTooltip(function(tooltip)
-        tooltip:AddLine('LFGDungeonReadyDialog')
-        tooltip:AddDoubleLine(WoWTools_L.INFO, WoWTools_L.DUNGEONS_BUTTON)
-        tooltip:AddLine(WoWTools_L.SPECIFIC_INSTANCE_IS_READY)
-    end)
-
---队伍查找器, 接受邀请, 信息
-    sub2=sub:CreateCheckbox(
-        WoWTools_L['INVITE+INFO'],
-    function()
-        return not Save().disabedLFDInviteInfo
-    end, function()
-        Save().disabedLFDInviteInfo= not Save().disabedLFDInviteInfo and true or nil
-    end)
-    sub2:SetTooltip(function(tooltip)
-        tooltip:AddLine('LFGListInviteDialog_Show')
-        tooltip:AddDoubleLine(WoWTools_L.INFO, WoWTools_L.DUNGEONS_BUTTON)
-        tooltip:AddLine(WoWTools_L.LFG_LIST_INVITED_TO_GROUP)
-    end)]]
-
-
-
-
-
-
-
-
 --隐藏，不可能副本，列表
     sub:CreateDivider()
     sub:CreateTitle(
@@ -1250,10 +990,6 @@ local function Init_Menu(self, root)
             WoWTools_L.YOU_MAY_NOT_QUEUE_FOR_THIS
         )
     end)
-
-
-
-
 
 
 --副本， 次数
@@ -1320,14 +1056,6 @@ local function Init_Menu(self, root)
     sub:CreateSpacer()
 
 
-
-
-
-
-
-
-
-
 --战利品掷骰
     sub=root:CreateButton(
         (Save().autoROLL and '|TInterface\\PVPFrame\\Icons\\PVP-Banner-Emblem-47:0|t' or '|A:Levelup-Icon-Bag:0:0|a')
@@ -1371,13 +1099,6 @@ local function Init_Menu(self, root)
     root:CreateDivider()
 
 
-
-
-
-
-
-
-
 --副本，逃亡者
     local deserterExpiration = GetLFGDeserterExpiration()
     local shouldtext
@@ -1410,13 +1131,6 @@ local function Init_Menu(self, root)
         root:CreateTitle('|cnGREEN_FONT_COLOR:'..shouldtext)
         root:CreateDivider()
     end
-
-
-
-
-
-
-
 
 
 --显示 LFGDungeonReadyDialog
@@ -1535,18 +1249,6 @@ local function Init_Menu(self, root)
 
      WoWTools_MenuMixin:SetScrollMode(root)
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_LFDMixin:Init_Menu(btn)

@@ -1,28 +1,6 @@
 WoWTools_TextMixin={}
 
 
---[[
-. ( ) + - * ? [ ^
-
-MoveAny\libs\D4Lib
-local function IsUkrainianLetters(str)
-    return str:match("[\192-\199]") ~= nil
-end
-
-local function IsRussianLetters(str)
-    return str:match("[\192-\255]") ~= nil
-end
-
-local function IsChineseLetters(str)
-    return str:match("[\228-\233]") ~= nil
-end
-
-local function IsKoreanLetters(str)
-    return str:match("[\234-\237]") ~= nil
-end
-text:find("[\228-\233][\128-\191][\128-\191]") then--检查 UTF-8 字符
-
-]]
 
 
 function WoWTools_TextMixin:ShowText(data, headerText, tab)
@@ -93,13 +71,6 @@ function WoWTools_TextMixin:ShowText(data, headerText, tab)
 end
 --frame.ScrollBox.editBox:SetCursorPosition(1)
 --frame.ScrollBox.ScrollBar:ScrollToEnd()
-
-
-
-
-
-
-
 
 
 --Convierte un texto de formato de Blizzard (%s, %d, %1$s...) en un patrón Lua de búsqueda.
@@ -207,9 +178,6 @@ function WoWTools_TextMixin:sub(text, size, letterSize, lower)
         return lower and strlower(output) or output
     end
 end
-
-
-
 
 
 function WoWTools_TextMixin:GetShowHide(sh, all)

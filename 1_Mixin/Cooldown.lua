@@ -1,13 +1,4 @@
 WoWTools_CooldownMixin={}
---[[
-Cooldown.lua
-CooldownFrame_Set(self.SpellButton.Cooldown, cooldownInfo.startTime, cooldownInfo.duration, cooldownInfo.isEnabled)
-CooldownFrame_Clear(self.SpellButton.Cooldown);
-CooldownFrame_SetDisplayAsPercentage(self, percentage)
-]]
-
-
-
 
 
 function WoWTools_CooldownMixin:GetText(spellID, itemID)--法术,物品,冷却
@@ -98,9 +89,6 @@ function WoWTools_CooldownMixin:SetFrame(frame, tab)
         self:Setup(frame)
     end
 end
-
-
-
 
 
 --CooldownFrame_Set(self, start, duration, enable, forceShowDrawEdge, modRate)

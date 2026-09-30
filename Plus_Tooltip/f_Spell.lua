@@ -116,20 +116,6 @@ function WoWTools_TooltipMixin:Set_Spell(tooltip, spellID)--, actionID)
     --tooltip:Show()
 end
 
---[[local overrideSpellID = FindSpellOverrideByID(spellID)
-if overrideSpellID and overrideSpellID~=spellID then
-   WoWTools_DataMixin:Load(overrideSpellID, 'spell')--加载 item quest spell
-    local link= C_Spell.GetSpellLink(overrideSpellID)
-    if link then
-
-    local name2, _, icon2, _, _, _, _, originalIcon2= C_Spell.GetSpellInfo(overrideSpellID)
-    link= link or name2
-    link= link and link..overrideSpellID or ('overrideSpellID '..overrideSpellID)
-    if link then
-        spellTexture=  originalIcon2 or icon2 or C_Spell.GetSpellTexture(overrideSpellID)
-        GameTooltip:AddDoubleLine(format(WoWTools_L.REPLACES_SPELL, link), spellTexture and '|T'..spellTexture..':'..self.iconSize..'|t'..spellTexture)
-    end
-end]]
 
 
 

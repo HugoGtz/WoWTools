@@ -192,11 +192,6 @@ local function Init()
 
     btn:SetupMenu(Init_RightTab_Menu)
 
-    --[[BankPanel.AutoDepositFrame.DepositButton:SetScript('OnEnter', function(self)
-        if not self:IsEnabled() then
-            return
-        end
-    end)]]
     Init=function()end
 end
 

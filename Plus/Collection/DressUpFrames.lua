@@ -1,11 +1,4 @@
 
---[[
-试衣间, 外观列表
-DressUpCustomSetDetailsSlotMixin 12.0才有
-
-DressUpOutfitDetailsSlotMixin 12.0没有了 DressUpFrame.OutfitDetailsPanel
-
-]]
 
 
 
@@ -25,18 +18,6 @@ local function GetItemLink(self)
     end
     return link
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init()
@@ -132,9 +113,6 @@ local function Init()
         frame.BackgroundTexture:SetVertexColor(color:GetRGB())
         frame.BackgroundTexture:SetAlpha(frame.elementData.selected and 0 or 1)
     end)
-
-
-
 
 
     WoWTools_DataMixin:Hook(DressUpCustomSetDetailsSlotMixin or DressUpOutfitDetailsSlotMixin, 'SetDetails', function(frame)

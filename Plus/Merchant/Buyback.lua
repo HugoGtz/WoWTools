@@ -5,33 +5,6 @@ local function Save()
 end
 
 
-
-
-
-
-
-
-
-
---[[购回物品, itemID, itemLink
-local function Get_Buyback_ItemID(index)
-    local num= GetNumBuybackItems()
-    if num and num>0 then
-        index= index or num
-        return C_MerchantFrame.GetBuybackItemID(index), GetMerchantItemLink(index)
-    end
-end]]
-
-
-
-
-
-
-
-
-
-
-
 --购回物品
 local function set_buyback_item()
     local num= GetNumBuybackItems() or 0
@@ -79,16 +52,6 @@ local function set_buyback_item()
 end
 
 
-
-
-
-
-
-
-
-
-
-
 --添加，移除，到Save
 local function Add_Remove_ToSave(itemID)
     local text
@@ -108,16 +71,6 @@ local function Add_Remove_ToSave(itemID)
         text
     )
 end
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Menu(self, root)
@@ -189,26 +142,11 @@ local function Init_Menu(self, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
 --购回
 local function Init()
 
     local BuybackButton= CreateFrame('Button', 'WoWTools_BuybackButton', MerchantFrame, 'WoWToolsButtonTemplate')
     BuybackButton:SetSize(35,35)
-    --[[WoWTools_ButtonMixin:Cbtn(MerchantFrame, {
-        name='WoWTools_BuybackButton',
-        size=35
-    })]]
 
     if Save().notPlus then
         BuybackButton:SetPoint('BOTTOMRIGHT', MerchantBuyBackItem, 6,18)
@@ -260,10 +198,6 @@ local function Init()
     end
 
 
-
-
-
-
     BuybackButton:SetScript('OnMouseDown', function(self, d)
         local infoType, itemID = GetCursorInfo()
         if infoType=='merchant' and itemID then--购买物品
@@ -280,10 +214,6 @@ local function Init()
         end
         self:set_tooltip()
     end)
-
-
-
-
 
 
     BuybackButton:SetScript('OnLeave', function(self)
@@ -322,15 +252,6 @@ local function Init()
     MerchantBuyBackItemItemButton.UndoFrame.Arrow:ClearAllPoints()
     MerchantBuyBackItemItemButton.UndoFrame.Arrow:SetTexture(0)
 end
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_MerchantMixin:Init_Buyback_Button()--回购物品

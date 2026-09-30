@@ -3,12 +3,6 @@ local function Save()
 end
 
 
-
-
-
-
-
-
  --自定，数据
 local function status_set_rating(frame, rating)
     local num= rating and GetCombatRating(rating)
@@ -45,22 +39,6 @@ local function create_status_label(frame, rating)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 -- General
 local function Init_General()
     WoWTools_DataMixin:Hook('PaperDollFrame_SetHealth', function(frame)--生命
@@ -81,75 +59,6 @@ local function Init_General()
 end
 
 
-
-    --[[function MovementSpeed_OnUpdate(statFrame)--原生，替换，增强 PaperDollFrame_SetMovementSpeed
-        local unit = statFrame.unit
-        local _, runSpeed, flightSpeed, swimSpeed = GetUnitSpeed(unit)
-        local isGliding, _, forwardSpeed = C_PlayerInfo.GetGlidingInfo()
-        if isGliding and forwardSpeed then
-            flightSpeed= forwardSpeed/BASE_MOVEMENT_SPEED*100
-        else
-            flightSpeed = flightSpeed/BASE_MOVEMENT_SPEED*100
-        end
-        runSpeed = runSpeed/BASE_MOVEMENT_SPEED*100
-        swimSpeed = swimSpeed/BASE_MOVEMENT_SPEED*100
-        if (unit == "pet") then
-            swimSpeed = runSpeed
-        end
-        local speed = runSpeed
-        local swimming = IsSwimming(unit)
-        if (swimming) then
-            speed = swimSpeed
-        elseif (IsFlying(unit)) then
-            speed = flightSpeed
-        end
-        if (IsFalling(unit)) then
-            if (statFrame.wasSwimming) then
-                speed = swimSpeed
-            end
-        else
-            statFrame.wasSwimming = swimming
-        end
-        local valueText = format("%i%%", speed)
-        PaperDollFrame_SetLabelAndText(statFrame, WoWTools_L.NPE_MOVE, valueText, false, speed)
-        statFrame.speed = speed
-        statFrame.runSpeed = runSpeed
-        statFrame.flightSpeed = flightSpeed
-        statFrame.swimSpeed = swimSpeed
-        create_status_label(statFrame, CR_SPEED or 14)
-    end
-    function MovementSpeed_OnEnter(statFrame)
-        GameTooltip:SetOwner(statFrame, "ANCHOR_RIGHT")
-        GameTooltip_SetTitle(GameTooltip,
-            format(PAPERDOLLFRAME_TOOLTIP_FORMAT, WoWTools_L.STAT_MOVEMENT_SPEED).." "..format("%d%%", statFrame.speed+0.5)
-        )
-        GameTooltip:AddLine(" ")
-        GameTooltip:AddLine(format(WoWTools_L.STAT_MOVEMENT_GROUND_TOOLTIP, statFrame.runSpeed+0.5))
-        GameTooltip:AddLine(format(WoWTools_L.STAT_MOVEMENT_SWIM_TOOLTIP, statFrame.swimSpeed+0.5))
-        if (statFrame.unit ~= "pet") then
-            GameTooltip:AddLine(format(WoWTools_L.STAT_MOVEMENT_FLIGHT_TOOLTIP, statFrame.flightSpeed+0.5))
-            GameTooltip:AddLine(format('%s: %i%%', WoWTools_L.LANDING_DRAGONRIDING_PANEL_TITLE, 100*100/BASE_MOVEMENT_SPEED))
-        end
-        GameTooltip:AddLine(" ")
-        GameTooltip:AddLine(format(WoWTools_L.CR_SPEED_TOOLTIP, BreakUpLargeNumbers(GetCombatRating(CR_SPEED or 14)), GetCombatRatingBonus(CR_SPEED or 14)))
-        GameTooltip:Show()
-        statFrame.UpdateTooltip = MovementSpeed_OnEnter
-    end]]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --Base stats
 local function Init_Base_Stats(frame, unit, statIndex)--主属性
     if create_status_label(frame) then
@@ -166,11 +75,6 @@ local function Init_Base_Stats(frame, unit, statIndex)--主属性
         frame.numLabel:SetText(tooltipText or '')
     end
 end
-
-
-
-
-
 
 
 --Enhancement
@@ -231,19 +135,6 @@ local function Init_Enhancements()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init_Attack()
     WoWTools_DataMixin:Hook('PaperDollFrame_SetDamage', function(frame)--伤害
         if create_status_label(frame) then
@@ -274,14 +165,6 @@ local function Init_Attack()
 end
 
 
-
-
-
-
-
-
-
-
 -- Spell
 local function Init_Spell()
     WoWTools_DataMixin:Hook('PaperDollFrame_SetSpellPower', function(frame)
@@ -295,14 +178,6 @@ local function Init_Spell()
         end
     end)
 end
-
-
-
-
-
-
-
-
 
 
 local function Init_Defense()
@@ -357,43 +232,6 @@ local function Init_Defense()
         end
     end)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    --[[功击速度，放在前前，原生出错
-    function PaperDollFrame_SetAttackSpeed(statFrame, unit)
-        local meleeHaste = GetMeleeHaste()
-        local speed, offhandSpeed = UnitAttackSpeed(unit)
-        local displaySpeed
-        speed= speed or 0
-        if offhandSpeed  then
-            displaySpeed = format("%.2f/%.2f", speed, offhandSpeed)
-        else
-            displaySpeed = format("%.2f", speed)
-        end
-        PaperDollFrame_SetLabelAndText(statFrame, WoWTools_L.WEAPON_SPEED, displaySpeed, false, speed)
-        statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..format(PAPERDOLLFRAME_TOOLTIP_FORMAT, WoWTools_L.ATTACK_SPEED).." "..displaySpeed..FONT_COLOR_CODE_CLOSE
-        statFrame.tooltip2 = format(WoWTools_L.STAT_ATTACK_SPEED_BASE_TOOLTIP, BreakUpLargeNumbers(meleeHaste))
-        statFrame:Show()
-        if statFrame.numLabel then
-            statFrame.numLabel:SetText('')
-        end
-    end]]
 
 
 local function Init()
@@ -484,19 +322,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_PaperDollMixin:Init_Status_Bit()

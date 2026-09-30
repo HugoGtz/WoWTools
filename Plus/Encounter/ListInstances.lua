@@ -1,9 +1,3 @@
---[[
-界面, 副本击杀
-Blizzard_EncounterJournal.lua
-name, id, timeLimit, texture, backgroundTexture, mapID = C_ChallengeMode.GetMapUIInfo(mapChallengeModeID)
-journalInstanceID = C_EncounterJournal.GetInstanceForGameMap(mapID)
-]]
 
 
 local function Save()
@@ -44,9 +38,6 @@ local function Init_Fvorite_Menu(self, root)
     root:CreateDivider()
     WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_EncounterMixin.addName})
 end
-
-
-
 
 
 --挑战，数据
@@ -117,26 +108,6 @@ local function Set_Button_ChallengData(instanceID)
     return challengeText, challengeText2, CurMaphallengeModeID
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---[[
-EncounterInstanceButtonTemplate
-QuestTitleFontBlackShadow
-]]
 
 local function Init_Button(btn)
     WoWTools_TextureMixin:SetFrame(btn, {index=5, alpha=1})
@@ -308,33 +279,6 @@ local function Init_Button(btn)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---[[
-WoWTools_DataMixin:Hook('EncounterJournal_DisplayInstance', function(...) Init_DisplayInstance(...) end)
-EncounterInstanceButtonTemplate
-EncounterJournal_DisplayInstance
-EncounterJournal_ListInstances
-]]
 local function Init()
     if Save().hideInsList then
         return
@@ -374,9 +318,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
 
 
 function WoWTools_EncounterMixin:Init_ListInstances()

@@ -5,12 +5,6 @@ local Frame=CreateFrame('Frame')
 local Category
 
 
-
-
-
-
-
-
 local function Init_Options()--设置 Frame
     local last, check, findTank, findDps
     local Tabs= WoWTools_AttributesMixin:Get_Tabs()
@@ -163,48 +157,6 @@ local function Init_Options()--设置 Frame
             sliderBit:SetPoint("LEFT", current.text, 'RIGHT', 6,0)
             sliderBit:SetSize(100,20)
 
---[[
-        elseif info.name=='SPEED' then--速度, 当前速度, 选项
---目标移动速度
-            local targetCheck= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
-            targetCheck:SetChecked(Save().showTargetSpeed)
-            targetCheck:SetPoint('LEFT', text, 'RIGHT',2, 0)
-            targetCheck.text:SetText('|A:common-icon-rotateright:0:0|a'..(WoWTools_L.TARGET))
-            targetCheck:SetScript('OnClick',function()
-                Save().showTargetSpeed= not Save().showTargetSpeed and true or nil
-                WoWTools_AttributesMixin:Init_Target_Speed()
-            end)
-
-            --驭空术UI，速度
-            local dragonriding= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
-            dragonriding:SetChecked(not Save().disabledDragonridingSpeed)
-            --dragonriding:SetPoint('LEFT', text, 'RIGHT',2,0)
-            dragonriding:SetPoint('TOPLEFT', text, 'BOTTOMLEFT', 0, -2)
-            dragonriding.text:SetFormattedText('|A:dragonriding_vigor_decor:0:0|a%s', WoWTools_L.GENERIC_TRAIT_FRAME_DRAGONRIDING_TITLE)
-            dragonriding:SetScript('OnClick',function()
-                Save().disabledDragonridingSpeed= not Save().disabledDragonridingSpeed and true or nil
-                WoWTools_AttributesMixin:Init_Dragonriding_Speed()
-                print(
-                    WoWTools_AttributesMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                    WoWTools_TextMixin:GetEnabeleDisable(not Save().disabledDragonridingSpeed),
-                    WoWTools_L['REQUIRES_RELOAD~2']
-                )
-            end)
-
-            --载具，速度
-            local vehicleSpeedCheck= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
-            vehicleSpeedCheck:SetChecked(not Save().disabledVehicleSpeed)
-            vehicleSpeedCheck:SetPoint('LEFT', dragonriding.text, 'RIGHT',2,0)
-            vehicleSpeedCheck.text:SetFormattedText(WoWTools_L.UNITNAME_SUMMON_TITLE9, '|TInterface\\Vehicles\\UI-Vehicles-Button-Exit-Up:0|t')
-            vehicleSpeedCheck:SetScript('OnClick',function()
-                Save().disabledVehicleSpeed= not Save().disabledVehicleSpeed and true or nil
-                WoWTools_AttributesMixin:Init_Vehicle_Speed()
-                print(
-                    WoWTools_AttributesMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                    WoWTools_TextMixin:GetEnabeleDisable(not Save().disabledVehicleSpeed),
-                    WoWTools_L['REQUIRES_RELOAD~2']
-                )
-            end)]]
 
 
         elseif info.name=='VERSATILITY' then--全能5
@@ -711,16 +663,6 @@ local function Init_Options()--设置 Frame
 end
 
 
-
-
-
-
-
-
-
-
-
-
 local function Init()
     Category= WoWTools_PanelMixin:AddSubCategory({--添加控制面板
         name=WoWTools_AttributesMixin.addName,
@@ -760,15 +702,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_AttributesMixin:Init_Options()

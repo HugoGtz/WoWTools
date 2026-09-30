@@ -64,39 +64,6 @@ local function exit_Instance()
 end
 
 
-
-
-
-
-
-
-
-
---[[
-
-    btn:RegisterEvent('CONFIRM_LOOT_ROLL')
-    btn:SetScript('OnEvent', function(_,  rollID, rollType)
-        if WoWTools_DataMixin.Player.husandro then
-             print('CONFIRM_LOOT_ROLL', rollID,rollType)
-        end
-        if Save().autoROLL and rollID and rollType then
-            ConfirmLootRoll(rollID, rollType)
-            StaticPopup_Hide("CONFIRM_LOOT_ROLL", rollID)
-        end
-    end)
-    if WoWTools_DataMixin.Player .husandro then
-        StaticPopupDialogs["CONFIRM_LOOT_ROLL"].OnShow= function(dialog, id, rollType)
-            print('aaaa', dialog, id, rollType)
-            C_Timer.After(0.01, function()
-                if id and rollType then
-                    print('bbbbbb',dialog, id, rollType)
-                        ConfirmLootRoll(id, rollType)
-                end
-            end)
-        end
-    end
-]]
-
 local function Init_Frame()
     local frame= CreateFrame('Frame')
     frame:RegisterEvent('LFG_COMPLETION_REWARD')
@@ -186,11 +153,6 @@ local function Init_Frame()
 end
 
 
-
-
-
-
-
 local function Init()
     StaticPopupDialogs['WoWTools_LFD_ExitIns']={
         text = WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2
@@ -226,17 +188,6 @@ local function Init()
                 Cancel_Exit_Timer()
             end
         end,
-        --[[EditBoxOnEscapePressed = function(s)
-            s:SetAutoFocus(false)
-            s:ClearFocus()
-            ExitIns=nil
-            print(
-                WoWTools_DataMixin.Icon.icon2..WoWTools_LFDMixin.addName,
-                '|cff00ff00'..(WoWTools_L.CANCEL)..'|r',
-                WoWTools_L.LEAVE
-            )
-            s:GetParent():Hide()
-        end,]]
         whileDead=true, exclusive=true,--hideOnEscape=true, 
         timeout=Save().sec or 5}
 
@@ -259,10 +210,6 @@ local function Init()
          WoWTools_ChatMixin:GetButtonForName('LFD').leaveInstance:SetShown(Save().leaveInstance)--自动离开,指示图标
     end
 end
-
-
-
-
 
 
 function WoWTools_LFDMixin:Init_Exit_Instance()

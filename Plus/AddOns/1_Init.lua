@@ -58,26 +58,6 @@ local function Save()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --#####
 --初始化
 --#####
@@ -89,18 +69,6 @@ local function Init()
     WoWTools_AddOnsMixin:Init_Info_Plus()
     Init=function()end
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local panel= CreateFrame("Frame")
@@ -143,14 +111,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
     if not Save().disabled then
         Init()
-        --[[if WoWTools_DataMixin.Player.husandro then
-            --PlaySound(SOUNDKIT.IG_MAINMENU_OPTION);
-            --HideUIPanel(GameMenuFrame);
-            ShowUIPanel(AddonList)
-        end
-        AddonList:HookScript('OnShow', function()
-            Init()
-        end)]]
     end
 
     self:SetScript('OnEvent', nil)

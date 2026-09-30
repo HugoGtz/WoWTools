@@ -35,14 +35,8 @@ local P_Items={
     [147843]=true,--赛拉的备用斗篷
 }
 local ModifiedTab={
-    --[[[69775]='Alt',--维库饮水角
-    [109183]='Ctrl',--世界缩小器
-    [134032]='Shift',--精英旗帜]]
 }
 local ModifiedMenuTab={
-    --[[{type='Alt', itemID=69775},
-    {type='Ctrl', itemID=109183},
-    {type='Shift', itemID=134032},]]
 }
 for itemID in pairs(ModifiedTab) do
    WoWTools_DataMixin:Load(itemID, 'item')
@@ -109,20 +103,6 @@ local function Set_Alt_Menu(root, itemID)
         end)
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Remove_Toy(itemID)--移除
@@ -199,29 +179,6 @@ local function get_not_cooldown_toy()--发现就绪
         end
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Menu_Toy(_, root)
@@ -315,14 +272,6 @@ local function Init_Menu_Toy(_, root)
 
     WoWTools_MenuMixin:SetScrollMode(root)
 end
-
-
-
-
-
-
-
-
 
 
 --#####
@@ -430,44 +379,6 @@ local function Init_Menu(self, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --#############
 --玩具界面, 按钮
 --#############
@@ -518,26 +429,6 @@ local function setToySpellButton_UpdateButton(btn)--标记, 是否已选取
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --###
 --初始
 --###
@@ -568,18 +459,10 @@ local function Init()
     end
 
 
-
-
-
     --CD
     function ToyButton:set_cool()
         WoWTools_CooldownMixin:SetFrame(self, {itemID=self.itemID})--主图标冷却
     end
-
-
-
-
-
 
 
     ToyButton:SetScript('OnEvent', function(self, event, itemID, success)
@@ -695,15 +578,6 @@ local function Init()
     end)
 
 
-
-
-
-
-
-
-
-
-
     Mixin(ToyButton, WoWTools_RandomMixin)
 
     function ToyButton:Get_Random_Data()--取得数据库, {数据1, 数据2, 数据3, ...}
@@ -746,12 +620,6 @@ local function Init()
     ToyButton:Init_Random(Save().lockedToy)--初始
 
 
-
-
-
-
-
-
     function ToyButton:set_event()
         if self:IsVisible() then
             self:RegisterEvent('TOYS_UPDATED')
@@ -777,10 +645,6 @@ local function Init()
     end)
 
 
-
-
-
-
     if C_AddOns.IsAddOnLoaded('Blizzard_Collections') then
         WoWTools_DataMixin:Hook('ToySpellButton_UpdateButton', setToySpellButton_UpdateButton)
     else
@@ -794,30 +658,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --###########

@@ -71,9 +71,6 @@ local function Init_HooKey(btn)
 
     if btn.AssistedCombatRotationFrame then
         Set_Assisted(btn.AssistedCombatRotationFrame)
-        --[[btn.AssistedCombatRotationFrame:HookScript('OnShow', function(frame)
-            Set_Assisted(frame)
-        end)]]
     end
 end
 
@@ -164,24 +161,7 @@ function WoWTools_TextureMixin.Events:Blizzard_ActionBar()
 end
 
 
-
-
-
 --EDIT_MODE_MODERN_SYSTEM_MAP[Enum.EditModeSystem.ActionBar][Enum.EditModeActionBarSystemIndices.MainBar].settings[Enum.EditModeActionBarSetting.HideBarArt]=1
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --区域技能
@@ -202,30 +182,6 @@ function WoWTools_TextureMixin.Events:Blizzard_ZoneAbility()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
---[[
-战斗宠物
-
-技能, 提示
-	PetBattlePrimaryUnitTooltip
-    PetBattleUnitTooltipTemplate
-    TooltipBackdropTemplate
-
-	PetBattlePrimaryAbilityTooltip
-    SharedPetBattleAbilityTooltipTemplate
-]]
 function WoWTools_TextureMixin.Events:Blizzard_PetBattleUI()
     self:HideTexture(PetBattleFrame.TopArtLeft)
     self:HideTexture(PetBattleFrame.TopArtRight)

@@ -19,13 +19,6 @@ local function ShowHideTitle()
 end
 
 
-
-
-
-
-
-
-
 local function Init_OnEnter(self)
     GameTooltip:SetOwner(self, "ANCHOR_LEFT")
     GameTooltip_SetTitle(GameTooltip, WoWTools_WorldMapMixin.addName..WoWTools_DataMixin.Icon.icon2)
@@ -116,36 +109,6 @@ local function Init_OnEnter(self)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init_Menu(self, root)
     if not self:IsMouseOver() then
         return
@@ -232,9 +195,6 @@ local function Init_Menu(self, root)
         Save().MapIDY= nil
         WoWTools_WorldMapMixin:Init_MpaID()
     end)
-
-
-
 
 
 --地图坐标
@@ -393,12 +353,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.WorldMap.PlayerPin'])
 
-    --[[sub:CreateButton(
-        (WoWTools_L['EDIT~2']),
-    function()
-        WoWTools_WorldMapMixin:PlayerPin_ShowUI()
-        return MenuResponse.Open
-    end)]]
 
 --Plus
     root:CreateDivider()
@@ -425,23 +379,6 @@ local function Init_Menu(self, root)
 --打开选项
     WoWTools_MenuMixin:OpenOptions(sub, {name=WoWTools_WorldMapMixin.addName})
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init()--显示地图ID
@@ -478,12 +415,6 @@ local function Init()--显示地图ID
 
     Init=function()end
 end
-
-
-
-
-
-
 
 
 --Blizzard_WorldMap.lua

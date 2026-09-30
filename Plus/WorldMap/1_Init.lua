@@ -3,17 +3,6 @@ local function Save()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
     do
         WoWTools_WorldMapMixin:Init_Menu()--设置菜单
@@ -78,21 +67,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             ["47.40 52.60"]={name=WoWTools_DataMixin.onlyChinese and PROFESSIONS_BUTTON or "专业",},
         },
     }
---[[        [2393]={--12.0银月城
-            options={},
-            ['50.02 74.76']={
-                name= WoWTools_DataMixin.onlyChinese and BUTTON_LAG_AUCTIONHOUSE or '拍卖行',
-                icon= 'wow-token-gold',
-                color= {r=0.67, g=0.83, b=0.45},
-                --class={},
-                --profession={},
-                --note=WoWTools_DataMixin.onlyChinese and BUTTON_LAG_AUCTIONHOUSE or '拍卖行',
-                --questID=0,
-                --achievementID= 0,
-                --achievementIndex= 1,
-            },
-            ['48.24 51.46']={name='草药学',profession={182},},
-        },]]
 
 
 

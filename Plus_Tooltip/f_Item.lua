@@ -1,69 +1,4 @@
 --设置,物品信息
---[[
-if LOCALE_zhCN then
-    function BreakUpLargeNumbers(value)
-        return WoWTools_DataMixin:MK(value, 3)
-    end
-end
-FIRST_NUMBER = "千";
-SECOND_NUMBER = "万";
-THIRD_NUMBER = "亿"
-
---TooltipComparisonManager:SetItemTooltip(
-
-
-
-local function Set_Value_Text(line)
-    local text= line and line:GetText()
-    if not canaccessvalue(text) or not text or text=='' or text==' ' then
-        return
-    end
-
-    local t= text:gsub('%d+', function(v)
-        v=tonumber(v)
-        if v>=1000 then
-            return WoWTools_DataMixin:MK(v, 3)
-        end
-    end)
-
-    t= t:gsub('%d+,%d%d%d', function(v)
-        local a,b= v:match('(%d+),(%d%d%d)')
-        v= tonumber(a..b)
-        return WoWTools_DataMixin:MK(v, 3)
-    end)
-
-    t= t:gsub('%d+ '..SECOND_NUMBER, function(v)--千
-        local a= v:match('(%d+)')
-        v= tonumber(a..'000')
-        return WoWTools_DataMixin:MK(v, 3)
-    end)
-
-    t= t:gsub('%d+ '..SECOND_NUMBER, function(v)--万
-        local a= v:match('(%d+)')
-        v= tonumber(a..'0000')
-        return WoWTools_DataMixin:MK(v, 3)
-    end)
-
-    t= t:gsub('%d+ '..THIRD_NUMBER, function(v)--亿
-        local a= v:match('(%d+)')
-        v= tonumber(a..'00000000')
-        return WoWTools_DataMixin:MK(v, 3)
-    end)
-
-    if t~=text then
-        line:SetText(t)
-    end
-end
-
-local function Set_Value(tooltip)
-    local name= tooltip:GetName() or 'GameTooltip'
-    for i=5, tooltip:NumLines() or 0, 1 do
-        Set_Value_Text(_G[name..'TextLeft'..i])
-    end
-end]]
-
-
-
 
 
 local function Get_SlotLevel(slot)
@@ -157,15 +92,6 @@ local function Set_Equip(self, tooltip, itemID, itemLink, itemLevel, itemEquipLo
 end
 
 
-
-
-
-
-
-
-
-
-
 local StatsValue= {
     ['ITEM_MOD_VERSATILITY']= CR_VERSATILITY_DAMAGE_DONE,--全能 29
 
@@ -179,23 +105,6 @@ local StatsValue= {
     ['ITEM_MOD_BLOCK_RATING_SHORT']= CR_BLOCK,--格挡 5
     ['ITEM_MOD_PARRY_RATING_SHORT'] = CR_PARRY,--招架 4
 }
---[[C_Timer.After(2, function()
-    if WoWTools_ChineseMixin then--中文
-        StatsValue= {
-            ['全能']= CR_VERSATILITY_DAMAGE_DONE,--全能 29
-
-            ['急速']= CR_HASTE_MELEE,--急速 18
-            ['精通']= CR_MASTERY,--精通 26
-            ['爆击']= CR_CRIT_MELEE,--爆击 9
-
-            ['闪避']= CR_AVOIDANCE,--闪避 21
-            ['吸血']= CR_LIFESTEAL,--吸血 17
-            ['加速']= CR_SPEED,--加速 14
-            ['格挡']= CR_BLOCK,--格挡 5
-            ['招架']= CR_PARRY,--招架 4
-        }
-    end
-end)]]
 
 
 --次属性 %值
@@ -239,24 +148,6 @@ local function Set_ItemStatus(tooltip, itemLink)
     end
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
---[[
-score= score,
-all= all,
-weekNum= weekNum,
-weekLevel= weekLevel,
-]]
 
 local function Set_keystonee(tooltip, itemLink)
     local textLeft, text2Left, text2Right
@@ -347,20 +238,6 @@ local function Set_keystonee(tooltip, itemLink)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Set_Item_Num(tooltip, itemID)
     local bagAll,bankAll,numPlayer=0,0,0--帐号数据
     local new={}
@@ -411,27 +288,6 @@ local function Set_Item_Num(tooltip, itemID)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-   --[[ItemLocation:
-    local conversionCurrencyInfo = itemLocation and C_ItemInteraction.GetItemConversionCurrencyCost(itemLocation) or nil;
-	if (conversionCurrencyInfo and conversionCurrencyInfo.currencyID and conversionCurrencyInfo.amount and conversionCurrencyInfo.currencyID ~= 0 and conversionCurrencyInfo.amount ~= 0) then
-		self.currencyTypeId = conversionCurrencyInfo.currencyID;
-		self.cost = conversionCurrencyInfo.amount;
-	else
-		self.currencyTypeId = nil;
-		self.cost = nil;
-	end]]
-
-
 function WoWTools_TooltipMixin:Set_Item(tooltip, itemLink, itemID)
     if self:IsInCombatDisabled(tooltip)
         or not canaccessvalue(itemLink)
@@ -449,9 +305,6 @@ function WoWTools_TooltipMixin:Set_Item(tooltip, itemLink, itemID)
         return
     end
 
-    --[[if self:Save().showItemMK and not InCombatLockdown() then
-        Set_Value(tooltip)
-    end]]
 
     local color= WoWTools_ItemMixin:GetColor(itemQuality)
 

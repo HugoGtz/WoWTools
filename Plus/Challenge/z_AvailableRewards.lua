@@ -1,9 +1,3 @@
---[[
-打开周奖励时，提示拾取专精
-    [449976]=1,
-    [392391]=1,
-    [1271478]=1,--12.01
-]]
 
 local function Init()
     if not C_WeeklyRewards.HasAvailableRewards() then

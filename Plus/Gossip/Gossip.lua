@@ -78,19 +78,6 @@ local function Get_Auto_Instance_Gossip(gossipID, numGossip)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 --自定义，对话，文本
 local function Set_Gossip_Text(self, info)
     local save= Save()
@@ -138,48 +125,11 @@ local function Set_Gossip_Text(self, info)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --###########
 --对话，初始化
 --###########
 local function Init()
     GossipButton= CreateFrame('Button', 'WoWToolsGossipButton', UIParent, 'WoWToolsButtonTemplate')
-    --[[WoWTools_ButtonMixin:Cbtn(nil, {--闲话图标
-        size=22,
-        name='WoWToolsGossipButton',
-        icon='hide',
-    })]]
     GossipButton.texture= GossipButton:CreateTexture(nil, 'BORDER')
     GossipButton.texture:SetAllPoints()
     --GossipButton.texture:SetAtlas('SpecDial_LastPip_BorderGlow')
@@ -189,12 +139,6 @@ local function Init()
     GossipButton.Background:SetPoint('TOPRIGHT', 1, 1)
     GossipButton.Background:SetPoint('BOTTOMRIGHT', 1, -1)
 
-    --[[WoWTools_TextureMixin:CreateBG(GossipButton, {isColor=true,
-        point=function(bg)
-            bg:SetPoint('BOTTOMRIGHT', 2, -2)
-            bg:SetPoint('TOPRIGHT', 2, 1)
-        end,
-    })]]
 
     function GossipButton:Is_ShowOptionsFrame()
         local frame=_G['WoWToolsGossipTextIconOptionsFrame']
@@ -307,38 +251,6 @@ local function Init()
     GossipButton:RegisterEvent('PET_BATTLE_CLOSE')
     GossipButton:SetScript('OnEvent', GossipButton.set_shown)
 
-        --[[if event=='PET_BATTLE_OPENING_DONE' or event=='PET_BATTLE_CLOSE' then
-            self:set_shown()
-        elseif event=='PLAY_MOVIE' and arg1 then
-            if WoWToolsPlusPlayerDate.GossipMovie[arg1] then
-                if Save().stopMovie and not IsModifierKeyDown() then
-                    MovieFrame:StopMovie()
-                    print(
-                        WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                        WoWTools_L.ENABLE_DIALOG,
-                        '|cnWARNING_FONT_COLOR:'..(WoWTools_L.RENOWN_LEVEL_UP_SKIP_BUTTON)..'|r',
-                        'movieID|cnGREEN_FONT_COLOR:',
-                        arg1
-                    )
-                    return
-                end
-            else
-                WoWToolsPlusPlayerDate.GossipMovie[arg1]= date("%d/%m/%y %H:%M:%S")
-            end
-
-            print(
-                WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                '|cnGREEN_FONT_COLOR:movieID',
-                arg1,
-                ...
-            )
-        end]]
-
-
-
-
-
-
 
     --禁用此npc闲话选项
     local check= CreateFrame('CheckButton', 'WoWToolsGossipNPCCheckBox', GossipFrame.TitleContainer, 'UICheckButtonArtTemplate')--禁用此npc,任务,选项
@@ -391,17 +303,6 @@ local function Init()
     end)
 
 
-
-
-
-
-
-
-
-
-
-
-
 --打开，自定义，对话，文本，按钮
     local GButton2= CreateFrame('Button', 'WoWToolsOpenGossipIconTextButton', GossipFrame, 'WoWToolsButtonTemplate')
 
@@ -443,16 +344,6 @@ local function Init()
     end)
 
 
-
-
-
-
-
-
-
-
-
-
     GossipButton:set_texture()
     GossipButton:settings()
     GossipButton:set_point()
@@ -461,35 +352,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --建立，自动选取，选项
@@ -616,14 +478,6 @@ local function Create_GossipOptionCheckBox(btn, info)
 end
 
 
-
-
-
-
-
-
-
-
 local function Create_AvailableQuestCheck(btn, info)
     btn.availableQuestCheckBox= CreateFrame('CheckButton', nil, btn, 'InterfaceOptionsCheckButtonTemplate')
 
@@ -696,35 +550,6 @@ local function Create_AvailableQuestCheck(btn, info)
 
     btn.availableQuestCheckBox:set_data(info)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Hook()
@@ -844,26 +669,6 @@ local function Init_Hook()
     end)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     --自动接取任务,多个任务GossipFrameShared.lua questInfo.questID, questInfo.title, questInfo.isIgnored, questInfo.isTrivial
     WoWTools_DataMixin:Hook(GossipSharedAvailableQuestButtonMixin, 'Setup', function(self, info)
         if not self.availableQuestCheckBox then
@@ -902,21 +707,6 @@ local function Init_Hook()
             C_GossipInfo.SelectAvailableQuest(questID)
         end
     end)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     --完成已激活任务,多个任务GossipFrameShared.lua
@@ -992,17 +782,6 @@ local function Init_Hook()
 
     Init_Hook= function()end
 end
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_GossipMixin:Init_Gossip()

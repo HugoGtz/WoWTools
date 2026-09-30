@@ -46,9 +46,6 @@ local InstanceEventTab={
 }
 
 
-
-
-
 function WoWTools_CombatMixin:Set_Combat_Tooltip(tooltip)
     if not Save().disabled then
 
@@ -116,33 +113,6 @@ function WoWTools_CombatMixin:Set_Combat_Tooltip(tooltip)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
---[[
---喊话
---local chatStarTime
-local combat, sec = WoWTools_TimeMixin:Info(OnCombatTime, not isNotClockType)
-if not Save().disabledSayTime then
-    sec=math.floor(sec)
-    if sec ~= chatStarTime and sec > 0 and sec%Save().SayTime==0  then--select(2, IsInInstance())~='none'
-        chatStarTime=sec
-        WoWTools_ChatMixin:Chat(WoWTools_TimeMixin:SecondsToClock(sec), nil, nil)
-    end
-end]]
-
-
-
 local function Set_Text()--设置显示内容
     local text
     local isClockType= not Save().isNotClockType
@@ -182,15 +152,6 @@ local function Set_Text()--设置显示内容
 end
 
 
-
-
-
-
-
-
-
-
-
 local function set_Pet_Text()--宠物战斗, 设置显示内容
     local text= format(WoWTools_L.PET_BATTLE_COMBAT_LOG_NEW_ROUND, PetRound.round or 0)
     if  C_PetBattles.IsWildBattle() then
@@ -205,17 +166,6 @@ local function set_Pet_Text()--宠物战斗, 设置显示内容
     end
     PetRound.text=text
 end
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Date()--初始, 数据
@@ -330,12 +280,6 @@ local function Init_Date()--初始, 数据
 end
 
 
-
-
-
-
-
-
 local function Rest_Data()
     OnCombatTime= nil--战斗时间
     OnAFKTime= nil--AFK时间
@@ -354,16 +298,6 @@ local function Rest_Data()
 
     Init_Date()
 end
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Menu(self, root)
@@ -400,47 +334,6 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWTools_TimeMixin:SecondsToClock(35))
     end)
 
---[[战斗时间
-    sub=root:CreateCheckbox((WoWTools_L['COMBAT~2'])..'|A:communities-icon-chat:0:0|a|cnGREEN_FONT_COLOR:'..Save().SayTime, function()
-        return not Save().disabledSayTime
-    end, function()
-        Save().disabledSayTime= not Save().disabledSayTime and true or false
-    end)
-    sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_L.SAY)
-    end)
-
-
---战斗时间，说
-    sub:CreateSpacer()
-    WoWTools_MenuMixin:CreateSlider(sub, {
-        getValue=function()
-            return Save().SayTime or 120
-        end, setValue=function(value)
-            Save().SayTime= value
-        end,
-        name= WoWTools_L.LOSS_OF_CONTROL_SECONDS,
-        minValue=60,
-        maxValue=600,
-        step=1,
-        bit=nil,
-        tooltip=function(tooltip)
-            tooltip:AddDoubleLine(WoWTools_TimeMixin:SecondsToClock(Save().SayTime), WoWTools_L.EVENTTRACE_TIMESTAMP)
-        end,
-    })
-    sub:CreateSpacer()
-    sub:CreateButton(
-        WoWTools_L['Test'],
-    function()
-        WoWTools_ChatMixin:Chat(WoWTools_TimeMixin:SecondsToClock(Save().SayTime), nil, nil)
-        return MenuResponse.Open
-    end)
-    sub:CreateButton(
-        WoWTools_L.RESET,
-    function()
-        Save().SayTime= 120
-        return MenuResponse.Refresh
-    end)]]
 --BG Alpha
     WoWTools_MenuMixin:BgAplha(root, function()
         return Save().bgAlpha or 0.5
@@ -514,19 +407,6 @@ local function Init_Menu(self, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()--设置显示内容, 父框架TrackButton, 内容btn.text
     if Save().disabled then
         return
@@ -591,12 +471,6 @@ local function Init()--设置显示内容, 父框架TrackButton, 内容btn.text
         end
     end)
 
-    --[[btn:SetScript("OnClick", function(self, d)--清除
-        if d=='LeftButton' and not IsModifierKeyDown() then
-            MenuUtil.CreateContextMenu(self, Init_Menu)
-            --self.text:SetText('')
-        end
-    end)]]
 
     function btn:set_tooltip()
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
@@ -714,16 +588,6 @@ local function Init()--设置显示内容, 父框架TrackButton, 内容btn.text
         end
     end
 end
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_CombatMixin:Init_TrackButton()

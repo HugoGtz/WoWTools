@@ -35,12 +35,6 @@ local function Set_Tab_Label_OnEnter(self, tabID)
 end
 
 
-
-
-
-
-
-
 local function Init()
     --BankPanel 标题
     BankPanel.Header.Text:SetShadowOffset(1, -1)
@@ -100,12 +94,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
-
-
 
 
 local function Init_UI()
@@ -182,9 +170,6 @@ local function Init_UI()
 
     BankPanel.AutoDepositFrame.IncludeReagentsCheckbox.Text:ClearAllPoints()
     BankPanel.AutoDepositFrame.IncludeReagentsCheckbox.Text:SetAlpha(0)
-    --[[WoWTools_DataMixin:Hook(BankPanel.AutoDepositFrame.IncludeReagentsCheckbox, 'Init', function(self)
-        self.Text:SetText('')
-    end)]]
 
 --钱
     WoWTools_TextureMixin:CreateBG(BankPanel.MoneyFrame, {point=function(icon)
@@ -217,14 +202,6 @@ local function Init_UI()
         Set_Money_Point()
     end
 end
-
-
-
-
-
-
-
-
 
 
 local function Create_Tab_Label(frame, indexTab)
@@ -394,18 +371,7 @@ local function Init_All()
 end
 
 
-
-
-
 --C_Container.SortBank(Enum.BankType.Guild)
-
-
-
-
-
-
-
-
 
 
 --移动，银行
@@ -452,18 +418,6 @@ local function Init_Move()
         BankFrame.ResizeButton.setSize= Save().allBank
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_MoveMixin.Frames:BankFrame()

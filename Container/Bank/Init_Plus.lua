@@ -17,22 +17,6 @@ local C_BAG_FILTER_LABELS = {
 }
 
 
---[[
-BankPanelTabMixin.tabData= {bankType name ID depositFlags icon tabNameEditBoxHeader tabCleanupConfirmation}
-]]
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
 --清理战团银行
     BankPanel.AutoSortButton:HookScript('OnEnter', function()
@@ -173,20 +157,6 @@ local function Init()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --替换，原生 右边Tab OnEnter
 local function AddBankTabSettingsToTooltip(self, tabData)
     if not tabData or not tabData.depositFlags or not tabData.ID or tabData.ID==-1 then
@@ -305,16 +275,6 @@ local function GetFlagsText(flags, isNewLine)
 end
 
 
-
-
-
-
-
-
-
-
-
-
 local function Init_TabSystem()
     if not Save().plusTab then
         return
@@ -358,13 +318,6 @@ local function Init_TabSystem()
     end)
 
 
-    --[[BankPanel:HookScript('OnShow', function(self)
-        for btn in self.bankTabPool:EnumerateActive() do
-            if btn.set_flags_text then
-                btn:set_flags_text(btn.tabData)
-            end
-        end
-    end)]]
 
     BankPanel:HookScript('OnEvent', function(self, event, containerID)
         if event~= 'BAG_UPDATE' or not self:GetTabData(containerID) then
@@ -390,23 +343,12 @@ local function Init_TabSystem()
 
 
 --当选项面板显示，清队EditBox焦点
-    --[[BankPanel.TabSettingsMenu:HookScript('OnShow', function(self)
-        self.BorderBox.IconSelectorEditBox:ClearFocus()
-    end)]]
 
 --修该长度，中文会被截断
     BankPanel.TabSettingsMenu.DepositSettingsMenu.AssignProfessionGoodsCheckbox.Text:SetPoint('RIGHT', BankPanel.TabSettingsMenu.DepositSettingsMenu)
 
     Init_TabSystem=function()end
 end
-
-
-
-
-
-
-
-
 
 
 --ItemButton 索引
@@ -476,14 +418,6 @@ function WoWTools_BankMixin:Init_BankPlus()
 end
 
 
-
-
-
-
-
-
-
-
 function WoWTools_BankMixin:AddBankTabSettingsToTooltip(frame, tabData)
     AddBankTabSettingsToTooltip(frame, tabData)
 end
@@ -491,22 +425,5 @@ end
 function WoWTools_BankMixin:GetFlagsText(flags, isNewLine)
     return GetFlagsText(flags, isNewLine)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

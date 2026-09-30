@@ -1,13 +1,3 @@
---[[
-NUM_CONTAINER_FRAMES = 13; 11.2版本是 6
-NUM_BAG_FRAMES = Constants.InventoryConstants.NumBagSlots; 4
-NUM_REAGENTBAG_FRAMES = Constants.InventoryConstants.NumReagentBagSlots; 1
-NUM_TOTAL_BAG_FRAMES = Constants.InventoryConstants.NumBagSlots + Constants.InventoryConstants.NumReagentBagSlots; 5
-CONTAINER_OFFSET_Y = 85;
-CONTAINER_OFFSET_X = -4;
-
-ContainerFrameItemButtonMixin
-]]
 
 
 
@@ -105,20 +95,6 @@ function WoWTools_TextureMixin.Frames:ContainerFrame1()
     self:SetEditBox(BagItemSearchBox)
     Set_BGMenu(ContainerFrameCombinedBags)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --小，背包

@@ -1,18 +1,8 @@
 --添加，移动/缩放，按钮
 --创建, 一个移动按钮
---[[
-raidMarkerReset:SetParentKey("raidMarkerReset");
-]]
 local function Save()
     return WoWToolsPlusSave['Plus_Move']
 end
-
-
-
-
-
-
-
 
 
 local function Set_Tooltip(self)
@@ -39,18 +29,6 @@ local function Set_Tooltip(self)
     end
     GameTooltip:Show()
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Menu(self, root)
@@ -89,15 +67,6 @@ local function Init_Menu(self, root)
         category=WoWTools_MoveMixin.Category
     })
 end
-
-
-
-
-
-
-
-
-
 
 
 local function SetupButton(frame, tab)
@@ -204,22 +173,6 @@ local function SetupButton(frame, tab)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --移动, 能量条
 local function Init_UIWidgetPowerBarContainerFrame()--移动, 能量条
     local frame= UIWidgetPowerBarContainerFrame
@@ -264,18 +217,6 @@ local function Init_UIWidgetPowerBarContainerFrame()--移动, 能量条
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
     SetupButton(ZoneAbilityFrame)
 
@@ -304,19 +245,7 @@ local function Init()
 end
 
 
-
-
-
-
-
-
-
-
-
 function WoWTools_MoveMixin:Init_AddButton()
     Init()
 end
 
---[[function WoWTools_MoveMixin:SetupButton(frame, tab)
-    SetupButton(frame, tab)
-end]]

@@ -3,18 +3,9 @@ local function Save()
 end
 
 
-
-
-
-
 local function Init()
     local button= CreateFrame('Button', 'WoWToolsAttributesMainButton', UIParent, 'WoWToolsButton2Template')
 
-    --[[WoWTools_ButtonMixin:Cbtn(nil, {
-        size=22,
-        isType2=true,
-        name='WoWToolsAttributesMainButton'
-    })]]
 
 
     button.frame= CreateFrame("Frame",nil,button)
@@ -147,9 +138,6 @@ local function Init()
     end
 
 
-
-
-
     button:SetScript("OnMouseUp", ResetCursor)
     button:SetScript("OnMouseDown", function(self, d)
         if d=='RightButton' and IsAltKeyDown() then
@@ -235,30 +223,11 @@ local function Init()
     end)
 
 
-
-
-
-
-
-
     button:set_event()
     button:settings()
     button:set_Point()--设置, 位置
     button:set_Show_Hide()--显示， 隐藏
     button:set_strata()
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     C_Timer.After(4, function()
@@ -311,16 +280,6 @@ local function Init()
 
    Init=function()end
 end
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_AttributesMixin:Create_Button()

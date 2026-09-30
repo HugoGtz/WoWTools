@@ -3,12 +3,6 @@ local function Save()
 end
 
 
-
-
-
-
-
-
 local function Create_Frame(btn)
 	
 	--btn.Content.ReputationBar.BarText:ClearAllPoints()
@@ -81,19 +75,6 @@ local function Create_Frame(btn)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
 	if Save().notPlus then
 		return
@@ -127,9 +108,6 @@ local function Init()
 		text= text or (WoWTools_TextMixin:CN(btn.Content.ReputationBar.BarText:GetText()))
 		btn.barText2:SetText(text or '')
 		--btn.Content.ReputationBar.BarText:SetAlpha(text and 0 or 1)
-		--[[if text and btn.Content.ReputationBar.reputationStandingText then
-			btn.Content.ReputationBar.reputationStandingText= nil
-		end]]
 
 
 		if data.color then
@@ -150,94 +128,6 @@ local function Init()
 		btn.check:SetShown(Save().btn and Save().indicato)
 		btn.check:SetChecked(Save().factions[data.factionID])
 	end)
-	--[[	
-		local factionID = data.factionID --or btn.factionIndex
-
-		if not btn.clear_all then
-			Create_Frame(btn)
-		end
---[]
-		local barColor, levelText, texture, atlas,isCapped
-		local isMajorFaction = C_Reputation.IsMajorFaction(factionID)
-		local repInfo = C_GossipInfo.GetFriendshipReputation(factionID)
-
-		if repInfo and repInfo.friendshipFactionID and repInfo.friendshipFactionID > 0 then--好友声望
-			local rankInfo = C_GossipInfo.GetFriendshipReputationRanks(factionID)
-
-			texture= repInfo and repInfo.texture
-
-			if rankInfo and repInfo.nextThreshold then
-				levelText= rankInfo.maxLevel
-			else
-				isCapped= true
-			end
-
-		elseif isMajorFaction then-- 名望
-			local info = C_MajorFactions.GetMajorFactionData(factionID)
-			if info then
-				atlas= info.textureKit and 'MajorFactions_Icons_'..info.textureKit..'512'
-				if C_MajorFactions.HasMaximumRenown(factionID) then
-					isCapped=true
-				else
-					local levels = C_MajorFactions.GetRenownLevels(factionID)
-					if levels then
-						levelText= #levels
-					end
-				end
-			end
-
-		elseif data.reaction then
-			if data.reaction == MAX_REPUTATION_REACTION then--已满
-				isCapped=true
-			else
-				barColor = FACTION_BAR_COLORS[data.reaction]
-				levelText= data.reaction..'/'..MAX_REPUTATION_REACTION
-			end
-		end
-
-
-		local completedParagon--完成次数
-		if isCapped and C_Reputation.IsFactionParagon(factionID) then--奖励
-			--local currentValue, threshold, rewardQuestID, _, tooLowLevelForParagon, paragonStorageLevel = C_Reputation.GetFactionParagonInfo(factionID)
-			local _, _, rewardQuestID, _, _, paragonStorageLevel = C_Reputation.GetFactionParagonInfo(factionID)
-			if paragonStorageLevel and paragonStorageLevel>0 then
-				completedParagon= paragonStorageLevel
-			end
-			if rewardQuestID then
-				barColor= GREEN_FONT_COLOR
-			end
-		end
-
-		btn.completed:SetText(completedParagon or '')
-		
-
-		if isCapped then
-			btn.Content.Name:SetTextColor(FACTION_ORANGE_COLOR:GetRGB())
-			btn.Content.ReputationBar:SetStatusBarColor(FACTION_ORANGE_COLOR:GetRGB())
-		elseif barColor then
-			btn.Content.Name:SetTextColor(barColor:GetRGB())
-			btn.Content.ReputationBar:SetStatusBarColor(barColor:GetRGB())
-		else
-			btn.Content.Name:SetTextColor(1, 1, 1)
-		end
-
-		btn.levelText:SetText(levelText or '')
-		if atlas then
-			btn.texture:SetAtlas(atlas)
-		else
-			btn.texture:SetTexture(texture or 0)
-		end
-
-		btn.check:SetShown(Save().btn and Save().indicato)
-		btn.check:SetChecked(Save().factions[factionID])
-	end)
-
-]]
-
-
-
-
-
 
 
 	WoWTools_DataMixin:Hook(ReputationEntryMixin, 'RefreshAccountWideIcon', function(self)
@@ -254,27 +144,6 @@ local function Init()
 	WoWTools_DataMixin:Hook(ReputationSubHeaderMixin, 'OnLoad', function(self)
 		self.Content.AccountWideIcon:SetScale(0.6)
 	end)
-
---[[去掉 名望等级
-	local c_RENOWN_LEVEL_LABEL= WoWTools_TextMixin:Magic(RENOWN_LEVEL_LABEL)-- = "名望等级 %d";
-	WoWTools_DataMixin:Hook(ReputationBarMixin, 'TryShowReputationStandingText', function(self)
-		if not self.reputationStandingText or self.BarText:GetAlpha()==0 then
-			return
-		end
-		local t= self.reputationStandingText:match(c_RENOWN_LEVEL_LABEL)
-		if t then
-			self.BarText:SetText(t)
-		end
-	end)]]
-
-
-
-
-
-
-
-
-
 
 
 	local down= CreateFrame('Button', 'WoWToolsFactionListExpandButton', _G['WoWToolsFactionMenuButton'], 'WoWToolsButtonTemplate')
@@ -297,19 +166,6 @@ local function Init()
 	end)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 	local up=CreateFrame('Button', 'WoWToolsFactionListCollapsedButton', down, 'WoWToolsButtonTemplate')
 	up:SetNormalAtlas('NPE_ArrowUp')
 	up.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_L.HUD_EDIT_MODE_COLLAPSE_OPTIONS)
@@ -322,15 +178,6 @@ local function Init()
 			end
 		end
 	end)
-
-
-
-
-
-
-
-
-
 
 
 	local editBox
@@ -443,17 +290,6 @@ local function Init()
 		WoWTools_FactionMixin:UpdatList()
 	end
 end
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_FactionMixin:Init_Plus()

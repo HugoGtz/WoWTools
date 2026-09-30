@@ -18,21 +18,6 @@ function WoWTools_TooltipMixin:Show(tooltip)
 end
 
 
---[[设置，宽度
-function WoWTools_TooltipMixin:Set_Width(tooltip)
-    if tooltip.HasSecretValues and tooltip:HasSecretValues() then--12.0才有
-        return
-    end
-
-    local w= tooltip:GetWidth()
-    local w2= tooltip.textLeft:GetWidth()
-    if canaccessvalue(w2) then
-        w2= w2+ tooltip.text2Left:GetWidth()+ tooltip.textRight:GetWidth()
-        if w<w2 then
-            tooltip:SetMinimumWidth(w2)
-        end
-    end
-end]]
 
 
 --设置单位

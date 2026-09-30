@@ -1,12 +1,6 @@
 --所有，出售物品, 列表
 
 
-
-
-
-
-
-
   --[[双击，取消拍卖
   local function OnDoubleClick_AllAuctionsList(frame)
     if not frame:HasView() then
@@ -47,13 +41,6 @@ local function get_auctionID()
 end
 
 
---[[
-/run if not CA then local f=CreateFrame("Button","CA",nil,"SecureActionButtonTemplate")
-f:SetAttribute("type","click")
-f:SetAttribute("clickbutton",AuctionHouseFrame.AuctionsFrame.CancelAuctionButton)end
-/click CA LeftButton 1
-/click StaticPopup1Button1
-]]
 
 local function Cancel_Auction()
    local auctionID, itemLink= get_auctionID()
@@ -77,9 +64,6 @@ local function Cancel_Auction()
         AuctionHouseFrameAuctionsFrame.AllAuctionsList.RefreshFrame.RefreshButton:OnClick()
     end
 end
-
-
-
 
 
 --取消,按钮
@@ -129,78 +113,8 @@ local function Init_Cancel_Button()
     end)
     WoWTools_TextureMixin:SetUIButton(cancelButton)
 
---[[
-    local all= CreateFrame('Button', 'WoWToolsAuctionHouseAllCancelButton', cancelButton, 'UIPanelButtonTemplate')
-    all:SetPoint('RIGHT', cancelButton, 'LEFT', -2, 0)
-    all:SetSize(100,22)
-    all.text=WoWTools_L['ALL+CANCEL']
-    all:SetText(all.text)
-
-    function all:Stop()
-        self.isRun= nil
-        self:set_event()
-    end
-
-    hooksecurefunc(AuctionHouseFrameAuctionsFrame.AllAuctionsList.ScrollBox, 'SetDataProvider', function()
-        if all.isRun then
-            print('a')
-            Cancel_Auction()
-        end
-    end)
-
-    function all:set_event()
-        if self.isRun then
-            --self:RegisterEvent('AUCTION_HOUSE_THROTTLED_SYSTEM_READY')
-            self:SetScript('OnUpdate', function(b)
-                if IsModifierKeyDown() or C_AuctionHouse.GetNumOwnedAuctions()==0 then
-                    self:Stop()
-                end
-            end)
-            self:SetText('...')
-        else
-            self:UnregisterAllEvents()
-            self:SetScript('OnUpdate', nil)
-            self:SetText(self.text)
-        end
-    end
-
-    all:SetScript('OnHide', all.Stop)
-    all:SetScript('OnClick', function(self)
-        self.isRun = not self.isRun and true or nil
-        --all:set_event()
-        if self.isRun then
-            Cancel_Auction()
-        end
-    end)
-
-    all:SetScript('OnEvent', function(self)
-        if not self.time or self.time:IsCancelled() then
-            self.time= C_Timer.NewTimer(2, function()
-                Cancel_Auction()
-            end)
-        end
-    end)
-    WoWTools_TextureMixin:SetUIButton(all)]]
     Init_Cancel_Button= function()end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init()
@@ -239,10 +153,6 @@ local function Init()
             end)
         end)
     end
-    --[[WoWTools_DataMixin:Hook(AuctionHouseFrameAuctionsFrame.AllAuctionsList.ScrollBox, 'Update', OnDoubleClick_AllAuctionsList)
-    WoWTools_DataMixin:Hook(AuctionHouseFrameAuctionsFrame.ItemList.ScrollBox, 'Update', OnDoubleClick_AllAuctionsList)
-    WoWTools_DataMixin:Hook(AuctionHouseFrameAuctionsFrame.CommoditiesList.ScrollBox, 'Update', OnDoubleClick_AllAuctionsList)
-    ]]
 
 --拍卖，数量
     local frame= CreateFrame('Frame', nil, AuctionHouseFrameAuctionsTab)
@@ -288,22 +198,11 @@ local function Init()
     frame:updata_data()
 
 
-
-
-
 --取消,按钮
     Init_Cancel_Button()
 
     Init= function()end
 end
-
-
-
-
-
-
-
-
 
 
 --所有，出售物品, 列表

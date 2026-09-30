@@ -28,25 +28,6 @@ function WoWTools_TooltipMixin.Events:Blizzard_Professions()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
---[[
-Blizzard_TalentButtonSpend.lua
-TalentButtonSpendMixin
-local canPurchase = self:CanPurchaseRank();
-local canRefund = self:CanRefundRank();
-local canRepurchase = self:CanCascadeRepurchaseRanks();
-local isGhosted = self:IsGhosted();
-]]
 function WoWTools_TooltipMixin.Events:Blizzard_RemixArtifactUI()
     RemixArtifactFrame.Currency:ClearAllPoints()
     RemixArtifactFrame.Currency:SetPoint('RIGHT', RemixArtifactFrame.CommitConfigControls, 'LEFT')
@@ -251,19 +232,6 @@ end)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 function WoWTools_TooltipMixin.Events:Blizzard_PlayerChoice()
     WoWTools_DataMixin:Hook(PlayerChoicePowerChoiceTemplateMixin, 'OnEnter', function(f)
         if f.optionInfo and f.optionInfo.spellID then
@@ -273,21 +241,6 @@ function WoWTools_TooltipMixin.Events:Blizzard_PlayerChoice()
         end
     end)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --要塞，技能树
@@ -337,27 +290,6 @@ function WoWTools_TooltipMixin.Events:Blizzard_OrderHallUI()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function WoWTools_TooltipMixin.Events:Blizzard_GenericTraitUI()
     GenericTraitFrame.Currency:HookScript('OnLeave', function(f)
         f:SetAlpha(1)
@@ -397,53 +329,6 @@ function WoWTools_TooltipMixin.Events:Blizzard_GenericTraitUI()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --挑战, AffixID
 function WoWTools_TooltipMixin.Events:Blizzard_ChallengesUI()
     WoWTools_DataMixin:Hook(ChallengesKeystoneFrameAffixMixin, 'OnEnter',function(f)
@@ -469,10 +354,6 @@ function WoWTools_TooltipMixin.Events:Blizzard_ChallengesUI()
         --GameTooltip:Show()
     end)
 end
-
-
-
-
 
 
 --商店
@@ -532,9 +413,6 @@ function WoWTools_TooltipMixin.Events:Blizzard_OverrideActionBar()
         end
     end
 end
-
-
-
 
 
 --挑战, AffixID Blizzard_ScenarioObjectiveTracker.lua

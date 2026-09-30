@@ -1,23 +1,5 @@
 
 
---[[
-button= WoWTools_ToolsMixin:CreateButton({
-    name='',
-    tooltip=',
-    point='BOTTOM',
-    parent=,
-    isMoveButton=true,
-    isLeftOnlyLine=function()
-        return Save.isLeft
-    end,
-    disabledOptions=true,
-    option=function()
-    end,
-})
-]]
-
-
-
 
 WoWTools_ToolsMixin={
 
@@ -42,11 +24,6 @@ local LeftNewLineButton--antes global por falta de local
 local function Save()
     return WoWToolsPlusSave['WoWTools_ToolsButton']
 end
-
-
-
-
-
 
 
 local function Set_BG(frame)
@@ -80,12 +57,6 @@ local function Get_ParentFrame(tab)--取得 Parent
         return MainButton.Frame
     end
 end
-
-
-
-
-
-
 
 
 local function Set_ButtonPoint(btn, tab)
@@ -166,16 +137,6 @@ local function Set_ButtonPoint(btn, tab)
 end
 
 
-
-
-
-
-
-
-
-
-
-
 function WoWTools_ToolsMixin:CreateButton(tab)
     tab= tab or {}
     local name =tab.name
@@ -221,34 +182,12 @@ function WoWTools_ToolsMixin:CreateButton(tab)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function WoWTools_ToolsMixin:Init()
     if Save().disabled then
         return
     end
 
     MainButton= CreateFrame('Button', 'WoWToolsMainToolsButton', UIParent, 'WoWToolsButtonTemplate')
-    --[[WoWTools_ButtonMixin:Cbtn(nil, {
-        name='WoWToolsMainToolsButton',
-        size={30, Save().height or 10}
-    })]]
 
     MainButton.Frame= CreateFrame('Frame', nil, MainButton)
     MainButton.Frame:SetAllPoints()
@@ -285,41 +224,6 @@ function WoWTools_ToolsMixin:Init()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --显示背景
 function WoWTools_ToolsMixin:ShowBackground()
     Set_BG(MainButton.LeftFrame1)
@@ -327,11 +231,6 @@ function WoWTools_ToolsMixin:ShowBackground()
     Set_BG(MainButton.RightFrame)
     Set_BG(MainButton.BottomFrame)
 end
-
-
-
-
-
 
 
 --重置所有按钮位置
@@ -389,9 +288,6 @@ function WoWTools_ToolsMixin:RestAllPoint()
 end
 
 
-
-
-
 --当Enter图标是，显示Tools Frame
 function WoWTools_ToolsMixin:EnterShowFrame(btn)
     if btn.IsShownFrameEnterButton and Save().isEnterShow and not MainButton.Frame:IsShown() then
@@ -410,9 +306,6 @@ function WoWTools_ToolsMixin:OpenMenu(root, name, showText)--打开, 选项界�
         category= self.Category
     })
 end
-
-
-
 
 
 --用户，自定义设置，选项
@@ -434,6 +327,3 @@ end
 function WoWTools_ToolsMixin:Get_ButtonForName(name)
     return _G[Name..name]
 end
---[[function WoWTools_ToolsMixin:Is_EnableAddForName(name)
-    return not Save().disabledADD[name]
-end]]

@@ -1,9 +1,3 @@
---[[
-    超链接，图标
-    ItemRef.lua
-    LinkUtil.lua
-    {'%.', '%(','%)','%+', '%-', '%*', '%?', '%[', '%^'}
-]]
 local function Save()
     return WoWToolsPlusSave['ChatButton_HyperLink'] or {}
 end
@@ -77,9 +71,6 @@ local function SetChannels(link)
     name= name:match('%- (.+)') or name:match('：(.+)') or name:match(':(.+)') or name
 
     local icon= ChannelIcon[name]
-    --[[if not icon and WoWTools_DataMixin.Player.husandro then
-        print('ChannelIcon', name)
-    end]]
     if icon then
         return icon
     end
@@ -146,11 +137,6 @@ local function Mount(itemID, spellID)
 end
 
 
-
-
-
-
-
 --宠物类型
 local function PetType(petType)
     local type=PET_TYPE_SUFFIX[petType]
@@ -158,11 +144,6 @@ local function PetType(petType)
         return '|TInterface\\Icons\\Icon_PetFamily_'..type..Size..'|t'
     end
 end
-
-
-
-
-
 
 
 --物品，超链接
@@ -219,13 +200,6 @@ local function Item(link)
         return t
     end
 end
-
-
-
-
-
-
-
 
 
 --法术图标
@@ -593,15 +567,6 @@ local function ClubFinder(link)
             ..link
     end
 end
---[[
-local function Housing(link)
-    print(link)
-end
-
-
-社区 |HclubTicket:WMo42zSmYP|h[Unisciti a: asdfasd]|h
-CommunitiesHyperlink.lua CommunitiesHyperlink_OnEvent
-]]
 local function New_AddMessage(self, s, ...)
     --Texto secreto (12.0), con |K (BNet) o vacío: pasarlo sin tocar. Antes se descartaba y el mensaje desaparecía
     if not s or WoWTools_TextMixin:CanText(s) then
@@ -681,12 +646,6 @@ local function New_AddMessage(self, s, ...)
 end
 
 
-
-
-
-
-
-
 local function Set_AddMessage(frame, enable)
     if not frame then
         return
@@ -723,22 +682,6 @@ local function Set_HyperLlinkIcon()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
 --是否有，聊天中时间戳
     IsShowTimestamps= C_CVar.GetCVar('showTimestamps')~='none'
@@ -772,9 +715,6 @@ local function Init()
 end
 
 
-
-
-
 --超链接，图标
 function WoWTools_HyperLink:Init_Link_Icon()
     self:Link_Icon_Settings()
@@ -787,8 +727,3 @@ function WoWTools_HyperLink:Link_Icon_Settings()
     Size= ':'..s..':'..s
 end
 
---[[ChatFrame.lua
-聊天选项
-local hyperlink = string.format("|Haadcopenconfig|h[%s]", RESTRICT_CHAT_CONFIG_HYPERLINK);
-
-]]

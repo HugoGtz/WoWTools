@@ -5,67 +5,6 @@ local function Save()
 end
 
 
-
-
-
---[[
-local function Create_AutPost(frame)
-    local btn= CreateFrame("Button","WoWToolsCommoditiesSellAutoPostButton", frame,"WoWToolsButtonTemplate SecureActionButtonTemplate")
-    btn:SetAttribute("type","click")
-    btn:SetAttribute("clickbutton", frame)
-
-    btn:SetPoint('RIGHT', frame, 'LEFT', -31, 0)
-    function btn:Stop()
-        self.isRun= nil
-        self:setting()
-    end
-
-    function btn:setting()
-        self:SetNormalAtlas(self.isRun and 'common-dropdown-icon-stop' or 'common-dropdown-icon-back')
-        if self.isRun then
-            self:SetScript('OnUpdate', self.Run)
-        else
-            self:SetScript('OnUpdate', nil)
-            self.elapse= nil
-        end
-    end
-    function btn:Run(elapse)
-        self.elapse= (self.elapse or 0.4)+ elapse
-        if IsModifierKeyDown() then
-            self:Stop()
-            return
-        elseif self.elapse<0.4 then
-            return
-        end
-        self.elapse= 0
-        if self:GetParent():IsEnabled() then
-            self:Click('LeftButton')
-            print('a')
-        end
-    end
-
-    btn:SetScript('OnHide', btn.Stop)
-    btn:SetScript('OnMouseUp', function(self)
-        self.isRun= not self.isRun and true or nil
-        self:setting()
-    end)
-    btn.tooltip= WoWTools_DataMixin.Icon.icon2
-        ..(WoWTools_L['Auto sell'])
-        ..'|n|cnGREEN_FONT_COLOR:Alt+ '..(WoWTools_L.INTERRUPT)
-        ..'|r|n|n|cnWARNING_FONT_COLOR:'
-        ..(WoWTools_L.VOICEMACRO_1_Sc_0)
-
-    btn:setting()
-end
-
-]]
-
-
-
-
-
-
-
 --下一个，拍卖，物品  
 local function Init_NextItem()
 
@@ -110,19 +49,6 @@ local function Init_NextItem()
 
     Init_NextItem=function()end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --转到，商品，模式，按钮
@@ -196,9 +122,6 @@ local function Init_ShowCommoditiesButton()
     cancelButton2:SetScript('OnClick', C_AuctionHouse.CancelSell)
 
 
-
-
-
 --Blizzard_AuctionHouseSearchBar.lua
 --出售，物品，双击列表，转到购买界面
     WoWTools_DataMixin:Hook(AuctionHouseFrame.CommoditiesSellList.ScrollBox, 'Update', function(frame)
@@ -243,22 +166,6 @@ local function Init_ShowCommoditiesButton()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --显示拍卖行时，转到出售物品
 local function OnShowToSellFrame()
     if not Save().intShowSellItem or not AuctionHouseFrame:IsShown() then
@@ -288,18 +195,6 @@ local function OnShowToSellFrame()
         end
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --默认价格，替换，原生func
@@ -347,22 +242,6 @@ local function GetDefaultPrice(itemLocation)
 
     return price
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --单价，倍数
@@ -425,11 +304,6 @@ local function Save_SellItem_Price(frame)
 end
 
 
-
-
-
-
-
 --单价，倍数
 local function Init_PercentLabel()
     AuctionHouseFrame.CommoditiesSellFrame.percentLabel= WoWTools_LabelMixin:Create(AuctionHouseFrame.CommoditiesSellFrame, {size=22, justifyH='RIGHT'})--单价，提示
@@ -477,18 +351,6 @@ local function Init_PercentLabel()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 --出售物品时，使用，最大数量 Blizzard_AuctionHouseSellFrame.lua
 local function Init_MaxSellItemCheck()
     local MaxSellItemCheck, MaxSellItemCheck2
@@ -528,19 +390,6 @@ local function Init_MaxSellItemCheck()
         MaxSellItemCheck:SetChecked(Save().isMaxSellItem)
     end)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init()
@@ -597,28 +446,11 @@ local function Init()
 --显示拍卖行时，转到出售物品
     C_Timer.After(1, function()
         AuctionHouseFrame:HookScript('OnShow', OnShowToSellFrame)
-        --[[local itemCommodityStatus= WoWTools_AuctionHouseMixin:SetPostNextSellItem(true)
-        if itemCommodityStatus then
-            AuctionHouseFrame:SetDisplayMode(
-                itemCommodityStatus==Enum.ItemCommodityStatus.Commodity and AuctionHouseFrameDisplayMode.CommoditiesSell
-                or AuctionHouseFrameDisplayMode.ItemSell
-            )
-            OnShowToSellFrame()
-        end]]
         OnShowToSellFrame()
     end)
 
    Init=function()end
 end
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_AuctionHouseMixin:Sell_Other()

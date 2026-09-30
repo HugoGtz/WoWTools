@@ -1,8 +1,3 @@
---[[
-GetPosition()
-IsInDelve()
-Get_Minimap_Tracking
-]]
 
 WoWTools_MapMixin={}
 
@@ -19,9 +14,6 @@ function WoWTools_MapMixin:IsInDelve()
 end
 
 
-
-
-
 function WoWTools_MapMixin:Get_Minimap_Tracking(checkName, isSettings)
     for trackingID=1, C_Minimap.GetNumTrackingTypes() do
         local info= C_Minimap.GetTrackingInfo(trackingID)
@@ -35,9 +27,6 @@ function WoWTools_MapMixin:Get_Minimap_Tracking(checkName, isSettings)
         end
     end
 end
-
-
-
 
 
 function WoWTools_MapMixin:GetUnit(unit)--单位, 地图名称

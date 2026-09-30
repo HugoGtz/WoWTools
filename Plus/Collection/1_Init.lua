@@ -11,12 +11,6 @@ local function Save()
 end
 
 
-
-
-
-
-
-
 local function Refresh_Pet()
     WoWTools_CollectionMixin:Init_Pet()
     if PetJournal and PetJournal:IsVisible() then
@@ -91,9 +85,6 @@ local function Init_Menu(self, root)
     sub:SetEnabled(not PlayerIsTimerunning())
 
 
-
-
-
 --外观：物品
     sub= root:CreateCheckbox(
         WoWTools_L['WARDROBE+WARDROBE_ITEMS'],
@@ -150,12 +141,6 @@ local function Init_Menu(self, root)
 end
 
 
-
-
-
-
-
-
 local function Init()
     WoWTools_CollectionMixin:Init_Mount()--坐骑 1
     WoWTools_CollectionMixin:Init_Pet()--宠物 2
@@ -171,11 +156,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
-
 
 
 local panel= CreateFrame("Frame")
@@ -196,11 +176,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 GetValue= function() return not Save().disabled end,
                 SetValue= function()
                     Save().disabled= not Save().disabled and true or nil
-                    --[[print(
-                        WoWTools_CollectionMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                        WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-                        WoWTools_L.REQUIRES_RELOAD
-                    )]]
                 end,
                 tooltip=WoWTools_L['Tip.Collection.Enable']..'|n|n'..WoWTools_L.REQUIRES_RELOAD
             })

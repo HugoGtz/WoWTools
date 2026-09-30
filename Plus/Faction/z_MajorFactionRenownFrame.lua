@@ -6,10 +6,6 @@ local Button
 local Buttons={}
 
 
-
-
-
-
 --取得，等级，派系声望
 local function Get_Major_Faction_Level(factionID, level)
 
@@ -55,27 +51,12 @@ local function Get_Major_Faction_Level(factionID, level)
 end
 
 
-
-
-
-
-
-
 --取得，所有，派系声望
 local function Get_Major_Faction_List()
     local tab=C_MajorFactions.GetMajorFactionIDs()
     table.sort(tab, function(a,b) return a>b end)
     return tab
 end
-
-
-
-
-
-
-
-
-
 
 
 local function Create_Button(index)
@@ -125,20 +106,6 @@ local function Create_Button(index)
 
     return btn
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Settings()
@@ -205,20 +172,6 @@ local function Settings()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Set_HeaderText()
     local text=''
     if not Save().hide_MajorFactionRenownFrame_Button then
@@ -230,11 +183,6 @@ local function Set_HeaderText()
     end
     Button.HeaderText:SetText(text)
 end
-
-
-
-
-
 
 
 local function Init_Menu(self, root)
@@ -304,12 +252,6 @@ local function Init_Menu(self, root)
 end
 
 
-
-
-
-
-
-
 --派系，列表 MajorFactionRenownFrame
 local function Init()
     Button= WoWTools_ButtonMixin:Cbtn(MajorFactionRenownFrame.CloseButton, {size=22})
@@ -361,16 +303,6 @@ local function Init()
         end
     end)
 
-    --[[Button:SetScript('OnMouseWheel', function(self, d)
-        local n= Save().MajorFactionRenownFrame_Button_Scale or 1
-        n= d==1 and n-0.1 or n
-        n= d==-1 and n+0.1 or n
-        n= n>4 and 4 or n
-        n= n<0.4 and 0.4 or n
-        Save().MajorFactionRenownFrame_Button_Scale=n
-        self:set_scale()
-        self:set_tooltips()
-    end)]]
 
 
     Button.frame=CreateFrame('Frame', nil, Button)
@@ -393,27 +325,6 @@ local function Init()
         
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_FactionMixin:Init_MajorFactionRenownFrame()

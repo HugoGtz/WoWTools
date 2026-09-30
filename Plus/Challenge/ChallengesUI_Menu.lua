@@ -13,13 +13,6 @@ local function Init_Menu(self, root)
     local isInCombat= InCombatLockdown()
 
 
-
-
-
-
-
-
-
 --副本信息
     name='|A:QuestLegendary:0:0|a'..(WoWTools_L['INSTANCE+INFO'])
     sub= root:CreateCheckbox(
@@ -72,15 +65,6 @@ local function Init_Menu(self, root)
     sub:CreateTitle(name)
 
 
-
-
-
-
-
-
-
-
-
 --传送门
     sub= root:CreateCheckbox(
         '|A:WarlockPortal-Yellow-32x32:0:0|a|cnWARNING_FONT_COLOR:'
@@ -120,42 +104,9 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:Reload(sub)--重新加载UI
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     root:CreateDivider()
 
     --WoWTools_ChallengeMixin:ChallengesUI_Left_Menu(self, root)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --宏伟宝库，内，左侧
@@ -254,17 +205,6 @@ local function Init_Menu(self, root)
     sub:CreateTitle(name)
 
 
-
-
-
-
-
-
-
-
-
-
-
 --公会挑战，内侧，右上角
     local isInGuild= IsInGuild()
     name= '|A:communities-guildbanner-background:0:0|a'
@@ -354,13 +294,6 @@ local function Init_Menu(self, root)
 --sub 提示
     sub:CreateSpacer()
     sub:CreateTitle(name)
-
-
-
-
-
-
-
 
 
 --词缀, 右下角
@@ -477,20 +410,6 @@ sub:CreateSpacer()
 sub:CreateTitle(name)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --挑战信息 right
     name= '|A:challenges-medal-gold:0:0|a'
     ..(WoWTools_L['PLAYER_DIFFICULTY5+INFO'])
@@ -582,47 +501,6 @@ sub:CreateTitle(name)
 end
 
 
-
---[[其他信息
-    name= '|A:ChallengeMode-Chest:0:0|a'
-        ..(WoWTools_L['OTHER+INFO'])
-    sub= root:CreateCheckbox(
-        name,
-    function()
-        return not Save().hideTips
-    end, function()
-        Save().hideTips= not Save().hideTips and true or nil
-        WoWTools_ChallengeMixin:ChallengesUI_Porta()
-    end)
-
---缩放
-    WoWTools_MenuMixin:ScaleRoot(self, sub,
-    function()
-        return Save().tipsScale or 1
-    end, function(value)
-        Save().tipsScale=value
-        WoWTools_ChallengeMixin:ChallengesUI_Porta()
-    end, function()
-        Save().tipsScale=nil
-        WoWTools_ChallengeMixin:ChallengesUI_Porta()
-    end)
-
---sub 提示
-    sub:CreateDivider()
-    sub:CreateTitle(name)]]
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
     local btn= WoWTools_ButtonMixin:Menu(ChallengesFrame, {name='WoWToolsChallengesFrameMenuButton'})
     btn:SetPoint('RIGHT', PVEFrameCloseButton, 'LEFT')
@@ -640,14 +518,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
-
-
-
-
 
 
 function WoWTools_ChallengeMixin:ChallengesUI_Menu()

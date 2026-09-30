@@ -62,9 +62,6 @@ function WoWTools_TextureMixin.Events:Blizzard_Menu()
 end
 
 
-
-
-
 function WoWTools_TextureMixin.Events:Blizzard_SharedXML()
 --TabSystem/TabSystemTemplates.lua
     WoWTools_DataMixin:Hook(TabSystemButtonMixin, 'Init', function(btn)
@@ -110,9 +107,6 @@ function WoWTools_TextureMixin.Events:Blizzard_SharedXML()
 --NavBar
     WoWTools_DataMixin:Hook('NavBar_Initialize', function(bar)
         WoWTools_TextureMixin:SetNavBar(bar:GetParent())
-        --[[self:HideFrame(bar)
-        self:HideFrame(bar.overlay)
-        self:HideFrame(bar.Inset)]]
     end)
 
 --选项面板，Slider
@@ -202,16 +196,8 @@ function WoWTools_TextureMixin.Events:Blizzard_SharedXML()
     end)
 
 
-
-
-
 --ReputationFrame.lua
     WoWTools_DataMixin:Hook(ReputationDetailFrameMixin, 'OnLoad', function(frame)
         self:SetCheckBox(frame.WatchFactionCheckbox)
     end)
 end
---[[如，名望，等级奖励，提示
-    WoWTools_DataMixin:Hook(RenownLevelMixin, 'Refresh', function(btn)
-        WoWTools_TextureMixin:SetAlphaColor(btn.IconBorder, true)
-    end)
-    ]]

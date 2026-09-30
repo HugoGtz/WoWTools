@@ -10,11 +10,6 @@ local function Add_OpenOptionButton(frame)
     btn:SetSize(32,32)
     btn:SetNormalAtlas('charactercreate-icon-customize-body-selected')
     WoWTools_TextureMixin:SetAlphaColor(btn:GetNormalTexture(), true)
-    --[[WoWTools_ButtonMixin:Cbtn(frame, {
-        atlas='charactercreate-icon-customize-body-selected',
-        size=40,
-        name='WoWToolsPlus'..frame:GetParent():GetName()..'ItemInfoOptionsButton'
-    })]]
 
     btn:SetPoint('TOPRIGHT',-5,-25)
     btn:SetScript('OnClick', function()
@@ -52,25 +47,6 @@ local function Add_OpenOptionButton(frame)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --周奖励, 物品提示，信息
 function WoWTools_ItemMixin.Events:Blizzard_WeeklyRewards()
     local function set_Item(f)
@@ -94,22 +70,6 @@ function WoWTools_ItemMixin.Events:Blizzard_WeeklyRewards()
     WoWTools_DataMixin:Hook(WeeklyRewardsFrame, 'Refresh', set_Item)
     WoWTools_DataMixin:Hook(WeeklyRewardsFrame, 'UpdateSelection', set_Item)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --套装转换, 界面
@@ -142,34 +102,10 @@ function WoWTools_ItemMixin.Events:Blizzard_ItemInteractionUI()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 --装备升级, 界面
 function WoWTools_ItemMixin.Events:Blizzard_ItemUpgradeUI()
     Add_OpenOptionButton(ItemUpgradeFrameCloseButton)--添加一个按钮, 打开选项                       
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_ItemMixin.Events:Blizzard_FrameXML()
@@ -203,9 +139,6 @@ function WoWTools_ItemMixin.Events:Blizzard_FrameXML()
         WoWTools_ItemMixin:SetItemStats(frame, itemLink, {point= frame.Icon})
     end)
 end
-
-
-
 
 
 function WoWTools_ItemMixin.Events:Blizzard_ItemButton()

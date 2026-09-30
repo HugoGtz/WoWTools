@@ -2,26 +2,12 @@
 WoWTools_FactionMixin={}
 
 
-
-
-
 local FactionAtlas={
     delve= 'delves-bountiful',
     prey= 'completiondialog-midnightcampaign-prey-icon',
-    --[[root= 'majorfactions_icons_candle512',
-    Sky= 'majorfactions_icons_storm512',
-    origin= 'majorfactions_icons_flame512',
-    Light= 'majorfactions_icons_web512',]]
 }
 
 
---[[
-C_Reputation.GetFactionDataByIndex(index)
-local function GetText(string)
-    return WoWTools_TextMixin:CN(_G[string..(WoWTools_DataMixin.Player.Sex==3 and '_FEMALE' or '')])
-end
-factionStandingtext = GetText("FACTION_STANDING_LABEL"..standingID)
-]]
 function WoWTools_FactionMixin:GetInfo(factionID, toLeft)
     if not factionID or factionID<1 then
         return {}
@@ -224,21 +210,6 @@ function WoWTools_FactionMixin:GetInfo(factionID, toLeft)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function WoWTools_FactionMixin:GetName(factionID)
     local data= self:GetInfo(factionID)
     if not data.factionID then
@@ -313,28 +284,6 @@ function WoWTools_FactionMixin:Find(factionID)--选中提示
         end
     end
 end
-   --[[ elseif EncounterJournalJourneysFrame
-        and EncounterJournalJourneysFrame:IsVisible()
-        and factionID
-        and C_Reputation.IsMajorFaction(factionID)
-    then
-        print(factionID)
-        EncounterJournalJourneysFrame.JourneysList:ScrollToElementData(C_MajorFactions.GetMajorFactionData(factionID))
-        --local major= C_MajorFactions.GetMajorFactionData(factionID)
-
-
-        --local dataIndex = EncounterJournalJourneysFrame.JourneysList:FindElementDataIndex(major)
-
-            EncounterJournalJourneysFrame.JourneysList:ForEachFrame(function(frame, elementData)
-                
-                if elementData.factionID==factionID then
-                    info=elementData
-                    for k, v in pairs(info or {}) do if v and type(v)=='table' then print('|cff00ff00---',k, '---STAR|r') for k2,v2 in pairs(v) do print('|cffffff00',k2,v2, '|r') end print('|cffff0000---',k, '---END|r') else print(k,v) end end print('|cffff00ff——————————|r')
-                end
-            end)
-
-       -- EncounterJournalJourneysFrame:ResetView(major, factionID)
-]]
 
 
 
@@ -344,14 +293,6 @@ function WoWTools_FactionMixin:UpdatList()
         WoWTools_DataMixin:Call(ReputationFrame.Update, ReputationFrame)
     end
 end
-
-
-
-
-
-
-
-
 
 
 --伙伴

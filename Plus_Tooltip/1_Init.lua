@@ -4,12 +4,6 @@ local function Save()
 end
 
 
-
-
-
-
-
-
 local function set_Cursor_Tips(self)
     WoWTools_TooltipMixin:Set_Rest_Item(GameTooltip)
     WoWTools_TooltipMixin:Set_Rest_Item(ItemRefTooltip)
@@ -23,13 +17,6 @@ local function set_Cursor_Tips(self)
     GameTooltip:SetUnit('player')
     GameTooltip:Show()
 end
-
-
-
-
-
-
-
 
 
 local function Init_Panel()
@@ -143,17 +130,6 @@ local function Init_Panel()
     }, root)
 
 
-    --[[WoWTools_PanelMixin:OnlyCheck({
-        name= (WoWTools_L.MODEL)..' ID',
-        tooltip= addName,
-        value= Save().showModelFileID,
-        category= WoWTools_TooltipMixin.Category,
-        func= function()
-            Save().showModelFileID= not Save().showModelFileID and true or nil
-            set_Cursor_Tips()
-        end
-    }, root)
-]]
     WoWTools_PanelMixin:OnlySlider({
         name= WoWTools_L['HUD_EDIT_MODE_SETTING_BAGS_SIZE~2'],
         GetValue= function() return Save().modelSize or 100 end,
@@ -250,9 +226,6 @@ local function Init_Panel()
     })
 
 
-
-
-
     WoWTools_PanelMixin:OnlySlider({
         name= WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_ICON_SIZE,
         GetValue= function() return Save().iconSize or 0 end,
@@ -269,16 +242,6 @@ local function Init_Panel()
         end
     })
 
-    --[[WoWTools_PanelMixin:OnlyCheck({
-        name= (WoWTools_L['ITEMS+STATUS_TEXT_VALUE'])..' mk',
-        tooltip= '1k008, 2w008, 3m008',
-        GetValue= function() return Save().showItemMK end,
-        category= WoWTools_TooltipMixin.Category,
-        SetValue= function()
-            Save().showItemMK= not Save().showItemMK and true or nil
-            set_Cursor_Tips()
-        end
-    })]]
 
     WoWTools_PanelMixin:OnlySlider({
         name= WoWTools_L.HOUSING_EXPERT_DECOR_SUBMODE_SCALE,
@@ -383,11 +346,6 @@ local function Init_Panel()
     })
 
 
-
-
-
-
-
     local index=0
     local function Add_Options(name)
         WoWTools_PanelMixin:OnlyCheck({
@@ -416,34 +374,6 @@ local function Init_Panel()
     end
     Init_Panel=function()end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --初始
@@ -496,24 +426,6 @@ local function Init()
 
     WoWTools_TooltipMixin:Set_Init_Item(GameTooltip)
 
---[[移除，<右键点击设置框体> 替换原生
-    WoWTools_DataMixin:Hook('UnitFrame_UpdateTooltip', function(self)
-        if not Save().UNIT_POPUP_RIGHT_CLICK
-            and GameTooltip:SetUnit(self.unit, self.hideStatusOnTooltip)
-        then
-		    GameTooltip:Show()
-        end
-    end)
-    if not Save().UNIT_POPUP_RIGHT_CLICK then
-        function UnitFrame_UpdateTooltip (self)
-            GameTooltip_SetDefaultAnchor(GameTooltip, self);
-            if GameTooltip:SetUnit(self.unit, self.hideStatusOnTooltip) then
-                self.UpdateTooltip = UnitFrame_UpdateTooltip;
-            else
-                self.UpdateTooltip = nil;
-            end
-        end
-    end]]
 
 
     --Reemplazos globales: contaminan código de Blizzard (taint en 12.0), por eso son opcionales (claves nuevas, desactivadas)
@@ -545,12 +457,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
-
-
 
 
 --Save().WidgetSetID = Save().WidgetSetID or 0

@@ -12,27 +12,10 @@ local P_Save={
     sortRightToLeft=true,--排序，从后到前
 }
 
---[[--旧数据
-    line=0,
-    num=20,
-    BgAplha=1,--背景ALPHA
-    showIndex=true,
-    autoOpenBags=WoWTools_DataMixin.Player.husandro,--自动，打开背包
-    plusOnlyOfficerAndLeader=true,
-
-    saveItemSeconds=0.8,--保存，提取物品，延迟
-    sortRightToLeft=true,--排序，从后到前
-]]
-
-
-
 
 local function Save()
     return WoWToolsPlusSave['Plus_GuildBank']
 end
-
-
-
 
 
 local function Init()
@@ -54,17 +37,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
-
-
-
-
-
-
-
 
 
 local panel= CreateFrame("Frame")

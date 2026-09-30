@@ -1,12 +1,6 @@
 
 
 
-
-
-
-
-
-
 function WoWTools_TooltipMixin:Set_Mount(tooltip, mountID, type)--坐骑
     if self:IsInCombatDisabled(tooltip)
         or not canaccessvalue(mountID)
@@ -84,11 +78,6 @@ function WoWTools_TooltipMixin:Set_Mount(tooltip, mountID, type)--坐骑
     local can= isCollected and isUsable and not isActive and not UnitCastingInfo('player')
     if can and IsAltKeyDown() then
         C_MountJournal.SummonByID(mountID)
-        --[[print(
-            self.addName..WoWTools_DataMixin.Icon.icon2,
-            WoWTools_SpellMixin:GetLink(spellID, true),
-            '|cnGREEN_FONT_COLOR:Alt+'..(WoWTools_L['MOUNT~2'])
-        )]]
     end
 
     local col= can and '|cnGREEN_FONT_COLOR:' or '|cff626262'

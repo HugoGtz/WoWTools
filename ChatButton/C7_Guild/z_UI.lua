@@ -264,47 +264,6 @@ end
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --公会和社区
 function WoWTools_MoveMixin.Events:Blizzard_Communities()--公会和社区
 
@@ -382,10 +341,6 @@ function WoWTools_MoveMixin.Events:Blizzard_Communities()--公会和社区
     end
 
 
-
-
-
-
     local sub
 
 
@@ -403,10 +358,6 @@ function WoWTools_MoveMixin.Events:Blizzard_Communities()--公会和社区
 --寻找社区
     WoWTools_DataMixin:Hook(ClubFinderCommunityAndGuildFinderFrame.CommunityCards.ScrollBox, 'Update', Init_Update)
     
-
-
-
-
 
 
 --公会信息
@@ -451,10 +402,6 @@ function WoWTools_MoveMixin.Events:Blizzard_Communities()--公会和社区
     end)
 
 
-
-
-
-
     local function CommunitiesMode_IsMini()
         return CommunitiesFrame:GetDisplayMode()==COMMUNITIES_FRAME_DISPLAY_MODES.MINIMIZED
     end
@@ -492,11 +439,6 @@ function WoWTools_MoveMixin.Events:Blizzard_Communities()--公会和社区
     })
 
 
-    --[[没有GetName()
-    self:Setup(CommunitiesFrame.RecruitmentDialog)
-    self:Setup(CommunitiesFrame.NotificationSettingsDialog)
-    self:Setup(CommunitiesFrame.NotificationSettingsDialog.Selector, {frame=CommunitiesFrame.NotificationSettingsDialog})
-    self:Setup(CommunitiesFrame.NotificationSettingsDialog.ScrollFrame, {frame=CommunitiesFrame.NotificationSettingsDialog})]]
     self:Setup(CommunitiesTicketManagerDialog)
 
 --新闻过滤
@@ -521,25 +463,6 @@ function WoWTools_MoveMixin.Events:Blizzard_Communities()--公会和社区
     sizeRestFunc=function(frame)
         frame:SetSize(295, 295)
     end})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --新建，公会, 签名
@@ -610,32 +533,7 @@ function WoWTools_MoveMixin.Events:Blizzard_Communities()--公会和社区
 --社区设置
 --修改，图标, 可能会有BUG
     --宏列表，按钮宽，数量
-    --[[CommunitiesAvatarPickerDialog:HookScript('OnSizeChanged', function(frame)--Blizzard_ScrollBoxSelector.lua
-        local value= math.max(2, math.modf(frame:GetWidth()/64))
-        if frame:GetStride()~= value then
-            frame:SetCustomStride(value)
-            frame:Init()
-        end
-    end)
-
-    self:Setup(CommunitiesAvatarPickerDialog, {
-        minW=207, minH=260,
-    sizeRestFunc=function()
-        CommunitiesAvatarPickerDialog:SetSize(510, 480)
-    end})]]
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --公会，可以使用的服务

@@ -4,13 +4,6 @@ local function Save()
 end
 
 
-
-
-
-
-
-
-
 --添一个,全学,专业, 按钮, 插件 TrainAll 
 local function Init()
     ClassTrainerFrame.BuyAll= WoWTools_ButtonMixin:Cbtn(ClassTrainerFrame, {isUI=true, size={ClassTrainerTrainButton:GetSize()}})
@@ -145,11 +138,6 @@ local function Init()
         GameTooltip:Hide()
         self:SetAlpha(0.5)
     end)
-    --[[WoWTools_DataMixin:Hook('ClassTrainerFrame_InitServiceButton', function(skillButton, elementData,...)
-        local skillIndex = elementData.skillIndex;
-        local isTradeSkill = elementData.isTradeSkill;
-        local serviceName, serviceType, texture, reqLevel = GetTrainerServiceInfo(skillIndex);
-    end)]]
 
 
     --增加物品，品质，颜色
@@ -161,16 +149,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_ProfessionMixin:Init_Blizzard_TrainerUI()

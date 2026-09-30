@@ -3,78 +3,6 @@ local Category, Layout = Settings.RegisterVerticalLayoutCategory('|TInterface\\A
 Settings.RegisterAddOnCategory(Category)
 
 WoWTools_PanelMixin={}
---[[
-local function ResetColorSwatches()
-    C_ColorOverrides.ClearColorOverrides();
-    ColorManager.UpdateColorData();
-
-    for _, frame in ipairs(self.colorOverrideFrames) do
-        local colorData = ColorManager.GetColorDataForItemQuality(frame.data.qualityBase);
-        if colorData then
-            frame.Text:SetTextColor(colorData.color:GetRGB());
-            frame.ColorSwatch.Color:SetVertexColor(colorData.color:GetRGB());
-        end
-    end
-end
-
-local function CategoryDefaulted(o, category)
-    if self.categoryID == category:GetID() then
-        ResetColorSwatches();
-    end
-end
-EventRegistry:RegisterCallback("Settings.CategoryDefaulted", CategoryDefaulted);
-
-
-WoWTools_PanelMixin:Open(category, name)
-WoWTools_PanelMixin:AddSubCategory(tab)
-WoWTools_PanelMixin:Header(layout, title)
-WoWTools_PanelMixin:OnlyCheck(tab, root)
-WoWTools_PanelMixin:OnlyButton(tab)
-WoWTools_PanelMixin:OnlyMenu(tab)
-WoWTools_PanelMixin:CheckMenu(tab, root)
-WoWTools_PanelMixin:Check_Button(tab)
-WoWTools_PanelMixin:Check_Slider(tab)
-WoWTools_PanelMixin:OnlySlider(tab)
-
-
-sub:AddSearchTags(bindingName)
-
-local action = "INTERACTTARGET";
-local bindingIndex = C_KeyBindings.GetBindingIndex(action);
-local sub = CreateKeybindingEntryInitializer(bindingIndex, true);
-sub:AddSearchTags(GetBindingName(action));
-layout:AddInitializer(sub);
-
-
-Settings.RegisterProxySetting(categoryTbl, variable, variableType, name, defaultValue, getValue, setValue)
-Settings.RegisterProxySetting(category, "PROXY_MINIMUM_CHARACTER_NAME_SIZE", Settings.VarType.Number, MINIMUM_CHARACTER_NAME_SIZE_TEXT, 0, GetValue, SetValue)
-
-]]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --创建, 添加控制面板
@@ -136,24 +64,6 @@ function WoWTools_PanelMixin:AddSubCategory(tab)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --添加，标题
 function WoWTools_PanelMixin:Header(layout, title)
     layout= layout or Layout
@@ -206,17 +116,6 @@ function WoWTools_PanelMixin:OnlyCheck(tab, root)
 
     return sub
 end
---[[
---添加控制面板
-WoWTools_PanelMixin:OnlyCheck({
-name= WoWTools_CollectionMixin.addName,
-GetValue= function() return not Save().disabled end,
-SetValue= function()
-end,
-category= ,
-tooltip= ,
-}, root)
-]]
 
 --添加，按钮
 --CreateSettingsButtonInitializer(name, buttonText, buttonClick, tooltip, addSearchTags)
@@ -237,16 +136,6 @@ function WoWTools_PanelMixin:OnlyButton(tab, root)
 
     return sub
 end
---[[
-WoWTools_PanelMixin:OnlyButton({
-    title= WoWTools_L[''],
-    buttonText=WoWTools_L[''],
-    SetValue=function()
-    end,
-    tooltip=nil,
-    addSearchTags=nil,
-}, sub)
-]]
 
 
 --添加，下拉菜单
@@ -320,31 +209,6 @@ function WoWTools_PanelMixin:CheckMenu(tab, root)
 
     return sub
 end
---[[
-WoWTools_PanelMixin:CheckMenu({
-category=,
-layout=,
-name=,
-tooltip=,
-GetValue=function()
-end,
-SetValue=function(value)
-end,
-DropDownGetValue=function()
-end,
-DropDownSetValue=function(value)
-end,
-GetOptions=function()
-    local container = Settings.CreateControlTextContainer()
-    container:Add(1, WoWTools_L.QUESTLINE_LOCATED_ABOVE)
-    container:Add(2, WoWTools_L.QUESTLINE_LOCATED_BELOW)
-    return container:GetData()
-end})
-]]
-
-
-
-
 
 
 --添加，Check 和 按钮
@@ -376,13 +240,6 @@ function WoWTools_PanelMixin:Check_Button(tab, root)
     end
     return sub
 end
-
-
-
-
-
-
-
 
 
 function WoWTools_PanelMixin:Check_Slider(tab, root)
@@ -460,59 +317,6 @@ function WoWTools_PanelMixin:OnlySlider(tab, root)
 
     return sub
 end
-
-
-
-	--[[Color Overrides
-	local data = { categoryID = category:GetID(), newTagID = "panelItemQualityColorOverrides" };
-	local initializer = Settings.CreatePanelInitializer("ItemQualityColorOverrides", data);
-
-	-- Include both 'Item Quality' and 'Rarity', since the terms are a bit interchangeable players could search for either.
-	initializer:AddSearchTags(COLORS_ITEM_QUALITY, RARITY);
-	layout:AddInitializer(initializer);
-]]
-
-
-
-
-
-
-
-
-
-
-
-
-
---[[
-function  e.Add_Panel_RestData_Button(root, SetValue)
-    if not StaticPopupDialogs['WoWTools_Rest_DaTa'] then
-        StaticPopupDialogs['WoWTools_Rest_DaTa']={--重置所有,清除全部玩具
-            text=id..' '..addName..'|n'..(WoWTools_L['CLEAR_ALL~2'])..'|n|n'..(WoWTools_L.RELOADUI),
-            whileDead=true, hideOnEscape=true, exclusive=true,
-            button1='|cnWARNING_FONT_COLOR:'..(WoWTools_L.RESET)..'|r',
-            button2= WoWTools_L.CANCEL,
-            OnAccept = function(_, setValue)
-                setValue()
-                WoWTools_DataMixin:Reload()
-            end,
-        }
-    end
-end
-
-]]
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --重新加载UI, 重置, 按钮

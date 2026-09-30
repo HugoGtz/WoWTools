@@ -5,11 +5,6 @@ local function Save()
 end
 
 
-
-
-
-
-
 local function Set_Target()
     local plate= C_NamePlate.GetNamePlateForUnit("target", issecure())
 
@@ -44,8 +39,6 @@ local function Set_Target()
         if raidIcon and raidIcon:IsVisible() then
             n= raidIcon:GetWidth()+ (classIcon and classIcon:GetWidth() or 0)
 
-        --[[elseif UnitFrame.WidgetContainer:IsVisible() then
-            n= UnitFrame.WidgetContainer:GetWidth()]]
 
         elseif classIcon and classIcon:IsVisible() then
             n= classIcon:GetWidth()
@@ -74,20 +67,6 @@ local function Set_Target()
     end
     targetFrame:SetShown(true)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Set_Texture()
@@ -128,17 +107,6 @@ local function Set_Texture()
 
     Set_Target()
 end
-
-
-
-
-
-
-
-
-
-
-
 
 
 --指示目标 Blizzard_NamePlates.xml
@@ -215,15 +183,6 @@ local function Init()
         targetFrame:Settings()
     end
 end
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_TargetMixin:Init_targetFrame()

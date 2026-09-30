@@ -1,11 +1,6 @@
 --天赋
 
 
-
-
-
-
-
 local function Init()
     local frame= CreateFrame('Frame')
     --table.insert(Frames, frame)
@@ -104,21 +99,6 @@ local function Init()
         --GameTooltip:AddLine(' ')
         local col= '|cffffffff'
 
-        --[[GameTooltip:AddLine(
-            col..(WoWTools_L.TALENT_FRAME_TAB_LABEL_SPEC)..'|r'
-            ..WoWTools_DataMixin.Icon.mid
-            ..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP)
-        )
-        GameTooltip:AddLine(
-            col..(WoWTools_L.TALENT_FRAME_TAB_LABEL_SPELLBOOK)..'|r'
-            ..WoWTools_DataMixin.Icon.right
-        )
-
-        GameTooltip:AddLine(
-            col..(WoWTools_L['TALENT_FRAME_TAB_LABEL_SPELLBOOK~2'])..'|r'
-            ..WoWTools_DataMixin.Icon.mid
-            ..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN)
-        )]]
         GameTooltip:AddLine(
             col..(WoWTools_L.CLICK_BIND_MODE)..'|r'
             ..WoWTools_DataMixin.Icon.mid
@@ -150,12 +130,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
-
-
 
 
 function WoWTools_MainMenuMixin:Init_Talent()--天赋

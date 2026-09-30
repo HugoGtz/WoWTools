@@ -6,14 +6,6 @@ local MAX_GUILDBANK_SLOTS_PER_TAB= 98
 local StopRun
 
 
-
-
-
-
-
-
-
-
 --提取
 local function Check_Bank_Item(tabID, slotID, classID, subClassID, onlyItem)
     local itemLink= GetGuildBankItemLink(tabID, slotID)
@@ -33,10 +25,6 @@ local function Check_Bank_Item(tabID, slotID, classID, subClassID, onlyItem)
         return itemLink, itemClassID, itemSubclassID
     end
 end
-
-
-
-
 
 
 --提取
@@ -118,12 +106,6 @@ local function Out_Bank(self, tabID, classID, subClassID, onlyItem, numOut)
 end
 
 
-
-
-
-
-
-
 local function Get_Bank_Num(tabID, classID, subClassID, onlyItem)
     local index=0
     local items={}
@@ -141,43 +123,6 @@ local function Get_Bank_Num(tabID, classID, subClassID, onlyItem)
 
     return index, items
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --存放
@@ -199,11 +144,6 @@ local function Check_Bag_Item(itemInfo, classID, subClassID, onlyItem)
         return itemClassID, itemSubclassID
     end
 end
-
-
-
-
-
 
 
 --存放
@@ -315,14 +255,6 @@ local function Out_Bags(self, tabID, classID, subClassID, onlyItem)
 end
 
 
-
-
-
-
-
-
-
-
 local function Get_Bag_Num(classID, subClassID, onlyItem)
     local index= 0
     local items= {}
@@ -341,14 +273,6 @@ local function Get_Bag_Num(classID, subClassID, onlyItem)
 
     return index, items
 end
-
-
-
-
-
-
-
-
 
 
 local function Set_ItemList_Tooltip(sub, description)
@@ -400,16 +324,6 @@ local function Set_ItemList_Tooltip(sub, description)
         end
     end)
 end
-
-
-
-
-
-
-
-
-
-
 
 
 --生成,物品列表
@@ -473,11 +387,6 @@ local function Init_SubMenu(self, root, tabID, isOut, numOutorIn, onlyItem, titl
 end
 
 
-
-
-
-
-
 --提取
 --numOut 可提取：数字，true无限，false禁用
 local function Init_Out_Bank_Menu(self, root)
@@ -530,11 +439,6 @@ local function Init_Out_Bank_Menu(self, root)
         Init_SubMenu(self, sub, tabID, true, numOut, false, name)
     end
 end
-
-
-
-
-
 
 
 --存放
@@ -593,51 +497,6 @@ local function Init_Out_Bag_Menu(self, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---[[numOut 可提取：数字，true无限，false禁用
---numIn 是否放入：true, false
-
-local function Init_Menu(self, root)
-    if not self:IsMouseOver() then
-        return
-    elseif WoWTools_GuildBankMixin.isInRun then--禁用，按钮移动事件
-        StopRun=true--停止，已运行
-    end
-
-    local tabID= GetCurrentGuildBankTab()
-    local numOut, numIn= WoWTools_GuildBankMixin:GetNumWithdrawals(tabID)
-
---物品
-    Init_Out_Bank_Menu(self, root, tabID, numOut)
-
---材料
-    root:CreateDivider()
-    Init_Out_Bag_Menu(self, root, tabID, numIn)
-
---打开选项
-    root:CreateDivider()
-    WoWTools_MenuMixin:OpenOptions(root, {name= WoWTools_GuildBankMixin.addName})
-end]]
-
-
-
-
-
 local function Init()
     local btn= WoWTools_ButtonMixin:Menu(GuildBankFrame, {atlas='bag-main'})
     btn:SetPoint('RIGHT', GuildItemSearchBox, 'LEFT', -8, 0)
@@ -689,12 +548,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
-
-
 
 
 function WoWTools_GuildBankMixin:Init_InOut_Item()

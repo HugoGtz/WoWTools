@@ -6,14 +6,6 @@ local function Save()
 end
 
 
-
-
-
-
-
-
-
-
 local function Init_Menu(self, root)
     if not self:IsMouseOver() then
         return
@@ -104,18 +96,6 @@ local function Init_Menu(self, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
     local btn= WoWTools_ChatMixin:GetButtonForName('Combat')
 
@@ -162,9 +142,6 @@ local function Init()
         self:set_Click()
     end
 
-    --[[function btn:HandlesGlobalMouseEvent(_, event)
-        return event == "GLOBAL_MOUSE_DOWN"-- and buttonName == "RightButton";
-    end]]
 
 
     function btn:set_OnLeave()
@@ -202,18 +179,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local panel= CreateFrame('Frame')

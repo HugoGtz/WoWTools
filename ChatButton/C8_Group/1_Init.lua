@@ -28,33 +28,6 @@ function WoWTools_GroupMixin:Get_ReadyText(ready)
         )
     end
 end
---[[队长(团长)或助理
-function WoWTools_GroupMixin:isLeader()--队长(团长)或助理
-    return UnitIsGroupAssistant('player') or UnitIsGroupLeader('player')
-end
-
---在团长或助理
-function WoWTools_GroupMixin:isRaidLeader()--在团长或助理
-    return IsInRaid() and (UnitIsGroupAssistant('player') or UnitIsGroupLeader('player'))
-end]]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Settings(self)--队伍信息提示
@@ -99,21 +72,6 @@ local function Settings(self)--队伍信息提示
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function set_Text(text)--处理%s
     local groupTab= WoWTools_DataMixin.GroupGuid[WoWTools_DataMixin.Player.GUID]
     if text:find('%%s') and groupTab and groupTab.subgroup then
@@ -123,16 +81,6 @@ local function set_Text(text)--处理%s
     end
     return text
 end
-
-
-
-
-
-
-
-
-
-
 
 
 local function Set_OnMouseWheel(d)
@@ -152,20 +100,6 @@ local function Set_OnMouseWheel(d)
     --Chat elige INSTANCE_CHAT/RAID/PARTY y respeta el bloqueo de chat de 12.0
     WoWTools_ChatMixin:Chat(text, nil, nil)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --主菜单
@@ -249,48 +183,6 @@ local function Init_Menu(self, root)
     end
 end
 
-        --[[if isInGroup then
-            local unit
-            if index==1 then
---队伍，子目录
-                for i=1, GetNumGroupMembers()-1, 1 do
-                    unit='party'..i
-                    if WoWTools_UnitMixin:UnitExists(unit) and UnitIsPlayer(unit) then
-                        playerName=GetUnitName(unit, true)
-                        sub2= sub:CreateButton(WoWTools_UnitMixin:GetPlayerInfo(unit, nil, nil, {reName=true, reRealm=true}), function(data)
-                            if data and data~=UnitName('player') then
-                                WoWTools_ChatMixin:Say(nil, data, nil)
-                            end
-                            return MenuResponse.Open
-                        end, playerName)
-                        sub2:SetTooltip(function(tooltip)
-                            tooltip:AddLine(WoWTools_L.SLASH_TEXTTOSPEECH_WHISPER)
-                        end)
-                    end
-                end
-
-            elseif index==2 and isInRaid then
-                for i=1, MAX_RAID_MEMBERS,  1 do
-                    unit='raid'..i
-                   if WoWTools_UnitMixin:UnitExists(unit) and not WoWTools_UnitMixin:UnitIsUnit(unit, 'player') and UnitIsPlayer(unit) then
-                        sub2=sub:CreateButton(
-                            WoWTools_UnitMixin:GetPlayerInfo(unit, nil, nil, {reName=true, reRealm=true}),
-                        function(data)
-                            if data and data~=UnitName('player') then
-                                WoWTools_ChatMixin:Say(nil, data, nil)
-                            end
-                            return MenuResponse.Open
-                        end, playerName)
-                        sub2:SetTooltip(function(tooltip, description)
-                            if description.data and description.data~=UnitName('player') then
-                                tooltip:AddLine(WoWTools_L.SLASH_TEXTTOSPEECH_WHISPER)
-                            end
-                        end)
-                    end
-                end
-                sub:SetGridMode(MenuConstants.VerticalGridDirection, 4)
-            end
-        end]]
 
 
 --跨阵营
@@ -356,15 +248,9 @@ end
     end)
 
 
-
-
-
     sub= root:CreateButton(
         WoWTools_GroupMixin:Get_ReadyText(),
     function()
-        --[[local show= ReadyCheckFrame:IsShown()
-        ReadyCheckFrame:SetShown(not show)
-        ReadyCheckListenerFrame:SetShown(not show)]]
         if not ReadyCheckFrame:IsShown() then
            ShowReadyCheck(UnitName('player'), 35)
            ReadyCheckFrame:SetShown(true)
@@ -447,24 +333,6 @@ end
         WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Group.WheelEdit'])
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function show_Group_Info_Toolstip()--玩家,信息, 提示
@@ -596,24 +464,6 @@ local function show_Group_Info_Toolstip()--玩家,信息, 提示
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --####
 --初始
 --####
@@ -724,25 +574,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --###########

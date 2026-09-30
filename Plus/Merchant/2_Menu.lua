@@ -9,20 +9,6 @@ local function SellBuyItemsSave()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --出售自定义
 local function Player_Sell_Menu(_, root)
     local num, sub, sub2
@@ -76,17 +62,6 @@ local function Player_Sell_Menu(_, root)
         WoWTools_MenuMixin:SetScrollMode(sub)
     end
 end
-
-
-
-
-
-
-
-
-
-
-
 
 
 --回购
@@ -143,24 +118,6 @@ local function Buyback_Menu(_, root)
         WoWTools_MenuMixin:SetScrollMode(sub)
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --购买物品
@@ -239,26 +196,6 @@ local function BuyItem_Menu(self, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init_Menu(self, root)
     if not self:IsMouseOver() then
         return
@@ -288,17 +225,8 @@ local function Init_Menu(self, root)
     end)
 
 
-
-
-
-
-
-
 --出售自定义
     Player_Sell_Menu(self, root)
-
-
-
 
 
 --出售BOSS掉落
@@ -365,15 +293,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Merchant.SaveBossList'])
 
---[[添加 按钮菜单
-    sub2= sub:CreateCheckbox(
-        '|A:Perks-ShoppingCart:0:0|a'
-        ..(WoWTools_L['ADD+HUD_EDIT_MODE_MICRO_MENU_LABEL'],
-    function()
-        return Save().addButtonMenu
-    end, function()
-        Save().addButtonMenu= not Save().addButtonMenu and true or nil
-    end)]]
 
 
 
@@ -383,12 +302,6 @@ local function Init_Menu(self, root)
 
 --购买物品
     BuyItem_Menu(self, root)
-
-
-
-
-
-
 
 
 --自动修理
@@ -427,11 +340,6 @@ local function Init_Menu(self, root)
     sub:CreateTitle((WoWTools_L.GUILDCONTROL_OPTION15_TOOLTIP)..': '..C_CurrencyInfo.GetCoinTextureString(CanGuildBankRepair() and GetGuildBankMoney() or 0))
 
 
-
-
-
-
-
 --商人 Plus
     sub=root:CreateCheckbox(
         '|A:communities-icon-addgroupplus:0:0|a'..(WoWTools_L['Merchant Plus']),
@@ -450,17 +358,6 @@ local function Init_Menu(self, root)
 
 --增加，按钮宽度，按钮，菜单
     WoWTools_MerchantMixin:ResizeButton2_Menu(self, sub)
-
-
-
-
-
-
-
-
-
-
-
 
 
 --自动拾取 plus
@@ -504,20 +401,6 @@ local function Init_Menu(self, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
     local btn= WoWTools_ButtonMixin:Menu(MerchantFrameCloseButton, {name='WoWTools_SellBuyMenuButton'})
     btn:SetPoint('RIGHT', MerchantFrameCloseButton, 'LEFT', -2, 0)
@@ -526,15 +409,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_MerchantMixin:Init_Menu()

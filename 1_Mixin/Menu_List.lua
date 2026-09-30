@@ -146,26 +146,6 @@ function WoWTools_MenuMixin:DungeonDifficulty(_, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function WoWTools_MenuMixin:LootSpecialization(root)
     local numSpec= GetNumSpecializations(false, false) or 0
     if not C_SpecializationInfo.IsInitialized() or numSpec==0 then
@@ -238,28 +218,7 @@ function WoWTools_MenuMixin:LootSpecialization(root)
 
 
 
-        --[[root:CreateButton(
-            '|T'..(icon or 0)..':0|t'
-            ..'|A:VignetteLoot:0:0|a'..(WoWTools_L.SELECT_LOOT_SPECIALIZATION),
-        function(data)
-            SetLootSpecialization(data.specID)
-            return MenuResponse.Open
-        end, {specID= specID})
-
-
-        root:CreateDivider()
-        root:CreateButton(
-            --'|T'..(PlayerUtil.GetSpecIconBySpecID(C_SpecializationInfo.GetSpecializationInfo(curSpecIndex), sex) or 0)..':0|t'
-            WoWTools_L.DEFAULT,
-        function()
-            SetLootSpecialization(0)
-            return MenuResponse.Open
-        end)]]
 end
-
-
-
-
 
 
 function WoWTools_MenuMixin:Set_Specialization(root)
@@ -355,23 +314,6 @@ function WoWTools_MenuMixin:Set_Specialization(root)
         WoWTools_SetTooltipMixin:Set_Menu(sub)
 
 
-        --[[sub:CreateButton(
-            '|T'..(icon or 0)..':0|t'
-            ..'|A:VignetteLoot:0:0|a'..(WoWTools_L.SELECT_LOOT_SPECIALIZATION),
-        function(data)
-            SetLootSpecialization(data.specID)
-            return MenuResponse.Open
-        end, {specID= specID})
-
-
-        sub:CreateDivider()
-        sub:CreateButton(
-            --'|T'..(PlayerUtil.GetSpecIconBySpecID(C_SpecializationInfo.GetSpecializationInfo(curSpecIndex), sex) or 0)..':0|t'
-            WoWTools_L.DEFAULT,
-        function()
-            SetLootSpecialization(0)
-            return MenuResponse.Open
-        end)]]
     end
 
     sub= root:CreateCheckbox(

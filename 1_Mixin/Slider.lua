@@ -1,15 +1,3 @@
---[[WoWTools_SliderMixin:CSlider(frame, {
-    w=,
-    h=,
-    min=,
-    max=,
-    value=,
-    setp=,
-    color=,
-    text=,
-    func=clickfunc,
-    tips=func
-})]]
 
 WoWTools_SliderMixin={}
 

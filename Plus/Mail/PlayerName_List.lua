@@ -7,15 +7,6 @@ end
 local listButton
 
 
-
-
-
-
-
-
-
-
-
 --我
 local function Init_IsSelf(root)
     local new={}
@@ -106,15 +97,6 @@ local function Init_IsSelf(root)
 end
 
 
-
-
-
-
-
-
-
-
-
 local function Init_WoW(root)
     local sub
     local num=0
@@ -164,11 +146,6 @@ local function Init_WoW(root)
 end
 
 
-
-
-
-
-
 local function Init_Friend(root)
     local sub
     local num=0
@@ -207,13 +184,6 @@ local function Init_Friend(root)
 
     WoWTools_MenuMixin:SetScrollMode(root)
 end
-
-
-
-
-
-
-
 
 
 local function Init_Guild(root)
@@ -266,15 +236,6 @@ local function Init_Guild(root)
 end
 
 
-
-
-
-
-
-
-
-
-
 local function Init_Club(root, clubID)
     local sub
     local num=0
@@ -325,19 +286,6 @@ local function Init_Club(root, clubID)
 
     WoWTools_MenuMixin:SetScrollMode(root)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Menu(_, root)
@@ -418,21 +366,6 @@ local function Init_Menu(_, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --收件人，列表
 local function Init()
     if Save().hideSendNameList then
@@ -448,11 +381,6 @@ local function Init()
 
     listButton:SetPoint('LEFT', SendMailNameEditBox, 'RIGHT')
     listButton:SetupMenu(Init_Menu)
-    --[[listButton:SetScript('OnMouseDown', function(self)
-        MenuUtil.CreateContextMenu(self, function(...)
-            Init_Menu(...)
-        end)
-    end)]]
 
 
 
@@ -530,19 +458,6 @@ local function Init()
         listButton:Settings()
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_MailMixin:Init_Send_Name_List()--收件人，列表

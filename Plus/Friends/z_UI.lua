@@ -4,15 +4,6 @@ function WoWTools_TextureMixin.Events:Blizzard_BNet()
     self:SetFrame(BNToastFrame, {alpha=0.3})
 end
 
---[[function WoWTools_MoveMixin.Events:Blizzard_BNet()
-    self:Setup(BNToastFrame)
-end]]
-
-
-
-
-
-
 
 --好友召募
 function WoWTools_MoveMixin.Events:Blizzard_RecruitAFriend()
@@ -40,17 +31,6 @@ function WoWTools_TextureMixin.Events:Blizzard_RecruitAFriend()
     self:SetButton(RecruitAFriendRewardsFrame.CloseButton)
 end
 --function WoWTools_MoveMixin.Events:Blizzard_RaidFrame()
-
-
-
-
-
-
-
-
-
-
-
 
 
 --团队信息， 副本击杀信息
@@ -95,18 +75,6 @@ function WoWTools_TextureMixin.Events:Blizzard_RaidFrame()
     self:SetUIButton(RaidInfoExtendButton)
     self:SetUIButton(RaidInfoCancelButton)
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_MoveMixin.Events:Blizzard_FriendsFrame()--好友列表
@@ -169,9 +137,6 @@ function WoWTools_MoveMixin.Events:Blizzard_FriendsFrame()--好友列表
     })
 
 
-
-
-
 --好友的好友，列表
 
     FriendsFriendsFrame.ScrollFrameBorder:SetPoint('BOTTOMRIGHT', -25, 55)
@@ -204,13 +169,6 @@ function WoWTools_MoveMixin.Events:Blizzard_FriendsFrame()--好友列表
 --通告
     self:Setup(FriendsFrameBattlenetFrame.BroadcastFrame, {frame=FriendsFrame})
 end
-
-
-
-
-
-
-
 
 
 --好友列表
@@ -290,12 +248,5 @@ function WoWTools_TextureMixin.Events:Blizzard_FriendsFrame()
         FriendsFrameIcon:SetAlpha(portraitAlpha or 1)
     end})
 end
-
-
-
-
-
-
-
 
 

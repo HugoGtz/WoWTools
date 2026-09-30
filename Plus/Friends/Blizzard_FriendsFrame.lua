@@ -12,25 +12,6 @@ local RegionNames
 local FriendsButton
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init_Friends_Menu(self, root)
     if not self:IsMouseOver() then
         return
@@ -191,14 +172,6 @@ local function Init_Friends_Menu(self, root)
 end
 
 
-
-
-
-
-
-
-
-
 local TitleIconCache={}--[clientProgram]= texture
 
 --处理，好友，在线信息
@@ -327,22 +300,6 @@ local function Set_Friend_Event(self, _, friendIndex)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()--好友列表, 初始化
     OptionText= (WoWTools_L.SETTINGS).."|T%s:0:|t %s"
     RegionNames = {
@@ -355,10 +312,6 @@ local function Init()--好友列表, 初始化
     FriendsFrameStatusDropdown:SetSize(58, 25)--原生，有点问题
 
     FriendsButton= CreateFrame('DropdownButton', 'WoWToolsFriendsMenuButton', FriendsListFrame, 'WoWToolsMenu3Template')
-    --[[WoWTools_ButtonMixin:Menu(FriendsListFrame, {
-        name= 'WoWToolsFriendsMenuButton',
-        icon='hide',
-    })]]
 
     FriendsButton:SetPoint('RIGHT', FriendsFrameCloseButton, 'LEFT')
     FriendsButton:GetFrameStrata(FriendsFrameCloseButton:GetFrameStrata())
@@ -380,15 +333,6 @@ local function Init()--好友列表, 初始化
         end
     end
     FriendsButton:set_events()
-
-
-
-
-
-
-
-
-
 
 
     --#######
@@ -462,13 +406,6 @@ local function Init()--好友列表, 初始化
     FriendsButton:set_status(true)
 
 
-
-
-
-
-
-
-
 --好友PLUS FriendsFrame.lua
      WoWTools_DataMixin:Hook('FriendsFrame_UpdateFriendButton', function(self)
         if Save().disabledFriendPlus then
@@ -528,21 +465,6 @@ local function Init()--好友列表, 初始化
             self.info:SetText(text)
         end
      end)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     --查询, 名单列表
@@ -728,21 +650,6 @@ local function Init()--好友列表, 初始化
 
     Init=function()end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_FriendsMixin:Blizzard_FriendsFrame()

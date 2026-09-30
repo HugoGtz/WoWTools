@@ -1,16 +1,4 @@
 WoWTools_ChallengeMixin={}
---[[
-name, id, timeLimit, texture, backgroundTexture, mapID = C_ChallengeMode.GetMapUIInfo(mapChallengeModeID)
-journalInstanceID = C_EncounterJournal.GetInstanceForGameMap(mapID)
-]]
-
-
-
-
-
-
-
-
 
 
 function WoWTools_ChallengeMixin:GetRewardText(type)--得到，周奖励，信息
@@ -151,16 +139,6 @@ function WoWTools_ChallengeMixin:ActivitiesTooltip(tooltip)
 
     return find
 end
-
-
-
-
-
-
-
-
-
-
 
 
 local function Create_Activities_SubLable(frame, head, index, last)
@@ -327,12 +305,6 @@ function WoWTools_ChallengeMixin:ActivitiesFrame(frame, settings)--周奖励，�
 end
 
 
-
-
-
-
-
-
 function WoWTools_ChallengeMixin:KeystoneScorsoColor(score, texture, overall)--地下城史诗, 分数, 颜色 C_ChallengeMode.GetOverallDungeonScore()
     score= score or 0
     score= type(score)~='number' and tonumber(score) or score or 0
@@ -355,11 +327,6 @@ function WoWTools_ChallengeMixin:KeystoneScorsoColor(score, texture, overall)--�
 end
 
 
---[[
-ItemRef.lua
-DungeonScoreInfoMixin:OnClick()
-Blizzard_ChallengesUI.lua
-]]
 function WoWTools_ChallengeMixin:GetDungeonScoreLink()
     local dungeonScore = C_ChallengeMode.GetOverallDungeonScore() or 0
     return GetDungeonScoreLink(dungeonScore, UnitName("player"))

@@ -25,9 +25,6 @@ local function Save()
 end
 
 
-
-
-
 for _, spellID in pairs(SpellsTab) do
    WoWTools_DataMixin:Load(spellID, 'spell')
 end
@@ -56,10 +53,6 @@ local function set_save_gem(itemEquipLoc, gemLink, index)
     Save().gemLoc[WoWTools_DataMixin.Player.Class][itemEquipLoc][index]= gemID
     return gemID
 end
-
-
-
-
 
 
 local function Init_Button_Menu(self, root)
@@ -114,27 +107,6 @@ local function Init_Button_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gem.PlaceRight'])
 end
-
-
-
-
-
---[[local GEM_TYPE_INFO =	{
-    Yellow = EMPTY_SOCKET_YELLOW,--黄色插槽',
-    Red = EMPTY_SOCKET_RED,--红色插槽',
-    Blue = EMPTY_SOCKET_BLUE,--蓝色插槽',
-    Hydraulic = EMPTY_SOCKET_HYDRAULIC,--染煞',
-    Cogwheel = EMPTY_SOCKET_COGWHEEL,--齿轮插槽',
-    Meta = EMPTY_SOCKET_META,--多彩插槽',
-    Prismatic =EMPTY_SOCKET_PRISMATIC,--棱彩插槽',
-    PunchcardRed = EMPTY_SOCKET_PUNCHCARDRED,--红色打孔卡插槽',
-    PunchcardYellow = EMPTY_SOCKET_PUNCHCARDYELLOW,--黄色打孔卡插槽',
-    PunchcardBlue = EMPTY_SOCKET_PUNCHCARDBLUE,--蓝色打孔卡插槽',
-    Domination = EMPTY_SOCKET_DOMINATION,--统御插槽',
-    Cypher = EMPTY_SOCKET_CYPHER,--晶态插槽',
-    Tinker = EMPTY_SOCKET_TINKER,--匠械插槽',
-    Primordial = EMPTY_SOCKET_PRIMORDIAL,--始源镶孔',
-}--EMPTY_SOCKET_NO_COLOR,--棱彩插槽]]
 
 
 local function creatd_button(index, parent)
@@ -243,29 +215,6 @@ local function creatd_button(index, parent)
     end
     return btn
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Set_Button_Att(btn, info)
@@ -443,24 +392,6 @@ function Set_Gem()--Blizzard_ItemSocketingUI.lua MAX_NUM_SOCKETS
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --433397/取出宝石
 local function Init_Spell_Button()
     if Save().disableSpell then
@@ -574,52 +505,6 @@ local function Init_Spell_Button()
         SpellButton:UnregisterAllEvents()
     end)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --宝石，数据
@@ -782,28 +667,6 @@ local function Init_ItemSocketingFrame_Update()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init_Menu(self, root)
     local sub, num
     sub=root:CreateCheckbox(
@@ -908,15 +771,6 @@ local function Init_Menu(self, root)
 end
 
 
-
-
-
-
-
-
-
-
-
 --总开关
 local function Init_Button_All()
     local btn= WoWTools_ButtonMixin:Cbtn(ItemSocketingFrame.TitleContainer, {
@@ -1004,39 +858,6 @@ local function Init_Button_All()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
     Frame= CreateFrame("Frame", nil, ItemSocketingFrame)
     Frame.buttons={}
@@ -1120,11 +941,6 @@ local function Init()
 end
 
 
-
-
-
-
-
 local function Load_Init()
     if Save().disabled then
         return
@@ -1142,10 +958,6 @@ local function Load_Init()
     end
     Load_Init=function()end
 end
-
-
-
-
 
 
 local panel= CreateFrame("Frame")
@@ -1185,12 +997,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     self:SetScript('OnEvent', nil)
     self:UnregisterEvent(event)
 end)
-
-
-
-
-
-
 
 
 --镶嵌宝石，界面

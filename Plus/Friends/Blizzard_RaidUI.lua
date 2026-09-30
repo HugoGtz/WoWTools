@@ -1,19 +1,3 @@
---[[
-团队, 模块 
-Blizzard_RaidUI.lua
-
-subframes = {};
-subframes.name = _G["RaidGroupButton"..i.."Name"];
-subframes.class = _G["RaidGroupButton"..i.."Class"];
-subframes.level = _G["RaidGroupButton"..i.."Level"];
-subframes.rank = _G["RaidGroupButton"..i.."Rank"];
-subframes.role = _G["RaidGroupButton"..i.."Role"];
-subframes.rankTexture = _G["RaidGroupButton"..i.."RankTexture"];
-subframes.roleTexture = _G["RaidGroupButton"..i.."RoleTexture"];
-subframes.readyCheck = _G["RaidGroupButton"..i.."ReadyCheck"];
-button.subframes = subframes;
-
-]]
 
 
 local function Init_RaidGroupFrame_Update()
@@ -120,17 +104,6 @@ local function Init_RaidGroupFrame_Update()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
     WoWTools_DataMixin:Hook('RaidGroupFrame_Update', function()
         Init_RaidGroupFrame_Update()
@@ -153,25 +126,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_FriendsMixin:Blizzard_RaidUI()

@@ -95,33 +95,7 @@ function WoWTools_ItemMixin:SetOptions(frame, root, tab)
 end
 
 
---[[
-WoWTools_ItemMixin.QualityText= {}
-    
-WoWTools_ItemMixin:SetGemStats(frame, itemLink)--显示, 宝石, 属性
-WoWTools_ItemMixin:GetItemStats(link)--取得，物品，次属性，表
-WoWTools_ItemMixin:SetItemStats(frame, itemLink, {point=frame.icon, itemID=nil, hideSet=false, hideLevel=false, hideStats=false})--设置，物品，4个次属性，套装，装等
-
-WoWTools_ItemMixin:GetTooltip(tab)
-WoWTools_ItemMixin:GetColor(quality, tab)
-WoWTools_ItemMixin:GetLink(itemID)
-WoWTools_ItemMixin:GetItemID(itemLink)
-WoWTools_ItemMixin:GetName(itemID, itemLink, itemLocation, tab)--取得物品，名称 itemLocation,ItemButton
-
-WoWTools_ItemMixin:GetEquipSlotIcon(slotID)
-WoWTools_ItemMixin:GetEquipSlotID(itemEquipLoc)
-
-
-WoWTools_ItemMixin:GetCount(itemID, tab)
-WoWTools_ItemMixin:GetWoWCount(itemID)
-]]
-
-
-
 local itemLevelStr= ITEM_LEVEL:gsub('%%d', '%(%%d%+%)')--"物品等级：%d"
-
-
-
 
 
 --local AndStr = COVENANT_RENOWN_TOAST_REWARD_COMBINER:format('(.-)','(.+)')--"%s 和 %s"
@@ -173,19 +147,6 @@ function WoWTools_ItemMixin:SetGemStats(frame, itemLink)--显示, 宝石, 属性
 
     return leftText, bottomLeftText
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --value zPanel.lua  WoWTools_DataMixin.StausText 
@@ -253,14 +214,6 @@ function WoWTools_ItemMixin:GetItemStats(itemLink)--取得，物品，次属性�
 end
 
 
-
-
-
-
-
-
-
-
 --WoWTools_ItemMixin:SetItemStats(frame, itemLink, {point=frame.icon, itemID=nil, hideSet=false, hideLevel=false, hideStats=false})--设置，物品，4个次属性，套装，装等
 function WoWTools_ItemMixin:SetItemStats(frame, link, setting)--设置，物品，4个次属性，套装，装等，
     if not frame then
@@ -304,31 +257,6 @@ function WoWTools_ItemMixin:SetItemStats(frame, link, setting)--设置，物品�
         end
 
         if not hideLevel then--物品, 装等
-            --[[if itemID==210333 and frame==CharacterBackSlot then--InspectBackSlot
-                local currencies={--https://wago.io/thread_count 我的斗篷有多少根线？
-                    [2853] = 1, -- "power" aka str/agi/int
-                    [2854] = 0.5, -- stamina (1 thread gives 2 of this stat)
-                    [2855] = 1, -- crit
-                    [2856] = 1, -- haste
-                    [2857] = 1, -- leech
-                    [2858] = 1, -- mastery
-                    [2859] = 1, -- speed
-                    [2860] = 1, -- vers
-                    -- 2861-2869 are currencies which seem to be modifiers for damage(?) against different creature types (i.e. humanoid, undead, elemental, etc)
-                    -- 2870-2876 are currencies which seem to be modifiers for damage (resist?) of the various spell schools (i.e. physical, arcane, fire, etc)
-                    [3001] = 1, -- xp gain
-                }
-                local count = 0
-                for currencyID, mult in pairs(currencies) do
-                    local info = C_CurrencyInfo.GetCurrencyInfo(currencyID)
-                    if info and info.quantity and info.quantity>0 then
-                        count = count + info.quantity*mult
-                    end
-                end
-                if count>0 then
-                    itemLevel= WoWTools_DataMixin:MK(count, 1)
-                end
-            else]]
                 --local quality = C_Item.GetItemQualityByID(link)--颜色
                 --if quality==7 then
 
@@ -398,30 +326,6 @@ function WoWTools_ItemMixin:SetItemStats(frame, link, setting)--设置，物品�
         end
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local ColorRed={
@@ -548,9 +452,6 @@ function WoWTools_ItemMixin:GetTooltip(tab)
     end
     return data
 end
-
-
-
 
 
 --GetButtonOverlayQualityColor {itemID, itemLocation}
@@ -719,12 +620,6 @@ function WoWTools_ItemMixin:GetName(itemID, itemLink, itemLocation, tab)--取得
 end
 
 
-
-
-
-
-
-
 function WoWTools_ItemMixin:GetItemLevel(itemLink)
     if itemLink then
         local dataInfo= self:GetTooltip({itemLink=itemLink, text={itemLevelStr}, onlyText=true})--物品提示，信息
@@ -732,13 +627,6 @@ function WoWTools_ItemMixin:GetItemLevel(itemLink)
         return itemLevel and tonumber(itemLevel) or C_Item.GetDetailedItemLevelInfo(itemLink)
     end
 end
-
-
-
-
-
-
-
 
 
 local itemSlotName={--InventorySlotId
@@ -825,27 +713,9 @@ function WoWTools_ItemMixin:GetEquipSlotName(slotID)
         end
     end
 end
---[[function WoWTools_ItemMixin:OpenOption(root, name2)
-    return WoWTools_MenuMixin:OpenOptions(root, {category=WoWTools_ItemMixin.Category, name=self.addName, nam2=name2})
-end]]
-
-
-
-
-
-
-
-
-
 
 
 --装备管理，能否装备
---[[EquipmentManager.lua
-function WoWTools_ItemMixin:IsLocked_EquipmentSet(setID)--装备管理，能否装备
-	if not setID or C_EquipmentSet.EquipmentSetContainsLockedItems(setID) then
-		return '|cnWARNING_FONT_COLOR:'..(WoWTools_L.ERR_CLIENT_LOCKED_OUT)..'|r'
-	end
-end]]
 function WoWTools_ItemMixin:GetDecorItemCount(itemID, entryInfo, showZero)
 
     entryInfo= entryInfo or (itemID and C_HousingCatalog.GetCatalogEntryInfoByItem(itemID, true)) or {}
@@ -880,14 +750,6 @@ function WoWTools_ItemMixin:GetDecorItemCount(itemID, entryInfo, showZero)
 end
 
 
-
-
-
-
-
-
-
-
 function WoWTools_ItemMixin:GetCount(itemID, tab)
     tab= tab or {}
 
@@ -900,9 +762,6 @@ function WoWTools_ItemMixin:GetCount(itemID, tab)
     if not itemID then
         return text, 0, 0, 0, 0, 0
 
-    --[[elseif C_Item.IsDecorItem(itemID) then
-        text= self:GetDecorItemCount(itemID, nil, showZero)
-        return text, 0, 0, 0, 0, 0]]
     end
 
 
@@ -941,9 +800,6 @@ function WoWTools_ItemMixin:GetCount(itemID, tab)
 end
 
 
-
-
-
 function WoWTools_ItemMixin:GetWoWCount(itemID, checkGUID, checkRegion)--WoWTools_BagMixin:GetItem_WoW_Num()--取得WOW物品数量
     local all,numPlayer=0,0
     if not itemID then
@@ -974,15 +830,6 @@ function WoWTools_ItemMixin:GetWoWCount(itemID, checkGUID, checkRegion)--WoWTool
 end
 
 
-
-
-
-
-
-
-
-
-
 --物品是否为首选护甲类型 GetBindWarning(itemLocation)
 function WoWTools_ItemMixin:IsEquipType(itemLocation, bag, equipmentSlotIndex)--物品是否为首选护甲类型
     if not itemLocation then
@@ -1010,22 +857,4 @@ function WoWTools_ItemMixin:IsEquipType(itemLocation, bag, equipmentSlotIndex)--
 end
 
 
---[[function WoWTools_ItemMixin:IsNotEquipType(itemInfo,  itemType, itemSubType)
-    if not itemInfo then
-        return nil
-
-    elseif not C_Item.IsEquippableItem(itemInfo) then
-        return true
-    end
-
-    if not itemType then
-        itemType, itemSubType= select(2, C_Item.GetItemInfoInstant(itemInfo))
-    end
-
-    if itemSubType then
-        return not C_Item.IsEquippedItemType(itemSubType)
-    elseif itemType then
-        return not C_Item.IsEquippedItemType(itemType)
-    end
-end]]
 

@@ -21,34 +21,10 @@ local addName
 local SayButton
 
 
-
-
-
-
-
-
-
-
-
-
  --提示，聊天泡泡，开启/禁用
  local function set_chatBubbles_Tips()
     SayButton.tipBubbles:SetShown(not C_CVar.GetCVarBool("chatBubbles"))
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --#######
@@ -122,9 +98,6 @@ local function getWhisper(event, text, name, _, _, _, _, _, _, _, _, _, guid, bn
 end
 
 
-
-
-
 local function set_InInstance_Disabled_Bubbles()--副本禁用，其它开启
     if Save().inInstanceBubblesDisabled and not InCombatLockdown() then
         if select(2, IsInInstance())~='none' then
@@ -134,37 +107,6 @@ local function set_InInstance_Disabled_Bubbles()--副本禁用，其它开启
         end
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Menu(self, root)
@@ -230,19 +172,7 @@ local function Init_Menu(self, root)
     end
 
 
-
-
-
-
-
-
-
 --密语列表 --{name=name, wow=wow, guid=guid, msg={text=text, type=type,time=time}}
-    --[[sub:CreateCheckbox(WoWTools_DataMixin.onlyChinese and '保存' or SAVE, function()
-        return Save().saveWhisper
-    end, function()
-        Save().saveWhisper= not Save().saveWhisper and true or nil
-    end)]]
 
 --全部清除
     num= #Save().WhisperTab
@@ -500,33 +430,6 @@ local function Init_Menu(self, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --####
 --初始
 --####
@@ -599,15 +502,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
-
-
-
-
-
 
 
 --###########

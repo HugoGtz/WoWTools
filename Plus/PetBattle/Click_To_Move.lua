@@ -4,19 +4,8 @@ local function Save()
 end
 
 
-
-
-
 local CameraTabs={}
 local CVarNameTabs={}
-
-
-
---[[local function Lock_Is_CVar(name)
-    if Save()['lock_'..name] then
-        return '|A:AdventureMapIcon-Lock:0:0|a'
-    end
-end]]
 
 
 local function Lock_CVar(self, name)
@@ -73,23 +62,6 @@ local function Lock_ClickToMove_CVar(self)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init_ClickToMove_Menu(self, root)
     local sub
     for _, tab in pairs({
@@ -142,13 +114,6 @@ local function Init_ClickToMove_Menu(self, root)
         )
     end)
 end
-
-
-
-
-
-
-
 
 
 local function Init_CVar_Menu(self, root, name, col)
@@ -237,22 +202,6 @@ local function Init_CVar_Menu(self, root, name, col)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init_Menu(self, root)
     if not self:IsMouseOver() then
         return
@@ -268,9 +217,6 @@ local function Init_Menu(self, root)
     function()
         return C_CVar.GetCVarBool("autoInteract")
     end, function()
-        --[[if Get_Lock_ClickToMove_Value() then--锁定
-            Lock_ClickToMove_CVar(self)
-        else]]
             self:set_clickmove()
         --end
     end)
@@ -312,17 +258,7 @@ local function Init_Menu(self, root)
     end)
 
 
-
-
-
-
-
-
-
     Init_ClickToMove_Menu(self, sub)
-
-
-
 
 
 --点击移动, 镜头跟随模式
@@ -386,24 +322,6 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Button()
@@ -478,9 +396,6 @@ local function Init_Button()
         self:set_State()
         self:SetShown(true)
     end
-
-
-
 
 
     btn:SetScript('OnEvent', function(self, event, arg1)
@@ -583,15 +498,6 @@ local function Init_Button()
         _G['WoWToolsClickToMoveButton']:Settings()
     end
 end
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_PetBattleMixin:ClickToMove_Button()

@@ -29,13 +29,6 @@ local function Create_Button(index)
 end
 
 
-
-
-
-
-
-
-
 --主要专业 1, 2
 local function Init_Professions(index)
     local button=  Create_Button(index)
@@ -60,16 +53,6 @@ local function Init_Professions(index)
 end
 
 
-
-
-
-
-
-
---[[
-/cast [@player]烹饪用火
-/use 大厨的帽子
-]]
 local function Init_Cooking(index)
     local button=  Create_Button(index)
     if not button then return end
@@ -138,14 +121,6 @@ local function Init_Cooking(index)
 end
 
 
-
-
-
-
-
-
-
-
 local function Init_KeyButton_Menu(self, root)
     local isInCombat= not self:CanChangeAttribute()
     local sub, sub2
@@ -202,15 +177,6 @@ local function Init_KeyButton_Menu(self, root)
         tooltip:AddLine(WoWTools_L['Log in: settings'])
     end)
 end
-
-
-
-
-
-
-
-
-
 
 
 local function Init_KeyButton(index, type)
@@ -328,16 +294,6 @@ local function Init_KeyButton(index, type)
 end
 
 
-
-
-
-
-
-
-
-
-
-
 local function Init()
     local prof1, prof2, archaeology, fishing, cooking = GetProfessions()
 
@@ -361,16 +317,6 @@ local function Init()
         Init_KeyButton(archaeology, 'archaeology')
     end
 end
-
-
-
-
-
-
-
-
-
-
 
 
 --###########

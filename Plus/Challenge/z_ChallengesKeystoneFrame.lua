@@ -6,36 +6,6 @@ end
 local KeyFrame
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --##################
 --挑战,钥石,插入,界面
 --##################
@@ -121,20 +91,6 @@ local function UI_Party_Info()--队友位置
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --插入, KEY时, 说
 
 local function Set_SlotKeystoneSay()
@@ -169,24 +125,6 @@ local function Set_SlotKeystoneSay()
     m=m..WoWTools_TimeMixin:SecondsToClock(timeLimit)
     WoWTools_ChatMixin:Chat(m, nil, nil)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Buttons()--挑战,钥石,插入界面
@@ -247,12 +185,6 @@ local function Init_Buttons()--挑战,钥石,插入界面
     end)
 
 
-
-
-
-
-
-
 --地下城挑战，分数，超链接
     KeyFrame.ScoreButton= CreateFrame("Button",nil, KeyFrame, 'UIPanelButtonTemplate')
     KeyFrame.ScoreButton:SetPoint('TOPRIGHT', KeyFrame.ClearKeyButton, 'BOTTOMRIGHT', 0, -4)
@@ -283,9 +215,6 @@ local function Init_Buttons()--挑战,钥石,插入界面
             ..(score>0 and WoWTools_ChallengeMixin:KeystoneScorsoColor(score) or 0)
         )
     end
-
-
-
 
 
 --发送链接
@@ -328,40 +257,12 @@ local function Init_Buttons()--挑战,钥石,插入界面
     end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --就绪
     local ready = CreateFrame("Button",nil, KeyFrame, 'UIPanelButtonTemplate')--就绪
     ready:SetText((WoWTools_L.READY)..format('|A:%s:0:0|a', 'common-icon-checkmark'))
     ready:SetPoint('LEFT', ChallengesKeystoneFrame.StartButton, 'RIGHT',2, 0)
     ready:SetSize(100,24)
     ready:SetScript("OnMouseDown", DoReadyCheck)
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --倒计时7秒
@@ -372,13 +273,6 @@ local function Init_Buttons()--挑战,钥石,插入界面
     countdown:SetScript("OnMouseDown",function()
         C_PartyInfo.DoCountdown(7)
     end)
-
-
-
-
-
-
-
 
 
 --停止， 倒计时
@@ -401,13 +295,6 @@ local function Init_Buttons()--挑战,钥石,插入界面
     end)
 
 
-
-
-
-
-
-
-
 --移动
     ChallengesKeystoneFrame.DungeonName:ClearAllPoints()
     ChallengesKeystoneFrame.DungeonName:SetPoint('BOTTOMLEFT', ChallengesKeystoneFrame, 'BOTTOMLEFT', 15, 110)
@@ -418,31 +305,8 @@ local function Init_Buttons()--挑战,钥石,插入界面
     ChallengesKeystoneFrame.TimeLimit:SetJustifyH('RIGHT')
 
 
-
-
-
     Create_Buttons= function()end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Menu(self, root)
@@ -487,17 +351,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Challenge.SlotSay'])
 
---[[挑战开始
-    sub= root:CreateCheckbox(
-        WoWTools_L['PLAYER_DIFFICULTY5+START'],
-    function()
-        return not Save().hideAffixSay
-    end, function()
-        Save().hideAffixSay= not Save().hideAffixSay and true or nil
-    end)
-    sub:SetTooltip(function(tootip)
-        tootip:AddLine('CHALLENGE_MODE_START')
-    end)]]
 
 --挑战结束
     sub= root:CreateCheckbox(
@@ -520,13 +373,6 @@ local function Init_Menu(self, root)
     root:CreateDivider()
     WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_ChallengeMixin.addName})
 end
-
-
-
-
-
-
-
 
 
 local function Init()

@@ -43,10 +43,6 @@ local function Get_Text(frame)
 end
 
 
-
-
-
-
 local function Print_Text(isLogging, isChat)
 	local t
 	if isChat then
@@ -65,19 +61,6 @@ local function Print_Text(isLogging, isChat)
 	local info = ChatTypeInfo["SYSTEM"]
 	DEFAULT_CHAT_FRAME:AddMessage('|A:poi-workorders:0:0|a'..WoWTools_DataMixin.Icon.icon2..t, info.r, info.g, info.b, info.id)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Menu(self, root)
@@ -200,16 +183,6 @@ local function Init_Menu(self, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
 function Init_Button(index)
 	if index==2 and not WoWTools_DataMixin.Player.husandro then
 		return
@@ -285,18 +258,6 @@ function Init_Button(index)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
 	local isLoggingChat= C_ChatInfo.IsLoggingChat()
 	local chat= Save().IsLoggingChat
@@ -360,17 +321,6 @@ local function Init()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
 local frame= CreateFrame('Frame')
 frame:RegisterEvent('ADDON_LOADED')
 frame:SetScript('OnEvent', function(self, event, arg1)
@@ -402,27 +352,3 @@ frame:SetScript('OnEvent', function(self, event, arg1)
 end)
 
 
-
-
-
-
-
-
-
-
-
---[[
-这个功能，灵感来源：ChatCopyPaste 插件
-NUM_CHAT_WINDOWS
-Constants.ChatFrameConstants.MaxChatWindows
-
-function FCF_GetNextOpenChatWindowIndex()
-	for i = C_ChatInfo.GetNumReservedChatWindows() + 1, Constants.ChatFrameConstants.MaxChatWindows do
-		if ( not FCF_IsChatWindowIndexActive(i) ) then
-			return i
-		end
-	end
-
-	return nil
-end
-]]

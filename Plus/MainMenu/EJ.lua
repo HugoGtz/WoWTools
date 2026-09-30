@@ -1,17 +1,6 @@
  --冒险指南
 
 
-
-
-
-
-
-
-
-
-
-
-
 local function Get_Perks_Info()
     local activitiesInfo = C_PerksActivities.GetPerksActivitiesInfo()--贸易站, 点数Blizzard_MonthlyActivities.lua
     if not activitiesInfo then
@@ -33,14 +22,6 @@ local function Get_Perks_Info()
     earnedThresholdAmount = math.min(earnedThresholdAmount, thresholdMax)
     return earnedThresholdAmount, thresholdMax, C_CurrencyInfo.GetCurrencyInfo(2032), activitiesInfo
 end
-
-
-
-
-
-
-
-
 
 
 local function Init()
@@ -114,16 +95,6 @@ local function Init()
         GameTooltip:Show()
     end)
 
-        --[[
---..(WoWTools_DataMixin.onlyChinese and '旅行者日志' or MONTHLY_ACTIVITIES_TAB)..'|r'
-        ..(WoWTools_L.DUNGEONS)..'|r'
-         ..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP)
-        GameTooltip:AddLine(
-            col
-            ..(WoWTools_L.RAIDS)..'|r'
-            ..WoWTools_DataMixin.Icon.mid
-            ..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN)
-        )]]
 
 
     EJMicroButton:HookScript('OnClick', function(_, d)
@@ -152,28 +123,6 @@ local function Init()
 
     Init=function()end
 end
---[[
-if ToggleEncounterJournal() then
-MonthlyActivitiesFrame_OpenFrame()
-EJ_ContentTab_Select(EncounterJournal.dungeonsTab:GetID())
-
-EncounterJournal_LoadUI()
-do
-    if not EncounterJournal:IsShown() then
-        ToggleEncounterJournal()
-        MonthlyActivitiesFrame_OpenFrame()
-    end
-end
-EJ_ContentTab_Select(EncounterJournal.raidsTab:GetID())
-]]
-
-
-
-
-
-
-
-
 
 
 function WoWTools_MainMenuMixin:Init_EJ()--冒险指南

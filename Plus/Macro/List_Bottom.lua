@@ -5,9 +5,6 @@ local function Save()
 end
 
 
-
-
-
 --'/cast [@cursor]'..name
 local CursorTab={
     [145205]= true,--[百花齐放]xd
@@ -113,17 +110,6 @@ local SayTab={
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
 --常用，宏
 local MacroList={
     {text='ping', icon='Ping_Map_Whole_Assist', macro=SLASH_PING1,
@@ -148,18 +134,6 @@ local MacroList={
             {text='/cwm 1\n/cwm 2\n/cwm 3\n/cwm 4\n/cwm 5\n/cwm 6\n/cwm 7\n/cwm 8', icon='talents-button-reset'},
         }
     },
-    --[[{text= 'SetRaidTarget', macro='/target [@mouseover]\n/script SetRaidTarget("target",1)',
-        tab={
-            {text='/target [@mouseover]\n/script SetRaidTarget("target",1)', icon='Interface\\TargetingFrame\\UI-RaidTargetingIcon_1'},
-            {text='/target [@mouseover]\n/script SetRaidTarget("target",2)', icon='Interface\\TargetingFrame\\UI-RaidTargetingIcon_2'},
-            {text='/target [@mouseover]\n/script SetRaidTarget("target",3)', icon='Interface\\TargetingFrame\\UI-RaidTargetingIcon_3'},
-            {text='/target [@mouseover]\n/script SetRaidTarget("target",4)', icon='Interface\\TargetingFrame\\UI-RaidTargetingIcon_4'},
-            {text='/target [@mouseover]\n/script SetRaidTarget("target",5)', icon='Interface\\TargetingFrame\\UI-RaidTargetingIcon_5'},
-            {text='/target [@mouseover]\n/script SetRaidTarget("target",6)', icon='Interface\\TargetingFrame\\UI-RaidTargetingIcon_6'},
-            {text='/target [@mouseover]\n/script SetRaidTarget("target",7)', icon='Interface\\TargetingFrame\\UI-RaidTargetingIcon_7'},
-            {text='/target [@mouseover]\n/script SetRaidTarget("target",8)', icon='Interface\\TargetingFrame\\UI-RaidTargetingIcon_8'},
-        }
-    },]]
     {text='rt', macro='{rt1}',
         tab={
             {text='{rt1}', icon='Interface\\TargetingFrame\\UI-RaidTargetingIcon_1'},
@@ -231,12 +205,6 @@ local MacroList={
 }
 
 
-
-
-
-
-
-
 local function Find_SpellMacro(spellID)
     local tabID= PanelTemplates_GetSelectedTab(MacroFrame)
     if tabID>2 then
@@ -252,15 +220,6 @@ local function Find_SpellMacro(spellID)
     end
     return ''
 end
-
-
-
-
-
-
-
-
-
 
 
 local Spell_Macro={
@@ -463,19 +422,6 @@ local function Get_Spell_Macro(name, spellID)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 --二级，菜单
 local function Sub_Menu(root, tab)
     local sub
@@ -538,17 +484,6 @@ local function Sub_Menu(root, tab)
         WoWTools_SetTooltipMixin:Set_Menu(sub)--技能，提示
     end
 end
-
-
-
-
-
-
-
-
-
-
-
 
 
 --创建，法术，列表
@@ -616,24 +551,6 @@ local function Create_Spell_Menu(root, spellID, icon, name, index)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init_SpellBook_Menu(self, root)
     if not self:IsMouseOver() or WoWTools_MenuMixin:CheckInCombat(root) then--战斗中
         return
@@ -686,22 +603,6 @@ local function Init_SpellBook_Menu(self, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --PVP，天赋，法术
 local function Init_PvP_Menu(self, root)
     local slotInfo = self:IsMouseOver() and C_SpecializationInfo.GetPvpTalentSlotInfo(1)
@@ -745,19 +646,6 @@ local function Init_PvP_Menu(self, root)
         end
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Equip_Menu(self, root)
@@ -807,12 +695,6 @@ local function Init_Equip_Menu(self, root)
 end
 
 
-
-
-
-
-
-
 --谈话，表情
 local function Init_Chat_Menu(self, root)
     if not self:IsMouseOver() or WoWTools_MenuMixin:CheckInCombat(root) then--战斗中
@@ -851,12 +733,6 @@ local function Init_Chat_Menu(self, root)
 
     end
 end
-
-
-
-
-
-
 
 
 --常用，宏
@@ -905,11 +781,6 @@ local function Init_MacroList_Menu(self, root)
 end
 
 
-
-
-
-
-
 local function Set_Button_OnEnter(btn)
     if not btn.name then
         return
@@ -923,21 +794,6 @@ local function Set_Button_OnEnter(btn)
         GameTooltip:Show()
     end)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --命令，按钮，列表
@@ -1056,22 +912,6 @@ local function Init()
         _G['WoWToolsMacroBottomListFrame']:settings()
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_MacroMixin:Init_List_Button()

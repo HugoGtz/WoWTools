@@ -1,8 +1,3 @@
---[[
-QueryGuildBankLog(tab)
-QueryGuildBankTab(tab)
-QueryGuildBankText(tab)
-]]
 WoWTools_GuildBankMixin={}
 
 

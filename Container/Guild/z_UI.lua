@@ -2,15 +2,6 @@ function WoWTools_TextureMixin.Events:Blizzard_GuildBankUI()
     GuildBankFrame.Emblem.Left:Hide()
     GuildBankFrame.Emblem.Right:Hide()
 
-    --[[self:SetAlphaColor(GuildBankFrame.TopLeftCorner, nil, nil, 0.3)
-    self:SetAlphaColor(GuildBankFrame.TopRightCorner, nil, nil, 0.3)
-    self:SetAlphaColor(GuildBankFrame.BotLeftCorner, nil, nil, 0.3)
-    self:SetAlphaColor(GuildBankFrame.BotRightCorner, nil, nil, 0.3)
-
-    self:SetAlphaColor(GuildBankFrame.LeftBorder, nil, nil, 0.3)
-    self:SetAlphaColor(GuildBankFrame.RightBorder, nil, nil, 0.3)
-    self:SetAlphaColor(GuildBankFrame.TopBorder, nil, nil, 0.3)
-    self:SetAlphaColor(GuildBankFrame.BottomBorder, nil, nil, 0.3)]]
 
     self:SetButton(GuildBankFrame.CloseButton, {all=true})
 
@@ -93,14 +84,6 @@ function WoWTools_TextureMixin.Events:Blizzard_GuildBankUI()
 end
 
 
-
-
-
-
-
-
-
-
 function WoWTools_MoveMixin.Events:Blizzard_GuildBankUI()
     self:Setup(GuildBankFrame)
     self:Setup(GuildBankInfoScrollFrame, {frame=GuildBankFrame})
@@ -109,28 +92,3 @@ function WoWTools_MoveMixin.Events:Blizzard_GuildBankUI()
 end
 
 
-
-
-
---[[
-function WoWTools_ItemMixin.Events:Blizzard_GuildBankUI()
-    WoWTools_DataMixin:Hook(GuildBankFrame, 'Update', function(frame)
-        if frame.mode ~= "bank" then
-            return
-        end
-
-        local MAX_GUILDBANK_SLOTS_PER_TAB = 98
-        local NUM_SLOTS_PER_GUILDBANK_GROUP = 14
-
-        local tab = GetCurrentGuildBankTab();
-        for i=1, MAX_GUILDBANK_SLOTS_PER_TAB do
-            local index = mod(i, NUM_SLOTS_PER_GUILDBANK_GROUP);
-            if ( index == 0 ) then
-                index = NUM_SLOTS_PER_GUILDBANK_GROUP;
-            end
-            local column = ceil((i-0.5)/NUM_SLOTS_PER_GUILDBANK_GROUP);
-            local button = frame.Columns[column].Buttons[index]
-            WoWTools_ItemMixin:SetupInfo(button, {guidBank={tab=tab, slot=i}})
-        end
-    end)
-end]]

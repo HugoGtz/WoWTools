@@ -3,12 +3,6 @@
 local function Save()
     return WoWToolsPlusSave['Plus_Macro2']
 end
---[[
-local global, perChar = GetNumMacros()
-local isGolbal= MacroFrame.macroBase==0
-local isZero= (isGolbal and global==0) or (not isGolbal and perChar==0)
-local isMax= (isGolbal and MacroFrame.macroMax==global) or (not isGolbal and MacroFrame.macroMax==perChar)
-]]
 
 
 --新建，宏，列表
@@ -21,18 +15,6 @@ local MacroButtonList={
     {macro='/click ExtraActionButton1', name='Extra'},
     --{macro=, name=, icon=, },
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --保存，宏
@@ -84,9 +66,6 @@ local function Save_Macro_Menu(frame, root)
                 WoWTools_L.FAVORITES
             ))
     end
-
-
-
 
 
 --保存，列表
@@ -150,19 +129,6 @@ local function Save_Macro_Menu(frame, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init_Menu(self, root)
     if not self:IsMouseOver() then
         return
@@ -198,17 +164,6 @@ local function Init_Menu(self, root)
     root:CreateDivider()
     Save_Macro_Menu(self, root)
 end
-
-
-
-
-
-
-
-
-
-
-
 
 
 --创建，空，按钮
@@ -252,12 +207,6 @@ local function Init()
         _G['WoWToolsMacroEmptyMenuButton']:SetShown(show)
     end
 end
-
-
-
-
-
-
 
 
 function WoWTools_MacroMixin:Init_AddNew_Button()--创建，空，按钮

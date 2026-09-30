@@ -4,31 +4,8 @@ local function Save()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Settings()
     
-
-    --[[WoWTools_PaperDollMixin:Settings_Tab2()--头衔数量
-    WoWTools_PaperDollMixin:Settings_Tab1()--总装等
-    WoWTools_PaperDollMixin:Settings_Tab3()--标签, 内容,提示]]
-
-
 
 
     WoWTools_DataMixin:Call('PaperDollFrame_SetLevel')
@@ -54,15 +31,6 @@ local function Settings()
 end
 
 
-
-
-
-
-
-
-
-
-
 local function Init_Menu(self, root)
     if not self:IsMouseOver() then
         return
@@ -81,12 +49,6 @@ local function Init_Menu(self, root)
     root:CreateDivider()
     WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_PaperDollMixin.addName})
 end
-
-
-
-
-
-
 
 
 local function Init(frame)
@@ -131,17 +93,6 @@ local function Init(frame)
 
     frame.ShowHideButton= btn
 end
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_PaperDollMixin:Init_ShowHideButton(frame)

@@ -15,15 +15,6 @@ function WoWTools_MoveMixin:GetSize(name)
 end
 
 
-
-
-
-
-
-
-
-
-
 --移动, 位置
 local function Set_Frame_Point(self, name)--设置, 移动, 位置
     local data= self and self.moveFrameData
@@ -129,14 +120,6 @@ local function Set_OnMouseDown(self, d)
 end
 
 
-
-
-
-
-
-
-
-
 local function Set_Move_Frame(frame, target, click, notSave, isAltKeyDown)
 
     --if frame:IsMovable() and WoWTools_DataMixin.Player.husandro then
@@ -174,32 +157,7 @@ local function Set_Move_Frame(frame, target, click, notSave, isAltKeyDown)
     frame:HookScript("OnMouseDown", Set_OnMouseDown)
 --还原光标
    frame:HookScript("OnMouseUp", ResetCursor)
- --[[还原光标
-    frame:HookScript("OnLeave", function()
-        ResetCursor()
-    end)]]
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_MoveMixin:Setup(frame, tab)
@@ -253,12 +211,6 @@ function WoWTools_MoveMixin:Setup(frame, tab)
     --también con asa (target): antes la posición se guardaba pero no se restauraba
     Set_Frame_Point(frame, name)--设置, 移动, 位置
 end
-
-
-
-
-
-
 
 
 function WoWTools_MoveMixin:SetPoint(frame, name)--设置, 移动,

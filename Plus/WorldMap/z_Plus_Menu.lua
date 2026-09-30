@@ -22,23 +22,6 @@ local function Is_Check(info, tab)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Abandon_Quest(tab)
     local n=0
     local info
@@ -83,14 +66,6 @@ local function Abandon_Quest(tab)
     end
 
 end
-
-
-
-
-
-
-
-
 
 
 local function QuestList_Tooltip(tooltip, data)
@@ -152,16 +127,6 @@ local function QuestList_Tooltip(tooltip, data)
 end
 
 
-
-
-
-
-
-
-
-
-
-
 --设置菜单
 local function Init_Menu(self, root)
     if not self:IsMouseOver() then
@@ -179,10 +144,6 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.WorldMap.AbandonQuests'])
-
-
-
-
 
 
     local Num={
@@ -282,18 +243,6 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:CVar(sub, 'autoQuestWatch')
     WoWTools_MenuMixin:CVar(sub, 'scrollToLogQuest')
 end
-    --[[sub:CreateDivider()
-    WoWTools_MenuMixin:CVar(sub, 'displayQuestID')
-    WoWTools_MenuMixin:CVar(sub, 'displayInternalOnlyStatus')
-    WoWTools_MenuMixin:CVar(sub, 'showReadyToRecord')]]
-
-
-
-
-
-
-
-
 
 
 local function Init()
@@ -325,12 +274,6 @@ AbandoList= {
 {name=WoWTools_L.INCOMPLETE, type='Incomplete'},
 {name=WoWTools_L.TRIVIAL_QUEST_LABEL, type='Trivial'}
 }
-
-
-
-
-
-
 
 
     StaticPopupDialogs["WoWTools_WORLDMAP_ABANDONQUEST"] =  {
@@ -366,10 +309,6 @@ AbandoList= {
 
     Init=function()end
 end
-
-
-
-
 
 
 function WoWTools_WorldMapMixin:Init_Plus_Menu()

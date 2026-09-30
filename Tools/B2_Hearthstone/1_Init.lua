@@ -1,11 +1,6 @@
 WoWTools_HearthstoneMixin={}
 
 
---[[local ModifiedTab={
-    [6948]='shift',--炉石
-    [110560]='ctrl',--要塞炉石
-    [140192]='alt',--达拉然炉石
-}]]
 
 local P_Save={
     items={},
@@ -63,14 +58,6 @@ local ModifiedMenuTab={
 }
 
 
-
-
-
-
-
-
-
-
 local function get_not_cooldown_toy(self)--发现就绪
     local duration = select(2, C_Item.GetItemCooldown(self.itemID))
     if duration and duration>3 then
@@ -84,15 +71,6 @@ local function get_not_cooldown_toy(self)--发现就绪
         end
     end
 end
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Menu(self, root)
@@ -200,18 +178,6 @@ local function Init_Menu(self, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
     local btn= WoWTools_ToolsMixin:Get_ButtonForName('Hearthstone')
     --btn:SetAttribute("type1", "macro")
@@ -247,12 +213,6 @@ local function Init()
 
         btn.typeItems[data.itemID]= true
     end
-
-
-
-
-
-
 
 
     --设置 Alt Shift Ctrl
@@ -344,17 +304,6 @@ local function Init()
     end
 
 
-
-
-
-
-
-
-
-
-
-
-
     btn:SetScript('OnEvent', function(self, event, arg1, arg2)
         if event=='ITEM_DATA_LOAD_RESULT' then
             if arg1 and arg2 then--success then
@@ -396,20 +345,6 @@ local function Init()
             self:set_textureModifier(arg2)
         end
     end)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --Tooltip
@@ -462,17 +397,6 @@ local function Init()
     end
 
 
-
-
-
-
-
-
-
-
-
-
-
     btn:SetScript("OnEnter",function(self)
         WoWTools_ToolsMixin:EnterShowFrame(self)
         self:set_tooltip()
@@ -520,15 +444,6 @@ local function Init()
     end)
 
 
-
-
-
-
-
-
-
-
-
     Mixin(btn, WoWTools_RandomMixin)
 
     function btn:Get_Random_Data()--取得数据库, {数据1, 数据2, 数据3, ...}
@@ -561,14 +476,6 @@ local function Init()
     btn:Init_Random(Save().lockedToy)--初始
 
 
-
-
-
-
-
-
-
-
     function btn:set_event()
         if self:IsVisible() then
             self:RegisterEvent('HEARTHSTONE_BOUND')
@@ -588,17 +495,6 @@ local function Init()
     btn:SetScript('OnHide', function(self) self:set_event() end)
 
 
-
-
-
-
-
-
-
-
-
-
-
     --C_Timer.After(4, function()
     btn:set_alt()
     btn:set_location()
@@ -607,19 +503,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local panel= CreateFrame("Frame")

@@ -4,11 +4,6 @@ local function Save()
 end
 
 
-
-
-
-
-
 local function Set_PvERoles()
     local isTank, isHealer, isDPS = select(2, GetLFGRoles())--检测是否选定角色pve
 
@@ -27,9 +22,6 @@ local function Set_PvERoles()
         SetLFGRoles(true , isTank, isHealer, isDPS)
     end
 end
-
-
-
 
 
 local function Set_PvPRoles()--检测是否选定角色pvp
@@ -58,33 +50,6 @@ end
 --StaticPopupTimeoutSec = 60
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
     if not Save().autoSetPvPRole then
         return
@@ -100,23 +65,6 @@ local function Init()
         WoWTools_DataMixin:PlaySound()--播放, 声音
         WoWTools_CooldownMixin:Setup(self, nil, BATTLEFIELD_TIMER_THRESHOLDS[3] or 60, nil, true)--冷却条
     end)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     function LFDRoleCheckPopup:CancellORSetTime(seconds)
@@ -197,24 +145,6 @@ local function Init()
     end)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --职责确认 RolePoll.lua
     WoWTools_DataMixin:Hook('RolePollPopup_Show', function(self)
         WoWTools_DataMixin:PlaySound()--播放, 声音
@@ -280,40 +210,6 @@ local function Init()
         end
         --WoWTools_CooldownMixin:Setup(self)--冷却条
     end)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --队伍查找器, 邀请信息
@@ -383,40 +279,11 @@ local function Init()
     end)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --确定，进入副本，信息
     LFGInvitePopup:HookScript("OnShow", function(self)--自动进入FB
         WoWTools_DataMixin:PlaySound()--播放, 声音
         WoWTools_CooldownMixin:Setup(self, nil, self.timeOut and StaticPopupTimeoutSec, nil, true, true)
     end)
-    --[[LFGInvitePopup:HookScript('OnHide', function(self)
-        WoWTools_CooldownMixin:Setup(self)
-    end)]]
 
     LFGDungeonReadyDialog:HookScript("OnShow", function(self)--自动进入FB
         WoWTools_DataMixin:PlaySound()--播放, 声音
@@ -489,22 +356,6 @@ local function Init()
     end)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     EventRegistry:RegisterFrameEventAndCallback("PLAYER_SPECIALIZATION_CHANGED", function(_, arg1)
         if arg1=='player' and Save().autoSetRole then
             Set_PvERoles()
@@ -531,22 +382,6 @@ local function Init()
         Set_PvPRoles()
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_LFDMixin:Init_RolePollPopup()

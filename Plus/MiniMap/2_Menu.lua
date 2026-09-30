@@ -3,15 +3,6 @@ local function Save()
 end
 
 
-
-
-
-
-
-
-
-
-
 local function Init_Plus_Menu(self, root)
     local sub
 
@@ -165,22 +156,6 @@ end
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --主菜单
 local function Init_Menu(self, root)
 --战斗中，不显示
@@ -199,12 +174,6 @@ local function Init_Menu(self, root)
     root:CreateDivider()
 
 --Plus
-    --[[local sub= root:CreateButton(
-        string.match(WoWTools_MinimapMixin.addName, '(|A:.-|a)')
-        ..'Plus',
-    function()
-        return MenuResponse.Open
-    end)]]
 
 --打开，选项
     sub= WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_MinimapMixin.addName})
@@ -212,15 +181,6 @@ local function Init_Menu(self, root)
 --Plus
     Init_Plus_Menu(self, sub)
 end
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_MinimapMixin:Open_Menu(frame)

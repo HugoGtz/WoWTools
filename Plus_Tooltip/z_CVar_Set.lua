@@ -82,23 +82,6 @@ function WoWTools_TooltipMixin:Set_CVar(reset, tips, notPrint)
 end
 
 
-
-        --[[if WoWTools_DataMixin.Player.Region==5 then
-            ConsoleExec("portal TW")
-            SetCVar("profanityFilter", '0')
-
-            local pre = C_BattleNet.GetFriendGameAccountInfo
-    ---@diagnostic disable-next-line: duplicate-set-field
-            C_BattleNet.GetFriendGameAccountInfo = function(...)
-                local gameAccountInfo = pre(...)
-                gameAccountInfo.isInCurrentRegion = true
-                return gameAccountInfo
-            end
-        end
-    ]]
-
-
-
 function WoWTools_TooltipMixin:Init_CVar()
     if WoWToolsPlusSave['Plus_Tootips'].setCVar and not InCombatLockdown() then
         WoWTools_TooltipMixin:Set_CVar(nil, nil, true)--设置CVar

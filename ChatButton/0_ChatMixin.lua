@@ -3,14 +3,6 @@ WoWTools_ChatMixin={
 }
 
 
-
-
-
---[[
-ChatEdit_TryInsertChatLink(link)
-ChatEdit_LinkItem(itemID, itemLink)
-ChatFrameUtil.OpenChat 11.2.7才有
---]]
 function WoWTools_ChatMixin:Chat(text, name, printText)
     if not text then
         return
@@ -28,11 +20,6 @@ function WoWTools_ChatMixin:Chat(text, name, printText)
         if not ChatEdit_InsertLink(text) then
             WoWTools_DataMixin:Call(ChatFrame_OpenChat, text)
         end
-        --[[if ChatEdit_GetActiveWindow() then
-            WoWTools_DataMixin:Call(ChatEdit_InsertLink, text)
-        else
-            WoWTools_DataMixin:Call(ChatFrame_OpenChat, text)
-        end]]
     elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then--antes fallaba con grupo manual dentro de una instancia
         C_ChatInfo.SendChatMessage(text, 'INSTANCE_CHAT')
     elseif IsInRaid() then
@@ -54,10 +41,6 @@ function WoWTools_ChatMixin:Chat(text, name, printText)
 end
 
 
-
-
-
-
 --ChatFrameEditBoxMixin.SendText 11.2.7才有
 function WoWTools_ChatMixin:SendText(text)
     if not text then
@@ -73,10 +56,6 @@ function WoWTools_ChatMixin:SendText(text)
         end
     end
 end
-
-
-
-
 
 
 function WoWTools_ChatMixin:Say(type, name, wow, text)

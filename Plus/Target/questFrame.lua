@@ -6,22 +6,6 @@ local function Save()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Find_Text(text)
     if canaccessvalue(text) and text and not text:find(THREAT_TOOLTIP) then
         if text:find('(%d+/%d+)') then
@@ -74,10 +58,6 @@ local function Get_Unit_Text(unit)
             return '|A:QuestLegendary:22:22|a'
         end
 
-        --[[local type = UnitClassification(unit)
-        if type=='rareelite' or type=='rare' or type=='worldboss' then--or type=='elite'
-            return '|A:VignetteEvent:22:22|a'
-        end]]
 
     else--if not UnitInParty(unit) and not UnitInRaid(unit) then
 
@@ -93,14 +73,6 @@ local function Get_Unit_Text(unit)
         return text
     end
 end
-
-
-
-
-
-
-
-
 
 
 --设置，内容
@@ -127,13 +99,6 @@ local function Set_Quest_Text(plate)
 end
 
 
-
-
-
-
-
-
-
 --检查，所有
 local function Check_AllPlate()
     for _, plate in pairs(C_NamePlate.GetNamePlates(issecure()) or {}) do
@@ -154,22 +119,6 @@ local function RestAllPlate()
         RestPlate(plate)
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --#########
@@ -217,12 +166,6 @@ local function Init()
     end
 
 
-
-
-
-
-
-
     questFrame:SetScript("OnEvent", function(self, event, arg1)
         if event=='PLAYER_ENTERING_WORLD' then
             self:settings()--注册，事件
@@ -255,18 +198,6 @@ local function Init()
         questFrame:settings()
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_TargetMixin:Init_questFrame()

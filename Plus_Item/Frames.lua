@@ -14,21 +14,3 @@ function WoWTools_ItemMixin.Frames:LootFrame()
         WoWTools_ItemMixin:SetupInfo(btn.Item, {lootIndex= btn:GetSlotIndex()})
     end)
 end
-    --[[
-    local texture, item, quantity, currencyID, itemQuality, locked, isQuestItem, questID, isActive = GetLootSlotInfo(slotIndex);
-    WoWTools_DataMixin:Hook(LootFrame, 'Open', function(frame)--LootFrame.lua
-        if not frame.ScrollBox:HasView() then
-            return
-        end
-        for index, btn in pairs(frame.ScrollBox:GetFrames() or {}) do
-            WoWTools_ItemMixin:SetupInfo(btn.Item, {lootIndex=btn.GetOrderIndex() or btn:GetSlotIndex() or index})
-        end
-    end)
-    WoWTools_DataMixin:Hook(LootFrame.ScrollBox, 'SetScrollTargetOffset', function(frame)
-        if not frame:HasView() then
-            return
-        end
-        for index, btn in pairs(frame:GetFrames() or {}) do
-            WoWTools_ItemMixin:SetupInfo(btn.Item, {lootIndex=btn.GetOrderIndex() or btn:GetSlotIndex() or index})
-        end
-    end)]]

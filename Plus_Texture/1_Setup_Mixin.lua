@@ -1,12 +1,6 @@
 
 
 
-
-
-
-
-
-
 --隐藏，材质
 function WoWTools_TextureMixin:HideTexture(object)--, notClear)
     if object and object:IsObjectType('Texture') then
@@ -16,17 +10,9 @@ function WoWTools_TextureMixin:HideTexture(object)--, notClear)
 end
 
 
-
-
-
-
 --设置，颜色，透明度
 function WoWTools_TextureMixin:SetAlphaColor(object, notAlpha, notColor, alphaORmin)
     if object then
-        --[[if alphaORmin==0 then
-            object:SetAlpha(0)
-            return
-        end]]
         if not notColor and object.SetVertexColor then
             object:SetVertexColor(self.Color:GetRGB())
         end
@@ -39,22 +25,6 @@ function WoWTools_TextureMixin:SetAlphaColor(object, notAlpha, notColor, alphaOR
         end
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --隐藏, frame, 子材质
@@ -158,42 +128,6 @@ function WoWTools_TextureMixin:SetEditBox(frame, tab)
 end
 
 
---[[
-NineSlice.lua
-NineSlicePanelMixin
-NineSlicePanelMixin:SetBorderColor(r, g, b, a)
-NineSlicePanelMixin:SetCenterColor(r, g, b, a)
-NineSlicePanelMixin:SetVertexColor(r, g, b, a)
-local nineSliceSetup =
-{
-	{ pieceName = "TopLeftCorner", point = "TOPLEFT", fn = SetupCorner, },
-	{ pieceName = "TopRightCorner", point = "TOPRIGHT", mirrorHorizontal = true, fn = SetupCorner, },
-	{ pieceName = "BottomLeftCorner", point = "BOTTOMLEFT", mirrorVertical = true, fn = SetupCorner, },
-	{ pieceName = "BottomRightCorner", point = "BOTTOMRIGHT", mirrorHorizontal = true, mirrorVertical = true, fn = SetupCorner, },
-	{ pieceName = "TopEdge", point = "TOPLEFT", relativePoint = "TOPRIGHT", relativePieces = { "TopLeftCorner", "TopRightCorner" }, fn = SetupEdge, tileHorizontal = true },
-	{ pieceName = "BottomEdge", point = "BOTTOMLEFT", relativePoint = "BOTTOMRIGHT", relativePieces = { "BottomLeftCorner", "BottomRightCorner" }, mirrorVertical = true, tileHorizontal = true, fn = SetupEdge, },
-	{ pieceName = "LeftEdge", point = "TOPLEFT", relativePoint = "BOTTOMLEFT", relativePieces = { "TopLeftCorner", "BottomLeftCorner" }, tileVertical = true, fn = SetupEdge, },
-	{ pieceName = "RightEdge", point = "TOPRIGHT", relativePoint = "BOTTOMRIGHT", relativePieces = { "TopRightCorner", "BottomRightCorner" }, mirrorHorizontal = true, tileVertical = true, fn = SetupEdge, },
-	{ pieceName = "Center", fn = SetupCenter, },
-};
-local NineSliceTabs={
-    'TopEdge',
-    'BottomEdge',
-    'LeftEdge',
-    'RightEdge',
-    'TopLeftCorner',
-    'TopRightCorner',
-    'BottomRightCorner',
-    'BottomLeftCorner',--8
-
-    'Center',
-    'Background',
-    'Bg',
-
-    WoWTools_DataMixin:Hook(NineSlicePanelMixin, 'OnLoad', function(frame)
-        self:SetNineSlice(frame)
-    end)
-}]]
 function WoWTools_TextureMixin:SetNineSlice(frame, alpha, notBg)
     if not frame then
         return
@@ -342,17 +276,6 @@ function WoWTools_TextureMixin:SetMenu(frame)
 end
 
 
---[[TabSystem 
-function WoWTools_TextureMixin:SetTabSystem(frame)--TabSystemOwner.lua
-    if not frame or not frame.GetTabSet then
-        return
-    end
-    for _, tabID in pairs(frame:GetTabSet() or {}) do
-        self:SetTabButton(frame:GetTabButton(tabID))
-    end
-end
---TabSystemOwnerMixin TabSystem
-]]
 
 --PanelTemplates_TabResize(frame, frame:GetParent().tabPadding or 0 , nil, frame:GetParent().minTabWidth, frame:GetParent().maxTabWidth)
 --WoWTools_DataMixin:Hook(TabSystemButtonMixin, 'Init', function(self)
@@ -494,11 +417,6 @@ local function set_frame(frame)
     end
 end
 
---[[
-frames={...},
-isChildren=true,
-bg={..} or true,
-]]
 function WoWTools_TextureMixin:SetAllFrames(frame, tab)
     tab= tab or {}
 
@@ -567,11 +485,6 @@ function WoWTools_TextureMixin:SetAllFrames(frame, tab)
         )
     end
 end
---[[function WoWTools_TextureMixin:SetUIFrame(frame)
-    --self:SetAlphaColor(frame.TitleContainer, nil, nil, true)
-    self:SetNineSlice(frame)
-    self:SetAlphaColor(frame:GetName()..'Bg', nil, nil, true)
-end]]
 
 
 

@@ -6,52 +6,6 @@ local function Save()
 end
 
 
-
-
---[[local function Set_Data()
-    local cur= EJ_GetCurrentTier()
-    local max= EJ_GetNumTiers()
-
-    if not max or max==0 then
-        return
-    end
-
-    if max and cur~=max then
-        EJ_SelectTier(max)
-    end
-
-    local data={}
-    local find
-    for _, mapChallengeModeID in pairs(C_ChallengeMode.GetMapTable() or {}) do
-        local name, mapID  = C_ChallengeMode.GetMapUIInfo(mapChallengeModeID)
-        if mapID and name and not WoWTools_ChallengesSpellData[mapID] then
-            data[name]= mapID
-            find=true
-        end
-    end
-
-    if not find then
-        return
-    end
-
-    local dataIndex=1
-    local instanceID, name = EJ_GetInstanceByIndex(dataIndex, false)
-    while instanceID ~= nil do
-        dataIndex = dataIndex + 1;
-        local mapID= data[name]
-        if mapID then
-            WoWTools_ChallengesSpellData[mapID]={ins= instanceID}
-        end
-        instanceID, name = EJ_GetInstanceByIndex(dataIndex, false)
-    end
-
-    if not InCombatLockdown() then
-        EJ_SelectTier(cur or max)
-    end
-end]]
-
-
-
 local function Init()
     WoWTools_ChallengeMixin:ChallengesUI_Info()
     WoWTools_ChallengeMixin:ChallengesUI_Porta()
@@ -65,21 +19,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local panel= CreateFrame("Frame")

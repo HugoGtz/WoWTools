@@ -6,54 +6,6 @@ local SetsDataProvider
 local TipsLabel
 
 
-
-
-
-
-
-
-
-
- --[[幻化，套装，索引 WardrobeCollectionFrame.SetsTransmogFrame
- local function set_Sets_Tooltips(self)--UpdateSets
-    if not self:IsVisible() then
-        return
-    end
-
-    local idexOffset = (self.PagingFrame:GetCurrentPage() - 1) * self.PAGE_SIZE
-    for i= 1, self.PAGE_SIZE do
-        local model = self.Models[i]
-        if model and model:IsShown() then
-            local idex--索引
-            if not Save().hideItems then
-                idex= i + idexOffset
-                if not model.Text then
-                    model.Text= WoWTools_LabelMixin:Create(model)
-                    model.Text:SetPoint('TOPRIGHT',1,0)
-                    model.Text:SetAlpha(0.5)
-                end
-            end
-            if model.Text then
-                model.Text:SetText(idex or '')
-            end
-        end
-    end
-end]]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init_Button(btn)
     if btn.set_Rest then
         return
@@ -113,24 +65,6 @@ local function Init_Button(btn)
 
     btn.Name:SetPoint('RIGHT', -4, 0)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Set_List_Button(btn, displayData)
@@ -214,25 +148,6 @@ local function Set_List_Button(btn, displayData)
 
     variantSets= nil
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --套装物品 Link
@@ -319,21 +234,6 @@ local function Init_Wardrobe_DetailsFrame(_, itemFrame)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
     if Save().hideSets then
         return
@@ -382,22 +282,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_CollectionMixin:Init_Wardrober_Sets()--幻化,套装 5

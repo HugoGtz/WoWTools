@@ -1,24 +1,8 @@
---[[
---https://wago.tools/db2/Movie
-BlizzardInterfaceCode/Interface/AddOns/Blizzard_GlueXMLBase/Mists/Constants.lua
-CinematicsMenu.lua
-Constants.lua
-C_CinematicList.GetUICinematicList()
-MOVIE_LIST
-]]
 local function Save()
     return WoWToolsPlusSave['Plus_Gossip']
 end
 local List={}
 local MovieList={}
-
-
-
-
-
-
-
-
 
 
 local function Init()
@@ -362,13 +346,6 @@ MovieList= {
 end
 
 
-
-
-
-
-
-
-
 local Movie_ID
 local Cinematics_ID
 local function Set_StopMove()
@@ -430,11 +407,6 @@ local function Set_StopMove()
 end
 
 
-
-
-
-
-
 --下载
 local function Movie_SubMenu(root, movieID)
     if IsMovieLocal(movieID) then
@@ -459,16 +431,6 @@ local function Movie_SubMenu(root, movieID)
         end
     end)
 end
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Menu(_, root)
@@ -653,12 +615,6 @@ end
 function WoWTools_GossipMixin:Init_MoveListMenu(...)
     Init_Menu(...)
 end
-
-
-
-
-
-
 
 
 function WoWTools_GossipMixin:Init_WoW_MoveList()

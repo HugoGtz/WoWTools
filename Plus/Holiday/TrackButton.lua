@@ -24,9 +24,6 @@ local TimeWalkerEvent= {
 }
 
 
-
-
-
 local function Check_TimeWalker_Quest_Completed()--迷离的时光之路，任务是否完成
     for _, questID in pairs({
         83360,--邪能的时光之路
@@ -51,20 +48,6 @@ local function Check_Darkmon_Quest_Completed()--暗月马戏团，宠物对战�
         end
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function _CalendarFrame_SafeGetName(name)
@@ -135,10 +118,6 @@ local CALENDAR_EVENTTYPE_TEXTURES = {
 	[Enum.CalendarEventType.Meeting]	= "Interface\\Calendar\\MeetingIcon",
 	[Enum.CalendarEventType.Other]		= "Interface\\Calendar\\UI-Calendar-Event-Other",
 }
-
-
-
-
 
 
 local function Get_Button_Text(event)
@@ -266,21 +245,12 @@ local function Get_Button_Text(event)
 end
 
 
-
-
-
-
-
 local function _CalendarFrame_IsTodayOrLater(month, day, year)--Blizzard_Calendar.lua
 	local currentCalendarTime = C_DateAndTime.GetCurrentCalendarTime() or {};
 	return currentCalendarTime.month==month and
 	    currentCalendarTime.monthDay== day and
         currentCalendarTime.year== year
 end
-
-
-
-
 
 
 local CALENDAR_CALENDARTYPE_TCOORDS = {
@@ -370,28 +340,7 @@ local function _CalendarFrame_GetTextureCoords(calendarType, eventType)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Create_Button(index)
-    --[[local btn= WoWTools_ButtonMixin:Cbtn(TrackButton.Frame, {
-        size=14,
-        setID=index,
-        addTexture=true,
-        name=Name..index
-    })]]
     local btn= CreateFrame('Button', Name..index, TrackButton.Frame, 'WoWToolsButtonTemplate', index)
     --btn:SetSize(16,16)
 
@@ -487,26 +436,6 @@ local function Create_Button(index)
     btn:settings()
     return btn
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --设置,显示内容 Blizzard_Calendar.lua CalendarDayButton_OnEnter(self)
@@ -675,39 +604,6 @@ local function Set_Text(monthOffset, day)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init_Menu(self, root)
     local sub
 
@@ -809,34 +705,6 @@ local function Init_Menu(self, root)
     sub:CreateDivider()
     WoWTools_MenuMixin:Reload(sub)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init()
@@ -1041,28 +909,6 @@ local function Init()
         end
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --TrackButton，提示

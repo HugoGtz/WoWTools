@@ -4,9 +4,6 @@ local function Save()
 end
 
 
-
-
-
 local wowheadText= 'https://www.wowhead.com/%s=%d'
 local raiderioText= 'https://raider.io/characters/%s/%s/%s'
 
@@ -70,21 +67,6 @@ local function Init_WoWHeadText()
 
     Init_WoWHeadText=function()end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Create_Button(tooltip)
@@ -151,12 +133,6 @@ local function Create_Button(tooltip)
 end
 
 
-
-
-
-
-
-
 local function ItemRefTooltip_URL_Button(tooltip, tab)
     if not tooltip.WoWHeadButton then
         Create_Button(tooltip)
@@ -220,18 +196,6 @@ local function GameTooltip_URL(tooltip, tab)
 end
 
 
-
-
-
-
-
-
-
-
---[[
-WoWTools_TooltipMixin:Set_Web_Link(tooltip, {type='quest', id=questID, name=name})--取得网页，数据链接 
-WoWTools_TooltipMixin:Set_Web_Link(tooltip, {type='npc', id=npc, name=name})--取得网页，数据链接 
-]]
 function WoWTools_TooltipMixin:Set_Web_Link(tooltip, tab)
     if tooltip==ItemRefTooltip or tooltip==FloatingBattlePetTooltip then
         if tab.type and tab.id then
@@ -248,32 +212,9 @@ function WoWTools_TooltipMixin:Set_Web_Link(tooltip, tab)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function WoWTools_TooltipMixin:Init_WoWHeadText()
     Init_WoWHeadText()
 end
-
-
-
 
 
 function WoWTools_TooltipMixin:Show_URL(isWoWHead, typeOrRegion, typeIDOrRealm, name)

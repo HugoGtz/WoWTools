@@ -70,13 +70,6 @@ local Buttons
 local addName
 
 
-
-
-
-
-
-
-
 local function Get_Spell_Label(spellID, text)
     if text then
         text= WoWTools_TextMixin:CN(text, {spellID=spellID, isName=true})
@@ -86,9 +79,6 @@ local function Get_Spell_Label(spellID, text)
         return text
     end
 end
-
-
-
 
 
 local function Set_Button_Label(btn)
@@ -117,25 +107,6 @@ local function Set_Button_All_Label()
         Set_Button_Label(WoWTools_ToolsMixin:Get_ButtonForName(name))
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Options(category, layout)
@@ -174,18 +145,6 @@ local function Init_Options(category, layout)
     }, initializer)
 
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Button(tab)
@@ -263,17 +222,6 @@ local function Init_Button(tab)
         return done
     end
 
-    --[[if Save().showText then
-        btn.text=WoWTools_LabelMixin:Create(btn, {color= not tab.luce})
-        if Save().isLeft then
-            btn.text:SetPoint('RIGHT', btn, 'LEFT')
-        else
-            btn.text:SetPoint('LEFT', btn, 'RIGHT')
-        end
-        if WoWTools_DataMixin.onlyChinese then
-            btn.text:SetText(tab.name)
-        end
-    end]]
 
     if tab.luce then
         btn.border:SetAtlas('bag-border')--设置高亮
@@ -329,11 +277,6 @@ local function Init_Button(tab)
     end)
 
 
-
-
-
-
-
     btn:SetScript('OnLeave', function(self)
         GameTooltip:Hide()
         self:set_alpha()
@@ -369,21 +312,6 @@ local function Init_Button(tab)
     end)
     table.insert(Buttons, buttonName)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --###########

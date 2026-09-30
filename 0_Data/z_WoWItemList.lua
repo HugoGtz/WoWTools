@@ -2,9 +2,6 @@
 --Item Bank Currency Money Time Instance Rare Worldboss
 
 
-
-
-
 local function Get_Player_Name(data)
     local name= WoWTools_UnitMixin:GetPlayerInfo(nil, data.guid, nil, {
         reNotRace=true,
@@ -137,17 +134,6 @@ TypeTabs= {
         local count= wow..bank..bag
         return itemName, itemTexture, itemAtlas, count, r, g, b
     end},
-
-
-
-
-
-
-
-
-
-
-
 
 
 --银行
@@ -326,11 +312,6 @@ TypeTabs= {
     end},
 
 
-
-
-
-
-
 --钱
     ['Money']= {
     atlas='Auctioneer',
@@ -406,13 +387,6 @@ TypeTabs= {
         count= WoWTools_DataMixin:MK(money/10000, 3)..'|A:Auctioneer:0:0|a'
         return itemName, itemTexture, itemAtlas, count, r, g, b
     end},
-
-
-
-
-
-
-
 
 
 --游戏时间
@@ -499,9 +473,6 @@ TypeTabs= {
     end},
 
 
-
-
-
 --副本
     ['Instance']= {
     atlas='poi-rift1',
@@ -563,9 +534,6 @@ TypeTabs= {
         count= data.killText
         return itemName, itemTexture, itemAtlas, count, r, g, b
     end},
-
-
-
 
 
 --稀有
@@ -643,14 +611,6 @@ TypeTabs= {
             GameTooltip:AddDoubleLine(col..WoWTools_TextMixin:CN(name), col..'('..index)
         end
     end},
-
-
-
-
-
-
-
-
 
 
 --世界首领
@@ -734,54 +694,6 @@ TypeTabs= {
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Settings_Left_Button(self)
     local itemName, itemTexture, itemAtlas, count, r, g, b
     if self.data then
@@ -833,16 +745,6 @@ local function OnEnter_Left_Button(self)
 end
 
 
-
-
-
-
-
-
-
-
-
-
 local function SetScript_Left_Button(btn)
     if btn.Count2 then
        return
@@ -892,14 +794,6 @@ local function SetScript_Left_Button(btn)
 end
 
 
-
-
-
-
-
-
-
-
 local function Init_Left_List()
     local findText= (Frame.SearchBox2:GetText() or ''):upper()
     local isFind= findText~=''
@@ -925,54 +819,6 @@ local function Init_Left_List()
         TypeTabs[btn.name].set_num(btn, nil)
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Right_List()
@@ -1099,18 +945,6 @@ local function Init_Right_List()
         Init_Left_List()
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Settings_Right_Button(btn, data)
@@ -1262,14 +1096,6 @@ local function Settings_Right_Button(btn, data)
 end
 
 
-
-
-
-
-
-
-
-
 local function OnEnter_BattleTexture(self)
     local data= self:GetParent().data
     GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
@@ -1350,11 +1176,6 @@ local function OnMouseDown_GuildText(self)
         true--ChatEdit_GetActiveWindow() and true or false
     )
 end
-
-
-
-
-
 
 
 local function OnMouseDown_RightButton(self, d)
@@ -1446,23 +1267,6 @@ local function OnMouseDown_RightButton(self, d)
     Frame.ScrollBox:Rebuild(ScrollBoxConstants.RetainScrollPosition)
     Init_Left_List()
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function set_right_tooltip(tooltip, desc)
@@ -1586,16 +1390,6 @@ local function Init_Right_Menu(self, root)
     root:CreateDivider()
     WoWTools_MenuMixin:Reload(root)
 end
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_IsMe_Menu(self, root)
@@ -1760,24 +1554,6 @@ local function Init_IsMe_Menu(self, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init_LeftButton_Menu(self, root)
     if not self:IsMouseOver() then
         return
@@ -1849,21 +1625,6 @@ local function Init_LeftButton_Menu(self, root)
     end)
     sub:SetEnabled(clear_all and true or false)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_List(showListType, isShow)
@@ -1994,16 +1755,6 @@ local function Init_List(showListType, isShow)
     end)
 
 
-
-
-
-
-
-
-
-
-
-
     Frame.ScrollBox2= CreateFrame('Frame', nil, Frame, 'WowScrollBoxList')
     Frame.ScrollBox2:SetFrameStrata('HIGH')
     Frame.ScrollBox2:SetPoint('TOPLEFT', 13, -55)
@@ -2048,20 +1799,6 @@ local function Init_List(showListType, isShow)
     --数量
     Frame.NumLabel2= WoWTools_LabelMixin:Create(Frame, {color=true})
     Frame.NumLabel2:SetPoint('BOTTOMLEFT', Frame.Portrait, 'TOPLEFT', -15, -6 )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     local last
@@ -2131,21 +1868,12 @@ local function Init_List(showListType, isShow)
     end
 
 
-
-
-
-
-
     List2Type= showListType or 'Item'
     List2Buttons[List2Type].texture:SetScale(0.5)
     List2Buttons[List2Type].SelectTexture:SetShown(true)
 
 
     Frame.SearchBox2:SetPoint('RIGHT', last, 'LEFT', -2, 0)
-
-
-
-
 
 
     Init_List=function(showListType2, isShow2)
@@ -2168,43 +1896,6 @@ local function Init_List(showListType, isShow)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---[[
-WoWTools_DataMixin:CreateWoWItemListButton(frame, {
-name='',
-btn.click= function(btn, d, func)end,
-btn.tooltip= tab.tooltip,-- func or text
-btn.type= tab.type,--Item Bank Currency Money Time Instance Rare Worldboss
-}
-]]
 function WoWTools_DataMixin:CreateWoWItemListButton(frame, tab)
     tab= tab or {}
 

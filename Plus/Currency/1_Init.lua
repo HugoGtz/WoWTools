@@ -6,12 +6,6 @@ local function Save()
 end
 
 
-
-
-
-
-
-
 local function Init_Menu(self, root)
 	if not self:IsMouseOver() then
 		return
@@ -81,11 +75,6 @@ local function Init_Menu(self, root)
 end
 
 
-
-
-
-
-
 local function Init()
 	local btn= CreateFrame('DropdownButton', 'WoWToolsPlusCurrencyMenuButton', TokenFrame, 'WoWToolsMenuTemplate')
 	btn:SetupMenu(Init_Menu)
@@ -100,17 +89,9 @@ local function Init()
 	WoWTools_CurrencyMixin:Init_Currency_Transfer()--货币，转移
 
 
-	--[[WoWTools_DataMixin:Hook(TokenFrame, 'Update', function(frame)
-		WoWTools_CurrencyMixin:Set_ItemInteractionFrame(frame)--套装,转换,货币
-	end)]]
 
 	Init=function()end
 end
-
-
-
-
-
 
 
 local panel= CreateFrame("Frame")
@@ -160,9 +141,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 				self:SetScript('OnEvent', nil)
 
 			else
-				--[[for itemID in pairs(Save().item) do
-					WoWTools_DataMixin:Load(itemID, 'item')--加载 item quest spell
-				end]]
 
 				WoWTools_CurrencyMixin:Init_MaxTooltip()
 

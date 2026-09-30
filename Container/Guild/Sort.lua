@@ -4,20 +4,6 @@ end
 local MAX_GUILDBANK_SLOTS_PER_TAB= 98
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local StopRun, IsInRun
 
 local function Init_Sort()
@@ -144,10 +130,6 @@ local function Init_Sort()
 end
 
 
-
-
-
-
 local function Init_Menu(self, root)
     if not self:IsMouseOver() then
         return
@@ -181,28 +163,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.GuildBank.SortReverse'])
 
-    --[[root:CreateSpacer()
-    WoWTools_MenuMixin:CreateSlider(root, {
-        getValue=function()
-            return Save().saveItemSeconds or 0.8
-        end, setValue=function(value)
-            Save().saveItemSeconds=value
-
-            if IsInRun then--禁用，按钮移动事件
-                StopRun=true--停止，已运行
-            end
-
-        end,
-        name=WoWTools_L.LAG_TOLERANCE,
-        minValue=0.5,
-        maxValue=1.5,
-        step=0.1,
-        bit='%.1f',
-        tooltip=function(tooltip)
-            tooltip:AddLine(WoWTools_L.LAG_TOLERANCE)
-        end
-    })
-    root:CreateSpacer()]]
 end
 
 

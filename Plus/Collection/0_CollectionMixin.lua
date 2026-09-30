@@ -61,9 +61,6 @@ function WoWTools_CollectionMixin:Item(itemIDOrLink, sourceID, isIcon, onlyBool)
         return
     end
 
-    --[[if itemIDOrLink and not isSelf then
-        isSelf= C_Item.IsItemBindToAccount(itemIDOrLink)--C_Item.IsItemBindToAccountUntilEquip
-    end]]
 
     local text
     if not onlyBool then
@@ -93,14 +90,6 @@ function WoWTools_CollectionMixin:Item(itemIDOrLink, sourceID, isIcon, onlyBool)
 end
 
 
---[[
-local _data= C_Transmog.GetAllSetAppearancesByID(transmogSetID) or {}
-local _n, _a=0,0
-for _, _tab in pairs(_data) do
-    _n= C_TransmogCollection.PlayerHasTransmogByItemInfo(_tab.itemID) and _n+1 or _n
-    _a= _a +1
-end
-]]
 function WoWTools_CollectionMixin:SetID(setID, itemLinkOrID, isLoot)--套装 , 收集数量, 返回: 图标, 数量, 最大数, 文本
     local numCollected, numAll=0,0
 
@@ -150,23 +139,6 @@ function WoWTools_CollectionMixin:SetID(setID, itemLinkOrID, isLoot)--套装 , �
             --'|cffffffff'..numCollected..'|r/'..numAll--, '|cnYELLOW_FONT_COLOR:'..numCollected..'/'..numAll..' '..(WoWTools_DataMixin.onlyChinese and '未收集' or NOT_COLLECTED)..'|r'
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_CollectionMixin:GetPet9Item(itemID, find)--宠物兑换, wow9.0

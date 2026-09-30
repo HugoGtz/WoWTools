@@ -85,21 +85,6 @@ local function Get_List_Tab(instanceID)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Set_Menu(root, tab)
     for _, d in pairs(tab) do
         local sub= root:CreateButton(
@@ -153,14 +138,6 @@ local function Init_Menu(self, root)
 end
 
 
-
-
-
-
-
-
-
-
 local function Create_Button(frame, point)
     frame.achievementButton= CreateFrame('DropdownButton', nil, frame, 'WoWToolsMenuTemplate')
     frame.achievementButton:SetNormalTexture(0)
@@ -183,41 +160,12 @@ local function Create_Button(frame, point)
     --frame.achievementButton:SetHighlightAtlas('PetList-ButtonHighlight')
     frame.achievementButton.tooltip= addName..WoWTools_DataMixin.Icon.icon2
 
-    --[[frame.achievementButton:SetScript('OnLeave', function() GameTooltip:Hide() end)
-    frame.achievementButton:SetScript('OnEnter', function(self)
-        GameTooltip:SetOwner(self, 'ANCHOR_LEFT')
-        GameTooltip:ClearLines()
-
-        local tab, count= Get_List_Tab(self.instanceID)
-
-        GameTooltip:AddDoubleLine(
-            (self.name or addName)
-            ..WoWTools_DataMixin.Icon.icon2..(count and '|cffffffff'..count or ''),
-            WoWTools_L.INSTANCE
-        )
-        if tab then
-            GameTooltip:AddLine(' ')
-            for _, data in pairs(tab) do
-                GameTooltip:AddLine(data.text)
-            end
-        end
-        GameTooltip:Show()
-    end)]]
     frame.achievementButton:SetScript('OnHide', function(self)
         self.Text:SetText('')
     end)
 
     frame.achievementButton:SetupMenu(Init_Menu)
 end
-
-
-
-
-
-
-
-
-
 
 
 local function Set_Icon(self, achievementID)
@@ -241,14 +189,6 @@ local function Set_AchievementTemplate(self, show)
     WoWTools_TextureMixin:SetFrame(self, {alpha=alpha, notColor=true})
     self.Shield.Icon:SetAlpha(alpha)--点数，外框
 end
-
-
-
-
-
-
-
-
 
 
 local function Init_Achievement()
@@ -285,9 +225,6 @@ local function Init_Achievement()
     next:SetScript('OnClick', function(self)
         WoWTools_LoadUIMixin:Achievement(self.achievementID)
     end)
-
-
-
 
 
 --选中，提示
@@ -327,12 +264,6 @@ local function Init_Achievement()
             category=WoWTools_OtherMixin.Category
         })
     end)
-
-
-
-
-
-
 
 
     WoWTools_DataMixin:Hook(AchievementTemplateMixin, 'OnLoad', function(btn)
@@ -520,10 +451,6 @@ local function Init_Achievement()
     end)
 
 
-
-
-
-
     WoWTools_DataMixin:Hook(AchievementTemplateMixin, 'OnLeave', function(btn)
         Set_AchievementTemplate(btn, false)
     end)
@@ -543,21 +470,6 @@ local function Init_Achievement()
         self.instanceID= Get_InstanceID()
         self:set_text()
     end)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     WoWTools_DataMixin:Hook('AchievementFrameComparison_UpdateDataProvider', function()--比较成就, Blizzard_AchievementUI.lua
@@ -689,23 +601,6 @@ local function Init_Achievement()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init_EncounterJournal()
 --列表， 添加按钮
     local function Init_Box(frame)
@@ -743,12 +638,6 @@ local function Init_EncounterJournal()
 
     Init_EncounterJournal=function()end
 end
-
-
-
-
-
-
 
 
 local panel= CreateFrame("Frame")

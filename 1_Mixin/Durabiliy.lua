@@ -1,13 +1,6 @@
 WoWTools_DurabiliyMixin={}
 
 
-
-
-
-
-
-
-
 --耐久度
 local function get_durabiliy_color(cur, max)
     if not cur or not max or max<=0 or cur>max then
@@ -37,16 +30,6 @@ local function get_durabiliy_color(cur, max)
 end
 
 
-
-
-
-
-
-
-
-
-
-
 function WoWTools_DurabiliyMixin:Get(reTexture)--耐久度
     local cur, max= 0, 0
     for i= 1, 18 do
@@ -62,16 +45,6 @@ function WoWTools_DurabiliyMixin:Get(reTexture)--耐久度
     end
     return text, value, icon
 end
-
-
-
-
-
-
-
-
-
-
 
 
 --耐久度, 提示
@@ -153,11 +126,6 @@ function WoWTools_DurabiliyMixin:OnEnter(tootip)
         end
     end
 
-    --[[local co = GetRepairAllCost()--显示，修理所有，金钱 只有在修理时，才会显示
-    local coText=''
-    if co and co>0 then
-        coText= ' |cnWARNING_FONT_COLOR:'..GetMoneyString(co)..'|r'
-    end]]
 
     local durabiliyText, _, durabiliyIcon= get_durabiliy_color(cur2, max2)
     tootip:AddDoubleLine(

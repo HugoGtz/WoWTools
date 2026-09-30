@@ -6,9 +6,6 @@ end
 local G_GUILD_INFO_TEMPLATE= GUILD_INFO_TEMPLATE:gsub('(%%.+)', '')--公会创立
 
 
-
-
-
 local function Set_Text(self)
     local isInGuild= IsInGuild()
 
@@ -58,11 +55,6 @@ local function Set_Text(self)
 end
 
 
-
-
-
-
-
 local function Init()
     local btn= WoWTools_ChatMixin:GetButtonForName('Guild')
     btn.texture:ClearAllPoints()
@@ -83,10 +75,6 @@ local function Init()
     btn.inviteTexture:SetSize(12,12)
     --btn.inviteTexture:Hide()
 
-    --[[GuildMicroButton.inviteTexture= btn:CreateTexture(nil, 'OVERLAY')
-    GuildMicroButton.inviteTexture:SetPoint('TOPLEFT',1,-1)
-    GuildMicroButton.inviteTexture:SetAtlas('communities-icon-invitemail')
-    GuildMicroButton.inviteTexture:SetSize(12,12)]]
 
 
     btn.msgTexture= btn:CreateTexture(nil, 'BORDER', nil, 2)
@@ -209,15 +197,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_GuildMixin:Init_Button()

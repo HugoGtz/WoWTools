@@ -2,29 +2,6 @@ WoWTools_LabelMixin={}
 local IndexLabel=0
 
 
-
---[[
-SharedFonts.xml
-<SimpleHTML parentKey="Text" setAllPoints="true" inherits="InlineHyperlinkFrameTemplate">
-    <FontString inherits="GameFontBlack" justifyH="LEFT" justifyV="TOP">
-        <Color r="0.25" g="0.1484375" b=".02" a="1"/>
-    </FontString>
-    <Scripts>
-        <OnHyperlinkEnter function="EncounterJournal_OnHyperlinkEnter"/>
-    </Scripts>
-</SimpleHTML>
-
-AutoScalingFontStringMixin
-
-
-CreateFontString(nil, 'ARTWORK', 'GameFontDisableSmall')
-
-]]
-
-
-
-
-
 function WoWTools_LabelMixin:Create(frame, tab)
     IndexLabel= IndexLabel+1
 
@@ -92,23 +69,8 @@ function WoWTools_LabelMixin:Create(frame, tab)
     if text then
         font:SetText(text)
     end
-    --[[if alpha then
-        font:SetAlpha(alpha)
-    end]]
     return font
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Create_Tooltip_Label(frame, index, point, line, size)
@@ -140,14 +102,6 @@ local function Create_Tooltip_Label(frame, index, point, line, size)
     frame.framGameTooltipLabels[index]= label
     return label
 end
-
-
-
-
-
-
-
-
 
 
 function WoWTools_LabelMixin:ItemCurrencyTips(settings)--物品升级界面，挑战界面，物品，货币提示
@@ -233,8 +187,5 @@ function WoWTools_LabelMixin:ItemCurrencyTips(settings)--物品升级界面，�
         return last
     end
 end
-
-
-
 
 

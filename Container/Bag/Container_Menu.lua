@@ -67,9 +67,6 @@ local function Update_Frame(self)
 end
 
 
-
-
-
 local function Get_BagName(frame)--frame:GetBagID()
     local name= frame:GetName()
     local bagID= tonumber(name:match('%d') or 1)
@@ -106,13 +103,6 @@ local function Get_BagName(frame)--frame:GetBagID()
 end
 
 
-
-
-
-
-
-
-
 local function Init_Columns_Menu(self, root2)
     local sub, sub2
 
@@ -137,9 +127,6 @@ if Save().enabledCombinedColumns then
     WoWTools_MenuMixin:SetRightText(root)
 
 
-
-
-
     local frames= {
         ContainerFrameCombinedBags,
     }
@@ -155,20 +142,6 @@ if Save().enabledCombinedColumns then
     end
 
 
-    --[[for index, frame in pairs(frames) do
-        local name= frame:GetName()
-        if name then
-            local sub2= sub:CreateButton(
-                (frame==self and '|cnGREEN_FONT_COLOR:' or (frame:IsShown() and '|cnNORMAL_FONT_COLOR:') or '')
-                    ..Get_BagName(frame),
-            function()
-                return MenuResponse.Open
-            end, {rightText= Save()[name..'Columns']})
-        end
-        if index==1 then
-            sub:CreateDivider()
-        end
-    end]]
 
     root:CreateSpacer()
 
@@ -227,14 +200,6 @@ if Save().enabledCombinedColumns then
     end
 
 
-
-
-
-
-
-
-
-
     sub:CreateSpacer()
     sub2=sub:CreateButton(
         WoWTools_L.RESET_ALL_BUTTON_TEXT,
@@ -281,21 +246,6 @@ end
     WoWTools_MenuMixin:Reload(sub)
     WoWTools_MenuMixin:OpenOptions(sub, {name=WoWTools_BagMixin.addName})
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init()
@@ -359,15 +309,6 @@ local function Init()
 
         Init_Columns_Menu(frame, root)
     end)
-
-
-
-
-
-
-
-
-
 
 
     Menu.ModifyMenu("MENU_CONTAINER_FRAME_COMBINED", function(self, root)
@@ -441,11 +382,6 @@ local function Init()
     end)
 
 
-
-
-
-
-
     if Save().enabledCombinedColumns then
 --ContainerFrame1 到 13 11.2版本是 6
         for bagID= 1, NUM_CONTAINER_FRAMES do
@@ -475,15 +411,6 @@ local function Init()
     end
     Init=function()end
 end
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_BagMixin:Init_Container_Menu()

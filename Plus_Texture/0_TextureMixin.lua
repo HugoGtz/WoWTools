@@ -1,23 +1,3 @@
---[[
-TextureUtil.lua
-CreateBackground(frame, tab)
-
-item_upgrade_tooltip_fullmask
-ChallengeMode-guild-background
-UI-Frame-DialogBox-BackgroundTile
-UI-HUD-CoolDownManager-Mask
-GarrMission_RewardsShadow
-
-local background = self:AttachTexture();
-background:SetAtlas("common-dropdown-bg");
-
-local x, y = 10, 3;
-background:SetPoint("TOPLEFT", -x, y);
-background:SetPoint("BOTTOMRIGHT", x, -y);
-background:SetAlpha(.925);
-
-
-]]
 
 
 WoWTools_TextureMixin={
@@ -99,9 +79,6 @@ function WoWTools_TextureMixin:CreateBG(frame, tab)
 end
 
 
-
-
-
 --isAtlas, textureID, icon=WoWTools_TextureMixin:IsAtlas(texture, size)
 function WoWTools_TextureMixin:IsAtlas(textureID, size)--Atlas or Texture
     if not textureID or textureID=='' then
@@ -157,27 +134,6 @@ function WoWTools_TextureMixin:SetTexture(region, textureID)
     end
     return isAtlas, texture, icon
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --IconSelectorPopupFrameTemplateMixin
@@ -267,19 +223,6 @@ local function Create_IconSelectorPopupFrame()
 end
 
 
-
-
-
-
-
---[[
- WoWTools_TextureMixin:GetNewIcon(frame, {
-    text= nil,
-    texture= nil,
-    SetValue=function(newIcon, newText)
-    end
- })
-]]
 function WoWTools_TextureMixin:GetNewIcon(frame, tab)
     local IconFrame= Create_IconSelectorPopupFrame()
 
@@ -316,11 +259,6 @@ function WoWTools_TextureMixin:GetNewIcon(frame, tab)
 
     return IconFrame
 end
-
-
-
-
-
 
 
 --TipTacItemRef\Texture\wow

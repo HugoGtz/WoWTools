@@ -5,11 +5,6 @@
 WoWTools_CurrencyMixin={}
 
 
-
-
-
-
-
 local function get_info(currencyID, index, link)
     local info
     if not currencyID or currencyID<1 then
@@ -169,11 +164,6 @@ end
 --info, num, totale, percent, isMax, canWeek, canEarned, canQuantity= WoWTools_CurrencyMixin:GetInfo(currencyID, index, link)
 
 
-
-
-
-
-
 --GetName
 function WoWTools_CurrencyMixin:GetName(currencyID, index, link)
     local info, num, totale, percent, isMax, canWeek, canEarned, canQuantity= self:GetInfo(currencyID, index, link)
@@ -213,13 +203,6 @@ end
 
 
 
---[[accountCurrencyData= {
-characterGUID	WOWGUID : string	
-characterName	string	
-fullCharacterName	string	11.0.2
-currencyID	number	
-quantity	number
-}]]
 
 function WoWTools_CurrencyMixin:GetAccountInfo(currencyID, checkGUID)
     local accountCurrencyData={}

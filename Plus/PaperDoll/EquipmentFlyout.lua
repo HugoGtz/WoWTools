@@ -4,34 +4,6 @@ local function Save()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local ITEM_LEVEL= ITEM_LEVEL:gsub('%%d', '%(%%d%+%)')--"物品等级：%d"
 local ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT= ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT:gsub('%%s/%%s','(.-%%d%+/%%d%+)')-- "升级：%s/%s"
 local PVP_ITEM_LEVEL_TOOLTIP= PVP_ITEM_LEVEL_TOOLTIP:gsub('%%d', '%(%%d%+%)')--"装备：在竞技场和战场中将物品等级提高至%d。"
@@ -56,10 +28,6 @@ local function set_item_Set(self, link)--套装
 end
 
 
-
-
-
-
 local function Create_ButtonLabel(btn)
     --local w, h= btn:GetSize()
     local h= btn:GetHeight()
@@ -79,12 +47,6 @@ local function Create_ButtonLabel(btn)
     btn.pvpItem:SetSize(h/3, h/3)
     btn.pvpItem:SetPoint('RIGHT')
     btn.pvpItem:SetAtlas('Warfronts-BaseMapIcons-Horde-Barracks-Minimap')
---[[提示，已装备
-    btn.isEquippedTexture= btn:CreateTexture(nil, 'OVERLAY')
-    btn.isEquippedTexture:SetPoint('CENTER')
-    btn.isEquippedTexture:SetSize(w+12, h+12)
-    btn.isEquippedTexture:SetAtlas('Forge-ColorSwatchHighlight')--'Forge-ColorSwatchSelection')
-    btn.isEquippedTexture:SetVertexColor(1,0,0)]]
 
     btn.setTexture=btn:CreateTexture()
     btn.setTexture:SetAllPoints(btn)
@@ -107,14 +69,6 @@ local function Create_ButtonLabel(btn)
         self.setTexture:SetShown(false)
     end)
 end
-
-
-
-
-
-
-
-
 
 
 local function setFlyout(self)--, itemLink, slot)
@@ -210,19 +164,6 @@ local itemLink
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
 
     WoWTools_DataMixin:Hook('EquipmentFlyout_UpdateItems', function()
@@ -273,9 +214,6 @@ local function Init()
         EquipmentFlyoutFrameButtons:SetScale(not Save().notFlyout and Save().flyoutScale or 1)
     end
 end
-
-
-
 
 
 function WoWTools_PaperDollMixin:Init_EquipmentFlyout()

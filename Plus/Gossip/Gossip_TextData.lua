@@ -4,10 +4,6 @@ local function Save()
 end
 
 
-
-
-
-
 --https://wago.io/hR_KBVGdK
 local PlayerGossipTab = {
         [38054] = {icon=236722, cn='北风苔原', en='Borean Tundra', tw='北風凍原', de='Boreanische Tundra', es='Tundra Boreal', fr='Toundra Boréenne', it='Tundra Boreale', pt='Tundra Boreana', ru='Борейская тундра', ko='북풍의 땅'},--npc 35646
@@ -56,23 +52,7 @@ local PlayerGossipTab = {
     }
 
 
-
-
-
-
-
-
-
-
 local GossipTextIcon={}--默认，自定义，对话，文本
-
-
-
-
-
-
-
-
 
 
 local function Init_Data()
@@ -121,36 +101,12 @@ local function Init_Data()
         end
         WoWTools_SC_Gossip={}
     end
-        --[[if WoWTools_DataMixin.Player.husandro then
-            GossipFrameCloseButton.numText= WoWTools_LabelMixin:Create(GossipFrameCloseButton)
-            GossipFrameCloseButton.numText:SetPoint('RIGHT', GossipFrameCloseButton, 'LEFT')
-            WoWTools_DataMixin:Hook(GossipOptionButtonMixin, 'Setup', function()
-                local num=0
-                for _, data in pairs(C_GossipInfo.GetOptions() or {}) do
-                    if not GossipTextIcon[data.gossipOptionID] and not WoWToolsPlusPlayerDate['GossipTextIcon'][data.gossipOptionID] then
-                        num=num+1
-                    end
-                end
-                GossipFrameCloseButton.numText:SetText(num)
-            end)
-        end]]
     
 
 
     PlayerGossipTab=nil
     Init_Data=function()end
 end
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Menu(_, root)
@@ -185,17 +141,6 @@ local function Init_Menu(_, root)
         root:CreateTitle(WoWTools_L.NONE)
     end
 end
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_GossipMixin:Init_Gossip_Data()

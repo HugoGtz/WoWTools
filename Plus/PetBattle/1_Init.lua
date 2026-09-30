@@ -3,12 +3,6 @@ local function Save()
 end
 
 
-
-
-
-
-
-
 local function Init_Panel()
     if Save().disabled then
         return
@@ -92,17 +86,6 @@ end
 
 
 --点击移动按钮 SetParent
-    --[[WoWTools_PanelMixin:OnlyCheck({
-        name= 'PlayerFrame',
-        tooltip='|nSetParent(\'PlayerFrame\')|n|n'..WoWTools_PetBattleMixin.addName3,
-        GetValue= function() return Save().ClickMoveButton.PlayerFrame end,
-        SetValue= function()
-            Save().ClickMoveButton.PlayerFrame = not Save().ClickMoveButton.PlayerFrame and true or false
-            WoWTools_PetBattleMixin:ClickToMove_Button()
-        end,
-        layout= WoWTools_PetBattleMixin.Layout,
-        category= WoWTools_PetBattleMixin.Category,
-    }, sub)]]
 
 
 

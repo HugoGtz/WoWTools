@@ -1,20 +1,7 @@
---[[
-SetTooltip(tooltip, data, root, frame)
-]]
 
 
 
 WoWTools_SetTooltipMixin={}
-
-
-
-
-
-
-
-
-
-
 
 
 local function set_vignetteGUID(tooltip, vignetteGUID)
@@ -66,11 +53,6 @@ local function set_vignetteGUID(tooltip, vignetteGUID)
 end
 
 
-
-
-
-
-
 --areaPoi AreaPOIPinMixin:TryShowTooltip()
 local function set_areaPoiID(tooltip, uiMapID, areaPoiID)
     local poiInfo = C_AreaPoiInfo.GetAreaPOIInfo(uiMapID, areaPoiID) or {}
@@ -105,11 +87,6 @@ local function set_areaPoiID(tooltip, uiMapID, areaPoiID)
             end
         end
 
-        --[[if poiInfo.textureKit == "OribosGreatVault" then
-            GameTooltip_AddBlankLineToTooltip(tooltip)
-            GameTooltip_AddInstructionLine(tooltip, ORIBOS_GREAT_VAULT_POI_TOOLTIP_INSTRUCTIONS)
-            addedTooltipLine = true
-        end]]
 
         if hasWidgetSet then
             local overflow = GameTooltip_AddWidgetSet(tooltip, poiInfo.widgetSetID, addedTooltipLine and poiInfo.addPaddingAboveWidgets and 10)
@@ -130,13 +107,6 @@ local function set_areaPoiID(tooltip, uiMapID, areaPoiID)
         end
     end
 end
-
-
-
-
-
-
-
 
 
 --专精，天赋
@@ -183,16 +153,6 @@ local function Set_Specialization(tooltip, specIndex, specID)
     tooltip:AddLine(' ')
     tooltip:AddLine(WoWTools_TextMixin:CN(description), nil, nil, nil, true)
 end
-
-
-
-
-
-
-
-
-
-
 
 
 --地下城挑战，分数，超链接
@@ -431,12 +391,6 @@ local function Set_Quest(tooltip, questID)
 end
 
 
-
-
-
-
-
-
 local function Add_Tooltip(tooltip, tip, data)
     if type(tip)=='function' then
         tip(tooltip, data)
@@ -586,15 +540,6 @@ function WoWTools_SetTooltipMixin:Setup(tooltip, data, frame)
 
     return true
 end
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_SetTooltipMixin:Frame(frame, tooltip, data)

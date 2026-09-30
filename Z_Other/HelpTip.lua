@@ -10,18 +10,6 @@ local function Init()
             frame:Hide()
         end
     end)
-        --[[local find
-        for frame in self.framePool:EnumerateActive() do
-            local btn= frame.OkayButton:IsShown() and frame.OkayButton or (frame.CloseButton:IsShown() and frame.CloseButton)
-            if btn then
-                find=true
-                btn:Click()
-            end
-        end
-        if not find then
-            self:HideAll(parent)
-        end
-    end)]]
 
 
 --Blizzard_TutorialPointerFrame.lua 隐藏, 新手教程
@@ -59,12 +47,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
-
-
 
 
 local panel= CreateFrame("Frame")

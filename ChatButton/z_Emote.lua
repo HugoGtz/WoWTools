@@ -213,18 +213,6 @@ local function Set_Tooltip(tooltip, value, vaName, isChat, isCommand)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init_Button_Menu(self, root)
     local value= self.value
     local valueName= Get_Name(value, self.isChat, self.isCommand, self.useType)
@@ -322,42 +310,6 @@ local function Init_Button_Menu(self, root)
     root:CreateDivider()
     WoWTools_ChatMixin:Open_SettingsPanel(root, addName)
 end
---[[local function SetChatTypeAttribute(chatType)
-    local editBox = ChatFrameUtil.OpenChat("")
-    editBox:SetAttribute("chatType", chatType)
-    editBox:UpdateHeader()
-end
-
-local function AddSlashInitializer(root, chatShortcut)
-    root:AddInitializer(function(button, description, menu)
-        local fontString2 = button:AttachFontString()
-        local offset = description:HasElements() and -20 or 0
-        fontString2:SetPoint("RIGHT", offset, 0)
-        fontString2:SetJustifyH("RIGHT")
-        fontString2:SetTextToFit(chatShortcut)
-
-        button.fontString:SetTextColor(NORMAL_FONT_COLOR:GetRGB())
-    end)
-end]]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function Init_Button()
@@ -521,16 +473,6 @@ function Init_Button()
     _buttons= nil
     _newTab= nil
 end
-
-
-
-
-
-
-
-
-
-
 
 
 --添加，自定义
@@ -731,23 +673,6 @@ local function Init_UseFrame()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Set_Menu(root, tab, tabName, rootName)
     local isCommand= tabName=='command'
     local isChat= tabName=='chat'
@@ -860,30 +785,6 @@ local function Set_Menu(root, tab, tabName, rootName)
 
     WoWTools_MenuMixin:SetScrollMode(root)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Menu(self, root)
@@ -1148,27 +1049,6 @@ local function Init_Menu(self, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
     if Save().disabled then
         MainButton:Hide()
@@ -1271,24 +1151,6 @@ local function Init()
         end
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 MainButton= CreateFrame('Button', 'WoWToolsChatEmoteButton', UIParent, 'WoWToolsButtonTemplate')

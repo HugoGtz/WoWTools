@@ -1,7 +1,3 @@
---[[
-GetName(spellID)--取得法术，名称
-GetLink(spellID, isCN)
-]]
 
 
 WoWTools_SpellMixin={}

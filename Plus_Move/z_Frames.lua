@@ -29,19 +29,6 @@ function WoWTools_MoveMixin.Frames:GossipFrame()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 --试衣间
 function WoWTools_MoveMixin.Frames:DressUpFrame()
     local function Set_Max(frame)
@@ -91,10 +78,6 @@ function WoWTools_MoveMixin.Frames:DressUpFrame()
     DressUpFrame.SetSelectionPanel:SetPoint('BOTTOMLEFT', DressUpFrame, 'BOTTOMRIGHT', -7, 0)
     self:Setup(DressUpFrame.SetSelectionPanel, {frame=DressUpFrame})
 end
-
-
-
-
 
 
 --任务
@@ -212,19 +195,6 @@ function WoWTools_MoveMixin.Frames:LootFrame()
     end})
 end
 
---[[
-DEFAULT_ITEM_TEXT_FRAME_WIDTH = 338;
-DEFAULT_ITEM_TEXT_FRAME_HEIGHT = 424;
-
-EXPANDED_ITEM_TEXT_FRAME_WIDTH = 520;
-EXPANDED_ITEM_TEXT_FRAME_HEIGHT = 560;
-ItemTextPageScrollChild:SetPoint('RIGHT')
-ItemTextFramePageBg:SetPoint('BOTTOMRIGHT')
-self:Setup(ItemTextFrame, {
-sizeRestFunc=function()
-    ItemTextFrame:SetSize(338, 424)
-end})
-]]
 function WoWTools_MoveMixin.Frames:ItemTextFrame()
    self:Setup(ItemTextFrame)
 end
@@ -233,10 +203,6 @@ end
 function WoWTools_MoveMixin.Frames:UIWidgetBelowMinimapContainerFrame()
     self:Setup(UIWidgetBelowMinimapContainerFrame, {frame=UIParentRightManagedFrameContainer, notSave=true})--UIParentRightManagedFrameContainer
 end
-
-
-
-
 
 
 --职责选取框

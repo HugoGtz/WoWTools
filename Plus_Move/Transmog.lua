@@ -1,22 +1,3 @@
---[[
-12.0才有 幻化
-这个有保护，注意操作
-TransmogWardrobeItemsMixin
-TransmogWardrobeSetsMixin
-TransmogWardrobeCustomSetsMixin
-
-ShowEquippedGearSpellFrameMixin
-
-TransmogCharacterMixin
-
-TransmogSetBaseModelMixin
-TransmogItemModelMixin
-TransmogSetModelMixin
-TransmogCustomSetModelMixin
-
-TransmogWardrobeSituationsMixin
-TransmogSituationMixin
-]]
 
 local function Save()
     return WoWToolsPlusSave['Plus_Move']
@@ -129,21 +110,6 @@ local function Create_ResizeButton(name, data)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
     if WoWTools_DataMixin.onlyChinese and not LOCALE_zhCN then
         ListTab.OutfitCollection.title= '外观方案'
@@ -154,12 +120,6 @@ local function Init()
     end
 
     TransmogFrame.HelpPlateButton:SetFrameLevel(WorldMapFrame.BorderFrame.TitleContainer:GetFrameLevel()+1)
-
-
-
-
-
-
 
 
 --左边
@@ -230,18 +190,6 @@ local function Init()
     TransmogFrame.OutfitCollection.OutfitList.DividerTop:SetPoint('LEFT', 13, 0)
     TransmogFrame.OutfitCollection.OutfitList.DividerBottom:SetPoint('RIGHT', -26, 0)
     TransmogFrame.OutfitCollection.OutfitList.DividerBottom:SetPoint('LEFT', 13, 0)
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --中间
@@ -322,12 +270,6 @@ local function Init()
     end)
 
 
-
-
-
-
-
-
 --右边
     TransmogFrame.WardrobeCollection:SetPoint('BOTTOMRIGHT')
     TransmogFrame.WardrobeCollection.TabContent:SetPoint('BOTTOMRIGHT')
@@ -359,28 +301,12 @@ local function Init()
     TransmogFrame.WardrobeCollection.TabContent.SituationsFrame.ApplyButton:SetFrameLevel(TransmogFrame.WardrobeCollection.TabContent.SituationsFrame.ApplyButton:GetFrameLevel()+1)
 
 
-
-
-
-
-
-
-
-
-
 --增加，按钮宽度，按钮
     for name, data in pairs(ListTab) do
         Create_ResizeButton(name, data)
     end
 
     Set_TransmogWidth()
-
-
-
-
-
-
-
 
 
     WoWTools_MoveMixin:Setup(TransmogFrame, {
@@ -425,18 +351,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_MoveMixin.Events:Blizzard_Transmog()

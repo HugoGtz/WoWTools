@@ -31,9 +31,6 @@ local GEM_TYPE_INFO={
 --[ITEM_MOD_HASTE_RATING_SHORT]= WoWTools_DataMixin.onlyChinese and '急' or WoWTools_TextMixin:sub(ITEM_MOD_HASTE_RATING_SHORT, 1, 2, true),
 
 
-
-
-
 --物品, 宝石插槽, 属性
 local function Get_StatsGem(itemID, itemLink)
     local numSockets= C_Item.GetItemNumSockets(itemLink or itemID) or 0--MAX_NUM_SOCKETS
@@ -76,14 +73,6 @@ local function Get_StatsGem(itemID, itemLink)
 end
 
 
-
-
-
-
-
-
-
-
 local function Get_Stat(itemLink)
     local tab= {}
     for text in pairs(C_Item.GetItemStats(itemLink) or {}) do
@@ -101,11 +90,6 @@ local function Get_Stat(itemLink)
     end
     return table.concat(tab, PLAYER_LIST_DELIMITER)
 end
-
-
-
-
-
 
 
 local function Get_Item(btn)
@@ -179,10 +163,6 @@ local function Get_Item(btn)
                 stats= (stats or '')..'|A:house-outdoor-budget-icon:0:0|a'
             end
 
---[[[无法被摧毁
-            if entryInfo.destroyableInstanceCount and entryInfo.destroyableInstanceCount<=0 then
-                text= '|A:Objective-Fail:0:0|a'
-            end]]
 
 --XP
             if entryInfo.firstAcquisitionBonus and entryInfo.firstAcquisitionBonus>0 then
@@ -234,21 +214,6 @@ local function Get_Item(btn)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Set_Button(btn)
     local text, stats= Get_Item(btn)
 
@@ -281,39 +246,6 @@ local function Create_Label(btn)
     btn.OwnerItemTexture:SetAtlas(WoWTools_DataMixin.Icon.Player:match('|A:(.-):'))
     
 end
-
-
-
---[[local function Load_Item(btn, itemKey)
-    if itemKey.itemID then--and not C_Item.IsItemDataCachedByID(itemKey.itemID) then
-        ItemEventListener:AddCancelableCallback(itemKey.itemID, function()
-            if btn.rowData and btn.rowData.itemKey and btn.rowData.itemKey.itemID==itemKey.itemID then
-                Set_Button(btn)
-            end
-        end)
-    end
-end
-
-
-local function Set_BrowseResultsFrame(frame)
-    if not frame:HasView() then
-        return
-    end
-
-    for _, btn in pairs(frame:GetFrames() or {}) do
-        if btn.rowData and btn.rowData.itemKey then
-            if not btn.OwnerItemTexture then
-                Create_Label(btn)
-            end
-            Set_Button(btn)
-
-            Load_Item(btn, btn.rowData.itemKey)
-        end
-    end
-end]]
-
-
-
 
 
 local function Set_ItemBuyFrame(frame)
@@ -356,15 +288,6 @@ local function Set_ItemBuyFrame(frame)
 end
 
 
-
-
-
---[[浏览拍卖行
-Blizzard_AuctionHouseUI.lua
-local ITEM_SPELL_KNOWN = ITEM_SPELL_KNOWN--"已学习
-AuctionHouseItemListMixin
-AuctionHouseItemListLineMixin
-]]
 local function Init()
     if WoWToolsPlusSave['Plus_AuctionHouse'].disabledBuyPlus then
         return
@@ -378,17 +301,6 @@ local function Init()
         btn.CountLabel:SetText(rowData.itemKey and WoWTools_ItemMixin:GetCount(rowData.itemKey.itemID, {notZero=true}) or '')
     end)
 
-  --[[
---AuctionHouseItemListMixin:Init()
-print(AuctionHouseFrame.BrowseResultsFrame.ItemList.tableBuilder)
-    if AuctionHouseFrame.BrowseResultsFrame.ItemList.tableBuilder then
-        print('a', AuctionHouseFrame.BrowseResultsFrame.ItemList.tableBuilder:AddColumnInternal(AuctionHouseFrame.BrowseResultsFrame.ItemList, 0, 50, 0, 10, nil, "AuctionHouseTableCellTimeLeftTemplate"))
-    end
-  
-AuctionHouseTableCellTextTemplate
-tableBuilder:AddFixedWidthColumn(owner, 0, 50, 0, STANDARD_PADDING, Enum.AuctionHouseSortOrder.TimeRemaining, "AuctionHouseTableCellTimeLeftTemplate");
-                                 owner, padding, width, leftCellPadding, rightCellPadding, sortOrder, cellTemplate, ...
-]]
     ScrollUtil.RegisterAlternateRowBehavior(AuctionHouseFrame.BrowseResultsFrame.ItemList.ScrollBox, function(btn)
         local rowData= btn:GetRowData()
         if not rowData then
@@ -465,14 +377,6 @@ tableBuilder:AddFixedWidthColumn(owner, 0, 50, 0, STANDARD_PADDING, Enum.Auction
 
     Init=function()end
 end
-
-
-
-
-
-
-
-
 
 
 function WoWTools_AuctionHouseMixin:Init_BrowseResultsFrame()

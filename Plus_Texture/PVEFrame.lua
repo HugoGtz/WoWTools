@@ -72,20 +72,6 @@ function WoWTools_TextureMixin.Events:Blizzard_GroupFinder()
     self:SetEditBox(LFGListFrame.EntryCreation.PVPRating.EditBox)
 
 
-
-
-
-
-    --[[self:SetAlphaColor(LFGListFrameMiddleMiddle)
-    self:SetAlphaColor(LFGListFrameMiddleLeft)
-    self:SetAlphaColor(LFGListFrameMiddleRight)
-    self:SetAlphaColor(LFGListFrameBottomMiddle)
-    self:SetAlphaColor(LFGListFrameTopMiddle)
-    self:SetAlphaColor(LFGListFrameTopLeft)
-    self:SetAlphaColor(LFGListFrameBottomLeft)
-    self:SetAlphaColor(LFGListFrameTopRight)
-    self:SetAlphaColor(LFGListFrameBottomRight)]]
-
     self:SetScrollBar(LFGListFrame.ApplicationViewer)
     self:SetNineSlice(LFGListFrame.ApplicationViewer.Inset)
     self:SetAlphaColor(LFGListFrame.ApplicationViewer.InfoBackground)
@@ -168,17 +154,6 @@ function WoWTools_TextureMixin.Events:Blizzard_GroupFinder()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
 --地下城和团队副本, PVP
 function WoWTools_TextureMixin.Events:Blizzard_PVPUI()
 
@@ -236,20 +211,6 @@ function WoWTools_TextureMixin.Events:Blizzard_PVPUI()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --挑战, 钥匙插入，界面
 function WoWTools_TextureMixin.Events:Blizzard_ChallengesUI()
     self:HideFrame(ChallengesFrame)
@@ -278,23 +239,6 @@ function WoWTools_TextureMixin.Events:Blizzard_ChallengesUI()
         end
     })
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_TextureMixin.Events:Blizzard_WeeklyRewards()--周奖励提示

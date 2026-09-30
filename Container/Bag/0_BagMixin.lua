@@ -83,12 +83,6 @@ function WoWTools_BagMixin:Find(find, tab)
 end
 
 
-
-
-
-
-
-
 --背包，空位, all 包含材料 C_Container.GetContainerNumSlots(i)
 function WoWTools_BagMixin:GetFree(isRegentBag)
 
@@ -106,14 +100,6 @@ function WoWTools_BagMixin:GetFree(isRegentBag)
     end
     return free, all, regentsFree
 end
-
-
-
-
-
-
-
-
 
 
 function WoWTools_BagMixin:GetItems(checkAllBag, onlyItem, onlyRegents, checkBagFunc)
@@ -159,34 +145,6 @@ function WoWTools_BagMixin:GetItems(checkAllBag, onlyItem, onlyRegents, checkBag
     end
     return Tabs
 end
---[[
-ItemButtonUtil.ItemContextEnum = {
-	Scrapping = 1,
-	CleanseCorruption = 2,
-	PickRuneforgeBaseItem = 3,
-	ReplaceBonusTree = 4,
-	SelectRuneforgeItem = 5,
-	SelectRuneforgeUpgradeItem = 6,
-	Soulbinds = 7,
-	MythicKeystone = 8,
-	UpgradableItem = 9,
-	RunecarverScrapping = 10,
-	ItemConversion = 11,
-	ItemRecrafting = 12,
-	JumpUpgradeTrack = 13,
-	AccountBankDepositing = 14,
-	Enchanting = 15,
-}
-
-ItemButtonUtil.ItemContextMatchResult = {
-	Match = 1,
-	Mismatch = 2,
-	DoesNotApply = 3,
-}
-]]
-
-
-
 
 
 --打开， 背包
@@ -224,11 +182,6 @@ function WoWTools_BagMixin:CloseBag(bagID, isBank)
         end
     end
 end
-
-
-
-
-
 
 
 function WoWTools_BagMixin:SetFreeNum(btn)
@@ -270,11 +223,5 @@ function WoWTools_BagMixin:SetFreeNum(btn)
     end
     btn:set_free()
 end
-
-
-
-
-
-
 
 

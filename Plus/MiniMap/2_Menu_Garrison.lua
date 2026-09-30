@@ -1,9 +1,6 @@
 
 
 
-
-
-
 --要塞,任务，列表
 local function Get_Garrison_List_Num(followerType)
     local num, all, text= 0, 0, ''
@@ -32,26 +29,11 @@ local function Get_Garrison_List_Num(followerType)
 end
 
 
-
-
-
-
-
 --LuaEnum.lua
 local GarrisonList
 local function Init_GarrisonList()
     GarrisonList={
 
-    --[[{name=WoWTools_DataMixin.onlyChinese and '巨龙群岛概要' or DRAGONFLIGHT_LANDING_PAGE_TITLE,
-    garrisonType= Enum.GarrisonType.Type_9_0_Garrison,
-    garrFollowerTypeID= Enum.GarrisonFollowerType.FollowerType_9_0_GarrisonFollower,
-    disabled=false,--not C_PlayerInfo.IsExpansionLandingPageUnlockedForPlayer(Enum.GarrisonFollowerType.FollowerType_9_0_GarrisonFollower),
-    atlas= 'dragonflight-landingbutton-up',
-    tooltip= WoWTools_L.DRAGONFLIGHT_LANDING_PAGE_TOOLTIP,
-    func= function()
-        ToggleExpansionLandingPage()
-    end,
-    },]]
     {name=WoWTools_L.WAR_WITHIN_LANDING_PAGE_TITLE,--Blizzard_WarWithinLandingPage.lua
     garrisonType= Enum.ExpansionLandingPageType and Enum.ExpansionLandingPageType.WarWithin or 2,
     --garrFollowerTypeID= Enum.GarrisonFollowerType.FollowerType_9_0_GarrisonFollower,
@@ -83,12 +65,6 @@ local function Init_GarrisonList()
     --tooltip= WoWTools_DataMixin.onlyChinese and '点击显示圣所报告' or GARRISON_TYPE_9_0_LANDING_PAGE_TOOLTIP,
     },
 
-    --[[{name=  WoWTools_DataMixin.onlyChinese and '任务' or GARRISON_TYPE_8_0_LANDING_PAGE_TITLE,
-    garrisonType= Enum.GarrisonType.Type_8_0_Garrison,
-    garrFollowerTypeID= Enum.GarrisonFollowerType.FollowerType_8_0_GarrisonFollower,
-    atlas= string.format("bfa-landingbutton-%s-up", WoWTools_DataMixin.Player.Faction),
-    tooltip= WoWTools_L.GARRISON_TYPE_8_0_LANDING_PAGE_TOOLTIP,
-    },]]
 
     {name=  WoWTools_L['Class Hall'],
     garrisonType= Enum.GarrisonType.Type_7_0_Garrison,
@@ -114,18 +90,6 @@ local function Init_GarrisonList()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 --要塞报告 GarrisonBaseUtils.lua
 function WoWTools_MinimapMixin:Garrison_Menu(_, root)
     local sub
@@ -146,30 +110,6 @@ function WoWTools_MinimapMixin:Garrison_Menu(_, root)
         WoWTools_ChallengeMixin:ActivitiesTooltip(tooltip)--周奖励，提示
     end)
 
-
-
-
-    --[[local DRAGONRIDING_INTRO_QUEST_ID = 68798;
-    local DRAGONRIDING_ACCOUNT_ACHIEVEMENT_ID = 15794;
-    local DRAGONRIDING_TRAIT_SYSTEM_ID = 1;
-    local DRAGONRIDING_TREE_ID = 672;]]
-
-    --[[local numDragonriding=''
-    local dragonridingConfigID = C_Traits.GetConfigIDBySystemID(1)
-    if dragonridingConfigID then
-        local treeCurrencies = C_Traits.GetTreeCurrencyInfo(dragonridingConfigID, 672, false)
-        local num = treeCurrencies and treeCurrencies[1] and treeCurrencies[1].quantity
-        if num then
-            numDragonriding= format(' %s%d|r |T%d:0|t', num==0 and '|cff626262' or '|cnGREEN_FONT_COLOR:', num, select(4, C_Traits.GetTraitCurrencyInfo(2563)) )
-        end
-    end
-    root:CreateCheckbox(
-        format('|A:dragonriding-barbershop-icon-protodrake:0:0|a%s%s', WoWTools_L.GENERIC_TRAIT_FRAME_DRAGONRIDING_TITLE, numDragonriding),
-    function()
-        return GenericTraitFrame and GenericTraitFrame:IsShown() and GenericTraitFrame:GetConfigID() == C_Traits.GetConfigIDBySystemID(Enum.ExpansionLandingPageType.Dragonflight)
-    end, function()
-        TraitUtil.OpenTraitFrame(Constants.MountDynamicFlightConsts.TREE_ID)
-    end)]]
 
 --驭空术
     WoWTools_MenuMixin:OpenDragonriding(root)
@@ -216,9 +156,6 @@ function WoWTools_MinimapMixin:Garrison_Menu(_, root)
                 tooltip= info.tooltip,
                 func=info.func
             })
-            --[[sub:SetTooltip(function(tooltip, description)
-                tooltip:AddLine(description.data.tooltip)
-            end)]]
 
 
             local disabled

@@ -34,30 +34,12 @@ local function Init_Category()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
     if not C_AddOns.IsAddOnLoaded('Blizzard_Settings') or Save().disabled then
         return
     end
 
     WoWTools_PanelMixin:Header(Layout, WoWTools_L['Frames to enhance'])
-
-
-
-
 
 
 --玩家框体
@@ -103,9 +85,6 @@ local function Init()
     })
 
 
-
-
-
 --小队框体
     WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_L.HUD_EDIT_MODE_PARTY_FRAMES_LABEL,
@@ -126,32 +105,6 @@ local function Init()
         end,
         category= Category,
     })
-
-
-
-
-
---[[团队框体
-    WoWTools_PanelMixin:OnlyCheck({
-        name= WoWTools_L.HUD_EDIT_MODE_RAID_FRAMES_LABEL,
-        GetValue= function() return not Save().hideRaidFrame end,
-        func= function()
-            Save().hideRaidFrame= not Save().hideRaidFrame and true or nil
-            if Save().hideRaidFrame then
-                print(
-                    WoWTools_DataMixin.Icon.icon2,
-                    WoWTools_TextMixin:GetEnabeleDisable(false),
-                    WoWTools_L.REQUIRES_RELOAD
-                )
-            else
-                WoWTools_UnitMixin:Init_RaidFrame()--团队
-            end
-        end,
-        category= Category,
-    })]]
-
-
-
 
 
 --首领框体

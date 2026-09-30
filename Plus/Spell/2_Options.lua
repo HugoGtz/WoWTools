@@ -136,23 +136,8 @@ local function Init()
     })
 
 
-
-
-
     Init=function()end
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_SpellMixin:Init_Options()
@@ -165,25 +150,3 @@ function WoWTools_SpellMixin:Init_Options()
 
     Init()
 end
-     --[[添加控制面板
-     WoWTools_PanelMixin:OnlyCheck({
-        name= WoWTools_SpellMixin.addName,
-        tooltip= WoWTools_DataMixin.onlyChinese and '法术距离, 颜色'
-                or (
-                    WoWTools_Join(SPELLS, TRACKER_SORT_PROXIMITY)..': '.. COLOR
-
-            ),
-        Value= not Save().disabled,
-        GetValue=function() return not Save().disabled end,
-        SetValue= function()
-            Save().disabled= not Save().disabled and true or nil
-            print(
-                WoWTools_DataMixin.Icon.icon2..WoWTools_SpellMixin.addName,
-                WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-                WoWTools_L.REQUIRES_RELOAD
-            )
-        end,
-        layout= WoWTools_OtherMixin.Layout,
-        category= WoWTools_OtherMixin.Category,
-    })
-]]

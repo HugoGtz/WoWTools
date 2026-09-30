@@ -1,67 +1,11 @@
 --受限模式
 WoWTools_MailMixin={}
 
---[[if GameLimitedMode_IsActive() then
-    WoWTools_MailMixin.disabled= true
-    return
-end]]
 
 
 local function Save()
     return WoWToolsPlusSave['Plus_Mail']
 end
-
-
---[[
-local function Is_Sandro()
-    if not WoWTools_DataMixin.Player.husandro or #Save().lastSendPlayerList~=0 then
-        return
-    end
-        --1US(includes Brazil and Oceania) 2Korea 3Europe (includes Russia) 4Taiwan 5China
-    if WoWTools_DataMixin.Player.Region==3 then
-        Save().lastSendPlayerList= {
-            'Zans-Nemesis',
-            'Qisi-Nemesis',
-            'Sandroxx-Nemesis',
-            'Fuocco-Nemesis',
-            'Sm-Nemesis',
-            'Xiaod-Nemesis',
-            'Dz-Nemesis',
-            'Ws-Nemesis',
-            'Sosi-Nemesis',
-            'Maggoo-Nemesis',
-            'Dhb-Nemesis',
-            'Ms-Nemesis',--最大存20个
-        }
-        Save().fast={
-            [WoWTools_DataMixin.onlyChinese and '布甲' or C_Item.GetItemSubClassInfo(4, 1)]= 'Ms-Nemesis',--布甲
-            [WoWTools_DataMixin.onlyChinese and '皮甲' or C_Item.GetItemSubClassInfo(4, 2)]= 'Xiaod-Nemesis',--皮甲
-            [WoWTools_DataMixin.onlyChinese and '锁甲' or C_Item.GetItemSubClassInfo(4, 3)]= 'Fuocco-Nemesis',--锁甲
-            [WoWTools_DataMixin.onlyChinese and '板甲' or C_Item.GetItemSubClassInfo(4, 4)]= 'Zans-Nemesis',--板甲
-            [WoWTools_DataMixin.onlyChinese and '盾牌' or C_Item.GetItemSubClassInfo(4, 6)]= 'Zans-Nemesis',--盾牌
-            [WoWTools_DataMixin.onlyChinese and '武器' or C_Item.GetItemClassInfo(2)]= 'Zans-Nemesis',--武器
-
-        }
-    elseif WoWTools_DataMixin.Player.Region==4 then
-        Save().lastSendPlayerList= {
-            'Wowtools-巫妖之王',
-        }
-        Save().fast={}
-    end
-end]]
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --设置，发送名称
@@ -113,11 +57,6 @@ function WoWTools_MailMixin:GetRealmInfo(name)
 end
 
 
-
-
-
-
-
 function WoWTools_MailMixin:RefreshAll()
     if InboxFrame:IsShown() then
         WoWTools_DataMixin:Call('InboxFrame_Update')
@@ -128,21 +67,6 @@ function WoWTools_MailMixin:RefreshAll()
         WoWTools_DataMixin:Call('OpenMail_Update')
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --初始
@@ -190,15 +114,6 @@ local function Init()--SendMailNameEditBox
 
     Init=function()end
 end
-
-
-
-
-
-
-
-
-
 
 
 local panel= CreateFrame("Frame")

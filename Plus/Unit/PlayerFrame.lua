@@ -4,13 +4,6 @@ local function Save()
 end
 
 
-
-
-
-
-
-
-
 local function Init()
     if Save().hidePlayerFrame then
         return
@@ -28,12 +21,6 @@ local function Init()
     contextual.PlayerPlayTime:SetPoint('RIGHT', contextual.GuideIcon, 'LEFT')
     contextual.PlayerPlayTime:SetSize(20,20)--原29x29
 
-
-
-
---[[do
-    Create_warModeButton(PlayerFrame)--设置, 战争模式
-end]]
 
 --处理,小队, 号码
     PlayerFrameGroupIndicatorText:ClearAllPoints()
@@ -62,9 +49,6 @@ end]]
     PlayerFrame.PlayerFrameContent.PlayerFrameContentMain.HitIndicator.HitText:SetPoint('TOPLEFT', PlayerFrame.PlayerFrameContainer.PlayerPortrait, 'BOTTOMLEFT', 0, -5)
 
 
-
-
-
 --战斗中，提示
 --<Anchor point="TOPLEFT" x="64" y="-62"/>
     contextual.AttackIcon:ClearAllPoints()
@@ -85,11 +69,6 @@ end]]
     contextual.AttackIcon.Bg:SetShown(contextual.AttackIcon:IsShown())
 --PlayerFrame_UpdateStatus()
     contextual.PlayerPortraitCornerIcon:SetVertexColor(0,1,0)
-
-
-
-
-
 
 
 --等级，颜色
@@ -131,23 +110,6 @@ end]]
 
 --移动zzZZ, 睡着
     contextual.PlayerRestLoop.RestTexture:SetPoint('TOPRIGHT', PlayerFrame.portrait, 14, 38)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     --全部有权限，助手，提示
@@ -199,29 +161,6 @@ end]]
         AssisterButton.Icon:SetShown(not isLeader and isAssist)
         AssisterButton.EveryoneAssistantIcon:SetShown(IsEveryoneAssistant())
     end)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --拾取专精
@@ -278,10 +217,6 @@ end]]
     LootButton:RegisterEvent('PLAYER_ENTERING_WORLD')
     LootButton:RegisterEvent('PLAYER_LOOT_SPEC_UPDATED')
 
-    --[[LootButton:RegisterEvent("VEHICLE_ANGLE_UPDATE")
-    LootButton:RegisterUnitEvent("UNIT_ENTERED_VEHICLE", "player")
-    LootButton:RegisterUnitEvent("UNIT_ENTERING_VEHICLE", "player")
-    LootButton:RegisterUnitEvent("UNIT_EXITED_VEHICLE", "player")]]
 
     LootButton:SetScript('OnEvent', LootButton.settings)
 
@@ -318,29 +253,6 @@ end]]
             WoWToolsButton_OnEnter(self)
         end
     end)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --图标
@@ -496,24 +408,6 @@ end]]
     end)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     local DungeonButton= CreateFrame('DropdownButton', 'WoWToolsPlayerFrameDungeonButton', contextual, 'WoWToolsMenu3Template')
     DungeonButton:SetSize(size, size)
     DungeonButton:SetPoint('BOTTOMLEFT', RaidButton, 'BOTTOMRIGHT')
@@ -614,20 +508,6 @@ end]]
     end)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --挑战，数据
     local KeyButton= CreateFrame("Button", 'WoWToolsPlayerFrameKeystoneButton', contextual, 'WoWToolsButtonTemplate')
     KeyButton:SetSize(size, size)
@@ -691,23 +571,8 @@ end]]
     --KeyButton:set_settings()
 
 
-
-
-
-
---[[
-荣耀等级
-local honorLevel = UnitHonorLevel("player");
-local honorRewardInfo = C_PvP.GetHonorRewardInfo(honorLevel);
-prestigePortrait:SetAtlas("honorsystem-portrait-neutral", TextureKitConstants.IgnoreAtlasSize);
-prestigeBadge:SetTexture(honorRewardInfo.badgeFileDataID);
-]]
     contextual.PrestigePortrait:SetScale(0.6)
     contextual.PrestigeBadge:SetScale(0.6)
-
-
-
-
 
 
     contextual.PlayerPortraitCornerIcon:ClearAllPoints()
@@ -717,92 +582,8 @@ prestigeBadge:SetTexture(honorRewardInfo.badgeFileDataID);
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
 function WoWTools_UnitMixin:Init_PlayerFrame()--玩家
     Init()
 end
 
-
-
-
-
-
-
-
-
-
-
-
-
---[[设置, 战争模式 Blizzard_WarmodeButtonTemplate.lua
-local function Create_warModeButton(frame)
-    frame.warModeButton= WoWTools_ButtonMixin:Cbtn(frame, {size=20, isType2=true, name='WoWToolsPlayerFrameWarModeButton'})
-    frame.warModeButton:SetPoint('LEFT', frame, 5, 12)
-    frame.warModeButton:SetScript('OnClick',  function(self)
-        --C_PvP.ToggleWarMode()
-        WoWTools_LoadUIMixin:SpellBook(2)
-        --C_Timer.After(0.5, function() if GameTooltip:IsShown() then self:set_tooltip() end end)
-    end)
-    function frame.warModeButton:GetWarModeDesired()
-        return UnitPopupSharedUtil.IsInWarModeState()
-    end
-    function frame.warModeButton:set_tooltip()
-        if WarmodeButtonMixin then
-            WarmodeButtonMixin.OnEnter(self)
-            return
-        end
-
-        GameTooltip:SetOwner(PlayerFrame, "ANCHOR_LEFT")
-        GameTooltip:SetText(WoWTools_UnitMixin.addName..WoWTools_DataMixin.Icon.icon2)
-        GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_L.PVP_LABEL_WAR_MODE, WoWTools_TextMixin:GetEnabeleDisable(C_PvP.IsWarModeDesired())..WoWTools_DataMixin.Icon.left)
-
-        if not C_PvP.ArePvpTalentsUnlocked() then
-			GameTooltip_AddErrorLine(
-                GameTooltip,
-                format(
-                    WoWTools_L.PVP_TALENT_SLOT_LOCKED,
-                    C_PvP.GetPvpTalentsUnlockedLevel()
-                ),
-            true)
-
-        elseif not C_PvP.CanToggleWarMode(true) or not C_PvP.CanToggleWarMode(false) or InCombatLockdown() then
-            GameTooltip:AddLine(WoWTools_L.SPELL_FAILED_NOT_HERE, 1,0,0)
-		end
-
-        GameTooltip:Show()
-    end
-
-    frame.warModeButton:SetScript('OnLeave', function() GameTooltip:Hide() end)
-    frame.warModeButton:SetScript('OnEnter', function(self)
-        self:set_tooltip()
-    end)
-
-    frame.warModeButton:RegisterEvent('PLAYER_ENTERING_WORLD')
-    frame.warModeButton:RegisterEvent('PLAYER_FLAGS_CHANGED')
-    frame.warModeButton:RegisterEvent('PLAYER_UPDATE_RESTING')
-    
-    frame.warModeButton.bg= frame.warModeButton:CreateTexture(nil, 'ARTWORK')
-    frame.warModeButton.bg:SetAllPoints()
-    frame.warModeButton.bg:SetAtlas('pvptalents-talentborder-glow')
-
-    function frame.warModeButton:set_settings()
-        self:SetNormalAtlas(C_PvP.IsWarModeDesired() and 'pvptalents-warmode-swords' or 'pvptalents-warmode-swords-disabled')
-    end
-    frame.warModeButton:SetScript('OnEvent', function(self, event)
-        C_Timer.After(0.5, function() self:set_settings() end)
-    end)
-
-    frame.warModeButton:set_settings()
-end]]
 

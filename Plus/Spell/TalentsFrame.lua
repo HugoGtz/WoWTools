@@ -2,20 +2,6 @@ local function Save()
     return WoWToolsPlusSave['Plus_Spell']
 end
 
---[[local function Call_Bg()
-    WoWTools_DataMixin:Call(PlayerSpellsFrame.TalentsFrame.UpdateSpecBackground, PlayerSpellsFrame.TalentsFrame)
-    --PlayerSpellsFrame.TalentsFrame:UpdateSpecBackground()
-end]]
-
-
-
-
-
-
-
-
-
-
 
 local function Init()
 --天赋, 点数 Blizzard_SharedTalentButtonTemplates.lua Blizzard_ClassTalentButtonTemplates.lua
@@ -61,11 +47,6 @@ local function Init()
         --Set_TalentsFrameBg()
     end
 end
-
-
-
-
-
 
 
 function WoWTools_SpellMixin:Init_TalentsFrame()

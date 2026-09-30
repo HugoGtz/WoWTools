@@ -3,9 +3,6 @@ local Save= function()
 end
 
 
-
-
-
 local function On_Enter(tootip)
     local expButton=ExpansionLandingPageMinimapButton
     if expButton and expButton.OnEnter and expButton.title then--Minimap.lua
@@ -28,9 +25,6 @@ local function On_Enter(tootip)
 end
 
 
-
-
-
 local function On_Click(self, d)
     if d=='LeftButton' then
         WoWTools_LoadUIMixin:ToggleLandingPage()
@@ -39,16 +33,6 @@ local function On_Click(self, d)
         WoWTools_MinimapMixin:Open_Menu(self)
     end
 end
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Icon()
@@ -110,48 +94,3 @@ end
 
 
 
---[[
-
-function WowTools_OnAddonCompartmentClick(self, d)
-
-    if d=='LeftButton' then
-        WoWTools_PanelMixin:Open(nil, WoWTools_MinimapMixin.addName)
-
-    elseif d=='RightButton' then
-        WoWTools_MinimapMixin:Open_Menu(self)
-    end
-end
-
-
-
-function WowTools_OnAddonCompartmentFuncOnEnter(_, root)
-    MenuUtil.ShowTooltip(root, function(tooltip)
-        tooltip:SetText(WoWTools_DataMixin.addName)
-    end)
-end]]
-   --[[print(self, ...)
-    local expButton=ExpansionLandingPageMinimapButton
-    if expButton and expButton.OnEnter and expButton.title then--Minimap.lua
-        expButton:OnEnter()
-        GameTooltip:AddLine(' ')
-    else
-        GameTooltip:SetOwner(self, "ANCHOR_LEFT")
-        GameTooltip:ClearLines()
-    end
-
-
-    GameTooltip:AddDoubleLine(WoWTools_L.SETTINGS_TITLE , WoWTools_DataMixin.Icon.mid)
-
-    if self and type(self)=='table' then
-        if _G['LibDBIcon10_WoWTools'] and _G['LibDBIcon10_WoWTools']:IsMouseWheelEnabled() then
-            GameTooltip:AddDoubleLine(WoWTools_L.SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.mid)
-        else
-            GameTooltip:AddDoubleLine(WoWTools_L.SLASH_TEXTTOSPEECH_MENU, 'Alt'..WoWTools_DataMixin.Icon.right)
-        end
-    end
-    GameTooltip:AddDoubleLine(WoWTools_L.RATED_PVP_WEEKLY_VAULT , 'Shift'..WoWTools_DataMixin.Icon.left)
-
-    GameTooltip:AddLine(' ')
-    GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_MinimapMixin.addName)
-    GameTooltip:Show()
-end]]

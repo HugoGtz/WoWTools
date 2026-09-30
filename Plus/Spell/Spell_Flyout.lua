@@ -4,14 +4,6 @@
 local SpellTab={}--WoWTools_DataMixin.ChallengesSpellTabs
 
 
---[[local function Vstr(t)--垂直文字
-    local len = select(2, t:gsub("[^\128-\193]", ""))
-    if(len == #t) then
-        return t:gsub(".", "%1|n")
-    else
-        return t:gsub("([%z\1-\127\194-\244][\128-\191]*)", "%1|n")
-    end
-end]]
 
 local CALL_PET_SPELL_IDS = {
 	[0883]=1,
@@ -56,12 +48,6 @@ local function GetHunterPetSpellText(spellID, isLeftPoint)
 
     return icon
 end
-
-
-
-
-
-
 
 
 local function GetSpellText(spellID)
@@ -111,46 +97,11 @@ local function GetSpellText(spellID)
 end
 
 
-
-
-
-
-
 local function Set_Text(self, text)
     if self.spellText then
         self.spellText:SetText(text or '')
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init()
@@ -215,12 +166,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
-
-
 
 
 function WoWTools_SpellMixin:Init_Spell_Flyout()

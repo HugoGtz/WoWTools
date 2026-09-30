@@ -35,10 +35,6 @@ local function Set_Update(self, elapsed)
 end
 
 
-
-
-
-
 --地图POI提示 AreaPOIDataProvider.lua
 local function Init()
     if not Save().ShowAreaPOI_Name then
@@ -110,47 +106,8 @@ local function Init()
     end)
 
 
-
-
-
-
-
-
-
-
-
     --POI提示 AreaPOIDataProvider.lua
     --AreaPOIPinMixin:TryShowTooltip
-    --[[可能会有性能问题，暂时只给husandro用
-    if WoWTools_DataMixin.Player.husandro then
-        WoWTools_DataMixin:Hook(AreaPoiUtil, 'TryShowTooltip', function(_, _, poiInfo)
-            local tooltip = Save().ShowAreaPOI_Name
-                    and poiInfo
-                    and (poiInfo.areaPoiID or poiInfo.widgetSetID)
-                    and GetAppropriateTooltip()
-
-            if not tooltip or not tooltip:IsVisible() or not poiInfo then
-                return
-            end
-
-            if poiInfo.areaPoiID then
-                tooltip:AddLine('areaPoiID|cffffffff'..WoWTools_DataMixin.Icon.icon2..poiInfo.areaPoiID)
-            end
-            if poiInfo.widgetSetID then
-                tooltip:AddLine('widgetSetID|cffffffff'..WoWTools_DataMixin.Icon.icon2..poiInfo.widgetSetID)
-                for _,widget in ipairs(C_UIWidgetManager.GetAllWidgetsBySetID(poiInfo.widgetSetID) or {}) do
-                    if widget and widget.widgetID and widget.shownState==1 then
-                        tooltip:AddLine('widgetID|cffffffff'..WoWTools_DataMixin.Icon.icon2..widget.widgetID)
-                    end
-                end
-            end
-            if poiInfo.factionID then
-                WoWTools_TooltipMixin:Set_Faction(tooltip, poiInfo.factionID)
-            end
-
-            WoWTools_TooltipMixin:Show(tooltip)
-        end)
-    end]]
 
     if WorldMapFrame:IsShown() then
         WoWTools_WorldMapMixin:Refresh()
@@ -167,22 +124,6 @@ end
 function WoWTools_WorldMapMixin:Init_AreaPOI_Name()
     Init()
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_WorldMapMixin:AreaPOINameMenu(_, root)

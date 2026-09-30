@@ -1,16 +1,3 @@
---[[
-WoWToolsPlusPlayerDate['LootSpec']= {
-    [encounterID] = {
-        class={
-                classFile= lootSpecID,
-            },
-        bossID= journalEncounterID,
-        
-    },
-    ...
-}
-
-]]
 local function Save()
     return WoWToolsPlusSave['Adventure_Journal']
 end
@@ -77,14 +64,6 @@ local function Init_Menu(self, root)
     end
 
 
-
-
-
-
-
-
-
-
 --清除 Boss 所有职业
     root:CreateDivider()
     local classTab={}
@@ -144,15 +123,6 @@ local function Init_Menu(self, root)
     end
 
     WoWTools_MenuMixin:SetRightText(sub)
-
-
-
-
-
-
-
-
-
 
 
 --当前职业，列表
@@ -264,16 +234,6 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetScrollMode(sub)
 
 
-
-
-
-
-
-
-
-
-
-
     root:CreateDivider()
 --全部清除
     sub=root:CreateButton(
@@ -295,17 +255,6 @@ local function Init_Menu(self, root)
         GameTooltip_AddErrorLine(tooltip, WoWTools_L.ALL)
     end)
 end
-
-
-
-
-
-
-
-
-
-
-
 
 
 --按钮，列表
@@ -376,15 +325,6 @@ local function Init_Button(btn)
 end
 
 
-
-
-
-
-
-
-
-
-
 --设置拾取专精
 local function Set_LootSpec(self, encounterID)
     local data= SaveUse()[encounterID]
@@ -446,13 +386,6 @@ local function Rest_LootSpec(self)
 end
 
 
-
-
-
-
-
-
-
 --BOSS 列表
 local DisabledShowBoossTabs={
     [2870]=1,--词缀
@@ -479,16 +412,6 @@ local function Init_Loot()
 
     Init_Loot=function()end
 end
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init()
@@ -529,15 +452,6 @@ local function Init()
         WoWTools_ButtonMixin:AddMask(self, true, self.lootTexture)
     end)
 
---[[
-local name, description, encounterID, rootSectionID, link, instanceID = EJ_GetEncounterInfo(self.encounterID);
-self.instanceID = instanceID;
-self.tooltipTitle = name;
-self.tooltipText = description;
-local displayInfo = select(4, EJ_GetCreatureInfo(1, self.encounterID));
-self.displayInfo = displayInfo;
-if displayInfo then
-]]
     WoWTools_DataMixin:Hook(EncounterJournalPinMixin, 'Refresh', function(self)
         local icon
         local encounterID= self.encounterID and select(7, EJ_GetEncounterInfo(self.encounterID))

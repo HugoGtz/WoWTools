@@ -20,10 +20,6 @@ local qualityToIconBorderAtlas = AUCTION_HOUSE_ITEM_QUALITY_ICON_BORDER_ATLASES 
 }
 
 
-
-
-
-
 --物品，菜单
 local function MenuList_Item(self, root)
 	local sub, sub2
@@ -96,28 +92,6 @@ local function MenuList_Item(self, root)
 
 	WoWTools_MenuMixin:SetScrollMode(sub)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --指定货币
@@ -225,19 +199,6 @@ local function Init_CurrencyMenu(self, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 --追踪
 local function Init_Menu(self, root)
 
@@ -282,17 +243,6 @@ local function Init_Menu(self, root)
 	root:CreateDivider()
 --打开选项
     sub= WoWTools_MenuMixin:OpenOptions(root, {name= WoWTools_CurrencyMixin.addName})
-
-
-
-
-
-
-
-
-
-
-
 
 
 --显示名称
@@ -368,36 +318,6 @@ local function Init_Menu(self, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --###########
 --监视声望按钮
 --###########
@@ -458,13 +378,6 @@ local function Set_ItemAttribute(btn)
 end
 
 
-
-
-
-
-
-
-
 --货币
 local function Set_CurrencyName(btn)
 	local info, num2, _, percent, isMax, canWeek, canEarned, canQuantity= WoWTools_CurrencyMixin:GetInfo(btn.currencyID)
@@ -507,29 +420,6 @@ local function Set_CurrencyName(btn)
 	btn:SetNormalTexture(icon or 0)
     --return text, info.iconFileID, info.currencyID
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Set_ItemButton(btn)
@@ -635,19 +525,6 @@ local function Set_ItemButton(btn)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Set_CurrencyButton(btn)
 	btn.text= btn:CreateFontString(nil, 'BORDER', 'WoWToolsFont2')
 
@@ -689,25 +566,6 @@ local function Set_CurrencyButton(btn)
 	btn:SetNormalTexture(0)
 	WoWTools_ButtonMixin:AddMask(btn)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Button(self)
@@ -786,16 +644,6 @@ local function Init_Button(self)
 		btn.itemID= itemID
 		btn.currencyID= tables.currencyID
 
-		--[[if not btn.text then
-			if btn.itemID then
-				if itemButtonUse then
-					btn:SetAttribute('type', 'item')
-				end
-				Set_ItemButton(btn)
-			else
-				Set_CurrencyButton(btn)
-			end
-		end]]
 
 		if itemButtonUse then
 			Set_ItemAttribute(btn)
@@ -846,40 +694,6 @@ local function Init_Button(self)
 	end
 	TrackButton.Bg:SetWidth(bgWidth)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init()
@@ -1126,11 +940,6 @@ local function Init()
 
 
 	TrackButton:settings()
-	--[[C_Timer.After(2, function()
-		if WoWTools_ChineseMixin then
-			TrackButton:settings()
-		end
-	end)]]
 
 
 	WoWTools_DataMixin:Hook(TokenFrame, 'Update', function()
@@ -1142,9 +951,6 @@ local function Init()
 		TrackButton:settings()
 	end
 end
-
-
-
 
 
 function WoWTools_CurrencyMixin:Init_TrackButton()

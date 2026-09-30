@@ -20,18 +20,6 @@ local function Init()--快速加入, 初始化 QuickJoin.lua
         set_QuickJoinToastButton()
     end)
     set_QuickJoinToastButton()
-    --[[WoWTools_DataMixin:Hook(QuickJoinToastButton, 'UpdateEntry', function(self)
-        local n=#C_SocialQueue.GetAllGroups()
-        self.quickJoinText:SetText(n~=0 and n or '')
-
-        set_QuickJoinToastButton()
-    end)]]
-
-
-
-
-
-
 
 
     WoWTools_DataMixin:Hook(QuickJoinEntryMixin, 'ApplyToFrame', function(self, frame)
@@ -92,9 +80,6 @@ local function Init()--快速加入, 初始化 QuickJoin.lua
                             LFGListApplicationDialog_UpdateValidState(frame2)
                         end
                     end
-                    --[[if frame2.SignUpButton:IsEnabled() then
-                        --frame2.SignUpButton:Click()
-                    end]]
                 end
             end)
         end
@@ -122,14 +107,6 @@ local function Init()--快速加入, 初始化 QuickJoin.lua
             frame.roleTips:SetText(text or '')
         end
     end)
-
-
-
-
-
-
-
-
 
 
     WoWTools_DataMixin:Hook(QuickJoinRoleSelectionFrame, 'ShowForGroup', function(self, guid)--职责选择框
@@ -179,9 +156,6 @@ local function Init()--快速加入, 初始化 QuickJoin.lua
 
     Init=function()end
 end
-
-
-
 
 
 function WoWTools_FriendsMixin:Blizzard_QuickJoin()

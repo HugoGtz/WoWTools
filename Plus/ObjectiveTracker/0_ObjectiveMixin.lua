@@ -33,9 +33,6 @@ function WoWTools_ObjectiveMixin:Add_ClearAll_Button(frame, tooltip, func)
 end
 
 
-
-
-
 function WoWTools_ObjectiveMixin:Set_Block_Icon(block, icon, type)
     if WoWTools_FrameMixin:IsLocked(block) then
         return
@@ -100,21 +97,6 @@ function WoWTools_ObjectiveMixin:Get_Block(f, index)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --清除，成就
 function WoWTools_ObjectiveMixin:Clear_Achievement(isPrint)
     local num=0
@@ -133,15 +115,6 @@ function WoWTools_ObjectiveMixin:Clear_Achievement(isPrint)
         WoWTools_DataMixin:Call('AchievementFrameAchievements_ForceUpdate')
     end
 end
-
-
-
-
-
-
-
-
-
 
 
 --清除，配方
@@ -167,13 +140,6 @@ function WoWTools_ObjectiveMixin:Clear_ProfessionsRecipe(isPrint, isRecrafting)
 end
 
 
-
-
-
-
-
-
-
 --清除，任务
 function WoWTools_ObjectiveMixin:Clear_Quest(isPrint)
     local num = 0
@@ -190,12 +156,6 @@ function WoWTools_ObjectiveMixin:Clear_Quest(isPrint)
         end
     end
 end
-
-
-
-
-
-
 
 
 --清除，世界任务
@@ -234,13 +194,6 @@ function WoWTools_ObjectiveMixin:Clear_CampaignQuest(isPreint)
 end
 
 
-
-
-
-
-
-
-
 --清除，旅行者日志 任务
 function WoWTools_ObjectiveMixin:Clear_MonthlyActivities(isPring)
     local num= 0
@@ -258,14 +211,6 @@ function WoWTools_ObjectiveMixin:Clear_MonthlyActivities(isPring)
 end
 
 
---[[清除, 收藏
-Enum.ContentTrackingType={
-0	Appearance
-1	Mount
-2	Achievement
-3	Decor
-}
-]]
 function WoWTools_ObjectiveMixin:Clear_ContentTracking(isPring)
     local num= 0
     for _, trackableType in pairs(Enum.ContentTrackingType) do
@@ -285,9 +230,6 @@ function WoWTools_ObjectiveMixin:Clear_ContentTracking(isPring)
     end
 end
 
---[[
-HousingFramesUtil.OpenFrameToTaskID(block.id)
-]]
 function WoWTools_ObjectiveMixin:Clear_NeighborhoodInitiative(isPrint)
     for _, list in pairs(C_NeighborhoodInitiative.GetTrackedInitiativeTasks() or {}) do
         for index, taskID in pairs(list) do

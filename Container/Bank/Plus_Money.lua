@@ -1,22 +1,6 @@
 local function Save()
     return WoWToolsPlusSave['Plus_Bank2']
 end
---[[
-C_Bank.FetchBankLockedReason(Enum.BankType.Account)
-ACCOUNT_BANK_ERROR_NO_LOCK = "你无法和另一名角色一起同时使用战团银行。";
-
-C_Bank.DoesBankTypeSupportMoneyTransfer(Enum.BankType.Account)
-ERR_CURRENCY_TRANSFER_DISABLED = "货币转移目前无法使用。";
-
-C_Bank.CanDepositMoney(Enum.BankType.Account)
-C_Bank.DepositMoney(Enum.BankType.Account, amount)
-C_Bank.FetchDepositedMoney(Enum.BankType.Account)--有多少钱
-
-C_Bank.CanWithdrawMoney(Enum.BankType.Account)
-C_Bank.WithdrawMoney(Enum.BankType.Account, amount)
-*
-HUD_EDIT_MODE_SETTING_ACTION_BAR_ICON_PADDING:gsub(SELF_HIGHLIGHT_ICON, ''):gsub(' ', '')/*
-]]
 
 
 --num 以金为单位
@@ -83,19 +67,6 @@ local function Save_Money(num)
 
     return true
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --WITHDRAW = "填充";
@@ -166,27 +137,6 @@ local function Out_Money(num)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --存钱
 local function Init_Save_Menu(self, root)
     if not C_Bank.CanDepositMoney(Enum.BankType.Account) then
@@ -255,9 +205,6 @@ local function Init_Save_Menu(self, root)
         tooltip=function(tooltip)
             Save_Tooltip(tooltip)
         end,
-        --[['|cff00ccff'
-            ..(WoWTools_L.DEPOSIT)
-            ..'|cnGREEN_FONT_COLOR:> |A:Coin-Gold:0:0|a',]]
         minValue=0,
         maxValue=100000,
         step=100,
@@ -272,11 +219,6 @@ local function Init_Save_Menu(self, root)
         end)
     end)
     autoSub:CreateSpacer()
-
-
-
-
-
 
 
 --全部存钱
@@ -334,25 +276,6 @@ local function Init_Save_Menu(self, root)
     end
 
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --提取
@@ -440,11 +363,6 @@ local function Init_Out_Menu(self, root)
     autoSub:CreateSpacer()
 
 
-
-
-
-
-
 --全部提取
     sub=root:CreateButton(
         WoWTools_ColorMixin:SetStringColor(WoWTools_L['ALL+DEPOSIT']),
@@ -505,24 +423,6 @@ local function Init_Out_Menu(self, root)
     end
 
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Menu(self, root)
@@ -628,17 +528,6 @@ local function Init_Menu(self, root)
     root:CreateDivider()
     sub=WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_BankMixin.addName})
 end
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init()

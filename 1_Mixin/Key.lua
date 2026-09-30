@@ -1,28 +1,4 @@
 WoWTools_KeyMixin={}
---[[
-KeybindListener:SetBinding
-local function CreateKeybindingInitializers(category, layout)
-	-- Keybinding sections
-	local bindingsCategories = {};
-	local nextOrder = 1;
-	local function AddBindingCategory(key, requiredSettingName, expanded)
-		if not bindingsCategories[key] then
-			bindingsCategories[key] = {order = nextOrder, bindings = {}, requiredSettingName = requiredSettingName, expanded = expanded};
-			nextOrder = nextOrder + 1;
-		end
-	end
-
-	KeybindingsOverrides.AddBindingCategories(AddBindingCategory);
-
-
-
-local function Register()
-    local category, layout = Settings.RegisterVerticalLayoutCategory(SETTINGS_KEYBINDINGS_LABEL);
-    retained.layout = layout;
-    retained.category = category;
-    Settings.SetKeybindingsCategory(category);
-    Settings.KEYBINDINGS_CATEGORY_ID = category:GetID();
-]]
 
 local Frame=CreateFrame('Frame')
 Frame.buttons={}
@@ -40,10 +16,6 @@ Frame:SetScript("OnEvent", function(self)
     self.buttons={}
     self:UnregisterEvent('PLAYER_REGEN_ENABLED')
 end)
-
-
-
-
 
 
 function WoWTools_KeyMixin:Init(btn, GetValue, notSetup)
@@ -122,22 +94,6 @@ function WoWTools_KeyMixin:Setup(btn, isDisabled)
     end
     self:SetTexture(btn)
 end
-    --[[if self:IsKeyValid(btn) then
-        if #key==1 then
-            btn.KEYstring:SetText(key)
-            btn.KEYtexture:SetShown(false)
-        else
-            btn.KEYstring:SetText('')
-            btn.KEYtexture:SetShown(true)
-        end
-    else
-        btn.KEYstring:SetText('')
-        btn.KEYtexture:SetShown(false)
-    end
-end]]
-
-
-
 
 
 --快捷键
@@ -190,50 +146,6 @@ function WoWTools_KeyMixin:SetMenu(frame, root, tab)
     --sub:SetEnabled(not PlayerIsInCombat())
     return sub
 end
-
---[[
-
---设置捷键
-    sub:CreateSpacer()
-    local text2, num2= WoWTools_MenuMixin:GetDragonriding()--驭空术
-    WoWTools_KeyMixin:SetMenu(self, sub, {
-        icon='|A:NPE_ArrowDown:0:0|a',
-        name=addName..(num2 and num2>0 and text2 or ''),
-        GetKey=function(key)
-            Save.KEY=key
-            WoWTools_KeyMixin:Setup(MountButton)--设置捷键
-        end,
-        OnAlt=function()
-            Save.KEY=nil
-            WoWTools_KeyMixin:Setup(MountButton)--设置捷键
-        end,
-    })
-    
-    WoWTools_KeyMixin:Init(MountButton, function() return Save.KEY end)
-
-
-
-
-    if self.typeID then
-        local key= WoWTools_KeyMixin:IsKeyValid(self)
-        GameTooltip:AddDoubleLine(
-            self.typeSpell and WoWTools_SpellMixin:GetName(self.typeID) or WoWTools_ItemMixin:GetName(self.typeID),
-            (key and '|cnGREEN_FONT_COLOR:'..key or '')..WoWTools_DataMixin.Icon.left
-        )
-    end
-
-    local key= WoWTools_KeyMixin:IsKeyValid(self)
-    if key then
-        GameTooltip:AddDoubleLine('|cnGREEN_FONT_COLOR:'..(WoWTools_L.SETTINGS_KEYBINDINGS_LABEL), '|cnGREEN_FONT_COLOR:'..key)
-    end
-]]
-
-
-
-
-
-
-
 
 
 function WoWTools_KeyMixin:SetButtonKey(frame, set, key, click)--设置清除快捷键

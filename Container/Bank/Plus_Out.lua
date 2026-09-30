@@ -48,18 +48,6 @@ local function Get_Container_Tab(containerID)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 local function Use_Container_Item(free, containerID, data)
     if not data then
         return 0
@@ -103,18 +91,6 @@ local function Set_Tooltip_ItemList(tooltip, containerID, data)
         end
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_RightTab_Menu(root, tabData)
@@ -204,23 +180,7 @@ local function Init_RightTab_Menu(root, tabData)
 end
 
 
-
-
-
-
-
 local function Init()
-    --[[BankPanel.AutoDepositFrame.DepositButton:HookScript('OnEnter', function(self)
-        if not self:IsEnabled() then
-            return
-        end
-    end)
-    BankPanel.AutoDepositFrame.DepositButton:HookScript('OnMouseDown', function(self, d)
-        if d~='RightButton' or not self:IsEnabled() then
-            return
-        end
-
-    end)]]
 
 --右边Tab
     WoWTools_DataMixin:Hook(BankPanelTabMixin, 'OnLoad', function(btn)
@@ -247,9 +207,6 @@ local function Init()
 end
 
 
-
-
-
 function WoWTools_BankMixin:Init_Out_Menu(root, tabData)
     Init_RightTab_Menu(root, tabData)
 end
@@ -258,17 +215,5 @@ end
 function WoWTools_BankMixin:Init_Out_Plus()
     Init()
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 

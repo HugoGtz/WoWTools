@@ -105,10 +105,6 @@ local function set_Tabs()
 end
 
 
-
-
-
-
 --###########
 --设置，当前值
 --###########
@@ -230,18 +226,6 @@ local function set_Text_Value(frame, value, value2)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 --主属性
 local function set_STATUS_Text(frame)
     if not PrimaryStat then
@@ -256,14 +240,6 @@ local function set_STATUS_Text(frame)
     end
     set_Text_Value(frame, value)
 end
-
-
-
-
-
-
-
-
 
 
 --爆击
@@ -314,13 +290,6 @@ local function set_CRITCHANCE_Text(frame)
 end
 
 
-
-
-
-
-
-
-
 --急速
 local function set_HASTE_Text(frame)
     local haste
@@ -335,12 +304,6 @@ local function set_HASTE_Text(frame)
         set_Text_Value(frame, haste)--设置，当前值
     end
 end
-
-
-
-
-
-
 
 
 --精通
@@ -358,12 +321,6 @@ local function set_MASTERY_Text(frame)
         set_Text_Value(frame, mastery)--设置，当前值
     end
 end
-
-
-
-
-
-
 
 
 --全能, 5
@@ -391,13 +348,6 @@ local function set_VERSATILITY_Text(frame)
 end
 
 
-
-
-
-
-
-
-
 --吸血, 6
 local function set_LIFESTEAL_Text(frame)
     local lifesteal
@@ -412,13 +362,6 @@ local function set_LIFESTEAL_Text(frame)
         set_Text_Value(frame, lifesteal)--设置，当前值
     end
 end
-
-
-
-
-
-
-
 
 
 --闪避, 7
@@ -437,11 +380,6 @@ local function set_AVOIDANCE_Text(frame)
 end
 
 
-
-
-
-
-
 --躲闪, 8
 local function set_DODGE_Text(frame)
     local chance
@@ -456,15 +394,6 @@ local function set_DODGE_Text(frame)
         set_Text_Value(frame, chance)--设置，当前值
     end
 end
-
-
-
-
-
-
-
-
-
 
 
 --护甲 local baselineArmor, effectiveArmor, armor, bonusArmor = UnitArmor('player')
@@ -490,16 +419,6 @@ local function set_ARMOR_Text(frame)
 end
 
 
-
-
-
-
-
-
-
-
-
-
 --招架
 local function set_PARRY_Text(frame)
     local chance
@@ -514,19 +433,6 @@ local function set_PARRY_Text(frame)
         set_Text_Value(frame, chance)--设置，当前值
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --格挡10
@@ -545,33 +451,11 @@ local function set_BLOCK_Text(frame)
 end
 
 
-
-
-
-
-
-
-
-
-
-
 --醉拳11
 local function set_STAGGER_Text(frame)
     local stagger, staggerAgainstTarget = C_PaperDollInfo.GetStaggerPercentage('player')
     set_Text_Value(frame, stagger, staggerAgainstTarget)--设置，当前值
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --移动12
@@ -593,28 +477,6 @@ local function set_SPEED_Text(frame, elapsed)
     end
     frame.text:SetText(AbbreviateNumbers(speed, WoWTools_AttributesMixin.SPEED_FORMAT_OPTIONS))
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function set_Frame(frame, rest)--设置, frame
@@ -775,17 +637,6 @@ local function set_Frame(frame, rest)--设置, frame
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
 local EventsTable={}
 --主属性1
 EventsTable.STATUS= function(frame)
@@ -826,11 +677,6 @@ EventsTable.AVOIDANCE= function()
     _G['WoWToolsAttributesMainButton'].frame:RegisterEvent('AVOIDANCE_UPDATE')
 end
 
---[[
-EventsTable.DODGE= function(frame)--躲闪8
-EventsTable.PARRY= function(frame)--招架9
-EventsTable.BLOCK= function(frame)-格挡10
-]]
 --醉拳11
 EventsTable.STAGGER= function(frame)
     frame:RegisterEvent('PLAYER_TARGET_CHANGED')
@@ -845,20 +691,6 @@ EventsTable.SPEED= function(frame)
     frame.frame.text= frame.text
     frame.frame:SetAllPoints()
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --初始， 或设置
@@ -961,36 +793,6 @@ local function Frame_Init(rest)
         end
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_AttributesMixin:Set_Shadow(label)--设置，字体阴影

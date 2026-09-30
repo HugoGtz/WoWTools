@@ -4,13 +4,6 @@ local function Save()
 end
 
 
-
-
-
-
-
-
-
 function WoWTools_TooltipMixin:Set_PlayerModel(tooltip)
     if not tooltip.playerModel then
         tooltip.playerModel= CreateFrame("PlayerModel", tooltip:GetName()..'PlayerModel', tooltip)--PlayerModel ModelScene DressUpModel PlayerModel
@@ -27,12 +20,6 @@ function WoWTools_TooltipMixin:Set_PlayerModel(tooltip)
 end
 
 
-
-
-
-
-
-
 local function Create(tooltip)
     local name= not tooltip.textLeft and tooltip:GetName()
     if not name then
@@ -45,9 +32,6 @@ local function Create(tooltip)
     --tooltip.textLeft:SetShadowOffset(2, -2)
     tooltip.textLeft:SetPoint('BOTTOMLEFT', tooltip.CompareHeader or tooltip, 'TOPLEFT', 3, 0)
 
-    --[[tooltip.textLeftBg= tooltip:CreateTexture(nil, 'BACKGROUND')
-    tooltip.textLeftBg:SetAllPoints(tooltip.textLeft)
-    tooltip.textLeftBg:SetColorTexture(0,0,0,0.5)]]
 
 --左上角字符2
     tooltip.text2Left= tooltip:CreateFontString(name..'Text2Left', 'ARTWORK', 'WoWToolsFont')
@@ -55,9 +39,6 @@ local function Create(tooltip)
     --tooltip.text2Left:SetJustifyH('LEFT')
     --tooltip.text2Left:SetShadowOffset(2, -2)
     tooltip.text2Left:SetPoint('LEFT', tooltip.textLeft, 'RIGHT', 5, 0)
-    --[[tooltip.text2LeftBg= tooltip:CreateTexture(nil, 'BACKGROUND')
-    tooltip.text2LeftBg:SetAllPoints(tooltip.text2Left)
-    tooltip.text2LeftBg:SetColorTexture(0,0,0,0.5)]]
 
 --右上角字符
     tooltip.textRight= tooltip:CreateFontString(name..'textRight', 'BORDER', 'WoWToolsFont')
@@ -69,9 +50,6 @@ local function Create(tooltip)
     else
         tooltip.textRight:SetPoint('BOTTOMRIGHT', tooltip, 'TOPRIGHT', -3, 0)
     end
-    --[[tooltip.textRightBg= tooltip:CreateTexture(nil, 'BACKGROUND')
-    tooltip.textRightBg:SetAllPoints(tooltip.textRight)
-    tooltip.textRightBg:SetColorTexture(0,0,0,0.5)]]
 
 --右上角字符2
     tooltip.text2Right= tooltip:CreateFontString(name..'text2Right', 'BORDER', 'WoWToolsFont')
@@ -79,9 +57,6 @@ local function Create(tooltip)
     tooltip.text2Right:SetJustifyH('RIGHT')
     --tooltip.text2Right:SetShadowOffset(2, -2)
     tooltip.text2Right:SetPoint('BOTTOMRIGHT', tooltip.textRight, 'TOPRIGHT', 0, 2)
-    --[[tooltip.text2RightBg= tooltip:CreateTexture(nil, 'BACKGROUND')
-    tooltip.text2RightBg:SetAllPoints(tooltip.text2Right)
-    tooltip.text2RightBg:SetColorTexture(0,0,0,0.5)]]
 
 --背景颜色
     tooltip.backgroundColor= tooltip:CreateTexture(name..'BackgroundColor', 'BACKGROUND', nil, 1)
@@ -151,11 +126,6 @@ local function Create(tooltip)
 end
 
 
-
-
-
-
-
 function WoWTools_TooltipMixin:Set_Init_Item(tooltip)--创建，设置，内容
     if not tooltip then
         return
@@ -168,11 +138,6 @@ function WoWTools_TooltipMixin:Set_Init_Item(tooltip)--创建，设置，内容
         tooltip.playerModel:SetShown(false)
     end
 end
-
-
-
-
-
 
 
 --清除，数据
@@ -204,15 +169,6 @@ function WoWTools_TooltipMixin:Set_Rest_Item(tooltip)
         tooltip.AchievementButton:rest()
     end
 end
-
-
-
-
-
-
-
-
-
 
 
 --###########

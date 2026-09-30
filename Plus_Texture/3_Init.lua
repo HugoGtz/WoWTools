@@ -19,24 +19,12 @@ local P_Save={
     --disabledHelpTip=true,--隐藏所有教程
 
     Bg={
-        --[[UseTexture={
-            --自定义，图片 Texture or Atlas
-
-        },]]
         All={--统一设置
             texture='Interface\\AddOns\\WoWToolsPlus\\Source\\Background\\Black.tga',
             alpha=0.75,
             nineSlice=0,
         },
         Add={--分开设置
---[[   
-            [name]={
-                enabled=true,--分开设置
-                alpha=0.5,
-                texture=texture or atlas,
-                notLayer=true-- self:SetDrawLayerEnabled('BACKGROUND', not Save().Add[name].notLayer)
-            }
-]]
 
         },
         Anims={
@@ -66,13 +54,6 @@ local function Set_Color()
         WoWTools_TextureMixin.Color= PlayerUtil.GetClassColor()
     end
 end
-
-
-
-
-
-
-
 
 
 local function Init_Panel()
@@ -230,10 +211,6 @@ WoWTools_PanelMixin:CheckMenu({
     }, sub)
 
 
-
-
-
-
     WoWTools_PanelMixin:Check_Slider({
         checkName= (WoWTools_L['CLASS+ENERGY'])..' 1 2 3',
         checkGetValue= function() return Save().classPowerNum end,
@@ -299,16 +276,6 @@ WoWTools_PanelMixin:CheckMenu({
 end
 
 
-
-
-
-
-
-
-
-
-
-
 local function Init()
     for name, func in pairs(WoWTools_TextureMixin.Frames) do
         if _G[name] then
@@ -332,10 +299,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
 
 
 local panel= CreateFrame("Frame")

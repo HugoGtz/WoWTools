@@ -1,33 +1,7 @@
 
 
 
-
-
-
-
-
---[[
-    LFG_CATEGORY_NAMES = {
-        [LE_LFG_CATEGORY_LFD] = LOOKING_FOR_DUNGEON, 地下城查找器1
-        [LE_LFG_CATEGORY_RF] = RAID_FINDER, 团队查找器 3
-        [LE_LFG_CATEGORY_SCENARIO] = SCENARIOS, 场景战役 4
-        [LE_LFG_CATEGORY_LFR] = LOOKING_FOR_RAID, 其他团队 2
-        [LE_LFG_CATEGORY_FLEXRAID] = FLEX_RAID, 弹性团队 5
-        [LE_LFG_CATEGORY_WORLDPVP] = WORLD_PVP, 阿什兰 6
-        [LE_LFG_CATEGORY_BATTLEFIELD] = LFG_CATEGORY_BATTLEFIELD,乱斗 7
-    }
-]]
-
-
 --节日, 提示, button.texture
---[[local canTank, canHealer, canDamage = C_LFGList.GetAvailableRoles()--额外 奖励
-for shortageIndex=1, LFG_ROLE_NUM_SHORTAGE_TYPES or 3 do--3
-    local eligible, forTank, forHealer, forDamage, itemCount= GetLFGRoleShortageRewards(dungeonID, shortageIndex)
-    if eligible and itemCount~=0 and (forTank and canTank or forHealer and canHealer or forDamage and canDamage) then
-        atlas= format('groupfinder-icon-role-large-%s', forTank and 'tank' or forHealer and 'heal' or 'dps')
-        break
-    end
-end]]
 local function Check_Holiday(dungeonIndex)
     local dungeonID, name = GetLFGRandomDungeonInfo(dungeonIndex)
     if not dungeonID or not name then
@@ -70,9 +44,6 @@ local function Check_Holiday(dungeonIndex)
 end
 
 
-
-
-
 local function Set_Holiday()
     local dungeonID, name, texture, atlas
     local group= IsInGroup()
@@ -90,15 +61,6 @@ local function Set_Holiday()
 
     WoWTools_LFDMixin:Set_LFDButton_Data(dungeonID, categoryType, WoWTools_TextMixin:CN(name), texture,  atlas)--设置图标
 end
-
-
-
-
-
-
-
-
-
 
 
 local function Init(btn)
@@ -125,9 +87,6 @@ local function Init(btn)
             GameTooltip:AddLine(' ')
             GameTooltip:AddLine(self.name..WoWTools_DataMixin.Icon.left)
         end
-        --[[if _G['WoWToolsChatToolsLFDTooltipButton'] then
-            _G['WoWToolsChatToolsLFDTooltipButton']:SetButtonState('PUSHED')
-        end]]
         GameTooltip:Show()
     end
 
@@ -151,14 +110,6 @@ local function Init(btn)
     end
 
 
-    --[[function btn:set_OnLeave()
-        if _G['WoWToolsChatToolsLFDTooltipButton'] then
-           _G['WoWToolsChatToolsLFDTooltipButton']:SetButtonState('NORMAL')
-        end
-    end]]
-
-
-
     WoWTools_LFDMixin:Init_Menu(btn)
     WoWTools_LFDMixin:Init_Queue_Status()--建立，小眼睛, 更新信息
     WoWTools_LFDMixin:Init_Loot_Plus()--历史, 拾取框
@@ -173,16 +124,6 @@ local function Init(btn)
     C_Timer.After(2, Set_Holiday)
     Init=function()end
 end
-
-
-
-
-
-
-
-
-
-
 
 
 local panel= CreateFrame('Frame')

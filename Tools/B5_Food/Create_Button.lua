@@ -108,11 +108,6 @@ local function Set_Script(btn)
     btn:SetScript('OnHide', function(self)
         self:set_event()
         --self:settings()
-        --[[self.itemID=nil
-            if self:CanChangeAttribute() then
-            self:SetAttribute("type1", nil)
-            self:SetAttribute("item1", nil)
-        end]]
         --self.texture:SetTexture(0)
         WoWTools_CooldownMixin:Setup(self)
     end)
@@ -145,22 +140,6 @@ local function Set_Script(btn)
 
     btn:set_event()
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Create_Button(index)
@@ -238,21 +217,6 @@ local function Create_Button(index)
 
     return btn
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --检查,物品
@@ -338,15 +302,6 @@ function WoWTools_FoodMixin:Check_Items(isPrint)
 
     IsChecking=nil
 end
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_FoodMixin:Set_Button_Function(btn)

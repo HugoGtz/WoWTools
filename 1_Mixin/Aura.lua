@@ -1,26 +1,4 @@
 WoWTools_AuraMixin={}
---[[
-AuraUtil.lua
-AuraUtil.ShouldDisplayBuff(unitCaster, spellId, canApplyAura)
-AuraUtil.ShouldDisplayDebuff(unitCaster, spellId)
- 
-C_UnitAuras.GetAuraDataBySpellName(unit, auraName, filter))
-
-AuraUtil.FindAura(predicate, unit, filter, predicateArg1, predicateArg2, predicateArg3)
-
-AuraUtil.AuraFilters = {
-	Helpful = "HELPFUL",
-	Harmful = "HARMFUL",
-	Raid = "RAID",
-	IncludeNameplateOnly = "INCLUDE_NAME_PLATE_ONLY",
-	Player = "PLAYER",
-	Cancelable = "CANCELABLE",
-	NotCancelable = "NOT_CANCELABLE",
-	Maw = "MAW",
-}
-
-AuraUtil.AuraFilters.Harmful
-]]
 function WoWTools_AuraMixin:Get(unit, spellTab, filter)--HELPFUL HARMFUL
     if not canaccessvalue(unit)
         or not WoWTools_UnitMixin:UnitGUID(unit)

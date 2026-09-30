@@ -4,12 +4,6 @@ local function Save()
 end
 
 
-
-
-
-
-
-
 local function OnColorSelect(self, r, g, b)
 	local alphaText, a
 	a=(not Save().hide and self.Alpha:IsShown()) and self:GetColorAlpha()
@@ -62,13 +56,6 @@ local function OnColorSelect(self, r, g, b)
 end
 
 
-
-
-
-
-
-
-
 local function Init()
 --修改，透明度值，MouseWheel
 	ColorPickerFrame.Content.ColorPicker:EnableMouseWheel(true)
@@ -109,25 +96,6 @@ local function Init()
 		end
 	end)
 	
---[[
-	--不能点击，指定值
-	ColorPickerFrame.Content.ColorPicker.Value:HookScript('OnLeave', GameTooltip_Hide)
-	ColorPickerFrame.Content.ColorPicker.Value:HookScript('OnEnter', function(self)
-		if not Save().hide then
-			GameTooltip:SetOwner(ColorPickerFrame, 'ANCHOR_RIGHT')
-			GameTooltip_SetTitle(GameTooltip, '+0.01 '..WoWTools_DataMixin.Icon.mid..' -0.01')
-			GameTooltip:Show()
-		end
-	end)
-
-	ColorPickerFrame.Content.ColorPicker.Alpha:HookScript('OnLeave', GameTooltip_Hide)
-	ColorPickerFrame.Content.ColorPicker.Alpha:HookScript('OnEnter', function(self)
-		if not Save().hide then
-			GameTooltip:SetOwner(ColorPickerFrame, 'ANCHOR_RIGHT')
-			GameTooltip_SetTitle(GameTooltip, '+0.01 Alt+'..WoWTools_DataMixin.Icon.mid..' -0.01')
-			GameTooltip:Show()
-		end
-	end)]]
 
 
 
@@ -148,10 +116,6 @@ end
 
 
 --ColorPickerFrame.Content.ColorPicker:GetColorHSV()
-
-
-
-
 
 
 function WoWTools_ColorMixin:Init_Other()

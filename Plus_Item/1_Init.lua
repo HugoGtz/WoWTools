@@ -3,32 +3,10 @@ local function Save()
 end
 
 
-
-
-
-
 local function Init_Panel()
     local tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD)
 
 
---[[
-    WoWTools_PanelMixin:Header(WoWTools_ItemMixin.Layout, WoWTools_L.OPTIONS)
-
-
-
-字体
-    WoWTools_PanelMixin:OnlySlider({
-        name= WoWTools_L.FONT_SIZE,
-        GetValue= function() return Save().size or 10 end,
-        minValue= 6,
-        maxValue= 18,
-        setp= 1,
-        tooltip=tooltip,
-        category= WoWTools_ItemMixin.Category,
-        SetValue= function(_, _, value2)
-            Save().size= value2 or 10
-        end
-    })]]
 
     local index=0
     local function Add_Options(name)
@@ -62,11 +40,6 @@ local function Init_Panel()
 end
 
 
-
-
-
-
-
 local function Init()
     --if not PlayerIsTimerunning() and C_Housing.IsHousingServiceEnabled() then
     WoWTools_LoadUIMixin:Housing()
@@ -98,9 +71,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
 
 
 local panel= CreateFrame("Frame")
@@ -179,8 +149,5 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             WoWTools_ItemMixin.Events[arg1]= nil
         end
 
-    --[[elseif event=='PLAYER_ENTERING_WORLD' then
-        Init()
-        self:UnregisterEvent(event)]]
     end
 end)

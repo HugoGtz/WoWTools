@@ -32,21 +32,6 @@ local function Set_Button_Highlight(petType)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Set_Button_Script(btn, petTypeID, name)
     btn.petTypeID= petTypeID
     btn.abilityID= PET_BATTLE_PET_TYPE_PASSIVES[petTypeID]
@@ -80,33 +65,12 @@ local function Set_Button_Script(btn, petTypeID, name)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init_Buttons()
     TypeButton.frame:SetSize(1,1)
     TypeButton.frame:SetPoint('RIGHT')
 
     for petType=1, C_PetJournal.GetNumPetTypes() do
         local name= 'petType'..petType
-        --[[local btn= CreateFrame('Button', Name..name, UIParent, 'WoWToolsButtonTemplate')
-        btn:SetSize(38, 38)
-        btn:SetNormalTexture('Interface\\ICONS\\Pet_Type_'..PET_TYPE_SUFFIX[petType])]]
         local btn=WoWTools_ButtonMixin:Cbtn(TypeButton.frame, {
             size=38,
             texture='Interface\\TargetingFrame\\PetBadge-'..PET_TYPE_SUFFIX[petType],
@@ -168,22 +132,6 @@ local function Init_Buttons()
         end
     end})
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Menu(self, root)
@@ -280,30 +228,6 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --提示,类型
@@ -507,31 +431,10 @@ local function Init(isShow)
     end
 
 
-
-
-
     Init=function()
         TypeButton:Settings()
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_PetBattleMixin:Init_TypeButton()

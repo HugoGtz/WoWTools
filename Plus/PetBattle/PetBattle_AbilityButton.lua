@@ -9,21 +9,6 @@ local Buttons={}--5*3 技能按钮
 local size= 52
 --local Name= 'WoWToolsPetBattleAbilityButton_'
 
---[[
-Enum.BattlePetOwner.Weather
-Enum.BattlePetOwner.Enemy
-Enum.BattlePetOwner.Ally
-
-<OnEnter>
-    PetBattleUnitTooltip_Attach(PetBattlePrimaryUnitTooltip, "TOPLEFT", self, "TOPRIGHT", 0, 0);
-    PetBattleUnitTooltip_UpdateForUnit(PetBattlePrimaryUnitTooltip, self.petOwner, self.petIndex);
-    PetBattlePrimaryUnitTooltip:Show();
-</OnEnter>
-]]
-
-
-
-
 
 local function Get_Pet_Quality(petOwner, petIndex)
     local rarity,color,r,g,b
@@ -36,10 +21,6 @@ local function Get_Pet_Quality(petOwner, petIndex)
     end
     return rarity, color, r or 1, g or 0.82, b or 0
 end
-
-
-
-
 
 
 local function AbilityButton_UpdateTypeTips(self)
@@ -72,17 +53,6 @@ local function AbilityButton_UpdateTypeTips(self)
     self.abilityID= abilityID
     self.petType= petType
 end
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function AbilityButton_Update(self)
@@ -139,13 +109,6 @@ local function AbilityButton_Update(self)
 end
 
 
-
-
-
-
-
-
-
 local function AbilityButton_CreateTypeTips(btn)
     if btn.StrongTexture then
         return
@@ -177,15 +140,6 @@ local function AbilityButton_CreateTypeTips(btn)
     btn.MaxCooldownText=WoWTools_LabelMixin:Create(btn, {color={r=1,g=0,b=0}, justifyH='RIGHT'})--nil, nil, nil,{1,0,0}, 'OVERLAY', 'RIGHT')
     btn.MaxCooldownText:SetPoint('RIGHT', 0, -4)
 end
-
-
-
-
-
-
-
-
-
 
 
 local function Set_Ability_Button(button, index, isEnemy)
@@ -246,23 +200,6 @@ local function Set_Ability_Button(button, index, isEnemy)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --宠物，提示
 local function Set_PetUnit_Tooltip(objec)
     objec:EnableMouse(true)
@@ -290,19 +227,6 @@ local function Set_PetUnit_Tooltip(objec)
         PetBattlePrimaryUnitTooltip:Show()
     end)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --光环
@@ -368,9 +292,6 @@ local function Create_PetUnit_Aura(btn, index)
 end
 
 
-
-
-
 --光环
 local function Set_PetUnit_Aura(self, petOwner, petIndex)
     local num= C_PetBattles.GetNumAuras(petOwner, petIndex) or 0
@@ -398,21 +319,6 @@ local function Set_PetUnit_Aura(self, petOwner, petIndex)
         self.Auras[index]:set_show(false)
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --宠物，属性
@@ -468,9 +374,6 @@ local function Crea_PetUnit_Attributes(btn, isEnemy)
 end
 
 
-
-
-
 --属性
 local function Set_PetUnit_Attributes(self, petOwner, petIndex)
     local enemyOwner= PetBattleUtil_GetOtherPlayer(petOwner)-- petOwner==Enum.BattlePetOwner.Enemy and Enum.BattlePetOwner.Ally or Enum.BattlePetOwner.Enemy
@@ -504,12 +407,6 @@ local function Set_PetUnit_Attributes(self, petOwner, petIndex)
 end
 
 
-
-
-
-
-
-
 --清除，宠物，信息
 local function Clear_PetUnit_All(self)
     self.texture:SetTexture(0)
@@ -535,12 +432,6 @@ local function Clear_PetUnit_All(self)
     self.AttackIcon.Text:SetText('')
     self.SpeedIcon.Text:SetText('')
 end
-
-
-
-
-
-
 
 
 --设置，宠物，信息
@@ -614,25 +505,6 @@ local function Set_PetUnit(self)
     Set_PetUnit_Aura(self, petOwner, petIndex)--光环
     Set_PetUnit_Attributes(self, petOwner, petIndex)--属性
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- --[[local companionID= select(11, C_PetJournal.GetPetInfoByIndex(pet.index))
-local npcName= WoWTools_ChineseMixin:GetUnitName(nil, companionID)]]
 
 
 --移动按钮, 菜单
@@ -756,24 +628,6 @@ local function Init_Button_Menu(self, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --设置，移动按钮
 local function Set_Move_Button(btn)
 
@@ -881,13 +735,6 @@ local function Set_Move_Button(btn)
     end)
 
 
-
-
-
-
-
-
-
 --3D
     function btn.PetModel:Settings()
         local name=self:GetParent():GetParent().name
@@ -937,29 +784,6 @@ local function Set_Move_Button(btn)
         btn:Settings()
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Button(tab)
@@ -1135,21 +959,6 @@ local function Init_Button(tab)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
     if Save().AbilityButton.disabled then
         return
@@ -1239,21 +1048,6 @@ local function Init()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --激活，宠物
 local function Init_BottomFrame()
     if Save().AbilityButton.disabled then
@@ -1306,43 +1100,6 @@ local function Init_BottomFrame()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---[[local function StrongWeakHints_Texture(self)
-    self.PetType.Strong= self.PetType:CreateTexture()
-    self.PetType.Strong:SetPoint('BOTTOM', self.PetType.Icon, 'TOP')
-    self.PetType.Strong:SetSize(25,25)
-
-    self.PetType.WeakHints= self.PetType:CreateTexture()
-    self.PetType.WeakHints:SetPoint('TOP', self.PetType.Icon, 'BOTTOM')
-    self.PetType.WeakHints:SetSize(25,25)
-end]]
-
-
-
-
-
 --PetBattleUnitTooltipTemplate
 local function Create_Labe(self)
     local w= 290
@@ -1375,11 +1132,6 @@ local function Create_Labe(self)
 --速度，文本
     self.SpeedAmount:SetPoint('LEFT', self.SpeedIcon, 'RIGHT', 0, 0)
 
---[[宠物，类型
-    if self.PetType then
-        self.PetType:SetPoint('TOPRIGHT', -5, -22)
-        StrongWeakHints_Texture(self)
-    end]]
 
     for i=1, NUM_BATTLE_PET_ABILITIES do
 --宠物，类型
@@ -1401,10 +1153,6 @@ local function Create_Labe(self)
         self['AbilityIDLabel'..i]:SetPoint('RIGHT', self['AbilityName'..i])
     end
 end
-
-
-
-
 
 
 --技能提示 PetBattleUnitTooltipTemplate
@@ -1446,42 +1194,9 @@ local function Init_PetBattlePrimaryUnitTooltip()
         end
     end)
 
---[[宠物，类型
-    WoWTools_DataMixin:Hook('PetBattleUnitFrame_UpdatePetType', function(self)
-        if not self.PetType then
-            return
-        end
-        if not self.PetType.Strong then
-            StrongWeakHints_Texture(self)
-        end
-
-        local petType, strongTexture, weakHintsTexture
-        if self.petOwner and self.petIndex then
-            petType= C_PetBattles.GetPetType(self.petOwner, self.petIndex)
-            strongTexture, weakHintsTexture= WoWTools_PetBattleMixin:GetPetStrongWeakHints(petType)
-        end
-        self.PetType.Strong:SetTexture(strongTexture or 0)
-        self.PetType.WeakHints:SetTexture(weakHintsTexture or 0)
-    end)]]
-
-
-
-
-
-
-
 
     Init_PetBattlePrimaryUnitTooltip=function()end
 end
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_PetBattleMixin:Init_AbilityButton()

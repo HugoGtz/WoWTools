@@ -12,9 +12,6 @@ local function Is_Load(nameORindex)
 end
 
 
-
-
-
 local function Set_OnEnter_Tooltip(self, tooltip)
     tooltip:AddLine(self.name)
     WoWTools_AddOnsMixin:Show_Select_Tooltip(
@@ -22,17 +19,6 @@ local function Set_OnEnter_Tooltip(self, tooltip)
         Save().buttons[self.name] or {}
     )
 end
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Button_Menu(self, root)
@@ -141,37 +127,10 @@ local function Init_Button_Menu(self, root)
         )
     end, {name=self.name})
 
---[[缩放
-    root:CreateDivider()
-    WoWTools_MenuMixin:Scale(self, root, function()
-        return Save().rightListScale or 1
-    end, function(value)
-        Save().rightListScale= value
-        RightFrame:settings()
-    end)]]
 
 
     root:CreateTitle(self.name)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Create_Button(index)
@@ -246,18 +205,6 @@ local function Create_Button(index)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 local function Set_Right_Buttons()
     if not RightFrame:IsShown() then
         return
@@ -307,14 +254,6 @@ local function Set_Right_Buttons()
 end
 
 
-
-
-
-
-
-
-
-
 local function Init()
     if Save().hideRightList then
         return
@@ -352,18 +291,6 @@ local function Init()
         Set_Right_Buttons()
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --方案，按钮

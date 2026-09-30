@@ -7,9 +7,6 @@ end
 local Frame
 
 
-
-
-
 local function Set_Text()
     local m
     local story, achievementID
@@ -34,15 +31,6 @@ local function Set_Text()
 
         m=(m or '')..'|A:poi-islands-table:0:0|a'..uiMapID
 
-        --[[if IsInInstance() then
-            local instanceID, _, LfgDungeonID =select(8, GetInstanceInfo())
-            if instanceID then
-                m=INSTANCE..instanceID..'  '..m
-                if LfgDungeonID then
-                    m=(WoWTools_L['Random'])..LfgDungeonID..'  '..m
-                end
-            end
-        end]]
 
         local quests= C_QuestLog.GetQuestsOnMap(uiMapID)
         local num= quests and #quests or 0
@@ -74,12 +62,6 @@ local function Set_Text()
 
     Frame.Bg:SetPoint('TOPLEFT', story and Frame.storyText or Frame.Text, -1, 1)
 end
-
-
-
-
-
-
 
 
 local function Init()

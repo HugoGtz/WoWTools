@@ -5,9 +5,6 @@ local CurrentWeek
 local Frame
 
 
-
-
-
 local function Find_Cursor_Affix()
     if CurrentWeek then
         return
@@ -28,40 +25,6 @@ local function Find_Cursor_Affix()
         end
     end
 end
---[[
-    for _, affix in pairs(C_MythicPlus.GetCurrentAffixes() or {}) do
-        currentAffixes[affix.id]= true
-    end
-
-    local MaxAffix=  #WoWTools_DataMixin.affixSchedule[1]
-
-    local matches
-
-    for index, affixes in pairs(WoWTools_DataMixin.affixSchedule) do
-        matches = 0
-        for _, affix in pairs(affixes) do
-            if currentAffixes[affix] then
-                matches = matches + 1
-            end
-        end
-        if matches >= MaxAffix then
-            CurrentWeek= index
-            return
-        end
-    end
-]]
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Initializer(btn, data)
@@ -88,17 +51,6 @@ local function Initializer(btn, data)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
 local function Set_List()
     Find_Cursor_Affix()
 
@@ -118,18 +70,6 @@ local function Set_List()
         ..season
     )
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init()
@@ -225,12 +165,6 @@ local function Init()
     end)
 
 
-
-
-
-
-
-
     if WoWTools_DataMixin.Player.husandro then
         local season= C_MythicPlus.GetCurrentSeason()
         if season and season>0 and season~=WoWTools_DataMixin.SeasonAffixSchedule and WoWTools_DataMixin.Player.husandro then
@@ -243,20 +177,11 @@ local function Init()
     end
 
 
-
-
-
     WoWTools_TextureMixin:CreateBG(Frame,{point=function(texture)
         texture:SetPoint('TOPLEFT', -2, 6)
         texture:SetPoint('BOTTOMLEFT', -2, -2)
         texture:SetPoint('RIGHT', Frame.ScrollBar, 10, 0)
     end})
-
-
-
-
-
-
 
 
     C_Timer.After(1, function() Set_List() end)
@@ -266,18 +191,6 @@ local function Init()
         Frame:Settings()
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_ChallengeMixin:ChallengesUI_Affix()

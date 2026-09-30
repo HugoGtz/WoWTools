@@ -6,38 +6,6 @@ end
 local Frame
 
 
-
-
-
-
-
-
-
-
-
-
-
-
---[[
-
-    if WoWTools_DataMixin.Player.husandro and #data==0 then
-        data={
-            name= WoWTools_DataMixin.Player.Name_Realm,
-            classFilename= UnitClassBase('player'),
-            keystoneLevel=11,
-            mapChallengeModeID=247,
-            isYou= true,
-            members= {
-                {
-                    name= WoWTools_DataMixin.Player.Name_Realm,
-                    classFileName= UnitClassBase('player'),
-                },
-            },
-        }
-    end
-
-]]
-
 local function Set_Text()
     local data= C_ChallengeMode.GetGuildLeaders()
     local text= WoWTools_L.GUILD_CHALLENGE_LABEL
@@ -95,22 +63,6 @@ local function Set_Text()
     end
     Frame.Text:SetText(text)
 end
-    --[[
-Field	Type	Description
-name	string	
-classFileName	string	
-keystoneLevel	number	
-mapChallengeModeID	number	
-isYou	boolean	
-
-members	structure ChallengeModeGuildAttemptMember[]	
-ChallengeModeGuildAttemptMember
-Field	Type	Description
-name	string	
-classFileName	string	]]
-
-
-
 
 
 local function Init()

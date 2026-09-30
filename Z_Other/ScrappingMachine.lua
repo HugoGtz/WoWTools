@@ -34,16 +34,6 @@ local function Save()
 end
 
 
-
-
-
-
-
-
-
-
-
-
 local function get_num_items()
     local n= 0
     if ScrappingMachineFrame then
@@ -55,19 +45,6 @@ local function get_num_items()
     end
     return n
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function can_scrap_item(bag, slot, onlyEquip, classID)
@@ -103,19 +80,6 @@ local function can_scrap_item(bag, slot, onlyEquip, classID)
         end
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local ButtonList={
@@ -193,21 +157,6 @@ local ButtonList={
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init_SubItem_Menu(self, sub, items)
     local sub2
     for itemID in pairs(items) do
@@ -223,20 +172,6 @@ local function Init_SubItem_Menu(self, sub, items)
     end
     WoWTools_MenuMixin:SetScrollMode(sub)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Menu(self, root)
@@ -298,63 +233,6 @@ local function Init_Menu(self, root)
     category=WoWTools_OtherMixin.Category
     })
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---[[背包，所有物品，列表
-local function Init_BagList_Menu(self, root)
-    local sub
-    local tab={}
-    for bag= Enum.BagIndex.Backpack, NUM_BAG_FRAMES+NUM_REAGENTBAG_FRAMES do
-        for slot=1, C_Container.GetContainerNumSlots(bag) do--背包数量
-            local itemLocation= can_scrap_item(bag, slot, nil, nil)
-            local itemLink= itemLocation and C_Item.GetItemLink(itemLocation)
-            if itemLink then
-                local itemID, _, _, _, _, classID= C_Item.GetItemInfoInstant(itemLink)
-                if itemID then
-                    tab[classID]=tab[classID] or {}
-                    tab[classID][itemID]={bagID=bag, slotID=slot}
-                end
-            end
-        end
-    end
-
-    for classID, info in pairs(tab) do
-        sub=root:CreateButton(
-            '|cff606060'..classID..'|r '..(WoWTools_TextMixin:CN(C_Item.GetItemClassInfo(classID)) or ''),
-        function()
-            return MenuResponse.Open
-        end)
-
-        Init_SubItem_Menu(self, sub, info)
-    end
-end]]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Button()
@@ -480,22 +358,6 @@ local function Init_Button()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
     --拆解法术，提示
     ScrappingMachineFrame.ScrapButton:HookScript('OnLeave', GameTooltip_Hide)
@@ -526,17 +388,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
-
-
-
-
-
-
-
 
 
 local panel= CreateFrame("Frame")

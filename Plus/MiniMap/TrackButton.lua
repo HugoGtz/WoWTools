@@ -9,24 +9,9 @@ local function Save()
 end
 
 
-
-
-
-
 local function get_AreaPOIInfo_Name(poiInfo)
     return (poiInfo.atlasName and '|A:'..poiInfo.atlasName..':0:0|a' or '')..(poiInfo.name or '')
 end
-
-
-
-
-
-
-
-
-
-
-
 
 
 --#######################
@@ -55,22 +40,6 @@ local function get_Quest_Text(questID)
     end
     return text, itemTexture, atlas
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Get_Bar_Value(info)
@@ -154,17 +123,6 @@ local function Get_widgetSetID_Info(widgetSetID)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
 --##############
 --areaPoiID 文本
 --##############
@@ -215,19 +173,6 @@ local function Get_areaPoiID_Text(uiMapID, areaPoiID)
 
     return name..(time or ''), atlas, widgetSetData
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --#########
@@ -301,27 +246,6 @@ local function Get_Current_Vignettes()
 
     return onMinimap, onWorldMap
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --##########
@@ -414,11 +338,6 @@ local function set_OnEnter_btn_tips(self)
                 end
             end
 
-            --[[if poiInfo.textureKit == "OribosGreatVault" then
-                GameTooltip_AddBlankLineToTooltip(GameTooltip)
-                GameTooltip_AddInstructionLine(GameTooltip, ORIBOS_GREAT_VAULT_POI_TOOLTIP_INSTRUCTIONS)
-                addedTooltipLine = true
-            end]]
 
             if hasWidgetSet then
                 local overflow = GameTooltip_AddWidgetSet(GameTooltip, poiInfo.widgetSetID, addedTooltipLine and poiInfo.addPaddingAboveWidgets and 10)
@@ -455,36 +374,6 @@ local function set_OnEnter_btn_tips(self)
         GameTooltip:AddLine('rewardQuestID |cnGREEN_FONT_COLOR:'..self.rewardQuestID)
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --小按钮，点击
@@ -536,24 +425,6 @@ local function set_OnClick_btn(self)
     end
     WoWTools_ChatMixin:Chat(text, nil, nil)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Create_Button(index)
@@ -654,22 +525,6 @@ local function Create_Button(index)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --TrackButton 文本
 local function set_Button_Text()
     local allTable={}
@@ -762,28 +617,6 @@ local function set_Button_Text()
         end
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Menu(self, root)--菜单
@@ -1016,26 +849,6 @@ local function Init_Menu(self, root)--菜单
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --小地图, 标记, 文本
 local function Init_Button()
     TrackButton= CreateFrame('Button', 'WoWToolsMinimapTrackMainButton', UIParent, 'WoWToolsButtonTemplate')
@@ -1073,11 +886,6 @@ local function Init_Button()
         local isShow= Save().vigentteButtonShowText
         self.texture:SetAlpha(isShow and 0 or 1)
         self.text:SetAlpha(isShow and 1 or 0)
-        --[[if isShow then
-            self.texture:SetAtlas('VignetteKillElite')
-        else
-            self.texture:SetTexture(WoWTools_DataMixin.Icon.icon)
-        end]]
     end
 
     function TrackButton:set_point()--设置，位置
@@ -1115,9 +923,6 @@ local function Init_Button()
     end)
 
 
-
-
-
     function TrackButton:set_tooltip()
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
         GameTooltip_SetTitle(GameTooltip,
@@ -1146,16 +951,6 @@ local function Init_Button()
         GameTooltip:Hide()
         ResetCursor()
     end)
-
-
-
-
-
-
-
-
-
-
 
 
     function TrackButton:set_shown(isInCombat)
@@ -1217,14 +1012,6 @@ local function Init_Button()
     end)
 
 
-
-
-
-
-
-
-
-
     function TrackButton:set_scale()--设置，Button的 Frame Text 属性
         self.Frame:SetScale(Save().vigentteButtonTextScale or 1)
     end
@@ -1239,20 +1026,6 @@ local function Init_Button()
             set_Button_Text()
         end
     end)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     function TrackButton:set_VIGNETTES_UPDATED(init)
@@ -1285,9 +1058,6 @@ local function Init_Button()
     end
 
 
-
-
-
     TrackButton:set_VIGNETTES_UPDATED(true)
     TrackButton:set_point()
     TrackButton:set_texture()
@@ -1299,27 +1069,6 @@ local function Init_Button()
 
     Init_Button=function()end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --世界地图，添加一个按钮
@@ -1369,21 +1118,6 @@ local function Init_WorldFrame_Button()
 
     Init_WorldFrame_Button=function()end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --世界地图，事件
@@ -1449,19 +1183,6 @@ local function Init_WorldFrame_Event()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 --小地图, 标记, 文本
 function WoWTools_MinimapMixin:Init_TrackButton()
     if not Save().vigentteButton or TrackButton then
@@ -1492,14 +1213,5 @@ function WoWTools_MinimapMixin:Init_TrackButton_Menu(_, root)
         Init_Menu(TrackButton, root)
     end
 end
-
-
-
-
-
-
-
-
-
 
 

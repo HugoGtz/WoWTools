@@ -6,21 +6,6 @@ end
 local Button
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function get_InviteButton_Frame(index)
     local frame= Button.lfgTextTab[index]
     if not frame then
@@ -105,14 +90,6 @@ local function get_InviteButton_Frame(index)
 end
 
 
-
-
-
-
-
-
-
-
 local function set_tipsFrame_Tips(text, LFGListTab)
     Button.text:SetText(text or '')
     Button:SetShown(text and true or false)
@@ -152,16 +129,6 @@ local function set_tipsFrame_Tips(text, LFGListTab)
 end
 
 
-
-
-
-
-
-
-
-
-
-
 local function get_Status_Text(status)--列表，状态，信息
     return status=='queued' and ('|cnGREEN_FONT_COLOR:'..(WoWTools_L.BATTLEFIELD_QUEUE_STATUS)..'|r')
         or status=='confirm' and ('|cnGREEN_FONT_COLOR:'..(WoWTools_L.READY)..'|r')
@@ -172,21 +139,6 @@ local function get_Status_Text(status)--列表，状态，信息
         or status=='suspended' and ('|cnWARNING_FONT_COLOR:'..(WoWTools_L.QUEUED_STATUS_SUSPENDED)..'|r')
         or status or ''
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Set_Queue_Status()--小眼睛, 信息
@@ -490,17 +442,6 @@ local function Set_Queue_Status()--小眼睛, 信息
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
 local function Init_Menu(self, root)
     local sub
 --队伍查找器
@@ -567,29 +508,9 @@ end)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
-    --[[Button= WoWTools_ButtonMixin:Cbtn(nil, {
-        size=23,
-        atlas='UI-HUD-MicroMenu-Groupfinder-Mouseover',
-        name='WoWToolsChatToolsLFDTooltipButton'
-    })]]
     Button= CreateFrame('Button', 'WoWToolsChatToolsLFDTooltipButton', UIParent, 'WoWToolsButtonTemplate')
     Button:SetNormalAtlas('UI-HUD-MicroMenu-Groupfinder-Mouseover')
-
-
-
 
 
     function Button:set_tooltip()
@@ -698,24 +619,6 @@ local function Init()
 
     Button:settings()
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_LFDMixin:Set_Queue_Status()

@@ -53,9 +53,6 @@ local P_Mouts_Tab={
         --[134359]=true,--飞天魔像
     },
     Shift={
-        --[[[75973]=true,--X-53型观光火箭
-        [93326]=true,--沙石幼龙
-        [121820]=true,--黑耀夜之翼]]
         [359379]=true,--闪光元水母
         [376912]=true,--[热忱的载人奥獭]
         [342680]=true,--[深星元水母]
@@ -125,18 +122,6 @@ function WoWTools_MountMixin:P_Mouts_Tab()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 local function Save()
     return WoWToolsPlusSave['Tools_Mounts']
 end
@@ -187,9 +172,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         Flying= '飞行',
                         Dragonriding= '驭空术',
                         Floor= '区域',
-                        --[[Alt= 'Alt',
-                        Ctrl= 'Ctrl',
-                        Shift= 'Shift',]]
                         
                     }
                 end

@@ -1,8 +1,3 @@
---[[
-12.0才有 幻化
-TransmogWardrobeItemsMixin TransmogFrame.WardrobeCollection.TabContent.ItemsFrame
-TransmogItemModelMixin
-]]
 
 local function Save()
     return WoWToolsPlusSave['Plus_Collection']
@@ -37,15 +32,6 @@ local function Create_ModelName(frame)
     frame.nameBG:SetPoint('BOTTOMRIGHT', frame.Name)
     frame.nameBG:Hide()
 end
-    --[[frame.indexLabel= frame:CreateFontString(nil, 'ARTWORK', 'GameNormalNumberFont')
-    frame.indexLabel:SetPoint('TOPRIGHT', -2,-2)
-    frame.indexLabel:SetAlpha(0.5)]]
-
-
-
-
-
-
 
 
 local function Init_Menu(self, root)
@@ -68,14 +54,6 @@ local function Init_Menu(self, root)
     root:CreateDivider()
     WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_CollectionMixin.addName})
 end
-
-
-
-
-
-
-
-
 
 
 local function Init()
@@ -190,15 +168,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_CollectionMixin:Init_Transmog()

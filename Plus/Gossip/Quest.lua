@@ -27,20 +27,6 @@ local function Quest_Costs_Resources(questID)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function select_Reward(questID)--自动:选择奖励
     local numQuests = GetNumQuestChoices() or 0
     if numQuests <2 then
@@ -176,22 +162,6 @@ local function select_Reward(questID)--自动:选择奖励
         end
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --###########
@@ -423,9 +393,6 @@ local function Init()
             end)
         end
     end)
-    --[[QuestButton:SetScript('OnMouseWheel', function()
-        WoWTools_PanelMixin:Open(nil, '|A:SpecDial_LastPip_BorderGlow:0:0|a'..(WoWTools_DataMixin.onlyChinese and '对话和任务' or WoWTools_GossipMixin.addName))
-    end)]]
 
     QuestButton:SetScript('OnLeave', function(self) GameTooltip:Hide() self:set_Alpha() end)
     QuestButton:SetScript('OnEnter', function(self)
@@ -437,17 +404,6 @@ local function Init()
     QuestButton:set_Event()--仅显示本地图任务,事件
 
     C_Timer.After(2, function() QuestButton:set_Only_Show_Zone_Quest() end)--显示本区域任务
-
-
-
-
-
-
-
-
-
-
-
 
 
     local check= CreateFrame('CheckButton', 'WoWToolsQuestFrameNPCCheckBox', QuestFrame.TitleContainer, 'UICheckButtonArtTemplate')--禁用此npc,任务,选项
@@ -485,9 +441,6 @@ local function Init()
     end)
 
 
-
-
-
 --添加任务ID
     local function set_label(label)
         label:EnableMouse(true)
@@ -521,23 +474,11 @@ local function Init()
     local questLable= QuestFrame:CreateFontString('WoWToolsQuestFrameIDLabel', 'OVERLAY', 'GameFontNormal')
     questLable:SetPoint('RIGHT', QuestFrame.AccountCompletedNotice.AccountCompletedIcon, 'LEFT')
     set_label(questLable)
-    --[[QuestFrame:HookScript('OnShow', function()
-        _G['WoWToolsQuestFrameIDLabel']:settings()
-    end)]]
 
     local function Set_QuestID()
         _G['WoWToolsQuestFrameNPCCheckBox']:settings()
         _G['WoWToolsQuestFrameIDLabel']:settings()
     end
-
-
-
-
-
-
-
-
-
 
 
     --任务框, 自动选任务    
@@ -574,14 +515,6 @@ local function Init()
             end
        end
     end)
-
-
-
-
-
-
-
-
 
 
     --任务进度, 继续, 完成 QuestFrame.lua
@@ -647,10 +580,6 @@ local function Init()
             WoWTools_DataMixin:Call('QuestProgressCompleteButton_OnClick')
         end
     end)
-
-
-
-
 
 
     --自动接取任务, 仅一个任务
@@ -749,12 +678,6 @@ local function Init()
     end)
 
 
-
-
-
-
-
-
     QuestFrameCompleteQuestButton:HookScript('OnShow', function(self)
         if not Save().quest or not self:IsEnabled() or IsModifierKeyDown() then
             return
@@ -767,16 +690,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_GossipMixin:Init_Quest()

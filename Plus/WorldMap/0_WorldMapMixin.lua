@@ -28,26 +28,6 @@ function WoWTools_WorldMapMixin:GetMapID()
 end
 
 
-
---[[AreaLabelDataProvider.xml
-function WoWTools_WorldMapMixin:Create_Wolor_Font(frame)
-    return frame:CreateFontString(nil, 'ARTWORK', 'WoWToolsWorldFont')
-
-  return WoWTools_LabelMixin:Create(frame, {
-        size=size,
-        justifyH='CENTER',
-        color=false,
-        notShadow=true,
-        fontName='WorldMapTextFont'}
-    )
-    --WorldMapTextFont 32
-    SubZoneTextFont 26
-   
-end ]]
-
-
-
-
 --玩家当前位置  x, y 是字符
 function WoWTools_WorldMapMixin:GetPlayerXY()
     local uiMapID= C_Map.GetBestMapForUnit("player")--当前地图        
@@ -125,14 +105,6 @@ function WoWTools_WorldMapMixin:SendPlayerPoint()--发送玩家位置
         print(WoWTools_L['Cannot set waypoints on this map'])
     end
 end
-
-
-
-
-
-
-
-
 
 
 --['50.02 74.76']

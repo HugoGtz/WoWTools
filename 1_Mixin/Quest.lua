@@ -1,20 +1,3 @@
---[[
-ToggleQuestLog()
-OpenQuestLog(mapID)
-QuestUtils_GetQuestName(questID) return C_TaskQuest.GetQuestInfoByQuestID(questID) or C_QuestLog.GetTitleForQuestID(questID) or "";
-QuestUtil.OpenQuestDetails(questID)--显示任务细节
-QuestUtil.GetQuestIconOffer
-
-
-QuestEventListener:AddCancelableCallback(questID, 
-QuestUtil.
-GetRewardInfo(questID)
-GetName(questID)
-GetID()
-GetLink(questID)
-GetRewardInfo(questID)
-GetQuestAll()--所有，任务，提示
-]]
 
 WoWTools_QuestMixin={}
 
@@ -77,20 +60,6 @@ function WoWTools_QuestMixin:GetLink(questID)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --QuestUtils_AddQuestRewardsToTooltip(tooltip, questID, style)
 function WoWTools_QuestMixin:GetRewardInfo(questID)
     questID= self:IsValidQuestID(questID)
@@ -143,16 +112,6 @@ function WoWTools_QuestMixin:GetRewardInfo(questID)
     end
 
 --货币
---[[
-texture	number : fileID	
-name	string	
-currencyID	number	
-quality	number	
-baseRewardAmount	number	
-bonusRewardAmount	number	
-totalRewardAmount	number	
-questRewardContextFlags	Enum.QuestRewardContextFlags?	
-]]
     info= C_QuestLog.GetQuestRewardCurrencyInfo(questID, 1, false) or {}
     if info.currencyID then
         return info
@@ -221,15 +180,6 @@ questRewardContextFlags	Enum.QuestRewardContextFlags?
     return {}
 end
 
---[[
---QuestUtils.lua
-QuestUtils_GetQuestName(questID
-]]
-
-
-
-
-
 
 --所有，任务，提示
 function WoWTools_QuestMixin:GetQuestAll()
@@ -294,29 +244,6 @@ function WoWTools_QuestMixin:GetQuestAll()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
---[[
-[Enum.StatusBarColorTintValue.Black] = BLACK_FONT_COLOR,
-[Enum.StatusBarColorTintValue.White] = WHITE_FONT_COLOR,
-[Enum.StatusBarColorTintValue.Red] = RED_FONT_COLOR,
-[Enum.StatusBarColorTintValue.Yellow] = YELLOW_FONT_COLOR,
-[Enum.StatusBarColorTintValue.Orange] = ORANGE_FONT_COLOR,
-[Enum.StatusBarColorTintValue.Purple] = EPIC_PURPLE_COLOR,
-[Enum.StatusBarColorTintValue.Green] = GREEN_FONT_COLOR,
-[Enum.StatusBarColorTintValue.Blue] = RARE_BLUE_COLOR,
-]]
 local QustColorTab={
     Important=     CreateColor(1, 0, 1),-- {r=1, g=0, b=1, hex='|cffff00ff'},--重要 C_QuestLog.IsImportantQuest(questID)
     Legendary=     CreateColor(1, 0.49, 0),--{r=1, g=0.49, b=0, hex='|cffff7d00'},--传说,
@@ -374,11 +301,6 @@ function WoWTools_QuestMixin:GetColor(text, questID)
     end
     return  color or HIGHLIGHT_FONT_COLOR
 end
-
-
-
-
-
 
 
 --任务图标，颜色

@@ -1,11 +1,3 @@
---[[
-Cbtn(frame, tab)
-CreateSecureButton(tab)
-CreateMenu(frame, tab)
-
-InterfaceOptionsCheckButtonTemplate
-UICheckButtonArtTemplate
-]]
 
 WoWTools_ButtonMixin={}
 
@@ -33,9 +25,6 @@ end
 
 
 
---[[遮罩
-UI-HUD-UnitFrame-Player-Portrait-Mask
-]]
 function WoWTools_ButtonMixin:AddMask(btn, isType2, region, atlas)
     if not btn then
         return
@@ -58,19 +47,6 @@ function WoWTools_ButtonMixin:AddMask(btn, isType2, region, atlas)
         icon:AddMaskTexture(btn.IconMask)
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function On_Leave(self)
@@ -123,9 +99,6 @@ local function Set_CheckButton(btn, isRightText)
     end
 end
 
---[[template
-UIPanelCloseButton
-]]
 function WoWTools_ButtonMixin:Cbtn(frame, tab)
     tab= tab or {}
 
@@ -279,19 +252,6 @@ function WoWTools_ButtonMixin:Cbtn(frame, tab)
 end
 
 
-
-
-
-
---[[
-UIPanelIconDropdownButtonMixin
-function UIPanelIconDropdownButtonMixin:OnMouseDown()
-	self.Icon:AdjustPointsOffset(1, -1);
-end
-function UIPanelIconDropdownButtonMixin:OnMouseUp(button, upInside)
-	self.Icon:AdjustPointsOffset(-1, 1);
-end
-]]
 --菜单按钮 DropdownButtonMixin
 function WoWTools_ButtonMixin:Menu(frame, tab)
     tab= tab or {}
@@ -321,11 +281,3 @@ end
 
 
 
---[[function WoWTools_ButtonMixin:ReloadButton()
-    local reload= CreateFrame('Button', 'WoWToolsSpellBookReloadButton', PlayerSpellsFrame.TitleContainer, 'WoWToolsButtonTemplate')
-    reload:SetPoint('LEFT', 28, -3)
-    reload:SetNormalAtlas('common-icon-exit')
-    reload.tooltip=WoWTools_DataMixin.Icon.icon2..(WoWTools_L['RELOADUI~2'])
-    reload:SetScript('OnClick', function() WoWTools_DataMixin:Reload() end)
-    WoWTools_TextureMixin:SetButton(reload, 0.5)
-end]]

@@ -64,28 +64,6 @@ function WoWTools_DataMixin:Hook(obj, ...)
     hooksecurefunc(obj, ...)
 end
 
---[[
-AccountUtil.lua
-FriendsFrame.lua
-BnetShared.lua 
-BNET_CLIENT_WOW = "WoW";
-BNET_CLIENT_APP = "App";
-BNET_CLIENT_HEROES = "Hero";
-BNET_CLIENT_CLNT = "CLNT";
-
-function WoWTools_DataMixin:GetWoWTexture()
-    local texture
-    C_Texture.GetTitleIconTexture(BNET_CLIENT_WOW, Enum.TitleIconVersion.Small, function(success, icon)
-        if success and texture then
-            texture= icon
-        end
-    end)
-    return texture
-end
-]]
-
-
-
 
 --加载 quest spell item itemLocation challengeMap club
 function WoWTools_DataMixin:Load(id, typeString)
@@ -168,27 +146,11 @@ for _, spellID in pairs(spellLoadTab) do
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 function WoWTools_DataMixin:MK(number, bit)
     if not number then
         return
     end
 
-    --[[if not self.onlyChinese then
-        return BreakUpLargeNumbers(number)
-    end]]
 
     bit = bit or 1
 
@@ -228,12 +190,6 @@ function WoWTools_DataMixin:MK(number, bit)
 end
 
 
-
-
-
-
-
-
 --版本
 function WoWTools_DataMixin:GetExpansionText(expacID, questID)
     if not expacID and questID then
@@ -251,43 +207,12 @@ function WoWTools_DataMixin:GetExpansionText(expacID, questID)
 end
 
 
-
-
---[[
-function e.Is_Chinese_Text(str)--字符中，是否有汉字
-    if str then
-        for i = 1, #str do
-            local uchar = string.byte(str, i)
-            -- 如果字符不是单字节ASCII字符（即不在0x00-0x7F之间）
-            if uchar > 0x7F then
-                -- 这里可以添加更精确的检查来确保是汉字，但简单起见，我们假设所有非ASCII字符都是汉字
-                return true
-            end
-        end
-        return false
-    end
-end
-]]
-
-
-
-
 function WoWTools_DataMixin:Reload()
     --if not (PlayerIsInCombat() and e.IsEncouter_Start) or select(2, IsInInstance())=='none' then
     --if not issecure() then
     self:Call(C_UI.Reload)
             --C_UI.Reload()
-    --[[else
-        print(
-            WoWTools_DataMixin.Icon.icon2
-            ..'|cnWARNING_FONT_COLOR:'
-            ..(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
-        )
-    end]]
 end
-
-
-
 
 
 function WoWTools_DataMixin:Get_CVar_Tooltips(info)--取得CVar信息 WoWTools_DataMixin:Get_CVar_Tooltips({name= ,msg=, value=})
@@ -297,9 +222,6 @@ function WoWTools_DataMixin:Get_CVar_Tooltips(info)--取得CVar信息 WoWTools_D
     ..'('..(WoWTools_L.REFORGE_CURRENT)..'|cnGREEN_FONT_COLOR:'..format('%.1f', tonumber(C_CVar.GetCVar(info.name)) or 0)..'|r |r'
     ..(WoWTools_L.DEFAULT)..'|cffff00ff'..format('%.1f', tonumber(C_CVar.GetCVarDefault(info.name)) or 0)..')|r'
 end
-
-
-
 
 
 function WoWTools_DataMixin:PlaySound(soundKitID, setPlayerSound)--播放, 声音 SoundKitConstants.lua WoWTools_DataMixin:PlaySound()--播放, 声音
@@ -347,16 +269,6 @@ function WoWTools_DataMixin:GetFormatter1to10(value, minValue, maxValue)
     end
     return value
 end
---[[local function GetFormatter1to10(minValue, maxValue)
-    return function(value)
-        return WoWTools_DataMixin:GetFormatter1to10(value, minValue, maxValue)
-    end
-end]]
-
-
-
-
-
 
 
 --WoWTools_DataMixin:StaticPopup_FindVisible('PARTY_INVITE')
@@ -371,23 +283,5 @@ function WoWTools_DataMixin:StaticPopup_FindVisible(which)
         end
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

@@ -44,9 +44,6 @@ function WoWTools_MoveMixin.Events:Blizzard_GarrisonUI()
     self:Setup(CovenantMissionFrame)
 
     self:Setup(GarrisonLandingPage,{--要塞报告
-    --[[sizeRestFunc=function(frame)
-        frame:SetSize(830, 538)
-    end]]
     })
     self:Setup(OrderHallMissionFrame)--侦查地图
     self:Setup(AdventureMapQuestChoiceDialog, {frame=OrderHallMissionFrame})
@@ -111,10 +108,6 @@ end
 
 
 
---[[虚空，仓库
-function WoWTools_MoveMixin.Events:Blizzard_VoidStorageUI()
-    self:Setup(VoidStorageFrame)
-end]]
 
 --时光漫游
 function WoWTools_MoveMixin.Events:Blizzard_ChromieTimeUI()
@@ -127,10 +120,6 @@ function WoWTools_MoveMixin.Events:Blizzard_BFAMissionUI()
 end
 
 
---[[派系声望 12.0没有了
-function WoWTools_MoveMixin.Events:Blizzard_MajorFactions()
-    self:Setup(MajorFactionRenownFrame)
-end]]
 
 
 --死亡
@@ -191,57 +180,6 @@ end
 function WoWTools_MoveMixin.Events:Blizzard_GuildRename()--11.1.5
     self:Setup(GuildRenameFrame)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---[[
-function WoWTools_MoveMixin.Events:Blizzard_ZoneAbility()
-    local function set_button(frame)
-        for btn in frame.SpellButtonContainer:EnumerateActive() do
-            if not btn.moveFrameData then
-                self:Setup(btn, {frame=ZoneAbilityFrame, click='RightButton'})
-                btn:HookScript('OnDragStart', function(b, d)
-                    if d=='RightButton' then
-
-                    end
-                end)
-            end
-        end
-    end
-
-    set_button(ZoneAbilityFrame)
-
-    WoWTools_DataMixin:Hook(ZoneAbilityFrame, 'UpdateDisplayedZoneAbilities', function(frame)
-       set_button(frame)
-    end)
-
-
-    --SetupButton(ZoneAbilityFrame)--, {frame=ZoneAbilityFrame.SpellButtonContainer})
-end
-]]
-
-
-
-
-
-
-
-
-
-
-
 
 
 --FSTACK
@@ -321,20 +259,6 @@ function WoWTools_MoveMixin.Events:Blizzard_DebugTools()
         end,
     })
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --拍卖行
@@ -435,18 +359,6 @@ function WoWTools_MoveMixin.Events:Blizzard_AuctionHouseUI()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 --成就
 function WoWTools_MoveMixin.Events:Blizzard_AchievementUI()
     AchievementFrameCategories:ClearAllPoints()
@@ -503,23 +415,6 @@ function WoWTools_MoveMixin.Events:Blizzard_AchievementUI()
     AchievementFrameFilterDropdown:ClearAllPoints()
     AchievementFrameFilterDropdown:SetPoint('CENTER', AchievementFrame.Header.LeftDDLInset, -2, 3)
 
-    --[[hooksecurefunc('AchievementObjectives_DisplayCriteria', function(objectivesFrame, id)
-        if not id or not objectivesFrame or objectivesFrame:GetHeight()==0 then
-            return
-        end
-        local numCriteria = GetAchievementNumCriteria(id)
-        for i = 1, numCriteria do
-            local criteriaString, criteriaType, completed, quantity, reqQuantity, charName, criteriaFlags, assetID, quantityString = GetAchievementCriteriaInfo(id, i)
-            if ( criteriaType == CRITERIA_TYPE_ACHIEVEMENT and assetID ) then
-            elseif ( bit.band(criteriaFlags, EVALUATION_TREE_FLAG_PROGRESS_BAR) == EVALUATION_TREE_FLAG_PROGRESS_BAR ) then
-
-            else
-            end
-        end
-    end)]]
-
-
-
 
     self:Setup(AchievementFrame, {
         minW=768,
@@ -545,29 +440,6 @@ function WoWTools_MoveMixin.Events:Blizzard_AchievementUI()
     AchievementFrame.SearchResults:SetPoint('TOP', 0, -14)
     self:Setup(AchievementFrame.SearchResults, {frame=AchievementFrame})
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --聊天设置
@@ -610,9 +482,6 @@ function WoWTools_MoveMixin.Events:Blizzard_ChatFrame()
 end
 
 
-
-
-
 --菜单
 function WoWTools_MoveMixin.Events:Blizzard_GameMenu()
     self:Setup(GameMenuFrame)
@@ -648,18 +517,6 @@ function WoWTools_MoveMixin.Events:Blizzard_UnitFrame()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 --移动 ETRACE
 function WoWTools_MoveMixin.Events:Blizzard_EventTrace()
     EventTrace.Log.Bar.SearchBox:SetPoint('LEFT', EventTrace.Log.Bar.Label, 'RIGHT')
@@ -668,25 +525,6 @@ function WoWTools_MoveMixin.Events:Blizzard_EventTrace()
     end)
     self:Setup(EventTrace)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --商店
@@ -700,37 +538,10 @@ function WoWTools_MoveMixin.Events:Blizzard_AccountStore()
 end
 
 
-
-
-
 --专业书
 function WoWTools_MoveMixin.Events:Blizzard_ProfessionsBook()
     self:Setup(ProfessionsBookFrame)
 end
-
-
-
-
---[[StaticPopup 11.2才有 Blizzard_StaticPopup就行
-function WoWTools_MoveMixin.Events:Blizzard_StaticPopup_Game()
-    --print('a')
-    for i=1, 4 do
-        local dialog= _G['StaticPopup'..i]
-        if dialog then
-
-            self:Setup(_G['StaticPopup'..i], {
-                notSave=true,
-            })
-
-            if dialog.SetupAnchor then
-                WoWTools_DataMixin:Hook(dialog, 'SetupAnchor', function(f)
-                    self:SetPoint(f)
-                end)
-            end
-        end
-    end
-end
-]]
 
 
 --LFDRoleCheckPopup
@@ -750,12 +561,6 @@ end
 function WoWTools_MoveMixin.Events:Blizzard_DurabilityFrame()
     self:Setup(DurabilityFrame, {notSave=true, notZoom=true})
 end
-
-
-
-
-
-
 
 
 function WoWTools_MoveMixin.Events:Blizzard_CooldownViewer()
@@ -806,11 +611,6 @@ function WoWTools_MoveMixin.Events:Blizzard_CooldownViewer()
 end
 
 
-
-
-
-
-
 function WoWTools_MoveMixin.Events:Blizzard_AlliedRacesUI()
     self:Setup(AlliedRacesFrame)
 end
@@ -819,10 +619,6 @@ end
 
 --隐藏, 团队, 材质 Blizzard_CompactRaidFrameManager.lua
 function WoWTools_MoveMixin.Events:Blizzard_CompactRaidFrames()
---[[分隔线
-    hooksecurefunc('CompactRaidFrameManager_UpdateOptionsFlowContainer', function()
-        CompactRaidFrameManager.container.dividerHorizontalPool:ReleaseAll()
-    end)]]
 
 --展开: se engancha a la función de Blizzard en vez de reemplazarla (evita taint y ADDON_ACTION_BLOCKED en combate)
     WoWTools_DataMixin:Hook('CompactRaidFrameManager_Expand', function()
@@ -864,14 +660,6 @@ function WoWTools_MoveMixin.Events:Blizzard_CompactRaidFrames()
         WoWTools_DataMixin:Call('CompactRaidFrameManager_Expand')
     end})
 
-    --[[if self:Save().point[CompactRaidFrameManager:GetName()] then--CompactRaidFrameManager
-        CompactRaidFrameManager_Collapse= c_CompactRaidFrameManager_Collapse
-        CompactRaidFrameManager_Expand= c_CompactRaidFrameManager_Expand
-    end
-    --CompactRaidFrameManager:HookScript('OnDragStop', function()
-        CompactRaidFrameManager_Collapse= c_CompactRaidFrameManager_Collapse
-        CompactRaidFrameManager_Expand= c_CompactRaidFrameManager_Expand
-    end)]]
 
 --保存上次显或展开
     if self:Save().CompactRaidFrameManagerIsExpand then

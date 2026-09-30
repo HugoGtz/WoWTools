@@ -1,9 +1,6 @@
 
 
 
-
-
-
 --菜单, 派系声望
 local function Set_Faction_Menu(root, factionID)
     local info= WoWTools_FactionMixin:GetInfo(factionID)
@@ -51,12 +48,6 @@ local function Set_Faction_Menu(root, factionID)
 end
 
 
-
-
-
-
-
-
 --派系声望
 function WoWTools_MinimapMixin:Faction_Menu(_, root)
     local sub
@@ -97,14 +88,6 @@ function WoWTools_MinimapMixin:Faction_Menu(_, root)
         end
     end
 
---[[MajorFactionsConstantsDocumentation.lua
-    if Constants.MajorFactionsConsts then
-        table.insert(tab, '-')
-        for _, factionID in pairs(Constants.MajorFactionsConsts) do
-            print(factionID)
-            table.insert(tab, factionID)
-        end
-    end]]
 
     for _, factionID in pairs(tab) do
         if factionID=='-' then

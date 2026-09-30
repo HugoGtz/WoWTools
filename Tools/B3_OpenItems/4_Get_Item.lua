@@ -5,11 +5,6 @@ local function Save()
 end
 
 
-
-
-
-
-
 local function Set_Att(self, bag, slot, icon, itemID)--, spellID, isUseMacro)--设置属性
     if self.isDisabled then
         return
@@ -21,21 +16,10 @@ local function Set_Att(self, bag, slot, icon, itemID)--, spellID, isUseMacro)--�
 
     local num
     if bag and slot then
-        --[[if spellID then
-            self:SetAttribute('type1', 'spell')
-            self:SetAttribute('spell1', C_Spell.GetSpellName(spellID) or spellID)
-            self:SetAttribute('target-item', bag..' '..slot)
-
-        elseif isUseMacro then]]
             --self:SetAttribute('type1', 'macro')
             self:SetAttribute("macrotext1", '/use '..bag..' '..slot)
             --self:SetAttribute('target-item', nil)
 
-        --[[else
-            self:SetAttribute('type1', 'item')
-            self:SetAttribute('item1', (bag..' '..slot))
-            self:SetAttribute('target-item', nil)
-        end]]
 
         num = C_Item.GetItemCount(itemID)
         num= num~=1 and num or ''
@@ -65,23 +49,6 @@ local function Set_Att(self, bag, slot, icon, itemID)--, spellID, isUseMacro)--�
 
     self:set_key(not bag or not slot)
 end
-
-
-
-
-
-
---[[
-local ITEM_COSMETIC_LEARN= WoWTools_TextMixin:Magic(ITEM_COSMETIC_LEARN)--使用：将此外观添加到你的战团收藏中。
-local isCosmeticLearn
-if isWQ then
-    local data= WoWTools_ItemMixin:GetTooltip({text={ITEM_COSMETIC_LEARN}, onlyText=true, bag=bag, slot=slot})
-    isCosmeticLearn= data.text[ITEM_COSMETIC_LEARN] and true or false
-end]]
-
-
-
-
 
 
 local function Get_ValeItem(bag, slot)
@@ -242,20 +209,6 @@ local function Get_ValeItem(bag, slot)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Get_Items(self)--取得背包物品信息
     if not self:CanChangeAttribute() then
         self.isInCombat=true
@@ -280,17 +233,6 @@ local function Get_Items(self)--取得背包物品信息
     Set_Att(self)
     self:set_key(true)
 end
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_OpenItemMixin:Get_Item()

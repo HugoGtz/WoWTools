@@ -1,23 +1,3 @@
---[[
-WoWTools_ItemMixin:SetupInfo(itemButton, {
-    itemLink= ,
-    hyperlink=,
-    lootIndex= , 
-    bag= {bag=bagID, slot=slotID},
-    merchant= {slot=slot, buyBack= selectedTab==2},
-    guidBank= {tab=tab, slot=i},
-    itemLocation=,
-    itemKey=,
-    
-
-    point= region,
-    size=12
-})
-
-local function Save()
-    return WoWToolsPlusSave['Plus_ItemInfo']
-end
-]]
 
 local ITEM_SPELL_CHARGES= WoWTools_TextMixin:Magic(ITEM_SPELL_CHARGES)-- ITEM_SPELL_CHARGES:gsub('%%d', '%(%%d%+%)')--(%d+)次
 local CHALLENGE_MODE_KEYSTONE_NAME= format(CHALLENGE_MODE_KEYSTONE_NAME,'(.+) ')--钥石
@@ -74,22 +54,6 @@ EventRegistry:RegisterFrameEventAndCallback('PLAYER_ENTERING_WORLD', function(ow
 end)
 
 
-
---[[local function Get_Class_Icon_da_Text(text)
-    local t
-    if text then
-        for name, icon in pairs(ClassNameIconTab) do
-            if text:find(name) then
-                t= (t or '')..icon
-            end
-        end
-    end
-    return t
-end]]
-
-
-
-
 --已收集, 未收集
 local function get_has_text(has)
     if has then
@@ -98,10 +62,6 @@ local function get_has_text(has)
         return format('|cnGREEN_FONT_COLOR:%s|r',  WoWTools_DataMixin.onlyChinese and '未收集' or WoWTools_TextMixin:sub(NOT_COLLECTED, 3, 5, true))
     end
 end
-
-
-
-
 
 
 --装等，提示
@@ -198,54 +158,6 @@ local function get_itemLeve_color(itemLink, itemLevel, itemEquipLoc, itemQuality
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---[[local function Set_Label(label, tab)
-    local font
-    if WoWTools_DataMixin.onlyChinese and not LOCALE_zhCN then
-        font= 'Fonts\\ARHei.ttf'
-    else
-        font= label:GetFont()
-    end
-    label:SetFont(font, tab.size, 'OUTLINE')
-    label:SetTextColor(HIGHLIGHT_FONT_COLOR:GetRGB())
-end]]
-
-
-
-
-
-
 local function Create_Label(frame, tab)
     --local h= Save().size or 10
         --h= (tab.size or 0)+h
@@ -299,36 +211,6 @@ local function Clear_Label(frame)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Get_Info(tab)
 
     local itemLevel, itemQuality, battlePetSpeciesID, itemLink, containerInfo, itemID, isBound
@@ -370,13 +252,6 @@ local function Get_Info(tab)
     elseif tab.guidBank then
         itemLink= GetGuildBankItemLink(tab.guidBank.tab, tab.guidBank.slot)
 
-        --[[local data= C_TooltipInfo.GetGuildBankItem(tab.guidBank.tab, tab.guidBank.slot)
-        if data then
-            itemID= data.id
-            battlePetSpeciesID= data.battlePetSpeciesID
-            local guid= data.guid
-            
-        end]]
 
     elseif tab.itemLocation and tab.itemLocation:IsValid() then
         itemLink= C_Item.GetItemLink(tab.itemLocation)
@@ -393,13 +268,6 @@ local function Get_Info(tab)
     elseif tab.itemID then
         itemLink= select(2, C_Item.GetItemInfo(tab.itemID))
     end
-
-
-
-
-
-
-
 
 
     if not itemLink then
@@ -431,9 +299,6 @@ local function Get_Info(tab)
 
 --套装，传说5，神器6，传家宝，提示
     setIDItem= setID and setID>0 and true or false
-    --[[if itemQuality and itemQuality>=Enum.ItemQuality.Legendary or setID then
-        setIDItem= itemQuality or true
-    end]]
     --setIDItem= setID and true or ((itemQuality==Enum.ItemQuality.Legendary or itemQuality==Enum.ItemQuality.Artifact) and itemQuality) or nil
 
     local lowerVer= not PlayerIsTimerunning() and expacID< WoWTools_DataMixin.ExpansionLevel and itemID~='5512' and itemID~='113509'--低版本，5512糖 食物,113509[魔法汉堡]
@@ -459,9 +324,6 @@ local function Get_Info(tab)
 --住宅装饰
     elseif C_Item.IsDecorItem(itemLink) then
         local entryInfo = C_HousingCatalog.GetCatalogEntryInfoByItem(itemLink, true)
-        --[[if entryInfo and entryInfo.entryID then
-            entryInfo= C_HousingCatalog.GetCatalogEntryInfo(entryInfo.entryID)
-        end]]
         if entryInfo and entryInfo.entryID then
             if entryInfo.canCustomize then
                 topLeftText= '|A:housing-dyable-palette-icon:0:0|a'
@@ -598,17 +460,6 @@ local function Get_Info(tab)
 --鱼竿
     elseif classID==2 and subclassID==20 then
         topRightText='|A:worldquest-icon-fishing:0:0|a'
-
-
-
-
-
-
-
-
-
-
-
 
 
 --装备
@@ -801,27 +652,12 @@ local function Get_Info(tab)
         leftText= leftText or ''--不显示，物品数量
 
 
-
-
-
-
-
-
-
-
-
-
-
 --宠物
     elseif battlePetSpeciesID or itemID==82800 or classID==17 or (classID==15 and subclassID==2) or itemLink:find('Hbattlepet:(%d+)') then
 
 
 
         local speciesID = battlePetSpeciesID or itemLink:match('Hbattlepet:(%d+)') or (itemID and select(13, C_PetJournal.GetPetInfoByItemID(itemID)))--宠物
-        --[[if not speciesID and itemID==82800 and tab.guidBank then
-            local data= C_TooltipInfo.GetGuildBankItem(tab.guidBank.tab, tab.guidBank.slot) or {}
-            speciesID= data.battlePetSpeciesID
-        end]]
         if speciesID then
             topLeftText= select(3, WoWTools_PetBattleMixin:Collected(speciesID)) or topLeftText--宠物, 收集数量
             local petType= select(3, C_PetJournal.GetPetInfoBySpeciesID(speciesID))
@@ -926,24 +762,6 @@ local function Get_Info(tab)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function WoWTools_ItemMixin:SetupInfo(frame, tab)
     if not frame then
         return
@@ -983,14 +801,6 @@ function WoWTools_ItemMixin:SetupInfo(frame, tab)
     frame.leftText:SetFontHeight(h)
     frame.bottomLeftText:SetFontHeight(h)
 
-    --[[if setIDItem then
-        if type(setIDItem)=='number' then
-            local color = WoWTools_ItemMixin:GetColor(setIDItem)
-            frame.setIDItem:SetVertexColor(color:GetRGB())
-        else
-            frame.setIDItem:SetVertexColor(0,1,0)
-        end
-    end]]
     frame.setIDItem:SetShown(setIDItem)
 
     if frame.Count then

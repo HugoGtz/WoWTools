@@ -4,17 +4,6 @@ function WoWTools_TooltipMixin:Set_HouseItem(tooltip, entryInfo)
     end
 
     local portrait
-    --[[if entryInfo.entryID then
-        tooltip:AddLine(
-            'recordID'..WoWTools_DataMixin.Icon.icon2..'|cffffffff'..entryInfo.entryID.recordID
-        )
-    end
-    if entryInfo.asset then
-        tooltip:AddDoubleLine(
-            entryInfo.asset and 'asset'..WoWTools_DataMixin.Icon.icon2..'|cffffffff'..entryInfo.asset,
-            entryInfo.uiModelSceneID and 'sceneID'..WoWTools_DataMixin.Icon.icon2..'|cffffffff'..entryInfo.uiModelSceneID
-        )
-    end]]
 
     if entryInfo.iconTexture then
         local size= math.min(entryInfo.size, 90)*5
@@ -56,14 +45,6 @@ function WoWTools_TooltipMixin:Set_HouseItem(tooltip, entryInfo)
         )
     end
 
---[[无法被摧毁
-    if entryInfo.destroyableInstanceCount and entryInfo.destroyableInstanceCount<=0 then
-        tooltip:AddLine(
-            '|cnGREEN_FONT_COLOR:|A:Objective-Fail:0:0|a'
-            ..(WoWTools_L.HOUSING_DECOR_STORAGE_ITEM_CANNOT_DESTROY),
-            nil, nil, nil, true
-        )
-    end]]
 
     tooltip:AddLine(
         (entryInfo.isUniqueTrophy and GREEN_FONT_COLOR:GenerateHexColorMarkup() or NORMAL_FONT_COLOR:GenerateHexColorMarkup())
@@ -97,13 +78,6 @@ function WoWTools_TooltipMixin:Set_HouseItem(tooltip, entryInfo)
     end
 
     --textLeft= WoWTools_ItemMixin:GetDecorItemCount(nil, entryInfo, true)
-    --[[if entryInfo.showQuantity then--entryInfo.showQuantity and 
-        local numPlaced= entryInfo.numPlaced or 0
-        local quantity= (entryInfo.quantity or 0)+ (entryInfo.placementCost or 0)
-        numPlaced= numPlaced==0 and '|cff6262620|r' or numPlaced
-        quantity= quantity==0 and '|cff6262620|r' or quantity
-        textLeft=numPlaced..'/'..quantity..'|A:house-chest-icon:0:0|a'
-    end]]
 
     return portrait
 end

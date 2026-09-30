@@ -45,9 +45,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 WoWTools_ProfessionMixin:Init_ProfessionsFrame()--初始
             end
  
-            --[[if C_AddOns.IsAddOnLoaded("Blizzard_ProfessionsBook") then
-                WoWTools_ProfessionMixin:Init_ProfessionsBook()--专业书
-            end]]
         end
 
     elseif arg1== 'Blizzard_TrainerUI' and WoWToolsPlusSave then
@@ -57,7 +54,5 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         WoWTools_ProfessionMixin:Init_ProfessionsFrame()--初始
 
 
-    --[[elseif arg1=='Blizzard_ProfessionsBook' and WoWToolsPlusSave then--专业书
-        WoWTools_ProfessionMixin:Init_ProfessionsBook()]]
     end
 end)

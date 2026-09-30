@@ -9,12 +9,6 @@ local KeystoneLabel--挑战, 分数
 local StatusLabel--装备，属性
 
 
-
-
-
-
-
-
 local function set_InspectPaperDollItemSlotButton_Update(frame)
     local unit= InspectFrame.unit or 'target'
 
@@ -94,14 +88,6 @@ local function set_InspectPaperDollItemSlotButton_Update(frame)
 end
 
 
-
-
-
-
-
-
-
-
 local function set_InspectPaperDollFrame_SetLevel()--目标,天赋 装等
     local key
     local unit= InspectFrame.unit or 'target'
@@ -143,17 +129,6 @@ local function set_InspectPaperDollFrame_SetLevel()--目标,天赋 装等
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
 local function Init_UI()
 
 
@@ -174,11 +149,6 @@ local function Init_UI()
     StatusLabel:SetPoint('TOPLEFT', InspectFrameTab1, 'BOTTOMLEFT',0,-4)
 
     WoWTools_TextureMixin:CreateBG(InspectPaperDollFrame, {point=StatusLabel})
-    --[[StatusLabel.Background= InspectPaperDollFrame:CreateTexture(nil, 'BACKGROUND')
-    StatusLabel.Background:SetPoint('TOPLEFT', StatusLabel, -2, 2)
-    StatusLabel.Background:SetPoint('BOTTOMRIGHT', StatusLabel, 2, -2)
-    StatusLabel.Background:SetAtlas('ChallengeMode-guild-background')
-    StatusLabel.Background:SetAlpha(0.5)]]
 
     function InspectFrame:set_status_label()
         local unit=self.unit
@@ -269,10 +239,6 @@ local function Init_UI()
 
     Init_UI=function()end
 end
-
-
-
-
 
 
 function WoWTools_PaperDollMixin:Init_InspectUI()

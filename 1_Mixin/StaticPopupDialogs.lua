@@ -1,17 +1,3 @@
---[[
-WoWTools_RestData
-WoWTools_EditText
-WoWTools_Item
-WoWTools_GetMapID
-WoWTools_OK
-
-exclusive=boolean 当显示任何其他弹出窗口时，隐藏，
-whileDead=boolean 即使玩家是鬼魂也会显示对话框
-acceptDelay=numberi 5秒后启用
-compactItemFrame = boolean
-hideOnEscape = 1,
-timeout = 0,
-]]
 
 
 
@@ -31,11 +17,6 @@ local function Get_UIMapIDs_Name(text)--从text取得uiMapID表
     end)
     return tab, reText
 end
-
-
-
-
-
 
 
 local function Init()
@@ -61,15 +42,6 @@ StaticPopupDialogs['WoWTools_RestData']= {
     showAlert=true,
     acceptDelay= 1,
 }
-
-
-
-
-
-
-
-
-
 
 
 StaticPopupDialogs['WoWTools_EditText']={
@@ -137,28 +109,6 @@ StaticPopupDialogs['WoWTools_EditText']={
     hasEditBox=true,
     editBoxWidth=360,
 }
---[[
-StaticPopup_Show('WoWTools_EditText',
-    (name or ''),
-    nil,
-    {
-        text=editBox内容,
-        OnShow=function(s, data)
-        end,
-        SetValue= function(s)
-        end,
-        OnAlt=function(s, data)
-        end,
-        EditBoxOnTextChanged=function(s, data, text)
-        end,
-    }
-)
-]]
-
-
-
-
-
 
 
 StaticPopupDialogs['WoWTools_Item'] = {
@@ -186,23 +136,6 @@ StaticPopupDialogs['WoWTools_Item'] = {
     hideOnEscape=true,
 	--fullScreenCover = true,
 };
---[[
-local itemName, itemLink, itemRarity, _, _, _, _, _, _, itemTexture = C_Item.GetItemInfo(info.itemLink or info.itemID)
-StaticPopup_Show('WoWTools_Item',addName, nil, {
-    link= itemLink,
-    itemID=info.itemID,
-    name= itemName,
-    color= {ITEM_QUALITY_COLORS[itemRarity].color:GetRGBA()},
-    texture= itemTexture,
-    count=C_Item.GetItemCount(info.itemID, true, false, true,true),
-    OnShow=function(s, data)
-    end,
-    SetValue = function(_, data)
-    end,
-    OnAlt = function(_, data)
-    end
-})
-]]
 
 
 
@@ -271,9 +204,6 @@ StaticPopupDialogs['WoWTools_GetMapID'] = {--区域,设置对话框
     }
 
 
-
-
-
     StaticPopupDialogs['WoWTools_OK']={
         text =WoWTools_DataMixin.addName..'|n|n%s',
         button1 = WoWTools_L.OKAY,
@@ -292,14 +222,6 @@ StaticPopupDialogs['WoWTools_GetMapID'] = {--区域,设置对话框
         showAlert=true,
         acceptDelay=1,
     }
---[[
-StaticPopup_Show('WoWTools_OK',
-data.name,
-nil,
-{SetValue=function()
-
-end})
-]]
 
 
 
@@ -353,10 +275,6 @@ end})
     }
 
 
-
-
-
-
     StaticPopupDialogs['WoWTools_Currency']= {
         text='|n|n|n',
         hasEditBox=true,
@@ -408,30 +326,6 @@ end})
 
     Init=function()end
 end
-
-
-
-
-
-
-
-
-
---[[
-local product = self:GetSelectedProduct();
-local itemName, itemLink, itemRarity, _, _, _, _, _, _, itemTexture = C_Item.GetItemInfo(product.itemID);
-local currencyInfo = C_CurrencyInfo.GetCurrencyInfo(Constants.CurrencyConsts.CURRENCY_ID_PERKS_PROGRAM_DISPLAY_INFO);
-local markup = CreateTextureMarkup(currencyInfo.iconFileID, 64, 64, 16, 16, 0, 1, 0, 1);
-
-local data = {};
-data.product = product;
-data.link = itemLink;
-data.name = product.name;
-data.color = {ITEM_QUALITY_COLORS[itemRarity].color:GetRGBA()};
-data.texture = itemTexture;
-StaticPopup_Show("PERKS_PROGRAM_CONFIRM_PURCHASE", product.price, markup, data);
-]]
-
 
 
 EventRegistry:RegisterFrameEventAndCallback("PLAYER_LOGIN", function(owner)

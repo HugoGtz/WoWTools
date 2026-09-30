@@ -7,9 +7,6 @@ local P_Save={
     channels={--频道名称替换 
         --['世界'] = '[世]',
     },
-    --[[text={--内容颜色,
-        [ACHIEVEMENTS]=true,
-    },]]
     disabledKeyColor= not WoWTools_DataMixin.Player.husandro,--禁用，内容颜色，和频道名称替换
 
     groupWelcome= WoWTools_DataMixin.Player.husandro,--欢迎
@@ -33,25 +30,11 @@ local P_Save={
     showCopyChatButton=true,--显示 复制聊天 按钮
     --copyChatSetText=nil,--处理，文本
 
-    --[[Emote={
-        emoji={
-            'DANCE'
-        },
-        voice={},
-    }]]
 }
 
 local function Save()
     return WoWToolsPlusSave['ChatButton_HyperLink'] or {}
 end
-
-
-
-
-
-
-
-
 
 
 local function Init()
@@ -146,12 +129,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
-
-
 
 
 local panel= CreateFrame('Frame')

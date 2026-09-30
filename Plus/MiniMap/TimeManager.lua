@@ -1,48 +1,10 @@
 
---[[
-时间 Pluse
-Blizzard_TimeManager.lua
-
-TimeManagerClockButtonScale=1缩放
-TimeManagerClockButtonPoint={}位置
-
-时钟
-useServerTimer=true,小时图，使用服务器, 时间
-TimeManagerClockButtonScale=1缩放
-TimeManagerClockButtonPoint={}位置
-
-秒表
-
-disabledClockPlus=true,时钟，秒表
-disabledClockPlus=true,禁用plus
-showStopwatchFrame=true,加载游戏时，显示秒表
-StopwatchFrameScale=1,缩放
-StopwatchOnClickPause=true,--移过暂停
-]]
 
 
 
 local function Save()
     return  WoWToolsPlusSave['Minimap_Plus']
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --秒表
@@ -135,26 +97,6 @@ local function Init_Stopwatch_Menu(self, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --时间信息
 local function Init_TimeManager_Menu(self, root)
 --plus
@@ -219,57 +161,6 @@ local function Init_TimeManager_Menu(self, root)
     end)
     Init_Stopwatch_Menu(self, sub)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_TimeManager()
@@ -367,11 +258,6 @@ local function Init_TimeManager()
         set_textcolor()
     end)
 
-    --[[TimeManagerAlarmFiredTexture:HookScript('OnShow', function(t)
-        t:SetScale(1.5)
-    end)
---/dump UIFrameFlash(TimeManagerAlarmFiredTexture, 0.5, 0.5, -1)
-]]
 TimeManagerAlarmFiredTexture:ClearAllPoints()
 TimeManagerAlarmFiredTexture:SetPoint('TOPLEFT', -6, 4)
 TimeManagerAlarmFiredTexture:SetPoint('BOTTOMRIGHT', 8, -8)
@@ -388,24 +274,6 @@ TimeManagerAlarmFiredTexture:SetPoint('BOTTOMRIGHT', 8, -8)
     end
     btn:set_background()
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --秒表
@@ -595,27 +463,6 @@ local function Init_StopwatchFrame()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
     TimeManagerClockButton:SetScript('OnClick', function(self, d)
         if d=='RightButton' and not IsAltKeyDown() then
@@ -666,11 +513,6 @@ end
 function WoWTools_MinimapMixin:Init_TimeManager()
     Init()
 end
-
-
-
-
-
 
 
 --重置，TimeManager位置

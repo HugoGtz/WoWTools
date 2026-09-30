@@ -60,21 +60,6 @@ function WoWTools_TextureMixin.Events:Blizzard_TimeManager()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function WoWTools_TextureMixin.Events:Blizzard_AchievementUI()--成就
     self:HideFrame(AchievementFrame, {show={[AchievementFrame.Background]=true}})
     self:SetMenu(AchievementFrameFilterDropdown)
@@ -157,9 +142,6 @@ function WoWTools_TextureMixin.Events:Blizzard_AchievementUI()--成就
     WoWTools_DataMixin:Hook('AchievementFrameSummaryAchievement_OnLoad', function(f)
         --self:SetAlphaColor(f.Background, nil, true, 0)
 
-        --[[f:HookScript('OnLeave', function(f2)
-            self:SetAlphaColor(f2.Background, nil, true, 0)
-        end)]]
 
         self:SetNineSlice(f)
     end)
@@ -254,18 +236,6 @@ function WoWTools_TextureMixin.Events:Blizzard_AchievementUI()--成就
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 function WoWTools_TextureMixin.Events:Blizzard_GameTooltip()
 --如：成就左边，提示
     self:SetStatusBar(GameTooltipStatusBar)
@@ -280,16 +250,6 @@ function WoWTools_TextureMixin.Events:Blizzard_GameTooltip()
         end
     end)
 end
-
-
-
-
-
-
-
-
-
-
 
 
 --拍卖行
@@ -416,18 +376,6 @@ function WoWTools_TextureMixin.Events:Blizzard_AuctionHouseUI()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 --专业定制
 function WoWTools_TextureMixin.Events:Blizzard_ProfessionsCustomerOrders()
     self:HideFrame(ProfessionsCustomerOrdersFrame)
@@ -464,12 +412,6 @@ function WoWTools_TextureMixin.Events:Blizzard_ProfessionsCustomerOrders()
 end
 
 
-
-
-
-
-
-
 --黑市
 function WoWTools_TextureMixin.Events:Blizzard_BlackMarketUI()
     self:SetAlphaColor(BlackMarketFrameTitleBg)
@@ -479,18 +421,6 @@ function WoWTools_TextureMixin.Events:Blizzard_BlackMarketUI()
     self:SetAlphaColor(BlackMarketFrame.BottomBorder)
     self:SetScrollBar(BlackMarketFrame)
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --日历
@@ -538,11 +468,6 @@ function WoWTools_TextureMixin.Events:Blizzard_Calendar()
 end
 
 
-
-
-
-
-
 --飞行地图
 function WoWTools_TextureMixin.Events:Blizzard_FlightMap()
     self:SetButton(FlightMapFrameCloseButton)
@@ -551,11 +476,6 @@ function WoWTools_TextureMixin.Events:Blizzard_FlightMap()
     self:HideTexture(FlightMapFrame.ScrollContainer.Child.TiledBackground)
     self:HideTexture(FlightMapFrameBg)
 end
-
-
-
-
-
 
 
 --镶嵌宝石，界面
@@ -570,24 +490,6 @@ function WoWTools_TextureMixin.Events:Blizzard_ItemSocketingUI()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function WoWTools_TextureMixin.Events:Blizzard_ItemInteractionUI()--套装, 转换
     self:SetNineSlice(ItemInteractionFrame, self.min)
     self:SetAlphaColor(ItemInteractionFrameBg)
@@ -599,14 +501,6 @@ function WoWTools_TextureMixin.Events:Blizzard_ItemInteractionUI()--套装, 转�
 
     self:HideTexture(ItemInteractionFrame.ButtonFrame.BlackBorder)
 end
-
-
-
-
-
-
-
-
 
 
 --装备升级,界面 
@@ -628,15 +522,6 @@ function WoWTools_TextureMixin.Events:Blizzard_ItemUpgradeUI()
         self:SetAlphaColor(ItemUpgradeFrame.BottomBGShadow, nil, nil, alpha)
     end})
 end
-
-
-
-
-
-
-
-
-
 
 
 --要塞
@@ -705,11 +590,6 @@ function WoWTools_TextureMixin.Events:Blizzard_GenericTraitUI()
 end
 
 
-
-
-
-
-
 --任务选择
 function WoWTools_TextureMixin.Events:Blizzard_PlayerChoice()
     WoWTools_DataMixin:Hook(PlayerChoiceFrame, 'SetupFrame', function(frame)
@@ -738,20 +618,6 @@ function WoWTools_TextureMixin.Events:Blizzard_PlayerChoice()
 
     self:Init_BGMenu_Frame(PlayerChoiceFrame, {isNewButton=true})
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --专业, 初始化, 透明
@@ -842,12 +708,6 @@ function WoWTools_TextureMixin.Events:Blizzard_Professions()
 end
 
 
-
-
-
-
-
-
 --点击，施法
 function WoWTools_TextureMixin.Events:Blizzard_ClickBindingUI()
     self:SetButton(ClickBindingFrame.TutorialButton)
@@ -865,10 +725,6 @@ function WoWTools_TextureMixin.Events:Blizzard_QuickKeybind()
     self:SetFrame(QuickKeybindFrame.Header)
     self:SetFrame(QuickKeybindFrame.BG)
 end
-
-
-
-
 
 
 function WoWTools_TextureMixin.Events:Blizzard_ArchaeologyUI()
@@ -896,12 +752,6 @@ function WoWTools_TextureMixin.Events:Blizzard_ArchaeologyUI()
 end
 
 
-
-
-
-
-
-
 --分解 ScrappingMachineFrame
 function WoWTools_TextureMixin.Events:Blizzard_ScrappingMachineUI()
     self:SetNineSlice(ScrappingMachineFrame, 0.3)
@@ -913,16 +763,6 @@ function WoWTools_TextureMixin.Events:Blizzard_ScrappingMachineUI()
     self:SetButton(ScrappingMachineFrameCloseButton)
     self:SetFrame(ScrappingMachineFrame.ItemSlots, {index=1, alpha=1})
 end
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_TextureMixin.Events:Blizzard_DelvesCompanionConfiguration()
@@ -967,10 +807,6 @@ function WoWTools_TextureMixin.Events:Blizzard_DelvesCompanionConfiguration()
 end
 
 
-
-
-
-
 function WoWTools_TextureMixin.Events:Blizzard_CovenantRenown()
     self:HideTexture(CovenantRenownFrame.Background)
     self:SetButton(CovenantRenownFrame.CloseButton)
@@ -980,9 +816,6 @@ end
 
 --选项面板
 function WoWTools_TextureMixin.Events:Blizzard_Settings_Shared()
-    --[[WoWTools_DataMixin:Hook(SettingsCheckboxWithButtonControlMixin, 'OnLoad', function(frame)
-        self:SetUIButton(frame.Button)
-    end)]]
 --Checkbox
     WoWTools_DataMixin:Hook(SettingsCheckboxMixin, 'OnLoad', function(frame)
         self:SetCheckBox(frame)
@@ -1115,16 +948,6 @@ function WoWTools_TextureMixin.Events:Blizzard_CooldownViewer()
 end
 
 
-
-
-
-
-
-
-
-
-
-
 function WoWTools_TextureMixin.Events:Blizzard_ExpansionLandingPage()
 
     local function SetOverlayFrame(frame)
@@ -1249,11 +1072,6 @@ function WoWTools_TextureMixin.Events:Blizzard_PerksProgram()
 end
 
 
-
-
-
-
-
 --AuraButtonArtTemplate DebuffFrame
 function WoWTools_TextureMixin.Events:Blizzard_BuffFrame()
     for _, auraFrame in ipairs(BuffFrame.auraFrames or {}) do
@@ -1311,16 +1129,6 @@ function WoWTools_TextureMixin.Events:Blizzard_BuffFrame()
 end
 
 
-
-
-
-
-
-
-
-
-
-
 --主菜单
 function WoWTools_TextureMixin.Events:Blizzard_GameMenu()--MainMenuFrameMixin GameMenuFrameMixin
     WoWTools_DataMixin:Hook(GameMenuFrame, 'InitButtons', function(frame)
@@ -1341,16 +1149,6 @@ function WoWTools_TextureMixin.Events:Blizzard_GameMenu()--MainMenuFrameMixin Ga
         end
     })
 end
-
-
-
-
-
-
-
-
-
-
 
 
 --聊天设置
@@ -1391,19 +1189,6 @@ function WoWTools_TextureMixin.Events:Blizzard_Channels()
 
     self:Init_BGMenu_Frame(ChannelFrame)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --编辑模式
@@ -1456,12 +1241,6 @@ function WoWTools_TextureMixin.Events:Blizzard_EditMode()
 end
 
 
-
-
-
-
-
-
 --隐藏, 团队, 材质 Blizzard_CompactRaidFrameManager.lua
 function WoWTools_TextureMixin.Events:Blizzard_CompactRaidFrames()
     self:SetCheckBox(RaidFrameAllAssistCheckButton)
@@ -1487,10 +1266,6 @@ function WoWTools_TextureMixin.Events:Blizzard_CompactRaidFrames()
         end
     end)
 --更新，高度,会出错
-        --[[local _, usedY = FlowContainer_GetUsedBounds(container)
-        if canaccessvalue(usedY) then
-            CompactRaidFrameManager:SetHeight(usedY + 8)
-        end]]
 
 
 --限定发送信号, 菜单
@@ -1635,11 +1410,6 @@ function WoWTools_TextureMixin.Events:Blizzard_CompactRaidFrames()
 end
 
 
-
-
-
-
-
 --举报
 function WoWTools_TextureMixin.Events:Blizzard_ReportFrame()
     self:SetFrame(ReportFrame)
@@ -1653,10 +1423,6 @@ function WoWTools_TextureMixin.Events:Blizzard_ReportFrame()
     self:SetEditBox(ReportFrame.Comment.EditBox)
     self:SetUIButton(ReportFrame.ReportButton)
 end
-
-
-
-
 
 
 function WoWTools_TextureMixin.Events:Blizzard_UnitFrame()
@@ -1748,12 +1514,6 @@ function WoWTools_TextureMixin.Events:Blizzard_UnitFrame()
 end
 
 
-
-
-
-
-
-
 function WoWTools_TextureMixin.Events:Blizzard_StaticPopup_Game()
     for i=1, 4 do
         local p= _G['StaticPopup'..i]
@@ -1790,15 +1550,6 @@ function WoWTools_TextureMixin.Events:Blizzard_StaticPopup_Game()
 end
 
 
-
-
-
-
-
-
-
-
-
 --地下堡
 function WoWTools_TextureMixin.Events:Blizzard_DelvesDashboardUI()
     self:SetUIButton(DelvesDashboardFrame.ButtonPanelLayoutFrame.CompanionConfigButtonPanel.CompanionConfigButton)
@@ -1821,12 +1572,6 @@ function WoWTools_TextureMixin.Events:Blizzard_DelvesDifficultyPicker()
     self:HideFrame(DelvesDifficultyPickerFrame.Border)
     self:SetButton(DelvesDifficultyPickerFrame.CloseButton)
 end
-
-
-
-
-
-
 
 
 --玩家, 观察角色, 界面
@@ -1874,14 +1619,6 @@ function WoWTools_TextureMixin.Events:Blizzard_InspectUI()
 
     self:Init_BGMenu_Frame(InspectFrame)
 end
-
-
-
-
-
-
-
-
 
 
 function WoWTools_TextureMixin.Events:Blizzard_EventTrace()
@@ -1938,30 +1675,6 @@ function WoWTools_TextureMixin.Events:Blizzard_EventTrace()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --商店
 function WoWTools_TextureMixin.Events:Blizzard_AccountStore()
     self:HideFrame(AccountStoreFrame)
@@ -1978,18 +1691,6 @@ function WoWTools_TextureMixin.Events:Blizzard_AccountStore()
 
     self:Init_BGMenu_Frame(AccountStoreFrame)
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --专业书
@@ -2114,19 +1815,6 @@ end
 function WoWTools_TextureMixin.Events:Blizzard_TutorialManager()
     self:SetFrame(TutorialDoubleKey_Frame)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --12.0 伤害统计
@@ -2339,35 +2027,6 @@ function WoWTools_TextureMixin.Events:Blizzard_DamageMeter()
         settins(frame)
     end)
 end
-    --[[ frame.SettingsDropdown, 'OnButtonStateChanged'
-    WoWTools_DataMixin:Hook(DamageMeterSessionWindowMixin, 'SetLocked', function()
-        print('SetLocked')
-    end)
-    WoWTools_DataMixin:Hook(DamageMeterSessionWindowMixin, 'IsNonInteractive', function()
-        print('IsNonInteractive')
-    end)
-
-
-
-    WoWTools_DataMixin:Hook(DamageMeter, 'SetSessionWindowNonInteractive' ,function(frame, sessionWindow, isLocked)
-        print('a', isLocked)
-    end)
-    WoWTools_DataMixin:Hook(DamageMeter, 'SetSessionWindowLocked' ,function(frame, sessionWindow, isLocked)
-        print('b', isLocked)
-    end)    ]]
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --12.0才有 幻化
@@ -2491,14 +2150,6 @@ function WoWTools_TextureMixin.Events:Blizzard_Transmog()
         end
     })
 end
-
-
-
-
-
-
-
-
 
 
 --上一页，下一页

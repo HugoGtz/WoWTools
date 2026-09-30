@@ -3,13 +3,6 @@ local function Save()
 end
 
 
-
-
-
-
-
-
-
 local function Init_Encounter()--冒险指南界面
     WoWTools_EncounterMixin:Init_Menu()
     WoWTools_EncounterMixin:Init_Plus()
@@ -36,9 +29,6 @@ local function Init_Encounter()--冒险指南界面
 
     Init_Encounter=function()end
 end
-
-
-
 
 
 local function Init()
@@ -90,14 +80,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
-
-
-
-
 
 
 local panel= CreateFrame("Frame")
@@ -169,13 +151,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 self:SetScript('OnEvent', nil)
             else
 
-                --[[if WoWTools_DataMixin.Player.husandro then
-                    EventRegistry:RegisterFrameEventAndCallback("UPDATE_FACTION", function(owner)
-                        WoWTools_LoadUIMixin:JournalInstance(nil)
-                        --WoWTools_LoadUIMixin:JournalInstance(nil, 1271)
-                        EventRegistry:UnregisterCallback('UPDATE_FACTION', owner)
-                    end)
-                end]]
 
                 Init()
 

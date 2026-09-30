@@ -41,14 +41,6 @@ local P_Save={
     --disabledDragonridingSpeed=true,--禁用，驭空术UI，速度
     --disabledVehicleSpeed=true, --禁用，载具，速度
 
-    --[[--目标，移动，速度
-    showTargetSpeed
-    targetMovePoint
-    targetMoveTextToLeft
-    strataTargetMove
-    scaleTargetMove
-    disableTargetName
-    ]]
 
     hideInPetBattle=true,--宠物战斗中, 隐藏
     buttonAlpha=0.3,--专精，图标，透明度
@@ -65,17 +57,6 @@ local P_Save={
 local function Save()
     return WoWToolsPlusSave['Plus_Attributes'] or {}
 end
-
-
-
-
-
-
-
-
-
-
-
 
 
 local panel= CreateFrame("Frame")

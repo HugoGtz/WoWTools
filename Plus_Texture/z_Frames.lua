@@ -68,37 +68,16 @@ function WoWTools_TextureMixin.Frames:QuestFrame()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --拾取, 历史
 function WoWTools_TextureMixin.Frames:GroupLootHistoryFrame()
     self:SetButton(GroupLootHistoryFrame.ClosePanelButton)
     self:SetNineSlice(GroupLootHistoryFrame, self.min, true)
     self:SetAlphaColor(GroupLootHistoryFrameBg)
     self:SetScrollBar(GroupLootHistoryFrame)
-    --[[self:SetAlphaColor(GroupLootHistoryFrameMiddle)
-    self:SetAlphaColor(GroupLootHistoryFrameLeft)
-    self:SetAlphaColor(GroupLootHistoryFrameRight)]]
     self:SetMenu(GroupLootHistoryFrame.EncounterDropdown)
 
     self:SetFrame(GroupLootHistoryFrame.ResizeButton, {alpha=0.3})
 end
-
-
-
-
 
 
 --频道, 设置
@@ -290,11 +269,6 @@ function WoWTools_TextureMixin.Frames:ChatConfigFrame()
     })
 
 
-
-
-
-
-
 --社交，按钮
     self:SetAlphaColor(QuickJoinToastButton.FriendsButton, nil, nil, 0.5)
 
@@ -342,22 +316,7 @@ function WoWTools_TextureMixin.Frames:ChatConfigFrame()
     WoWTools_DataMixin:Hook('FCF_SetUninteractable', function(chatFrame)--使其不可交互
         Set_SetUninteractable(chatFrame)
     end)
-    --[[WoWTools_DataMixin:Hook('FCF_SetExpandedUninteractable', function(chatFrame)--使其不可交互
-        if ( chatFrame.isDocked ) then
-            for _, frame in pairs(GENERAL_CHAT_DOCK.DOCKED_CHAT_FRAMES) do
-                FCF_SetUninteractable(frame)
-            end
-        else
-            FCF_SetUninteractable(chatFrame)
-        end
-    end)]]
 
-    --[[WoWTools_DataMixin:Hook('FCF_MaximizeFrame', function(chatFrame)
-        local name= chatFrame:GetName()
-        self:SetFrame(_G[name..'ButtonFrameMinimizeButton'])
-        self:SetFrame(_G[name..'ResizeButton'])
-
-    end)]]
     for i=1, NUM_CHAT_WINDOWS do
         local frame= _G["ChatFrame"..i]
         if frame then
@@ -404,11 +363,6 @@ function WoWTools_TextureMixin.Frames:ChatConfigFrame()
     self:SetMenu(TextToSpeechFramePanelContainer.TtsVoiceDropdown)
     self:SetMenu(TextToSpeechFramePanelContainer.TtsVoiceAlternateDropdown)
 end
-
-
-
-
-
 
 
 --试衣间
@@ -492,17 +446,6 @@ function WoWTools_TextureMixin.Frames:ItemTextFrame()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
 --考古学 ArchaeologyProgressBar.xml
 function WoWTools_TextureMixin.Frames:ArcheologyDigsiteProgressBar()
      self:SetAlphaColor(ArcheologyDigsiteProgressBar.BarBorderAndOverlay, true)
@@ -510,10 +453,6 @@ function WoWTools_TextureMixin.Frames:ArcheologyDigsiteProgressBar()
     ArcheologyDigsiteProgressBar.BarTitle:SetShadowOffset(1, -1)
     self:HideTexture(ArcheologyDigsiteProgressBar.BarBackground)
 end
-
-
-
-
 
 
 --商人
@@ -563,26 +502,11 @@ function WoWTools_TextureMixin.Frames:MerchantFrame()
 end
 
 
-
-
-
-
-
-
-
 --就绪
 function WoWTools_TextureMixin.Frames:ReadyCheckListenerFrame()
     self:SetNineSlice(ReadyCheckListenerFrame, self.min, true)
     self:SetAlphaColor(ReadyCheckListenerFrame.Bg, true)
 end
-
-
-
-
-
-
-
-
 
 
 function WoWTools_TextureMixin.Frames:LootFrame()
@@ -665,12 +589,6 @@ function WoWTools_TextureMixin.Frames:SplashFrame()
     self:SetButton(SplashFrame.TopCloseButton)
     self:SetUIButton(SplashFrame.BottomCloseButton)
 end
-
-
-
-
-
-
 
 
 function WoWTools_TextureMixin.Frames:EquipmentFlyoutFrame()

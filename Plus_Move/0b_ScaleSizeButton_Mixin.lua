@@ -1,36 +1,3 @@
---[[添加 ResizeButton 按钮
-    FriendsFrame.IgnoreListWindow:ClearAllPoints()
-    FriendsFrame.IgnoreListWindow:SetPoint('TOPLEFT', FriendsFrame, 'TOPRIGHT')
-    if Save().IgnoreListWindowHeight then
-        FriendsFrame.IgnoreListWindow:SetHeight(Save().IgnoreListWindowHeight)
-    end
-    FriendsFrame.IgnoreListWindow:SetResizable(true)
-    FriendsFrame.IgnoreListWindow:SetResizeBounds(273, 104)
-    FriendsFrame.IgnoreListWindow.ResizeButton= CreateFrame('Button', nil, FriendsFrame.IgnoreListWindow, 'WoWToolsButtonTemplate')
-    FriendsFrame.IgnoreListWindow.ResizeButton:SetSize(32, 12)
-    FriendsFrame.IgnoreListWindow.ResizeButton:SetNormalAtlas('lootroll-resizehandle')
-
- 
-    FriendsFrame.IgnoreListWindow.ResizeButton:SetPoint('TOP', FriendsFrame.IgnoreListWindow, 'BOTTOM', 0, 3)
-    FriendsFrame.IgnoreListWindow.ResizeButton:SetScript("OnMouseDown", function(btn)
-		local alwaysStartFromMouse = true;
-		btn:GetParent():StartSizing("BOTTOM", alwaysStartFromMouse);
-	end)
-	FriendsFrame.IgnoreListWindow.ResizeButton:SetScript("OnMouseUp", function(btn)
-		local p= btn:GetParent()
-        p:StopMovingOrSizing()
-        p:ClearAllPoints()
-        p:SetPoint('TOPLEFT', FriendsFrame, 'TOPRIGHT')
-        Save().IgnoreListWindowHeight= p:GetHeight()
-	end)
-    FriendsFrame.IgnoreListWindow.ResizeButton:SetScript('OnClick', nil)
-
-        
-    https://warcraft.wiki.gg/wiki/Making_resizable_frames
-    br:SetNormalTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Down")
-    br:SetHighlightTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Highlight")
-    br:SetPushedTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Up")
---]]
 
 local function Save()
     return WoWToolsPlusSave['Plus_Move']
@@ -59,18 +26,6 @@ local function Set_Frame_Scale(self, scale)
         self:SetScale(scale)
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --保存，大小
@@ -117,57 +72,6 @@ local function Set_ScalePercent(self, isSu)
     Set_Frame_Size(target, w, h)--设置大小
     Save_Frame_Size(self)--保存，大小
 end
-
-
-
-
-
-
-
---[[按 Esc 键，隐藏框体
-local function Set_ESC(name, isSet)
-    local isRemove, isAdd
-    if isSet then--设置 1=移除(禁用), 2=添加(启用)
-        isRemove= Save().Esc[name]==1
-        isAdd= Save().Esc[name]==2
-    end
-
-    local index
-    for i, value in pairs(UISpecialFrames) do
-        print(i, value)
-        if value==name then
-            index= i
-            --break
-        end
-    end
-
-    if isRemove then
-        if index then
-            table.remove(UISpecialFrames, index)
-        end
-    elseif isAdd then
-        if not index then
-            table.insert(UISpecialFrames, name)
-        end
-    end
-    return index
-end
-]]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --锁定框体位置
@@ -305,80 +209,6 @@ local function Init_Point_Menu(self, root)
 --SetScrollMod
     WoWTools_MenuMixin:SetScrollMode(root)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---[[local function Init_Esc_Menu(self, root)
-    local sub
-    local name= self.name
-    local set= Save().Esc[name]
-
-    local function get_text()
-        local value= Save().Esc[name]
-        local col
-        if not value then
-            col= '|cff606060'
-        elseif value==1 then
-            col= '|cnWARNING_FONT_COLOR:'
-        elseif value==2 then
-            col= '|cnGREEN_FONT_COLOR:'
-        end
-        return col..'|A:NPE_Icon:0:0|aEsc'
-    end
-
-    sub= root:CreateCheckbox(
-        get_text(),
-    function()
-        return Save().Esc[name]
-    end, function()
-        Save().Esc[name]= not Save().Esc[name] and set
-        MenuUtil.SetElementText(sub, get_text())
-    end)
-
-    sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_L['Press Esc to hide the frame'])
-        tooltip:AddLine(' ')
-        tooltip:AddLine('|cff606060'..(WoWTools_L.IGNORE_DIALOG))
-        tooltip:AddLine('|cnWARNING_FONT_COLOR:'..(WoWTools_L.DISABLE))
-        tooltip:AddLine('|cnGREEN_FONT_COLOR:'..(WoWTools_L.ENABLE))
-        tooltip:AddLine(' ')
-        tooltip:AddLine(
-            WoWTools_Join(WoWTools_L.REFORGE_CURRENT, 'UISpecialFrames')
-            ..': '
-            ..WoWTools_TextMixin:GetEnabeleDisable(Set_ESC(name) and true or false)
-        )
-    end)
-end
-
-
-]]
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --菜单
@@ -604,23 +434,6 @@ local function Init_Menu(self, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --Frame 移动时，设置透明度
 local function Set_Move_Alpha(frame)
     local name= frame and frame:GetName()
@@ -677,15 +490,6 @@ local function Set_Move_Alpha(frame)
 end
 
 
-
-
-
-
-
-
-
-
-
 local function GetScaleDistance(SOS) -- distance from cursor to TopLeft :)
 	local left, top = SOS.left, SOS.top
 	local scale = SOS.EFscale
@@ -694,18 +498,6 @@ local function GetScaleDistance(SOS) -- distance from cursor to TopLeft :)
 	y = top - y/scale
 	return sqrt(x*x+y*y)
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Set_Tooltip(self)
@@ -789,14 +581,6 @@ local function Set_Tooltip(self)
 end
 
 
-
-
-
-
-
-
-
-
 local function Set_Enter(btn, target)
 
     if btn.alpha then
@@ -824,12 +608,6 @@ local function Set_Enter(btn, target)
 
     btn:SetAlpha(btn.alpha or 0.5)
 end
-
-
-
-
-
-
 
 
 local function Set_OnMouseUp(self)
@@ -861,10 +639,6 @@ local function Set_OnMouseUp(self)
 end
 
 
-
-
-
-
 local function Set_OnMouseDown(self, d)
     local target= self:GetParent()
 
@@ -880,12 +654,6 @@ local function Set_OnMouseDown(self, d)
 
     if d=='LeftButton' then
         self.SOS= self.SOS or {}
-            --[[dist = 0,
-            x = 0,
-            y = 0,
-            left = 0,
-            top = 0,
-            scale = 1,]]
         self.SOS.left, self.SOS.top = target:GetLeft(), target:GetTop()
         self.SOS.scale = target:GetScale()
         self.SOS.x, self.SOS.y = self.SOS.left, self.SOS.top-(UIParent:GetHeight()/self.SOS.scale)
@@ -954,16 +722,6 @@ local function Set_OnMouseDown(self, d)
 end
 
 
-
-
-
-
-
-
-
-
-
-
 local function Set_Init_Frame(btn, target, size, initFunc)
     if WoWTools_FrameMixin:IsLocked(target) then--not InCombatLockdown() or not sel:IsProtected() 
         EventRegistry:RegisterFrameEventAndCallback("PLAYER_REGEN_ENABLED", function(owner, tab)--btn2, target2, size2, initFunc2)
@@ -995,20 +753,6 @@ local function Set_Init_Frame(btn, target, size, initFunc)
         end
     end
 end
-
-
-
-
-
-
-
-
-
---[[
-    注意，如果有参数， 不保存数据（大小）
-    btn.sizeStopFunc= tab.sizeStopFunc--保存，大小，内容
-    btn.scaleStopFunc= tab.scaleStopFunc--保存，缩放内容
-]]
 
 
 function WoWTools_MoveMixin:Scale_Size_Button(frame, tab)
@@ -1077,13 +821,6 @@ function WoWTools_MoveMixin:Scale_Size_Button(frame, tab)
     if btn.setSize then
         frame:SetResizable(true)
         btn:Init(frame, minW, minH, maxW , maxH, rotationDegrees)
-        --[[
-            
-            self.minWidth = minWidth
-            self.minHeight = minHeight
-            self.maxWidth = maxWidth
-            self.maxHeight = maxHeight
-        ]]
 
         local size= Save().size[name]
         if size or initFunc then
@@ -1095,14 +832,6 @@ function WoWTools_MoveMixin:Scale_Size_Button(frame, tab)
 
     --btn:SetClampedToScreen(true)
 
-    --[[btn.SOS = { --Scaler Original State
-        dist = 0,
-        x = 0,
-        y = 0,
-        left = 0,
-        top = 0,
-        scale = 1,
-    }]]
 
     local scale= Save().scale[name]
     if scale and scale~=1 then
@@ -1152,19 +881,9 @@ function WoWTools_MoveMixin:Scale_Size_Button(frame, tab)
         FrameOnShow_SetPoint(btn, false)
     end
 
---[[按 Esc 键，隐藏框体
-    if Save().Esc[name] then
-        Set_ESC(name, true)
-    end]]
 
     Set_Enter(btn, frame)
 end
-
-
-
-
-
-
 
 
 function WoWTools_MoveMixin:MoveAlpha(frame)

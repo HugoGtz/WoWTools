@@ -4,17 +4,6 @@ local function Save()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
 local function Create(frame)
 
 	frame.check= CreateFrame('CheckButton', nil, frame, "MinimalCheckboxArtTemplate")
@@ -96,20 +85,6 @@ local function Create(frame)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function set_Tokens_Button(self)--设置, 列表, 内容
 	if not self.check then
 		Create(self)
@@ -166,23 +141,6 @@ local function set_Tokens_Button(self)--设置, 列表, 内容
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
 	if Save().notPlus then
 		return
@@ -227,43 +185,6 @@ local function Init()
 
 	Init=function()end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Search(self)
@@ -326,13 +247,6 @@ local function Init_Search(self)
 end
 
 
-
-
-
-
-
-
-
 local function Expand_All()
 	local num= C_CurrencyInfo.GetCurrencyListSize() or 0
 	if num<=0 then
@@ -355,17 +269,6 @@ local function Expand_All()
 
 	WoWTools_CurrencyMixin:UpdateTokenFrame()
 end
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_PlusButton()
@@ -412,9 +315,6 @@ local function Init_PlusButton()
 	edit:HookScript('OnTextChanged', function(self)
 		Init_Search(self)
 	end)
-	--[[edit:SetScript('OnEnterPressed', function(self)
-		Init_Search(self)
-	end)]]
 	edit:HookScript('OnEditFocusGained', function(self)
 		Expand_All()
 		if self:GetText()~='' then
@@ -426,28 +326,6 @@ local function Init_PlusButton()
 		_G['WoWToolsCurrencyExpandeListButton']:SetShown(not Save().notPlus)
 	end
 end
-
-
-
-
-
-
-
-
---[[
-    if WoWTools_DataMixin.Player.husandro then
-        for slot= 1, 19 do
-            local item= ItemLocation:CreateFromEquipmentSlot(slot)
-            if item:IsValid() then
-                local data= C_ItemInteraction.GetItemConversionCurrencyCost(item)
-                if data then
-                    info=data
-                    for k, v in pairs(info or {}) do if v and type(v)=='table' then print('|cff00ff00---',k, '---STAR|r') for k2,v2 in pairs(v) do print('|cffffff00',k2,v2, '|r') end print('|cffff0000---',k, '---END|r') else print(k,v) end end print('|cffff00ff——————————|r')
-                end
-            end
-        end
-    end]]
-
 
 
 function WoWTools_CurrencyMixin:Init_Plus()

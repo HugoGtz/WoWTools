@@ -4,9 +4,6 @@ end
 local Frame
 
 
-
-
-
 local function Set_Text()--所有记录
     local w= 0
 
@@ -143,19 +140,6 @@ local function Set_Text()--所有记录
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function History_Tooltip(self)
     GameTooltip:SetOwner(self, "ANCHOR_LEFT")
     GameTooltip:ClearLines()
@@ -220,31 +204,7 @@ local function History_Tooltip(self)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 local function Create_Label()
-    --[[Frame.dungeonScore= WoWTools_LabelMixin:Create(Frame, {mouse=true, size=14})
-    Frame.dungeonScore:SetPoint('TOPLEFT')
-    Frame.dungeonScore:SetScript('OnLeave', function(self)
-        self:SetAlpha(1)
-        GameTooltip:Hide()
-    end)
-    Frame.dungeonScore:SetScript('OnEnter', function(self)
-        GameTooltip:SetOwner(self, "ANCHOR_LEFT")
-        WoWTools_SetTooltipMixin:Frame(self, nil, {dungeonScore= WoWTools_ChallengeMixin:GetDungeonScoreLink()})  
-        GameTooltip:Show()
-        self:SetAlpha(0.5)
-    end)]]
 
 --历史
     Frame.history= WoWTools_LabelMixin:Create(Frame, {mouse=true, size=14})
@@ -303,14 +263,6 @@ local function Create_Label()
 end
 
 
-
-
-
-
-
-
-
-
 local function Init()
     if Save().hideRight then
         return
@@ -364,16 +316,6 @@ local function Init()
         Frame:Settings()
     end
 end
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_ChallengeMixin:ChallengesUI_Right()

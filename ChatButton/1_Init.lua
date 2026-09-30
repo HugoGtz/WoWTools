@@ -26,14 +26,6 @@ local function Save()
 end
 
 
-
-
-
-
-
-
-
-
 local function Set_All_Buttons(self)
     local Buttons= WoWTools_ChatMixin:GetButtons()
     local Name= WoWTools_ChatMixin:GetNameText()
@@ -43,15 +35,6 @@ local function Set_All_Buttons(self)
     self:set_backgroud()
     self:set_menu_anchor()
 end
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Menu(self, root)
@@ -271,26 +254,6 @@ local function Init_Menu(self, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    --[[WoWTools_ButtonMixin:Cbtn(nil, {
-        name='WoWToolsChatButtonMainButton',
-        icon='hide',
-        frameType='DropdownButton',
-    })]]
-
 local function Init()
     local btn= CreateFrame('DropdownButton', 'WoWToolsChatButtonMainButton', UIParent)
 
@@ -417,27 +380,6 @@ local function Init()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init_Panel()
     if Save().disabled then
         return
@@ -460,10 +402,6 @@ local function Init_Panel()
 
     Init_Panel=function()end
 end
-
-
-
-
 
 
 local panel= CreateFrame("Frame")

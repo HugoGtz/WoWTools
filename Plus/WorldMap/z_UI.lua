@@ -116,37 +116,11 @@ function WoWTools_TextureMixin.Events:Blizzard_WorldMap()
 end
 
 
-
-
-
-
-
-
-
-
-
-
 --因为修改，内置参数，可能会出现，错误
 --WorldMapFrame:IsSidePanelShown()
 --WoWTools_DataMixin:Hook(WorldMapFrame.SidePanelToggle, 'Refresh', Save_Size)
 function WoWTools_MoveMixin.Events:Blizzard_WorldMap()
 
-    --[[local function addMenu(_, root)
-        local sub= root:CreateCheckbox(
-            WoWTools_L['DISABLE+HUD_EDIT_MODE_SETTING_BAGS_SIZE'],
-        function()
-            return self:Save().disablesWorldMapFrameSize
-        end, function()
-            self:Save().disablesWorldMapFrameSize= not self:Save().disablesWorldMapFrameSize and true or nil
-        end)
-        sub:SetTooltip(function (tooltip)
-            GameTooltip_AddInstructionLine(tooltip,
-                WoWTools_L.REQUIRES_RELOAD
-            )
-        end)
-    end
-
-    if not self:Save().disablesWorldMapFrameSize then]]
 
     local name= WorldMapFrame:GetName()
 

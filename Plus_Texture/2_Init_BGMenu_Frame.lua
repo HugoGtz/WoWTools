@@ -143,16 +143,7 @@ local TextureTab={
 ['shop-card-wide-bg-magenta']=1,
 
 
---[[['QuestBG-Alliance']=1,
-['QuestBG-Horde']=1,
-['QuestBG-Parchment']=1,
-['talenttree-alliance-background']=1,
-['talenttree-horde-background']=1,]]
 }
-
-
-
-
 
 
 local function PlayStop_Anims(self)
@@ -285,19 +276,6 @@ local function Settings(self)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 --材质，列表, 菜单
 local function texture_list(self, root, name, icon, texture, isAdd)
     local sub
@@ -361,14 +339,6 @@ local function texture_list(self, root, name, icon, texture, isAdd)
         WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Texture.BgRemove'])
     end
 end
-
-
-
-
-
-
-
-
 
 
 --材质，列表
@@ -453,25 +423,6 @@ local function Texture_List_Menu(self, root, icon, name)
     WoWTools_MenuMixin:SetScrollMode(root)
 
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --分开设置, 列表
@@ -632,25 +583,6 @@ local function Add_Frame_Menu(self, root)
     WoWTools_MenuMixin:SetScrollMode(sub)
 
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --BG, 主菜单
@@ -900,45 +832,6 @@ local function Init_Menu(self, root, isSub)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --创建动画组
 local function Create_Anims(self, icon, tab)
     if self.AirParticlesFar
@@ -1022,13 +915,6 @@ local function Create_Anims(self, icon, tab)
         frame.backgroundAnims:Stop()
     end)
 end
-
-
-
-
-
-
-
 
 
 --设置 菜单
@@ -1122,14 +1008,6 @@ local function Set_Frame_Menu(frame, tab)
 end
 
 
-
-
-
-
-
-
-
-
 local function Create_Button(self, tab)
     if not tab.isNewButton then
         return
@@ -1149,19 +1027,6 @@ local function Create_Button(self, tab)
     icon:SetPoint('CENTER')
     icon:SetSize(12,12)
     icon:SetAlpha(tab.newButtonAlpha or 0.5)
-    --[[WoWTools_ButtonMixin:Cbtn(p, {
-        size=23,
-        name=tab.name..'BGMenuButton',
-        texture='Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools',
-    })
-    --self.bgMenuButton.isLeftShowMenu=true
-
-    local icon= self.bgMenuButton:GetNormalTexture()
-    icon:ClearAllPoints()
-    icon:SetPoint('CENTER')
-    icon:SetSize(12,12)
-    icon:SetAlpha(tab.newButtonAlpha or 0.5)
-]]
     if tab.newButtonPoint then
         tab.newButtonPoint(self.bgMenuButton, self[BGName])
 
@@ -1174,47 +1039,6 @@ local function Create_Button(self, tab)
         self.bgMenuButton:SetFrameLevel(closeButton:GetFrameLevel()+1)
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---[[
-WoWTools_TextureMixin:Init_BGMenu_Frame(frame, {
-    name=名称,
-    enabled=true,仅限
-    
-    alpha=0,--默认alpha
-    nineSliceAlpha=tab.nineSliceAlpha,
-    portraitAlpha=tab.portraitAlpha,
-    
-    settings=function(icon, textureName, alphaValue, nineSliceAlpha, portraitAlpha)--设置内容时，调用
-    end,
-
-    notAnims=true,
-    menuTag='MENU_FCF_TAB',--菜单中，添加子菜单
-    addMenu(frame, root),
-    PortraitContainer=Frame.PortraitContainer,
-
-    isNewButton=true,
-    newButtonAlpha=1,
-    newButtonPoint=function(btn)
-    end
-
-    bgPoint=function(icon)
-    end
-})
-]]
 
 
 function WoWTools_TextureMixin:Init_BGMenu_Frame(frame, tab)
@@ -1284,10 +1108,6 @@ function WoWTools_TextureMixin:Init_BGMenu_Frame(frame, tab)
 --BG, 设置
     Settings(frame)
 end
-
-
-
-
 
 
 function WoWTools_TextureMixin:Get_BGName()

@@ -1,7 +1,3 @@
---[[
-ScaleFrame(frame, delta, value, func)
-CreateFrame(parent, tab)
-]]
 local Index=0
 WoWTools_FrameMixin= {}
 
@@ -52,9 +48,6 @@ function WoWTools_FrameMixin:IsInSchermo(frame)
 end
 
 
-
-
-
 local function Get_Size(value)
     local w, h
     local t= type(value)
@@ -101,19 +94,6 @@ function WoWTools_FrameMixin:ScaleFrame(frame, delta, value, func)
     return n
 end
 --Save.scale=WoWTools_FrameMixin:ScaleFrame(self, d, Save.scale, nil)
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_FrameMixin:Create(parent, tab)
@@ -207,8 +187,6 @@ function WoWTools_FrameMixin:Create(parent, tab)
 
 --材质
     WoWTools_TextureMixin:SetButton(frame.CloseButton)
-    --[[WoWTools_TextureMixin:SetFrame(frame.Border, {show={[frame.Border.Bg]=true}})
-    WoWTools_TextureMixin:SetFrame(frame.Header)]]
 
     WoWTools_TextureMixin:Init_BGMenu_Frame(frame, {
         enabled=true,
@@ -223,28 +201,6 @@ function WoWTools_FrameMixin:Create(parent, tab)
 
     return frame
 end
---[[
-WoWTools_FrameMixin:Create(name, {
-    size={w, h} or numeri,
-    parentFrame= frame or UIParent,
-    setID=numeri, --SetID(1)
-    strata='HIGH', BACKGROUND LOW MEDIUM HIGH DIALOG FULLSCREEN FULLSCREEN_DIALOG TOOLTIP
-
-    minW=numeri or 370,
-    mniH=numeri or 240
-
-    sizeRestFunc=function(btn) btn:SetSize() end)
-}
-frame.Header:Setup(text)
---]]
-
-
-
-
-
-
-
-
 
 
 --设置，提示

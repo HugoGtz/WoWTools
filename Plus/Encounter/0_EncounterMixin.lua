@@ -1,20 +1,5 @@
 
---[[冒险指南
-EncounterJournal.encounter.info == EncounterJournalEncounterFrameInfo
-EncounterJournal.encounter.info.BossesScrollBox == EncounterJournalEncounterFrameInfo.BossesScrollBox
-
-EncounterJournal.encounter.info.detailsScroll == EncounterJournalEncounterFrameInfoDetailsScrollFrame
-EncounterJournal.encounter.infoFrame ==          EncounterJournalEncounterFrameInfoDetailsScrollFrameScrollChild
-
-EncounterJournalEncounterFrameInfoDetailsScrollFrameScrollChild
-
-EncounterJournal.encounter.overviewFrame == EncounterJournal.encounter.info.overviewScroll.child
-EncounterJournal.encounter.overviewFrame == EncounterJournalEncounterFrameInfoOverviewScrollFrameScrollChild
-]]
 WoWTools_EncounterMixin={}
-
-
-
 
 
 function WoWTools_EncounterMixin:GetBossNameSort(name)--取得怪物名称, 短名称
@@ -26,15 +11,6 @@ function WoWTools_EncounterMixin:GetBossNameSort(name)--取得怪物名称, 短�
     name=name:gsub('<.+>', '')
     return name
 end
-
-
-
-
-
-
-
-
-
 
 
 local function Set_WorldData_Tooltip()
@@ -70,27 +46,6 @@ local function Set_WorldData_Tooltip()
         end
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function GetInstanceData(frame, showTips)
