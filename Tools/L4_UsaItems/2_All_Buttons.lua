@@ -107,7 +107,7 @@ local function Set_Bling_Quest(btn)
         btn.quest=WoWTools_LabelMixin:Create(btn, {size=8})
         btn.quest:SetPoint('BOTTOM',0,8)
     end
-    btn.quest:SetText(complete and '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '完成' or COMPLETE)..'|r' or '|A:questlegendary:0:0|a')
+    btn.quest:SetText(complete and '|cnGREEN_FONT_COLOR:'..(WoWTools_L.COMPLETE)..'|r' or '|A:questlegendary:0:0|a')
 end
 
 

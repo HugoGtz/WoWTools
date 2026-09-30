@@ -108,7 +108,7 @@ local function Init()
 --成就 AchievementObjectiveTracker
     WoWTools_ObjectiveMixin:Add_ClearAll_Button(
         AchievementObjectiveTracker,
-        WoWTools_DataMixin.onlyChinese and '成就' or TRACKER_HEADER_ACHIEVEMENTS,
+        WoWTools_L.TRACKER_HEADER_ACHIEVEMENTS,
     function()
         WoWTools_ObjectiveMixin:Clear_Achievement(true)
     end)
@@ -148,7 +148,7 @@ local function Init()
 --专业技能 ProfessionsRecipeTracker
     WoWTools_ObjectiveMixin:Add_ClearAll_Button(
         ProfessionsRecipeTracker,
-        WoWTools_DataMixin.onlyChinese and '专业技能' or PROFESSIONS_TRACKER_HEADER_PROFESSION,
+        WoWTools_L.PROFESSIONS_TRACKER_HEADER_PROFESSION,
     function()
         WoWTools_ObjectiveMixin:Clear_ProfessionsRecipe(true)
     end)
@@ -204,7 +204,7 @@ local function Init()
 --任务 QuestObjectiveTracker QuestObjectiveTrackerMixin
     WoWTools_ObjectiveMixin:Add_ClearAll_Button(
     QuestObjectiveTracker,
-        WoWTools_DataMixin.onlyChinese and '任务' or TRACKER_HEADER_QUESTS,
+        WoWTools_L.TRACKER_HEADER_QUESTS,
     function()
         WoWTools_ObjectiveMixin:Clear_Quest(true)
     end)
@@ -230,7 +230,7 @@ local function Init()
 --战役，任务 CampaignQuestObjectiveTracker
     WoWTools_ObjectiveMixin:Add_ClearAll_Button(
         CampaignQuestObjectiveTracker,
-        WoWTools_DataMixin.onlyChinese and '战役' or TRACKER_HEADER_CAMPAIGN_QUESTS,
+        WoWTools_L.TRACKER_HEADER_CAMPAIGN_QUESTS,
     function()
         WoWTools_ObjectiveMixin:Clear_CampaignQuest(true)
     end)
@@ -244,7 +244,7 @@ local function Init()
 --世界，任务 WorldQuestObjectiveTracker
     WoWTools_ObjectiveMixin:Add_ClearAll_Button(
         WorldQuestObjectiveTracker,
-        WoWTools_DataMixin.onlyChinese and '世界任务' or TRACKER_HEADER_WORLD_QUESTS,
+        WoWTools_L.TRACKER_HEADER_WORLD_QUESTS,
     function()
        WoWTools_ObjectiveMixin:Clear_WorldQuest(true)
     end)
@@ -257,7 +257,7 @@ local function Init()
 --旅行者日志 MonthlyActivitiesObjectiveTracker
     WoWTools_ObjectiveMixin:Add_ClearAll_Button(
         MonthlyActivitiesObjectiveTracker,
-        WoWTools_DataMixin.onlyChinese and '旅行者日志' or TRACKER_HEADER_MONTHLY_ACTIVITIES,
+        WoWTools_L.TRACKER_HEADER_MONTHLY_ACTIVITIES,
     function()
         WoWTools_ObjectiveMixin:Clear_MonthlyActivities(true)
     end)
@@ -265,7 +265,7 @@ local function Init()
 --收藏
     WoWTools_ObjectiveMixin:Add_ClearAll_Button(
         AdventureObjectiveTracker,
-        WoWTools_DataMixin.onlyChinese and '收藏' or FAVORITES,
+        WoWTools_L.FAVORITES,
     function()
         WoWTools_ObjectiveMixin:Clear_ContentTracking(true)
     end)
@@ -274,7 +274,7 @@ local function Init()
 --文化节
     WoWTools_ObjectiveMixin:Add_ClearAll_Button(
         InitiativeTasksObjectiveTracker,
-        WoWTools_DataMixin.onlyChinese and '文化节' or HOUSING_DASHBOARD_INITIATIVES,
+        WoWTools_L.HOUSING_DASHBOARD_INITIATIVES,
     function()
         WoWTools_ObjectiveMixin:Clear_NeighborhoodInitiative(true)
     end)
@@ -311,7 +311,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     WoWToolsPlusSave['ObjectiveTracker']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['ObjectiveTracker'], P_Save)
     P_Save= nil
 
-    WoWTools_ObjectiveMixin.addName= '|A:Objective-Nub:0:0|a|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '目标追踪栏' or HUD_EDIT_MODE_OBJECTIVE_TRACKER_LABEL)..'|r'
+    WoWTools_ObjectiveMixin.addName= '|A:Objective-Nub:0:0|a|cnWARNING_FONT_COLOR:'..(WoWTools_L.HUD_EDIT_MODE_OBJECTIVE_TRACKER_LABEL)..'|r'
 
     --添加控制面板
     WoWTools_PanelMixin:OnlyCheck({
@@ -327,7 +327,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 print(
                     WoWTools_DataMixin.Icon.icon2..WoWTools_ObjectiveMixin.addName,
                     WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-                    WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+                    WoWTools_L.REQUIRES_RELOAD
                 )
             end
         end

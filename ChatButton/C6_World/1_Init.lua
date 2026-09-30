@@ -21,8 +21,8 @@ local function Init_Dialogs()
             ..WoWTools_ChatMixin:GetButtonForName('World'):Get_myChatFilter_Text(),
         whileDead=true, hideOnEscape=true, exclusive=true,
         hasEditBox=true,
-        button1= WoWTools_DataMixin.onlyChinese and '修改' or EDIT,
-        button2= WoWTools_DataMixin.onlyChinese and '取消' or CANCEL,
+        button1= WoWTools_L.EDIT,
+        button2= WoWTools_L.CANCEL,
         OnShow = function(self)
             local edit= self:GetEditBox()
             edit:SetNumeric(true)
@@ -54,13 +54,13 @@ local function Init_Dialogs()
     }
 
     StaticPopupDialogs['WoWToolsChatWolrdAddPlayerNameChatFilter']= {
-        text=(WoWTools_DataMixin.onlyChinese and '自定义屏蔽' or WoWTools_Join(CUSTOM, IGNORE))
+        text=(WoWTools_L['CUSTOM+IGNORE'])
             ..'|n|n'..WoWTools_DataMixin.Player.Name_Realm..'|n'
-            ..(WoWTools_DataMixin.onlyChinese and '名字-服务器' or WoWTools_L['Name-Realm']),-- format(FULL_PLAYER_NAME, NAME, VAS_REALM_LABEL)),
+            ..(WoWTools_L['Name-Realm']),-- format(FULL_PLAYER_NAME, NAME, VAS_REALM_LABEL)),
         whileDead=true, hideOnEscape=true, exclusive=true,
         hasEditBox=true,
-        button1= WoWTools_DataMixin.onlyChinese and '添加' or ADD,
-        button2= WoWTools_DataMixin.onlyChinese and '取消' or CANCEL,
+        button1= WoWTools_L.ADD,
+        button2= WoWTools_L.CANCEL,
         OnShow = function(self)
             local b1= self.button1 or self:GetButton1()
             b1:SetEnabled(false)
@@ -78,7 +78,7 @@ local function Init_Dialogs()
             Save().userChatFilterTab[text]={num=0, guid=nil}
             print(
                 WoWTools_WorldMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                WoWTools_DataMixin.onlyChinese and '添加' or ADD,
+                WoWTools_L.ADD,
                 text,
                 WoWTools_UnitMixin:GetPlayerInfo(nil, nil, text, {reName=true, reRealm=true, reLink=true})
             )
@@ -115,11 +115,11 @@ local function Init_Dialogs()
 
 
     StaticPopupDialogs['WoWToolsChatButtonWorldChangeNamme']={
-        text=(WoWTools_DataMixin.onlyChinese and '修改名称' or HUD_EDIT_MODE_RENAME_LAYOUT)..'|n|n'..(WoWTools_DataMixin.onlyChinese and '重新加载UI' or RELOADUI ),
+        text=(WoWTools_L.HUD_EDIT_MODE_RENAME_LAYOUT)..'|n|n'..(WoWTools_L.RELOADUI ),
         whileDead=true, hideOnEscape=true, exclusive=true,
         hasEditBox=true,
-        button1= WoWTools_DataMixin.onlyChinese and '确定' or OKAY,
-        button2= WoWTools_DataMixin.onlyChinese and '取消' or CANCEL,
+        button1= WoWTools_L.OKAY,
+        button2= WoWTools_L.CANCEL,
         OnShow= function(self)
             local edit= self:GetEditBox()
             edit:SetAutoFocus(false)
@@ -211,7 +211,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             Save().userChatFilterTab= Save().userChatFilterTab or {}
             Save().lastName= Save().lastName or (LOCALE_zhCN and '大脚世界频道' or 'World')
 
-            WoWTools_WorldMixin.addName= '|A:tokens-WoW-generic-regular:0:0|a'..(WoWTools_DataMixin.onlyChinese and '频道' or CHANNEL)
+            WoWTools_WorldMixin.addName= '|A:tokens-WoW-generic-regular:0:0|a'..(WoWTools_L.CHANNEL)
 
             if WoWTools_ChatMixin:CreateButton('World', WoWTools_WorldMixin.addName) then
                 self:RegisterEvent('PLAYER_ENTERING_WORLD')

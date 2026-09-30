@@ -65,7 +65,7 @@ local function Init_Menu(self, root)
 --收起选项
     sub=root:CreateButton(
         col
-        ..(WoWTools_DataMixin.onlyChinese and '收起选项 |A:editmode-up-arrow:0:0|a' or HUD_EDIT_MODE_COLLAPSE_OPTIONS),
+        ..(WoWTools_L['HUD_EDIT_MODE_COLLAPSE_OPTIONS~3']),
     function()
         Set_Collapse(true, true)
         return MenuResponse.Open
@@ -74,7 +74,7 @@ local function Init_Menu(self, root)
 --战斗中
     sub2= sub:CreateCheckbox(
         '|cnWARNING_FONT_COLOR:'
-        ..(WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT),
+        ..(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT),
     function()
         return Save().autoHideInCombat
     end, function()
@@ -89,7 +89,7 @@ local function Init_Menu(self, root)
 --展开选项
     root:CreateButton(
         col
-        ..(WoWTools_DataMixin.onlyChinese and '展开选项 |A:editmode-down-arrow:0:0|a' or HUD_EDIT_MODE_EXPAND_OPTIONS),
+        ..(WoWTools_L['HUD_EDIT_MODE_EXPAND_OPTIONS~2']),
     function()
         Set_Collapse(false, true)
         return MenuResponse.Open
@@ -97,7 +97,7 @@ local function Init_Menu(self, root)
 
 --自动
     root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '自动' or SELF_CAST_AUTO,
+        WoWTools_L.SELF_CAST_AUTO,
     function()
         return Save().autoHide
     end, function()
@@ -108,11 +108,11 @@ local function Init_Menu(self, root)
     root:CreateDivider()
 
     sub=root:CreateButton(
-        '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '清除全部' or CLEAR_ALL),
+        '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L['CLEAR_ALL~2']),
     function()
         StaticPopup_Show('WoWTools_OK',
-        (WoWTools_DataMixin.onlyChinese and '取消追踪' or OBJECTIVES_STOP_TRACKING)..'\n'
-        ..'|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '清除全部' or CLEAR_ALL),
+        (WoWTools_L.OBJECTIVES_STOP_TRACKING)..'\n'
+        ..'|A:bags-button-autosort-up:0:0|a'..(WoWTools_L['CLEAR_ALL~2']),
         nil,
         {SetValue=function()
             WoWTools_ObjectiveMixin:Clear_Achievement()
@@ -127,7 +127,7 @@ local function Init_Menu(self, root)
 )
     end)
     sub:SetTooltip(function (tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '取消追踪' or OBJECTIVES_STOP_TRACKING)
+        tooltip:AddLine(WoWTools_L.OBJECTIVES_STOP_TRACKING)
     end)
 
 --缩放
@@ -143,7 +143,7 @@ local function Init_Menu(self, root)
 
 --透明度
     sub= root:CreateButton(
-        '|A:MonkUI-LightOrb:0:0|a'..(WoWTools_DataMixin.onlyChinese and '透明度' or HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY),
+        '|A:MonkUI-LightOrb:0:0|a'..(WoWTools_L.HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY),
     function()
         return MenuResponse.Open
     end, {rightText=Save().alpha or 1})
@@ -160,7 +160,7 @@ local function Init_Menu(self, root)
                 self:set_scale()
             end
         end,
-        name= WoWTools_DataMixin.onlyChinese and '透明度' or HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY ,
+        name= WoWTools_L.HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY ,
         minValue=0,
         maxValue=1,
         step=0.01,
@@ -177,8 +177,8 @@ local function Init_Menu(self, root)
     sub= WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_ObjectiveMixin.addName, tooltip=function(tooltip)
         tooltip:AddLine(' ')
         tooltip:AddLine('|cnWARNING_FONT_COLOR:BUG')
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '友情提示: 可能会出现错误' or WoWTools_L['Note: errors may occur'])
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '当有可点击物品按钮时会错误' or WoWTools_L['Fails when there is a clickable item button'])
+        tooltip:AddLine(WoWTools_L['Note: errors may occur'])
+        tooltip:AddLine(WoWTools_L['Fails when there is a clickable item button'])
     end})
 
     WoWTools_MenuMixin:Reload(sub)
@@ -244,20 +244,20 @@ local function Init()
     MenuButton:HookScript('OnEnter', function()
         GameTooltip:SetOwner(ObjectiveTrackerFrame, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddLine('|A:Objective-Nub:0:0|a'..(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL)..WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddLine('|A:Objective-Nub:0:0|a'..(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL)..WoWTools_DataMixin.Icon.left)
         GameTooltip:AddLine(' ')
 
         local col= Is_Locked() and '|cff828282' or ''
         GameTooltip:AddLine(
             col
-            ..(WoWTools_DataMixin.onlyChinese and '收起选项 |A:editmode-up-arrow:16:11:0:3|a' or HUD_EDIT_MODE_COLLAPSE_OPTIONS)
-            ..(WoWTools_DataMixin.onlyChinese and '上' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_WRAP_UP)
+            ..(WoWTools_L['HUD_EDIT_MODE_COLLAPSE_OPTIONS~2'])
+            ..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_WRAP_UP)
             ..WoWTools_DataMixin.Icon.mid
         )
         GameTooltip:AddLine(
             col
-            ..(WoWTools_DataMixin.onlyChinese and '展开选项 |A:editmode-down-arrow:16:11:0:-7|a' or HUD_EDIT_MODE_EXPAND_OPTIONS)
-            ..(WoWTools_DataMixin.onlyChinese and '下' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_WRAP_DOWN)
+            ..(WoWTools_L['HUD_EDIT_MODE_EXPAND_OPTIONS~3'])
+            ..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_WRAP_DOWN)
             ..WoWTools_DataMixin.Icon.mid
         )
         GameTooltip:Show()

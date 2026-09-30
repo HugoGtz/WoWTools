@@ -22,7 +22,7 @@ local function Delete_Macro(self)
     if name then
         print(
             WoWTools_MacroMixin.addName..WoWTools_DataMixin.Icon.icon2,
-            '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '删除' or DELETE),
+            '|cnWARNING_FONT_COLOR:'..(WoWTools_L.DELETE),
             '|r', WoWTools_MacroMixin:GetName(name, icon)
         )
         if body and body~='' then
@@ -65,7 +65,7 @@ local function Init_Menu(self, root)
 
 --修改
     sub=root:CreateButton(
-        '|A:QuestLegendary:0:0|a'..(WoWTools_DataMixin.onlyChinese and '修改' or EDIT),
+        '|A:QuestLegendary:0:0|a'..(WoWTools_L.EDIT),
     function()
         if not InCombatLockdown() then
             WoWTools_DataMixin:Call(MacroEditButton_OnClick, MacroFrame, self)
@@ -79,7 +79,7 @@ local function Init_Menu(self, root)
     root:CreateDivider()
     sub=root:CreateButton(
         '|A:XMarksTheSpot:0:0|a'
-        ..(isSelect and '|cnWARNING_FONT_COLOR:' or '')..(WoWTools_DataMixin.onlyChinese and '删除' or DELETE),
+        ..(isSelect and '|cnWARNING_FONT_COLOR:' or '')..(WoWTools_L.DELETE),
     function()
         Delete_Macro(self)
     end, {index=index})
@@ -89,7 +89,7 @@ local function Init_Menu(self, root)
 --新建
     root:CreateDivider()
     sub=root:CreateButton(
-        '|A:communities-chat-icon-plus:0:0|a'..(WoWTools_DataMixin.onlyChinese and '新建' or NEW),
+        '|A:communities-chat-icon-plus:0:0|a'..(WoWTools_L.NEW),
     function()
         WoWTools_MacroMixin:CreateMacroNew()--新建，宏
         return MenuResponse.Open

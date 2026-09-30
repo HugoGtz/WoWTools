@@ -62,25 +62,25 @@ end
 --UnitPopupSharedButtonMixins.lua
 function WoWTools_MenuMixin:DungeonDifficulty(_, root)
     if DifficultyUtil.InStoryRaid() then
-        root:CreateTitle(WoWTools_DataMixin.onlyChinese and '在剧情模式不可用' or DIFFICULTY_LOCKED_REASON_STORY_RAID, WARNING_FONT_COLOR)
+        root:CreateTitle(WoWTools_L.DIFFICULTY_LOCKED_REASON_STORY_RAID, WARNING_FONT_COLOR)
         return
     end
 
 
     for _, tab in pairs({
-            WoWTools_DataMixin.onlyChinese and '地下城难度' or DUNGEON_DIFFICULTY,
+            WoWTools_L.DUNGEON_DIFFICULTY,
             {id=DifficultyUtil.ID.DungeonNormal, enable=EnabledDungeon, set=SetDungeon, check=CheckDungeon},
             {id=DifficultyUtil.ID.DungeonHeroic, enable=EnabledDungeon, set=SetDungeon, check=CheckDungeon},
             {id=DifficultyUtil.ID.DungeonMythic, enable=EnabledDungeon, set=SetDungeon, check=CheckDungeon},
             '-',
-            WoWTools_DataMixin.onlyChinese and '团队副本难度' or RAID_DIFFICULTY,
+            WoWTools_L.RAID_DIFFICULTY,
             {id=DifficultyUtil.ID.PrimaryRaidNormal, enable=EnableRaid, set=SetRaid, check=CheckRaid},--14,
 	        {id=DifficultyUtil.ID.PrimaryRaidHeroic, enable=EnableRaid, set=SetRaid, check=CheckRaid},--15,
 	        {id=DifficultyUtil.ID.PrimaryRaidMythic, enable=EnableRaid, set=SetRaid, check=CheckRaid},--16,
             '-',
-            WoWTools_DataMixin.onlyChinese and '旧版团队规模' or UNIT_FRAME_DROPDOWN_SUBSECTION_TITLE_LEGACY_RAID,
-            {id=DifficultyUtil.ID.Raid10Normal, enable=EnabledLegacy, set=SetLegacy, check=CheckLegacy, name=WoWTools_DataMixin.onlyChinese and '10人' or RAID_DIFFICULTY1},--3,
-	        {id=DifficultyUtil.ID.Raid25Normal, enable=EnabledLegacy, set=SetLegacy, check=CheckLegacy, name=WoWTools_DataMixin.onlyChinese and '25人' or RAID_DIFFICULTY2},--4,
+            WoWTools_L.UNIT_FRAME_DROPDOWN_SUBSECTION_TITLE_LEGACY_RAID,
+            {id=DifficultyUtil.ID.Raid10Normal, enable=EnabledLegacy, set=SetLegacy, check=CheckLegacy, name=WoWTools_L.RAID_DIFFICULTY1},--3,
+	        {id=DifficultyUtil.ID.Raid25Normal, enable=EnabledLegacy, set=SetLegacy, check=CheckLegacy, name=WoWTools_L.RAID_DIFFICULTY2},--4,
         })
     do
 
@@ -133,10 +133,10 @@ function WoWTools_MenuMixin:DungeonDifficulty(_, root)
 		if toggleDifficultyID then
             root:CreateDivider()
             local sub= root:CreateTitle(
-                WoWTools_DataMixin.onlyChinese and '动态副本'  or WoWTools_Join(DYNAMIC, INSTANCE)
+                WoWTools_L['DYNAMIC+INSTANCE']
             )
             sub:SetTooltip(function(tooltip)
-                tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '可修改难度' or WoWTools_L['Difficulty can be changed'])
+                tooltip:AddLine(WoWTools_L['Difficulty can be changed'])
                 tooltip:AddLine( WoWTools_MapMixin:GetDifficultyColor(nil, toggleDifficultyID))
             end)
 
@@ -178,7 +178,7 @@ function WoWTools_MenuMixin:LootSpecialization(root)
     for specIndex=0, numSpec do
         if specIndex==0 then
             name= format(
-                WoWTools_DataMixin.onlyChinese and '当前专精（%s）' or LOOT_SPECIALIZATION_DEFAULT,
+                WoWTools_L.LOOT_SPECIALIZATION_DEFAULT,
                 format('|T%d:0|t', select(3, PlayerUtil.GetSpecName()) or 0)
             )
         else
@@ -222,7 +222,7 @@ function WoWTools_MenuMixin:LootSpecialization(root)
             sub:SetTooltip(function(tooltip, desc)
                 local color= GetLootSpecialization()==desc.data.specID and DISABLED_FONT_COLOR or GREEN_FONT_COLOR-- or PlayerUtil.GetClassColor()
                 GameTooltip_AddColoredLine(tooltip,
-                    (WoWTools_DataMixin.onlyChinese and '专精拾取' or SELECT_LOOT_SPECIALIZATION)
+                    (WoWTools_L.SELECT_LOOT_SPECIALIZATION)
                     ..' |cffffffff'..desc.data.specID ,
                     color
                 )
@@ -238,7 +238,7 @@ function WoWTools_MenuMixin:LootSpecialization(root)
 
         --[[root:CreateButton(
             '|T'..(icon or 0)..':0|t'
-            ..'|A:VignetteLoot:0:0|a'..(WoWTools_DataMixin.onlyChinese and '专精拾取' or SELECT_LOOT_SPECIALIZATION),
+            ..'|A:VignetteLoot:0:0|a'..(WoWTools_L.SELECT_LOOT_SPECIALIZATION),
         function(data)
             SetLootSpecialization(data.specID)
             return MenuResponse.Open
@@ -248,7 +248,7 @@ function WoWTools_MenuMixin:LootSpecialization(root)
         root:CreateDivider()
         root:CreateButton(
             --'|T'..(PlayerUtil.GetSpecIconBySpecID(C_SpecializationInfo.GetSpecializationInfo(curSpecIndex), sex) or 0)..':0|t'
-            WoWTools_DataMixin.onlyChinese and '默认' or DEFAULT,
+            WoWTools_L.DEFAULT,
         function()
             SetLootSpecialization(0)
             return MenuResponse.Open
@@ -298,13 +298,13 @@ function WoWTools_MenuMixin:Set_Specialization(root)
                 if GetSpecialization(nil, false, 1)==data2.specIndex then
                     GameTooltip_AddColoredLine(tooltip,
                     --GameTooltip_AddInstructionLine(tooltip, 
-                    WoWTools_DataMixin.onlyChinese and '已激活' or COVENANT_SANCTUM_UPGRADE_ACTIVE,
+                    WoWTools_L.COVENANT_SANCTUM_UPGRADE_ACTIVE,
                     DISABLED_FONT_COLOR
                 )
 
                 elseif canSpecsBeActivated then
                     GameTooltip_AddInstructionLine(tooltip,
-                        (WoWTools_DataMixin.onlyChinese and '激活' or SPEC_ACTIVE)..WoWTools_DataMixin.Icon.left
+                        (WoWTools_L.SPEC_ACTIVE)..WoWTools_DataMixin.Icon.left
                     )
 
                 elseif failureReason and failureReason~='' then
@@ -353,7 +353,7 @@ function WoWTools_MenuMixin:Set_Specialization(root)
 
         --[[sub:CreateButton(
             '|T'..(icon or 0)..':0|t'
-            ..'|A:VignetteLoot:0:0|a'..(WoWTools_DataMixin.onlyChinese and '专精拾取' or SELECT_LOOT_SPECIALIZATION),
+            ..'|A:VignetteLoot:0:0|a'..(WoWTools_L.SELECT_LOOT_SPECIALIZATION),
         function(data)
             SetLootSpecialization(data.specID)
             return MenuResponse.Open
@@ -363,7 +363,7 @@ function WoWTools_MenuMixin:Set_Specialization(root)
         sub:CreateDivider()
         sub:CreateButton(
             --'|T'..(PlayerUtil.GetSpecIconBySpecID(C_SpecializationInfo.GetSpecializationInfo(curSpecIndex), sex) or 0)..':0|t'
-            WoWTools_DataMixin.onlyChinese and '默认' or DEFAULT,
+            WoWTools_L.DEFAULT,
         function()
             SetLootSpecialization(0)
             return MenuResponse.Open
@@ -373,25 +373,25 @@ function WoWTools_MenuMixin:Set_Specialization(root)
     sub= root:CreateCheckbox(
         ((C_PvP.ArePvpTalentsUnlocked() and C_PvP.CanToggleWarMode(not C_PvP.IsWarModeDesired())) and '' or '|cff828282')
         ..'|A:pvptalents-warmode-swords:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '战争模式' or PVP_LABEL_WAR_MODE),
+        ..(WoWTools_L.PVP_LABEL_WAR_MODE),
     function()
         return C_PvP.IsWarModeDesired()
     end,function()
         WoWTools_LoadUIMixin:SpellBook(2)
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '战争模式' or PVP_LABEL_WAR_MODE)
+        tooltip:AddLine(WoWTools_L.PVP_LABEL_WAR_MODE)
         if not C_PvP.ArePvpTalentsUnlocked() then
 			GameTooltip_AddErrorLine(
                 GameTooltip,
                 format(
-                    WoWTools_DataMixin.onlyChinese and '在%d级解锁' or PVP_TALENT_SLOT_LOCKED,
+                    WoWTools_L.PVP_TALENT_SLOT_LOCKED,
                     C_PvP.GetPvpTalentsUnlockedLevel()
                 ),
             true)
 
         elseif not C_PvP.CanToggleWarMode(not C_PvP.IsWarModeDesired()) then
-            GameTooltip_AddErrorLine(tooltip, WoWTools_DataMixin.onlyChinese and '当前不能操作' or SPELL_FAILED_NOT_HERE, 1,0,0)
+            GameTooltip_AddErrorLine(tooltip, WoWTools_L.SPELL_FAILED_NOT_HERE, 1,0,0)
 		end
     end)
 

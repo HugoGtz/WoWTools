@@ -26,9 +26,9 @@ local function Set_BrannBronzebeard(tooltip, unit, size)
     if rankInfo and rankInfo.currentLevel and rankInfo.maxLevel then
 --等级
         if rankInfo.currentLevel == rankInfo.maxLevel then
-            left= (left or '')..format(WoWTools_DataMixin.onlyChinese and '等级 %d' or UNIT_LEVEL_TEMPLATE, rankInfo.currentLevel)
+            left= (left or '')..format(WoWTools_L.UNIT_LEVEL_TEMPLATE, rankInfo.currentLevel)
         else
-            left= (left or '')..'|cnGREEN_FONT_COLOR:'..format(WoWTools_DataMixin.onlyChinese and '等级 %d/%d' or TOOLTIP_TALENT_RANK, rankInfo.currentLevel, rankInfo.maxLevel)..'|r'
+            left= (left or '')..'|cnGREEN_FONT_COLOR:'..format(WoWTools_L.TOOLTIP_TALENT_RANK, rankInfo.currentLevel, rankInfo.maxLevel)..'|r'
 
             local repInfo = C_GossipInfo.GetFriendshipReputation(companionFactionID)
             if repInfo and repInfo.nextThreshold and repInfo.standing and repInfo.nextThreshold>0 then
@@ -47,7 +47,7 @@ local function Set_BrannBronzebeard(tooltip, unit, size)
     end]]
 
     tooltip:AddLine(
-        (WoWTools_DataMixin.onlyChinese and '声望' or REPUTATION)
+        (WoWTools_L.REPUTATION)
         ..WoWTools_DataMixin.Icon.icon2..companionFactionID..(right or '')
     )
 
@@ -82,18 +82,18 @@ function WoWTools_TooltipMixin:Set_Unit_NPC(tooltip, name, unit, guid)
         --tooltip.Portrait:SetShown(true)
 
     elseif UnitIsBossMob(unit) then--世界BOSS
-        text2Left= WoWTools_DataMixin.onlyChinese and '首领' or BOSS
+        text2Left= WoWTools_L.BOSS
         tooltip.Portrait:SetAtlas('UI-HUD-UnitFrame-Target-PortraitOn-Boss-Rare')
         --tooltip.Portrait:SetShown(true)
     else
         local classification = UnitClassification(unit)--TargetFrame.lua
         if classification == "rareelite" then--稀有, 精英
-            text2Left= WoWTools_DataMixin.onlyChinese and '稀有' or GARRISON_MISSION_RARE
+            text2Left= WoWTools_L.GARRISON_MISSION_RARE
             tooltip.Portrait:SetAtlas('UI-HUD-UnitFrame-Target-PortraitOn-Boss-Rare')
             --tooltip.Portrait:SetShown(true)
 
         elseif classification == "rare" then--稀有
-            text2Left= WoWTools_DataMixin.onlyChinese and '稀有' or GARRISON_MISSION_RARE
+            text2Left= WoWTools_L.GARRISON_MISSION_RARE
             tooltip.Portrait:SetAtlas('UnitFrame-Target-PortraitOn-Boss-Rare-Star')
             --tooltip.Portrait:SetShown(true)
         else
@@ -126,7 +126,7 @@ function WoWTools_TooltipMixin:Set_Unit_NPC(tooltip, name, unit, guid)
         end
         if npc then
             tooltip:AddLine(
-                (WoWTools_DataMixin.onlyChinese and '单位' or GROUPMANAGER_UNIT_MARKER)
+                (WoWTools_L.GROUPMANAGER_UNIT_MARKER)
                 ..WoWTools_DataMixin.Icon.icon2
                 ..npc
             )

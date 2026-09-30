@@ -173,7 +173,7 @@ local function select_Reward(questID)--自动:选择奖励
             print(
                 WoWTools_DataMixin.Icon.icon2
                 ..'|cffff00ff'
-                ..(WoWTools_DataMixin.onlyChinese and '选择' or CHOOSE)..'|r',
+                ..(WoWTools_L.CHOOSE)..'|r',
                 selectItemLink
             )
         end
@@ -333,7 +333,7 @@ local function Init()
         WoWTools_QuestMixin:GetQuestAll()--所有，任务，提示
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(WoWTools_TextMixin:GetEnabeleDisable(Save().quest),WoWTools_DataMixin.Icon.left)
-        GameTooltip:AddDoubleLine((WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU),WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine((WoWTools_L.SLASH_TEXTTOSPEECH_MENU),WoWTools_DataMixin.Icon.right)
         GameTooltip:Show()
         self.texture:SetAlpha(1)
         self:set_Only_Show_Zone_Quest()

@@ -135,7 +135,7 @@ function WoWTools_TooltipMixin.Frames:QuestFrame()
                     end
                 end
                 GameTooltip:AddDoubleLine(
-                    (WoWTools_DataMixin.onlyChinese and '共享' or SHARE_QUEST)..' '..(acceto..'/'..(n-1)),
+                    (WoWTools_L['SHARE_QUEST~2'])..' '..(acceto..'/'..(n-1)),
                     WoWTools_TextMixin:GetYesNo(C_QuestLog.IsPushableQuest(questID))
                 )
                 WoWTools_TooltipMixin:Show()

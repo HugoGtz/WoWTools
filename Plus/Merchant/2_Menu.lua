@@ -29,7 +29,7 @@ local function Player_Sell_Menu(_, root)
     num= CountTable(SellBuyItemsSave().sell or {})
     sub=root:CreateCheckbox(
         '|A:bags-button-autosort-up:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '出售自定义' or  WoWTools_Join(AUCTION_HOUSE_SELL_TAB, CUSTOM)),
+        ..(WoWTools_L['AUCTION_HOUSE_SELL_TAB+CUSTOM']),
         --..(num==0 and '|cff626262' or '')
         --..' #'..num,
     function()
@@ -62,10 +62,10 @@ local function Player_Sell_Menu(_, root)
     if num>1 then
         sub:CreateDivider()
         sub:CreateButton(
-            '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL),
+            '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.CLEAR_ALL),
         function()
             StaticPopup_Show('WoWTools_OK',
-            '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL),
+            '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.CLEAR_ALL),
             nil,
             {SetValue=function()
                 SellBuyItemsSave().sell={}
@@ -97,7 +97,7 @@ local function Buyback_Menu(_, root)
     end
     sub=root:CreateButton(
         '    |A:common-icon-undo:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '回购' or BUYBACK),--..'|cnGREEN_FONT_COLOR: #'..(num or '')..'|r',
+        ..(WoWTools_L.BUYBACK),--..'|cnGREEN_FONT_COLOR: #'..(num or '')..'|r',
     function()
        return MenuResponse.Open
     end, {rightText=num or 0})
@@ -128,10 +128,10 @@ local function Buyback_Menu(_, root)
     if num>1 then
         sub:CreateDivider()
         sub:CreateButton(
-            '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL),
+            '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.CLEAR_ALL),
         function()
             StaticPopup_Show('WoWTools_OK',
-            '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL),
+            '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.CLEAR_ALL),
             nil,
             {SetValue=function()
                SellBuyItemsSave().noSell={}
@@ -174,7 +174,7 @@ local function BuyItem_Menu(self, root)
     end
     sub=root:CreateCheckbox(
         '|A:Perks-ShoppingCart:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '自动购买' or WoWTools_Join(SELF_CAST_AUTO, PURCHASE)),--..'|cnGREEN_FONT_COLOR: #'..(num or '')..'|r',
+        ..(WoWTools_L['SELF_CAST_AUTO+PURCHASE']),--..'|cnGREEN_FONT_COLOR: #'..(num or '')..'|r',
     function()
         return not Save().notAutoBuy
     end, function()
@@ -216,10 +216,10 @@ local function BuyItem_Menu(self, root)
     if num>1 then
         sub:CreateDivider()
         sub:CreateButton(
-            '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL),
+            '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.CLEAR_ALL),
         function()
             StaticPopup_Show('WoWTools_OK',
-            '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL),
+            '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.CLEAR_ALL),
             nil,
             {SetValue=function()
                 SellBuyItemsSave().buy[WoWTools_DataMixin.Player.GUID]={}
@@ -266,7 +266,7 @@ local function Init_Menu(self, root)
 --自动出售垃圾
     sub=root:CreateCheckbox(
         '|A:bags-button-autosort-up:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '自动出售垃圾' or WoWTools_Join(SELF_CAST_AUTO, SELL_ALL_JUNK_ITEMS_EXCLUDE_HEADER)),
+        ..(WoWTools_L['SELF_CAST_AUTO+SELL_ALL_JUNK_ITEMS_EXCLUDE_HEADER']),
     function()
         return not Save().notSellJunk
     end, function()
@@ -277,7 +277,7 @@ local function Init_Menu(self, root)
     end)
     sub:SetTooltip(function(tooltip)
         tooltip:AddLine(format(
-            WoWTools_DataMixin.onlyChinese and '品质：%s' or PROFESSIONS_CRAFTING_QUALITY,
+            WoWTools_L.PROFESSIONS_CRAFTING_QUALITY,
             WoWTools_ItemMixin.QualityText[0]
         ))
         tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '备注：在战斗中无法出售物品' or (NOTE_COLON..': '..WoWTools_Join(HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT, ITEM_UNSELLABLE)))
@@ -302,7 +302,7 @@ local function Init_Menu(self, root)
 
     sub=root:CreateCheckbox(
         '|A:bags-button-autosort-up:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '出售首领掉落' or WoWTools_Join(AUCTION_HOUSE_SELL_TAB,TRANSMOG_SOURCE_1)),
+        ..(WoWTools_L['AUCTION_HOUSE_SELL_TAB+TRANSMOG_SOURCE_1']),
         --..(num==0 and '|cff626262' or '')
         --..' #'..num,
     function()
@@ -312,7 +312,7 @@ local function Init_Menu(self, root)
     end, {rightText=num})
     sub:SetTooltip(function(tooltip)
         local avgItemLevel= (GetAverageItemLevel() or 60)- 30
-        tooltip:AddLine((WoWTools_DataMixin.onlyChinese and '物品等级' or STAT_AVERAGE_ITEM_LEVEL)..' < ' ..math.ceil(avgItemLevel))
+        tooltip:AddLine((WoWTools_L.STAT_AVERAGE_ITEM_LEVEL)..' < ' ..math.ceil(avgItemLevel))
         tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '备注：在战斗中无法出售物品' or (NOTE_COLON..': '..WoWTools_Join(HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT, ITEM_UNSELLABLE)))
     end)
     WoWTools_MenuMixin:SetRightText(sub)
@@ -337,10 +337,10 @@ local function Init_Menu(self, root)
     sub:CreateDivider()
     if num>1 then
         sub:CreateButton(
-            '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL),
+            '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.CLEAR_ALL),
         function()
             StaticPopup_Show('WoWTools_OK',
-            '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL),
+            '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.CLEAR_ALL),
             nil,
             {SetValue=function()
                 Save().bossItems={}
@@ -352,7 +352,7 @@ local function Init_Menu(self, root)
 
 --保存 BOSS列表    
     sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '保存' or SAVE,
+        WoWTools_L.SAVE,
     function()
         return Save().saveBossLootList
     end, function()
@@ -362,7 +362,7 @@ local function Init_Menu(self, root)
 --[[添加 按钮菜单
     sub2= sub:CreateCheckbox(
         '|A:Perks-ShoppingCart:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '按钮菜单' or WoWTools_Join(ADD, HUD_EDIT_MODE_MICRO_MENU_LABEL),
+        ..(WoWTools_L['ADD+HUD_EDIT_MODE_MICRO_MENU_LABEL'],
     function()
         return Save().addButtonMenu
     end, function()
@@ -388,7 +388,7 @@ local function Init_Menu(self, root)
 --自动修理
     root:CreateDivider()
     sub=root:CreateCheckbox(
-        '|A:SpellIcon-256x256-RepairAll:0:0|a'..(WoWTools_DataMixin.onlyChinese and '自动修理所有物品' or WoWTools_Join(SELF_CAST_AUTO, REPAIR_ALL_ITEMS)),
+        '|A:SpellIcon-256x256-RepairAll:0:0|a'..(WoWTools_L['SELF_CAST_AUTO+REPAIR_ALL_ITEMS']),
     function()
         return not Save().notAutoRepairAll
     end, function()
@@ -409,15 +409,15 @@ local function Init_Menu(self, root)
     sub:CreateTitle(repDate)
     sub:CreateSpacer()
 
-    sub:CreateTitle((WoWTools_DataMixin.onlyChinese and '修理' or MINIMAP_TRACKING_REPAIR)..': '..repNum..' '..(WoWTools_DataMixin.onlyChinese and '次' or VOICEMACRO_LABEL_CHARGE1))
-    sub:CreateTitle((WoWTools_DataMixin.onlyChinese and '公会' or GUILD)..': '..C_CurrencyInfo.GetCoinTextureString(repGuild))
-    sub:CreateTitle((WoWTools_DataMixin.onlyChinese and '玩家' or PLAYER)..': '..C_CurrencyInfo.GetCoinTextureString(repPlayer))
+    sub:CreateTitle((WoWTools_L.MINIMAP_TRACKING_REPAIR)..': '..repNum..' '..(WoWTools_L.VOICEMACRO_LABEL_CHARGE1))
+    sub:CreateTitle((WoWTools_L.GUILD)..': '..C_CurrencyInfo.GetCoinTextureString(repGuild))
+    sub:CreateTitle((WoWTools_L.PLAYER)..': '..C_CurrencyInfo.GetCoinTextureString(repPlayer))
 
     sub:CreateSpacer()
-    sub:CreateTitle((WoWTools_DataMixin.onlyChinese and '合计' or TOTAL)..': '..C_CurrencyInfo.GetCoinTextureString(repGuild+repPlayer))
+    sub:CreateTitle((WoWTools_L['TOTAL~2'])..': '..C_CurrencyInfo.GetCoinTextureString(repGuild+repPlayer))
 
     sub:CreateDivider()
-    sub:CreateTitle((WoWTools_DataMixin.onlyChinese and '使用公会资金修理' or GUILDCONTROL_OPTION15_TOOLTIP)..': '..C_CurrencyInfo.GetCoinTextureString(CanGuildBankRepair() and GetGuildBankMoney() or 0))
+    sub:CreateTitle((WoWTools_L.GUILDCONTROL_OPTION15_TOOLTIP)..': '..C_CurrencyInfo.GetCoinTextureString(CanGuildBankRepair() and GetGuildBankMoney() or 0))
 
 
 
@@ -437,7 +437,7 @@ local function Init_Menu(self, root)
         WoWTools_MerchantMixin:Plus_ItemInfo()
     end)
     sub:SetTooltip(function(tooltip)
-        GameTooltip_AddErrorLine(tooltip, WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+        GameTooltip_AddErrorLine(tooltip, WoWTools_L.REQUIRES_RELOAD)
     end)
 
 --增加，按钮宽度，按钮，菜单
@@ -457,22 +457,22 @@ local function Init_Menu(self, root)
 
 --自动拾取 plus
     sub=root:CreateCheckbox(
-        '|A:Cursor_lootall_128:0:0|a'..(WoWTools_DataMixin.onlyChinese and "自动拾取" or AUTO_LOOT_DEFAULT_TEXT)..' Plus',
+        '|A:Cursor_lootall_128:0:0|a'..(WoWTools_L.AUTO_LOOT_DEFAULT_TEXT)..' Plus',
     function()
         return not Save().notAutoLootPlus
     end, function()
         Save().notAutoLootPlus= not Save().notAutoLootPlus and true or nil
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '自动拾取' or AUTO_LOOT_DEFAULT_TEXT, WoWTools_TextMixin:GetEnabeleDisable(C_CVar.GetCVarBool("autoLootDefault")))
+        tooltip:AddDoubleLine(WoWTools_L['AUTO_LOOT_DEFAULT_TEXT~2'], WoWTools_TextMixin:GetEnabeleDisable(C_CVar.GetCVarBool("autoLootDefault")))
         tooltip:AddLine(' ')
         tooltip:AddLine(
             WoWTools_DataMixin.onlyChinese and '拾取窗口 Shift: 禁用'
             or (WoWTools_Join(HUD_EDIT_MODE_LOOT_FRAME_LABEL, 'Shift: ')..DISABLE)
         )
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '不在战斗中' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_OUT_OF_COMBAT)
+        tooltip:AddLine(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_OUT_OF_COMBAT)
         tooltip:AddLine(' ')
-        GameTooltip_AddErrorLine(tooltip, WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+        GameTooltip_AddErrorLine(tooltip, WoWTools_L.REQUIRES_RELOAD)
     end)
 
 
@@ -481,7 +481,7 @@ local function Init_Menu(self, root)
     sub= WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_MerchantMixin.addName})
 
 --删除字符
-    WoWTools_OtherMixin:OpenOption(sub, '|A:XMarksTheSpot:0:0|a'..(WoWTools_DataMixin.onlyChinese and 'DELETE' or DELETE_ITEM_CONFIRM_STRING))
+    WoWTools_OtherMixin:OpenOption(sub, '|A:XMarksTheSpot:0:0|a'..(WoWTools_L.DELETE_ITEM_CONFIRM_STRING))
 
 --重置数据
     sub:CreateDivider()

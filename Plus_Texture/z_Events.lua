@@ -1275,7 +1275,7 @@ function WoWTools_TextureMixin.Events:Blizzard_BuffFrame()
             local sub= root:CreateCheckbox(
                 WoWTools_DataMixin.Icon.icon2
                 ..col
-                ..(WoWTools_DataMixin.onlyChinese and '显示冷却时间' or COUNTDOWN_FOR_COOLDOWNS_TEXT),
+                ..(WoWTools_L.COUNTDOWN_FOR_COOLDOWNS_TEXT),
             function()
                 return C_CVar.GetCVarBool('buffDurations')
             end, function()
@@ -1300,7 +1300,7 @@ function WoWTools_TextureMixin.Events:Blizzard_BuffFrame()
         GameTooltip:SetOwner(btn, 'ANCHOR_BOTTOMRIGHT')
         GameTooltip_SetTitle(GameTooltip,
             WoWTools_DataMixin.Icon.icon2
-            ..(WoWTools_DataMixin.onlyChinese and '显示冷却时间' or COUNTDOWN_FOR_COOLDOWNS_TEXT)
+            ..(WoWTools_L.COUNTDOWN_FOR_COOLDOWNS_TEXT)
             ..WoWTools_DataMixin.Icon.right
             ..WoWTools_TextMixin:GetShowHide(C_CVar.GetCVarBool('buffDurations'), nil),
             nil
@@ -1528,7 +1528,7 @@ function WoWTools_TextureMixin.Events:Blizzard_CompactRaidFrames()
         GameTooltip:SetOwner(btn, "ANCHOR_LEFT")
         GameTooltip_SetTitle(GameTooltip,
             WoWTools_DataMixin.Icon.icon2
-            ..(WoWTools_DataMixin.onlyChinese and '离开队伍' or PARTY_LEAVE)
+            ..(WoWTools_L.PARTY_LEAVE)
         )
         GameTooltip:Show()
     end)
@@ -2230,14 +2230,14 @@ function WoWTools_TextureMixin.Events:Blizzard_DamageMeter()
             if frame:IsLocked() then
                 GameTooltip:AddLine(
                     WoWTools_DataMixin.Icon.icon2
-                    ..(WoWTools_DataMixin.onlyChinese and '锁定窗口' or DAMAGE_METER_LOCK_WINDOW)
+                    ..(WoWTools_L.DAMAGE_METER_LOCK_WINDOW)
                     ..'|A:Garr_LevelUpgradeLocked:0:0|a'
                 )
             end
             if frame:IsNonInteractive() then
                 GameTooltip:AddLine(
                     WoWTools_DataMixin.Icon.icon2
-                    ..(WoWTools_DataMixin.onlyChinese and '不可交互' or DAMAGE_METER_MAKE_UNINTERACTABLE)
+                    ..(WoWTools_L.DAMAGE_METER_MAKE_UNINTERACTABLE)
                 )
             end
             GameTooltip:Show()
@@ -2326,7 +2326,7 @@ function WoWTools_TextureMixin.Events:Blizzard_DamageMeter()
         end
         clear:set_alpha()
 
-        clear.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '重置数据' or DAMAGE_METER_RESET_ALL_SESSIONS)
+        clear.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_L.DAMAGE_METER_RESET_ALL_SESSIONS)
         clear:SetPoint('RIGHT', DamageMeterSessionWindow1.SessionDropdown, 'LEFT')
         clear:SetScript('OnClick', function()
             C_DamageMeter.ResetAllCombatSessions()

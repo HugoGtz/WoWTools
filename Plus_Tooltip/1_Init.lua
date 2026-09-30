@@ -33,14 +33,14 @@ end
 
 
 local function Init_Panel()
-    local reloadText= '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+    local reloadText= '|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD)
 
-    WoWTools_PanelMixin:Header(Layout, WoWTools_DataMixin.onlyChinese and '选项' or OPTIONS)
+    WoWTools_PanelMixin:Header(Layout, WoWTools_L.OPTIONS)
     local root
 
 
     root= WoWTools_PanelMixin:OnlyCheck({
-        name= WoWTools_DataMixin.onlyChinese and '跟随鼠标' or WoWTools_Join(FOLLOW, MOUSE_LABEL),
+        name= WoWTools_L['FOLLOW+MOUSE_LABEL'],
         tooltip= WoWTools_TooltipMixin.addName,
         GetValue= function() return Save().setDefaultAnchor end,
         category= WoWTools_TooltipMixin.Category,
@@ -86,7 +86,7 @@ local function Init_Panel()
 
 
     WoWTools_PanelMixin:OnlyCheck({
-        name= WoWTools_DataMixin.onlyChinese and '右边' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_RIGHT,
+        name= WoWTools_L['HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_RIGHT~2'],
         tooltip= WoWTools_TooltipMixin.addName,
         GetValue= function() return Save().cursorRight end,
         category= WoWTools_TooltipMixin.Category,
@@ -99,7 +99,7 @@ local function Init_Panel()
 
     WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_DataMixin.onlyChinese and '战斗中：默认' or (HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT..': '..DEFAULT),
-        tooltip= WoWTools_DataMixin.onlyChinese and '重设到默认位置' or HUD_EDIT_MODE_RESET_POSITION,
+        tooltip= WoWTools_L.HUD_EDIT_MODE_RESET_POSITION,
         GetValue= function() return Save().inCombatDefaultAnchor end,
         category= WoWTools_TooltipMixin.Category,
         SetValue= function()
@@ -118,10 +118,10 @@ local function Init_Panel()
         end
     }, root)
 
-    WoWTools_PanelMixin:Header(Layout, WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS)
+    WoWTools_PanelMixin:Header(Layout, WoWTools_L.SETTINGS)
 
     root= WoWTools_PanelMixin:OnlyCheck({
-        name= WoWTools_DataMixin.onlyChinese and '模型' or MODEL,
+        name= WoWTools_L.MODEL,
         tooltip= WoWTools_TooltipMixin.addName,
         GetValue= function() return not Save().hideModel end,
         category= WoWTools_TooltipMixin.Category,
@@ -132,7 +132,7 @@ local function Init_Panel()
     })
 
     WoWTools_PanelMixin:OnlyCheck({
-        name= WoWTools_DataMixin.onlyChinese and '左' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_LEFT,
+        name= WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_LEFT,
         tooltip= WoWTools_TooltipMixin.addName,
         GetValue= function() return Save().modelLeft end,
         category= WoWTools_TooltipMixin.Category,
@@ -144,7 +144,7 @@ local function Init_Panel()
 
 
     --[[WoWTools_PanelMixin:OnlyCheck({
-        name= (WoWTools_DataMixin.onlyChinese and '模型' or MODEL)..' ID',
+        name= (WoWTools_L.MODEL)..' ID',
         tooltip= addName,
         value= Save().showModelFileID,
         category= WoWTools_TooltipMixin.Category,
@@ -155,7 +155,7 @@ local function Init_Panel()
     }, root)
 ]]
     WoWTools_PanelMixin:OnlySlider({
-        name= WoWTools_DataMixin.onlyChinese and '大小' or HUD_EDIT_MODE_SETTING_BAGS_SIZE,
+        name= WoWTools_L['HUD_EDIT_MODE_SETTING_BAGS_SIZE~2'],
         GetValue= function() return Save().modelSize or 100 end,
         minValue= 40,
         maxValue= 300,
@@ -200,7 +200,7 @@ local function Init_Panel()
     }, root)
 
     WoWTools_PanelMixin:OnlySlider({
-        name= WoWTools_DataMixin.onlyChinese and '方向' or HUD_EDIT_MODE_SETTING_BAGS_DIRECTION,
+        name= WoWTools_L.HUD_EDIT_MODE_SETTING_BAGS_DIRECTION,
         GetValue= function() return Save().modelFacing or -24 end,
         minValue= -1,
         maxValue= 1,
@@ -226,7 +226,7 @@ local function Init_Panel()
 
     --12.0  可能错误
         WoWTools_PanelMixin:OnlyCheck({
-            name= WoWTools_DataMixin.onlyChinese and '生命值' or HEALTH,
+            name= WoWTools_L.HEALTH,
             tooltip= reloadText,
             GetValue= function() return not Save().hideHealth end,
             category= WoWTools_TooltipMixin.Category,
@@ -239,7 +239,7 @@ local function Init_Panel()
 
 
     WoWTools_PanelMixin:OnlyCheck({
-        name= WoWTools_Join('|A:NPE_Icon:0:0|aCtrl+Shift', WoWTools_DataMixin.onlyChinese and '复制链接' or BROWSER_COPY_LINK),
+        name= WoWTools_Join('|A:NPE_Icon:0:0|aCtrl+Shift', WoWTools_L.BROWSER_COPY_LINK),
         tooltip= 'wowhead.com|nraider.io',
         GetValue= function() return Save().ctrl end,
         category= WoWTools_TooltipMixin.Category,
@@ -254,7 +254,7 @@ local function Init_Panel()
 
 
     WoWTools_PanelMixin:OnlySlider({
-        name= WoWTools_DataMixin.onlyChinese and '图标尺寸' or HUD_EDIT_MODE_SETTING_ACTION_BAR_ICON_SIZE,
+        name= WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_ICON_SIZE,
         GetValue= function() return Save().iconSize or 0 end,
         minValue= 0,
         maxValue= 32,
@@ -270,7 +270,7 @@ local function Init_Panel()
     })
 
     --[[WoWTools_PanelMixin:OnlyCheck({
-        name= (WoWTools_DataMixin.onlyChinese and '物品数值' or WoWTools_Join(ITEMS, STATUS_TEXT_VALUE))..' mk',
+        name= (WoWTools_L['ITEMS+STATUS_TEXT_VALUE'])..' mk',
         tooltip= '1k008, 2w008, 3m008',
         GetValue= function() return Save().showItemMK end,
         category= WoWTools_TooltipMixin.Category,
@@ -281,12 +281,12 @@ local function Init_Panel()
     })]]
 
     WoWTools_PanelMixin:OnlySlider({
-        name= WoWTools_DataMixin.onlyChinese and '缩放' or HOUSING_EXPERT_DECOR_SUBMODE_SCALE,
+        name= WoWTools_L.HOUSING_EXPERT_DECOR_SUBMODE_SCALE,
         GetValue= function() return Save().scale or 1 end,
         minValue=0.2,
         maxValue=4,
         step=0.1,
-        tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD),
+        tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD),
         category= WoWTools_TooltipMixin.Category,
         SetValue= function(_, _, value2)
             if value2 then
@@ -298,11 +298,11 @@ local function Init_Panel()
     })
 
 
-    WoWTools_PanelMixin:Header(Layout, WARNING_FONT_COLOR:WrapTextInColorCode(WoWTools_DataMixin.onlyChinese and '替换原生' or REPLACE))
+    WoWTools_PanelMixin:Header(Layout, WARNING_FONT_COLOR:WrapTextInColorCode(WoWTools_L['REPLACE~2']))
     WoWTools_PanelMixin:OnlyCheck({
         name= 'SetTooltipMoney',
-        tooltip= (WoWTools_DataMixin.onlyChinese and '修复' or WoWTools_L['Fix'])..' MoneyFrame_Update '..(WoWTools_DataMixin.onlyChinese and '错误' or ERRORS)
-                ..'|n'..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD),
+        tooltip= (WoWTools_L['Fix'])..' MoneyFrame_Update '..(WoWTools_L.ERRORS)
+                ..'|n'..(WoWTools_L.REQUIRES_RELOAD),
         GetValue= function() return not Save().disabledFix.MoneyFrame_Update end,
         category= WoWTools_TooltipMixin.Category,
         SetValue= function()
@@ -312,8 +312,8 @@ local function Init_Panel()
 
     WoWTools_PanelMixin:OnlyCheck({
         name= 'UnitFrame_UpdateTooltip',
-        tooltip= (WoWTools_DataMixin.onlyChinese and '<右键点击设置框体>' or UNIT_POPUP_RIGHT_CLICK)..': '..WoWTools_TextMixin:GetShowHide(false)
-                ..'|n'..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD),
+        tooltip= (WoWTools_L.UNIT_POPUP_RIGHT_CLICK)..': '..WoWTools_TextMixin:GetShowHide(false)
+                ..'|n'..(WoWTools_L.REQUIRES_RELOAD),
         GetValue= function() return not Save().disabledFix.UnitFrame_UpdateTooltip end,
         category= WoWTools_TooltipMixin.Category,
         SetValue= function()
@@ -326,7 +326,7 @@ local function Init_Panel()
 
     WoWTools_PanelMixin:Header(Layout, 'CVar')
     root= WoWTools_PanelMixin:OnlyCheck({
-        name= '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '锁定设置' or WoWTools_Join(LOCK, SETTINGS)),
+        name= '|cnWARNING_FONT_COLOR:'..(WoWTools_L['LOCK+SETTINGS']),
         tooltip= function() return WoWTools_TooltipMixin:Set_CVar(nil, true, true) end,
         GetValue= function() return Save().setCVar end,
         category= WoWTools_TooltipMixin.Category,
@@ -337,20 +337,20 @@ local function Init_Panel()
     })
 
     WoWTools_PanelMixin:OnlyButton({
-        buttonText= WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS,
+        buttonText= WoWTools_L.SETTINGS,
         layout= Layout,
         SetValue= function()
             WoWTools_TooltipMixin:Set_CVar()
-            print(WoWTools_DataMixin.onlyChinese and '设置完成' or WoWTools_Join(SETTINGS, COMPLETE))
+            print(WoWTools_L['SETTINGS+COMPLETE'])
         end
     }, root)
 
     WoWTools_PanelMixin:OnlyButton({
-        buttonText= WoWTools_DataMixin.onlyChinese and '默认' or DEFAULT,
+        buttonText= WoWTools_L.DEFAULT,
         layout= Layout,
         SetValue= function()
             WoWTools_TooltipMixin:Set_CVar(true, nil, nil)
-            print(WoWTools_DataMixin.onlyChinese and '默认完成' or WoWTools_Join(DEFAULT, COMPLETE))
+            print(WoWTools_L['DEFAULT+COMPLETE'])
         end
     }, root)
 
@@ -366,16 +366,16 @@ local function Init_Panel()
         end,
         GetOptions= function()
             local container = Settings.CreateControlTextContainer()
-            container:Add(1, WoWTools_DataMixin.onlyChinese and '是' or YES)
-            container:Add(2, WoWTools_DataMixin.onlyChinese and '不' or NO)
+            container:Add(1, WoWTools_L.YES)
+            container:Add(2, WoWTools_L['NO~2'])
             return container:GetData()
         end,
         GetValue= function() return C_CVar.GetCVarBool("ActionButtonUseKeyDown") and 1 or 2 end,
-        name= WoWTools_DataMixin.onlyChinese and '按下快捷键时施法' or ACTION_BUTTON_USE_KEY_DOWN,
+        name= WoWTools_L.ACTION_BUTTON_USE_KEY_DOWN,
         tooltip= function()
             return WoWTools_DataMixin:Get_CVar_Tooltips({
                     name='ActionButtonUseKeyDown',
-                    msg=WoWTools_DataMixin.onlyChinese and '在按下快捷键时施法，而不是在松开快捷键时施法。' or OPTION_TOOLTIP_ACTION_BUTTON_USE_KEY_DOWN,
+                    msg=WoWTools_L.OPTION_TOOLTIP_ACTION_BUTTON_USE_KEY_DOWN,
                 }) end,
         category= WoWTools_TooltipMixin.Category,
     })
@@ -592,13 +592,13 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             })
 
             WoWTools_PanelMixin:Check_Button({
-                checkName= WoWTools_DataMixin.onlyChinese and '启用' or ENABLE,
+                checkName= WoWTools_L.ENABLE,
                 GetValue= function() return not Save().disabled end,
                 SetValue= function()
                     Save().disabled= not Save().disabled and true or nil
                     Init_Panel()
                 end,
-                buttonText= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '重置' or RESET),
+                buttonText= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.RESET),
                 buttonFunc= function()
                     StaticPopup_Show('WoWTools_RestData',
                         WoWTools_TooltipMixin.addName,
@@ -607,7 +607,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         WoWToolsPlusSave['Plus_Tootips']= nil
                     end)
                 end,
-                tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD),
+                tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD),
                 layout= Layout,
                 category= WoWTools_TooltipMixin.Category,
             })

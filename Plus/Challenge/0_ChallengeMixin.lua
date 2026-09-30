@@ -37,11 +37,11 @@ local function GetActivities()--Enum.WeeklyRewardChestThresholdType
             local difficultyText
 --史诗地下城 1
             if info.type == Enum.WeeklyRewardChestThresholdType.Activities then
-                head= WoWTools_DataMixin.onlyChinese and '史诗地下城' or MYTHIC_DUNGEONS
-                difficultyText= string.format(WoWTools_DataMixin.onlyChinese and '史诗 %d' or WEEKLY_REWARDS_MYTHIC, info.level)
+                head= WoWTools_L.MYTHIC_DUNGEONS
+                difficultyText= string.format(WoWTools_L.WEEKLY_REWARDS_MYTHIC, info.level)
 --PVP 2
             elseif info.type == Enum.WeeklyRewardChestThresholdType.RankedPvP then
-                head= WoWTools_DataMixin.onlyChinese and 'PvP' or PVP
+                head= WoWTools_L.PVP
                 if WoWTools_DataMixin.onlyChinese then
                     local tab={
                         [0]= "休闲者",
@@ -59,7 +59,7 @@ local function GetActivities()--Enum.WeeklyRewardChestThresholdType
                 difficultyText=  difficultyText or PVPUtil.GetTierName(info.level)-- _G["PVP_RANK_"..tierEnum.."_NAME"] PVPUtil.lua
 --团队副本 3
             elseif info.type == Enum.WeeklyRewardChestThresholdType.Raid then
-                head= WoWTools_DataMixin.onlyChinese and '团队副本' or RAIDS
+                head= WoWTools_L.RAIDS
                 difficultyText=  DifficultyUtil.GetDifficultyName(info.level)
 --AlsoReceive 4
             elseif info.type== Enum.WeeklyRewardChestThresholdType.AlsoReceive then
@@ -70,14 +70,14 @@ local function GetActivities()--Enum.WeeklyRewardChestThresholdType
 
 --世界 6
             elseif info.type== Enum.WeeklyRewardChestThresholdType.World then
-                head= WoWTools_DataMixin.onlyChinese and '世界' or WORLD
+                head= WoWTools_L.WORLD
 
             end
             if head then
                 R[head]= R[head] or {}
                 R[head][info.index] = {
                     level = info.level,
-                    difficulty = difficultyText or (WoWTools_DataMixin.onlyChinese and '休闲者' or PVP_RANK_0_NAME),
+                    difficulty = difficultyText or (WoWTools_L.PVP_RANK_0_NAME),
                     progress = info.progress,
                     threshold = info.threshold,
                     unlocked = info.progress>=info.threshold,
@@ -175,7 +175,7 @@ local function Create_Activities_SubLable(frame, head, index, last)
         if link then
             GameTooltip:SetHyperlink(link)
         else
-            GameTooltip:AddDoubleLine(format(WoWTools_DataMixin.onlyChinese and '仅限%s' or LFG_LIST_CROSS_FACTION,WoWTools_DataMixin.onlyChinese and '物品等级' or STAT_AVERAGE_ITEM_LEVEL ),WoWTools_DataMixin.onlyChinese and '无' or NONE)
+            GameTooltip:AddDoubleLine(format(WoWTools_L.LFG_LIST_CROSS_FACTION,WoWTools_L.STAT_AVERAGE_ITEM_LEVEL ),WoWTools_L.NONE)
             GameTooltip:AddLine(' ')
             GameTooltip:AddDoubleLine('Activities Type '..self.type, 'id '..self.id)
         end
@@ -274,7 +274,7 @@ function WoWTools_ChallengeMixin:ActivitiesFrame(frame, settings)--周奖励，�
                 text= text..((itemLevel and itemLevel>0) and itemLevel or '')..format('|A:%s:0:0|a', 'common-icon-checkmark')..((info.level and info.level>0) and info.level or '')
             else
                 if info.unlocked then
-                    text='   '..index..') '..info.difficulty..format('|A:%s:0:0|a', 'common-icon-checkmark')..(info.level or '')--.. ' '..(WoWTools_DataMixin.onlyChinese and '完成' or COMPLETE)
+                    text='   '..index..') '..info.difficulty..format('|A:%s:0:0|a', 'common-icon-checkmark')..(info.level or '')--.. ' '..(WoWTools_L.COMPLETE)
                 else
                     text='    |cff828282'..index..') '
                         ..info.difficulty

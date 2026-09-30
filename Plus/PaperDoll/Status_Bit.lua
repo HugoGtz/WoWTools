@@ -121,17 +121,17 @@ end
     function MovementSpeed_OnEnter(statFrame)
         GameTooltip:SetOwner(statFrame, "ANCHOR_RIGHT")
         GameTooltip_SetTitle(GameTooltip,
-            format(PAPERDOLLFRAME_TOOLTIP_FORMAT, WoWTools_DataMixin.onlyChinese and '移动速度' or STAT_MOVEMENT_SPEED).." "..format("%d%%", statFrame.speed+0.5)
+            format(PAPERDOLLFRAME_TOOLTIP_FORMAT, WoWTools_L.STAT_MOVEMENT_SPEED).." "..format("%d%%", statFrame.speed+0.5)
         )
         GameTooltip:AddLine(" ")
-        GameTooltip:AddLine(format(WoWTools_DataMixin.onlyChinese and '奔跑速度：%d%%' or STAT_MOVEMENT_GROUND_TOOLTIP, statFrame.runSpeed+0.5))
-        GameTooltip:AddLine(format(WoWTools_DataMixin.onlyChinese and '游泳速度：%d%%' or STAT_MOVEMENT_SWIM_TOOLTIP, statFrame.swimSpeed+0.5))
+        GameTooltip:AddLine(format(WoWTools_L.STAT_MOVEMENT_GROUND_TOOLTIP, statFrame.runSpeed+0.5))
+        GameTooltip:AddLine(format(WoWTools_L.STAT_MOVEMENT_SWIM_TOOLTIP, statFrame.swimSpeed+0.5))
         if (statFrame.unit ~= "pet") then
-            GameTooltip:AddLine(format(WoWTools_DataMixin.onlyChinese and '飞行速度：%d%%' or STAT_MOVEMENT_FLIGHT_TOOLTIP, statFrame.flightSpeed+0.5))
-            GameTooltip:AddLine(format('%s: %i%%', WoWTools_DataMixin.onlyChinese and '驭空术' or LANDING_DRAGONRIDING_PANEL_TITLE, 100*100/BASE_MOVEMENT_SPEED))
+            GameTooltip:AddLine(format(WoWTools_L.STAT_MOVEMENT_FLIGHT_TOOLTIP, statFrame.flightSpeed+0.5))
+            GameTooltip:AddLine(format('%s: %i%%', WoWTools_L.LANDING_DRAGONRIDING_PANEL_TITLE, 100*100/BASE_MOVEMENT_SPEED))
         end
         GameTooltip:AddLine(" ")
-        GameTooltip:AddLine(format(WoWTools_DataMixin.onlyChinese and '提升移动速度。|n|n速度：%s [+%.2f%%]' or CR_SPEED_TOOLTIP, BreakUpLargeNumbers(GetCombatRating(CR_SPEED or 14)), GetCombatRatingBonus(CR_SPEED or 14)))
+        GameTooltip:AddLine(format(WoWTools_L.CR_SPEED_TOOLTIP, BreakUpLargeNumbers(GetCombatRating(CR_SPEED or 14)), GetCombatRatingBonus(CR_SPEED or 14)))
         GameTooltip:Show()
         statFrame.UpdateTooltip = MovementSpeed_OnEnter
     end]]
@@ -386,9 +386,9 @@ end
         else
             displaySpeed = format("%.2f", speed)
         end
-        PaperDollFrame_SetLabelAndText(statFrame, WoWTools_DataMixin.onlyChinese and '攻击速度' or WEAPON_SPEED, displaySpeed, false, speed)
-        statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..format(PAPERDOLLFRAME_TOOLTIP_FORMAT, WoWTools_DataMixin.onlyChinese and '攻击速度' or ATTACK_SPEED).." "..displaySpeed..FONT_COLOR_CODE_CLOSE
-        statFrame.tooltip2 = format(WoWTools_DataMixin.onlyChinese and '攻击速度+%s%%' or STAT_ATTACK_SPEED_BASE_TOOLTIP, BreakUpLargeNumbers(meleeHaste))
+        PaperDollFrame_SetLabelAndText(statFrame, WoWTools_L.WEAPON_SPEED, displaySpeed, false, speed)
+        statFrame.tooltip = HIGHLIGHT_FONT_COLOR_CODE..format(PAPERDOLLFRAME_TOOLTIP_FORMAT, WoWTools_L.ATTACK_SPEED).." "..displaySpeed..FONT_COLOR_CODE_CLOSE
+        statFrame.tooltip2 = format(WoWTools_L.STAT_ATTACK_SPEED_BASE_TOOLTIP, BreakUpLargeNumbers(meleeHaste))
         statFrame:Show()
         if statFrame.numLabel then
             statFrame.numLabel:SetText('')
@@ -427,9 +427,9 @@ local function Init()
         )
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(
-            (WoWTools_DataMixin.onlyChinese and '小数 ' or WoWTools_L['Decimals '])
+            (WoWTools_L['Decimals ~2'])
             ..(
-                bit==-1 and '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '禁用' or DISABLE)..'|r'
+                bit==-1 and '|cnWARNING_FONT_COLOR:'..(WoWTools_L.DISABLE)..'|r'
                 or ('|cnGREEN_FONT_COLOR:'..bit)
             ),
 

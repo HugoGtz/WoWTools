@@ -102,7 +102,7 @@ local function Init_Create(frame)
             ..WoWTools_TextMixin:GetEnabeleDisable(not FrameStackTooltip:IsVisible()),--C_CVar.GetCVarBool('fstack_enabled')),
 
             WoWTools_DataMixin.Icon.right
-            ..(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL)
+            ..(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL)
         )
     end
 
@@ -111,7 +111,7 @@ local function Init_Create(frame)
     frame.WoWToolsInfoButton:SetPoint('RIGHT', frame.WoWToolsButton, 'LEFT')
     frame.WoWToolsInfoButton:SetNormalAtlas('Garr_Building-AddFollowerPlus')
     WoWTools_TextureMixin:SetButton(frame.WoWToolsInfoButton, {alpha=1})
-    frame.WoWToolsInfoButton.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '更多信息' or CLICK_FOR_DETAILS)
+    frame.WoWToolsInfoButton.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_L.CLICK_FOR_DETAILS)
     frame.WoWToolsInfoButton:SetupMenu(function(self, root)
         if not self:IsMouseOver() then
             return
@@ -120,7 +120,7 @@ local function Init_Create(frame)
         end
         local focusedTable= self:GetParent():GetParent().focusedTable--.dataProviders focusedTable
         if not focusedTable then
-            root:CreateTitle(WoWTools_DataMixin.onlyChinese and '无数据' or NONE)
+            root:CreateTitle(WoWTools_L['NONE~3'])
             return
         end
         local sub
@@ -226,7 +226,7 @@ local function Init_Create(frame)
     frame.WoWToolsEdit:SetAutoFocus(false)
     frame.WoWToolsEdit:ClearFocus()
 
-    frame.WoWToolsEdit.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '复制' or CALENDAR_COPY_EVENT)
+    frame.WoWToolsEdit.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_L.CALENDAR_COPY_EVENT)
     frame.WoWToolsEdit:SetScript('OnLeave', function(self)
         ResetCursor()
         WoWToolsButton_OnLeave(self)
@@ -272,25 +272,25 @@ local function Init_Create(frame)
         if IsControlKeyDown() and key == "C" then
             print(
                 WoWTools_HyperLink.addName..WoWTools_DataMixin.Icon.icon2,
-                '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '复制链接' or BROWSER_COPY_LINK)..'|r',
+                '|cnGREEN_FONT_COLOR:'..(WoWTools_L.BROWSER_COPY_LINK)..'|r',
                 s:GetText()
             )
         end
     end)
 
-    frame.OpenParentButton.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '上移一层' or BINDING_NAME_HOUSING_LAYOUTFLOOR_UP)
+    frame.OpenParentButton.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_L.BINDING_NAME_HOUSING_LAYOUTFLOOR_UP)
     frame.OpenParentButton:HookScript('OnLeave', WoWToolsButton_OnLeave)
     frame.OpenParentButton:HookScript('OnEnter', WoWToolsButton_OnEnter)
 
-    frame.NavigateBackwardButton.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '后退' or BACK)
+    frame.NavigateBackwardButton.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_L.BACK)
     frame.NavigateBackwardButton:HookScript('OnLeave', WoWToolsButton_OnLeave)
     frame.NavigateBackwardButton:HookScript('OnEnter', WoWToolsButton_OnEnter)
 
-    frame.NavigateForwardButton.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '前进' or BINDING_NAME_MOVEFORWARD)
+    frame.NavigateForwardButton.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_L.BINDING_NAME_MOVEFORWARD)
     frame.NavigateForwardButton:HookScript('OnLeave', WoWToolsButton_OnLeave)
     frame.NavigateForwardButton:HookScript('OnEnter', WoWToolsButton_OnEnter)
 
-    frame.VisibilityButton.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '显示' or SHOW)
+    frame.VisibilityButton.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_L.SHOW)
     Set_CheckBox(frame.VisibilityButton)--, 'AlliedRace-UnlockingFrame-GenderSelectionGlow')
 
 

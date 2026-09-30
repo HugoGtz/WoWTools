@@ -58,7 +58,7 @@ local function set_vignetteGUID(tooltip, vignetteGUID)
             verticalPadding = -overflow
         end
     elseif waitingForData then
-        GameTooltip_SetTitle(tooltip, WoWTools_DataMixin.onlyChinese and '获取数据' or RETRIEVING_DATA)
+        GameTooltip_SetTitle(tooltip, WoWTools_L.RETRIEVING_DATA)
     end
     if verticalPadding then
         tooltip:SetPadding(0, verticalPadding)
@@ -100,7 +100,7 @@ local function set_areaPoiID(tooltip, uiMapID, areaPoiID)
             local secondsLeft = C_AreaPoiInfo.GetAreaPOISecondsLeft(areaPoiID)
             if secondsLeft and secondsLeft > 0 then
                 local timeString = SecondsToTime(secondsLeft)
-                GameTooltip_AddNormalLine(tooltip, format(WoWTools_DataMixin.onlyChinese and '剩余时间：%s' or BONUS_OBJECTIVE_TIME_LEFT, timeString))
+                GameTooltip_AddNormalLine(tooltip, format(WoWTools_L.BONUS_OBJECTIVE_TIME_LEFT, timeString))
                 addedTooltipLine = true
             end
         end
@@ -156,9 +156,9 @@ local function Set_Specialization(tooltip, specIndex, specID)
     end
 
     local stat={
-        WoWTools_DataMixin.onlyChinese and '力量' or SPEC_FRAME_PRIMARY_STAT_STRENGTH,
-        WoWTools_DataMixin.onlyChinese and '敏捷' or SPEC_FRAME_PRIMARY_STAT_AGILITY,
-        WoWTools_DataMixin.onlyChinese and '智力' or SPEC_FRAME_PRIMARY_STAT_INTELLECT,
+        WoWTools_L.SPEC_FRAME_PRIMARY_STAT_STRENGTH,
+        WoWTools_L.SPEC_FRAME_PRIMARY_STAT_AGILITY,
+        WoWTools_L.SPEC_FRAME_PRIMARY_STAT_INTELLECT,
         --WoWTools_DataMixin.onlyChinese and '智力' or SPEC_FRAME_PRIMARY_STAT_INTELLECT,
     }
 
@@ -232,29 +232,29 @@ local function Set_DungeonScore(self, dungeonScoreLink)
 
 	--GameTooltip_SetTitle(self, classColor:WrapTextInColorCode(playerName))
 	GameTooltip_AddColoredLine(self, format(
-        WoWTools_DataMixin.onlyChinese and '等级%d %s' or DUNGEON_SCORE_LINK_LEVEL_CLASS_FORMAT_STRING,
+        WoWTools_L.DUNGEON_SCORE_LINK_LEVEL_CLASS_FORMAT_STRING,
         playerLevel, (WoWTools_UnitMixin:GetClassIcon(nil, guid, classFileName) or '').. WoWTools_TextMixin:CN(className)
     ), HIGHLIGHT_FONT_COLOR)
 	GameTooltip_AddNormalLine(self, format(
-        WoWTools_DataMixin.onlyChinese and '物品等级：|A:charactercreate-icon-customize-body-selected:0:0|a|cffffffff%d|r' or DUNGEON_SCORE_LINK_ITEM_LEVEL,
+        WoWTools_L.DUNGEON_SCORE_LINK_ITEM_LEVEL,
         playerItemLevel
     ))
 
 	local color = C_ChallengeMode.GetDungeonScoreRarityColor(dungeonScore) or HIGHLIGHT_FONT_COLOR
 	GameTooltip_AddNormalLine(self, format(
-        WoWTools_DataMixin.onlyChinese and '史诗钥石评分：|A:recipetoast-icon-star:0:0|a%s' or DUNGEON_SCORE_LINK_RATING,
+        WoWTools_L.DUNGEON_SCORE_LINK_RATING,
         color:WrapTextInColorCode(dungeonScore..'')
     ))
 
 	GameTooltip_AddNormalLine(self, format(
-        WoWTools_DataMixin.onlyChinese and '本赛季尝试次数：|A:TaskPOI-IconSelect:0:0|a|cffffffff%d|r' or DUNGEON_SCORE_LINK_RUNS_SEASON,
+        WoWTools_L.DUNGEON_SCORE_LINK_RUNS_SEASON,
         runsThisSeason
     ))
 
 	if(bestSeasonScore ~= 0) then
 		local bestSeasonColor = C_ChallengeMode.GetDungeonScoreRarityColor(bestSeasonScore) or HIGHLIGHT_FONT_COLOR
 		GameTooltip_AddNormalLine(self, format(
-            WoWTools_DataMixin.onlyChinese and '之前的最高记录： %s|cff808080（第%d赛季）' or DUNGEON_SCORE_LINK_PREVIOUS_HIGH,
+            WoWTools_L.DUNGEON_SCORE_LINK_PREVIOUS_HIGH,
             bestSeasonColor:WrapTextInColorCode(bestSeasonScore..''), bestSeasonNumber)
         )
 	end
@@ -310,7 +310,7 @@ end
 
 local function Set_Quest(tooltip, questID)
    if ( not HaveQuestData(questID) ) then
-		GameTooltip_SetTitle(tooltip, WoWTools_DataMixin.onlyChinese and '获取数据' or RETRIEVING_DATA, RED_FONT_COLOR)
+		GameTooltip_SetTitle(tooltip, WoWTools_L.RETRIEVING_DATA, RED_FONT_COLOR)
 		GameTooltip_SetTooltipWaitingForData(tooltip, true)
 		GameTooltip:Show()
 		return
@@ -340,7 +340,7 @@ local function Set_Quest(tooltip, questID)
 		GameTooltip_SetTitle(tooltip, title)
 
 		if C_QuestLog.IsAccountQuest(questID) then
-			GameTooltip_AddColoredLine(tooltip, WoWTools_DataMixin.onlyChinese and '战团' or  ACCOUNT_QUEST_LABEL, ACCOUNT_WIDE_FONT_COLOR)
+			GameTooltip_AddColoredLine(tooltip, WoWTools_L.ACCOUNT_QUEST_LABEL, ACCOUNT_WIDE_FONT_COLOR)
 		end
 
 		QuestUtils_AddQuestTypeToTooltip(tooltip, questID, NORMAL_FONT_COLOR)
@@ -365,18 +365,18 @@ local function Set_Quest(tooltip, questID)
 	end
 
 	if isCombatAllyQuest then
-		GameTooltip_AddColoredLine(tooltip, WoWTools_DataMixin.onlyChinese and '有可接的盟友任务' or AVAILABLE_FOLLOWER_QUEST, HIGHLIGHT_FONT_COLOR, true)
-		GameTooltip_AddColoredLine(tooltip, WoWTools_DataMixin.onlyChinese and '可为盟友提供战斗经验值' or GRANTS_FOLLOWER_XP, GREEN_FONT_COLOR, true)
+		GameTooltip_AddColoredLine(tooltip, WoWTools_L.AVAILABLE_FOLLOWER_QUEST, HIGHLIGHT_FONT_COLOR, true)
+		GameTooltip_AddColoredLine(tooltip, WoWTools_L.GRANTS_FOLLOWER_XP, GREEN_FONT_COLOR, true)
 
 	elseif isQuestStart then
-		GameTooltip_AddColoredLine(tooltip, WoWTools_DataMixin.onlyChinese and '可接任务' or AVAILABLE_QUEST, HIGHLIGHT_FONT_COLOR, true)
-		AddFloorLocationLine(tooltip, floorLocation, WoWTools_DataMixin.onlyChinese and '位于上方' or QUESTLINE_LOCATED_ABOVE, WoWTools_DataMixin.onlyChinese and '位于下方' or QUESTLINE_LOCATED_BELOW)
+		GameTooltip_AddColoredLine(tooltip, WoWTools_L.AVAILABLE_QUEST, HIGHLIGHT_FONT_COLOR, true)
+		AddFloorLocationLine(tooltip, floorLocation, WoWTools_L.QUESTLINE_LOCATED_ABOVE, WoWTools_L.QUESTLINE_LOCATED_BELOW)
 	else
 		local questDescription = ""
 		local questCompleted = C_QuestLog.IsComplete(questID)
 
 		if questCompleted and shouldShowObjectivesAsStatusBar then
-			questDescription = WoWTools_DataMixin.onlyChinese and '可完成' or QUEST_WATCH_QUEST_READY
+			questDescription = WoWTools_L.QUEST_WATCH_QUEST_READY
 			GameTooltip_AddColoredLine(tooltip, QUEST_DASH .. questDescription, HIGHLIGHT_FONT_COLOR)
 		elseif not questCompleted and shouldShowObjectivesAsStatusBar then
 			local questLogIndex = C_QuestLog.GetLogIndexForQuestID(questID)
@@ -582,7 +582,7 @@ function WoWTools_SetTooltipMixin:Setup(tooltip, data, frame)
 --冷却时间剩余
     if cooldown then
         Add_Tooltip(tooltip, ' ', nil)
-        Add_Tooltip(tooltip, format(WoWTools_DataMixin.onlyChinese and '冷却时间剩余：%s' or ITEM_COOLDOWN_TIME, cooldown), nil)
+        Add_Tooltip(tooltip, format(WoWTools_L.ITEM_COOLDOWN_TIME, cooldown), nil)
     end
 
     return true

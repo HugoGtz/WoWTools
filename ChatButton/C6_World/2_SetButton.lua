@@ -29,7 +29,7 @@ local function Init(btn)
         if name then
             text= name=='大脚世界频道' and '世' or WoWTools_TextMixin:sub(name, 1, 3)
         else
-            text= WoWTools_DataMixin.onlyChinese and '无' or NONE
+            text= WoWTools_L.NONE
         end
 
         if name == Save().world then
@@ -132,7 +132,7 @@ local function Init(btn)
 
         local find= CountTable(WoWTools_WorldMixin:Get_FilterTextTab() or {})
 
-        GameTooltip:AddDoubleLine((WoWTools_DataMixin.onlyChinese and '屏蔽刷屏' or WoWTools_Join(IGNORE, CLUB_FINDER_REPORT_SPAM))..' #'..find, WoWTools_TextMixin:GetEnabeleDisable(Save().myChatFilter))
+        GameTooltip:AddDoubleLine((WoWTools_L['IGNORE+CLUB_FINDER_REPORT_SPAM'])..' #'..find, WoWTools_TextMixin:GetEnabeleDisable(Save().myChatFilter))
         GameTooltip:AddLine(' ')
 
         local clubID, channelNumber, name, disabled, clubInfo, col

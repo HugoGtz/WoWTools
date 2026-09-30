@@ -46,7 +46,7 @@ function WoWTools_ItemMixin:SetOptions(frame, root, tab)
         sub:SetTooltip(function(tooltip)
             tooltip:AddLine(
                 tips
-                or (WoWTools_DataMixin.onlyChinese and '需要刷新' or WoWTools_Join(NEED, REFRESH))
+                or (WoWTools_L['NEED+REFRESH'])
             )
         end)
     end
@@ -54,7 +54,7 @@ function WoWTools_ItemMixin:SetOptions(frame, root, tab)
 --属性，字体，缩放
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
-    name= WoWTools_DataMixin.onlyChinese and '字体大小' or FONT_SIZE,
+    name= WoWTools_L.FONT_SIZE,
     getValue=function()
         return self:SaveSize()[name] or size
     end, setValue=function(value)
@@ -69,7 +69,7 @@ function WoWTools_ItemMixin:SetOptions(frame, root, tab)
 
 
     local sub2= sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '重置' or RESET,
+        WoWTools_L.RESET,
     function()
         self:SaveSize()[name]= nil
         call()--更新物品
@@ -674,7 +674,7 @@ function WoWTools_ItemMixin:GetName(itemID, itemLink, itemLocation, tab)--取得
     if C_ToyBox.GetToyInfo(itemID) then
         if not PlayerHasToy(itemID) then
             col='|cnWARNING_FONT_COLOR:'
-            desc= '|A:Islands-QuestBangDisable:0:0|a'--..(WoWTools_DataMixin.onlyChinese and '未收集' or NOT_COLLECTED)
+            desc= '|A:Islands-QuestBangDisable:0:0|a'--..(WoWTools_L.NOT_COLLECTED)
         else
             cool= WoWTools_CooldownMixin:GetText(nil, itemID)
         end
@@ -842,7 +842,7 @@ end]]
 --[[EquipmentManager.lua
 function WoWTools_ItemMixin:IsLocked_EquipmentSet(setID)--装备管理，能否装备
 	if not setID or C_EquipmentSet.EquipmentSetContainsLockedItems(setID) then
-		return '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '你还不能那样做。' or ERR_CLIENT_LOCKED_OUT)..'|r'
+		return '|cnWARNING_FONT_COLOR:'..(WoWTools_L.ERR_CLIENT_LOCKED_OUT)..'|r'
 	end
 end]]
 function WoWTools_ItemMixin:GetDecorItemCount(itemID, entryInfo, showZero)

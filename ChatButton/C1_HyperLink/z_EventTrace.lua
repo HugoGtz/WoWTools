@@ -149,7 +149,7 @@ local function Init_LeftList()
     end)
     Refresh:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
-        GameTooltip_SetTitle(GameTooltip, WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '重置' or RESET))
+        GameTooltip_SetTitle(GameTooltip, WoWTools_DataMixin.Icon.icon2..(WoWTools_L.RESET))
         GameTooltip:Show()
         self:SetNormalAtlas('128-RedButton-Refresh')
     end)
@@ -192,8 +192,8 @@ local function Init_LeftList()
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip_SetTitle(GameTooltip, 
             WoWTools_DataMixin.Icon.icon2
-            ..(Save().eventTraceIsPased and (WoWTools_DataMixin.onlyChinese and '暂停' or EVENTTRACE_BUTTON_PAUSE)
-            or (WoWTools_DataMixin.onlyChinese and '记录' or EVENTTRACE_LOG_HEADER))
+            ..(Save().eventTraceIsPased and (WoWTools_L.EVENTTRACE_BUTTON_PAUSE)
+            or (WoWTools_L.EVENTTRACE_LOG_HEADER))
         )
         GameTooltip:Show()
     end
@@ -222,7 +222,7 @@ local function Init_LeftList()
     end)
     Clear:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '清除' or SLASH_STOPWATCH_PARAM_STOP2))
+        GameTooltip:AddDoubleLine(WoWTools_DataMixin.Icon.icon2..(WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2))
         GameTooltip:Show()
         self:SetNormalAtlas('128-RedButton-Delete')
     end)
@@ -377,7 +377,7 @@ end
 --上面 EditBox
 local function Init_EditBox()
     local Frame= WoWTools_EditBoxMixin:CreateFrame(EventTrace, {
-        text= WoWTools_DataMixin.onlyChinese and '查看' or VIEW,
+        text= WoWTools_L.VIEW,
         name= 'WoWToolsEventTraceViewEditBox',
     })
     --Frame:Hide()
@@ -397,13 +397,13 @@ local function Init_EditBox()
     Frame.View:SetScript('OnEnter', function(self)
         self.texture:SetDesaturated(false)
         GameTooltip:SetOwner(self, 'ANCHOR_LEFT')
-        GameTooltip_SetTitle(GameTooltip, WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '查看' or VIEW))
+        GameTooltip_SetTitle(GameTooltip, WoWTools_DataMixin.Icon.icon2..(WoWTools_L.VIEW))
         GameTooltip:Show()
     end)
     Frame.View:SetScript('OnMouseDown', function(self)
         WoWTools_TextMixin:ShowText(
             {self:GetParent():GetText()},
-            WoWTools_DataMixin.onlyChinese and '事件' or EVENTS_LABEL,
+            WoWTools_L.EVENTS_LABEL,
             nil
         )
     end)
@@ -446,7 +446,7 @@ local function Init_EditBox()
             local p= s:GetParent()
             local elementData = p:GetElementData()
             GameTooltip:SetOwner(s, 'ANCHOR_LEFT')
-            GameTooltip_SetTitle(GameTooltip, WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '过滤' or CALENDAR_FILTERS))
+            GameTooltip_SetTitle(GameTooltip, WoWTools_DataMixin.Icon.icon2..(WoWTools_L.CALENDAR_FILTERS))
             GameTooltip_AddColoredLine(GameTooltip, GetDisplayEvent(elementData), HIGHLIGHT_FONT_COLOR)
             GameTooltip:Show()
             p.MouseoverOverlay:SetShown(true)
@@ -527,16 +527,16 @@ local function Init_Plus()
     WoWTools_DataMixin:Hook(EventTraceLogEventButtonMixin, 'OnEnter', function()
         EventTraceTooltip:AddLine(' ')
         EventTraceTooltip:AddDoubleLine(
-            (WoWTools_DataMixin.onlyChinese and '查看' or VIEW)
+            (WoWTools_L.VIEW)
             ..WoWTools_DataMixin.Icon.left
-            ..' '..(WoWTools_DataMixin.onlyChinese and '双击' or BUFFER_DOUBLE)
+            ..' '..(WoWTools_L.BUFFER_DOUBLE)
             ..WoWTools_DataMixin.Icon.left
             ..'|cnGREEN_FONT_COLOR:'
-            ..(WoWTools_DataMixin.onlyChinese and '搜索' or SEARCH),
+            ..(WoWTools_L.SEARCH),
 
             WoWTools_DataMixin.Icon.right
             ..'|cnGREEN_FONT_COLOR:'
-            ..(WoWTools_DataMixin.onlyChinese and '复制' or CALENDAR_COPY_EVENT)
+            ..(WoWTools_L.CALENDAR_COPY_EVENT)
         )
         EventTraceTooltip:Show()
     end)

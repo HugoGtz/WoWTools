@@ -293,7 +293,7 @@ function WoWTools_TooltipMixin.Frames:SettingsTooltip()
             'variableType'..WoWTools_DataMixin.Icon.icon2..'|cffffffff'..variableType.. '|r '..tostring(value)
         )
         tooltip:AddLine(
-            '|cnGREEN_FONT_COLOR:Alt'..WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '复制' or CALENDAR_COPY_EVENT)
+            '|cnGREEN_FONT_COLOR:Alt'..WoWTools_DataMixin.Icon.icon2..(WoWTools_L.CALENDAR_COPY_EVENT)
         )
         tooltip:Show()
     end)

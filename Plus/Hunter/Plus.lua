@@ -158,10 +158,10 @@ local function created_model(btn, setBg)
         end
         if self.petData and not self.locked and self:IsEnabled() then
             WoWTools_HunterMixin:Set_Tooltips(self, self.petData)
-            GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '放入兽栏' or STABLE_PET_BUTTON_LABEL, WoWTools_DataMixin.Icon.right)
+            GameTooltip:AddDoubleLine(WoWTools_L.STABLE_PET_BUTTON_LABEL, WoWTools_DataMixin.Icon.right)
             if self:GetID()==EXTRA_PET_STABLE_SLOT_LUA_INDEX then
                 GameTooltip:AddDoubleLine(
-                    format('|cffaad372%s|r', WoWTools_DataMixin.onlyChinese and '天赋' or TALENT),
+                    format('|cffaad372%s|r', WoWTools_L.TALENT),
                     format('|T461112:0|t|cffaad372%s|r', WoWTools_DataMixin.onlyChinese and '动物伙伴' or C_Spell.GetSpellLink(267116) or C_Spell.GetSpellName(267116) or 'Animal Companion')
                 )
             end
@@ -289,7 +289,7 @@ local function Init()
         local text
         if petData.slotID then
             local dietString = table.concat(C_StableInfo.GetStablePetFoodTypes(petData.slotID), LIST_DELIMITER)
-            text= format(WoWTools_DataMixin.onlyChinese and '食物：%s' or PET_DIET_TEMPLATE, dietString)
+            text= format(WoWTools_L.PET_DIET_TEMPLATE, dietString)
         end
         self.Food:SetText(text or '')
     end)

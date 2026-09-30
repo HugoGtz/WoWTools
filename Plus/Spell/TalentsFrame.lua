@@ -36,7 +36,7 @@ local function Init()
                     if self.maxRanks then
                         GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
                         GameTooltip:ClearLines()
-                        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '最高等级' or TRADESKILL_RECIPE_LEVEL_TOOLTIP_HIGHEST_RANK, self.maxRanks)
+                        GameTooltip:AddDoubleLine(WoWTools_L.TRADESKILL_RECIPE_LEVEL_TOOLTIP_HIGHEST_RANK, self.maxRanks)
                         GameTooltip:AddLine(' ')
                         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_SpellMixin.addName)
                         GameTooltip:Show()

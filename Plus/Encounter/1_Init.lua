@@ -56,8 +56,8 @@ local function Init()
             GameTooltip:AddLine(' ')
             GameTooltip:AddLine(
                 WoWTools_DataMixin.Icon.icon2
-                ..format(WoWTools_DataMixin.onlyChinese and '%s（|cffffffff%d|r次）' or REAGENT_COST_CONSUME_CHARGES,
-                    WoWTools_DataMixin.onlyChinese and '已击败' or DUNGEON_ENCOUNTER_DEFEATED,
+                ..format(WoWTools_L.REAGENT_COST_CONSUME_CHARGES,
+                    WoWTools_L.DUNGEON_ENCOUNTER_DEFEATED,
                     numKill)
             )
         end
@@ -73,7 +73,7 @@ local function Init()
                 end
                 GameTooltip:AddLine(
                     WoWTools_DataMixin.Icon.icon2
-                    ..(WoWTools_DataMixin.onlyChinese and '专精拾取' or SELECT_LOOT_SPECIALIZATION)
+                    ..(WoWTools_L.SELECT_LOOT_SPECIALIZATION)
                     ..': |cffffffff'
                     ..'|T'..(icon or 0)..':0|t'
                     ..(WoWTools_DataMixin.Icon[role] or '')
@@ -129,7 +129,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             Save().hideEncounterJournal= nil
 
 
-            WoWTools_EncounterMixin.addName= '|A:UI-HUD-MicroMenu-AdventureGuide-Mouseover:0:0|a'..(WoWTools_DataMixin.onlyChinese and '冒险指南' or ADVENTURE_JOURNAL)
+            WoWTools_EncounterMixin.addName= '|A:UI-HUD-MicroMenu-AdventureGuide-Mouseover:0:0|a'..(WoWTools_L.ADVENTURE_JOURNAL)
 
             --添加控制面板
             WoWTools_PanelMixin:OnlyCheck({
@@ -140,7 +140,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                     print(
                         WoWTools_EncounterMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-                        WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+                        WoWTools_L.REQUIRES_RELOAD
                     )
                 end
             })
@@ -156,8 +156,8 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                     print(
                         WoWTools_EncounterMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         '|cnWARNING_FONT_COLOR:'..(WoWTools_TextMixin:CN(encounterName) or ncounterID)..'|r',
-                        format(WoWTools_DataMixin.onlyChinese and '%s（|cffffffff%d|r次）' or REAGENT_COST_CONSUME_CHARGES,
-                            WoWTools_DataMixin.onlyChinese and '已击败' or DUNGEON_ENCOUNTER_DEFEATED,
+                        format(WoWTools_L.REAGENT_COST_CONSUME_CHARGES,
+                            WoWTools_L.DUNGEON_ENCOUNTER_DEFEATED,
                             num)
                     )
                 end

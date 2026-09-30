@@ -151,7 +151,7 @@ local function Init()
     end)
 
 
-    ListButton.tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '请不要在战斗中使用' or WoWTools_L['Please do not use in combat'])
+    ListButton.tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_L['Please do not use in combat'])
     ListButton.classID= 0
     ListButton.specID= 0
 

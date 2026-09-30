@@ -181,7 +181,7 @@ local function Create_Button(index)
             itemID=self.itemID,
             tooltip='|n|A:dressingroom-button-appearancelist-up:0:0|a'
                 ..(self:CanChangeAttribute() and '' or '|cff626262')
-                ..(WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU)..WoWTools_DataMixin.Icon.right,
+                ..(WoWTools_L.SLASH_TEXTTOSPEECH_MENU)..WoWTools_DataMixin.Icon.right,
         })
     end
 
@@ -215,11 +215,11 @@ local function Create_Button(index)
             MenuUtil.CreateContextMenu(self, function(_, root)
                 root:CreateButton(
                     '|T'..(select(5, C_Item.GetItemInfoInstant(self.itemID)) or 0)..':0|t'
-                    ..(WoWTools_DataMixin.onlyChinese and '禁用' or DISABLE),
+                    ..(WoWTools_L.DISABLE),
                 function()
                     Save().noUseItems[self.itemID]=true
                     Save().addItems[self.itemID]=nil
-                    print(WoWTools_DataMixin.Icon.icon2..WoWTools_FoodMixin.addName, WoWTools_DataMixin.onlyChinese and '禁用' or DISABLE, WoWTools_ItemMixin:GetLink(self.itemID))
+                    print(WoWTools_DataMixin.Icon.icon2..WoWTools_FoodMixin.addName, WoWTools_L.DISABLE, WoWTools_ItemMixin:GetLink(self.itemID))
                     WoWTools_FoodMixin:Check_Items()
                 end)
             end)
@@ -332,7 +332,7 @@ function WoWTools_FoodMixin:Check_Items(isPrint)
     if isPrint then
         print(
             WoWTools_FoodMixin.addName..WoWTools_DataMixin.Icon.icon2,
-            WoWTools_DataMixin.onlyChinese and '查询完成' or WoWTools_Join(WHO, COMPLETE)
+            WoWTools_L['WHO+COMPLETE']
         )
     end
 

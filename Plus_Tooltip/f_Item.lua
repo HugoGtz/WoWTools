@@ -97,7 +97,7 @@ local function Set_Equip(self, tooltip, itemID, itemLink, itemLevel, itemEquipLo
 --栏位
             tooltip:AddDoubleLine(
                 (WoWTools_TextMixin:CN(_G[itemEquipLoc]) or '')..' |cffffffff'..(itemEquipLoc or ''),
-                ( WoWTools_DataMixin.onlyChinese and '栏位' or TRADESKILL_FILTER_SLOTS)..' |cffffffff'..slot[1]
+                ( WoWTools_L.TRADESKILL_FILTER_SLOTS)..' |cffffffff'..slot[1]
             )
 
             local slotItemLevel= Get_SlotLevel(slot)
@@ -126,7 +126,7 @@ local function Set_Equip(self, tooltip, itemID, itemLink, itemLevel, itemEquipLo
         local sourceInfo = C_TransmogCollection.GetSourceInfo(sourceID)
         if sourceInfo then
             visualID=sourceInfo.visualID
-            text2Left=sourceInfo.isCollected and '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '已收集' or COLLECTED)..'|r' or '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '未收集' or NOT_COLLECTED)..'|r'
+            text2Left=sourceInfo.isCollected and '|cnGREEN_FONT_COLOR:'..(WoWTools_L.COLLECTED)..'|r' or '|cnWARNING_FONT_COLOR:'..(WoWTools_L.NOT_COLLECTED)..'|r'
         end
     end
     self:Set_Item_Model(tooltip, {itemID=itemID, sourceID=sourceID, appearanceID=appearanceID, visualID=visualID})--设置, 3D模型
@@ -307,7 +307,7 @@ local function Set_keystonee(tooltip, itemLink)
         )
         if index>2 and not IsShiftKeyDown() then
             if num>index then
-                tooltip:AddLine('|cnGREEN_FONT_COLOR:<|A:NPE_Icon:0:0|aShift+ '..(WoWTools_DataMixin.onlyChinese and '角色' or CHARACTER)..' '..num..'>')
+                tooltip:AddLine('|cnGREEN_FONT_COLOR:<|A:NPE_Icon:0:0|aShift+ '..(WoWTools_L.CHARACTER)..' '..num..'>')
             end
             break
         end
@@ -400,7 +400,7 @@ local function Set_Item_Num(tooltip, itemID)
 
             if index>2 and not IsShiftKeyDown() then
                 if numPlayer>index then
-                    tooltip:AddLine('|cnGREEN_FONT_COLOR:<|A:NPE_Icon:0:0|aShift+ '..(WoWTools_DataMixin.onlyChinese and '角色' or CHARACTER)..' '..numPlayer..'>')
+                    tooltip:AddLine('|cnGREEN_FONT_COLOR:<|A:NPE_Icon:0:0|aShift+ '..(WoWTools_L.CHARACTER)..' '..numPlayer..'>')
                 end
                 break
             end
@@ -475,7 +475,7 @@ function WoWTools_TooltipMixin:Set_Item(tooltip, itemLink, itemID)
             spellTexture and spellTexture~=itemTexture  and '|T'..spellTexture..':'..self.iconSize..'|t|cffffffff'..spellTexture or ' ',
 
             (itemName~=spellName and '|cff71d5ff['..WoWTools_TextMixin:CN(spellName, {spellID=spellID, isName=true})..']|r' or '')
-            ..NORMAL_FONT_COLOR:WrapTextInColorCode(WoWTools_DataMixin.onlyChinese and '法术' or SPELLS)..'|T'..(spellTexture or itemTexture or 0)..':0|t|cffffffff'..spellID
+            ..NORMAL_FONT_COLOR:WrapTextInColorCode(WoWTools_L.SPELLS)..'|T'..(spellTexture or itemTexture or 0)..':0|t|cffffffff'..spellID
         )
     end
 
@@ -485,7 +485,7 @@ function WoWTools_TooltipMixin:Set_Item(tooltip, itemLink, itemID)
     tooltip:AddDoubleLine(
         itemTexture and '|T'..itemTexture..':'..self.iconSize..'|t|cffffffff'..itemTexture or ' ',
 
-        NORMAL_FONT_COLOR:WrapTextInColorCode(WoWTools_DataMixin.onlyChinese and '物品' or PROFESSIONS_COLUMN_HEADER_ITEM)..'|cffffffff'
+        NORMAL_FONT_COLOR:WrapTextInColorCode(WoWTools_L.PROFESSIONS_COLUMN_HEADER_ITEM)..'|cffffffff'
         ..WoWTools_DataMixin.Icon.icon2
         ..itemID
     )
@@ -540,7 +540,7 @@ function WoWTools_TooltipMixin:Set_Item(tooltip, itemLink, itemID)
 
 --玩具
     elseif C_ToyBox.GetToyInfo(itemID) then
-        text2Left= PlayerHasToy(itemID) and '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '已收集' or COLLECTED)..'|r' or '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '未收集' or NOT_COLLECTED)..'|r'
+        text2Left= PlayerHasToy(itemID) and '|cnGREEN_FONT_COLOR:'..(WoWTools_L.COLLECTED)..'|r' or '|cnWARNING_FONT_COLOR:'..(WoWTools_L.NOT_COLLECTED)..'|r'
 
     elseif itemID==122284 then
         C_WowTokenPublic.UpdateMarketPrice()

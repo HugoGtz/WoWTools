@@ -16,7 +16,7 @@ local function Init_Menu(self, root)
 
 --标签
     root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '标签' or WoWTools_L['Tab'],
+        WoWTools_L['Tab'],
     function()
         return Save().plusTab
     end, function()
@@ -26,7 +26,7 @@ local function Init_Menu(self, root)
 
 --索引
     root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '索引' or WoWTools_L['Index'],
+        WoWTools_L['Index'],
     function()
         return Save().showIndex
     end, function()
@@ -36,7 +36,7 @@ local function Init_Menu(self, root)
 
 --物品信息
     root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '物品信息' or WoWTools_Join(ITEMS, INFO),
+        WoWTools_L['ITEMS+INFO'],
     function()
         return Save().plusItem
     end, function()
@@ -47,7 +47,7 @@ local function Init_Menu(self, root)
 
 --打开，背包
     sub= root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '背包' or HUD_EDIT_MODE_BAGS_LABEL,
+        WoWTools_L.HUD_EDIT_MODE_BAGS_LABEL,
     function()
         return Save().autoOpenBags
     end, function()
@@ -62,8 +62,8 @@ local function Init_Menu(self, root)
         end
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '打开公会银行时' or WoWTools_Join(OPENING, GUILD_BANK))
-        tooltip:AddLine(MicroButtonTooltipText(WoWTools_DataMixin.onlyChinese and '打开所有背包' or BINDING_NAME_OPENALLBAGS, "OPENALLBAGS")
+        tooltip:AddLine(WoWTools_L['OPENING+GUILD_BANK'])
+        tooltip:AddLine(MicroButtonTooltipText(WoWTools_L.BINDING_NAME_OPENALLBAGS, "OPENALLBAGS")
     )
     end)
 
@@ -74,14 +74,14 @@ local function Init_Menu(self, root)
         end, setValue=function(value)
             Save().saveItemSeconds=value
         end,
-        name=WoWTools_DataMixin.onlyChinese and '延迟' or LAG_TOLERANCE,
+        name=WoWTools_L.LAG_TOLERANCE,
         minValue=0.2,
         maxValue=3,
         step=0.1,
         bit='%.1f',
         tooltip=function(tooltip)
-            tooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '延迟' or LAG_TOLERANCE,
-                (Save().saveItemSeconds or 0.8 )..' '..(WoWTools_DataMixin.onlyChinese and '秒' or LOSS_OF_CONTROL_SECONDS)
+            tooltip:AddDoubleLine(WoWTools_L.LAG_TOLERANCE,
+                (Save().saveItemSeconds or 0.8 )..' '..(WoWTools_L.LOSS_OF_CONTROL_SECONDS)
             )
             if WoWTools_DataMixin.onlyChinese then
                 tooltip:AddLine('存放，提取，整理')

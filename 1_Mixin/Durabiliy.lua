@@ -161,12 +161,12 @@ function WoWTools_DurabiliyMixin:OnEnter(tootip)
 
     local durabiliyText, _, durabiliyIcon= get_durabiliy_color(cur2, max2)
     tootip:AddDoubleLine(
-        (WoWTools_DataMixin.onlyChinese and '耐久度' or DURABILITY)
+        (WoWTools_L.DURABILITY)
         ..durabiliyIcon..durabiliyText,
         --..(select(3, get_durabiliy_color(cur2, max2)))..(max2>0 and math.modf(cur2/max2*100) or 100)..'%)'..coText,
 
         '('..(num>0 and '|cnWARNING_FONT_COLOR:' or '|cff626262')..num..'|r) '
-        ..(WoWTools_DataMixin.onlyChinese and '修理物品' or REPAIR_ITEMS)..euip,
+        ..(WoWTools_L.REPAIR_ITEMS)..euip,
         1,0.82,0, 1,0.82,0
     )
 
@@ -180,7 +180,7 @@ function WoWTools_DurabiliyMixin:OnEnter(tootip)
     item= item or 0
     pvp= pvp or 0
     tootip:AddDoubleLine(
-        (WoWTools_DataMixin.onlyChinese and '物品' or ITEMS)
+        (WoWTools_L.ITEMS)
         ..(WoWTools_DataMixin.Player.Sex==2 and '|A:charactercreate-gendericon-male-selected:0:0|a' or '|A:charactercreate-gendericon-female-selected:0:0|a')
         ..(cur3==item and format(' |cnGREEN_FONT_COLOR:%.2f|r', cur3) or format(' |cnWARNING_FONT_COLOR:%.2f|r/%.2f', cur3, item)),
 

@@ -15,7 +15,7 @@ function WoWTools_ObjectiveMixin:Add_ClearAll_Button(frame, tooltip, func)
         GameTooltip:AddLine(WoWTools_ObjectiveMixin.addName..WoWTools_DataMixin.Icon.icon2)
         GameTooltip:AddLine(' ')
         GameTooltip:AddLine(
-            (WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL)
+            (WoWTools_L.CLEAR_ALL)
             ..'|A:bags-button-autosort-up:0:0|a|cffff00ff'..(f.tooltip or '')
             ..WoWTools_DataMixin.Icon.left
         )
@@ -148,7 +148,7 @@ local function clear_Recipe(isPrint, isRecrafting)
         C_TradeSkillUI.SetRecipeTracked(recipeID, false, isRecrafting)
         local itemLink= isPrint and C_TradeSkillUI.GetRecipeItemLink(recipeID)
         if itemLink then
-            print(index..')', itemLink, isRecrafting and (WoWTools_DataMixin.onlyChinese and '再造' or PROFESSIONS_CRAFTING_FORM_OUTPUT_RECRAFT) or '')
+            print(index..')', itemLink, isRecrafting and (WoWTools_L.PROFESSIONS_CRAFTING_FORM_OUTPUT_RECRAFT) or '')
         end
         num=num+1
     end

@@ -50,7 +50,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             Save().delete= Save().delete or {item={}}
             Save().cvar= Save().cvar or {}
 
-            WoWTools_BagMixin.addName= '|A:bag-main:0:0|a'..(WoWTools_DataMixin.onlyChinese and '容器' or ITEM_CONTAINER)
+            WoWTools_BagMixin.addName= '|A:bag-main:0:0|a'..(WoWTools_L.ITEM_CONTAINER)
 
 --添加控制面板
             WoWTools_PanelMixin:OnlyCheck({
@@ -63,7 +63,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         print(
                             WoWTools_BagMixin.addName..WoWTools_DataMixin.Icon.icon2,
                             WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-                            WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+                            WoWTools_L.REQUIRES_RELOAD
                         )
                     else
                          Init()

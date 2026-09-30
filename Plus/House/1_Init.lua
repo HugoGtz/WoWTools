@@ -20,7 +20,7 @@ local function Catalog_ListNum(frame)
     frame.numItemLabel:EnableMouse(true)
     frame.numItemLabel:SetScript('OnLeave', WoWToolsButton_OnLeave)
     frame.numItemLabel:SetScript('OnEnter', WoWToolsButton_OnEnter)
-    frame.numItemLabel.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '家具数量' or WoWTools_Join(AUCTION_HOUSE_QUANTITY_LABEL, CATALOG_SHOP_TYPE_DECOR))
+    frame.numItemLabel.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_L['AUCTION_HOUSE_QUANTITY_LABEL+CATALOG_SHOP_TYPE_DECOR'])
     function frame.numItemLabel:set_alpha()
         self:SetAlpha(self:IsMouseOver() and 0.5 or 1)
     end
@@ -93,7 +93,7 @@ local function Create_Button(btn)
         GameTooltip:SetOwner(self, 'ANCHOR_LEFT')
         GameTooltip_SetTitle(GameTooltip,
             --WoWTools_TooltipMixin.addName..
-            WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '追踪' or TRACKING)
+            WoWTools_DataMixin.Icon.icon2..(WoWTools_L.TRACKING)
         )
 
         local obj= WoWTools_HouseMixin:GetObjectiveText(entryInfo)
@@ -171,7 +171,7 @@ local function Create_Button(btn)
     btn.Indoors= btn:CreateTexture()
     btn.Indoors:SetPoint('TOP', btn.trackableButton, 'BOTTOM')
     btn.Indoors:SetAtlas('house-room-limit-icon')
-    btn.Indoors.tooltip= WoWTools_DataMixin.onlyChinese and '只能放置在室内' or HOUSING_DECOR_ONLY_PLACEABLE_INSIDE
+    btn.Indoors.tooltip= WoWTools_L.HOUSING_DECOR_ONLY_PLACEABLE_INSIDE
     Set_Texture(btn.Indoors)
 
 
@@ -179,14 +179,14 @@ local function Create_Button(btn)
     btn.Outdoors= btn:CreateTexture()
     btn.Outdoors:SetPoint('TOP', btn.Indoors, 'BOTTOM')
     btn.Outdoors:SetAtlas('house-outdoor-budget-icon')
-    btn.Outdoors.tooltip= WoWTools_DataMixin.onlyChinese and '只能放置在室外' or HOUSING_DECOR_ONLY_PLACEABLE_OUTSIDE
+    btn.Outdoors.tooltip= WoWTools_L.HOUSING_DECOR_ONLY_PLACEABLE_OUTSIDE
     Set_Texture(btn.Outdoors)
 
 --[[是否可摧毁，此装饰无法被摧毁，也不会计入住宅收纳箱的容量限制
     btn.NotCanDelete= btn:CreateTexture()
     btn.NotCanDelete:SetPoint('TOPLEFT', btn.Outdoors, 'BOTTOMLEFT')
     btn.NotCanDelete:SetAtlas('Objective-Fail')
-    btn.NotCanDelete.tooltip= WoWTools_DataMixin.onlyChinese and '此装饰无法被摧毁，也不会计入住宅收纳箱的容量限制' or HOUSING_DECOR_STORAGE_ITEM_CANNOT_DESTROY
+    btn.NotCanDelete.tooltip= WoWTools_L.HOUSING_DECOR_STORAGE_ITEM_CANNOT_DESTROY
     Set_Texture(btn.NotCanDelete)
     btn.NotCanDelete:SetAlpha(1)
     function btn.NotCanDelete:set_alpha()
@@ -197,7 +197,7 @@ local function Create_Button(btn)
     btn.IsPrefab= btn:CreateTexture()
     btn.IsPrefab:SetPoint('TOPLEFT', btn.Outdoors, 'BOTTOMLEFT')
     btn.IsPrefab:SetAtlas('house-chest-room-prefab-icon')
-    btn.IsPrefab.tooltip= WoWTools_DataMixin.onlyChinese and '匠心房间' or HOUSING_LAYOUT_PREFAB_ROOM_TOOLTIP
+    btn.IsPrefab.tooltip= WoWTools_L.HOUSING_LAYOUT_PREFAB_ROOM_TOOLTIP
     Set_Texture(btn.IsPrefab)
     btn.IsPrefab:SetAlpha(1)
     function btn.IsPrefab:set_alpha()
@@ -208,13 +208,13 @@ local function Create_Button(btn)
     btn.firstXP= btn:CreateTexture()
     btn.firstXP:SetPoint('TOP', btn.IsPrefab,'BOTTOM', -1, 4)
     btn.firstXP:SetAtlas('GarrMission_CurrencyIcon-Xp')
-    btn.firstXP.tooltip= WoWTools_DataMixin.onlyChinese and '|cnLIGHTBLUE_FONT_COLOR:可获得首次收集奖励|r' or HOUSING_DECOR_FIRST_ACQUISITION_AVAILABLE
+    btn.firstXP.tooltip= WoWTools_L.HOUSING_DECOR_FIRST_ACQUISITION_AVAILABLE
     Set_Texture(btn.firstXP)
     btn.firstXP:SetSize(20, 20)
 --空间，大小
     btn.placementCostLabel= btn:CreateFontString(nil, nil, 'GameFontWhite')
     btn.placementCostLabel:SetPoint('TOPLEFT', btn.firstXP, 'BOTTOMLEFT', 5, 5)
-    btn.placementCostLabel.tooltip= WoWTools_DataMixin.onlyChinese and '装饰放置成本|cnNORMAL_FONT_COLOR:|n放置此装饰所需占用的装饰放置预算|r' or HOUSING_DECOR_PLACEMENT_COST_TOOLTIP
+    btn.placementCostLabel.tooltip= WoWTools_L.HOUSING_DECOR_PLACEMENT_COST_TOOLTIP
     Set_Texture(btn.placementCostLabel)
 
 
@@ -511,8 +511,8 @@ local function Init_HousingModelPreview()
 --关键词
         Add_label(self, 'TagsText', layoutIndex+2)
 --室内，外
-        Add_label(self, 'InDoorsText', layoutIndex+3, '|A:house-room-limit-icon:0:0|a'..(WoWTools_DataMixin.onlyChinese and '室内' or HOUSING_CATALOG_FILTERS_INDOORS))
-        Add_label(self, 'OutDoorsText', layoutIndex+4, '|A:house-outdoor-budget-icon:0:0|a'..(WoWTools_DataMixin.onlyChinese and '室外' or HOUSING_CATALOG_FILTERS_OUTDOORS))
+        Add_label(self, 'InDoorsText', layoutIndex+3, '|A:house-room-limit-icon:0:0|a'..(WoWTools_L.HOUSING_CATALOG_FILTERS_INDOORS))
+        Add_label(self, 'OutDoorsText', layoutIndex+4, '|A:house-outdoor-budget-icon:0:0|a'..(WoWTools_L.HOUSING_CATALOG_FILTERS_OUTDOORS))
     end)
 
     WoWTools_DataMixin:Hook(HousingModelPreviewMixin, 'PreviewCatalogEntryInfo', function(self, entryInfo)
@@ -532,8 +532,8 @@ local function Init_HousingModelPreview()
 --关键词
         Add_label(frame.ModelPreview, 'TagsText', layoutIndex+2)
 --室内，外
-        Add_label(frame.ModelPreview, 'InDoorsText', layoutIndex+3, '|A:house-room-limit-icon:0:0|a'..(WoWTools_DataMixin.onlyChinese and '室内' or HOUSING_CATALOG_FILTERS_INDOORS))
-        Add_label(frame.ModelPreview, 'OutDoorsText', layoutIndex+4, '|A:house-outdoor-budget-icon:0:0|a'..(WoWTools_DataMixin.onlyChinese and '室外' or HOUSING_CATALOG_FILTERS_OUTDOORS))
+        Add_label(frame.ModelPreview, 'InDoorsText', layoutIndex+3, '|A:house-room-limit-icon:0:0|a'..(WoWTools_L.HOUSING_CATALOG_FILTERS_INDOORS))
+        Add_label(frame.ModelPreview, 'OutDoorsText', layoutIndex+4, '|A:house-outdoor-budget-icon:0:0|a'..(WoWTools_L.HOUSING_CATALOG_FILTERS_OUTDOORS))
 
         WoWTools_DataMixin:Hook(frame.ModelPreview, 'PreviewCatalogEntryInfo', function(self, entryInfo)
             Set_EntryInfo(self, entryInfo)
@@ -589,15 +589,15 @@ local function Init_HousingDashboard()
         local sub=WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_HouseMixin.addName})
 --摧毁
         WoWTools_OtherMixin:OpenOption(sub,
-            '|A:XMarksTheSpot:0:0|a'..(WoWTools_DataMixin.onlyChinese and 'DELETE' or DELETE_ITEM_CONFIRM_STRING),
-            '|A:XMarksTheSpot:0:0|a'..(WoWTools_DataMixin.onlyChinese and '摧毁' or HOUSING_DECOR_STORAGE_ITEM_DESTROY_CONFIRMATION_STRING)
+            '|A:XMarksTheSpot:0:0|a'..(WoWTools_L.DELETE_ITEM_CONFIRM_STRING),
+            '|A:XMarksTheSpot:0:0|a'..(WoWTools_L.HOUSING_DECOR_STORAGE_ITEM_DESTROY_CONFIRMATION_STRING)
         )
     end)
 
 --添加一个图标
     HousingDashboardFrame.CatalogContent.PreviewFrame.TextContainer.CollectionBonus:SetText(
         '|A:GarrMission_CurrencyIcon-Xp:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '|cnLIGHTBLUE_FONT_COLOR:可获得首次收集奖励|r' or HOUSING_DECOR_FIRST_ACQUISITION_AVAILABLE)
+        ..(WoWTools_L.HOUSING_DECOR_FIRST_ACQUISITION_AVAILABLE)
     )
 
 
@@ -630,7 +630,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     end
 
     WoWToolsPlusSave['Plus_House']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_House'], {})
-    WoWTools_HouseMixin.addName= '|A:house-chest-icon:0:0|a'..(WoWTools_DataMixin.onlyChinese and '住宅' or AUCTION_CATEGORY_HOUSING)
+    WoWTools_HouseMixin.addName= '|A:house-chest-icon:0:0|a'..(WoWTools_L.AUCTION_CATEGORY_HOUSING)
 
     WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_HouseMixin.addName,
@@ -638,7 +638,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         func= function()
             Save().disabled= not Save().disabled and true or nil
         end,
-        tooltip= WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+        tooltip= WoWTools_L.REQUIRES_RELOAD
     })
 
     if not Save().disabled then

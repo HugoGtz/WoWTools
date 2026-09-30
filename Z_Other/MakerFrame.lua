@@ -116,7 +116,7 @@ local function Init_Menu(self, root)
     local sub,sub2
 
     sub= root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '快捷键' or SETTINGS_KEYBINDINGS_LABEL,
+        WoWTools_L.SETTINGS_KEYBINDINGS_LABEL,
     function()
         return Save().isShowHotKey
     end, function()
@@ -124,12 +124,12 @@ local function Init_Menu(self, root)
         self:set_all_hotkey()--设置全部，快捷键
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '提示' or CHARACTER_CUSTOMIZATION_TUTORIAL_TITLE)
+        tooltip:AddLine(WoWTools_L.CHARACTER_CUSTOMIZATION_TUTORIAL_TITLE)
     end)
 
 --打开选项，信号系统
     sub2=sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '信号系统' or PING_SYSTEM_LABEL,
+        WoWTools_L.PING_SYSTEM_LABEL,
     function()
         if not InCombatLockdown() then
             Settings.OpenToCategory(Settings.PINGSYSTEM_CATEGORY_ID)--Blizzard_SettingsDefinitions_Frame/PingSystem.lua
@@ -137,12 +137,12 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end)
     sub2:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '选项' or SETTINGS_TITLE)
+        tooltip:AddLine(WoWTools_L.SETTINGS_TITLE)
     end)
 
 --打开选项，队伍标记
     sub2=sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '队伍标记' or BINDING_HEADER_RAID_TARGET,
+        WoWTools_L.BINDING_HEADER_RAID_TARGET,
     function()
         if not InCombatLockdown() then
             Settings.OpenToCategory(Settings.KEYBINDINGS_CATEGORY_ID, BINDING_HEADER_RAID_TARGET)--Blizzard_SettingsDefinitions_Frame/PingSystem.lua
@@ -150,8 +150,8 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end)
     sub2:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '选项' or SETTINGS_TITLE)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '快捷键' or SETTINGS_KEYBINDINGS_LABEL)
+        tooltip:AddLine(WoWTools_L.SETTINGS_TITLE)
+        tooltip:AddLine(WoWTools_L.SETTINGS_KEYBINDINGS_LABEL)
     end)
 
 
@@ -197,7 +197,7 @@ local function Init_Menu(self, root)
 
 --HUD提示信息
    sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and 'HUD提示信息' or HUD_EDIT_MODE_HUD_TOOLTIP_LABEL,
+        WoWTools_L.HUD_EDIT_MODE_HUD_TOOLTIP_LABEL,
     function()
         return not Save().hideTooltip
     end, function()
@@ -225,12 +225,12 @@ local function Init_Menu(self, root)
             Save().countdown=value
             self.countdown:set_hotkey()
         end,
-        name=WoWTools_DataMixin.onlyChinese and '/倒计时' or SLASH_COUNTDOWN2,
+        name=WoWTools_L.SLASH_COUNTDOWN2,
         minValue=1,
         maxValue=3600,
         step=1,
         tooltip=function(tooltip)
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '秒' or LOSS_OF_CONTROL_SECONDS)
+            tooltip:AddLine(WoWTools_L.LOSS_OF_CONTROL_SECONDS)
         end
     })
     sub:CreateSpacer()
@@ -241,7 +241,7 @@ local function Init_Menu(self, root)
         self:set_point()
         print(
             WoWTools_DataMixin.Icon.icon2..addName,
-            WoWTools_DataMixin.onlyChinese and '重置位置' or RESET_POSITION
+            WoWTools_L.RESET_POSITION
         )
     end)
 end
@@ -328,11 +328,11 @@ local function Init()--设置标记, 框架
     MakerFrame.ping:set_point()
 
     MakerFrame.ping.tab={--Enum.PingSubjectType.Warning
-        [8]={name=WoWTools_DataMixin.onlyChinese and '自动' or SELF_CAST_AUTO, atlas='Ping_Marker_Icon_NonThreat', action='TOGGLEPINGLISTENER'},
-        [0]={name=WoWTools_DataMixin.onlyChinese and '攻击' or PING_TYPE_ATTACK, atlas='Ping_Marker_Icon_Attack', action='PINGATTACK', text=BINDING_NAME_PINGATTACK},--text='attack'},
-        [1]={name=WoWTools_DataMixin.onlyChinese and '警告' or PING_TYPE_WARNING, atlas='Ping_Marker_Icon_Warning', action= 'PINGWARNING', text=BINDING_NAME_PINGWARNING},--text='warning'},
-        [3]={name=WoWTools_DataMixin.onlyChinese and '正在赶来' or PING_TYPE_ON_MY_WAY, atlas='Ping_Marker_Icon_OnMyWay', action='PINGONMYWAY', text=BINDING_NAME_PINGONMYWAY},--text='onmyway'},
-        [2]={name=WoWTools_DataMixin.onlyChinese and '协助' or PING_TYPE_ASSIST, atlas='Ping_Marker_Icon_Assist', action='PINGASSIST', text=BINDING_NAME_PINGASSIST},-- text='assist'},
+        [8]={name=WoWTools_L.SELF_CAST_AUTO, atlas='Ping_Marker_Icon_NonThreat', action='TOGGLEPINGLISTENER'},
+        [0]={name=WoWTools_L.PING_TYPE_ATTACK, atlas='Ping_Marker_Icon_Attack', action='PINGATTACK', text=BINDING_NAME_PINGATTACK},--text='attack'},
+        [1]={name=WoWTools_L.PING_TYPE_WARNING, atlas='Ping_Marker_Icon_Warning', action= 'PINGWARNING', text=BINDING_NAME_PINGWARNING},--text='warning'},
+        [3]={name=WoWTools_L.PING_TYPE_ON_MY_WAY, atlas='Ping_Marker_Icon_OnMyWay', action='PINGONMYWAY', text=BINDING_NAME_PINGONMYWAY},--text='onmyway'},
+        [2]={name=WoWTools_L.PING_TYPE_ASSIST, atlas='Ping_Marker_Icon_Assist', action='PINGASSIST', text=BINDING_NAME_PINGASSIST},-- text='assist'},
 
         --[7]={name=WoWTools_DataMixin.onlyChinese and '信号' or PING, atlas='Cursor_OpenHand_128', action='TOGGLEPINGLISTENER'},
         --[4]={name=WoWTools_DataMixin.onlyChinese and '威胁' or REPORT_THREAT , atlas='Ping_Marker_Icon_threat'},
@@ -405,7 +405,7 @@ local function Init()--设置标记, 框架
             GameTooltip_SetTitle(GameTooltip,
                 WoWTools_DataMixin.Icon.left
                 ..MicroButtonTooltipText(self.name, self.action)
-                ..WoWTools_ColorMixin:SetStringColor(WoWTools_DataMixin.onlyChinese and '我' or COMBATLOG_FILTER_STRING_ME)
+                ..WoWTools_ColorMixin:SetStringColor(WoWTools_L.COMBATLOG_FILTER_STRING_ME)
                 ..WoWTools_DataMixin.Icon.right
             )
 
@@ -482,11 +482,11 @@ local function Init()--设置标记, 框架
             return
         end
         GameTooltip:ClearLines()
-        GameTooltip:AddLine(WoWTools_DataMixin.Icon.left..(WoWTools_DataMixin.onlyChinese and '/倒计时' or SLASH_COUNTDOWN2)..' |cffffffFF'..(Save().countdown or 7))
+        GameTooltip:AddLine(WoWTools_DataMixin.Icon.left..(WoWTools_L.SLASH_COUNTDOWN2)..' |cffffffFF'..(Save().countdown or 7))
         GameTooltip:AddLine(WoWTools_DataMixin.Icon.right..(WoWTools_DataMixin.Player.IsCN and '取消 取消 取消' or 'STOP STOP STOP')..'|A:transmog-icon-chat:0:0|a', HIGHLIGHT_FONT_COLOR:GetRGB())
         GameTooltip:AddLine(' ')
         GameTooltip_AddInstructionLine(GameTooltip, WoWTools_DataMixin.onlyChinese and '备注：不要太快了' or format('%s: %s', LABEL_NOTE, ERR_GENERIC_THROTTLE), true)
-        GameTooltip:AddLine(WoWTools_DataMixin.Icon.mid..(WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS))
+        GameTooltip:AddLine(WoWTools_DataMixin.Icon.mid..(WoWTools_L.SETTINGS))
         GameTooltip:Show()
     end)
     MakerFrame.countdown:SetScript('OnLeave', function()
@@ -531,12 +531,12 @@ local function Init()--设置标记, 框架
                     Save().countdown=value
                     frame:set_hotkey()
                 end,
-                name=WoWTools_DataMixin.onlyChinese and '/倒计时' or SLASH_COUNTDOWN2,
+                name=WoWTools_L.SLASH_COUNTDOWN2,
                 minValue=1,
                 maxValue=3600,
                 step=1,
                 tooltip=function(tooltip)
-                    tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '秒' or LOSS_OF_CONTROL_SECONDS)
+                    tooltip:AddLine(WoWTools_L.LOSS_OF_CONTROL_SECONDS)
                 end
             })
             root:CreateSpacer()
@@ -646,7 +646,7 @@ local function Init()--设置标记, 框架
         end
         GameTooltip_SetTitle(GameTooltip,
             WoWTools_DataMixin.Icon.icon2
-            ..(WoWTools_DataMixin.onlyChinese and '职责选定' or CRF_ROLE_POLL)
+            ..(WoWTools_L.CRF_ROLE_POLL)
         )
         GameTooltip:Show()
     end)
@@ -758,22 +758,22 @@ local function Init()--设置标记, 框架
 
                 GameTooltip_SetTitle(GameTooltip,
                     WoWTools_DataMixin.Icon.left
-                    ..(WoWTools_DataMixin.onlyChinese and '坦克' or TANK)
+                    ..(WoWTools_L.TANK)
                     ..'|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_2:0|t'
-                    ..'|cffff8000'..(unit or (WoWTools_DataMixin.onlyChinese and '无' or NONE))..'|r'
+                    ..'|cffff8000'..(unit or (WoWTools_L.NONE))..'|r'
                     ..WoWTools_UnitMixin:GetPlayerInfo(unit)
                     --..(self:GetAttribute("unit1" or (WoWTools_DataMixin.onlyChinese and '无' or NONE)))
                 )
 
                 local isInRaid= IsInRaid()
-                local role= isInRaid and (WoWTools_DataMixin.onlyChinese and '坦克' or TANK)
-                                        or (WoWTools_DataMixin.onlyChinese and '治疗' or HEALER)
+                local role= isInRaid and (WoWTools_L.TANK)
+                                        or (WoWTools_L.HEALER)
 
                 GameTooltip:AddLine(
                     'Alt+'..WoWTools_DataMixin.Icon.left
                     ..role
                     ..'|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_'..(isInRaid and 6 or 1)..':0|t'
-                    ..'|cffff8000'..(unit2 or (WoWTools_DataMixin.onlyChinese and '无' or NONE))..'|r'
+                    ..'|cffff8000'..(unit2 or (WoWTools_L.NONE))..'|r'
                     ..WoWTools_UnitMixin:GetPlayerInfo(unit2)
                     --..(self:GetAttribute("unit1" or (WoWTools_DataMixin.onlyChinese and '无' or NONE)))
                 )
@@ -782,7 +782,7 @@ local function Init()--设置标记, 框架
                 GameTooltip:AddLine(
                     WoWTools_DataMixin.Icon.right
                     ..MicroButtonTooltipText(
-                        WoWTools_DataMixin.onlyChinese and '单位' or GROUPMANAGER_UNIT_MARKER,
+                        WoWTools_L.GROUPMANAGER_UNIT_MARKER,
                         'RAIDTARGETNONE'
                     )..'|A:bags-button-autosort-up:22:22|a',
                     EPIC_PURPLE_COLOR
@@ -836,11 +836,11 @@ local function Init()--设置标记, 框架
                 GameTooltip_SetTitle(GameTooltip,
                     WoWTools_DataMixin.Icon.left
                     ..MicroButtonTooltipText(
-                        (WoWTools_DataMixin.onlyChinese and '单位' or GROUPMANAGER_UNIT_MARKER),
+                        (WoWTools_L.GROUPMANAGER_UNIT_MARKER),
                         'RAIDTARGET'..self:GetID()
                    )
                    ..'|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_'..self:GetID()..':26|t'
-                   ..(WoWTools_DataMixin.onlyChinese and '我' or COMBATLOG_FILTER_STRING_ME)
+                   ..(WoWTools_L.COMBATLOG_FILTER_STRING_ME)
                    ..WoWTools_DataMixin.Icon.right,
                    TargetColor[self:GetID()]
                 )
@@ -958,7 +958,7 @@ local function Init()--设置标记, 框架
                 end
                 GameTooltip_SetTitle(GameTooltip,
                     '|A:bags-button-autosort-up:22:22|a'
-                    ..(WoWTools_DataMixin.onlyChinese and '地面' or GROUPMANAGER_GROUND_MARKER),
+                    ..(WoWTools_L.GROUPMANAGER_GROUND_MARKER),
                     ACCOUNT_WIDE_FONT_COLOR
                 )
                 GameTooltip:Show()
@@ -1000,7 +1000,7 @@ local function Init()--设置标记, 框架
 
                 GameTooltip_SetTitle(GameTooltip,
                     WoWTools_DataMixin.Icon.left
-                    ..(WoWTools_DataMixin.onlyChinese and '地面' or GROUPMANAGER_GROUND_MARKER)
+                    ..(WoWTools_L.GROUPMANAGER_GROUND_MARKER)
                     ..'|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_'..self:GetID()..':26|t'
                     ..'|A:bags-button-autosort-up:22:22|a'
                     ..WoWTools_DataMixin.Icon.right,
@@ -1220,8 +1220,8 @@ local function Init()--设置标记, 框架
         else
              r,g,b= HIGHLIGHT_FONT_COLOR:GetRGB()
         end
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '移动' or NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right, r,g,b, r,g,b)
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.left, HIGHLIGHT_FONT_COLOR:GetRGB())
+        GameTooltip:AddDoubleLine(WoWTools_L.NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right, r,g,b, r,g,b)
+        GameTooltip:AddDoubleLine(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.left, HIGHLIGHT_FONT_COLOR:GetRGB())
         GameTooltip:Show()
     end)
 
@@ -1353,7 +1353,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     local isEnabled, sub= WoWTools_OtherMixin:AddOption('MarkerFrame', addName)
 
     WoWTools_PanelMixin:OnlyButton({
-        buttonText=WoWTools_DataMixin.onlyChinese and '清除' or SLASH_STOPWATCH_PARAM_STOP2,
+        buttonText=WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2,
         SetValue=function()
             StaticPopup_Show('WoWTools_RestData',
                 addName,
@@ -1362,8 +1362,8 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 WoWToolsPlusSave['Other_MarkerFrame']= nil
             end)
         end,
-        tooltip= addName..'|n|n'..(WoWTools_DataMixin.onlyChinese and '全部重置' or RESET_ALL_BUTTON_TEXT)
-            ..'|n|n|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '重新加载UI' or RELOADUI),
+        tooltip= addName..'|n|n'..(WoWTools_L.RESET_ALL_BUTTON_TEXT)
+            ..'|n|n|cnGREEN_FONT_COLOR:'..(WoWTools_L.RELOADUI),
         layout= WoWTools_OtherMixin.Layout,
         category= WoWTools_OtherMixin.Category,
     }, sub)

@@ -296,7 +296,7 @@ function WoWTools_UnitMixin:GetPlayerInfo(unit, guid, name, tab)
     then
         return WoWTools_DataMixin.Icon.Player
             ..(
-                (reName or reLink) and WoWTools_ColorMixin:SetStringColor(WoWTools_DataMixin.onlyChinese and '我' or COMBATLOG_FILTER_STRING_ME) or ''
+                (reName or reLink) and WoWTools_ColorMixin:SetStringColor(WoWTools_L.COMBATLOG_FILTER_STRING_ME) or ''
             )..'|A:auctionhouse-icon-favorite:0:0|a'
     end
 
@@ -405,13 +405,13 @@ end
 function WoWTools_UnitMixin:GetOnlineInfo(unit)--单位，状态信息
     if self:UnitGUID(unit) then
         if not UnitIsConnected(unit) then
-            return format("\124T%s.tga:0\124t", FRIENDS_TEXTURE_DND), WoWTools_DataMixin.onlyChinese and '离线' or PLAYER_OFFLINE
+            return format("\124T%s.tga:0\124t", FRIENDS_TEXTURE_DND), WoWTools_L.PLAYER_OFFLINE
         elseif WoWTools_UnitMixin:UnitIsAFK(unit) then
-            return format("\124T%s.tga:0\124t", FRIENDS_TEXTURE_AFK), WoWTools_DataMixin.onlyChinese and '离开' or AFK
+            return format("\124T%s.tga:0\124t", FRIENDS_TEXTURE_AFK), WoWTools_L.AFK
         elseif UnitIsGhost(unit) then
-            return '|A:poi-soulspiritghost:0:0|a', WoWTools_DataMixin.onlyChinese and '幽灵' or DEAD
+            return '|A:poi-soulspiritghost:0:0|a', WoWTools_L['DEAD~2']
         elseif UnitIsDead(unit) then
-            return '|A:deathrecap-icon-tombstone:0:0|a', WoWTools_DataMixin.onlyChinese and '死亡' or DEAD
+            return '|A:deathrecap-icon-tombstone:0:0|a', WoWTools_L.DEAD
         end
     end
 end
@@ -832,7 +832,7 @@ function WoWTools_UnitMixin:SetRangeFrame(frame, size)
     frame.RangeMaxLabel:SetScript('OnLeave', GameTooltip_Hide)
     frame.RangeMaxLabel:SetScript('OnEnter', WoWToolsButton_OnEnter)
     frame.RangeMaxLabel:SetPoint('RIGHT', frame, 'LEFT')
-    frame.RangeMaxLabel.tooltip=  WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '最大距离' or FARCLIP)
+    frame.RangeMaxLabel.tooltip=  WoWTools_DataMixin.Icon.icon2..(WoWTools_L.FARCLIP)
 
 --位置，最小值
     frame.RangeMinLabel= frame:CreateFontString('WoWToolsRangeMinLabel'..frame.unit, 'BORDER', 'WoWToolsFont2')
@@ -842,7 +842,7 @@ function WoWTools_UnitMixin:SetRangeFrame(frame, size)
     frame.RangeMinLabel:SetScript('OnLeave', GameTooltip_Hide)
     frame.RangeMinLabel:SetScript('OnEnter', WoWToolsButton_OnEnter)
     frame.RangeMinLabel:SetPoint('BOTTOMRIGHT', frame.RangeMaxLabel, 'TOPRIGHT')
-    frame.RangeMinLabel.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '最小距离' or FARCLIP)
+    frame.RangeMinLabel.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_L['FARCLIP~2'])
 
 --移动, 速度
     frame.SpeedLabel= frame:CreateFontString('WoWToolsSpeedLabel'..frame.unit, 'BORDER', 'WoWToolsFont2')
@@ -852,7 +852,7 @@ function WoWTools_UnitMixin:SetRangeFrame(frame, size)
     frame.SpeedLabel:SetScript('OnLeave', GameTooltip_Hide)
     frame.SpeedLabel:SetScript('OnEnter', WoWToolsButton_OnEnter)
     frame.SpeedLabel:SetPoint('TOPRIGHT', frame.RangeMaxLabel, 'BOTTOMRIGHT')
-    frame.SpeedLabel.tooltip=  WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '移动速度' or STAT_MOVEMENT_SPEED)
+    frame.SpeedLabel.tooltip=  WoWTools_DataMixin.Icon.icon2..(WoWTools_L.STAT_MOVEMENT_SPEED)
 
     frame.elapsed2= 1
     frame:SetScript('OnUpdate', function(f, elapsed)

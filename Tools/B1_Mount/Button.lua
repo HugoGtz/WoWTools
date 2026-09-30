@@ -337,7 +337,7 @@ local function Set_Item_Spell_Edit(info)
                 if MountJournal and MountJournal:IsVisible() then
                     WoWTools_DataMixin:Call('MountJournal_UpdateMountList')
                 end
-                print(WoWTools_MountMixin.addName..WoWTools_DataMixin.Icon.icon2, WoWTools_DataMixin.onlyChinese and '移除' or REMOVE, C_Spell.GetSpellLink(spellID))
+                print(WoWTools_MountMixin.addName..WoWTools_DataMixin.Icon.icon2, WoWTools_L.REMOVE, C_Spell.GetSpellLink(spellID))
             end
         })
         return
@@ -372,12 +372,12 @@ local function Set_Item_Spell_Edit(info)
         SetValue = function()
             SaveLog()[mountType][ID]=true
              WoWTools_ToolsMixin:Get_ButtonForName('Mount'):settings()
-            print(WoWTools_MountMixin.addName..WoWTools_DataMixin.Icon.icon2, WoWTools_DataMixin.onlyChinese and '添加' or ADD, itemLink or link)
+            print(WoWTools_MountMixin.addName..WoWTools_DataMixin.Icon.icon2, WoWTools_L.ADD, itemLink or link)
         end,
         OnAlt = function()
             SaveLog()[mountType][ID]=nil
             WoWTools_ToolsMixin:Get_ButtonForName('Mount'):settings()
-            print(WoWTools_MountMixin.addName..WoWTools_DataMixin.Icon.icon2, WoWTools_DataMixin.onlyChinese and '移除' or REMOVE, itemLink or link)
+            print(WoWTools_MountMixin.addName..WoWTools_DataMixin.Icon.icon2, WoWTools_L.REMOVE, itemLink or link)
         end,
     })
 end
@@ -486,8 +486,8 @@ local function Init()
             GameTooltip:AddDoubleLine(name,
                 (col or '')
                 ..(exits and
-                    (WoWTools_DataMixin.onlyChinese and '修改' or EDIT)
-                    or ('|A:bags-icon-addslots:0:0|a'..(WoWTools_DataMixin.onlyChinese and '添加' or ADD))
+                    (WoWTools_L.EDIT)
+                    or ('|A:bags-icon-addslots:0:0|a'..(WoWTools_L.ADD))
                 ))
 
         else
@@ -498,11 +498,11 @@ local function Init()
             )
             GameTooltip:AddLine(' ')
 
-            GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '坐骑秀' or WoWTools_L['Mount show'], '|A:bags-greenarrow:0:0|a')
+            GameTooltip:AddDoubleLine(WoWTools_L['Mount show'], '|A:bags-greenarrow:0:0|a')
             GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '坐骑特效' or EMOTE171_CMD2:gsub('/',''), '|A:UI-HUD-MicroMenu-StreamDLYellow-Up:0:0|a')
 
             GameTooltip:AddLine(' ')
-            GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
+            GameTooltip:AddDoubleLine(WoWTools_L.SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
         end
         GameTooltip:Show()
     end

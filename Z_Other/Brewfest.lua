@@ -97,7 +97,7 @@ local function Init()
 
         Save().scale=sacle
         self:set_Scale()
-        print(WoWTools_DataMixin.Icon.icon2..addName, (WoWTools_DataMixin.onlyChinese and '缩放' or HOUSING_EXPERT_DECOR_SUBMODE_SCALE), '|cnGREEN_FONT_COLOR:'..sacle)
+        print(WoWTools_DataMixin.Icon.icon2..addName, (WoWTools_L.HOUSING_EXPERT_DECOR_SUBMODE_SCALE), '|cnGREEN_FONT_COLOR:'..sacle)
     end)
 
     function btn:set_Point()
@@ -211,8 +211,8 @@ local function Init()
     btn:SetScript('OnClick', function(_, d)
         if d=='LeftButton' and IsShiftKeyDown() then
             local macroId = CreateMacro('Ram', 236912, '/click ExtraActionButton1')
-            print(WoWTools_DataMixin.Icon.icon2..addName, WoWTools_DataMixin.onlyChinese and '创建宏' or CREATE_MACROS, 'Ram',
-                macroId and '/click ExtraActionButton1' or (WoWTools_DataMixin.onlyChinese and '无法创建' or NONE)
+            print(WoWTools_DataMixin.Icon.icon2..addName, WoWTools_L.CREATE_MACROS, 'Ram',
+                macroId and '/click ExtraActionButton1' or (WoWTools_L['NONE~2'])
             )
         end
     end)
@@ -223,11 +223,11 @@ local function Init()
         GameTooltip:AddLine(' ')
         local macro= select(3, GetMacroInfo('Ram'))
         local col= (macro and macro:find('ExtraActionButton1')) and '|cff626262' or ''
-        GameTooltip:AddDoubleLine(col..(WoWTools_DataMixin.onlyChinese and '创建宏"' or CREATE_MACROS), col..'Shift+'..WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine(col..(WoWTools_L['CREATE_MACROS~2']), col..'Shift+'..WoWTools_DataMixin.Icon.left)
         GameTooltip:AddLine(col..'/click ExtraActionButton1')
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '移动' or NPE_MOVE, WoWTools_DataMixin.Icon.right)
-        GameTooltip:AddDoubleLine((WoWTools_DataMixin.onlyChinese and '缩放' or HOUSING_EXPERT_DECOR_SUBMODE_SCALE)..' '..(Save().scale or 1), WoWTools_DataMixin.Icon.mid)
+        GameTooltip:AddDoubleLine(WoWTools_L.NPE_MOVE, WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine((WoWTools_L.HOUSING_EXPERT_DECOR_SUBMODE_SCALE)..' '..(Save().scale or 1), WoWTools_DataMixin.Icon.mid)
         GameTooltip:Show()
     end)
     btn:SetScript('OnLeave', GameTooltip_Hide)
@@ -267,17 +267,17 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                     if not Save().disabled then
                         Init()
                     else
-                        print(addName..WoWTools_DataMixin.Icon.icon2, WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+                        print(addName..WoWTools_DataMixin.Icon.icon2, WoWTools_L.REQUIRES_RELOAD)
                     end
                 end,
-                buttonText= WoWTools_DataMixin.onlyChinese and '重置位置' or RESET_POSITION,
+                buttonText= WoWTools_L.RESET_POSITION,
                 buttonFunc= function()
                     Save().Point=nil
                     if _G['WoWToolsBrewfestButton'] then
                         _G['WoWToolsBrewfestButton']:ClearAllPoints()
                         _G['WoWToolsBrewfestButton']:set_Point()
                     end
-                    print(addName..WoWTools_DataMixin.Icon.icon2, WoWTools_DataMixin.onlyChinese and '重置位置' or RESET_POSITION)
+                    print(addName..WoWTools_DataMixin.Icon.icon2, WoWTools_L.RESET_POSITION)
                 end,
                 tooltip=function()
                     return WoWTools_DataMixin.onlyChinese and '节日: 美酒节（赛羊）'

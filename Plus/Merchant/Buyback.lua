@@ -59,7 +59,7 @@ local function set_buyback_item()
         for index, itemLink in pairs(tab) do
             print(
                 WoWTools_MerchantMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                index..')|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '购回' or BUYBACK),
+                index..')|cnGREEN_FONT_COLOR:'..(WoWTools_L['BUYBACK~2']),
                 itemLink
             )
         end
@@ -69,7 +69,7 @@ local function set_buyback_item()
 
                 index
                 ..')|cnWARNING_FONT_COLOR:'
-                ..(WoWTools_DataMixin.onlyChinese and '购回失败' or WoWTools_Join(BUYBACK, INCOMPLETE)),
+                ..(WoWTools_L['BUYBACK+INCOMPLETE']),
 
                 info[1],
                 info[2] and C_CurrencyInfo.GetCoinTextureString(info[2]) or ''
@@ -94,17 +94,17 @@ local function Add_Remove_ToSave(itemID)
     local text
     if WoWToolsPlusPlayerDate['SellBuyItems'].noSell[itemID] then
         WoWToolsPlusPlayerDate['SellBuyItems'].noSell[itemID]=nil
-        text= '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '移除' or REMOVE)
+        text= '|cnWARNING_FONT_COLOR:'..(WoWTools_L.REMOVE)
     else
         WoWToolsPlusPlayerDate['SellBuyItems'].noSell[itemID]=true
         WoWToolsPlusPlayerDate['SellBuyItems'].sell[itemID]=nil
-        text='|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '添加' or ADD)
+        text='|cnGREEN_FONT_COLOR:'..(WoWTools_L.ADD)
         set_buyback_item()
     end
     print(
         WoWTools_DataMixin.addName,
         WoWTools_MerchantMixin.addName,
-        WoWTools_DataMixin.onlyChinese and '回购' or BUYBACK,
+        WoWTools_L.BUYBACK,
         text
     )
 end
@@ -126,7 +126,7 @@ local function Init_Menu(self, root)
 
     sub= root:CreateButton(
         '|A:bag-main:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '购回' or BUYBACK),
+        ..(WoWTools_L['BUYBACK~2']),
         --..' #|cnGREEN_FONT_COLOR:'..allNum,
     function()
         allNum= GetNumBuybackItems() or 0
@@ -147,7 +147,7 @@ local function Init_Menu(self, root)
                 WoWTools_MerchantMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 table.concat(tab, '|n'),
                 '|n',
-                allNum..(WoWTools_DataMixin.onlyChinese and '购回' or BUYBACK)
+                allNum..(WoWTools_L['BUYBACK~2'])
             )
         end)
         return MenuResponse.Open
@@ -173,7 +173,7 @@ local function Init_Menu(self, root)
             end, {itemID=itemID})
 
             sub:SetTooltip(function(tooltip)
-                tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '添加回购' or WoWTools_Join(ADD, BUYBACK))
+                tooltip:AddLine(WoWTools_L['ADD+BUYBACK'])
             end)
         end
     end
@@ -183,7 +183,7 @@ local function Init_Menu(self, root)
     WoWTools_MerchantMixin:Buyback_Menu(self, root)
 
     root:CreateDivider()
-    root:CreateTitle(WoWTools_DataMixin.onlyChinese and '拖曳物品' or WoWTools_Join(DRAG_MODEL, ITEMS))
+    root:CreateTitle(WoWTools_L['DRAG_MODEL+ITEMS'])
 end
 
 
@@ -227,7 +227,7 @@ local function Init()
 
         GameTooltip:AddDoubleLine(
             '|A:common-icon-undo:0:0|a'
-            ..(WoWTools_DataMixin.onlyChinese and '回购' or BUYBACK),
+            ..(WoWTools_L.BUYBACK),
             '|cnGREEN_FONT_COLOR: #'..(self:set_text() or '')
         )
         GameTooltip:AddLine(' ')
@@ -240,10 +240,10 @@ local function Init()
         if (infoType=='item' or infoType=='merchant') and itemID then
             local name= WoWTools_ItemMixin:GetName(itemID)
             if WoWToolsPlusPlayerDate['SellBuyItems'].noSell[itemID] then
-                GameTooltip:AddDoubleLine(name, (WoWTools_DataMixin.onlyChinese and '移除' or REMOVE)..WoWTools_DataMixin.Icon.left)
+                GameTooltip:AddDoubleLine(name, (WoWTools_L.REMOVE)..WoWTools_DataMixin.Icon.left)
                 self.texture:SetAtlas('bags-button-autosort-up')
             else
-                GameTooltip:AddDoubleLine(name, (WoWTools_DataMixin.onlyChinese and '添加' or ADD)..WoWTools_DataMixin.Icon.left)
+                GameTooltip:AddDoubleLine(name, (WoWTools_L.ADD)..WoWTools_DataMixin.Icon.left)
                 local icon= select(5, C_Item.GetItemInfoInstant(itemID))
                 if icon then
                     self.texture:SetTexture(icon)
@@ -251,8 +251,8 @@ local function Init()
             end
 
         else
-            GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '拖曳物品' or WoWTools_Join(DRAG_MODEL, ITEMS))
-            GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
+            GameTooltip:AddLine(WoWTools_L['DRAG_MODEL+ITEMS'])
+            GameTooltip:AddDoubleLine(WoWTools_L.SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
         end
         GameTooltip:Show()
     end

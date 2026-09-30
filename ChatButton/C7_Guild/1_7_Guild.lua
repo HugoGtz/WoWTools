@@ -21,7 +21,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             WoWToolsPlusSave['ChatButtonGuild']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['ChatButtonGuild'], P_Save)
             P_Save=nil
 
-            WoWTools_GuildMixin.addName= '|A:UI-HUD-MicroMenu-GuildCommunities-Up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '公会' or GUILD)
+            WoWTools_GuildMixin.addName= '|A:UI-HUD-MicroMenu-GuildCommunities-Up:0:0|a'..(WoWTools_L.GUILD)
 
             if WoWTools_ChatMixin:CreateButton('Guild', WoWTools_GuildMixin.addName) then
                 self:RegisterEvent('PLAYER_ENTERING_WORLD')

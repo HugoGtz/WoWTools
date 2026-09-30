@@ -103,7 +103,7 @@ local function Init_Menu(self, root)
             bossName
             ..'|n'..(self:GetParent().link or encounterID)
             ..'|n|n|A:bags-button-autosort-up:0:0|a|cnWARNING_FONT_COLOR:'
-            ..(WoWTools_DataMixin.onlyChinese and '清除' or SLASH_STOPWATCH_PARAM_STOP2),
+            ..(WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2),
             nil,
             {SetValue=function()
                 SaveUse()[dungeonEncounterID]= nil
@@ -112,7 +112,7 @@ local function Init_Menu(self, root)
         )
     end, {rightText=classNum})
     sub:SetTooltip(function(tooltip)
-        GameTooltip_AddErrorLine(tooltip, WoWTools_DataMixin.onlyChinese and '清除' or SLASH_STOPWATCH_PARAM_STOP2)
+        GameTooltip_AddErrorLine(tooltip, WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2)
     end)
 
 --清除 Boss 所有职业, 列表
@@ -189,7 +189,7 @@ local function Init_Menu(self, root)
         StaticPopup_Show('WoWTools_OK',
             classIcon
             ..'|n|n|A:bags-button-autosort-up:0:0|a|cnWARNING_FONT_COLOR:'
-            ..(WoWTools_DataMixin.onlyChinese and '清除' or SLASH_STOPWATCH_PARAM_STOP2),
+            ..(WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2),
             nil,
             {SetValue=function()
                 for id in pairs(SaveUse()) do
@@ -200,7 +200,7 @@ local function Init_Menu(self, root)
         )
     end, {rightText=#classSpecTab})
     sub:SetTooltip(function(tooltip)
-        GameTooltip_AddErrorLine(tooltip, WoWTools_DataMixin.onlyChinese and '清除' or SLASH_STOPWATCH_PARAM_STOP2)
+        GameTooltip_AddErrorLine(tooltip, WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2)
     end)
 
 
@@ -275,12 +275,12 @@ local function Init_Menu(self, root)
 --全部清除
     sub=root:CreateButton(
         '|A:bags-button-autosort-up:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL),
+        ..(WoWTools_L.CLEAR_ALL),
     function()
        StaticPopup_Show('WoWTools_OK',
         WoWTools_EncounterMixin.addName..WoWTools_DataMixin.Icon.icon2
         ..'|n|n|A:bags-button-autosort-up:0:0|a|cnWARNING_FONT_COLOR:'
-        ..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL),
+        ..(WoWTools_L.CLEAR_ALL),
         nil,
         {SetValue=function()
             WoWToolsPlusPlayerDate['LootSpec']={}
@@ -288,7 +288,7 @@ local function Init_Menu(self, root)
         end})
     end)
     sub:SetTooltip(function(tooltip)
-        GameTooltip_AddErrorLine(tooltip, WoWTools_DataMixin.onlyChinese and '全部' or ALL)
+        GameTooltip_AddErrorLine(tooltip, WoWTools_L.ALL)
     end)
 end
 
@@ -339,7 +339,7 @@ local function Init_Button(btn)
 --tooltip
             local color= WoWTools_UnitMixin:GetColor(nil, nil, classInfo.classFile)
 
-            b.tooltip= (WoWTools_DataMixin.onlyChinese and '专精拾取' or SELECT_LOOT_SPECIALIZATION)
+            b.tooltip= (WoWTools_L.SELECT_LOOT_SPECIALIZATION)
                     ..color:GenerateHexColorMarkup()
                     ..(WoWTools_UnitMixin:GetClassIcon(nil, nil, classInfo.classFile) or '')
                     ..(WoWTools_TextMixin:CN(classInfo.className) or classInfo.classFile)
@@ -402,8 +402,8 @@ local function Set_LootSpec(self, encounterID)
             if name then
                print(
                     WoWTools_EncounterMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                    '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS)..'|r',
-                    (WoWTools_DataMixin.onlyChinese and '专精拾取' or SELECT_LOOT_SPECIALIZATION)
+                    '|cnGREEN_FONT_COLOR:'..(WoWTools_L.SETTINGS)..'|r',
+                    (WoWTools_L.SELECT_LOOT_SPECIALIZATION)
                     ..(icon and '|T'..(icon or '')..':0|t' or '')
                     ..(WoWTools_DataMixin.Icon[role] or '')
                     ..(name and '|cffff00ff'..WoWTools_TextMixin:CN(name) or '')
@@ -430,8 +430,8 @@ local function Rest_LootSpec(self)
         if name then
             print(
                 WoWTools_EncounterMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '还原' or RESET)..'|r',
-                (WoWTools_DataMixin.onlyChinese and '专精拾取' or SELECT_LOOT_SPECIALIZATION)
+                '|cnWARNING_FONT_COLOR:'..(WoWTools_L['RESET~2'])..'|r',
+                (WoWTools_L.SELECT_LOOT_SPECIALIZATION)
                 ..(icon and '|T'..(icon or 0)..':0|t' or '')
                 ..(WoWTools_DataMixin.Icon[role] or '')
                 ..(name and '|cffff00ff'..WoWTools_TextMixin:CN(name) or '')

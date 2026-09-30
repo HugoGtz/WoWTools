@@ -176,7 +176,7 @@ local function Create_Button(frame, point)
         GameTooltip:AddDoubleLine(
             (self.name or addName)
             ..WoWTools_DataMixin.Icon.icon2..(count and '|cffffffff'..count or ''),
-            WoWTools_DataMixin.onlyChinese and '副本' or INSTANCE
+            WoWTools_L.INSTANCE
         )
         if tab then
             GameTooltip:AddLine(' ')
@@ -291,7 +291,7 @@ local function Init_Achievement()
         end
         root:CreateDivider()
         local sub= root:CreateButton(
-            WoWTools_DataMixin.onlyChinese and '已完成' or CRITERIA_COMPLETED,
+            WoWTools_L.CRITERIA_COMPLETED,
         function()
             return MenuResponse.Open
         end)
@@ -334,7 +334,7 @@ local function Init_Achievement()
             GameTooltip:SetOwner(self, 'ANCHOR_LEFT')
             GameTooltip_SetTitle(GameTooltip,
                 WoWTools_DataMixin.Icon.icon2
-                ..(WoWTools_DataMixin.onlyChinese and '进度' or PVP_PROGRESS_REWARDS_HEADER)
+                ..(WoWTools_L.PVP_PROGRESS_REWARDS_HEADER)
             )
             GameTooltip:Show()
         end)
@@ -354,7 +354,7 @@ local function Init_Achievement()
             self:SetAlpha(0.5)
             GameTooltip:SetOwner(self, 'ANCHOR_LEFT')
             GameTooltip_SetTitle(GameTooltip,
-                WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '统计' or STATISTICS)
+                WoWTools_DataMixin.Icon.icon2..(WoWTools_L.STATISTICS)
             )
             GameTooltip:Show()
         end)
@@ -414,7 +414,7 @@ local function Init_Achievement()
                 GameTooltip:AddLine(' ')
                 GameTooltip:AddDoubleLine(
                     '|A:communities-icon-chat:0:0|a'
-                    ..(WoWTools_DataMixin.onlyChinese and '说' or SAY)
+                    ..(WoWTools_L.SAY)
                     ..WoWTools_DataMixin.Icon.icon2,
                     WoWTools_DataMixin.Icon.left
                 )
@@ -740,7 +740,7 @@ panel:RegisterEvent("ADDON_LOADED")
 panel:SetScript("OnEvent", function(self, event, arg1)
     if arg1== 'WoWToolsPlus' then
         WoWToolsPlusSave['Plus_Achievement']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Achievement'], {completedAlpha=1})
-        addName= '|A:UI-Achievement-Shield-NoPoints:0:0|a'..(WoWTools_DataMixin.onlyChinese and '成就' or ACHIEVEMENTS)
+        addName= '|A:UI-Achievement-Shield-NoPoints:0:0|a'..(WoWTools_L.ACHIEVEMENTS)
 
         --添加控制面板
         WoWTools_PanelMixin:OnlyCheck({
@@ -753,7 +753,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                     print(
                         addName..WoWTools_DataMixin.Icon.icon2,
                         WoWTools_TextMixin:GetEnabeleDisable(Save().disabled),
-                        WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+                        WoWTools_L.REQUIRES_RELOAD
                     )
                 end
             end,

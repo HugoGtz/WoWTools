@@ -53,7 +53,7 @@ local function Init_Professions(index)
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(
             '|T'..(self.icon or 0)..':0|t'..WoWTools_TextMixin:CN(self.name)..WoWTools_DataMixin.Icon.left,
-            WoWTools_DataMixin.Icon.right..MicroButtonTooltipText(WoWTools_DataMixin.onlyChinese and '专业' or PROFESSIONS_BUTTON, "TOGGLEPROFESSIONBOOK")..'|A:UI-HUD-MicroMenu-Professions-Mouseover:24:24|a'
+            WoWTools_DataMixin.Icon.right..MicroButtonTooltipText(WoWTools_L.PROFESSIONS_BUTTON, "TOGGLEPROFESSIONBOOK")..'|A:UI-HUD-MicroMenu-Professions-Mouseover:24:24|a'
         )
         GameTooltip:Show()
     end)
@@ -159,7 +159,7 @@ local function Init_KeyButton_Menu(self, root)
 
     root:CreateButton(
         '|A:UI-HUD-MicroMenu-Professions-Mouseover:24:24|a'
-        ..MicroButtonTooltipText(WoWTools_DataMixin.onlyChinese and '专业' or PROFESSIONS_BUTTON, "TOGGLEPROFESSIONBOOK"),
+        ..MicroButtonTooltipText(WoWTools_L.PROFESSIONS_BUTTON, "TOGGLEPROFESSIONBOOK"),
     function()
         ToggleProfessionsBook()
         return MenuResponse.Open
@@ -167,7 +167,7 @@ local function Init_KeyButton_Menu(self, root)
 
     root:CreateDivider()
     sub=root:CreateCheckbox(
-        (WoWTools_DataMixin.onlyChinese and '设置快捷键' or WoWTools_Join(SETTINGS, SETTINGS_KEYBINDINGS_LABEL))
+        (WoWTools_L['SETTINGS+SETTINGS_KEYBINDINGS_LABEL~2'])
         ..'|cnGREEN_FONT_COLOR:'..(Save()[self.type] or ''),
     function()
         return WoWTools_KeyMixin:IsKeyValid(self)
@@ -190,7 +190,7 @@ local function Init_KeyButton_Menu(self, root)
 
 --启动时，设置KEY
     sub2=sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '保存' or SAVE,
+        WoWTools_L.SAVE,
     function()
         return Save()['save_'..self.type]
     end, function()
@@ -243,7 +243,7 @@ local function Init_KeyButton(index, type)
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(
             WoWTools_SpellMixin:GetName(self.spellID)..WoWTools_DataMixin.Icon.left,
-            WoWTools_DataMixin.Icon.right..(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL)
+            WoWTools_DataMixin.Icon.right..(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL)
         )
         GameTooltip:AddLine(' ')
 
@@ -251,10 +251,10 @@ local function Init_KeyButton(index, type)
         local isInCombat= not self:CanChangeAttribute()
         GameTooltip:AddDoubleLine(
             (isInCombat and '|cnWARNING_FONT_COLOR:' or (isKeyValid and '|cff626262') or '')
-            ..(WoWTools_DataMixin.onlyChinese and '快捷键' or SETTINGS_KEYBINDINGS_LABEL)..' '..self:GetKEY()..WoWTools_DataMixin.Icon.mid..(WoWTools_DataMixin.onlyChinese and '上' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP),
+            ..(WoWTools_L.SETTINGS_KEYBINDINGS_LABEL)..' '..self:GetKEY()..WoWTools_DataMixin.Icon.mid..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP),
 
             (isInCombat and '|cnWARNING_FONT_COLOR:' or (isKeyValid and '|cnGREEN_FONT_COLOR:') or '|cff626262')
-            ..(WoWTools_DataMixin.onlyChinese and '下' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN)..WoWTools_DataMixin.Icon.mid..(WoWTools_DataMixin.onlyChinese and '解除键位' or UNBIND)
+            ..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN)..WoWTools_DataMixin.Icon.mid..(WoWTools_L.UNBIND)
         )
         GameTooltip:Show()
     end
@@ -283,7 +283,7 @@ local function Init_KeyButton(index, type)
     end)
     button:SetScript('OnMouseWheel', function(self, d)
         if not self:CanChangeAttribute() then
-            print(WoWTools_DataMixin.addName, '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT))
+            print(WoWTools_DataMixin.addName, '|cnWARNING_FONT_COLOR:'..(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT))
             return
         end
         self:set_key(d==1)-- 1上, -1下

@@ -121,7 +121,7 @@ local function Init_RightTab_Menu(root, tabData)
     if not tabData or tabData.ID==-1 then
         return
     elseif BankPanelSystemMixin:IsActiveBankTypeLocked() then
-        local sub= root:CreateTitle(WoWTools_DataMixin.onlyChinese and '锁定' or LOCKED)
+        local sub= root:CreateTitle(WoWTools_L.LOCKED)
         sub:SetTooltip(function(tooltip)
             tooltip:AddLine(WoWTools_TextMixin:CN(BankPanelLockPromptMixin:GetBankLockedMessage()))
         end)
@@ -136,10 +136,10 @@ local function Init_RightTab_Menu(root, tabData)
     sub=root:CreateTitle(
         ('|T'..(tabData.icon or 0)..':0|t')
         ..(BankPanel:GetActiveBankType()== Enum.BankType.Account and '|cff00ccff' or '|cffff8000')
-        ..(WoWTools_DataMixin.onlyChinese and '提取' or WITHDRAW)..' #'..itemNum
+        ..(WoWTools_L.WITHDRAW)..' #'..itemNum
     )
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '可用搜索过滤' or WoWTools_Join(SEARCH, CALENDAR_FILTERS))
+        tooltip:AddLine(WoWTools_L['SEARCH+CALENDAR_FILTERS'])
     end)
     if itemNum==0 then
         return
@@ -186,7 +186,7 @@ local function Init_RightTab_Menu(root, tabData)
     root:CreateDivider()
     sub=root:CreateButton(
         --'|cnGREEN_FONT_COLOR:#'..itemNum..'|r '
-        WoWTools_DataMixin.onlyChinese and '全部' or ALL,
+        WoWTools_L.ALL,
     function()
         local free= WoWTools_BagMixin:GetFree(true) or 0
         for _, item in pairs(itemTab) do
@@ -232,7 +232,7 @@ local function Init()
                 GameTooltip:AddLine(
                     WoWTools_DataMixin.Icon.mid
                     ..'|cnGREEN_FONT_COLOR:<'
-                    ..(WoWTools_DataMixin.onlyChinese and '提取' or WITHDRAW)--..(WoWTools_DataMixin.onlyChinese and '提取菜单' or WoWTools_Join(WITHDRAW, HUD_EDIT_MODE_MICRO_MENU_LABEL))
+                    ..(WoWTools_L.WITHDRAW)--..(WoWTools_L['WITHDRAW+HUD_EDIT_MODE_MICRO_MENU_LABEL'])
                     ..'>|A:dressingroom-button-appearancelist-up:0:0|a'
                 )
                 GameTooltip:Show()

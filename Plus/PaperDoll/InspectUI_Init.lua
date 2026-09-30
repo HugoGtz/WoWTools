@@ -33,7 +33,7 @@ local function set_InspectPaperDollItemSlotButton_Update(frame)
                 GameTooltip:ClearLines()
                 GameTooltip:SetOwner(InspectFrame, "ANCHOR_RIGHT")
                 GameTooltip:SetHyperlink(self.link)
-                GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '链接至聊天栏' or COMMUNITIES_INVITE_MANAGER_LINK_TO_CHAT, WoWTools_DataMixin.Icon.left)
+                GameTooltip:AddDoubleLine(WoWTools_L.COMMUNITIES_INVITE_MANAGER_LINK_TO_CHAT, WoWTools_DataMixin.Icon.left)
                 GameTooltip:Show()
             end
         end)
@@ -222,7 +222,7 @@ local function Init_UI()
     InspectPaperDollFrame.ViewButton:HookScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '试衣间' or DRESSUP_FRAME)
+        GameTooltip:AddLine(WoWTools_L.DRESSUP_FRAME)
         GameTooltip:Show()
     end)
 
@@ -233,7 +233,7 @@ local function Init_UI()
     InspectPaperDollItemsFrame.InspectTalents:HookScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '天赋' or INSPECT_TALENTS_BUTTON)
+        GameTooltip:AddLine(WoWTools_L.INSPECT_TALENTS_BUTTON)
         GameTooltip:Show()
     end)
 
@@ -252,11 +252,11 @@ local function Init_UI()
         local _, guildFactionName = UnitFactionGroup(InspectFrame.unit)
 
         InspectGuildFrame.guildName:SetText(guildName or '')
-        InspectGuildFrame.guildRealmName:SetFormattedText(WoWTools_DataMixin.onlyChinese and '服务器：%s' or INSPECT_GUILD_REALM, guildRealmName or '')
+        InspectGuildFrame.guildRealmName:SetFormattedText(WoWTools_L.INSPECT_GUILD_REALM, guildRealmName or '')
 
         if ( guildFactionName and guildNumMembers ) then
-            InspectGuildFrame.guildLevel:SetFormattedText(WoWTools_DataMixin.onlyChinese and '%s公会' or INSPECT_GUILD_FACTION, guildFactionName)
-            InspectGuildFrame.guildNumMembers:SetFormattedText(WoWTools_DataMixin.onlyChinese and '%d名公会成员' or INSPECT_GUILD_NUM_MEMBERS, guildNumMembers)
+            InspectGuildFrame.guildLevel:SetFormattedText(WoWTools_L.INSPECT_GUILD_FACTION, guildFactionName)
+            InspectGuildFrame.guildNumMembers:SetFormattedText(WoWTools_L.INSPECT_GUILD_NUM_MEMBERS, guildNumMembers)
         end
 
         local pointFrame = InspectGuildFrame.Points

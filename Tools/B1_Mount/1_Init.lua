@@ -149,7 +149,7 @@ panel:RegisterEvent("ADDON_LOADED")
 panel:SetScript("OnEvent", function(self, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1== 'WoWToolsPlus' then
-            WoWTools_MountMixin.addName= '|TInterface\\Icons\\MountJournalPortrait:0|t'..(WoWTools_DataMixin.onlyChinese and '坐骑' or MOUNT)
+            WoWTools_MountMixin.addName= '|TInterface\\Icons\\MountJournalPortrait:0|t'..(WoWTools_L.MOUNT)
 
             WoWToolsPlusSave['Tools_Mounts']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Tools_Mounts'], P_Save)
             P_Save= nil

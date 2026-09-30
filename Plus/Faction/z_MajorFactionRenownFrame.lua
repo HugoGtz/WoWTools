@@ -241,7 +241,7 @@ local function Init_Menu(self, root)
     local sub, sub2
 
     root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '显示' or SHOW,
+        WoWTools_L.SHOW,
     function()
         return not Save().hide_MajorFactionRenownFrame_Button
     end, function()
@@ -251,7 +251,7 @@ local function Init_Menu(self, root)
 --隐藏
     root:CreateDivider()
     sub=root:CreateButton(
-        (WoWTools_DataMixin.onlyChinese and '隐藏' or HIDE)..' #'..#Save().hideRenownFrame,
+        (WoWTools_L.HIDE)..' #'..#Save().hideRenownFrame,
     function()
         return MenuResponse.Open
     end)
@@ -332,7 +332,7 @@ local function Init()
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_FactionMixin.addName)
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(WoWTools_TextMixin:GetShowHide(not Save().hide_MajorFactionRenownFrame_Button), WoWTools_DataMixin.Icon.left)
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.right)
         --GameTooltip:AddDoubleLine((WoWTools_DataMixin.onlyChinese and '缩放' or HOUSING_EXPERT_DECOR_SUBMODE_SCALE)..' |cnGREEN_FONT_COLOR:'..(Save().MajorFactionRenownFrame_Button_Scale or 1), WoWTools_DataMixin.Icon.mid)
         GameTooltip:Show()
     end

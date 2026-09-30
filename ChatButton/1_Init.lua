@@ -83,7 +83,7 @@ local function Init_Menu(self, root)
 --职业颜色
     sub:CreateSpacer()
     sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '职业颜色' or CLASS_COLORS,
+        WoWTools_L.CLASS_COLORS,
     function()
         return Save().bgUseClassColor
     end, function()
@@ -103,7 +103,7 @@ local function Init_Menu(self, root)
 
 --外框，透明度
     sub=root:CreateButton(
-        '|A:bag-reagent-border:0:0|a'..(WoWTools_DataMixin.onlyChinese and '镶边' or EMBLEM_BORDER),
+        '|A:bag-reagent-border:0:0|a'..(WoWTools_L.EMBLEM_BORDER),
     function()
         return MenuResponse.Open
     end, {rightText= Save().borderAlpha or 0.3})
@@ -118,7 +118,7 @@ local function Init_Menu(self, root)
             Save().borderAlpha=value
             Set_All_Buttons(self)
         end,
-        name=WoWTools_DataMixin.onlyChinese and '透明度' or HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY,
+        name=WoWTools_L.HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY,
         minValue=0,
         maxValue=1,
         step=0.1,
@@ -143,7 +143,7 @@ local function Init_Menu(self, root)
 
     sub:CreateDivider()
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '重置' or RESET,
+        WoWTools_L.RESET,
     function()
         Save().pointX=0
         Save().borderAlpha=0.3
@@ -155,7 +155,7 @@ local function Init_Menu(self, root)
 --方向, 竖
     sub=root:CreateCheckbox(
         '|A:bags-greenarrow:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '方向' or HUD_EDIT_MODE_SETTING_BAGS_DIRECTION),
+        ..(WoWTools_L.HUD_EDIT_MODE_SETTING_BAGS_DIRECTION),
     function()
         return Save().isVertical
     end, function()
@@ -168,10 +168,10 @@ local function Init_Menu(self, root)
 
 --菜单位置
     local textTab={
-      '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '下' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN),
-      WoWTools_DataMixin.onlyChinese and '上' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP,
-      WoWTools_DataMixin.onlyChinese and '左' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_LEFT,
-      WoWTools_DataMixin.onlyChinese and '右' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_RIGHT,
+      '|cnGREEN_FONT_COLOR:'..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN),
+      WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP,
+      WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_LEFT,
+      WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_RIGHT,
     }
     for index, tab in pairs(WoWTools_ChatMixin.AnchorMenuTab) do
         sub2=sub:CreateCheckbox(
@@ -186,7 +186,7 @@ local function Init_Menu(self, root)
         end, {index=index, p=tab[1], p2=tab[2]})
 
         sub2:SetTooltip(function(tooltip, desc)
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '菜单位置' or WoWTools_Join(HUD_EDIT_MODE_MICRO_MENU_LABEL,CHOOSE_LOCATION))
+            tooltip:AddLine(WoWTools_L['HUD_EDIT_MODE_MICRO_MENU_LABEL+CHOOSE_LOCATION'])
             tooltip:AddDoubleLine(desc.data.p, desc.data.p2)
         end)
     end
@@ -194,7 +194,7 @@ local function Init_Menu(self, root)
 --HUD提示信息
 
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and 'HUD提示信息' or HUD_EDIT_MODE_HUD_TOOLTIP_LABEL,
+        WoWTools_L.HUD_EDIT_MODE_HUD_TOOLTIP_LABEL,
     function()
         return not Save().disabledTooltiip
     end, function()
@@ -223,7 +223,7 @@ local function Init_Menu(self, root)
 --放到聊天框左边
 
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '聊天框' or HUD_EDIT_MODE_CHAT_FRAME_LABEL,
+        WoWTools_L.HUD_EDIT_MODE_CHAT_FRAME_LABEL,
     function()
         return Save().setChatFrameLeft
     end, function()
@@ -238,14 +238,14 @@ local function Init_Menu(self, root)
 --移过图标
     sub=root:CreateCheckbox(
         '|A:newplayertutorial-drag-cursor:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '移过图标' or WoWTools_Join(ENTER_LFG,EMBLEM_SYMBOL)),
+        ..(WoWTools_L['ENTER_LFG+EMBLEM_SYMBOL']),
     function()
         return Save().isEnterShowMenu
     end, function()
         Save().isEnterShowMenu = not Save().isEnterShowMenu and true or nil
     end)
     sub:SetTooltip(function (tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '显示菜单' or WoWTools_Join(SHOW, HUD_EDIT_MODE_MICRO_MENU_LABEL))
+        tooltip:AddLine(WoWTools_L['SHOW+HUD_EDIT_MODE_MICRO_MENU_LABEL'])
     end)
 
 
@@ -365,7 +365,7 @@ local function Init()
             return
         end
         GameTooltip:SetText(
-            (WoWTools_DataMixin.onlyChinese and '移动' or NPE_MOVE)
+            (WoWTools_L.NPE_MOVE)
             ..' Alt+'
             ..WoWTools_DataMixin.Icon.right
         )
@@ -431,7 +431,7 @@ local function Init_Panel()
         return
     end
 
-    WoWTools_PanelMixin:Header(WoWTools_ChatMixin.Layout, WoWTools_DataMixin.onlyChinese and '选项' or OPTIONS)
+    WoWTools_PanelMixin:Header(WoWTools_ChatMixin.Layout, WoWTools_L.OPTIONS)
 
     for _, data in pairs (WoWTools_ChatMixin:GetAllAddList()) do
         WoWTools_PanelMixin:OnlyCheck({
@@ -468,7 +468,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 Init()
             end
 
-            WoWTools_ChatMixin.addName='|A:voicechat-icon-textchat-silenced:0:0|a'..(WoWTools_DataMixin.onlyChinese and '聊天工具' or WoWTools_Join(CHAT, AUCTION_SUBCATEGORY_PROFESSION_TOOLS))
+            WoWTools_ChatMixin.addName='|A:voicechat-icon-textchat-silenced:0:0|a'..(WoWTools_L['CHAT+AUCTION_SUBCATEGORY_PROFESSION_TOOLS'])
 
             WoWTools_ChatMixin.Category, WoWTools_ChatMixin.Layout= WoWTools_PanelMixin:AddSubCategory({
                 name=WoWTools_ChatMixin.addName,
@@ -476,13 +476,13 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             })
 
             WoWTools_PanelMixin:Check_Button({
-                checkName= WoWTools_DataMixin.onlyChinese and '启用' or ENABLE,
+                checkName= WoWTools_L.ENABLE,
                 GetValue= function() return not Save().disabled end,
                 SetValue= function()
                     Save().disabled= not Save().disabled and true or nil
                     Init_Panel()
                 end,
-                buttonText= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '重置' or RESET),
+                buttonText= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.RESET),
                 buttonFunc= function()
                     StaticPopup_Show('WoWTools_RestData',
                         WoWTools_ChatMixin.addName,
@@ -491,13 +491,13 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         WoWToolsPlusSave['ChatButton']= nil
                     end)
                 end,
-                tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD),
+                tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD),
                 layout= WoWTools_ChatMixin.Layout,
                 category= WoWTools_ChatMixin.Category,
             })
 
             WoWTools_PanelMixin:OnlyButton({
-                buttonText= WoWTools_DataMixin.onlyChinese and '重置位置' or RESET_POSITION,
+                buttonText= WoWTools_L.RESET_POSITION,
                 category= WoWTools_ChatMixin.Category,
                 layout= WoWTools_ChatMixin.Layout,
                 SetValue= function()
@@ -507,12 +507,12 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                     end
                     print(
                         WoWTools_ChatMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                        WoWTools_DataMixin.onlyChinese and '重置位置' or RESET_POSITION
+                        WoWTools_L.RESET_POSITION
                     )
                 end
             })
 
-            WoWTools_PanelMixin:Header(WoWTools_ChatMixin.Layout, WoWTools_DataMixin.onlyChinese and '其它' or OTHER)
+            WoWTools_PanelMixin:Header(WoWTools_ChatMixin.Layout, WoWTools_L.OTHER)
 
             if C_AddOns.IsAddOnLoaded('Blizzard_Settings') then
                 Init_Panel()

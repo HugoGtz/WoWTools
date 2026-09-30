@@ -81,7 +81,7 @@ local function Create_ResizeButton(name, data)
         self:GetNormalTexture():SetAlpha(1)
         GameTooltip_ShowSimpleTooltip(GameTooltip,
             WoWTools_DataMixin.Icon.icon2..
-            WoWTools_Join(WoWTools_DataMixin.onlyChinese and '宽度' or HUD_EDIT_MODE_SETTING_CHAT_FRAME_WIDTH, self.tooltip)
+            WoWTools_Join(WoWTools_L.HUD_EDIT_MODE_SETTING_CHAT_FRAME_WIDTH, self.tooltip)
             ..WoWTools_DataMixin.Icon.left,
             nil, nil, self
         )
@@ -181,7 +181,7 @@ local function Init()
 --保存外观方案按钮
     TransmogFrame.OutfitCollection.SaveOutfitButton:ClearAllPoints()
     TransmogFrame.OutfitCollection.SaveOutfitButton:SetPoint('BOTTOM', 9, 9)
-    TransmogFrame.OutfitCollection.SaveOutfitButton:SetText(WoWTools_DataMixin.onlyChinese and '保存' or SAVE)
+    TransmogFrame.OutfitCollection.SaveOutfitButton:SetText(WoWTools_L.SAVE)
     TransmogFrame.OutfitCollection.SaveOutfitButton:SetWidth(TransmogFrame.OutfitCollection.SaveOutfitButton:GetTextWidth()+24)
 --移动，购买外观方案栏位
     TransmogFrame.OutfitCollection.PurchaseOutfitButton:ClearAllPoints()
@@ -195,19 +195,19 @@ local function Init()
         GameTooltip:SetOwner(button, "ANCHOR_RIGHT")
         GameTooltip_SetTitle(GameTooltip,
             WoWTools_DataMixin.Icon.icon2
-            ..(WoWTools_DataMixin.onlyChinese and '购买外观方案栏位' or TRANSMOG_PURCHASE_OUTFIT_SLOT)
+            ..(WoWTools_L.TRANSMOG_PURCHASE_OUTFIT_SLOT)
         )
         local maxSlot= C_TransmogOutfitInfo.GetMaxNumberOfUsableOutfits()
         if not button:IsEnabled() then
             GameTooltip_AddErrorLine(GameTooltip, format(
-                WoWTools_DataMixin.onlyChinese and '已达到%d个外观方案栏位的上限' or TRANSMOG_PURCHASE_OUTFIT_SLOT_TOOLTIP_DISABLED,
+                WoWTools_L.TRANSMOG_PURCHASE_OUTFIT_SLOT_TOOLTIP_DISABLED,
                 maxSlot
             ), true)
         else
             local source = Enum.TransmogOutfitEntrySource.PlayerPurchased
 	        local unlockedOutfitCount = C_TransmogOutfitInfo.GetNumberOfOutfitsUnlockedForSource(source)
             GameTooltip_AddInstructionLine(GameTooltip, format(
-                WoWTools_DataMixin.onlyChinese and '总上限：%s%s/%s' or CURRENCY_TOTAL_CAP,
+                WoWTools_L.CURRENCY_TOTAL_CAP,
                 '',
                 format('%d', unlockedOutfitCount),
                 format('%d', maxSlot)
@@ -274,7 +274,7 @@ local function Init()
         TransmogFrame.CharacterPreview.HideIgnoredToggle.Checkbox:SetScript('OnEnter', function(self)
             self:set_icon()
             GameTooltip_ShowSimpleTooltip(GameTooltip,
-                WoWTools_DataMixin.onlyChinese and '隐藏已忽略栏位' or TRANSMOG_HIDE_UNASSIGNED_SLOTS,
+                WoWTools_L.TRANSMOG_HIDE_UNASSIGNED_SLOTS,
                 C_CVar.GetCVarBool("transmogHideIgnoredSlots") and GREEN_FONT_COLOR or SimpleTooltipConstants.NoOverrideColor,
                 SimpleTooltipConstants.DoNotWrapText,
                 self,
@@ -317,7 +317,7 @@ local function Init()
     end)
     TransmogFrame.WardrobeCollection.TabContent.CustomSetsFrame.NewCustomSetButton:HookScript('OnEnter', function(frame)
         if frame:IsEnabled() then
-            GameTooltip_ShowSimpleTooltip(GameTooltip, WoWTools_DataMixin.onlyChinese and '新增自定义套装' or TRANSMOG_CUSTOM_SET_NEW, nil, nil, frame, 'ANCHOR_RIGHT')
+            GameTooltip_ShowSimpleTooltip(GameTooltip, WoWTools_L.TRANSMOG_CUSTOM_SET_NEW, nil, nil, frame, 'ANCHOR_RIGHT')
         end
     end)
 
@@ -397,7 +397,7 @@ local function Init()
         Rest_Size()
     end,
     addMenu=function(_, root)
-        root= root:CreateButton(WoWTools_DataMixin.onlyChinese and '宽度' or HUD_EDIT_MODE_SETTING_CHAT_FRAME_WIDTH, function() return MenuResponse.Open end)
+        root= root:CreateButton(WoWTools_L.HUD_EDIT_MODE_SETTING_CHAT_FRAME_WIDTH, function() return MenuResponse.Open end)
 
         local maxValue= TransmogFrame:GetWidth()*0.8
 
@@ -420,7 +420,7 @@ local function Init()
         end
 
         root:CreateSpacer()
-        root:CreateButton(WoWTools_DataMixin.onlyChinese and '重置' or RESET, Rest_Size)
+        root:CreateButton(WoWTools_L.RESET, Rest_Size)
     end})
 
     Init=function()end

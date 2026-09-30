@@ -212,7 +212,7 @@ local function Init_Point_Menu(self, root)
 
 --当显示时，锁定框体位置
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '锁定框体位置' or LOCK_FOCUS_FRAME,
+        WoWTools_L.LOCK_FOCUS_FRAME,
     function()
         return Save().UIPanelWindows[name]
     end, function()
@@ -235,8 +235,8 @@ local function Init_Point_Menu(self, root)
 
     sub:SetTooltip(function(tooltip)
         tooltip:AddLine(name)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '显示时，自定义位置' or  WoWTools_L['Custom position when shown'])
-        tooltip:AddLine('|A:NPE_Icon:0:0|aEsc '..(WoWTools_DataMixin.onlyChinese and '无效' or DISABLE))
+        tooltip:AddLine(WoWTools_L['Custom position when shown'])
+        tooltip:AddLine('|A:NPE_Icon:0:0|aEsc '..(WoWTools_L['DISABLE~2']))
         local tab= P_UIPanelWindows[name] or UIPanelWindows[name]
         if tab then
             tooltip:AddLine(' ')
@@ -260,7 +260,7 @@ local function Init_Point_Menu(self, root)
 --重新加载UI
     WoWTools_MenuMixin:Reload(sub)
     sub:CreateDivider()
-    sub:CreateTitle(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+    sub:CreateTitle(WoWTools_L.REQUIRES_RELOAD)
 
 --列表
     root:CreateDivider()
@@ -277,8 +277,8 @@ local function Init_Point_Menu(self, root)
         end, {name=frameName})
         sub:SetTooltip(function(tooltip, desc)
             tooltip:AddLine(desc.data.name)
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '清除' or SLASH_STOPWATCH_PARAM_STOP2 )
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+            tooltip:AddLine(WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2 )
+            tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
         end)
     end
 
@@ -286,10 +286,10 @@ local function Init_Point_Menu(self, root)
     if index>0 then
         root:CreateDivider()
         root:CreateButton(
-            '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL),
+            '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.CLEAR_ALL),
         function()
             StaticPopup_Show('WoWTools_OK',
-                WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL,
+                WoWTools_L.CLEAR_ALL,
             nil,
             {SetValue=function()
                 Save().UIPanelWindows={}
@@ -347,14 +347,14 @@ end
     end)
 
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '按Esc键，隐藏框休' or WoWTools_L['Press Esc to hide the frame'])
+        tooltip:AddLine(WoWTools_L['Press Esc to hide the frame'])
         tooltip:AddLine(' ')
-        tooltip:AddLine('|cff606060'..(WoWTools_DataMixin.onlyChinese and '忽略' or IGNORE_DIALOG))
-        tooltip:AddLine('|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '禁用' or DISABLE))
-        tooltip:AddLine('|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '启用' or ENABLE))
+        tooltip:AddLine('|cff606060'..(WoWTools_L.IGNORE_DIALOG))
+        tooltip:AddLine('|cnWARNING_FONT_COLOR:'..(WoWTools_L.DISABLE))
+        tooltip:AddLine('|cnGREEN_FONT_COLOR:'..(WoWTools_L.ENABLE))
         tooltip:AddLine(' ')
         tooltip:AddLine(
-            WoWTools_Join(WoWTools_DataMixin.onlyChinese and '当前' or REFORGE_CURRENT, 'UISpecialFrames')
+            WoWTools_Join(WoWTools_L.REFORGE_CURRENT, 'UISpecialFrames')
             ..': '
             ..WoWTools_TextMixin:GetEnabeleDisable(Set_ESC(name) and true or false)
         )
@@ -385,7 +385,7 @@ local function Init_Menu(self, root)
 
     local sub, sub2
     if WoWTools_FrameMixin:IsLocked(target) then
-        root:CreateTitle(WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
+        root:CreateTitle(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
         return
     end
 
@@ -412,7 +412,7 @@ local function Init_Menu(self, root)
 --尺寸
     if self.setSize then
         sub=root:CreateCheckbox(
-            WoWTools_DataMixin.onlyChinese and '尺寸' or HUD_EDIT_MODE_SETTING_ARCHAEOLOGY_BAR_SIZE,
+            WoWTools_L['HUD_EDIT_MODE_SETTING_ARCHAEOLOGY_BAR_SIZE~2'],
         function()
             return not Save().disabledSize[name]
         end, function()
@@ -496,7 +496,7 @@ local function Init_Menu(self, root)
         end)
 --重置, 尺寸
         sub:CreateRadio(
-            WoWTools_DataMixin.onlyChinese and '清除' or SLASH_STOPWATCH_PARAM_STOP2,
+            WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2,
         function()
             return Save().size[name]
         end, function()
@@ -516,7 +516,7 @@ local function Init_Menu(self, root)
 --改变透明度
     if self.set_move_event then
         sub=root:CreateCheckbox(
-            (WoWTools_DataMixin.onlyChinese and '改变透明度' or CHANNELPULLOUT_OPACITY_LABEL),
+            (WoWTools_L.CHANNELPULLOUT_OPACITY_LABEL),
         function()
             return not Save().disabledAlpha[name]
         end, function()
@@ -524,14 +524,14 @@ local function Init_Menu(self, root)
             self:set_move_event()
         end, {rightText= Save().alpha or 1})
         sub:SetTooltip(function(tooltip)
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '移动时' or CAMERA_SMARTER)
+            tooltip:AddLine(WoWTools_L['CAMERA_SMARTER~2'])
         end)
         WoWTools_MenuMixin:SetRightText(sub)
 
 --设置
         WoWTools_MenuMixin:OpenOptions(sub, {
             category=WoWTools_MoveMixin.Category,
-            name=WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS
+            name=WoWTools_L.SETTINGS
         })
     end
 
@@ -709,18 +709,18 @@ local function Set_Tooltip(self)
     end
 
     if WoWTools_FrameMixin:IsLocked(target) then
-        GameTooltip:AddDoubleLine('|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT), WoWTools_TextMixin:GetEnabeleDisable(false))
+        GameTooltip:AddDoubleLine('|cnWARNING_FONT_COLOR:'..(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT), WoWTools_TextMixin:GetEnabeleDisable(false))
         GameTooltip:Show()
         return
     elseif target:IsProtected() then
         GameTooltip:AddDoubleLine(
-            WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT,
-            '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '禁止操作' or WoWTools_Join(DISABLE, NPE_CONTROLS))
+            WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT,
+            '|cnWARNING_FONT_COLOR:'..(WoWTools_L['DISABLE+NPE_CONTROLS'])
         )
         GameTooltip:AddLine(' ')
     end
 
-    GameTooltip:AddDoubleLine('|cffff00ff'..name, format('%s %.2f', WoWTools_DataMixin.onlyChinese and '实际' or WoWTools_L['Effective'], target:GetEffectiveScale()))
+    GameTooltip:AddDoubleLine('|cffff00ff'..name, format('%s %.2f', WoWTools_L['Effective'], target:GetEffectiveScale()))
     local parent= target:GetParent()
     if parent then
         GameTooltip:AddDoubleLine(parent:GetName() or 'Parent', format('%.2f', parent:GetScale()))
@@ -729,7 +729,7 @@ local function Set_Tooltip(self)
     local scale
     scale= tonumber(format('%.2f', target:GetScale() or 1))
     scale= ((scale<=0.4 or scale>=2.5) and ' |cnWARNING_FONT_COLOR:' or ' |cnGREEN_FONT_COLOR:')..scale..' '
-    GameTooltip:AddDoubleLine((WoWTools_DataMixin.onlyChinese and '缩放' or HOUSING_EXPERT_DECOR_SUBMODE_SCALE), scale..WoWTools_DataMixin.Icon.left)
+    GameTooltip:AddDoubleLine((WoWTools_L.HOUSING_EXPERT_DECOR_SUBMODE_SCALE), scale..WoWTools_DataMixin.Icon.left)
 
     if self.setSize then
         GameTooltip:AddLine(' ')
@@ -747,7 +747,7 @@ local function Set_Tooltip(self)
         h= format('%s%d|r', ((self.minHeight and self.minHeight>=h) or (self.maxHeight and self.maxHeight<=h)) and '|cnWARNING_FONT_COLOR:' or '|cnGREEN_FONT_COLOR:', h)
 
         GameTooltip:AddDoubleLine(
-            col..(WoWTools_DataMixin.onlyChinese and '尺寸' or HUD_EDIT_MODE_SETTING_ARCHAEOLOGY_BAR_SIZE)..format(' %s |cffffffffx|r %s', w, h),
+            col..(WoWTools_L['HUD_EDIT_MODE_SETTING_ARCHAEOLOGY_BAR_SIZE~2'])..format(' %s |cffffffffx|r %s', w, h),
                 WoWTools_TextMixin:GetEnabeleDisable(not Save().disabledSize[name])..WoWTools_DataMixin.Icon.right
         )
 
@@ -760,9 +760,9 @@ local function Set_Tooltip(self)
         end
     else
         GameTooltip_AddErrorLine(GameTooltip,
-            (WoWTools_DataMixin.onlyChinese and '框体尺寸' or HUD_EDIT_MODE_SETTING_UNIT_FRAME_FRAME_SIZE)
+            (WoWTools_L.HUD_EDIT_MODE_SETTING_UNIT_FRAME_FRAME_SIZE)
             ..': '
-            ..(WoWTools_DataMixin.onlyChinese and '锁定' or LOCK)
+            ..(WoWTools_L.LOCK)
         )
     end
 
@@ -774,7 +774,7 @@ local function Set_Tooltip(self)
         )
     end
 
-    GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.mid)
+    GameTooltip:AddDoubleLine(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.mid)
     GameTooltip:Show()
 end
 

@@ -225,7 +225,7 @@ local function ResizeButton2_Menu(self, root)
     local sub
     sub=root:CreateButton(
         '|A:common-icon-rotateright:0:0|a'
-        ..((WoWTools_DataMixin.onlyChinese and '宽度' or HUD_EDIT_MODE_SETTING_CHAT_FRAME_WIDTH)),
+        ..((WoWTools_L.HUD_EDIT_MODE_SETTING_CHAT_FRAME_WIDTH)),
     function()
         return MenuResponse.Open
     end, {rightText= math.modf(Save().numWidth or 153)})
@@ -240,7 +240,7 @@ local function ResizeButton2_Menu(self, root)
             Create_ItemButton()
             WoWTools_MerchantMixin:Update_MerchantFrame()--更新物品
         end,
-        name=WoWTools_DataMixin.onlyChinese and '宽度' or HUD_EDIT_MODE_SETTING_CHAT_FRAME_WIDTH ,
+        name=WoWTools_L.HUD_EDIT_MODE_SETTING_CHAT_FRAME_WIDTH ,
         minValue=37,-- 153,
         maxValue=500,
         step=1,
@@ -248,7 +248,7 @@ local function ResizeButton2_Menu(self, root)
     })
     sub:CreateSpacer()
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '重置' or RESET,
+        WoWTools_L.RESET,
     function()
         Save().numWidth= nil
         Create_ItemButton()
@@ -259,7 +259,7 @@ local function ResizeButton2_Menu(self, root)
 --数量
     sub= root:CreateButton(
         '|A:GreenCross:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '数量' or AUCTION_HOUSE_QUANTITY_LABEL),
+        ..(WoWTools_L.AUCTION_HOUSE_QUANTITY_LABEL),
     function()
         return MenuResponse.Open
     end, {rightText=(Save().numLine or 5)..'+'..(MERCHANT_ITEMS_PER_PAGE/(Save().numLine or 5)) })
@@ -274,7 +274,7 @@ local function ResizeButton2_Menu(self, root)
             Save().numLine=value
             WoWTools_MerchantMixin:Update_MerchantFrame()--更新物品
         end,
-        name=WoWTools_DataMixin.onlyChinese and '行数' or HUD_EDIT_MODE_SETTING_ACTION_BAR_NUM_ROWS ,
+        name=WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_NUM_ROWS ,
         minValue=5,
         maxValue=15,
         step=1,
@@ -294,7 +294,7 @@ local function ResizeButton2_Menu(self, root)
             Create_ItemButton()
             WoWTools_MerchantMixin:Update_MerchantFrame()--更新物品
         end,
-        name=WoWTools_DataMixin.onlyChinese and '列数' or HUD_EDIT_MODE_SETTING_ACTION_BAR_NUM_COLUMNS,
+        name=WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_NUM_COLUMNS,
         minValue=2,
         maxValue=15,
         step=1,
@@ -302,7 +302,7 @@ local function ResizeButton2_Menu(self, root)
     })
     sub:CreateSpacer()
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '重置' or RESET,
+        WoWTools_L.RESET,
     function()
         Save().numLine= nil
         Save().MERCHANT_ITEMS_PER_PAGE= nil
@@ -329,12 +329,12 @@ local function ResizeButton2_Menu(self, root)
         Create_ItemButton()
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '物品名称' or WoWTools_Join(ITEMS, NAME))
+        tooltip:AddLine(WoWTools_L['ITEMS+NAME'])
     end)
 
 --物品信息
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '物品信息' or WoWTools_Join(ITEMS, INFO),
+        WoWTools_L['ITEMS+INFO'],
     function()
         return not Save().notItemInfo
     end, function()
@@ -345,7 +345,7 @@ local function ResizeButton2_Menu(self, root)
 --属性，字体，缩放
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
-    name= WoWTools_DataMixin.onlyChinese and '字体大小' or FONT_SIZE,
+    name= WoWTools_L.FONT_SIZE,
     getValue=function()
         return Save().statFontSize or 10
     end, setValue=function(value)
@@ -365,16 +365,16 @@ local function ResizeButton2_Menu(self, root)
     root:CreateDivider()
 --无法使用
     sub=root:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '无法使用' or MOUNT_JOURNAL_FILTER_UNUSABLE,
+        WoWTools_L.MOUNT_JOURNAL_FILTER_UNUSABLE,
     function()
         return MenuResponse.Open
     end, {rightText=Save().notIsUsableAlpha or 1})
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '透明度' or HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY)
+        tooltip:AddLine(WoWTools_L.HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY)
         tooltip:AddLine(" ")
-        GameTooltip_AddErrorLine(tooltip, WoWTools_DataMixin.onlyChinese and '无法使用' or MOUNT_JOURNAL_FILTER_UNUSABLE)
-        GameTooltip_AddErrorLine(tooltip, WoWTools_DataMixin.onlyChinese and '不可购买' or WoWTools_Join(PURCHASE, DISABLE))
-        GameTooltip_AddErrorLine(tooltip, WoWTools_DataMixin.onlyChinese and '已收集' or TRANSMOG_COLLECTED)
+        GameTooltip_AddErrorLine(tooltip, WoWTools_L.MOUNT_JOURNAL_FILTER_UNUSABLE)
+        GameTooltip_AddErrorLine(tooltip, WoWTools_L['PURCHASE+DISABLE'])
+        GameTooltip_AddErrorLine(tooltip, WoWTools_L.TRANSMOG_COLLECTED)
     end)
     WoWTools_MenuMixin:SetRightText(sub)
 
@@ -393,7 +393,7 @@ end
 --[[    root:CreateSpacer()
     root:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(root, {
-        name= WoWTools_DataMixin.onlyChinese and '无法使用' or MOUNT_JOURNAL_FILTER_UNUSABLE,
+        name= WoWTools_L.MOUNT_JOURNAL_FILTER_UNUSABLE,
         getValue=function()
             return Save().notIsUsableAlpha or 1
         end, setValue=function(value)
@@ -414,7 +414,7 @@ end
 
     root:CreateSpacer()
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '重置' or RESET,
+        WoWTools_L.RESET,
     function()
         Save().notIsUsableAlpha= nil
         return MenuResponse.Refresh
@@ -612,8 +612,8 @@ local function Init_WidthX2()
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(
-            (WoWTools_DataMixin.onlyChinese and '宽度' or HUD_EDIT_MODE_SETTING_CHAT_FRAME_WIDTH)..WoWTools_DataMixin.Icon.left,
-            WoWTools_DataMixin.Icon.right..(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL)
+            (WoWTools_L.HUD_EDIT_MODE_SETTING_CHAT_FRAME_WIDTH)..WoWTools_DataMixin.Icon.left,
+            WoWTools_DataMixin.Icon.right..(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL)
         )
         GameTooltip:Show()
     end)

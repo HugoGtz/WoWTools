@@ -110,7 +110,7 @@ local function Init_Options()
         Save().target= not Save().target and true or false
         WoWTools_TargetMixin:Set_All_Init()
     end)
-    sel.Text:SetText('1) |A:common-icon-rotateright:0:0|a'..(WoWTools_DataMixin.onlyChinese and '目标' or TARGET))
+    sel.Text:SetText('1) |A:common-icon-rotateright:0:0|a'..(WoWTools_L.TARGET))
     sel.Text:SetTextColor( Save().targetColor.r, Save().targetColor.g, Save().targetColor.b, Save().targetColor.a)
     sel.Text:EnableMouse(true)
     sel.Text:SetScript('OnMouseDown', function(self2, d)
@@ -141,10 +141,10 @@ local function Init_Options()
     sel.Text:SetScript('OnLeave', function(self2) GameTooltip:Hide() self2:SetAlpha(1) end)
     sel.Text:SetScript('OnEnter', function(self2)
         GameTooltip:SetOwner(self2, "ANCHOR_LEFT")
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '显示敌方姓名板' or BINDING_NAME_NAMEPLATES, WoWTools_TextMixin:GetEnabeleDisable(C_CVar.GetCVarBool("nameplateShowEnemies")))
+        GameTooltip:AddDoubleLine(WoWTools_L.BINDING_NAME_NAMEPLATES, WoWTools_TextMixin:GetEnabeleDisable(C_CVar.GetCVarBool("nameplateShowEnemies")))
         GameTooltip:AddLine(' ')
         local r,g,b,a= Save().targetColor.r, Save().targetColor.g, Save().targetColor.b, Save().targetColor.a
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.Icon.left..(WoWTools_DataMixin.onlyChinese and '设置颜色' or WoWTools_Join(SETTINGS, COLOR)), (WoWTools_DataMixin.onlyChinese and '默认' or DEFAULT)..WoWTools_DataMixin.Icon.right, r,g,b, 1,1,1)
+        GameTooltip:AddDoubleLine(WoWTools_DataMixin.Icon.left..(WoWTools_L['SETTINGS+COLOR']), (WoWTools_L.DEFAULT)..WoWTools_DataMixin.Icon.right, r,g,b, 1,1,1)
         GameTooltip:AddDoubleLine('r='..r..' g='..g..' b='..b, 'a='..a, r,g,b, r,g,b)
         GameTooltip:AddLine(' ')
         GameTooltip:Show()
@@ -165,7 +165,7 @@ local function Init_Options()
         WoWTools_TargetMixin:Set_All_Init()
     end)
     combatCheck.Text:EnableMouse(true)
-    combatCheck.Text:SetText(WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
+    combatCheck.Text:SetText(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
     combatCheck.Text:SetTextColor(Save().targetInCombatColor.r, Save().targetInCombatColor.g, Save().targetInCombatColor.b, Save().targetInCombatColor.a)
     combatCheck.Text:SetScript('OnMouseDown', function(self2, d)
         if d=='LeftButton' then
@@ -196,7 +196,7 @@ local function Init_Options()
     combatCheck.Text:SetScript('OnEnter', function(self2)
         local r,g,b,a= Save().targetInCombatColor.r, Save().targetInCombatColor.g, Save().targetInCombatColor.b, Save().targetInCombatColor.a
         GameTooltip:SetOwner(self2, "ANCHOR_LEFT")
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.Icon.left..(WoWTools_DataMixin.onlyChinese and '设置颜色' or WoWTools_Join(SETTINGS, COLOR)), (WoWTools_DataMixin.onlyChinese and '默认' or DEFAULT)..WoWTools_DataMixin.Icon.right, r,g,b, 1,1,1)
+        GameTooltip:AddDoubleLine(WoWTools_DataMixin.Icon.left..(WoWTools_L['SETTINGS+COLOR']), (WoWTools_L.DEFAULT)..WoWTools_DataMixin.Icon.right, r,g,b, 1,1,1)
         GameTooltip:AddDoubleLine('r='..r..' g='..g..' b='..b, 'a='..a, r,g,b, r,g,b)
         GameTooltip:Show()
         self2:SetAlpha(0.3)
@@ -278,7 +278,7 @@ local function Init_Options()
 
 
     local sliderScale = WoWTools_SliderMixin:CSlider(Frame, {min=0.2, max=4, value=Save().scale or 1, setp=0.1, w= 100,
-    text= WoWTools_DataMixin.onlyChinese and '缩放' or HOUSING_EXPERT_DECOR_SUBMODE_SCALE,
+    text= WoWTools_L.HOUSING_EXPERT_DECOR_SUBMODE_SCALE,
     func=function(self2, value)
         value= tonumber(format('%.1f', value))
         self2:SetValue(value)
@@ -291,7 +291,7 @@ local function Init_Options()
     sliderScale:SetPoint("TOPLEFT", sliderX, 'BOTTOMLEFT', 0,-16)
 
     local sliderElapsed = WoWTools_SliderMixin:CSlider(Frame, {min=0.3, max=1.5, value=Save().elapsed or 0.5, setp=0.1, w= 100, color=true,
-    text= WoWTools_DataMixin.onlyChinese and '速度' or SPEED,
+    text= WoWTools_L.SPEED,
     func=function(self2, value)
         value= tonumber(format('%.1f', value))
         self2:SetValue(value)
@@ -394,7 +394,7 @@ local function Init_Options()
         if name and TargetTextureSave()[name] then
             WoWToolsPlusPlayerDate['TargetTexture'][name]= nil
             print(WoWTools_DataMixin.Icon.icon2..WoWTools_TargetMixin.addName,
-                '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '删除' or DELETE)..'|r',
+                '|cnWARNING_FONT_COLOR:'..(WoWTools_L.DELETE)..'|r',
                 (isAtals and '|A:'..name..':0:0|a' or ('|T'..name..':0|t'))..name
             )
             parent:SetText("")
@@ -413,7 +413,7 @@ local function Init_Options()
             parent:SetText('')
             print(WoWTools_DataMixin.addName,
                 WoWTools_TargetMixin.addName,
-                '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '添加' or ADD)..'|r',
+                '|cnGREEN_FONT_COLOR:'..(WoWTools_L.ADD)..'|r',
                 (isAtlas and '|A:'..icon..':0:0|a' or ('|T'..icon..':0|t'))..icon
             )
         end
@@ -424,10 +424,10 @@ local function Init_Options()
         GameTooltip:ClearLines()
         local atlas, icon= WoWTools_TextureMixin:IsAtlas(menu.edit:GetText())
         if icon then
-            GameTooltip:AddDoubleLine(atlas and '|A:'..icon..':0:0|a' or ('|T'..icon..':0|t'), WoWTools_DataMixin.onlyChinese and '添加' or ADD)
+            GameTooltip:AddDoubleLine(atlas and '|A:'..icon..':0:0|a' or ('|T'..icon..':0|t'), WoWTools_L.ADD)
             GameTooltip:AddDoubleLine(atlas and 'Atlas' or 'Texture', icon)
         else
-            GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '无' or NONE)
+            GameTooltip:AddLine(WoWTools_L.NONE)
         end
         GameTooltip:Show()
     end)
@@ -454,7 +454,7 @@ local function Init_Options()
 
 --[[
     local sel2= CreateFrame('CheckButton', nil, Frame, "InterfaceOptionsCheckButtonTemplate")
-    sel2.Text:SetText('2) '..(WoWTools_DataMixin.onlyChinese and '怪物数量' or WoWTools_Join(CREATURE, AUCTION_HOUSE_QUANTITY_LABEL)))
+    sel2.Text:SetText('2) '..(WoWTools_L['CREATURE+AUCTION_HOUSE_QUANTITY_LABEL']))
     sel2:SetPoint('TOPLEFT', menu.edit, 'BOTTOMLEFT', -32, -32)
     sel2:SetChecked(Save().creature)
     sel2:SetScript('OnLeave', GameTooltip_Hide)
@@ -481,7 +481,7 @@ local function Init_Options()
     end)
 
     local numSize = WoWTools_SliderMixin:CSlider(Frame, {min=8, max=72, value=Save().creatureFontSize, setp=1, w=100, color=true,
-    text= WoWTools_DataMixin.onlyChinese and '字体大小' or FONT_SIZE,
+    text= WoWTools_L.FONT_SIZE,
     func=function(self2, value)--字体大小
         value= math.floor(value)
         self2:SetValue(value)
@@ -492,7 +492,7 @@ local function Init_Options()
     numSize:SetPoint("LEFT", sel2.Text, 'RIGHT',15,0)
 
     local numPostionCheck= CreateFrame('CheckButton', nil, Frame, "InterfaceOptionsCheckButtonTemplate")
-    numPostionCheck.Text:SetText(WoWTools_DataMixin.onlyChinese and '自定义位置' or SPELL_TARGET_CENTER_LOC)
+    numPostionCheck.Text:SetText(WoWTools_L.SPELL_TARGET_CENTER_LOC)
     numPostionCheck:SetPoint('LEFT', numSize, 'RIGHT', 10,0)
     numPostionCheck:SetChecked(Save().creatureUIParent)
     numPostionCheck:SetScript('OnClick', function()
@@ -541,7 +541,7 @@ local function Init_Options()
     unitIsMeCheck:SetChecked(Save().unitIsMe)
     unitIsMeCheck:SetScript('OnClick', function()
         Save().unitIsMe= not Save().unitIsMe and true or false
-        print(WoWTools_DataMixin.Icon.icon2..WoWTools_TargetMixin.addName, WoWTools_TextMixin:GetEnabeleDisable(Save().unitIsMe), WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+        print(WoWTools_DataMixin.Icon.icon2..WoWTools_TargetMixin.addName, WoWTools_TextMixin:GetEnabeleDisable(Save().unitIsMe), WoWTools_L.REQUIRES_RELOAD)
         WoWTools_TargetMixin:Set_All_Init()
     end)
 
@@ -576,8 +576,8 @@ local function Init_Options()
         end
         root:CreateDivider()
         for _, tab2 in pairs({
-            {'healthBar', WoWTools_DataMixin.onlyChinese and '生命条' or WoWTools_L['Health bar']},
-            {'name', WoWTools_DataMixin.onlyChinese and '名称' or NAME},
+            {'healthBar', WoWTools_L['Health bar']},
+            {'name', WoWTools_L.NAME},
         }) do
             root:CreateCheckbox(
                 tab2[2],
@@ -660,9 +660,9 @@ local function Init_Options()
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_TargetMixin.addName)
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.Icon.left..(WoWTools_DataMixin.onlyChinese and '设置颜色' or WoWTools_Join(SETTINGS ,COLOR)),
+        GameTooltip:AddDoubleLine(WoWTools_DataMixin.Icon.left..(WoWTools_L['SETTINGS+COLOR']),
                             'r'..Save().unitIsMeColor.r..' g'..Save().unitIsMeColor.g..' b'..Save().unitIsMeColor.b..' a'..Save().unitIsMeColor.a)
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.Icon.right..(WoWTools_DataMixin.onlyChinese and '默认' or DEFAULT), 'r1 g1 b1 a1' )
+        GameTooltip:AddDoubleLine(WoWTools_DataMixin.Icon.right..(WoWTools_L.DEFAULT), 'r1 g1 b1 a1' )
         GameTooltip:Show()
         self:SetAlpha(0.7)
     end)
@@ -671,7 +671,7 @@ local function Init_Options()
             Save().unitIsMeColor.r, Save().unitIsMeColor.g, Save().unitIsMeColor.b, Save().unitIsMeColor.a= 1,1,1,1
             self:GetParent():set_icon()
             WoWTools_TargetMixin:Set_All_Init()
-            print(WoWTools_DataMixin.Icon.icon2..WoWTools_TargetMixin.addName, WoWTools_DataMixin.onlyChinese and '默认' or DEFAULT)
+            print(WoWTools_DataMixin.Icon.icon2..WoWTools_TargetMixin.addName, WoWTools_L.DEFAULT)
         else
             local r,g,b,a= Save().unitIsMeColor.r, Save().unitIsMeColor.g, Save().unitIsMeColor.b, Save().unitIsMeColor.a
             WoWTools_ColorMixin:ShowColorFrame(r,g,b,a,
@@ -713,7 +713,7 @@ local function Init_Options()
     unitIsMeY:SetPoint("LEFT", unitIsMeX, 'RIGHT',15,0)
 
     local unitIsMeSize = WoWTools_SliderMixin:CSlider(Frame, {min=2, max=64, value=Save().unitIsMeSize, setp=1, w= 100, color=false,
-    text= WoWTools_DataMixin.onlyChinese and '大小' or HUD_EDIT_MODE_SETTING_ARCHAEOLOGY_BAR_SIZE,
+    text= WoWTools_L.HUD_EDIT_MODE_SETTING_ARCHAEOLOGY_BAR_SIZE,
     func=function(self2, value)
         value= math.floor(value)
         self2:SetValue(value)
@@ -766,7 +766,7 @@ local function Init_Options()
     end)
 
     local classCheck= CreateFrame('CheckButton', nil, Frame, "InterfaceOptionsCheckButtonTemplate")
-    classCheck.Text:SetText(WoWTools_DataMixin.onlyChinese and '职业' or CLASS)
+    classCheck.Text:SetText(WoWTools_L.CLASS)
     classCheck:SetPoint('LEFT', questAllFactionCheck.Text, 'RIGHT',2,0)
     classCheck:SetChecked(Save().questShowPlayerClass)
     classCheck:SetScript('OnClick', function()
@@ -775,7 +775,7 @@ local function Init_Options()
     end)
 
     --[[local instanceCheck= CreateFrame('CheckButton', nil, Frame, "InterfaceOptionsCheckButtonTemplate")
-    instanceCheck.Text:SetText(WoWTools_DataMixin.onlyChinese and '在副本里显示' or WoWTools_Join(SHOW, INSTANCE))
+    instanceCheck.Text:SetText(WoWTools_L['SHOW+INSTANCE'])
     instanceCheck:SetPoint('TOPLEFT', questCheck, 'BOTTOMRIGHT')
     instanceCheck:SetChecked(Save().questShowInstance)
     instanceCheck:SetScript('OnClick', function()
@@ -822,7 +822,7 @@ local function Init()
             Init_Options()
             WoWTools_TargetMixin:Set_All_Init()
 
-            print(WoWTools_DataMixin.Icon.icon2..WoWTools_TargetMixin.addName, WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled), Save().disabled and (WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD) or '')
+            print(WoWTools_DataMixin.Icon.icon2..WoWTools_TargetMixin.addName, WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled), Save().disabled and (WoWTools_L.REQUIRES_RELOAD) or '')
 
         end,
         clearfunc= function() WoWToolsPlusSave['Plus_Target']=nil WoWTools_DataMixin:Reload() end}

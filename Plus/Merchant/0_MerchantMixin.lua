@@ -21,7 +21,7 @@ function WoWTools_MerchantMixin:CheckSellItem(itemID, itemLink, quality, isBound
     end
 
     if WoWToolsPlusPlayerDate['SellBuyItems'].sell[itemID] and not Save().notSellCustom then
-        return WoWTools_DataMixin.onlyChinese and '自定义' or CUSTOM
+        return WoWTools_L.CUSTOM
     end
 
     --Vender botín de jefe es opcional (sellBoss, desactivado por defecto) y nunca vende apariencias sin coleccionar
@@ -30,18 +30,18 @@ function WoWTools_MerchantMixin:CheckSellItem(itemID, itemLink, quality, isBound
         if level and select(2, WoWTools_CollectionMixin:Item(itemID, nil, nil))~=false then
             local itemLevel= WoWTools_ItemMixin:GetItemLevel(itemLink) or select(4, C_Item.GetItemInfo(itemLink))
             if level== itemLevel  then
-                return WoWTools_DataMixin.onlyChinese and '首领' or BOSS
+                return WoWTools_L.BOSS
             end
         end
     end
 
     if quality==0 then
         if WoWTools_CollectionMixin:GetPet9Item(itemID, true) then--宠物兑换, wow9.0
-            return WoWTools_DataMixin.onlyChinese and '宠物' or PET
+            return WoWTools_L.PET
 
         elseif not Save().notSellJunk then--垃圾
             if isBound==true then
-                return WoWTools_DataMixin.onlyChinese and '垃圾' or BAG_FILTER_JUNK
+                return WoWTools_L.BAG_FILTER_JUNK
             else
                 local classID, subclassID = select(6, C_Item.GetItemInfoInstant(itemID))
                 if (classID==2 or classID==4) and subclassID~=0 then
@@ -50,7 +50,7 @@ function WoWTools_MerchantMixin:CheckSellItem(itemID, itemLink, quality, isBound
                         return
                     end
                 end
-                return WoWTools_DataMixin.onlyChinese and '垃圾' or BAG_FILTER_JUNK
+                return WoWTools_L.BAG_FILTER_JUNK
             end
         end
     end

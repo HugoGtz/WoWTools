@@ -149,7 +149,7 @@ local function Init_Button()
         if d=='RightButton' and IsControlKeyDown() then--还原
             Save().creaturePoint=nil
             self:set_point()
-            print(WoWTools_DataMixin.addName , WoWTools_TargetMixin.addName, WoWTools_DataMixin.onlyChinese and '重置位置' or RESET_POSITION)
+            print(WoWTools_DataMixin.addName , WoWTools_TargetMixin.addName, WoWTools_L.RESET_POSITION)
         elseif d=='RightButton' and IsAltKeyDown() then
             SetCursor('UI_MOVE_CURSOR')
         end
@@ -169,7 +169,7 @@ local function Init_Button()
         Save().creatureFontSize=n
         WoWTools_LabelMixin:Create(nil, {changeFont=self.Text, size=n})
         self:set_tooltip()
-        print(WoWTools_DataMixin.Icon.icon2..WoWTools_TargetMixin.addName, (WoWTools_DataMixin.onlyChinese and '字体大小' or FONT_SIZE), '|cnGREEN_FONT_COLOR:'..Save().creatureFontSize)
+        print(WoWTools_DataMixin.Icon.icon2..WoWTools_TargetMixin.addName, (WoWTools_L.FONT_SIZE), '|cnGREEN_FONT_COLOR:'..Save().creatureFontSize)
     end)
 
     function numButton:set_tooltip()
@@ -191,9 +191,9 @@ local function Init_Button()
                 )
         end
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '移动' or NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '重置位置' or RESET_POSITION, 'Ctrl+'..WoWTools_DataMixin.Icon.right)
-        GameTooltip:AddDoubleLine((WoWTools_DataMixin.onlyChinese and '字体大小' or FONT_SIZE)..'|cnGREEN_FONT_COLOR:'..Save().creatureFontSize, 'Alt+'..WoWTools_DataMixin.Icon.mid)
+        GameTooltip:AddDoubleLine(WoWTools_L.NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine(WoWTools_L.RESET_POSITION, 'Ctrl+'..WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine((WoWTools_L.FONT_SIZE)..'|cnGREEN_FONT_COLOR:'..Save().creatureFontSize, 'Alt+'..WoWTools_DataMixin.Icon.mid)
         GameTooltip:Show()
     end
     numButton:SetScript('OnLeave', GameTooltip_Hide)

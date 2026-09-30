@@ -45,7 +45,7 @@ local function MenuList_Item(self, root)
 
 	sub=root:CreateCheckbox(
 		(Save().Hide and '|cff626262' or'')
-		..(WoWTools_DataMixin.onlyChinese and '物品' or ITEMS),
+		..(WoWTools_L.ITEMS),
 	function ()
 		return not Save().disabledItemTrack
 	end, function()
@@ -78,7 +78,7 @@ local function MenuList_Item(self, root)
 
 --使用物品
 	sub2=sub:CreateCheckbox(
-		WARNING_FONT_COLOR:WrapTextInColorCode(WoWTools_DataMixin.onlyChinese and '使用物品' or USE_ITEM),
+		WARNING_FONT_COLOR:WrapTextInColorCode(WoWTools_L.USE_ITEM),
 	function()
 		return Save().itemButtonUse
 	end, function()
@@ -86,7 +86,7 @@ local function MenuList_Item(self, root)
 	end)
 	sub2:SetTooltip(function(tooltip)
 		tooltip:AddLine('SecureActionButton')
-		tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+		tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
 		GameTooltip_AddErrorLine(tooltip,
 			WoWTools_DataMixin.onlyChinese and '提示: 可能会出现错误' or (LABEL_NOTE..': '..ENABLE_ERROR_SPEECH)
 		)
@@ -129,7 +129,7 @@ local function Init_CurrencyMenu(self, root)
 	table.sort(tab, function(a, b) return a> b end)
 
 	sub=root:CreateCheckbox(
-		(WoWTools_DataMixin.onlyChinese and '指定货币' or WoWTools_Join(COMBAT_ALLY_START_MISSION, TOKENS)),
+		(WoWTools_L['COMBAT_ALLY_START_MISSION+TOKENS']),
 	function()
 		return Save().indicato
 	end, function()
@@ -193,14 +193,14 @@ local function Init_CurrencyMenu(self, root)
 --添加
 	sub:CreateDivider()
 	sub:CreateButton(
-		WoWTools_DataMixin.onlyChinese and '添加' or ADD,
+		WoWTools_L.ADD,
 	function()
 		StaticPopup_Show('WoWTools_Currency', nil, nil, {
 		GetValue=function()
 		end, CheckValue=function(button1, currencyID)
 			button1:SetText(
-				Save().tokens[currencyID] and (WoWTools_DataMixin.onlyChinese and '更新' or UPDATE)
-				or (WoWTools_DataMixin.onlyChinese and '添加' or ADD)
+				Save().tokens[currencyID] and (WoWTools_L.UPDATE)
+				or (WoWTools_L.ADD)
 			)
 		end, SetValue=function(currencyID)
 			Save().tokens[currencyID]=true
@@ -241,7 +241,7 @@ local function Init_Menu(self, root)
 
 --显示
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '显示' or SHOW,
+        WoWTools_L.SHOW,
     function()
         return Save().str
     end, function ()
@@ -251,7 +251,7 @@ local function Init_Menu(self, root)
 
 --自动隐藏
 	sub=root:CreateCheckbox(
-		WoWTools_DataMixin.onlyChinese and '自动隐藏' or WoWTools_Join(SELF_CAST_AUTO, HIDE),
+		WoWTools_L['SELF_CAST_AUTO+HIDE'],
 	function()
 		return not Save().notAutoHideTrack
 	end, function()
@@ -259,12 +259,12 @@ local function Init_Menu(self, root)
 		self:settings()
 	end)
 	sub:SetTooltip(function(tooltip)
-		tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '隐藏' or HIDE)
+		tooltip:AddLine(WoWTools_L.HIDE)
 		tooltip:AddLine(' ')
-		tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
-		tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '宠物对战' or SHOW_PET_BATTLES_ON_MAP_TEXT)
-		tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '在副本中' or AGGRO_WARNING_IN_INSTANCE)
-		tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '载具控制' or BINDING_HEADER_VEHICLE)
+		tooltip:AddLine(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
+		tooltip:AddLine(WoWTools_L.SHOW_PET_BATTLES_ON_MAP_TEXT)
+		tooltip:AddLine(WoWTools_L.AGGRO_WARNING_IN_INSTANCE)
+		tooltip:AddLine(WoWTools_L.BINDING_HEADER_VEHICLE)
 	end)
 
 	root:CreateDivider()
@@ -291,7 +291,7 @@ local function Init_Menu(self, root)
 
 --显示名称
     sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '显示名称' or PROFESSIONS_FLYOUT_SHOW_NAME,
+        WoWTools_L.PROFESSIONS_FLYOUT_SHOW_NAME,
     function ()
         return Save().nameShow
     end, function ()
@@ -301,7 +301,7 @@ local function Init_Menu(self, root)
 
 --向右平移
     sub:CreateCheckbox(
-        (WoWTools_DataMixin.onlyChinese and '向右平移' or BINDING_NAME_STRAFERIGHT),
+        (WoWTools_L.BINDING_NAME_STRAFERIGHT),
     function ()
         return Save().toRightTrackText
     end, function ()
@@ -312,7 +312,7 @@ local function Init_Menu(self, root)
 
 --上
     sub:CreateCheckbox(
-        (WoWTools_DataMixin.onlyChinese and '上' or HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_UP)..'|A:bags-greenarrow:0:0|a',
+        (WoWTools_L.HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_UP)..'|A:bags-greenarrow:0:0|a',
     function ()
         return Save().toTopTrack
     end, function ()
@@ -545,12 +545,12 @@ local function Set_ItemButton(btn)
 		local col= notFind and '|cff626262' or '|cnGREEN_FONT_COLOR:'
 
 		if self.itemButtonUse then
-			GameTooltip:AddDoubleLine(col..(WoWTools_DataMixin.onlyChinese and '使用物品' or USE_ITEM), WoWTools_DataMixin.Icon.left)
+			GameTooltip:AddDoubleLine(col..(WoWTools_L.USE_ITEM), WoWTools_DataMixin.Icon.left)
 		end
 
 		col= C_Item.IsEquippedItem(self.itemID) and '|cff626262' or col
 
-		GameTooltip:AddDoubleLine(col..(WoWTools_DataMixin.onlyChinese and '拿取' or WoWTools_L['Pick up']), col..('Alt+'..WoWTools_DataMixin.Icon.left))
+		GameTooltip:AddDoubleLine(col..(WoWTools_L['Pick up']), col..('Alt+'..WoWTools_DataMixin.Icon.left))
 
         GameTooltip:Show()
 	end
@@ -655,7 +655,7 @@ local function Set_CurrencyButton(btn)
         end
         GameTooltip:ClearLines()
 		GameTooltip:SetCurrencyByID(self.currencyID)
-		local link= C_CurrencyInfo.GetCurrencyLink(self.currencyID) or (WoWTools_DataMixin.onlyChinese and '超链接' or COMMUNITIES_INVITE_MANAGER_COLUMN_TITLE_LINK)
+		local link= C_CurrencyInfo.GetCurrencyLink(self.currencyID) or (WoWTools_L.COMMUNITIES_INVITE_MANAGER_COLUMN_TITLE_LINK)
 		GameTooltip:AddDoubleLine(link..'|A:transmog-icon-chat:0:0|a', WoWTools_DataMixin.Icon.left)
 		WoWTools_CurrencyMixin:Find(self.currencyID, nil)--选中提示
     end)
@@ -962,7 +962,7 @@ local function Init()
 		GameTooltip:ClearLines()
 
 		if WoWTools_FrameMixin:IsLocked(self) then
-			GameTooltip_AddErrorLine(GameTooltip, WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
+			GameTooltip_AddErrorLine(GameTooltip, WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
 			GameTooltip:Show()
 			return
 		end
@@ -973,17 +973,17 @@ local function Init()
 			GameTooltip:AddLine(' ')
 			GameTooltip:AddDoubleLine(itemLink or ('itemID'..itemID),
 					Save().item[itemID] and
-						('|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '移除' or REMOVE)..'|A:common-icon-redx:0:0|a')
-					or ('|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '添加' or ADD)..format('|A:%s:0:0|a', 'common-icon-checkmark'))
+						('|cnWARNING_FONT_COLOR:'..(WoWTools_L.REMOVE)..'|A:common-icon-redx:0:0|a')
+					or ('|cnGREEN_FONT_COLOR:'..(WoWTools_L.ADD)..format('|A:%s:0:0|a', 'common-icon-checkmark'))
 			)
 			self:set_texture(select(5, C_Item.GetItemInfoInstant(itemID)))
 		else
 			GameTooltip:AddLine(WoWTools_CurrencyMixin.addName..WoWTools_DataMixin.Icon.icon2)
 			GameTooltip:AddLine(' ')
-			GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '打开/关闭货币页面' or BINDING_NAME_TOGGLECURRENCY, WoWTools_DataMixin.Icon.left)
-			GameTooltip:AddDoubleLine((WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU), WoWTools_DataMixin.Icon.right)
+			GameTooltip:AddDoubleLine(WoWTools_L.BINDING_NAME_TOGGLECURRENCY, WoWTools_DataMixin.Icon.left)
+			GameTooltip:AddDoubleLine((WoWTools_L.SLASH_TEXTTOSPEECH_MENU), WoWTools_DataMixin.Icon.right)
 			GameTooltip:AddLine(' ')
-			GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '移动' or NPE_MOVE, 'Atl+'..WoWTools_DataMixin.Icon.right)
+			GameTooltip:AddDoubleLine(WoWTools_L.NPE_MOVE, 'Atl+'..WoWTools_DataMixin.Icon.right)
 
 			local num= self.frame.pool:GetNumActive()+ self.frame.itemPool:GetNumActive()+ self.frame.itemPool2:GetNumActive()
 			GameTooltip:AddDoubleLine(
@@ -992,7 +992,7 @@ local function Init()
 			)
 
 			GameTooltip:AddLine(' ')
-			GameTooltip:AddDoubleLine((WoWTools_DataMixin.onlyChinese and '拖曳' or DRAG_MODEL)..WoWTools_DataMixin.Icon.left..(WoWTools_DataMixin.onlyChinese and '物品' or ITEMS), WoWTools_DataMixin.onlyChinese and '追踪' or TRACKING)
+			GameTooltip:AddDoubleLine((WoWTools_L.DRAG_MODEL)..WoWTools_DataMixin.Icon.left..(WoWTools_L.ITEMS), WoWTools_L.TRACKING)
 		end
 		GameTooltip:Show()
 	end
@@ -1031,11 +1031,11 @@ local function Init()
 			Save().item[itemID]= not Save().item[itemID] and true or nil
 			print(
 				WoWTools_CurrencyMixin.addName..WoWTools_DataMixin.Icon.icon2,
-				WoWTools_DataMixin.onlyChinese and '追踪' or TRACKING,
+				WoWTools_L.TRACKING,
 
 				Save().item[itemID] and
-				('|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '添加' or ADD)..format('|A:%s:0:0|a', 'common-icon-checkmark'))
-				or ('|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '移除' or REMOVE)..'|A:common-icon-redx:0:0|a'),
+				('|cnGREEN_FONT_COLOR:'..(WoWTools_L.ADD)..format('|A:%s:0:0|a', 'common-icon-checkmark'))
+				or ('|cnWARNING_FONT_COLOR:'..(WoWTools_L.REMOVE)..'|A:common-icon-redx:0:0|a'),
 
 				itemLink or itemID
 			)

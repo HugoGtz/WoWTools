@@ -45,7 +45,7 @@ local function Set_Tooltip(tooltip, desc)
 
     if not desc.data.isEnabled then
         GameTooltip_AddErrorLine(tooltip,
-            WoWTools_DataMixin.onlyChinese and '你不能进入此队列。' or YOU_MAY_NOT_QUEUE_FOR_THIS
+            WoWTools_L.YOU_MAY_NOT_QUEUE_FOR_THIS
         )
         local declined= LFGConstructDeclinedMessage(desc.data.dungeonID)
         if declined and declined~='' then
@@ -102,7 +102,7 @@ local function Set_Tooltip(tooltip, desc)
     end
     tooltip:AddLine(WoWTools_TextMixin:CN(dungeonName))
     tooltip:AddDoubleLine(
-        (num and (WoWTools_DataMixin.onlyChinese and '完成' or COMPLETE)..' '..num or ''),
+        (num and (WoWTools_L.COMPLETE)..' '..num or ''),
         (dungeonID and 'dungeonID '..dungeonID or nil)
     )
 end
@@ -220,8 +220,8 @@ local function Init_Follower_Specific_Menu(root, listType)--追随者，副本
 
     local header= NORMAL_FONT_COLOR:WrapTextInColorCode(
             (listType=='follower'
-                and (WoWTools_DataMixin.onlyChinese and '追随者地下城' or LFG_TYPE_FOLLOWER_DUNGEON)
-                or (WoWTools_DataMixin.onlyChinese and '指定地下城' or SPECIFIC_DUNGEONS)
+                and (WoWTools_L['LFG_TYPE_FOLLOWER_DUNGEON~2'])
+                or (WoWTools_L.SPECIFIC_DUNGEONS)
             )
     )
 
@@ -237,7 +237,7 @@ local function Init_Follower_Specific_Menu(root, listType)--追随者，副本
         return MenuResponse.Open
     end, {listType=listType})
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.Icon.left..MicroButtonTooltipText(WoWTools_DataMixin.onlyChinese and '队伍查找器' or DUNGEONS_BUTTON, "TOGGLEGROUPFINDER"))
+        tooltip:AddLine(WoWTools_DataMixin.Icon.left..MicroButtonTooltipText(WoWTools_L.DUNGEONS_BUTTON, "TOGGLEGROUPFINDER"))
     end)
 
     local find=0
@@ -335,7 +335,7 @@ end
 local function Init_Scenarios_Menu(root)--ScenarioFinder.lua
     local sub, sub2, reward, rewardIndex, rewardType, rewardArg
     local numScenario= GetNumRandomScenarios() or 0
-    local header= NORMAL_FONT_COLOR:WrapTextInColorCode(WoWTools_DataMixin.onlyChinese and '场景战役' or SCENARIOS)
+    local header= NORMAL_FONT_COLOR:WrapTextInColorCode(WoWTools_L.SCENARIOS)
 
     sub= root:CreateButton(
         header,
@@ -394,7 +394,7 @@ local function Init_Scenarios_Menu(root)--ScenarioFinder.lua
                     tooltip:AddLine(WoWTools_TextMixin:CN(desc.data.dungeonName))
                     tooltip:AddLine(' ')
                     GameTooltip_AddErrorLine(tooltip,
-                        WoWTools_DataMixin.onlyChinese and '你不能进入此队列。' or YOU_MAY_NOT_QUEUE_FOR_THIS
+                        WoWTools_L.YOU_MAY_NOT_QUEUE_FOR_THIS
                     )
                     local text= LFGConstructDeclinedMessage(desc.data.dungeonID)
                     if text and text~='' then
@@ -485,7 +485,7 @@ end
 --5人，随机 LFDFrame.lua
 local function set_Party_Menu_List(root2)
     local isMaxLevel= WoWTools_DataMixin.Player.IsMaxLevel
-    local header= NORMAL_FONT_COLOR:WrapTextInColorCode(WoWTools_DataMixin.onlyChinese and '随机地下城' or LFG_TYPE_RANDOM_DUNGEON)
+    local header= NORMAL_FONT_COLOR:WrapTextInColorCode(WoWTools_L['LFG_TYPE_RANDOM_DUNGEON~2'])
 
     local hide= Save().hideDontEnterMenu and not isMaxLevel
 
@@ -577,7 +577,7 @@ local function set_Party_Menu_List(root2)
                 tooltip:AddLine(WoWTools_TextMixin:CN(desc.data.dungeonName)..' ')
                 tooltip:AddLine(' ')
                 GameTooltip_AddErrorLine(tooltip,
-                    WoWTools_DataMixin.onlyChinese and '你不能进入此队列。' or YOU_MAY_NOT_QUEUE_FOR_THIS
+                    WoWTools_L.YOU_MAY_NOT_QUEUE_FOR_THIS
                 )
                 local declined= LFGConstructDeclinedMessage(desc.data.dungeonID)
                 if declined and declined~='' then
@@ -685,7 +685,7 @@ local function set_Raid_Menu_List(root2)
     local root
     if num==0 or not isMaxLevel then
         root= root2:CreateButton(
-            NORMAL_FONT_COLOR:WrapTextInColorCode(WoWTools_DataMixin.onlyChinese and '随机团队' or PLAYER_DIFFICULTY3),
+            NORMAL_FONT_COLOR:WrapTextInColorCode(WoWTools_L.PLAYER_DIFFICULTY3),
         function()
             if C_LFGInfo.IsLFREnabled() and (not RaidFinderFrame or not RaidFinderFrame:IsShown()) then
                 PVEFrame_ToggleFrame("GroupFinderFrame", RaidFinderFrame)
@@ -693,7 +693,7 @@ local function set_Raid_Menu_List(root2)
             return MenuResponse.Open
         end, {rightText=0})
         root:SetTooltip(function(tooltip)
-            tooltip:AddLine(WoWTools_DataMixin.Icon.left..MicroButtonTooltipText(WoWTools_DataMixin.onlyChinese and '队伍查找器' or DUNGEONS_BUTTON, "TOGGLEGROUPFINDER"))
+            tooltip:AddLine(WoWTools_DataMixin.Icon.left..MicroButtonTooltipText(WoWTools_L.DUNGEONS_BUTTON, "TOGGLEGROUPFINDER"))
         end)
         WoWTools_MenuMixin:SetRightText(root)
 
@@ -763,7 +763,7 @@ local function set_Raid_Menu_List(root2)
                         ..WoWTools_TextMixin:CN(bossName)
                     )
                 end
-                bossKillText = format(WoWTools_DataMixin.onlyChinese and '已消灭 |cnGREEN_FONT_COLOR:%d|r/%d 个首领' or BOSSES_KILLED, killNum, bossNum)
+                bossKillText = format(WoWTools_L.BOSSES_KILLED, killNum, bossNum)
                 isKillAll= bossNum==killNum
             end
 
@@ -818,7 +818,7 @@ local function set_Raid_Menu_List(root2)
             )
             sub:SetTooltip(function(tooltip, desc)
                 GameTooltip_AddErrorLine(tooltip,
-                    WoWTools_DataMixin.onlyChinese and '你不能进入此队列。' or YOU_MAY_NOT_QUEUE_FOR_THIS
+                    WoWTools_L.YOU_MAY_NOT_QUEUE_FOR_THIS
                 )
                 local msg= LFGConstructDeclinedMessage(desc.data.dungeonID)
                 if msg then
@@ -880,7 +880,7 @@ local function Init_All_Role(_, root)
         return MenuResponse.Open
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(MicroButtonTooltipText(WoWTools_DataMixin.onlyChinese and '队伍查找器' or DUNGEONS_BUTTON, "TOGGLEGROUPFINDER"))
+        tooltip:AddLine(MicroButtonTooltipText(WoWTools_L.DUNGEONS_BUTTON, "TOGGLEGROUPFINDER"))
     end)
 
     root:CreateDivider()
@@ -925,7 +925,7 @@ local function Init_All_Role(_, root)
         return MenuResponse.Open
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(MicroButtonTooltipText(WoWTools_DataMixin.onlyChinese and '队伍查找器' or DUNGEONS_BUTTON, "TOGGLEGROUPFINDER"))
+        tooltip:AddLine(MicroButtonTooltipText(WoWTools_L.DUNGEONS_BUTTON, "TOGGLEGROUPFINDER"))
     end)
 
     root:CreateDivider()
@@ -978,7 +978,7 @@ local function Init_All_Role(_, root)
         WoWTools_LFDMixin:Init_RolePollPopup()
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '仅用于当前专精' or TRANSMOG_CURRENT_SPECIALIZATION)
+        tooltip:AddLine(WoWTools_L.TRANSMOG_CURRENT_SPECIALIZATION)
     end)
 
 
@@ -1027,7 +1027,7 @@ local function Init_Menu(self, root)
                 ..(isDPS and WoWTools_DataMixin.Icon.DAMAGER or '')
                 ..(isLeader and '|A:UI-HUD-UnitFrame-Player-Group-GuideIcon:0:0|a' or '')
     else
-        text='|A:QuestLegendaryTurnin:0|a|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '无职责' or NO_ROLE)..'|r'
+        text='|A:QuestLegendaryTurnin:0|a|cnWARNING_FONT_COLOR:'..(WoWTools_L.NO_ROLE)..'|r'
     end
 
 --离开副本
@@ -1040,13 +1040,13 @@ local function Init_Menu(self, root)
     end
 
     sub=root:CreateButton(
-        (WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS)..text,
+        (WoWTools_L.SETTINGS)..text,
     function()
         PVEFrame_ToggleFrame("GroupFinderFrame")
         return MenuResponse.Open
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(MicroButtonTooltipText(WoWTools_DataMixin.onlyChinese and '队伍查找器' or DUNGEONS_BUTTON, "TOGGLEGROUPFINDER"))
+        tooltip:AddLine(MicroButtonTooltipText(WoWTools_L.DUNGEONS_BUTTON, "TOGGLEGROUPFINDER"))
     end)
 
 
@@ -1055,7 +1055,7 @@ local function Init_Menu(self, root)
 
 
 --设置, 小眼睛, 信息
-    sub2=sub:CreateCheckbox('|A:common-icon-rotateleft:0:0|a'..(WoWTools_DataMixin.onlyChinese and '离开副本' or WoWTools_Join(LEAVE, INSTANCE)), function()
+    sub2=sub:CreateCheckbox('|A:common-icon-rotateleft:0:0|a'..(WoWTools_L['LEAVE+INSTANCE']), function()
         return Save().leaveInstance
     end, function()
         Save().leaveInstance= not Save().leaveInstance and true or nil
@@ -1077,7 +1077,7 @@ local function Init_Menu(self, root)
 
 
 --设置, 信息 QueueStatusFrame.lua
-    sub2=sub:CreateCheckbox('|A:groupfinder-eye-frame:0:0|a'..(WoWTools_DataMixin.onlyChinese and '列表信息' or WoWTools_Join(SOCIAL_QUEUE_TOOLTIP_HEADER,INFO)), function()
+    sub2=sub:CreateCheckbox('|A:groupfinder-eye-frame:0:0|a'..(WoWTools_L['SOCIAL_QUEUE_TOOLTIP_HEADER+INFO']), function()
         return not Save().hideQueueStatus
     end, function()
         Save().hideQueueStatus = not Save().hideQueueStatus and true or nil
@@ -1085,14 +1085,14 @@ local function Init_Menu(self, root)
     end)
 
     sub2:CreateButton(
-        (Save().tipsFramePoint and '' or '|cff626262')..(WoWTools_DataMixin.onlyChinese and '重置位置' or RESET_POSITION),
+        (Save().tipsFramePoint and '' or '|cff626262')..(WoWTools_L.RESET_POSITION),
     function()
         Save().tipsFramePoint=nil
         if _G['WoWToolsChatToolsLFDTooltipButton'] then
             _G['WoWToolsChatToolsLFDTooltipButton']:set_Point()
             print(
                 WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                WoWTools_DataMixin.onlyChinese and '重置位置' or RESET_POSITION
+                WoWTools_L.RESET_POSITION
             )
         end
         return MenuResponse.Open
@@ -1111,14 +1111,14 @@ local function Init_Menu(self, root)
         if not Save().LFGPlus then
             print(
                 WoWTools_DataMixin.Icon.icon2
-                ..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD),
+                ..(WoWTools_L.REQUIRES_RELOAD),
                 WoWTools_TextMixin:GetEnabeleDisable( not Save().LFGPlus)
             )
         end
     end)
     sub2:SetTooltip(function(tooltip)
         if _G['WoWToolsLFGPlusMainButton'] and not Save().LFGPlus then
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需求重新加载' or REQUIRES_RELOAD)
+            tooltip:AddLine(WoWTools_L['REQUIRES_RELOAD~2'])
         end
     end)
 --重新加载UI
@@ -1128,14 +1128,14 @@ local function Init_Menu(self, root)
 
 
 --职责确认
-    sub2=sub:CreateCheckbox('|A:quest-legendary-turnin:0:0|a'..(WoWTools_DataMixin.onlyChinese and '职责确认' or ROLE_POLL), function()
+    sub2=sub:CreateCheckbox('|A:quest-legendary-turnin:0:0|a'..(WoWTools_L.ROLE_POLL), function()
         return Save().autoSetPvPRole
     end, function()
         Save().autoSetPvPRole= not Save().autoSetPvPRole and true or nil
         WoWTools_LFDMixin:Init_RolePollPopup()
     end)
     sub2:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+        tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 
 --职责，可选列表
@@ -1150,7 +1150,7 @@ local function Init_Menu(self, root)
     sub:CreateDivider()
     tank, healer, dps = GetPVPRoles()--检测是否选定角色PVP
     sub:CreateTitle(
-        (WoWTools_DataMixin.onlyChinese and '战场' or BATTLEFIELDS)
+        (WoWTools_L.BATTLEFIELDS)
         ..(tank and WoWTools_DataMixin.Icon.TANK or '')
         ..(healer and WoWTools_DataMixin.Icon.HEALER or '')
         ..(dps and WoWTools_DataMixin.Icon.DAMAGER or '')
@@ -1169,7 +1169,7 @@ local function Init_Menu(self, root)
 
 --所有地区
     sub3=sub2:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '其它' or OTHER,
+        WoWTools_L.OTHER,
     function()
         return Save().ReMe_AllZone
     end, function()
@@ -1177,7 +1177,7 @@ local function Init_Menu(self, root)
         WoWTools_LFDMixin:Init_RepopMe()
     end)
     sub3:SetTooltip(function(tooltip)
-       tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '有队伍副本除外' or  WoWTools_L['Except for group instances'])
+       tooltip:AddLine(WoWTools_L['Except for group instances'])
     end)
 
 
@@ -1189,7 +1189,7 @@ local function Init_Menu(self, root)
 --[[前往副本 Plus
     sub:CreateDivider()
     sub2= sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '前往副本' or WoWTools_Join(PET_ACTION_MOVE_TO, INSTANCE),
+        WoWTools_L['PET_ACTION_MOVE_TO+INSTANCE'],
     function()
         return not Save().disabledLFGDungeonReadyDialog
     end, function()
@@ -1198,13 +1198,13 @@ local function Init_Menu(self, root)
     end)
     sub2:SetTooltip(function(tooltip)
         tooltip:AddLine('LFGDungeonReadyDialog')
-        tooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '信息' or INFO, WoWTools_DataMixin.onlyChinese and '队伍查找器' or DUNGEONS_BUTTON)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '已经建好了一个副本，准备前往：' or SPECIFIC_INSTANCE_IS_READY)
+        tooltip:AddDoubleLine(WoWTools_L.INFO, WoWTools_L.DUNGEONS_BUTTON)
+        tooltip:AddLine(WoWTools_L.SPECIFIC_INSTANCE_IS_READY)
     end)
 
 --队伍查找器, 接受邀请, 信息
     sub2=sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '邀请信息' or WoWTools_Join(INVITE, INFO),
+        WoWTools_L['INVITE+INFO'],
     function()
         return not Save().disabedLFDInviteInfo
     end, function()
@@ -1212,8 +1212,8 @@ local function Init_Menu(self, root)
     end)
     sub2:SetTooltip(function(tooltip)
         tooltip:AddLine('LFGListInviteDialog_Show')
-        tooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '信息' or INFO, WoWTools_DataMixin.onlyChinese and '队伍查找器' or DUNGEONS_BUTTON)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '你收到了一支队伍的邀请：' or LFG_LIST_INVITED_TO_GROUP)
+        tooltip:AddDoubleLine(WoWTools_L.INFO, WoWTools_L.DUNGEONS_BUTTON)
+        tooltip:AddLine(WoWTools_L.LFG_LIST_INVITED_TO_GROUP)
     end)]]
 
 
@@ -1229,7 +1229,7 @@ local function Init_Menu(self, root)
         WoWTools_DataMixin.onlyChinese and '副本列表' or format('%s', PROFESSIONS_CURRENT_LISTINGS:gsub(REFORGE_CURRENT, INSTANCE))
     )
     sub2= sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '隐藏' or HIDE,
+        WoWTools_L.HIDE,
     function()
         return Save().hideDontEnterMenu
     end, function()
@@ -1237,7 +1237,7 @@ local function Init_Menu(self, root)
     end)
     sub2:SetTooltip(function(tooltip)
         GameTooltip_AddErrorLine(tooltip,
-            WoWTools_DataMixin.onlyChinese and '你不能进入此队列。' or YOU_MAY_NOT_QUEUE_FOR_THIS
+            WoWTools_L.YOU_MAY_NOT_QUEUE_FOR_THIS
         )
     end)
 
@@ -1253,17 +1253,17 @@ local function Init_Menu(self, root)
         num= complete+ num
     end
     sub2= sub:CreateButton(
-        (WoWTools_DataMixin.onlyChinese and '副本次数' or WoWTools_Join(INSTANCE, COMPLETE))..' #'..num,
+        (WoWTools_L['INSTANCE+COMPLETE'])..' #'..num,
     function()
         return MenuResponse.Open
     end)
 
     if num>0 then
         sub2:CreateButton(
-            WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL,
+            WoWTools_L.CLEAR_ALL,
         function()
             StaticPopup_Show('WoWTools_OK',
-            WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL,
+            WoWTools_L.CLEAR_ALL,
             nil,
             {SetValue=function()
                 Save().wow={}
@@ -1273,14 +1273,14 @@ local function Init_Menu(self, root)
         sub2:CreateDivider()
         for name, complete in pairs(Save().wow) do
             sub3=sub2:CreateCheckbox(
-                name=='island' and (WoWTools_DataMixin.onlyChinese and '海岛探险' or ISLANDS_HEADER) or WoWTools_TextMixin:CN(name)..' #|cnGREEN_FONT_COLOR:'..complete,
+                name=='island' and (WoWTools_L.ISLANDS_HEADER) or WoWTools_TextMixin:CN(name)..' #|cnGREEN_FONT_COLOR:'..complete,
             function(data)
                 return Save().wow[data.name]
             end, function(data)
                 Save().wow[name]= not Save().wow[name] and data.complete or nil
             end, {name=name, complete=complete})
             sub3:SetTooltip(function (tooltip)
-                tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '清除' or SLASH_STOPWATCH_PARAM_STOP2)
+                tooltip:AddLine(WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2)
             end)
         end
         WoWTools_MenuMixin:SetScrollMode(sub2)
@@ -1302,7 +1302,7 @@ local function Init_Menu(self, root)
         step=1,
         --bit='%.2f',
         tooltip=function(tooltip)
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '秒' or LOSS_OF_CONTROL_SECONDS)
+            tooltip:AddLine(WoWTools_L.LOSS_OF_CONTROL_SECONDS)
         end
     })
     sub:CreateSpacer()
@@ -1319,7 +1319,7 @@ local function Init_Menu(self, root)
 --战利品掷骰
     sub=root:CreateButton(
         (Save().autoROLL and '|TInterface\\PVPFrame\\Icons\\PVP-Banner-Emblem-47:0|t' or '|A:Levelup-Icon-Bag:0:0|a')
-        ..(WoWTools_DataMixin.onlyChinese and '战利品掷骰' or LOOT_ROLL),
+        ..(WoWTools_L.LOOT_ROLL),
     function()
         WoWTools_DataMixin:Call('ToggleLootHistoryFrame')
         return MenuResponse.Open
@@ -1328,22 +1328,22 @@ local function Init_Menu(self, root)
         tooltip:AddLine('/loot ')
     end)
 
-    sub:CreateTitle(WoWTools_DataMixin.onlyChinese and '自动' or SELF_CAST_AUTO)
-    sub:CreateCheckbox((WoWTools_DataMixin.onlyChinese and '掷骰' or ROLL)..'|TInterface\\PVPFrame\\Icons\\PVP-Banner-Emblem-47:0|t', function()
+    sub:CreateTitle(WoWTools_L.SELF_CAST_AUTO)
+    sub:CreateCheckbox((WoWTools_L.ROLL)..'|TInterface\\PVPFrame\\Icons\\PVP-Banner-Emblem-47:0|t', function()
         return Save().autoROLL
     end, function()
         Save().autoROLL= not Save().autoROLL and true or nil
     end)
 
     sub2=sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '拾取绑定' or ITEM_BIND_ON_PICKUP,
+        WoWTools_L.ITEM_BIND_ON_PICKUP,
     function()
         return not Save().disabled_CONFIRM_LOOT_ROLL
     end, function()
         Save().disabled_CONFIRM_LOOT_ROLL= not Save().disabled_CONFIRM_LOOT_ROLL and true or nil
     end)
     sub2:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '拾取%s后，该物品将与你绑定。' or LOOT_NO_DROP)
+        tooltip:AddLine(WoWTools_L.LOOT_NO_DROP)
     end)
 
     sub:CreateDivider()
@@ -1368,7 +1368,7 @@ local function Init_Menu(self, root)
     local shouldtext
     local cooldowntext
     if ( deserterExpiration ) then
-		shouldtext = format("|cnWARNING_FONT_COLOR:%s|r "..WoWTools_UnitMixin:GetPlayerInfo(nil, WoWTools_DataMixin.Player.GUID, nil), WoWTools_DataMixin.onlyChinese and '逃亡者' or DESERTER)
+		shouldtext = format("|cnWARNING_FONT_COLOR:%s|r "..WoWTools_UnitMixin:GetPlayerInfo(nil, WoWTools_DataMixin.Player.GUID, nil), WoWTools_L.DESERTER)
         local timeRemaining = deserterExpiration - GetTime()
         if timeRemaining>0 then
             shouldtext= shouldtext..' '..SecondsToTime(ceil(timeRemaining))
@@ -1376,7 +1376,7 @@ local function Init_Menu(self, root)
 	else
 		local myExpireTime = GetLFGRandomCooldownExpiration()
         if myExpireTime then
-            cooldowntext= format("|cnWARNING_FONT_COLOR:%s|r "..WoWTools_UnitMixin:GetPlayerInfo(nil, WoWTools_DataMixin.Player.GUID, nil), WoWTools_DataMixin.onlyChinese and '冷却中' or ON_COOLDOWN)
+            cooldowntext= format("|cnWARNING_FONT_COLOR:%s|r "..WoWTools_UnitMixin:GetPlayerInfo(nil, WoWTools_DataMixin.Player.GUID, nil), WoWTools_L.ON_COOLDOWN)
             local timeRemaining = myExpireTime - GetTime()
             if timeRemaining>0 then
                 cooldowntext= cooldowntext..' '..SecondsToTime(ceil(timeRemaining))
@@ -1386,9 +1386,9 @@ local function Init_Menu(self, root)
     for i = 1, GetNumSubgroupMembers() do
         local unit= 'party'..i
 		if ( UnitHasLFGDeserter(unit) ) then
-			shouldtext= (shouldtext and shouldtext..'|n' or '')..WoWTools_UnitMixin:GetPlayerInfo(unit, nil, nil)..' '..(WoWTools_DataMixin.onlyChinese and '逃亡者' or DESERTER)
+			shouldtext= (shouldtext and shouldtext..'|n' or '')..WoWTools_UnitMixin:GetPlayerInfo(unit, nil, nil)..' '..(WoWTools_L.DESERTER)
 		elseif ( UnitHasLFGRandomCooldown(unit) ) then
-			cooldowntext= (cooldowntext and cooldowntext..'|n' or '')..WoWTools_UnitMixin:GetPlayerInfo(unit, nil, nil)..' '..(WoWTools_DataMixin.onlyChinese and '冷却中' or ON_COOLDOWN)
+			cooldowntext= (cooldowntext and cooldowntext..'|n' or '')..WoWTools_UnitMixin:GetPlayerInfo(unit, nil, nil)..' '..(WoWTools_L.ON_COOLDOWN)
 		end
     end
     if shouldtext then
@@ -1431,7 +1431,7 @@ local function Init_Menu(self, root)
 
 --离开所有队列
     sub=root:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '离开所有队列' or LEAVE_ALL_QUEUES,
+        WoWTools_L.LEAVE_ALL_QUEUES,
     function()
         WoWTools_LFDMixin:Leave_All_LFG()
         return MenuResponse.Refresh
@@ -1466,11 +1466,11 @@ local function Init_Menu(self, root)
 --离开地下堡
     sub:CreateButton(
         (WoWTools_MapMixin:IsInDelve() and '' or '|cff626262')
-        ..(WoWTools_DataMixin.onlyChinese and '离开地下堡' or INSTANCE_WALK_IN_LEAVE),
+        ..(WoWTools_L.INSTANCE_WALK_IN_LEAVE),
     function()
         if WoWTools_MapMixin:IsInDelve() then
             StaticPopup_Show('WoWTools_OK',
-                (WoWTools_DataMixin.onlyChinese and '离开地下堡' or INSTANCE_WALK_IN_LEAVE)
+                (WoWTools_L.INSTANCE_WALK_IN_LEAVE)
                 ..'|n|n|A:BonusLoot-Chest:32:32|a|cnGREEN_FONT_COLOR:'
                 ..(WoWTools_DataMixin.onlyChinese and '注意：奖励' or (LABEL_NOTE..': '..REWARD)),
                 nil,
@@ -1485,11 +1485,11 @@ local function Init_Menu(self, root)
 --离开副本
     sub2=sub:CreateButton(
         (select(10, GetInstanceInfo()) and '' or '|cff626262')
-        ..(WoWTools_DataMixin.onlyChinese and '离开副本' or INSTANCE_LEAVE),
+        ..(WoWTools_L.INSTANCE_LEAVE),
     function()
         if select(10, GetInstanceInfo()) then
             StaticPopup_Show('WoWTools_OK',
-                (WoWTools_DataMixin.onlyChinese and '离开副本' or INSTANCE_LEAVE)
+                (WoWTools_L.INSTANCE_LEAVE)
                 ..'|n|n|A:BonusLoot-Chest:32:32|a|cnGREEN_FONT_COLOR:'
                 ..(WoWTools_DataMixin.onlyChinese and '注意：奖励' or (LABEL_NOTE..': '..REWARD)),
                 nil,
@@ -1511,7 +1511,7 @@ local function Init_Menu(self, root)
 --离开载具
     sub:CreateButton(
         (CanExitVehicle() and '' or '|cff626262')--UnitControllingVehicle("player"
-        ..(WoWTools_DataMixin.onlyChinese and '离开载具' or BINDING_NAME_VEHICLEEXIT),
+        ..(WoWTools_L.BINDING_NAME_VEHICLEEXIT),
     function()
         WoWTools_DataMixin:Call('VehicleExit')
         return MenuResponse.Open

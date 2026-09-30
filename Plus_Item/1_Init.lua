@@ -8,17 +8,17 @@ end
 
 
 local function Init_Panel()
-    local tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+    local tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD)
 
 
 --[[
-    WoWTools_PanelMixin:Header(WoWTools_ItemMixin.Layout, WoWTools_DataMixin.onlyChinese and '选项' or OPTIONS)
+    WoWTools_PanelMixin:Header(WoWTools_ItemMixin.Layout, WoWTools_L.OPTIONS)
 
 
 
 字体
     WoWTools_PanelMixin:OnlySlider({
-        name= WoWTools_DataMixin.onlyChinese and '字体大小' or FONT_SIZE,
+        name= WoWTools_L.FONT_SIZE,
         GetValue= function() return Save().size or 10 end,
         minValue= 6,
         maxValue= 18,
@@ -119,20 +119,20 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 Save().size= nil
             end
 
-            WoWTools_ItemMixin.addName= '|A:Barbershop-32x32:0:0|a'..(WoWTools_DataMixin.onlyChinese and '物品信息' or WoWTools_Join(ITEMS, INFO))
+            WoWTools_ItemMixin.addName= '|A:Barbershop-32x32:0:0|a'..(WoWTools_L['ITEMS+INFO'])
             WoWTools_ItemMixin.Category, WoWTools_ItemMixin.Layout= WoWTools_PanelMixin:AddSubCategory({
                 name=WoWTools_ItemMixin.addName,
                 disabled=Save().disabled
             })
 
             WoWTools_PanelMixin:Check_Button({
-                checkName= WoWTools_DataMixin.onlyChinese and '启用' or ENABLE,
+                checkName= WoWTools_L.ENABLE,
                 GetValue= function() return not Save().disabled end,
                 SetValue= function()
                     Save().disabled= not Save().disabled and true or nil
                     Init_Panel()
                 end,
-                buttonText= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '重置' or RESET),
+                buttonText= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.RESET),
                 buttonFunc= function()
                     StaticPopup_Show('WoWTools_RestData',
                         WoWTools_ItemMixin.addName,
@@ -141,21 +141,21 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         WoWToolsPlusSave['Plus_ItemInfo']= nil
                     end)
                 end,
-                tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD),
+                tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD),
                 layout= WoWTools_ItemMixin.Layout,
                 category= WoWTools_ItemMixin.Category,
             })
 
             WoWTools_ItemMixin.QualityText= {
-                [0]= WoWTools_ItemMixin:GetColor(0, {text=WoWTools_DataMixin.onlyChinese and '粗糙' or ITEM_QUALITY0_DESC}),
-                [1]= WoWTools_ItemMixin:GetColor(1, {text=WoWTools_DataMixin.onlyChinese and '普通' or ITEM_QUALITY1_DESC}),
-                [2]= WoWTools_ItemMixin:GetColor(2, {text=WoWTools_DataMixin.onlyChinese and '优秀' or ITEM_QUALITY2_DESC}),
-                [3]= WoWTools_ItemMixin:GetColor(3, {text=WoWTools_DataMixin.onlyChinese and '精良' or ITEM_QUALITY3_DESC}),
-                [4]= WoWTools_ItemMixin:GetColor(4, {text=WoWTools_DataMixin.onlyChinese and '史诗' or ITEM_QUALITY4_DESC}),
-                [5]= WoWTools_ItemMixin:GetColor(5, {text=WoWTools_DataMixin.onlyChinese and '传说' or ITEM_QUALITY5_DESC}),
-                [6]= WoWTools_ItemMixin:GetColor(6, {text=WoWTools_DataMixin.onlyChinese and '神器' or ITEM_QUALITY6_DESC}),
-                [7]= WoWTools_ItemMixin:GetColor(7, {text=WoWTools_DataMixin.onlyChinese and '传家宝' or ITEM_QUALITY7_DESC}),
-                [8]= WoWTools_ItemMixin:GetColor(8, {text=WoWTools_DataMixin.onlyChinese and '时光徽章' or ITEM_QUALITY8_DESC}),
+                [0]= WoWTools_ItemMixin:GetColor(0, {text=WoWTools_L.ITEM_QUALITY0_DESC}),
+                [1]= WoWTools_ItemMixin:GetColor(1, {text=WoWTools_L.ITEM_QUALITY1_DESC}),
+                [2]= WoWTools_ItemMixin:GetColor(2, {text=WoWTools_L.ITEM_QUALITY2_DESC}),
+                [3]= WoWTools_ItemMixin:GetColor(3, {text=WoWTools_L.ITEM_QUALITY3_DESC}),
+                [4]= WoWTools_ItemMixin:GetColor(4, {text=WoWTools_L['ITEM_QUALITY4_DESC~2']}),
+                [5]= WoWTools_ItemMixin:GetColor(5, {text=WoWTools_L.ITEM_QUALITY5_DESC}),
+                [6]= WoWTools_ItemMixin:GetColor(6, {text=WoWTools_L.ITEM_QUALITY6_DESC}),
+                [7]= WoWTools_ItemMixin:GetColor(7, {text=WoWTools_L.ITEM_QUALITY7_DESC}),
+                [8]= WoWTools_ItemMixin:GetColor(8, {text=WoWTools_L.ITEM_QUALITY8_DESC}),
              }
 
             if Save().disabled then

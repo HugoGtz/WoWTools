@@ -204,7 +204,7 @@ local function Search_Text(findText, xy, pin)
     end
 
     if pin.profession then
-        if findText:find(WoWTools_DataMixin.onlyChinese and '专业' or PROFESSIONS_BUTTON) then
+        if findText:find(WoWTools_L.PROFESSIONS_BUTTON) then
             return true
         end
         for skillLineID in pairs(pin.profession) do
@@ -222,7 +222,7 @@ local function Search_Text(findText, xy, pin)
     end
 
     if pin.class then
-        if findText:find(WoWTools_DataMixin.onlyChinese and '职业' or CLASS) then
+        if findText:find(WoWTools_L.CLASS) then
             return true
         end
         for classID in pairs(pin.class) do
@@ -240,7 +240,7 @@ local function Search_Text(findText, xy, pin)
     end
 
     if pin.questID then
-        if findText:find(WoWTools_DataMixin.onlyChinese and '任务' or QUESTS_LABEL) then
+        if findText:find(WoWTools_L.QUESTS_LABEL) then
             return true
         elseif format('%d', pin.questID)==findText then
             return true
@@ -253,7 +253,7 @@ local function Search_Text(findText, xy, pin)
     end
 
     if pin.achievementID then
-        if findText:find(WoWTools_DataMixin.onlyChinese and '成就' or ACHIEVEMENT_BUTTON) then
+        if findText:find(WoWTools_L.ACHIEVEMENT_BUTTON) then
             return true
         elseif format('%d', pin.achievementID)==findText then
             return true
@@ -382,7 +382,7 @@ local function Add_ListButton(btn)
     btn.Delete:SetSize(20,20)
     btn.Delete:Hide()
     btn.Delete.owner= 'ANCHOR_RIGHT'
-    btn.Delete.tooltip= WoWTools_DataMixin.onlyChinese and '删除' or DELETE
+    btn.Delete.tooltip= WoWTools_L.DELETE
 
     btn.Delete:SetScript('OnClick', function(self)
         local data= self:GetParent().data
@@ -630,7 +630,7 @@ end
 
 local function Zip_Data(zipData)
     if not zipData then
-        print(WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '无数据' or ERR_HOUSING_RESULT_DB_ERROR))
+        print(WoWTools_DataMixin.Icon.icon2..(WoWTools_L['ERR_HOUSING_RESULT_DB_ERROR~2']))
         return
     end
 
@@ -681,8 +681,8 @@ local function Zip_Data(zipData)
 
     print(
         WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '导出' or SOCIAL_SHARE_TEXT or  HUD_EDIT_MODE_SHARE_LAYOUT),
-        (WoWTools_DataMixin.onlyChinese and '地图' or WORLD_MAP)..' #'..numMapID,
-        (WoWTools_DataMixin.onlyChinese and '标记' or EVENTTRACE_MARKER)..' #'..all
+        (WoWTools_L.WORLD_MAP)..' #'..numMapID,
+        (WoWTools_L.EVENTTRACE_MARKER)..' #'..all
     )
 end
 
@@ -695,7 +695,7 @@ end
 local function Enter_Data(tooltip)
     local text= WoWTools_ZipMixin:base64Decode(Frame.dataFrame:GetText())
     if not text or not text:find('WoWToolsWorldMapPlayerPin') then
-        local err= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '数据库错误' or ERR_HOUSING_RESULT_DB_ERROR)
+        local err= WoWTools_DataMixin.Icon.icon2..(WoWTools_L.ERR_HOUSING_RESULT_DB_ERROR)
         if tooltip and tooltip~=true then
             GameTooltip_AddErrorLine(tooltip, err)
         end
@@ -779,9 +779,9 @@ local function Enter_Data(tooltip)
         end
     end
 
-    local n= (WoWTools_DataMixin.onlyChinese and '地图' or WORLD_MAP)..' #'..numMapID
-    local f= (WoWTools_DataMixin.onlyChinese and '替换' or REPLACE)..' #'..find
-    local a= (WoWTools_DataMixin.onlyChinese and '标记' or EVENTTRACE_MARKER)..' #'..all
+    local n= (WoWTools_L.WORLD_MAP)..' #'..numMapID
+    local f= (WoWTools_L.REPLACE)..' #'..find
+    local a= (WoWTools_L.EVENTTRACE_MARKER)..' #'..all
     if tooltip then
         if tooltip~=true then
             tooltip:AddLine(n)
@@ -941,12 +941,12 @@ local function Init()
 
     local searchButton= CreateFrame('DropdownButton', nil, Frame, 'WoWToolsMenu4Template')
     searchButton:SetPoint('RIGHT', Frame.search, 'LEFT', 2, 0)
-    searchButton.tooltip= WoWTools_DataMixin.onlyChinese and '条件' or EVENTTRACE_FILTER_HEADER
+    searchButton.tooltip= WoWTools_L.EVENTTRACE_FILTER_HEADER
     searchButton.list={
-        [1]=WoWTools_DataMixin.onlyChinese and '专业' or PROFESSIONS_BUTTON,
-        [2]=WoWTools_DataMixin.onlyChinese and '职业' or CLASS,
-        [3]=WoWTools_DataMixin.onlyChinese and '任务' or QUESTS_LABEL,
-        [4]=WoWTools_DataMixin.onlyChinese and '成就' or ACHIEVEMENT_BUTTON,
+        [1]=WoWTools_L.PROFESSIONS_BUTTON,
+        [2]=WoWTools_L.CLASS,
+        [3]=WoWTools_L.QUESTS_LABEL,
+        [4]=WoWTools_L.ACHIEVEMENT_BUTTON,
     }
     searchButton:SetupMenu(function(self, root)
         if not self:IsMouseOver() then
@@ -998,7 +998,7 @@ local function Init()
     Frame.newButton:SetPoint('LEFT', Frame.search, 'RIGHT', 2, 0)
     Frame.newButton:SetNormalAtlas('communities-chat-icon-plus')
     --Frame.newButton.owner= 'ANCHOR_RIGHT'
-    Frame.newButton.tooltip= WoWTools_DataMixin.onlyChinese and '新建' or NEW
+    Frame.newButton.tooltip= WoWTools_L.NEW
     Frame.newButton:SetScript('OnClick', function()
         Set_FrameSelect()
     end)
@@ -1010,7 +1010,7 @@ local function Init()
     Frame.mapMenu:SetPoint('BOTTOMLEFT', Frame.ScrollBox, 'TOPRIGHT', 52, -2)
     Frame.mapMenu:SetPoint('RIGHT', -50, 0)
     Frame.mapMenu.Text:SetJustifyH('CENTER')
-    Frame.mapMenu:SetDefaultText(DISABLED_FONT_COLOR:WrapTextInColorCode(WoWTools_DataMixin.onlyChinese and '地区' or ZONE))
+    Frame.mapMenu:SetDefaultText(DISABLED_FONT_COLOR:WrapTextInColorCode(WoWTools_L.ZONE))
     Frame.mapMenu:SetupMenu(function(self, root)
         if not self:IsMouseOver() then
             return
@@ -1044,7 +1044,7 @@ local function Init()
             if name then
 
             else
-                name= (DISABLED_FONT_COLOR:WrapTextInColorCode(WoWTools_DataMixin.onlyChinese and '无效的地图' or ERR_HOUSING_RESULT_INVALID_MAP)..' '..mapID)
+                name= (DISABLED_FONT_COLOR:WrapTextInColorCode(WoWTools_L.ERR_HOUSING_RESULT_INVALID_MAP)..' '..mapID)
             end
 
             allCount= num+ allCount
@@ -1073,11 +1073,11 @@ local function Init()
 
             sub:CreateDivider()
             sub:CreateButton(
-                WoWTools_DataMixin.onlyChinese and '删除' or DELETE,
+                WoWTools_L.DELETE,
             function(data)
                 StaticPopup_Show('WoWTools_OK',
                     data.name..'|n|n'
-                    ..(WoWTools_DataMixin.onlyChinese and '删除' or DELETE)..' #'..data.num
+                    ..(WoWTools_L.DELETE)..' #'..data.num
                     ..'|n',
                 nil,
                 {SetValue=function()
@@ -1092,7 +1092,7 @@ local function Init()
         root:CreateDivider()
 
 
-        local name='#'..#mapTab..' '..(WoWTools_DataMixin.onlyChinese and '全部删除' or CLEAR_ALL)..' ('..allCount..')'
+        local name='#'..#mapTab..' '..(WoWTools_L['CLEAR_ALL~4'])..' ('..allCount..')'
         sub= root:CreateButton(
             name,
         function()
@@ -1121,7 +1121,7 @@ local function Init()
         local mapID= WoWTools_WorldMapMixin:GetMapID()
         tooltip:AddDoubleLine(
             (WorldMapFrame:IsShown() and WorldMapFrame.mapID==Frame.mapID and '|cff626262' or '')
-            ..(WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS),
+            ..(WoWTools_L.SETTINGS),
             (GetMapName(mapID))
         )
         local canvas= WorldMapFrame:GetCanvas()
@@ -1152,7 +1152,7 @@ local function Init()
         tooltip:AddDoubleLine(
             GetMapName(Frame.mapID),
             (WorldMapFrame:IsShown() and WorldMapFrame.mapID==Frame.mapID and '|cff626262' or '')
-            ..(WoWTools_DataMixin.onlyChinese and '返回' or HOUSEFINDER_BACK_BUTTON)
+            ..(WoWTools_L.HOUSEFINDER_BACK_BUTTON)
         )
     end
     goMapButton:SetScript('OnClick', function()
@@ -1183,7 +1183,7 @@ local function Init()
     Frame.iconS.leftLabel:SetPoint('RIGHT', Frame.iconS, 'LEFT', 5, 1)
     Frame.iconS.rightLabel= Frame.iconS:CreateFontString(nil, "ARTWORK", 'WoWToolsFont2')
     Frame.iconS.rightLabel:SetPoint('RIGHT')
-    Frame.iconS.rightLabel:SetText(WoWTools_DataMixin.onlyChinese and '图标' or SELF_HIGHLIGHT_ICON)
+    Frame.iconS.rightLabel:SetText(WoWTools_L.SELF_HIGHLIGHT_ICON)
     Frame.iconS.rightLabel:SetTextColor(DISABLED_FONT_COLOR:GetRGB())
     Frame.iconS.Save_Value= function(self)
         if Frame.mapID and self.value then
@@ -1225,7 +1225,7 @@ local function Init()
     Frame.fontH.leftLabel:SetPoint('RIGHT', Frame.fontH, 'LEFT', 5, 1)
     Frame.fontH.rightLabel= Frame.fontH:CreateFontString(nil, "ARTWORK", 'WoWToolsFont2')
     Frame.fontH.rightLabel:SetPoint('RIGHT')
-    Frame.fontH.rightLabel:SetText(WoWTools_DataMixin.onlyChinese and '字体' or FONT_SIZE)
+    Frame.fontH.rightLabel:SetText(WoWTools_L['FONT_SIZE~2'])
     Frame.fontH.rightLabel:SetTextColor(DISABLED_FONT_COLOR:GetRGB())
     Frame.fontH.type='fontH'
     Frame.fontH:SetScript('OnMouseWheel', Frame.iconS.On_MouseWheel)
@@ -1273,9 +1273,9 @@ local function Init()
 --捕捉，名称
     Frame.getNameButton= CreateFrame('DropdownButton', nil, Frame, 'WoWToolsMenu3Template')
     Frame.getNameButton:SetPoint('TOPLEFT', worldButton, 'BOTTOMLEFT', 0, -52)
-    Frame.getNameButton.tooltip= (WoWTools_DataMixin.onlyChinese and '捕捉名称' or WoWTools_Join(UNIT_CAPTURABLE, NAME))
+    Frame.getNameButton.tooltip= (WoWTools_L['UNIT_CAPTURABLE+NAME'])
         ..WoWTools_DataMixin.Icon.left..WoWTools_DataMixin.Icon.right
-        ..(WoWTools_DataMixin.onlyChinese and '记录' or EVENTTRACE_LOG_HEADER)
+        ..(WoWTools_L.EVENTTRACE_LOG_HEADER)
     Frame.getNameButton:SetNormalAtlas('Cursor_unablecast_32')
     function Frame.getNameButton:set_event()
         if self.isSatrt then
@@ -1415,7 +1415,7 @@ local function Init()
     --Frame.nameEdit:SetPoint('TOPLEFT', Frame.ScrollBox, 'TOPRIGHT', 40, -20)
     Frame.nameEdit:SetPoint('RIGHT', Frame.mapMenu, 'BOTTOM')
     Frame.nameEdit:SetHeight(23)
-    Frame.nameEdit.Instructions:SetText(WoWTools_DataMixin.onlyChinese and '名称' or NAME)
+    Frame.nameEdit.Instructions:SetText(WoWTools_L.NAME)
     Frame.nameEdit.searchIcon:SetAtlas('Gear')
     function Frame.nameEdit:tooltip()
         local text= self:GetText()
@@ -1468,9 +1468,9 @@ local function Init()
 
  --颜色
     Frame.colorButton= CreateFrame('DropdownButton', nil, Frame, 'WoWToolsMenu3Template ColorSwatchTemplate')--ColorSwatchMixin
-    Frame.colorButton.tooltip= (WoWTools_DataMixin.onlyChinese and '颜色' or COLOR)
+    Frame.colorButton.tooltip= (WoWTools_L.COLOR)
         ..WoWTools_DataMixin.Icon.left..WoWTools_DataMixin.Icon.right
-        ..(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL)
+        ..(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL)
     Frame.colorButton:SetScript('OnLeave', WoWToolsButton_OnLeave)
     Frame.colorButton:SetScript('OnEnter', WoWToolsButton_OnEnter)
     Frame.colorButton:SetPoint('LEFT', Frame.nameEdit, 'RIGHT', 2, 0)
@@ -1480,7 +1480,7 @@ local function Init()
             return
         end
         root:CreateRadio(
-            WoWTools_DataMixin.onlyChinese and '无' or NONE,
+            WoWTools_L.NONE,
         function()
             return tCompare(self.valueColor, self.color)
         end, function()
@@ -1548,7 +1548,7 @@ local function Init()
     Frame.iconEdit:SetPoint('LEFT', Frame.colorButton, 'RIGHT', 17, 0)
     Frame.iconEdit:SetPoint('RIGHT', -57, 0)
     Frame.iconEdit:SetHeight(23)
-    Frame.iconEdit.Instructions:SetText(WoWTools_DataMixin.onlyChinese and '图标' or SELF_HIGHLIGHT_MODE_ICON)
+    Frame.iconEdit.Instructions:SetText(WoWTools_L.SELF_HIGHLIGHT_MODE_ICON)
     Frame.iconEdit.searchIcon:SetTexture(0)
     Frame.iconEdit:HookScript('OnTextChanged', function(self, userInput)
         local icon= self:GetText()
@@ -1582,9 +1582,9 @@ local function Init()
     Frame.iconEdit.iconButton.owner= 'ANCHOR_RIGHT'
     function Frame.iconEdit.iconButton:tooltip(tooltip)
         tooltip:AddLine(
-            (WoWTools_DataMixin.onlyChinese and '选择图标' or COMMUNITIES_CREATE_DIALOG_AVATAR_PICKER_INSTRUCTIONS)
+            (WoWTools_L.COMMUNITIES_CREATE_DIALOG_AVATAR_PICKER_INSTRUCTIONS)
             ..WoWTools_DataMixin.Icon.left..WoWTools_DataMixin.Icon.right
-            ..(WoWTools_DataMixin.onlyChinese and '记录' or EVENTTRACE_LOG_HEADER)
+            ..(WoWTools_L.EVENTTRACE_LOG_HEADER)
         )
         if not _G['TAV_CoreFrame'] then
            tooltip:AddLine('|cnWARNING_FONT_COLOR:Texture Atlas Viewer')
@@ -1662,7 +1662,7 @@ local function Init()
                     _G['TAV_InfoPanel']:Hide()
                 end
             end)
-            btn.tooltip= WoWTools_WorldMapMixin.addName2..(WoWTools_DataMixin.onlyChinese and '复制' or CALENDAR_COPY_EVENT)
+            btn.tooltip= WoWTools_WorldMapMixin.addName2..(WoWTools_L.CALENDAR_COPY_EVENT)
         end
     end
 
@@ -1810,7 +1810,7 @@ local function Init()
             tooltip:AddLine(xy)
         else
             GameTooltip_AddErrorLine(tooltip,
-                (WoWTools_DataMixin.onlyChinese and '无效的地图' or ERR_HOUSING_RESULT_INVALID_MAP)..' xy'
+                (WoWTools_L.ERR_HOUSING_RESULT_INVALID_MAP)..' xy'
             )
         end
     end
@@ -1849,7 +1849,7 @@ local function Init()
         end
         GameTooltip:SetOwner(self, self.anchor or "ANCHOR_LEFT")
         GameTooltip_SetTitle(GameTooltip,
-            WoWTools_DataMixin.onlyChinese and '更新' or UPDATE,
+            WoWTools_L.UPDATE,
             GREEN_FONT_COLOR
         )
         GameTooltip:Show()
@@ -1902,7 +1902,7 @@ local function Init()
     Frame.updateButton:SetPoint('TOPLEFT', Frame.sliderX, 'BOTTOMLEFT', -12, -12)
     Frame.updateButton:SetPoint('TOPRIGHT', Frame.sliderX, 'BOTTOMRIGHT', -6, -12)
     Frame.updateButton:SetHeight(28)
-    Frame.updateButton:SetText(WoWTools_DataMixin.onlyChinese and '更新' or UPDATE)
+    Frame.updateButton:SetText(WoWTools_L.UPDATE)
     function Frame.updateButton:run()
         if self:IsEnabled() then
             Add_Updata_Data(true)
@@ -1929,7 +1929,7 @@ local function Init()
     Frame.addButton:SetPoint('TOPLEFT', Frame.sliderY, 'BOTTOMLEFT', 12, -12)
     Frame.addButton:SetPoint('TOPRIGHT', Frame.sliderY, 'BOTTOMRIGHT', 6, -12)
     Frame.addButton:SetHeight(28)
-    Frame.addButton:SetText(WoWTools_DataMixin.onlyChinese and '添加' or ADD)
+    Frame.addButton:SetText(WoWTools_L.ADD)
     Frame.addButton:SetScript('OnClick', function()
         Add_Updata_Data(false)
     end)
@@ -1943,7 +1943,7 @@ local function Init()
     Frame.noteEdit:SetPoint('TOPLEFT',  Frame.xyEdit, 'BOTTOMLEFT', -25, -85)
     Frame.noteEdit:SetPoint('RIGHT', -13, 0)
     Frame.noteEdit:SetHeight(23)
-    Frame.noteEdit.Instructions:SetText(WoWTools_DataMixin.onlyChinese and '备注' or LABEL_NOTE)
+    Frame.noteEdit.Instructions:SetText(WoWTools_L.LABEL_NOTE)
     Frame.noteEdit.searchIcon:SetTexture(0)
     Frame.noteEdit:HookScript('OnTextChanged', function(_, userInput)
         if userInput then
@@ -1979,7 +1979,7 @@ local function Init()
             return
         end
         root:CreateButton(
-            WoWTools_DataMixin.onlyChinese and '无' or NONE,
+            WoWTools_L.NONE,
         function()
             self.profession={}
             Frame.updateButton:show_new()
@@ -2040,7 +2040,7 @@ local function Init()
             return
         end
         root:CreateButton(
-            WoWTools_DataMixin.onlyChinese and '无' or NONE,
+            WoWTools_L.NONE,
         function()
             self.class={}
             Frame.updateButton:show_new()
@@ -2075,7 +2075,7 @@ local function Init()
     Frame.questEdit:SetPoint('TOPLEFT',  Frame.professionMenu, 'BOTTOMLEFT', 0, -12)
     Frame.questEdit:SetPoint('TOPRIGHT', Frame.professionMenu, 'BOTTOMRIGHT',-35, -12)
     Frame.questEdit:SetHeight(23)
-    Frame.questEdit.Instructions:SetText((WoWTools_DataMixin.onlyChinese and '任务' or QUESTS_LABEL)..' 12345')
+    Frame.questEdit.Instructions:SetText((WoWTools_L.QUESTS_LABEL)..' 12345')
     Frame.questEdit.searchIcon:ClearAllPoints()
     Frame.questEdit.searchIcon:SetAtlas('Cursor_unablecast_32')
     Frame.questEdit.searchIcon:SetSize(18, 18)
@@ -2088,7 +2088,7 @@ local function Init()
         GameTooltip:ClearLines()
         GameTooltip:AddLine(
             ((not self.name or self.name==Frame.nameEdit.name) and '|cff626262' or '')
-            ..(WoWTools_DataMixin.onlyChinese and '设置名称' or WoWTools_Join(SETTINGS, NAME))
+            ..(WoWTools_L['SETTINGS+NAME'])
         )
         GameTooltip:Show()
         self:SetAlpha(0.5)
@@ -2173,7 +2173,7 @@ local function Init()
     --if WoWTools_DataMixin.Player.husandro then Frame.questEdit:SetText('93595') end
 
     Frame.questButton= CreateFrame('DropdownButton', nil, Frame, 'WoWToolsMenu4Template')
-    Frame.questButton.tooltip= WoWTools_DataMixin.onlyChinese and '已接任务' or CURRENT_QUESTS
+    Frame.questButton.tooltip= WoWTools_L.CURRENT_QUESTS
     Frame.questButton:SetPoint('LEFT', Frame.questEdit, 'RIGHT')
     Frame.questButton.text= Frame.questButton:CreateFontString(nil, 'BORDER', 'WoWToolsFont')
     Frame.questButton.text:SetPoint('CENTER')
@@ -2210,7 +2210,7 @@ local function Init()
                 --WoWTools_MenuMixin:LoadName(sub)
 
                 sub:CreateButton(
-                    WoWTools_DataMixin.onlyChinese and '任务细节' or QUEST_DETAILS,
+                    WoWTools_L.QUEST_DETAILS,
                 function(data)
                     QuestUtil.OpenQuestDetails(data)
                     return MenuResponse.Open
@@ -2234,7 +2234,7 @@ local function Init()
     Frame.achievementEdit:SetPoint('TOPLEFT',  Frame.classMenu, 'BOTTOMLEFT', 6, -12)
     Frame.achievementEdit:SetPoint('TOPRIGHT', Frame.classMenu, 'BOTTOMRIGHT',-23, -12)
     Frame.achievementEdit:SetHeight(23)
-    Frame.achievementEdit.Instructions:SetText((WoWTools_DataMixin.onlyChinese and '成就' or ACHIEVEMENT_BUTTON)..' 123')
+    Frame.achievementEdit.Instructions:SetText((WoWTools_L.ACHIEVEMENT_BUTTON)..' 123')
     Frame.achievementEdit.searchIcon:ClearAllPoints()
     Frame.achievementEdit.searchIcon:SetTexture(0)
     Frame.achievementEdit.searchIcon:SetSize(18, 18)
@@ -2248,11 +2248,11 @@ local function Init()
         GameTooltip:ClearLines()
         GameTooltip:AddLine(
             ((not self.name or self.name==Frame.nameEdit.name) and '|cff626262' or '')
-            ..(WoWTools_DataMixin.onlyChinese and '名称' or NAME )
+            ..(WoWTools_L.NAME )
             ..WoWTools_DataMixin.Icon.left
             ..WoWTools_DataMixin.Icon.right
             ..((not self.icon or self.icon==Frame.iconEdit.icon) and '|cff626262' or '')
-            ..(WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS)..'|r'
+            ..(WoWTools_L.SETTINGS)..'|r'
         )
             if self.icon then
                 GameTooltip:AddTexture(self.icon, {
@@ -2398,7 +2398,7 @@ local function Init()
         if achievementID then
             sub=root:CreateButton(
                 '|T'..(select(10, GetAchievementInfo(achievementID)) or 0)..':16|t'
-                ..(WoWTools_DataMixin.onlyChinese and '显示' or SHOW),
+                ..(WoWTools_L.SHOW),
             function(data)
                 WoWTools_LoadUIMixin:Achievement(data.achievementID)
                 return MenuResponse.Refresh
@@ -2461,7 +2461,7 @@ local function Init()
                         end, {rightText=achievementIndex, achievementID=achievementID,})
 --显示,成就UI
                         sub:CreateButton(
-                            WoWTools_DataMixin.onlyChinese and '显示' or SHOW,
+                            WoWTools_L.SHOW,
                         function(data)
                             WoWTools_LoadUIMixin:Achievement(data.achievementID)
                             return MenuResponse.Open
@@ -2536,7 +2536,7 @@ local function Init()
     Frame.dataFrame.enter= CreateFrame('Button', nil, Frame.dataFrame, 'UIPanelButtonTemplate')
     Frame.dataFrame.enter:SetSize(100, 23)
     Frame.dataFrame.enter:SetPoint('BOTTOM', Frame.dataFrame, 'TOP', 0, 5)
-    Frame.dataFrame.enter.tooltip= WoWTools_DataMixin.onlyChinese and '导入' or COOLDOWN_VIEWER_SETTINGS_IMPORT_LAYOUT
+    Frame.dataFrame.enter.tooltip= WoWTools_L.COOLDOWN_VIEWER_SETTINGS_IMPORT_LAYOUT
     Frame.dataFrame.enter:SetText(Frame.dataFrame.enter.tooltip)
     Frame.dataFrame.enter:Hide()
     Frame.dataFrame.enter:SetScript('OnHide', GameTooltip_Hide)
@@ -2555,7 +2555,7 @@ local function Init()
 
     Frame.dataFrame.enter:SetScript('OnClick', function()--导入
         StaticPopup_Show('WoWTools_OK',
-        WoWTools_DataMixin.onlyChinese and '导入' or COOLDOWN_VIEWER_SETTINGS_IMPORT_LAYOUT,
+        WoWTools_L.COOLDOWN_VIEWER_SETTINGS_IMPORT_LAYOUT,
         nil,
         {SetValue=function()
             Enter_Data()
@@ -2586,10 +2586,10 @@ local function Init()
     Frame.dataUscita= CreateFrame('Button', nil, Frame, 'WoWToolsButtonTemplate')
     Frame.dataUscita:SetNormalAtlas('bags-greenarrow')
     Frame.dataUscita:SetPoint('LEFT', info, 'RIGHT')
-    Frame.dataUscita.tooltip=(WoWTools_DataMixin.onlyChinese and '分享' or SOCIAL_SHARE_TEXT)
+    Frame.dataUscita.tooltip=(WoWTools_L.SOCIAL_SHARE_TEXT)
         ..WoWTools_DataMixin.Icon.left
         ..WoWTools_DataMixin.Icon.right
-        ..(WoWTools_DataMixin.onlyChinese and '数据Lua' or WoWTools_L['Lua data'])
+        ..(WoWTools_L['Lua data'])
     Frame.dataUscita:SetScript('OnClick', function(_, d)
         if d=='LeftButton' then
             Zip_Data(SaveWoW())
@@ -2601,7 +2601,7 @@ local function Init()
     Frame.dataEnter= CreateFrame('Button', nil, Frame, 'WoWToolsButtonTemplate')
     Frame.dataEnter:SetNormalAtlas('Professions_Specialization_arrowhead')
     Frame.dataEnter:SetPoint('LEFT', Frame.dataUscita, 'RIGHT')
-    Frame.dataEnter.tooltip= WoWTools_DataMixin.onlyChinese and '导入' or HUD_CLASS_TALENTS_IMPORT_LOADOUT_ACCEPT_BUTTON
+    Frame.dataEnter.tooltip= WoWTools_L.HUD_CLASS_TALENTS_IMPORT_LOADOUT_ACCEPT_BUTTON
     Frame.dataEnter:SetScript('OnClick', function()
         Frame.dataFrame.enter:SetShown(true)
         Frame.dataFrame:SetShown(true)

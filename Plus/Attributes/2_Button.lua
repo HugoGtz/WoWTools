@@ -57,13 +57,13 @@ local function Init()
 
     function button:get_sendTextTips()
         if ChatEdit_GetActiveWindow() then
-            return WoWTools_DataMixin.onlyChinese and '编辑' or EDIT
+            return WoWTools_L['EDIT~2']
 
         elseif WoWTools_UnitMixin:UnitGUID('target') and UnitIsPlayer('target') and not WoWTools_UnitMixin:UnitIsUnit('player', 'target') then
-            return (WoWTools_DataMixin.onlyChinese and '密语' or SLASH_TEXTTOSPEECH_WHISPER)..': '.. GetUnitName('target', true)
+            return (WoWTools_L.SLASH_TEXTTOSPEECH_WHISPER)..': '.. GetUnitName('target', true)
 
         elseif not UnitIsDeadOrGhost('player') and IsInInstance() then
-            return (WoWTools_DataMixin.onlyChinese and '说' or SAY)
+            return (WoWTools_L.SAY)
 
         elseif IsInRaid() then
             return WoWTools_DataMixin.onlyChinese and '说: 团队' or (SAY..': '..CHAT_MSG_RAID)
@@ -72,7 +72,7 @@ local function Init()
             return WoWTools_DataMixin.onlyChinese and '说: 队伍' or (SAY..': '..CHAT_MSG_PARTY)
 
         else
-            return WoWTools_DataMixin.onlyChinese and '说' or SAY
+            return WoWTools_L.SAY
         end
     end
 
@@ -134,12 +134,12 @@ local function Init()
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip_SetTitle(GameTooltip, WoWTools_AttributesMixin.addName..WoWTools_DataMixin.Icon.icon2)
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '重置数据' or DAMAGE_METER_RESET_ALL_SESSIONS, WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine(WoWTools_L.DAMAGE_METER_RESET_ALL_SESSIONS, WoWTools_DataMixin.Icon.left)
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine(WoWTools_L.SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
         GameTooltip:AddDoubleLine(WoWTools_TextMixin:GetShowHide(not Save().hide), WoWTools_DataMixin.Icon.mid)
         GameTooltip:AddDoubleLine(self:get_sendTextTips(), 'Shift+'..WoWTools_DataMixin.Icon.right)
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '移动' or NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine(WoWTools_L.NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)
         GameTooltip:Show()
     end
 
@@ -156,8 +156,8 @@ local function Init()
             WoWTools_AttributesMixin:Frame_Init(true)--初始， 或设置
             print(
                 WoWTools_AttributesMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '重置数据' or DAMAGE_METER_RESET_ALL_SESSIONS)..'|r',
-                WoWTools_DataMixin.onlyChinese and '数值' or STATUS_TEXT_VALUE
+                '|cnGREEN_FONT_COLOR:'..(WoWTools_L.DAMAGE_METER_RESET_ALL_SESSIONS)..'|r',
+                WoWTools_L.STATUS_TEXT_VALUE
             )
 
         elseif d=='RightButton' and IsShiftKeyDown() then

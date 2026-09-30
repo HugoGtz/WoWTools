@@ -313,7 +313,7 @@ local function Init_Menu(self, root)
 	local sub, sub2
 --显示
 	sub=root:CreateCheckbox(
-		WoWTools_DataMixin.onlyChinese and '显示' or SHOW,
+		WoWTools_L.SHOW,
 	function()
 		return Save().btnstr
 	end, function()
@@ -327,7 +327,7 @@ local function Init_Menu(self, root)
 
 --向右平移
 	sub:CreateCheckbox(
-		WoWTools_DataMixin.onlyChinese and '向右平移' or BINDING_NAME_STRAFERIGHT,
+		WoWTools_L.BINDING_NAME_STRAFERIGHT,
 	function()
 		return Save().toRightTrackText
 	end, function()
@@ -344,7 +344,7 @@ local function Init_Menu(self, root)
 --上
 	sub:CreateCheckbox(
 		'|A:bags-greenarrow:0:0|a'
-		..(WoWTools_DataMixin.onlyChinese and '上' or HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_UP),
+		..(WoWTools_L.HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_UP),
 	function()
 		return Save().toTopTrack
 	end, function()
@@ -365,7 +365,7 @@ local function Init_Menu(self, root)
 
 --隐藏名称
 	sub2=sub:CreateCheckbox(
-		WoWTools_DataMixin.onlyChinese and '显示名称' or PROFESSIONS_FLYOUT_SHOW_NAME,
+		WoWTools_L.PROFESSIONS_FLYOUT_SHOW_NAME,
 	function()
 		return not Save().onlyIcon
 	end, function()
@@ -419,7 +419,7 @@ local function Init_Menu(self, root)
 
 --自动隐藏
 	sub2=sub:CreateCheckbox(
-		WoWTools_DataMixin.onlyChinese and '自动隐藏' or WoWTools_Join(SELF_CAST_AUTO, HIDE),
+		WoWTools_L['SELF_CAST_AUTO+HIDE'],
 	function()
 		return not Save().notAutoHideTrack
 	end, function()
@@ -427,11 +427,11 @@ local function Init_Menu(self, root)
 		self:set_Shown()
 	end)
 	sub2:SetTooltip(function(tooltip)
-		tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '隐藏' or HIDE)
+		tooltip:AddLine(WoWTools_L.HIDE)
 		tooltip:AddLine(' ')
-		tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
-		tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '宠物对战' or SHOW_PET_BATTLES_ON_MAP_TEXT)
-		tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '在副本中' or AGGRO_WARNING_IN_INSTANCE)
+		tooltip:AddLine(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
+		tooltip:AddLine(WoWTools_L.SHOW_PET_BATTLES_ON_MAP_TEXT)
+		tooltip:AddLine(WoWTools_L.AGGRO_WARNING_IN_INSTANCE)
 	end)
 
 --重置位置
@@ -442,7 +442,7 @@ local function Init_Menu(self, root)
 		self:set_Point()
 		print(
 			WoWTools_FactionMixin.addName..WoWTools_DataMixin.Icon.icon2,
-			WoWTools_DataMixin.onlyChinese and '重置位置' or RESET_POSITION
+			WoWTools_L.RESET_POSITION
 		)
 	end)
 
@@ -553,11 +553,11 @@ local function Init()
 		GameTooltip:SetOwner(self, "ANCHOR_LEFT")
 		GameTooltip_SetTitle(GameTooltip, WoWTools_FactionMixin.addName..WoWTools_DataMixin.Icon.icon2)
 		GameTooltip:AddLine(' ')
-		GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '打开/关闭声望界面' or BINDING_NAME_TOGGLECHARACTER2, WoWTools_DataMixin.Icon.left)
-		GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
+		GameTooltip:AddDoubleLine(WoWTools_L.BINDING_NAME_TOGGLECHARACTER2, WoWTools_DataMixin.Icon.left)
+		GameTooltip:AddDoubleLine(WoWTools_L.SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
 		GameTooltip:AddLine(' ')
 		GameTooltip:AddDoubleLine(WoWTools_TextMixin:GetShowHide(Frame:IsShown(), true)..' |cffffffff#'..self.numButton, WoWTools_DataMixin.Icon.mid)
-		GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '移动' or NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)
+		GameTooltip:AddDoubleLine(WoWTools_L.NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)
 		GameTooltip:Show()
 	end
 

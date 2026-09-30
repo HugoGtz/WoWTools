@@ -171,12 +171,12 @@ local function Init()
             WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
 
             '|cnGREEN_FONT_COLOR:'
-            ..(WoWTools_DataMixin.onlyChinese and '职责确认' or ROLE_POLL)
+            ..(WoWTools_L.ROLE_POLL)
             ..': |cfff00fff'.. SecondsToTime(Save().sec or 5)..'|r '
-            ..(WoWTools_DataMixin.onlyChinese and '接受' or ACCEPT)..'|r',
+            ..(WoWTools_L.ACCEPT)..'|r',
 
             '|cnWARNING_FONT_COLOR:'..'Alt '
-            ..(WoWTools_DataMixin.onlyChinese and '取消' or CANCEL)
+            ..(WoWTools_L.CANCEL)
         )
 
         self:CancellORSetTime(Save().sec or 5)
@@ -252,7 +252,7 @@ local function Init()
                     self.acceptButton:Click()
                     print(
                         WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                        WoWTools_DataMixin.onlyChinese and '职责确认' or ROLE_POLL,
+                        WoWTools_L.ROLE_POLL,
                         icon or ''
                     )
                 end
@@ -347,7 +347,7 @@ local function Init()
             or '',--PVP 分数
 
             (info.leaderName or leaderGuid) and format(
-                WoWTools_DataMixin.onlyChinese and '%s邀请你加入' or COMMUNITY_INVITATION_FRAME_INVITATION_TEXT,
+                WoWTools_L.COMMUNITY_INVITATION_FRAME_INVITATION_TEXT,
                 WoWTools_UnitMixin:GetLink(nil, leaderGuid, info.leaderName, false)..' '
             )
             or '',--%s邀请你加入
@@ -357,19 +357,19 @@ local function Init()
             WoWTools_DataMixin.Icon[role] or '',
 
             info.numMembers and info.numMembers>0 and
-                (WoWTools_DataMixin.onlyChinese and '队员' or PLAYERS_IN_GROUP)..'|cff00ff00 '..info.numMembers..'|r'
+                (WoWTools_L.PLAYERS_IN_GROUP)..'|cff00ff00 '..info.numMembers..'|r'
             or '',--队伍成员数量
 
             info.numBNetFriends and info.numBNetFriends>0 and
-            '|cff00ccff'..WoWTools_DataMixin.Icon.wow2..(WoWTools_DataMixin.onlyChinese and '战网好友' or PLAYERS_IN_GROUP)..' '..info.numMembers..'|r'
+            '|cff00ccff'..WoWTools_DataMixin.Icon.wow2..(WoWTools_L['PLAYERS_IN_GROUP~2'])..' '..info.numMembers..'|r'
             or '',
 
             info.numCharFriends and info.numCharFriends>0 and
-            '|cffedd100'..WoWTools_DataMixin.Icon.wow2..(WoWTools_DataMixin.onlyChinese and '好友' or FRIEND)..' '..info.numCharFriends..'|r'
+            '|cffedd100'..WoWTools_DataMixin.Icon.wow2..(WoWTools_L.FRIEND)..' '..info.numCharFriends..'|r'
             or '',
 
             info.autoAccept and
-                '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '自动邀请' or WoWTools_Join(SELF_CAST_AUTO, INVITE))..'|r'
+                '|cnGREEN_FONT_COLOR:'..(WoWTools_L['SELF_CAST_AUTO+INVITE'])..'|r'
             or '',--对方是否开启, 自动邀请
 
             info.activityID and
@@ -377,7 +377,7 @@ local function Init()
             or '',--查找器,类型
 
             info.isWarMode and-- info.isWarMode ~= C_PvP.IsWarModeDesired() and
-                '|A:pvptalents-warmode-swords:0:0|a|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '战争模式' or TALENT_FRAME_LABEL_WARMODE)..'|r'
+                '|A:pvptalents-warmode-swords:0:0|a|cnWARNING_FONT_COLOR:'..(WoWTools_L.TALENT_FRAME_LABEL_WARMODE)..'|r'
             or ''
         )
     end)
@@ -450,20 +450,20 @@ local function Init()
                 if isKilled then
                     text= text
                         ..'|A:common-icon-checkmark:0:0|a|cnWARNING_FONT_COLOR:'..WoWTools_TextMixin:CN(bossName)
-                        ..'|r |cffffffff'..(WoWTools_DataMixin.onlyChinese and '已消灭' or BOSS_DEAD)..'|r'
+                        ..'|r |cffffffff'..(WoWTools_L.BOSS_DEAD)..'|r'
                     dead= dead+1
                 else
                     text= text
                         ..'|A:QuestLegendary:0:0|a|cnGREEN_FONT_COLOR:'..WoWTools_TextMixin:CN(bossName)
-                        ..'|r |cffffffff'..(WoWTools_DataMixin.onlyChinese and '可消灭' or BOSS_ALIVE)..'|r'
+                        ..'|r |cffffffff'..(WoWTools_L.BOSS_ALIVE)..'|r'
                 end
             end
         end
 
         if text then
             text= (totalEncounters==dead and '|cff626262' or '|cffffffff')
-                ..(WoWTools_DataMixin.onlyChinese and '首领：' or BOSSES)
-                ..format(WoWTools_DataMixin.onlyChinese and '已消灭%d/%d个首领' or BOSSES_KILLED, dead, totalEncounters)
+                ..(WoWTools_L.BOSSES)
+                ..format(WoWTools_L['BOSSES_KILLED~2'], dead, totalEncounters)
                 ..'|r|n|n'
                 ..text
                 ..'|n|n'..WoWTools_ChatMixin.addName..' '..WoWTools_LFDMixin.addName
@@ -477,7 +477,7 @@ local function Init()
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
         GameTooltip_SetTitle(GameTooltip,
             WoWTools_DataMixin.Icon.icon2
-            ..(WoWTools_DataMixin.onlyChinese and '隐藏' or HIDE)
+            ..(WoWTools_L.HIDE)
         )
         GameTooltip:Show()
     end)

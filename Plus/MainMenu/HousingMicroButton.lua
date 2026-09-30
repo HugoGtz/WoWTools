@@ -130,14 +130,14 @@ local function Init()
 
         if text then
             GameTooltip:AddLine(
-                (WoWTools_DataMixin.onlyChinese and '文化节进度' or ENDEAVOR_FAVOR)
+                (WoWTools_L.ENDEAVOR_FAVOR)
                 ..': '..text
             )
 
             local currentInitiative=  C_NeighborhoodInitiative.GetNeighborhoodInitiativeInfo()
             if currentInitiative and currentInitiative.duration and currentInitiative.duration > 0 then
                 GameTooltip:AddDoubleLine(' ',
-                    format(WoWTools_DataMixin.onlyChinese and '剩余时间：%s' or HOUSING_DASHBOARD_TIME_REMAINING,
+                    format(WoWTools_L.HOUSING_DASHBOARD_TIME_REMAINING,
                         SecondsToTime(currentInitiative.duration, false, true, 1)
                     )
                 )

@@ -22,7 +22,7 @@ local function Init_Menu(self, root)
 
 --追踪
 	sub=root:CreateCheckbox(
-		WoWTools_DataMixin.onlyChinese and '追踪' or TRACKING,
+		WoWTools_L.TRACKING,
 	function()
 		return not Save().Hide
 	end, function()
@@ -41,7 +41,7 @@ local function Init_Menu(self, root)
 --达到上限
 	root:CreateDivider()
 	sub=root:CreateCheckbox(
-		'|A:communities-icon-chat:0:0|a'..(WoWTools_DataMixin.onlyChinese and '达到上限' or CAPPED),
+		'|A:communities-icon-chat:0:0|a'..(WoWTools_L['CAPPED~2']),
 	function ()
 		return not Save().hideCurrencyMax
 	end, function ()
@@ -50,7 +50,7 @@ local function Init_Menu(self, root)
 	end)
 	sub:SetTooltip(function (tooltip)
 		tooltip:AddLine('CURRENCY_DISPLAY_UPDATE')
-		tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '已达到资源上限' or SPELL_FAILED_CUSTOM_ERROR_248)
+		tooltip:AddLine(WoWTools_L.SPELL_FAILED_CUSTOM_ERROR_248)
 	end)
 
 	--WoWTools_DataMixin.onlyChinese and '仅限当前版本' or format(LFG_LIST_CROSS_FACTION, WoWTools_Join(REFORGE_CURRENT, GAME_VERSION_LABEL)),
@@ -66,7 +66,7 @@ local function Init_Menu(self, root)
 		WoWTools_CurrencyMixin:Init_Plus()
 	end)
 	sub:SetTooltip(function (tooltip)
-		GameTooltip_AddInstructionLine(tooltip, WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+		GameTooltip_AddInstructionLine(tooltip, WoWTools_L.REQUIRES_RELOAD)
 	end)
 
 
@@ -86,7 +86,7 @@ end
 local function Init()
 	local btn= CreateFrame('DropdownButton', 'WoWToolsPlusCurrencyMenuButton', TokenFrame, 'WoWToolsMenuTemplate')
 	btn:SetupMenu(Init_Menu)
-	btn.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU)..WoWTools_DataMixin.Icon.left
+	btn.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_L.SLASH_TEXTTOSPEECH_MENU)..WoWTools_DataMixin.Icon.left
 	btn:SetFrameStrata(CharacterFrameCloseButton:GetFrameStrata())
 	btn:SetFrameLevel(CharacterFrameCloseButton:GetFrameLevel()+1)
 	btn:SetPoint('RIGHT', CharacterFrameCloseButton, 'LEFT', -2, 0)
@@ -130,7 +130,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
 			Save().ItemInteractionID= nil
 
-			WoWTools_CurrencyMixin.addName= '|A:bags-junkcoin:0:0|a'..(WoWTools_DataMixin.onlyChinese and '货币' or TOKENS)
+			WoWTools_CurrencyMixin.addName= '|A:bags-junkcoin:0:0|a'..(WoWTools_L.TOKENS)
 
 --添加控制面板
 			WoWTools_PanelMixin:OnlyCheck({
@@ -142,7 +142,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 					print(
 						WoWTools_CurrencyMixin.addName..WoWTools_DataMixin.Icon.icon2,
 						WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-						WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+						WoWTools_L.REQUIRES_RELOAD
 					)
 				end
 			})

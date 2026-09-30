@@ -182,7 +182,7 @@ local function Init_Menu(_, root)
     if find then
         WoWTools_MenuMixin:SetScrollMode(root)
     else
-        root:CreateTitle(WoWTools_DataMixin.onlyChinese and '无' or NONE)
+        root:CreateTitle(WoWTools_L.NONE)
     end
 end
 

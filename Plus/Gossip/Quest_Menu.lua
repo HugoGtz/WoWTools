@@ -16,7 +16,7 @@ local function Init_Menu(self, root)
 
 --启用
     sub=root:CreateCheckbox(
-        (WoWTools_DataMixin.onlyChinese and '启用' or ENABLE)
+        (WoWTools_L.ENABLE)
         ..'|A:UI-HUD-UnitFrame-Target-PortraitOn-Boss-Quest:0:0|a',
     function()
         return Save().quest
@@ -24,19 +24,19 @@ local function Init_Menu(self, root)
        self:set_enable()
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine('Alt+'..(WoWTools_DataMixin.onlyChinese and '暂时禁用' or WoWTools_Join(BOOSTED_CHAR_SPELL_TEMPLOCK, DISABLE)))
+        tooltip:AddLine('Alt+'..(WoWTools_L['BOOSTED_CHAR_SPELL_TEMPLOCK+DISABLE']))
     end)
 
 --低等级任务
     sub2=sub:CreateCheckbox(
-        '|A:TrivialQuests:0:0|a'..(WoWTools_DataMixin.onlyChinese and '低等级任务' or MINIMAP_TRACKING_TRIVIAL_QUESTS),--低等任务
+        '|A:TrivialQuests:0:0|a'..(WoWTools_L.MINIMAP_TRACKING_TRIVIAL_QUESTS),--低等任务
     function()
         return WoWTools_MapMixin:Get_Minimap_Tracking(MINIMAP_TRACKING_TRIVIAL_QUESTS, false)
     end, function()
         WoWTools_MapMixin:Get_Minimap_Tracking(MINIMAP_TRACKING_TRIVIAL_QUESTS, true)
     end)
     sub2:SetTooltip(function(tooltip)
-        tooltip:AddLine('|A:UI-HUD-Minimap-Tracking-Mouseover:0:0|a'..(WoWTools_DataMixin.onlyChinese and '追踪' or TRACKING))
+        tooltip:AddLine('|A:UI-HUD-Minimap-Tracking-Mouseover:0:0|a'..(WoWTools_L.TRACKING))
     end)
 
 --自动:选择奖励
@@ -53,8 +53,8 @@ local function Init_Menu(self, root)
     end)
     sub:SetTooltip(function(tooltip)
         tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '最高品质' or format(PROFESSIONS_CRAFTING_QUALITY, VIDEO_OPTIONS_ULTRA_HIGH))
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '稀有' or GARRISON_MISSION_RARE)
-        tooltip:AddLine('|cff0000ff'..(WoWTools_DataMixin.onlyChinese and '稀有' or GARRISON_MISSION_RARE)..'|r')
+        tooltip:AddLine(WoWTools_L.GARRISON_MISSION_RARE)
+        tooltip:AddLine('|cff0000ff'..(WoWTools_L.GARRISON_MISSION_RARE)..'|r')
     end)
 
 --子目录，自动:选择奖励
@@ -83,7 +83,7 @@ local function Init_Menu(self, root)
     num= CountTable(Save().questOption or {})
     
     sub=root:CreateButton(
-        '     '..(WoWTools_DataMixin.onlyChinese and '自定义任务' or WoWTools_Join(CUSTOM, QUESTS_LABEL))
+        '     '..(WoWTools_L['CUSTOM+QUESTS_LABEL'])
         ..(num==0 and ' |cff626262' or ' ')
         ..num,
     function()
@@ -122,7 +122,7 @@ local function Init_Menu(self, root)
     root:CreateDivider()
     sub=root:CreateCheckbox(
         (IsInGroup() and '' or '|cff626262')
-        ..(WoWTools_DataMixin.onlyChinese and '共享任务' or SHARE_QUEST)
+        ..(WoWTools_L.SHARE_QUEST)
         ..'|A:groupfinder-waitdot:0:0|a',
     function()
         return Save().pushable
@@ -140,7 +140,7 @@ local function Init_Menu(self, root)
 
 --数量
     sub=root:CreateCheckbox(
-        (WoWTools_DataMixin.onlyChinese and '数量' or AUCTION_HOUSE_QUANTITY_LABEL),
+        (WoWTools_L.AUCTION_HOUSE_QUANTITY_LABEL),
     function()
         return Save().showAllQuestNum
     end, function()
@@ -150,8 +150,7 @@ local function Init_Menu(self, root)
     end)
     sub:SetTooltip(function(tooltip)
         tooltip:AddLine(
-            WoWTools_DataMixin.onlyChinese and '显示所有数量'
-            or WoWTools_Join(SHOW, ALL)
+            WoWTools_L['SHOW+ALL']
         )
         tooltip:AddLine(
             WoWTools_DataMixin.onlyChinese and '在副本中禁用|n任务>0'
@@ -166,11 +165,11 @@ local function Init_Menu(self, root)
 
 --追踪
     root:CreateDivider()
-    root:CreateTitle(WoWTools_DataMixin.onlyChinese and '追踪' or TRACKING)
+    root:CreateTitle(WoWTools_L.TRACKING)
 
 --自动任务追踪
     sub=root:CreateCheckbox(
-        (WoWTools_DataMixin.onlyChinese and '自动任务追踪' or AUTO_QUEST_WATCH_TEXT),
+        (WoWTools_L.AUTO_QUEST_WATCH_TEXT),
     function()
         return C_CVar.GetCVarBool("autoQuestWatch")
     end, function()
@@ -186,7 +185,7 @@ local function Init_Menu(self, root)
 
 --当前地图
     root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '当前地图' or WoWTools_Join(REFORGE_CURRENT, WORLD_MAP),
+        WoWTools_L['REFORGE_CURRENT+WORLD_MAP'],
     function()
         return Save().autoSortQuest
     end, function()

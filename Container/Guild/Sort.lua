@@ -96,8 +96,8 @@ local function Init_Sort()
             IsInRun= nil
             print(
                 WoWTools_GuildBankMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '排序' or STABLE_FILTER_BUTTON_LABEL)..'|r',
-                    WoWTools_DataMixin.onlyChinese and '中断' or INTERRUPT
+                '|cnWARNING_FONT_COLOR:'..(WoWTools_L.STABLE_FILTER_BUTTON_LABEL)..'|r',
+                    WoWTools_L.INTERRUPT
                 )
             return
         end
@@ -117,8 +117,8 @@ local function Init_Sort()
             IsInRun= nil
             print(
                 WoWTools_GuildBankMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '排序' or STABLE_FILTER_BUTTON_LABEL)..'|r',
-                WoWTools_DataMixin.onlyChinese and '完成' or COMPLETE
+                '|cnGREEN_FONT_COLOR:'..(WoWTools_L.STABLE_FILTER_BUTTON_LABEL)..'|r',
+                WoWTools_L.COMPLETE
             )
             return
         end
@@ -148,7 +148,7 @@ local function Init_Menu(self, root)
 
     root:CreateButton(
         '|A:bags-button-autosort-up:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '整理银行' or BAG_CLEANUP_BANK),
+        ..(WoWTools_L.BAG_CLEANUP_BANK),
     function()
         Init_Sort()
         return MenuResponse.Open
@@ -179,13 +179,13 @@ local function Init_Menu(self, root)
             end
 
         end,
-        name=WoWTools_DataMixin.onlyChinese and '延迟' or LAG_TOLERANCE,
+        name=WoWTools_L.LAG_TOLERANCE,
         minValue=0.5,
         maxValue=1.5,
         step=0.1,
         bit='%.1f',
         tooltip=function(tooltip)
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '延迟' or LAG_TOLERANCE)
+            tooltip:AddLine(WoWTools_L.LAG_TOLERANCE)
         end
     })
     root:CreateSpacer()]]
@@ -208,14 +208,14 @@ local function Init()
 
         GameTooltip_SetTitle(GameTooltip,
             '|A:bags-button-autosort-up:0:0|a'
-            ..(WoWTools_DataMixin.onlyChinese and '整理银行' or BAG_CLEANUP_BANK)
+            ..(WoWTools_L.BAG_CLEANUP_BANK)
             ..WoWTools_DataMixin.Icon.left
             ..'|cnGREEN_FONT_COLOR:'
             ..(Save().saveItemSeconds or 0.8)
         )
         GameTooltip:AddLine(
             '|A:dressingroom-button-appearancelist-up:0:0|a'
-            ..(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL)
+            ..(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL)
             ..WoWTools_DataMixin.Icon.right
         )
         GameTooltip:Show()

@@ -96,7 +96,7 @@ local function Init_Menu(self, root)
     local num=0
 --自动召唤
     root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '自动召唤' or WoWTools_Join(SELF_CAST_AUTO, SUMMONS),
+        WoWTools_L['SELF_CAST_AUTO+SUMMONS'],
     function()
         return Save().autoSummon
     end, function()
@@ -127,10 +127,10 @@ local function Init_Menu(self, root)
     if num>1 then
         root:CreateDivider()
         root:CreateButton(
-            WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL,
+            WoWTools_L.CLEAR_ALL,
         function()
             StaticPopup_Show('WoWTools_OK',
-            WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL,
+            WoWTools_L.CLEAR_ALL,
             nil,
             {SetValue=function()
                 Save().Pets={[2780]=true}
@@ -328,7 +328,7 @@ local function Init()
             GameTooltip:AddDoubleLine(name, WoWTools_DataMixin.Icon.left)
         end
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '随机偏好宠物' or SLASH_RANDOMFAVORITEPET1:gsub('/', ''), WoWTools_DataMixin.Icon.mid)
-        GameTooltip:AddDoubleLine((WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU), WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine((WoWTools_L.SLASH_TEXTTOSPEECH_MENU), WoWTools_DataMixin.Icon.right)
         GameTooltip:Show()
     end)
     btn:SetScript('OnLeave', GameTooltip_Hide)
@@ -399,7 +399,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
             Save().speciesID= Save().speciesID or 2780
 
-            addName= '|T3150958:0|t'..(WoWTools_DataMixin.onlyChinese and '黛西' or WoWTools_L['Daisy'])
+            addName= '|T3150958:0|t'..(WoWTools_L['Daisy'])
 
             WoWTools_ToolsMixin:CreateButton({
                 name='SummonPet',

@@ -142,10 +142,10 @@ local function Init()
                     GameTooltip:ClearLines()
                     GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName , WoWTools_GossipMixin.addName)
                     GameTooltip:AddLine(' ')
-                    GameTooltip:AddLine(s.tips or (WoWTools_DataMixin.onlyChinese and '使用' or USE))
-                    GameTooltip:AddDoubleLine(' ', format(WoWTools_DataMixin.onlyChinese and '%d次' or ITEM_SPELL_CHARGES, 44)..WoWTools_DataMixin.Icon.left)
-                    GameTooltip:AddDoubleLine(' ', format(WoWTools_DataMixin.onlyChinese and '%d次' or ITEM_SPELL_CHARGES, 100)..WoWTools_DataMixin.Icon.right)
-                    GameTooltip:AddDoubleLine('|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '停止' or SLASH_STOPWATCH_PARAM_STOP1), 'Alt')
+                    GameTooltip:AddLine(s.tips or (WoWTools_L.USE))
+                    GameTooltip:AddDoubleLine(' ', format(WoWTools_L.ITEM_SPELL_CHARGES, 44)..WoWTools_DataMixin.Icon.left)
+                    GameTooltip:AddDoubleLine(' ', format(WoWTools_L.ITEM_SPELL_CHARGES, 100)..WoWTools_DataMixin.Icon.right)
+                    GameTooltip:AddDoubleLine('|cnWARNING_FONT_COLOR:'..(WoWTools_L.SLASH_STOPWATCH_PARAM_STOP1), 'Alt')
                     GameTooltip:Show()
                 end)
                 PlayerChoiceFrame.allButton:SetScript('OnHide', function(s)
@@ -156,8 +156,8 @@ local function Init()
                 end)
                 function PlayerChoiceFrame.allButton:set_text()
                     self:SetText(
-                        (not self.time or self.time:IsCancelled()) and (WoWTools_DataMixin.onlyChinese and '全部' or ALL)
-                        or (WoWTools_DataMixin.onlyChinese and '停止' or SLASH_STOPWATCH_PARAM_STOP1)
+                        (not self.time or self.time:IsCancelled()) and (WoWTools_L.ALL)
+                        or (WoWTools_L.SLASH_STOPWATCH_PARAM_STOP1)
                     )
                 end
                 PlayerChoiceFrame.allButton:SetScript('OnClick', function(s, d)
@@ -168,7 +168,7 @@ local function Init()
                         print(
                             WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2,
                             '|cnWARNING_FONT_COLOR:',
-                            WoWTools_DataMixin.onlyChinese and '停止' or SLASH_STOPWATCH_PARAM_STOP1
+                            WoWTools_L.SLASH_STOPWATCH_PARAM_STOP1
                         )
                         return
                     else
@@ -206,7 +206,7 @@ local function Init()
                             s.time= nil
                             print(
                                 WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                                '|cnWARNING_FONT_COLOR:', WoWTools_DataMixin.onlyChinese and '停止' or SLASH_STOPWATCH_PARAM_STOP1,
+                                '|cnWARNING_FONT_COLOR:', WoWTools_L.SLASH_STOPWATCH_PARAM_STOP1,
                                 '|r'..n
                             )
                         end
@@ -263,7 +263,7 @@ local function Init()
                         end
                     end
                 end
-                text= text or ('|cff626262'..(WoWTools_DataMixin.onlyChinese and '无' or NONE))
+                text= text or ('|cff626262'..(WoWTools_L.NONE))
             end
             self.TimeText:SetText(text or '')
             self.ChargeText:SetText(charges or '')

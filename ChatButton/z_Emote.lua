@@ -106,7 +106,7 @@ end
 
 local function Rest_Button()
     StaticPopup_Show('WoWTools_OK',
-        addName..'|n|n'..(WoWTools_DataMixin.onlyChinese and '全部重置' or RESET_ALL_BUTTON_TEXT),
+        addName..'|n|n'..(WoWTools_L.RESET_ALL_BUTTON_TEXT),
         nil,
     function()
         WoWToolsPlusSave['Plus_EmoteButton']= CopyTable(P_Save)
@@ -233,10 +233,10 @@ local function Init_Button_Menu(self, root)
 
     local sub=root:CreateButton(
         (SaveUse('use')[value] and SaveUse('use')[value].name and '|cff00ccff' or '')
-        ..(WoWTools_DataMixin.onlyChinese and '修改名称' or HUD_EDIT_MODE_RENAME_LAYOUT),
+        ..(WoWTools_L.HUD_EDIT_MODE_RENAME_LAYOUT),
     function()
         StaticPopup_Show('WoWTools_EditText',
-            (WoWTools_DataMixin.onlyChinese and '修改名称' or HUD_EDIT_MODE_RENAME_LAYOUT)
+            (WoWTools_L.HUD_EDIT_MODE_RENAME_LAYOUT)
             ..'|n|n'
             ..valueName
             ..(cn and '|n'..cn or ''),
@@ -275,10 +275,10 @@ local function Init_Button_Menu(self, root)
 
     sub=root:CreateButton(
         (SaveUse('use')[value] and SaveUse('use')[value].add and '|cff00ccff' or '')
-        ..(WoWTools_DataMixin.onlyChinese and '添加参数'or WoWTools_Join(ADD, MACRO)),
+        ..(WoWTools_L['ADD+MACRO']),
     function()
          StaticPopup_Show('WoWTools_EditText',
-            addName..'|n|n'..valueName..' |cffffffff('..(WoWTools_DataMixin.onlyChinese and '参数' or MACRO)..')|r'
+            addName..'|n|n'..valueName..' |cffffffff('..(WoWTools_L['MACRO~2'])..')|r'
             ..(cn and '|n'..cn or ''),
             nil,
             {
@@ -288,7 +288,7 @@ local function Init_Button_Menu(self, root)
                     if t then
                         s:GetEditBox():SetText(t)
                     end
-                    s:GetButton1():SetText(WoWTools_DataMixin.onlyChinese and '添加' or ADD)
+                    s:GetButton1():SetText(WoWTools_L.ADD)
                 end,
                 SetValue= function(s)
                     local va= s:GetEditBox():GetText()
@@ -360,7 +360,7 @@ end]]
 
 function Init_Button()
     if WoWTools_FrameMixin:IsLocked(MainButton) then
-        print(addName,'|cnWARNING_FONT_COLOR:', WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_COOLDOWN_VIEWER_VISIBLE_SETTING_IN_COMBAT)
+        print(addName,'|cnWARNING_FONT_COLOR:', WoWTools_L.HUD_EDIT_MODE_SETTING_COOLDOWN_VIEWER_VISIBLE_SETTING_IN_COMBAT)
         MainButton:RegisterEvent('PLAYER_REGEN_ENABLED')
         return
     end
@@ -534,8 +534,8 @@ end
 --添加，自定义
 local function Init_UseFrame()
     local typeTab={
-        chat= WoWTools_DataMixin.onlyChinese and '聊天' or CHAT,
-        command= WoWTools_DataMixin.onlyChinese and '宏' or MACRO,
+        chat= WoWTools_L.CHAT,
+        command= WoWTools_L.MACRO,
     }
 
     local frame= WoWTools_FrameMixin:Create(UIParent, {
@@ -553,7 +553,7 @@ local function Init_UseFrame()
     local menu= CreateFrame("DropdownButton", nil, frame, "WowStyle1DropdownTemplate")
     menu:SetWidth(150)
     menu:SetPoint('TOPLEFT', 13, -32)
-    menu:SetDefaultText(WoWTools_DataMixin.onlyChinese and '聊天' or CHAT)
+    menu:SetDefaultText(WoWTools_L.CHAT)
 
 
     local list= CreateFrame('DropdownButton', nil, menu, 'WoWToolsMenu2Template')
@@ -571,7 +571,7 @@ local function Init_UseFrame()
 
 
     local editName= CreateFrame('EditBox', nil, frame, 'SearchBoxTemplate')
-    editName.Instructions:SetText(WoWTools_DataMixin.onlyChinese and '名称' or NAME)
+    editName.Instructions:SetText(WoWTools_L.NAME)
     editName:SetPoint('LEFT', list, 'RIGHT', 7, 0)
     editName:SetPoint('RIGHT', -23*3, 0)
     editName:SetHeight(23)
@@ -584,7 +584,7 @@ local function Init_UseFrame()
     add:SetPoint('LEFT', editName, 'RIGHT', 2, 0)
     add:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, 'ANCHOR_LEFT')
-        GameTooltip_SetTitle(GameTooltip, (WoWTools_DataMixin.onlyChinese and '添加' or ADD)..': |cffffffff'..typeTab[frame.type])
+        GameTooltip_SetTitle(GameTooltip, (WoWTools_L.ADD)..': |cffffffff'..typeTab[frame.type])
         GameTooltip:AddLine(' ')
         GameTooltip:AddLine(frame.value, 0, 0.8,1)
         GameTooltip:AddLine(SaveUse(frame.type)[frame.value], nil, nil, nil, true)
@@ -597,7 +597,7 @@ local function Init_UseFrame()
     update:SetPoint('LEFT', add, 'RIGHT', 2, 0)
     update:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, 'ANCHOR_LEFT')
-        GameTooltip_SetTitle(GameTooltip, (WoWTools_DataMixin.onlyChinese and '更新' or UPDATE)..': |cffffffff'..typeTab[frame.type])
+        GameTooltip_SetTitle(GameTooltip, (WoWTools_L.UPDATE)..': |cffffffff'..typeTab[frame.type])
         GameTooltip:AddLine(' ')
         GameTooltip:AddLine(frame.value, 0, 0.8,1)
         GameTooltip:AddLine(SaveUse(frame.type)[frame.value], nil, nil, nil, true)
@@ -668,11 +668,11 @@ local function Init_UseFrame()
             end)
 
             sub:CreateButton(
-                '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '删除' or DELETE),
+                '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.DELETE),
             function(data)
                  StaticPopup_Show('WoWTools_OK',
                     typeTab[data.type]..'|n'
-                    ..(WoWTools_DataMixin.onlyChinese and '删除' or DELETE)
+                    ..(WoWTools_L.DELETE)
                     ..'|n|n|cff00ccff'
                     ..(data.value or '')
                     ..'|r|n'..(data.text or ''),
@@ -690,11 +690,11 @@ local function Init_UseFrame()
 
         root:CreateDivider()
         root:CreateButton(
-            '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL),
+            '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.CLEAR_ALL),
         function()
             StaticPopup_Show('WoWTools_OK',
                 typeTab[frame.type]..'|n|n|A:bags-button-autosort-up:0:0|a'
-                ..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL),
+                ..(WoWTools_L.CLEAR_ALL),
                 nil,
             {SetValue=function()
                 WoWToolsPlusPlayerDate['EmoteButton'][frame.type]={}
@@ -776,7 +776,7 @@ local function Set_Menu(root, tab, tabName, rootName)
 
     --勾选所有
     root:CreateButton(
-        (WoWTools_DataMixin.onlyChinese and '勾选所有' or EVENTTRACE_BUTTON_ENABLE_FILTERS)
+        (WoWTools_L.EVENTTRACE_BUTTON_ENABLE_FILTERS)
         ..' #'..#tab,
     function()
         for _, value in pairs(tab) do
@@ -790,7 +790,7 @@ local function Set_Menu(root, tab, tabName, rootName)
 
 --撤选所有
     root:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '撤选所有' or EVENTTRACE_BUTTON_DISABLE_FILTERS,
+        WoWTools_L.EVENTTRACE_BUTTON_DISABLE_FILTERS,
      function()
         for _, value in pairs(tab) do
             local index= Get_Save(value, tabName)
@@ -895,9 +895,9 @@ local function Init_Menu(self, root)
     end
 
 --表情
-    Set_Menu(root, EmoteList, 'emoji', WoWTools_DataMixin.onlyChinese and '表情' or EMOTE_MESSAGE)
+    Set_Menu(root, EmoteList, 'emoji', WoWTools_L.EMOTE_MESSAGE)
 --谈话
-    Set_Menu(root, TextEmoteSpeechList, 'emoji', WoWTools_DataMixin.onlyChinese and '谈话' or VOICEMACRO_LABEL)
+    Set_Menu(root, TextEmoteSpeechList, 'emoji', WoWTools_L.VOICEMACRO_LABEL)
 --合集
     for i= 1, MAXEMOTEINDEX do
         local value= _G["EMOTE"..i.."_CMD1"] and _G['EMOTE'..i..'_TOKEN']
@@ -905,19 +905,19 @@ local function Init_Menu(self, root)
             table.insert(_tab, value)
         end
     end
-    Set_Menu(root, _tab, 'emoji', WoWTools_DataMixin.onlyChinese and '全部' or ALL)
+    Set_Menu(root, _tab, 'emoji', WoWTools_L.ALL)
 
 --聊天
     _tab={'SAY', 'PARTY', 'RAID', 'INSTANCE_CHAT', 'GUILD', 'YELL', 'WHISPER','REPLY',}
     root:CreateDivider()
-    Set_Menu(root, _tab, 'chat', WoWTools_DataMixin.onlyChinese and '聊天' or CHAT)
+    Set_Menu(root, _tab, 'chat', WoWTools_L.CHAT)
 
 --自定义聊天
     _tab={}
     for value in pairs(SaveUse('chat')) do
         table.insert(_tab, value)
     end
-    Set_Menu(root, _tab, 'useChat', WoWTools_DataMixin.onlyChinese and '自定义' or CUSTOM)
+    Set_Menu(root, _tab, 'useChat', WoWTools_L.CUSTOM)
 
 --宏
     root:CreateDivider()
@@ -926,20 +926,20 @@ local function Init_Menu(self, root)
         table.insert(_tab, value)
     end
     table.sort(_tab)
-    Set_Menu(root, _tab, 'command', WoWTools_DataMixin.onlyChinese and '宏' or MACRO)
+    Set_Menu(root, _tab, 'command', WoWTools_L.MACRO)
 
 --自定义宏
     _tab={}
     for value in pairs(SaveUse('command')) do
         table.insert(_tab, value)
     end
-    Set_Menu(root, _tab, 'useCommand', WoWTools_DataMixin.onlyChinese and '自定义' or CUSTOM)
+    Set_Menu(root, _tab, 'useCommand', WoWTools_L.CUSTOM)
 
 
 --添加，自定义
     root:CreateDivider()
     root:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '添加自定义' or WoWTools_Join(ADD, CUSTOM),
+        WoWTools_L['ADD+CUSTOM'],
     function()
         Init_UseFrame()
         return MenuResponse.Open
@@ -953,11 +953,11 @@ local function Init_Menu(self, root)
 
 --撤选所有
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '撤选所有' or EVENTTRACE_BUTTON_DISABLE_FILTERS,
+        WoWTools_L.EVENTTRACE_BUTTON_DISABLE_FILTERS,
      function()
         StaticPopup_Show('WoWTools_OK',
             addName..'|n|n'
-            ..(WoWTools_DataMixin.onlyChinese and '撤选所有' or EVENTTRACE_BUTTON_DISABLE_FILTERS),
+            ..(WoWTools_L.EVENTTRACE_BUTTON_DISABLE_FILTERS),
             nil,
         {SetValue=function()
             Save().emoji= {}
@@ -1002,7 +1002,7 @@ local function Init_Menu(self, root)
                 Save().line= value
                 Init_Button()
             end,
-            name=WoWTools_DataMixin.onlyChinese and '数量' or AUCTION_HOUSE_QUANTITY_LABEL,
+            name=WoWTools_L.AUCTION_HOUSE_QUANTITY_LABEL,
             minValue=1,
             maxValue= math.modf(UIParent:GetWidth()/(w==0 and 12 or w)),
             step=1,
@@ -1017,7 +1017,7 @@ local function Init_Menu(self, root)
                 Save().bgAlpha= value
                 Init_Button()
             end,
-            name=WoWTools_DataMixin.onlyChinese and '背景' or BACKGROUND,
+            name=WoWTools_L.BACKGROUND,
             minValue=0,
             maxValue=1,
             step=0.1,
@@ -1039,7 +1039,7 @@ local function Init_Menu(self, root)
             Save().fontScale= value
             Init_Button()
         end,
-        name=WoWTools_DataMixin.onlyChinese and '字体' or FONT_SIZE,
+        name=WoWTools_L['FONT_SIZE~2'],
         minValue=0.2,
         maxValue=4,
         step=0.1,
@@ -1055,7 +1055,7 @@ local function Init_Menu(self, root)
             Save().subName= value
             Init_Button()
         end,
-        name=WoWTools_DataMixin.onlyChinese and '截取' or WoWTools_L['Truncate'],
+        name=WoWTools_L['Truncate'],
         minValue=0,
         maxValue=20,
         step=1,
@@ -1080,7 +1080,7 @@ local function Init_Menu(self, root)
             Save().width= value
             Init_Button()
         end,
-        name=WoWTools_DataMixin.onlyChinese and '宽度' or HUD_EDIT_MODE_SETTING_CHAT_FRAME_WIDTH,
+        name=WoWTools_L.HUD_EDIT_MODE_SETTING_CHAT_FRAME_WIDTH,
         minValue=0,
         maxValue=128,
         step=1,
@@ -1095,7 +1095,7 @@ local function Init_Menu(self, root)
             Save().height= value
             Init_Button()
         end,
-        name=WoWTools_DataMixin.onlyChinese and '高度' or HUD_EDIT_MODE_SETTING_CHAT_FRAME_HEIGHT,
+        name=WoWTools_L.HUD_EDIT_MODE_SETTING_CHAT_FRAME_HEIGHT,
         minValue=0,
         maxValue=128,
         step=1,
@@ -1113,16 +1113,16 @@ local function Init_Menu(self, root)
     sub:CreateDivider()
     sub:CreateButton(
         '|A:bags-button-autosort-up:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '重置' or RESET),
+        ..(WoWTools_L.RESET),
     Rest_Button)
 
     sub:CreateButton(
         '|A:UI-HUD-UnitFrame-Player-Group-FriendOnlineIcon:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '清除输入数据' or WoWTools_L['Clear input data']),
+        ..(WoWTools_L['Clear input data']),
     function()
         StaticPopup_Show('WoWTools_OK',
             addName..'|n|n|A:UI-HUD-UnitFrame-Player-Group-FriendOnlineIcon:0:0|a'
-            ..(WoWTools_DataMixin.onlyChinese and '清除输入数据' or WoWTools_L['Clear input data']),
+            ..(WoWTools_L['Clear input data']),
             nil,
         {SetValue=function()
             WoWToolsPlusPlayerDate['EmoteButton']= CopyTable(P_SaveUse)
@@ -1192,9 +1192,9 @@ local function Init()
     MainButton:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, 'ANCHOR_LEFT')
         GameTooltip_SetTitle(GameTooltip, '|cffffffff'..(self.pool:GetNumActive()+self.poolSecur:GetNumActive()))
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.left)
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '移动' or NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '自定义' or CUSTOM, WoWTools_DataMixin.Icon.mid)
+        GameTooltip:AddDoubleLine(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine(WoWTools_L.NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine(WoWTools_L.CUSTOM, WoWTools_DataMixin.Icon.mid)
         GameTooltip:Show()
         self:set_texture()
     end)
@@ -1253,7 +1253,7 @@ local function Init()
                 Init_Button()
             end
         else
-            print(addName,'|cnWARNING_FONT_COLOR:', WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_COOLDOWN_VIEWER_VISIBLE_SETTING_IN_COMBAT)
+            print(addName,'|cnWARNING_FONT_COLOR:', WoWTools_L.HUD_EDIT_MODE_SETTING_COOLDOWN_VIEWER_VISIBLE_SETTING_IN_COMBAT)
         end
     end
 end
@@ -1285,7 +1285,7 @@ MainButton:SetScript('OnEvent', function(self, event, arg1)
         if arg1== 'WoWToolsPlus' then
             WoWToolsPlusSave['Plus_EmoteButton']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_EmoteButton'], CopyTable(P_Save))
             WoWToolsPlusPlayerDate['EmoteButton']= WoWToolsPlusPlayerDate['EmoteButton'] or CopyTable(P_SaveUse)
-            addName= '|A:newplayerchat-chaticon-newcomer:0:0|a'..(WoWTools_DataMixin.onlyChinese and '表情' or EMOTE_MESSAGE)
+            addName= '|A:newplayerchat-chaticon-newcomer:0:0|a'..(WoWTools_L.EMOTE_MESSAGE)
 
             WoWTools_PanelMixin:Check_Button({
                 checkName= addName,
@@ -1294,11 +1294,11 @@ MainButton:SetScript('OnEvent', function(self, event, arg1)
                     Save().disabled= not Save().disabled and true or nil
                     Init()
                 end,
-                buttonText= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '重置' or RESET),
+                buttonText= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.RESET),
                 buttonFunc= Rest_Button,
                 layout= WoWTools_ChatMixin.Layout,
                 category= WoWTools_ChatMixin.Category,
-                tooltip= WoWTools_DataMixin.onlyChinese and '按钮' or WoWTools_L['Button'],
+                tooltip= WoWTools_L['Button'],
             })
 
             if Save().disabled then

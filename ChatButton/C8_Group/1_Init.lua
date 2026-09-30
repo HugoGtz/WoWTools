@@ -24,7 +24,7 @@ function WoWTools_GroupMixin:Get_ReadyText(ready)
         )
     else
         return '|A:Cursor_OpenHand_32:0:0|a'..HIGHLIGHT_FONT_COLOR:WrapTextInColorCode(
-            WoWTools_DataMixin.onlyChinese and '手动就绪' or WoWTools_Join(READY, TRACKER_SORT_MANUAL)
+            WoWTools_L['READY+TRACKER_SORT_MANUAL']
         )
     end
 end
@@ -117,7 +117,7 @@ end
 local function set_Text(text)--处理%s
     local groupTab= WoWTools_DataMixin.GroupGuid[WoWTools_DataMixin.Player.GUID]
     if text:find('%%s') and groupTab and groupTab.subgroup then
-        text= text:format(groupTab.subgroup..' '..(WoWTools_DataMixin.onlyChinese and '队' or GROUP)..' ')
+        text= text:format(groupTab.subgroup..' '..(WoWTools_L.GROUP)..' ')
     else
         text= text:gsub('%%s','')
     end
@@ -267,7 +267,7 @@ end
                             return MenuResponse.Open
                         end, playerName)
                         sub2:SetTooltip(function(tooltip)
-                            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '密语' or SLASH_TEXTTOSPEECH_WHISPER)
+                            tooltip:AddLine(WoWTools_L.SLASH_TEXTTOSPEECH_WHISPER)
                         end)
                     end
                 end
@@ -286,7 +286,7 @@ end
                         end, playerName)
                         sub2:SetTooltip(function(tooltip, description)
                             if description.data and description.data~=UnitName('player') then
-                                tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '密语' or SLASH_TEXTTOSPEECH_WHISPER)
+                                tooltip:AddLine(WoWTools_L.SLASH_TEXTTOSPEECH_WHISPER)
                             end
                         end)
                     end
@@ -310,22 +310,22 @@ end
     end
 
     sub=root:CreateTitle(
-        (WoWTools_DataMixin.onlyChinese and '跨阵营' or COMMUNITIES_EDIT_DIALOG_CROSS_FACTION)
+        (WoWTools_L.COMMUNITIES_EDIT_DIALOG_CROSS_FACTION)
         ..': '
         ..(
             isInGroup and WoWTools_TextMixin:GetYesNo(C_PartyInfo.IsCrossFactionParty())
-            or (C_PartyInfo.CanFormCrossFactionParties() and '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '可创建' or BATTLETAG_CREATE)..'|r')
-            or ('|cff626262'..(WoWTools_DataMixin.onlyChinese and '无' or NONE)..'|r')
+            or (C_PartyInfo.CanFormCrossFactionParties() and '|cnGREEN_FONT_COLOR:'..(WoWTools_L.BATTLETAG_CREATE)..'|r')
+            or ('|cff626262'..(WoWTools_L.NONE)..'|r')
         ).. ' #'..crossNum)
 
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '跨阵营' or COMMUNITIES_EDIT_DIALOG_CROSS_FACTION)
+        tooltip:AddLine(WoWTools_L.COMMUNITIES_EDIT_DIALOG_CROSS_FACTION)
         tooltip:AddLine(' ')
-        tooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '创建跨阵营队伍' or WoWTools_Join(COMMUNITIES_EDIT_DIALOG_CROSS_FACTION, START_A_GROUP),  WoWTools_TextMixin:GetEnabeleDisable(C_PartyInfo.CanFormCrossFactionParties()))
+        tooltip:AddDoubleLine(WoWTools_L['COMMUNITIES_EDIT_DIALOG_CROSS_FACTION+START_A_GROUP'],  WoWTools_TextMixin:GetEnabeleDisable(C_PartyInfo.CanFormCrossFactionParties()))
         local hex= IsInGroup() and '' or '|cff626262'
         tooltip:AddDoubleLine(
-            hex..(WoWTools_DataMixin.onlyChinese and '跨阵营队伍' or WoWTools_Join(COMMUNITIES_EDIT_DIALOG_CROSS_FACTION, HUD_EDIT_MODE_SETTING_UNIT_FRAME_SORT_BY_SETTING_GROUP)),
-            hex..WoWTools_TextMixin:GetYesNo(isCrossFactionParty)..' #'..crossNum..' '..(WoWTools_DataMixin.onlyChinese and '队员' or PLAYERS_IN_GROUP)
+            hex..(WoWTools_L['COMMUNITIES_EDIT_DIALOG_CROSS_FACTION+HUD_EDIT_MODE_SETTING_UNIT_FRAME_SORT_BY_SETTING_GROUP']),
+            hex..WoWTools_TextMixin:GetYesNo(isCrossFactionParty)..' #'..crossNum..' '..(WoWTools_L.PLAYERS_IN_GROUP)
         )
     end)
 
@@ -335,7 +335,7 @@ end
 --组队聊天泡泡
     sub=root:CreateCheckbox(
         (isInBat and '|cff626262' or '')
-        ..(WoWTools_DataMixin.onlyChinese and '组队聊天泡泡' or PARTY_CHAT_BUBBLES_TEXT),
+        ..(WoWTools_L.PARTY_CHAT_BUBBLES_TEXT),
     function()
         return C_CVar.GetCVarBool("chatBubblesParty")
     end, function()
@@ -343,13 +343,13 @@ end
             C_CVar.SetCVar("chatBubblesParty", C_CVar.GetCVarBool("chatBubblesParty") and '0' or '1')
             print(
                 WoWTools_GroupMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                WoWTools_DataMixin.onlyChinese and '组队聊天泡泡' or PARTY_CHAT_BUBBLES_TEXT,
+                WoWTools_L.PARTY_CHAT_BUBBLES_TEXT,
                 WoWTools_TextMixin:GetEnabeleDisable(C_CVar.GetCVarBool("chatBubblesParty"))
             )
         else
             print(
                 WoWTools_GroupMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT
+                WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT
             )
         end
     end)
@@ -375,7 +375,7 @@ end
         return MenuResponse.Refresh
     end)
     sub:SetTooltip(function (tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '显示就绪框' or WoWTools_Join(SHOW, READY))
+        tooltip:AddLine(WoWTools_L['SHOW+READY'])
         tooltip:AddLine('ReadyCheckFrame')
     end)
 
@@ -397,7 +397,7 @@ end
         end, value)
 
         sub2:SetTooltip(function(tooltip)
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '自动' or SELF_CAST_AUTO)
+            tooltip:AddLine(WoWTools_L.SELF_CAST_AUTO)
         end)
     end
 
@@ -407,8 +407,8 @@ end
 
     root:CreateDivider()
     for _, tab in pairs({
-        {type= 'GroupMouseUpText', text= WoWTools_DataMixin.onlyChinese and '鼠标滚轮向上滚动' or KEY_MOUSEWHEELUP, icon= 'bags-greenarrow'},
-        {type= 'GroupMouseDownText', text= WoWTools_DataMixin.onlyChinese and '鼠标滚轮向下滚动' or KEY_MOUSEWHEELDOWN, icon= 'UI-HUD-MicroMenu-StreamDLRed-Up'},
+        {type= 'GroupMouseUpText', text= WoWTools_L.KEY_MOUSEWHEELUP, icon= 'bags-greenarrow'},
+        {type= 'GroupMouseDownText', text= WoWTools_L.KEY_MOUSEWHEELDOWN, icon= 'UI-HUD-MicroMenu-StreamDLRed-Up'},
     }) do
         local sumText= WoWTools_TextMixin:sub(WoWToolsPlusPlayerDate[tab.type], 8, 16)
         sumText= sumText:gsub('{rt%d}', function(a)
@@ -427,13 +427,13 @@ end
 
         sub:CreateButton(
             '|A:'..tab.icon..':0:0|a'
-            ..(WoWTools_DataMixin.onlyChinese and '修改' or HUD_EDIT_MODE_RENAME_LAYOUT),
+            ..(WoWTools_L['HUD_EDIT_MODE_RENAME_LAYOUT~2']),
         function(data)
             StaticPopup_Show('WoWTools_EditText',
                 WoWTools_GroupMixin.addName
-                ..'|n|n'..(WoWTools_DataMixin.onlyChinese and '自定义发送信息' or WoWTools_Join(CUSTOM, SEND_MESSAGE))
+                ..'|n|n'..(WoWTools_L['CUSTOM+SEND_MESSAGE'])
                 ..'|n|n|cnGREEN_FONT_COLOR:'..format('|A:%s:0:0|a', data.icon)..data.text..'|r|n|n'
-                ..(WoWTools_DataMixin.onlyChinese and '队伍' or HUD_EDIT_MODE_SETTING_UNIT_FRAME_GROUPS),
+                ..(WoWTools_L.HUD_EDIT_MODE_SETTING_UNIT_FRAME_GROUPS),
             nil,
             {
                 text= WoWToolsPlusPlayerDate[data.type],
@@ -559,7 +559,7 @@ local function show_Group_Info_Toolstip()--玩家,信息, 提示
     table.sort(tabDPS, function(a, b) if a and b then  return a.maxHP> b.maxHP end return false end)
 
 
-    GameTooltip:AddDoubleLine(format(WoWTools_DataMixin.onlyChinese and '%s玩家' or COMMUNITIES_CROSS_FACTION_BUTTON_TOOLTIP_TITLE, playerNum), WoWTools_DataMixin:MK(totaleHP,3))
+    GameTooltip:AddDoubleLine(format(WoWTools_L.COMMUNITIES_CROSS_FACTION_BUTTON_TOOLTIP_TITLE, playerNum), WoWTools_DataMixin:MK(totaleHP,3))
     if playerNum>0 then
         GameTooltip:AddLine(' ')
     end
@@ -619,28 +619,28 @@ local function Init()
 
     ChatTab={
         ['p']= {--/p
-            text=WoWTools_DataMixin.onlyChinese and '队伍' or COMPACT_UNIT_FRAME_PROFILE_SORTBY_GROUP,
+            text=WoWTools_L.COMPACT_UNIT_FRAME_PROFILE_SORTBY_GROUP,
             slash='SLASH_PARTY',
             slashText= SLASH_PARTY1,
             cn='队',
             atlas='questlog-questtypeicon-group',
         },
         ['r']= {--/raid
-            text= WoWTools_DataMixin.onlyChinese and '团队' or RAID,
+            text= WoWTools_L.RAID,
             slash='SLASH_RAID',
             slashText= SLASH_RAID1,
             cn='团',
             atlas='Ping_Chat_Assist',
         },
         ['i']= {--i
-            text=WoWTools_DataMixin.onlyChinese and '副本' or INSTANCE,--/i
+            text=WoWTools_L.INSTANCE,--/i
             slash='SLASH_INSTANCE_CHAT',
             slashText= SLASH_INSTANCE_CHAT1,
             cn='副',
             atlas='delves-bountiful'
         },
         ['w']= {--rw
-            text= WoWTools_DataMixin.onlyChinese and '团队通知' or RAID_WARNING,--/rw
+            text= WoWTools_L.RAID_WARNING,--/rw
             slash='SLASH_RAID_WARNING',
             slashText= SLASH_RAID_WARNING1,
             cn='领',
@@ -769,7 +769,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             WoWToolsPlusPlayerDate['GroupMouseDownText']= WoWToolsPlusPlayerDate['GroupMouseDownText']
                 or (WoWTools_DataMixin.Player.Region~=5 and 'inv, thx{rt1}') or '1'
 
-            WoWTools_GroupMixin.addName= '|A:socialqueuing-icon-group:0:0:|a'..(WoWTools_DataMixin.onlyChinese and '队伍' or HUD_EDIT_MODE_SETTING_UNIT_FRAME_SORT_BY_SETTING_GROUP)
+            WoWTools_GroupMixin.addName= '|A:socialqueuing-icon-group:0:0:|a'..(WoWTools_L.HUD_EDIT_MODE_SETTING_UNIT_FRAME_SORT_BY_SETTING_GROUP)
             GroupButton= WoWTools_ChatMixin:CreateButton('Group', WoWTools_GroupMixin.addName)
 
 

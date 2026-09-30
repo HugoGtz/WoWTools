@@ -34,7 +34,7 @@ local function Init()--预创建队伍增强
 
     btn:SetupMenu(function(_, root)
         local sub= root:CreateCheckbox(
-            WoWTools_DataMixin.onlyChinese and '启用' or ENABLE,
+            WoWTools_L.ENABLE,
         function()
             return Save().LFGPlus
         end, function()
@@ -42,7 +42,7 @@ local function Init()--预创建队伍增强
             if not Save().LFGPlus then
                 print(
                     WoWTools_DataMixin.Icon.icon2
-                    ..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD),
+                    ..(WoWTools_L.REQUIRES_RELOAD),
                     WoWTools_TextMixin:GetEnabeleDisable( not Save().LFGPlus)
                 )
             end
@@ -50,7 +50,7 @@ local function Init()--预创建队伍增强
 
         sub:SetTooltip(function(tooltip)
             if not Save().LFGPlus then
-                tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需求重新加载' or REQUIRES_RELOAD)
+                tooltip:AddLine(WoWTools_L['REQUIRES_RELOAD~2'])
             end
         end)
 
@@ -100,7 +100,7 @@ local function Init()--预创建队伍增强
                 name='WoWToolsLFGPlusUseMoreButton',
             })]]
             self.useMoreButton:SetNormalAtlas('common-icon-zoomin')
-            self.useMoreButton.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '更多...' or LFG_LIST_MORE)
+            self.useMoreButton.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_L.LFG_LIST_MORE)
             self.useMoreButton:SetPoint('LEFT', self.GroupDropdown, 'RIGHT')
             LFGListEntryCreationActivityDropdown:SetPoint('LEFT', self.useMoreButton, 'RIGHT')
             self.useMoreButton:SetScript('OnClick', function()
@@ -169,12 +169,12 @@ local function Init()--预创建队伍增强
             end
             GameTooltip:SetOwner(f,  'ANCHOR_LEFT')
             GameTooltip_SetTitle(GameTooltip, 
-                (WoWTools_DataMixin.onlyChinese and '创建' or CREATE_ARENA_TEAM)
-                ..' ('..(WoWTools_DataMixin.onlyChinese and '双击' or BUFFER_DOUBLE)..')'
+                (WoWTools_L.CREATE_ARENA_TEAM)
+                ..' ('..(WoWTools_L.BUFFER_DOUBLE)..')'
                 ..WoWTools_DataMixin.Icon.left
                 ..WoWTools_DataMixin.Icon.icon2
                 ..WoWTools_DataMixin.Icon.right
-                ..(WoWTools_DataMixin.onlyChinese and '寻找' or LFG_LIST_FIND_A_GROUP)
+                ..(WoWTools_L.LFG_LIST_FIND_A_GROUP)
             )
             GameTooltip:Show()
         end)
@@ -264,7 +264,7 @@ local function Init()--预创建队伍增强
             self.autoAcceptTexture:SetScript('OnEnter', function(f)
                 GameTooltip:SetOwner(f, "ANCHOR_LEFT")
                 GameTooltip:ClearLines()
-                GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '自动接受' or LFG_LIST_AUTO_ACCEPT)
+                GameTooltip:AddLine(WoWTools_L.LFG_LIST_AUTO_ACCEPT)
                 GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_LFDMixin.addName)
                 GameTooltip:Show()
             end)
@@ -289,7 +289,7 @@ local function Init()--预创建队伍增强
                 if f.realm then
                     GameTooltip:SetOwner(f, "ANCHOR_LEFT")
                     GameTooltip:ClearLines()
-                    GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '服务器' or WoWTools_L['Realm'], '|cnGREEN_FONT_COLOR:'..f.realm)
+                    GameTooltip:AddDoubleLine(WoWTools_L['Realm'], '|cnGREEN_FONT_COLOR:'..f.realm)
                     GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_LFDMixin.addName)
                     GameTooltip:Show()
                 end
@@ -441,7 +441,7 @@ local function Init()--预创建队伍增强
             end
         end
         tooltip:AddLine(' ')
-        tooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '申请' or SIGN_UP, (WoWTools_DataMixin.onlyChinese and '双击' or BUFFER_DOUBLE)..WoWTools_DataMixin.Icon.left, 0,1,0, 0,1,0)
+        tooltip:AddDoubleLine(WoWTools_L.SIGN_UP, (WoWTools_L.BUFFER_DOUBLE)..WoWTools_DataMixin.Icon.left, 0,1,0, 0,1,0)
         tooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_LFDMixin.addName)
         tooltip:Show()
     end)

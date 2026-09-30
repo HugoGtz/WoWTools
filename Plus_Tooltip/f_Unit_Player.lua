@@ -68,9 +68,9 @@ function WoWTools_TooltipMixin:Set_Unit_Player(tooltip, name, unit, guid)
             elseif reason==1 then
                 textLeft= (WoWTools_DataMixin.onlyChinese and '不在同位面' or format(ERR_ARENA_TEAM_PLAYER_NOT_IN_TEAM_SS,'', WoWTools_DataMixin.Player.layer))..textLeft
             elseif reason==2 then--战争模
-                textLeft= (isWarModeDesired and (WoWTools_DataMixin.onlyChinese and '关闭战争模式' or ERR_PVP_WARMODE_TOGGLE_OFF) or (WoWTools_DataMixin.onlyChinese and '开启战争模式' or ERR_PVP_WARMODE_TOGGLE_ON))..textLeft
+                textLeft= (isWarModeDesired and (WoWTools_L.ERR_PVP_WARMODE_TOGGLE_OFF) or (WoWTools_L.ERR_PVP_WARMODE_TOGGLE_ON))..textLeft
             elseif reason==3 then
-                textLeft= (WoWTools_DataMixin.onlyChinese and '时空漫游' or PLAYER_DIFFICULTY_TIMEWALKER)..textLeft
+                textLeft= (WoWTools_L.PLAYER_DIFFICULTY_TIMEWALKER)..textLeft
             end
         end
     end
@@ -213,7 +213,7 @@ function WoWTools_TooltipMixin:Set_Unit_Player(tooltip, name, unit, guid)
         if info and info.currentSeasonScore and info.currentSeasonScore>0 then
             text= text..' '..(WoWTools_UnitMixin:GetRaceIcon(unit, guid, raceFile, {sex=sex, size=self.iconSize}) or '')
                     ..' '..WoWTools_UnitMixin:GetClassIcon(nil, nil, classFilename, {size=self.iconSize})
-                    ..' '..(UnitIsPVP(unit) and  '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and 'PvP' or PVP)..'|r' or (WoWTools_DataMixin.onlyChinese and 'PvE' or TRANSMOG_SET_PVE))
+                    ..' '..(UnitIsPVP(unit) and  '|cnGREEN_FONT_COLOR:'..(WoWTools_L.PVP)..'|r' or (WoWTools_L.TRANSMOG_SET_PVE))
                     ..' |A:recipetoast-icon-star:0:0|a'..info.currentSeasonScore..'|r'
 
             if info.runs and info.runs then
@@ -231,7 +231,7 @@ function WoWTools_TooltipMixin:Set_Unit_Player(tooltip, name, unit, guid)
             text= text..' '..(WoWTools_UnitMixin:GetRaceIcon(unit, guid, raceFile, {sex=sex, size=self.iconSize})  or '')
                     ..(WoWTools_TextMixin:CN(raceName) or WoWTools_TextMixin:CN(raceFile) or '')
                     ..' '..(WoWTools_UnitMixin:GetClassIcon(unit, guid, classFilename, {size=self.iconSize}) or '')
-                    ..' '..(UnitIsPVP(unit) and '(|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and 'PvP' or TRANSMOG_SET_PVP)..'|r)' or ('('..(WoWTools_DataMixin.onlyChinese and 'PvE' or TRANSMOG_SET_PVE)..')'))
+                    ..' '..(UnitIsPVP(unit) and '(|cnGREEN_FONT_COLOR:'..(WoWTools_L.TRANSMOG_SET_PVP)..'|r)' or ('('..(WoWTools_L.TRANSMOG_SET_PVE)..')'))
         end
         lineLeft3:SetText(text)
 
@@ -259,9 +259,9 @@ function WoWTools_TooltipMixin:Set_Unit_Player(tooltip, name, unit, guid)
                     local lineRight= _G[tooltipName..'TextRight'..i]
                     if lineRight then
                         if isWarModeDesired then
-                            lineRight:SetText('|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '战争模式' or PVP_LABEL_WAR_MODE))
+                            lineRight:SetText('|cnGREEN_FONT_COLOR:'..(WoWTools_L.PVP_LABEL_WAR_MODE))
                         else
-                            lineRight:SetText(WoWTools_DataMixin.onlyChinese and '关闭战争模式' or ERR_PVP_WARMODE_TOGGLE_OFF)
+                            lineRight:SetText(WoWTools_L.ERR_PVP_WARMODE_TOGGLE_OFF)
                         end
                         lineLeft:SetShown(true)
                     end

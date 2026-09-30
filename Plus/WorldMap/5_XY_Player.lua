@@ -14,24 +14,24 @@ local function Init_Menu(self, root)
 
     sub= root:CreateButton(
         '|A:Waypoint-MapPin-ChatIcon:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '分享' or SOCIAL_SHARE_TEXT),
+        ..(WoWTools_L.SOCIAL_SHARE_TEXT),
     function()
         WoWTools_WorldMapMixin:SendPlayerPoint()--发送玩家位置
         return MenuResponse.Open
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '分享链接至聊天栏' or CLUB_FINDER_LINK_POST_IN_CHAT)
+        tooltip:AddLine(WoWTools_L.CLUB_FINDER_LINK_POST_IN_CHAT)
 
         local mapID= C_Map.GetBestMapForUnit("player")
         local can= mapID and C_Map.CanSetUserWaypointOnMap(mapID)
         if not can then
-            tooltip:AddLine('|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '当前地图不能标记' or WoWTools_L['Cannot set waypoints on this map']))
+            tooltip:AddLine('|cnWARNING_FONT_COLOR:'..(WoWTools_L['Cannot set waypoints on this map']))
         end
     end)
 
     sub=root:CreateButton(
         '|A:dressingroom-button-appearancelist-up:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '复制' or CALENDAR_COPY_EVENT),
+        ..(WoWTools_L.CALENDAR_COPY_EVENT),
     function()
         WoWTools_TooltipMixin:Show_URL(nil, nil, nil, self.Text:GetText())
         return MenuResponse.Open
@@ -41,7 +41,7 @@ local function Init_Menu(self, root)
     end)
 
     root:CreateDivider()
-    sub= WoWTools_MenuMixin:OpenOptions(root, {name= WoWTools_WorldMapMixin.addName, name2= '|A:poi-islands-table:0:0|a'..(WoWTools_DataMixin.onlyChinese and '选项' or OPTIONS)})
+    sub= WoWTools_MenuMixin:OpenOptions(root, {name= WoWTools_WorldMapMixin.addName, name2= '|A:poi-islands-table:0:0|a'..(WoWTools_L.OPTIONS)})
 
 
 
@@ -73,7 +73,7 @@ local function Init_Menu(self, root)
             Save().elapsed= value
             self:Settings()
         end,
-        name= WoWTools_DataMixin.onlyChinese and '延迟' or LAG_TOLERANCE,
+        name= WoWTools_L.LAG_TOLERANCE,
         minValue=0.1,
         maxValue=0.5,
         step=0.01,
@@ -98,7 +98,7 @@ local function Init_Menu(self, root)
     sub:CreateSpacer()
 
     sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '右边' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_RIGHT,
+        WoWTools_L['HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_RIGHT~2'],
     function()
         return not Save().toLeft
     end, function()
@@ -134,7 +134,7 @@ local function Init_Menu(self, root)
 --重置数据
     sub:CreateDivider()
     sub:CreateButton(
-        (WoWTools_DataMixin.onlyChinese and '重置数据' or DAMAGE_METER_RESET_ALL_SESSIONS),
+        (WoWTools_L.DAMAGE_METER_RESET_ALL_SESSIONS),
     function()
         WoWToolsPlusSave['Plus_WorldMap'].PlayerXY={--实时玩家当前坐标
             textY=-2,
@@ -203,8 +203,8 @@ local function Init()
     function btn:tooltip(tooltip)
         GameTooltip_SetTitle(tooltip, WoWTools_DataMixin.Icon.Player..' XY'..WoWTools_DataMixin.Icon.icon2)
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.left)
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '移动' or NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine(WoWTools_L.NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)
     end
     btn:SetScript("OnLeave", function(self)
         WoWToolsButton_OnLeave(self)

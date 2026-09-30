@@ -43,7 +43,7 @@ local function Init_Spec_Menu(self, root)
 --SetParent
     sub2=sub:CreateCheckbox(
         (PlayerSpellsFrame and '' or '|cff828282')
-        ..'UIParent',--..(WoWTools_DataMixin.onlyChinese and '天赋和法术书' or PLAYERSPELLS_BUTTON),
+        ..'UIParent',--..(WoWTools_L.PLAYERSPELLS_BUTTON),
     function()
         return Save().isUIParent
     end, function()
@@ -59,7 +59,7 @@ local function Init_Spec_Menu(self, root)
         tooltip:AddDoubleLine(' ', (isUIParent and '' or '|cnGREEN_FONT_COLOR:').. 'PlayerSpellsFrame')
 
         tooltip:AddLine(' ')
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+        tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 
 
@@ -229,14 +229,14 @@ local function Create_Spec_Button(index)
                         or (InCombatLockdown() and '|cff828282')
                         or '|cffffffff'
                     )
-                    ..(self.isActive and (WoWTools_DataMixin.onlyChinese and '已激活' or COVENANT_SANCTUM_UPGRADE_ACTIVE)
-                    or (WoWTools_DataMixin.onlyChinese and '激活' or SPEC_ACTIVE))
+                    ..(self.isActive and (WoWTools_L.COVENANT_SANCTUM_UPGRADE_ACTIVE)
+                    or (WoWTools_L.SPEC_ACTIVE))
                     ..WoWTools_DataMixin.Icon.left,
 
-                    WoWTools_DataMixin.Icon.right..(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL)
+                    WoWTools_DataMixin.Icon.right..(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL)
                 )
                 if SpecFrame:IsMovable() then
-                    tooltip:AddDoubleLine(' ', 'Alt+'..WoWTools_DataMixin.Icon.right..(WoWTools_DataMixin.onlyChinese and '移动' or NPE_MOVE))
+                    tooltip:AddDoubleLine(' ', 'Alt+'..WoWTools_DataMixin.Icon.right..(WoWTools_L.NPE_MOVE))
                 end
             end
         })
@@ -414,7 +414,7 @@ local function Init()
             print(
                 WoWTools_SpellMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 '|cnGREEN_FONT_COLOR:'
-                ..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+                ..(WoWTools_L.REQUIRES_RELOAD)
             )
         end
     end

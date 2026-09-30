@@ -21,7 +21,7 @@ function WoWTools_TooltipMixin:Set_All_Aura(tooltip, data)
 
     tooltip:AddDoubleLine(
         icon and '|T'..icon..':'..self.iconSize..'|t|cffffffff'..icon or ' ',
-        (WoWTools_DataMixin.onlyChinese and '光环' or AURAS)
+        (WoWTools_L.AURAS)
         ..WoWTools_DataMixin.Icon.icon2..'|cffffffff'..spellID
     )
 
@@ -65,13 +65,13 @@ function WoWTools_TooltipMixin:Set_Buff(_, tooltip, ...)
         SetPortraitTexture(tooltip.Portrait, source, true)
     end
 
-    local text= source=='player' and (WoWTools_DataMixin.onlyChinese and '我' or COMBATLOG_FILTER_STRING_ME)
-            or source=='pet' and (WoWTools_DataMixin.onlyChinese and '宠物' or PET)
+    local text= source=='player' and (WoWTools_L.COMBATLOG_FILTER_STRING_ME)
+            or source=='pet' and (WoWTools_L.PET)
             or UnitIsPlayer(source) and WoWTools_UnitMixin:GetPlayerInfo(source, nil, nil, {reName=true})
             or UnitName(source) or _G[source] or source
 
     tooltip:AddLine(
-        format(WoWTools_DataMixin.onlyChinese and '来源：%s' or RUNEFORGE_LEGENDARY_POWER_SOURCE_FORMAT, text),
+        format(WoWTools_L.RUNEFORGE_LEGENDARY_POWER_SOURCE_FORMAT, text),
         color:GetRGB()
     )
 

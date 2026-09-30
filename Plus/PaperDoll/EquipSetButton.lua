@@ -22,7 +22,7 @@ local useSecureAction
 local function Init_Menu(self, root)
     local sub, sub2
     root:CreateButton(
-        WoWTools_DataMixin.Icon.left..MicroButtonTooltipText(WoWTools_DataMixin.onlyChinese and '角色信息' or CHARACTER_BUTTON, "TOGGLECHARACTER0"),
+        WoWTools_DataMixin.Icon.left..MicroButtonTooltipText(WoWTools_L.CHARACTER_BUTTON, "TOGGLECHARACTER0"),
     function()
         WoWTools_LoadUIMixin:OpenPaperDoll(1, 3)
         return MenuResponse.Open
@@ -32,7 +32,7 @@ local function Init_Menu(self, root)
 
 --向右
     root:CreateCheckbox(
-        '|A:common-icon-rotateright:0:0|a'..(WoWTools_DataMixin.onlyChinese and '向右' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_RIGHT),
+        '|A:common-icon-rotateright:0:0|a'..(WoWTools_L['HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_RIGHT~3']),
     function()
         return Save().toRight
     end, function()
@@ -42,7 +42,7 @@ local function Init_Menu(self, root)
 
 --装等
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '装等' or ITEM_UPGRADE_STAT_AVERAGE_ITEM_LEVEL,
+        WoWTools_L.ITEM_UPGRADE_STAT_AVERAGE_ITEM_LEVEL,
     function()
         return Save().itemLevel
     end, function()
@@ -66,7 +66,7 @@ local function Init_Menu(self, root)
 
 
     sub= root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '数量' or AUCTION_HOUSE_QUANTITY_LABEL,
+        WoWTools_L.AUCTION_HOUSE_QUANTITY_LABEL,
     function()
         return not Save().notNumItem
     end, function()
@@ -74,7 +74,7 @@ local function Init_Menu(self, root)
         self:settings()
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(format(WoWTools_DataMixin.onlyChinese and '%d件物品' or ITEMS_VARIABLE_QUANTITY, '16'))
+        tooltip:AddLine(format(WoWTools_L.ITEMS_VARIABLE_QUANTITY, '16'))
     end)
 
 
@@ -91,9 +91,9 @@ local function Init_Menu(self, root)
     end)
     sub2:SetTooltip(function(tooltip)
         tooltip:AddLine('SecureActionButtonTemplate')
-        GameTooltip_AddHighlightLine(tooltip, WoWTools_DataMixin.onlyChinese and '战斗中可更换武器' or WoWTools_L['Weapons can be switched during combat'])
+        GameTooltip_AddHighlightLine(tooltip, WoWTools_L['Weapons can be switched during combat'])
         tooltip:AddLine(' ')
-        GameTooltip_AddInstructionLine(tooltip, WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+        GameTooltip_AddInstructionLine(tooltip, WoWTools_L.REQUIRES_RELOAD)
         GameTooltip_AddErrorLine(tooltip, WoWTools_DataMixin.onlyChinese and'友情提示: 可能会出现错误' or 'Note: Errors may occur')
     end)
 
@@ -129,12 +129,12 @@ local function Init_Menu(self, root)
 
     sub:CreateDivider()
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '全部重置' or RESET_ALL_BUTTON_TEXT,
+        WoWTools_L.RESET_ALL_BUTTON_TEXT,
     function()
         StaticPopup_Show('WoWTools_OK',
             WoWTools_PaperDollMixin.addName2..WoWTools_DataMixin.Icon.icon2
             ..'|n|n'
-            ..(WoWTools_DataMixin.onlyChinese and '全部重置' or RESET_ALL_BUTTON_TEXT),
+            ..(WoWTools_L.RESET_ALL_BUTTON_TEXT),
             nil,
             {SetValue=function()
                 WoWToolsPlusSave['Plus_PaperDoll'].EquipSet={}
@@ -150,7 +150,7 @@ local function Init_Menu(self, root)
         self:settings()
         print(
             WoWTools_PaperDollMixin.addName2..WoWTools_DataMixin.Icon.icon2,
-            WoWTools_DataMixin.onlyChinese and '重置位置' or RESET_POSITION
+            WoWTools_L.RESET_POSITION
         )
     end)
 
@@ -221,7 +221,7 @@ local function Create_Button(btn)
             GameTooltip:AddLine(' ')
             GameTooltip_AddErrorLine(
                 GameTooltip,
-                WoWTools_DataMixin.onlyChinese and '你还不能那样做。' or ERR_CLIENT_LOCKED_OUT,
+                WoWTools_L.ERR_CLIENT_LOCKED_OUT,
                 true
             )
         end
@@ -241,8 +241,8 @@ local function Create_Button(btn)
         GameTooltip:AddLine(' ')
         GameTooltip:AddLine(
             WoWTools_DataMixin.Icon.icon2
-            ..(WoWTools_DataMixin.onlyChinese and '指定专精：' or EQUIPMENT_SET_ASSIGN_TO_SPEC)
-            ..(specName or DISABLED_FONT_COLOR:WrapTextInColorCode(WoWTools_DataMixin.onlyChinese and '无' or NONE))
+            ..(WoWTools_L.EQUIPMENT_SET_ASSIGN_TO_SPEC)
+            ..(specName or DISABLED_FONT_COLOR:WrapTextInColorCode(WoWTools_L.NONE))
         )
         GameTooltip:Show()
 
@@ -611,12 +611,12 @@ local function Init()--添加装备管理框
         GameTooltip:AddLine(' ')
         GameTooltip_AddInstructionLine(
             GameTooltip,
-            WoWTools_DataMixin.Icon.left..MicroButtonTooltipText(WoWTools_DataMixin.onlyChinese and '角色信息' or CHARACTER_BUTTON, "TOGGLECHARACTER0")
+            WoWTools_DataMixin.Icon.left..MicroButtonTooltipText(WoWTools_L.CHARACTER_BUTTON, "TOGGLECHARACTER0")
         )
 
         GameTooltip:AddDoubleLine(
-            WoWTools_DataMixin.Icon.right..(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL),
-            'Alt+'..WoWTools_DataMixin.Icon.right..(WoWTools_DataMixin.onlyChinese and '移动' or NPE_MOVE),
+            WoWTools_DataMixin.Icon.right..(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL),
+            'Alt+'..WoWTools_DataMixin.Icon.right..(WoWTools_L.NPE_MOVE),
             0,1,0, 0,1,0
         )
         GameTooltip:Show()

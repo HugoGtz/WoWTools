@@ -83,7 +83,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
     WoWToolsPlusPlayerDate['TargetTexture']= WoWToolsPlusPlayerDate['TargetTexture'] or {}
 
-    WoWTools_TargetMixin.addName= '|A:common-icon-rotateright:0:0|a'..(WoWTools_DataMixin.onlyChinese and '目标' or TARGET)
+    WoWTools_TargetMixin.addName= '|A:common-icon-rotateright:0:0|a'..(WoWTools_L.TARGET)
 
     WoWTools_TargetMixin:Set_All_Init()
 

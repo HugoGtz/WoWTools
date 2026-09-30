@@ -77,11 +77,11 @@ local function Add_Menu(self, root, name, channelNumber)
         local value= self:Check_Channel(desc.data.name)
         local t
         if value==0 then--不存在
-            t= self:Get_Channel_Color(nil, 0)..(WoWTools_DataMixin.onlyChinese and '尚未发现' or TAXI_PATH_UNREACHABLE)
+            t= self:Get_Channel_Color(nil, 0)..(WoWTools_L.TAXI_PATH_UNREACHABLE)
         elseif value==1 then
-            t= WoWTools_DataMixin.onlyChinese and '已加入' or CLUB_FINDER_JOINED
+            t= WoWTools_L.CLUB_FINDER_JOINED
         elseif value==2 then--屏蔽
-            t= self:Get_Channel_Color(name, 2)..(WoWTools_DataMixin.onlyChinese and '已屏蔽' or IGNORED)
+            t= self:Get_Channel_Color(name, 2)..(WoWTools_L.IGNORED)
         end
 
         local club= canaccesstable(desc.data.clubInfo) and desc.data.clubInfo
@@ -95,8 +95,8 @@ local function Add_Menu(self, root, name, channelNumber)
                 col
                 ..(
                     isNet
-                    and (WoWTools_DataMixin.onlyChinese and '暴雪群组' or COMMUNITIES_INVITATION_FRAME_TYPE)
-                    or (WoWTools_DataMixin.onlyChinese and '社区' or CLUB_FINDER_COMMUNITY_TYPE)
+                    and (WoWTools_L.COMMUNITIES_INVITATION_FRAME_TYPE)
+                    or (WoWTools_L.CLUB_FINDER_COMMUNITY_TYPE)
                 )
             )
             tooltip:AddLine(club.desc, nil, nil, nil, true)
@@ -145,7 +145,7 @@ local function Add_Menu(self, root, name, channelNumber)
     --local value= self:Check_Channel(name)
     --local col= value==1 and '' or '|cff626262'
     sub2=sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '屏蔽' or IGNORE,
+        WoWTools_L.IGNORE,
     function(data)
         self:Set_Join(data.name, nil, nil, true)--加入,移除,屏蔽
         return MenuResponse.Refresh
@@ -173,7 +173,7 @@ local function Add_Menu(self, root, name, channelNumber)
 --加入
     --col= value==1 and '|cff626262' or ''
     sub2=sub:CreateButton(
-        (WoWTools_DataMixin.onlyChinese and '加入' or CHAT_JOIN),
+        (WoWTools_L.CHAT_JOIN),
     function(data)
         self:Set_Join(data.name, true)
         return MenuResponse.Refresh
@@ -202,7 +202,7 @@ local function Add_Menu(self, root, name, channelNumber)
      if name== Save().world then
         sub:CreateDivider()
         sub:CreateButton(
-            WoWTools_DataMixin.onlyChinese and '修改名称' or HUD_EDIT_MODE_RENAME_LAYOUT,
+            WoWTools_L.HUD_EDIT_MODE_RENAME_LAYOUT,
         function()
             StaticPopup_Show('WoWToolsChatButtonWorldChangeNamme')
         end)

@@ -148,9 +148,9 @@ local function Init_Menu(self, root)
     --local isInCombat= InCombatLockdown()
 
     local chatType={
-        {text= WoWTools_DataMixin.onlyChinese and '说' or SAY, type= SLASH_SAY1, type2='SLASH_SAY'},--/s
-        {text= WoWTools_DataMixin.onlyChinese and '喊' or YELL, type= SLASH_YELL1, type2='SLASH_YELL'},--/p
-        {text= WoWTools_DataMixin.onlyChinese and '密语' or SLASH_TEXTTOSPEECH_WHISPER, type=SLASH_WHISPER1, type2='SLASH_WHISPER', isWhisper=true,}
+        {text= WoWTools_L.SAY, type= SLASH_SAY1, type2='SLASH_SAY'},--/s
+        {text= WoWTools_L.YELL, type= SLASH_YELL1, type2='SLASH_YELL'},--/p
+        {text= WoWTools_L.SLASH_TEXTTOSPEECH_WHISPER, type=SLASH_WHISPER1, type2='SLASH_WHISPER', isWhisper=true,}
     }
     for _, tab in pairs(chatType) do
         tab.rightText=tab.type
@@ -220,10 +220,10 @@ local function Init_Menu(self, root)
     if num>0 then
 
         sub2=sub:CreateButton(
-            WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL,
+            WoWTools_L.CLEAR_ALL,
         function(data)
             StaticPopup_Show('WoWTools_OK',
-                (WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL)..' |cffffffff #'..data.rightText,
+                (WoWTools_L.CLEAR_ALL)..' |cffffffff #'..data.rightText,
             nil,
             {SetValue=function()
                 Save().WhisperTab={}
@@ -235,7 +235,7 @@ local function Init_Menu(self, root)
         WoWTools_MenuMixin:SetRightText(sub2)
 
         sub2:SetTooltip(function(tooltip)
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '最多保存120条' or WoWTools_L['Save up to 120 records'])
+            tooltip:AddLine(WoWTools_L['Save up to 120 records'])
         end)
 
         sub:CreateDivider()
@@ -255,7 +255,7 @@ local function Init_Menu(self, root)
                 (tab.wow and WoWTools_DataMixin.Icon.wow2 or '')..(playerName or ' '),
             function(data)
                 WoWTools_ChatMixin:Say(nil, data.name, data.wow)
-                self:settings(SLASH_WHISPER1, WoWTools_DataMixin.onlyChinese and '密语' or SLASH_TEXTTOSPEECH_WHISPER, data.name, data.wow)
+                self:settings(SLASH_WHISPER1, WoWTools_L.SLASH_TEXTTOSPEECH_WHISPER, data.name, data.wow)
                 return MenuResponse.Open
             end, tab)
 
@@ -286,12 +286,12 @@ local function Init_Menu(self, root)
                 if find then
                     tooltip:AddLine(' ')
                 end
-                tooltip:AddLine((WoWTools_DataMixin.onlyChinese and '密语' or SLASH_TEXTTOSPEECH_WHISPER)..WoWTools_DataMixin.Icon.left)
+                tooltip:AddLine((WoWTools_L.SLASH_TEXTTOSPEECH_WHISPER)..WoWTools_DataMixin.Icon.left)
                 rest_numWhisper_Tips()--重置密语，数量
             end)
 
             sub2:CreateButton(
-                WoWTools_DataMixin.onlyChinese and '显示' or SHOW,
+                WoWTools_L.SHOW,
             function(data)
                 local text= '|cff626262'
                         ..WoWTools_DataMixin.Player.Name_Realm
@@ -335,20 +335,20 @@ local function Init_Menu(self, root)
 
 
             sub2:CreateDivider()
-            sub2:CreateButton(WoWTools_DataMixin.onlyChinese and '清除' or SLASH_STOPWATCH_PARAM_STOP2,
+            sub2:CreateButton(WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2,
             function(data)
                 local findIndex= findWhisper(data.name)
                 if findIndex then
                     Save().WhisperTab[findIndex]=nil
                     print(
                         addName..WoWTools_DataMixin.Icon.icon2,
-                        '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '移除' or REMOVE)..'|r',
+                        '|cnGREEN_FONT_COLOR:'..(WoWTools_L.REMOVE)..'|r',
                         WoWTools_UnitMixin:GetLink(data.unit, data.guid, data.name, false)
                     )
                 else
                     print(
                         addName..WoWTools_DataMixin.Icon.icon2,
-                        '|cff626262'..(WoWTools_DataMixin.onlyChinese and '尚未发现' or TAXI_PATH_UNREACHABLE)..'|r',
+                        '|cff626262'..(WoWTools_L.TAXI_PATH_UNREACHABLE)..'|r',
                         WoWTools_UnitMixin:GetLink(data.unit, data.guid, data.name, false)
                     )
                 end
@@ -375,7 +375,7 @@ local function Init_Menu(self, root)
         end
     end
     sub=root:CreateButton(
-        WoWTools_DataMixin.Icon.net2..(WoWTools_DataMixin.onlyChinese and '战网' or COMMUNITY_COMMAND_BATTLENET),--..' '..numOline,
+        WoWTools_DataMixin.Icon.net2..(WoWTools_L.COMMUNITY_COMMAND_BATTLENET),--..' '..numOline,
     function()
         ToggleFriendsFrame(1)
     end, {rightText=numOline})
@@ -417,7 +417,7 @@ local function Init_Menu(self, root)
             icon..text,
         function(data)
             WoWTools_ChatMixin:Say(nil, data.name, true)
-            self:settings(nil, WoWTools_DataMixin.onlyChinese and '战网' or COMMUNITY_COMMAND_BATTLENET, data.name, true)
+            self:settings(nil, WoWTools_L.COMMUNITY_COMMAND_BATTLENET, data.name, true)
             return MenuResponse.Open
         end, {name=wow.accountName, note=wow.note, zone=zone, rightText=index, rightColor=DISABLED_FONT_COLOR})
 
@@ -435,7 +435,7 @@ local function Init_Menu(self, root)
 
 --聊天泡泡
     root:CreateDivider()
-    sub2=root:CreateCheckbox(WoWTools_DataMixin.onlyChinese and '聊天泡泡' or CHAT_BUBBLES_TEXT, function()
+    sub2=root:CreateCheckbox(WoWTools_L.CHAT_BUBBLES_TEXT, function()
         return C_CVar.GetCVarBool("chatBubbles")
     end, function()
         if not InCombatLockdown() then
@@ -443,7 +443,7 @@ local function Init_Menu(self, root)
         else
             print(
                 addName..WoWTools_DataMixin.Icon.icon2,
-                WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT
+                WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT
             )
         end
     end)
@@ -451,7 +451,7 @@ local function Init_Menu(self, root)
         tooltip:AddLine('C_CVar.SetCVar(\"chatBubbles\")')
     end)
 
-    sub3=sub2:CreateCheckbox(WoWTools_DataMixin.onlyChinese and '自动' or SELF_CAST_AUTO, function()
+    sub3=sub2:CreateCheckbox(WoWTools_L.SELF_CAST_AUTO, function()
         return Save().inInstanceBubblesDisabled
     end, function()
         Save().inInstanceBubblesDisabled= not Save().inInstanceBubblesDisabled and true or nil
@@ -459,10 +459,10 @@ local function Init_Menu(self, root)
     end)
 
     sub3:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '聊天泡泡' or CHAT_BUBBLES_TEXT)
+        tooltip:AddLine(WoWTools_L.CHAT_BUBBLES_TEXT)
         tooltip:AddLine(' ')
-        tooltip:AddDoubleLine((WoWTools_DataMixin.onlyChinese and '在副本中' or AGGRO_WARNING_IN_INSTANCE)..':', WoWTools_TextMixin:GetEnabeleDisable(false))
-        tooltip:AddDoubleLine((WoWTools_DataMixin.onlyChinese and '其它' or OTHER)..':', WoWTools_TextMixin:GetEnabeleDisable(true))
+        tooltip:AddDoubleLine((WoWTools_L.AGGRO_WARNING_IN_INSTANCE)..':', WoWTools_TextMixin:GetEnabeleDisable(false))
+        tooltip:AddDoubleLine((WoWTools_L.OTHER)..':', WoWTools_TextMixin:GetEnabeleDisable(true))
     end)
 end
 
@@ -523,7 +523,7 @@ local function Init()
             GameTooltip:AddDoubleLine((Save().text or '')..(Save().type and ' '..Save().type or ''),(name or '')..WoWTools_DataMixin.Icon.left)
         end
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '密语数量' or WoWTools_Join(SLASH_TEXTTOSPEECH_WHISPER, AUCTION_HOUSE_QUANTITY_LABEL), Save().numWhisper)
+        GameTooltip:AddDoubleLine(WoWTools_L['SLASH_TEXTTOSPEECH_WHISPER+AUCTION_HOUSE_QUANTITY_LABEL'], Save().numWhisper)
         GameTooltip:Show()
     end
 
@@ -589,10 +589,10 @@ panel:SetScript("OnEvent", function(self, event, arg1, arg2, ...)
         if arg1== 'WoWToolsPlus' then
 
             WoWToolsPlusSave['ChatButton_Say']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['ChatButton_Say'], P_Save)
-            Save().text= Save().text or (WoWTools_DataMixin.onlyChinese and '说' or SAY)
+            Save().text= Save().text or (WoWTools_L.SAY)
             P_Save=nil
 
-            addName= '|A:transmog-icon-chat:0:0|a'..(WoWTools_DataMixin.onlyChinese and '说' or SAY)
+            addName= '|A:transmog-icon-chat:0:0|a'..(WoWTools_L.SAY)
             SayButton= WoWTools_ChatMixin:CreateButton('Say', addName)
 
             if SayButton then--禁用Chat Button

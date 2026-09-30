@@ -217,8 +217,8 @@ function WoWTools_PanelMixin:OnlyButton(tab, root)
 end
 --[[
 WoWTools_PanelMixin:OnlyButton({
-    title= WoWTools_DataMixin.onlyChinese and '' or '',
-    buttonText=WoWTools_DataMixin.onlyChinese and '' or '',
+    title= WoWTools_L[''],
+    buttonText=WoWTools_L[''],
     SetValue=function()
     end,
     tooltip=nil,
@@ -314,8 +314,8 @@ DropDownSetValue=function(value)
 end,
 GetOptions=function()
     local container = Settings.CreateControlTextContainer()
-    container:Add(1, WoWTools_DataMixin.onlyChinese and '位于上方' or QUESTLINE_LOCATED_ABOVE)
-    container:Add(2, WoWTools_DataMixin.onlyChinese and '位于下方' or QUESTLINE_LOCATED_BELOW)
+    container:Add(1, WoWTools_L.QUESTLINE_LOCATED_ABOVE)
+    container:Add(2, WoWTools_L.QUESTLINE_LOCATED_BELOW)
     return container:GetData()
 end})
 ]]
@@ -466,10 +466,10 @@ end
 function  e.Add_Panel_RestData_Button(root, SetValue)
     if not StaticPopupDialogs['WoWTools_Rest_DaTa'] then
         StaticPopupDialogs['WoWTools_Rest_DaTa']={--重置所有,清除全部玩具
-            text=id..' '..addName..'|n'..(WoWTools_DataMixin.onlyChinese and '清除全部' or CLEAR_ALL)..'|n|n'..(WoWTools_DataMixin.onlyChinese and '重新加载UI' or RELOADUI),
+            text=id..' '..addName..'|n'..(WoWTools_L['CLEAR_ALL~2'])..'|n|n'..(WoWTools_L.RELOADUI),
             whileDead=true, hideOnEscape=true, exclusive=true,
-            button1='|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '重置' or RESET)..'|r',
-            button2= WoWTools_DataMixin.onlyChinese and '取消' or CANCEL,
+            button1='|cnWARNING_FONT_COLOR:'..(WoWTools_L.RESET)..'|r',
+            button2= WoWTools_L.CANCEL,
             OnAccept = function(_, setValue)
                 setValue()
                 WoWTools_DataMixin:Reload()
@@ -522,7 +522,7 @@ function WoWTools_PanelMixin:ReloadButton(tab)
     local reload= CreateFrame('Button', nil, tab.panel, 'WoWToolsButtonTemplate')
     reload:SetNormalTexture('Interface\\Vehicles\\UI-Vehicles-Button-Exit-Up')
     reload:SetPoint('TOPLEFT',-12, 8)
-    reload.tooltip=WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '重新加载UI' or RELOADUI)
+    reload.tooltip=WoWTools_DataMixin.Icon.icon2..(WoWTools_L.RELOADUI)
     reload:SetScript('OnClick', function() WoWTools_DataMixin:Reload() end)
 
     if tab.disabledfunc then
@@ -548,7 +548,7 @@ function WoWTools_PanelMixin:ReloadButton(tab)
     end
     if tab.restTips then
         local needReload= tab.panel:CreateFontString(nil, 'BORDER', 'ChatFontNormal') --WoWTools_LabelMixin:Create(tab.panel)
-        needReload:SetText('|A:common-icon-rotateright:0:0|a'..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)..'|A:common-icon-rotateleft:0:0|a')
+        needReload:SetText('|A:common-icon-rotateright:0:0|a'..(WoWTools_L.REQUIRES_RELOAD)..'|A:common-icon-rotateleft:0:0|a')
         needReload:SetPoint('BOTTOMRIGHT')
     end
 end

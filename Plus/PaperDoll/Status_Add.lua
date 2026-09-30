@@ -73,9 +73,9 @@ local function Add_Stat(tab)--添加
         }
         if not CharacterStatsPane[categoryFrame] then
             local frame= CreateFrame("Frame", nil, CharacterStatsPane, 'CharacterStatFrameCategoryTemplate')
-            local title= index==3 and (WoWTools_DataMixin.onlyChinese and '综合' or GENERAL)
-                    or index==4 and (WoWTools_DataMixin.onlyChinese and '攻击' or ATTACK)
-                    or (WoWTools_DataMixin.onlyChinese and '其它' or OTHER)
+            local title= index==3 and (WoWTools_L.GENERAL)
+                    or index==4 and (WoWTools_L.ATTACK)
+                    or (WoWTools_L.OTHER)
             frame.titleText=title
             frame.Title:SetText(title)
             CharacterStatsPane[categoryFrame]= frame
@@ -118,11 +118,11 @@ end
 local function Get_Primary_Text(primary)--主属性, 文本
     if primary then
         if primary==LE_UNIT_STAT_STRENGTH then
-            return format('|cffc69b6d%s|r', WoWTools_DataMixin.onlyChinese and '力量' or SPEC_FRAME_PRIMARY_STAT_STRENGTH)
+            return format('|cffc69b6d%s|r', WoWTools_L.SPEC_FRAME_PRIMARY_STAT_STRENGTH)
         elseif primary==LE_UNIT_STAT_AGILITY then
-            return format('|cff16c663%s|r', WoWTools_DataMixin.onlyChinese and '敏捷' or SPEC_FRAME_PRIMARY_STAT_AGILITY)
+            return format('|cff16c663%s|r', WoWTools_L.SPEC_FRAME_PRIMARY_STAT_AGILITY)
         elseif primary==LE_UNIT_STAT_INTELLECT then
-            return format('|cff00ccff%s|r', WoWTools_DataMixin.onlyChinese and '智力' or SPEC_FRAME_PRIMARY_STAT_INTELLECT)
+            return format('|cff00ccff%s|r', WoWTools_L.SPEC_FRAME_PRIMARY_STAT_INTELLECT)
         end
     end
 end
@@ -130,10 +130,10 @@ end
 
 local function Get_Role_Text(roleIndex)--职责
     return
-        roleIndex== Enum.LFGRole.Tank and format('%s%s', WoWTools_DataMixin.Icon.TANK, WoWTools_DataMixin.onlyChinese and '坦克' or TANK)
-        or (roleIndex==Enum.LFGRole.Healer and format('%s%s', WoWTools_DataMixin.Icon.HEALER, WoWTools_DataMixin.onlyChinese and '治疗' or HEALER))
-        or (roleIndex==Enum.LFGRole.Damage and format('%s%s', WoWTools_DataMixin.Icon.DAMAGER, WoWTools_DataMixin.onlyChinese and '伤害' or DAMAGER))
-        or (WoWTools_DataMixin.onlyChinese and '无' or NONE)
+        roleIndex== Enum.LFGRole.Tank and format('%s%s', WoWTools_DataMixin.Icon.TANK, WoWTools_L.TANK)
+        or (roleIndex==Enum.LFGRole.Healer and format('%s%s', WoWTools_DataMixin.Icon.HEALER, WoWTools_L.HEALER))
+        or (roleIndex==Enum.LFGRole.Damage and format('%s%s', WoWTools_DataMixin.Icon.DAMAGER, WoWTools_L.DAMAGER))
+        or (WoWTools_L.NONE)
 
 end
 
@@ -169,7 +169,7 @@ local function Init_Sub_Menu(_, root, stat, index, name)
     root:CreateDivider()
     for va=-1, 0 do
         sub=root:CreateCheckbox(
-            (WoWTools_DataMixin.onlyChinese and '自动隐藏' or WoWTools_Join(SELF_CAST_AUTO, HIDE))
+            (WoWTools_L['SELF_CAST_AUTO+HIDE'])
             ..(p_stats.hideAt==va and '|A:auctionhouse-icon-favorite:0:0|a' or ''),
         function(data)
             local tab= Find_Stats(data.stat, data.index, false)
@@ -189,12 +189,12 @@ local function Init_Sub_Menu(_, root, stat, index, name)
 
         sub:SetTooltip(function(tooltip, description)
             tooltip:AddLine(
-                (WoWTools_DataMixin.onlyChinese and '默认' or DEFAULT)
+                (WoWTools_L.DEFAULT)
                 ..': '
-                ..(description.data.p_hideAt or (WoWTools_DataMixin.onlyChinese and '无' or NONE))
+                ..(description.data.p_hideAt or (WoWTools_L.NONE))
             )
             tooltip:AddLine(' ')
-            tooltip:AddLine(format('<='..description.data.value..' %s', WoWTools_DataMixin.onlyChinese and '隐藏' or HIDE))
+            tooltip:AddLine(format('<='..description.data.value..' %s', WoWTools_L.HIDE))
         end)
     end
 
@@ -248,12 +248,12 @@ local function Init_Sub_Menu(_, root, stat, index, name)
             local find
             if description.data.p_roles then
                 for _, roleIndex in pairs(description.data.p_roles) do
-                    tooltip:AddLine((WoWTools_DataMixin.onlyChinese and '默认' or DEFAULT)..': '..Get_Role_Text(roleIndex))
+                    tooltip:AddLine((WoWTools_L.DEFAULT)..': '..Get_Role_Text(roleIndex))
                     find= true
                 end
             end
             if not find then
-                tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '无' or NONE)
+                tooltip:AddLine(WoWTools_L.NONE)
             end
         end)
     end
@@ -262,7 +262,7 @@ local function Init_Sub_Menu(_, root, stat, index, name)
     root:CreateDivider()
     for _, primary in pairs({LE_UNIT_STAT_STRENGTH, LE_UNIT_STAT_AGILITY , LE_UNIT_STAT_INTELLECT}) do
         sub=root:CreateRadio(
-            format(WoWTools_DataMixin.onlyChinese and '仅限%s' or LFG_LIST_CROSS_FACTION, Get_Primary_Text(primary))
+            format(WoWTools_L.LFG_LIST_CROSS_FACTION, Get_Primary_Text(primary))
             ..(p_stats.primary==primary and '|A:auctionhouse-icon-favorite:0:0|a' or ''),
         function(data)
             local tab= Find_Stats(data.stat, data.index, false) or {}
@@ -283,9 +283,9 @@ local function Init_Sub_Menu(_, root, stat, index, name)
         sub:SetTooltip(function(tooltip, description)
             local tab= Find_Stats(description.data.stat, description.data.index, true)
             tooltip:AddLine(
-                (WoWTools_DataMixin.onlyChinese and '默认' or DEFAULT)
+                (WoWTools_L.DEFAULT)
                 ..': '..
-                (Get_Primary_Text(tab and tab.primary) or (WoWTools_DataMixin.onlyChinese and '无' or NONE))
+                (Get_Primary_Text(tab and tab.primary) or (WoWTools_L.NONE))
             )
         end)
     end
@@ -376,7 +376,7 @@ local function Init_Menu(self, root)
 
 
 --全部清除
-    local clearName= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL)
+    local clearName= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.CLEAR_ALL)
     sub:CreateButton(
         clearName,
     function()
@@ -393,7 +393,7 @@ local function Init_Menu(self, root)
 --还原
     local restName= (Save().PAPERDOLL_STATCATEGORIES and '' or '|cff626262')
         ..'|A:uitools-icon-refresh:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '还原' or TRANSMOGRIFY_TOOLTIP_REVERT)
+        ..(WoWTools_L.TRANSMOGRIFY_TOOLTIP_REVERT)
     sub:CreateButton(
         restName,
     function()
@@ -460,24 +460,24 @@ local function Init()
 
 
     AttributesCategory={
-        {stat='STRENGTH', index=1, name=WoWTools_DataMixin.onlyChinese and '力量' or SPEC_FRAME_PRIMARY_STAT_STRENGTH, primary=LE_UNIT_STAT_STRENGTH},--AttributesCategory
-        {stat='AGILITY', index=1, name=WoWTools_DataMixin.onlyChinese and '敏捷' or SPEC_FRAME_PRIMARY_STAT_AGILITY, rimary=LE_UNIT_STAT_AGILITY},
-        {stat='INTELLECT', index=1, name=WoWTools_DataMixin.onlyChinese and '智力' or SPEC_FRAME_PRIMARY_STAT_INTELLECT, primary=LE_UNIT_STAT_INTELLECT},
+        {stat='STRENGTH', index=1, name=WoWTools_L.SPEC_FRAME_PRIMARY_STAT_STRENGTH, primary=LE_UNIT_STAT_STRENGTH},--AttributesCategory
+        {stat='AGILITY', index=1, name=WoWTools_L.SPEC_FRAME_PRIMARY_STAT_AGILITY, rimary=LE_UNIT_STAT_AGILITY},
+        {stat='INTELLECT', index=1, name=WoWTools_L.SPEC_FRAME_PRIMARY_STAT_INTELLECT, primary=LE_UNIT_STAT_INTELLECT},
         {stat='-'},
-        {stat='STAMINA', index=1, name= WoWTools_DataMixin.onlyChinese and '耐力' or STA_LCD},
+        {stat='STAMINA', index=1, name= WoWTools_L.STA_LCD},
         {stat='ARMOR', index=1},
         {stat='STAGGER', index=1},
-        {stat='MANAREGEN', index=1, name=WoWTools_DataMixin.onlyChinese and '法力回复' or MANA_REGEN},
-        {stat='SPELLPOWER', index=1, name=WoWTools_DataMixin.onlyChinese and '法术强度' or STAT_SPELLPOWER},
+        {stat='MANAREGEN', index=1, name=WoWTools_L.MANA_REGEN},
+        {stat='SPELLPOWER', index=1, name=WoWTools_L.STAT_SPELLPOWER},
 
         {stat='HEALTH', index=1},
-        {stat='POWER', index=1, name=WoWTools_DataMixin.onlyChinese and '能量' or POWER_TYPE_POWER},
-        {stat='ALTERNATEMANA', index=1, name=WoWTools_DataMixin.onlyChinese and '法力值' or  MANA},
+        {stat='POWER', index=1, name=WoWTools_L.POWER_TYPE_POWER},
+        {stat='ALTERNATEMANA', index=1, name=WoWTools_L.MANA},
 
         {stat='-'},
     --}
     --local EnhancementsCategory={
-        {stat='CRITCHANCE', index=2, name=WoWTools_DataMixin.onlyChinese and '爆击' or STAT_CRITICAL_STRIKE},
+        {stat='CRITCHANCE', index=2, name=WoWTools_L.STAT_CRITICAL_STRIKE},
         {stat='HASTE', index=2},
         {stat='MASTERY', index=2},
         {stat='VERSATILITY', index=2},
@@ -492,10 +492,10 @@ local function Init()
         {stat='RUNE_REGEN', index=2},
         {stat='FOCUS_REGEN', index=2},
 
-        {stat='MOVESPEED', index=2, name=WoWTools_DataMixin.onlyChinese and '移动' or NPE_MOVE},
-        {stat='ATTACK_DAMAGE', index=2, name=WoWTools_DataMixin.onlyChinese and '伤害' or DAMAGE, },
-        {stat='ATTACK_AP', index=2,  name=WoWTools_DataMixin.onlyChinese and '攻击强度' or STAT_ATTACK_POWER, },
-        {stat='ATTACK_ATTACKSPEED', index=2, name=WoWTools_DataMixin.onlyChinese and '攻击速度' or ATTACK_SPEED},
+        {stat='MOVESPEED', index=2, name=WoWTools_L.NPE_MOVE},
+        {stat='ATTACK_DAMAGE', index=2, name=WoWTools_L.DAMAGE, },
+        {stat='ATTACK_AP', index=2,  name=WoWTools_L.STAT_ATTACK_POWER, },
+        {stat='ATTACK_ATTACKSPEED', index=2, name=WoWTools_L.ATTACK_SPEED},
     }
 
 

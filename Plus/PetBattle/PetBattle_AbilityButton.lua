@@ -655,16 +655,16 @@ local function Init_Button_Menu(self, root)
     sub=root:CreateButton(
         (color.hex or '')
         ..'|T'..(icon or 'Interface\\Icons\\PetJournalPortrait')..':0|t'
-        ..(cnName or name or (WoWTools_DataMixin.onlyChinese and '宠物手册' or PET_JOURNAL)),
+        ..(cnName or name or (WoWTools_L.PET_JOURNAL)),
     function()
         WoWTools_LoadUIMixin:Journal(2, {petOwner=self.petOwner, petIndex=self:getPetIndex()})
         return MenuResponse.Open
     end)
 
     sub:SetTooltip(function(tooltip)
-        tooltip:SetText(MicroButtonTooltipText(WoWTools_DataMixin.onlyChinese and '战团藏品' or COLLECTIONS, "TOGGLECOLLECTIONS"))
+        tooltip:SetText(MicroButtonTooltipText(WoWTools_L.COLLECTIONS, "TOGGLECOLLECTIONS"))
         tooltip:AddLine(' ')
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '在手册中显示该宠物' or PET_SHOW_IN_JOURNAL)
+        tooltip:AddLine(WoWTools_L.PET_SHOW_IN_JOURNAL)
     end)
 
 
@@ -672,7 +672,7 @@ local function Init_Button_Menu(self, root)
     root:CreateDivider()
 --显示
     root:CreateCheckbox(
-        WoWTools_DataMixin.Icon.left..(WoWTools_DataMixin.onlyChinese and '显示' or SHOW),
+        WoWTools_DataMixin.Icon.left..(WoWTools_L.SHOW),
     function()
         return self.frame:IsShown()
     end, function()
@@ -684,7 +684,7 @@ local function Init_Button_Menu(self, root)
 
 --显示名称
     root:CreateCheckbox(
-        '|A:WildBattlePetCapturable:0:0|a'..(WoWTools_DataMixin.onlyChinese and '显示名称' or PROFESSIONS_FLYOUT_SHOW_NAME),
+        '|A:WildBattlePetCapturable:0:0|a'..(WoWTools_L.PROFESSIONS_FLYOUT_SHOW_NAME),
     function(data)
         return Save().AbilityButton['showName_'..self.name]
     end, function(data)
@@ -740,7 +740,7 @@ local function Init_Button_Menu(self, root)
 
 --重置
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '重置' or RESET,
+        WoWTools_L.RESET,
     function()
         for name2 in pairs(Save().AbilityButton) do
             if name2:find(self.name) then
@@ -817,8 +817,8 @@ local function Set_Move_Button(btn)
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '显示/隐藏' or SHOW..'/'..HIDE, WoWTools_DataMixin.Icon.left)
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.right)
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '移动' or NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine(WoWTools_L.NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)
         GameTooltip:Show()
     end
 
@@ -856,7 +856,7 @@ local function Set_Move_Button(btn)
             print(
                 WoWTools_DataMixin.addName,
                 '|cnWARNING_FONT_COLOR:',
-                WoWTools_DataMixin.onlyChinese and '保存失败' or WoWTools_Join(SAVE, FAILED)
+                WoWTools_L['SAVE+FAILED']
             )
         end
     end)

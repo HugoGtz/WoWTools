@@ -23,15 +23,15 @@ end
 
 
 local function Init()
-    addName= '|A:TalkingHeads-Glow-TopSpike:0:0|a'..(WoWTools_DataMixin.onlyChinese and '隐藏NPC发言' or WoWTools_Join(HIDE, VOICE_TALKING))
+    addName= '|A:TalkingHeads-Glow-TopSpike:0:0|a'..(WoWTools_L['HIDE+VOICE_TALKING'])
 
     --添加控制面板
     local root= WoWTools_PanelMixin:OnlyCheck({
         name= addName,
-        tooltip=WoWTools_Join(WoWTools_DataMixin.onlyChinese and '隐藏' or HIDE , WoWTools_DataMixin.onlyChinese and '对话特写头像' or HUD_EDIT_MODE_TALKING_HEAD_FRAME_LABEL)
-                ..'|n|n'..(WoWTools_DataMixin.onlyChinese and '声音' or SOUND)
-                ..'|nChat Button, '..(WoWTools_DataMixin.onlyChinese and '超链接图标' or WoWTools_Join(COMMUNITIES_INVITE_MANAGER_COLUMN_TITLE_LINK, EMBLEM_SYMBOL))
-                ..'|n'..(WoWTools_DataMixin.onlyChinese and '事件声音' or WoWTools_Join(EVENTS_LABEL, SOUND)),
+        tooltip=WoWTools_Join(WoWTools_L.HIDE , WoWTools_L.HUD_EDIT_MODE_TALKING_HEAD_FRAME_LABEL)
+                ..'|n|n'..(WoWTools_L['SOUND~2'])
+                ..'|nChat Button, '..(WoWTools_L['COMMUNITIES_INVITE_MANAGER_COLUMN_TITLE_LINK+EMBLEM_SYMBOL'])
+                ..'|n'..(WoWTools_L['EVENTS_LABEL+SOUND']),
         GetValue= function() return not Save().disabled end,
         SetValue= function()
             Save().disabled= not Save().disabled and true or nil
@@ -42,9 +42,9 @@ local function Init()
     })
 
     WoWTools_PanelMixin:OnlyCheck({
-        name= WoWTools_DataMixin.onlyChinese and '文本' or LOCALE_TEXT_LABEL,
+        name= WoWTools_L.LOCALE_TEXT_LABEL,
         GetValue= function() return not Save().notPrint end,
-        tooltip= WoWTools_DataMixin.onlyChinese and '聊天框提示，内容' or WoWTools_L['Chat box text'],
+        tooltip= WoWTools_L['Chat box text'],
         SetValue= function()
             Save().notPrint= not Save().notPrint and true or false
         end,

@@ -53,7 +53,7 @@ local function Init()
          GameTooltip:AddLine(
             WoWTools_DataMixin.Icon.wow2
             ..'|cnGREEN_FONT_COLOR:<'
-            ..(WoWTools_DataMixin.onlyChinese and '战团物品' or WoWTools_Join(ACCOUNT_QUEST_LABEL, ITEMS))
+            ..(WoWTools_L['ACCOUNT_QUEST_LABEL+ITEMS~2'])
             ..WoWTools_DataMixin.Icon.mid
             ..'>'
         )
@@ -89,7 +89,7 @@ local function Init()
         end
 --合计
         if numPlayer>1 then
-            local left= format(CHARACTER_CUSTOMIZATION_CHOICE_NAME_AND_ID, numPlayer, WoWTools_DataMixin.onlyChinese and '角色' or CHARACTER)--%d %s
+            local left= format(CHARACTER_CUSTOMIZATION_CHOICE_NAME_AND_ID, numPlayer, WoWTools_L.CHARACTER)--%d %s
             GameTooltip:AddDoubleLine(
                 numPlayer>3 and notIsShiftkeyDown and '|cnGREEN_FONT_COLOR:<'..left..'|A:NPE_Icon:0:0|aShift+>' or
                 '|cnGREEN_FONT_COLOR:'..left,
@@ -167,7 +167,7 @@ local function Init()
             GameTooltip.textLeft:SetText(totale)
         else
             GameTooltip:AddLine(
-                (WoWTools_DataMixin.onlyChinese and '总计：' or FROM_TOTAL)
+                (WoWTools_L.FROM_TOTAL)
                 ..totale,
                 1,1,1
             )

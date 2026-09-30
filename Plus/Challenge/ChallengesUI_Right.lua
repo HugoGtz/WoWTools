@@ -13,7 +13,7 @@ local function Set_Text()--所有记录
 --历史
 
     Frame.history:SetText(
-        (WoWTools_DataMixin.onlyChinese and '历史' or HISTORY)
+        (WoWTools_L.HISTORY)
         ..' |cff00ff00'..#C_MythicPlus.GetRunHistory(true)
         ..'|r/'..#C_MythicPlus.GetRunHistory(true, true)
     )
@@ -81,7 +81,7 @@ local function Set_Text()--所有记录
     end
 
     Frame.week:SetText(
-        (WoWTools_DataMixin.onlyChinese and '本周' or CHALLENGE_MODE_THIS_WEEK)
+        (WoWTools_L.CHALLENGE_MODE_THIS_WEEK)
         ..' |cff00ff00'..completed..'|r/'..all--.. ' '..(WoWTools_ChallengeMixin:GetRewardText(1) or '')
         ..(weekText and '|n'..weekText or '')
     )

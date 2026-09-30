@@ -169,12 +169,12 @@ function WoWTools_MenuMixin:ScaleRoot(frame, root, GetValue, SetValue, ResetValu
     local sub= self:CreateSlider(root, {
         getValue=GetValue,
         setValue=SetValue,
-        name= WoWTools_DataMixin.onlyChinese and '缩放' or HOUSING_EXPERT_DECOR_SUBMODE_SCALE,
+        name= WoWTools_L.HOUSING_EXPERT_DECOR_SUBMODE_SCALE,
         minValue=0.4,
         maxValue=4,
         step=0.1,
         bit='%0.1f',
-        tooltip=function(tooltip) tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '缩放' or HOUSING_EXPERT_DECOR_SUBMODE_SCALE) end,
+        tooltip=function(tooltip) tooltip:AddLine(WoWTools_L.HOUSING_EXPERT_DECOR_SUBMODE_SCALE) end,
     })
     sub:SetEnabled(not isLocked)
 
@@ -182,7 +182,7 @@ function WoWTools_MenuMixin:ScaleRoot(frame, root, GetValue, SetValue, ResetValu
     if ResetValue then
         root:CreateSpacer()
         sub=root:CreateButton(
-            '|A:characterundelete-RestoreButton:0:0|a'..(WoWTools_DataMixin.onlyChinese and '重置' or RESET),
+            '|A:characterundelete-RestoreButton:0:0|a'..(WoWTools_L.RESET),
         function()
             if not WoWTools_FrameMixin:IsLocked(frame) then
                 ResetValue()
@@ -190,7 +190,7 @@ function WoWTools_MenuMixin:ScaleRoot(frame, root, GetValue, SetValue, ResetValu
             return MenuResponse.Refresh
         end)
         sub:SetTooltip(function(tooltip)
-            tooltip:AddLine((WoWTools_DataMixin.onlyChinese and '缩放' or HOUSING_EXPERT_DECOR_SUBMODE_SCALE)..': 1')
+            tooltip:AddLine((WoWTools_L.HOUSING_EXPERT_DECOR_SUBMODE_SCALE)..': 1')
         end)
         sub:SetEnabled(not isLocked)
     end
@@ -208,7 +208,7 @@ function WoWTools_MenuMixin:Scale(frame, root, GetValue, SetValue, ResetValue)
     local sub= root:CreateButton(
         (isLocked and '|cff626262' or '')
         ..'|A:common-icon-zoomin:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '缩放' or HOUSING_EXPERT_DECOR_SUBMODE_SCALE),
+        ..(WoWTools_L.HOUSING_EXPERT_DECOR_SUBMODE_SCALE),
     function()
         return MenuResponse.Open
     end, {rightText= tonumber(format('%.1f', GetValue() or 1))})
@@ -267,7 +267,7 @@ function WoWTools_MenuMixin:FrameStrata(frame, root, GetValue, SetValue)
     sub=root:CreateButton(
         '|A:Garr_SwapIcon:0:0:|a'
         ..(enable and '' or '|cff626262')
-        ..(WoWTools_DataMixin.onlyChinese and '框架层' or WoWTools_L['Strata']),
+        ..(WoWTools_L['Strata']),
     function()
         return MenuResponse.Refresh
     end, {rightText=value})
@@ -315,7 +315,7 @@ function WoWTools_MenuMixin:BgAplha(root, GetValue, SetValue, RestFunc, onlyRoot
     else
         sub= root:CreateButton(
             '|A:MonkUI-LightOrb:0:0|a'
-            ..(WoWTools_DataMixin.onlyChinese and '背景' or BACKGROUND),
+            ..(WoWTools_L.BACKGROUND),
         function()
             return MenuResponse.Open
         end, {rightText= tonumber(format('%.1f', GetValue() or 1))})
@@ -326,7 +326,7 @@ function WoWTools_MenuMixin:BgAplha(root, GetValue, SetValue, RestFunc, onlyRoot
     sub2=WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=GetValue,
         setValue=SetValue,
-        name=WoWTools_DataMixin.onlyChinese and '背景透明度' or WoWTools_Join(BACKGROUND, HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY),
+        name=WoWTools_L['BACKGROUND+HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY'],
         minValue=0,
         maxValue=1,
         step=0.1,
@@ -336,7 +336,7 @@ function WoWTools_MenuMixin:BgAplha(root, GetValue, SetValue, RestFunc, onlyRoot
     if RestFunc or not onlyRoot then
         sub:CreateSpacer()
         sub2= sub:CreateButton(
-            '|A:characterundelete-RestoreButton:0:0|a'..(WoWTools_DataMixin.onlyChinese and '重置' or RESET),
+            '|A:characterundelete-RestoreButton:0:0|a'..(WoWTools_L.RESET),
         function()
             if RestFunc then
                 RestFunc()
@@ -385,7 +385,7 @@ function WoWTools_MenuMixin:RestPoint(frame, root, point, SetValue)
     local sub= root:CreateButton(
         '|A:characterundelete-RestoreButton:0:0|a'
         ..(point and '' or '|cff626262')
-        ..(WoWTools_DataMixin.onlyChinese and '重置位置' or RESET_POSITION),
+        ..(WoWTools_L.RESET_POSITION),
         SetValue
     )
     sub:SetEnabled(frame:CanChangeAttribute())
@@ -406,7 +406,7 @@ end)
 function WoWTools_MenuMixin:RestData(root, name, SetValue)
     return root:CreateButton(
         '|A:bags-button-autosort-up:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '重置数据' or DAMAGE_METER_RESET_ALL_SESSIONS),
+        ..(WoWTools_L.DAMAGE_METER_RESET_ALL_SESSIONS),
     function()
         StaticPopup_Show('WoWTools_RestData', name, nil, SetValue)
         return MenuResponse.Open
@@ -418,7 +418,7 @@ function WoWTools_MenuMixin:Reload(root, isControlKeyDown)
     local sub=root:CreateButton(
         '|TInterface\\Vehicles\\UI-Vehicles-Button-Exit-Up:0|t'
         ..(InCombatLockdown() and '|cff626262' or '')--e.IsEncouter_Start
-        ..(WoWTools_DataMixin.onlyChinese and '重新加载UI' or RELOADUI),
+        ..(WoWTools_L.RELOADUI),
     function(data)
         if data and IsControlKeyDown() or not data then
             WoWTools_DataMixin:Reload()
@@ -444,7 +444,7 @@ end
 function WoWTools_MenuMixin:ToTop(frame, root, tab)
     local sub=root:CreateCheckbox(
         (WoWTools_FrameMixin:IsLocked(frame) and '|cff626262' or '')
-        ..(tab.name or ('|A:bags-greenarrow:0:0|a'..(WoWTools_DataMixin.onlyChinese and '方向' or HUD_EDIT_MODE_SETTING_BAGS_DIRECTION))),
+        ..(tab.name or ('|A:bags-greenarrow:0:0|a'..(WoWTools_L.HUD_EDIT_MODE_SETTING_BAGS_DIRECTION))),
         tab.GetValue,
         tab.SetValue,
         {isReload=tab.isReload, tooltip=tab.tooltip}
@@ -453,11 +453,11 @@ function WoWTools_MenuMixin:ToTop(frame, root, tab)
         if description.data.tooltip~=false then
             tooltip:AddLine(
                 description.data.tooltip or
-                (WoWTools_DataMixin.onlyChinese and '收起选项 |A:editmode-up-arrow:16:11:0:3|a' or HUD_EDIT_MODE_COLLAPSE_OPTIONS)
+                (WoWTools_L['HUD_EDIT_MODE_COLLAPSE_OPTIONS~2'])
             )
         end
         if description.data.isReload then
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+            tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
         end
     end)
     if tab.isReload then--重新加载UI
@@ -492,7 +492,7 @@ function WoWTools_MenuMixin:CheckInCombat(root)
         else
             return root:CreateTitle(
                 '|A:Warfronts-BaseMapIcons-Horde-Barracks-Minimap:0:0|a'
-                ..(WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
+                ..(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
             )
         end
     end
@@ -510,7 +510,7 @@ end
 --战团藏品
 function WoWTools_MenuMixin:OpenJournal(root, tab)
     local sub=root:CreateButton(
-        (tab.icon or '|A:OptionsIcon-Brown:0:0|a')..(tab.name or (WoWTools_DataMixin.onlyChinese and '战团藏品' or COLLECTIONS)),
+        (tab.icon or '|A:OptionsIcon-Brown:0:0|a')..(tab.name or (WoWTools_L.COLLECTIONS)),
     function(data)
         self:CloseSettingsPanel()
         WoWTools_LoadUIMixin:Journal(data.index)
@@ -525,7 +525,7 @@ function WoWTools_MenuMixin:OpenJournal(root, tab)
         return MenuResponse.Refresh
     end, tab)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(MicroButtonTooltipText(WoWTools_DataMixin.onlyChinese and '打开战团藏品' or WoWTools_Join(UNWRAP, COLLECTIONS), "TOGGLECOLLECTIONS"))
+        tooltip:AddLine(MicroButtonTooltipText(WoWTools_L['UNWRAP+COLLECTIONS'], "TOGGLECOLLECTIONS"))
     end)
 end
 --[[
@@ -549,7 +549,7 @@ function WoWTools_MenuMixin:OpenSpellBook(root, index)--天赋和法术书
 
     local sub= root:CreateButton(
         (isSpellBook and '|cnWARNING_FONT_COLOR:' or '')
-        ..MicroButtonTooltipText(WoWTools_DataMixin.onlyChinese and '天赋和法术书' or PLAYERSPELLS_BUTTON, "TOGGLETALENTS"),
+        ..MicroButtonTooltipText(WoWTools_L.PLAYERSPELLS_BUTTON, "TOGGLETALENTS"),
     function()
         WoWTools_LoadUIMixin:SpellBook(index)
         return MenuResponse.Open
@@ -600,7 +600,7 @@ function WoWTools_MenuMixin:OpenDragonriding(root)
     local sub= root:CreateButton(
             '|A:dragonriding-barbershop-icon-protodrake:0:0|a'
             ..((InCombatLockdown() or not DragonridingUtil.IsDragonridingUnlocked()) and '|cff626262' or '')
-            ..(WoWTools_DataMixin.onlyChinese and '驭空术' or GENERIC_TRAIT_FRAME_DRAGONRIDING_TITLE)
+            ..(WoWTools_L.GENERIC_TRAIT_FRAME_DRAGONRIDING_TITLE)
             ..(self:GetDragonriding() or ''),
         function()
             if not DragonridingUtil.IsDragonridingTreeOpen() then
@@ -622,7 +622,7 @@ function WoWTools_MenuMixin:OpenDragonriding(root)
             )]]
             return MenuResponse.Refresh
         end,
-        {widgetSetID=uiWidgetSetID}--, tooltip=WoWTools_DataMixin.onlyChinese and '巨龙群岛概要' or DRAGONFLIGHT_LANDING_PAGE_TITLE}
+        {widgetSetID=uiWidgetSetID}--, tooltip=WoWTools_L.DRAGONFLIGHT_LANDING_PAGE_TITLE}
     )
     WoWTools_SetTooltipMixin:Set_Menu(sub)
 
@@ -640,7 +640,7 @@ function WoWTools_MenuMixin:OpenOptions(root, tab)
 
     local sub=root:CreateButton(
         (InCombatLockdown() and '|cff828282' or '')
-        ..(name2 or name or (WoWTools_DataMixin.onlyChinese and '选项' or OPTIONS))
+        ..(name2 or name or (WoWTools_L.OPTIONS))
         ..'|A:OptionsIcon-Brown:0:0|a',
     function()
         if not InCombatLockdown() then
@@ -689,11 +689,11 @@ tooltip=,
 
 function WoWTools_MenuMixin:ClearAll(root, SetValue)
     return root:CreateButton(
-        '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL),
+        '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.CLEAR_ALL),
         --nil,
     function(data)
         StaticPopup_Show('WoWTools_OK',
-            '|A:bags-button-autosort-up:32:32|a|n'..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL)..'|n|n',
+            '|A:bags-button-autosort-up:32:32|a|n'..(WoWTools_L.CLEAR_ALL)..'|n|n',
             nil,
             {SetValue=data.SetValue}
         )
@@ -726,11 +726,11 @@ end
 
 --文本转语音
 function WoWTools_MenuMixin:TTsMenu(root)
-    local sub= self:CVar(root, 'textToSpeech', '|A:chatframe-button-icon-TTS:0:0|a'..(WoWTools_DataMixin.onlyChinese and '文本转语音' or TEXT_TO_SPEECH), '/tts')
+    local sub= self:CVar(root, 'textToSpeech', '|A:chatframe-button-icon-TTS:0:0|a'..(WoWTools_L.TEXT_TO_SPEECH), '/tts')
     if sub then
         sub:CreateButton(
             (ChatConfigFrame:IsShown() and '|cff626262' or '')
-            ..(WoWTools_DataMixin.onlyChinese and '文字转语音选项' or TEXT_TO_SPEECH_CONFIG),
+            ..(WoWTools_L.TEXT_TO_SPEECH_CONFIG),
         function()
             WoWTools_DataMixin:Call('ToggleTextToSpeechFrame')
         end)
@@ -783,7 +783,7 @@ function WoWTools_MenuMixin:CVar(root, name, showName, tooltip, eventFunc)
             if tooltip then
                 tip:AddLine(' ')
             end
-            tip:AddLine((WoWTools_DataMixin.onlyChinese and '默认' or DEFAULT)..': '..WoWTools_TextMixin:GetYesNo(tonumber(defaultValue)==1))
+            tip:AddLine((WoWTools_L.DEFAULT)..': '..WoWTools_TextMixin:GetYesNo(tonumber(defaultValue)==1))
         end
     end)
     return sub

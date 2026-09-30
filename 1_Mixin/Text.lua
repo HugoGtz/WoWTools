@@ -27,7 +27,7 @@ text:find("[\228-\233][\128-\191][\128-\191]") then--检查 UTF-8 字符
 
 function WoWTools_TextMixin:ShowText(data, headerText, tab)
     if not canaccesstable(data) then
-        print(WoWTools_DataMixin.Icon.icon2..'|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '显示机密数值' or EVENTTRACE_SHOW_SECRET_VALUES))
+        print(WoWTools_DataMixin.Icon.icon2..'|cnWARNING_FONT_COLOR:'..(WoWTools_L.EVENTTRACE_SHOW_SECRET_VALUES))
         return
     end
     tab= tab or {}
@@ -74,7 +74,7 @@ function WoWTools_TextMixin:ShowText(data, headerText, tab)
         if issecretvalue(value)
             or (type(value)=='string' and value:find('(:?|?)|K(.-)|k'))
         then
-            edit:Insert('***'..format(WoWTools_DataMixin.onlyChinese and '|cnEVENTTRACE_SECRET_COLOR:<机密>|r%s' or EVENTTRACE_SECRET_FMT, '***'))
+            edit:Insert('***'..format(WoWTools_L.EVENTTRACE_SECRET_FMT, '***'))
         elseif type(value)=='string' then
             edit:Insert(value)
         else
@@ -234,9 +234,9 @@ function WoWTools_TextMixin:GetShowHide(sh, all)
             return WoWTools_DataMixin.onlyChinese and '显示/隐藏' or (SHOW..'/'..HIDE)
         end
     elseif sh then
-		return WoWTools_DataMixin.onlyChinese and '显示' or SHOW
+		return WoWTools_L.SHOW
 	else
-		return DISABLED_FONT_COLOR:WrapTextInColorCode(WoWTools_DataMixin.onlyChinese and '隐藏' or HIDE)
+		return DISABLED_FONT_COLOR:WrapTextInColorCode(WoWTools_L.HIDE)
 	end
 end
 
@@ -251,18 +251,18 @@ function WoWTools_TextMixin:GetEnabeleDisable(ed, all)--启用或禁用字符
         end
     else
         if ed then
-            return WoWTools_DataMixin.onlyChinese and '启用' or ENABLE
+            return WoWTools_L.ENABLE
         else
-            return DISABLED_FONT_COLOR:WrapTextInColorCode(WoWTools_DataMixin.onlyChinese and '禁用' or DISABLE)
+            return DISABLED_FONT_COLOR:WrapTextInColorCode(WoWTools_L.DISABLE)
         end
     end
 end
 
 function WoWTools_TextMixin:GetYesNo(yesno)
     if yesno then
-        return WoWTools_DataMixin.onlyChinese and '是' or YES
+        return WoWTools_L.YES
     else
-        return DISABLED_FONT_COLOR:WrapTextInColorCode(WoWTools_DataMixin.onlyChinese and '否' or NO)
+        return DISABLED_FONT_COLOR:WrapTextInColorCode(WoWTools_L.NO)
     end
 end
 
@@ -272,6 +272,6 @@ function WoWTools_TextMixin:CanText(text)
             text:find('(:?|?)|K(.-)|k')
         )
     then
-        return format(WoWTools_DataMixin.onlyChinese and '|cnEVENTTRACE_SECRET_COLOR:<机密>|r%s' or EVENTTRACE_SECRET_FMT, '')
+        return format(WoWTools_L.EVENTTRACE_SECRET_FMT, '')
     end
 end

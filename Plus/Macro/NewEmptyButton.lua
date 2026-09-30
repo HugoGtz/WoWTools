@@ -61,7 +61,7 @@ local function Save_Macro_Menu(frame, root)
         sub=root:CreateCheckbox(
             '|A:PetJournal-FavoritesIcon:0:0|a'
             ..((not body or body=='') and '|cff626262' or '')
-            ..(WoWTools_DataMixin.onlyChinese and '收藏' or FAVORITES)
+            ..(WoWTools_L.FAVORITES)
             ..' '..header,
         function(data)
             return data.header and Save().macro[data.header]
@@ -81,7 +81,7 @@ local function Save_Macro_Menu(frame, root)
         root:CreateTitle(
             '|A:PetJournal-FavoritesIcon:0:0|a'
             ..DISABLED_FONT_COLOR:WrapTextInColorCode(
-                WoWTools_DataMixin.onlyChinese and '收藏' or FAVORITES
+                WoWTools_L.FAVORITES
             ))
     end
 
@@ -104,7 +104,7 @@ local function Save_Macro_Menu(frame, root)
             if description.data.tab.body then
                 tooltip:AddLine(description.data.tab.body)
                 tooltip:AddLine(' ')
-                tooltip:AddLine('|cnGREEN_FONT_COLOR:'..'|A:communities-chat-icon-plus:0:0|a'..(WoWTools_DataMixin.onlyChinese and '新建' or NEW)..WoWTools_DataMixin.Icon.left)
+                tooltip:AddLine('|cnGREEN_FONT_COLOR:'..'|A:communities-chat-icon-plus:0:0|a'..(WoWTools_L.NEW)..WoWTools_DataMixin.Icon.left)
             else
                 tooltip:AddLine((WoWTools_DataMixin.onlyChinese '无' or NONE))
             end
@@ -112,7 +112,7 @@ local function Save_Macro_Menu(frame, root)
 --删除
         sub3=sub2:CreateCheckbox(
             '|A:XMarksTheSpot:0:0|a'
-            ..(WoWTools_DataMixin.onlyChinese and '移除' or REMOVE),
+            ..(WoWTools_L.REMOVE),
         function(data)
             return Save().macro[data.head2]
         end, function(data)
@@ -121,13 +121,13 @@ local function Save_Macro_Menu(frame, root)
             if Save().macro[data.head2] then
                 print(
                     WoWTools_MacroMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                    GREEN_FONT_COLOR:WrapTextInColorCode(WoWTools_DataMixin.onlyChinese and '收藏' or FAVORITES)
+                    GREEN_FONT_COLOR:WrapTextInColorCode(WoWTools_L.FAVORITES)
                 )
             else
                 print(
                     WoWTools_MacroMixin.addName..WoWTools_DataMixin.Icon.icon2,
                     '|cnWARNING_FONT_COLOR:',
-                    WoWTools_DataMixin.onlyChinese and '移除' or REMOVE
+                    WoWTools_L.REMOVE
                 )
                 print(
                     data.body
@@ -224,7 +224,7 @@ local function Init()
         tooltip:AddLine(
             (WoWTools_MacroMixin:IsCanCreateNewMacro() and '' or '|cff626262')
             ..'|A:communities-chat-icon-plus:0:0|a'
-            ..(WoWTools_DataMixin.onlyChinese and '新建' or NEW)
+            ..(WoWTools_L.NEW)
         )
     end
     btn:SetScript('OnClick', function()
@@ -237,7 +237,7 @@ local function Init()
     menu:GetNormalTexture():SetVertexColor(1,1,1,1)
     menu:SetupMenu(Init_Menu)
     menu.tooltip= '|A:PetJournal-FavoritesIcon:0:0|a'
-            ..(WoWTools_DataMixin.onlyChinese and '收藏' or FAVORITES)
+            ..(WoWTools_L.FAVORITES)
 
     WoWTools_DataMixin:Hook(MacroFrame, 'UpdateButtons', function()
         local enabled= WoWTools_MacroMixin:IsCanCreateNewMacro()

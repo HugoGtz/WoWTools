@@ -125,18 +125,18 @@ local DifficultyType={
 local DifficultyColor= {}
 EventRegistry:RegisterFrameEventAndCallback("PLAYER_ENTERING_WORLD", function(owner)
     DifficultyColor= {
-        ['经典']= {name= WoWTools_DataMixin.onlyChinese and '经典' or LAYOUT_STYLE_CLASSIC, r=0.62, g=0.62, b=0.62},-- hex='|cff9d9d9d'
-        ['场景']= {name= WoWTools_DataMixin.onlyChinese and '场景' or SCENARIOS, r=0.78, g=1, b=0.79},-- hex='|cffc6ffc9',
-        ['随机']= {name= WoWTools_DataMixin.onlyChinese and '随机' or LFG_TYPE_RANDOM_DUNGEON, r=0.12, g=1, b=0},--hex='|cff1eff00',
-        ['普通']= {name= WoWTools_DataMixin.onlyChinese and '普通' or PLAYER_DIFFICULTY1, r=1, g=1, b=1},-- hex='|cffffffff',
-        ['英雄']= {name= WoWTools_DataMixin.onlyChinese and '英雄' or PLAYER_DIFFICULTY2, r=0, g=0.44, b=0.87},--hex='|cff0070dd', 
-        ['史诗']= {name= WoWTools_DataMixin.onlyChinese and '史诗' or PLAYER_DIFFICULTY6, r=1, g=0, b=1},--hex='|cffff00ff',
-        ['挑战']= {name= WoWTools_DataMixin.onlyChinese and '挑战' or PLAYER_DIFFICULTY5, r=1, g=0.51, b=0},--hex='|cffff8200', 
-        ['漫游']= {name= WoWTools_DataMixin.onlyChinese and '漫游' or PLAYER_DIFFICULTY_TIMEWALKER, r=0, g=1, b=1},--hex='|cff00ffff', 
+        ['经典']= {name= WoWTools_L.LAYOUT_STYLE_CLASSIC, r=0.62, g=0.62, b=0.62},-- hex='|cff9d9d9d'
+        ['场景']= {name= WoWTools_L['SCENARIOS~2'], r=0.78, g=1, b=0.79},-- hex='|cffc6ffc9',
+        ['随机']= {name= WoWTools_L.LFG_TYPE_RANDOM_DUNGEON, r=0.12, g=1, b=0},--hex='|cff1eff00',
+        ['普通']= {name= WoWTools_L.PLAYER_DIFFICULTY1, r=1, g=1, b=1},-- hex='|cffffffff',
+        ['英雄']= {name= WoWTools_L.PLAYER_DIFFICULTY2, r=0, g=0.44, b=0.87},--hex='|cff0070dd', 
+        ['史诗']= {name= WoWTools_L.PLAYER_DIFFICULTY6, r=1, g=0, b=1},--hex='|cffff00ff',
+        ['挑战']= {name= WoWTools_L.PLAYER_DIFFICULTY5, r=1, g=0.51, b=0},--hex='|cffff8200', 
+        ['漫游']= {name= WoWTools_L['PLAYER_DIFFICULTY_TIMEWALKER~2'], r=0, g=1, b=1},--hex='|cff00ffff', 
         ['PvP']= {name= 'PvP', r=1, g=0, b=0},--hex='|cffff4800',
-        ['追随']= {name= WoWTools_DataMixin.onlyChinese and '追随' or LFG_TYPE_FOLLOWER_DUNGEON, r=0.69, g=1, b=0, a=1},--hex='|cffb1ff00', 
-        ['地下堡']= {name= WoWTools_DataMixin.onlyChinese and '地下堡' or DELVES_LABEL, r=0.93, g=0.82, b=0, a=1},--hex='|cffedd100', 
-        ['剧情团队']={name= WoWTools_DataMixin.onlyChinese and '剧情团队' or PLAYER_DIFFICULTY_STORY_RAID, r=0.67, g=1.00, b=0.67}--hex='|cffaaffaa',
+        ['追随']= {name= WoWTools_L.LFG_TYPE_FOLLOWER_DUNGEON, r=0.69, g=1, b=0, a=1},--hex='|cffb1ff00', 
+        ['地下堡']= {name= WoWTools_L.DELVES_LABEL, r=0.93, g=0.82, b=0, a=1},--hex='|cffedd100', 
+        ['剧情团队']={name= WoWTools_L.PLAYER_DIFFICULTY_STORY_RAID, r=0.67, g=1.00, b=0.67}--hex='|cffaaffaa',
     }
     EventRegistry:UnregisterCallback('PLAYER_ENTERING_WORLD', owner)
 end)

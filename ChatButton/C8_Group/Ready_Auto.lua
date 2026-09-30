@@ -34,7 +34,7 @@ local function Set_Ready(timeLeft)
         print(
             WoWTools_GroupMixin.addName..WoWTools_DataMixin.Icon.icon2,
             WoWTools_GroupMixin:Get_ReadyText(),
-            '|cffff00ffAlt', WoWTools_DataMixin.onlyChinese and '取消' or CANCEL
+            '|cffff00ffAlt', WoWTools_L.CANCEL
         )
 
         timeLeft= Save().autoReadySeconds or 3
@@ -143,7 +143,7 @@ local function Init()
             print(
                 WoWTools_GroupMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 WoWTools_GroupMixin:Get_ReadyText(),
-                '|cff00ff00'..(WoWTools_DataMixin.onlyChinese and '取消' or CANCEL)
+                '|cff00ff00'..(WoWTools_L.CANCEL)
             )
 
             WoWTools_CooldownMixin:Setup(self, nil, Get_LeftTime(), nil, true, true)--冷却条
@@ -199,7 +199,7 @@ local function Init()
 
     local altLabel= ReadyCheckListenerFrame:CreateFontString('WoWToolsReadyCheckAltCanellLabel', 'BORDER', 'GameFontNormal')--  WoWTools_LabelMixin:Create(ReadyCheckListenerFrame)
     altLabel:SetPoint('TOPRIGHT', _G['WoWToolsReadyCheckButton2'], 'BOTTOMRIGHT', 0,-8)
-    altLabel:SetText('Alt '..(WoWTools_DataMixin.onlyChinese and '取消' or CANCEL))
+    altLabel:SetText('Alt '..(WoWTools_L.CANCEL))
 
 
 

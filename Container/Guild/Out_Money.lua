@@ -52,7 +52,7 @@ local function Out_Money(num)
 
         print(
             WoWTools_GuildBankMixin.addName..WoWTools_DataMixin.Icon.icon2,
-            WoWTools_DataMixin.onlyChinese and '自动提取' or WoWTools_Join(SELF_CAST_AUTO, WITHDRAW),
+            WoWTools_L['SELF_CAST_AUTO+WITHDRAW'],
             '|cnGREEN_FONT_COLOR:'..C_CurrencyInfo.GetCoinTextureString(money)
         )
     end
@@ -69,7 +69,7 @@ local function Out_Text(num)
     if money then
        text= ' '..WoWTools_DataMixin:MK(math.modf(money/10000), 3)..'|A:Coin-Gold:0:0|a'
     end
-    return WoWTools_ColorMixin:SetStringColor(WoWTools_DataMixin.onlyChinese and '提取' or WITHDRAW)
+    return WoWTools_ColorMixin:SetStringColor(WoWTools_L.WITHDRAW)
         ..text
 end
 
@@ -80,14 +80,14 @@ local function Out_Tooltip(tooltip, num)
     out= math.min(guild, out)
 
     tooltip:AddDoubleLine(
-        (WoWTools_DataMixin.onlyChinese and '公会银行' or GUILD_BANK)
+        (WoWTools_L.GUILD_BANK)
         ..' '
         ..C_CurrencyInfo.GetCoinTextureString(GetGuildBankMoney() or 0)
     )
     tooltip:AddLine(' ')
     tooltip:AddLine(
         (money>0 and '|cnGREEN_FONT_COLOR:' or '|cff606060')
-        ..(WoWTools_DataMixin.onlyChinese and '可用数量' or GUILDBANK_AVAILABLE_MONEY)
+        ..(WoWTools_L.GUILDBANK_AVAILABLE_MONEY)
         ..' '
         ..(C_CurrencyInfo.GetCoinTextureString(out))
     )
@@ -112,7 +112,7 @@ end
 local function Save_Tooltip(tooltip, num)
     local bag= GetMoney() or 0
     local money= num*10000
-    tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '放入' or DEPOSIT)
+    tooltip:AddLine(WoWTools_L['DEPOSIT~3'])
 
     if bag>=money then
         tooltip:AddLine(
@@ -138,7 +138,7 @@ local function Save_Money(num)
 
         print(
             WoWTools_DataMixin.Icon.wow2
-            ..(WoWTools_DataMixin.onlyChinese and '放入' or DEPOSIT),
+            ..(WoWTools_L['DEPOSIT~3']),
             C_CurrencyInfo.GetCoinTextureString(money),
 
             SaveMoney~=money and '|cnGREEN_FONT_COLOR:'..WoWTools_DataMixin:MK(SaveMoney/10000, 3) or ''
@@ -195,7 +195,7 @@ local function Init_Menu(self, root)
 --自动提取
     local out= Save().autoOutMoney or 0
     autoSub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '自动提取' or WoWTools_Join(SELF_CAST_AUTO, WITHDRAW),
+        WoWTools_L['SELF_CAST_AUTO+WITHDRAW'],
     function()
         return Save().autoOutMoney
     end, function()
@@ -233,9 +233,9 @@ local function Init_Menu(self, root)
     end)
     sub:SetTooltip(function(tooltip)
         tooltip:AddLine(
-            (WoWTools_DataMixin.onlyChinese and '管理员' or COMMUNITY_MEMBER_ROLE_NAME_LEADER)
+            (WoWTools_L.COMMUNITY_MEMBER_ROLE_NAME_LEADER)
             ..': '
-            ..(WoWTools_DataMixin.onlyChinese and '禁用' or DISABLE)
+            ..(WoWTools_L.DISABLE)
         )
     end)
 
@@ -244,7 +244,7 @@ local function Init_Menu(self, root)
 
 --全部提取
     sub=root:CreateButton(
-        WoWTools_ColorMixin:SetStringColor(WoWTools_DataMixin.onlyChinese and '全部提取' or WoWTools_Join(ALL, DEPOSIT)),
+        WoWTools_ColorMixin:SetStringColor(WoWTools_L['ALL+DEPOSIT']),
     function()
         Out_Money(0)
         return MenuResponse.Open
@@ -296,7 +296,7 @@ local function Init_Menu(self, root)
 
     root:CreateDivider()
     sub= root:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '放入' or DEPOSIT,
+        WoWTools_L['DEPOSIT~3'],
     function()
         return  MenuResponse.Open
     end)
@@ -370,14 +370,14 @@ local function Init()
    function btn:tooltip()
         GameTooltip:SetOwner(btn, 'ANCHOR_LEFT')
         GameTooltip_SetTitle(GameTooltip,
-            WoWTools_DataMixin.onlyChinese and '打开公会银行时' or WoWTools_Join(OPENING, GUILD_BANK)
+            WoWTools_L['OPENING+GUILD_BANK']
         )
         GameTooltip:AddLine(' ')
 
         local r
         local num= Save().autoOutMoney
         if num==0 then
-            r= (WoWTools_DataMixin.onlyChinese and '最大' or MAXIMUM)..'|A:Coin-Gold:0:0|a'
+            r= (WoWTools_L.MAXIMUM)..'|A:Coin-Gold:0:0|a'
         elseif num then
             local money= Out_Value()
             if money then
@@ -391,7 +391,7 @@ local function Init()
 
         GameTooltip:AddDoubleLine(
             WoWTools_DataMixin.Icon.icon2
-            ..(WoWTools_DataMixin.onlyChinese and '自动提取' or WoWTools_Join(SELF_CAST_AUTO, WITHDRAW)),
+            ..(WoWTools_L['SELF_CAST_AUTO+WITHDRAW']),
 
             r
         )

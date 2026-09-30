@@ -183,7 +183,7 @@ function WoWTools_MoveMixin.Frames:CharacterFrame()--:Init_CharacterFrame()--角
     addMenu= function(frame, root)
         root:CreateDivider()
         local sub= root:CreateButton(
-            (WoWTools_DataMixin.onlyChinese and '装备栏位' or ORDER_HALL_EQUIPMENT_SLOTS)
+            (WoWTools_L.ORDER_HALL_EQUIPMENT_SLOTS)
             ..' '
             ..(self:Save().CharacterSlotScale or 1),
         function()

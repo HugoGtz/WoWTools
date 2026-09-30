@@ -13,9 +13,9 @@ local function Init_Menu(self, root)
     
     local sub
 
-    root:CreateTitle(WoWTools_DataMixin.onlyChinese and '收件箱' or INBOX)
+    root:CreateTitle(WoWTools_L.INBOX)
     root:CreateCheckbox(
-        (WoWTools_DataMixin.onlyChinese and '收件箱' or INBOX)..' Plus',
+        (WoWTools_L.INBOX)..' Plus',
     function()
         return not Save().hide
     end, function()
@@ -24,10 +24,10 @@ local function Init_Menu(self, root)
     end)
 
 
-    root:CreateTitle(WoWTools_DataMixin.onlyChinese and '发件箱' or SENDMAIL)
+    root:CreateTitle(WoWTools_L.SENDMAIL)
 
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '名单列表' or WHO_LIST,
+        WoWTools_L.WHO_LIST,
     function()
         return not Save().hideSendNameList
     end, function()
@@ -47,7 +47,7 @@ local function Init_Menu(self, root)
 
 
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '物品快捷键' or WoWTools_Join(ITEMS, SETTINGS_KEYBINDINGS_LABEL),
+        WoWTools_L['ITEMS+SETTINGS_KEYBINDINGS_LABEL'],
     function()
         return not Save().hideItemButtonList
     end, function()
@@ -63,7 +63,7 @@ local function Init_Menu(self, root)
         Save().notAutoToSendFrame= not Save().notAutoToSendFrame and true or nil
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '尚未发现信件' or WoWTools_Join(TAXI_PATH_UNREACHABLE, MAIL_LABEL))
+        tooltip:AddLine(WoWTools_L['TAXI_PATH_UNREACHABLE+MAIL_LABEL'])
     end)
 
 
@@ -74,7 +74,7 @@ local function Init_Menu(self, root)
         end, setValue=function(value)
             Save().autoToSendFrameSecond=value
         end,
-        name=WoWTools_DataMixin.onlyChinese and '秒' or LOSS_OF_CONTROL_SECONDS ,
+        name=WoWTools_L.LOSS_OF_CONTROL_SECONDS ,
         minValue=0.5,
         maxValue=5,
         step=0.1,
@@ -109,7 +109,7 @@ local function Init()
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_MailMixin.addName)
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine((WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL), WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine((WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL), WoWTools_DataMixin.Icon.left)
         GameTooltip:Show()
     end)
 

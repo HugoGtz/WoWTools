@@ -74,7 +74,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     WoWToolsPlusPlayerDate.PlayerMapPin= WoWToolsPlusPlayerDate.PlayerMapPin or {
         [2393]= {
             options={},
-            ["50.02 74.76"]= {name=WoWTools_DataMixin.onlyChinese and "拍卖行" or BUTTON_LAG_AUCTIONHOUSE,},
+            ["50.02 74.76"]= {name=WoWTools_L['BUTTON_LAG_AUCTIONHOUSE~2'],},
             ["47.40 52.60"]={name=WoWTools_DataMixin.onlyChinese and PROFESSIONS_BUTTON or "专业",},
         },
     }
@@ -96,12 +96,12 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
 
 
-    WoWTools_WorldMapMixin.addName= '|A:poi-islands-table:0:0|a'..(WoWTools_DataMixin.onlyChinese and '世界地图' or WORLDMAP_BUTTON)
-    WoWTools_WorldMapMixin.addName2= '|A:Gear:0:0|a'..(WoWTools_DataMixin.onlyChinese and '地图标记' or MAP_PIN)
+    WoWTools_WorldMapMixin.addName= '|A:poi-islands-table:0:0|a'..(WoWTools_L.WORLDMAP_BUTTON)
+    WoWTools_WorldMapMixin.addName2= '|A:Gear:0:0|a'..(WoWTools_L.MAP_PIN)
     --添加控制面板
     WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_WorldMapMixin.addName,
-        tooltip=  WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD,
+        tooltip=  WoWTools_L.REQUIRES_RELOAD,
         GetValue= function() return not Save().disabled end,
         func= function()
             Save().disabled= not Save().disabled and true or nil

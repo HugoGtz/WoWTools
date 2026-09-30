@@ -521,12 +521,12 @@ local function Create_deadFrame(frame)
         GameTooltip:ClearLines()
         GameTooltip:AddLine(self:GetParent().unit, 1,1,1)
         GameTooltip:AddLine(
-            WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '死亡' or DEAD)
+            WoWTools_DataMixin.Icon.icon2..(WoWTools_L.DEAD)
             ..': |cffffffff'..self:GetText()..'|r '
-           ..(WoWTools_DataMixin.onlyChinese and '次' or VOICEMACRO_LABEL_CHARGE1)
+           ..(WoWTools_L.VOICEMACRO_LABEL_CHARGE1)
         )
         GameTooltip:AddLine(
-            (WoWTools_DataMixin.onlyChinese and '全部重置' or RESET_ALL_BUTTON_TEXT)
+            (WoWTools_L.RESET_ALL_BUTTON_TEXT)
             ..WoWTools_DataMixin.Icon.left
         )
         GameTooltip:Show()

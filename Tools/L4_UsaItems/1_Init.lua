@@ -75,9 +75,9 @@ end
 function WoWTools_UseItemsMixin:Init_Menu(root)
     local sub, sub2, num
     for text, type in pairs({
-        [WoWTools_DataMixin.onlyChinese and '物品' or ITEMS]='item',
-        [WoWTools_DataMixin.onlyChinese and '法术' or SPELLS]='spell',
-        [WoWTools_DataMixin.onlyChinese and '装备' or EQUIPSET_EQUIP]='equip'
+        [WoWTools_L.ITEMS]='item',
+        [WoWTools_L.SPELLS]='spell',
+        [WoWTools_L.EQUIPSET_EQUIP]='equip'
     }) do
         num= #Save()[type]
 
@@ -132,7 +132,7 @@ function WoWTools_UseItemsMixin:Init_Menu(root)
 --其他
                 else
                     StaticPopup_Show('WoWTools_OK',
-                        (WoWTools_DataMixin.onlyChinese and '移除' or REMOVE)..'|n|n'..data.name..'|n',
+                        (WoWTools_L.REMOVE)..'|n|n'..data.name..'|n',
                         nil,
                         {SetValue=function()
                             table.remove(Save()[data.type], data.index)
@@ -154,19 +154,19 @@ function WoWTools_UseItemsMixin:Init_Menu(root)
 --全部清除
             WoWTools_MenuMixin:ClearAll(sub, function()
                 Save()[type]={}
-                print(WoWTools_DataMixin.Icon.icon2..WoWTools_UseItemsMixin.addName, WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+                print(WoWTools_DataMixin.Icon.icon2..WoWTools_UseItemsMixin.addName, WoWTools_L.REQUIRES_RELOAD)
             end)
         end
         
         sub2=sub:CreateButton(
-            (WoWTools_DataMixin.onlyChinese and '重置' or RESET),
+            (WoWTools_L.RESET),
         function(data)
             StaticPopup_Show('WoWTools_OK',
-                (WoWTools_DataMixin.onlyChinese and '重置' or RESET)..'|n|n'..data.text..'|n',
+                (WoWTools_L.RESET)..'|n|n'..data.text..'|n',
                 nil,
                 {SetValue=function()
                    Save()[data.type]= P_Tabs[data.type]
-                   print(WoWTools_DataMixin.Icon.icon2..WoWTools_UseItemsMixin.addName, data.text, WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+                   print(WoWTools_DataMixin.Icon.icon2..WoWTools_UseItemsMixin.addName, data.text, WoWTools_L.REQUIRES_RELOAD)
                 end}
             )
         end, {type=type, text=text, rightText=#P_Tabs[type], rightColor=HIGHLIGHT_FONT_COLOR})
@@ -181,15 +181,15 @@ function WoWTools_UseItemsMixin:Init_Menu(root)
 
 --全部重置
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '全部重置' or RESET_ALL_BUTTON_TEXT,
+        WoWTools_L.RESET_ALL_BUTTON_TEXT,
     function()
         StaticPopup_Show('WoWTools_OK',
-            (WoWTools_DataMixin.onlyChinese and '全部重置' or RESET_ALL_BUTTON_TEXT)..'|n|n'..(WoWTools_DataMixin.onlyChinese and "重新加载UI" or RELOADUI),
+            (WoWTools_L.RESET_ALL_BUTTON_TEXT)..'|n|n'..(WoWTools_L['RELOADUI~3']),
             nil,
             {SetValue=function()
                 WoWToolsPlusPlayerDate['Tools_UseItems']= nil
                 WoWTools_DataMixin:Reload()
-                print(WoWTools_DataMixin.Icon.icon2..WoWTools_UseItemsMixin.addName, WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+                print(WoWTools_DataMixin.Icon.icon2..WoWTools_UseItemsMixin.addName, WoWTools_L.REQUIRES_RELOAD)
             end}
         )
     end)
@@ -217,9 +217,9 @@ local function Init()
     StaticPopupDialogs['WoWToolsUseItemsADD']={--添加, 移除
         text= WoWTools_UseItemsMixin.addName..'|n|n%s: %s',
         whileDead=true, hideOnEscape=true, exclusive=true,
-        button1= WoWTools_DataMixin.onlyChinese and '添加' or ADD,
-        button2= WoWTools_DataMixin.onlyChinese and '取消' or CANCEL,
-        button3= WoWTools_DataMixin.onlyChinese and '移除' or REMOVE,
+        button1= WoWTools_L.ADD,
+        button2= WoWTools_L.CANCEL,
+        button3= WoWTools_L.REMOVE,
         OnShow = function(self, data)
             local find=WoWTools_UseItemsMixin:Find_Type(data.type, data.ID)
             data.index=find
@@ -230,11 +230,11 @@ local function Init()
         end,
         OnAccept = function(_, data)
             table.insert(Save()[data.type], data.ID)
-            print(WoWTools_ToolsMixin.addName, WoWTools_UseItemsMixin.addName, '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '添加' or ADD)..'|r', WoWTools_DataMixin.onlyChinese and '完成' or COMPLETE, data.name, WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+            print(WoWTools_ToolsMixin.addName, WoWTools_UseItemsMixin.addName, '|cnGREEN_FONT_COLOR:'..(WoWTools_L.ADD)..'|r', WoWTools_L.COMPLETE, data.name, WoWTools_L.REQUIRES_RELOAD)
         end,
         OnAlt = function(_, data)
             table.remove(Save()[data.type], data.index)
-            print(WoWTools_ToolsMixin.addName, WoWTools_UseItemsMixin.addName, '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '移除' or REMOVE)..'|r', WoWTools_DataMixin.onlyChinese and '完成' or COMPLETE, data.name, WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+            print(WoWTools_ToolsMixin.addName, WoWTools_UseItemsMixin.addName, '|cnWARNING_FONT_COLOR:'..(WoWTools_L.REMOVE)..'|r', WoWTools_L.COMPLETE, data.name, WoWTools_L.REQUIRES_RELOAD)
         end,
     }
 
@@ -252,15 +252,15 @@ local function Init()
             local itemEquipLoc= select(4, C_Item.GetItemInfoInstant(itemLink))
             local slot= WoWTools_ItemMixin:GetEquipSlotID(itemEquipLoc)
             local type = slot and 'equip' or 'item'
-            local text = slot and (WoWTools_DataMixin.onlyChinese and '装备' or EQUIPSET_EQUIP) or (WoWTools_DataMixin.onlyChinese and '物品' or ITEMS)
+            local text = slot and (WoWTools_L.EQUIPSET_EQUIP) or (WoWTools_L.ITEMS)
             local icon = select(5, C_Item.GetItemInfoInstant(itemLink))
             StaticPopup_Show('WoWToolsUseItemsADD', text , (icon and '|T'..icon..':0|t' or '')..itemLink, {type=type, name=itemLink, ID=itemID})
             ClearCursor()
 
         elseif infoType =='spell' and spellID then
-            local spellLink=C_Spell.GetSpellLink(spellID) or ((WoWTools_DataMixin.onlyChinese and '法术' or SPELLS)..' ID: '..spellID)
+            local spellLink=C_Spell.GetSpellLink(spellID) or ((WoWTools_L.SPELLS)..' ID: '..spellID)
             local icon=C_Spell.GetSpellTexture(spellID)
-            StaticPopup_Show('WoWToolsUseItemsADD',  WoWTools_DataMixin.onlyChinese and '法术' or SPELLS , (icon and '|T'..icon..':0|t' or '')..spellLink, {type='spell', name=spellLink, ID=spellID})
+            StaticPopup_Show('WoWToolsUseItemsADD',  WoWTools_L.SPELLS , (icon and '|T'..icon..':0|t' or '')..spellLink, {type='spell', name=spellLink, ID=spellID})
             ClearCursor()
 
         else
@@ -275,7 +275,7 @@ local function Init()
         GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '拖曳: 添加' or (DRAG_MODEL..': '..ADD))
         GameTooltip:AddLine('|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '法术, 物品, 装备' or (SPELLS..', '..ITEMS..', '..EQUIPSET_EQUIP)))
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine(WoWTools_L.SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.left)
         GameTooltip:Show()
         self:SetAlpha(1.0)
     end)
@@ -311,13 +311,13 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         if arg1== 'WoWToolsPlus' then
             WoWToolsPlusPlayerDate['Tools_UseItems']= WoWToolsPlusPlayerDate['Tools_UseItems'] or P_Tabs
 
-            WoWTools_UseItemsMixin.addName= '|A:soulbinds_tree_conduit_icon_utility:0:0|a'..(WoWTools_DataMixin.onlyChinese and '使用物品' or USE_ITEM)
+            WoWTools_UseItemsMixin.addName= '|A:soulbinds_tree_conduit_icon_utility:0:0|a'..(WoWTools_L.USE_ITEM)
 
             WoWTools_ToolsMixin:Set_AddList(function(category)
                 WoWTools_PanelMixin:OnlyCheck({
                 category= category,
                 name= WoWTools_UseItemsMixin.addName,
-                tooltip= WoWTools_UseItemsMixin.addName..'|n'..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD),
+                tooltip= WoWTools_UseItemsMixin.addName..'|n'..(WoWTools_L.REQUIRES_RELOAD),
                 GetValue= function() return not Save().disabled end,
                 SetValue= function()
                     Save().disabled= not Save().disabled and true or nil

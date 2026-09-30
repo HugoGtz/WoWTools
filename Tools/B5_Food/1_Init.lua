@@ -164,7 +164,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                WoWTools_DataMixin:Load(class.ctrl, 'spell')
             end
 
-            WoWTools_FoodMixin.addName= '|A:Food:0:0|a'..(WoWTools_DataMixin.onlyChinese and '食物' or POWER_TYPE_FOOD)
+            WoWTools_FoodMixin.addName= '|A:Food:0:0|a'..(WoWTools_L.POWER_TYPE_FOOD)
 
             WoWTools_ToolsMixin:CreateButton({
                 name='Food',
@@ -175,7 +175,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         category=category,
                         layout=layout,
                         tooltip=WoWTools_FoodMixin.addName,
-                        buttonText= WoWTools_DataMixin.onlyChinese and '还原位置' or RESET_POSITION,
+                        buttonText= WoWTools_L['RESET_POSITION~2'],
                         SetValue= function()
                             local btn= WoWTools_ToolsMixin:Get_ButtonForName('Food')
                             Save().point=nil

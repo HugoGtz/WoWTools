@@ -27,7 +27,7 @@ local function Init_Menu(self, root, data)
 
 
     local sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '屏蔽刷屏' or WoWTools_Join(IGNORE, CLUB_FINDER_REPORT_SPAM),
+        WoWTools_L['IGNORE+CLUB_FINDER_REPORT_SPAM'],
     function(name)
         return Save().userChatFilterTab[name]
     end, function(name)
@@ -44,10 +44,10 @@ local function Init_Menu(self, root, data)
     sub:SetTooltip(function(tooltip, description)
         tooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_WorldMixin.addName)
         tooltip:AddDoubleLine()
-        tooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '自定义屏蔽' or WoWTools_Join(CUSTOM, IGNORE), WoWTools_TextMixin:GetEnabeleDisable(Save().userChatFilter))
+        tooltip:AddDoubleLine(WoWTools_L['CUSTOM+IGNORE'], WoWTools_TextMixin:GetEnabeleDisable(Save().userChatFilter))
         tooltip:AddLine(' ')
         tooltip:AddDoubleLine(
-            (WoWTools_DataMixin.onlyChinese and '屏蔽刷屏' or WoWTools_Join(IGNORE, CLUB_FINDER_REPORT_SPAM))
+            (WoWTools_L['IGNORE+CLUB_FINDER_REPORT_SPAM'])
             ..' '
             .. (Save().userChatFilterTab[description.name] and Save().userChatFilterTab[description.name].num or ''),
             WoWTools_DataMixin.onlyChinese and '添加/移除' or ADD..'/'..REMOVE

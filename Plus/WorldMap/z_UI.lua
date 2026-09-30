@@ -133,7 +133,7 @@ function WoWTools_MoveMixin.Events:Blizzard_WorldMap()
 
     --[[local function addMenu(_, root)
         local sub= root:CreateCheckbox(
-            WoWTools_DataMixin.onlyChinese and '禁用尺寸' or WoWTools_Join(DISABLE, HUD_EDIT_MODE_SETTING_BAGS_SIZE),
+            WoWTools_L['DISABLE+HUD_EDIT_MODE_SETTING_BAGS_SIZE'],
         function()
             return self:Save().disablesWorldMapFrameSize
         end, function()
@@ -141,7 +141,7 @@ function WoWTools_MoveMixin.Events:Blizzard_WorldMap()
         end)
         sub:SetTooltip(function (tooltip)
             GameTooltip_AddInstructionLine(tooltip,
-                WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+                WoWTools_L.REQUIRES_RELOAD
             )
         end)
     end
@@ -245,9 +245,9 @@ function WoWTools_MoveMixin.Events:Blizzard_WorldMap()
     sizeTooltip=function(tooltip)
         if self:GetSize(name) then
             GameTooltip_AddErrorLine(tooltip,
-                WoWTools_DataMixin.onlyChinese and '战斗中显示地图会出现错误' or WoWTools_L['Showing the map in combat causes an error']
+                WoWTools_L['Showing the map in combat causes an error']
             )
-            GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+            GameTooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
         end
     end,
     sizeUpdateFunc= function(frame)--WorldMapMixin:UpdateMaximizedSize()

@@ -162,7 +162,7 @@ local function Init_ProgressBar()
     function btn:set_atlas()
         self:SetNormalAtlas(Save().ArcheologySound and 'chatframe-button-icon-voicechat' or 'chatframe-button-icon-speaker-off')
     end
-    btn.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '声音提示' or  SOUND)
+    btn.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_L.SOUND)
 
 
     function btn:play_sound()
@@ -238,9 +238,9 @@ local function Init_ProgressBar()
 
     bar:SetPoint('LEFT', ArcheologyDigsiteProgressBar, 'RIGHT', 0, -4)
     bar.tooltip= WoWTools_DataMixin.Icon.left
-        ..(WoWTools_DataMixin.onlyChinese and '考古学' or PROFESSIONS_ARCHAEOLOGY)
+        ..(WoWTools_L.PROFESSIONS_ARCHAEOLOGY)
         ..WoWTools_DataMixin.Icon.icon2
-        ..(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL)
+        ..(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL)
         ..WoWTools_DataMixin.Icon.right
     bar:SetNormalTexture(WoWTools_DataMixin.Icon.icon)
 

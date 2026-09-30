@@ -25,19 +25,19 @@ function WoWTools_GuildBankMixin:Get_Access(tabID)
 
     local atlas, access
     if ( not canDeposit and numWithdrawals == 0 ) then
-        access = WoWTools_DataMixin.onlyChinese and '|cffff2020（锁定）|r' or GUILDBANK_TAB_LOCKED;
+        access = WoWTools_L.GUILDBANK_TAB_LOCKED;
         atlas= '|A:Monuments-Lock:0:0|a'
 
     elseif ( not canDeposit ) then
-        access = WoWTools_DataMixin.onlyChinese and '|cffff2020（只能提取）|r' or GUILDBANK_TAB_WITHDRAW_ONLY;
+        access = WoWTools_L.GUILDBANK_TAB_WITHDRAW_ONLY;
         atlas= '|A:Cursor_OpenHand_32:0:0|a'
 
     elseif ( numWithdrawals == 0 ) then
-        access = WoWTools_DataMixin.onlyChinese and '|cffff2020（只能存放）|r' or GUILDBANK_TAB_DEPOSIT_ONLY;
+        access = WoWTools_L.GUILDBANK_TAB_DEPOSIT_ONLY;
         atlas= '|A:Banker:0:0|a'
 
     else
-        access = WoWTools_DataMixin.onlyChinese and '|cff20ff20（全部权限）|r' or GUILDBANK_TAB_FULL_ACCESS
+        access = WoWTools_L.GUILDBANK_TAB_FULL_ACCESS
     end
 
     return atlas, access

@@ -197,14 +197,14 @@ function WoWTools_WorldMapMixin:AreaPOINameMenu(_, root)
         WoWTools_WorldMapMixin:Init_AreaPOI_Name()
     end,sub)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '显示名称' or PROFESSIONS_FLYOUT_SHOW_NAME)
+        tooltip:AddLine(WoWTools_L.PROFESSIONS_FLYOUT_SHOW_NAME)
         --tooltip:AddLine('|cnWARNING_FONT_COLOR:BUG')
     end)
 
 --字体大小
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
-        name= WoWTools_DataMixin.onlyChinese and '字体大小' or FONT_SIZE,
+        name= WoWTools_L.FONT_SIZE,
         getValue=function()
             return Save().areaPoinFontSize or 10
         end, setValue=function(value)
@@ -239,7 +239,7 @@ function WoWTools_WorldMapMixin:AreaPOINameMenu(_, root)
             end)
 
             sub2:CreateButton(
-                WoWTools_DataMixin.onlyChinese and '编辑' or EDIT,
+                WoWTools_L['EDIT~2'],
             function(data)
                 local user2= SaveWoW().pinName[data.areaPoiID]
                 local name2= WoWTools_TextMixin:CN(data.name)
@@ -267,11 +267,11 @@ function WoWTools_WorldMapMixin:AreaPOINameMenu(_, root)
     sub:CreateDivider()
 
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL,
+        WoWTools_L.CLEAR_ALL,
     function()
         StaticPopup_Show('WoWTools_OK',
             '|A:minimap-genericevent-hornicon:0:0|aAreaPOI|n|n'..
-            (WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL)
+            (WoWTools_L.CLEAR_ALL)
             ..'|n',
         nil,
         {SetValue=function()

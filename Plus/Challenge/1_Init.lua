@@ -109,7 +109,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
             Save().hideAffixSay= nil--已弃用
 
-            WoWTools_ChallengeMixin.addName= '|A:UI-HUD-MicroMenu-Groupfinder-Mouseover:0:0|a'..(WoWTools_DataMixin.onlyChinese and '史诗钥石地下城' or CHALLENGES)
+            WoWTools_ChallengeMixin.addName= '|A:UI-HUD-MicroMenu-Groupfinder-Mouseover:0:0|a'..(WoWTools_L.CHALLENGES)
 
 --添加控制面板
             WoWTools_PanelMixin:OnlyCheck({
@@ -120,7 +120,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                     print(
                         WoWTools_ChallengeMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-                        WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+                        WoWTools_L.REQUIRES_RELOAD
                     )
                 end
             })

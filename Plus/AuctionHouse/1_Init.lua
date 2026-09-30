@@ -24,36 +24,36 @@ local function Init_Menu(self, root)
     root:CreateTitle('Plus')
 
     sub= root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '购买' or AUCTION_HOUSE_BUY_TAB,
+        WoWTools_L.AUCTION_HOUSE_BUY_TAB,
     function()
         return not Save().disabledBuyPlus
     end, function()
         Save().disabledBuyPlus= not Save().disabledBuyPlus and true or nil
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+        tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 
     sub= root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '出售' or AUCTION_HOUSE_SELL_TAB,
+        WoWTools_L.AUCTION_HOUSE_SELL_TAB,
     function()
         return not Save().disabledSellPlus
     end, function()
         Save().disabledSellPlus= not Save().disabledSellPlus and true or nil
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+        tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 
     sub= root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '拍卖' or AUCTION_HOUSE_AUCTIONS_SUB_TAB,
+        WoWTools_L.AUCTION_HOUSE_AUCTIONS_SUB_TAB,
     function()
         return not Save().disabledAuctionsPlus
     end, function()
         Save().disabledAuctionsPlus= not Save().disabledAuctionsPlus and true or nil
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+        tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 
 --打开，选项
@@ -121,7 +121,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             Save().hideSellPet= Save().hideSellPet or {}
             Save().sellItemQualiy= Save().sellItemQualiy or 1--物品列表，检测有效物品
 
-            WoWTools_AuctionHouseMixin.addName= '|A:Auctioneer:0:0|a'..(WoWTools_DataMixin.onlyChinese and '拍卖行' or BUTTON_LAG_AUCTIONHOUSE)
+            WoWTools_AuctionHouseMixin.addName= '|A:Auctioneer:0:0|a'..(WoWTools_L.BUTTON_LAG_AUCTIONHOUSE)
 
 --添加控制面板
             WoWTools_PanelMixin:OnlyCheck({
@@ -133,7 +133,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                     Init()
                     WoWTools_AuctionHouseMixin:Init_AccountStore()
                 end,
-                tooltip=WoWTools_DataMixin.onlyChinese and '重新加载UI' or RELOADUI,
+                tooltip=WoWTools_L.RELOADUI,
             })
 
             if Save().disabled then

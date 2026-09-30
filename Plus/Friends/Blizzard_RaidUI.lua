@@ -45,7 +45,7 @@ local function Init_RaidGroupFrame_Update()
                 if subframes.name and name then
                     local text
                     if name==player then--自己
-                        text= WoWTools_DataMixin.onlyChinese and '我' or COMBATLOG_FILTER_STRING_ME
+                        text= WoWTools_L.COMBATLOG_FILTER_STRING_ME
                     end
                     if not text then--距离
                         local distance, checkedDistance = UnitDistanceSquared(unit)

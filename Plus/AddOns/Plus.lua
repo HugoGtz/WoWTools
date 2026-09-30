@@ -150,7 +150,7 @@ local function Create_Check(frame)
         local icon= select(3, WoWTools_TextureMixin:IsAtlas( C_AddOns.GetAddOnMetadata(addonIndex, "IconTexture") or C_AddOns.GetAddOnMetadata(addonIndex, "IconAtlas"))) or ''--Atlas or Texture
         GameTooltip:AddDoubleLine(
             format('%s%s |cnGREEN_FONT_COLOR:%d|r', icon, self.name or '', addonIndex),
-            format('%s%s', WoWTools_DataMixin.onlyChinese and '快捷键' or SETTINGS_KEYBINDINGS_LABEL, WoWTools_DataMixin.Icon.left)
+            format('%s%s', WoWTools_L.SETTINGS_KEYBINDINGS_LABEL, WoWTools_DataMixin.Icon.left)
         )
         GameTooltip:Show()
         self:set_enter_alpha()
@@ -291,23 +291,23 @@ local function Init()
     function btn:set_tooltips()
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
         GameTooltip:ClearLines()
-        GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '全部禁用' or DISABLE_ALL_ADDONS)
+        GameTooltip:AddLine(WoWTools_L.DISABLE_ALL_ADDONS)
 
         local index= self:GetID()
         local enabled= Save().enableAllButtn
 
         GameTooltip:AddDoubleLine(
-            (WoWTools_DataMixin.onlyChinese and '启用' or ENABLE)
+            (WoWTools_L.ENABLE)
             ..WoWTools_DataMixin.Icon.left
             ..WoWTools_TextMixin:GetYesNo(enabled),
 
             (index>0 and '' or '|cff626262')
-            ..(WoWTools_DataMixin.onlyChinese and '转到' or NPE_TURN)
+            ..(WoWTools_L.NPE_TURN)
             ..WoWTools_DataMixin.Icon.right..(index or '')..WoWTools_DataMixin.Icon.icon2
         )
         if enabled then
             GameTooltip:AddLine(' ')
-            GameTooltip_AddInstructionLine(GameTooltip, (WoWTools_DataMixin.onlyChinese and '启用' or ENABLE)..':')
+            GameTooltip_AddInstructionLine(GameTooltip, (WoWTools_L.ENABLE)..':')
             GameTooltip_AddHighlightLine(GameTooltip, 'WoWToolsPlus')
             if C_AddOns.GetAddOnInfo('BugSack') then
                 GameTooltip_AddHighlightLine(GameTooltip, 'BugSack')
@@ -412,7 +412,7 @@ local function Init()
     AddonList.ForceLoad:SetScript('OnEnter', function(f)
         GameTooltip:SetOwner(f, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '加载过期插件' or ADDON_FORCE_LOAD)
+        GameTooltip:AddLine(WoWTools_L.ADDON_FORCE_LOAD)
         GameTooltip:Show()
     end)
 
@@ -423,7 +423,7 @@ local function Init()
     refesh.texture:SetAtlas('talents-button-undo')
     refesh.texture:SetPoint('CENTER')
     refesh:SetPoint('LEFT', AddonList.ForceLoad, 'RIGHT')
-    refesh.tooltip= WoWTools_DataMixin.onlyChinese and '还原' or TRANSMOGRIFY_TOOLTIP_REVERT
+    refesh.tooltip= WoWTools_L.TRANSMOGRIFY_TOOLTIP_REVERT
     refesh:SetScript('OnClick', function()
         if AddonList.startStatus then
             for i=1,C_AddOns.GetNumAddOns() do

@@ -25,7 +25,7 @@ local function Set_Tab_Label_OnEnter(self, tabID)
         GameTooltip:AddLine(
             WoWTools_DataMixin.Icon.left
             ..'|cnGREEN_FONT_COLOR:<'
-            ..(WoWTools_DataMixin.onlyChinese and '提取' or WITHDRAW)
+            ..(WoWTools_L.WITHDRAW)
             ..'>|A:dressingroom-button-appearancelist-up:0:0|a'
         )
         GameTooltip:Show()
@@ -70,7 +70,7 @@ local function Init()
         GameTooltip:AddLine(
             WoWTools_DataMixin.Icon.left
             ..'|cnGREEN_FONT_COLOR:<'
-            ..(WoWTools_DataMixin.onlyChinese and '提取' or WITHDRAW)
+            ..(WoWTools_L.WITHDRAW)
             ..'>|A:dressingroom-button-appearancelist-up:0:0|a'
         )
         GameTooltip:Show()

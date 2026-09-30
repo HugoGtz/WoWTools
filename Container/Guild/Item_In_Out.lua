@@ -68,8 +68,8 @@ local function Out_Bank(self, tabID, classID, subClassID, onlyItem, numOut)
             WoWTools_GuildBankMixin.isInRun= nil
             print(
                 WoWTools_GuildBankMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '提取' or WITHDRAW)..'|r',
-                WoWTools_DataMixin.onlyChinese and '中断' or INTERRUPT
+                '|cnWARNING_FONT_COLOR:'..(WoWTools_L.WITHDRAW)..'|r',
+                WoWTools_L.INTERRUPT
             )
             return
         end
@@ -94,14 +94,14 @@ local function Out_Bank(self, tabID, classID, subClassID, onlyItem, numOut)
             if freeSlots <= 0  then
                 print(
                     WoWTools_GuildBankMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                    '|cffff00ff'..(WoWTools_DataMixin.onlyChinese and '提取' or WITHDRAW)..'|r',
-                    WoWTools_DataMixin.onlyChinese and '中断' or INTERRUPT
+                    '|cffff00ff'..(WoWTools_L.WITHDRAW)..'|r',
+                    WoWTools_L.INTERRUPT
                 )
             else
                 print(
                     WoWTools_GuildBankMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                    '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '提取' or WITHDRAW)..'|r',
-                    WoWTools_DataMixin.onlyChinese and '完成' or COMPLETE
+                    '|cnGREEN_FONT_COLOR:'..(WoWTools_L.WITHDRAW)..'|r',
+                    WoWTools_L.COMPLETE
                 )
             end
             StopRun= nil
@@ -266,8 +266,8 @@ local function Out_Bags(self, tabID, classID, subClassID, onlyItem)
             print(
                 WoWTools_DataMixin.Icon.icon2..itemIndex,
                 '|cnWARNING_FONT_COLOR:'
-                ..(WoWTools_DataMixin.onlyChinese and '存放' or DEPOSIT)
-                ..'|r', WoWTools_DataMixin.onlyChinese and '中断' or INTERRUPT
+                ..(WoWTools_L['DEPOSIT~2'])
+                ..'|r', WoWTools_L.INTERRUPT
             )
             StopRun=nil
             WoWTools_GuildBankMixin.isInRun= nil
@@ -290,14 +290,14 @@ local function Out_Bags(self, tabID, classID, subClassID, onlyItem)
             if freeSlots <= 0  then
                 print(
                     WoWTools_DataMixin.Icon.icon2..itemIndex,
-                    '|cffff00ff'..(WoWTools_DataMixin.onlyChinese and '存放' or DEPOSIT)..'|r',
-                    WoWTools_DataMixin.onlyChinese and '中断' or INTERRUPT
+                    '|cffff00ff'..(WoWTools_L['DEPOSIT~2'])..'|r',
+                    WoWTools_L.INTERRUPT
                  )
             else
                 print(
                     WoWTools_DataMixin.Icon.icon2..itemIndex,
-                    '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '存放' or DEPOSIT)..'|r',
-                    WoWTools_DataMixin.onlyChinese and '完成' or COMPLETE
+                    '|cnGREEN_FONT_COLOR:'..(WoWTools_L['DEPOSIT~2'])..'|r',
+                    WoWTools_L.COMPLETE
                 )
             end
             StopRun= nil
@@ -495,7 +495,7 @@ local function Init_Out_Bank_Menu(self, root)
     num, items= Get_Bank_Num(tabID, nil, nil, true)
     name= ((disabled or num==0) and '|cff828282' or '')
         ..'|A:Cursor_OpenHand_32:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '提取物品' or WoWTools_Join(WITHDRAW, ITEMS))
+        ..(WoWTools_L['WITHDRAW+ITEMS'])
         ..' #'..num
     sub= root:CreateButton(
        name,
@@ -513,7 +513,7 @@ local function Init_Out_Bank_Menu(self, root)
     num, items= Get_Bank_Num(tabID, nil, nil, false)
     name= ((disabled or num==0) and '|cff828282' or '')
         ..'|A:Cursor_OpenHand_32:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '提取材料' or WoWTools_Join(WITHDRAW, BAG_FILTER_REAGENTS))
+        ..(WoWTools_L['WITHDRAW+BAG_FILTER_REAGENTS'])
         ..' #'..num
     sub= root:CreateButton(
         name,
@@ -554,7 +554,7 @@ local function Init_Out_Bag_Menu(self, root)
     num, items= Get_Bag_Num(nil, nil, true)
     name= ((disabled or num==0) and '|cff828282' or '')
         ..'|A:bag-main:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '存放物品' or WoWTools_Join(DEPOSIT, ITEMS))
+        ..(WoWTools_L['DEPOSIT+ITEMS'])
         ..' #'..num
     sub= root:CreateButton(
         name,
@@ -573,7 +573,7 @@ local function Init_Out_Bag_Menu(self, root)
     num, items= Get_Bag_Num(nil, nil, false)
     name= ((disabled or num==0) and '|cff828282' or '')
         ..'|A:bag-main:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '存放材料' or WoWTools_Join(DEPOSIT, BAG_FILTER_REAGENTS))
+        ..(WoWTools_L['DEPOSIT+BAG_FILTER_REAGENTS'])
         ..' #'..num
     sub= root:CreateButton(
         name,
@@ -647,9 +647,9 @@ local function Init()
 
         GameTooltip_SetTitle(GameTooltip,
             WoWTools_DataMixin.Icon.icon2
-            ..(WoWTools_DataMixin.onlyChinese and '存放' or BANK_DEPOSIT_MONEY_BUTTON_LABEL)
+            ..(WoWTools_L.BANK_DEPOSIT_MONEY_BUTTON_LABEL)
             ..'|A:dressingroom-button-appearancelist-up:0:0|a'
-            ..(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL)
+            ..(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL)
             ..WoWTools_DataMixin.Icon.left
             ..'|cnGREEN_FONT_COLOR:'
             ..(Save().saveItemSeconds or 0.8)
@@ -673,9 +673,9 @@ local function Init()
 
         GameTooltip_SetTitle(GameTooltip,
             WoWTools_DataMixin.Icon.icon2
-            ..(WoWTools_DataMixin.onlyChinese and '提取' or WITHDRAW)
+            ..(WoWTools_L.WITHDRAW)
             ..'|A:dressingroom-button-appearancelist-up:0:0|a'
-            ..(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL)
+            ..(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL)
             ..WoWTools_DataMixin.Icon.left
             ..'|cnGREEN_FONT_COLOR:'
             ..(Save().saveItemSeconds or 0.8)

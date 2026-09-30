@@ -20,7 +20,7 @@ local function Init_Menu(self, root)
     end
 
 --战斗信息
-    local sub=root:CreateCheckbox(WoWTools_DataMixin.onlyChinese and '战斗信息' or WoWTools_Join(COMBAT, INFO), function()
+    local sub=root:CreateCheckbox(WoWTools_L['COMBAT+INFO'], function()
         return not Save().button.disabled
     end, function()
         self:set_Click()
@@ -29,7 +29,7 @@ local function Init_Menu(self, root)
 --重置位置
     sub:CreateButton(
         (Save().textFramePoint and '' or '|cff626262')
-        ..(WoWTools_DataMixin.onlyChinese and '重置位置' or RESET_POSITION),
+        ..(WoWTools_L.RESET_POSITION),
     function()
         Save().button.point=nil
         WoWTools_CombatMixin:Init_TrackButton()
@@ -56,8 +56,7 @@ local function Init_Menu(self, root)
     end)
     if sub then
         sub:SetTooltip(function(tooltip)
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '战斗中缩放'
-                    or WoWTools_Join(HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT, HOUSING_EXPERT_DECOR_SUBMODE_SCALE)
+            tooltip:AddLine(WoWTools_L['HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT+HOUSING_EXPERT_DECOR_SUBMODE_SCALE']
             )
         end)
     end
@@ -79,7 +78,7 @@ local function Init_Menu(self, root)
             WoWTools_TimeMixin:SecondsToFullTime(desc.data.totalTime, desc.data.upData)
         )
         tooltip:AddDoubleLine(
-            format(WoWTools_DataMixin.onlyChinese and '你在这个等级的游戏时间：%s' or TIME_PLAYED_LEVEL, ''),
+            format(WoWTools_L.TIME_PLAYED_LEVEL, ''),
             WoWTools_TimeMixin:SecondsToFullTime(desc.data.levelTime, desc.data.upData)
         )
     end)
@@ -90,7 +89,7 @@ local function Init_Menu(self, root)
     sub=root:CreateButton(
         '|T'..FRIENDS_TEXTURE_AFK..':0|t'
         ..(WoWTools_UnitMixin:UnitIsAFK('player') and '|cff626262' or '')
-        ..(WoWTools_DataMixin.onlyChinese and '暂离' or WoWTools_L['AFK']),
+        ..(WoWTools_L['AFK~2']),
     function()
         WoWTools_ChatMixin:SendText(SLASH_CHAT_AFK1)
         return MenuResponse.Open
@@ -258,7 +257,7 @@ panel:SetScript('OnEvent', function(self, event, arg1)
     end
 
 
-    WoWTools_CombatMixin.addName= '|A:Warfronts-BaseMapIcons-Horde-Barracks-Minimap:0:0|a'..(WoWTools_DataMixin.onlyChinese and '战斗信息' or WoWTools_Join(COMBAT, INFO))
+    WoWTools_CombatMixin.addName= '|A:Warfronts-BaseMapIcons-Horde-Barracks-Minimap:0:0|a'..(WoWTools_L['COMBAT+INFO'])
 
     local notData= not WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Time.totalTime
                 or not WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Time.upData

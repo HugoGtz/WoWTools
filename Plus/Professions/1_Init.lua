@@ -19,7 +19,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             showArcheologyBar=WoWTools_DataMixin.Player.husandro,
         })
 
-        WoWTools_ProfessionMixin.addName= '|A:Professions_Icon_FirstTimeCraft:0:0|a'..(WoWTools_DataMixin.onlyChinese and '专业' or PROFESSIONS_TRACKER_HEADER_PROFESSION)
+        WoWTools_ProfessionMixin.addName= '|A:Professions_Icon_FirstTimeCraft:0:0|a'..(WoWTools_L['PROFESSIONS_TRACKER_HEADER_PROFESSION~2'])
 
         --添加控制面板
         WoWTools_PanelMixin:OnlyCheck({
@@ -28,7 +28,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             GetValue= function() return not Save().disabled end,
             SetValue= function()
                 Save().disabled= not Save().disabled and true or nil
-                print(WoWTools_DataMixin.Icon.icon2..WoWTools_ProfessionMixin.addName, WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled), WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+                print(WoWTools_DataMixin.Icon.icon2..WoWTools_ProfessionMixin.addName, WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled), WoWTools_L.REQUIRES_RELOAD)
             end
         })
 

@@ -63,7 +63,7 @@ local function Init()
         end
         print(
             WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,
-            WoWTools_DataMixin.onlyChinese and '目标' or TARGET,
+            WoWTools_L.TARGET,
             WoWTools_UnitMixin:GetPlayerInfo(nil, guid, name, {reLink=true}),
             ''
         )

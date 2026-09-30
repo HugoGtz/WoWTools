@@ -59,7 +59,7 @@ local function Init()--快速加入, 初始化 QuickJoin.lua
                     nameObj:SetScript('OnEnter', function(self2)
                         GameTooltip:SetOwner(self2, "ANCHOR_LEFT")
                         GameTooltip:ClearLines()
-                        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '/密语' or SLASH_SMART_WHISPER2, self2.col..self2.name)
+                        GameTooltip:AddDoubleLine(WoWTools_L.SLASH_SMART_WHISPER2, self2.col..self2.name)
                         GameTooltip:AddLine(' ')
                         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_FriendsMixin.addName)
                         GameTooltip:Show()

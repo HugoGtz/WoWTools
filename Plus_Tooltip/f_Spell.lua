@@ -54,13 +54,13 @@ local function Set_HunterPet(tooltip, spellID, size)
     if icon2~='' then
         tooltip:AddDoubleLine(
             icon2,
-            WoWTools_DataMixin.onlyChinese and '专精技能' or WoWTools_Join(SPECIALIZATION, ABILITIES)
+            WoWTools_L['SPECIALIZATION+ABILITIES']
         )
     end
     if icon~='' then
         tooltip:AddDoubleLine(
             icon,
-            WoWTools_DataMixin.onlyChinese and '基础技能' or WoWTools_Join(BASE_SETTINGS_TAB, ABILITIES)
+            WoWTools_L['BASE_SETTINGS_TAB+ABILITIES']
         )
     end
 
@@ -96,7 +96,7 @@ function WoWTools_TooltipMixin:Set_Spell(tooltip, spellID)--, actionID)
         spellTexture and '|T'..spellTexture..':'..self.iconSize..'|t|cffffffff'..spellTexture or ' ',
 
         --'spellID|cffffffff'
-        (WoWTools_DataMixin.onlyChinese and '法术' or SPELLS)
+        (WoWTools_L.SPELLS)
         ..WoWTools_DataMixin.Icon.icon2
         ..'|cnHIGHLIGHT_FONT_COLOR:'..spellID
     )
@@ -127,7 +127,7 @@ if overrideSpellID and overrideSpellID~=spellID then
     link= link and link..overrideSpellID or ('overrideSpellID '..overrideSpellID)
     if link then
         spellTexture=  originalIcon2 or icon2 or C_Spell.GetSpellTexture(overrideSpellID)
-        GameTooltip:AddDoubleLine(format(WoWTools_DataMixin.onlyChinese and '代替%s' or REPLACES_SPELL, link), spellTexture and '|T'..spellTexture..':'..self.iconSize..'|t'..spellTexture)
+        GameTooltip:AddDoubleLine(format(WoWTools_L.REPLACES_SPELL, link), spellTexture and '|T'..spellTexture..':'..self.iconSize..'|t'..spellTexture)
     end
 end]]
 

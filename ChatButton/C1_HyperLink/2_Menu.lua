@@ -29,8 +29,8 @@ local function Init_Menu(self, root)
     )
     sub:SetTooltip(function(tooltip)
         if C_SocialRestrictions.IsChatDisabled() then
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '社交' or SOCIALS)
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '关闭聊天' or RESTRICT_CHAT_CONFIG_DISABLE)
+            tooltip:AddLine(WoWTools_L.SOCIALS)
+            tooltip:AddLine(WoWTools_L.RESTRICT_CHAT_CONFIG_DISABLE)
         end
     end)
 
@@ -43,7 +43,7 @@ local function Init_Menu(self, root)
             Save().iconSize=value
             WoWTools_HyperLink:Link_Icon_Settings()
         end,
-        name=WoWTools_DataMixin.onlyChinese and '图标尺寸' or HUD_EDIT_MODE_SETTING_ACTION_BAR_ICON_SIZE,
+        name=WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_ICON_SIZE,
         minValue=0,
         maxValue=32,
         step=1,
@@ -87,7 +87,7 @@ local function Init_Menu(self, root)
 
 --玩家信息
     sub2= sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '玩家信息' or PLAYER_MESSAGES,
+        WoWTools_L.PLAYER_MESSAGES,
     function()
         return not Save().notShowPlayerInfo
     end, function()
@@ -102,7 +102,7 @@ local function Init_Menu(self, root)
 
 --物品数量
     sub2= sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '物品数量' or  WoWTools_Join(ITEMS, AUCTION_HOUSE_QUANTITY_LABEL),
+        WoWTools_L['ITEMS+AUCTION_HOUSE_QUANTITY_LABEL'],
     function()
         return not Save().notShowItemCount
     end, function()
@@ -116,7 +116,7 @@ local function Init_Menu(self, root)
 
 --地图标记
     sub2= sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '地图标记' or  MAP_PIN,
+        WoWTools_L.MAP_PIN,
     function()
             return not Save().notShowMapPin
     end, function()
@@ -134,14 +134,14 @@ local function Init_Menu(self, root)
     sub:CreateDivider()
 --CVar 名称
     sub2=sub:CreateCheckbox(
-        'CVar '..(WoWTools_DataMixin.onlyChinese and '名称' or LFG_LIST_TITLE ),
+        'CVar '..(WoWTools_L.LFG_LIST_TITLE ),
     function()
         return Save().showCVarName
     end, function()
         Save().showCVarName= not Save().showCVarName and true or nil
     end)
     sub2:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '测试' or WoWTools_L['Test'],
+        WoWTools_L['Test'],
     function()
         if InCombatLockdown() then
             return
@@ -158,7 +158,7 @@ local function Init_Menu(self, root)
 --关闭聊天
     sub2=sub:CreateCheckbox(
         (C_SocialRestrictions.IsChatDisabled() and '|cnWARNING_FONT_COLOR:' or '')
-        ..(WoWTools_DataMixin.onlyChinese and '关闭聊天' or RESTRICT_CHAT_CONFIG_DISABLE),
+        ..(WoWTools_L.RESTRICT_CHAT_CONFIG_DISABLE),
     function()
        return C_SocialRestrictions.IsChatDisabled()
     end, function()
@@ -168,8 +168,8 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end)
     sub2:SetTooltip(function (tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '选项' or SETTINGS_TITLE)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '社交' or SOCIALS)
+        tooltip:AddLine(WoWTools_L.SETTINGS_TITLE)
+        tooltip:AddLine(WoWTools_L.SOCIALS)
     end)
 
 
@@ -196,7 +196,7 @@ local function Init_Menu(self, root)
     sub=root:CreateCheckbox(
         col
         ..'|A:chatframe-button-icon-voicechat:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '事件声音' or WoWTools_Join(EVENTS_LABEL, SOUND)),
+        ..(WoWTools_L['EVENTS_LABEL+SOUND']),
     function()
         return Save().setPlayerSound
     end, function()
@@ -210,15 +210,15 @@ local function Init_Menu(self, root)
     end)
 
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and "播放" or SLASH_STOPWATCH_PARAM_PLAY1)
+        tooltip:AddLine(WoWTools_L.SLASH_STOPWATCH_PARAM_PLAY1)
         tooltip:AddLine(' ')
-        tooltip:AddLine(WoWTools_DataMixin:Get_CVar_Tooltips({name='Sound_EnableAllSound', msg=WoWTools_DataMixin.onlyChinese and '开启声效' or ENABLE_SOUND}))
+        tooltip:AddLine(WoWTools_DataMixin:Get_CVar_Tooltips({name='Sound_EnableAllSound', msg=WoWTools_L.ENABLE_SOUND}))
         tooltip:AddLine(' ')
-        tooltip:AddLine(WoWTools_DataMixin:Get_CVar_Tooltips({name='Sound_MasterVolume', msg=WoWTools_DataMixin.onlyChinese and '主音量' or MASTER_VOLUME}))
+        tooltip:AddLine(WoWTools_DataMixin:Get_CVar_Tooltips({name='Sound_MasterVolume', msg=WoWTools_L.MASTER_VOLUME}))
         tooltip:AddLine(' ')
-        tooltip:AddLine(WoWTools_DataMixin:Get_CVar_Tooltips({name='Sound_DialogVolume', msg=WoWTools_DataMixin.onlyChinese and '对话' or DIALOG_VOLUME}))
+        tooltip:AddLine(WoWTools_DataMixin:Get_CVar_Tooltips({name='Sound_DialogVolume', msg=WoWTools_L.DIALOG_VOLUME}))
         tooltip:AddLine(' ')
-        tooltip:AddLine(WoWTools_DataMixin:Get_CVar_Tooltips({name='Sound_EnableDialog', msg=WoWTools_DataMixin.onlyChinese and '启用对话' or ENABLE_DIALOG }))
+        tooltip:AddLine(WoWTools_DataMixin:Get_CVar_Tooltips({name='Sound_EnableDialog', msg=WoWTools_L['ENABLE_DIALOG~2'] }))
     end)
 
 --[[禁用，隐藏NPC发言
@@ -230,11 +230,11 @@ local function Init_Menu(self, root)
         Save().disabledNPCTalking= not Save().disabledNPCTalking and true or nil
     end)
     sub2:SetTooltip(function (tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '对话特写头像' or HUD_EDIT_MODE_TALKING_HEAD_FRAME_LABEL)
+        tooltip:AddLine(WoWTools_L.HUD_EDIT_MODE_TALKING_HEAD_FRAME_LABEL)
     end)
 
 --文本
-    sub:CreateCheckbox('|A:communities-icon-chat:0:0|a'..(WoWTools_DataMixin.onlyChinese and '文本' or LOCALE_TEXT_LABEL), function()
+    sub:CreateCheckbox('|A:communities-icon-chat:0:0|a'..(WoWTools_L.LOCALE_TEXT_LABEL), function()
         return not Save().disabledTalkingPringText
     end, function()
         Save().disabledTalkingPringText= not Save().disabledTalkingPringText and true or nil
@@ -242,7 +242,7 @@ local function Init_Menu(self, root)
 ]]
 --打开，音频
     sub2=sub:CreateButton(
-        col..(WoWTools_DataMixin.onlyChinese and '音频' or AUDIO_LABEL),
+        col..(WoWTools_L.AUDIO_LABEL),
     function()
         if not WoWTools_FrameMixin:IsLocked(SettingsPanel) then
             Settings.OpenToCategory(Settings.AUDIO_CATEGORY_ID)--ItemRef.lua
@@ -250,7 +250,7 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end)
     sub2:SetTooltip(function (tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '选项' or OPTIONS)
+        tooltip:AddLine(WoWTools_L.OPTIONS)
     end)
 
 
@@ -283,7 +283,7 @@ local function Init_Menu(self, root)
     end)
 
 --公会新成员
-    sub2=sub:CreateCheckbox(WoWTools_DataMixin.onlyChinese and '公会新成员' or LFG_LIST_GUILD_MEMBER, function()
+    sub2=sub:CreateCheckbox(WoWTools_L.LFG_LIST_GUILD_MEMBER, function()
         return Save().guildWelcome
     end, function()
         Save().guildWelcome= not Save().guildWelcome and true or nil
@@ -293,9 +293,9 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWToolsPlusPlayerDate['HyperLinkGuildWelcomeText'])
     end)
 
-    sub2= sub:CreateButton('|A:communities-guildbanner-background:0:0|a'..(WoWTools_DataMixin.onlyChinese and '修改' or EDIT), function ()
+    sub2= sub:CreateButton('|A:communities-guildbanner-background:0:0|a'..(WoWTools_L.EDIT), function ()
         StaticPopup_Show('WoWTools_EditText',
-            (WoWTools_DataMixin.onlyChinese and '欢迎加入' or WoWTools_L['Welcome to join'])..'|n|A:communities-guildbanner-background:0:0|a'..(WoWTools_DataMixin.onlyChinese and '公会新成员' or LFG_LIST_GUILD_MEMBER),
+            (WoWTools_L['Welcome to join'])..'|n|A:communities-guildbanner-background:0:0|a'..(WoWTools_L.LFG_LIST_GUILD_MEMBER),
             nil,
             {
                 text=WoWToolsPlusPlayerDate['HyperLinkGuildWelcomeText'],
@@ -314,7 +314,7 @@ local function Init_Menu(self, root)
 
 --队伍新成员
     sub:CreateDivider()
-    sub2=sub:CreateCheckbox(WoWTools_DataMixin.onlyChinese and '队伍新成员' or SPELL_TARGET_TYPE14_DESC, function ()
+    sub2=sub:CreateCheckbox(WoWTools_L.SPELL_TARGET_TYPE14_DESC, function ()
         return Save().groupWelcome
     end, function ()
         Save().groupWelcome= not Save().groupWelcome and true or nil
@@ -334,12 +334,12 @@ local function Init_Menu(self, root)
     sub2:SetTooltip(function (tooltip)
         tooltip:AddLine(WoWToolsPlusPlayerDate['HyperLinkGroupWelcomeText'])
         tooltip:AddLine(' ')
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '队伍查找器' or DUNGEONS_BUTTON)
+        tooltip:AddLine(WoWTools_L.DUNGEONS_BUTTON)
     end)
 
-    sub2= sub:CreateButton('|A:socialqueuing-icon-group:0:0|a'..(WoWTools_DataMixin.onlyChinese and '修改' or EDIT), function ()
+    sub2= sub:CreateButton('|A:socialqueuing-icon-group:0:0|a'..(WoWTools_L.EDIT), function ()
         StaticPopup_Show('WoWTools_EditText',
-            (WoWTools_DataMixin.onlyChinese and '欢迎加入' or WoWTools_L['Welcome to join'])..'|n|A:socialqueuing-icon-group:0:0|a'..(WoWTools_DataMixin.onlyChinese and '队伍新成员' or SPELL_TARGET_TYPE14_DESC),
+            (WoWTools_L['Welcome to join'])..'|n|A:socialqueuing-icon-group:0:0|a'..(WoWTools_L.SPELL_TARGET_TYPE14_DESC),
             nil,
             {
                 text=WoWToolsPlusPlayerDate['HyperLinkGroupWelcomeText'],
@@ -386,7 +386,7 @@ local function Init_Menu(self, root)
 
 --颜色选择器    
     root:CreateButton(
-        '|A:colorblind-colorwheel:0:0|a'..(WoWTools_DataMixin.onlyChinese and '颜色选择器' or COLOR_PICKER),
+        '|A:colorblind-colorwheel:0:0|a'..(WoWTools_L.COLOR_PICKER),
     function()
         if ColorPickerFrame:IsShown() then
             ColorPickerFrame:Hide()
@@ -424,7 +424,7 @@ local function Init_Menu(self, root)
         if Save().hideEventTracePlus then
             print(
                 WoWTools_HyperLink.addName..WoWTools_DataMixin.Icon.icon2,
-                WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+                WoWTools_L.REQUIRES_RELOAD
             )
         end
     end)
@@ -438,8 +438,8 @@ local function Init_Menu(self, root)
         print(
             WoWTools_HyperLink.addName..WoWTools_DataMixin.Icon.icon2,
             Save().eventTracePrint and
-                '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '开始' or START)
-                or ('|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '全部清队' or CLEAR_ALL))
+                '|cnGREEN_FONT_COLOR:'..(WoWTools_L.START)
+                or ('|cnWARNING_FONT_COLOR:'..(WoWTools_L['CLEAR_ALL~3']))
             )
         WoWTools_HyperLink:Init_EventTrace()
     end)
@@ -463,7 +463,7 @@ local function Init_Menu(self, root)
                 return MenuResponse.Open
             end, info)
             sub2:SetTooltip(function(tooltip, desc)
-                tooltip:AddLine('|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '分享链接至聊天栏' or CLUB_FINDER_LINK_POST_IN_CHAT)..WoWTools_DataMixin.Icon.left)
+                tooltip:AddLine('|cnGREEN_FONT_COLOR:'..(WoWTools_L.CLUB_FINDER_LINK_POST_IN_CHAT)..WoWTools_DataMixin.Icon.left)
                 for arg1, num in pairs(desc.data.arg) do
                     tooltip:AddDoubleLine(arg1, num)
                 end
@@ -483,13 +483,13 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end)
     sub:SetTooltip(function (tooltip)
-        tooltip:AddLine('|cnGREEN_FONT_COLOR:Alt|r '..(WoWTools_DataMixin.onlyChinese and '切换' or HUD_EDIT_MODE_SWITCH))
+        tooltip:AddLine('|cnGREEN_FONT_COLOR:Alt|r '..(WoWTools_L.HUD_EDIT_MODE_SWITCH))
         tooltip:AddLine(' ')
-        tooltip:AddLine('|cnGREEN_FONT_COLOR:Ctrl|r '..(WoWTools_DataMixin.onlyChinese and '显示' or SHOW))
+        tooltip:AddLine('|cnGREEN_FONT_COLOR:Ctrl|r '..(WoWTools_L.SHOW))
         tooltip:AddLine(' ')
-        tooltip:AddLine('|cnGREEN_FONT_COLOR:Shift|r '..(WoWTools_DataMixin.onlyChinese and '材质信息' or WoWTools_Join(TEXTURES_SUBHEADER, INFO)))
+        tooltip:AddLine('|cnGREEN_FONT_COLOR:Shift|r '..(WoWTools_L['TEXTURES_SUBHEADER+INFO']))
         tooltip:AddLine(' ')
-        tooltip:AddLine('|cnGREEN_FONT_COLOR:Ctrl+C|r '.. (WoWTools_DataMixin.onlyChinese and '复制' or CALENDAR_COPY_EVENT)..' \"File\" '..(WoWTools_DataMixin.onlyChinese and '类型' or TYPE))
+        tooltip:AddLine('|cnGREEN_FONT_COLOR:Ctrl+C|r '.. (WoWTools_L.CALENDAR_COPY_EVENT)..' \"File\" '..(WoWTools_L.TYPE))
     end)
 
     WoWTools_OtherMixin:OpenOption(sub, 'Plus')
@@ -527,15 +527,15 @@ local function Init_Menu(self, root)
         if not Save().not_Add_Reload_Button then
             print(
                 WoWTools_HyperLink.addName..WoWTools_DataMixin.Icon.icon2,
-                WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+                WoWTools_L.REQUIRES_RELOAD
             )
         end
     end)
     sub2:SetTooltip(function (tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '添加' or ADD)
+        tooltip:AddLine(WoWTools_L.ADD)
         tooltip:AddLine(' ')
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '主菜单' or MAINMENU_BUTTON)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '选项' or OPTIONS)
+        tooltip:AddLine(WoWTools_L.MAINMENU_BUTTON)
+        tooltip:AddLine(WoWTools_L.OPTIONS)
     end)
 end
 

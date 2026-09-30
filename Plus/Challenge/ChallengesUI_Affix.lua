@@ -198,7 +198,7 @@ local function Init()
 
         GameTooltip:AddLine(
             format(
-                WoWTools_DataMixin.onlyChinese and '%s第%d赛季' or EXPANSION_SEASON_NAME,
+                WoWTools_L.EXPANSION_SEASON_NAME,
                 WoWTools_DataMixin.Icon.wow2,
                 sea
             )
@@ -207,14 +207,14 @@ local function Init()
         GameTooltip:AddLine(
             WoWTools_DataMixin.Icon.left
             ..(isCurrentWeek and '' or '|cff828282')
-            ..(WoWTools_DataMixin.onlyChinese and '当前：' or ITEM_UPGRADE_CURRENT)
+            ..(WoWTools_L['ITEM_UPGRADE_CURRENT~2'])
             ..(CurrentWeek or 1)
         )
         if not isCurrentWeek then
             GameTooltip:AddLine(' ')
             GameTooltip:AddLine(
                 '|cnWARNING_FONT_COLOR:'
-                ..(WoWTools_DataMixin.onlyChinese and '当前赛季数据不匹配' or WoWTools_L['Current season data mismatch'])
+                ..(WoWTools_L['Current season data mismatch'])
             )
         end
         GameTooltip:Show()

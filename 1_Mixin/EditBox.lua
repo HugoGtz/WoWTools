@@ -73,7 +73,7 @@ function WoWTools_EditBoxMixin:Create(frame, tab)
     WoWTools_TextureMixin:SetEditBox(editBox)
 
     if editBox.Instructions then
-        editBox.Instructions:SetText(text or (WoWTools_DataMixin.onlyChinese and '搜索' or SEARCH))
+        editBox.Instructions:SetText(text or (WoWTools_L.SEARCH))
     end
     if editBox.searchIcon then
         if atlas then

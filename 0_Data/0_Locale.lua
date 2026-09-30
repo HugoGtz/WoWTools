@@ -88,8 +88,45 @@ local esES= {
 
 local current= (locale=='esES' or locale=='esMX') and esES or enUS
 
+local zhCN= WoWTools_L_zhCN or {}
+
+local function IsGlobalName(key)
+    return key:find('^[A-Z][A-Z0-9_]*$')~=nil
+end
+
+--Texto por defecto cuando no hay traducción propia:
+--  RESET_POSITION        -> texto de Blizzard ya traducido por el cliente
+--  HIDE+SHOW_TUTORIALS   -> los dos textos de Blizzard unidos (se puede reescribir en esES/enUS)
+--  CLAVE~2               -> variante china de CLAVE; fuera del chino es igual que CLAVE
+--  'Texto en inglés'     -> el propio texto
+local function Fallback(key)
+    key= key:gsub('~%d+$', '')
+    local a, b= key:match('^([A-Z][A-Z0-9_]*)%+([A-Z][A-Z0-9_]*)$')
+    if a then
+        return WoWTools_Join(_G[a] or a, _G[b] or b)
+    end
+    if IsGlobalName(key) then
+        local text= _G[key]
+        if type(text)=='string' then
+            return text
+        end
+    end
+    return key
+end
+
+--WoWTools_L.CLAVE / WoWTools_L['clave']: el código no necesita saber el idioma.
+--Chino si el cliente es chino o está activada la opción "solo chino" (WoWTools_DataMixin.onlyChinese).
 WoWTools_L= setmetatable({}, {__index= function(_, key)
-    return current[key] or enUS[key] or key
+    if type(key)~='string' then
+        return key
+    end
+    if WoWTools_DataMixin and WoWTools_DataMixin.onlyChinese then
+        local text= zhCN[key] or zhCN[key:gsub('~%d+$', '')]
+        if text then
+            return text
+        end
+    end
+    return current[key] or enUS[key] or Fallback(key)
 end})
 
 --Une dos textos con un espacio, en el orden dado.

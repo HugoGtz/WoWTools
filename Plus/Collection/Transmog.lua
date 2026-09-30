@@ -97,7 +97,7 @@ local function Init()
         if cost then
             GameTooltip_ShowDisabledTooltip(GameTooltip, self,
                 WoWTools_DataMixin.Icon.icon2
-                ..(WoWTools_DataMixin.onlyChinese and '你的钱不够。' or ERR_NOT_ENOUGH_MONEY),
+                ..(WoWTools_L.ERR_NOT_ENOUGH_MONEY),
                 'ANCHOR_RIGHT'
             )
         end

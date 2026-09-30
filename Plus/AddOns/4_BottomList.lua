@@ -68,11 +68,11 @@ local function Create_Button(index)
             col='|cff999999'
         end
         AddonTooltip:AddDoubleLine(
-            (WoWTools_DataMixin.onlyChinese and '搜索' or SEARCH)
+            (WoWTools_L.SEARCH)
             ..WoWTools_DataMixin.Icon.left
             ..(reason and _G["ADDON_"..reason] and col..WoWTools_TextMixin:CN(_G["ADDON_"..reason]) or ''),
 
-            (WoWTools_DataMixin.onlyChinese and '转到' or NPE_TURN)
+            (WoWTools_L.NPE_TURN)
             ..WoWTools_DataMixin.Icon.right
             ..self:GetID()
         )

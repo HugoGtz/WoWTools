@@ -30,7 +30,7 @@ local function Init_Open_Menu()
         end
         local sub= root:CreateCheckbox(
             (IsOpend and '' or '|cff606060')
-            ..(WoWTools_DataMixin.onlyChinese and '银行' or BANK)
+            ..(WoWTools_L.BANK)
             ..WoWTools_DataMixin.Icon.icon2,
         function()
             return BankFrame and BankFrame:IsShown()
@@ -42,7 +42,7 @@ local function Init_Open_Menu()
         sub:SetTooltip(function(tooltip)
             tooltip:AddLine(
                 WoWTools_DataMixin.Icon.icon2
-                ..(WoWTools_DataMixin.onlyChinese and '显示' or SHOW)
+                ..(WoWTools_L.SHOW)
                 ..WoWTools_BankMixin.addName
             )
         end)
@@ -91,7 +91,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             Save().filterSaveMoney=  Save().filterSaveMoney or {}
             WoWToolsPlusSave['Plus_Bank']= nil
 
-            WoWTools_BankMixin.addName= '|A:Banker:0:0|a'..(WoWTools_DataMixin.onlyChinese and '银行' or BANK)
+            WoWTools_BankMixin.addName= '|A:Banker:0:0|a'..(WoWTools_L.BANK)
 
             if _G['ElvUI_BankContainerFrame'] then
                 self:SetScript('OnEvent', nil)
@@ -107,7 +107,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                     Save().disabled= not Save().disabled and true or nil
                     Init()
                 end,
-                tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '重新加载UI' or RELOADUI)
+                tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_L.RELOADUI)
             })
 
             if Save().disabled then

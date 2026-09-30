@@ -126,7 +126,7 @@ function WoWTools_MoveMixin.Events:Blizzard_MailFrame()--收信箱，物品，�
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(WoWTools_MailMixin.addName, 'UI Plus')
         GameTooltip:AddLine(' ')
-        GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '邮资：' or SEND_MAIL_COST)
+        GameTooltip:AddLine(WoWTools_L.SEND_MAIL_COST)
         GameTooltip:Show()
     end)
     if SendMailCostMoneyFrame then
@@ -153,7 +153,7 @@ function WoWTools_MoveMixin.Events:Blizzard_MailFrame()--收信箱，物品，�
 
     SendMailNameEditBox.Instructions= WoWTools_LabelMixin:Create(SendMailNameEditBox, {layer='BORDER', color={r=0.35, g=0.35, b=0.35}})
     SendMailNameEditBox.Instructions:SetPoint('LEFT')
-    SendMailNameEditBox.Instructions:SetText(WoWTools_DataMixin.onlyChinese and '收件人:' or MAIL_TO_LABEL)
+    SendMailNameEditBox.Instructions:SetText(WoWTools_L['MAIL_TO_LABEL~3'])
     SendMailNameEditBox:HookScript('OnTextChanged', function(s)
         s.Instructions:SetShown(s:GetText() == "")
     end)
@@ -170,7 +170,7 @@ function WoWTools_MoveMixin.Events:Blizzard_MailFrame()--收信箱，物品，�
 
     SendMailSubjectEditBox.Instructions= WoWTools_LabelMixin:Create(SendMailSubjectEditBox, {layer='BORDER', color={r=0.35, g=0.35, b=0.35}})
     SendMailSubjectEditBox.Instructions:SetPoint('LEFT')
-    SendMailSubjectEditBox.Instructions:SetText(WoWTools_DataMixin.onlyChinese and '主题：' or MAIL_SUBJECT_LABEL)
+    SendMailSubjectEditBox.Instructions:SetText(WoWTools_L.MAIL_SUBJECT_LABEL)
     SendMailSubjectEditBox:HookScript('OnTextChanged', function(s)
         s.Instructions:SetShown(s:GetText() == "")
     end)

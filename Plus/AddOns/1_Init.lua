@@ -115,7 +115,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     P_Save=nil
     Save().Bg_Alpha= nil
 
-    WoWTools_AddOnsMixin.addName='|A:Garr_Building-AddFollowerPlus:0:0|a'..(WoWTools_DataMixin.onlyChinese and '插件管理' or WoWTools_Join(ADDONS, CHAT_MODERATE))
+    WoWTools_AddOnsMixin.addName='|A:Garr_Building-AddFollowerPlus:0:0|a'..(WoWTools_L['ADDONS+CHAT_MODERATE'])
 
     --添加控制面板
     WoWTools_PanelMixin:OnlyCheck({
@@ -133,7 +133,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             print(
                 WoWTools_AddOnsMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-                WoWTools_DataMixin.onlyChinese and '需求重新加载' or REQUIRES_RELOAD
+                WoWTools_L['REQUIRES_RELOAD~2']
             )
         end
     })

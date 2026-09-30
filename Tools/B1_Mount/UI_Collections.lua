@@ -20,7 +20,7 @@ local function Init_Menu(self, root)
 
 
     if not mountID then
-        root:CreateTitle((WoWTools_DataMixin.onlyChinese and '尚未发现' or TAXI_PATH_UNREACHABLE)..' mountID')
+        root:CreateTitle((WoWTools_L.TAXI_PATH_UNREACHABLE)..' mountID')
         return
     end
 
@@ -48,7 +48,7 @@ local function Init_Menu(self, root)
 
 
 
-        local text=-- col..(WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS)
+        local text=-- col..(WoWTools_L.SETTINGS)
                 col
                 ..(WoWTools_MountMixin.TypeName[mountType] or mountType)
 
@@ -178,7 +178,7 @@ local function Init_UI_List_Menu(self, root)
 
 
     root:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '勾选所有' or CHECK_ALL,
+        WoWTools_L.CHECK_ALL,
     function()
         self.Type={}
         for _, mountType in pairs(WoWTools_MountMixin.MountType) do
@@ -194,7 +194,7 @@ local function Init_UI_List_Menu(self, root)
     end)
 
     root:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '撤选所有' or UNCHECK_ALL,
+        WoWTools_L.UNCHECK_ALL,
     function()
         self:rest_type()
         self.ResetButton:Click()

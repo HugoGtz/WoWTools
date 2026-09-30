@@ -66,7 +66,7 @@ function WoWTools_KeyMixin:Init(btn, GetValue, notSetup)
         local key=self:GetKEY()
         if key then
             return (WoWTools_KeyMixin:IsKeyValid(self) and '|cnGREEN_FONT_COLOR:' or '|cff828282')
-            ..(WoWTools_DataMixin.onlyChinese and '快捷键' or SETTINGS_KEYBINDINGS_LABEL)
+            ..(WoWTools_L.SETTINGS_KEYBINDINGS_LABEL)
             ..'|A:NPE_Icon:0:0|a'..(key or '')
             ..'|r'
         end
@@ -143,12 +143,12 @@ end]]
 --快捷键
 function WoWTools_KeyMixin:SetMenu(frame, root, tab)
     local sub=root:CreateButton(
-        (WoWTools_DataMixin.onlyChinese and '设置捷键' or WoWTools_Join(SETTINGS, SETTINGS_KEYBINDINGS_LABEL))
+        (WoWTools_L['SETTINGS+SETTINGS_KEYBINDINGS_LABEL'])
         ..(tab.key and ' ['..tab.key..']' or ''),
     function(data)
         StaticPopup_Show('WoWTools_EditText',
             (data.name and data.name..' ' or '')
-            ..(WoWTools_DataMixin.onlyChinese and '快捷键' or SETTINGS_KEYBINDINGS_LABEL)
+            ..(WoWTools_L.SETTINGS_KEYBINDINGS_LABEL)
             ..'|n|n"|cnGREEN_FONT_COLOR:Q|r", "|cnGREEN_FONT_COLOR:ALT-Q|r","|cnGREEN_FONT_COLOR:BUTTON5|r"|n"|cnGREEN_FONT_COLOR:ALT-CTRL-SHIFT-Q|r"',
             nil,
             {
@@ -178,9 +178,9 @@ function WoWTools_KeyMixin:SetMenu(frame, root, tab)
     sub:SetEnabled(not WoWTools_FrameMixin:IsLocked(frame))
 
     sub:SetTooltip(function(tooltip, desc)
-        tooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS, desc.data.name)
+        tooltip:AddDoubleLine(WoWTools_L.SETTINGS, desc.data.name)
         tooltip:AddDoubleLine(
-            WoWTools_DataMixin.onlyChinese and '快捷键' or SETTINGS_KEYBINDINGS_LABEL,
+            WoWTools_L.SETTINGS_KEYBINDINGS_LABEL,
             desc.data.key
         )
         tooltip:AddLine(frame:get_key_text())
@@ -223,7 +223,7 @@ end
 
     local key= WoWTools_KeyMixin:IsKeyValid(self)
     if key then
-        GameTooltip:AddDoubleLine('|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '快捷键' or SETTINGS_KEYBINDINGS_LABEL), '|cnGREEN_FONT_COLOR:'..key)
+        GameTooltip:AddDoubleLine('|cnGREEN_FONT_COLOR:'..(WoWTools_L.SETTINGS_KEYBINDINGS_LABEL), '|cnGREEN_FONT_COLOR:'..key)
     end
 ]]
 

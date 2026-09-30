@@ -177,13 +177,13 @@ local function Init_Menu(self, root)
     root:SetScrollMode(20*44)
 
     sub=root:CreateButton(
-        '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL),
+        '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.CLEAR_ALL),
     function()
         setRest()--重置
         return MenuResponse.Close
     end, {rightText=#RollTab})
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '清除' or SLASH_STOPWATCH_PARAM_STOP2)
+        tooltip:AddLine(WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2)
     end)
     WoWTools_MenuMixin:SetRightText(sub)
 
@@ -202,7 +202,7 @@ local function Init_Menu(self, root)
 --
     sub2= sub:CreateCheckbox(
         '|A:bags-button-autosort-up:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '自动清除' or WoWTools_Join(SELF_CAST_AUTO, SLASH_STOPWATCH_PARAM_STOP2)),
+        ..(WoWTools_L['SELF_CAST_AUTO+SLASH_STOPWATCH_PARAM_STOP2']),
     function ()
         return Save().autoClear
     end, function ()
@@ -215,7 +215,7 @@ local function Init_Menu(self, root)
 --清除记录
     sub2=sub:CreateButton(
         '|A:bags-button-autosort-up:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '清除记录' or WoWTools_Join(SLASH_STOPWATCH_PARAM_STOP2, EVENTTRACE_LOG_HEADER)),
+        ..(WoWTools_L['SLASH_STOPWATCH_PARAM_STOP2+EVENTTRACE_LOG_HEADER']),
     function()
         Save().save={}
         return MenuResponse.CloseAll
@@ -224,9 +224,9 @@ local function Init_Menu(self, root)
 
 --不保存
     sub2:CreateCheckbox(
-        (WoWTools_DataMixin.onlyChinese and '保存' or SAVE)
+        (WoWTools_L.SAVE)
         .. ' 40 '
-        ..(WoWTools_DataMixin.onlyChinese and '条' or AUCTION_HOUSE_QUANTITY_LABEL),
+        ..(WoWTools_L['AUCTION_HOUSE_QUANTITY_LABEL~3']),
     function()
         return Save().saveLog
     end, function()
@@ -248,7 +248,7 @@ local function Init_Menu(self, root)
 
         sub2:SetTooltip(function(tooltip, desc)
             tooltip:AddLine(desc.data.text)
-            GameTooltip_AddHighlightLine(tooltip, '|A:voicechat-icon-textchat-silenced:0:0|a'..(WoWTools_DataMixin.onlyChinese and '发送信息' or SEND_MESSAGE))
+            GameTooltip_AddHighlightLine(tooltip, '|A:voicechat-icon-textchat-silenced:0:0|a'..(WoWTools_L.SEND_MESSAGE))
         end)
         WoWTools_MenuMixin:SetRightText(sub2)
     end
@@ -293,7 +293,7 @@ local function Init_Menu(self, root)
         end, {text=tab.text, rightText=#tab.list})
         sub:SetTooltip(function(tooltip, desc)
             tooltip:AddLine(desc.data.text)
-            GameTooltip_AddHighlightLine(tooltip, '|A:voicechat-icon-textchat-silenced:0:0|a'..(WoWTools_DataMixin.onlyChinese and '发送信息' or SEND_MESSAGE))
+            GameTooltip_AddHighlightLine(tooltip, '|A:voicechat-icon-textchat-silenced:0:0|a'..(WoWTools_L.SEND_MESSAGE))
         end)
         WoWTools_MenuMixin:SetRightText(sub)
 
@@ -306,7 +306,7 @@ local function Init_Menu(self, root)
             end, {text=list.text, rightText=i})
             sub2:SetTooltip(function(tooltip, desc)
                 tooltip:AddLine(desc.data.text)
-                GameTooltip_AddHighlightLine(tooltip, '|A:voicechat-icon-textchat-silenced:0:0|a'..(WoWTools_DataMixin.onlyChinese and '发送信息' or SEND_MESSAGE))
+                GameTooltip_AddHighlightLine(tooltip, '|A:voicechat-icon-textchat-silenced:0:0|a'..(WoWTools_L.SEND_MESSAGE))
             end)
             WoWTools_MenuMixin:SetRightText(sub2)
         end
@@ -422,7 +422,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             WoWToolsPlusSave['ChatButton_Roll']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['ChatButton_Roll'], P_Save)
             P_Save=nil
 
-            addName= '|TInterface\\PVPFrame\\Icons\\PVP-Banner-Emblem-47:0|t'..(WoWTools_DataMixin.onlyChinese and '掷骰' or ROLL)
+            addName= '|TInterface\\PVPFrame\\Icons\\PVP-Banner-Emblem-47:0|t'..(WoWTools_L.ROLL)
 
             RollButton= WoWTools_ChatMixin:CreateButton('Roll', addName)
 

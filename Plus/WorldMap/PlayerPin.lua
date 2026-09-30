@@ -158,7 +158,7 @@ function WoWToolsWorldMapPinMixin:OnLoad()
             return
         end
         root:CreateButton(
-            (WoWTools_DataMixin.onlyChinese and '编辑' or EDIT)
+            (WoWTools_L['EDIT~2'])
             ..' '..btn.xy,
         function()
             WoWTools_WorldMapMixin:PlayerPin_ShowUI({mapID=WoWTools_WorldMapMixin:GetMapID(), xy=btn.xy})
@@ -166,7 +166,7 @@ function WoWToolsWorldMapPinMixin:OnLoad()
         end)
         root:CreateDivider()
         root:CreateButton(
-            WoWTools_DataMixin.onlyChinese and '删除' or DELETE,
+            WoWTools_L.DELETE,
         function()
             SaveWoW()[btn.mapID][btn.xy]= nil
             WoWToolsWorldMapDataProvider:RemoveAllData()
@@ -175,11 +175,11 @@ function WoWToolsWorldMapPinMixin:OnLoad()
         root:CreateDivider()
         root:CreateTitle(
             WoWTools_DataMixin.Icon.left
-            ..(_G['TomTom'] and 'TomTom' or (WoWTools_DataMixin.onlyChinese and '追踪' or TRACKING))
+            ..(_G['TomTom'] and 'TomTom' or (WoWTools_L.TRACKING))
             ..'|A:Waypoint-MapPin-Untracked:0:0|a')
         root:CreateTitle(
             'Alt+'..WoWTools_DataMixin.Icon.right
-            ..(WoWTools_DataMixin.onlyChinese and '移动' or NPE_MOVE)
+            ..(WoWTools_L.NPE_MOVE)
         )
     end)
 
@@ -210,7 +210,7 @@ function WoWToolsWorldMapPinMixin:OnLoad()
             if delTab then
                 print(
                     WoWTools_DataMixin.Icon.icon2
-                    ..WARNING_FONT_COLOR:WrapTextInColorCode(WoWTools_DataMixin.onlyChinese and '替换' or REPLACE),
+                    ..WARNING_FONT_COLOR:WrapTextInColorCode(WoWTools_L.REPLACE),
                     newXY,
                     select(3, WoWTools_TextureMixin:IsAtlas(delTab.icon)) or '',
                     WoWTools_TextMixin:CN(_G[delTab.name]) or delTab.name or '',
@@ -294,14 +294,14 @@ function WoWToolsWorldMapPinMixin:OnMouseEnter()
         GameTooltip_SetTitle(GameTooltip, _G[self.note] or self.note)
         if self.questID then
             GameTooltip:AddLine(
-                (WoWTools_DataMixin.onlyChinese and '任务：' or QUESTS_COLON)
+                (WoWTools_L.QUESTS_COLON)
                 ..WoWTools_QuestMixin:GetName(self.questID)
             )
         end
         if self.achievementID then
             local name= select(2, GetAchievementInfo(self.achievementID))
             name= WoWTools_TextMixin:CN(name) or self.achievementID
-            GameTooltip:AddLine((WoWTools_DataMixin.onlyChinese and '成就' or ACHIEVEMENT_BUTTON)..': '..name)
+            GameTooltip:AddLine((WoWTools_L.ACHIEVEMENT_BUTTON)..': '..name)
             if self.achievementIndex then
                 name= GetAchievementCriteriaInfoByID(self.achievementID, self.achievementIndex)
                 name= WoWTools_TextMixin:CN(name) or ('criteriaID '..self.achievementIndex)
@@ -371,7 +371,7 @@ local function Init_Menu(self, root)
 
         root:CreateSpacer()
         WoWTools_MenuMixin:CreateSlider(root, {
-            name= WoWTools_DataMixin.onlyChinese and '字体' or FONT_SIZE,
+            name= WoWTools_L['FONT_SIZE~2'],
             getValue=function()
                 return SaveWoW()[WorldMapFrame.mapID].options.fontH or PinHeight
             end, setValue=function(value)
@@ -385,7 +385,7 @@ local function Init_Menu(self, root)
         root:CreateSpacer()
 
         WoWTools_MenuMixin:CreateSlider(root, {
-            name= WoWTools_DataMixin.onlyChinese and '图标' or SELF_HIGHLIGHT_ICON,
+            name= WoWTools_L.SELF_HIGHLIGHT_ICON,
             getValue=function()
                 return SaveWoW()[WorldMapFrame.mapID].options.iconS or PinHeight
             end, setValue=function(value)
@@ -425,7 +425,7 @@ local function Init_Menu(self, root)
 --重置位置
     sub:CreateButton(
         (WoWTools_MoveMixin:GetPoint(nil, uiName) and '' or '|cff626262')
-        ..(WoWTools_DataMixin.onlyChinese and '重置位置' or RESET_POSITION),
+        ..(WoWTools_L.RESET_POSITION),
     function()
         WoWTools_MoveMixin:ClearPoint(nil, uiName)--重置位置
         local frame= WoWTools_WorldMapMixin:PlayerPin_GetUIFrame()
@@ -527,8 +527,8 @@ local function Init()
             tooltip:AddDoubleLine('Canvas: |cffffffff'..math.modf(w)..'|r x |cffffffff'..math.modf(h))
         end
         tooltip:AddLine(' ')
-        tooltip:AddLine(WoWTools_DataMixin.Icon.left..(WoWTools_DataMixin.onlyChinese and '新建' or NEW), 1,1,1)
-        tooltip:AddLine(WoWTools_DataMixin.Icon.right..(WoWTools_DataMixin.onlyChinese and '菜单' or CONTACTS_MENU_NAME), 1,1,1)
+        tooltip:AddLine(WoWTools_DataMixin.Icon.left..(WoWTools_L.NEW), 1,1,1)
+        tooltip:AddLine(WoWTools_DataMixin.Icon.right..(WoWTools_L.CONTACTS_MENU_NAME), 1,1,1)
         tooltip:AddLine(WoWTools_DataMixin.Icon.mid..(WoWTools_DataMixin.onlyChinese and 'UI编辑' or WoWTools_Join('UI', EDIT)), 1,1,1)
     end
 
@@ -651,12 +651,12 @@ local function Init()
             if SaveWoW()[mapID] and SaveWoW()[mapID][xy] then
                 tooltip:AddLine(NORMAL_FONT_COLOR:WrapTextInColorCode(
                     '|A:Gear:0:0|a'..'Ctr+Alt '
-                    ..(WoWTools_DataMixin.onlyChinese and '更新' or UPDATE)
+                    ..(WoWTools_L.UPDATE)
                 ))
             else
                 tooltip:AddLine(GREEN_FONT_COLOR:WrapTextInColorCode(
                     '|A:Gear:0:0|a'..'Ctr+Alt '
-                    ..(WoWTools_DataMixin.onlyChinese and '新建' or NEW)
+                    ..(WoWTools_L.NEW)
                 ))
             end
             tooltip:Show()

@@ -49,8 +49,8 @@ local function Init()
                     self:Hide()
                     print(
                         WoWTools_DataMixin.Icon.icon2..WoWTools_TextureMixin.addName,
-                        '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '感谢您的举报！' or ERR_REPORT_SUBMITTED_SUCCESSFULLY)..'|r',
-                        WoWTools_DataMixin.onlyChinese and '关闭' or CLOSE
+                        '|cnGREEN_FONT_COLOR:'..(WoWTools_L.ERR_REPORT_SUBMITTED_SUCCESSFULLY)..'|r',
+                        WoWTools_L.CLOSE
                     )
                 end
             end)
@@ -74,7 +74,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         if arg1== 'WoWToolsPlus' then
             if WoWTools_OtherMixin:AddOption(
                 'HelpTip',
-                '|A:newplayertutorial-drag-cursor:0:0|a'..(WoWTools_DataMixin.onlyChinese and '隐藏教程' or  WoWTools_Join(HIDE, SHOW_TUTORIALS)),
+                '|A:newplayertutorial-drag-cursor:0:0|a'..(WoWTools_L['HIDE+SHOW_TUTORIALS']),
                 nil
             ) then
                 Init()

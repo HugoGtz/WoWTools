@@ -40,7 +40,7 @@ local function ShowFriendshipReputationTooltip(frame)
 	end
 	if frame.canClickForOptions then
 		GameTooltip_AddBlankLineToTooltip(GameTooltip)
-		GameTooltip_AddInstructionLine(GameTooltip, WoWTools_DataMixin.onlyChinese and '<点击查看选项>' or REPUTATION_BUTTON_TOOLTIP_CLICK_INSTRUCTION)
+		GameTooltip_AddInstructionLine(GameTooltip, WoWTools_L.REPUTATION_BUTTON_TOOLTIP_CLICK_INSTRUCTION)
 	end
 	WoWTools_TooltipMixin:Set_Faction(GameTooltip, factionID)
 	GameTooltip:Show()
@@ -65,7 +65,7 @@ local function ShowMajorFactionRenownTooltip(frame)
 
 	if frame.canClickForOptions then
 		GameTooltip_AddBlankLineToTooltip(GameTooltip)
-		GameTooltip_AddInstructionLine(GameTooltip, WoWTools_DataMixin.onlyChinese and '<点击查看选项>>' or REPUTATION_BUTTON_TOOLTIP_CLICK_INSTRUCTION)
+		GameTooltip_AddInstructionLine(GameTooltip, WoWTools_L['REPUTATION_BUTTON_TOOLTIP_CLICK_INSTRUCTION~2'])
 	end
 
 	WoWTools_TooltipMixin:Set_Faction(GameTooltip, factionID)
@@ -83,7 +83,7 @@ local function ShowStandardTooltip(frame)
 
 		if frame.canClickForOptions then
 			GameTooltip_AddBlankLineToTooltip(GameTooltip)
-			GameTooltip_AddInstructionLine(GameTooltip, WoWTools_DataMixin.onlyChinese and '<点击查看选项>' or REPUTATION_BUTTON_TOOLTIP_CLICK_INSTRUCTION)
+			GameTooltip_AddInstructionLine(GameTooltip, WoWTools_L.REPUTATION_BUTTON_TOOLTIP_CLICK_INSTRUCTION)
 		end
 		WoWTools_TooltipMixin:Set_Faction(GameTooltip, factionID)
 		GameTooltip:Show()

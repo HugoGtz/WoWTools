@@ -84,7 +84,7 @@ local function Init()
         end
         print(
             WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,
-            WoWTools_DataMixin.onlyChinese and '召唤' or SUMMON,
+            WoWTools_L.SUMMON,
             name,
             '|A:poi-islands-table:0:0|a|cnGREEN_FONT_COLOR:',
             WoWTools_TextMixin:CN(C_SummonInfo.GetSummonConfirmAreaName()),

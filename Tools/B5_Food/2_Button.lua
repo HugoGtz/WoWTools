@@ -207,7 +207,7 @@ local function Init()
     btn:SetScript('OnMouseWheel',function(self, d)
         if not IsModifierKeyDown() then
             if not self:CanChangeAttribute() then
-                print(WoWTools_FoodMixin.addName..WoWTools_DataMixin.Icon.icon2, '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT))
+                print(WoWTools_FoodMixin.addName..WoWTools_DataMixin.Icon.icon2, '|cnWARNING_FONT_COLOR:'..(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT))
             else
                 WoWTools_FoodMixin:Check_Items(true)
             end
@@ -223,13 +223,13 @@ local function Init()
         GameTooltip:ClearLines()
         local itemID, itemLink = self:get_tooltip_item()
         if itemID and itemLink then
-            GameTooltip:AddDoubleLine(WoWTools_ItemMixin:GetName(itemID), WoWTools_DataMixin.onlyChinese and '添加自定义' or WoWTools_Join(ADD, CUSTOM))
+            GameTooltip:AddDoubleLine(WoWTools_ItemMixin:GetName(itemID), WoWTools_L['ADD+CUSTOM'])
         else
             GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_FoodMixin.addName)
             GameTooltip:AddLine(' ')
-            GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
-            GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '移动' or NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)
-            GameTooltip:AddDoubleLine((self:CanChangeAttribute() and '' or '|cff626262')..(WoWTools_DataMixin.onlyChinese and '查询' or WHO), WoWTools_DataMixin.Icon.mid)
+            GameTooltip:AddDoubleLine(WoWTools_L.SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
+            GameTooltip:AddDoubleLine(WoWTools_L.NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)
+            GameTooltip:AddDoubleLine((self:CanChangeAttribute() and '' or '|cff626262')..(WoWTools_L.WHO), WoWTools_DataMixin.Icon.mid)
 
             GameTooltip:AddLine(' ')
             if self.alt then

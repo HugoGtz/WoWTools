@@ -31,21 +31,21 @@ function WoWTools_TooltipMixin:Set_Achievement(tooltip, achievementID)--成就
     tooltip:AddDoubleLine(
         icon and '|T'..icon..':'..self.iconSize..'|t|cffffffff'..icon or ' ',
 
-        (WoWTools_DataMixin.onlyChinese and '成就' or ACHIEVEMENTS)
+        (WoWTools_L.ACHIEVEMENTS)
         ..WoWTools_DataMixin.Icon.icon2
         ..(flags==0x20000 and '|cff00ccff'..WoWTools_DataMixin.Icon.wow2 or '|cffffffff')
         ..achievementID
     )
 --点数
-    local textLeft= (points or 0)..(WoWTools_DataMixin.onlyChinese and '点' or RESAMPLE_QUALITY_POINT)
+    local textLeft= (points or 0)..(WoWTools_L.RESAMPLE_QUALITY_POINT)
 --否是完成
     local text2Left= completed
-                    and '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '已完成' or CRITERIA_COMPLETED)
-                    or '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '未完成' or ACHIEVEMENTFRAME_FILTER_INCOMPLETE)
+                    and '|cnGREEN_FONT_COLOR:'..(WoWTools_L.CRITERIA_COMPLETED)
+                    or '|cnWARNING_FONT_COLOR:'..(WoWTools_L.ACHIEVEMENTFRAME_FILTER_INCOMPLETE)
 --公会成就
-    local textRight= (isGuild or flags==0x4000) and (WoWTools_DataMixin.onlyChinese and '公会成就' or GUILD_ACHIEVEMENTS_TITLE) or nil
+    local textRight= (isGuild or flags==0x4000) and (WoWTools_L.GUILD_ACHIEVEMENTS_TITLE) or nil
 --是，战团通用
-    local text2Right= flags==0x20000 and (WoWTools_DataMixin.Icon.net2..'|cff00ccff'..(WoWTools_DataMixin.onlyChinese and '战团通用' or ITEM_UPGRADE_DISCOUNT_TOOLTIP_ACCOUNT_WIDE)) or nil
+    local text2Right= flags==0x20000 and (WoWTools_DataMixin.Icon.net2..'|cff00ccff'..(WoWTools_L.ITEM_UPGRADE_DISCOUNT_TOOLTIP_ACCOUNT_WIDE)) or nil
 
     if tooltip.IsEmbedded then--嵌入式
         tooltip:AddLine(textLeft)

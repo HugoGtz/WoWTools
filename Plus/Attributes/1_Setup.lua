@@ -37,29 +37,29 @@ local function set_Tabs()
     Tabs={
         {name='STATUS', r=r, g=g, b=b, a=1, useNumber=true, textValue=true},
 
-        {name= 'CRITCHANCE', text= WoWTools_DataMixin.onlyChinese and '爆击' or STAT_CRITICAL_STRIKE, bar=true, dps=true, textValue=true, zeroShow=true},
-        {name= 'HASTE', text= WoWTools_DataMixin.onlyChinese and '急速' or STAT_HASTE, bar=true, dps=true, textValue=true, zeroShow=true},
-        {name= 'MASTERY', text= WoWTools_DataMixin.onlyChinese and '精通' or STAT_MASTERY, bar=true, dps=true, textValue=true, zeroShow=true},
-        {name= 'VERSATILITY', text= WoWTools_DataMixin.onlyChinese and '全能' or STAT_VERSATILITY, bar=true, dps=true, textValue=true, zeroShow=true},--5
+        {name= 'CRITCHANCE', text= WoWTools_L.STAT_CRITICAL_STRIKE, bar=true, dps=true, textValue=true, zeroShow=true},
+        {name= 'HASTE', text= WoWTools_L.STAT_HASTE, bar=true, dps=true, textValue=true, zeroShow=true},
+        {name= 'MASTERY', text= WoWTools_L.STAT_MASTERY, bar=true, dps=true, textValue=true, zeroShow=true},
+        {name= 'VERSATILITY', text= WoWTools_L.STAT_VERSATILITY, bar=true, dps=true, textValue=true, zeroShow=true},--5
 
-        {name= 'LIFESTEAL', text= WoWTools_DataMixin.onlyChinese and '吸血' or STAT_LIFESTEAL, bar=true, textValue=true},--6
-        {name= 'AVOIDANCE', text= WoWTools_DataMixin.onlyChinese and '闪避' or STAT_AVOIDANCE, bar=true, textValue=true},--7
+        {name= 'LIFESTEAL', text= WoWTools_L.STAT_LIFESTEAL, bar=true, textValue=true},--6
+        {name= 'AVOIDANCE', text= WoWTools_L.STAT_AVOIDANCE, bar=true, textValue=true},--7
 
-        {name= 'ARMOR', text= WoWTools_DataMixin.onlyChinese and '护甲' or STAT_ARMOR, bar=true, tank=true, textValue=true},
-        {name= 'DODGE', text= WoWTools_DataMixin.onlyChinese and '躲闪' or STAT_DODGE, bar=true, tank=true, textValue=true},--9
-        {name= 'PARRY', text= WoWTools_DataMixin.onlyChinese and '招架' or STAT_PARRY, bar=true, tank=true, textValue=true},--10
-        {name= 'BLOCK', text= WoWTools_DataMixin.onlyChinese and '格挡' or STAT_BLOCK, bar=true, tank=true, textValue=true},--11
-        {name= 'STAGGER', text= WoWTools_DataMixin.onlyChinese and '醉拳' or STAT_STAGGER, bar=true, tank=true, usePercent=true, textValue=true},--12
+        {name= 'ARMOR', text= WoWTools_L.STAT_ARMOR, bar=true, tank=true, textValue=true},
+        {name= 'DODGE', text= WoWTools_L.STAT_DODGE, bar=true, tank=true, textValue=true},--9
+        {name= 'PARRY', text= WoWTools_L.STAT_PARRY, bar=true, tank=true, textValue=true},--10
+        {name= 'BLOCK', text= WoWTools_L.STAT_BLOCK, bar=true, tank=true, textValue=true},--11
+        {name= 'STAGGER', text= WoWTools_L.STAT_STAGGER, bar=true, tank=true, usePercent=true, textValue=true},--12
 
-        {name= 'SPEED', text= WoWTools_DataMixin.onlyChinese and '移动' or NPE_MOVE},--13
+        {name= 'SPEED', text= WoWTools_L.NPE_MOVE},--13
     }
 
     if PrimaryStat==LE_UNIT_STAT_STRENGTH then
-        Tabs[1].text= WoWTools_DataMixin.onlyChinese and '力量' or SPEC_FRAME_PRIMARY_STAT_STRENGTH
+        Tabs[1].text= WoWTools_L.SPEC_FRAME_PRIMARY_STAT_STRENGTH
     elseif PrimaryStat==LE_UNIT_STAT_AGILITY then
-        Tabs[1].text= WoWTools_DataMixin.onlyChinese and '敏捷' or SPEC_FRAME_PRIMARY_STAT_AGILITY
+        Tabs[1].text= WoWTools_L.SPEC_FRAME_PRIMARY_STAT_AGILITY
     else
-        Tabs[1].text= WoWTools_DataMixin.onlyChinese and '智力' or SPEC_FRAME_PRIMARY_STAT_INTELLECT
+        Tabs[1].text= WoWTools_L.SPEC_FRAME_PRIMARY_STAT_INTELLECT
     end
 
     for index, info in pairs(Tabs) do

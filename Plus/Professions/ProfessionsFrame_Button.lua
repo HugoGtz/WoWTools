@@ -244,13 +244,13 @@ local function Init_Menu(self, root)
 
 --启用
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '显示快捷按钮' or SHOW_QUICK_BUTTON,
+        WoWTools_L['SHOW_QUICK_BUTTON~3'],
     function()
         return Save().setButton
     end, function()
         Save().setButton= not Save().setButton and true or false
         if Save().showFuocoButton  then
-            print(WoWTools_DataMixin.addName,  WoWTools_ProfessionMixin.addName, WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+            print(WoWTools_DataMixin.addName,  WoWTools_ProfessionMixin.addName, WoWTools_L.REQUIRES_RELOAD)
         end
         Init()
     end)
@@ -266,9 +266,9 @@ local function Init_Menu(self, root)
     end)
     sub2:SetTooltip(function(tooltip)
         tooltip:AddLine('|cnWARNING_FONT_COLOR:BUG')
-        tooltip:AddLine((WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT )..': '..WoWTools_TextMixin:GetShowHide(false))
+        tooltip:AddLine((WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT )..': '..WoWTools_TextMixin:GetShowHide(false))
         tooltip:AddLine(' ')
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+        tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 
     sub:CreateDivider()
@@ -310,7 +310,7 @@ function WoWTools_ProfessionMixin:Init_ProfessionsFrame_Button()
     btn:SetScript('OnEnter', function(f)
         GameTooltip:SetOwner(f, "ANCHOR_RIGHT")
         GameTooltip:ClearLines()
-        GameTooltip:AddDoubleLine((WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL)..WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine((WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL)..WoWTools_DataMixin.Icon.left)
         GameTooltip:Show()
     end)
 

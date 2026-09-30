@@ -23,7 +23,7 @@ local function Init_Menu(self, root)
     local sub
 
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '栏位' or TRADESKILL_FILTER_SLOTS,
+        WoWTools_L.TRADESKILL_FILTER_SLOTS,
     function()
         return not Save().hide
     end, function()
@@ -34,7 +34,7 @@ local function Init_Menu(self, root)
 
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
-        name= WoWTools_DataMixin.onlyChinese and '字体大小' or FONT_SIZE,
+        name= WoWTools_L.FONT_SIZE,
         getValue=function()
             return Save().statFontSize or 12
         end, setValue=function(value)
@@ -88,7 +88,7 @@ local function Init_Menu(self, root)
     if WoWTools_DataMixin.Player.Ver>=120005 then--11.0.5会出错误
         root:CreateDivider()
         sub=root:CreateCheckbox(
-            WoWTools_DataMixin.onlyChinese and '属性' or STAT_CATEGORY_ATTRIBUTES,
+            WoWTools_L.STAT_CATEGORY_ATTRIBUTES,
         function()
             return not Save().notStatusPlus
         end, function ()
@@ -96,7 +96,7 @@ local function Init_Menu(self, root)
             WoWTools_PaperDollMixin:Init_Status()
         end)
         sub:SetTooltip(function(tooltip)
-            GameTooltip_AddErrorLine(tooltip, WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+            GameTooltip_AddErrorLine(tooltip, WoWTools_L.REQUIRES_RELOAD)
         end)
     end
 
@@ -110,9 +110,9 @@ local function Init_Menu(self, root)
         WoWTools_PaperDollMixin:Init_Status_Bit()
     end, {rightText= Save().itemLevelBit or -1})
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine((WoWTools_DataMixin.onlyChinese and '急速' or SPELL_HASTE)..': |cffffffff9037|r|cnGREEN_FONT_COLOR:[+13%]|r  13|cffff00ff.69|r%')
+        tooltip:AddLine((WoWTools_L.SPELL_HASTE)..': |cffffffff9037|r|cnGREEN_FONT_COLOR:[+13%]|r  13|cffff00ff.69|r%')
         tooltip:AddLine(' ')
-        GameTooltip_AddErrorLine(tooltip, WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+        GameTooltip_AddErrorLine(tooltip, WoWTools_L.REQUIRES_RELOAD)
     end)
     WoWTools_MenuMixin:SetRightText(sub)
 
@@ -122,8 +122,8 @@ local function Init_Menu(self, root)
     for i=-1, 4 do
         sub:CreateRadio(
             bitColor
-            ..(i==-1 and (WoWTools_DataMixin.onlyChinese and '无' or NONE)
-             or ((WoWTools_DataMixin.onlyChinese and '小数点 ' or WoWTools_L['Decimals '])..i)),
+            ..(i==-1 and (WoWTools_L.NONE)
+             or ((WoWTools_L['Decimals '])..i)),
         function(data)
             return Save().itemLevelBit==data.bit
         end, function(data)
@@ -138,7 +138,7 @@ local function Init_Menu(self, root)
  --服务器
     root:CreateDivider()
     root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '服务器' or VAS_REALM_LABEL,
+        WoWTools_L.VAS_REALM_LABEL,
     function()
         return not Save().notRealm
     end, function()
@@ -149,7 +149,7 @@ local function Init_Menu(self, root)
 
 
     root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '等级' or LEVEL,
+        WoWTools_L.LEVEL,
     function()
         return not Save().notLevel
     end, function()
@@ -160,7 +160,7 @@ local function Init_Menu(self, root)
 
     root:CreateDivider()
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '弹出框' or WoWTools_L['Flyout'],
+        WoWTools_L['Flyout'],
     function()
         return not Save().notFlyout
     end, function()
@@ -192,9 +192,9 @@ local function Init_Menu(self, root)
         WoWTools_PaperDollMixin:Init_TabPlus()
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '角色属性' or PAPERDOLL_SIDEBAR_STATS)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '头衔' or PAPERDOLL_SIDEBAR_TITLES)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '装备管理' or GEARSETS_TITLE)
+        tooltip:AddLine(WoWTools_L.PAPERDOLL_SIDEBAR_STATS)
+        tooltip:AddLine(WoWTools_L.PAPERDOLL_SIDEBAR_TITLES)
+        tooltip:AddLine(WoWTools_L.GEARSETS_TITLE)
     end)
 
 --打开选项界面
@@ -323,9 +323,9 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             end
 
             WoWTools_PaperDollMixin.addName= (WoWTools_DataMixin.Player.Sex==Enum.UnitSex.Female and '|A:charactercreate-gendericon-female-selected:0:0|a' or '|A:charactercreate-gendericon-male-selected:0:0|a')
-                                        ..(WoWTools_DataMixin.onlyChinese and '角色' or CHARACTER)
+                                        ..(WoWTools_L.CHARACTER)
 
-            WoWTools_PaperDollMixin.addName2= '|A:bags-icon-equipment:0:0|a'..(WoWTools_DataMixin.onlyChinese and '装备管理' or EQUIPMENT_MANAGER)
+            WoWTools_PaperDollMixin.addName2= '|A:bags-icon-equipment:0:0|a'..(WoWTools_L.EQUIPMENT_MANAGER)
 
             --WoWTools_PaperDollMixin.addName3= '|A:loottoast-arrow-orange:0:0|a'..(WoWTools_DataMixin.onlyChinese and '属性' or STAT_CATEGORY_ATTRIBUTES)
 
@@ -338,7 +338,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                     print(
                         WoWTools_DataMixin.Icon.icon2..WoWTools_PaperDollMixin.addName,
                         WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-                        WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+                        WoWTools_L.REQUIRES_RELOAD
                     )
                 end,
             })

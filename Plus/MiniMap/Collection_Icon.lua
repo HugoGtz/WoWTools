@@ -393,11 +393,11 @@ local function Init_noAdd_Menu(self, root)
     local sub
 
 --过滤
-    sub= root:CreateButton(WoWTools_DataMixin.onlyChinese and '过滤' or AUCTION_HOUSE_SEARCH_BAR_FILTERS_LABEL, function() return MenuResponse.Open end)
+    sub= root:CreateButton(WoWTools_L.AUCTION_HOUSE_SEARCH_BAR_FILTERS_LABEL, function() return MenuResponse.Open end)
 
 --勾选所有    
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '勾选所有' or CHECK_ALL,
+        WoWTools_L.CHECK_ALL,
     function()
         for name, btn in pairs(Get_All_Objects()) do
             Save().Icons.noAdd[name]=true
@@ -409,7 +409,7 @@ local function Init_noAdd_Menu(self, root)
     end)
 --撤选所有
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '撤选所有' or UNCHECK_ALL,
+        WoWTools_L.UNCHECK_ALL,
     function()
         for name, btn in pairs(Get_All_Objects()) do
             Save().Icons.noAdd[name]=nil
@@ -430,7 +430,7 @@ local function Init_noAdd_Menu(self, root)
             Save().Icons.borderAlpha2=value
             self:settings()
         end,
-        name=WoWTools_DataMixin.onlyChinese and '外框透明度' or WoWTools_L['Border opacity'],
+        name=WoWTools_L['Border opacity'],
         minValue=0,
         maxValue=1,
         step=0.05,
@@ -447,7 +447,7 @@ local function Init_noAdd_Menu(self, root)
             Save().Icons.bgAlpha2=value
             self:settings()
         end,
-        name=WoWTools_DataMixin.onlyChinese and '背景透明度' or WoWTools_L['Background opacity'],
+        name=WoWTools_L['Background opacity'],
         minValue=0,
         maxValue=1,
         step=0.05,
@@ -506,11 +506,11 @@ local function Init_hideAdd_Menu(self, root)
     local sub
     local index= 0
 
-    sub= root:CreateButton(WoWTools_DataMixin.onlyChinese and '隐藏' or HIDE, function() return MenuResponse.Open end)
+    sub= root:CreateButton(WoWTools_L.HIDE, function() return MenuResponse.Open end)
 
 --勾选所有    
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '勾选所有' or CHECK_ALL,
+        WoWTools_L.CHECK_ALL,
     function()
         for name, btn in pairs(Get_All_Objects()) do
             Save().Icons.noAdd[name]=nil
@@ -523,7 +523,7 @@ local function Init_hideAdd_Menu(self, root)
 
 --撤选所有
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '撤选所有' or UNCHECK_ALL,
+        WoWTools_L.UNCHECK_ALL,
     function()
         for name, btn in pairs(Get_All_Objects()) do
             Save().Icons.hideAdd[name]=nil
@@ -580,12 +580,12 @@ local function Init_UserAdd_Menu(_, root)
     local num= 0
 
     sub= root:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '添加' or ADD,
+        WoWTools_L.ADD,
     function()
         StaticPopup_Show('WoWTools_EditText',
         (WoWTools_DataMixin.onlyChinese and '添加按钮' or WoWTools_Join(ADD, 'Button'))
-        ..'\n_G['..(WoWTools_DataMixin.onlyChinese and '名称' or NAME)..']'
-        ..'\n\n'..(WoWTools_DataMixin.onlyChinese and '名称' or NAME)..': ',
+        ..'\n_G['..(WoWTools_L.NAME)..']'
+        ..'\n\n'..(WoWTools_L.NAME)..': ',
         nil,
         {
 
@@ -611,12 +611,12 @@ local function Init_UserAdd_Menu(_, root)
                 if _G[text] and _G[text].GetFrameStrata then
                     b1:SetText(
                         '|cnGREEN_FONT_COLOR:'
-                        ..(WoWTools_DataMixin.onlyChinese and '添加' or ADD)
+                        ..(WoWTools_L.ADD)
                     )
                 else
                     b1:SetText(
                         '|cff626262'
-                        ..(WoWTools_DataMixin.onlyChinese and '添加' or ADD)
+                        ..(WoWTools_L.ADD)
                     )
                 end
                 b3:SetEnabled(text~='' and Save().Icons.userAdd[text] and true or false)
@@ -634,19 +634,19 @@ local function Init_UserAdd_Menu(_, root)
         return MenuResponse.Open
     end)
     sub2:SetTooltip(function (tooltip)
-        tooltip:AddLine('|cnGREEN_FONT_COLOR:Alt|r '..(WoWTools_DataMixin.onlyChinese and '切换' or HUD_EDIT_MODE_SWITCH))
+        tooltip:AddLine('|cnGREEN_FONT_COLOR:Alt|r '..(WoWTools_L.HUD_EDIT_MODE_SWITCH))
         tooltip:AddLine(' ')
-        tooltip:AddLine('|cnGREEN_FONT_COLOR:Ctrl|r '..(WoWTools_DataMixin.onlyChinese and '显示' or SHOW))
+        tooltip:AddLine('|cnGREEN_FONT_COLOR:Ctrl|r '..(WoWTools_L.SHOW))
         tooltip:AddLine(' ')
-        tooltip:AddLine('|cnGREEN_FONT_COLOR:Shift|r '..(WoWTools_DataMixin.onlyChinese and '材质信息' or WoWTools_Join(TEXTURES_SUBHEADER, INFO)))
+        tooltip:AddLine('|cnGREEN_FONT_COLOR:Shift|r '..(WoWTools_L['TEXTURES_SUBHEADER+INFO']))
         tooltip:AddLine(' ')
-        tooltip:AddLine('|cnGREEN_FONT_COLOR:Ctrl+C|r '.. (WoWTools_DataMixin.onlyChinese and '复制' or CALENDAR_COPY_EVENT)..' \"File\" '..(WoWTools_DataMixin.onlyChinese and '类型' or TYPE))
+        tooltip:AddLine('|cnGREEN_FONT_COLOR:Ctrl+C|r '.. (WoWTools_L.CALENDAR_COPY_EVENT)..' \"File\" '..(WoWTools_L.TYPE))
     end)
 
     sub:CreateDivider()
 --勾选所有    
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '勾选所有' or CHECK_ALL,
+        WoWTools_L.CHECK_ALL,
     function()
         for name in pairs(Save().Icons.userAdd) do
             Save().Icons.userAdd[name]=true
@@ -656,7 +656,7 @@ local function Init_UserAdd_Menu(_, root)
     end)
 --撤选所有
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '撤选所有' or UNCHECK_ALL,
+        WoWTools_L.UNCHECK_ALL,
     function()
         for name in pairs(Save().Icons.userAdd) do
             Rest_Ueser_Button(_G[name])
@@ -669,10 +669,10 @@ local function Init_UserAdd_Menu(_, root)
 --全部清除
     sub:CreateDivider()
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL,
+        WoWTools_L.CLEAR_ALL,
     function()
         StaticPopup_Show('WoWTools_OK',
-        WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL,
+        WoWTools_L.CLEAR_ALL,
         nil,
         {SetValue=function()
             for name in pairs(Save().Icons.userAdd) do
@@ -707,13 +707,13 @@ local function Init_UserAdd_Menu(_, root)
                 tooltip:AddLine(desc.data)
                 tooltip:AddLine(
                     '|cff626262'
-                    ..(WoWTools_DataMixin.onlyChinese and '无效按钮' or CHAR_NAME_FAILURE)
+                    ..(WoWTools_L.CHAR_NAME_FAILURE)
                 )
             end
         end)
 
         sub:CreateCheckbox(
-            WoWTools_DataMixin.onlyChinese and '清除' or SLASH_STOPWATCH_PARAM_STOP2,
+            WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2,
         function(data)
             return Save().Icons.userAdd[data.name]~=nil
         end, function(data)
@@ -757,7 +757,7 @@ local function Init_Menu(self, root)
 
 --显示/隐藏
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '显示' or SHOW,
+        WoWTools_L.SHOW,
     function()
         return self.frame:IsShown()
     end, function()
@@ -770,19 +770,19 @@ local function Init_Menu(self, root)
 
     --sub:CreateDivider()
 --显示
-    sub:CreateTitle(WoWTools_DataMixin.onlyChinese and '显示' or SHOW)
-    sub:CreateCheckbox('|A:newplayertutorial-drag-cursor:0:0|a'..(WoWTools_DataMixin.onlyChinese and '移过图标' or WoWTools_Join(ENTER_LFG,EMBLEM_SYMBOL)), function()
+    sub:CreateTitle(WoWTools_L.SHOW)
+    sub:CreateCheckbox('|A:newplayertutorial-drag-cursor:0:0|a'..(WoWTools_L['ENTER_LFG+EMBLEM_SYMBOL']), function()
         return Save().isEnterShow
     end, function()
         Save().isEnterShow = not Save().isEnterShow and true or nil
     end)
 
 --隐藏
-    sub:CreateTitle(WoWTools_DataMixin.onlyChinese and '隐藏' or HIDE)
+    sub:CreateTitle(WoWTools_L.HIDE)
 --进入战斗，隐藏
     sub:CreateCheckbox(
         '|A:Warfronts-BaseMapIcons-Horde-Barracks-Minimap:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '进入战斗' or ENTERING_COMBAT),
+        ..(WoWTools_L.ENTERING_COMBAT),
     function()
         return Save().Icons.hideInCombat
     end, function()
@@ -793,7 +793,7 @@ local function Init_Menu(self, root)
 --移动时，隐藏
     sub:CreateCheckbox(
         '|A:transmog-gearSlot-unassigned-feet:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '移动' or NPE_MOVE),
+        ..(WoWTools_L.NPE_MOVE),
     function()
         return Save().Icons.hideInMove
     end, function()
@@ -815,7 +815,7 @@ local function Init_Menu(self, root)
             Save().Icons.borderAlpha=value
             self:settings()
         end,
-        name=WoWTools_DataMixin.onlyChinese and '外框透明度' or WoWTools_L['Border opacity'],
+        name=WoWTools_L['Border opacity'],
         minValue=0,
         maxValue=1,
         step=0.05,
@@ -832,7 +832,7 @@ local function Init_Menu(self, root)
             Save().Icons.bgAlpha=value
             self:settings()
         end,
-        name=WoWTools_DataMixin.onlyChinese and '背景透明度' or WoWTools_L['Background opacity'],
+        name=WoWTools_L['Background opacity'],
         minValue=0,
         maxValue=1,
         step=0.05,
@@ -866,7 +866,7 @@ local function Init_Menu(self, root)
             Save().Icons.numLine=value
             self:settings()
         end,
-        name=WoWTools_DataMixin.onlyChinese and '数量' or AUCTION_HOUSE_QUANTITY_LABEL,
+        name=WoWTools_L.AUCTION_HOUSE_QUANTITY_LABEL,
         minValue=1,
         maxValue=num+1,
         step=1,
@@ -875,7 +875,7 @@ local function Init_Menu(self, root)
 
 --升序
     sub2= sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '升序' or PERKS_PROGRAM_ASCENDING,
+        WoWTools_L.PERKS_PROGRAM_ASCENDING,
     function()
         return Save().Icons.isSortUp
     end, function()
@@ -883,20 +883,20 @@ local function Init_Menu(self, root)
         self:settings()
     end)
     sub2:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '按字母排序' or OPTION_RAID_SORT_BY_ALPHABETICAL)
+        tooltip:AddLine(WoWTools_L.OPTION_RAID_SORT_BY_ALPHABETICAL)
     end)
 
 
 
 --刷新
     root:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '刷新' or REFRESH,
+        WoWTools_L.REFRESH,
     function()
         Init_Buttons()
         print(
             WoWTools_DataMixin.Icon.icon2,
-            WoWTools_DataMixin.onlyChinese and '刷新' or REFRESH,
-            WoWTools_DataMixin.onlyChinese and '完成' or COMPLETE
+            WoWTools_L.REFRESH,
+            WoWTools_L.COMPLETE
         )
         return MenuResponse.Open
     end)
@@ -911,7 +911,7 @@ local function Init_Menu(self, root)
         end
     end
     sub= root:CreateButton(
-        (WoWTools_DataMixin.onlyChinese and '过滤' or AUCTION_HOUSE_SEARCH_BAR_FILTERS_LABEL)..' |cnWARNING_FONT_COLOR:#|r'..num,
+        (WoWTools_L.AUCTION_HOUSE_SEARCH_BAR_FILTERS_LABEL)..' |cnWARNING_FONT_COLOR:#|r'..num,
     function()
         return MenuResponse.Open
     end)
@@ -926,7 +926,7 @@ local function Init_Menu(self, root)
         end
     end
     sub= root:CreateButton(
-        (WoWTools_DataMixin.onlyChinese and '隐藏' or HIDE)..' |cff626262#|r'..num,
+        (WoWTools_L.HIDE)..' |cff626262#|r'..num,
     function()
         return MenuResponse.Open
     end)
@@ -941,7 +941,7 @@ local function Init_Menu(self, root)
         end
     end
     sub= root:CreateButton(
-        (WoWTools_DataMixin.onlyChinese and '自定义' or CUSTOM)..' |cff00ccff#|r'..num,
+        (WoWTools_L.CUSTOM)..' |cff00ccff#|r'..num,
     function()
         return MenuResponse.Open
     end)
@@ -953,12 +953,12 @@ local function Init_Menu(self, root)
 --[[设置，按钮
 root:CreateDivider()
     sub=root:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '按钮' or WoWTools_L['Button'],
+        WoWTools_L['Button'],
     function()
         return MenuResponse.Open
     end)
 
-    sub=root:CreateButton(WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS)
+    sub=root:CreateButton(WoWTools_L.SETTINGS)
 ]]
 
 
@@ -971,7 +971,7 @@ root:CreateDivider()
 --打开，选项
     sub=WoWTools_MenuMixin:OpenOptions(root, {
         name=WoWTools_MinimapMixin.addName,
-        name2=WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '收集图标' or WoWTools_Join(WEEKLY_REWARDS_GET_CONCESSION, EMBLEM_SYMBOL))
+        name2=WoWTools_DataMixin.Icon.icon2..(WoWTools_L['WEEKLY_REWARDS_GET_CONCESSION+EMBLEM_SYMBOL'])
     })
 
 
@@ -1131,7 +1131,7 @@ local function Init()
         else
             if not InCombatLockdown() then
                 if d==1 then
-                    WoWTools_PanelMixin:Open(nil, WoWTools_DataMixin.onlyChinese and 'WoWTools 数据' or WoWTools_L['WoWTools Data'])
+                    WoWTools_PanelMixin:Open(nil, WoWTools_L['WoWTools Data'])
                 else
                     WoWTools_PanelMixin:Open(nil, WoWTools_MinimapMixin.addName)
                 end
@@ -1182,15 +1182,15 @@ local function Init()
         GameTooltip:ClearLines()
         GameTooltip:AddLine(
             '|cffffd100'..WoWTools_DataMixin.Icon.icon2
-            ..(WoWTools_DataMixin.onlyChinese and '收集图标' or WoWTools_Join(WEEKLY_REWARDS_GET_CONCESSION, EMBLEM_SYMBOL))
+            ..(WoWTools_L['WEEKLY_REWARDS_GET_CONCESSION+EMBLEM_SYMBOL'])
             ..'|A:UI-HUD-Minimap-Tracking-Mouseover:0:0|a'
         )
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(
-            (WoWTools_DataMixin.onlyChinese and '选项' or OPTIONS)..WoWTools_DataMixin.Icon.left,
+            (WoWTools_L.OPTIONS)..WoWTools_DataMixin.Icon.left,
 
             (InCombatLockdown() and '|cff626262' or '')
-            ..(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL)
+            ..(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL)
             ..WoWTools_DataMixin.Icon.right,
 
             1,1,1,1,1,1
@@ -1204,7 +1204,7 @@ local function Init()
 
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(
-            WoWTools_DataMixin.onlyChinese and '移动' or NPE_MOVE,
+            WoWTools_L.NPE_MOVE,
             'Alt+'..WoWTools_DataMixin.Icon.right,
             1,1,1,1,1,1
         )

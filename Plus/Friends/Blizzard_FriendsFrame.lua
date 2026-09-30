@@ -7,7 +7,7 @@ local OptionTexture={
     ['DND']= FRIENDS_TEXTURE_DND,
     ['Away'] =FRIENDS_TEXTURE_AFK,
 }
-local OptionText--= (WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS).."|T%s:0:|t %s"
+local OptionText--= (WoWTools_L.SETTINGS).."|T%s:0:|t %s"
 local RegionNames
 local FriendsButton
 
@@ -39,17 +39,17 @@ local function Init_Friends_Menu(self, root)
     local sub, name
     if not BNConnected() then
         root:CreateTitle(
-            WoWTools_DataMixin.onlyChinese and '断开战网' or WoWTools_Join(SOCIAL_TWITTER_DISCONNECT, COMMUNITY_COMMAND_BATTLENET),
+            WoWTools_L['SOCIAL_TWITTER_DISCONNECT+COMMUNITY_COMMAND_BATTLENET'],
             WARNING_FONT_COLOR
         )
         root:CreateDivider()
     end
 
     root:CreateTitle(
-        WoWTools_DataMixin.onlyChinese and '登入游戏' or WoWTools_Join(LOG_IN, GAME)
+        WoWTools_L['LOG_IN+GAME']
     )
     root:CreateRadio(
-        OptionText:format(FRIENDS_TEXTURE_ONLINE, WoWTools_DataMixin.onlyChinese and '有空' or FRIENDS_LIST_AVAILABLE),
+        OptionText:format(FRIENDS_TEXTURE_ONLINE, WoWTools_L.FRIENDS_LIST_AVAILABLE),
     function()
         return Save().Friends[WoWTools_DataMixin.Player.GUID]== 'Availabel'
     end, function()
@@ -63,7 +63,7 @@ local function Init_Friends_Menu(self, root)
     end)
 
     root:CreateRadio(
-        OptionText:format(FRIENDS_TEXTURE_AFK, WoWTools_DataMixin.onlyChinese and '离开' or FRIENDS_LIST_AWAY),
+        OptionText:format(FRIENDS_TEXTURE_AFK, WoWTools_L.FRIENDS_LIST_AWAY),
     function()
         return Save().Friends[WoWTools_DataMixin.Player.GUID]== 'Away'
     end, function()
@@ -77,7 +77,7 @@ local function Init_Friends_Menu(self, root)
     end)
 
     root:CreateRadio(
-        OptionText:format(FRIENDS_TEXTURE_DND, WoWTools_DataMixin.onlyChinese and '忙碌' or FRIENDS_LIST_BUSY),
+        OptionText:format(FRIENDS_TEXTURE_DND, WoWTools_L.FRIENDS_LIST_BUSY),
     function()
         return Save().Friends[WoWTools_DataMixin.Player.GUID]== 'DND'
     end, function()
@@ -92,13 +92,13 @@ local function Init_Friends_Menu(self, root)
 
     root:CreateDivider()
     sub= root:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '其他玩家' or WoWTools_Join(HUD_EDIT_MODE_SETTINGS_CATEGORY_TITLE_MISC, PLAYER),
+        WoWTools_L['HUD_EDIT_MODE_SETTINGS_CATEGORY_TITLE_MISC+PLAYER'],
     function()
         return MenuResponse.Open
     end)
 
     sub:CreateButton(
-        '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL),
+        '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.CLEAR_ALL),
     function(data)
         StaticPopup_Show('WoWTools_OK',
         data.name,
@@ -127,7 +127,7 @@ local function Init_Friends_Menu(self, root)
             btn:SetData(guid)
             btn:SetTooltip(function(tooltip, desc)
                 GameTooltip_SetTitle(tooltip, MenuUtil.GetElementText(desc))
-                GameTooltip_AddNormalLine(tooltip, WoWTools_DataMixin.onlyChinese and '移除' or REMOVE)
+                GameTooltip_AddNormalLine(tooltip, WoWTools_L.REMOVE)
             end)
         end
     end
@@ -135,9 +135,9 @@ local function Init_Friends_Menu(self, root)
     root:CreateDivider()
     sub= root:CreateCheckbox(
         WoWTools_DataMixin.Icon.net2
-        ..(WoWTools_DataMixin.onlyChinese and '战网' or COMMUNITY_COMMAND_BATTLENET)
-        ..' ('..(WoWTools_DataMixin.onlyChinese and '好友' or FRIEND)..') '
-        ..( WoWTools_DataMixin.onlyChinese and '信息' or INFO)..'|A:communities-icon-chat:0:0|a',
+        ..(WoWTools_L.COMMUNITY_COMMAND_BATTLENET)
+        ..' ('..(WoWTools_L.FRIEND)..') '
+        ..( WoWTools_L.INFO)..'|A:communities-icon-chat:0:0|a',
     function()
         return not Save().disabledBNFriendInfo
     end, function()
@@ -165,7 +165,7 @@ local function Init_Friends_Menu(self, root)
         Save().showInCombatFriendInfo= not Save().showInCombatFriendInfo and true or nil
     end)
 
-    root:CreateCheckbox('|A:Battlenet-ClientIcon-App:0:0|a'..(WoWTools_DataMixin.onlyChinese and '好友' or FRIEND)..' Plus', function()
+    root:CreateCheckbox('|A:Battlenet-ClientIcon-App:0:0|a'..(WoWTools_L.FRIEND)..' Plus', function()
         return not Save().disabledFriendPlus
     end, function()
         Save().disabledFriendPlus= not Save().disabledFriendPlus and true or nil
@@ -278,9 +278,9 @@ local function Set_Friend_Event(self, _, friendIndex)
             end
             if (client == BNET_CLIENT_WOW) and (rafLinkType ~= Enum.RafLinkType.None) and not isMobile then
                 if rafLinkType == Enum.RafLinkType.Recruit then
-                    return format(WoWTools_DataMixin.onlyChinese and '|A:recruitafriend_V2_tab_icon:0:0|a|cffffd200招募的战友：|r %s' or RAF_RECRUIT_FRIEND, locationText);
+                    return format(WoWTools_L.RAF_RECRUIT_FRIEND, locationText);
                 else
-                    return format(WoWTools_DataMixin.onlyChinese and '|A:recruitafriend_V2_tab_icon:0:0|acffffd200招募者：|r %s' or RAF_RECRUITER_FRIEND, locationText);
+                    return format(WoWTools_L.RAF_RECRUITER_FRIEND, locationText);
                 end
             end
         end
@@ -323,13 +323,13 @@ end
 
 
 local function Init()--好友列表, 初始化
-    OptionText= (WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS).."|T%s:0:|t %s"
+    OptionText= (WoWTools_L.SETTINGS).."|T%s:0:|t %s"
     RegionNames = {
-        [1] = WoWTools_DataMixin.onlyChinese and '北美' or NORTH_AMERICA,
-        [2] = WoWTools_DataMixin.onlyChinese and '韩国' or KOREA,
-        [3] = WoWTools_DataMixin.onlyChinese and '欧洲' or EUROPE,
-        [4] = WoWTools_DataMixin.onlyChinese and '台湾' or TAIWAN,
-        [5] = WoWTools_DataMixin.onlyChinese and '中国' or CHINA,
+        [1] = WoWTools_L.NORTH_AMERICA,
+        [2] = WoWTools_L.KOREA,
+        [3] = WoWTools_L.EUROPE,
+        [4] = WoWTools_L.TAIWAN,
+        [5] = WoWTools_L.CHINA,
     }
     FriendsFrameStatusDropdown:SetSize(58, 25)--原生，有点问题
 
@@ -389,7 +389,7 @@ local function Init()--好友列表, 初始化
             if bnetAFK or bnetDND then
                 C_BattleNet.SetAFK(false)
                 C_BattleNet.SetDND(false)
-                text= format(OptionText, FRIENDS_TEXTURE_ONLINE, WoWTools_DataMixin.onlyChinese and '有空' or FRIENDS_LIST_AVAILABLE)
+                text= format(OptionText, FRIENDS_TEXTURE_ONLINE, WoWTools_L.FRIENDS_LIST_AVAILABLE)
 
             end
             self:SetNormalTexture(FRIENDS_TEXTURE_ONLINE)
@@ -397,14 +397,14 @@ local function Init()--好友列表, 初始化
         elseif Save().Friends[WoWTools_DataMixin.Player.GUID]=='Away' then
             if not bnetAFK then
                 C_BattleNet.SetAFK(true)
-                text= format(OptionText, FRIENDS_TEXTURE_AFK, WoWTools_DataMixin.onlyChinese and '离开' or FRIENDS_LIST_AWAY)
+                text= format(OptionText, FRIENDS_TEXTURE_AFK, WoWTools_L.FRIENDS_LIST_AWAY)
             end
             self:SetNormalTexture(FRIENDS_TEXTURE_AFK)
 
         elseif Save().Friends[WoWTools_DataMixin.Player.GUID]=='DND' then
             if not bnetDND then
                 C_BattleNet.SetDND(true)
-                text= format(OptionText, FRIENDS_TEXTURE_DND, WoWTools_DataMixin.onlyChinese and '忙碌' or FRIENDS_LIST_BUSY)
+                text= format(OptionText, FRIENDS_TEXTURE_DND, WoWTools_L.FRIENDS_LIST_BUSY)
             end
             self:SetNormalTexture(FRIENDS_TEXTURE_DND)
 
@@ -590,8 +590,8 @@ local function Init()--好友列表, 初始化
 
                     GameTooltip:AddLine(' ')
                     GameTooltip:AddDoubleLine(self.col..'index', self.index)
-                    GameTooltip:AddDoubleLine(self.col..(WoWTools_DataMixin.onlyChinese and '组队邀请' or GROUP_INVITE), (WoWTools_DataMixin.onlyChinese and '双击' or BUFFER_DOUBLE)..WoWTools_DataMixin.Icon.left)
-                    GameTooltip:AddDoubleLine(self.col..(WoWTools_DataMixin.onlyChinese and '添加好友' or ADD_FRIEND), 'Alt+'..WoWTools_DataMixin.Icon.left)
+                    GameTooltip:AddDoubleLine(self.col..(WoWTools_L.GROUP_INVITE), (WoWTools_L.BUFFER_DOUBLE)..WoWTools_DataMixin.Icon.left)
+                    GameTooltip:AddDoubleLine(self.col..(WoWTools_L.ADD_FRIEND), 'Alt+'..WoWTools_DataMixin.Icon.left)
                     GameTooltip:AddLine(' ')
                     GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_FriendsMixin.addName)
                     GameTooltip:Show()
@@ -624,7 +624,7 @@ local function Init()--好友列表, 初始化
                 if info.fullName then
                     local player= UnitName('player')
                     if info.fullName==player then
-                        btn.Name:SetText('|A:common-icon-rotateright:0:0|a'..(WoWTools_DataMixin.onlyChinese and '我' or COMBATLOG_FILTER_STRING_ME)..'|A:common-icon-rotateleft:0:0|a')
+                        btn.Name:SetText('|A:common-icon-rotateright:0:0|a'..(WoWTools_L.COMBATLOG_FILTER_STRING_ME)..'|A:common-icon-rotateleft:0:0|a')
                     else
                         local nameText= WoWTools_UnitMixin:GetIsFriendIcon(nil, nil, info.fullName)--检测, 是否好友
                         if nameText then
@@ -667,7 +667,7 @@ local function Init()--好友列表, 初始化
         if not isConnected and not self.ConnectedLabel then
             self.ConnectedLabel= WoWTools_LabelMixin:Create(self.TitleContainer, {
                 name= 'WoWToolsFriendsConnectedLabel',
-                text= WoWTools_DataMixin.onlyChinese and '战网断开' or WoWTools_Join(SOCIAL_TWITTER_DISCONNECT, COMMUNITY_COMMAND_BATTLENET),
+                text= WoWTools_L['SOCIAL_TWITTER_DISCONNECT+COMMUNITY_COMMAND_BATTLENET~2'],
                 --color= {r=1,g=0,b=0},
             })
             self.ConnectedLabel:SetPoint('LEFT', FriendsFrameTitleText, 0, 0)
@@ -696,9 +696,9 @@ local function Init()--好友列表, 初始化
             GameTooltip:SetOwner(region, 'ANCHOR_RIGHT')
             GameTooltip_SetTitle(GameTooltip,
                 WoWTools_DataMixin.Icon.icon2
-                ..(WoWTools_DataMixin.onlyChinese and '双击' or BUFFER_DOUBLE)
+                ..(WoWTools_L.BUFFER_DOUBLE)
                 ..WoWTools_DataMixin.Icon.left
-                ..(WoWTools_DataMixin.onlyChinese and '移出列表' or UNIGNORE_PLAYER_BUTTON_LABEL)
+                ..(WoWTools_L.UNIGNORE_PLAYER_BUTTON_LABEL)
             )
             GameTooltip:Show()
             region:SetAlpha(0.5)

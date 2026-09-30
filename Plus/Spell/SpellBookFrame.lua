@@ -64,7 +64,7 @@ local function Init_Menu(self, root)
             if isKnown then
 --bug
                 sub2= sub:CreateButton(
-                    WARNING_FONT_COLOR:WrapTextInColorCode((WoWTools_DataMixin.onlyChinese and '查询' or WHO)),
+                    WARNING_FONT_COLOR:WrapTextInColorCode((WoWTools_L.WHO)),
                 function(data)
                     WoWTools_LoadUIMixin:SpellBook(nil, data.spellID)
                     return MenuResponse.Open
@@ -81,7 +81,7 @@ local function Init_Menu(self, root)
     sub=WoWTools_MenuMixin:OpenOptions(root, {
         name=WoWTools_SpellMixin.addName,
         category=WoWTools_SpellMixin.Category,
-        name2='|A:spellbook-item-iconframe:0:0|a'..(WoWTools_DataMixin.onlyChinese and '法术书' or SPELLBOOK),
+        name2='|A:spellbook-item-iconframe:0:0|a'..(WoWTools_L.SPELLBOOK),
     })
     --重新加载UI
     WoWTools_MenuMixin:Reload(sub)
@@ -147,14 +147,14 @@ local function Init_All_Flyout()
                             (not isKnown2 and '|cnWARNING_FONT_COLOR:' or '')
                             ..spellID
                             ..' '
-                            ..(WoWTools_DataMixin.onlyChinese and '法术' or SPELLS)
+                            ..(WoWTools_L.SPELLS)
                             ..'('..slot
 --为挑战数据，标记是否有数据，需要更新
                             ..((WoWTools_DataMixin.Player.husandro and not self.isRaid and not spells[spellID] and '|A:UI-LFG-PendingMark:0:0|a' or '')
                             )
                         )
                     else
-                        GameTooltip:AddDoubleLine((not isKnown2 and ' |cnWARNING_FONT_COLOR:' or '')..spellName..'|r',(not isKnown2 and '|cnWARNING_FONT_COLOR:' or '')..spellID..' '..(WoWTools_DataMixin.onlyChinese and '法术' or SPELLS)..'('..slot)
+                        GameTooltip:AddDoubleLine((not isKnown2 and ' |cnWARNING_FONT_COLOR:' or '')..spellName..'|r',(not isKnown2 and '|cnWARNING_FONT_COLOR:' or '')..spellID..' '..(WoWTools_L.SPELLS)..'('..slot)
                     end
                 end
             end

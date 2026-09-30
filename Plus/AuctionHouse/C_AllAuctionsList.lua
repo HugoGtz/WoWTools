@@ -63,14 +63,14 @@ local function Cancel_Auction()
             C_AuctionHouse.CancelAuction(auctionID)
             print(
                 WoWTools_AuctionHouseMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '取消拍卖' or AUCTION_HOUSE_CANCEL_AUCTION_BUTTON)..'|r',
+                '|cnGREEN_FONT_COLOR:'..(WoWTools_L.AUCTION_HOUSE_CANCEL_AUCTION_BUTTON)..'|r',
                 itemLink or '',
                 cost and cost>0 and '|cnWARNING_FONT_COLOR:'..GetMoneyString(cost) or ''
             )
         else
             print(
                 WoWTools_AuctionHouseMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '出错' or ERRORS)..'|r',
+                '|cnWARNING_FONT_COLOR:'..(WoWTools_L['ERRORS~2'])..'|r',
                 itemLink or ''
             )
         end
@@ -88,7 +88,7 @@ local function Init_Cancel_Button()
     local cancelButton= WoWTools_ButtonMixin:Cbtn(AuctionHouseFrameAuctionsFrame.CancelAuctionButton, {
         isUI=true,
         size={100,22},
-        text= WoWTools_DataMixin.onlyChinese and '取消' or CANCEL
+        text= WoWTools_L.CANCEL
     })
     cancelButton:SetPoint('RIGHT', AuctionHouseFrameAuctionsFrame.AllAuctionsList.RefreshFrame.RefreshButton, 'LEFT', -4, 0)
 
@@ -110,8 +110,8 @@ local function Init_Cancel_Button()
             GameTooltip:SetItemByID(itemID)
             GameTooltip:AddDoubleLine(' ')
         end
-        GameTooltip:AddDoubleLine(' ', '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '取消拍卖将使你失去保证金。' or CANCEL_AUCTION_CONFIRMATION))
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '备注' or LABEL_NOTE, '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '请不要太快' or ERR_GENERIC_THROTTLE))
+        GameTooltip:AddDoubleLine(' ', '|cnWARNING_FONT_COLOR:'..(WoWTools_L.CANCEL_AUCTION_CONFIRMATION))
+        GameTooltip:AddDoubleLine(WoWTools_L.LABEL_NOTE, '|cnWARNING_FONT_COLOR:'..(WoWTools_L.ERR_GENERIC_THROTTLE))
         GameTooltip:AddDoubleLine(' ', 'Shift+'..WoWTools_DataMixin.Icon.left)
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_AuctionHouseMixin.addName)
         GameTooltip:Show()
@@ -133,7 +133,7 @@ local function Init_Cancel_Button()
     local all= CreateFrame('Button', 'WoWToolsAuctionHouseAllCancelButton', cancelButton, 'UIPanelButtonTemplate')
     all:SetPoint('RIGHT', cancelButton, 'LEFT', -2, 0)
     all:SetSize(100,22)
-    all.text=WoWTools_DataMixin.onlyChinese and '全部取消' or WoWTools_Join(ALL, CANCEL)
+    all.text=WoWTools_L['ALL+CANCEL']
     all:SetText(all.text)
 
     function all:Stop()
@@ -231,7 +231,7 @@ local function Init()
                     C_AuctionHouse.CancelAuction(self.rowData.auctionID)
                     print(
                         WoWTools_AuctionHouseMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                        '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '取消拍卖' or AUCTION_HOUSE_CANCEL_AUCTION_BUTTON)..'|r',
+                        '|cnGREEN_FONT_COLOR:'..(WoWTools_L.AUCTION_HOUSE_CANCEL_AUCTION_BUTTON)..'|r',
                         itemLink,
                         cost and cost>0 and '|cnWARNING_FONT_COLOR:'..GetMoneyString(cost) or ''
                     )

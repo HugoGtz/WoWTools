@@ -201,7 +201,7 @@ local function Create_IconSelectorPopupFrame()
 
     IconFrame:Hide()
 
-    IconFrame.BorderBox.SelectedIconArea.SelectedIconText.SelectedIconDescription:SetText(WoWTools_DataMixin.onlyChinese and '点击在列表中浏览' or ICON_SELECTION_CLICK)
+    IconFrame.BorderBox.SelectedIconArea.SelectedIconText.SelectedIconDescription:SetText(WoWTools_L.ICON_SELECTION_CLICK)
 
     IconFrame.BorderBox.IconSelectorEditBox:SetAutoFocus(false)
 
@@ -291,7 +291,7 @@ function WoWTools_TextureMixin:GetNewIcon(frame, tab)
     if tab.text and tab.text~='' then
         IconFrame.text= tab.text
     else
-        IconFrame.text= WoWTools_DataMixin.onlyChinese and '选择图标' or COMMUNITIES_CREATE_DIALOG_AVATAR_PICKER_INSTRUCTIONS
+        IconFrame.text= WoWTools_L.COMMUNITIES_CREATE_DIALOG_AVATAR_PICKER_INSTRUCTIONS
     end
 
     local texture= tab.texture

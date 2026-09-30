@@ -65,20 +65,20 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 Save().noteText = nil
             end
 
-            WoWTools_MacroMixin.addName= '|TInterface\\MacroFrame\\MacroFrame-Icon:0|t'..(WoWTools_DataMixin.onlyChinese and '宏' or MACRO)
+            WoWTools_MacroMixin.addName= '|TInterface\\MacroFrame\\MacroFrame-Icon:0|t'..(WoWTools_L.MACRO)
 
 --添加控制面板
             WoWTools_PanelMixin:OnlyCheck({
                 name= WoWTools_MacroMixin.addName,
-                tooltip= ('|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '战斗中错误' or WoWTools_Join(HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT, ERRORS)))
-                    ..'|r|n'..(WoWTools_DataMixin.onlyChinese and '备注：如果错误，请取消此选项' or WoWTools_L['Note: if you get errors, disable this']),
+                tooltip= ('|cnWARNING_FONT_COLOR:'..(WoWTools_L['HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT+ERRORS']))
+                    ..'|r|n'..(WoWTools_L['Note: if you get errors, disable this']),
                 GetValue= function() return not Save().disabled end,
                 SetValue= function()
                     Save().disabled = not Save().disabled and true or nil
                     print(
                         WoWTools_MacroMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-                        WoWTools_DataMixin.onlyChinese and '需求重新加载' or REQUIRES_RELOAD
+                        WoWTools_L['REQUIRES_RELOAD~2']
                     )
                 end
             })

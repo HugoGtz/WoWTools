@@ -173,9 +173,9 @@ local function Init()
     frame.pve:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(PaperDollSidebarTab1, "ANCHOR_RIGHT")
         GameTooltip_SetTitle(GameTooltip,
-            (WoWTools_DataMixin.onlyChinese and '物品等级' or LFG_LIST_ITEM_LEVEL_INSTR_SHORT)
+            (WoWTools_L.LFG_LIST_ITEM_LEVEL_INSTR_SHORT)
             ..WoWTools_DataMixin.Icon.icon2
-            ..(WoWTools_DataMixin.onlyChinese and '最高' or VIDEO_OPTIONS_ULTRA_HIGH)
+            ..(WoWTools_L.VIDEO_OPTIONS_ULTRA_HIGH)
         )
         GameTooltip:Show()
         self:SetAlpha(0.5)
@@ -205,9 +205,9 @@ local function Init()
     frame.pvp:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(PaperDollSidebarTab1, "ANCHOR_RIGHT")
         GameTooltip_SetTitle(GameTooltip,
-            (WoWTools_DataMixin.onlyChinese and 'PvP物品等级' or LFG_LIST_ITEM_LEVEL_PVP_INSTR_SHORT)
+            (WoWTools_L.LFG_LIST_ITEM_LEVEL_PVP_INSTR_SHORT)
             ..WoWTools_DataMixin.Icon.icon2
-            ..(WoWTools_DataMixin.onlyChinese and '最高' or VIDEO_OPTIONS_ULTRA_HIGH)
+            ..(WoWTools_L.VIDEO_OPTIONS_ULTRA_HIGH)
         )
         --GameTooltip:AddLine(' ')
         --GameTooltip:AddLine(CharacterStatsPane.ItemLevelFrame.tooltip)
@@ -251,10 +251,10 @@ local function Init()
         local num, notTitle= Get_Title_Num()
         GameTooltip_SetTitle(GameTooltip,
             WoWTools_DataMixin.Icon.icon2
-            ..(WoWTools_DataMixin.onlyChinese and '头衔' or PAPERDOLL_SIDEBAR_TITLES)
+            ..(WoWTools_L.PAPERDOLL_SIDEBAR_TITLES)
         )
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '已收集' or COLLECTED, num, nil,nil,nil,1,1,1)
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '未收集' or NOT_COLLECTED, notTitle, nil,nil,nil,1,1,1)
+        GameTooltip:AddDoubleLine(WoWTools_L.COLLECTED, num, nil,nil,nil,1,1,1)
+        GameTooltip:AddDoubleLine(WoWTools_L.NOT_COLLECTED, notTitle, nil,nil,nil,1,1,1)
         GameTooltip:Show()
         self:SetAlpha(0.3)
     end)
@@ -268,7 +268,7 @@ local function Init()
     frame.titleButton= CreateFrame('DropdownButton', 'WoWToolsTitleMenuButton', PaperDollFrame.TitleManagerPane, 'WoWToolsButtonTemplate')
     frame.titleButton:RegisterForMouse("RightButtonDown", 'LeftButtonDown', "LeftButtonUp", 'RightButtonUp')
     frame.titleButton.owner= 'ANCHOR_RIGHT'
-    frame.titleButton.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '未收集' or NOT_COLLECTED)
+    frame.titleButton.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_L.NOT_COLLECTED)
     frame.titleButton.text= frame.titleButton:CreateFontString(nil, 'ARTWORK', 'GameFontDisableSmall')
     frame.titleButton.text:SetPoint('CENTER')
     frame.titleButton:SetFrameLevel(PaperDollFrame.TitleManagerPane.ScrollBox:GetFrameLevel()+1)
@@ -298,7 +298,7 @@ local function Init()
         GameTooltip:SetOwner(PaperDollSidebarTab3, "ANCHOR_RIGHT")
         GameTooltip_SetTitle(GameTooltip,
             WoWTools_DataMixin.Icon.icon2
-            ..(WoWTools_DataMixin.onlyChinese and '名称' or NAME)
+            ..(WoWTools_L.NAME)
         )
         GameTooltip:Show()
         self:SetAlpha(0.5)
@@ -327,7 +327,7 @@ local function Init()
         GameTooltip:SetOwner(PaperDollSidebarTab3, "ANCHOR_RIGHT")
         GameTooltip_SetTitle(GameTooltip,
             WoWTools_DataMixin.Icon.icon2
-            ..(WoWTools_DataMixin.onlyChinese and '专精' or SPECIALIZATION)
+            ..(WoWTools_L.SPECIALIZATION)
         )
         GameTooltip:Show()
         self:SetAlpha(0.5)
@@ -351,7 +351,7 @@ local function Init()
         GameTooltip_SetTitle(GameTooltip,
             WoWTools_DataMixin.Icon.icon2
             ..format(
-                WoWTools_DataMixin.onlyChinese and "%d件物品" or ITEMS_VARIABLE_QUANTITY,
+                WoWTools_L['ITEMS_VARIABLE_QUANTITY~2'],
                 tonumber(self:GetText() or 0) or 0
             )
         )
@@ -408,7 +408,7 @@ local function Init()
 
     --套装数量
         self.setNum:SetText(nu or '')
-        self.setNum.tooltip2= nu and (WoWTools_DataMixin.onlyChinese and '数量' or AUCTION_HOUSE_QUANTITY_LABEL)..' '..nu or nil
+        self.setNum.tooltip2= nu and (WoWTools_L.AUCTION_HOUSE_QUANTITY_LABEL)..' '..nu or nil
         self.setNum.setID= setID
     end
 

@@ -13,7 +13,7 @@ local function Init()
     else
         print(
             WoWTools_ChallengeMixin.addName..WoWTools_DataMixin.Icon.icon2,
-            '|cffff00ff'..(WoWTools_DataMixin.onlyChinese and "返回宏伟宝库，获取你的奖励" or WEEKLY_REWARDS_RETURN_TO_CLAIM)
+            '|cffff00ff'..(WoWTools_L.WEEKLY_REWARDS_RETURN_TO_CLAIM)
         )
     end
 
@@ -39,7 +39,7 @@ local function Init()
         print(
             WoWTools_ChallengeMixin.addName..WoWTools_DataMixin.Icon.icon2,
             '|cffff00ff',
-            WoWTools_DataMixin.onlyChinese and '专精拾取' or SELECT_LOOT_SPECIALIZATION
+            WoWTools_L.SELECT_LOOT_SPECIALIZATION
         )
     end)
 

@@ -116,20 +116,20 @@ local function Set_OnEnter(self)
     local timeLimit, texture, backgroundTexture = select(3, C_ChallengeMode.GetMapUIInfo(self.mapID))
 
     local a=GetNum(self.mapID, true)--所有
-        or ('|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '无' or NONE)..'|r')
+        or ('|cnWARNING_FONT_COLOR:'..(WoWTools_L.NONE)..'|r')
 
     local w=GetNum(self.mapID)--本周
-        or ('|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '无' or NONE)..'|r')
+        or ('|cnWARNING_FONT_COLOR:'..(WoWTools_L.NONE)..'|r')
 
     GameTooltip:AddDoubleLine(
-        (WoWTools_DataMixin.onlyChinese and '历史' or HISTORY)..': '..a,
-        (WoWTools_DataMixin.onlyChinese and '本周' or CHALLENGE_MODE_THIS_WEEK)..': '..w
+        (WoWTools_L.HISTORY)..': '..a,
+        (WoWTools_L.CHALLENGE_MODE_THIS_WEEK)..': '..w
     )
     GameTooltip:AddLine(' ')
 
     GameTooltip:AddDoubleLine(
         'mapChallengeModeID |cnGREEN_FONT_COLOR:'.. self.mapID..'|r',
-        timeLimit and (WoWTools_DataMixin.onlyChinese and '限时' or GROUP_FINDER_PVE_PLAYSTYLE3)
+        timeLimit and (WoWTools_L.GROUP_FINDER_PVE_PLAYSTYLE3)
         ..' '
         .. SecondsToTime(timeLimit)
     )
@@ -150,7 +150,7 @@ local function Set_OnEnter(self)
             )
             ..'<'
             ..WoWTools_DataMixin.Icon.left
-            ..(WoWTools_DataMixin.onlyChinese and '冒险指南' or ADVENTURE_JOURNAL)
+            ..(WoWTools_L.ADVENTURE_JOURNAL)
             ..'>'
         )
     end
@@ -184,12 +184,12 @@ local function Create_Label(frame)
             GameTooltip:ClearLines()
             GameTooltip:AddDoubleLine(
                 WoWTools_DataMixin.onlyChinese and '历史 |cnGREEN_FONT_COLOR:完成|r/总计' or (HISTORY..' |cnGREEN_FONT_COLOR:'..COMPLETE..'|r/'..TOTAL) ,
-                self.all or (WoWTools_DataMixin.onlyChinese and '无' or NONE)
+                self.all or (WoWTools_L.NONE)
             )
-            GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '本周' or CHALLENGE_MODE_THIS_WEEK, self.week and '('..self.week..')' or (WoWTools_DataMixin.onlyChinese and '无' or NONE))
+            GameTooltip:AddDoubleLine(WoWTools_L.CHALLENGE_MODE_THIS_WEEK, self.week and '('..self.week..')' or (WoWTools_L.NONE))
             if self.completed and self.totale and self.completed < self.totale then
                 GameTooltip:AddLine(' ')
-                GameTooltip:AddDoubleLine(self.totale..' - |cnGREEN_FONT_COLOR:'..self.completed..'|r =', '|cnWARNING_FONT_COLOR:'..format(WoWTools_DataMixin.onlyChinese and '%s (超时)' or DUNGEON_SCORE_OVERTIME_TIME, self.totale-self.completed))
+                GameTooltip:AddDoubleLine(self.totale..' - |cnGREEN_FONT_COLOR:'..self.completed..'|r =', '|cnWARNING_FONT_COLOR:'..format(WoWTools_L.DUNGEON_SCORE_OVERTIME_TIME, self.totale-self.completed))
             end
             GameTooltip:Show()
             self:SetAlpha(0.3)
@@ -210,7 +210,7 @@ local function Create_Label(frame)
     frame.scoreLable:SetScript('OnEnter', function(self)
             GameTooltip:SetOwner(self, "ANCHOR_LEFT")
             GameTooltip:ClearLines()
-            GameTooltip:AddLine(format(WoWTools_DataMixin.onlyChinese and '史诗钥石评分：%s' or CHALLENGE_COMPLETE_DUNGEON_SCORE, self.score))
+            GameTooltip:AddLine(format(WoWTools_L.CHALLENGE_COMPLETE_DUNGEON_SCORE, self.score))
             GameTooltip:Show()
             self:SetAlpha(0.3)
     end)
@@ -229,7 +229,7 @@ local function Create_Label(frame)
         frame.HighestLevel:SetScript('OnEnter', function(self)
             GameTooltip:SetOwner(self, "ANCHOR_LEFT")
             GameTooltip:ClearLines()
-            GameTooltip:AddLine(format(WoWTools_DataMixin.onlyChinese and '最佳%s' or DUNGEON_SCORE_BEST_AFFIX, (WoWTools_DataMixin.onlyChinese and '等级' or LEVEL)..': '..self:GetText()))
+            GameTooltip:AddLine(format(WoWTools_L.DUNGEON_SCORE_BEST_AFFIX, (WoWTools_L.LEVEL)..': '..self:GetText()))
             GameTooltip:Show()
             self:SetAlpha(0.3)
         end)
@@ -275,7 +275,7 @@ local function Create_Label(frame)
             GameTooltip:SetBagItem(bagID, slotID)
         end
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(' ', (WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL)..WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine(' ', (WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL)..WoWTools_DataMixin.Icon.left)
         GameTooltip:Show()
         self:SetAlpha(0.5)
         self.label:SetAlpha(0.5)
@@ -363,14 +363,14 @@ local function Create_Affix_Label(frame, name, nameA)
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(
             format(
-                WoWTools_DataMixin.onlyChinese and '最佳%s' or DUNGEON_SCORE_BEST_AFFIX,
+                WoWTools_L.DUNGEON_SCORE_BEST_AFFIX,
                 self.name
             ),
 
             self.overTime and
             '|cff828282'
             ..format(
-                WoWTools_DataMixin.onlyChinese and '%s (超时)' or DUNGEON_SCORE_OVERTIME_TIME,
+                WoWTools_L.DUNGEON_SCORE_OVERTIME_TIME,
                     WoWTools_TimeMixin:SecondsToClock(self.durationSec)
                 )
             or
@@ -592,15 +592,13 @@ local function Init()
 --替换，原生
     ChallengesFrame.WeeklyInfo.Child.DungeonScoreInfo:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT", 0, 0)
-        local desc= WoWTools_DataMixin.onlyChinese
-                    and '基于你在每个地下城的最佳成绩得出的总体评分。你可以通过更迅速地完成地下城或者完成更高难度的地下城来提高你的评分。|n|n提升你的史诗地下城评分后，你就能把你的地下城装备升级到最高等级。|n|cff1eff00<Shift+点击以链接到聊天栏>|r'
-                    or DUNGEON_SCORE_DESC
+        local desc= WoWTools_L.DUNGEON_SCORE_DESC
         if not Save().hideIns then
             WoWTools_SetTooltipMixin:Frame(self, GameTooltip, {dungeonScore= WoWTools_ChallengeMixin:GetDungeonScoreLink()})
             GameTooltip:AddLine(' ')
             GameTooltip_AddColoredLine(GameTooltip, desc, HIGHLIGHT_FONT_COLOR)
         else
-            GameTooltip_SetTitle(GameTooltip, WoWTools_DataMixin.onlyChinese and '史诗钥石评分' or DUNGEON_SCORE)
+            GameTooltip_SetTitle(GameTooltip, WoWTools_L.DUNGEON_SCORE)
             GameTooltip_AddNormalLine(GameTooltip, desc)
         end
 

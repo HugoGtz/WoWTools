@@ -77,16 +77,16 @@ end
 
 local function Init_Panel()
     local sub
-    local tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+    local tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD)
 
-    WoWTools_PanelMixin:Header(WoWTools_TextureMixin.Layout, WoWTools_DataMixin.onlyChinese and '材质' or TEXTURES_SUBHEADER)
+    WoWTools_PanelMixin:Header(WoWTools_TextureMixin.Layout, WoWTools_L.TEXTURES_SUBHEADER)
 
 
 
 WoWTools_PanelMixin:CheckMenu({
     category=WoWTools_TextureMixin.Category,
     layout= WoWTools_TextureMixin.Layout,
-    name= WoWTools_DataMixin.onlyChinese and '自定义颜色' or WoWTools_Join(AUCTION_HOUSE_FILTER_DROPDOWN_CUSTOM, CLASS_COLORS),
+    name= WoWTools_L['AUCTION_HOUSE_FILTER_DROPDOWN_CUSTOM+CLASS_COLORS'],
     tooltip=tooltip,
     GetValue=function()
         return Save().useColor
@@ -169,7 +169,7 @@ WoWTools_PanelMixin:CheckMenu({
             end
         end
 
-        container:Add(maxClass+1, '|A:talents-button-undo:0:0|a'..(WoWTools_DataMixin.onlyChinese and '重置' or RESET))
+        container:Add(maxClass+1, '|A:talents-button-undo:0:0|a'..(WoWTools_L.RESET))
 
         return container:GetData()
     end})
@@ -195,14 +195,14 @@ WoWTools_PanelMixin:CheckMenu({
         end
     }, sub)
 
-    WoWTools_PanelMixin:Header(WoWTools_TextureMixin.Layout, WoWTools_DataMixin.onlyChinese and '其它' or OTHER)
+    WoWTools_PanelMixin:Header(WoWTools_TextureMixin.Layout, WoWTools_L.OTHER)
 
 
     sub= WoWTools_PanelMixin:OnlyCheck({
-        name= WoWTools_DataMixin.onlyChinese and '聊天泡泡' or CHAT_BUBBLES_TEXT,
+        name= WoWTools_L.CHAT_BUBBLES_TEXT,
         tooltip= (WoWTools_DataMixin.onlyChinese and '在副本无效' or (INSTANCE..' ('..DISABLE..')'))
-                ..'|n|n'..((WoWTools_DataMixin.onlyChinese and '说' or SAY)..' CVar: chatBubbles '.. WoWTools_TextMixin:GetShowHide(C_CVar.GetCVarBool("chatBubbles")))
-                ..'|n'..((WoWTools_DataMixin.onlyChinese and '小队' or SAY)..' CVar: chatBubblesParty '.. WoWTools_TextMixin:GetShowHide(C_CVar.GetCVarBool("chatBubblesParty")))
+                ..'|n|n'..((WoWTools_L.SAY)..' CVar: chatBubbles '.. WoWTools_TextMixin:GetShowHide(C_CVar.GetCVarBool("chatBubbles")))
+                ..'|n'..((WoWTools_L['SAY~2'])..' CVar: chatBubblesParty '.. WoWTools_TextMixin:GetShowHide(C_CVar.GetCVarBool("chatBubblesParty")))
                 ..'\n\n'..tooltip,
         category= WoWTools_TextureMixin.Category,
         GetValue= function() return not Save().disabledChatBubble end,
@@ -215,7 +215,7 @@ WoWTools_PanelMixin:CheckMenu({
 
 
     WoWTools_PanelMixin:OnlySlider({
-        name= WoWTools_DataMixin.onlyChinese and '缩放' or HOUSING_EXPERT_DECOR_SUBMODE_SCALE,
+        name= WoWTools_L.HOUSING_EXPERT_DECOR_SUBMODE_SCALE,
         GetValue= function() return Save().chatBubbleSacal or 0.85 end,
         minValue= 0.3,
         maxValue= 1,
@@ -235,7 +235,7 @@ WoWTools_PanelMixin:CheckMenu({
 
 
     WoWTools_PanelMixin:Check_Slider({
-        checkName= (WoWTools_DataMixin.onlyChinese and '职业能量' or WoWTools_Join(CLASS, ENERGY))..' 1 2 3',
+        checkName= (WoWTools_L['CLASS+ENERGY'])..' 1 2 3',
         checkGetValue= function() return Save().classPowerNum end,
         tooltip= tooltip,
         checkSetValue= function()
@@ -366,7 +366,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
             WoWToolsPlusPlayerDate['BGTexture']= WoWToolsPlusPlayerDate['BGTexture'] or {}
 
-            WoWTools_TextureMixin.addName= '|A:AnimCreate_Icon_Texture:0:0|a'..(WoWTools_DataMixin.onlyChinese and '材质' or TEXTURES_SUBHEADER)
+            WoWTools_TextureMixin.addName= '|A:AnimCreate_Icon_Texture:0:0|a'..(WoWTools_L.TEXTURES_SUBHEADER)
 
             WoWTools_TextureMixin.Category, WoWTools_TextureMixin.Layout = WoWTools_PanelMixin:AddSubCategory({
                 name= WoWTools_TextureMixin.addName,
@@ -374,13 +374,13 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             })
 
             WoWTools_PanelMixin:Check_Button({
-                checkName= WoWTools_DataMixin.onlyChinese and '启用' or ENABLE,
+                checkName= WoWTools_L.ENABLE,
                 GetValue= function() return not Save().disabled end,
                 SetValue= function()
                     Save().disabled= not Save().disabled and true or nil
                     Init_Panel()
                 end,
-                buttonText= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '重置' or RESET),
+                buttonText= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.RESET),
                 buttonFunc= function()
                     StaticPopup_Show('WoWTools_RestData',
                         WoWTools_TextureMixin.addName,
@@ -389,7 +389,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         WoWToolsPlusSave['Plus_Texture']= nil
                     end)
                 end,
-                tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD),
+                tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD),
                 layout= WoWTools_TextureMixin.Layout,
                 category= WoWTools_TextureMixin.Category,
             })

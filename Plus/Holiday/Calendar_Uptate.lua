@@ -67,7 +67,7 @@ local function Init()
     btn:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, 'ANCHOR_LEFT')
         GameTooltip_SetTitle(GameTooltip,
-            WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '返回' or NPE_ABANDON_A_RETURN)
+            WoWTools_DataMixin.Icon.icon2..(WoWTools_L.NPE_ABANDON_A_RETURN)
         )
         GameTooltip:Show()
     end)

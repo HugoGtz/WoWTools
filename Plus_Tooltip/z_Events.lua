@@ -124,7 +124,7 @@ function WoWTools_TooltipMixin.Events:Blizzard_RemixArtifactUI()
 
         frame.NeedostLabe:SetText(
             needCost>0 and
-            (WoWTools_DataMixin.onlyChinese and '需求' or NEED)..' '..WoWTools_DataMixin:MK(needCost, 3)
+            (WoWTools_L.NEED)..' '..WoWTools_DataMixin:MK(needCost, 3)
             or ''
         )
     end
@@ -140,9 +140,9 @@ function WoWTools_TooltipMixin.Events:Blizzard_RemixArtifactUI()
         GameTooltip_SetTitle(GameTooltip, WoWTools_TooltipMixin.addName..WoWTools_DataMixin.Icon.icon2)
         GameTooltip:AddLine(
             format(
-                WoWTools_DataMixin.onlyChinese and "还需要再花费%i点%s" or GARRISON_TALENT_TREE_REQUIRED_CURRENCY_SPENT_FORMAT,
+                WoWTools_L.GARRISON_TALENT_TREE_REQUIRED_CURRENCY_SPENT_FORMAT,
                 f.needCost or 0,
-                WoWTools_DataMixin.onlyChinese and '解锁' or UNLOCK
+                WoWTools_L.UNLOCK
             )
         )
 
@@ -176,11 +176,11 @@ function WoWTools_TooltipMixin.Events:Blizzard_RemixArtifactUI()
         GameTooltip:SetOwner(f, 'ANCHOR_BOTTOM')
         GameTooltip_SetTitle(GameTooltip,
             (InCombatLockdown() and '|cff606060' or '')
-            ..(WoWTools_DataMixin.onlyChinese and '学习' or LEARN)
+            ..(WoWTools_L.LEARN)
             ..WoWTools_DataMixin.Icon.left
             ..WoWTools_DataMixin.Icon.icon2
             ..WoWTools_DataMixin.Icon.right
-            ..(WoWTools_DataMixin.onlyChinese and '还原' or TRANSMOGRIFY_TOOLTIP_REVERT)
+            ..(WoWTools_L.TRANSMOGRIFY_TOOLTIP_REVERT)
         )
         GameTooltip:Show()
     end)
@@ -378,12 +378,12 @@ function WoWTools_TooltipMixin.Events:Blizzard_GenericTraitUI()
         local icon = select(4, C_Traits.GetTraitCurrencyInfo(currencyInfo.traitCurrencyID))
 
         GameTooltip:AddDoubleLine(
-            (WoWTools_DataMixin.onlyChinese and '数量' or AUCTION_HOUSE_QUANTITY_LABEL)..HEADER_COLON
+            (WoWTools_L.AUCTION_HOUSE_QUANTITY_LABEL)..HEADER_COLON
             ..(currencyInfo.quantity or 0)
             ..'/'
-            ..(currencyInfo.maxQuantity or (WoWTools_DataMixin.onlyChinese and '无限' or UNLIMITED)),
+            ..(currencyInfo.maxQuantity or (WoWTools_L.UNLIMITED)),
 
-            (WoWTools_DataMixin.onlyChinese and '总花费：' or ITEM_UPGRADE_COST_LABEL)..(currencyInfo.spent or 0)
+            (WoWTools_L.ITEM_UPGRADE_COST_LABEL)..(currencyInfo.spent or 0)
         )
         GameTooltip:AddDoubleLine(
             icon and '|T'..icon..':'..WoWTools_TooltipMixin.iconSize..'|t|cffffffff'..icon,

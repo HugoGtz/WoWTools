@@ -32,19 +32,19 @@ local function Init()
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName , WoWTools_AddOnsMixin.addName)
-        GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '创建一个新配置方案' or CREATE_NEW_COMPACT_UNIT_FRAME_PROFILE)
+        GameTooltip:AddLine(WoWTools_L.CREATE_NEW_COMPACT_UNIT_FRAME_PROFILE)
         GameTooltip:AddLine(' ')
 
         WoWTools_AddOnsMixin:Show_Select_Tooltip()--提示，当前，选中
 
         GameTooltip:AddLine(' ')
-        GameTooltip:AddLine('|A:communities-chat-icon-plus:0:0|a'..(WoWTools_DataMixin.onlyChinese and '新建' or NEW)..WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddLine('|A:communities-chat-icon-plus:0:0|a'..(WoWTools_L.NEW)..WoWTools_DataMixin.Icon.left)
         GameTooltip:Show()
     end)
 
     NewButton:SetScript('OnClick',function(self)
         WoWTools_TextureMixin:GetNewIcon(self, {
-            text= WoWTools_DataMixin.onlyChinese and '新的方案' or PAPERDOLL_NEWEQUIPMENTSET,
+            text= WoWTools_L.PAPERDOLL_NEWEQUIPMENTSET,
             texture= 0,
             SetValue=function(newIcon, newText)
                 local name= '|T'..(newIcon or 0)..':0|t'..newText
@@ -52,7 +52,7 @@ local function Init()
                     print(
                         WoWTools_DataMixin.Icon.icon2..name,
                         '|cnWARNING_FONT_COLOR:',
-                        WoWTools_DataMixin.onlyChinese and '替换' or REPLACE
+                        WoWTools_L.REPLACE
                     )
                 end
                 Save().buttons[name]= select(3 , WoWTools_AddOnsMixin:Get_AddListInfo())
@@ -142,8 +142,8 @@ local function Init()
         end
 
         GameTooltip:AddDoubleLine(
-            load..' |cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '已加载' or LOAD_ADDON)..'|r |cnWARNING_FONT_COLOR:'..allMemberText,
-            '|cffff00ff'..need..' '..(WoWTools_DataMixin.onlyChinese and '只能按需加载' or ADDON_DEMAND_LOADED)
+            load..' |cnGREEN_FONT_COLOR:'..(WoWTools_L.LOAD_ADDON)..'|r |cnWARNING_FONT_COLOR:'..allMemberText,
+            '|cffff00ff'..need..' '..(WoWTools_L.ADDON_DEMAND_LOADED)
         )
 
         GameTooltip:Show()
@@ -167,8 +167,8 @@ local function Init()
     NewButton.Text3:SetScript('OnEnter', function (self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip_SetTitle(GameTooltip, format('|cnGREEN_FONT_COLOR:%s|r + |cffff00ff%s|r',
-            WoWTools_DataMixin.onlyChinese and '已加载' or LOAD_ADDON,
-            WoWTools_DataMixin.onlyChinese and '只能按需加载' or ADDON_DEMAND_LOADED
+            WoWTools_L.LOAD_ADDON,
+            WoWTools_L.ADDON_DEMAND_LOADED
         ), nil)
         GameTooltip:Show()
         self:SetAlpha(0.3)
@@ -212,7 +212,7 @@ local function Init()
     end)
     NewButton.Text:SetScript('OnEnter', function (self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
-        GameTooltip_SetTitle(GameTooltip, WoWTools_DataMixin.onlyChinese and '已选中' or WoWTools_L['Selected'])
+        GameTooltip_SetTitle(GameTooltip, WoWTools_L['Selected'])
         GameTooltip:Show()
         self:SetAlpha(0.3)
     end)

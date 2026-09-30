@@ -62,16 +62,16 @@ local function Settings(_, name, isTank, isHealer, isDamage, isNativeRealm, allo
             WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2
         )
         print(
-            '|cnGREEN_FONT_COLOR:'..(sec or ''), (WoWTools_DataMixin.onlyChinese and '秒' or LOSS_OF_CONTROL_SECONDS)..'|r',
+            '|cnGREEN_FONT_COLOR:'..(sec or ''), (WoWTools_L.LOSS_OF_CONTROL_SECONDS)..'|r',
 
             text,
 
             (isTank and WoWTools_DataMixin.Icon.TANK or '')
             ..(isHealer and WoWTools_DataMixin.Icon.HEALER or '')
             ..(isDamage and WoWTools_DataMixin.Icon.DAMAGER or '')
-            ..(allowMultipleRoles and '|cffff8200'..(WoWTools_DataMixin.onlyChinese and '多个职责' or CLUB_FINDER_MULTIPLE_ROLES)..'|r' or ''),
+            ..(allowMultipleRoles and '|cffff8200'..(WoWTools_L.CLUB_FINDER_MULTIPLE_ROLES)..'|r' or ''),
 
-            (questSessionActive and '|cff00ffff'..(WoWTools_DataMixin.onlyChinese and '场景战役' or SCENARIOS) or '')--场景战役
+            (questSessionActive and '|cff00ffff'..(WoWTools_L.SCENARIOS) or '')--场景战役
         )
         if isNativeRealm then--转服务器
              print(
@@ -88,7 +88,7 @@ local function Settings(_, name, isTank, isHealer, isDamage, isNativeRealm, allo
         if sec then
             print(
                 WoWTools_DataMixin.Icon.icon2..'|cnGREEN_FONT_COLOR:Alt',
-                WoWTools_DataMixin.onlyChinese and '取消' or CANCEL
+                WoWTools_L.CANCEL
             )
         end
         WoWTools_CooldownMixin:Setup(StaticPopupFrame, nil, sec or TimeLeft, nil, true, true, nil)--冷却条    
@@ -98,10 +98,10 @@ local function Settings(_, name, isTank, isHealer, isDamage, isNativeRealm, allo
 --拒绝
     if Save().InvNoFriend[inviterGUID] then
         sec= 3
-        text= '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '拒绝' or DECLINE)..' '..Save().InvNoFriend[inviterGUID]..'/'..Save().InvNoFriendNum..'|r'
+        text= '|cnWARNING_FONT_COLOR:'..(WoWTools_L.DECLINE)..' '..Save().InvNoFriend[inviterGUID]..'/'..Save().InvNoFriendNum..'|r'
         setPrint()
 
-        StaticPopupFrame.button3:SetText(WoWTools_DataMixin.onlyChinese and '移除拒绝' or WoWTools_Join(REMOVE, DECLINE))
+        StaticPopupFrame.button3:SetText(WoWTools_L['REMOVE+DECLINE'])
 
         if InvTimer then InvTimer:Cancel() InvTimer=nil end
 
@@ -117,7 +117,7 @@ local function Settings(_, name, isTank, isHealer, isDamage, isNativeRealm, allo
         sec=isInLFG() and 10 or 3--是否有FB, 排除中
 
         text= '|cnGREEN_FONT_COLOR:'
-            ..(WoWTools_DataMixin.onlyChinese and '接受好友' or WoWTools_Join(ACCEPT, FRIENDS))
+            ..(WoWTools_L['ACCEPT+FRIENDS'])
             ..'|r'
         setPrint()
 
@@ -168,7 +168,7 @@ local function Init()
 
             print(
                 WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                WoWTools_DataMixin.onlyChinese and '移除' or REMOVE,
+                WoWTools_L.REMOVE,
                 WoWTools_UnitMixin:GetLink(nil, InviterPlayerGUID, nil, false)
             )
             Accept()
@@ -181,7 +181,7 @@ local function Init()
 
             print(
                 WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                WoWTools_DataMixin.onlyChinese and '添加' or ADD,
+                WoWTools_L.ADD,
                 WoWTools_UnitMixin:GetLink(nil, InviterPlayerGUID, nil, false)
             )
             Decline()

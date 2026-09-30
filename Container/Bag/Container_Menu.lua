@@ -76,7 +76,7 @@ local function Get_BagName(frame)--frame:GetBagID()
 
     local bagName
     if frame==ContainerFrameCombinedBags then
-        bagName= '|A:bag-main:0:0|a'..(WoWTools_DataMixin.onlyChinese and '组合背包' or COMBINED_BAG_TITLE)
+        bagName= '|A:bag-main:0:0|a'..(WoWTools_L.COMBINED_BAG_TITLE)
 
     elseif ContainerFrame_IsReagentBag(bagID) then
         bagName= '|A:Professions_Tracking_Fish:0:0|a'
@@ -87,7 +87,7 @@ local function Get_BagName(frame)--frame:GetBagID()
         local inventoryID = C_Container.ContainerIDToInventoryID(bagID)
         bagName= (
                 WoWTools_TextMixin:CN(C_Container.GetBagName(bagID), {itemID=GetInventoryItemID('player', inventoryID), isName=true})
-                or (WoWTools_DataMixin.onlyChinese and '行囊' or BAG_NAME_BACKPACK)
+                or (WoWTools_L.BAG_NAME_BACKPACK)
             )
             ..' '..(name:match('%d') or '')
 
@@ -117,7 +117,7 @@ local function Init_Columns_Menu(self, root2)
 
     local root= root2:CreateCheckbox(
         '|cnWARNING_FONT_COLOR:'
-        ..(WoWTools_DataMixin.onlyChinese and '行数' or HUD_EDIT_MODE_SETTING_ACTION_BAR_NUM_ROWS),
+        ..(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_NUM_ROWS),
     function()
         return Save().enabledCombinedColumns
     end, function()
@@ -126,8 +126,8 @@ local function Init_Columns_Menu(self, root2)
     end, {rightText= Get_Columns(self)})
 
     root:SetTooltip(function(tooltip)
-        GameTooltip_AddInstructionLine(tooltip, WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
-        GameTooltip_AddErrorLine(tooltip, WoWTools_DataMixin.onlyChinese and '可能会出现错误' or WoWTools_L['Errors may occur'])
+        GameTooltip_AddInstructionLine(tooltip, WoWTools_L.REQUIRES_RELOAD)
+        GameTooltip_AddErrorLine(tooltip, WoWTools_L['Errors may occur'])
     end)
 
 if Save().enabledCombinedColumns then
@@ -234,7 +234,7 @@ if Save().enabledCombinedColumns then
 
     sub:CreateSpacer()
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '全部重置' or RESET_ALL_BUTTON_TEXT,
+        WoWTools_L.RESET_ALL_BUTTON_TEXT,
     function()
         for _, frame in pairs(frames) do
             Save()[frame:GetName()..'Columns']= nil
@@ -261,7 +261,7 @@ if Save().enabledCombinedColumns then
 end
     sub= root2:CreateCheckbox(
         '|A:common-icon-delete:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '摧毁' or HOUSING_DECOR_STORAGE_ITEM_DESTROY),
+        ..(WoWTools_L.HOUSING_DECOR_STORAGE_ITEM_DESTROY),
     function()
         return not Save().delete.disabled
     end, function()
@@ -270,7 +270,7 @@ end
     end)
 
     sub:SetTooltip(function(tooltip)
-        GameTooltip_AddErrorLine(tooltip, WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+        GameTooltip_AddErrorLine(tooltip, WoWTools_L.REQUIRES_RELOAD)
     end)
 --重载
     WoWTools_MenuMixin:Reload(sub)
@@ -307,7 +307,7 @@ local function Init()
             --root:CreateDivider()
 
             sub=root:CreateCheckbox(
-                WoWTools_DataMixin.onlyChinese and '全部启用' or ENABLE_ALL_ADDONS,
+                WoWTools_L.ENABLE_ALL_ADDONS,
             function(data)
                 for _, flag in ContainerFrameUtil_EnumerateBagGearFilters() do
                     if C_Container.GetBagSlotFlag(data.bagID, flag)==false then
@@ -327,7 +327,7 @@ local function Init()
             end)
 --全部禁用
             sub=root:CreateCheckbox(
-                WoWTools_DataMixin.onlyChinese and '全部禁用' or DISABLE_ALL_ADDONS,
+                WoWTools_L.DISABLE_ALL_ADDONS,
             function(data)
                 for _, flag in ContainerFrameUtil_EnumerateBagGearFilters() do
                     if C_Container.GetBagSlotFlag(data.bagID, flag) then
@@ -372,7 +372,7 @@ local function Init()
         root:CreateDivider()
 
         sub= root:CreateCheckbox(
-            WoWTools_DataMixin.onlyChinese and '反向整理背包' or REVERSE_CLEAN_UP_BAGS_TEXT,
+            WoWTools_L.REVERSE_CLEAN_UP_BAGS_TEXT,
         function()
             return not C_Container.GetSortBagsRightToLeft()
         end, function()
@@ -386,7 +386,7 @@ local function Init()
         end)
 
         sub= root:CreateCheckbox(
-            WoWTools_DataMixin.onlyChinese and '将战利品放入最左边的背包' or REVERSE_NEW_LOOT_TEXT,
+            WoWTools_L.REVERSE_NEW_LOOT_TEXT,
         function()
             return C_Container.GetInsertItemsLeftToRight()
         end, function()
@@ -400,7 +400,7 @@ local function Init()
         end)
 
         sub= root:CreateCheckbox(
-            WoWTools_DataMixin.onlyChinese and '禁用排序' or WoWTools_Join(DISABLE, STABLE_FILTER_BUTTON_LABEL),
+            WoWTools_L['DISABLE+STABLE_FILTER_BUTTON_LABEL'],
         function()
             return C_Container.GetBackpackAutosortDisabled()
         end, function()
@@ -413,7 +413,7 @@ local function Init()
         end)
 
         sub= root:CreateCheckbox(
-            WoWTools_DataMixin.onlyChinese and '禁用出售垃圾' or WoWTools_Join(DISABLE, SELL_ALL_JUNK_ITEMS_EXCLUDE_HEADER),
+            WoWTools_L['DISABLE+SELL_ALL_JUNK_ITEMS_EXCLUDE_HEADER'],
         function()
             return C_Container.GetBackpackSellJunkDisabled()
         end, function()

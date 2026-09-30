@@ -31,14 +31,14 @@ function WoWTools_TooltipMixin:Set_Faction(tooltip, factionID)--, frame)
 --名称
         ..(
             info.friendshipID and 'friendshipID'
-            or (info.isMajor and (WoWTools_DataMixin.onlyChinese and '名望' or JOURNEYS_RENOWN_LABEL))
-            or (WoWTools_DataMixin.onlyChinese and '声望' or REPUTATION)
+            or (info.isMajor and (WoWTools_L.JOURNEYS_RENOWN_LABEL))
+            or (WoWTools_L.REPUTATION)
         )
 --图标
         ..icon
         ..'|cffffffff'..info.factionID,
 
-        (info.factionStandingtext and (WoWTools_DataMixin.onlyChinese and '等级' or LEVEL)..' |cffffffff'..info.factionStandingtext)
+        (info.factionStandingtext and (WoWTools_L.LEVEL)..' |cffffffff'..info.factionStandingtext)
         ..' '
         ..(info.valueText or '')
         ..' '..(info.xp or '')
@@ -49,7 +49,7 @@ function WoWTools_TooltipMixin:Set_Faction(tooltip, factionID)--, frame)
         GameTooltip_AddInstructionLine(tooltip,
             info.hasRewardPending
             ..'|cnWARNING_FONT_COLOR:'
-            ..(WoWTools_DataMixin.onlyChinese and '你有未领取的奖励' or WEEKLY_REWARDS_UNCLAIMED_TITLE)
+            ..(WoWTools_L.WEEKLY_REWARDS_UNCLAIMED_TITLE)
         )
     end
 
@@ -57,7 +57,7 @@ function WoWTools_TooltipMixin:Set_Faction(tooltip, factionID)--, frame)
         tooltip:AddLine(
             '|cnWARNING_FONT_COLOR:'
             ..format(
-                WoWTools_DataMixin.onlyChinese and  '%s尚未解锁' or ERR_AZERITE_ESSENCE_SELECTION_FAILED_ESSENCE_NOT_UNLOCKED,
+                WoWTools_L.ERR_AZERITE_ESSENCE_SELECTION_FAILED_ESSENCE_NOT_UNLOCKED,
                 '|A:Professions_Specialization_Lock_Glow:0:0|a'
             )
         )

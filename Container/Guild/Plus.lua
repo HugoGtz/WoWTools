@@ -98,7 +98,7 @@ local function UpdateTabs(self)
                 ..'|n'..(accessIcon or '')..access
                 ..(remaining and
                     '|n|cnGREEN_FONT_COLOR:'
-                    ..(WoWTools_DataMixin.onlyChinese and '提取数量：' or GUILDBANK_WITHDRAW)
+                    ..(WoWTools_L.GUILDBANK_WITHDRAW)
                     ..remaining
                     or ''
                 )

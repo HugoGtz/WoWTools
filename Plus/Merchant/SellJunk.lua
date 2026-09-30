@@ -25,10 +25,10 @@ local function Init()
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_MerchantMixin.addName)
         --GameTooltip:AddLine('|A:Cursor_lootall_128:0:0|a'..(WoWTools_DataMixin.onlyChinese and "自动拾取" or AUTO_LOOT_DEFAULT_TEXT)..' Plus')
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '自动出售垃圾' or WoWTools_Join(SELF_CAST_AUTO, SELL_ALL_JUNK_ITEMS_EXCLUDE_HEADER), WoWTools_TextMixin:GetEnabeleDisable(not Save().notSellJunk))
+        GameTooltip:AddDoubleLine(WoWTools_L['SELF_CAST_AUTO+SELL_ALL_JUNK_ITEMS_EXCLUDE_HEADER'], WoWTools_TextMixin:GetEnabeleDisable(not Save().notSellJunk))
         if not Save().notSellJunk then
             GameTooltip:AddLine(format(
-                WoWTools_DataMixin.onlyChinese and '品质：%s' or PROFESSIONS_CRAFTING_QUALITY,
+                WoWTools_L.PROFESSIONS_CRAFTING_QUALITY,
                 WoWTools_ItemMixin.QualityText[0]
             ))
         end
@@ -69,7 +69,7 @@ local function Init()
                 then
                     print(
                         WoWTools_MerchantMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                        WoWTools_DataMixin.onlyChinese and '中断' or INTERRUPT
+                        WoWTools_L.INTERRUPT
                     )
                     return
 
@@ -116,11 +116,11 @@ local function Init()
             print(
                 WoWTools_MerchantMixin.addName..WoWTools_DataMixin.Icon.icon2,
 
-                (WoWTools_DataMixin.onlyChinese and '出售' or AUCTION_HOUSE_SELL_TAB)
+                (WoWTools_L.AUCTION_HOUSE_SELL_TAB)
                 ..' |cnGREEN_FONT_COLOR:'..gruop..'|r'
-                ..(WoWTools_DataMixin.onlyChinese and '组' or AUCTION_PRICE_PER_STACK),
+                ..(WoWTools_L.AUCTION_PRICE_PER_STACK),
 
-                '|cnGREEN_FONT_COLOR:'..num..'|r'..(WoWTools_DataMixin.onlyChinese and '件' or AUCTION_HOUSE_QUANTITY_LABEL),
+                '|cnGREEN_FONT_COLOR:'..num..'|r'..(WoWTools_L['AUCTION_HOUSE_QUANTITY_LABEL~2']),
                 C_CurrencyInfo.GetCoinTextureString(preceTotale)
             )
         end
@@ -137,7 +137,7 @@ local function Init()
 
 --提示，垃圾，数量
     MerchantSellAllJunkButton:HookScript('OnEnter', function()
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '垃圾' or BAG_FILTER_JUNK , '|cnGREEN_FONT_COLOR:'..(C_MerchantFrame.GetNumJunkItems() or 0))
+        GameTooltip:AddDoubleLine(WoWTools_L.BAG_FILTER_JUNK , '|cnGREEN_FONT_COLOR:'..(C_MerchantFrame.GetNumJunkItems() or 0))
         GameTooltip:Show()
     end)
     MerchantSellAllJunkButton.Text= WoWTools_LabelMixin:Create(MerchantSellAllJunkButton, {justifyH='RIGHT'})
@@ -202,7 +202,7 @@ Frame:SetScript("OnEvent", function(_, event, _, itemID, itemLink, _, playerName
                 if Save().sellBoss then
                     print(
                         WoWTools_MerchantMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                        WoWTools_DataMixin.onlyChinese and '添加出售' or WoWTools_Join(ADD, AUCTION_HOUSE_SELL_TAB),
+                        WoWTools_L['ADD+AUCTION_HOUSE_SELL_TAB'],
                         itemLink or itemID
                     )
                 end

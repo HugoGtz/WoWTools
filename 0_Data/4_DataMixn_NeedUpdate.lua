@@ -51,9 +51,9 @@ local WeekItemLevel, Init_WeekItemLevel
 function Init_WeekItemLevel()
     local tab={
         --['Veteran']= format('|cff1eff00%s|r', WoWTools_DataMixin.onlyChinese and '老兵' or 'Veteran'),
-        ['Champion']= format('|cff0070dd%s|r', WoWTools_DataMixin.onlyChinese and '勇士' or FOLLOWERLIST_LABEL_CHAMPIONS),
-        ['Hero']= format('|cffa334ee%s|r', WoWTools_DataMixin.onlyChinese and '英雄' or ITEM_HEROIC),
-        ['Myth']= format('|cffff8000%s|r', WoWTools_DataMixin.onlyChinese and '神话' or ITEM_QUALITY4_DESC),
+        ['Champion']= format('|cff0070dd%s|r', WoWTools_L.FOLLOWERLIST_LABEL_CHAMPIONS),
+        ['Hero']= format('|cffa334ee%s|r', WoWTools_L.ITEM_HEROIC),
+        ['Myth']= format('|cffff8000%s|r', WoWTools_L.ITEM_QUALITY4_DESC),
     }
     WeekItemLevel={
         [2]='%d'..tab['Champion']..'2/6  %d'..tab['Hero']..'1/6|T7639519:0|t10',--需要修改

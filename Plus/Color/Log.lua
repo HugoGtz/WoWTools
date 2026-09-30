@@ -26,7 +26,7 @@ local function Set_SaveLogList()
 			else
 				icon:SetPoint('TOP', Textures[i-1], 'BOTTOM')
 			end
-			icon.tooltip= (WoWTools_DataMixin.onlyChinese and '记录' or EVENTTRACE_LOG_HEADER)..' '..i
+			icon.tooltip= (WoWTools_L.EVENTTRACE_LOG_HEADER)..' '..i
 			table.insert(Textures, icon)
 		end
 		icon.r, icon.g, icon.b, icon.a= col.r, col.g, col.b, col.a
@@ -67,7 +67,7 @@ local function Init()
 	ColorPickerFrame.Content.ColorSwatchCurrent:HookScript('OnEnter', function(self)
 		GameTooltip:SetOwner(ColorPickerFrame, "ANCHOR_RIGHT")
         GameTooltip:ClearLines()
-		GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and "当前颜色" or WoWTools_Join(REFORGE_CURRENT, COLOR))
+		GameTooltip:AddLine(WoWTools_L['REFORGE_CURRENT+COLOR'])
 		GameTooltip:Show()
 		self:SetAlpha(0.5)
 	end)
@@ -82,7 +82,7 @@ local function Init()
 		local r,g,b,a= ColorPickerFrame:GetPreviousValues()
 		GameTooltip:SetOwner(ColorPickerFrame, "ANCHOR_RIGHT")
         GameTooltip:ClearLines()
-		GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and "初始|n匹配值" or BATTLEGROUND_MATCHMAKING_VALUE, WoWTools_DataMixin.Icon.left)
+		GameTooltip:AddDoubleLine(WoWTools_L.BATTLEGROUND_MATCHMAKING_VALUE, WoWTools_DataMixin.Icon.left)
 		if r and g and b then
 			GameTooltip:AddLine(' ')
 			GameTooltip:AddDoubleLine(
@@ -162,8 +162,8 @@ local function Init()
 		icon.tooltip= function(self)
 			GameTooltip:AddLine(' ')
 			GameTooltip:AddDoubleLine(
-				(WoWTools_DataMixin.onlyChinese and '常用颜色' or WoWTools_Join(SAVE, COLOR))..' '..self.index,
-				(WoWTools_DataMixin.onlyChinese and '替换' or REPLACE)..WoWTools_DataMixin.Icon.right
+				(WoWTools_L['SAVE+COLOR'])..' '..self.index,
+				(WoWTools_L.REPLACE)..WoWTools_DataMixin.Icon.right
 			)
 		end
 		icon.notClick='RightButton'
@@ -202,7 +202,7 @@ local function Init()
 					local col= select(5, WoWTools_ColorMixin:Get_ColorFrameRGBA())
 --当前
 					sub= root:CreateButton(
-						WoWTools_DataMixin.onlyChinese and '当前' or REFORGE_CURRENT,
+						WoWTools_L.REFORGE_CURRENT,
 					function (data)
 						settings(data)
 						return MenuResponse.Open
@@ -211,7 +211,7 @@ local function Init()
 					sub:SetTooltip(set_tooltip)
 --选择
 					sub= root:CreateButton(
-						WoWTools_DataMixin.onlyChinese and '选择' or CHOOSE,
+						WoWTools_L.CHOOSE,
 					function(data)
 						settings(data)
 						return MenuResponse.Open
@@ -220,7 +220,7 @@ local function Init()
 					sub:SetTooltip(set_tooltip)
 --默认
 					sub= root:CreateButton(
-						WoWTools_DataMixin.onlyChinese and '默认' or DEFAULT,
+						WoWTools_L.DEFAULT,
 					function (data)
 						settings(data)
 						return MenuResponse.Open

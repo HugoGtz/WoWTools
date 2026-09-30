@@ -11,7 +11,7 @@ local function InvPlateGuidFunc()--从已邀请过列表里, 再次邀请
     if not WoWTools_InviteMixin:Get_Leader() then--取得权限
         print(
             WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,
-            WoWTools_DataMixin.onlyChinese and '你没有权利这样做' or ERR_GUILD_PERMISSIONS
+            WoWTools_L.ERR_GUILD_PERMISSIONS
         )
         return
     end
@@ -66,16 +66,16 @@ local function Init_Menu(self, root)
     sub=root:CreateButton(
         WoWTools_DataMixin.Icon.left
         ..(WoWTools_InviteMixin:Get_Leader() and '' or '|cff626262')
-        ..(WoWTools_DataMixin.onlyChinese and '邀请成员' or GUILDCONTROL_OPTION7),
+        ..(WoWTools_L.GUILDCONTROL_OPTION7),
     function()
         WoWTools_InviteMixin:Inv_All_Unit()
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '周围玩家' or WoWTools_L['Players around'])
+        tooltip:AddLine(WoWTools_L['Players around'])
     end)
 
-    sub:CreateButton(WoWTools_DataMixin.onlyChinese and '再次邀请' or INVITE, InvPlateGuidFunc)
-    sub:CreateButton(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL, function()
+    sub:CreateButton(WoWTools_L['INVITE~2'], InvPlateGuidFunc)
+    sub:CreateButton(WoWTools_L.CLEAR_ALL, function()
         WoWTools_InviteMixin.InvPlateGuid={}
     end)
     sub:CreateDivider()
@@ -89,7 +89,7 @@ local function Init_Menu(self, root)
                     C_PartyInfo.InviteUnit(name)
                 end, name)
                 sub2:SetTooltip(function(tooltip)
-                    tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '再次邀请' or INVITE)
+                    tooltip:AddLine(WoWTools_L['INVITE~2'])
                 end)
                 num= num+1
             end
@@ -98,7 +98,7 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetScrollMode(sub)
 
 
-    sub=root:CreateCheckbox((select(2, IsInInstance())~='none' and '|cff626262' or '')..(WoWTools_DataMixin.onlyChinese and '邀请目标' or WoWTools_Join(INVITE, TARGET))..'|A:poi-traveldirections-arrow2:0:0|a', function()
+    sub=root:CreateCheckbox((select(2, IsInInstance())~='none' and '|cff626262' or '')..(WoWTools_L['INVITE+TARGET'])..'|A:poi-traveldirections-arrow2:0:0|a', function()
         return Save().InvTar
     end, function()
         Save().InvTar= not Save().InvTar and true or nil
@@ -107,10 +107,10 @@ local function Init_Menu(self, root)
     end)
     sub:SetTooltip(function(tooltip)
         tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '仅限队长' or format(LFG_LIST_CROSS_FACTION, LEADER))
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '不在副本中' or WoWTools_Join(NO, INSTANCE))
+        tooltip:AddLine(WoWTools_L['NO+INSTANCE'])
     end)
 
-    sub=root:CreateCheckbox((WoWTools_DataMixin.onlyChinese and '频道' or CHANNEL)..'|A:poi-traveldirections-arrow2:0:0|a'..('|cnGREEN_FONT_COLOR: '..Save().ChannelText..'|r'), function()
+    sub=root:CreateCheckbox((WoWTools_L.CHANNEL)..'|A:poi-traveldirections-arrow2:0:0|a'..('|cnGREEN_FONT_COLOR: '..Save().ChannelText..'|r'), function()
         return Save().Channel
     end, function()
         Save().Channel = not Save().Channel and true or nil
@@ -123,9 +123,9 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '说, 喊, 密语' or (SAY..', '..YELL..', '..WHISPER))
     end)
 
-    sub:CreateButton(WoWTools_DataMixin.onlyChinese and '关键词' or KBASE_DEFAULT_SEARCH_TEXT, function()
+    sub:CreateButton(WoWTools_L.KBASE_DEFAULT_SEARCH_TEXT, function()
         StaticPopup_Show('WoWTools_EditText',
-        (WoWTools_DataMixin.onlyChinese and '关键词' or KBASE_DEFAULT_SEARCH_TEXT),
+        (WoWTools_L.KBASE_DEFAULT_SEARCH_TEXT),
         nil, {
             text=Save().ChannelText,
             SetValue= function(s)
@@ -133,7 +133,7 @@ local function Init_Menu(self, root)
                 Save().ChannelText = string.upper(edit:GetText() or '')
                 print(
                     WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                    WoWTools_DataMixin.onlyChinese and '频道' or CHANNEL,
+                    WoWTools_L.CHANNEL,
                     '|cnGREEN_FONT_COLOR:'..Save().ChannelText..'|r'
                 )
             end,
@@ -156,7 +156,7 @@ local function Init_Menu(self, root)
 --接受邀请
     root:CreateDivider()
     sub=root:CreateCheckbox(
-        '|A:communities-icon-notification:0:0|a'..(WoWTools_DataMixin.onlyChinese and '邀请' or INVITE),
+        '|A:communities-icon-notification:0:0|a'..(WoWTools_L.INVITE),
     function()
         return not Save().notInvitePlus
     end, function()
@@ -164,14 +164,14 @@ local function Init_Menu(self, root)
         if not WoWTools_InviteMixin:Init_StaticPopup() then
             print(
                 WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+                WoWTools_L.REQUIRES_RELOAD
             )
         end
     end)
 
-    sub:CreateTitle(WoWTools_DataMixin.onlyChinese and '接受' or ACCEPT)
+    sub:CreateTitle(WoWTools_L.ACCEPT)
     sub2=sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '好友' or FRIENDS,
+        WoWTools_L.FRIENDS,
     function()
         return Save().FriendAceInvite
     end, function()
@@ -182,25 +182,25 @@ local function Init_Menu(self, root)
     end)
 
 
-    sub:CreateTitle(WoWTools_DataMixin.onlyChinese and '拒绝' or DECLINE)
+    sub:CreateTitle(WoWTools_L.DECLINE)
     sub2=sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '休息区' or WoWTools_Join(CALENDAR_STATUS_OUT, ZONE),
+        WoWTools_L['CALENDAR_STATUS_OUT+ZONE'],
     function()
         return Save().NoInvInResting
     end, function()
         Save().NoInvInResting= not Save().NoInvInResting and true or nil
     end)
     sub2:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '必须处于休息区域。' or SPELL_FAILED_CUSTOM_ERROR_464)
+        tooltip:AddLine(WoWTools_L.SPELL_FAILED_CUSTOM_ERROR_464)
     end)
 
 
     sub:CreateDivider()
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '测试' or WoWTools_L['Test'],
+        WoWTools_L['Test'],
     function()
         local name= UnitName('player')
-        StaticPopup_Show("PARTY_INVITE", '|n'..format(WoWTools_DataMixin.onlyChinese and '"%s邀请你加入队伍"' or INVITATION, name)..'|n|n')
+        StaticPopup_Show("PARTY_INVITE", '|n'..format(WoWTools_L.INVITATION, name)..'|n|n')
         EventRegistry:TriggerEvent('PARTY_INVITE_REQUEST', UnitName('player'), true, true, true, false, true, WoWTools_DataMixin.Player.GUID, false)
         return MenuResponse.Open
     end)
@@ -212,7 +212,7 @@ local function Init_Menu(self, root)
 
 --召唤
     sub=root:CreateCheckbox(
-        '|A:RaidFrame-Icon-SummonPending:0:0|a'..(WoWTools_DataMixin.onlyChinese and '召唤' or SUMMON),
+        '|A:RaidFrame-Icon-SummonPending:0:0|a'..(WoWTools_L.SUMMON),
     function()
         return Save().Summon
     end, function()
@@ -241,7 +241,7 @@ local function Init_Menu(self, root)
     sub2:SetTooltip(function(tooltip)
         tooltip:AddLine(
             '|A:voicechat-icon-textchat-silenced:0:0|a'
-            ..(WoWTools_DataMixin.onlyChinese and '说' or SAY)
+            ..(WoWTools_L.SAY)
         )
         tooltip:AddLine(Save().SummonThxText or WoWTools_InviteMixin.SummonThxText, HIGHLIGHT_FONT_COLOR:GetRGB())
     end)
@@ -249,7 +249,7 @@ local function Init_Menu(self, root)
 --修改    
     sub:CreateButton(WoWTools_DataMixin.onlyChinese and '修改' or SLASH_CHAT_MODERATE2:gsub('/', ''), function()
         StaticPopup_Show('WoWTools_EditText',
-            (WoWTools_DataMixin.onlyChinese and '召唤' or SUMMON),
+            (WoWTools_L.SUMMON),
             nil,
             {
                 text= Save().SummonThxText or WoWTools_InviteMixin.SummonThxText,
@@ -271,7 +271,7 @@ local function Init_Menu(self, root)
 
     sub:CreateDivider()
     sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '团队' or RAID,
+        WoWTools_L.RAID,
     function()
         return Save().SummonThxInRaid
     end, function()
@@ -309,13 +309,13 @@ local function Init_Menu(self, root)
 
 
 --焦点
-    sub=root:CreateCheckbox((WoWTools_DataMixin.onlyChinese and '焦点' or HUD_EDIT_MODE_FOCUS_FRAME_LABEL)..(Save().setFucus and ' |cnGREEN_FONT_COLOR:'..Save().focusKey..'|r + '..WoWTools_DataMixin.Icon.left or ''), function()
+    sub=root:CreateCheckbox((WoWTools_L.HUD_EDIT_MODE_FOCUS_FRAME_LABEL)..(Save().setFucus and ' |cnGREEN_FONT_COLOR:'..Save().focusKey..'|r + '..WoWTools_DataMixin.Icon.left or ''), function()
         return Save().setFucus
     end, function()
         Save().setFucus= not Save().setFucus and true or nil
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+        tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
         tooltip:AddLine(WoWTools_DataMixin.onlyChinese and'友情提示: 可能会出现错误' or 'Note: Errors may occur')
     end)
 
@@ -327,7 +327,7 @@ local function Init_Menu(self, root)
             Save().focusKey= data
         end, key)
         sub2:SetTooltip(function(tooltip)
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+            tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
         end)
     end
 
@@ -335,16 +335,16 @@ local function Init_Menu(self, root)
         format('    %s+%s%s=%s|r',
                 Save().focusKey or '',
                 WoWTools_DataMixin.Icon.right,
-                WoWTools_DataMixin.onlyChinese and '空' or EMPTY,
-                WoWTools_DataMixin.onlyChinese and '清除' or SLASH_STOPWATCH_PARAM_STOP2
+                WoWTools_L.EMPTY,
+                WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2
             )
     )
     sub:CreateTitle(
         format('    %s+%s%s=%s|r',
                 Save().focusKey or '',
                 WoWTools_DataMixin.Icon.left,
-                WoWTools_DataMixin.onlyChinese and '单位' or GROUPMANAGER_UNIT_MARKER,
-                WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS
+                WoWTools_L.GROUPMANAGER_UNIT_MARKER,
+                WoWTools_L.SETTINGS
             )
     )
 
@@ -356,7 +356,7 @@ local function Init_Menu(self, root)
         Save().setFrameFun= not Save().setFrameFun and true or false
     end)
     sub2:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+        tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 
     sub:CreateTitle(format('   |A:bags-greenarrow:0:0|a%s', WoWTools_DataMixin.onlyChinese and '鼠标滚轮向上滚动: 密语' or (KEY_MOUSEWHEELUP..": "..SLASH_TEXTTOSPEECH_WHISPER)))
@@ -378,8 +378,8 @@ local function Init_Menu(self, root)
     root:CreateDivider()
     sub=root:CreateButton(
         format('%s|A:talents-button-reset:0:0|a%s',
-            WoWTools_DataMixin.onlyChinese and '拒绝' or DECLINE,
-            WoWTools_DataMixin.onlyChinese and '邀请' or INVITE),
+            WoWTools_L.DECLINE,
+            WoWTools_L.INVITE),
     function()
         return MenuResponse.Open
     end, {rightText=Save().InvNoFriendNum or 0})
@@ -387,10 +387,10 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetRightText(sub)
 
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL,
+        WoWTools_L.CLEAR_ALL,
     function()
         StaticPopup_Show('WoWTools_OK',
-        WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL,
+        WoWTools_L.CLEAR_ALL,
         nil,
         {SetValue=function()
             Save().InvNoFriend={}
@@ -411,7 +411,7 @@ local function Init_Menu(self, root)
             )
         end, guid)
         sub2:SetTooltip(function(tooltip)
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '移除' or REMOVE)
+            tooltip:AddLine(WoWTools_L.REMOVE)
         end)
     end
     WoWTools_MenuMixin:SetScrollMode(sub2)

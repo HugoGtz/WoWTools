@@ -235,14 +235,14 @@ local function Init()
     function GossipButton:set_tooltip()
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_DataMixin.onlyChinese and '对话' or ENABLE_DIALOG)
+        GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_L.ENABLE_DIALOG)
         GameTooltip:AddLine(' ')
         --GameTooltip:AddDoubleLine((WoWTools_DataMixin.onlyChinese and '缩放' or HOUSING_EXPERT_DECOR_SUBMODE_SCALE)..' '..(Save().scale or 1), 'Alt+'..WoWTools_DataMixin.Icon.mid)
 
         GameTooltip:AddDoubleLine('|A:transmog-icon-chat:0:0|a'..WoWTools_TextMixin:GetEnabeleDisable(Save().gossip), WoWTools_DataMixin.Icon.left)
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.right)
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '移动' or NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '对话替换' or WoWTools_Join(DIALOG_VOLUME, REPLACE), WoWTools_DataMixin.Icon.mid)
+        GameTooltip:AddDoubleLine(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine(WoWTools_L.NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine(WoWTools_L['DIALOG_VOLUME+REPLACE'], WoWTools_DataMixin.Icon.mid)
         --GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '选项' or OPTIONS, WoWTools_DataMixin.Icon.mid)
         GameTooltip:Show()
         self.texture:SetAlpha(1)
@@ -315,8 +315,8 @@ local function Init()
                     MovieFrame:StopMovie()
                     print(
                         WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                        WoWTools_DataMixin.onlyChinese and '对话' or ENABLE_DIALOG,
-                        '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '跳过' or RENOWN_LEVEL_UP_SKIP_BUTTON)..'|r',
+                        WoWTools_L.ENABLE_DIALOG,
+                        '|cnWARNING_FONT_COLOR:'..(WoWTools_L.RENOWN_LEVEL_UP_SKIP_BUTTON)..'|r',
                         'movieID|cnGREEN_FONT_COLOR:',
                         arg1
                     )
@@ -411,8 +411,8 @@ local function Init()
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
         GameTooltip_SetTitle(GameTooltip, WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2)
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '对话替换' or WoWTools_Join(DIALOG_VOLUME, REPLACE), WoWTools_DataMixin.Icon.left)
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine(WoWTools_L['DIALOG_VOLUME+REPLACE'], WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.right)
         GameTooltip:Show()
         self:SetAlpha(1)
     end)
@@ -522,7 +522,7 @@ local function Create_GossipOptionCheckBox(btn, info)
         local showFrame= GossipButton:Is_ShowOptionsFrame()
         GameTooltip:SetOwner(showFrame or self, showFrame and "ANCHOR_BOTTOM" or "ANCHOR_RIGHT")
         GameTooltip_SetTitle(GameTooltip, WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2)
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '自动对话' or WoWTools_Join(SELF_CAST_AUTO, ENABLE_DIALOG), WoWTools_TextMixin:GetEnabeleDisable(Save().gossip))
+        GameTooltip:AddDoubleLine(WoWTools_L['SELF_CAST_AUTO+ENABLE_DIALOG'], WoWTools_TextMixin:GetEnabeleDisable(Save().gossip))
         GameTooltip:AddDoubleLine(' ')
         if self.gossipOptionID then
             GameTooltip:AddDoubleLine(
@@ -654,8 +654,8 @@ local function Create_AvailableQuestCheck(btn, info)
         else
             print(
                 WoWTools_GossipMixin.addName2..WoWTools_DataMixin.Icon.icon2,
-                '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '无' or NONE)..'|r',
-                WoWTools_DataMixin.onlyChinese and '任务' or QUESTS_LABEL,
+                '|cnWARNING_FONT_COLOR:'..(WoWTools_L.NONE)..'|r',
+                WoWTools_L.QUESTS_LABEL,
                 'ID'
             )
         end
@@ -792,7 +792,7 @@ local function Init_Hook()
             )
         then--任务
             if quest then
-                name= WoWTools_TextMixin:CN(info.name)..'<|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '任务' or QUESTS_LABEL)..'|r>'
+                name= WoWTools_TextMixin:CN(info.name)..'<|cnGREEN_FONT_COLOR:'..(WoWTools_L.QUESTS_LABEL)..'|r>'
             end
             C_GossipInfo.SelectOption(index)
             find=true

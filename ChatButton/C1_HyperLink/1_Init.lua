@@ -69,7 +69,7 @@ local function Init()
         local isDisabled= C_SocialRestrictions.IsChatDisabled()
         GameTooltip:AddDoubleLine(WoWTools_HyperLink.addName, WoWTools_TextMixin:GetEnabeleDisable(not isDisabled and Save().linkIcon))
         if isDisabled then
-            GameTooltip:AddDoubleLine('|cnWARNING_FONT_COLOR:' ..(WoWTools_DataMixin.onlyChinese and '关闭聊天' or RESTRICT_CHAT_CONFIG_DISABLE), WoWTools_TextMixin:GetEnabeleDisable(true))
+            GameTooltip:AddDoubleLine('|cnWARNING_FONT_COLOR:' ..(WoWTools_L.RESTRICT_CHAT_CONFIG_DISABLE), WoWTools_TextMixin:GetEnabeleDisable(true))
         end
         GameTooltip:Show()
     end
@@ -97,7 +97,7 @@ local function Init()
             self.Name:SetText(
                 (region and region.col or '')
                 ..'|A:recipetoast-icon-star:0:0|a'
-                ..(WoWTools_DataMixin.onlyChinese and '我' or COMBATLOG_FILTER_STRING_ME)
+                ..(WoWTools_L.COMBATLOG_FILTER_STRING_ME)
             )
         else
             local guid
@@ -171,7 +171,7 @@ panel:SetScript('OnEvent', function(self, event, arg1)
             WoWToolsPlusPlayerDate['HyperLinkGuildWelcomeText']= WoWToolsPlusPlayerDate['HyperLinkGuildWelcomeText'] or (WoWTools_DataMixin.Player.IsCN and '欢迎' or EMOTE103_CMD1:gsub('/',''))
             WoWToolsPlusPlayerDate['HyperLinkGroupWelcomeText']= WoWToolsPlusPlayerDate['HyperLinkGroupWelcomeText'] or (WoWTools_DataMixin.Player.IsCN and '{rt1}欢迎{rt1}' or '{rt1}Hi{rt1}')
 
-            WoWTools_HyperLink.addName= '|A:voicechat-icon-STT-on:0:0|a'..(WoWTools_DataMixin.onlyChinese and '超链接图标' or WoWTools_Join(COMMUNITIES_INVITE_MANAGER_COLUMN_TITLE_LINK, EMBLEM_SYMBOL))
+            WoWTools_HyperLink.addName= '|A:voicechat-icon-STT-on:0:0|a'..(WoWTools_L['COMMUNITIES_INVITE_MANAGER_COLUMN_TITLE_LINK+EMBLEM_SYMBOL'])
 
 
             if WoWTools_ChatMixin:CreateButton('HyperLink', WoWTools_HyperLink.addName) then

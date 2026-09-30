@@ -53,7 +53,7 @@ local function Init()
         local version, build, date, tocversion, localizedVersion, buildType = GetBuildInfo()
         GameTooltip:AddLine(version..' '..build.. ' '..date.. ' '..tocversion..(buildType and ' '..buildType or ''), 1,0,1)
         if localizedVersion and localizedVersion~='' then
-            GameTooltip:AddLine((WoWTools_DataMixin.onlyChinese and '本地' or REFORGE_CURRENT)..localizedVersion, 1,0,0)
+            GameTooltip:AddLine((WoWTools_L['REFORGE_CURRENT~2'])..localizedVersion, 1,0,0)
         end
         GameTooltip:AddLine('realmID '..(GetRealmID() or '')..' '..(GetNormalizedRealmName() or ''), 1,0.82,0)
         GameTooltip:AddLine('regionID '..WoWTools_DataMixin.Player.Region..' '..GetCurrentRegionName(), 1,0.82,0)
@@ -62,7 +62,7 @@ local function Init()
         if info and info.wowProjectID then
             local region=''
             if info.regionID and info.regionID~=WoWTools_DataMixin.Player.Region then
-                region=' regionID'..(WoWTools_DataMixin.onlyChinese and '|cnGREEN_FONT_COLOR:' or '|cnWARNING_FONT_COLOR:')..info.regionID..'|r'
+                region=' regionID'..(WoWTools_L['|cnWARNING_FONT_COLOR:'])..info.regionID..'|r'
             end
             GameTooltip:AddLine('isInCurrentRegion '..WoWTools_TextMixin:GetYesNo(info.isInCurrentRegion)..region, 1,1,1)
         end
@@ -73,20 +73,20 @@ local function Init()
 
         GameTooltip:AddLine(
             (GenerateFlatClosure(SettingsPanel.Open, SettingsPanel) and '|cffffffff' or'|cff828282')
-            ..(WoWTools_DataMixin.onlyChinese and '选项' or OPTIONS)..'|r'
+            ..(WoWTools_L.OPTIONS)..'|r'
             ..WoWTools_DataMixin.Icon.mid
-            ..(WoWTools_DataMixin.onlyChinese and '上' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP)
+            ..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP)
         )
         GameTooltip:AddLine(
             (GenerateFlatClosure(ShowUIPanel, AddonList, nil, G_GameMenuFrameContextKey) and C_AddOns.GetNumAddOns()> 0 and '|cffffffff' or '|cff828282')
-            ..(WoWTools_DataMixin.onlyChinese and '插件' or ADDONS)
+            ..(WoWTools_L.ADDONS)
             ..WoWTools_DataMixin.Icon.right
         )
         GameTooltip:AddLine(
             (bat and '|cff828282' or '|cffffffff')
             ..WoWTools_DataMixin.Icon.mid
-            ..(WoWTools_DataMixin.onlyChinese and '宏命令设置' or MACROS)
-            ..(WoWTools_DataMixin.onlyChinese and '下' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN)
+            ..(WoWTools_L.MACROS)
+            ..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN)
         )
 
         GameTooltip:Show()

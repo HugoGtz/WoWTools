@@ -78,7 +78,7 @@ local function Init()
                     nil,nil,nil,true
                 )
             else
-                tooltip:AddLine('|cnGREEN_FONT_COLOR:<Alt+'..(WoWTools_DataMixin.onlyChinese and '描述' or CALENDAR_EVENT_DESCRIPTION)..'>')
+                tooltip:AddLine('|cnGREEN_FONT_COLOR:<Alt+'..(WoWTools_L.CALENDAR_EVENT_DESCRIPTION)..'>')
             end
         end
 

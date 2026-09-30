@@ -23,7 +23,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 --showFriendInfoOnlyFavorite=true,--仅限收藏好友
             })
 
-            WoWTools_FriendsMixin.addName= '|A:socialqueuing-icon-group:0:0|a'..(WoWTools_DataMixin.onlyChinese and '好友列表' or FRIENDS_LIST)
+            WoWTools_FriendsMixin.addName= '|A:socialqueuing-icon-group:0:0|a'..(WoWTools_L.FRIENDS_LIST)
 
             --添加控制面板
             WoWTools_PanelMixin:OnlyCheck({
@@ -34,7 +34,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                     print(
                         WoWTools_FriendsMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-                        WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+                        WoWTools_L.REQUIRES_RELOAD
                     )
                 end
             })

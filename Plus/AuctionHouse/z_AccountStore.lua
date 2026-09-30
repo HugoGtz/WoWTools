@@ -40,7 +40,7 @@ local function Init()
                 btn.IsRefundable:SetScript('OnEnter', function(self)
                     GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
                     GameTooltip:ClearLines()
-                    GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '可以退款' or PLUNDERSTORE_REFUND_BUTTON_TEXT, WoWTools_DataMixin.addName)
+                    GameTooltip:AddDoubleLine(WoWTools_L.PLUNDERSTORE_REFUND_BUTTON_TEXT, WoWTools_DataMixin.addName)
                     GameTooltip:Show()
                 end)
             end

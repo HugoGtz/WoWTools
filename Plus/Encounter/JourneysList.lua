@@ -170,7 +170,7 @@ local function Init_Menu(self, root)
     local sub
 --显示名称
     sub=root:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '名称' or NAME,
+        WoWTools_L.NAME,
     function()
         return MenuResponse.Open
     end, {rightText=CountTable(Save().showName)})
@@ -189,7 +189,7 @@ local function Init_Menu(self, root)
     sub:CreateDivider()
 --勾选所有
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '勾选所有' or EVENTTRACE_BUTTON_ENABLE_FILTERS,
+        WoWTools_L.EVENTTRACE_BUTTON_ENABLE_FILTERS,
     function()
         for expansionID=WoWTools_DataMixin.ExpansionLevel, 9, -1 do
             Save().showName[expansionID]= true
@@ -199,7 +199,7 @@ local function Init_Menu(self, root)
     end)
 --撤选所有
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '撤选所有' or EVENTTRACE_BUTTON_DISABLE_FILTERS,
+        WoWTools_L.EVENTTRACE_BUTTON_DISABLE_FILTERS,
      function()
         Save().showName={}
         self:settings()
@@ -209,7 +209,7 @@ local function Init_Menu(self, root)
 
 --版本
     sub=root:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '禁用' or DISABLE,
+        WoWTools_L.DISABLE,
     function ()
         return MenuResponse.Open
     end, {rightText=CountTable(Save().noExpansion)})
@@ -228,7 +228,7 @@ local function Init_Menu(self, root)
     sub:CreateDivider()
 --勾选所有
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '勾选所有' or EVENTTRACE_BUTTON_ENABLE_FILTERS,
+        WoWTools_L.EVENTTRACE_BUTTON_ENABLE_FILTERS,
     function()
         for expansionID=WoWTools_DataMixin.ExpansionLevel, 9, -1 do
             Save().noExpansion[expansionID]= true
@@ -238,7 +238,7 @@ local function Init_Menu(self, root)
     end)
 --撤选所有
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '撤选所有' or EVENTTRACE_BUTTON_DISABLE_FILTERS,
+        WoWTools_L.EVENTTRACE_BUTTON_DISABLE_FILTERS,
      function()
         Save().noExpansion={}
         self:settings()

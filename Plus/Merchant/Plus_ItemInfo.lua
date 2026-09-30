@@ -122,8 +122,8 @@ local function Init_UI()
     if C_AddOns.IsAddOnLoaded("CompactVendor") then
         print(
             WoWTools_MerchantMixin.addName..WoWTools_DataMixin.Icon.icon2,
-            format(WoWTools_DataMixin.onlyChinese and "|cnWARNING_FONT_COLOR:与%s发生冲突！|r" or ALREADY_BOUND, 'Compact Vendor'),
-            WoWTools_DataMixin.onlyChinese and '插件' or ADDONS
+            format(WoWTools_L['ALREADY_BOUND~2'], 'Compact Vendor'),
+            WoWTools_L.ADDONS
         )
     end
 
@@ -474,7 +474,7 @@ if not btn.quantityAll then
                         btn:HookScript('OnEnter', function(self)
                             if self.itemLink and GameTooltip:IsShown() then
                                 GameTooltip:AddLine(' ')
-                                GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '链接至聊天栏' or COMMUNITIES_INVITE_MANAGER_LINK_TO_CHAT, WoWTools_DataMixin.Icon.left)
+                                GameTooltip:AddDoubleLine(WoWTools_L.COMMUNITIES_INVITE_MANAGER_LINK_TO_CHAT, WoWTools_DataMixin.Icon.left)
                                 GameTooltip:Show()
                             end
                         end)
@@ -539,7 +539,7 @@ local function Init_StackSplitFrame()
     rest:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, 'ANCHOR_LEFT')
         GameTooltip_SetTitle(GameTooltip, WoWTools_MerchantMixin.addName..WoWTools_DataMixin.Icon.icon2)
-        GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '重置' or RESET)
+        GameTooltip:AddLine(WoWTools_L.RESET)
         GameTooltip:Show()
     end)
     rest:SetScript('OnLeave', GameTooltip_Hide)

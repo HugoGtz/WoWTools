@@ -215,7 +215,7 @@ panel:SetScript('OnEvent', function(self, event, arg1)
     end
 
 
-    WoWTools_LFDMixin.addName= '|A:groupfinder-eye-frame:0:0|a'..(WoWTools_DataMixin.onlyChinese and '队伍查找器' or DUNGEONS_BUTTON)
+    WoWTools_LFDMixin.addName= '|A:groupfinder-eye-frame:0:0|a'..(WoWTools_L.DUNGEONS_BUTTON)
 
     --WoWTools_ChatMixin:GetButtonForName('LFD')
     Init(

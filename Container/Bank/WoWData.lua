@@ -52,7 +52,7 @@ local function Init()
         tooltip=function(tooltip)
             tooltip:AddLine(
                 '|A:BonusLoot-Chest:0:0|a'
-                ..(WoWTools_DataMixin.onlyChinese and '保存物品' or  WoWTools_Join(SAVE, ITEMS))
+                ..(WoWTools_L['SAVE+ITEMS'])
                 ..WoWTools_DataMixin.Icon.right
                 ..WoWTools_TextMixin:GetEnabeleDisable(Save().saveWoWData)
             )
@@ -64,14 +64,14 @@ local function Init()
                 MenuUtil.CreateContextMenu(self, function(_, root)
                     local sub=root:CreateCheckbox(
                         '|A:BonusLoot-Chest:0:0|a'
-                        ..(WoWTools_DataMixin.onlyChinese and '保存物品' or  WoWTools_Join(SAVE, ITEMS)),
+                        ..(WoWTools_L['SAVE+ITEMS']),
                     function()
                         return Save().saveWoWData
                     end, function()
                         self:set_click()
                     end)
                     sub:SetTooltip(function(tooltip)
-                        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '记录' or GUILD_BANK_LOG)
+                        tooltip:AddLine(WoWTools_L.GUILD_BANK_LOG)
                     end)
 
                     root:CreateSpacer()

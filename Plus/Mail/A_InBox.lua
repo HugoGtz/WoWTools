@@ -53,9 +53,9 @@ local function return_delete_InBox(openMailID)--删除，或退信
     local delOrRe
     local canDelete= InboxItemCanDelete(openMailID)
     if InboxItemCanDelete(openMailID) then
-        delOrRe= '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '删除' or DELETE)..'|r'
+        delOrRe= '|cnGREEN_FONT_COLOR:'..(WoWTools_L.DELETE)..'|r'
     else
-        delOrRe= '|cFFFF00FF'..(WoWTools_DataMixin.onlyChinese and '退信' or MAIL_RETURN)..'|r'
+        delOrRe= '|cFFFF00FF'..(WoWTools_L.MAIL_RETURN)..'|r'
     end
 
     if canDelete and (not money or money==0) and (not CODAmount or CODAmount==0) and (not itemCount or itemCount==0) then
@@ -105,7 +105,7 @@ local function set_Tooltips_DeleteAll(self, del)--所有，删除，退信，提
 
     GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
     GameTooltip:ClearLines()
-    GameTooltip:AddDoubleLine(WoWTools_MailMixin.addName, (WoWTools_DataMixin.onlyChinese and '收件箱' or INBOX)..' Plus')
+    GameTooltip:AddDoubleLine(WoWTools_MailMixin.addName, (WoWTools_L.INBOX)..' Plus')
     local num=0
     local findReTips--显示第一个，退回信里，的物品
     for i=1, select(2, GetInboxNumItems()) do
@@ -118,7 +118,7 @@ local function set_Tooltips_DeleteAll(self, del)--所有，删除，退信，提
             GameTooltip:AddDoubleLine((i<10 and ' ' or '')
                                     ..i..') |T'..(packageIcon or stationeryIcon)..':0|t'
                                     ..WoWTools_MailMixin:GetNameInfo(sender)
-                                    ..(not wasRead and ' |cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '未读' or COMMUNITIES_FRAME_JUMP_TO_UNREAD) or '')
+                                    ..(not wasRead and ' |cnWARNING_FONT_COLOR:'..(WoWTools_L.COMMUNITIES_FRAME_JUMP_TO_UNREAD) or '')
                                 , subject)
 
             if not canDelete and (itemCount and itemCount>0) and not findReTips then--物品，提示
@@ -152,8 +152,8 @@ local function set_Tooltips_DeleteAll(self, del)--所有，删除，退信，提
         end
     end
     GameTooltip:AddDoubleLine(' ',
-                        del and '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '删除' or DELETE)..'|r |cnGREEN_FONT_COLOR:#'..num
-                        or ('|cFFFF00FF'..(WoWTools_DataMixin.onlyChinese and '退信' or MAIL_RETURN)..'|r |cnGREEN_FONT_COLOR:#'..num)
+                        del and '|cnWARNING_FONT_COLOR:'..(WoWTools_L.DELETE)..'|r |cnGREEN_FONT_COLOR:#'..num
+                        or ('|cFFFF00FF'..(WoWTools_L.MAIL_RETURN)..'|r |cnGREEN_FONT_COLOR:#'..num)
                     )
     GameTooltip:Show()
 end
@@ -163,7 +163,7 @@ end
 local function eventEnter(self, get)--enter 提示，删除，或退信，按钮
     GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
     GameTooltip:ClearLines()
-    GameTooltip:AddDoubleLine(WoWTools_MailMixin.addName, (WoWTools_DataMixin.onlyChinese and '收件箱' or INBOX)..' Plus')
+    GameTooltip:AddDoubleLine(WoWTools_MailMixin.addName, (WoWTools_L.INBOX)..' Plus')
     GameTooltip:AddLine(' ')
     local packageIcon, stationeryIcon, _, _, _, _, _, itemCount = GetInboxHeaderInfo(self.openMailID)
     local allCount=0
@@ -187,14 +187,14 @@ local function eventEnter(self, get)--enter 提示，删除，或退信，按钮
 
     local text2
     if get then
-        text2= WoWTools_DataMixin.onlyChinese and '提取' or WITHDRAW
+        text2= WoWTools_L.WITHDRAW
     elseif self.canDelete then
-        text2= WoWTools_DataMixin.onlyChinese and '删除' or DELETE
+        text2= WoWTools_L.DELETE
     else
-        text2= WoWTools_DataMixin.onlyChinese and '退信' or MAIL_RETURN
+        text2= WoWTools_L.MAIL_RETURN
     end
     local icon= packageIcon or stationeryIcon
-    GameTooltip:AddLine('|cffff00ff'..self.openMailID..' |r'..(icon and '|T'..icon..':0|t')..text2..(allCount>1 and ' |cnGREEN_FONT_COLOR:'..WoWTools_DataMixin:MK(allCount,3)..'|r'..(WoWTools_DataMixin.onlyChinese and '物品' or ITEMS) or ''))
+    GameTooltip:AddLine('|cffff00ff'..self.openMailID..' |r'..(icon and '|T'..icon..':0|t')..text2..(allCount>1 and ' |cnGREEN_FONT_COLOR:'..WoWTools_DataMixin:MK(allCount,3)..'|r'..(WoWTools_L.ITEMS) or ''))
     GameTooltip:Show()
 end
 
@@ -350,8 +350,8 @@ local function Create_Unit_Button(btn, i)
         if (self.playerName or self.sender) and self.canReply  then
             GameTooltip:SetOwner(self:GetParent(), "ANCHOR_LEFT")
             GameTooltip:ClearLines()
-            GameTooltip:AddDoubleLine(WoWTools_MailMixin.addName, (WoWTools_DataMixin.onlyChinese and '收件箱' or INBOX)..' Plus')
-            GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '回复' or REPLY_MESSAGE, self.playerName or self.sender)
+            GameTooltip:AddDoubleLine(WoWTools_MailMixin.addName, (WoWTools_L.INBOX)..' Plus')
+            GameTooltip:AddDoubleLine(WoWTools_L.REPLY_MESSAGE, self.playerName or self.sender)
             GameTooltip:Show()
         end
         self:SetAlpha(0.3)
@@ -510,7 +510,7 @@ local function Init_InboxFrame_Update()
             elseif isCOD then--付款，红色
                 btn.typeTexture:SetVertexColor(1,0,0)
                 btn.typeText:SetTextColor(1,0,0)
-                text= WoWTools_DataMixin.onlyChinese and '付款' or COD
+                text= WoWTools_L.COD
 
             elseif isGM or isSelf then--GM, 自已,系统功能，如角色直升, 紫色
                 btn.typeTexture:SetVertexColor(0,0.5,1)
@@ -521,7 +521,7 @@ local function Init_InboxFrame_Update()
                 btn.typeTexture:SetVertexColor(0,1,0)
                 btn.typeText:SetTextColor(0,1,0)
                 if money and money>0 then
-                    text= WoWTools_DataMixin.onlyChinese and '可取' or WITHDRAW
+                    text= WoWTools_L['WITHDRAW~2']
                 end
             end
 
@@ -612,11 +612,11 @@ local function Init_InboxFrame_Update()
             allSenderText= '|cnGREEN_FONT_COLOR:'..allSender..'|r'..allSenderText..' '
         end
         if totalItems>0 then
-            text= '|cnGREEN_FONT_COLOR:'..totalItems..'|r'..(WoWTools_DataMixin.onlyChinese and '信件' or MAIL_LABEL)..' '--总，信件
+            text= '|cnGREEN_FONT_COLOR:'..totalItems..'|r'..(WoWTools_L.MAIL_LABEL)..' '--总，信件
                 ..(allSenderText or '')--总，发信人数
-                ..(allItemCount>0 and '|cnGREEN_FONT_COLOR:'..allItemCount..'|r'..(WoWTools_DataMixin.onlyChinese and '物品' or ITEMS)..' ' or '')--总，物品数
-                ..(allMoney>0 and '|cnGREEN_FONT_COLOR:'..get_Money(allMoney)..'|r'..(WoWTools_DataMixin.onlyChinese and '可取' or WITHDRAW)..' ' or '')--总，可收取钱
-                ..(allCODAmount>0 and '|cnWARNING_FONT_COLOR:'.. get_Money(allCODAmount)..'|r'..(WoWTools_DataMixin.onlyChinese and '付款' or COD)..' ' or '')--总，要付款钱
+                ..(allItemCount>0 and '|cnGREEN_FONT_COLOR:'..allItemCount..'|r'..(WoWTools_L.ITEMS)..' ' or '')--总，物品数
+                ..(allMoney>0 and '|cnGREEN_FONT_COLOR:'..get_Money(allMoney)..'|r'..(WoWTools_L['WITHDRAW~2'])..' ' or '')--总，可收取钱
+                ..(allCODAmount>0 and '|cnWARNING_FONT_COLOR:'.. get_Money(allCODAmount)..'|r'..(WoWTools_L.COD)..' ' or '')--总，要付款钱
         end
     end
     InboxFrame.AllTipsLable:SetText(text)
@@ -699,9 +699,9 @@ local function Set_OpenMail_Update()
         if (moneyPaga or moneyGet) then
             local text
             if moneyPaga then
-                text= (WoWTools_DataMixin.onlyChinese and '付款' or COD)
+                text= (WoWTools_L.COD)
             elseif moneyGet then
-                text= (WoWTools_DataMixin.onlyChinese and '可取' or WITHDRAW)
+                text= (WoWTools_L['WITHDRAW~2'])
             end
             text= text..' '..get_Money(moneyPaga or moneyGet)
             OpenMailFrame.moneyPagaTip:SetText(text)

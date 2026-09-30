@@ -78,7 +78,7 @@ local function Init()
                     or (InCombatLockdown() and '|cff626262')
                     or '|cffffffff'
                 )
-                ..(WoWTools_DataMixin.onlyChinese and '霸业商店' or PLUNDERSTORM_PLUNDER_STORE_TITLE)..'|r'
+                ..(WoWTools_L.PLUNDERSTORM_PLUNDER_STORE_TITLE)..'|r'
                 ..WoWTools_DataMixin.Icon.mid,
 
                 WoWTools_CurrencyMixin:GetName(

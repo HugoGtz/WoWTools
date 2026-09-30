@@ -32,7 +32,7 @@ local function Init_Menu(self, root)
 
 --启用
     sub=root:CreateCheckbox(
-        (WoWTools_DataMixin.onlyChinese and '启用' or ENABLE)..'|A:SpecDial_LastPip_BorderGlow:0:0|a',
+        (WoWTools_L.ENABLE)..'|A:SpecDial_LastPip_BorderGlow:0:0|a',
     function()
         return Save().gossip
     end, function()
@@ -40,12 +40,12 @@ local function Init_Menu(self, root)
         --return MenuResponse.Close
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine('Alt+'..(WoWTools_DataMixin.onlyChinese and '禁用' or DISABLE))
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '暂时' or BOOSTED_CHAR_SPELL_TEMPLOCK)
+        tooltip:AddLine('Alt+'..(WoWTools_L.DISABLE))
+        tooltip:AddLine(WoWTools_L.BOOSTED_CHAR_SPELL_TEMPLOCK)
     end)
 --唯一对话  
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '唯一对话' or WoWTools_Join(ITEM_UNIQUE, ENABLE_DIALOG),
+        WoWTools_L['ITEM_UNIQUE+ENABLE_DIALOG'],
     function()
         return  Save().unique
     end, function ()
@@ -53,7 +53,7 @@ local function Init_Menu(self, root)
         WoWTools_GossipMixin:UpdateGossip()--更新GossipFrame
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '当选项只有一个时，自动对话' or WoWTools_L['When there is only one option, select it automatically.'], nil, nil,nil, true)
+        tooltip:AddLine(WoWTools_L['When there is only one option, select it automatically.'], nil, nil,nil, true)
     end)
 
 
@@ -63,7 +63,7 @@ local function Init_Menu(self, root)
 
     sub=root:CreateButton(
         '|T0:0|t'
-        ..(WoWTools_DataMixin.onlyChinese and '自动对话' or WoWTools_Join(SELF_CAST_AUTO, ENABLE_DIALOG)),
+        ..(WoWTools_L['SELF_CAST_AUTO+ENABLE_DIALOG']),
     function()
         return MenuResponse.Open
     end, {rightText=num})
@@ -99,7 +99,7 @@ local function Init_Menu(self, root)
     num2= CountTable(WoWTools_GossipMixin:Get_GossipData() or {})
 
     sub=root:CreateCheckbox(
-        (WoWTools_DataMixin.onlyChinese and '对话替换' or WoWTools_Join(DIALOG_VOLUME, REPLACE))
+        (WoWTools_L['DIALOG_VOLUME+REPLACE'])
         ..WoWTools_DataMixin.Icon.mid,
         --..((num+num2)==0 and '|cff626262' or '')
         --..(num..'/'..num2),
@@ -115,7 +115,7 @@ local function Init_Menu(self, root)
 --对话替换, 打开自定义, Frame
     sub2= sub:CreateButton(
         '|A:mechagon-projects:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '自定义' or CUSTOM),
+        ..(WoWTools_L.CUSTOM),
     function ()
         WoWTools_GossipMixin:Init_Options_Frame(true)
         return MenuResponse.Open
@@ -125,7 +125,7 @@ local function Init_Menu(self, root)
     --重置位置
     sub:CreateButton(
         (WoWTools_MoveMixin:GetPoint(nil, 'WoWToolsGossipTextIconOptionsFrame') and '' or '|cff626262')
-        ..(WoWTools_DataMixin.onlyChinese and '重置位置' or RESET_POSITION),
+        ..(WoWTools_L.RESET_POSITION),
     function()
         WoWTools_MoveMixin:ClearPoint(nil, 'WoWToolsGossipTextIconOptionsFrame')--重置位置
         local frame= _G['WoWToolsGossipTextIconOptionsFrame']
@@ -142,7 +142,7 @@ local function Init_Menu(self, root)
     
     sub:CreateDivider()
     sub:CreateCheckbox(
-        (WoWTools_DataMixin.onlyChinese and '默认' or DEFAULT),--..(num==0 and ' |cff626262' or ' ')..num,
+        (WoWTools_L.DEFAULT),--..(num==0 and ' |cff626262' or ' ')..num,
     function()
         return not Save().notGossipPlayerData
     end, function()
@@ -192,7 +192,7 @@ local function Init_Menu(self, root)
     num= CountTable(Save().choice or {})
     
     sub=root:CreateButton(
-        '|T0:0|t'..(WoWTools_DataMixin.onlyChinese and '选择' or CHOOSE),--..(num==0 and ' |cff626262' or ' ')..num,
+        '|T0:0|t'..(WoWTools_L.CHOOSE),--..(num==0 and ' |cff626262' or ' ')..num,
     function()
         return MenuResponse.Open
     end, {rightText=num})

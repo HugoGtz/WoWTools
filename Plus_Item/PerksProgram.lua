@@ -18,22 +18,22 @@ local function Set_ItemType(btn, itemInfo)
     local hex=''
 
     if itemInfo.speciesID and itemInfo.speciesID>0 then
-        text= WoWTools_DataMixin.onlyChinese and '宠物' or PET
+        text= WoWTools_L.PET
         hex= '|cffedd100'
 
     elseif itemInfo.mountID and itemInfo.mountID>0 then
-        text= WoWTools_DataMixin.onlyChinese and '坐骑' or MOUNT
+        text= WoWTools_L.MOUNT
         hex= '|cff00ccff'
 
     elseif itemInfo.transmogSetID and itemInfo.transmogSetID>0 then
-        text= WoWTools_DataMixin.onlyChinese and '套装' or PERKS_PROGRAM_CART_COLLECTION_HEADER
+        text= WoWTools_L.PERKS_PROGRAM_CART_COLLECTION_HEADER
         hex= '|cff00ff12'
 
     elseif itemInfo.itemID and itemInfo.itemID>0 then
         local itemID= itemInfo.itemID
 
         if C_ToyBox.GetToyInfo(itemID) then
-            text= WoWTools_DataMixin.onlyChinese and '玩具' or TOY
+            text= WoWTools_L.TOY
             hex= '|cffffffff'
 
         elseif C_Item.IsCosmeticItem(itemID) then
@@ -49,7 +49,7 @@ local function Set_ItemType(btn, itemInfo)
                     hex= '|cff808080'
                 end
             end
-            text= text or _G[itemEquipLoc] or (WoWTools_DataMixin.onlyChinese and '装饰品' or ITEM_COSMETIC)
+            text= text or _G[itemEquipLoc] or (WoWTools_L.ITEM_COSMETIC)
 
 --不可幻化
             if not hex and select(3, WoWTools_CollectionMixin:Item(itemID))==false then

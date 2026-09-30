@@ -266,29 +266,29 @@ function WoWTools_QuestMixin:GetQuestAll()
     local weekColor= self:GetColor('Weekly')
 
     GameTooltip:AddDoubleLine(
-        (WoWTools_DataMixin.onlyChinese and '已完成' or  CRITERIA_COMPLETED)
+        (WoWTools_L.CRITERIA_COMPLETED)
         ..' '..WoWTools_DataMixin:MK(#all, 3),
-        self:GetColor('Daily'):GenerateHexColorMarkup()..(WoWTools_DataMixin.onlyChinese and '日常' or DAILY)
+        self:GetColor('Daily'):GenerateHexColorMarkup()..(WoWTools_L.DAILY)
         ..': '..GetDailyQuestsCompleted()
         ..format('|A:%s:0:0|a', 'common-icon-checkmark'),
         nil, nil, nil, dayColor:GetRGB()
     )
     GameTooltip:AddLine(
-        (WoWTools_DataMixin.onlyChinese and '上限' or CAPPED)..': '..(numQuest+ dayNum+ weekNum)..'/'..(C_QuestLog.GetMaxNumQuestsCanAccept() or 38)
+        (WoWTools_L.CAPPED)..': '..(numQuest+ dayNum+ weekNum)..'/'..(C_QuestLog.GetMaxNumQuestsCanAccept() or 38)
     )
     GameTooltip:AddLine(' ')
     GameTooltip:AddLine(
-        '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '当前地图' or WoWTools_Join(REFORGE_CURRENT, WORLD_MAP))..': '..inMapNum)
+        '|cnGREEN_FONT_COLOR:'..(WoWTools_L['REFORGE_CURRENT+WORLD_MAP'])..': '..inMapNum)
     GameTooltip:AddLine(' ')
-    GameTooltip:AddLine((WoWTools_DataMixin.onlyChinese and '日常' or DAILY)..': '..dayNum, dayColor:GetRGB())
-    GameTooltip:AddLine((WoWTools_DataMixin.onlyChinese and '周长' or WEEKLY)..': '..weekNum, weekColor:GetRGB())
-    GameTooltip:AddLine((num>=MAX_QUESTS and '|cnWARNING_FONT_COLOR:' or '|cffffffff')..(WoWTools_DataMixin.onlyChinese and '一般' or RESISTANCE_FAIR)..': '..numQuest..'/'..MAX_QUESTS)
+    GameTooltip:AddLine((WoWTools_L.DAILY)..': '..dayNum, dayColor:GetRGB())
+    GameTooltip:AddLine((WoWTools_L.WEEKLY)..': '..weekNum, weekColor:GetRGB())
+    GameTooltip:AddLine((num>=MAX_QUESTS and '|cnWARNING_FONT_COLOR:' or '|cffffffff')..(WoWTools_L.RESISTANCE_FAIR)..': '..numQuest..'/'..MAX_QUESTS)
     GameTooltip:AddLine(' ')
-    GameTooltip:AddLine((WoWTools_DataMixin.onlyChinese and '传说' or GARRISON_FOLLOWER_QUALITY6_DESC)..': '..legendaryNum, legendaryColor:GetRGB())
-    GameTooltip:AddLine((WoWTools_DataMixin.onlyChinese and '战役' or TRACKER_HEADER_CAMPAIGN_QUESTS)..': '..campaignNum, legendaryColor:GetRGB())
-    GameTooltip:AddLine((WoWTools_DataMixin.onlyChinese and '悬赏' or PVP_BOUNTY_REWARD_TITLE)..': '..bountyNum, legendaryColor:GetRGB())
-    GameTooltip:AddLine((WoWTools_DataMixin.onlyChinese and '故事' or WoWTools_L['Story'])..': '..storyNum, legendaryColor:GetRGB())
-    GameTooltip:AddLine((WoWTools_DataMixin.onlyChinese and '追踪' or TRACK_QUEST_ABBREV)..': '..C_QuestLog.GetNumQuestWatches())
+    GameTooltip:AddLine((WoWTools_L.GARRISON_FOLLOWER_QUALITY6_DESC)..': '..legendaryNum, legendaryColor:GetRGB())
+    GameTooltip:AddLine((WoWTools_L.TRACKER_HEADER_CAMPAIGN_QUESTS)..': '..campaignNum, legendaryColor:GetRGB())
+    GameTooltip:AddLine((WoWTools_L.PVP_BOUNTY_REWARD_TITLE)..': '..bountyNum, legendaryColor:GetRGB())
+    GameTooltip:AddLine((WoWTools_L['Story'])..': '..storyNum, legendaryColor:GetRGB())
+    GameTooltip:AddLine((WoWTools_L.TRACK_QUEST_ABBREV)..': '..C_QuestLog.GetNumQuestWatches())
 end
 
 

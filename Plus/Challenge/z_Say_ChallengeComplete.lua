@@ -28,7 +28,7 @@ local function Settings(isSay, sayType)
         end
 
         SayButton.Text:SetText(info and (WoWTools_HyperLink:CN_Link(info.hyperlink, {itemID=info.itemID}))
-            or ('|cff828282'..(WoWTools_DataMixin.onlyChinese and '史诗钥石' or PLAYER_DIFFICULTY_MYTHIC_PLUS))
+            or ('|cff828282'..(WoWTools_L.PLAYER_DIFFICULTY_MYTHIC_PLUS))
         )
     end
 
@@ -83,7 +83,7 @@ end
 --修改，添加内容
 local function Edit_Say_Text()
     StaticPopup_Show('WoWTools_EditText',
-    (WoWTools_DataMixin.onlyChinese and '添加' or ADD),
+    (WoWTools_L.ADD),
     nil,
     {
         text= WoWToolsPlusPlayerDate.EndKeystoneSayText
@@ -126,13 +126,13 @@ local function Say_Menu(_, root)
 
     local function Set_Say_Menu_Tooltip(f)
         f:SetTooltip(function(tooltip)
-            tooltip:AddLine(WoWToolsPlusPlayerDate.EndKeystoneSayText or ('|cff828282'..(WoWTools_DataMixin.onlyChinese and '无' or NONE)))
+            tooltip:AddLine(WoWToolsPlusPlayerDate.EndKeystoneSayText or ('|cff828282'..(WoWTools_L.NONE)))
         end)
     end
 
     sub=root:CreateButton(
         (isFind and '' or '|cff828282')
-        ..('|A:transmog-icon-chat:0:0|a'..(WoWTools_DataMixin.onlyChinese and '说' or SAY)),
+        ..('|A:transmog-icon-chat:0:0|a'..(WoWTools_L.SAY)),
     function()
         Settings(true, nil)
         return MenuResponse.Open
@@ -141,7 +141,7 @@ local function Say_Menu(_, root)
 
 --修改
     sub2=sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '修改' or EDIT,
+        WoWTools_L.EDIT,
     function()
         Edit_Say_Text()
         return MenuResponse.Open
@@ -161,7 +161,7 @@ local function Say_Menu(_, root)
     end
     sub=root:CreateButton(
         (isFind and target and '' or '|cff828282')
-        .. (target or (WoWTools_DataMixin.onlyChinese and '目标' or TARGET)),
+        .. (target or (WoWTools_L.TARGET)),
     function()
         Settings(true, 'WHISPER')
         return MenuResponse.Open
@@ -171,7 +171,7 @@ local function Say_Menu(_, root)
     --小队
     sub=root:CreateButton(
         (isFind and isParty and '' or '|cff828282')
-        ..(WoWTools_DataMixin.onlyChinese and '小队' or CHAT_MSG_PARTY),
+        ..(WoWTools_L.CHAT_MSG_PARTY),
     function()
         Settings(true, 'PARTY')
         return MenuResponse.Open
@@ -181,7 +181,7 @@ local function Say_Menu(_, root)
     --团队
     sub=root:CreateButton(
         (isFind and isRaid and '' or '|cff828282')
-        ..(WoWTools_DataMixin.onlyChinese and '团队' or RAID),
+        ..(WoWTools_L.RAID),
     function()
         Settings(true, 'RAID')
         return MenuResponse.Open
@@ -191,7 +191,7 @@ local function Say_Menu(_, root)
     --公会
     sub=root:CreateButton(
         (isFind and isGuild and '' or '|cff828282')
-        ..(WoWTools_DataMixin.onlyChinese and '公会' or GUILD),
+        ..(WoWTools_L.GUILD),
     function()
         Settings(true, 'GUILD')
         return MenuResponse.Open
@@ -201,7 +201,7 @@ local function Say_Menu(_, root)
 --发送信息
     root:CreateButton(
         (isFind and '' or '|cff828282')
-        ..(WoWTools_DataMixin.onlyChinese and '发送信息' or SEND_MESSAGE),
+        ..(WoWTools_L.SEND_MESSAGE),
     function()
         local info= WoWTools_BagMixin:Ceca(nil, {isKeystone=true})
         if info and info.hyperlink then
@@ -213,7 +213,7 @@ local function Say_Menu(_, root)
 --发送信息
     root:CreateButton(
         (isFind and '' or '|cff828282')
-        ..(WoWTools_DataMixin.onlyChinese and '链接至聊天栏' or COMMUNITIES_INVITE_MANAGER_LINK_TO_CHAT),
+        ..(WoWTools_L.COMMUNITIES_INVITE_MANAGER_LINK_TO_CHAT),
     function()
         local info= WoWTools_BagMixin:Ceca(nil, {isKeystone=true})
         if info and info.hyperlink then
@@ -224,7 +224,7 @@ local function Say_Menu(_, root)
 
 --史诗钥石评分
     sub=root:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '史诗钥石评分' or DUNGEON_SCORE,
+        WoWTools_L.DUNGEON_SCORE,
     function()
         local link= WoWTools_ChallengeMixin:GetDungeonScoreLink()
         WoWTools_ChatMixin:Chat(link, nil, nil)
@@ -263,12 +263,12 @@ local function Init_Menu(self, root)
     root:CreateDivider()
     sub= WoWTools_MenuMixin:OpenOptions(root, {
         name=WoWTools_ChallengeMixin.addName,
-        name2='|A:UI-HUD-MicroMenu-Groupfinder-Mouseover:0:0|a'..(WoWTools_DataMixin.onlyChinese and '选项' or OPTIONS)}
+        name2='|A:UI-HUD-MicroMenu-Groupfinder-Mouseover:0:0|a'..(WoWTools_L.OPTIONS)}
     )
 
 --总是显示
     sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '总是显示' or BATTLEFIELD_MINIMAP_SHOW_ALWAYS,
+        WoWTools_L.BATTLEFIELD_MINIMAP_SHOW_ALWAYS,
     function()
         return Save().allShowEndKeystoneSay
     end, function()
@@ -295,7 +295,7 @@ local function Init_Menu(self, root)
     sub:CreateDivider()
     sub2=sub:CreateButton(
         '|A:ChallengeMode-KeystoneSlotFrame:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '插入史诗钥石' or CHALLENGE_MODE_INSERT_KEYSTONE),
+        ..(WoWTools_L.CHALLENGE_MODE_INSERT_KEYSTONE),
     function()
         if not ChallengesKeystoneFrame then
             ChallengeMode_LoadUI()
@@ -311,8 +311,8 @@ local function Init_Menu(self, root)
     sub:CreateDivider()
     sub:CreateButton(
         self:IsShown()
-        and (WoWTools_DataMixin.onlyChinese and '隐藏' or HIDE)
-        or (WoWTools_DataMixin.onlyChinese and '显示' or SHOW),
+        and (WoWTools_L.HIDE)
+        or (WoWTools_L.SHOW),
     function()
         self:SetShown(not self:IsShown())
     end)
@@ -391,14 +391,14 @@ local function Init()
     SayButton:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddDoubleLine('|cnGREEN_FONT_COLOR:<'..(WoWTools_DataMixin.onlyChinese and '发送信息' or SEND_MESSAGE)..'>', WoWTools_DataMixin.Icon.left..'|A:transmog-icon-chat:0:0|a')
+        GameTooltip:AddDoubleLine('|cnGREEN_FONT_COLOR:<'..(WoWTools_L.SEND_MESSAGE)..'>', WoWTools_DataMixin.Icon.left..'|A:transmog-icon-chat:0:0|a')
         if WoWToolsPlusPlayerDate.EndKeystoneSayText then
             GameTooltip:AddLine(' ')
             GameTooltip:AddLine('|cffffffff'..WoWToolsPlusPlayerDate.EndKeystoneSayText, nil,nil,nil,true)
         end
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.right)
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '移动' or NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine(WoWTools_L.NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)
         GameTooltip:Show()
         WoWTools_BagMixin:Find(true, {itemLocation = self:GetItemLocation()})
     end)

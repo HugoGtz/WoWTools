@@ -32,7 +32,7 @@ local function Initializer(btn, data)
 --玩家，名称
     if data.guid== WoWTools_DataMixin.Player.GUID then
         btn.Name:SetText(
-            (WoWTools_DataMixin.onlyChinese and '我' or COMBATLOG_FILTER_STRING_ME)
+            (WoWTools_L.COMBATLOG_FILTER_STRING_ME)
             ..'|A:CampCollection-icon-star:0:0|a'
         )
     else
@@ -300,7 +300,7 @@ local function Init_Menu(self, root)
 
     end
 
-    name= '|T525134:0|t'..(WoWTools_DataMixin.onlyChinese and '史诗钥石' or WEEKLY_REWARDS_MYTHIC_KEYSTONE)
+    name= '|T525134:0|t'..(WoWTools_L.WEEKLY_REWARDS_MYTHIC_KEYSTONE)
         ..' #'..num..'+'..playerNum
     sub= root:CreateCheckbox(
         name,
@@ -311,7 +311,7 @@ local function Init_Menu(self, root)
         WoWTools_ChallengeMixin:ChallengesUI_Left()
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '小号钥石列表' or ACCOUNT_QUEST_LABEL)
+        tooltip:AddLine(WoWTools_L['ACCOUNT_QUEST_LABEL~2'])
     end)
 
 
@@ -325,7 +325,7 @@ local function Init_Menu(self, root)
 
 --所有角色   
     sub2=sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '所有角色' or WoWTools_Join(ALL, CHARACTER),
+        WoWTools_L['ALL+CHARACTER'],
     function()
         return Save().leftAllPlayer
     end, function()
@@ -336,13 +336,13 @@ local function Init_Menu(self, root)
 
 --所有角色，全部清除
     sub3=sub2:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL,
+        WoWTools_L.CLEAR_ALL,
     function()
         StaticPopup_Show('WoWTools_OK',
-        (WoWTools_DataMixin.onlyChinese and '所有角色' or WoWTools_Join(ALL, CHARACTER))
-            ..'\n|T525134:0|t'..(WoWTools_DataMixin.onlyChinese and '挑战数据' or WoWTools_Join(PLAYER_DIFFICULTY5, SAVE))
+        (WoWTools_L['ALL+CHARACTER'])
+            ..'\n|T525134:0|t'..(WoWTools_L['PLAYER_DIFFICULTY5+SAVE'])
             ..'\n\n'
-            ..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL)
+            ..(WoWTools_L.CLEAR_ALL)
             ..'\n',
         nil,
         {SetValue=function()
@@ -354,7 +354,7 @@ local function Init_Menu(self, root)
         end})
     end)
     sub3:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '挑战数据' or WoWTools_Join(PLAYER_DIFFICULTY5, SAVE))
+        tooltip:AddLine(WoWTools_L['PLAYER_DIFFICULTY5+SAVE'])
     end)
 
 
@@ -393,7 +393,7 @@ local function Init_Menu(self, root)
             Save().leftWidth=value
             WoWTools_ChallengeMixin:ChallengesUI_Left()
         end,
-        name=WoWTools_DataMixin.onlyChinese and '宽度' or HUD_EDIT_MODE_SETTING_CHAT_FRAME_WIDTH,
+        name=WoWTools_L.HUD_EDIT_MODE_SETTING_CHAT_FRAME_WIDTH,
         minValue=100,
         maxValue=640,
         step=1,
@@ -409,7 +409,7 @@ local function Init_Menu(self, root)
             Save().leftBgAlpha=value
             WoWTools_ChallengeMixin:ChallengesUI_Left()
         end,
-        name=WoWTools_DataMixin.onlyChinese and '透明度' or HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY,
+        name=WoWTools_L.HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY,
         minValue=0,
         maxValue=1,
         step='0.05',

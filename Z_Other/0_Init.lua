@@ -29,7 +29,7 @@ function WoWTools_OtherMixin:AddOption(name, addName, tooltip)
         SetValue= function()
             self:Save().disabledADD[name]= not self:Save().disabledADD[name] and true or nil
         end,
-        tooltip= (tooltip and tooltip..'|n|n' or '')..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD),
+        tooltip= (tooltip and tooltip..'|n|n' or '')..(WoWTools_L.REQUIRES_RELOAD),
         layout= self.Layout,
         category= self.Category,
     })
@@ -72,7 +72,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     end
 
 
-    WoWTools_OtherMixin.addName= '|A:QuestNormal:0:0|a'..(WoWTools_DataMixin.onlyChinese and '其它' or OTHER)
+    WoWTools_OtherMixin.addName= '|A:QuestNormal:0:0|a'..(WoWTools_L.OTHER)
 
     WoWTools_OtherMixin.Category, WoWTools_OtherMixin.Layout= WoWTools_PanelMixin:AddSubCategory({
         name= WoWTools_OtherMixin.addName

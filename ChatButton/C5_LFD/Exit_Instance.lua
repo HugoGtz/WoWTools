@@ -56,8 +56,8 @@ local function exit_Instance()
 
     print(
         WoWTools_DataMixin.Icon.icon2..WoWTools_LFDMixin.addName,
-        WoWTools_DataMixin.onlyChinese and '离开' or LEAVE,
-        WoWTools_TextMixin:CN(name) or WoWTools_DataMixin.onlyChinese and '副本' or INSTANCE,
+        WoWTools_L.LEAVE,
+        WoWTools_TextMixin:CN(name) or WoWTools_L.INSTANCE,
         num
     )
     ExitIns=nil
@@ -153,7 +153,7 @@ local function Init_Frame()
             LFGTeleport(true)
             print(
                 WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                WoWTools_DataMixin.onlyChinese and '海岛探险' or ISLANDS_HEADER,
+                WoWTools_L.ISLANDS_HEADER,
                 WoWTools_LFDMixin:Get_Instance_Num('island')
             )
 
@@ -165,7 +165,7 @@ local function Init_Frame()
                 end
                 print(
                     WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                    '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '离开战场' or LEAVE_BATTLEGROUND),
+                    '|cnGREEN_FONT_COLOR:'..(WoWTools_L.LEAVE_BATTLEGROUND),
                     SecondsToTime(Save().sec or 5)
                 )
                 C_Timer.After(Save().sec or 5, function()
@@ -198,12 +198,12 @@ local function Init()
     StaticPopupDialogs['WoWTools_LFD_ExitIns']={
         text = WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2
             ..'|n|n|cff00ff00'
-            ..(WoWTools_DataMixin.onlyChinese and '离开' or LEAVE)..'|r: '
-            ..(WoWTools_DataMixin.onlyChinese and '副本' or INSTANCE)
+            ..(WoWTools_L.LEAVE)..'|r: '
+            ..(WoWTools_L.INSTANCE)
             ..'|cff00ff00 %s |r'
-            ..(WoWTools_DataMixin.onlyChinese and '秒' or LOSS_OF_CONTROL_SECONDS),
-        button1 = WoWTools_DataMixin.onlyChinese and '离开' or  LEAVE,
-        button2 = WoWTools_DataMixin.onlyChinese and '取消' or CANCEL,
+            ..(WoWTools_L.LOSS_OF_CONTROL_SECONDS),
+        button1 = WoWTools_L.LEAVE,
+        button2 = WoWTools_L.CANCEL,
         OnAccept=function()
             ExitIns=true
             Cancel_Exit_Timer()
@@ -216,8 +216,8 @@ local function Init()
                 Cancel_Exit_Timer()
                 print(
                     WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                    '|cff00ff00'..(WoWTools_DataMixin.onlyChinese and '取消' or CANCEL)..'|r',
-                    WoWTools_DataMixin.onlyChinese and '离开' or LEAVE
+                    '|cff00ff00'..(WoWTools_L.CANCEL)..'|r',
+                    WoWTools_L.LEAVE
                 )
             end
         end,
@@ -235,8 +235,8 @@ local function Init()
             ExitIns=nil
             print(
                 WoWTools_DataMixin.Icon.icon2..WoWTools_LFDMixin.addName,
-                '|cff00ff00'..(WoWTools_DataMixin.onlyChinese and '取消' or CANCEL)..'|r',
-                WoWTools_DataMixin.onlyChinese and '离开' or LEAVE
+                '|cff00ff00'..(WoWTools_L.CANCEL)..'|r',
+                WoWTools_L.LEAVE
             )
             s:GetParent():Hide()
         end,]]

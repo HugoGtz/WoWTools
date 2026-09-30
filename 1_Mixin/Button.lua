@@ -325,7 +325,7 @@ end
     local reload= CreateFrame('Button', 'WoWToolsSpellBookReloadButton', PlayerSpellsFrame.TitleContainer, 'WoWToolsButtonTemplate')
     reload:SetPoint('LEFT', 28, -3)
     reload:SetNormalAtlas('common-icon-exit')
-    reload.tooltip=WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '重新加载' or RELOADUI)
+    reload.tooltip=WoWTools_DataMixin.Icon.icon2..(WoWTools_L['RELOADUI~2'])
     reload:SetScript('OnClick', function() WoWTools_DataMixin:Reload() end)
     WoWTools_TextureMixin:SetButton(reload, 0.5)
 end]]

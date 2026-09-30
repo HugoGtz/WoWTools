@@ -466,7 +466,7 @@ function WoWTools_TextureMixin:SetIconSelectFrame(frame)
 
         border.IconSelectionText:SetText(
             '|A:communities-icon-addchannelplus:0:0|a|cnGREEN_FONT_COLOR:'
-            ..(WoWTools_DataMixin.onlyChinese and '将一个图标拖曳至此处来显示' or ICON_SELECTION_DRAG)
+            ..(WoWTools_L.ICON_SELECTION_DRAG)
         )
     end
 

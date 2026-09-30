@@ -338,22 +338,22 @@ local function texture_list(self, root, name, icon, texture, isAdd)
         if IsEnabledSaveBg(name) then
             tooltip:AddLine('|cnGREEN_FONT_COLOR:'..name)
         else
-            GameTooltip_AddColoredLine(tooltip, WoWTools_DataMixin.onlyChinese and '统一设置' or ALL, HIGHLIGHT_FONT_COLOR)
+            GameTooltip_AddColoredLine(tooltip, WoWTools_L['ALL~4'], HIGHLIGHT_FONT_COLOR)
         end
         tooltip:AddLine('Alpha '..Get_Alpha(name, icon))
     end)
 
     if isAdd then
         sub:CreateButton(
-            WoWTools_DataMixin.onlyChinese and '清除' or SLASH_STOPWATCH_PARAM_STOP2,
+            WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2,
         function()
             StaticPopup_Show('WoWTools_OK',
-            (WoWTools_DataMixin.onlyChinese and '清除' or SLASH_STOPWATCH_PARAM_STOP2)
+            (WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2)
             ..'|n|n'..texture:gsub('Interface\\AddOns\\WoWToolsPlus\\Source\\Background\\', ''),
             nil,
             {SetValue=function()
                 WoWToolsPlusPlayerDate['BGTexture'][texture]= nil
-                print(WoWTools_DataMixin.Icon.icon2, WoWTools_DataMixin.onlyChinese and '清除' or SLASH_STOPWATCH_PARAM_STOP2, texture)
+                print(WoWTools_DataMixin.Icon.icon2, WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2, texture)
             end})
             return MenuResponse.Open
         end)
@@ -372,17 +372,17 @@ end
 --材质，列表
 local function Texture_List_Menu(self, root, icon, name)
     root:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '添加' or ADD,
+        WoWTools_L.ADD,
     function()
         StaticPopup_Show('WoWTools_EditText',
-        (WoWTools_DataMixin.onlyChinese and '显示背景' or HUD_EDIT_MODE_SETTING_UNIT_FRAME_SHOW_PARTY_FRAME_BACKGROUND)
+        (WoWTools_L.HUD_EDIT_MODE_SETTING_UNIT_FRAME_SHOW_PARTY_FRAME_BACKGROUND)
         ..'\n\nTexture or Atlas\n',
         nil,
         {
             OnShow=function(s)
                 local b1= s.button1 or s:GetButton1()
                 local edit= s.editBox or s:GetEditBox()
-                b1:SetText(WoWTools_DataMixin.onlyChinese and '添加' or ADD)
+                b1:SetText(WoWTools_L.ADD)
                 edit:SetText('Interface\\AddOns\\WoWToolsPlus\\Source\\Background\\')
             end,
             SetValue= function(s)
@@ -480,7 +480,7 @@ local function Add_Frame_Menu(self, root)
         return MenuResponse.Open
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '统一/分开' or WoWTools_L['Unified/Separate'])
+        tooltip:AddLine(WoWTools_L['Unified/Separate'])
     end)
 
     local find
@@ -500,7 +500,7 @@ local function Add_Frame_Menu(self, root)
 
 --勾选所有
     sub2=sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '勾选所有' or CHECK_ALL,
+        WoWTools_L.CHECK_ALL,
     function()
         for name in pairs(Save().Add) do
             Save().Add[name].enabled= true
@@ -509,12 +509,12 @@ local function Add_Frame_Menu(self, root)
         return MenuResponse.Refresh
     end)
     sub2:SetTooltip(function(tooltip)
-        tooltip:AddLine(string.format(WoWTools_DataMixin.onlyChinese and '仅限%s' or LFG_LIST_CROSS_FACTION, ''))
+        tooltip:AddLine(string.format(WoWTools_L.LFG_LIST_CROSS_FACTION, ''))
     end)
 
 --撤选所有
     sub2=sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '撤选所有' or UNCHECK_ALL,
+        WoWTools_L.UNCHECK_ALL,
     function()
         for name in pairs(Save().Add) do
             Save().Add[name].enabled= false
@@ -523,7 +523,7 @@ local function Add_Frame_Menu(self, root)
         return MenuResponse.Refresh
     end)
     sub2:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '统一' or ALL)
+        tooltip:AddLine(WoWTools_L['ALL~2'])
     end)
 
 --全部清除
@@ -534,7 +534,7 @@ local function Add_Frame_Menu(self, root)
     end)
 
     sub2:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '重新加载UI' or RELOADUI)
+        tooltip:AddLine(WoWTools_L.RELOADUI)
     end)
 
     sub:CreateDivider()
@@ -601,7 +601,7 @@ local function Add_Frame_Menu(self, root)
             if IsEnabledSaveBg(desc.data.name) then
                 tooltip:AddLine('|cnGREEN_FONT_COLOR:'..desc.data.name)
             else
-                GameTooltip_AddColoredLine(tooltip, WoWTools_DataMixin.onlyChinese and '统一' or ALL, HIGHLIGHT_FONT_COLOR)
+                GameTooltip_AddColoredLine(tooltip, WoWTools_L['ALL~2'], HIGHLIGHT_FONT_COLOR)
             end
             tooltip:AddLine(desc.data.texture)
             tooltip:AddLine('Alpha |cnGREEN_FONT_COLOR:'..(desc.data.alpha or 0.5))
@@ -614,7 +614,7 @@ local function Add_Frame_Menu(self, root)
 
         sub2:CreateButton(
             (_G[tab.name] and '' or '|cff626262')
-            ..(WoWTools_DataMixin.onlyChinese and '显示' or SHOW),
+            ..(WoWTools_L.SHOW),
         function(data)
             if _G[data.name] then
                 ShowUIPanel(_G[data.name])
@@ -656,7 +656,7 @@ local function Init_Menu(self, root, isSub)
     sub= root:CreateCheckbox(
         --'|A:MonkUI-LightOrb:0:0|a'
         WoWTools_DataMixin.Icon.icon2
-        ..(WoWTools_DataMixin.onlyChinese and '显示背景' or HUD_EDIT_MODE_SETTING_UNIT_FRAME_SHOW_PARTY_FRAME_BACKGROUND),
+        ..(WoWTools_L.HUD_EDIT_MODE_SETTING_UNIT_FRAME_SHOW_PARTY_FRAME_BACKGROUND),
     function()
         return self:IsDrawLayerEnabled('BACKGROUND')
     end, function()
@@ -700,7 +700,7 @@ local function Init_Menu(self, root, isSub)
         if textureID then
             tooltip:AddLine(textureID)
         else
-            GameTooltip_AddErrorLine(tooltip, WoWTools_DataMixin.onlyChinese and '无' or NONE)--红色
+            GameTooltip_AddErrorLine(tooltip, WoWTools_L.NONE)--红色
         end
     end)
 
@@ -720,7 +720,7 @@ local function Init_Menu(self, root, isSub)
             SaveData(name).alpha=value
             Settings(IsEnabledSaveBg(name) and self or nil)
         end,
-        name=WoWTools_DataMixin.onlyChinese and '透明度' or HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY,
+        name=WoWTools_L.HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY,
         minValue=0,
         maxValue=1,
         step=0.05,
@@ -729,11 +729,11 @@ local function Init_Menu(self, root, isSub)
             if IsEnabledSaveBg(name) then
                 tooltip:AddLine('|cnGREEN_FONT_COLOR:'..name)
             else
-                GameTooltip_AddColoredLine(tooltip, WoWTools_DataMixin.onlyChinese and '统一' or ALL, HIGHLIGHT_FONT_COLOR)
+                GameTooltip_AddColoredLine(tooltip, WoWTools_L['ALL~2'], HIGHLIGHT_FONT_COLOR)
             end
             if not SaveData(name).texture then
                 tooltip:AddLine(' ')
-                GameTooltip_AddErrorLine(tooltip, WoWTools_DataMixin.onlyChinese and '无' or NONE)--红色
+                GameTooltip_AddErrorLine(tooltip, WoWTools_L.NONE)--红色
             end
         end
     })
@@ -750,7 +750,7 @@ local function Init_Menu(self, root, isSub)
             Settings(IsEnabledSaveBg(name) and self or nil)
         end,
         name= ((self.NineSlice or self.TopBorder or self.Border or self.BorderContainer) and '' or '|cff626262')
-            ..(WoWTools_DataMixin.onlyChinese and '边框' or EMBLEM_BORDER),
+            ..(WoWTools_L['EMBLEM_BORDER~2']),
         minValue=0,
         maxValue=1,
         step=0.05,
@@ -759,7 +759,7 @@ local function Init_Menu(self, root, isSub)
             if IsEnabledSaveBg(name) then
                 tooltip:AddLine('|cnGREEN_FONT_COLOR:'..name)
             else
-                GameTooltip_AddColoredLine(tooltip, WoWTools_DataMixin.onlyChinese and '统一' or ALL, HIGHLIGHT_FONT_COLOR)
+                GameTooltip_AddColoredLine(tooltip, WoWTools_L['ALL~2'], HIGHLIGHT_FONT_COLOR)
             end
             tooltip:AddLine('NineSlice')
         end
@@ -777,7 +777,7 @@ local function Init_Menu(self, root, isSub)
             Settings(IsEnabledSaveBg(name) and self or nil)
         end,
         name= ((self.PortraitContainer or self.Emblem or self.Header) and '' or '|cff626262')
-            ..(WoWTools_DataMixin.onlyChinese and '头像' or WoWTools_L['Portrait']),
+            ..(WoWTools_L['Portrait']),
         minValue=0,
         maxValue=1,
         step=0.05,
@@ -786,7 +786,7 @@ local function Init_Menu(self, root, isSub)
             if IsEnabledSaveBg(name) then
                 tooltip:AddLine('|cnGREEN_FONT_COLOR:'..name)
             else
-                GameTooltip_AddColoredLine(tooltip, WoWTools_DataMixin.onlyChinese and '统一' or ALL, HIGHLIGHT_FONT_COLOR)
+                GameTooltip_AddColoredLine(tooltip, WoWTools_L['ALL~2'], HIGHLIGHT_FONT_COLOR)
             end
             tooltip:AddLine('PortraitContainer')
         end
@@ -804,7 +804,7 @@ local function Init_Menu(self, root, isSub)
 
 --动画
     sub2=sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '动画' or ANIMATION,
+        WoWTools_L.ANIMATION,
     function()
         return not Save().Anims.disabled
     end, function()
@@ -812,7 +812,7 @@ local function Init_Menu(self, root, isSub)
         Settings()
     end)
     sub2:SetTooltip(function(tooltip)
-        tooltip:AddLine('|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD))
+        tooltip:AddLine('|cnGREEN_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD))
     end)
 
 
@@ -826,7 +826,7 @@ local function Init_Menu(self, root, isSub)
             Save().Anims.alpha=value
             Settings()
         end,
-        name=WoWTools_DataMixin.onlyChinese and '透明度' or HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY,
+        name=WoWTools_L.HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY,
         minValue=0.1,
         maxValue=1,
         step=0.05,
@@ -844,7 +844,7 @@ local function Init_Menu(self, root, isSub)
             Save().Anims.speed=value
             Settings()
         end,
-        name=WoWTools_DataMixin.onlyChinese and '速度' or SPEED,
+        name=WoWTools_L.SPEED,
         minValue=1,
         maxValue=130,
         step=1,
@@ -868,7 +868,7 @@ local function Init_Menu(self, root, isSub)
     end, {name=[[https://www.aconvert.com/]]})
     sub3:SetTooltip(function(tooltip, desc)
         tooltip:AddLine(desc.data.name)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '复制' or CALENDAR_COPY_EVENT)
+        tooltip:AddLine(WoWTools_L.CALENDAR_COPY_EVENT)
     end)
 
 
@@ -877,7 +877,7 @@ local function Init_Menu(self, root, isSub)
     sub3= sub2:CreateButton(
         '|A:RedButton-Exit:0:0|a'
         ..(WoWTools_FrameMixin:IsLocked(self) and '|cff626262' or '')
-        ..(WoWTools_DataMixin.onlyChinese and '关闭' or CLOSE),
+        ..(WoWTools_L.CLOSE),
     function()
         HideUIPanel(self)
     end)
@@ -1071,7 +1071,7 @@ local function Set_Frame_Menu(frame, tab)
 
     if tab.isNewButton then
         btn.tooltip= WoWTools_TextureMixin.addName..WoWTools_DataMixin.Icon.icon2
-                ..(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL)
+                ..(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL)
         btn:SetupMenu(function(self, root)
             if self:IsMouseOver() then
                 Init_Menu(self:GetParent(), root, false)
@@ -1091,7 +1091,7 @@ local function Set_Frame_Menu(frame, tab)
             end
             GameTooltip:AddLine(
                 WoWTools_TextureMixin.addName..WoWTools_DataMixin.Icon.icon2
-                ..(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL)
+                ..(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL)
                 ..(
                     s.isRightShowButton
                     and WoWTools_DataMixin.Icon.right

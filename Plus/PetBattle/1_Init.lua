@@ -14,7 +14,7 @@ local function Init_Panel()
         return
     end
 
-    WoWTools_PanelMixin:Header(WoWTools_PetBattleMixin.Layout, WoWTools_DataMixin.onlyChinese and '选项' or OPTIONS)
+    WoWTools_PanelMixin:Header(WoWTools_PetBattleMixin.Layout, WoWTools_L.OPTIONS)
 
 --技能按钮
     WoWTools_PanelMixin:Check_Button({
@@ -24,11 +24,11 @@ local function Init_Panel()
             Save().AbilityButton.disabled= not Save().AbilityButton.disabled and true or nil
             WoWTools_PetBattleMixin:Init_AbilityButton()
         end,
-        buttonText= WoWTools_DataMixin.onlyChinese and '重置' or RESET,
+        buttonText= WoWTools_L.RESET,
         buttonFunc= function()
             Save().AbilityButton= {disabled= Save().AbilityButton.disabled}
             WoWTools_PetBattleMixin:Init_AbilityButton()
-            print(WoWTools_DataMixin.Icon.icon2..WoWTools_PetBattleMixin.addName6, WoWTools_DataMixin.onlyChinese and '重置' or RESET)
+            print(WoWTools_DataMixin.Icon.icon2..WoWTools_PetBattleMixin.addName6, WoWTools_L.RESET)
         end,
         tooltip= WoWTools_PetBattleMixin.addName,
         layout= WoWTools_PetBattleMixin.Layout,
@@ -43,21 +43,21 @@ local function Init_Panel()
             Save().TypeButton.disabled= not Save().TypeButton.disabled and true or nil
             WoWTools_PetBattleMixin:Init_TypeButton()
         end,
-        buttonText= WoWTools_DataMixin.onlyChinese and '重置' or RESET,
+        buttonText= WoWTools_L.RESET,
         buttonFunc= function()
             Save().TypeButton= {
                 disabled=Save().TypeButton.disabled,
                 showBackground=true,
             }
             WoWTools_PetBattleMixin:Init_TypeButton()
-            print(WoWTools_DataMixin.Icon.icon2..WoWTools_PetBattleMixin.addName, WoWTools_DataMixin.onlyChinese and '重置位置' or RESET_POSITION)
+            print(WoWTools_DataMixin.Icon.icon2..WoWTools_PetBattleMixin.addName, WoWTools_L.RESET_POSITION)
         end,
         tooltip= WoWTools_PetBattleMixin.addName,
         layout= WoWTools_PetBattleMixin.Layout,
         category= WoWTools_PetBattleMixin.Category,
     })
 
-    WoWTools_PanelMixin:Header(WoWTools_PetBattleMixin.Layout, WoWTools_DataMixin.onlyChinese and '其它' or OTHER)
+    WoWTools_PanelMixin:Header(WoWTools_PetBattleMixin.Layout, WoWTools_L.OTHER)
 
 
 --点击移动按钮
@@ -68,7 +68,7 @@ local function Init_Panel()
             Save().ClickMoveButton.disabled= not Save().ClickMoveButton.disabled and true or nil
             WoWTools_PetBattleMixin:ClickToMove_Button()
         end,
-        buttonText= WoWTools_DataMixin.onlyChinese and '重置' or RESET,
+        buttonText= WoWTools_L.RESET,
         buttonFunc= function()
             Save().ClickMoveButton= {
                 disabled= Save().ClickMoveButton.disabled,
@@ -78,7 +78,7 @@ local function Init_Panel()
                 lock_cameraSmoothTrackingStyle= WoWTools_DataMixin.Player.husandro and '0' or nil,
             }
             WoWTools_PetBattleMixin:ClickToMove_Button()
-            print(WoWTools_DataMixin.Icon.icon2..WoWTools_PetBattleMixin.addName3, WoWTools_DataMixin.onlyChinese and '重置' or RESET)
+            print(WoWTools_DataMixin.Icon.icon2..WoWTools_PetBattleMixin.addName3, WoWTools_L.RESET)
         end,
         layout= WoWTools_PetBattleMixin.Layout,
         category= WoWTools_PetBattleMixin.Category,
@@ -127,9 +127,9 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             AbilityButton={}
         })
 
-        WoWTools_PetBattleMixin.addName= '|A:WildBattlePetCapturable:0:0|a'..(WoWTools_DataMixin.onlyChinese and '宠物对战' or PET_BATTLE_PVP_QUEUE)
+        WoWTools_PetBattleMixin.addName= '|A:WildBattlePetCapturable:0:0|a'..(WoWTools_L.PET_BATTLE_PVP_QUEUE)
         WoWTools_PetBattleMixin.addName3= '|A:transmog-gearSlot-unassigned-feet:0:0|a'..(WoWTools_DataMixin.onlyChinese and '点击移动按钮'or WoWTools_Join(CLICK_TO_MOVE, 'Button'))
-        WoWTools_PetBattleMixin.addName4= '|A:WildBattlePetCapturable:0:0|a'..(WoWTools_DataMixin.onlyChinese and '宠物类型' or PET_FAMILIES)
+        WoWTools_PetBattleMixin.addName4= '|A:WildBattlePetCapturable:0:0|a'..(WoWTools_L.PET_FAMILIES)
         WoWTools_PetBattleMixin.addName6= '|A:plunderstorm-icon-offensive:0:0|a'..(WoWTools_DataMixin.onlyChinese and '技能按钮' or WoWTools_Join(PET_BATTLE_ABILITIES_LABEL, 'Button'))
 
 
@@ -139,7 +139,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         })
 
         WoWTools_PanelMixin:Check_Button({
-            checkName= WoWTools_DataMixin.onlyChinese and '启用' or ENABLE,
+            checkName= WoWTools_L.ENABLE,
             GetValue= function() return not Save().disabled end,
             SetValue= function()
                 Save().disabled= not Save().disabled and true or nil
@@ -148,7 +148,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 WoWTools_PetBattleMixin:Init_AbilityButton()--宠物对战，技能按钮
                 WoWTools_PetBattleMixin:ClickToMove_Button()--点击移动，按钮
             end,
-            buttonText= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '重置' or RESET),
+            buttonText= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.RESET),
             buttonFunc= function()
                 StaticPopup_Show('WoWTools_RestData',
                     WoWTools_PetBattleMixin.addName,
@@ -157,7 +157,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                     WoWToolsPlusSave['Plus_PetBattle2']= nil
                 end)
             end,
-            tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD),
+            tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD),
             layout= WoWTools_PetBattleMixin.Layout,
             category= WoWTools_PetBattleMixin.Category,
         })

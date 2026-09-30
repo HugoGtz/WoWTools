@@ -89,7 +89,7 @@ local function Init()
                     WoWTools_TextMixin:CN(info.name)
                 )
             end
-            GameTooltip:AddDoubleLine((cur==max and '|cnGREEN_FONT_COLOR:' or '|cffff00ff')..cur..'|r/'..max..format(' %i%%', cur/max*100), WoWTools_DataMixin.onlyChinese and '旅行者日志进度' or MONTHLY_ACTIVITIES_PROGRESSED)
+            GameTooltip:AddDoubleLine((cur==max and '|cnGREEN_FONT_COLOR:' or '|cffff00ff')..cur..'|r/'..max..format(' %i%%', cur/max*100), WoWTools_L.MONTHLY_ACTIVITIES_PROGRESSED)
 
         end
 
@@ -102,13 +102,13 @@ local function Init()
 
         GameTooltip:AddLine(
             (isCombat and '|cff626262' or '|cffffffff')
-            ..(WoWTools_DataMixin.onlyChinese and '旅程' or JOURNEYS_LABEL)..'|r'
+            ..(WoWTools_L.JOURNEYS_LABEL)..'|r'
             ..WoWTools_DataMixin.Icon.right
         )
 
         GameTooltip:AddLine(
             (not isCombat and factionInfo and factionInfo.configID and '|cffffffff' or '|cff626262' )
-            ..(WoWTools_DataMixin.onlyChinese and '伙伴' or COVENANT_MISSIONS_FOLLOWERS)..'|r'
+            ..(WoWTools_L.COVENANT_MISSIONS_FOLLOWERS)..'|r'
             ..WoWTools_DataMixin.Icon.mid
         )
         GameTooltip:Show()
@@ -116,13 +116,13 @@ local function Init()
 
         --[[
 --..(WoWTools_DataMixin.onlyChinese and '旅行者日志' or MONTHLY_ACTIVITIES_TAB)..'|r'
-        ..(WoWTools_DataMixin.onlyChinese and '地下城' or DUNGEONS)..'|r'
-         ..(WoWTools_DataMixin.onlyChinese and '上' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP)
+        ..(WoWTools_L.DUNGEONS)..'|r'
+         ..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP)
         GameTooltip:AddLine(
             col
-            ..(WoWTools_DataMixin.onlyChinese and '团队副本' or RAIDS)..'|r'
+            ..(WoWTools_L.RAIDS)..'|r'
             ..WoWTools_DataMixin.Icon.mid
-            ..(WoWTools_DataMixin.onlyChinese and '下' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN)
+            ..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN)
         )]]
 
 

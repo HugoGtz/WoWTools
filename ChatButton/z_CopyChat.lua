@@ -37,7 +37,7 @@ local function Get_Text(frame)
 	local tabFrame= _G['ChatFrame'..index..'Tab']
 	WoWTools_TextMixin:ShowText(
 		tab,
-		(tabFrame and tabFrame:GetText() or (WoWTools_DataMixin.onlyChinese and '聊天' or CHAT))
+		(tabFrame and tabFrame:GetText() or (WoWTools_L.CHAT))
 		..' |cffffffff#'.. numMessage
 	)
 end
@@ -51,15 +51,15 @@ local function Print_Text(isLogging, isChat)
 	local t
 	if isChat then
 		if isLogging then
-			t= WoWTools_DataMixin.onlyChinese and '聊天记录保存在Logs/WoWChatLog.txt中' or CHATLOGENABLED
+			t= WoWTools_L.CHATLOGENABLED
 		else
-			t=WoWTools_DataMixin.onlyChinese and '聊天记录已被禁止。' or CHATLOGDISABLED
+			t=WoWTools_L.CHATLOGDISABLED
 		end
 	else
 		if isLogging then
-			t= WoWTools_DataMixin.onlyChinese and '战斗记录保存在Logs/WoWCombatLog中' or COMBATLOGENABLED
+			t= WoWTools_L.COMBATLOGENABLED
 		else
-			t= WoWTools_DataMixin.onlyChinese and '战斗记录已被禁止。' or COMBATLOGDISABLED
+			t= WoWTools_L.COMBATLOGDISABLED
 		end
 	end
 	local info = ChatTypeInfo["SYSTEM"]
@@ -90,12 +90,12 @@ local function Init_Menu(self, root)
 	local num= self:GetNumMessages() or 0
 
 	local tabFrame= _G['ChatFrame'..index..'Tab']
-	local name= tabFrame and tabFrame:GetText() or (WoWTools_DataMixin.onlyChinese and '聊天' or CHAT)
+	local name= tabFrame and tabFrame:GetText() or (WoWTools_L.CHAT)
 
 	sub=root:CreateButton(
 		'|A:poi-workorders:0:0|a'
 		..(index==2 and '|cnWARNING_FONT_COLOR:' or  (num==0 and '|cff606060') or '')
-		..(WoWTools_DataMixin.onlyChinese and '复制聊天' or WoWTools_Join(CALENDAR_COPY_EVENT, CHAT))
+		..(WoWTools_L['CALENDAR_COPY_EVENT+CHAT'])
 		..' '..num,
 	function()
 		Get_Text(self)
@@ -107,7 +107,7 @@ local function Init_Menu(self, root)
 
 --选项
 	sub:CreateCheckbox(
-		WoWTools_DataMixin.onlyChinese and '显示按钮' or SHOW_QUICK_BUTTON,
+		WoWTools_L.SHOW_QUICK_BUTTON,
 	function()
 		return Save().isShowButton
 	end, function()
@@ -118,7 +118,7 @@ local function Init_Menu(self, root)
 --聊天记录
 	sub:CreateDivider()
 	sub2=sub:CreateCheckbox(
-		WoWTools_DataMixin.onlyChinese and '/聊天记录' or SLASH_CHATLOG2,
+		WoWTools_L.SLASH_CHATLOG2,
 	function()
 		return C_ChatInfo.IsLoggingChat()
 	end, function()
@@ -132,12 +132,12 @@ local function Init_Menu(self, root)
 		Print_Text(C_ChatInfo.IsLoggingChat(), true)
 	end)
 	sub2:SetTooltip(function(tooltip)
-		tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '聊天记录保存在Logs/WoWChatLog.txt中' or CHATLOGENABLED)
+		tooltip:AddLine(WoWTools_L.CHATLOGENABLED)
 	end)
 
 --战斗日志
 	sub2=sub:CreateCheckbox(
-		WoWTools_DataMixin.onlyChinese and '/战斗日志' or SLASH_COMBATLOG1,
+		WoWTools_L.SLASH_COMBATLOG1,
 	function()
 		return C_ChatInfo.IsLoggingCombat()
 	end, function()
@@ -151,7 +151,7 @@ local function Init_Menu(self, root)
 		Print_Text(C_ChatInfo.IsLoggingCombat(), false)
 	end)
 	sub2:SetTooltip(function(tooltip)
-		tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '战斗记录保存在Logs/WoWCombatLog中' or COMBATLOGENABLED)
+		tooltip:AddLine(WoWTools_L.COMBATLOGENABLED)
 	end)
 
 --打开，选项面板
@@ -256,13 +256,13 @@ function Init_Button(index)
 		local col= num==0 and '|cff606060'
 		GameTooltip:AddLine(
 			(col or '|cffffffff')
-			..(WoWTools_DataMixin.onlyChinese and '复制' or CALENDAR_COPY_EVENT)
+			..(WoWTools_L.CALENDAR_COPY_EVENT)
 			..(col or'|cnGREEN_FONT_COLOR:#')
 			..num
 			..'|r|r'
 			..WoWTools_DataMixin.Icon.left
 			..WoWTools_DataMixin.Icon.right
-			..(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL)
+			..(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL)
 		)
 		GameTooltip:Show()
 		WoWTools_DataMixin:Call(FCF_FadeInScrollbar, self:GetParent())
@@ -376,7 +376,7 @@ frame:SetScript('OnEvent', function(self, event, arg1)
 	end
 
 	WoWToolsPlusSave['Plus_ChatCopy']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_ChatCopy'], {isShowButton=true})
-	addName= '|A:poi-workorders:0:0|a'..(WoWTools_DataMixin.onlyChinese and '复制聊天' or WoWTools_Join(CALENDAR_COPY_EVENT, CHAT))
+	addName= '|A:poi-workorders:0:0|a'..(WoWTools_L['CALENDAR_COPY_EVENT+CHAT'])
 
 	WoWTools_PanelMixin:OnlyCheck({
 		name= addName,
@@ -387,7 +387,7 @@ frame:SetScript('OnEvent', function(self, event, arg1)
 		end,
 		layout= WoWTools_ChatMixin.Layout,
 		category= WoWTools_ChatMixin.Category,
-		tooltip= WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+		tooltip= WoWTools_L.REQUIRES_RELOAD
 	})
 
 	if not Save().disabled then

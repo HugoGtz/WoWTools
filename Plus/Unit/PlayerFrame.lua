@@ -160,7 +160,7 @@ end]]
     function AssisterButton:tooltip(tooltip)
         GameTooltip_SetTitle(tooltip,
             WoWTools_DataMixin.Icon.left
-            ..(WoWTools_DataMixin.onlyChinese and '所有团队成员都获得团队助理权限' or ALL_ASSIST_DESCRIPTION)
+            ..(WoWTools_L.ALL_ASSIST_DESCRIPTION)
             ..WoWTools_DataMixin.Icon.icon2
             ..': '..WoWTools_TextMixin:GetEnabeleDisable(IsEveryoneAssistant())
         )
@@ -178,7 +178,7 @@ end]]
         end)
         print(
             WoWTools_UnitMixin.addName..WoWTools_DataMixin.Icon.icon2,
-            WoWTools_DataMixin.onlyChinese and '所有团队成员都获得团队助理权限' or ALL_ASSIST_DESCRIPTION,
+            WoWTools_L.ALL_ASSIST_DESCRIPTION,
             WoWTools_TextMixin:GetEnabeleDisable(IsEveryoneAssistant())
         )
     end)
@@ -245,7 +245,7 @@ end]]
         end
         GameTooltip_SetTitle(tooltip,
             '|A:VignetteLoot:0:0|a'
-            ..(WoWTools_DataMixin.onlyChinese and '专精拾取' or SELECT_LOOT_SPECIALIZATION)
+            ..(WoWTools_L.SELECT_LOOT_SPECIALIZATION)
             ..text
         )
 
@@ -253,14 +253,14 @@ end]]
         local name, _, icon= PlayerUtil.GetSpecName()
         GameTooltip_AddInstructionLine(tooltip,
             '<'
-            ..(WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS)
+            ..(WoWTools_L.SETTINGS)
             ..WoWTools_DataMixin.Icon.left
             ..' |T'..(icon or 0)..':0|t'..(WoWTools_TextMixin:CN(name) or '')
             ..'>'
         )
         GameTooltip_AddInstructionLine(tooltip,
             '<'
-            ..(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL)
+            ..(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL)
             ..WoWTools_DataMixin.Icon.right
             ..'>'
         )
@@ -290,7 +290,7 @@ end]]
             WoWTools_MenuMixin:Set_Specialization(root)
             root:CreateDivider()
             root:CreateCheckbox(
-                WoWTools_DataMixin.onlyChinese and '总是显示' or BATTLEFIELD_MINIMAP_SHOW_ALWAYS,
+                WoWTools_L.BATTLEFIELD_MINIMAP_SHOW_ALWAYS,
             function()
                 return Save().showLootButton
             end, function()
@@ -309,7 +309,7 @@ end]]
             local name, _, texture= select(2, GetSpecializationInfoByID(specID or 0))
 
             print(WoWTools_UnitMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                WoWTools_DataMixin.onlyChinese and '专精拾取' or SELECT_LOOT_SPECIALIZATION,
+                WoWTools_L.SELECT_LOOT_SPECIALIZATION,
                 texture and '|T'..texture..':0|t' or '',
                 WoWTools_TextMixin:CN(name)
             )
@@ -359,7 +359,7 @@ end]]
     function RaidButton:tooltip(tooltip)
         if DifficultyUtil.InStoryRaid() then
             GameTooltip_AddErrorLine(tooltip,
-                WoWTools_DataMixin.onlyChinese and '在剧情模式不可用' or DIFFICULTY_LOCKED_REASON_STORY_RAID
+                WoWTools_L.DIFFICULTY_LOCKED_REASON_STORY_RAID
             )
             tooltip:AddLine(' ')
         end
@@ -369,7 +369,7 @@ end]]
             local toggleDifficultyID = select(7, GetDifficultyInfo(difficultyID))
             if toggleDifficultyID then
                 tooltip:AddDoubleLine(
-                    WoWTools_DataMixin.onlyChinese and '可修改难度' or WoWTools_L['Difficulty can be changed'],
+                    WoWTools_L['Difficulty can be changed'],
                     WoWTools_MapMixin:GetDifficultyColor(nil, toggleDifficultyID),
                     0,1,0
                 )
@@ -378,7 +378,7 @@ end]]
 
         local dungeonID= GetRaidDifficultyID() or 0
         tooltip:AddDoubleLine(
-            (WoWTools_DataMixin.onlyChinese and '团队副本难度' or RAID_DIFFICULTY)
+            (WoWTools_L.RAID_DIFFICULTY)
             ..' '..dungeonID,
             WoWTools_MapMixin:GetDifficultyColor(nil, dungeonID),
             1,0.82,0, 1,1,1
@@ -387,11 +387,11 @@ end]]
         local legacyID= GetLegacyRaidDifficultyID() or 0
         legacyID= NormalizeLegacyDifficultyID(legacyID)
         tooltip:AddDoubleLine(
-            WoWTools_DataMixin.onlyChinese and '经典团队副本难度' or LEGACY_RAID_DIFFICULTY,
+            WoWTools_L.LEGACY_RAID_DIFFICULTY,
             dungeonID==DifficultyUtil.ID.PrimaryRaidMythic and WoWTools_TextMixin:GetEnabeleDisable(false)
-            or (legacyID==DifficultyUtil.ID.Raid10Normal and (WoWTools_DataMixin.onlyChinese and '10人' or RAID_DIFFICULTY1))
-            or (legacyID==DifficultyUtil.ID.Raid25Normal and (WoWTools_DataMixin.onlyChinese and '25人' or RAID_DIFFICULTY2))
-            or (WoWTools_DataMixin.onlyChinese and '无' or NONE),
+            or (legacyID==DifficultyUtil.ID.Raid10Normal and (WoWTools_L.RAID_DIFFICULTY1))
+            or (legacyID==DifficultyUtil.ID.Raid25Normal and (WoWTools_L.RAID_DIFFICULTY2))
+            or (WoWTools_L.NONE),
             1,0.82,0, 1,1,1
         )
 
@@ -402,16 +402,16 @@ end]]
 
         tooltip:AddLine(
             '<'
-            ..(WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS)
+            ..(WoWTools_L.SETTINGS)
             ..WoWTools_DataMixin.Icon.left
             ..'|A:UI-HUD-Minimap-GuildBanner-Mythic-Large:0:0|a'
-            ..(WoWTools_DataMixin.onlyChinese and '英雄' or PLAYER_DIFFICULTY2)
+            ..(WoWTools_L.PLAYER_DIFFICULTY2)
             ..'>',
             color:GetRGB()
         )
         tooltip:AddLine(
             '<'
-            ..(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL)
+            ..(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL)
             ..WoWTools_DataMixin.Icon.right
             ..'>',
             color:GetRGB()
@@ -524,7 +524,7 @@ end]]
     function DungeonButton:tooltip(tooltip)
         local dungeonID= GetDungeonDifficultyID() or 0
         tooltip:AddDoubleLine(
-            (WoWTools_DataMixin.onlyChinese and '地下城难度' or DUNGEON_DIFFICULTY)
+            (WoWTools_L.DUNGEON_DIFFICULTY)
             ..' '..dungeonID,
             WoWTools_MapMixin:GetDifficultyColor(nil, dungeonID),
             1,0.82,0, 1,1,1
@@ -537,17 +537,17 @@ end]]
 
         tooltip:AddLine(
             '<'
-            ..(WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS)
+            ..(WoWTools_L.SETTINGS)
             ..WoWTools_DataMixin.Icon.left
             ..'|A:DungeonSkull:0:0|a'
-            ..(WoWTools_DataMixin.onlyChinese and '史诗' or PLAYER_DIFFICULTY6)
+            ..(WoWTools_L.PLAYER_DIFFICULTY6)
             ..'>',
             color:GetRGB()
         )
 
         GameTooltip_AddInstructionLine(tooltip,
             '<'
-            ..(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL)
+            ..(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL)
             ..WoWTools_DataMixin.Icon.right
             ..'>'
         )
@@ -764,19 +764,19 @@ local function Create_warModeButton(frame)
         GameTooltip:SetOwner(PlayerFrame, "ANCHOR_LEFT")
         GameTooltip:SetText(WoWTools_UnitMixin.addName..WoWTools_DataMixin.Icon.icon2)
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '战争模式' or PVP_LABEL_WAR_MODE, WoWTools_TextMixin:GetEnabeleDisable(C_PvP.IsWarModeDesired())..WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine(WoWTools_L.PVP_LABEL_WAR_MODE, WoWTools_TextMixin:GetEnabeleDisable(C_PvP.IsWarModeDesired())..WoWTools_DataMixin.Icon.left)
 
         if not C_PvP.ArePvpTalentsUnlocked() then
 			GameTooltip_AddErrorLine(
                 GameTooltip,
                 format(
-                    WoWTools_DataMixin.onlyChinese and '在%d级解锁' or PVP_TALENT_SLOT_LOCKED,
+                    WoWTools_L.PVP_TALENT_SLOT_LOCKED,
                     C_PvP.GetPvpTalentsUnlockedLevel()
                 ),
             true)
 
         elseif not C_PvP.CanToggleWarMode(true) or not C_PvP.CanToggleWarMode(false) or InCombatLockdown() then
-            GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '当前不能操作' or SPELL_FAILED_NOT_HERE, 1,0,0)
+            GameTooltip:AddLine(WoWTools_L.SPELL_FAILED_NOT_HERE, 1,0,0)
 		end
 
         GameTooltip:Show()

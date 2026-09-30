@@ -21,7 +21,7 @@ local function Init()
             WoWTools_MerchantMixin.addName..WoWTools_DataMixin.Icon.icon2,
 
             '|cffff00ff|A:Cursor_lootall_128:0:0|a'
-            ..(WoWTools_DataMixin.onlyChinese and "自动拾取" or AUTO_LOOT_DEFAULT_TEXT)
+            ..(WoWTools_L.AUTO_LOOT_DEFAULT_TEXT)
             ..' Plus|r|n',
             WoWTools_TextMixin:GetEnabeleDisable(value)
         )
@@ -32,12 +32,12 @@ local function Init()
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_MerchantMixin.addName)
-        GameTooltip:AddLine('|cffff00ff|A:Cursor_lootall_128:0:0|a'..(WoWTools_DataMixin.onlyChinese and "自动拾取" or AUTO_LOOT_DEFAULT_TEXT)..' Plus|r')
+        GameTooltip:AddLine('|cffff00ff|A:Cursor_lootall_128:0:0|a'..(WoWTools_L.AUTO_LOOT_DEFAULT_TEXT)..' Plus|r')
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '自动拾取' or AUTO_LOOT_DEFAULT_TEXT, (WoWTools_DataMixin.onlyChinese and '当前' or REFORGE_CURRENT)..': '..WoWTools_TextMixin:GetEnabeleDisable(C_CVar.GetCVarBool("autoLootDefault")))
+        GameTooltip:AddDoubleLine(WoWTools_L['AUTO_LOOT_DEFAULT_TEXT~2'], (WoWTools_L.REFORGE_CURRENT)..': '..WoWTools_TextMixin:GetEnabeleDisable(C_CVar.GetCVarBool("autoLootDefault")))
         local col= InCombatLockdown() and '|cff626262'
         GameTooltip:AddDoubleLine((col or '')..(WoWTools_DataMixin.onlyChinese and '拾取时' or PROC_EVENT512_DESC:format(ITEM_LOOT)),
-            (col or '|cnGREEN_FONT_COLOR:')..'Shift|r '..(WoWTools_DataMixin.onlyChinese and '禁用' or DISABLE))
+            (col or '|cnGREEN_FONT_COLOR:')..'Shift|r '..(WoWTools_L.DISABLE))
         GameTooltip:Show()
     end)
 
@@ -52,7 +52,7 @@ local function Init()
             C_CVar.SetCVar("autoLootDefault", '0')
             print(
                 WoWTools_MerchantMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                '|cffff00ff|A:Cursor_lootall_128:0:0|a'..(WoWTools_DataMixin.onlyChinese and "自动拾取" or AUTO_LOOT_DEFAULT_TEXT)..' Plus|r','|cnGREEN_FONT_COLOR:Shift|r', WoWTools_DataMixin.onlyChinese and "自动拾取" or AUTO_LOOT_DEFAULT_TEXT, WoWTools_TextMixin:GetEnabeleDisable(C_CVar.GetCVarBool("autoLootDefault")))
+                '|cffff00ff|A:Cursor_lootall_128:0:0|a'..(WoWTools_L.AUTO_LOOT_DEFAULT_TEXT)..' Plus|r','|cnGREEN_FONT_COLOR:Shift|r', WoWTools_L.AUTO_LOOT_DEFAULT_TEXT, WoWTools_TextMixin:GetEnabeleDisable(C_CVar.GetCVarBool("autoLootDefault")))
 
         else
             if C_CVar.GetCVarBool("autoLootDefault") then

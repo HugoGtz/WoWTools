@@ -286,75 +286,75 @@ MovieList= {
     expansion= LE_EXPANSION_MIDNIGHT,
     movieIDs= {1062},
     upAtlas= 'StreamCinematic-Midnight-Large-Up',
-    text= WoWTools_DataMixin.onlyChinese and '至暗之夜' or EXPANSION_NAME11,
+    text= WoWTools_L.EXPANSION_NAME11,
 },
 {
     expansion = LE_EXPANSION_WAR_WITHIN,
     movieIDs = { 1023 },
     upAtlas = "StreamCinematic-WarWithin2-Large-Up",
-    text= WoWTools_DataMixin.onlyChinese and '地心之战' or EXPANSION_NAME10,
+    text= WoWTools_L.EXPANSION_NAME10,
 },
 {
     expansion = LE_EXPANSION_WAR_WITHIN,
     movieIDs = { 1014 },
     upAtlas = "StreamCinematic-WarWithin-Large-Up",
-    text= WoWTools_DataMixin.onlyChinese and '地心之战' or EXPANSION_NAME10,
+    text= WoWTools_L.EXPANSION_NAME10,
 },
 { expansion=LE_EXPANSION_DRAGONFLIGHT,
     movieIDs = { 973 },
     upAtlas="StreamCinematic-Dragonflight2-Up",
-    text= WoWTools_DataMixin.onlyChinese and '巨龙时代' or EXPANSION_NAME9,
+    text= WoWTools_L.EXPANSION_NAME9,
 },
 { expansion=LE_EXPANSION_DRAGONFLIGHT,
     movieIDs = { 960 },
     upAtlas="StreamCinematic-Dragonflight-Up",
-    text= WoWTools_DataMixin.onlyChinese and '巨龙时代' or EXPANSION_NAME9,
+    text= WoWTools_L.EXPANSION_NAME9,
 },
 { expansion=LE_EXPANSION_SHADOWLANDS,
     movieIDs = { 936 },
     upAtlas="StreamCinematic-Shadowlands-Up",
-    text= WoWTools_DataMixin.onlyChinese and '暗影国度' or EXPANSION_NAME8,
+    text= WoWTools_L.EXPANSION_NAME8,
 },
 { expansion=LE_EXPANSION_BATTLE_FOR_AZEROTH,
     movieIDs = { 852 },
     upAtlas="StreamCinematic-BFA-Up",
-    text= WoWTools_DataMixin.onlyChinese and '争霸艾泽拉斯' or EXPANSION_NAME7,
+    text= WoWTools_L.EXPANSION_NAME7,
 },
 { expansion=LE_EXPANSION_LEGION,
     movieIDs = { 470 },
     upAtlas="StreamCinematic-Legion-Up",
-    text= WoWTools_DataMixin.onlyChinese and '军团再临' or EXPANSION_NAME6,
+    text= WoWTools_L.EXPANSION_NAME6,
 },
 
 { expansion=LE_EXPANSION_WARLORDS_OF_DRAENOR,
     movieIDs = { 195 },
     upAtlas="StreamCinematic-WOD-Up",
-    text= WoWTools_DataMixin.onlyChinese and '德拉诺之王' or EXPANSION_NAME5,
+    text= WoWTools_L.EXPANSION_NAME5,
 },
 { expansion=LE_EXPANSION_MISTS_OF_PANDARIA,
     movieIDs = { 115 },
     upAtlas="StreamCinematic-MOP-Up",
-    text= WoWTools_DataMixin.onlyChinese and '熊猫人之谜' or EXPANSION_NAME4,
+    text= WoWTools_L.EXPANSION_NAME4,
 },
 { expansion=LE_EXPANSION_CATACLYSM,
     movieIDs = { 23 },
     upAtlas="StreamCinematic-CC-Up",
-    text= WoWTools_DataMixin.onlyChinese and '大地的裂变' or EXPANSION_NAME3,
+    text= WoWTools_L.EXPANSION_NAME3,
 },
 { expansion=LE_EXPANSION_WRATH_OF_THE_LICH_KING,
     movieIDs = { 18 },
     upAtlas="StreamCinematic-LK-Up",
-    text= WoWTools_DataMixin.onlyChinese and '巫妖王之怒' or EXPANSION_NAME2,
+    text= WoWTools_L.EXPANSION_NAME2,
 },
 { expansion=LE_EXPANSION_BURNING_CRUSADE,
     movieIDs = { 27 },
     upAtlas="StreamCinematic-BC-Up",
-    text= WoWTools_DataMixin.onlyChinese and '燃烧的远征' or EXPANSION_NAME1,
+    text= WoWTools_L.EXPANSION_NAME1,
 },
 { expansion=LE_EXPANSION_CLASSIC,
     movieIDs = { 1, 2 },
     upAtlas="StreamCinematic-Classic-Up",
-    text= WoWTools_DataMixin.onlyChinese and '经典旧世' or EXPANSION_NAME0,
+    text= WoWTools_L.EXPANSION_NAME0,
 },
 }
 
@@ -385,8 +385,8 @@ local function Set_StopMove()
                     MovieFrame:StopMovie()
                     print(
                         WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                        WoWTools_DataMixin.onlyChinese and '对话' or ENABLE_DIALOG,
-                        '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '跳过' or RENOWN_LEVEL_UP_SKIP_BUTTON)..'|r',
+                        WoWTools_L.ENABLE_DIALOG,
+                        '|cnWARNING_FONT_COLOR:'..(WoWTools_L.RENOWN_LEVEL_UP_SKIP_BUTTON)..'|r',
                         'movieID|cnGREEN_FONT_COLOR:',
                         movieID
                     )
@@ -417,8 +417,8 @@ local function Set_StopMove()
                 CinematicFrame_CancelCinematic()
                 print(
                     WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                    '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '跳过' or RENOWN_LEVEL_UP_SKIP_BUTTON)..'|r',
-                    WoWTools_DataMixin.onlyChinese and '过场动画' or CINEMATICS
+                    '|cnWARNING_FONT_COLOR:'..(WoWTools_L.RENOWN_LEVEL_UP_SKIP_BUTTON)..'|r',
+                    WoWTools_L.CINEMATICS
                 )
             end)
         end
@@ -442,7 +442,7 @@ local function Movie_SubMenu(root, movieID)
     end
 
     local sub=root:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '下载' or WoWTools_L['Download'],
+        WoWTools_L['Download'],
     function(data)
         PreloadMovie(data.movieID)
         return MenuResponse.Open
@@ -453,7 +453,7 @@ local function Movie_SubMenu(root, movieID)
         local inProgress, downloaded, total = GetMovieDownloadProgress(description.data.movieID)
         if inProgress and downloaded and total and total>0 then
             tooltip:AddDoubleLine(
-                WoWTools_DataMixin.onlyChinese and '进度' or PVP_PROGRESS_REWARDS_HEADER,
+                WoWTools_L.PVP_PROGRESS_REWARDS_HEADER,
                 format('|n%i%%', downloaded/total*100)
             )
         end
@@ -477,7 +477,7 @@ local function Init_Menu(_, root)
     local num= CountTable(WoWToolsPlusPlayerDate.GossipMovie or {})
 
     root= root:CreateButton(
-        '|T0:0|t'..(WoWTools_DataMixin.onlyChinese and '视频' or VIDEOOPTIONS_MENU),--..(num==0 and ' |cff626262' or ' ')..num,
+        '|T0:0|t'..(WoWTools_L.VIDEOOPTIONS_MENU),--..(num==0 and ' |cff626262' or ' ')..num,
     function()
         return MenuResponse.Open
     end, {rightText=num})
@@ -496,13 +496,13 @@ local function Init_Menu(_, root)
     sub:SetTooltip(function(tooltip)
         tooltip:AddLine('PLAY_MOVIE')
         GameTooltip_AddHighlightLine(tooltip,
-            WoWTools_DataMixin.onlyChinese and '已经播放' or WoWTools_Join(ANIMA_DIVERSION_NODE_SELECTED, EVENTTRACE_BUTTON_PLAY)
+            WoWTools_L['ANIMA_DIVERSION_NODE_SELECTED+EVENTTRACE_BUTTON_PLAY']
         )
     end)
 
 --动画字幕
     sub2=sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '动画字幕' or CINEMATIC_SUBTITLES,
+        WoWTools_L.CINEMATIC_SUBTITLES,
     function()
         return C_CVar.GetCVarBool("movieSubtitle")
     end, function()
@@ -520,7 +520,7 @@ local function Init_Menu(_, root)
 
 --跳过，过场动画
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '跳过过场动画' or WoWTools_Join(RENOWN_LEVEL_UP_SKIP_BUTTON, CINEMATICS),
+        WoWTools_L['RENOWN_LEVEL_UP_SKIP_BUTTON+CINEMATICS'],
     function()
         return Save().stopCinematics
     end, function()
@@ -618,7 +618,7 @@ local function Init_Menu(_, root)
             MovieFrame_PlayMovie(MovieFrame, data.movieID)
         end, {movieID=movieID, dateTime=dateTime})
         sub:SetTooltip(function(tooltip)
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '播放' or EVENTTRACE_BUTTON_PLAY)
+            tooltip:AddLine(WoWTools_L.EVENTTRACE_BUTTON_PLAY)
         end)
         Movie_SubMenu(sub, movieID, dateTime)
     end
@@ -626,10 +626,10 @@ local function Init_Menu(_, root)
 --全部清除
     sub=root:CreateButton(
         (_num==0 and '|cff626262' or '')
-        ..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL),
+        ..(WoWTools_L.CLEAR_ALL),
     function()
         StaticPopup_Show('WoWTools_OK',
-        (WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL),
+        (WoWTools_L.CLEAR_ALL),
         nil,
         {SetValue=function()
             WoWToolsPlusPlayerDate.GossipMovie={}

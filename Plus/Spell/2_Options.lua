@@ -20,7 +20,7 @@ local function Init()
 
 
     WoWTools_PanelMixin:OnlyCheck({
-        name= WoWTools_DataMixin.onlyChinese and '启用' or ENABLE,
+        name= WoWTools_L.ENABLE,
         tooltip= WoWTools_SpellMixin.addName,
         GetValue= function() return not Save().disabled end,
         category= WoWTools_SpellMixin.Category,
@@ -29,7 +29,7 @@ local function Init()
             print(
                 WoWTools_DataMixin.Icon.icon2..WoWTools_SpellMixin.addName,
                 WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-                WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+                WoWTools_L.REQUIRES_RELOAD
             )
         end
     })
@@ -38,7 +38,7 @@ local function Init()
 
 --法术弹出框
     WoWTools_PanelMixin:OnlyCheck({
-        name= '|A:common-icon-backarrow:0:0|a'..(WoWTools_DataMixin.onlyChinese and '法术弹出框' or WoWTools_L['Spell flyout']),
+        name= '|A:common-icon-backarrow:0:0|a'..(WoWTools_L['Spell flyout']),
         tooltip= WoWTools_PanelMixin.addName,
         GetValue= function() return Save().flyoutText end,
         category= WoWTools_SpellMixin.Category,
@@ -49,7 +49,7 @@ local function Init()
                 print(
                     WoWTools_DataMixin.Icon.icon2,
                     WoWTools_TextMixin:GetEnabeleDisable(Save().flyoutText),
-                    WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+                    WoWTools_L.REQUIRES_RELOAD
                 )
             end
         end
@@ -58,7 +58,7 @@ local function Init()
 
 --动作条颜色
     WoWTools_PanelMixin:OnlyCheck({
-        name= '|A:UI-HUD-ActionBar-Interrupt:0:0|a'..(WoWTools_DataMixin.onlyChinese and '动作条颜色' or WoWTools_Join(ACTIONBARS_LABEL, COLOR)),
+        name= '|A:UI-HUD-ActionBar-Interrupt:0:0|a'..(WoWTools_L['ACTIONBARS_LABEL+COLOR']),
         tooltip= WoWTools_PanelMixin.addName,
         GetValue= function() return Save().actionButtonRangeColor end,
         category= WoWTools_SpellMixin.Category,
@@ -69,7 +69,7 @@ local function Init()
                 print(
                     WoWTools_DataMixin.Icon.icon2,
                     WoWTools_TextMixin:GetEnabeleDisable(Save().actionButtonRangeColor),
-                    WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+                    WoWTools_L.REQUIRES_RELOAD
                 )
             end
         end
@@ -89,7 +89,7 @@ local function Init()
                 print(
                     WoWTools_DataMixin.Icon.icon2,
                     WoWTools_TextMixin:GetEnabeleDisable(Save().specButton.enabled),
-                    WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+                    WoWTools_L.REQUIRES_RELOAD
                 )
             end
         end
@@ -98,7 +98,7 @@ local function Init()
 
 --天赋
     WoWTools_PanelMixin:OnlyCheck({
-        name= '|A:talents-button-undo:0:0|a'..(WoWTools_DataMixin.onlyChinese and '天赋' or TALENT),
+        name= '|A:talents-button-undo:0:0|a'..(WoWTools_L.TALENT),
         tooltip= WoWTools_PanelMixin.addName,
         GetValue= function() return Save().talentsFramePlus end,
         category= WoWTools_SpellMixin.Category,
@@ -109,7 +109,7 @@ local function Init()
                 print(
                     WoWTools_DataMixin.Icon.icon2,
                     WoWTools_TextMixin:GetEnabeleDisable(Save().talentsFramePlus),
-                    WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+                    WoWTools_L.REQUIRES_RELOAD
                 )
             end
         end
@@ -118,7 +118,7 @@ local function Init()
 
 --法术书
     WoWTools_PanelMixin:OnlyCheck({
-        name= '|A:spellbook-item-iconframe:0:0|a'..(WoWTools_DataMixin.onlyChinese and '法术书' or SPELLBOOK),
+        name= '|A:spellbook-item-iconframe:0:0|a'..(WoWTools_L.SPELLBOOK),
         tooltip= WoWTools_PanelMixin.addName,
         GetValue= function() return Save().spellBookPlus end,
         category= WoWTools_SpellMixin.Category,
@@ -129,7 +129,7 @@ local function Init()
                 print(
                     WoWTools_DataMixin.Icon.icon2,
                     WoWTools_TextMixin:GetEnabeleDisable(Save().spellBookPlus),
-                    WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+                    WoWTools_L.REQUIRES_RELOAD
                 )
             end
         end
@@ -180,7 +180,7 @@ end
             print(
                 WoWTools_DataMixin.Icon.icon2..WoWTools_SpellMixin.addName,
                 WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-                WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+                WoWTools_L.REQUIRES_RELOAD
             )
         end,
         layout= WoWTools_OtherMixin.Layout,

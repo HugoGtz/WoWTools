@@ -39,7 +39,7 @@ local function Init_Cursor_Options(panel)
         max=4096,
         value=Save().maxParticles,
         setp=1,
-        text=WoWTools_DataMixin.onlyChinese and '粒子密度' or PARTICLE_DENSITY,
+        text=WoWTools_L.PARTICLE_DENSITY,
         func=function(self, value)
             value= math.floor(value)
             self:SetValue(value)
@@ -63,7 +63,7 @@ local function Init_Cursor_Options(panel)
 
 
     local sliderSize = WoWTools_SliderMixin:CSlider(panel, {min=8, max=256, value=Save().size, setp=1,
-    text=WoWTools_DataMixin.onlyChinese and '尺寸' or HUD_EDIT_MODE_SETTING_BAGS_SIZE ,
+    text=WoWTools_L.HUD_EDIT_MODE_SETTING_BAGS_SIZE ,
     func=function(self, value)
         value= math.floor(value)
         self:SetValue(value)
@@ -96,7 +96,7 @@ local function Init_Cursor_Options(panel)
     sliderY:SetPoint("TOPLEFT", sliderX, 'BOTTOMLEFT', 0, -20)
 
     local sliderRate = WoWTools_SliderMixin:CSlider(panel, {min=0.001, max=0.1, value=Save().rate, setp=0.001, color=true,
-    text=WoWTools_DataMixin.onlyChinese and '刷新' or REFRESH,
+    text=WoWTools_L.REFRESH,
     func=function(self, value)
         value= tonumber(format('%.3f', value))
         self:SetValue(value)
@@ -118,7 +118,7 @@ local function Init_Cursor_Options(panel)
     sliderRotate:SetPoint("TOPLEFT", sliderRate, 'BOTTOMLEFT', 0, -20)
 
     local sliderDuration = WoWTools_SliderMixin:CSlider(panel, {min=0.1, max=4, value=Save().duration, setp=0.1, color=true,
-    text=WoWTools_DataMixin.onlyChinese and '持续时间' or AUCTION_DURATION,
+    text=WoWTools_L.AUCTION_DURATION,
     func=function(self, value)
         value= tonumber(format('%.1f', value))
         self:SetValue(value)
@@ -129,7 +129,7 @@ local function Init_Cursor_Options(panel)
     sliderDuration:SetPoint("TOPLEFT", sliderRotate, 'BOTTOMLEFT', 0, -20)
 
     local sliderGravity = WoWTools_SliderMixin:CSlider(panel, {min=-512, max=512, value=Save().gravity, setp=1,
-    text=WoWTools_DataMixin.onlyChinese and '掉落' or BATTLE_PET_SOURCE_1,
+    text=WoWTools_L.BATTLE_PET_SOURCE_1,
     func=function(self, value)
         value= math.floor(value)
         self:SetValue(value)
@@ -140,7 +140,7 @@ local function Init_Cursor_Options(panel)
     sliderGravity:SetPoint("TOPLEFT", sliderDuration, 'BOTTOMLEFT', 0, -20)
 
     local alphaSlider = WoWTools_SliderMixin:CSlider(panel, {min=0.1, max=1, value=Save().alpha, setp=0.1, color=true,
-    text=WoWTools_DataMixin.onlyChinese and '透明度' or HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY,
+    text=WoWTools_L.HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY,
     func=function(self, value)
         value= tonumber(format('%.1f', value))
         self:SetValue(value)
@@ -201,7 +201,7 @@ local function Init_Cursor_Options(panel)
             sub:SetTooltip(function(tooltip, desc)
                 tooltip:AddLine(desc.data.icon)
                 tooltip:AddLine(desc.data.texture)
-                tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '指定' or COMBAT_ALLY_START_MISSION)
+                tooltip:AddLine(WoWTools_L.COMBAT_ALLY_START_MISSION)
             end)
 
             sub:AddInitializer(function(btn, desc)
@@ -233,7 +233,7 @@ local function Init_Cursor_Options(panel)
         addColorEdit:SetText(texture or WoWTools_CursorMixin.DefaultTexture)
         print(
             WoWTools_CursorMixin.addName..WoWTools_DataMixin.Icon.icon2,
-            WoWTools_DataMixin.onlyChinese and '移除' or REMOVE,
+            WoWTools_L.REMOVE,
             icon,
             texture
         )
@@ -307,7 +307,7 @@ local function Init_GCD_Options(panel)
     end
 
     panel.sliderSize = WoWTools_SliderMixin:CSlider(panel, {min=8, max=256, value=Save().gcdSize, setp=1,
-    text=WoWTools_DataMixin.onlyChinese and '尺寸' or HUD_EDIT_MODE_SETTING_BAGS_SIZE,
+    text=WoWTools_L.HUD_EDIT_MODE_SETTING_BAGS_SIZE,
     func=function(self, value)
         value= math.floor(value)
         self:SetValue(value)
@@ -318,7 +318,7 @@ local function Init_GCD_Options(panel)
     panel.sliderSize:SetPoint("TOPLEFT", panel.gcdCheck, 'BOTTOMLEFT', 0, -20)
 
     local alphaSlider = WoWTools_SliderMixin:CSlider(panel, {min=0.1, max=1, value=Save().alpha, setp=0.1, color=true,
-    text=WoWTools_DataMixin.onlyChinese and '透明度' or HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY,
+    text=WoWTools_L.HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY,
     func=function(self, value)
         value= tonumber(format('%.1f', value))
         self:SetValue(value)
@@ -352,7 +352,7 @@ local function Init_GCD_Options(panel)
 
     local checkReverse=CreateFrame('CheckButton', nil, panel, "InterfaceOptionsCheckButtonTemplate")
     checkReverse:SetChecked(Save().gcdReverse)
-    checkReverse.text:SetText(WoWTools_DataMixin.onlyChinese and '方向' or HUD_EDIT_MODE_SETTING_BAGS_DIRECTION)
+    checkReverse.text:SetText(WoWTools_L.HUD_EDIT_MODE_SETTING_BAGS_DIRECTION)
     checkReverse:SetScript('OnMouseUp', function()
         Save().gcdReverse = not Save().gcdReverse and true or false
         WoWTools_CursorMixin:GCD_Settings(true)
@@ -414,7 +414,7 @@ local function Init_GCD_Options(panel)
             sub:SetTooltip(function(tooltip, description)
                 tooltip:AddLine(select(3, WoWTools_TextureMixin:IsAtlas(description.data.texture, 64)))
                 tooltip:AddLine(description.data.texture)
-                tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '指定' or COMBAT_ALLY_START_MISSION)
+                tooltip:AddLine(WoWTools_L.COMBAT_ALLY_START_MISSION)
             end)
             sub:AddInitializer(function(btn, desc)
                 local t= btn:AttachTexture()
@@ -444,7 +444,7 @@ local function Init_GCD_Options(panel)
         addColorEdit:SetText(texture or WoWTools_CursorMixin.DefaultGCDTexture)
         print(
             WoWTools_CursorMixin.addName..WoWTools_DataMixin.Icon.icon2,
-            WoWTools_DataMixin.onlyChinese and '移除' or REMOVE,
+            WoWTools_L.REMOVE,
             icon,
             texture
         )
@@ -486,7 +486,7 @@ local function Init_GCD_Options(panel)
     addColorButton:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
         GameTooltip:ClearLines()
-        GameTooltip:AddLine(format(WoWTools_DataMixin.onlyChinese and "仅限%s" or LFG_LIST_CROSS_FACTION , 'Texture'))
+        GameTooltip:AddLine(format(WoWTools_L['LFG_LIST_CROSS_FACTION~2'] , 'Texture'))
         GameTooltip:Show()
     end)
     addColorButton:SetScript('OnLeave', function()
@@ -530,7 +530,7 @@ local function Init_Options(panel)
 
     --职业颜色
     useClassColorCheck:SetPoint("BOTTOMLEFT")
-    useClassColorCheck.text:SetText(WoWTools_DataMixin.onlyChinese and '职业颜色' or CLASS_COLORS)
+    useClassColorCheck.text:SetText(WoWTools_L.CLASS_COLORS)
     useClassColorCheck.text:SetTextColor(PlayerUtil.GetClassColor():GetRGB())
     useClassColorCheck:SetChecked(Save().usrClassColor)
     useClassColorCheck:SetScript('OnMouseDown', function()
@@ -544,7 +544,7 @@ local function Init_Options(panel)
 
     --自定义,颜色
     colorText:SetPoint('LEFT', useClassColorCheck.text, 'RIGHT', 4,0)
-    colorText:SetText('|A:colorblind-colorwheel:0:0|a'..(WoWTools_DataMixin.onlyChinese and '自定义 ' or CUSTOM))
+    colorText:SetText('|A:colorblind-colorwheel:0:0|a'..(WoWTools_L['CUSTOM~2']))
     colorText:EnableMouse(true)
     colorText.r, colorText.g, colorText.b, colorText.a= WoWTools_CursorMixin.Color:GetRGBA()
     colorText:SetScript('OnMouseDown', function(self)
@@ -587,7 +587,7 @@ local function Init_Options(panel)
     colorText:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
         GameTooltip:ClearLines()
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS, (WoWTools_DataMixin.onlyChinese and '颜色' or COLOR)..WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine(WoWTools_L.SETTINGS, (WoWTools_L.COLOR)..WoWTools_DataMixin.Icon.left)
         GameTooltip:Show()
     end)
     colorText:SetScript('OnLeave', function()
@@ -596,7 +596,7 @@ local function Init_Options(panel)
 
     --不使用，颜色
     notUseColorCheck:SetPoint("LEFT", colorText, 'RIGHT')
-    notUseColorCheck.text:SetText(WoWTools_DataMixin.onlyChinese and '无' or NONE)
+    notUseColorCheck.text:SetText(WoWTools_L.NONE)
     notUseColorCheck:SetChecked(Save().notUseColor)
     notUseColorCheck:SetScript('OnMouseDown', function()
         Save().notUseColor= not Save().notUseColor and true or nil
@@ -622,10 +622,10 @@ local function Init_Options(panel)
     panel.randomTextureCheck:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
         GameTooltip:ClearLines()
-        GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '事件' or EVENTS_LABEL)
+        GameTooltip:AddLine(WoWTools_L.EVENTS_LABEL)
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine('Cursor', (WoWTools_DataMixin.onlyChinese and '战斗中: 移动' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT..': '..NPE_MOVE))
-        GameTooltip:AddDoubleLine(' ', (WoWTools_DataMixin.onlyChinese and '其它' or OTHER)..WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine(' ', (WoWTools_L.OTHER)..WoWTools_DataMixin.Icon.left)
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine('GCD', WoWTools_TextMixin:GetEnabeleDisable(true))
         GameTooltip:Show()
@@ -681,7 +681,7 @@ local function Init(panel)
     panel.cursorCheck=CreateFrame('CheckButton', nil, panel, "InterfaceOptionsCheckButtonTemplate")
     panel.cursorCheck:SetChecked(not Save().disabledCursor)
     panel.cursorCheck:SetPoint("TOPLEFT", 0, -35)
-    panel.cursorCheck.text:SetText('1)'..(WoWTools_DataMixin.onlyChinese and '启用' or ENABLE).. ' Cursor')
+    panel.cursorCheck.text:SetText('1)'..(WoWTools_L.ENABLE).. ' Cursor')
     panel.cursorCheck:SetScript('OnMouseDown', function()
         Save().disabledCursor = not Save().disabledCursor and true or nil
         WoWTools_CursorMixin:Cursor_Settings(true)
@@ -692,7 +692,7 @@ local function Init(panel)
     panel.gcdCheck=CreateFrame('CheckButton', nil, panel, "InterfaceOptionsCheckButtonTemplate")
     panel.gcdCheck:SetChecked(not Save().disabledGCD)
     panel.gcdCheck:SetPoint("TOPLEFT", panel, 'TOP', 0, -35)
-    panel.gcdCheck.text:SetText('2)'..(WoWTools_DataMixin.onlyChinese and '启用' or ENABLE).. ' GCD')
+    panel.gcdCheck.text:SetText('2)'..(WoWTools_L.ENABLE).. ' GCD')
     panel.gcdCheck:SetScript('OnMouseDown', function()
         Save().disabledGCD = not Save().disabledGCD and true or nil
         WoWTools_CursorMixin:GCD_Settings(true)

@@ -22,7 +22,7 @@ function WoWTools_TooltipMixin:Set_Currency(tooltip, currencyID)--货币
     tooltip:AddDoubleLine(
        '|T'..(info2.iconFileID or 0)..':'..self.iconSize..'|t'..col..(info2.iconFileID or ''),
 
-        (WoWTools_DataMixin.onlyChinese and '货币' or CURRENCY)..WoWTools_DataMixin.Icon.icon2..'|cffffffff'..currencyID..icon
+        (WoWTools_L.CURRENCY)..WoWTools_DataMixin.Icon.icon2..'|cffffffff'..currencyID..icon
     )
 
     local factionID = C_CurrencyInfo.GetFactionGrantedByCurrency(currencyID)--派系声望
@@ -30,7 +30,7 @@ function WoWTools_TooltipMixin:Set_Currency(tooltip, currencyID)--货币
         local name= (C_Reputation.GetFactionDataByID(factionID) or {}).name
         if name then
             tooltip:AddDoubleLine(
-                WoWTools_DataMixin.onlyChinese and '声望' or REPUTATION,
+                WoWTools_L.REPUTATION,
 
                 WoWTools_TextMixin:CN(name)..WoWTools_DataMixin.Icon.icon2..'|cffffffff'..factionID
             )
@@ -74,14 +74,14 @@ function WoWTools_TooltipMixin:Set_Currency(tooltip, currencyID)--货币
             )
             if index>2 and not IsShiftKeyDown() then
                 if index<numPlayer then
-                    tooltip:AddLine('|cnGREEN_FONT_COLOR:<|A:NPE_Icon:0:0|aShift+ '..(WoWTools_DataMixin.onlyChinese and '角色' or CHARACTER)..' '..numPlayer..'>')
+                    tooltip:AddLine('|cnGREEN_FONT_COLOR:<|A:NPE_Icon:0:0|aShift+ '..(WoWTools_L.CHARACTER)..' '..numPlayer..'>')
                 end
                 break
             end
         end
     end
 
-    local textLeft=  (col or '|cnGREEN_FONT_COLOR:')..numPlayer..(WoWTools_DataMixin.onlyChinese and '角色' or CHARACTER)
+    local textLeft=  (col or '|cnGREEN_FONT_COLOR:')..numPlayer..(WoWTools_L.CHARACTER)
     local text2Left= (col or '|cnGREEN_FONT_COLOR:')..(icon~='' and icon or WoWTools_DataMixin.Icon.wow2)..WoWTools_DataMixin:MK(num, 3)
     local textRight= col..WoWTools_DataMixin:MK(info2.quantity or 0, 3)
 

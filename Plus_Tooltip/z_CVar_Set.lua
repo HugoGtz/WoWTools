@@ -17,7 +17,7 @@ function WoWTools_TooltipMixin:Set_CVar(reset, tips, notPrint)
         },
         {   name='UberTooltips',
             value='1',
-            msg=WoWTools_DataMixin.onlyChinese and '显示法术信息' or WoWTools_Join(SHOW, SPELL_MESSAGES)
+            msg=WoWTools_L['SHOW+SPELL_MESSAGES']
         },
         {   name="alwaysCompareItems",
              value= "1",
@@ -35,15 +35,15 @@ function WoWTools_TooltipMixin:Set_CVar(reset, tips, notPrint)
         },
         {   name='cameraDistanceMaxZoomFactor',
             value= '2.6',
-            msg= WoWTools_DataMixin.onlyChinese and '视野距离' or FARCLIP
+            msg= WoWTools_L['FARCLIP~3']
         },
         {   name="showTargetOfTarget",
             value= "1",
-            msg= WoWTools_DataMixin.onlyChinese and '总是显示目标的目标' or OPTION_TOOLTIP_TARGETOFTARGET5,
+            msg= WoWTools_L.OPTION_TOOLTIP_TARGETOFTARGET5,
         },
         {   name='worldPreloadNonCritical',--https://wago.io/ZtSxpza28
             value='0',--2
-            msg= WoWTools_DataMixin.onlyChinese and '世界非关键预加载' or WoWTools_L['World Preload Non Critical']
+            msg= WoWTools_L['World Preload Non Critical']
         }
     }
 
@@ -65,7 +65,7 @@ function WoWTools_TooltipMixin:Set_CVar(reset, tips, notPrint)
                 if defaultValue~=value then
                     C_CVar.SetCVar(info.name, defaultValue)
                     if not notPrint then
-                        print(WoWTools_DataMixin.Icon.icon2..WoWTools_TooltipMixin.addName, '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '恢复默认设置' or RESET_TO_DEFAULT)..'|r', info.name, defaultValue, info.msg)
+                        print(WoWTools_DataMixin.Icon.icon2..WoWTools_TooltipMixin.addName, '|cnGREEN_FONT_COLOR:'..(WoWTools_L.RESET_TO_DEFAULT)..'|r', info.name, defaultValue, info.msg)
                     end
                 end
             else

@@ -26,14 +26,14 @@ local function Init_Menu(self, root)
 
 --备注
     root:CreateButton(
-        '|A:dressingroom-button-appearancelist-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '备注' or LABEL_NOTE),
+        '|A:dressingroom-button-appearancelist-up:0:0|a'..(WoWTools_L.LABEL_NOTE),
     function()
         if NoteEditBox:IsVisible() then
             WoWToolsPlusPlayerDate['MacroNoteText']= NoteEditBox:GetText()
         end
         WoWTools_TextMixin:ShowText(
             {WoWToolsPlusPlayerDate['MacroNoteText']},
-            WoWTools_DataMixin.onlyChinese and '宏' or MACRO,
+            WoWTools_L.MACRO,
             {onHide=function(t)
                 WoWToolsPlusPlayerDate['MacroNoteText']= t
                 if NoteEditBox:IsVisible() then
@@ -53,9 +53,9 @@ local function Init_Menu(self, root)
     end)
 
 local PointTab={
-    {value=1, text=WoWTools_DataMixin.onlyChinese and '左' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_LEFT},
-    {value=2, text=WoWTools_DataMixin.onlyChinese and '右' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_RIGHT},
-    {value=3, text=WoWTools_DataMixin.onlyChinese and '默认' or DEFAULT},
+    {value=1, text=WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_LEFT},
+    {value=2, text=WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_RIGHT},
+    {value=3, text=WoWTools_L.DEFAULT},
     '-',
     {value=4, text=WoWTools_DataMixin.onlyChinese and '左|右' or (HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_LEFT..'|'..HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_RIGHT)}
 }
@@ -86,7 +86,7 @@ local PointTab={
 
 --按钮增强
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '按钮增强' or WoWTools_L['Button Plus'],
+        WoWTools_L['Button Plus'],
     function()
         return not Save().hideBottomList
     end, function()
@@ -127,7 +127,7 @@ local PointTab={
     local num, num2= GetNumMacros()
 
     local delete= WARNING_FONT_COLOR:WrapTextInColorCode(
-        WoWTools_DataMixin.onlyChinese and '全部删除' or WoWTools_Join(DELETE, ALL)
+        WoWTools_L['DELETE+ALL']
     )
 --全部删除
     --root:CreateDivider()
@@ -141,11 +141,11 @@ local PointTab={
 --删除，通用宏
     sub3=sub2:CreateButton(
         '|A:XMarksTheSpot:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '通用宏' or GENERAL_MACROS),
+        ..(WoWTools_L.GENERAL_MACROS),
     function()
         StaticPopup_Show('WoWTools_OK',
         '|A:XMarksTheSpot:42:42|a'..delete..'|n'
-        ..(WoWTools_DataMixin.onlyChinese and '通用宏' or GENERAL_MACROS)
+        ..(WoWTools_L.GENERAL_MACROS)
         ..' #'..num..'|n|n',
         nil,
         {SetValue=function()
@@ -155,7 +155,7 @@ local PointTab={
             print(
                 WoWTools_MacroMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 '|cnWARNING_FONT_COLOR:'
-                ..(WoWTools_DataMixin.onlyChinese and '删除' or DELETE)
+                ..(WoWTools_L.DELETE)
             )
             for i = GetNumMacros(), 1, -1 do
                 if IsModifierKeyDown() or InCombatLockdown() then
@@ -180,7 +180,7 @@ local PointTab={
 --删除,专用宏
     sub2:CreateDivider()
     local text2=format(
-            WoWTools_DataMixin.onlyChinese and '%s专用宏' or CHARACTER_SPECIFIC_MACROS,
+            WoWTools_L.CHARACTER_SPECIFIC_MACROS,
             WoWTools_UnitMixin:GetPlayerInfo(nil, WoWTools_DataMixin.Player.GUID, nil, {reName=true})
         )
     sub3=sub2:CreateButton(
@@ -196,7 +196,7 @@ local PointTab={
             print(
                 WoWTools_MacroMixin.addName,
                 '|cnWARNING_FONT_COLOR:'
-                ..(WoWTools_DataMixin.onlyChinese and '删除' or DELETE)
+                ..(WoWTools_L.DELETE)
             )
             for i = MAX_ACCOUNT_MACROS + select(2,GetNumMacros()), MAX_ACCOUNT_MACROS+1, -1 do
                 if IsModifierKeyDown() or InCombatLockdown() then
@@ -245,7 +245,7 @@ local function Create_Button(name)
         GameTooltip:ClearLines()
 
         if InCombatLockdown() then
-            GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
+            GameTooltip:AddLine(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
         else
             GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_MacroMixin.addName)
             local col= self:find_text() and '|cff626262' or ''
@@ -292,7 +292,7 @@ end
 local function Init_Created()
 --备注 EditBox
     NoteEditBox=WoWTools_EditBoxMixin:CreateFrame(MacroFrame, {
-        text= WoWTools_DataMixin.onlyChinese and '备注' or LABEL_NOTE,
+        text= WoWTools_L.LABEL_NOTE,
         name= 'WoWToolsMacroPlusNoteEditBox'
     })
 
@@ -310,7 +310,7 @@ local function Init_Created()
 
 
 --目标
-    TargetButton= Create_Button(WoWTools_DataMixin.onlyChinese and '目标' or TARGET)
+    TargetButton= Create_Button(WoWTools_L.TARGET)
     WoWTools_MacroMixin.TargetButton= WoWTools_MacroMixin
     --TargetButton:SetPoint('LEFT', MacroEditButton, 'RIGHT',8,0)
 
@@ -319,7 +319,7 @@ local function Init_Created()
     TargetButton.textCursor=0
     TargetButton.text2Cursor=nil
     TargetButton.tip=nil
-    TargetButton.tip2=WoWTools_DataMixin.onlyChinese and '光环名称' or WoWTools_Join(AURAS, NAME)
+    TargetButton.tip2=WoWTools_L['AURAS+NAME']
     function TargetButton:settings()
         self:ClearAllPoints()
         local point= Save().toRightLeft
@@ -333,7 +333,7 @@ local function Init_Created()
     TargetButton:settings()
 
 --攻击
-    AttackButton= Create_Button(WoWTools_DataMixin.onlyChinese and '攻击' or ATTACK)
+    AttackButton= Create_Button(WoWTools_L.ATTACK)
     AttackButton:SetPoint('LEFT', TargetButton, 'RIGHT')
     AttackButton.text= '/petattack\n/startattack\n'
     AttackButton.text2= '/petfollow\n/stopattack\n/stopcasting\n'
@@ -369,9 +369,9 @@ local function Init()
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_MacroMixin.addName)
         GameTooltip:AddLine(' ')
-        GameTooltip:AddLine('|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '请不要在战斗中使用' or WoWTools_L['Please do not use in combat']))
+        GameTooltip:AddLine('|cnWARNING_FONT_COLOR:'..(WoWTools_L['Please do not use in combat']))
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(' ', (WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL)..WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine(' ', (WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL)..WoWTools_DataMixin.Icon.left)
         GameTooltip:Show()
     end)
     Button:SetupMenu(Init_Menu)--[[SetScript('OnMouseDown', function(self)
@@ -383,7 +383,7 @@ local function Init()
 
     Button.Text= WoWTools_LabelMixin:Create(MacroFrame.TitleContainer, {color={r=1,g=0,b=0}, size=16})
     Button.Text:SetPoint('BOTTOMRIGHT', Button, 'TOPRIGHT', 0, 2)
-    Button.Text:SetText(WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
+    Button.Text:SetText(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
 
 
     Button:SetScript('OnShow', function(self)

@@ -69,7 +69,7 @@ local function Init_Menu(self, root)
     end
 
     root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '启用' or ENABLE,
+        WoWTools_L.ENABLE,
     function()
         return not Save().hide
     end, function()
@@ -121,7 +121,7 @@ local function Init(frame)
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_PaperDollMixin.addName)
 
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.right)
 
         GameTooltip:Show()
         self:settings()

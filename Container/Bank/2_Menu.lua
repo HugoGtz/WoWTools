@@ -9,7 +9,7 @@ local function Init_Menu(self, root)
     elseif not C_Bank.AreAnyBankTypesViewable() then
         root:CreateTitle(
             '|cnWARNING_FONT_COLOR:'
-            ..(WoWTools_DataMixin.onlyChinese and '此角色没有使用此银行的权限。' or ERR_BANK_NOT_ACCESSIBLE))
+            ..(WoWTools_L.ERR_BANK_NOT_ACCESSIBLE))
         root:CreateDivider()
     end
     local sub, sub2
@@ -23,7 +23,7 @@ local function Init_Menu(self, root)
 
 --标签
     sub2=sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '标签' or WoWTools_L['Tab'],
+        WoWTools_L['Tab'],
     function()
         return Save().plusTab
     end, function()
@@ -31,41 +31,41 @@ local function Init_Menu(self, root)
         WoWTools_BankMixin:Init_BankPlus()
     end)
     sub2:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+        tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 
 --索引
-    sub2=sub:CreateCheckbox(WoWTools_DataMixin.onlyChinese and '索引' or WoWTools_L['Index'], function()
+    sub2=sub:CreateCheckbox(WoWTools_L['Index'], function()
         return Save().plusIndex
     end, function()
         Save().plusIndex= not Save().plusIndex and true or false--显示，索引
         WoWTools_BankMixin:Init_BankPlus()
     end)
     sub2:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+        tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 
 --物品信息
-    sub2=sub:CreateCheckbox(WoWTools_DataMixin.onlyChinese and '物品信息' or WoWTools_Join(ITEMS, INFO), function()
+    sub2=sub:CreateCheckbox(WoWTools_L['ITEMS+INFO'], function()
         return Save().plusItem
     end, function()
         Save().plusItem= not Save().plusItem and true or false--显示，索引
         WoWTools_BankMixin:Init_BankPlus()
     end)
     sub2:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+        tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 
     sub:CreateDivider()
-    WoWTools_MenuMixin:CVar(sub, 'bankAutoDepositReagents', nil, WoWTools_DataMixin.onlyChinese and '包括可交易的材料' or BANK_DEPOSIT_INCLUDE_REAGENTS_CHECKBOX_LABEL, function(show)
+    WoWTools_MenuMixin:CVar(sub, 'bankAutoDepositReagents', nil, WoWTools_L.BANK_DEPOSIT_INCLUDE_REAGENTS_CHECKBOX_LABEL, function(show)
         if BankPanel.AutoDepositFrame.IncludeReagentsCheckbox:IsVisible() then
             BankPanel.AutoDepositFrame.IncludeReagentsCheckbox:SetChecked(show)
         end
     end)
-    WoWTools_MenuMixin:CVar(sub, 'bankConfirmTabCleanUp', nil, WoWTools_DataMixin.onlyChinese and '你确定要自动整理你的物品吗？|n该操作会影响所有的标签。' or BANK_CONFIRM_CLEANUP_PROMPT)
+    WoWTools_MenuMixin:CVar(sub, 'bankConfirmTabCleanUp', nil, WoWTools_L.BANK_CONFIRM_CLEANUP_PROMPT)
 
     sub2= sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '禁用排序' or WoWTools_Join(DISABLE, STABLE_FILTER_BUTTON_LABEL),
+        WoWTools_L['DISABLE+STABLE_FILTER_BUTTON_LABEL'],
     function()
         return C_Container.GetBankAutosortDisabled()
     end, function()
@@ -83,7 +83,7 @@ local function Init_Menu(self, root)
     root:CreateSpacer()
     sub=root:CreateCheckbox(
         '|cnWARNING_FONT_COLOR:'
-        ..(WoWTools_DataMixin.onlyChinese and '转化为联合的大包' or BAG_COMMAND_CONVERT_TO_COMBINED),
+        ..(WoWTools_L.BAG_COMMAND_CONVERT_TO_COMBINED),
     function()
         return Save().allBank
     end, function()
@@ -102,10 +102,10 @@ local function Init_Menu(self, root)
         )
         tooltip:AddLine(' ')
         GameTooltip_AddErrorLine(tooltip,
-            'Bug: '..(WoWTools_DataMixin.onlyChinese and '你是否想要购买一个银行标签？' or CONFIRM_BUY_CHARACTER_BANK_TAB)
+            'Bug: '..(WoWTools_L.CONFIRM_BUY_CHARACTER_BANK_TAB)
         )
         tooltip:AddLine(' ')
-        GameTooltip_AddInstructionLine(tooltip, WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+        GameTooltip_AddInstructionLine(tooltip, WoWTools_L.REQUIRES_RELOAD)
     end)
 
 
@@ -120,7 +120,7 @@ local function Init_Menu(self, root)
             Save().num=value
             WoWTools_BankMixin:Init_AllBank()
         end,
-        name=WoWTools_DataMixin.onlyChinese and '行数' or HUD_EDIT_MODE_SETTING_ACTION_BAR_NUM_ROWS,
+        name=WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_NUM_ROWS,
         minValue=4,
         maxValue=32,
         step=1,
@@ -138,7 +138,7 @@ local function Init_Menu(self, root)
             Save().line=value
             WoWTools_BankMixin:Init_AllBank()
         end,
-        name=WoWTools_DataMixin.onlyChinese and '间隔' or WoWTools_L['Interval'],
+        name=WoWTools_L['Interval'],
         minValue=0,
         maxValue=32,
         step=1,
@@ -192,7 +192,7 @@ local function Init()
     btn:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL)
+        GameTooltip:AddLine(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL)
         GameTooltip:Show()
     end)
 
@@ -201,7 +201,7 @@ local function Init()
 
     --[[
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '保存物品' or  WoWTools_Join(SAVE, ITEMS),
+        WoWTools_L['SAVE+ITEMS'],
     function()
         return Save().saveWoWData
     end, function()

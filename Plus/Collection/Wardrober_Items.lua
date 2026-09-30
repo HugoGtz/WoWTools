@@ -32,7 +32,7 @@ local SlotsIcon = {
     '|T135490:0|t',--25弓
     '|T135610:0|t',--26枪械
     '|T135530:0|t',--27弩
-    '|A:transmog-gearSlot-unassigned-enchant:0:0|a',--28 武器附魔 WoWTools_DataMixin.onlyChinese and '武器附魔' or WEAPON_ENCHANTMENT,
+    '|A:transmog-gearSlot-unassigned-enchant:0:0|a',--28 武器附魔 WoWTools_L.WEAPON_ENCHANTMENT,
     '|A:ElementalStorm-Lesser-Earth:0:0|a',--29'军团再临"神器
 }
 
@@ -291,18 +291,18 @@ local function btn_enter(self)
                 info.icon and '|T'..info.icon..':0|t'..info.icon or '', 'isHideVisual '..(info.isHideVisual and 'true' or 'false'))
             GameTooltip:AddDoubleLine(
                 info.isCollected
-                and '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '已收集' or COLLECTED)
-                or ('|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '未收集' or NOT_COLLECTED)),
+                and '|cnGREEN_FONT_COLOR:'..(WoWTools_L.COLLECTED)
+                or ('|cnWARNING_FONT_COLOR:'..(WoWTools_L.NOT_COLLECTED)),
 
                 info.isUsable
-                and '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '可用' or AVAILABLE)
-                or ('|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '不可用' or UNAVAILABLE))
+                and '|cnGREEN_FONT_COLOR:'..(WoWTools_L.AVAILABLE)
+                or ('|cnWARNING_FONT_COLOR:'..(WoWTools_L.UNAVAILABLE))
             )
         end
     else
         GameTooltip:SetHyperlink(link2)
     end
-    GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '发送' or SEND_LABEL, WoWTools_DataMixin.Icon.left)
+    GameTooltip:AddDoubleLine(WoWTools_L.SEND_LABEL, WoWTools_DataMixin.Icon.left)
 
     GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_CollectionMixin.addName)
     GameTooltip:Show()

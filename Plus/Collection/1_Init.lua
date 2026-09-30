@@ -38,7 +38,7 @@ local function Init_Menu(self, root)
 --宠物
 
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '宠物' or PETS,
+        WoWTools_L.PETS,
     function()
         return not Save().hidePets
     end, function()
@@ -56,20 +56,20 @@ local function Init_Menu(self, root)
                 Refresh_Pet()
             end
         end,
-        name=WoWTools_DataMixin.onlyChinese and '图标' or EMBLEM_SYMBOL,
+        name=WoWTools_L.EMBLEM_SYMBOL,
         minValue=0,
         maxValue=47,
         step=1,
         tooltip=function(tooltip)
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '宠物列表' or PROFESSIONS_CURRENT_LISTINGS )
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '技能图标' or WoWTools_Join(ABILITIES, EMBLEM_SYMBOL))
+            tooltip:AddLine(WoWTools_L.PROFESSIONS_CURRENT_LISTINGS )
+            tooltip:AddLine(WoWTools_L['ABILITIES+EMBLEM_SYMBOL'])
         end
 
     })
     sub:CreateSpacer()
 
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '重置' or RESET,
+        WoWTools_L.RESET,
     function()
         Save().petListIconSize=nil
         Refresh_Pet()
@@ -77,7 +77,7 @@ local function Init_Menu(self, root)
 
 --传家宝
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '传家宝' or HEIRLOOMS,
+        WoWTools_L.HEIRLOOMS,
     function()
         return not Save().hideHeirloom
     end, function()
@@ -94,7 +94,7 @@ local function Init_Menu(self, root)
 
 --外观：物品
     sub= root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '外观：物品' or WoWTools_Join(WARDROBE, WARDROBE_ITEMS),
+        WoWTools_L['WARDROBE+WARDROBE_ITEMS'],
     function()
         return not Save().hideItems
     end, function()
@@ -102,12 +102,12 @@ local function Init_Menu(self, root)
         WoWTools_CollectionMixin:Init_Wardrober_Items()--幻化 5
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要刷新' or WoWTools_Join(NEED, REFRESH))
+        tooltip:AddLine(WoWTools_L['NEED+REFRESH'])
     end)
 
 --外观：套装
     sub= root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '外观：套装' or WoWTools_Join(WARDROBE, WARDROBE_SETS),
+        WoWTools_L['WARDROBE+WARDROBE_SETS'],
     function()
         return not Save().hideSets
     end, function()
@@ -115,12 +115,12 @@ local function Init_Menu(self, root)
         WoWTools_CollectionMixin:Init_Wardrober_Sets()--幻化,套装 5
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要刷新' or WoWTools_Join(NEED, REFRESH))
+        tooltip:AddLine(WoWTools_L['NEED+REFRESH'])
     end)
 
     root:CreateDivider()
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '全职业' or ALL_CLASSES,
+        WoWTools_L.ALL_CLASSES,
     function()
         return not Save().hideHeirloomClassList
     end, function()
@@ -183,7 +183,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             WoWToolsPlusSave['Plus_Collection']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Collection'], P_Save)
             P_Save=nil
 
-            WoWTools_CollectionMixin.addName= '|A:UI-HUD-MicroMenu-Collections-Mouseover:0:0|a'..(WoWTools_DataMixin.onlyChinese and '战团收藏' or COLLECTIONS)
+            WoWTools_CollectionMixin.addName= '|A:UI-HUD-MicroMenu-Collections-Mouseover:0:0|a'..(WoWTools_L['COLLECTIONS~2'])
 
 --添加控制面板
             WoWTools_PanelMixin:OnlyCheck({
@@ -194,10 +194,10 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                     --[[print(
                         WoWTools_CollectionMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-                        WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+                        WoWTools_L.REQUIRES_RELOAD
                     )]]
                 end,
-                tooltip=WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+                tooltip=WoWTools_L.REQUIRES_RELOAD
             })
 
             if Save().disabled then

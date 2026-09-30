@@ -45,9 +45,9 @@ local function Create(frame)
 		GameTooltip:AddLine(" ")
 		GameTooltip:AddLine(
 			WoWTools_DataMixin.Icon.icon2
-			..(WoWTools_DataMixin.onlyChinese and '追踪' or TRACKING)
+			..(WoWTools_L.TRACKING)
 			..': '..(Save().indicato and '|cnGREEN_FONT_COLOR:' or '|cff626262')
-			..(WoWTools_DataMixin.onlyChinese and '指定' or COMBAT_ALLY_START_MISSION)
+			..(WoWTools_L.COMBAT_ALLY_START_MISSION)
 		)
 		GameTooltip:Show()
 	end)
@@ -380,7 +380,7 @@ local function Init_PlusButton()
 	down:SetScript("OnClick", function()
 		Expand_All()
 	end)
-	down.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '展开选项|A:editmode-down-arrow:16:11:0:-7|a' or HUD_EDIT_MODE_EXPAND_OPTIONS)
+	down.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_L.HUD_EDIT_MODE_EXPAND_OPTIONS)
 
 
 --展开所有
@@ -398,7 +398,7 @@ local function Init_PlusButton()
 		end
 		WoWTools_CurrencyMixin:UpdateTokenFrame()
 	end)
-	up.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '收起选项|A:editmode-up-arrow:16:11:0:3|a' or HUD_EDIT_MODE_COLLAPSE_OPTIONS)
+	up.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_L.HUD_EDIT_MODE_COLLAPSE_OPTIONS)
 
 
 

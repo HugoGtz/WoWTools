@@ -129,7 +129,7 @@ end
 local function Init_Menu(self, root)
     local sub, sub2
     root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '显示' or SHOW,
+        WoWTools_L.SHOW,
     function()
         return not Save().hideSendPlayerList
     end, function()
@@ -140,7 +140,7 @@ local function Init_Menu(self, root)
 
     local num= #Save().lastSendPlayerList
     sub=root:CreateButton(
-        format('%s |cnGREEN_FONT_COLOR:#%d|r', WoWTools_DataMixin.onlyChinese and '记录' or EVENTTRACE_LOG_HEADER, num),
+        format('%s |cnGREEN_FONT_COLOR:#%d|r', WoWTools_L.EVENTTRACE_LOG_HEADER, num),
     function()
         return MenuResponse.Open
     end)
@@ -167,7 +167,7 @@ local function Init_Menu(self, root)
         sub2:SetTooltip(function(tooltip, description)
             tooltip:AddLine(description.data.name)
             tooltip:AddLine(' ')
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '移除' or REMOVE)
+            tooltip:AddLine(WoWTools_L.REMOVE)
             tooltip:AddLine(WoWTools_MailMixin:GetRealmInfo(description.data.name))--该玩家与你不在同一个服务器
         end)
     end
@@ -178,10 +178,10 @@ local function Init_Menu(self, root)
     end
     if num>1 then
         sub:CreateButton(
-            WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL,
+            WoWTools_L.CLEAR_ALL,
         function()
             StaticPopup_Show('WoWTools_OK',
-            WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL,
+            WoWTools_L.CLEAR_ALL,
             nil,
             {SetValue=function()
                 Save().lastSendPlayerList={}
@@ -192,7 +192,7 @@ local function Init_Menu(self, root)
     end
 
     sub2= sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '数量' or AUCTION_HOUSE_QUANTITY_LABEL,
+        WoWTools_L.AUCTION_HOUSE_QUANTITY_LABEL,
     function()
         return MenuResponse.Open
     end)
@@ -204,7 +204,7 @@ local function Init_Menu(self, root)
         end, setValue=function(value)
             Save().lastMaxSendPlayerList=value
         end,
-        name=WoWTools_DataMixin.onlyChinese and '数量' or AUCTION_HOUSE_QUANTITY_LABEL,
+        name=WoWTools_L.AUCTION_HOUSE_QUANTITY_LABEL,
         minValue=5,
         maxValue=100,
         step=1,
@@ -316,7 +316,7 @@ local function Init()
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(WoWTools_MailMixin.addName, (WoWTools_DataMixin.onlyChinese and '历史收件人' or format(CRAFTING_ORDER_MAIL_FULFILLED_TO, HISTORY))..'|cnGREEN_FONT_COLOR:#'..#Save().lastSendPlayerList)
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine(WoWTools_L.SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.left)
         GameTooltip:Show()
     end
     Button:SetScript('OnLeave', GameTooltip_Hide)

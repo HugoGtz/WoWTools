@@ -108,7 +108,7 @@ function WoWTools_MailMixin:GetRealmInfo(name)
     end
     local realm= name:match('%-(.+)')
     if realm and not (WoWTools_DataMixin.Player.Realms[realm] or realm==WoWTools_DataMixin.Player.Realm) then
-        return format('|cnWARNING_FONT_COLOR:%s|r', WoWTools_DataMixin.onlyChinese and '该玩家与你不在同一个服务器' or ERR_PETITION_NOT_SAME_SERVER)
+        return format('|cnWARNING_FONT_COLOR:%s|r', WoWTools_L.ERR_PETITION_NOT_SAME_SERVER)
     end
 end
 
@@ -237,7 +237,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 --lastSendBody=内容
             })
 
-            WoWTools_MailMixin.addName= '|A:UI-HUD-Minimap-Mail-Mouseover:0:0|a'..(WoWTools_DataMixin.onlyChinese and '邮件' or BUTTON_LAG_MAIL)
+            WoWTools_MailMixin.addName= '|A:UI-HUD-Minimap-Mail-Mouseover:0:0|a'..(WoWTools_L.BUTTON_LAG_MAIL)
 
 --添加控制面板
             WoWTools_PanelMixin:OnlyCheck({
@@ -249,7 +249,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         print(
                             WoWTools_MailMixin.addName..WoWTools_DataMixin.Icon.icon2,
                             WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-                            WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+                            WoWTools_L.REQUIRES_RELOAD
                         )
                     end
                     Init()

@@ -99,12 +99,12 @@ function WoWTools_TimeMixin:SecondsToFullTime(seconds, upData, curData)
     seconds = math.floor(seconds % 60)
 
     local str = ""
-    if years > 0 then str = str .. years ..(WoWTools_DataMixin.onlyChinese and "年" or 'Y') end
-    if months > 0 then str = str .. months ..(WoWTools_DataMixin.onlyChinese and "月" or 'M') end
-    if days > 0 then str = str .. days ..(WoWTools_DataMixin.onlyChinese and "日" or 'D') end
-    if hours > 0 then str = str .. hours ..(WoWTools_DataMixin.onlyChinese and "时" or 'h') end
-    if minutes > 0 then str = str .. minutes ..(WoWTools_DataMixin.onlyChinese and "分" or 'm') end
-    if seconds>0 then str = str .. minutes ..(WoWTools_DataMixin.onlyChinese and "秒" or 's') end
+    if years > 0 then str = str .. years ..(WoWTools_L.Y) end
+    if months > 0 then str = str .. months ..(WoWTools_L.M) end
+    if days > 0 then str = str .. days ..(WoWTools_L.D) end
+    if hours > 0 then str = str .. hours ..(WoWTools_L['h']) end
+    if minutes > 0 then str = str .. minutes ..(WoWTools_L['m']) end
+    if seconds>0 then str = str .. minutes ..(WoWTools_L['s']) end
 
 
     return str

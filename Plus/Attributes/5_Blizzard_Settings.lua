@@ -73,7 +73,7 @@ local function Init_Options()--设置 Frame
             end
             if not info.zeroShow then
                 GameTooltip:AddLine(' ')
-                GameTooltip:AddDoubleLine(WoWTools_TextMixin:GetShowHide(not Save().tab[self.name].hide), (WoWTools_DataMixin.onlyChinese and '值' or WoWTools_L['value: '])..' < 1 ='..(WoWTools_DataMixin.onlyChinese and '隐藏' or HIDE))
+                GameTooltip:AddDoubleLine(WoWTools_TextMixin:GetShowHide(not Save().tab[self.name].hide), (WoWTools_L['value: '])..' < 1 ='..(WoWTools_L.HIDE))
             end
             GameTooltip:Show()
         end)
@@ -122,7 +122,7 @@ local function Init_Options()--设置 Frame
                 GameTooltip:SetOwner(self, "ANCHOR_LEFT")
                 GameTooltip:ClearLines()
                 GameTooltip:AddDoubleLine(self.text, self.name, r2, g2, b2)
-                GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS, (WoWTools_DataMixin.onlyChinese and '颜色' or COLOR)..WoWTools_DataMixin.Icon.left)
+                GameTooltip:AddDoubleLine(WoWTools_L.SETTINGS, (WoWTools_L.COLOR)..WoWTools_DataMixin.Icon.left)
                 GameTooltip:AddLine(' ')
                 GameTooltip:AddDoubleLine(format('r%.2f', r2)..format('  g%.2f', g2)..format('  b%.2f', b2), format('a%.2f', a2))
                 GameTooltip:Show()
@@ -150,7 +150,7 @@ local function Init_Options()--设置 Frame
 
             --位数，bit
             local sliderBit=WoWTools_SliderMixin:CSlider(Frame, {w=100,h=20, min=0, max=3, value=Save().tab['STATUS'].bit or 3, setp=1, color=nil,
-                text= WoWTools_ColorMixin:SetStringColor(WoWTools_DataMixin.onlyChinese and '位数' or WoWTools_L['Decimals']),
+                text= WoWTools_ColorMixin:SetStringColor(WoWTools_L['Decimals']),
                 func=function(self, value)
                     value= math.floor(value)
                     self:SetValue(value)
@@ -169,7 +169,7 @@ local function Init_Options()--设置 Frame
             local targetCheck= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
             targetCheck:SetChecked(Save().showTargetSpeed)
             targetCheck:SetPoint('LEFT', text, 'RIGHT',2, 0)
-            targetCheck.text:SetText('|A:common-icon-rotateright:0:0|a'..(WoWTools_DataMixin.onlyChinese and '目标' or TARGET))
+            targetCheck.text:SetText('|A:common-icon-rotateright:0:0|a'..(WoWTools_L.TARGET))
             targetCheck:SetScript('OnClick',function()
                 Save().showTargetSpeed= not Save().showTargetSpeed and true or nil
                 WoWTools_AttributesMixin:Init_Target_Speed()
@@ -180,14 +180,14 @@ local function Init_Options()--设置 Frame
             dragonriding:SetChecked(not Save().disabledDragonridingSpeed)
             --dragonriding:SetPoint('LEFT', text, 'RIGHT',2,0)
             dragonriding:SetPoint('TOPLEFT', text, 'BOTTOMLEFT', 0, -2)
-            dragonriding.text:SetFormattedText('|A:dragonriding_vigor_decor:0:0|a%s', WoWTools_DataMixin.onlyChinese and '驭空术' or GENERIC_TRAIT_FRAME_DRAGONRIDING_TITLE)
+            dragonriding.text:SetFormattedText('|A:dragonriding_vigor_decor:0:0|a%s', WoWTools_L.GENERIC_TRAIT_FRAME_DRAGONRIDING_TITLE)
             dragonriding:SetScript('OnClick',function()
                 Save().disabledDragonridingSpeed= not Save().disabledDragonridingSpeed and true or nil
                 WoWTools_AttributesMixin:Init_Dragonriding_Speed()
                 print(
                     WoWTools_AttributesMixin.addName..WoWTools_DataMixin.Icon.icon2,
                     WoWTools_TextMixin:GetEnabeleDisable(not Save().disabledDragonridingSpeed),
-                    WoWTools_DataMixin.onlyChinese and '需求重新加载' or REQUIRES_RELOAD
+                    WoWTools_L['REQUIRES_RELOAD~2']
                 )
             end)
 
@@ -195,14 +195,14 @@ local function Init_Options()--设置 Frame
             local vehicleSpeedCheck= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
             vehicleSpeedCheck:SetChecked(not Save().disabledVehicleSpeed)
             vehicleSpeedCheck:SetPoint('LEFT', dragonriding.text, 'RIGHT',2,0)
-            vehicleSpeedCheck.text:SetFormattedText(WoWTools_DataMixin.onlyChinese and '%s载具' or UNITNAME_SUMMON_TITLE9, '|TInterface\\Vehicles\\UI-Vehicles-Button-Exit-Up:0|t')
+            vehicleSpeedCheck.text:SetFormattedText(WoWTools_L.UNITNAME_SUMMON_TITLE9, '|TInterface\\Vehicles\\UI-Vehicles-Button-Exit-Up:0|t')
             vehicleSpeedCheck:SetScript('OnClick',function()
                 Save().disabledVehicleSpeed= not Save().disabledVehicleSpeed and true or nil
                 WoWTools_AttributesMixin:Init_Vehicle_Speed()
                 print(
                     WoWTools_AttributesMixin.addName..WoWTools_DataMixin.Icon.icon2,
                     WoWTools_TextMixin:GetEnabeleDisable(not Save().disabledVehicleSpeed),
-                    WoWTools_DataMixin.onlyChinese and '需求重新加载' or REQUIRES_RELOAD
+                    WoWTools_L['REQUIRES_RELOAD~2']
                 )
             end)]]
 
@@ -289,7 +289,7 @@ local function Init_Options()--设置 Frame
     text:SetScript('OnEnter', function(self2)
         GameTooltip:SetOwner(self2, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS, (WoWTools_DataMixin.onlyChinese and '阴影' or SHADOW_QUALITY:gsub(QUALITY , ''))..WoWTools_DataMixin.Icon.left..(WoWTools_DataMixin.onlyChinese and '颜色' or COLOR))
+        GameTooltip:AddDoubleLine(WoWTools_L.SETTINGS, (WoWTools_DataMixin.onlyChinese and '阴影' or SHADOW_QUALITY:gsub(QUALITY , ''))..WoWTools_DataMixin.Icon.left..(WoWTools_L.COLOR))
         GameTooltip:AddDoubleLine('r'..(self2.r or 1)..' g'..(self2.g or 1)..' b'..(self2.b or 1), 'a'..(self2.a or 1))
         GameTooltip:Show()
         self2:SetAlpha(0.3)
@@ -340,7 +340,7 @@ local function Init_Options()--设置 Frame
     textColor:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS, WoWTools_DataMixin.Icon.left..self.hex..(WoWTools_DataMixin.onlyChinese and '颜色' or COLOR))
+        GameTooltip:AddDoubleLine(WoWTools_L.SETTINGS, WoWTools_DataMixin.Icon.left..self.hex..(WoWTools_L.COLOR))
         GameTooltip:Show()
         self:SetAlpha(0.3)
     end)
@@ -367,7 +367,7 @@ local function Init_Options()--设置 Frame
 
     check= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
     check:SetPoint("TOPLEFT", notTextCheck, 'BOTTOMLEFT')
-    check.text:SetText((WoWTools_DataMixin.onlyChinese and '向左' or BINDING_NAME_STRAFELEFT)..' 23%'..Tabs[2].text)
+    check.text:SetText((WoWTools_L.BINDING_NAME_STRAFELEFT)..' 23%'..Tabs[2].text)
     check:SetChecked(Save().toLeft)
     check:SetScript('OnMouseDown', function()
         Save().toLeft= not Save().toLeft and true or nil
@@ -377,7 +377,7 @@ local function Init_Options()--设置 Frame
 
     local check5= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})--使用，数值
     check5:SetPoint("TOPLEFT", check, 'BOTTOMLEFT')
-    check5.text:SetText((WoWTools_DataMixin.onlyChinese and '数值' or STATUS_TEXT_VALUE)..' 2K')
+    check5.text:SetText((WoWTools_L.STATUS_TEXT_VALUE)..' 2K')
     check5:SetChecked(Save().useNumber)
     check5:SetScript('OnMouseDown', function()
         Save().useNumber= not Save().useNumber and true or nil
@@ -386,7 +386,7 @@ local function Init_Options()--设置 Frame
 
     --位数，bit
     local sliderBit= WoWTools_SliderMixin:CSlider(Frame, {w=100 ,h=20, min=0, max=3, value=Save().bit or 0, setp=1, color=nil,
-        text=(WoWTools_DataMixin.onlyChinese and '位数' or WoWTools_L['Decimals']),
+        text=(WoWTools_L['Decimals']),
         func=function(self, value)
             value= math.ceil(value)
             self:SetValue(value)
@@ -400,7 +400,7 @@ local function Init_Options()--设置 Frame
 
     local barValueText= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})--增加,减少,值
     barValueText:SetPoint("TOPLEFT", check5, 'BOTTOMLEFT')
-    barValueText.text:SetText(WoWTools_DataMixin.onlyChinese and '增益' or BENEFICIAL)
+    barValueText.text:SetText(WoWTools_L.BENEFICIAL)
     barValueText:SetChecked(Save().setMaxMinValue)
     barValueText:SetScript('OnMouseDown', function()
         Save().setMaxMinValue= not Save().setMaxMinValue and true or false
@@ -426,7 +426,7 @@ local function Init_Options()--设置 Frame
     Frame.barGreenColor:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS, WoWTools_DataMixin.Icon.left..self.hex..(WoWTools_DataMixin.onlyChinese and '颜色' or COLOR))
+        GameTooltip:AddDoubleLine(WoWTools_L.SETTINGS, WoWTools_DataMixin.Icon.left..self.hex..(WoWTools_L.COLOR))
         GameTooltip:Show()
         self:SetAlpha(0.3)
     end)
@@ -458,7 +458,7 @@ local function Init_Options()--设置 Frame
     Frame.barRedColor:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS, WoWTools_DataMixin.Icon.left..self.hex..(WoWTools_DataMixin.onlyChinese and '颜色' or COLOR))
+        GameTooltip:AddDoubleLine(WoWTools_L.SETTINGS, WoWTools_DataMixin.Icon.left..self.hex..(WoWTools_L.COLOR))
         GameTooltip:Show()
         self:SetAlpha(0.3)
     end)
@@ -494,7 +494,7 @@ local function Init_Options()--设置 Frame
 
     local check3= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})--bar，图片，样式2
     check3:SetPoint("LEFT", check2.text, 'RIGHT', 6, 0)
-    check3.text:SetText((WoWTools_DataMixin.onlyChinese and '格式' or FORMATTING).. ' 2')
+    check3.text:SetText((WoWTools_L.FORMATTING).. ' 2')
     check3:SetChecked(Save().barTexture2)
     check3:SetScript('OnMouseDown', function()
         Save().barTexture2= not Save().barTexture2 and true or false
@@ -503,7 +503,7 @@ local function Init_Options()--设置 Frame
 
     --bar, 宽度
     local barWidth= WoWTools_SliderMixin:CSlider(Frame, {w=120, h=20, min=-119, max=250, value=Save().barWidth, setp=1, color=nil,
-        text=WoWTools_DataMixin.onlyChinese and '宽' or WIDE,
+        text=WoWTools_L.WIDE,
         func=function(self, value)
             value= math.floor(value)
             self:SetValue(value)
@@ -530,7 +530,7 @@ local function Init_Options()--设置 Frame
 
     local barToLeft= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})--bar 向左
     barToLeft:SetPoint("TOPLEFT", check2, 'BOTTOMLEFT')
-    barToLeft.text:SetText(WoWTools_DataMixin.onlyChinese and '向左' or BINDING_NAME_STRAFELEFT)
+    barToLeft.text:SetText(WoWTools_L.BINDING_NAME_STRAFELEFT)
     barToLeft:SetChecked(Save().barToLeft)
     barToLeft:SetScript('OnMouseDown', function()
         Save().barToLeft= not Save().barToLeft and true or nil
@@ -567,7 +567,7 @@ local function Init_Options()--设置 Frame
 
     --文本，截取
     local slider3= WoWTools_SliderMixin:CSlider(Frame, {w=120, h=20, min=0, max=20, value=Save().gsubText or 0, setp=1, color=nil,
-        text=WoWTools_DataMixin.onlyChinese and '截取' or BINDING_NAME_SCREENSHOT,
+        text=WoWTools_L.BINDING_NAME_SCREENSHOT,
         func=function(self, value, userInput)
             value= math.floor(value)
             self:SetValue(value)
@@ -602,7 +602,7 @@ local function Init_Options()--设置 Frame
     checkStrupper:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '大写' or WoWTools_L['Uppercase'])
+        GameTooltip:AddLine(WoWTools_L['Uppercase'])
         GameTooltip:Show()
     end)
 
@@ -621,13 +621,13 @@ local function Init_Options()--设置 Frame
     checkStrlower:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '小写' or WoWTools_L['Lowercase'])
+        GameTooltip:AddLine(WoWTools_L['Lowercase'])
         GameTooltip:Show()
     end)
 
     --缩放
     local slider4= WoWTools_SliderMixin:CSlider(Frame, {w=nil, h=20, min=0.3, max=4, value=Save().scale or 1, setp=0.1, color=nil,
-        text=WoWTools_DataMixin.onlyChinese and '缩放' or HOUSING_EXPERT_DECOR_SUBMODE_SCALE,
+        text=WoWTools_L.HOUSING_EXPERT_DECOR_SUBMODE_SCALE,
         func=function(self, value)
             value= tonumber(format('%.1f', value)) or 1
             self:SetValue(value)
@@ -660,7 +660,7 @@ local function Init_Options()--设置 Frame
     sliderButtonAlpha:SetPoint("TOPLEFT", slider4, 'BOTTOMLEFT', 0,-24)
 
     local sliderButtonScale = WoWTools_SliderMixin:CSlider(Frame, {min=0.4, max=4, value=Save().buttonScale or 1, setp=0.1, color=true,
-    text=WoWTools_DataMixin.onlyChinese and '专精缩放' or WoWTools_Join(SPECIALIZATION, HOUSING_EXPERT_DECOR_SUBMODE_SCALE),
+    text=WoWTools_L['SPECIALIZATION+HOUSING_EXPERT_DECOR_SUBMODE_SCALE'],
     func=function(self, value)
         value= tonumber(format('%.01f', value))
         value= value<0.4 and 0.4 or value
@@ -689,14 +689,14 @@ local function Init_Options()--设置 Frame
     restPosti:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddLine((not Save().point and '|cff626262' or '')..(WoWTools_DataMixin.onlyChinese and '重置位置' or RESET_POSITION))
+        GameTooltip:AddLine((not Save().point and '|cff626262' or '')..(WoWTools_L.RESET_POSITION))
         GameTooltip:Show()
     end)
 
 
     local checkHidePet= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
     checkHidePet:SetPoint('BOTTOMLEFT')
-    checkHidePet.text:SetText(WoWTools_DataMixin.onlyChinese and '自动隐藏' or  WoWTools_Join(SELF_CAST_AUTO, HIDE))
+    checkHidePet.text:SetText(WoWTools_L['SELF_CAST_AUTO+HIDE'])
     checkHidePet:SetChecked(Save().hideInPetBattle)
     checkHidePet:SetScript('OnMouseDown', function()
         Save().hideInPetBattle= not Save().hideInPetBattle and true or false
@@ -734,7 +734,7 @@ local function Init()
             print(
                 WoWTools_AttributesMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-                WoWTools_DataMixin.onlyChinese and '需求重新加载' or REQUIRES_RELOAD
+                WoWTools_L['REQUIRES_RELOAD~2']
             )
         end,
         clearfunc= function()

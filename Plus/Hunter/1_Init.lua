@@ -66,7 +66,7 @@ local function Init()
         sub:SetTooltip(function(tooltip)
             tooltip:AddLine(
                 WoWTools_DataMixin.Icon.icon2
-                ..(WoWTools_DataMixin.onlyChinese and '显示' or SHOW)
+                ..(WoWTools_L.SHOW)
                 ..WoWTools_HunterMixin.addName
             )
         end)
@@ -106,7 +106,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                     print(
                         WoWTools_HunterMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-                        WoWTools_DataMixin.onlyChinese and '需求重新加载' or REQUIRES_RELOAD
+                        WoWTools_L['REQUIRES_RELOAD~2']
                     )
                 end
             })

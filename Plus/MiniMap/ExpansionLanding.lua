@@ -18,7 +18,7 @@ function WoWTools_MinimapMixin:ExpansionLanding_Menu(_, root)
         print(
             WoWTools_MinimapMixin.addName..WoWTools_DataMixin.Icon.icon2,
             '|cnGREEN_FONT_COLOR:',
-            WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+            WoWTools_L.REQUIRES_RELOAD
         )
     end)
 
@@ -32,7 +32,7 @@ function WoWTools_MinimapMixin:ExpansionLanding_Menu(_, root)
         print(
             WoWTools_MinimapMixin.addName..WoWTools_DataMixin.Icon.icon2,
             '|cnGREEN_FONT_COLOR:',
-            WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+            WoWTools_L.REQUIRES_RELOAD
         )
     end)
 end

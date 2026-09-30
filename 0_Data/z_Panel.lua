@@ -26,12 +26,12 @@ end
 --开始
 --####
 local function Init_Options()
-    WoWTools_PanelMixin:Header(nil,  WoWTools_DataMixin.onlyChinese and 'WoWTools 数据' or WoWTools_L['WoWTools Data'])
+    WoWTools_PanelMixin:Header(nil,  WoWTools_L['WoWTools Data'])
 
-    local optionHeader= WoWTools_DataMixin.onlyChinese and '插件选项' or WoWTools_Join(ADDONS, OPTIONS)
+    local optionHeader= WoWTools_L['ADDONS+OPTIONS']
     WoWTools_PanelMixin:OnlyButton({
         title= '1) |A:talents-button-undo:0:0|a'..optionHeader,
-        buttonText= '|A:QuestArtifact:0:0|a'..(WoWTools_DataMixin.onlyChinese and '重置' or RESET ),
+        buttonText= '|A:QuestArtifact:0:0|a'..(WoWTools_L.RESET ),
         addSearchTags= optionHeader,
         SetValue= function()
             StaticPopup_Show('WoWTools_RestData',
@@ -65,10 +65,10 @@ local function Init_Options()
 
 
 --清除玩家输入数据
-    local playerHeader= WoWTools_DataMixin.onlyChinese and '清除输入数据' or WoWTools_L['Clear input data']
+    local playerHeader= WoWTools_L['Clear input data']
     WoWTools_PanelMixin:OnlyButton({
         title= '2) |A:UI-HUD-UnitFrame-Player-Group-FriendOnlineIcon:0:0|a'..playerHeader,
-        buttonText= '|A:UI-HUD-UnitFrame-Player-Group-FriendOnlineIcon:0:0|a'..(WoWTools_DataMixin.onlyChinese and '清除' or SLASH_STOPWATCH_PARAM_STOP2),
+        buttonText= '|A:UI-HUD-UnitFrame-Player-Group-FriendOnlineIcon:0:0|a'..(WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2),
         addSearchTags= playerHeader,
         SetValue= function()
             StaticPopup_Show('WoWTools_RestData',
@@ -100,10 +100,10 @@ local function Init_Options()
 
 
 --清除战网数据
-    local wowHeader= WoWTools_DataMixin.onlyChinese and '清除战网数据' or WoWTools_Join(WoWTools_DataMixin.onlyChinese and '清除' or SLASH_STOPWATCH_PARAM_STOP2, WoWTools_Join(ACCOUNT_QUEST_LABEL, 'Data'))
+    local wowHeader= WoWTools_DataMixin.onlyChinese and '清除战网数据' or WoWTools_Join(WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2, WoWTools_Join(ACCOUNT_QUEST_LABEL, 'Data'))
     WoWTools_PanelMixin:OnlyButton({
         title= '3) '..WoWTools_DataMixin.Icon.wow2..wowHeader,
-        buttonText= WoWTools_DataMixin.Icon.wow2..(WoWTools_DataMixin.onlyChinese and '清除' or SLASH_STOPWATCH_PARAM_STOP2),
+        buttonText= WoWTools_DataMixin.Icon.wow2..(WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2),
         addSearchTags= wowHeader,
         SetValue= function()
             StaticPopup_Show('WoWTools_RestData',
@@ -134,11 +134,11 @@ local function Init_Options()
     WoWTools_PanelMixin:OnlyButton({
         --title= WoWTools_DataMixin.onlyChinese and '战网物品' or WoWTools_Join(ACCOUNT_QUEST_LABEL, ITEMS),
         buttonText= WoWTools_DataMixin.Icon.wow2
-            ..(WoWTools_DataMixin.onlyChinese and '战网物品' or WoWTools_Join(ACCOUNT_QUEST_LABEL, ITEMS)),
+            ..(WoWTools_L['ACCOUNT_QUEST_LABEL+ITEMS']),
         SetValue= function()
            WoWTools_DataMixin:OpenWoWItemListFrame()--战团，物品列表
         end,
-        tooltip= WoWTools_DataMixin.onlyChinese and '显示' or SHOW
+        tooltip= WoWTools_L.SHOW
     })
 
 
@@ -150,7 +150,7 @@ local function Init_Options()
 
 
 --全部清除
-    local header= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL)
+    local header= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.CLEAR_ALL)
     WoWTools_PanelMixin:OnlyButton({
         title= header,
         buttonText= header,
@@ -190,7 +190,7 @@ local function Init_Options()
             SetValue= function()
                 WoWTools_DataMixin.onlyChinese= not WoWTools_DataMixin.onlyChinese and true or nil
                 Save().onlyChinese = WoWTools_DataMixin.onlyChinese
-                print(WoWTools_DataMixin.addName,  WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+                print(WoWTools_DataMixin.addName,  WoWTools_L.REQUIRES_RELOAD)
             end
         })
     end
@@ -225,13 +225,13 @@ local function Init_Options()
         end
 
         WoWTools_PanelMixin:OnlyCheck({
-            name= WoWTools_DataMixin.onlyChinese and '服务器' or WoWTools_L['Realm'],
+            name= WoWTools_L['Realm'],
             tooltip=get_tooltip(),
             Value= not Save().disabledRealm,
             GetValue= function() return not Save().disabledRealm end,
             SetValue= function()
                 Save().disabledRealm= not Save().disabledRealm and true or nil
-                print(WoWTools_DataMixin.addName,  WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+                print(WoWTools_DataMixin.addName,  WoWTools_L.REQUIRES_RELOAD)
             end
         })
 

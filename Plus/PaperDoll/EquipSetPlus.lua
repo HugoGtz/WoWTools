@@ -40,7 +40,7 @@ local function Create_Button(btn)
         GameTooltip_SetTitle(GameTooltip, 
             WoWTools_DataMixin.Icon.icon2
             ..(C_EquipmentSet.EquipmentSetContainsLockedItems(self.setID) and '|cff606060' or '')
-            ..(WoWTools_DataMixin.onlyChinese and '装备' or EQUIPSET_EQUIP)
+            ..(WoWTools_L.EQUIPSET_EQUIP)
         )
         GameTooltip:Show()
     end)
@@ -64,7 +64,7 @@ local function Create_Button(btn)
     btn.createButton.texture:SetPoint('CENTER')
     btn.createButton.texture:SetAtlas('groupfinder-eye-highlight')
 
-    btn.createButton.str= WoWTools_DataMixin.onlyChinese and '空' or EMPTY
+    btn.createButton.str= WoWTools_L.EMPTY
     btn.createButton:SetPoint('RIGHT', 0,-4)
     btn.createButton:SetScript('OnLeave', function(self)
         GameTooltip:Hide()
@@ -76,8 +76,8 @@ local function Create_Button(btn)
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(self.str,
             C_EquipmentSet.GetEquipmentSetID(self.str)
-            and ('|cffff00ff'..(WoWTools_DataMixin.onlyChinese and '修改' or EDIT)..'|r')
-            or ('|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '新建' or NEW)..'|r')
+            and ('|cffff00ff'..(WoWTools_L.EDIT)..'|r')
+            or ('|cnGREEN_FONT_COLOR:'..(WoWTools_L.NEW)..'|r')
         )
         GameTooltip:Show()
     end)
@@ -142,23 +142,23 @@ local function Init()
         GameTooltip:AddLine(' ')
         GameTooltip_AddInstructionLine(GameTooltip,
             '<'
-            ..(WoWTools_DataMixin.onlyChinese and '双击' or BUFFER_DOUBLE)
+            ..(WoWTools_L.BUFFER_DOUBLE)
             ..WoWTools_DataMixin.Icon.left
-            ..(WoWTools_DataMixin.onlyChinese and '装备' or EQUIPSET_EQUIP)
+            ..(WoWTools_L.EQUIPSET_EQUIP)
             ..'>'
         )
         GameTooltip_AddInstructionLine (GameTooltip,
             '<'
             ..'Alt+'
             ..WoWTools_DataMixin.Icon.left
-            ..(WoWTools_DataMixin.onlyChinese and '修改名称/图标' or EQUIPMENT_SET_EDIT)
+            ..(WoWTools_L.EQUIPMENT_SET_EDIT)
             ..'>'
         )
         GameTooltip_AddInstructionLine (GameTooltip,
             '<'
             ..'Shif+'
             ..WoWTools_DataMixin.Icon.left
-            ..(WoWTools_DataMixin.onlyChinese and '删除' or DELETE)
+            ..(WoWTools_L.DELETE)
             ..'>'
         )
         GameTooltip:Show()

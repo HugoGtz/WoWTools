@@ -121,15 +121,15 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             WoWToolsPlusPlayerDate.GossipTextIcon= WoWToolsPlusPlayerDate.GossipTextIcon or {
                 [55193]={
                     icon='communities-icon-invitemail',
-                    name=(WoWTools_DataMixin.onlyChinese and '打开邮件' or OPENMAIL),
+                    name=(WoWTools_L.OPENMAIL),
                     hex='ffff00ff'
                 }
             }
 
-            WoWTools_GossipMixin.addName= '|A:SpecDial_LastPip_BorderGlow:0:0|a'..(WoWTools_DataMixin.onlyChinese and '闲谈选项' or GOSSIP_OPTIONS)
+            WoWTools_GossipMixin.addName= '|A:SpecDial_LastPip_BorderGlow:0:0|a'..(WoWTools_L.GOSSIP_OPTIONS)
 
             WoWTools_GossipMixin.addName2= '|A:UI-HUD-UnitFrame-Target-PortraitOn-Boss-Quest:0:0|a'
-                ..(WoWTools_DataMixin.onlyChinese and '任务选项' or WoWTools_Join(QUESTS_LABEL, GAMEMENU_OPTIONS))
+                ..(WoWTools_L['QUESTS_LABEL+GAMEMENU_OPTIONS'])
 
 --添加控制面板
             WoWTools_PanelMixin:Check_Button({
@@ -139,7 +139,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                     Save().disabled = not Save().disabled and true or nil
                     Init()
                  end,
-                 buttonText= WoWTools_DataMixin.onlyChinese and '重置位置' or RESET_POSITION,
+                 buttonText= WoWTools_L.RESET_POSITION,
                  buttonFunc= function()
                      Save().point=nil
                      if _G['WoWToolsGossipButton'] then
@@ -147,10 +147,10 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                      end
                      print(
                         WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                        WoWTools_DataMixin.onlyChinese and '重置位置' or RESET_POSITION
+                        WoWTools_L.RESET_POSITION
                     )
                  end,
-                 tooltip= WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD,
+                 tooltip= WoWTools_L.REQUIRES_RELOAD,
                  layout= nil,
                  category= nil,
              })

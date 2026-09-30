@@ -98,12 +98,12 @@ local function Set_Campaign_OnEnter(self)
 
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(
-            (WoWTools_DataMixin.onlyChinese and '章节' or WoWTools_L['Chapter'])
+            (WoWTools_L['Chapter'])
             ..' '
             ..format('%d/%d', chapterIndex, count),
 
-            (campaign.isWarCampaign and (WoWTools_DataMixin.onlyChinese and '阵营战役' or WAR_CAMPAIGN))
-            or (WoWTools_DataMixin.onlyChinese and '战役' or CONTAINER_CAMPAIGN_PROGRESS)
+            (campaign.isWarCampaign and (WoWTools_L.WAR_CAMPAIGN))
+            or (WoWTools_L.CONTAINER_CAMPAIGN_PROGRESS)
         )
 --章节
         for index, chapterID in pairs(chapterIDs) do
@@ -163,7 +163,7 @@ local function Init_BountyDropdown(frame)
             return
         end
         root:CreateDivider()
-        local sub= WoWTools_MenuMixin:OpenOptions(root, {name= WoWTools_WorldMapMixin.addName})--root:CreateButton(WoWTools_DataMixin.onlyChinese and '缩放' or HOUSING_EXPERT_DECOR_SUBMODE_SCALE)
+        local sub= WoWTools_MenuMixin:OpenOptions(root, {name= WoWTools_WorldMapMixin.addName})--root:CreateButton(WoWTools_L.HOUSING_EXPERT_DECOR_SUBMODE_SCALE)
 
 --声望，字体，缩放
         sub:CreateSpacer()
@@ -174,7 +174,7 @@ local function Init_BountyDropdown(frame)
                 Save().activityTrackerFontScale=value
                 Bounty_Setting(frame)
             end,
-            name=WoWTools_DataMixin.onlyChinese and '声望' or REPUTATION,
+            name=WoWTools_L.REPUTATION,
             minValue=0,
             maxValue=2,
             step=0.1,

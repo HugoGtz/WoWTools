@@ -26,7 +26,7 @@ local function Init_Menu(self, root)
 
     sub=root:CreateCheckbox(
         (num==0 and '|cff626262' or '')
-        ..(WoWTools_DataMixin.onlyChinese and '快捷键列表 ' or WoWTools_L['Shortcut list '])
+        ..(WoWTools_L['Shortcut list '])
         ..num,
     function()
         return not Save().hideLeftList
@@ -35,8 +35,8 @@ local function Init_Menu(self, root)
          WoWTools_AddOnsMixin:Init_Left_Buttons()
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '左边列表' or WoWTools_Join(HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_LEFT, ADDON_LIST))
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '快捷键' or SETTINGS_KEYBINDINGS_LABEL)
+        tooltip:AddLine(WoWTools_L['HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_LEFT+ADDON_LIST'])
+        tooltip:AddLine(WoWTools_L.SETTINGS_KEYBINDINGS_LABEL)
     end)
 
 --缩放
@@ -50,11 +50,11 @@ local function Init_Menu(self, root)
 
     sub:CreateButton(
         (num==0 and '|cff626262' or '')
-        ..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL),
+        ..(WoWTools_L.CLEAR_ALL),
     function()
         StaticPopup_Show('WoWTools_OK',
-            (WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL)
-            '|n'..(WoWTools_DataMixin.onlyChinese and '快捷键列表' or WoWTools_L['Shortcut list']),
+            (WoWTools_L.CLEAR_ALL)
+            '|n'..(WoWTools_L['Shortcut list']),
             nil,
             {SetValue=function()
                 Save().fast={}
@@ -69,7 +69,7 @@ local function Init_Menu(self, root)
     
 --加载插件 Bottom
     sub=root:CreateCheckbox(
-        (WoWTools_DataMixin.onlyChinese and '插件图标' or WoWTools_Join(ADDONS, EMBLEM_SYMBOL)),
+        (WoWTools_L['ADDONS+EMBLEM_SYMBOL']),
     function()
         return Save().load_list
     end, function()
@@ -78,7 +78,7 @@ local function Init_Menu(self, root)
     end)
     sub:SetTooltip(function(tooltip)
         tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '仅限有图标' or format(LFG_LIST_CROSS_FACTION, EMBLEM_SYMBOL))
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '已经打开' or SPELL_FAILED_ALREADY_OPEN)
+        tooltip:AddLine(WoWTools_L.SPELL_FAILED_ALREADY_OPEN)
     end)
 
 --位置：上面
@@ -110,7 +110,7 @@ local function Init_Menu(self, root)
             Save().load_list_size= value
             WoWTools_AddOnsMixin:Init_Bottom_Buttons()
         end,
-        name=WoWTools_DataMixin.onlyChinese and '图标尺寸' or HUD_EDIT_MODE_SETTING_ACTION_BAR_ICON_SIZE,
+        name=WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_ICON_SIZE,
         minValue=8,
         maxValue=72,
         step=1,
@@ -134,7 +134,7 @@ local function Init_Menu(self, root)
 
     sub=root:CreateCheckbox(
         (num==0 and '|cff626262' or '')
-        ..(WoWTools_DataMixin.onlyChinese and '方案列表 ' or WoWTools_L['Shortcut list '])
+        ..(WoWTools_L['Shortcut list ~2'])
         ..num,
     function()
         return not Save().hideRightList
@@ -143,8 +143,8 @@ local function Init_Menu(self, root)
         WoWTools_AddOnsMixin:Init_Right_Buttons()
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '右边列表' or WoWTools_Join(HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_RIGHT, ADDON_LIST ))
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '新的方案' or PAPERDOLL_NEWEQUIPMENTSET)
+        tooltip:AddLine(WoWTools_L['HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_RIGHT+ADDON_LIST'])
+        tooltip:AddLine(WoWTools_L.PAPERDOLL_NEWEQUIPMENTSET)
     end)
 
 --缩放
@@ -158,11 +158,11 @@ local function Init_Menu(self, root)
     sub:CreateDivider()
     sub:CreateButton(
         (num==0 and '|cff626262' or '')
-        ..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL),
+        ..(WoWTools_L.CLEAR_ALL),
     function()
         StaticPopup_Show('WoWTools_OK',
-            (WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL)
-            '|n'..(WoWTools_DataMixin.onlyChinese and '方案列表' or WoWTools_L['Shortcut list']),
+            (WoWTools_L.CLEAR_ALL)
+            '|n'..(WoWTools_L['Shortcut list~2']),
             nil,
             {SetValue=function()
                 Save().buttons={}
@@ -184,7 +184,7 @@ local function Init_Menu(self, root)
 
 
     sub=root:CreateCheckbox(
-        (WoWTools_DataMixin.onlyChinese and '信息' or INFO)..' Plus',
+        (WoWTools_L.INFO)..' Plus',
     function()
         return not Save().disabledInfoPlus
     end, function()
@@ -192,13 +192,13 @@ local function Init_Menu(self, root)
         if not Save().disabledInfoPlus then
             print(
                 WoWTools_AddOnsMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+                WoWTools_L.REQUIRES_RELOAD
             )
         end
         WoWTools_AddOnsMixin:Init_Info_Plus()
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+        tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 
 --重新加载UI
@@ -271,7 +271,7 @@ local function Init()
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_AddOnsMixin.addName)
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(' ', (WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU)..WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine(' ', (WoWTools_L.SLASH_TEXTTOSPEECH_MENU)..WoWTools_DataMixin.Icon.left)
         GameTooltip:Show()
     end)
 

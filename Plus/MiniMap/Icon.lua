@@ -22,7 +22,7 @@ local function On_Enter(tootip)
         --GameTooltip:ClearLines()
     end
     --tootip:AddLine(' ')
-    tootip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
+    tootip:AddDoubleLine(WoWTools_L.SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
     tootip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '打开选项界面' or WoWTools_Join(WoWTools_Join(UNWRAP, OPTIONS), 'UI'), WoWTools_DataMixin.Icon.mid)
    -- tootip:Show()
 end
@@ -90,7 +90,7 @@ local function Init_Icon()
     btn:EnableMouseWheel(true)
     btn:SetScript('OnMouseWheel', function(_, d)
         if d==1 then
-            WoWTools_PanelMixin:Open(nil, '|A:talents-button-undo:0:0|a'..(WoWTools_DataMixin.onlyChinese and '设置数据' or RESET_ALL_BUTTON_TEXT))
+            WoWTools_PanelMixin:Open(nil, '|A:talents-button-undo:0:0|a'..(WoWTools_L['RESET_ALL_BUTTON_TEXT~2']))
         else
             WoWTools_PanelMixin:Open(nil, WoWTools_MinimapMixin.addName)
         end
@@ -140,16 +140,16 @@ end]]
     end
 
 
-    GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '选项' or SETTINGS_TITLE , WoWTools_DataMixin.Icon.mid)
+    GameTooltip:AddDoubleLine(WoWTools_L.SETTINGS_TITLE , WoWTools_DataMixin.Icon.mid)
 
     if self and type(self)=='table' then
         if _G['LibDBIcon10_WoWTools'] and _G['LibDBIcon10_WoWTools']:IsMouseWheelEnabled() then
-            GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.mid)
+            GameTooltip:AddDoubleLine(WoWTools_L.SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.mid)
         else
-            GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU, 'Alt'..WoWTools_DataMixin.Icon.right)
+            GameTooltip:AddDoubleLine(WoWTools_L.SLASH_TEXTTOSPEECH_MENU, 'Alt'..WoWTools_DataMixin.Icon.right)
         end
     end
-    GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '宏伟宝库' or RATED_PVP_WEEKLY_VAULT , 'Shift'..WoWTools_DataMixin.Icon.left)
+    GameTooltip:AddDoubleLine(WoWTools_L.RATED_PVP_WEEKLY_VAULT , 'Shift'..WoWTools_DataMixin.Icon.left)
 
     GameTooltip:AddLine(' ')
     GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_MinimapMixin.addName)

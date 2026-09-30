@@ -58,7 +58,7 @@ local function Set_Aura()--光环取消
             if canaccessvalue(data.spellId) and Save().aura[data.spellId] then
                 CancelUnitBuff("player", i, nil)-- 'CANCELABLE')
                 print(addName,
-                    WoWTools_DataMixin.onlyChinese and '取消光环' or WoWTools_Join(CANCEL, AURAS),
+                    WoWTools_L['CANCEL+AURAS'],
                     WoWTools_SpellMixin:GetLink(data.spellId, true)
                 )
                 break
@@ -114,7 +114,7 @@ end
 
 local function Init_Menu(self, root)
     local sub
-    sub=root:CreateTitle(WoWTools_DataMixin.onlyChinese and '取消光环' or WoWTools_Join(CANCEL, AURAS))
+    sub=root:CreateTitle(WoWTools_L['CANCEL+AURAS'])
     sub:SetTooltip(function(tooltip)
         tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '仅限脱战' or format(LFG_LIST_CROSS_FACTION, HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_OUT_OF_COMBAT))
     end)
@@ -214,15 +214,15 @@ local function Init()
         GameTooltip:AddLine(' ')
 
         for spellID, type in pairs(Save().aura) do
-            GameTooltip:AddDoubleLine( WoWTools_SpellMixin:GetLink(spellID, true), type and	'|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '取消' or CANCEL)..'|r' or '...')
+            GameTooltip:AddDoubleLine( WoWTools_SpellMixin:GetLink(spellID, true), type and	'|cnGREEN_FONT_COLOR:'..(WoWTools_L.CANCEL)..'|r' or '...')
         end
         GameTooltip:AddLine(' ')
         local key= WoWTools_KeyMixin:IsKeyValid(self)
         if key then
-            GameTooltip:AddDoubleLine('|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '快捷键' or SETTINGS_KEYBINDINGS_LABEL), '|cnGREEN_FONT_COLOR:'..key)
+            GameTooltip:AddDoubleLine('|cnGREEN_FONT_COLOR:'..(WoWTools_L.SETTINGS_KEYBINDINGS_LABEL), '|cnGREEN_FONT_COLOR:'..key)
         end
 
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine(WoWTools_L.SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
         GameTooltip:Show()
         WoWTools_KeyMixin:SetTexture(self)
     end)

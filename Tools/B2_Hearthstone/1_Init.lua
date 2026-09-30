@@ -103,7 +103,7 @@ local function Init_Menu(self, root)
     root:CreateDivider()
     sub=WoWTools_ToolsMixin:OpenMenu(root, WoWTools_HearthstoneMixin.addName)
 
-    sub2=sub:CreateCheckbox(WoWTools_DataMixin.onlyChinese and '绑定位置' or SPELL_TARGET_CENTER_LOC, function()
+    sub2=sub:CreateCheckbox(WoWTools_L['SPELL_TARGET_CENTER_LOC~2'], function()
         return Save().showBindName
     end, function()
         Save().showBindName= not Save().showBindName and true or false
@@ -113,7 +113,7 @@ local function Init_Menu(self, root)
         tooltip:AddLine(self:get_location())
     end)
 
-    sub2:CreateCheckbox(WoWTools_DataMixin.onlyChinese and '截取名称' or WoWTools_Join(SHORT, NAME), function()
+    sub2:CreateCheckbox(WoWTools_L['SHORT+NAME'], function()
         return Save().showBindNameShort
     end, function()
         Save().showBindNameShort= not Save().showBindNameShort and true or false
@@ -122,7 +122,7 @@ local function Init_Menu(self, root)
 
 --移除未收集
     sub:CreateDivider()
-    name= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '移除未收集' or WoWTools_Join(REMOVE, NOT_COLLECTED))
+    name= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L['REMOVE+NOT_COLLECTED'])
     sub:CreateButton(
         name,
     function(data)
@@ -135,7 +135,7 @@ local function Init_Menu(self, root)
                 if not C_ToyBox.GetToyInfo(itemID) or not PlayerHasToy(itemID) then
                     SaveItems()[itemID]=nil
                     n=n+1
-                    print(n, WoWTools_DataMixin.onlyChinese and '移除' or REMOVE, WoWTools_ItemMixin:GetLink(itemID))
+                    print(n, WoWTools_L.REMOVE, WoWTools_ItemMixin:GetLink(itemID))
                 end
             end
             if n>0 then
@@ -147,7 +147,7 @@ local function Init_Menu(self, root)
 
 
 --全部清除
-    name= '|A:common-icon-redx:0:0|a'..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL)
+    name= '|A:common-icon-redx:0:0|a'..(WoWTools_L.CLEAR_ALL)
     sub:CreateButton(
         name,
     function(data)
@@ -156,7 +156,7 @@ local function Init_Menu(self, root)
         nil,
         {SetValue=function()
             WoWToolsPlusPlayerDate['HearthstoneItems']={}
-            print(WoWTools_DataMixin.Icon.icon2..WoWTools_HearthstoneMixin.addName, WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL)
+            print(WoWTools_DataMixin.Icon.icon2..WoWTools_HearthstoneMixin.addName, WoWTools_L.CLEAR_ALL)
             self:Rest_Random()
         end})
         return MenuResponse.Open
@@ -166,7 +166,7 @@ local function Init_Menu(self, root)
 
 --还原
     local all= CountTable(P_Items or {})
-    name= '|A:common-icon-undo:0:0|a'..(WoWTools_DataMixin.onlyChinese and '还原' or TRANSMOGRIFY_TOOLTIP_REVERT)..' '..all
+    name= '|A:common-icon-undo:0:0|a'..(WoWTools_L.TRANSMOGRIFY_TOOLTIP_REVERT)..' '..all
     sub:CreateButton(
         name,
     function(data)
@@ -176,7 +176,7 @@ local function Init_Menu(self, root)
         {SetValue=function()
             WoWToolsPlusPlayerDate['HearthstoneItems']= CopyTable(P_Items)
             self:Rest_Random()
-            print(WoWTools_DataMixin.Icon.icon2..WoWTools_HearthstoneMixin.addName, '|cnGREEN_FONT_COLOR:', WoWTools_DataMixin.onlyChinese and '还原' or TRANSMOGRIFY_TOOLTIP_REVERT)
+            print(WoWTools_DataMixin.Icon.icon2..WoWTools_HearthstoneMixin.addName, '|cnGREEN_FONT_COLOR:', WoWTools_L.TRANSMOGRIFY_TOOLTIP_REVERT)
         end})
         return MenuResponse.Open
     end, {name=name})
@@ -185,14 +185,14 @@ local function Init_Menu(self, root)
 --设置
     sub:CreateDivider()
     sub2=sub:CreateButton(
-        '|A:common-icon-zoomin:0:0|a'..(WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS),
+        '|A:common-icon-zoomin:0:0|a'..(WoWTools_L.SETTINGS),
     function()
         WoWTools_LoadUIMixin:Journal(3)
         return MenuResponse.Open
     end
     )
     sub2:SetTooltip(function(tooltip)
-        tooltip:AddLine(MicroButtonTooltipText(WoWTools_DataMixin.onlyChinese and '战团藏品' or COLLECTIONS, "TOGGLECOLLECTIONS"))
+        tooltip:AddLine(MicroButtonTooltipText(WoWTools_L.COLLECTIONS, "TOGGLECOLLECTIONS"))
     end)
 end
 
@@ -429,9 +429,9 @@ local function Init()
                 GameTooltip:AddDoubleLine(col..name, col..data.type..'+'..WoWTools_DataMixin.Icon.left)
             end
             GameTooltip:AddLine(' ')
-            GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
+            GameTooltip:AddDoubleLine(WoWTools_L.SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
             GameTooltip:AddDoubleLine(
-                WoWTools_DataMixin.onlyChinese and '随机' or WoWTools_L['Random'],
+                WoWTools_L['Random'],
                 (btn.Locked_Value and '' or '|cnGREEN_FONT_COLOR:#'..#self.Random_List..'|r')
                 ..(btn.Selected_Value and '|A:transmog-icon-checkmark:0:0|a' or '')
                 ..(btn.Locked_Value and '|A:AdventureMapIcon-Lock:0:0|a' or '')
@@ -446,7 +446,7 @@ local function Init()
                 if itemID then
                     GameTooltip:AddDoubleLine(
                         '|T'..(select(5, C_Item.GetItemInfoInstant(itemID)) or 0)..':32|t|cnGREEN_FONT_COLOR:'
-                        ..(WoWTools_DataMixin.onlyChinese and '发现就绪' or WoWTools_Join(BATTLE_PET_SOURCE_11, READY)),
+                        ..(WoWTools_L['BATTLE_PET_SOURCE_11+READY']),
                         WoWTools_DataMixin.Icon.right
                     )
                 end
@@ -630,7 +630,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
             WoWToolsPlusPlayerDate['HearthstoneItems']= WoWToolsPlusPlayerDate['HearthstoneItems'] or CopyTable(P_Items)
 
-            WoWTools_HearthstoneMixin.addName='|A:delves-bountiful:0:0|a'..(WoWTools_DataMixin.onlyChinese and '炉石' or TUTORIAL_TITLE31)
+            WoWTools_HearthstoneMixin.addName='|A:delves-bountiful:0:0|a'..(WoWTools_L.TUTORIAL_TITLE31)
 
             WoWTools_ToolsMixin:CreateButton({
                 name='Hearthstone',

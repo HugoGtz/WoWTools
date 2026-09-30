@@ -97,7 +97,7 @@ local function Init()
 
         local sub=root:CreateCheckbox(
             (InCombatLockdown() and '|cff606060' or '')
-            ..(WoWTools_DataMixin.onlyChinese and '镇民' or TOWNSFOLK_TRACKING_TEXT)
+            ..(WoWTools_L.TOWNSFOLK_TRACKING_TEXT)
             ..WoWTools_DataMixin.Icon.icon2,
         function()
             return C_CVar.GetCVarBool("minimapTrackingShowAll") and true or false
@@ -152,8 +152,8 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
             P_Save= nil
 
-            WoWTools_MinimapMixin.addName= '|A:UI-HUD-Minimap-Tracking-Mouseover:0:0|a'..(WoWTools_DataMixin.onlyChinese and '小地图' or HUD_EDIT_MODE_MINIMAP_LABEL)
-            WoWTools_MinimapMixin.addName2= '|A:VignetteKillElite:0:0|a'..(WoWTools_DataMixin.onlyChinese and '追踪' or TRACKING)
+            WoWTools_MinimapMixin.addName= '|A:UI-HUD-Minimap-Tracking-Mouseover:0:0|a'..(WoWTools_L.HUD_EDIT_MODE_MINIMAP_LABEL)
+            WoWTools_MinimapMixin.addName2= '|A:VignetteKillElite:0:0|a'..(WoWTools_L.TRACKING)
 
            WoWTools_PanelMixin:Check_Button({
                 checkName= WoWTools_MinimapMixin.addName,
@@ -163,7 +163,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                     if Save().disabled then
                         print(
                             WoWTools_MinimapMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                            WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+                            WoWTools_L.REQUIRES_RELOAD
                         )
                     else
                         Init()
@@ -172,7 +172,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                     end
 
                 end,
-                buttonText= WoWTools_DataMixin.onlyChinese and '重置位置' or RESET_POSITION,
+                buttonText= WoWTools_L.RESET_POSITION,
                 buttonFunc= function()
                     if StopwatchFrame.rest_point then
                         StopwatchFrame:rest_point()
@@ -186,7 +186,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
                     print(
                         WoWTools_MinimapMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                        WoWTools_DataMixin.onlyChinese and '重置位置' or RESET_POSITION
+                        WoWTools_L.RESET_POSITION
                     )
                 end
             })

@@ -26,7 +26,7 @@ local function Init()
     local reload= CreateFrame('Button', 'WoWToolsSpellBookReloadButton', PlayerSpellsFrame.TitleContainer, 'WoWToolsButtonTemplate')
     reload:SetPoint('LEFT', 28, -3)
     reload:SetNormalAtlas('common-icon-exit')
-    reload.tooltip=WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '重新加载' or RELOADUI)
+    reload.tooltip=WoWTools_DataMixin.Icon.icon2..(WoWTools_L['RELOADUI~2'])
     reload:SetScript('OnClick', function() WoWTools_DataMixin:Reload() end)
     WoWTools_TextureMixin:SetButton(reload, 0.5)
 
@@ -83,7 +83,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             end
 
             WoWTools_SpellMixin.addName= '|A:UI-HUD-MicroMenu-SpellbookAbilities-Mouseover:0:0|a'
-                ..(WoWTools_DataMixin.onlyChinese and '法术' or SPELLS)
+                ..(WoWTools_L.SPELLS)
 
             if Save().disabled then
                 self:SetScript('OnEvent', nil)

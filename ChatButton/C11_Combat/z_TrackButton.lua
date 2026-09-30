@@ -55,16 +55,16 @@ function WoWTools_CombatMixin:Set_Combat_Tooltip(tooltip)
         local log= SaveLog()
 
         tooltip:AddDoubleLine(
-            (WoWTools_DataMixin.onlyChinese and '战斗' or COMBAT)
+            (WoWTools_L.COMBAT)
             ..'|A:warfronts-basemapicons-horde-barracks-minimap:0:0|a'
             ..SecondsToTime(log.bat.time),
 
             log.bat.num
             ..' '
-            ..(WoWTools_DataMixin.onlyChinese and '次' or VOICEMACRO_LABEL_CHARGE1)
+            ..(WoWTools_L.VOICEMACRO_LABEL_CHARGE1)
         )
         tooltip:AddDoubleLine(
-            (WoWTools_DataMixin.onlyChinese and '宠物' or PET)
+            (WoWTools_L.PET)
             ..'|A:worldquest-icon-petbattle:0:0|a'
             ..log.pet.win..'|r/'..log.pet.num
             ..' |T646379:0|t'..log.pet.capture,
@@ -73,21 +73,21 @@ function WoWTools_CombatMixin:Set_Combat_Tooltip(tooltip)
         )
 
         tooltip:AddDoubleLine(
-            (WoWTools_DataMixin.onlyChinese and '离开' or AFK)
+            (WoWTools_L.AFK)
             ..'|A:socialqueuing-icon-clock:0:0|a'
             ..SecondsToTime(log.afk.time),
 
             log.afk.num..' '
-            ..(WoWTools_DataMixin.onlyChinese and '次' or VOICEMACRO_LABEL_CHARGE1)
+            ..(WoWTools_L.VOICEMACRO_LABEL_CHARGE1)
         )
         tooltip:AddDoubleLine(
-            (WoWTools_DataMixin.onlyChinese and '副本' or INSTANCE)
+            (WoWTools_L.INSTANCE)
             ..'|A:BuildanAbomination-32x32:0:0|a'
             ..log.ins.kill
             ..'|A:poi-soulspiritghost:0:0|a'..log.ins.dead,
 
             log.ins.num..' '
-            ..(WoWTools_DataMixin.onlyChinese and '次' or VOICEMACRO_LABEL_CHARGE1)
+            ..(WoWTools_L.VOICEMACRO_LABEL_CHARGE1)
             ..' |A:CrossedFlagsWithTimer:0:0|a'
             ..SecondsToTime(log.ins.time)
         )
@@ -96,20 +96,20 @@ function WoWTools_CombatMixin:Set_Combat_Tooltip(tooltip)
 
 --在线时间
     tooltip:AddDoubleLine(
-        (WoWTools_DataMixin.onlyChinese and '在线' or GUILD_ONLINE_LABEL)
+        (WoWTools_L.GUILD_ONLINE_LABEL)
         ..'|A:socialqueuing-icon-clock:0:0|a',
         SecondsToTime(GetSessionTime())
     )
 
     local tab=WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Time
     tooltip:AddDoubleLine(
-        (WoWTools_DataMixin.onlyChinese and '总计' or TOTAL)
+        (WoWTools_L.TOTAL)
         ..'|A:socialqueuing-icon-clock:0:0|a',
         tab.totalTime and SecondsToTime(tab.totalTime)
     )
     tooltip:AddDoubleLine(
-        (WoWTools_DataMixin.onlyChinese and '本周%s' or CURRENCY_THIS_WEEK):format('CD')
-        ..' ('..format(WoWTools_DataMixin.onlyChinese and '第%d周' or WEEKS_ABBR, WoWTools_DataMixin.Player.Week)
+        (WoWTools_L.CURRENCY_THIS_WEEK):format('CD')
+        ..' ('..format(WoWTools_L.WEEKS_ABBR, WoWTools_DataMixin.Player.Week)
         ..date('%Y')..')',
         SecondsToTime(C_DateAndTime.GetSecondsUntilWeeklyReset() or 0)
     )
@@ -156,7 +156,7 @@ local function Set_Text()--设置显示内容
 
     if OnAFKTime then
         text= text and text..'|n' or ''
-        text= text..(WoWTools_DataMixin.onlyChinese and '离开' or AFK)
+        text= text..(WoWTools_L.AFK)
             ..'|A:socialqueuing-icon-clock:0:0|a'
             ..WoWTools_TimeMixin:Info(OnAFKTime, isClockType)
     end
@@ -192,7 +192,7 @@ end
 
 
 local function set_Pet_Text()--宠物战斗, 设置显示内容
-    local text= format(WoWTools_DataMixin.onlyChinese and '%d轮' or PET_BATTLE_COMBAT_LOG_NEW_ROUND, PetRound.round or 0)
+    local text= format(WoWTools_L.PET_BATTLE_COMBAT_LOG_NEW_ROUND, PetRound.round or 0)
     if  C_PetBattles.IsWildBattle() then
         text=text..'|A:worldquest-icon-petbattle:0:0|a'
     elseif PetRound.PVP then
@@ -234,7 +234,7 @@ local function Init_Date()--初始, 数据
 
     elseif OnAFKTime then
         local text, sec = WoWTools_TimeMixin:Info(OnAFKTime, isClockType)
-        LastText= '|A:socialqueuing-icon-clock:0:0|a|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '离开' or AFK)..text..'|r'
+        LastText= '|A:socialqueuing-icon-clock:0:0|a|cnGREEN_FONT_COLOR:'..(WoWTools_L.AFK)..text..'|r'
         log.afk.num= log.afk.num + 1
         log.afk.time= log.afk.time + sec
         print(
@@ -285,7 +285,7 @@ local function Init_Date()--初始, 数据
         OnPetTime=nil
         print(
             WoWTools_CombatMixin.addName..WoWTools_DataMixin.Icon.icon2,
-            WoWTools_DataMixin.onlyChinese and '宠物对战' or PET_BATTLE_PVP_QUEUE,
+            WoWTools_L.PET_BATTLE_PVP_QUEUE,
             LastText,
             log.pet.win..'/'..log.pet.num,
             (log.pet.capture>0 and log.pet.capture..' |T646379:0|t' or '')
@@ -313,7 +313,7 @@ local function Init_Date()--初始, 数据
 
         print(
             WoWTools_CombatMixin.addName..WoWTools_DataMixin.Icon.icon2,
-            WoWTools_TextMixin:CN(SaveInstancData().map) or (WoWTools_DataMixin.onlyChinese and '副本' or INSTANCE),
+            WoWTools_TextMixin:CN(SaveInstancData().map) or (WoWTools_L.INSTANCE),
             text
         )
 
@@ -372,14 +372,14 @@ local function Init_Menu(self, root)
 
     root:CreateButton(
         '|cnWARNING_FONT_COLOR:'
-        ..(WoWTools_DataMixin.onlyChinese and '重置' or RESET),
+        ..(WoWTools_L.RESET),
     function()
 
         Rest_Data()
 
         print(
             WoWTools_CombatMixin.addName..WoWTools_DataMixin.Icon.icon2,
-            WoWTools_DataMixin.onlyChinese and '重置完成' or WoWTools_Join(RESET, COMPLETE)
+            WoWTools_L['RESET+COMPLETE']
         )
         return MenuResponse.Open
     end)
@@ -387,7 +387,7 @@ local function Init_Menu(self, root)
     root:CreateDivider()
 
     sub=root:CreateCheckbox(
-        (WoWTools_DataMixin.onlyChinese and '时间:' or TIME_LABEL)
+        (WoWTools_L.TIME_LABEL)
         ..' '.. SecondsToTime(35),
     function()
         return Save().isNotClockType
@@ -399,13 +399,13 @@ local function Init_Menu(self, root)
     end)
 
 --[[战斗时间
-    sub=root:CreateCheckbox((WoWTools_DataMixin.onlyChinese and '战斗时间' or COMBAT)..'|A:communities-icon-chat:0:0|a|cnGREEN_FONT_COLOR:'..Save().SayTime, function()
+    sub=root:CreateCheckbox((WoWTools_L['COMBAT~2'])..'|A:communities-icon-chat:0:0|a|cnGREEN_FONT_COLOR:'..Save().SayTime, function()
         return not Save().disabledSayTime
     end, function()
         Save().disabledSayTime= not Save().disabledSayTime and true or false
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '说' or SAY)
+        tooltip:AddLine(WoWTools_L.SAY)
     end)
 
 
@@ -417,24 +417,24 @@ local function Init_Menu(self, root)
         end, setValue=function(value)
             Save().SayTime= value
         end,
-        name= WoWTools_DataMixin.onlyChinese and '秒' or LOSS_OF_CONTROL_SECONDS,
+        name= WoWTools_L.LOSS_OF_CONTROL_SECONDS,
         minValue=60,
         maxValue=600,
         step=1,
         bit=nil,
         tooltip=function(tooltip)
-            tooltip:AddDoubleLine(WoWTools_TimeMixin:SecondsToClock(Save().SayTime), WoWTools_DataMixin.onlyChinese and '时间戳' or EVENTTRACE_TIMESTAMP)
+            tooltip:AddDoubleLine(WoWTools_TimeMixin:SecondsToClock(Save().SayTime), WoWTools_L.EVENTTRACE_TIMESTAMP)
         end,
     })
     sub:CreateSpacer()
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '测试' or WoWTools_L['Test'],
+        WoWTools_L['Test'],
     function()
         WoWTools_ChatMixin:Chat(WoWTools_TimeMixin:SecondsToClock(Save().SayTime), nil, nil)
         return MenuResponse.Open
     end)
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '重置' or RESET,
+        WoWTools_L.RESET,
     function()
         Save().SayTime= 120
         return MenuResponse.Refresh
@@ -472,7 +472,7 @@ local function Init_Menu(self, root)
     
     sub:CreateButton(
         (Save().point and '' or '|cff626262')
-        ..(WoWTools_DataMixin.onlyChinese and '重置位置' or RESET_POSITION),
+        ..(WoWTools_L.RESET_POSITION),
     function()
         Save().point=nil
         self:settings()
@@ -480,7 +480,7 @@ local function Init_Menu(self, root)
     end)
 
     sub:CreateDivider()
-    local clearText= WoWTools_DataMixin.onlyChinese and '清除记录' or WoWTools_Join(RESET, EVENTTRACE_LOG_HEADER)
+    local clearText= WoWTools_L['RESET+EVENTTRACE_LOG_HEADER']
     sub:CreateButton(
         clearText,
     function()
@@ -501,7 +501,7 @@ local function Init_Menu(self, root)
                 print(
                     WoWTools_CombatMixin.addName..WoWTools_DataMixin.Icon.icon2,
                     clearText,
-                    WoWTools_DataMixin.onlyChinese and '完成' or COMPLETE
+                    WoWTools_L.COMPLETE
                 )
             end}
         )
@@ -598,8 +598,8 @@ local function Init()--设置显示内容, 父框架TrackButton, 内容btn.text
     function btn:set_tooltip()
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.left)
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '移动' or NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine(WoWTools_L.NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)
         GameTooltip:AddLine(' ')
         WoWTools_CombatMixin:Set_Combat_Tooltip(GameTooltip)
         GameTooltip:Show()

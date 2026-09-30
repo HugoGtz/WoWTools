@@ -90,7 +90,7 @@ local function Init()
     MacroFrameEnterMacroText:Hide()
     MacroFrameText.Instructions= WoWTools_LabelMixin:Create(MacroFrameText, {layer='BORDER', color={r=0.35, g=0.35, b=0.35}})
     MacroFrameText.Instructions:SetPoint('TOPLEFT')
-    MacroFrameText.Instructions:SetText(WoWTools_DataMixin.onlyChinese and '输入宏命令' or ENTER_MACRO_LABEL)
+    MacroFrameText.Instructions:SetText(WoWTools_L.ENTER_MACRO_LABEL)
     MacroFrameText:HookScript('OnTextChanged', function(s)
         s.Instructions:SetShown(s:GetText() == "")
     end)
@@ -196,7 +196,7 @@ local function Init()
     MacroEditButton:ClearAllPoints()
     MacroEditButton:SetPoint('BOTTOMLEFT', MacroFrameSelectedMacroButton, 'BOTTOMRIGHT', 2, -2)
     MacroEditButton:SetSize(60,22)--170 22
-    MacroEditButton:SetText(WoWTools_DataMixin.onlyChinese and '修改' or EDIT)
+    MacroEditButton:SetText(WoWTools_L.EDIT)
 
 --取消，按钮
     --MacroCancelButton:ClearAllPoints()

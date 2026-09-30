@@ -49,7 +49,7 @@ local function Chat_Menu(_, root)
         WoWTools_MenuMixin:SetScrollMode(root)
         root:CreateDivider()
         root:CreateButton(
-            (WoWTools_DataMixin.onlyChinese and '全部添加' or WoWTools_Join(ALL, ADD))..' '..num,
+            (WoWTools_L['ALL+ADD'])..' '..num,
         function(data)
             for _, info in pairs(data.find) do
                 if not PlayerDataSave()[info.gossipID] then
@@ -60,7 +60,7 @@ local function Chat_Menu(_, root)
         end, {find=find})
 
     elseif #tab==0 then
-        root:CreateTitle(WoWTools_DataMixin.onlyChinese and '无' or NONE)
+        root:CreateTitle(WoWTools_L.NONE)
     end
 end
 
@@ -116,7 +116,7 @@ local function Init(isShow)
         minW=370,
         minH=240
     })
-    Frame.Header:Setup('|A:SpecDial_LastPip_BorderGlow:0:0|a'..(WoWTools_DataMixin.onlyChinese and '对话替换' or WoWTools_Join(DIALOG_VOLUME, REPLACE)))
+    Frame.Header:Setup('|A:SpecDial_LastPip_BorderGlow:0:0|a'..(WoWTools_L['DIALOG_VOLUME+REPLACE']))
     --[[Frame= CreateFrame('Frame', Name, UIParent, 'DialogBorderTemplate')--, 'DialogBorderTemplate')--'ButtonFrameTemplate')
     tinsert(UISpecialFrames, Name)
     WoWTools_TextureMixin:SetFrame(Frame)
@@ -133,7 +133,7 @@ local function Init(isShow)
 
     local border= CreateFrame('Frame', Name..'Border', Frame,'DialogBorderTemplate')
     local Header= CreateFrame('Frame', Name..'Header', Frame, 'DialogHeaderTemplate')--DialogHeaderMixin
-    Header:Setup('|A:SpecDial_LastPip_BorderGlow:0:0|a'..(WoWTools_DataMixin.onlyChinese and '对话替换' or WoWTools_Join(DIALOG_VOLUME, REPLACE)))
+    Header:Setup('|A:SpecDial_LastPip_BorderGlow:0:0|a'..(WoWTools_L['DIALOG_VOLUME+REPLACE']))
     Frame.CloseButton=CreateFrame('Button', Name..'CloseButton', Frame, 'UIPanelCloseButtonNoScripts')
     Frame.CloseButton:SetPoint('TOPRIGHT')
     Frame.CloseButton:SetScript("OnClick", function(self)
@@ -327,14 +327,14 @@ local function Init(isShow)
         if info then
             if info.icon==icon and info.name==name and (info.hex==hex or (not info.hex and hex=='ff000000')) then--一样，数据
                 self.Add:SetNormalAtlas('VignetteEvent')
-                self.Add.tooltip=WoWTools_DataMixin.onlyChinese and '已存在' or UPDATE
+                self.Add.tooltip=WoWTools_L['UPDATE~2']
             else--需要，更新，数据
                 self.Add:SetNormalAtlas('common-icon-checkmark')
-                self.Add.tooltip=WoWTools_DataMixin.onlyChinese and '需要更新' or WoWTools_Join(NEED, UPDATE)
+                self.Add.tooltip=WoWTools_L['NEED+UPDATE']
             end
         else
             self.Add:SetNormalAtlas('bags-icon-addslots')
-            self.Add.tooltip=WoWTools_DataMixin.onlyChinese and '添加' or ADD
+            self.Add.tooltip=WoWTools_L.ADD
         end
         self.Delete:SetShown(self.gossipID and true or false)--显示/隐藏，删除按钮
         self.Add:SetShown(num>0 and (name or icon or hex~='ff000000') and true or false)--显示/隐藏，添加按钮
@@ -423,7 +423,7 @@ local function Init(isShow)
             WoWTools_GossipMixin:UpdateGossip()--更新GossipFrame
             print(
                 WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '删除' or DELETE)..'|r|n',
+                '|cnWARNING_FONT_COLOR:'..(WoWTools_L.DELETE)..'|r|n',
                 gossipID,
                 info.icon,
                 info.hex,
@@ -439,7 +439,7 @@ local function Init(isShow)
     List.ID:SetNumeric(true)
     List.ID:SetPoint('TOPLEFT', List, 'TOPRIGHT', 25, -40)
     List.ID:SetAutoFocus(false)
-    List.ID.Instructions:SetText('gossipOptionID '..(WoWTools_DataMixin.onlyChinese and '数字' or WoWTools_L['Numbers']))
+    List.ID.Instructions:SetText('gossipOptionID '..(WoWTools_L['Numbers']))
     List.ID.searchIcon:SetAtlas('auctionhouse-icon-favorite')
     List.ID:HookScript("OnTextChanged", function(self)
         List:set_all()
@@ -451,7 +451,7 @@ local function Init(isShow)
     List.Name:SetSize(250, 22)
     List.Name:SetAutoFocus(false)
     List.Name:ClearFocus()
-    List.Name.Instructions:SetText(WoWTools_DataMixin.onlyChinese and '替换文本' or WoWTools_Join(REPLACE, LOCALE_TEXT_LABEL))
+    List.Name.Instructions:SetText(WoWTools_L['REPLACE+LOCALE_TEXT_LABEL'])
     List.Name.searchIcon:SetAtlas('NPE_ArrowRight')
     List.Name:HookScript("OnTextChanged", function() List:set_all() end)
 
@@ -469,7 +469,7 @@ local function Init(isShow)
     List.Icon:SetSize(250, 22)
     List.Icon:SetAutoFocus(false)
     List.Icon:ClearFocus()
-    List.Icon.Instructions:SetText((WoWTools_DataMixin.onlyChinese and '图标' or EMBLEM_SYMBOL)..' Texture or Atlas')
+    List.Icon.Instructions:SetText((WoWTools_L.EMBLEM_SYMBOL)..' Texture or Atlas')
     List.Icon.searchIcon:SetAtlas('NPE_ArrowRight')
     List.Icon:HookScript("OnTextChanged", function()
         local texture, isAtlas = List:get_icon()
@@ -512,10 +512,10 @@ local function Init(isShow)
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_GossipMixin.addName)
-        GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '选择图标' or COMMUNITIES_CREATE_DIALOG_AVATAR_PICKER_INSTRUCTIONS)
+        GameTooltip:AddLine(WoWTools_L.COMMUNITIES_CREATE_DIALOG_AVATAR_PICKER_INSTRUCTIONS)
         if not _G['TAV_CoreFrame'] then
             GameTooltip:AddLine(' ')
-            GameTooltip:AddDoubleLine('|cnWARNING_FONT_COLOR:Texture Atlas Viewer', WoWTools_DataMixin.onlyChinese and '尚未发现' or TAXI_PATH_UNREACHABLE)
+            GameTooltip:AddDoubleLine('|cnWARNING_FONT_COLOR:Texture Atlas Viewer', WoWTools_L.TAXI_PATH_UNREACHABLE)
         end
         GameTooltip:Show()
     end)
@@ -554,7 +554,7 @@ local function Init(isShow)
     end})
 
     List.FindIcon.frame:Hide()
-    List.FindIcon.frame.BorderBox.SelectedIconArea.SelectedIconText.SelectedIconDescription:SetText(WoWTools_DataMixin.onlyChinese and '点击在列表中浏览' or ICON_SELECTION_CLICK)
+    List.FindIcon.frame.BorderBox.SelectedIconArea.SelectedIconText.SelectedIconDescription:SetText(WoWTools_L.ICON_SELECTION_CLICK)
     List.FindIcon.frame.BorderBox.IconSelectorEditBox:SetAutoFocus(false)
     List.FindIcon.frame:SetScript('OnShow', function(self)
         IconSelectorPopupFrameTemplateMixin.OnShow(self);
@@ -651,7 +651,7 @@ local function Init(isShow)
                     _G['TAV_InfoPanel']:Hide()
                 end
             end)
-            btn.tooltip= WoWTools_GossipMixin.addName..(WoWTools_DataMixin.onlyChinese and '复制' or CALENDAR_COPY_EVENT)
+            btn.tooltip= WoWTools_GossipMixin.addName..(WoWTools_L.CALENDAR_COPY_EVENT)
         end
     end
 
@@ -665,9 +665,9 @@ local function Init(isShow)
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName , WoWTools_GossipMixin.addName)
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine((self.hex and format('|c%s|r', self.hex) or '')..(WoWTools_DataMixin.onlyChinese and '设置颜色' or WoWTools_Join(SETTINGS, COLOR)), WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine((self.hex and format('|c%s|r', self.hex) or '')..(WoWTools_L['SETTINGS+COLOR']), WoWTools_DataMixin.Icon.left)
         local col= (not self.hex or self.hex=='ff000000') and '|cff626262' or ''
-        GameTooltip:AddDoubleLine(format('%s%s', col, WoWTools_DataMixin.onlyChinese and '默认' or DEFAULT), WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine(format('%s%s', col, WoWTools_L.DEFAULT), WoWTools_DataMixin.Icon.right)
         GameTooltip:Show()
     end
     List.Color:SetScript('OnEnter', List.Color.set_tooltips)
@@ -725,7 +725,7 @@ local function Init(isShow)
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_GossipMixin.addName)
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '删除' or DELETE, List.gossipID)
+        GameTooltip:AddDoubleLine(WoWTools_L.DELETE, List.gossipID)
         GameTooltip:Show()
     end)
     List.Delete:SetScript('OnClick', function()
@@ -744,22 +744,22 @@ local function Init(isShow)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip_SetTitle(GameTooltip, 
             WoWTools_DataMixin.Icon.icon2
-            ..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL)
+            ..(WoWTools_L.CLEAR_ALL)
         )
         GameTooltip:Show()
     end)
 
     List.DeleteAllPlayerData:SetScript('OnClick', function()
         StaticPopup_Show('WoWTools_OK',
-        WoWTools_DataMixin.addName..' '..WoWTools_GossipMixin.addName..'|n|n|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL),
+        WoWTools_DataMixin.addName..' '..WoWTools_GossipMixin.addName..'|n|n|cnWARNING_FONT_COLOR:'..(WoWTools_L.CLEAR_ALL),
         nil,
         {SetValue=function()
             WoWToolsPlusPlayerDate['GossipTextIcon']= {}
             List:set_list()
             print(
                 WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL,
-                format('|cnGREEN_FONT_COLOR:%s|r', WoWTools_DataMixin.onlyChinese and '完成' or DONE)
+                WoWTools_L.CLEAR_ALL,
+                format('|cnGREEN_FONT_COLOR:%s|r', WoWTools_L.DONE)
             )
         end})
     end)
@@ -773,7 +773,7 @@ local function Init(isShow)
 
     --图标大小, 设置
     List.Size= WoWTools_SliderMixin:CSlider(Frame, {min=8, max=72, value=Save().Gossip_Text_Icon_Size, setp=1, color=false, w=255,
-        text= WoWTools_DataMixin.onlyChinese and '图标' or SELF_HIGHLIGHT_ICON,
+        text= WoWTools_L.SELF_HIGHLIGHT_ICON,
         func=function(frame, value)
             value= math.modf(value)
             value= value==0 and 0 or value
@@ -798,7 +798,7 @@ local function Init(isShow)
         List.font= CreateFrame('CheckButton', Name..'ListFontCheckButton', Frame, 'InterfaceOptionsCheckButtonTemplate')--ChatConfigCheckButtonTemplate
         List.font:SetPoint('TOPLEFT', List.Size, 'BOTTOMLEFT', 0, -12)
         List.font:SetChecked(Save().Gossip_Text_Icon_cnFont)
-        List.font.Text:SetText(WoWTools_DataMixin.onlyChinese and '修改字体' or WoWTools_L['Chinese font (ARHei)'])
+        List.font.Text:SetText(WoWTools_L['Chinese font (ARHei)'])
         List.font.Text:SetFont('Fonts\\ARHei.ttf', 12)
         --List.font.Text:SetFont('\\Interface\\AddOns\\WoWToolsPlus\\Source\\ARHei.ttf', 12)
         List.font:SetScript('OnLeave', GameTooltip_Hide)
@@ -807,7 +807,7 @@ local function Init(isShow)
             GameTooltip:ClearLines()
             GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName , WoWTools_GossipMixin.addName)
             GameTooltip:AddLine(' ')
-            GameTooltip:AddDoubleLine('Fonts\\ARHei.ttf', WoWTools_DataMixin.onlyChinese and '黑体字' or 'ARHei')
+            GameTooltip:AddDoubleLine('Fonts\\ARHei.ttf', WoWTools_L['ARHei'])
            -- GameTooltip:AddDoubleLine('Interface\\AddOns\\WoWToolsPlus\\Source\\ARHei.TTF', '方正准圆')
             GameTooltip:Show()
         end)
@@ -819,7 +819,7 @@ local function Init(isShow)
                 print(
                     WoWTools_GossipMixin.addName..WoWTools_DataMixin.Icon.icon2,
                     '|cnGREEN_FONT_COLOR:',
-                    WoWTools_DataMixin.onlyChinese and '需要重新加载UI' or WoWTools_Join(NEED, RELOADUI)
+                    WoWTools_L['NEED+RELOADUI']
                 )
             end
         end)
@@ -835,7 +835,7 @@ local function Init(isShow)
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName , WoWTools_GossipMixin.addName)
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '当前对话' or WoWTools_Join(REFORGE_CURRENT, ENABLE_DIALOG), WoWTools_DataMixin.onlyChinese and '添加' or ADD)
+        GameTooltip:AddDoubleLine(WoWTools_L['REFORGE_CURRENT+ENABLE_DIALOG'], WoWTools_L.ADD)
         GameTooltip:Show()
     end)
     List.chat:SetScript('OnMouseDown', function(self)
@@ -868,8 +868,8 @@ local function Init(isShow)
     List.System:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddDoubleLine(format('%s |cnGREEN_FONT_COLOR:%d|r', WoWTools_DataMixin.onlyChinese and '默认' or DEFAULT, self.num or 0), WoWTools_DataMixin.Icon.left)
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine(format('%s |cnGREEN_FONT_COLOR:%d|r', WoWTools_L.DEFAULT, self.num or 0), WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.right)
         GameTooltip:Show()
         self:set_num()
     end)
@@ -916,7 +916,7 @@ local function Init(isShow)
         isUI=true
     })]]
     List.DataFrame.enter:SetPoint('BOTTOM', List.DataFrame, 'TOP', 0, 5)
-    List.DataFrame.enter:SetFormattedText('|A:Professions_Specialization_arrowhead:0:0|a%s', WoWTools_DataMixin.onlyChinese and '导入' or HUD_CLASS_TALENTS_IMPORT_LOADOUT_ACCEPT_BUTTON)
+    List.DataFrame.enter:SetFormattedText('|A:Professions_Specialization_arrowhead:0:0|a%s', WoWTools_L.HUD_CLASS_TALENTS_IMPORT_LOADOUT_ACCEPT_BUTTON)
     List.DataFrame.enter:Hide()
 
 
@@ -938,7 +938,7 @@ local function Init(isShow)
         if not zipText:find('%[%d+]={.-}') then
             zipText= WoWTools_ZipMixin:base64Decode(zipText)
             if not zipText or not zipText:find('WoWToolsGossipText') then
-                local err= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '数据库错误' or ERR_HOUSING_RESULT_DB_ERROR)
+                local err= WoWTools_DataMixin.Icon.icon2..(WoWTools_L.ERR_HOUSING_RESULT_DB_ERROR)
                 if tooltips then
                     GameTooltip_AddErrorLine(GameTooltip, err)
                 else
@@ -972,8 +972,8 @@ local function Init(isShow)
             return ''
         end)
 
-        local addText= format('|cnGREEN_FONT_COLOR:%s %d|r', WoWTools_DataMixin.onlyChinese and '添加' or ADD, #add)
-        local delText= format('|cffffffff%s %d|r', WoWTools_DataMixin.onlyChinese and '无效的组合' or SPELL_FAILED_CUSTOM_ERROR_455, del)
+        local addText= format('|cnGREEN_FONT_COLOR:%s %d|r', WoWTools_L.ADD, #add)
+        local delText= format('|cffffffff%s %d|r', WoWTools_L.SPELL_FAILED_CUSTOM_ERROR_455, del)
         local existText= format('|cnWARNING_FONT_COLOR:%s %d|r', WoWTools_DataMixin.onlyChinese and '已存在' or format(ERR_ZONE_EXPLORED, PROFESSIONS_CURRENT_LISTINGS), exist)
         if not tooltips then
             for _, info in pairs(add) do
@@ -1012,7 +1012,7 @@ local function Init(isShow)
     List.DataUscita= CreateFrame('Button', nil, Frame, 'WoWToolsButtonTemplate')-- WoWTools_ButtonMixin:Cbtn(Frame, {size=22, atlas='bags-greenarrow'})
     List.DataUscita:SetNormalAtlas('bags-greenarrow')
     List.DataUscita:SetPoint('LEFT', List.DeleteAllPlayerData, 'RIGHT', 22, 0)
-    List.DataUscita.tooltip= WoWTools_DataMixin.onlyChinese and '导出' or SOCIAL_SHARE_TEXT
+    List.DataUscita.tooltip= WoWTools_L['SOCIAL_SHARE_TEXT~2']
     List.DataUscita:SetScript('OnClick', function(self)
         local frame= List.DataFrame
         frame:SetInstructions(self.tooltip)
@@ -1049,7 +1049,7 @@ local function Init(isShow)
     List.DataEnter= CreateFrame('Button', nil, Frame, 'WoWToolsButtonTemplate')--WoWTools_ButtonMixin:Cbtn(Frame, {size=22, atlas='Professions_Specialization_arrowhead'})
     List.DataEnter:SetNormalAtlas('Professions_Specialization_arrowhead')
     List.DataEnter:SetPoint('LEFT', List.DataUscita, 'RIGHT')
-    List.DataEnter.tooltip= WoWTools_DataMixin.onlyChinese and '导入' or HUD_CLASS_TALENTS_IMPORT_LOADOUT_ACCEPT_BUTTON
+    List.DataEnter.tooltip= WoWTools_L.HUD_CLASS_TALENTS_IMPORT_LOADOUT_ACCEPT_BUTTON
     List.DataEnter:SetScript('OnClick', function(self)
         local frame= List.DataFrame
         frame:SetInstructions(self.tooltip)

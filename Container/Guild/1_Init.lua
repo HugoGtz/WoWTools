@@ -77,7 +77,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             WoWToolsPlusSave['Plus_GuildBank']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_GuildBank'], P_Save)
             P_Save=nil
 
-            WoWTools_GuildBankMixin.addName= '|A:VignetteLoot:0:0|a'..(WoWTools_DataMixin.onlyChinese and '公会银行' or GUILD_BANK)
+            WoWTools_GuildBankMixin.addName= '|A:VignetteLoot:0:0|a'..(WoWTools_L.GUILD_BANK)
 
             --添加控制面板
             WoWTools_PanelMixin:OnlyCheck({
@@ -88,7 +88,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                     print(
                         WoWTools_GuildBankMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-                        WoWTools_DataMixin.onlyChinese and '重新加载UI' or RELOADUI
+                        WoWTools_L.RELOADUI
                     )
                 end
             })

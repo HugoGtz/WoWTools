@@ -45,7 +45,7 @@ local function Abandon_Quest(tab)
     print(
         WoWTools_DataMixin.Icon.icon2
         ..'|A:bags-button-autosort-up:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '放弃任务' or ABANDON_QUEST),
+        ..(WoWTools_L.ABANDON_QUEST),
 
         tab.name
     )
@@ -133,7 +133,7 @@ local function QuestList_Tooltip(tooltip, data)
                     GetQuestLink(info.questID) or info.title or info.questID, {questID=info.questID, isName=true}
                 )
                 ..(C_QuestLog.IsComplete(info.questID) and ' |cnGREEN_FONT_COLOR:|A:common-dropdown-icon-checkmark-yellow:0:0|a'..(
-                    WoWTools_DataMixin.onlyChinese and '完成' or COMPLETE
+                    WoWTools_L.COMPLETE
                 ) or '')
                 ,
                 '|cffffffff'..num..')',
@@ -172,7 +172,7 @@ local function Init_Menu(self, root)
 
     root:CreateDivider()
     sub= root:CreateButton(
-        (WoWTools_DataMixin.onlyChinese and '放弃任务' or ABANDON_QUEST)
+        (WoWTools_L.ABANDON_QUEST)
         ..' #'
         ..(select(2, C_QuestLog.GetNumQuestLogEntries()) or 0),
     function()
@@ -297,31 +297,31 @@ end
 local function Init()
 
 AbandoList= {
-{name='|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '全部放弃' or LOOT_HISTORY_ALL_PASSED), type='All'},
+{name='|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.LOOT_HISTORY_ALL_PASSED), type='All'},
 {name='-'},
 
-{name=WoWTools_DataMixin.onlyChinese and '默认' or DEFAULT, type='QuestFrequency', enum='Default'},--0
-{name=WoWTools_DataMixin.onlyChinese and '日常' or DAILY, type='QuestFrequency', enum='Daily'},
-{name=WoWTools_DataMixin.onlyChinese and '每周' or WEEKLY, type='QuestFrequency', enum='Weekly'},
-{name=WoWTools_DataMixin.onlyChinese and '游戏活动' or EVENT_SCHEDULER_FRAME_LABEL, type='QuestFrequency', enum='ResetByScheduler'},--3
+{name=WoWTools_L.DEFAULT, type='QuestFrequency', enum='Default'},--0
+{name=WoWTools_L.DAILY, type='QuestFrequency', enum='Daily'},
+{name=WoWTools_L['WEEKLY~2'], type='QuestFrequency', enum='Weekly'},
+{name=WoWTools_L.EVENT_SCHEDULER_FRAME_LABEL, type='QuestFrequency', enum='ResetByScheduler'},--3
 {name='-'},
 
-{name=WoWTools_DataMixin.onlyChinese and '重要' or QUEST_CLASSIFICATION_IMPORTANT, type='QuestClassification', enum='Important'},--0
-{name=WoWTools_DataMixin.onlyChinese and '传说' or QUEST_CLASSIFICATION_LEGENDARY, type='QuestClassification', enum='Legendary'},
-{name=WoWTools_DataMixin.onlyChinese and '战役' or QUEST_CLASSIFICATION_CAMPAIGN, type='QuestClassification', enum='Campaign'},
-{name=WoWTools_DataMixin.onlyChinese and '使命' or QUEST_CLASSIFICATION_CALLING, type='QuestClassification', enum='Calling'},
-{name=WoWTools_DataMixin.onlyChinese and '综合' or QUEST_CLASSIFICATION_META, type='QuestClassification', enum='Meta'},
-{name=WoWTools_DataMixin.onlyChinese and '可重复' or QUEST_CLASSIFICATION_RECURRING, type='QuestClassification', enum='Recurring'},
-{name=WoWTools_DataMixin.onlyChinese and '故事线' or QUEST_CLASSIFICATION_QUESTLINE, type='QuestClassification', enum='Questline'},
-{name=WoWTools_DataMixin.onlyChinese and '普通' or PLAYER_DIFFICULTY1, type='QuestClassification', enum='Normal'},
-{name=WoWTools_DataMixin.onlyChinese and '奖励目标' or MAP_LEGEND_BONUSOBJECTIVE, type='QuestClassification', enum='BonusObjective'},
-{name=WoWTools_DataMixin.onlyChinese and '威胁' or PING_TYPE_THREAT, type='QuestClassification', enum='Threat'},
-{name=WoWTools_DataMixin.onlyChinese and '世界任务' or WORLD_QUEST_BANNER, type='QuestClassification', enum='WorldQuest'},--10
+{name=WoWTools_L.QUEST_CLASSIFICATION_IMPORTANT, type='QuestClassification', enum='Important'},--0
+{name=WoWTools_L.QUEST_CLASSIFICATION_LEGENDARY, type='QuestClassification', enum='Legendary'},
+{name=WoWTools_L.QUEST_CLASSIFICATION_CAMPAIGN, type='QuestClassification', enum='Campaign'},
+{name=WoWTools_L.QUEST_CLASSIFICATION_CALLING, type='QuestClassification', enum='Calling'},
+{name=WoWTools_L.QUEST_CLASSIFICATION_META, type='QuestClassification', enum='Meta'},
+{name=WoWTools_L.QUEST_CLASSIFICATION_RECURRING, type='QuestClassification', enum='Recurring'},
+{name=WoWTools_L.QUEST_CLASSIFICATION_QUESTLINE, type='QuestClassification', enum='Questline'},
+{name=WoWTools_L.PLAYER_DIFFICULTY1, type='QuestClassification', enum='Normal'},
+{name=WoWTools_L.MAP_LEGEND_BONUSOBJECTIVE, type='QuestClassification', enum='BonusObjective'},
+{name=WoWTools_L.PING_TYPE_THREAT, type='QuestClassification', enum='Threat'},
+{name=WoWTools_L.WORLD_QUEST_BANNER, type='QuestClassification', enum='WorldQuest'},--10
 {name='-'},
 
-{name=WoWTools_DataMixin.onlyChinese and '完成' or COMPLETE, type='Complete'},
-{name=WoWTools_DataMixin.onlyChinese and '未完成' or INCOMPLETE, type='Incomplete'},
-{name=WoWTools_DataMixin.onlyChinese and '低等级' or TRIVIAL_QUEST_LABEL, type='Trivial'}
+{name=WoWTools_L.COMPLETE, type='Complete'},
+{name=WoWTools_L.INCOMPLETE, type='Incomplete'},
+{name=WoWTools_L.TRIVIAL_QUEST_LABEL, type='Trivial'}
 }
 
 
@@ -332,14 +332,14 @@ AbandoList= {
 
 
     StaticPopupDialogs["WoWTools_WORLDMAP_ABANDONQUEST"] =  {
-        text= '\n'..(WoWTools_DataMixin.onlyChinese and "放弃\"%s\"？" or ABANDON_QUEST_CONFIRM)
+        text= '\n'..(WoWTools_L.ABANDON_QUEST_CONFIRM)
             ..'|n|n|cnWARNING_FONT_COLOR:'
             ..(WoWTools_DataMixin.onlyChinese and '危险！' or VOICEMACRO_1_Sc_0)
             ..(WoWTools_DataMixin.onlyChinese and '危险！' or VOICEMACRO_1_Sc_0)
             ..(WoWTools_DataMixin.onlyChinese and '危险！' or VOICEMACRO_1_Sc_0)
             ..'\n',
         button1 = '|cnWARNING_FONT_COLOR:'..(not WoWTools_DataMixin.onlyChinese and ABANDON_QUEST_ABBREV or "放弃"),
-        button2 = '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '取消' or CANCEL),
+        button2 = '|cnGREEN_FONT_COLOR:'..(WoWTools_L.CANCEL),
         OnShow=function()
             PlaySound(SOUNDKIT.IG_QUEST_LOG_ABANDON_QUEST)
         end,

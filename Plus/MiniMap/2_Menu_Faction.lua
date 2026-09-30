@@ -64,7 +64,7 @@ function WoWTools_MinimapMixin:Faction_Menu(_, root)
 --打开选项
     sub=root:CreateButton(
         '|A:VignetteEvent-SuperTracked:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '名望' or LANDING_PAGE_RENOWN_LABEL),
+        ..(WoWTools_L.LANDING_PAGE_RENOWN_LABEL),
     --function()
         --return MajorFactionRenownFrame and MajorFactionRenownFrame:IsShown()
     function()

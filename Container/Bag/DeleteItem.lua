@@ -27,7 +27,7 @@ local function Delete_Item()
 
     print(
         WoWTools_DataMixin.Icon.icon2
-        ..(WoWTools_DataMixin.onlyChinese and '摧毁' or HOUSING_DECOR_STORAGE_ITEM_DESTROY)
+        ..(WoWTools_L.HOUSING_DECOR_STORAGE_ITEM_DESTROY)
         ..'|A:common-icon-delete:0:0|a',
         itemLink
     )
@@ -170,14 +170,14 @@ local function Init_Menu(self, root)
 --摧毁全部
     sub= root:CreateButton(
         --(WoWTools_DataMixin.onlyChinese and '摧毁全部' or HOUSING_DECOR_STORAGE_ITEM_DESTROY_ALL)
-        (WoWTools_DataMixin.onlyChinese and '摧毁' or HOUSING_DECOR_STORAGE_ITEM_DESTROY)
+        (WoWTools_L.HOUSING_DECOR_STORAGE_ITEM_DESTROY)
         ..WoWTools_DataMixin:MK(select(2, Get_BagAllItem()), 3),
     function()
         Delete_AllItem()
         return MenuResponse.Refresh
     end, {rightText=
         Save().auto and '|cnGREEN_FONT_COLOR:' or '|cnDISABLED_FONT_COLOR:'
-        ..(WoWTools_DataMixin.onlyChinese and '自动' or SELF_CAST_AUTO)
+        ..(WoWTools_L.SELF_CAST_AUTO)
         ..'|r'..CountTable(Save().item)
     })
     WoWTools_MenuMixin:SetRightText(sub)
@@ -197,7 +197,7 @@ local function Init_Menu(self, root)
     end)
 
     sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT,
+        WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT,
     function()
         return Save().inCombat
     end, function()
@@ -208,7 +208,7 @@ local function Init_Menu(self, root)
 
 --勾选所有
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '勾选所有' or EVENTTRACE_BUTTON_ENABLE_FILTERS,
+        WoWTools_L.EVENTTRACE_BUTTON_ENABLE_FILTERS,
     function()
         for _, itemID in pairs(new) do
             Save().item[itemID]=true
@@ -219,7 +219,7 @@ local function Init_Menu(self, root)
 
 --撤选所有
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '撤选所有' or EVENTTRACE_BUTTON_DISABLE_FILTERS,
+        WoWTools_L.EVENTTRACE_BUTTON_DISABLE_FILTERS,
      function()
         Save().item={}
         self:set_count()
@@ -264,14 +264,14 @@ local function Init_Menu(self, root)
             Delete_AllItem(data.quality)
         end, {rightText=WoWTools_DataMixin:MK(num, 3), quality=quality})
         sub:SetTooltip(function (tooltip)
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '摧毁' or HOUSING_DECOR_STORAGE_ITEM_DESTROY)
+            tooltip:AddLine(WoWTools_L.HOUSING_DECOR_STORAGE_ITEM_DESTROY)
         end)
         WoWTools_MenuMixin:SetRightText(sub)
 
 
         --勾选所有
         sub:CreateButton(
-            WoWTools_DataMixin.onlyChinese and '勾选所有' or EVENTTRACE_BUTTON_ENABLE_FILTERS,
+            WoWTools_L.EVENTTRACE_BUTTON_ENABLE_FILTERS,
         function(data)
             for _, info in pairs(data) do
                 Save().item[info.itemID]= true
@@ -282,7 +282,7 @@ local function Init_Menu(self, root)
 
     --撤选所有
         sub:CreateButton(
-            WoWTools_DataMixin.onlyChinese and '撤选所有' or EVENTTRACE_BUTTON_DISABLE_FILTERS,
+            WoWTools_L.EVENTTRACE_BUTTON_DISABLE_FILTERS,
         function(data)
              for _, info in pairs(data) do
                 Save().item[info.itemID]= nil
@@ -356,19 +356,19 @@ local function Create_Button(frame)
         GameTooltip:ClearLines()
 
         if not Save().inCombat and InCombatLockdown() then
-            GameTooltip_AddErrorLine(GameTooltip, WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
+            GameTooltip_AddErrorLine(GameTooltip, WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
         end
 
         GameTooltip:AddDoubleLine(
             format(
                 '%s%s: %s (%s)',
                 WoWTools_DataMixin.Icon.icon2,
-                WoWTools_DataMixin.onlyChinese and '摧毁' or HOUSING_DECOR_STORAGE_ITEM_DESTROY,
+                WoWTools_L.HOUSING_DECOR_STORAGE_ITEM_DESTROY,
                 WoWTools_ItemMixin.QualityText[2],--优秀  
-                WoWTools_DataMixin.onlyChinese and '最高' or VIDEO_OPTIONS_ULTRA_HIGH
+                WoWTools_L.VIDEO_OPTIONS_ULTRA_HIGH
             ),
             (Save().auto and '|cnGREEN_FONT_COLOR:' or '|cff626262')
-            ..(WoWTools_DataMixin.onlyChinese and '自动' or SELF_CAST_AUTO)
+            ..(WoWTools_L.SELF_CAST_AUTO)
         )
 
         local infoType, itemID, itmeLink= GetCursorInfo()
@@ -379,7 +379,7 @@ local function Create_Button(frame)
             GameTooltip:AddDoubleLine(
                 WoWTools_ItemMixin:GetName(itemID, itmeLink),
                 '|A:common-icon-delete:0:0|a'
-                ..(WoWTools_DataMixin.onlyChinese and '摧毁' or HOUSING_DECOR_STORAGE_ITEM_DESTROY),
+                ..(WoWTools_L.HOUSING_DECOR_STORAGE_ITEM_DESTROY),
                 nil, nil, nil, 0,1,0
             )
             icon= C_Item.GetItemIconByID(itemID)
@@ -390,7 +390,7 @@ local function Create_Button(frame)
                 GameTooltip:AddDoubleLine(
                     WoWTools_ItemMixin:GetName(info.itemID),
                     '|A:common-icon-delete:0:0|a'
-                    ..(WoWTools_DataMixin.onlyChinese and '摧毁' or HOUSING_DECOR_STORAGE_ITEM_DESTROY)
+                    ..(WoWTools_L.HOUSING_DECOR_STORAGE_ITEM_DESTROY)
                 )
                 icon= info.iconFileID
                 C_Container.SetItemSearch(C_Item.GetItemNameByID(info.itemID) or '')

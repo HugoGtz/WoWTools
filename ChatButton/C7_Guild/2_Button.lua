@@ -54,7 +54,7 @@ local function Set_Text(self)
             bottomText= WoWTools_GuildMixin:GetClubFindDay(nil)--Club,列出查找，过期时间
         end
     end
-    self.bottomText:SetText(bottomText or (WoWTools_DataMixin.onlyChinese and '会' or 'g'))
+    self.bottomText:SetText(bottomText or (WoWTools_L['g']))
 end
 
 
@@ -123,8 +123,8 @@ local function Init()
                             print(
                                 WoWTools_GuildMixin.addName..WoWTools_DataMixin.Icon.icon2,
                                 '|cffff00ff'
-                                ..(WoWTools_DataMixin.onlyChinese and '新' or NEW)..'|r|A:communities-icon-invitemail:0:0|a|cnGREEN_FONT_COLOR:'
-                                ..(WoWTools_DataMixin.onlyChinese and '申请人' or CLUB_FINDER_APPLICANTS)
+                                ..(WoWTools_L['NEW~2'])..'|r|A:communities-icon-invitemail:0:0|a|cnGREEN_FONT_COLOR:'
+                                ..(WoWTools_L.CLUB_FINDER_APPLICANTS)
                             )
                         end
                     end
@@ -144,7 +144,7 @@ local function Init()
     function btn:set_tooltip()
         self:set_owner()
         if not IsInGuild() then
-            GameTooltip:AddLine('|cff626262'..(WoWTools_DataMixin.onlyChinese and '无公会' or ITEM_REQ_PURCHASE_GUILD)..WoWTools_DataMixin.Icon.left)
+            GameTooltip:AddLine('|cff626262'..(WoWTools_L.ITEM_REQ_PURCHASE_GUILD)..WoWTools_DataMixin.Icon.left)
         else
             WoWTools_GuildMixin:Load_Club(nil)--加载，Club,数据
         end

@@ -227,7 +227,7 @@ local MacroList={
     },
     {text='@mouseover', macro='[@mouseover]'},
     {text='@cursor', macro='[@cursor]'},
-    {text='[nostance:1]', macro= '[nostance:1]', tips=WoWTools_DataMixin.onlyChinese and '姿态条' or HUD_EDIT_MODE_STANCE_BAR_LABEL},
+    {text='[nostance:1]', macro= '[nostance:1]', tips=WoWTools_L.HUD_EDIT_MODE_STANCE_BAR_LABEL},
 }
 
 
@@ -486,7 +486,7 @@ local function Sub_Menu(root, tab)
     local body= tab.body
 
     sub=root:CreateButton(
-         '|T'..(tab.icon or 134400)..':0|t'..(WoWTools_DataMixin.onlyChinese and '新建' or NEW),
+         '|T'..(tab.icon or 134400)..':0|t'..(WoWTools_L.NEW),
     function(data)
         WoWTools_MacroMixin:CreateMacroNew(' ', nil, data.body)--新建，宏
         return MenuResponse.Open
@@ -499,7 +499,7 @@ local function Sub_Menu(root, tab)
     if tab.icon then
         sub=root:CreateButton(
             '|T'..(tab.icon or 0)..':0|t'
-            ..(WoWTools_DataMixin.onlyChinese and '设置图标' or WoWTools_Join(SETTINGS, EMBLEM_SYMBOL)),
+            ..(WoWTools_L['SETTINGS+EMBLEM_SYMBOL']),
         function(data)
             if not InCombatLockdown() then
                 WoWTools_MacroMixin:SetMacroTexture(data.icon)
@@ -514,7 +514,7 @@ local function Sub_Menu(root, tab)
         sub=root:CreateButton(--bug
             '|A:common-search-magnifyingglass:0:0|a'
             ..(C_SpellBook.IsSpellKnown(tab.spellID) and '|cnWARNING_FONT_COLOR:' or '|cff626262')
-            ..(WoWTools_DataMixin.onlyChinese and '查询' or WHO),
+            ..(WoWTools_L.WHO),
         function(spellID)
             WoWTools_LoadUIMixin:SpellBook(3, spellID)
             return MenuResponse.Open
@@ -528,7 +528,7 @@ local function Sub_Menu(root, tab)
 --链接至聊天栏
     if tab.spellID or tab.itemLink then
         sub=root:CreateButton(
-            (WoWTools_DataMixin.onlyChinese and '链接至聊天栏' or COMMUNITIES_INVITE_MANAGER_LINK_TO_CHAT),
+            (WoWTools_L.COMMUNITIES_INVITE_MANAGER_LINK_TO_CHAT),
         function(data)
             local link= data.itemLink or WoWTools_SpellMixin:GetLink(data.spellID, false)
             WoWTools_ChatMixin:Chat(link, nil, true)
@@ -669,7 +669,7 @@ local function Init_SpellBook_Menu(self, root)
 --FS
     if WoWTools_DataMixin.Player.Class=='MAGE' then
         local sub=root:CreateButton(
-            WoWTools_DataMixin.onlyChinese and '解散水元素' or WoWTools_L['Dismiss pet'],
+            WoWTools_L['Dismiss pet'],
         function()
             if InCombatLockdown() then
                 return
@@ -987,7 +987,7 @@ local function Init()
     pvpButton:SetNormalAtlas('')
     pvpButton:SetPoint('LEFT', last, 'RIGHT')
     pvpButton:SetupMenu(Init_PvP_Menu)
-    pvpButton.name= WoWTools_DataMixin.onlyChinese and 'PvP天赋' or PVP_LABEL_PVP_TALENTS
+    pvpButton.name= WoWTools_L.PVP_LABEL_PVP_TALENTS
     Set_Button_OnEnter(pvpButton)
     last=pvpButton
 
@@ -999,7 +999,7 @@ local function Init()
     })
     equipButton:SetPoint('LEFT', last, 'RIGHT')
     equipButton:SetupMenu(Init_Equip_Menu)
-    equipButton.name= WoWTools_DataMixin.onlyChinese and '装备' or EQUIPSET_EQUIP
+    equipButton.name= WoWTools_L.EQUIPSET_EQUIP
     Set_Button_OnEnter(equipButton)
     last=equipButton
 
@@ -1012,7 +1012,7 @@ local function Init()
     spellchButton:SetPoint('LEFT', last, 'RIGHT')
     spellchButton.listTab= TextEmoteSpeechList
     spellchButton:SetupMenu(Init_Chat_Menu)
-    spellchButton.name= WoWTools_DataMixin.onlyChinese and '谈话' or VOICEMACRO_LABEL
+    spellchButton.name= WoWTools_L.VOICEMACRO_LABEL
     Set_Button_OnEnter(spellchButton)
     last=spellchButton
 
@@ -1025,7 +1025,7 @@ local function Init()
     emoteButton:SetPoint('LEFT', last, 'RIGHT')
     emoteButton.listTab= EmoteList
     emoteButton:SetupMenu(Init_Chat_Menu)
-    emoteButton.name= WoWTools_DataMixin.onlyChinese and '表情' or EMOTE
+    emoteButton.name= WoWTools_L.EMOTE
     Set_Button_OnEnter(emoteButton)
     last= emoteButton
 

@@ -185,7 +185,7 @@ local function Init()
     end
     WoWTools_TextureMixin:SetCheckBox(maxCheck)
     maxCheck:SetPoint('TOPLEFT', DelvesDifficultyPickerFrame.Dropdown, "BOTTOMLEFT", 0, -42)
-    maxCheck.name=WoWTools_DataMixin.onlyChinese and '最高' or BEST
+    maxCheck.name=WoWTools_L.BEST
     maxCheck.Text:SetText(maxCheck.name)
     maxCheck:SetScript('OnLeave', GameTooltip_Hide)
     maxCheck:SetScript('OnEnter', function(self)
@@ -221,7 +221,7 @@ local function Init()
     completeCheck= CreateFrame('CheckButton', 'WoWToolsDelveDifficultyCompleteCheck', DelvesDifficultyPickerFrame.CloseButton, 'UICheckButtonTemplate')
     WoWTools_TextureMixin:SetCheckBox(completeCheck)
     completeCheck:SetPoint('TOPLEFT', maxCheck, 'BOTTOMLEFT')
-    completeCheck.name=WoWTools_DataMixin.onlyChinese and '已完成' or ACCOUNT_COMPLETED_QUEST_NOTICE_LABEL
+    completeCheck.name=WoWTools_L.ACCOUNT_COMPLETED_QUEST_NOTICE_LABEL
     completeCheck.Text:SetText(completeCheck.name)
     completeCheck:SetScript('OnLeave', GameTooltip_Hide)
     completeCheck:SetScript('OnEnter', function(self)
@@ -304,7 +304,7 @@ local function Init()
 
             print( WoWTools_GossipMixin.addName
                 ..'|A:NPE_Icon:0:0|aAlt'
-                ..GREEN_FONT_COLOR:WrapTextInColorCode(WoWTools_DataMixin.onlyChinese and '取消' or CANCEL),
+                ..GREEN_FONT_COLOR:WrapTextInColorCode(WoWTools_L.CANCEL),
 
                 option.spellID and WoWTools_HyperLink:CN_Link(
                     C_Spell.GetSpellLink(option.spellID),

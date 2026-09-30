@@ -37,7 +37,7 @@ local function Init()
 --清理战团银行
     BankPanel.AutoSortButton:HookScript('OnEnter', function()
         GameTooltip:AddLine(
-            (WoWTools_DataMixin.onlyChinese and '确认' or OKAY)..': '
+            (WoWTools_L['OKAY~2'])..': '
             ..WoWTools_TextMixin:GetEnabeleDisable(GetCVarBool("bankConfirmTabCleanUp"))
             ..WoWTools_DataMixin.Icon.right
         )
@@ -51,7 +51,7 @@ local function Init()
         MenuUtil.CreateContextMenu(self, function(_, root)
             local sub=root:CreateCheckbox(
                 '|A:bags-button-autosort-up:0:0|a'
-                ..(WoWTools_DataMixin.onlyChinese and '确认' or OKAY)
+                ..(WoWTools_L['OKAY~2'])
                 ..WoWTools_DataMixin.Icon.icon2,
             function()
                 return C_CVar.GetCVarBool("bankConfirmTabCleanUp") and true or false
@@ -65,12 +65,12 @@ local function Init()
                 tooltip:AddLine(' ')
                 tooltip:AddLine(
                     '|cffff8000'
-                    ..(WoWTools_DataMixin.onlyChinese and '你确定要自动整理你的物品吗？|n该操作会影响所有的标签。' or BANK_CONFIRM_CLEANUP_PROMPT)
+                    ..(WoWTools_L.BANK_CONFIRM_CLEANUP_PROMPT)
                 )
                 tooltip:AddLine(' ')
                 tooltip:AddLine(
                     '|cff00ccff'
-                    ..(WoWTools_DataMixin.onlyChinese and '你确定要自动整理你的物品吗？|n该操作会影响所有的战团标签。' or ACCOUNT_BANK_CONFIRM_CLEANUP_PROMPT))
+                    ..(WoWTools_L.ACCOUNT_BANK_CONFIRM_CLEANUP_PROMPT))
             end)
             sub:SetEnabled(not InCombatLockdown())
         end)
@@ -83,7 +83,7 @@ local function Init()
         local ID= btn:GetTabID()
         if ID==BankFrame.accountBankTabID then
             btn.Text:SetTextColor(0, 0.8, 1)
-            btn.Text:SetText(WoWTools_DataMixin.onlyChinese and '战团' or ACCOUNT_QUEST_LABEL)
+            btn.Text:SetText(WoWTools_L.ACCOUNT_QUEST_LABEL)
 
             BankPanel.MoneyFrame.Text2= WoWTools_LabelMixin:Create(btn, {color={r=0,g=0.8,b=1}})
             BankPanel.MoneyFrame.Text2:SetPoint('TOP', btn.Text, 'BOTTOM')
@@ -99,7 +99,7 @@ local function Init()
 
         elseif ID==BankFrame.characterBankTabID then
             btn.Text:SetTextColor(1,0.5,0)
-            btn.Text:SetText(WoWTools_DataMixin.onlyChinese and '银行' or BANK)
+            btn.Text:SetText(WoWTools_L.BANK)
         end
     end
 
@@ -109,10 +109,10 @@ local function Init()
         local name, freeAll, numAll
         if self:GetActiveBankType() == Enum.BankType.Account then
             BankFrameTitleText:SetTextColor(0, 0.8, 1)
-            name= WoWTools_DataMixin.onlyChinese and '战团银行' or ACCOUNT_BANK_PANEL_TITLE
+            name= WoWTools_L.ACCOUNT_BANK_PANEL_TITLE
         else
             BankFrameTitleText:SetTextColor(1,0.5,0)
-            name= WoWTools_DataMixin.onlyChinese and '银行' or BANK
+            name= WoWTools_L.BANK
         end
         for _, tabData in ipairs(self.purchasedBankTabData or {}) do
             if tabData.ID then
@@ -225,15 +225,15 @@ local function AddBankTabSettingsToTooltip(self, tabData)
     end
     if text then
         GameTooltip_AddNormalLine(GameTooltip,
-            format(WoWTools_DataMixin.onlyChinese and '指定到：|cnHIGHLIGHT_FONT_COLOR:%s|r' or BANK_TAB_DEPOSIT_ASSIGNMENTS, text)
+            format(WoWTools_L.BANK_TAB_DEPOSIT_ASSIGNMENTS, text)
         )
     end
     if FlagsUtil.IsSet(depositFlags, Enum.BagSlotFlags.DisableAutoSort) then
         GameTooltip_AddNormalLine(GameTooltip,
-            (WoWTools_DataMixin.onlyChinese and '清理：' or BANK_TAB_CLEANUP_SETTINGS_HEADER)
+            (WoWTools_L.BANK_TAB_CLEANUP_SETTINGS_HEADER)
             ..'|A:'..C_BAG_FILTER_LABELS[Enum.BagSlotFlags.DisableAutoSort]..':0:0|a'
             ..'|cnHIGHLIGHT_FONT_COLOR:'
-            ..(WoWTools_DataMixin.onlyChinese and '忽略此标签' or BANK_TAB_IGNORE_IN_CLEANUP_CHECKBOX)
+            ..(WoWTools_L.BANK_TAB_IGNORE_IN_CLEANUP_CHECKBOX)
         )
     end
     --GameTooltip:AddLine(' ')
@@ -241,7 +241,7 @@ local function AddBankTabSettingsToTooltip(self, tabData)
     local num= C_Container.GetContainerNumSlots(tabData.ID) or 0
     if num >0 then
         GameTooltip_AddNormalLine(GameTooltip,
-            (WoWTools_DataMixin.onlyChinese and '空置' or DELVES_CURIO_SLOT_EMPTY)..': '
+            (WoWTools_L.DELVES_CURIO_SLOT_EMPTY)..': '
             ..free..'/'..num..' '..(free==0 and '|cff626262' or '')..math.modf(free/num*100)..'%'
         )
     end

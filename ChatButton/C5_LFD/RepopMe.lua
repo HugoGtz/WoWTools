@@ -64,7 +64,7 @@ local function Init()
                     print(
                         WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         '|cnGREEN_FONT_COLOR:',
-                        WoWTools_DataMixin.onlyChinese and '释放' or BATTLE_PET_RELEASE
+                        WoWTools_L.BATTLE_PET_RELEASE
                     )
 
                 else
@@ -85,13 +85,13 @@ local function Init()
             print(
                 WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 '|cnGREEN_FONT_COLOR:',
-                WoWTools_DataMixin.onlyChinese and '复活' or RESURRECT
+                WoWTools_L.RESURRECT
             )
 
             local time= GetAreaSpiritHealerTime()
             if time>0 then
                 print(
-                    WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '|cffff2020灵魂医者|r' or SPIRIT_HEALER_RELEASE_RED),
+                    WoWTools_DataMixin.Icon.icon2..(WoWTools_L.SPIRIT_HEALER_RELEASE_RED),
                     SecondsToTime(time)
                 )
             end
@@ -104,7 +104,7 @@ local function Init()
                     RetrieveCorpse()--当玩家站在它的尸体附近时复活。
                     print(
                         WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                        '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '复活' or RESURRECT)
+                        '|cnGREEN_FONT_COLOR:'..(WoWTools_L.RESURRECT)
                     )
                 end)
                 self:SetShown(false)
@@ -113,11 +113,11 @@ local function Init()
 
                 print(
                     WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                    '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '复活' or RESURRECT)..'|r', SecondsToTime(time)
+                    '|cnGREEN_FONT_COLOR:'..(WoWTools_L.RESURRECT)..'|r', SecondsToTime(time)
                 )
                 print(
                     WoWTools_DataMixin.Icon.icon2..'|cffff00ffAlt',
-                    WoWTools_DataMixin.onlyChinese and '取消' or  CANCEL
+                    WoWTools_L.CANCEL
                 )
                 self:SetShown(true)
 
@@ -135,7 +135,7 @@ local function Init()
             print(
                 WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 '|cnGREEN_FONT_COLOR:',
-                WoWTools_DataMixin.onlyChinese and '取消复活' or WoWTools_Join(CANCEL, RESURRECT)
+                WoWTools_L['CANCEL+RESURRECT']
             )
             self:Hide()
 

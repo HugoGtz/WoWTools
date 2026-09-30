@@ -25,20 +25,20 @@ local function Init_Menu(self, root)
 
     local sub
     root:CreateButton(
-        '|A:characterundelete-RestoreButton:0:0|a'..(WoWTools_DataMixin.onlyChinese and '重置数值' or WoWTools_Join(RESET, STATUS_TEXT_VALUE)),
+        '|A:characterundelete-RestoreButton:0:0|a'..(WoWTools_L['RESET+STATUS_TEXT_VALUE']),
     function()
         WoWTools_AttributesMixin:Frame_Init(true)--初始， 或设置
         print(
             WoWTools_AttributesMixin.addName..WoWTools_DataMixin.Icon.icon2,
             '|cnGREEN_FONT_COLOR:',
-            WoWTools_DataMixin.onlyChinese and '重置数值' or WoWTools_Join(RESET, STATUS_TEXT_VALUE)
+            WoWTools_L['RESET+STATUS_TEXT_VALUE']
         )
         return MenuResponse.Open
     end)
 
     root:CreateDivider()
     root:CreateCheckbox(
-        WoWTools_DataMixin.Icon.mid..(WoWTools_DataMixin.onlyChinese and '显示' or SHOW),
+        WoWTools_DataMixin.Icon.mid..(WoWTools_L.SHOW),
     function()
         return self.frame:IsShown()
     end, function()
@@ -47,7 +47,7 @@ local function Init_Menu(self, root)
     end)
 
     sub=root:CreateButton(
-        '|A:communities-icon-chat:0:0|a'..(WoWTools_DataMixin.onlyChinese and '发送信息' or SEND_MESSAGE),
+        '|A:communities-icon-chat:0:0|a'..(WoWTools_L.SEND_MESSAGE),
     function()
         self:send_Att_Chat()--发送信息
         return MenuResponse.Open
@@ -66,7 +66,7 @@ local function Init_Menu(self, root)
 --[[目标移动速度
     if _G['WoWToolsAttributesTargetMoveButton'] then
         sub= root:CreateButton(
-            '|A:common-icon-rotateright:0:0|a'..(WoWTools_DataMixin.onlyChinese and '目标移动' or WoWTools_Join(TARGET, NPE_MOVE)),
+            '|A:common-icon-rotateright:0:0|a'..(WoWTools_L['TARGET+NPE_MOVE']),
         function()
             return MenuResponse.Open
         end)

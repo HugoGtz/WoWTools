@@ -13,7 +13,7 @@ local function Init_Category()
     })
 
     WoWTools_PanelMixin:OnlyCheck({
-        name= WoWTools_DataMixin.onlyChinese and '启用' or ENABLE,
+        name= WoWTools_L.ENABLE,
         tooltip= WoWTools_UnitMixin.addName,
         GetValue= function() return not Save().disabled end,
         func= function()
@@ -21,7 +21,7 @@ local function Init_Category()
             print(
                 WoWTools_DataMixin.Icon.icon2..WoWTools_UnitMixin.addName,
                 WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-                WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+                WoWTools_L.REQUIRES_RELOAD
             )
             if not Save().disabled then
                 WoWTools_UnitMixin:Init_Options()
@@ -62,7 +62,7 @@ local function Init()
 
 --玩家框体
     WoWTools_PanelMixin:OnlyCheck({
-        name= WoWTools_DataMixin.onlyChinese and '玩家框体' or HUD_EDIT_MODE_PLAYER_FRAME_LABEL,
+        name= WoWTools_L.HUD_EDIT_MODE_PLAYER_FRAME_LABEL,
         GetValue= function() return not Save().hidePlayerFrame end,
         func= function()
             Save().hidePlayerFrame= not Save().hidePlayerFrame and true or nil
@@ -70,7 +70,7 @@ local function Init()
                 print(
                     WoWTools_DataMixin.Icon.icon2,
                     WoWTools_TextMixin:GetEnabeleDisable(false),
-                    WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+                    WoWTools_L.REQUIRES_RELOAD
                 )
             else
                 WoWTools_UnitMixin:Init_PlayerFrame()--玩家
@@ -83,7 +83,7 @@ local function Init()
 
 --目标框体
     WoWTools_PanelMixin:OnlyCheck({
-        name= WoWTools_DataMixin.onlyChinese and '目标框体' or HUD_EDIT_MODE_TARGET_FRAME_LABEL,
+        name= WoWTools_L.HUD_EDIT_MODE_TARGET_FRAME_LABEL,
         GetValue= function() return not Save().hideTargetFrame end,
         func= function()
             Save().hideTargetFrame= not Save().hideTargetFrame and true or nil
@@ -91,7 +91,7 @@ local function Init()
                 print(
                     WoWTools_DataMixin.Icon.icon2,
                     WoWTools_TextMixin:GetEnabeleDisable(false),
-                    WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+                    WoWTools_L.REQUIRES_RELOAD
                 )
             else
                 WoWTools_UnitMixin:Init_TargetFrame()--目标
@@ -106,7 +106,7 @@ local function Init()
 
 --小队框体
     WoWTools_PanelMixin:OnlyCheck({
-        name= WoWTools_DataMixin.onlyChinese and '小队框体' or HUD_EDIT_MODE_PARTY_FRAMES_LABEL,
+        name= WoWTools_L.HUD_EDIT_MODE_PARTY_FRAMES_LABEL,
         GetValue= function() return not Save().hidePartyFrame end,
         func= function()
             Save().hidePartyFrame= not Save().hidePartyFrame and true or nil
@@ -114,7 +114,7 @@ local function Init()
                 print(
                     WoWTools_DataMixin.Icon.icon2,
                     WoWTools_TextMixin:GetEnabeleDisable(false),
-                    WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+                    WoWTools_L.REQUIRES_RELOAD
                 )
             else
                 WoWTools_UnitMixin:Init_PartyFrame()--小队
@@ -130,7 +130,7 @@ local function Init()
 
 --[[团队框体
     WoWTools_PanelMixin:OnlyCheck({
-        name= WoWTools_DataMixin.onlyChinese and '团队框体' or HUD_EDIT_MODE_RAID_FRAMES_LABEL,
+        name= WoWTools_L.HUD_EDIT_MODE_RAID_FRAMES_LABEL,
         GetValue= function() return not Save().hideRaidFrame end,
         func= function()
             Save().hideRaidFrame= not Save().hideRaidFrame and true or nil
@@ -138,7 +138,7 @@ local function Init()
                 print(
                     WoWTools_DataMixin.Icon.icon2,
                     WoWTools_TextMixin:GetEnabeleDisable(false),
-                    WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+                    WoWTools_L.REQUIRES_RELOAD
                 )
             else
                 WoWTools_UnitMixin:Init_RaidFrame()--团队
@@ -153,7 +153,7 @@ local function Init()
 
 --首领框体
     WoWTools_PanelMixin:OnlyCheck({
-        name= (WoWTools_DataMixin.onlyChinese and '首领框体' or HUD_EDIT_MODE_BOSS_FRAMES_LABEL),
+        name= (WoWTools_L.HUD_EDIT_MODE_BOSS_FRAMES_LABEL),
         GetValue= function() return not Save().hideBossFrame end,
         SetValue= function()
             Save().hideBossFrame= not Save().hideBossFrame and true or nil
@@ -161,7 +161,7 @@ local function Init()
                 print(
                     WoWTools_DataMixin.Icon.icon2,
                     WoWTools_TextMixin:GetEnabeleDisable(false),
-                    WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+                    WoWTools_L.REQUIRES_RELOAD
                 )
             else
                 WoWTools_UnitMixin:Init_BossFrame()
@@ -175,7 +175,7 @@ local function Init()
 
 --职业图标
     WoWTools_PanelMixin:OnlyCheck({
-        name= WoWTools_DataMixin.onlyChinese and '职业图标' or WoWTools_Join(CLASS, EMBLEM_SYMBOL),
+        name= WoWTools_L['CLASS+EMBLEM_SYMBOL'],
         tooltip=WoWTools_DataMixin.onlyChinese and '颜色, 图标' or (COLOR..', '..EMBLEM_SYMBOL) ,
         GetValue= function() return not Save().hideClassColor end,
         func= function()
@@ -184,7 +184,7 @@ local function Init()
                 print(
                     WoWTools_DataMixin.Icon.icon2,
                     WoWTools_TextMixin:GetEnabeleDisable(false),
-                    WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+                    WoWTools_L.REQUIRES_RELOAD
                 )
             else
                 WoWTools_UnitMixin:Init_ClassTexture()

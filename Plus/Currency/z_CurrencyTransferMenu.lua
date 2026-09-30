@@ -15,7 +15,7 @@ local function Init()
 	local reload= CreateFrame('Button', nil, CurrencyTransferMenuCloseButton, 'WoWToolsButtonTemplate')
     reload:SetNormalAtlas('common-icon-exit')
     reload:SetPoint('RIGHT', CurrencyTransferMenuCloseButton, 'LEFT', -2, 0)
-    reload.tooltip=WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '重新加载UI' or RELOADUI)
+    reload.tooltip=WoWTools_DataMixin.Icon.icon2..(WoWTools_L.RELOADUI)
     reload:SetScript('OnClick', function() WoWTools_DataMixin:Reload() end)
     WoWTools_TextureMixin:SetButton(reload, 0.5)
 
@@ -66,7 +66,7 @@ local function Init()
 	WoWTools_DataMixin:Hook(content.SourceSelector, 'RefreshPlayerName', function(self)--收取人，我 提示
 		local name= WoWTools_UnitMixin:GetPlayerInfo(nil, WoWTools_DataMixin.Player.GUID, nil, {reName=true})
 		if name~='' then
-			self.PlayerName:SetFormattedText(WoWTools_DataMixin.onlyChinese and '收取人 %s' or CURRENCY_TRANSFER_DESTINATION, name)
+			self.PlayerName:SetFormattedText(WoWTools_L.CURRENCY_TRANSFER_DESTINATION, name)
 		end
 	end)
 
@@ -74,14 +74,14 @@ local function Init()
 		local data= self:GetParent().sourceCharacterData or {}
 		local name= WoWTools_UnitMixin:GetPlayerInfo(nil, data.characterGUID, nil, {reName=true, reRealm=true})
 		if name~='' then
-			self.Label:SetFormattedText(WoWTools_DataMixin.onlyChinese and '%s |cnWARNING_FONT_COLOR:的新余额|r' or CURRENCY_TRANSFER_NEW_BALANCE_PREVIEW, name)
+			self.Label:SetFormattedText(WoWTools_L.CURRENCY_TRANSFER_NEW_BALANCE_PREVIEW, name)
 		end
     end)
 
     WoWTools_DataMixin:Hook(content.PlayerBalancePreview, 'SetCharacterName', function(self)
 		local name= WoWTools_UnitMixin:GetPlayerInfo(nil, WoWTools_DataMixin.Player.GUID, nil, {reName=true, reRealm=true})
 		if name~='' then
-			self.Label:SetFormattedText(WoWTools_DataMixin.onlyChinese and '%s |cnGREEN_FONT_COLOR:的新余额|r' or CURRENCY_TRANSFER_NEW_BALANCE_PREVIEW, name)
+			self.Label:SetFormattedText(WoWTools_L['CURRENCY_TRANSFER_NEW_BALANCE_PREVIEW~2'], name)
 		end
     end)
 

@@ -93,7 +93,7 @@ local function Init_MoveUI()
     StableFrame.PetModelScene.PetInfo.FavoriteButton:HookScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '收藏' or FAVORITES)
+        GameTooltip:AddLine(WoWTools_L.FAVORITES)
         GameTooltip:Show()
     end)
 

@@ -75,14 +75,14 @@ function WoWTools_MacroMixin:SetTooltips(frame, index)
                 GameTooltip:AddLine(WoWTools_SpellMixin:GetName(spellID))--取得法术，名称
                 GameTooltip:AddLine(' ')
             end
-            GameTooltip:AddDoubleLine(WoWTools_MacroMixin:GetName(name, icon), (WoWTools_DataMixin.onlyChinese and '栏位' or TRADESKILL_FILTER_SLOTS)..' '..index)
+            GameTooltip:AddDoubleLine(WoWTools_MacroMixin:GetName(name, icon), (WoWTools_L.TRADESKILL_FILTER_SLOTS)..' '..index)
             GameTooltip:AddLine(body, nil,nil,nil, true)
             GameTooltip:AddLine(' ')
             if frame~=MacroFrameSelectedMacroButton then
                 local col= InCombatLockdown() and '|cff828282' or '|cffffffff'
                 GameTooltip:AddDoubleLine(
-                    col..(WoWTools_DataMixin.onlyChinese and '删除' or DELETE),
-                    col..'Alt+'..(WoWTools_DataMixin.onlyChinese and '双击' or BUFFER_DOUBLE)..WoWTools_DataMixin.Icon.left
+                    col..(WoWTools_L.DELETE),
+                    col..'Alt+'..(WoWTools_L.BUFFER_DOUBLE)..WoWTools_DataMixin.Icon.left
                 )
             end
 

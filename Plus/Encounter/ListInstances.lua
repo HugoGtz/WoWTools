@@ -15,7 +15,7 @@ end
 
 --收藏,菜单
 local function Init_Fvorite_Menu(self, root)
-    local sub=root:CreateCheckbox(WoWTools_DataMixin.onlyChinese and '收藏' or FAVORITES, function()
+    local sub=root:CreateCheckbox(WoWTools_L.FAVORITES, function()
         return self:get_save()
     end, function()
         self:setup()
@@ -27,10 +27,10 @@ local function Init_Fvorite_Menu(self, root)
 
     root:CreateDivider()
     root:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL,
+        WoWTools_L.CLEAR_ALL,
     function()
         StaticPopup_Show('WoWTools_OK',
-        WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL,
+        WoWTools_L.CLEAR_ALL,
         nil,
         {SetValue=function()
             Save().favorites={}
@@ -209,8 +209,8 @@ local function Init_Button(btn)
     btn.Favorites2:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip_SetTitle(GameTooltip, WoWTools_EncounterMixin.addName..WoWTools_DataMixin.Icon.icon2)
-        GameTooltip:AddDoubleLine('|A:PetJournal-FavoritesIcon:0:0|a'..(WoWTools_DataMixin.onlyChinese and '收藏' or FAVORITES), WoWTools_DataMixin.Icon.left)
-        GameTooltip:AddDoubleLine('|A:dressingroom-button-appearancelist-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL), WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine('|A:PetJournal-FavoritesIcon:0:0|a'..(WoWTools_L.FAVORITES), WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine('|A:dressingroom-button-appearancelist-up:0:0|a'..(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL), WoWTools_DataMixin.Icon.right)
         GameTooltip:Show()
         self:set_alpha()
     end)
@@ -258,7 +258,7 @@ local function Init_Button(btn)
             GameTooltip:SetHyperlink(link)
         else
             GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_EncounterMixin.addName)
-            GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '挑战' or PLAYER_DIFFICULTY5)
+            GameTooltip:AddLine(WoWTools_L.PLAYER_DIFFICULTY5)
         end
         GameTooltip:Show()
         self:SetAlpha(0.3)

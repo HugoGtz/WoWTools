@@ -38,13 +38,13 @@ local function Init()
     btn:SetPoint('LEFT')
 
     function btn:tooltip(tooltip)
-        tooltip:AddDoubleLine('taxiMapID '..(GetTaxiMapID() or ''), (WoWTools_DataMixin.onlyChinese and '数量' or AUCTION_HOUSE_QUANTITY_LABEL)..' '..(NumTaxiNodes() or 0))
+        tooltip:AddDoubleLine('taxiMapID '..(GetTaxiMapID() or ''), (WoWTools_L.AUCTION_HOUSE_QUANTITY_LABEL)..' '..(NumTaxiNodes() or 0))
         tooltip:AddLine(' ')
         tooltip:AddDoubleLine(
             '|A:FlightMaster:0:0|a'
-            ..(WoWTools_DataMixin.onlyChinese and '飞行点' or MAP_LEGEND_FLIGHTPOINT),
+            ..(WoWTools_L.MAP_LEGEND_FLIGHTPOINT),
             WoWTools_Join(WoWTools_TextMixin:GetShowHide(Save().ShowFlightMap_Name),
-                WoWTools_DataMixin.onlyChinese and '名称' or  LFG_LIST_TITLE
+                WoWTools_L.LFG_LIST_TITLE
             )
         )
         tooltip:AddLine(WoWTools_WorldMapMixin.addName..WoWTools_DataMixin.Icon.icon2)
@@ -65,7 +65,7 @@ local function Init()
         end
 
         root:CreateCheckbox(
-            WoWTools_DataMixin.onlyChinese and '显示名称' or PROFESSIONS_FLYOUT_SHOW_NAME,
+            WoWTools_L.PROFESSIONS_FLYOUT_SHOW_NAME,
         function()
             return Save().ShowFlightMap_Name
         end, function()

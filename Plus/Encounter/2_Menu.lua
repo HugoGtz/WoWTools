@@ -14,7 +14,7 @@ local function Init_Menu(self, root)
     local sub, sub2
 
     sub= root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '旅程' or JOURNEYS_LABEL,
+        WoWTools_L.JOURNEYS_LABEL,
     function()
         return not Save().hideJourneys
     end, function()
@@ -34,7 +34,7 @@ local function Init_Menu(self, root)
         WoWTools_EncounterMixin:Init_JourneysList()
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '旅程' or JOURNEYS_LABEL)
+        tooltip:AddLine(WoWTools_L.JOURNEYS_LABEL)
     end)
 
 
@@ -47,7 +47,7 @@ local function Init_Menu(self, root)
         Save().plus= not Save().plus and true or nil
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+        tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 --副本列表
     sub=root:CreateCheckbox(
@@ -59,7 +59,7 @@ local function Init_Menu(self, root)
         WoWTools_EncounterMixin:Init_ListInstances()
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+        tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 
 --副本列表，缩放
@@ -77,7 +77,7 @@ local function Init_Menu(self, root)
 
 --专精拾取
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '专精拾取' or SELECT_LOOT_SPECIALIZATION,
+        WoWTools_L.SELECT_LOOT_SPECIALIZATION,
     function()
         return not Save().hideLootSpec
     end, function()
@@ -87,12 +87,12 @@ local function Init_Menu(self, root)
     end)
     sub:SetTooltip(function(tooltip)
         tooltip:AddLine('ENCOUNTER_START')
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+        tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 
 
     sub2=sub:CreateCheckbox(
-        format(WoWTools_DataMixin.onlyChinese and '仅限%s' or LFG_LIST_CROSS_FACTION,
+        format(WoWTools_L.LFG_LIST_CROSS_FACTION,
             (WoWTools_UnitMixin:GetClassIcon(nil, nil, self.classFile) or '')
             ..WoWTools_ColorMixin:SetStringColor(
                 WoWTools_DataMixin.onlyChinese and WoWTools_DataMixin.ClassName_CN[WoWTools_DataMixin.Player.Class] or UnitClass('player')
@@ -104,7 +104,7 @@ local function Init_Menu(self, root)
         Save().lootOnlyClass= not Save().lootOnlyClass and true or nil
     end)
     sub2:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+        tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 
 --按钮，缩放
@@ -121,7 +121,7 @@ local function Init_Menu(self, root)
 
 --[[信息
     root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '信息' or INFO,
+        WoWTools_L.INFO,
     function()
         return not Save().hideEncounterJournal_All_Info_Text
     end, function()
@@ -142,7 +142,7 @@ local function Init_Menu(self, root)
         Save().EncounterJournalTier= Save().isSaveTier and EJ_GetCurrentTier() or nil
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '保存改动' or EDIT_TICKET)
+        tooltip:AddLine(WoWTools_L.EDIT_TICKET)
         tooltip:AddLine(' ')
         tooltip:AddLine('EJ Tier|cffffffff '..tier)
         tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '仅限：重载时' or format(LFG_LIST_CROSS_FACTION, RELOADUI))
@@ -165,7 +165,7 @@ end
 Menu.ModifyMenu("MENU_EJ_EXPANSION", function(_, root)
     root:CreateDivider()
     local sub=root:CreateCheckbox(
-        (WoWTools_DataMixin.onlyChinese and '保存' or SAVE),
+        (WoWTools_L.SAVE),
     function()
         return Save().isSaveTier
     end, function()
@@ -245,7 +245,7 @@ local function Init()
         end
 
         GameTooltip:AddLine(
-            (WoWTools_DataMixin.onlyChinese and '史诗地下城' or MYTHIC_DUNGEONS)
+            (WoWTools_L.MYTHIC_DUNGEONS)
             ..WoWTools_DataMixin.Icon.left
         )
 
@@ -281,7 +281,7 @@ local function Init()
         if find then
             GameTooltip:AddLine(' ')
         end
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.right)
     end
 
     function com:Get_CompanionID()
@@ -368,7 +368,7 @@ end
 local function set_EncounterJournal_Keystones_Tips(self)--险指南界面, 挑战
     GameTooltip:SetOwner(self, "ANCHOR_LEFT")
     GameTooltip:ClearLines()
-    GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '史诗钥石地下城' or CHALLENGES, WoWTools_DataMixin.Icon.left)
+    GameTooltip:AddDoubleLine(WoWTools_L.CHALLENGES, WoWTools_DataMixin.Icon.left)
     for guid, info in pairs(WoWToolsPlus_WoWDate or {}) do
         if guid and  info.Keystone.link then
             GameTooltip:AddDoubleLine(
@@ -402,10 +402,10 @@ local function Set_Money(self, isTooltip)--险指南界面, 钱
     end
     if isTooltip then
         if allMoney==0 then
-            GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '钱' or MONEY, WoWTools_DataMixin.onlyChinese and '无' or NONE)
+            GameTooltip:AddDoubleLine(WoWTools_L.MONEY, WoWTools_L.NONE)
         else
             GameTooltip:AddLine(' ')
-            GameTooltip:AddDoubleLine((WoWTools_DataMixin.onlyChinese and '角色' or CHARACTER)..' '..numPlayer..' '..(WoWTools_DataMixin.onlyChinese and '总计：' or FROM_TOTAL)..WoWTools_DataMixin:MK(allMoney/10000, 3), C_CurrencyInfo.GetCoinTextureString(allMoney))
+            GameTooltip:AddDoubleLine((WoWTools_L.CHARACTER)..' '..numPlayer..' '..(WoWTools_L.FROM_TOTAL)..WoWTools_DataMixin:MK(allMoney/10000, 3), C_CurrencyInfo.GetCoinTextureString(allMoney))
         end
         GameTooltip:Show()
     end
@@ -436,7 +436,7 @@ end]]
     Button.btn.instance:SetScript('OnEnter',function(self2)
         GameTooltip:SetOwner(self2, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddDoubleLine((WoWTools_DataMixin.onlyChinese and '副本' or INSTANCE)..WoWTools_DataMixin.Icon.left..WoWTools_TextMixin:GetShowHide(Save().showInstanceBoss), WoWTools_DataMixin.onlyChinese and '已击杀' or DUNGEON_ENCOUNTER_DEFEATED)
+        GameTooltip:AddDoubleLine((WoWTools_L.INSTANCE)..WoWTools_DataMixin.Icon.left..WoWTools_TextMixin:GetShowHide(Save().showInstanceBoss), WoWTools_L['DUNGEON_ENCOUNTER_DEFEATED~2'])
         GameTooltip:AddLine(' ')
         for guid, info in pairs(WoWToolsPlus_WoWDate or {}) do
             if guid and info then

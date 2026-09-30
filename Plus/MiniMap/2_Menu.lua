@@ -22,7 +22,7 @@ local function Init_Plus_Menu(self, root)
 
 --追踪 AreaPoiID
     sub= root:CreateCheckbox(
-        '|A:VignetteKillElite:0:0|a'..(WoWTools_DataMixin.onlyChinese and '追踪' or TRACKING)..' AreaPoi',
+        '|A:VignetteKillElite:0:0|a'..(WoWTools_L.TRACKING)..' AreaPoi',
     function()
         return Save().vigentteButton
     end, function()
@@ -43,7 +43,7 @@ local function Init_Plus_Menu(self, root)
 
 --镜头视野范围
     sub=root:CreateCheckbox(
-        '|A:common-icon-zoomin:0:0|a'..(WoWTools_DataMixin.onlyChinese and '镜头视野范围' or CAMERA_FOV),
+        '|A:common-icon-zoomin:0:0|a'..(WoWTools_L.CAMERA_FOV),
     function()
         return Save().ZoomOutInfo
     end, function()
@@ -52,14 +52,14 @@ local function Init_Plus_Menu(self, root)
     end)
     sub:SetTooltip(function(tooltip)
         tooltip:AddDoubleLine(
-            (WoWTools_DataMixin.onlyChinese and '镜头视野范围' or CAMERA_FOV),
-            format(WoWTools_DataMixin.onlyChinese and '%s码' or IN_GAME_NAVIGATION_RANGE, format('%i', C_Minimap.GetViewRadius() or 100))
+            (WoWTools_L.CAMERA_FOV),
+            format(WoWTools_L.IN_GAME_NAVIGATION_RANGE, format('%i', C_Minimap.GetViewRadius() or 100))
         )
     end)
 
 --缩小地图
     sub=root:CreateCheckbox(
-        '|A:UI-HUD-Minimap-Zoom-Out:0:0|a'..(WoWTools_DataMixin.onlyChinese and '缩小地图' or BINDING_NAME_MINIMAPZOOMOUT),
+        '|A:UI-HUD-Minimap-Zoom-Out:0:0|a'..(WoWTools_L.BINDING_NAME_MINIMAPZOOMOUT),
     function()
         return Save().ZoomOut
     end, function()
@@ -67,13 +67,13 @@ local function Init_Plus_Menu(self, root)
         WoWTools_MinimapMixin:Init_Minimap_Zoom()
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '更新地区时' or WoWTools_Join(UPDATE, ZONE))
+        tooltip:AddLine(WoWTools_L['UPDATE+ZONE'])
     end)
     WoWTools_MinimapMixin:Zoom_Menu(self, sub)
 
 --地下城难度
     sub=root:CreateCheckbox(
-        '|A:DungeonSkull:0:0|a'..(WoWTools_DataMixin.onlyChinese and '地下城难度' or DUNGEON_DIFFICULTY),
+        '|A:DungeonSkull:0:0|a'..(WoWTools_L.DUNGEON_DIFFICULTY),
     function()
         return not Save().disabledInstanceDifficulty
     end, function()
@@ -81,7 +81,7 @@ local function Init_Plus_Menu(self, root)
         print(
             WoWTools_MinimapMixin.addName..WoWTools_DataMixin.Icon.icon2,
             WoWTools_TextMixin:GetEnabeleDisable(not Save().disabledInstanceDifficulty),
-            WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+            WoWTools_L.REQUIRES_RELOAD
         )
     end)
     sub:SetTooltip(function(tooltip)
@@ -91,7 +91,7 @@ local function Init_Plus_Menu(self, root)
 --CVar 镇民
     root:CreateDivider()
     sub=root:CreateCheckbox(
-        '|A:UI-HUD-Minimap-Tracking-Mouseover:0:0|a'..(WoWTools_DataMixin.onlyChinese and '镇民' or TOWNSFOLK_TRACKING_TEXT),
+        '|A:UI-HUD-Minimap-Tracking-Mouseover:0:0|a'..(WoWTools_L.TOWNSFOLK_TRACKING_TEXT),
     function()
         return C_CVar.GetCVarBool("minimapTrackingShowAll")
     end, function()
@@ -100,7 +100,7 @@ local function Init_Plus_Menu(self, root)
         end
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '追踪' or TRACKING)
+        tooltip:AddDoubleLine(WoWTools_L.TRACKING)
         tooltip:AddLine(
         [[SetCVar("minimapTrackingShowAll", "1")]])
     end)
@@ -109,7 +109,7 @@ local function Init_Plus_Menu(self, root)
     sub= root:CreateCheckbox(
         WoWTools_DataMixin.Icon.icon2
         ..'|cnWARNING_FONT_COLOR:'
-        ..(WoWTools_DataMixin.onlyChinese and '收集图标' or WoWTools_Join(WEEKLY_REWARDS_GET_CONCESSION, EMBLEM_SYMBOL)),
+        ..(WoWTools_L['WEEKLY_REWARDS_GET_CONCESSION+EMBLEM_SYMBOL']),
     function ()
         return not Save().Icons.disabled
     end, function()
@@ -130,7 +130,7 @@ if Save().Icons.disabled then
             Save().Icons.borderAlpha2=value
             WoWTools_MinimapMixin:Init_SetMinamp_Texture()
         end,
-        name=WoWTools_DataMixin.onlyChinese and '外框透明度' or WoWTools_L['Border opacity'],
+        name=WoWTools_L['Border opacity'],
         minValue=0,
         maxValue=1,
         step=0.05,
@@ -147,7 +147,7 @@ if Save().Icons.disabled then
             Save().Icons.bgAlpha2=value
             WoWTools_MinimapMixin:Init_SetMinamp_Texture()
         end,
-        name=WoWTools_DataMixin.onlyChinese and '背景透明度' or WoWTools_L['Background opacity'],
+        name=WoWTools_L['Background opacity'],
         minValue=0,
         maxValue=1,
         step=0.05,

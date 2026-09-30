@@ -22,7 +22,7 @@ local function Set_PlayerSound()--事件, 声音
         print(
             WoWTools_HyperLink.addName..WoWTools_DataMixin.Icon.icon2,
             '|cnGREEN_FONT_COLOR:CVar Sound_EnableAllSound|r',
-            WoWTools_DataMixin.onlyChinese and '开启声效' or ENABLE_SOUND
+            WoWTools_L.ENABLE_SOUND
         )
     end
     if C_CVar.GetCVar('Sound_MasterVolume')=='0' then
@@ -30,7 +30,7 @@ local function Set_PlayerSound()--事件, 声音
         print(
             WoWTools_HyperLink.addName..WoWTools_DataMixin.Icon.icon2,
             '|cnGREEN_FONT_COLOR:CVar Sound_MasterVolume|r',
-            WoWTools_DataMixin.onlyChinese and '主音量' or MASTER_VOLUME,
+            WoWTools_L.MASTER_VOLUME,
             '1'
         )
     end
@@ -40,7 +40,7 @@ local function Set_PlayerSound()--事件, 声音
         print(
             WoWTools_HyperLink.addName..WoWTools_DataMixin.Icon.icon2,
             '|cnGREEN_FONT_COLOR:CVar Sound_DialogVolume|r',
-            WoWTools_DataMixin.onlyChinese and '对话' or DIALOG_VOLUME,
+            WoWTools_L.DIALOG_VOLUME,
             '1'
         )
     end
@@ -49,7 +49,7 @@ local function Set_PlayerSound()--事件, 声音
         print(
             WoWTools_HyperLink.addName..WoWTools_DataMixin.Icon.icon2,
             '|cnGREEN_FONT_COLOR:CVar Sound_EnableDialog|r',
-            WoWTools_DataMixin.onlyChinese and '启用对话' or ENABLE_DIALOG
+            WoWTools_L['ENABLE_DIALOG~2']
         )
     end
 

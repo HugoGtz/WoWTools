@@ -200,9 +200,9 @@ local function Init_Menu(self, root)
     tab[WoWTools_DataMixin.Player.GUID]= true
 
     root:CreateDivider()
-    sub= WoWTools_ToolsMixin:OpenMenu(root, WoWTools_DataMixin.onlyChinese and '禁用' or DISABLE)
+    sub= WoWTools_ToolsMixin:OpenMenu(root, WoWTools_L.DISABLE)
 
-    sub:CreateTitle(WoWTools_DataMixin.onlyChinese and '禁用' or DISABLE)
+    sub:CreateTitle(WoWTools_L.DISABLE)
 
     for guid in pairs(tab) do
         sub2=sub:CreateCheckbox(
@@ -219,9 +219,9 @@ local function Init_Menu(self, root)
 
     sub2=sub:CreateCheckbox(
         format('%s = %d %s',
-            (WoWTools_DataMixin.onlyChinese and '禁用' or DISABLE),
+            (WoWTools_L.DISABLE),
             GetMaxLevelForLatestExpansion(),
-            WoWTools_DataMixin.onlyChinese and '等级' or LEVEL
+            WoWTools_L.LEVEL
         ),
     function()
         return Save().maxLevelIsDisabled
@@ -236,10 +236,10 @@ local function Init_Menu(self, root)
     end)
 
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL,
+        WoWTools_L.CLEAR_ALL,
     function()
         StaticPopup_Show('WoWTools_OK',
-        WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL,
+        WoWTools_L.CLEAR_ALL,
         nil,
         {SetValue=function()
             Save().no={}
@@ -287,7 +287,7 @@ local function Init()
             GameTooltip:SetSpellByID(self.spellID)
             GameTooltip:AddLine(' ')
         end
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.left)
         GameTooltip:Show()
     end
 
@@ -395,7 +395,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 --旧数据
             Save().autoAddDisabled= nil
 
-            addName= '|A:Taxi_Frame_Yellow:0:0|a'..(WoWTools_DataMixin.onlyChinese and '侦察地图' or ADVENTURE_MAP_TITLE)
+            addName= '|A:Taxi_Frame_Yellow:0:0|a'..(WoWTools_L.ADVENTURE_MAP_TITLE)
 
             WoWTools_ToolsMixin:Set_AddList(function(category, layout)
                  WoWTools_PanelMixin:Check_Button({
@@ -404,7 +404,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                      SetValue= function()
                          Save().disabled = not Save().disabled and true or nil
                      end,
-                     buttonText= WoWTools_DataMixin.onlyChinese and '清除' or SLASH_STOPWATCH_PARAM_STOP2,
+                     buttonText= WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2,
                      buttonFunc= function()
                         StaticPopup_Show('WoWTools_OK',
                         addName,

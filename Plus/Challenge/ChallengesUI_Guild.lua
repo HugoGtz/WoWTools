@@ -40,7 +40,7 @@ local Frame
 
 local function Set_Text()
     local data= C_ChallengeMode.GetGuildLeaders()
-    local text= WoWTools_DataMixin.onlyChinese and '公会挑战' or GUILD_CHALLENGE_LABEL
+    local text= WoWTools_L.GUILD_CHALLENGE_LABEL
 
 
     if not data or not data.mapChallengeModeID then
@@ -68,7 +68,7 @@ local function Set_Text()
     if data.isYou then
         text= text
             ..'|n|n'
-            ..WoWTools_ColorMixin:SetStringColor(WoWTools_DataMixin.onlyChinese and '我' or COMBATLOG_FILTER_STRING_ME)
+            ..WoWTools_ColorMixin:SetStringColor(WoWTools_L.COMBATLOG_FILTER_STRING_ME)
             ..WoWTools_DataMixin.Icon.Player
     elseif data.name then
         local color= WoWTools_UnitMixin:GetColor(nil, nil, data.classFilename)

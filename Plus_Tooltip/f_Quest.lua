@@ -28,12 +28,12 @@ function WoWTools_TooltipMixin:Set_Quest(tooltip, questID, info)
         else
             levelText='|cffffffff'..lv..'|r '
         end
-        levelText= levelText..(WoWTools_DataMixin.onlyChinese and '等级' or LEVEL)
+        levelText= levelText..(WoWTools_L.LEVEL)
     end
 
     tooltip:AddDoubleLine(
         --'questID|cffffffff'
-        (WoWTools_DataMixin.onlyChinese and '任务' or QUESTS_LABEL)
+        (WoWTools_L.QUESTS_LABEL)
         ..'|cffffffff'
         ..WoWTools_DataMixin.Icon.icon2
         ..questID,

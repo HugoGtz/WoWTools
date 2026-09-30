@@ -128,7 +128,7 @@ end
 function WoWTools_MoveMixin.Frames:ContainerFrame1()
     if C_AddOns.IsAddOnLoaded('Blizzmove') then
         print(self.addName..WoWTools_DataMixin.Icon.icon2,
-            format(WoWTools_DataMixin.onlyChinese and '|cffff0000与%s发生冲突！|r' or ALREADY_BOUND, 'Blizzmove'),
+            format(WoWTools_L.ALREADY_BOUND, 'Blizzmove'),
             'ContainerFrame1', WoWTools_TextMixin:GetEnabeleDisable(false)
         )
         return

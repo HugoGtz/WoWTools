@@ -142,7 +142,7 @@ local function Init_Options(category, layout)
     WoWTools_PanelMixin:Header(layout, addName)
     local initializer=WoWTools_PanelMixin:OnlyCheck({
         category= category,
-        name= '|cff3fc6ea'..(WoWTools_DataMixin.onlyChinese and '启用' or ENABLE)..'|r',
+        name= '|cff3fc6ea'..(WoWTools_L.ENABLE)..'|r',
         tooltip= addName,
         GetValue= function() return not Save().disabled end,
         SetValue= function()
@@ -164,7 +164,7 @@ local function Init_Options(category, layout)
 
     WoWTools_PanelMixin:OnlyCheck({
         category= category,
-        name= '|cff3fc6ea'..(WoWTools_DataMixin.onlyChinese and '显示名称' or PROFESSIONS_FLYOUT_SHOW_NAME)..'|r',
+        name= '|cff3fc6ea'..(WoWTools_L.PROFESSIONS_FLYOUT_SHOW_NAME)..'|r',
         tooltip= addName,
         GetValue= function() return Save().showText end,
         SetValue= function()
@@ -336,7 +336,7 @@ local function Init_Button(tab)
         GameTooltip:ClearLines()
         GameTooltip:SetSpellByID(self.spellID)
         if not C_SpellBook.IsSpellInSpellBook(self.spellID) then
-            GameTooltip:AddLine(format('|cnWARNING_FONT_COLOR:%s|r', WoWTools_DataMixin.onlyChinese and '未学习' or TRADE_SKILLS_UNLEARNED_TAB))
+            GameTooltip:AddLine(format('|cnWARNING_FONT_COLOR:%s|r', WoWTools_L.TRADE_SKILLS_UNLEARNED_TAB))
         end
         if self.spellID2 then
             GameTooltip:AddLine(' ')
@@ -345,7 +345,7 @@ local function Init_Button(tab)
                 ..(WoWTools_TextMixin:CN(C_Spell.GetSpellLink(self.spellID2), {spellID=self.spellID2, isName=true}) or ('spellID'..self.spellID2))
                 ..(WoWTools_CooldownMixin:GetText(self.spellID2, nil) or ''),
                 format('%s%s',
-                    C_SpellBook.IsSpellInSpellBook(self.spellID2) and '' or format('|cnWARNING_FONT_COLOR:%s|r',WoWTools_DataMixin.onlyChinese and '未学习' or TRADE_SKILLS_UNLEARNED_TAB),
+                    C_SpellBook.IsSpellInSpellBook(self.spellID2) and '' or format('|cnWARNING_FONT_COLOR:%s|r',WoWTools_L.TRADE_SKILLS_UNLEARNED_TAB),
                     WoWTools_DataMixin.Icon.right)
                 )
         end

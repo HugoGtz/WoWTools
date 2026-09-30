@@ -21,7 +21,7 @@ local function Init_Menu(self, root)
 	local sub, sub2, num
 --追踪
 	sub=root:CreateCheckbox(
-		WoWTools_DataMixin.onlyChinese and '追踪' or TRACKING,
+		WoWTools_L.TRACKING,
 	function()
 		return Save().btn
 	end, function()
@@ -30,14 +30,14 @@ local function Init_Menu(self, root)
 		WoWTools_FactionMixin:Init_TrackButton()
 		print(
 			WoWTools_FactionMixin.addName..WoWTools_DataMixin.Icon.icon2,
-			WoWTools_DataMixin.onlyChinese and '追踪' or TRACKING,
+			WoWTools_L.TRACKING,
 			WoWTools_TextMixin:GetShowHide(Save().btn)
 		)
 	end)
 
 --自动隐藏
 	sub2=sub:CreateCheckbox(
-		WoWTools_DataMixin.onlyChinese and '自动隐藏' or WoWTools_Join(SELF_CAST_AUTO, HIDE),
+		WoWTools_L['SELF_CAST_AUTO+HIDE'],
 	function()
 		return not Save().notAutoHideTrack
 	end, function()
@@ -45,11 +45,11 @@ local function Init_Menu(self, root)
 		WoWTools_FactionMixin:Init_TrackButton()
 	end)
 	sub2:SetTooltip(function(tooltip)
-		tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '隐藏' or HIDE)
+		tooltip:AddLine(WoWTools_L.HIDE)
 		tooltip:AddLine(' ')
-		tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
-		tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '宠物对战' or SHOW_PET_BATTLES_ON_MAP_TEXT)
-		tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '在副本中' or AGGRO_WARNING_IN_INSTANCE)
+		tooltip:AddLine(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
+		tooltip:AddLine(WoWTools_L.SHOW_PET_BATTLES_ON_MAP_TEXT)
+		tooltip:AddLine(WoWTools_L.AGGRO_WARNING_IN_INSTANCE)
 	end)
 
 --重置位置
@@ -59,7 +59,7 @@ local function Init_Menu(self, root)
 		WoWTools_FactionMixin:Init_TrackButton()
 		print(
 			WoWTools_FactionMixin.addName..WoWTools_DataMixin.Icon.icon2,
-			WoWTools_DataMixin.onlyChinese and '重置位置' or RESET_POSITION
+			WoWTools_L.RESET_POSITION
 		)
 	end)
 
@@ -73,7 +73,7 @@ local function Init_Menu(self, root)
 
 	sub=root:CreateCheckbox(
 		(Save().btn and '' or '|cff626262')
-		..(WoWTools_DataMixin.onlyChinese and '指定' or COMBAT_ALLY_START_MISSION),
+		..(WoWTools_L.COMBAT_ALLY_START_MISSION),
 	function()
 		return Save().indicato
 	end, function()
@@ -108,7 +108,7 @@ local function Init_Menu(self, root)
 	root:CreateDivider()
 	sub=root:CreateCheckbox(
 		'|A:voicechat-icon-textchat-silenced:0:0|a'
-		..(WoWTools_DataMixin.onlyChinese and '声望变化' or COMBAT_TEXT_SHOW_REPUTATION_TEXT),
+		..(WoWTools_L.COMBAT_TEXT_SHOW_REPUTATION_TEXT),
 	function()
 		return Save().factionUpdateTips
 	end, function()
@@ -124,10 +124,9 @@ local function Init_Menu(self, root)
 		end
 	end)
 	sub:SetTooltip(function(tooltip)
-		tooltip:AddLine('|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '需求' or NEED))
+		tooltip:AddLine('|cnGREEN_FONT_COLOR:'..(WoWTools_L.NEED))
 		tooltip:AddLine(
-			WoWTools_DataMixin.onlyChinese and '展开选项 |A:editmode-down-arrow:16:11:0:-7|a 声望'
-			or WoWTools_Join(HUD_EDIT_MODE_EXPAND_OPTIONS, REPUTATION)
+			WoWTools_L['HUD_EDIT_MODE_EXPAND_OPTIONS+REPUTATION']
 		)
 	end)
 
@@ -141,7 +140,7 @@ local function Init_Menu(self, root)
 		WoWTools_FactionMixin:Init_Plus()
 	end)
 	sub:SetTooltip(function (tooltip)
-		tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+		tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
 	end)
 
 
@@ -188,7 +187,7 @@ local function Init()
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_FactionMixin.addName)
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine(WoWTools_L.SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.left)
         GameTooltip:Show()
 	end)
 

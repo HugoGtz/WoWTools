@@ -81,11 +81,11 @@ local function Init()
             end
         end
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '移动' or NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine(WoWTools_L.NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)
         local col= not self:CanChangeAttribute() and '|cff626262' or ''
-        GameTooltip:AddDoubleLine(col..(WoWTools_DataMixin.onlyChinese and '缩放' or HOUSING_EXPERT_DECOR_SUBMODE_SCALE)..' '..(Save().scale or 1), col..('Alt+'..WoWTools_DataMixin.Icon.mid))
+        GameTooltip:AddDoubleLine(col..(WoWTools_L.HOUSING_EXPERT_DECOR_SUBMODE_SCALE)..' '..(Save().scale or 1), col..('Alt+'..WoWTools_DataMixin.Icon.mid))
         col= not Save().point and '|cff626262' or ''
-        GameTooltip:AddDoubleLine(col..(WoWTools_DataMixin.onlyChinese and '重置位置' or RESET_POSITION), col..'Ctrl+'..WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine(col..(WoWTools_L.RESET_POSITION), col..'Ctrl+'..WoWTools_DataMixin.Icon.right)
         GameTooltip:Show()
     end
 
@@ -108,7 +108,7 @@ local function Init()
             print(
                 WoWTools_DataMixin.addName,
                 '|cnWARNING_FONT_COLOR:',
-                WoWTools_DataMixin.onlyChinese and '保存失败' or WoWTools_Join(SAVE, FAILED)
+                WoWTools_L['SAVE+FAILED']
             )
         end
     end)
@@ -123,7 +123,7 @@ local function Init()
             if self:CanChangeAttribute() then
                 Save().point=nil
                 self:set_Point()
-                print(addName..WoWTools_DataMixin.Icon.icon2, WoWTools_DataMixin.onlyChinese and '重置位置' or RESET_POSITION)
+                print(addName..WoWTools_DataMixin.Icon.icon2, WoWTools_L.RESET_POSITION)
             end
         end
     end)
@@ -302,7 +302,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     WoWToolsPlusSave['Other_DormantSeeds']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Other_DormantSeeds'], P_Save)
     P_Save= nil
 
-    addName= '|T656681:0|t'..(WoWTools_DataMixin.onlyChinese and '梦境之种' or WoWTools_L['Dormant seeds'])
+    addName= '|T656681:0|t'..(WoWTools_L['Dormant seeds'])
 
     WoWTools_PanelMixin:Check_Button({
         checkName= addName,
@@ -311,13 +311,13 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             Save().disabled = not Save().disabled and true or false
             Init()
         end,
-        buttonText= WoWTools_DataMixin.onlyChinese and '重置位置' or RESET_POSITION,
+        buttonText= WoWTools_L.RESET_POSITION,
         buttonFunc= function()
             Save().Point=nil
             if Button then
                 Button:set_Point()
             end
-            print(addName..WoWTools_DataMixin.Icon.icon2, WoWTools_DataMixin.onlyChinese and '重置位置' or RESET_POSITION)
+            print(addName..WoWTools_DataMixin.Icon.icon2, WoWTools_L.RESET_POSITION)
         end,
         tooltip=function()
             return  WoWTools_ItemMixin:GetName(2200) or addName

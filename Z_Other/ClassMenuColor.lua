@@ -167,7 +167,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
         if WoWTools_OtherMixin:AddOption(
             'ClassMenuColor',
-            '|A:dressingroom-button-appearancelist-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '职业菜单' or WoWTools_Join(CLASS, HUD_EDIT_MODE_MICRO_MENU_LABEL)),
+            '|A:dressingroom-button-appearancelist-up:0:0|a'..(WoWTools_L['CLASS+HUD_EDIT_MODE_MICRO_MENU_LABEL']),
             WoWTools_DataMixin.onlyChinese and '添加 颜色 图标' or WoWTools_Join(ADD, COLOR..', '..EMBLEM_SYMBOL)
         ) then
             Init()

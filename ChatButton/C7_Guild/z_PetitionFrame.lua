@@ -42,7 +42,7 @@ local function Init()
 
     local btn= WoWTools_ButtonMixin:Cbtn(PetitionFrame, {isUI=true, size={120, 23}})
 
-    btn:SetText(WoWTools_DataMixin.onlyChinese and '姓名板' or NAMEPLATES_LABEL)
+    btn:SetText(WoWTools_L.NAMEPLATES_LABEL)
     btn:SetPoint('TOPLEFT', 50, -33)
 
     btn:SetScript('OnLeave', function()
@@ -51,10 +51,10 @@ local function Init()
     btn:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, 'ANCHOR_LEFT')
         GameTooltip_SetTitle(GameTooltip,
-            WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '开启友方姓名板' or NAMEPLATES_MESSAGE_FRIENDLY_ON)
+            WoWTools_DataMixin.Icon.icon2..(WoWTools_L.NAMEPLATES_MESSAGE_FRIENDLY_ON)
         )
         if InCombatLockdown() then
-            GameTooltip_AddErrorLine(GameTooltip, WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
+            GameTooltip_AddErrorLine(GameTooltip, WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
         end
         GameTooltip:Show()
     end)
@@ -67,7 +67,7 @@ local function Init()
 
     local check= CreateFrame('CheckButton', 'PetitionFrameAutoPetitionTargetCheckBox', PetitionFrame, 'InterfaceOptionsCheckButtonTemplate')
     check:SetPoint('LEFT', btn, 'RIGHT', 2, 0)
-    check.Text:SetText(WoWTools_DataMixin.onlyChinese and '目标' or TARGET)
+    check.Text:SetText(WoWTools_L.TARGET)
     check:SetScript('OnLeave', GameTooltip_Hide)
     check:SetChecked(not Save().disabledPetitionTarget)
     WoWTools_TextureMixin:SetCheckBox(check)
@@ -80,7 +80,7 @@ local function Init()
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(WoWTools_ChatMixin.addName, WoWTools_GuildMixin.addName)
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '自动要求签名' or  WoWTools_Join(SELF_CAST_AUTO, REQUEST_SIGNATURE), WoWTools_DataMixin.onlyChinese and '目标' or TARGET)
+        GameTooltip:AddDoubleLine(WoWTools_L['SELF_CAST_AUTO+REQUEST_SIGNATURE'], WoWTools_L.TARGET)
         GameTooltip:Show()
     end)
 

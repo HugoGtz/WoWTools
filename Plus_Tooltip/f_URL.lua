@@ -137,7 +137,7 @@ local function Create_Button(tooltip)
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(
             WoWTools_TooltipMixin.addName,
-            WoWTools_DataMixin.onlyChinese and '打开成就' or OBJECTIVES_VIEW_ACHIEVEMENT
+            WoWTools_L.OBJECTIVES_VIEW_ACHIEVEMENT
         )
         GameTooltip:Show()
     end)

@@ -75,7 +75,7 @@ function WoWTools_GossipMixin:Init_QuestPlayTextMenu(_, root)
     local sub,sub2
 --文本转语音 选项
     sub=root:CreateCheckbox(
-        (WoWTools_DataMixin.onlyChinese and '文本转语音' or TEXT_TO_SPEECH),
+        (WoWTools_L.TEXT_TO_SPEECH),
     function()
         return Save().questPlayText
     end, function()
@@ -85,7 +85,7 @@ function WoWTools_GossipMixin:Init_QuestPlayTextMenu(_, root)
             if Get_Text() then
                 Player_Text()
             else
-                WoWTools_DataMixin:PlayText(WoWTools_DataMixin.onlyChinese and '这是段文字转语音的样本' or TEXT_TO_SPEECH_SAMPLE_TEXT)
+                WoWTools_DataMixin:PlayText(WoWTools_L.TEXT_TO_SPEECH_SAMPLE_TEXT)
             end
         else
             C_VoiceChat.StopSpeakingText()
@@ -107,7 +107,7 @@ function WoWTools_GossipMixin:Init_QuestPlayTextMenu(_, root)
         Save().questPlayTextStopMove= not Save().questPlayTextStopMove and true or nil
     end)
     sub2:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '移动' or NPE_MOVE)
+        tooltip:AddLine(WoWTools_L.NPE_MOVE)
         tooltip:AddLine('PLAYER_STARTED_MOVING')
     end)
 
@@ -116,7 +116,7 @@ function WoWTools_GossipMixin:Init_QuestPlayTextMenu(_, root)
     sub:CreateButton(
         (Get_Text() and '' or '|cff626262')
         ..'|A:common-dropdown-icon-play:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '播放' or SLASH_STOPWATCH_PARAM_PLAY1),
+        ..(WoWTools_L['SLASH_STOPWATCH_PARAM_PLAY1~2']),
     function()
         WoWTools_DataMixin:PlayText(Get_Text())
         return MenuResponse.Open
@@ -126,7 +126,7 @@ function WoWTools_GossipMixin:Init_QuestPlayTextMenu(_, root)
     end)
     sub:CreateButton(
         '|A:common-dropdown-icon-stop:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '停止' or SLASH_STOPWATCH_PARAM_STOP4),
+        ..(WoWTools_L.SLASH_STOPWATCH_PARAM_STOP4),
     function()
         PlayTextTab={}
         C_VoiceChat.StopSpeakingText()
@@ -148,7 +148,7 @@ local function Init()
     menu:RegisterForMouse("RightButtonDown", 'LeftButtonDown', "LeftButtonUp", 'RightButtonUp')
     menu:SetSize(16,16)
 
-    menu.tooltip= WoWTools_DataMixin.onlyChinese and '文本转语音' or TEXT_TO_SPEECH
+    menu.tooltip= WoWTools_L.TEXT_TO_SPEECH
 
     function menu:set_point(parent)
         self:SetParent(parent:GetParent())

@@ -39,9 +39,9 @@ end
 
 local function Init_Panel()
 
-    local tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+    local tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD)
 
-    WoWTools_PanelMixin:Header(Layout, WoWTools_DataMixin.onlyChinese and '全部重置' or RESET_ALL_BUTTON_TEXT)
+    WoWTools_PanelMixin:Header(Layout, WoWTools_L.RESET_ALL_BUTTON_TEXT)
 
 
     WoWTools_PanelMixin:Check_Button({
@@ -50,7 +50,7 @@ local function Init_Panel()
         SetValue= function()
             Save().SavePoint= not Save().SavePoint and true or nil
         end,
-        buttonText= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '清除' or SLASH_STOPWATCH_PARAM_STOP2),
+        buttonText= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2),
         buttonFunc= function()
             StaticPopup_Show('WoWTools_RestData',
                 WoWTools_MoveMixin.addName,
@@ -59,7 +59,7 @@ local function Init_Panel()
                 Save().point={}
             end)
         end,
-        tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD),
+        tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD),
         layout= Layout,
         category= WoWTools_MoveMixin.Category,
     })
@@ -70,7 +70,7 @@ local function Init_Panel()
         checkTooltip= WoWTools_DataMixin.onlyChinese and '当你开始移动时，Frame变为透明状态。' or OPTION_TOOLTIP_MAP_FADE:gsub(string.lower(WORLD_MAP), 'Frame'),
         checkSetValue= function()
             Save().notMoveAlpha= not Save().notMoveAlpha and true or nil
-            print(WoWTools_DataMixin.Icon.icon2..WoWTools_MoveMixin.addName, WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+            print(WoWTools_DataMixin.Icon.icon2..WoWTools_MoveMixin.addName, WoWTools_L.REQUIRES_RELOAD)
         end,
         sliderGetValue= function() return Save().alpha or 0.5 end,
         minValue= 0,
@@ -200,7 +200,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             P_Save= nil
 
 
-            WoWTools_MoveMixin.addName= '|TInterface\\Cursor\\UI-Cursor-Move:0|t'..(WoWTools_DataMixin.onlyChinese and '移动' or NPE_MOVE)
+            WoWTools_MoveMixin.addName= '|TInterface\\Cursor\\UI-Cursor-Move:0|t'..(WoWTools_L.NPE_MOVE)
 
             WoWTools_MoveMixin.Category, Layout= WoWTools_PanelMixin:AddSubCategory({
                 name=WoWTools_MoveMixin.addName,
@@ -208,13 +208,13 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             })
 
             WoWTools_PanelMixin:Check_Button({
-                checkName= WoWTools_DataMixin.onlyChinese and '启用' or ENABLE,
+                checkName= WoWTools_L.ENABLE,
                 GetValue= function() return not Save().disabled end,
                 SetValue= function()
                     Save().disabled= not Save().disabled and true or nil
                     Init_Panel()
                 end,
-                buttonText= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '重置' or RESET),
+                buttonText= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.RESET),
                 buttonFunc= function()
                     StaticPopup_Show('WoWTools_RestData',
                         WoWTools_MoveMixin.addName,
@@ -223,7 +223,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         WoWToolsPlusSave['Plus_Move']= nil
                     end)
                 end,
-                tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD),
+                tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD),
                 layout= Layout,
                 category= WoWTools_MoveMixin.Category,
             })

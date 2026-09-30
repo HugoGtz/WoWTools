@@ -65,10 +65,10 @@ local function Init(btn)
         self:set_owner()
         GameTooltip:AddDoubleLine(WoWTools_InviteMixin.addName, WoWTools_DataMixin.Icon.left)
         if Save().InvTar then
-            GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '邀请目标' or WoWTools_Join(INVITE, TARGET))
+            GameTooltip:AddLine(WoWTools_L['INVITE+TARGET'])
         end
         if Save().Channel and Save().ChannelText then
-            GameTooltip:AddLine((WoWTools_DataMixin.onlyChinese and '频道' or CHANNEL)..'|cnGREEN_FONT_COLOR: '..Save().ChannelText)
+            GameTooltip:AddLine((WoWTools_L.CHANNEL)..'|cnGREEN_FONT_COLOR: '..Save().ChannelText)
         end
         GameTooltip:Show()
     end
@@ -138,7 +138,7 @@ panel:SetScript('OnEvent', function(self, event, arg1)
                 focusKey= 'Shift',
             })
 
-            WoWTools_InviteMixin.addName= '|A:communities-icon-addgroupplus:0:0|a'..(WoWTools_DataMixin.onlyChinese and '邀请' or INVITE)
+            WoWTools_InviteMixin.addName= '|A:communities-icon-addgroupplus:0:0|a'..(WoWTools_L.INVITE)
 
             if WoWTools_ChatMixin:CreateButton('Invite', WoWTools_InviteMixin.addName) then
                 self:RegisterEvent('PLAYER_ENTERING_WORLD')

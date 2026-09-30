@@ -10,9 +10,9 @@ local function ShowHideTitle()
     local text= ''
     if not Save().HideTitle then
         if WorldMapFrame:IsMaximized() then--WorldMapMixin:SetupTitle()
-            text= WoWTools_DataMixin.onlyChinese and '地图' or WORLD_MAP
+            text= WoWTools_L.WORLD_MAP
         else
-            text= WoWTools_DataMixin.onlyChinese and '地图和任务日志' or MAP_AND_QUEST_LOG
+            text= WoWTools_L.MAP_AND_QUEST_LOG
         end
     end
     WorldMapFrame.BorderFrame:SetTitle(text)
@@ -43,7 +43,7 @@ local function Init_OnEnter(self)
             GameTooltip:AddDoubleLine(info.name, 'uiMapID|A:poi-islands-table:0:0|a|cffffffff'..(info.mapID or uiMapID))--地图ID
             local uiMapGroupID = C_Map.GetMapGroupID(uiMapID)
             if uiMapGroupID then
-                GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '区域' or FLOOR, 'uiMapGroupID g |cffffffff'..uiMapGroupID)
+                GameTooltip:AddDoubleLine(WoWTools_L.FLOOR, 'uiMapGroupID g |cffffffff'..uiMapGroupID)
             end
         end
         local areaPoiIDs=C_AreaPoiInfo.GetAreaPOIForMap(uiMapID)
@@ -64,9 +64,9 @@ local function Init_OnEnter(self)
         if select(2, IsInInstance())~='none' then--副本数据
             local instanceID, _, LfgDungeonID =select(8, GetInstanceInfo())
             if instanceID and instanceID>0 then
-                GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '副本' or INSTANCE, '|cffffffff'..instanceID)
+                GameTooltip:AddDoubleLine(WoWTools_L.INSTANCE, '|cffffffff'..instanceID)
                 if LfgDungeonID then
-                    GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '随机副本' or LFG_TYPE_RANDOM_DUNGEON, '|cffffffff'..LfgDungeonID)
+                    GameTooltip:AddDoubleLine(WoWTools_L['LFG_TYPE_RANDOM_DUNGEON~3'], '|cffffffff'..LfgDungeonID)
                 end
             end
         end
@@ -77,7 +77,7 @@ local function Init_OnEnter(self)
             GameTooltip:AddLine(' ')
             GameTooltip:AddLine(
                 '|A:worldquest-tracker-questmarker:0:0|a'
-                ..(WoWTools_DataMixin.onlyChinese and '任务' or QUESTS_LABEL)
+                ..(WoWTools_L.QUESTS_LABEL)
                 ..' #|cffffffff'..num
             )
             for index, tab in pairs(quests) do
@@ -155,7 +155,7 @@ local function Init_Menu(self, root)
 
 --地图和任务日志
     sub= root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '地图和任务日志' or MAP_AND_QUEST_LOG,
+        WoWTools_L.MAP_AND_QUEST_LOG,
     function()
         return not Save().HideTitle
     end, function()
@@ -163,7 +163,7 @@ local function Init_Menu(self, root)
         ShowHideTitle()
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '标题' or NAME)
+        tooltip:AddLine(WoWTools_L['NAME~3'])
         tooltip:AddLine(WoWTools_TextMixin:GetShowHide(nil, true))
     end)
     root:CreateDivider()
@@ -171,7 +171,7 @@ local function Init_Menu(self, root)
 
 --显示地图ID
     sub= root:CreateCheckbox(
-        (WoWTools_DataMixin.onlyChinese and '地图' or WORLD_MAP)..' ID',
+        (WoWTools_L.WORLD_MAP)..' ID',
     function()
         return Save().ShowMapID
     end, function()
@@ -237,7 +237,7 @@ local function Init_Menu(self, root)
 
 --地图坐标
     sub= root:CreateCheckbox(
-        (WoWTools_DataMixin.onlyChinese and '地图' or WORLD_MAP)..' XY',
+        (WoWTools_L.WORLD_MAP)..' XY',
     function()
         return Save().ShowMapXY
     end, function()
@@ -253,7 +253,7 @@ local function Init_Menu(self, root)
             Save().MapXY_W= value
             WoWTools_WorldMapMixin:Init_XY_Map()
         end,
-        name=WoWTools_DataMixin.onlyChinese and '宽度' or HUD_EDIT_MODE_SETTING_CHAT_FRAME_WIDTH,
+        name=WoWTools_L.HUD_EDIT_MODE_SETTING_CHAT_FRAME_WIDTH,
         minValue=50,
         maxValue=300,
         step=1,
@@ -333,7 +333,7 @@ local function Init_Menu(self, root)
 
 --地下城，加名称
     sub=root:CreateCheckbox(
-        '|A:Dungeon:0:0|a'..(WoWTools_DataMixin.onlyChinese and '地下城' or DUNGEONS),
+        '|A:Dungeon:0:0|a'..(WoWTools_L.DUNGEONS),
     function()
         return Save().ShowDungeon_Name
     end, function()
@@ -342,14 +342,14 @@ local function Init_Menu(self, root)
         WoWTools_WorldMapMixin:Refresh()
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '显示名称' or PROFESSIONS_FLYOUT_SHOW_NAME)
+        tooltip:AddLine(WoWTools_L.PROFESSIONS_FLYOUT_SHOW_NAME)
         --tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要刷新' or WoWTools_Join(NEED, REFRESH))
     end)
 
 --字体大小
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
-        name= WoWTools_DataMixin.onlyChinese and '字体大小' or FONT_SIZE,
+        name= WoWTools_L.FONT_SIZE,
         getValue=function()
             return Save().dungeonFontSize or 10
         end, setValue=function(value)
@@ -364,7 +364,7 @@ local function Init_Menu(self, root)
 
 --世界地图任务，加名称
     sub=root:CreateCheckbox(
-        '|A:Quest-Campaign-Available:0:0|a'..(WoWTools_DataMixin.onlyChinese and '世界任务' or WORLD_MAP_FILTER_LABEL_WORLD_QUESTS_SUBMENU),
+        '|A:Quest-Campaign-Available:0:0|a'..(WoWTools_L.WORLD_MAP_FILTER_LABEL_WORLD_QUESTS_SUBMENU),
     function()
         return Save().ShowWorldQues_Name
     end, function()
@@ -373,7 +373,7 @@ local function Init_Menu(self, root)
         WoWTools_WorldMapMixin:Refresh()
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '显示图标' or SELF_HIGHLIGHT_ICON)
+        tooltip:AddLine(WoWTools_L['SELF_HIGHLIGHT_ICON~2'])
     end)
 
 --地图标记
@@ -387,7 +387,7 @@ local function Init_Menu(self, root)
     end)
 
     --[[sub:CreateButton(
-        (WoWTools_DataMixin.onlyChinese and '编辑' or EDIT),
+        (WoWTools_L['EDIT~2']),
     function()
         WoWTools_WorldMapMixin:PlayerPin_ShowUI()
         return MenuResponse.Open
@@ -404,10 +404,10 @@ local function Init_Menu(self, root)
         WoWTools_WorldMapMixin:Init_Plus()
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '其它' or OTHER)
+        tooltip:AddLine(WoWTools_L.OTHER)
         tooltip:AddLine(
             (Save().notPlus and '|cff626262' or '')
-            ..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+            ..(WoWTools_L.REQUIRES_RELOAD)
         )
     end)
 

@@ -89,10 +89,10 @@ local function Init()
         a= a or ''
         b= b or a or ''
         GameTooltip:AddLine(' ')
-        GameTooltip:AddLine((WoWTools_DataMixin.onlyChinese and '当前专精' or TRANSMOG_CURRENT_SPECIALIZATION)..a)
+        GameTooltip:AddLine((WoWTools_L['TRANSMOG_CURRENT_SPECIALIZATION~2'])..a)
         GameTooltip:AddLine(
             (lootSpecID==specID and '|cnGREEN_FONT_COLOR:' or '|cnWARNING_FONT_COLOR:')
-            ..(WoWTools_DataMixin.onlyChinese and '专精拾取' or SELECT_LOOT_SPECIALIZATION)
+            ..(WoWTools_L.SELECT_LOOT_SPECIALIZATION)
             ..b
         )
 
@@ -105,29 +105,29 @@ local function Init()
         local col= '|cffffffff'
 
         --[[GameTooltip:AddLine(
-            col..(WoWTools_DataMixin.onlyChinese and '专精' or TALENT_FRAME_TAB_LABEL_SPEC)..'|r'
+            col..(WoWTools_L.TALENT_FRAME_TAB_LABEL_SPEC)..'|r'
             ..WoWTools_DataMixin.Icon.mid
-            ..(WoWTools_DataMixin.onlyChinese and '上' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP)
+            ..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP)
         )
         GameTooltip:AddLine(
-            col..(WoWTools_DataMixin.onlyChinese and '天赋' or TALENT_FRAME_TAB_LABEL_SPELLBOOK)..'|r'
+            col..(WoWTools_L.TALENT_FRAME_TAB_LABEL_SPELLBOOK)..'|r'
             ..WoWTools_DataMixin.Icon.right
         )
 
         GameTooltip:AddLine(
-            col..(WoWTools_DataMixin.onlyChinese and '法术书' or TALENT_FRAME_TAB_LABEL_SPELLBOOK)..'|r'
+            col..(WoWTools_L['TALENT_FRAME_TAB_LABEL_SPELLBOOK~2'])..'|r'
             ..WoWTools_DataMixin.Icon.mid
-            ..(WoWTools_DataMixin.onlyChinese and '下' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN)
+            ..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN)
         )]]
         GameTooltip:AddLine(
-            col..(WoWTools_DataMixin.onlyChinese and '点击施法' or CLICK_BIND_MODE)..'|r'
+            col..(WoWTools_L.CLICK_BIND_MODE)..'|r'
             ..WoWTools_DataMixin.Icon.mid
-            ..(WoWTools_DataMixin.onlyChinese and '上' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP)
+            ..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP)
         )
         GameTooltip:AddLine(
-            col..(WoWTools_DataMixin.onlyChinese and '冷却设置' or COOLDOWN_VIEWER_SETTINGS_TITLE)..'|r'
+            col..(WoWTools_L.COOLDOWN_VIEWER_SETTINGS_TITLE)..'|r'
             ..WoWTools_DataMixin.Icon.mid
-            ..(WoWTools_DataMixin.onlyChinese and '下' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN)
+            ..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN)
         )
         GameTooltip:Show()
     end)

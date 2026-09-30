@@ -271,7 +271,7 @@ function WoWTools_DataMixin:Reload()
         print(
             WoWTools_DataMixin.Icon.icon2
             ..'|cnWARNING_FONT_COLOR:'
-            ..(WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
+            ..(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
         )
     end]]
 end
@@ -283,9 +283,9 @@ end
 function WoWTools_DataMixin:Get_CVar_Tooltips(info)--取得CVar信息 WoWTools_DataMixin:Get_CVar_Tooltips({name= ,msg=, value=})
     return (info.msg and info.msg..'|n' or '')..info.name..'|n'
     ..(info.value and C_CVar.GetCVar(info.name)== info.value and format('|A:%s:0:0|a', 'common-icon-checkmark') or '')
-    ..(info.value and (WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS)..info.value..' ' or '')
-    ..'('..(WoWTools_DataMixin.onlyChinese and '当前' or REFORGE_CURRENT)..'|cnGREEN_FONT_COLOR:'..format('%.1f',C_CVar.GetCVar(info.name))..'|r |r'
-    ..(WoWTools_DataMixin.onlyChinese and '默认' or DEFAULT)..'|cffff00ff'..format('%.1f', C_CVar.GetCVarDefault(info.name))..')|r'
+    ..(info.value and (WoWTools_L.SETTINGS)..info.value..' ' or '')
+    ..'('..(WoWTools_L.REFORGE_CURRENT)..'|cnGREEN_FONT_COLOR:'..format('%.1f',C_CVar.GetCVar(info.name))..'|r |r'
+    ..(WoWTools_L.DEFAULT)..'|cffff00ff'..format('%.1f', C_CVar.GetCVarDefault(info.name))..')|r'
 end
 
 

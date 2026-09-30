@@ -99,7 +99,7 @@ local function Init_RightTab_Menu(self, root)
     if not self:IsMouseOver() then
         return
     elseif BankPanelSystemMixin:IsActiveBankTypeLocked() then
-        local sub= root:CreateTitle(WoWTools_DataMixin.onlyChinese and '锁定' or LOCKED)
+        local sub= root:CreateTitle(WoWTools_L.LOCKED)
         sub:SetTooltip(function(tooltip)
             tooltip:AddLine(WoWTools_TextMixin:CN(BankPanelLockPromptMixin:GetBankLockedMessage()))
         end)
@@ -109,7 +109,7 @@ local function Init_RightTab_Menu(self, root)
     local itemTab, itemNum= Get_BagItems()
     root:CreateTitle(
         (BankPanel:GetActiveBankType()== Enum.BankType.Account and '|cff00ccff' or '|cffff8000')
-        ..(WoWTools_DataMixin.onlyChinese and '存放' or BANK_DEPOSIT_MONEY_BUTTON_LABEL)..' #'..itemNum
+        ..(WoWTools_L.BANK_DEPOSIT_MONEY_BUTTON_LABEL)..' #'..itemNum
     )
     if itemNum==0 then
         return
@@ -155,7 +155,7 @@ local function Init_RightTab_Menu(self, root)
     root:CreateDivider()
     root:CreateButton(
         '|cnGREEN_FONT_COLOR:#'..itemNum..'|r '
-        ..(WoWTools_DataMixin.onlyChinese and '全部' or ALL),
+        ..(WoWTools_L.ALL),
     function()
         local free= Get_Bank_Free()
         for _, item in pairs(itemTab) do
@@ -181,7 +181,7 @@ local function Init()
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip_SetTitle(GameTooltip,
             '|A:dressingroom-button-appearancelist-up:0:0|a'
-            ..(WoWTools_DataMixin.onlyChinese and '存放' or BANK_DEPOSIT_MONEY_BUTTON_LABEL),
+            ..(WoWTools_L.BANK_DEPOSIT_MONEY_BUTTON_LABEL),
             BankPanel:GetActiveBankType()==Enum.BankType.Account and ACCOUNT_WIDE_FONT_COLOR or HIGHLIGHT_FONT_COLOR
         )
         GameTooltip:Show()

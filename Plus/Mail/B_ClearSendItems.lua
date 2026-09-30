@@ -30,7 +30,7 @@ local function Init()
         GameTooltip:Hide()
         self:SetButtonState('NORMAL')
     end)
-    clearSendItem.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '清除' or SLASH_STOPWATCH_PARAM_STOP2)
+    clearSendItem.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2)
 
 
     WoWTools_DataMixin:Hook('SendMailFrame_Update', function()--发信箱，物品，信息

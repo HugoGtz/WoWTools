@@ -99,7 +99,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 WoWToolsPlusPlayerDate['SellBuyItems'].buy[WoWTools_DataMixin.Player.GUID]= {}
             end
 
-            WoWTools_MerchantMixin.addName= '|A:SpellIcon-256x256-SellJunk:0:0|a'..(WoWTools_DataMixin.onlyChinese and '商人' or MERCHANT)
+            WoWTools_MerchantMixin.addName= '|A:SpellIcon-256x256-SellJunk:0:0|a'..(WoWTools_L.MERCHANT)
 
 --添加控制面板
             WoWTools_PanelMixin:OnlyCheck({
@@ -111,7 +111,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                         print(
                             WoWTools_MerchantMixin.addName..WoWTools_DataMixin.Icon.icon2,
                             WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-                            WoWTools_DataMixin.onlyChinese and '重新加载UI' or RELOADUI
+                            WoWTools_L.RELOADUI
                         )
                         self:UnregisterEvent('PLAYER_LOGOUT')
                     else
