@@ -1047,10 +1047,10 @@ local function Settings_Right_Button(btn, data)
         or 'CampaignHeader_SelectedGlow'
     )
 
-    btn.RaidText:SetText(data.pve or '')--(WoWTools_DataMixin.Player.husandro and '|cff8282822/4/8') or '')
-    btn.DungeonText:SetText(data.mythic or '')--(WoWTools_DataMixin.Player.husandro and '|cff8282822/4/8') or '')
-    btn.WorldText:SetText(data.world or '')--(WoWTools_DataMixin.Player.husandro and '|cff8282822/4/8') or '')
-    btn.PvPText:SetText(data.pvp or '')--(WoWTools_DataMixin.Player.husandro and '|cff8282822/4/8') or '')
+    btn.RaidText:SetText(data.pve or '')
+    btn.DungeonText:SetText(data.mythic or '')
+    btn.WorldText:SetText(data.world or '')
+    btn.PvPText:SetText(data.pvp or '')
 
     btn.RaidText:SetTextColor(color:GetRGB())
     btn.DungeonText:SetTextColor(color:GetRGB())

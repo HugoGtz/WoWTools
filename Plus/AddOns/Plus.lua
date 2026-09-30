@@ -374,7 +374,6 @@ local function Init()
             ['BugSack']=true,
             ['!BugGrabber']=true,
 
-            ['TextureAtlasViewer']= WoWTools_DataMixin.Player.husandro,
             ['WoWTools_Chinese']= not zh and C_AddOns.IsAddOnLoaded('WoWTools_Chinese'),--solo si ya se usaba
             ['WoWTools_Chinese_Scanner']= zh,
         }) do

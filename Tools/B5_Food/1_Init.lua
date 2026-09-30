@@ -24,7 +24,6 @@ local ClassSpells={--{item=5512, alt=nil, shift=nil, ctrl=nil}
 
 local P_Save={
     noUseItems={},--禁用物品
-    --isShowBackground=WoWTools_DataMixin.Player.husandro,--背景--旧数据
     --onlyMaxExpansion=true,--仅本版本物品
     borderAlpha= 0,
     bgAlpha=0.5,

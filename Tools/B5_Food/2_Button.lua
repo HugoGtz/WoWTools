@@ -288,7 +288,7 @@ local function Init()
     btn:SetAttribute('shift-type1', 'spell')
 
 
-    if Save().point or WoWTools_DataMixin.Player.husandro then
+    if Save().point then
         btn:set_point()
     end
     btn:set_strata()

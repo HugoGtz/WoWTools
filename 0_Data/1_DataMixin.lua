@@ -89,7 +89,6 @@ WoWTools_DataMixin.Player={
     GUID= UnitGUID('player'),
     IsMaxLevel= UnitLevel('player')==GetMaxLevelForLatestExpansion(), --GetMaxLevelForPlayerExpansion(),--玩家是否最高等级 MAX_PLAYER_LEVEL
     Level= UnitLevel('player') or 1,--UnitEffectiveLevel('player')
-    husandro= nil,--fork: sin modo autor (antes se activaba con las BattleTags del autor original)
     BattleTag= battleTag,
     Faction= UnitFactionGroup('player'),--玩家, 派系  "Alliance", "Horde", "Neutral"
     Layer= nil, --位面数字

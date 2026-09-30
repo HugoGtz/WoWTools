@@ -394,7 +394,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                     --[guid]=true
                 },
                 maxLevelIsDisabled=true,
-                --maxLevelIsDisabled= WoWTools_DataMixin.Player.husandro,
             })
 
 --旧数据

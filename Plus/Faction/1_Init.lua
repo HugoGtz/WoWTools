@@ -14,7 +14,6 @@ local P_Save={
 	hideRenownFrame={},
 	--hide_MajorFactionRenownFrame_Button=true,--隐藏，派系声望，列表，图标
 	--MajorFactionRenownFrame_Button_Scale
-	onlyUnlockRenownFrame=WoWTools_DataMixin.Player.husandro--仅限已解锁
 }
 
 local function Save()

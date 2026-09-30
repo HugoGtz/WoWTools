@@ -32,7 +32,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         if arg1== 'WoWToolsPlus' then
 
             WoWToolsPlusSave['Plus_UnitFrame']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_UnitFrame'], {
-                raidFrameScale= WoWTools_DataMixin.Player.husandro and 0.8 or 1,
+                raidFrameScale= 1,
                 PartyDeadData={}--队友，死亡，次数
             })
 

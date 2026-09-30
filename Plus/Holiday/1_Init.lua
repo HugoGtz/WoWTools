@@ -63,7 +63,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             WoWToolsPlusSave['Plus_Holiday']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Holiday'], {
                 onGoing=true,--仅限: 正在活动
                 disabled= true
-                --left=WoWTools_DataMixin.Player.husandro,--内容靠左
                 --toTopTrack=true,--向上
                 --showDate= true,--时间
             })

@@ -53,7 +53,7 @@ local function Init_Menu(self, root)
                 ..(isKnown and '' or '|cnWARNING_FONT_COLOR:')
                 ..(WoWTools_TextMixin:CN(spellName, {spellID=spellID, isName=true}) or spellID)
                 --为挑战数据，标记是否有数据，需要更新
-                ..(WoWTools_DataMixin.Player.husandro and not self.isRaid and not spells[spellID] and '|A:UI-LFG-PendingMark:0:0|a' or ''),
+                ,
             function(data)
                 local spellLink= WoWTools_SpellMixin:GetLink(data.spellID, false)
                 WoWTools_ChatMixin:Chat(spellLink or data.spellID, nil, true)
@@ -149,9 +149,6 @@ local function Init_All_Flyout()
                             ..' '
                             ..(WoWTools_L.SPELLS)
                             ..'('..slot
---为挑战数据，标记是否有数据，需要更新
-                            ..((WoWTools_DataMixin.Player.husandro and not self.isRaid and not spells[spellID] and '|A:UI-LFG-PendingMark:0:0|a' or '')
-                            )
                         )
                     else
                         GameTooltip:AddDoubleLine((not isKnown2 and ' |cnWARNING_FONT_COLOR:' or '')..spellName..'|r',(not isKnown2 and '|cnWARNING_FONT_COLOR:' or '')..spellID..' '..(WoWTools_L.SPELLS)..'('..slot)

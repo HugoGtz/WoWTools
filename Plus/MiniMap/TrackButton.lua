@@ -892,7 +892,7 @@ local function Init_Button()
         if Save().pointVigentteButton then
             self:SetPoint(Save().pointVigentteButton[1], UIParent, Save().pointVigentteButton[3], Save().pointVigentteButton[4], Save().pointVigentteButton[5])
         else
-            self:SetPoint('TOPLEFT', 600, WoWTools_DataMixin.Player.husandro and 0 or -100)
+            self:SetPoint('TOPLEFT', 600, -100)
         end
     end
 

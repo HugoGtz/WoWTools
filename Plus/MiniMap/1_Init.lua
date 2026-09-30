@@ -3,7 +3,7 @@ WoWTools_MinimapMixin={}
 
 
 local P_Save={
-    scale=WoWTools_DataMixin.Player.husandro and 1 or 0.85,
+    scale=0.85,
     ZoomOutInfo=true,--小地图, 缩放, 信息
 
     vigentteButtonShowText=true,

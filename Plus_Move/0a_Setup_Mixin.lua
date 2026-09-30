@@ -122,7 +122,6 @@ end
 
 local function Set_Move_Frame(frame, target, click, notSave, isAltKeyDown)
 
-    --if frame:IsMovable() and WoWTools_DataMixin.Player.husandro then
       --  WoWTools_Print('移动', '|cnWARNING_FONT_COLOR:已有别的插件设置|r', frame:GetName(), frame.moveFrameData)
 
 --设置，数据

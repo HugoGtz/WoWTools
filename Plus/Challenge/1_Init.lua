@@ -37,7 +37,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 rightY= -22,
 
                 hidePort= true,--传送门
-                portScale=WoWTools_DataMixin.Player.husandro and 0.85 or 1,--传送门, 缩放
+                portScale=1,--传送门, 缩放
 
                 --hideKeyUI=true,--挑战,钥石,插入界面
 

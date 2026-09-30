@@ -1,5 +1,4 @@
 local P_Save={
-    --useClassColor= WoWTools_DataMixin.Player.husandro,--使用,职业, 颜色
     --useCustomColor= nil,--使用, 自定义, 颜色
     --useColor=1,
     --useCustomColorTab= {r=1, g=0.82, b=0, a=1, hex='|cffffd100'},--自定义, 颜色, 表

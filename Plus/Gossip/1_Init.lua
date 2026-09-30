@@ -91,7 +91,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 quest= true,
                 questOption={},
                 questRewardCheck={},--{任务ID= index}    
-                --autoSortQuest=  WoWTools_DataMixin.Player.husandro,--仅显示当前地图任务
 
                 --questPlayTextStopMove=true,
 

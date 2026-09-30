@@ -4,7 +4,6 @@ local P_Save={
     --disabledMove=true,--禁用移动
     point={},--移动
     SavePoint= true,--保存窗口,位置 (antes solo para el autor: los paneles volvían a su sitio sin explicación)
-    --moveToScreenFuori=WoWTools_DataMixin.Player.husandro,--可以移到屏幕外
 
     --disabledZoom=true,--禁用缩放
     scale={},--缩放 (antes 0.85 por defecto en ZoneAbilityFrame, UIWidgetPowerBarContainerFrame y BankFrame)

@@ -75,7 +75,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             WoWToolsPlusSave['Plus_Bank2']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Bank2'], {
                 line=2,
                 num=20,
-                accountNum=10,--WoWTools_DataMixin.Player.husandro and 10 or 15,
+                accountNum=10,
 
                 plusTab=true,
                 plusIndex=true,

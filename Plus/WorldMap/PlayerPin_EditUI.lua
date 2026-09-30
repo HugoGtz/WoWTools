@@ -2173,7 +2173,6 @@ local function Init()
         Frame.updateButton:run()
     end)
 
-    --if WoWTools_DataMixin.Player.husandro then Frame.questEdit:SetText('93595') end
 
     Frame.questButton= CreateFrame('DropdownButton', nil, Frame, 'WoWToolsMenu4Template')
     Frame.questButton.tooltip= WoWTools_L.CURRENT_QUESTS
@@ -2481,7 +2480,6 @@ local function Init()
         WoWTools_MenuMixin:SetScrollMode(root)
     end)
 
-    --if WoWTools_DataMixin.Player.husandro then Frame.achievementEdit:SetText('61581') end
 
 
 

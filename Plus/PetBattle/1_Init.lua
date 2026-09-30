@@ -93,7 +93,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
     if arg1== 'WoWToolsPlus' then
 
-        WoWToolsPlusSave['Plus_PetBattle2']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_PetBattle2'], {--clickToMove= WoWTools_DataMixin.Player.husandro,--禁用, 点击移动
+        WoWToolsPlusSave['Plus_PetBattle2']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_PetBattle2'], {
             ClickMoveButton={
                 PlayerFrame=true,
                 Scale= 0.8,

@@ -533,7 +533,6 @@ local function Init()
         local show= WoWTools_DataMixin.Player.IsMaxLevel
                     and not PlayerIsTimerunning()
                     and C_MythicPlus.IsMythicPlusActive()
-                    or WoWTools_DataMixin.Player.husandro
 
         if show then
             local score= C_ChallengeMode.GetOverallDungeonScore() or 0

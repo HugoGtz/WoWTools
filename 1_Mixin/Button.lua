@@ -143,9 +143,6 @@ function WoWTools_ButtonMixin:Cbtn(frame, tab)
 
 
 --提示，已存在
-    if _G[name] and WoWTools_DataMixin.Player.husandro then
-        WoWTools_Print('Cbtn', '已存在', name)
-    end
 
 --建立
     local btn= tab.btn or CreateFrame(frameType, name, frame or UIParent, template, setID)

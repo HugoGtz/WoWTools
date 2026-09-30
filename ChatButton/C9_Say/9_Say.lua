@@ -1,6 +1,5 @@
 
 local P_Save= {
-    --inInstanceBubblesDisabled= WoWTools_DataMixin.Player.husandro,
     saveWhisper=true,--保存, 密语
     WhisperTab={},--保存, 密语, 内容 {name=name, wow=wow, guid=guid, msg={text=text, type=type,time=time}}
 

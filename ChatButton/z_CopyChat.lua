@@ -14,7 +14,7 @@ local addName
 
 local function Init_AllButton()
 	for index =1, Constants.ChatFrameConstants.MaxChatWindows do
-		if FCF_GetChatFrameByID(index) and (index~=2 or WoWTools_DataMixin.Player.husandro) then
+		if FCF_GetChatFrameByID(index) and (index~=2) then
 			Init_Button(index)
 		end
 	end

@@ -143,7 +143,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 },
                 fast={},--快速，加载，物品，指定玩家
                 fastShow=true,--显示/隐藏，快速，加载，按钮
-                --CtrlFast= WoWTools_DataMixin.Player.husandro,--Ctrl+RightButton,快速，加载，物品
                 --scaleSendPlayerFrame=1.2,--清除历史数据，缩放
                 scaleFastButton=1.3,
                 --INBOXITEMS_TO_DISPLAY=7,

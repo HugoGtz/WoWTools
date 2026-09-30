@@ -27,14 +27,12 @@ local P_Save={
     barTexture2=true,--样式2
     barWidth= -60,--bar, 宽度
     barX=22,--bar,移位
-    --barToLeft=WoWTools_DataMixin.Player.husandro,--bar,放左边
     scale= 1.1,--缩放
     vertical=3,--上下，间隔
     horizontal=9,--左右， 间隔
     setMaxMinValue= true,--增加,减少值
     bitPrecet=0,--百分比，位数
     onlyDPS=true,--四属性, 仅限DPS
-    --useNumber= WoWTools_DataMixin.Player.husandro,--使用数字
     --notText=false,--禁用，数值
     textColor= {r=1,g=1,b=1,a=1},--数值，颜色
     bit=0,--数值，位数
