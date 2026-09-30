@@ -33,25 +33,35 @@ function WoWTools_DataMixin:SetDefaults(save, defaults)
 end
 
 
+--hooksecurefunc seguro: si la función o el método de Blizzard ya no existe (p. ej. retirado en 12.0),
+--no se engancha nada en vez de dar error. Antes, con un global inexistente se pasaba el nombre como texto.
 function WoWTools_DataMixin:Hook(obj, ...)
-    local t= type(obj)
-    local o= t=='string' and _G[obj] or obj
-    if o then
-        t= type(o)
-        if t=='table' then
-            if not o.IsForbidden or not o:IsForbidden() then
-                hooksecurefunc(obj, ...)
-            elseif WoWTools_DataMixin.Player.husandro then
-                print('|cnWARNING_FONT_COLOR:被保护|r', obj, ...)
-            end
-            return--un objeto prohibido no se engancha
+    if type(obj)=='string' then
+        if type(_G[obj])=='function' then
+            hooksecurefunc(obj, ...)
+        elseif WoWTools_DataMixin.Player.husandro then
+            print('|cnWARNING_FONT_COLOR:Hook没发现|r', obj)
         end
-        hooksecurefunc(obj, ...)
-
-    elseif WoWTools_DataMixin.Player.husandro then
-        print('|cnWARNING_FONT_COLOR:Hook没发现|r', t, obj, ...)
-        hooksecurefunc(obj, ...)
+        return
     end
+
+    if type(obj)~='table' then
+        return
+    end
+    if obj.IsForbidden and obj:IsForbidden() then--un objeto prohibido no se engancha
+        if WoWTools_DataMixin.Player.husandro then
+            print('|cnWARNING_FONT_COLOR:被保护|r', obj, ...)
+        end
+        return
+    end
+    local method= ...
+    if type(method)=='string' and type(obj[method])~='function' then
+        if WoWTools_DataMixin.Player.husandro then
+            print('|cnWARNING_FONT_COLOR:Hook没发现|r', method)
+        end
+        return
+    end
+    hooksecurefunc(obj, ...)
 end
 
 --[[

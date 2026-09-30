@@ -244,7 +244,9 @@ function WoWTools_TextureMixin.Events:Blizzard_FriendsFrame()
         self:SetFrame(_G['WhoFrameColumnHeader'..i], {notAlpha=true})
     end
 
-    self:SetFrame(BattleTagInviteFrame.Border, {notAlpha=true})
+    if BattleTagInviteFrame then--ya no existe en 12.0
+        self:SetFrame(BattleTagInviteFrame.Border, {notAlpha=true})
+    end
 
 
 

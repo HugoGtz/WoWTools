@@ -633,7 +633,9 @@ function WoWTools_MoveMixin.Events:Blizzard_UnitFrame()
     --self:Setup(ExpansionLandingPage)
     self:Setup(PlayerPowerBarAlt, {notMoveAlpha=true})
 
-    self:Setup(BattleTagInviteFrame)
+    if BattleTagInviteFrame then--ya no existe en 12.0
+        self:Setup(BattleTagInviteFrame)
+    end
 
     for _, barContainer in ipairs(StatusTrackingBarManager.barContainers or {}) do
         self:Setup(barContainer, {alpha=0})
