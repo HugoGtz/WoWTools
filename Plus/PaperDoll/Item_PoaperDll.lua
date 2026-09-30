@@ -156,7 +156,8 @@ local function set_no_Enchant(btn, slot, find, isPaperDollItemSlot)--附魔，�
     local tab
     if find and isPaperDollItemSlot then
         tab=get_no_Enchant_Bag(slot)--取得，物品，bag, slot
-        if tab and not btn.noEnchant then
+        --botón seguro: no crearlo en combate (ADDON_ACTION_BLOCKED)
+        if tab and not btn.noEnchant and not InCombatLockdown() then
             local h=btn:GetHeight()/3
             btn.noEnchant= WoWTools_ButtonMixin:Cbtn(btn, {size=h, isSecure=true})
             btn.noEnchant:SetAttribute("type", "item")
@@ -203,13 +204,20 @@ local function set_no_Enchant(btn, slot, find, isPaperDollItemSlot)--附魔，�
                 self:UnregisterEvent('BAG_UPDATE_DELAYED')
             end)
             btn.noEnchant:RegisterEvent('BAG_UPDATE_DELAYED')
-            btn.noEnchant:SetScript('OnEvent', function(self)
+            btn.noEnchant:SetScript('OnEvent', function(self, event)
+                if event=='PLAYER_REGEN_ENABLED' then
+                    self:UnregisterEvent('PLAYER_REGEN_ENABLED')
+                end
                 if self:CanChangeAttribute() then
                     local tab2=get_no_Enchant_Bag(self.slot)--取得，物品，bag, slot
-                    if tab2 then
-                        self:SetAttribute("item", tab2.bag..' '..tab2.slot)
-                    end
+                    --sin pergamino: limpiar el atributo para no usar otro objeto del mismo hueco
+                    self:SetAttribute("item", tab2 and tab2.bag..' '..tab2.slot or nil)
                     self.tab= tab2
+                    if not tab2 then
+                        self:Hide()
+                    end
+                else
+                    self:RegisterEvent('PLAYER_REGEN_ENABLED')
                 end
             end)
 

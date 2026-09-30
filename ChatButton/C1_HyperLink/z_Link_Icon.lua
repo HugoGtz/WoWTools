@@ -8,7 +8,27 @@ local function Save()
     return WoWToolsPlusSave['ChatButton_HyperLink'] or {}
 end
 
-local LOOT_ITEM = LOCALE_zhCN and '(.-)获得了战利品' or WoWTools_TextMixin:Magic(LOOT_ITEM)
+--escapa todos los caracteres mágicos de un patrón Lua (incluidos % y ])
+local function EscapePattern(text)
+    return (text:gsub('[%^%$%(%)%%%.%[%]%*%+%-%?]', '%%%0'))
+end
+
+--"%s recibe botín: %s." -> "(.-) recibe botín: .+%." (antes %s se tomaba como "espacio" y casi nunca coincidía)
+local function FormatToPattern(fmt)
+    local first= true
+    local pat= fmt:gsub('%%%d?%$?s', '\001')
+    pat= EscapePattern(pat)
+    pat= pat:gsub('\001', function()
+        if first then
+            first= false
+            return '(.-)'
+        end
+        return '.+'
+    end)
+    return pat
+end
+
+local LOOT_ITEM = LOCALE_zhCN and '(.-)获得了战利品' or FormatToPattern(LOOT_ITEM)
 local IsShowTimestamps--聊天中时间戳
 local Size=':0:0'--图标大小
 --DEFAULT_CHAT_FRAME.P_AddMessage= DEFAULT_CHAT_FRAME.AddMessage
@@ -89,9 +109,9 @@ local function Set_Realm(link)--去服务器为*, 加队友种族图标,和N,T
         local text= WoWTools_UnitMixin:GetPlayerInfo(nil, nil, name)
         if server then
             if server== WoWTools_DataMixin.Player.Realm then
-                return (text or '')..link:gsub('%-'..server..'|r]|h', '|r]|h')
+                return (text or '')..link:gsub('%-'..EscapePattern(server)..'|r]|h', '|r]|h')--reinos con guion
             else
-                return (text or '')..link:gsub('%-'..server..'|r]|h',
+                return (text or '')..link:gsub('%-'..EscapePattern(server)..'|r]|h',
                     (WoWTools_DataMixin.Player.Realms[server] and '|cnGREEN_FONT_COLOR:' or '|cnDISABLED_FONT_COLOR:')..'*|r|r]|h')
             end
         elseif text then
@@ -632,11 +652,14 @@ local function New_AddMessage(self, s, ...)
         s=s:gsub('|Hplayer:.-]|h', Set_Realm)
         if not IsShowTimestamps then
             local unitName= s:match(LOOT_ITEM)--	%s获得了战利品：%s。
-            if unitName then
+            if unitName and unitName~='' then
                 if unitName==UnitName('player') or unitName==YOU then
-                    s=s:gsub(unitName, '[|A:auctionhouse-icon-favorite:0:0|a'..WoWTools_ColorMixin:SetStringColor(WoWTools_L.COMBATLOG_FILTER_STRING_ME)..']')
+                    s=s:gsub(EscapePattern(unitName), '[|A:auctionhouse-icon-favorite:0:0|a'..WoWTools_ColorMixin:SetStringColor(WoWTools_L.COMBATLOG_FILTER_STRING_ME)..']')
                 else
-                    s=s:gsub(WoWTools_TextMixin:Magic(unitName), WoWTools_UnitMixin:GetLink(nil, nil, unitName, false))
+                    local unitLink= WoWTools_UnitMixin:GetLink(nil, nil, unitName, false)
+                    if unitLink then
+                        s=s:gsub(EscapePattern(unitName), function() return unitLink end)
+                    end
                 end
             end
         end
@@ -645,7 +668,10 @@ local function New_AddMessage(self, s, ...)
 --关键词, 内容颜色，和频道名称替换
     if not Save().disabledKeyColor then
         for k in pairs(WoWToolsPlusPlayerDate['HyperLinkColorText']) do--内容加颜色
-            s=s:gsub(k, '|cnGREEN_FONT_COLOR:'..k..'|r')
+            if type(k)=='string' and k~='' then
+                --palabra literal: con ( [ % - . daba "malformed pattern" y el chat dejaba de mostrarse
+                s=s:gsub(EscapePattern(k), function(m) return '|cnGREEN_FONT_COLOR:'..m..'|r' end)
+            end
         end
     end
 

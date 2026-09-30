@@ -39,7 +39,7 @@ end
 
 
 local function Init()
-    StaticPopupDialogs['GAME_SETTINGS_APPLY_DEFAULTS'].acceptDelay=3
+    --No se modifica StaticPopupDialogs['GAME_SETTINGS_APPLY_DEFAULTS'] (acceptDelay): escribir en tablas de Blizzard contamina el diálogo
 
 --重置, 数据
 StaticPopupDialogs['WoWTools_RestData']= {

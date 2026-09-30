@@ -196,14 +196,9 @@ function WoWTools_BagMixin:OpenBag(bagID, isBank)
             ToggleBag(bagID)
         end
     else
-        if isBank then--打开， 银行背包
-            for i=1, 7 do
-                bagID= i+NUM_TOTAL_EQUIPPED_BAG_SLOTS
-                if not IsBagOpen(bagID) then
-                    ToggleBag(bagID)
-                end
-            end
-        else
+        --Desde 11.2 el banco va por pestañas y ya no hay bolsas de banco (los IDs 6-12 son pestañas):
+        --isBank abre las bolsas del jugador
+        do
             for i=BACKPACK_CONTAINER, NUM_BAG_FRAMES+ NUM_REAGENTBAG_FRAMES do
                 if not IsBagOpen(i) then
                     ToggleBag(i)
@@ -220,14 +215,7 @@ function WoWTools_BagMixin:CloseBag(bagID, isBank)
             CloseBag(bagID)
         end
     else
-        if isBank then--关闭， 银行背包
-            for i=1, 7 do
-                bagID= i+NUM_TOTAL_EQUIPPED_BAG_SLOTS
-                if IsBagOpen(bagID) then
-                    CloseBag(bagID)
-                end
-            end
-        else
+        do--ver OpenBag: ya no hay bolsas de banco
             for i=BACKPACK_CONTAINER, NUM_BAG_FRAMES+ NUM_REAGENTBAG_FRAMES do
                 if IsBagOpen(i) then
                     CloseBag(i)

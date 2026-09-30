@@ -81,13 +81,16 @@ local function GetSpellText(spellID)
             or des:match('Teleportiert zum Eingang des (.-)%.')--Teleportiert zum Eingang des Immergrünen Flors.
             or des:match('Teleport to the entrance to (.-)%.')--Teleport to the entrance to The Everbloom.
             or des:match('Teletransporte a la entrada del (.-)%.')--Teletransporte a la entrada del Vergel Eterno.
+            or des:match('Teletransporte a la entrada de la (.-)%.')
+            or des:match('Teletransporte a la entrada de (.-)%.')
+            or des:match('Teletransporte a la entrada al (.-)%.')
             or des:match('Téléporte à l’entrée de la (.-)%.')--Téléporte à l’entrée de la Flore éternelle.
 
             or des:match('Teletrasporta all\'ingresso di (.-)%.')--Teletrasporta all'ingresso di Verdeterno.
             or des:match('Teletrasporta all\'ingresso del (.-)%.')
             or des:match('Teletrasporta all\'ingresso dell\'(.-)%.')
 
-            or des:match('Teleporta para a entrada de (.-)')--Teleporta para a entrada de Floretérnia.
+            or des:match('Teleporta para a entrada de (.-)%.')--Teleporta para a entrada de Floretérnia.
             or des:match('Телепортирует заклинателя в (.-)%.')--Телепортирует заклинателя в Вечное Цветение.
             or des:match('(.-) 입구로 순간이동합니다')--상록숲 입구로 순간이동합니다.
     end

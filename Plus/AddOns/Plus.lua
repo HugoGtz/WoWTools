@@ -375,11 +375,11 @@ local function Init()
             ['!BugGrabber']=true,
 
             ['TextureAtlasViewer']= WoWTools_DataMixin.Player.husandro,
-            ['WoWTools_Chinese']= not zh,
+            ['WoWTools_Chinese']= not zh and C_AddOns.IsAddOnLoaded('WoWTools_Chinese'),--solo si ya se usaba
             ['WoWTools_Chinese_Scanner']= zh,
         }) do
             if value and C_AddOns.GetAddOnInfo(name) then
-                C_AddOns.EnableAddOn(name)
+                C_AddOns.EnableAddOn(name, WoWTools_AddOnsMixin:GetIsPlayer())
             end
         end
 
@@ -425,20 +425,21 @@ local function Init()
     refesh:SetPoint('LEFT', AddonList.ForceLoad, 'RIGHT')
     refesh.tooltip= WoWTools_L.TRANSMOGRIFY_TOOLTIP_REVERT
     refesh:SetScript('OnClick', function()
+        local character= WoWTools_AddOnsMixin:GetIsPlayer()
         if AddonList.startStatus then
             for i=1,C_AddOns.GetNumAddOns() do
                 if AddonList.startStatus[i] then
-                    C_AddOns.EnableAddOn(i)
+                    C_AddOns.EnableAddOn(i, character)
                 else
-                    C_AddOns.DisableAddOn(i)
+                    C_AddOns.DisableAddOn(i, character)
                 end
             end
         else
             for i=1, C_AddOns.GetNumAddOns() do
                 if C_AddOns.IsAddOnLoaded(i) then
-                    C_AddOns.EnableAddOn(i)
+                    C_AddOns.EnableAddOn(i, character)
                 else
-                    C_AddOns.DisableAddOn(i)
+                    C_AddOns.DisableAddOn(i, character)
                 end
             end
         end

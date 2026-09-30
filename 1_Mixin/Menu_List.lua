@@ -383,7 +383,7 @@ function WoWTools_MenuMixin:Set_Specialization(root)
         tooltip:AddLine(WoWTools_L.PVP_LABEL_WAR_MODE)
         if not C_PvP.ArePvpTalentsUnlocked() then
 			GameTooltip_AddErrorLine(
-                GameTooltip,
+                tooltip,
                 format(
                     WoWTools_L.PVP_TALENT_SLOT_LOCKED,
                     C_PvP.GetPvpTalentsUnlockedLevel()

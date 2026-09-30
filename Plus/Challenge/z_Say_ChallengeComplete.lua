@@ -90,6 +90,7 @@ local function Edit_Say_Text()
             or (WoWTools_DataMixin.Player.Region==5 and '{rt1}你们还继续吗? ')
             or (WoWTools_DataMixin.Player.Region==4 and '{rt1}還要繼續嗎? ')
             or (WoWTools_DataMixin.Player.Region==2 and '{rt1}계속하시겠습니까? ')
+            or ((GetLocale()=='esES' or GetLocale()=='esMX') and '{rt1}¿Seguimos? ')
             or '{rt1}Want to continue? ',
         SetValue= function(s)
             local edit= s.editBox or s:GetEditBox()
@@ -341,9 +342,7 @@ local function Init()
     if Save().EndKeystoneSayText then
         WoWToolsPlusPlayerDate.EndKeystoneSayText= Save().EndKeystoneSayText
         Save().EndKeystoneSayText= nil
-    else
-        EndKeystoneSayText= WoWTools_DataMixin.Player.Region==5 and '{rt1}你们还继续吗? ' or '{rt1}Want to continue? '
-    end
+    end--sin texto guardado solo se envía el enlace; el texto sugerido aparece al editar (Edit_Say_Text)
 
     SayButton= WoWTools_ButtonMixin:Cbtn(nil, {
         isItem=true,

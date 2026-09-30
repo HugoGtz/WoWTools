@@ -29,7 +29,9 @@ function WoWTools_SliderMixin:CSlider(frame, tab)
     slider.Text:ClearAllPoints()
     slider.Text:SetPoint('RIGHT')
 
-    slider:SetValueStep(tab.setp)
+    local setp= tab.setp or 1
+    slider:SetValueStep(setp)
+    slider:SetObeyStepOnDrag(true)--al arrastrar, respetar el paso (antes devolvía decimales)
     slider:SetScript('OnValueChanged', tab.func)
     slider:EnableMouseWheel(true)
     slider.max= tab.max
@@ -37,10 +39,10 @@ function WoWTools_SliderMixin:CSlider(frame, tab)
     slider:SetScript('OnMouseWheel', function(f, d)
         local setp= f:GetValueStep() or 1
         local value= f:GetValue()
-        if d== 1 then
-            value= value- setp
-        elseif d==-1 then
+        if d== 1 then--rueda arriba = más, como en la UI de Blizzard
             value= value+ setp
+        elseif d==-1 then
+            value= value- setp
         end
         value= value> f.max and f.max or value
         value= value< f.min and f.min or value
@@ -60,8 +62,9 @@ function WoWTools_SliderMixin:CSlider(frame, tab)
         slider.NineSlice.BottomLeftCorner:SetVertexColor(1,0,1)
     end
     slider:SetScript('OnLeave', GameTooltip_Hide)
-    if tab.tip then
-        slider:SetScript('OnEnter', tab.tips)
+    local tips= tab.tips or tab.tip
+    if type(tips)=='function' then
+        slider:SetScript('OnEnter', tips)
     else
         slider:SetScript('OnEnter', function(f)
             GameTooltip:SetOwner(f, "ANCHOR_LEFT")
@@ -70,7 +73,7 @@ function WoWTools_SliderMixin:CSlider(frame, tab)
             GameTooltip:AddLine(' ')
             GameTooltip:AddLine('|A:UI-HUD-MicroMenu-StreamDLRed-Up:0:0|a'..(WoWTools_L.MINIMUM)..': '..tab.min)
             GameTooltip:AddLine('|A:bags-greenarrow:0:0|a'..(WoWTools_L.MAXIMUM)..': '..tab.max)
-            GameTooltip:AddLine('Setp: '..tab.setp)
+            GameTooltip:AddLine((WoWTools_L['Step'])..': '..setp)
             GameTooltip:AddLine(' ')
             GameTooltip:AddLine('|A:common-icon-rotateright:0:0|a'..(WoWTools_L.ITEM_UPGRADE_CURRENT)..f:GetValue())
             GameTooltip:Show()

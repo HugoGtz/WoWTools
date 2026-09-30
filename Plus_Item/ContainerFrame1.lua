@@ -32,8 +32,21 @@ function WoWTools_ItemMixin.Frames:ContainerFrame1()
         })
     end)
 
+    --UpdateCooldown salta en cada hueco con cada BAG_UPDATE_COOLDOWN/SPELL_UPDATE_COOLDOWN:
+    --no volver a escanear el mismo objeto en menos de 2 s
     WoWTools_DataMixin:Hook(ContainerFrameItemButtonMixin, 'UpdateCooldown', function(btn)
-        WoWTools_ItemMixin:SetupInfo(btn, not self:SaveNo().ContainerFrame1 and {bag={bag=btn:GetBagID(), slot=btn:GetID()}, size=self:SaveSize().ContainerFrame1} or nil)
+        local bagID, slotID= btn:GetBagID(), btn:GetID()
+        local isNo= self:SaveNo().ContainerFrame1
+        local size= self:SaveSize().ContainerFrame1
+        local link= bagID and slotID and C_Container.GetContainerItemLink(bagID, slotID)
+        local key= tostring(link)..':'..tostring(isNo)..':'..tostring(size)
+        local now= GetTime()
+        if btn.wowtoolsInfoKey==key and btn.wowtoolsInfoTime and now-btn.wowtoolsInfoTime<2 then
+            return
+        end
+        btn.wowtoolsInfoKey= key
+        btn.wowtoolsInfoTime= now
+        WoWTools_ItemMixin:SetupInfo(btn, not isNo and {bag={bag=bagID, slot=slotID}, size=size} or nil)
     end)
 end
 --[[其它插件

@@ -41,7 +41,7 @@ local function set_buyback_item()
 
     local tab={}
     local no={}
-    for index=1, num do
+    for index=num, 1, -1 do--hacia atrás: al recomprar la lista se desplaza
         local itemID = C_MerchantFrame.GetBuybackItemID(index)
         if itemID and WoWToolsPlusPlayerDate['SellBuyItems'].noSell[itemID] then
             local itemLink= GetBuybackItemLink(index) or itemID

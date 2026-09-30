@@ -405,8 +405,8 @@ local function Create_positionFrame(frame)
 
 --距离
         local distanceSquared, checkedDistance = UnitDistanceSquared(self.unit)
-        if distanceSquared and checkedDistance then
-            text= text..' '..WoWTools_DataMixin:MK(distanceSquared, 0)
+        if canaccessvalue(distanceSquared) and distanceSquared and checkedDistance then
+            text= text..' '..WoWTools_DataMixin:MK(math.sqrt(distanceSquared), 0)--la API devuelve el cuadrado
         end
 
         self.Text:SetText(text)

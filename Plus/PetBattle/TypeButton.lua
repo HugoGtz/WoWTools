@@ -198,6 +198,14 @@ local function Init_Menu(self, root)
     sub:SetTooltip(function(tooltip)
         tooltip:AddLine(MicroButtonTooltipText(WoWTools_L.COLLECTIONS, "TOGGLECOLLECTIONS"))
     end)
+--abrir el diario al terminar el combate (opcional, desactivado por defecto)
+    sub:CreateCheckbox(
+        WoWTools_L['Open after pet battles'],
+    function()
+        return Save().TypeButton.openJournalOnClose
+    end, function()
+        Save().TypeButton.openJournalOnClose= not Save().TypeButton.openJournalOnClose and true or nil
+    end)
 
     root:CreateDivider()
 --显示
@@ -431,7 +439,7 @@ local function Init(isShow)
 
     TypeButton:SetScript('OnEvent', function(self, event)
         if event=='PET_BATTLE_CLOSE' then
-            if not InCombatLockdown() then--UIParent.lua
+            if Save().TypeButton.openJournalOnClose and not InCombatLockdown() then--UIParent.lua
                 local data= C_Spell.GetSpellCooldown(125439) or {}
                 if data.duration and data.duration<=2  or not data.duration then
                     if (CollectionsJournal and not PetJournal:IsVisible()) or not CollectionsJournal then

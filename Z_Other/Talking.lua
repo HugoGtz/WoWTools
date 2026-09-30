@@ -97,8 +97,8 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
         if not Save().notPrint and (text or voHandle) then
             print(WoWTools_DataMixin.Icon.icon2,
-                '|cff00ff00'..name..'|r',
-                '|cffff00ff'..text..'|r',
+                '|cff00ff00'..(name or '')..'|r',
+                '|cffff00ff'..(text or '')..'|r',
                 addName,
                 'soundKitID',
                 vo

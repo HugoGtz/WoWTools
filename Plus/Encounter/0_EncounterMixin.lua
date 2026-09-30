@@ -22,7 +22,7 @@ function WoWTools_EncounterMixin:GetBossNameSort(name)--取得怪物名称, 短�
     name=name:gsub('(,.+)','')
     name=name:gsub('(，.+)','')
     name=name:gsub('·.+','')
-    name=name:gsub('%-.+','')
+    --no cortar por '-': rompe nombres como "The One-Armed Bandit"
     name=name:gsub('<.+>', '')
     return name
 end

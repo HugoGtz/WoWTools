@@ -144,14 +144,16 @@ end
 --专业界面, 按钮
 local function Init_Buttons()
     local last
-    local tab={GetProfessions()}--prof1, prof2, archaeology, fishing, cooking
-    if tab[3]==10 and #tab>3 then
-        local archaeology=tab[3]--10
-        table.remove(tab, 3)
-        table.insert(tab, archaeology)
+    --GetProfessions() puede devolver nil en medio: lista sin huecos y arqueología al final
+    local prof1, prof2, archaeology, fishing, cooking= GetProfessions()
+    local tab={}
+    for _, index in ipairs({prof1 or false, prof2 or false, fishing or false, cooking or false, archaeology or false}) do
+        if index then
+            table.insert(tab, index)
+        end
     end
 
-    for k , index in pairs(tab) do
+    for k , index in ipairs(tab) do
         local name, icon, _, _, _, _, skillLine = GetProfessionInfo(index)
         if icon and skillLine then
             local button= WoWTools_ButtonMixin:Cbtn(Frame, {size=32})

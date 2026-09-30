@@ -205,7 +205,10 @@ local function Create_Spec_Button(index)
 
     btn:SetScript('OnMouseDown', function(self, d)
         if d=='LeftButton' then
-            self:Set_Active()
+            --botones sueltos en pantalla: Shift+clic para cambiar de especialización (evita clics accidentales)
+            if self.isActive or not Save().isUIParent or IsShiftKeyDown() then
+                self:Set_Active()
+            end
         elseif d=='RightButton' and SpecFrame:IsMovable() and IsAltKeyDown() and not WoWTools_FrameMixin:IsLocked(SpecFrame) then
             SetCursor('UI_MOVE_CURSOR')
         else
@@ -231,6 +234,7 @@ local function Create_Spec_Button(index)
                     )
                     ..(self.isActive and (WoWTools_L.COVENANT_SANCTUM_UPGRADE_ACTIVE)
                     or (WoWTools_L.SPEC_ACTIVE))
+                    ..((not self.isActive and Save().isUIParent) and ' Shift+' or '')
                     ..WoWTools_DataMixin.Icon.left,
 
                     WoWTools_DataMixin.Icon.right..(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL)
@@ -252,10 +256,13 @@ local function Create_Spec_Button(index)
     end
 
     function btn:set_shown(isInCombat)
+        --en PLAYER_REGEN_DISABLED InCombatLockdown() aún es false: usar el parámetro si viene
+        if isInCombat==nil then
+            isInCombat= InCombatLockdown()
+        end
         self:SetShown(
             not Save().isUIParent
             or self.isActive
-            or not InCombatLockdown()
             or not isInCombat
         )
     end

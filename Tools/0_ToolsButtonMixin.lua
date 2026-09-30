@@ -38,6 +38,7 @@ local LeftButtons1={}
 local LeftButtons2={}
 local RightButtons={}
 local BottomButtons={}
+local LeftNewLineButton--antes global por falta de local
 local function Save()
     return WoWToolsPlusSave['WoWTools_ToolsButton']
 end

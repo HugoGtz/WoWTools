@@ -733,11 +733,10 @@ end
 
 --LFDRoleCheckPopup
 function WoWTools_MoveMixin.Events:Blizzard_StaticPopup()
+    --movibles pero sin guardar posición: si no, popups distintos caían en el mismo sitio y se solapaban
     WoWTools_DataMixin:Hook('StaticPopup_SetUpPosition', function(dialog)
         if not dialog.moveFrameData then
-            self:Setup(dialog)
-        else
-            self:SetPoint(dialog)--设置, 移动,
+            self:Setup(dialog, {notSave=true})
         end
     end)
 

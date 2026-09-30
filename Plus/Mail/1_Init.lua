@@ -147,15 +147,16 @@ end
 
 --初始
 local function Init()--SendMailNameEditBox
-    if Save().lastSendPlayer then--收件人
+    --rellenar con lo último enviado solo si el jugador activó guardarlo (logSendInfo)
+    if Save().logSendInfo and Save().lastSendPlayer then--收件人
         WoWTools_MailMixin:SetSendName(Save().lastSendPlayer)--设置，发送名称，文
     end
 
-    if Save().lastSendSub then--主题
+    if Save().logSendInfo and Save().lastSendSub then--主题
         SendMailSubjectEditBox:SetText(Save().lastSendSub)
     end
 
-    if Save().lastSendBody then--内容
+    if Save().logSendInfo and Save().lastSendBody then--内容
         SendMailBodyEditBox:SetText(Save().lastSendBody)
     end
     SendMailNameEditBox:ClearFocus()

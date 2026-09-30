@@ -170,7 +170,14 @@ local function SetupButton(frame, tab)
     if setZoom then
         local scale= Save().scale[name]
         if scale and scale~=1 then
-            frame:SetScale(scale)
+            if WoWTools_FrameMixin:IsLocked(frame) then--tras /reload en combate: esperar
+                EventRegistry:RegisterFrameEventAndCallback("PLAYER_REGEN_ENABLED", function(owner)
+                    frame:SetScale(scale)
+                    EventRegistry:UnregisterCallback('PLAYER_REGEN_ENABLED', owner)
+                end)
+            else
+                frame:SetScale(scale)
+            end
         end
 
         btn:SetScript('OnMouseWheel', function(self, delta)

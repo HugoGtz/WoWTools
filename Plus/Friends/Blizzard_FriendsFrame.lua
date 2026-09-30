@@ -190,6 +190,8 @@ end
 
 
 
+local TitleIconCache={}--[clientProgram]= texture
+
 --处理，好友，在线信息
 local function Set_Friend_Event(self, _, friendIndex)
 --战斗中，不显示，好友，提示
@@ -247,12 +249,22 @@ local function Set_Friend_Event(self, _, friendIndex)
         end
     end
 
-    if accountInfo.gameAccountInfo.clientProgram then
-        C_Texture.GetTitleIconTexture(accountInfo.gameAccountInfo.clientProgram, Enum.TitleIconVersion.Small, function(success, texture)--FriendsFrame.lua BnetShared.lua
-            if success and texture then
-                text= text..'|T'..texture..':0|t'
-            end
-        end)
+    local clientProgram= accountInfo.gameAccountInfo.clientProgram
+    if clientProgram then
+        --la API es asíncrona: se guarda el icono en caché y se usa en la siguiente actualización
+        if TitleIconCache[clientProgram]==nil then
+            TitleIconCache[clientProgram]= false
+            C_Texture.GetTitleIconTexture(clientProgram, Enum.TitleIconVersion.Small, function(success, texture)--FriendsFrame.lua BnetShared.lua
+                if success and texture then
+                    TitleIconCache[clientProgram]= texture
+                else
+                    TitleIconCache[clientProgram]= nil
+                end
+            end)
+        end
+        if TitleIconCache[clientProgram] then
+            text= text..'|T'..TitleIconCache[clientProgram]..':0|t'
+        end
     end
 
     if not accountInfo.gameAccountInfo.isInCurrentRegion then

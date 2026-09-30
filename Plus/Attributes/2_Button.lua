@@ -41,7 +41,10 @@ local function Init()
                 end
             end
         end
-        text= text..'HP'..WoWTools_DataMixin:MK(UnitHealthMax('player'), 0)
+        local maxHealth= UnitHealthMax('player')
+        if canaccessvalue(maxHealth) then
+            text= text..'HP'..WoWTools_DataMixin:MK(maxHealth, 0)
+        end
 
         for _, info in pairs(WoWTools_AttributesMixin:Get_Tabs()) do
             local frame=button[info.name]
@@ -289,7 +292,14 @@ local function Init()
                 or event=='UNIT_DEFENSE'
                 or event=='UNIT_RANGEDDAMAGE'
                 or event=='UNIT_AURA' then
-                WoWTools_AttributesMixin:Frame_Init()--初始， 或设置
+                --agrupar: UNIT_AURA llega decenas de veces por segundo en combate
+                if not button.frame.pendingInit then
+                    button.frame.pendingInit= true
+                    C_Timer.After(0.2, function()
+                        button.frame.pendingInit= nil
+                        WoWTools_AttributesMixin:Frame_Init()--初始， 或设置
+                    end)
+                end
             else
                 WoWTools_AttributesMixin:Frame_Init(true)--初始， 或设置
             end

@@ -3,12 +3,13 @@ local function SaveLog()
 end
 
 
+local ShiJI--local antes de set_ShiJI, si no se asignaba a una global
+
 local function set_ShiJI()--召唤司机 代驾型机械路霸
     ShiJI= WoWTools_DataMixin.Player.Faction=='Horde' and 179244 or (WoWTools_DataMixin.Player.Faction=='Alliance' and 179245) or nil--"Alliance", "Horde", "Neutral"
 end
 
 
-local ShiJI
 local XD
 local MountTab={}
 
@@ -112,12 +113,17 @@ local function getRandomRoll(muntType)--随机坐骑
     local tab=MountTab[muntType] or {}
     local num= #tab
     if num>0 then
-        local index= math.random(1, num)
-
-        if C_Spell.IsSpellUsable(tab[index]) and not select(2, C_MountJournal.GetMountUsabilityByID(tab[index], true)) then
-            return tab[index]
+        --varios intentos: una sola tirada caía a otra categoría si esa montura no era usable
+        local start= math.random(1, num)
+        for i=0, num-1 do
+            local spellID= tab[((start+i-1) % num)+1]
+            local mountID= C_MountJournal.GetMountFromSpell(spellID)--la API espera mountID, no spellID
+            if C_Spell.IsSpellUsable(spellID)
+                and (not mountID or C_MountJournal.GetMountUsabilityByID(mountID, true))
+            then
+                return spellID
+            end
         end
-
     end
 end
 
@@ -208,12 +214,12 @@ local function setClickAtt(self)--设置 Click属性
     elseif not self.itemID or not C_PlayerInfo.CanUseItem(self.itemID) then
         spellID= (IsIndoors() or isMoving or isBat) and self.spellID2
             or getRandomRoll('Floor')--区域
-            or ((isAdvancedFlyableArea or C_Spell.IsSpellUsable(368896)) and-- [368896]=true,--[复苏始祖幼龙] 
+            or (IsSubmerged() and getRandomRoll('Aquatic'))--水平中
+            or ((isAdvancedFlyableArea or C_Spell.IsSpellUsable(368896)) and (-- [368896]=true,--[复苏始祖幼龙] 
                 C_UnitAuras.GetAuraDataBySpellName('player', C_Spell.GetSpellName(404468), 'HELPFUL')--404468/飞行模式：稳定
                     and getRandomRoll('Flying')
                     or getRandomRoll('Dragonriding')
-                )
-            or (IsSubmerged() and getRandomRoll('Aquatic'))--水平中
+                ))
             or (isFlyableArea and getRandomRoll('Flying'))--飞行区域
             or (IsOutdoors() and getRandomRoll('Ground'))--室内
             or self.spellID
@@ -445,7 +451,7 @@ local function Init()
             --战斗中，可用，驭空术
             elseif InCombatLockdown() and not IsPlayerMoving() and C_Spell.IsSpellUsable(368896) then
                 local spellID2= getRandomRoll('Dragonriding')
-                local mountID= spellID2 and C_MountJournal.GetMountFromSpell(spellID2) or 368896
+                local mountID= C_MountJournal.GetMountFromSpell(spellID2 or 368896)--368896 es spellID
                 if mountID then
                     C_MountJournal.SummonByID(mountID)
                 end
@@ -595,6 +601,21 @@ local function Init()
     btn:RegisterEvent('NEUTRAL_FACTION_SELECT_RESULT')
 
 
+    function btn:IsMountSpell(spellID)--solo los hechizos que usa este botón
+        if spellID==768 or spellID==783 or spellID==179244 or spellID==179245 then
+            return true
+        end
+        local data= SaveLog()
+        if data['Spell'] and data['Spell'][spellID] then
+            return true
+        end
+        for _, mountType in pairs(WoWTools_MountMixin.MountType) do
+            if data[mountType] and data[mountType][spellID] then
+                return true
+            end
+        end
+    end
+
     btn:SetScript("OnEvent", function(self, event, arg1, arg2)
         if event=='PLAYER_REGEN_DISABLED' then
                 setClickAtt(self)--设置属性
@@ -608,11 +629,18 @@ local function Init()
                 end)
             end
 
-        elseif event=='SPELLS_CHANGED' or (event=='SPELL_DATA_LOAD_RESULT' and arg1 and arg2) then
-            checkSpell(self)--检测法术
-            XDInt()--德鲁伊设置
-            checkMount()--检测坐骑
-            setClickAtt(self)--设置属性   
+        elseif event=='SPELLS_CHANGED' or (event=='SPELL_DATA_LOAD_RESULT' and arg1 and arg2 and self:IsMountSpell(arg1)) then
+            --agrupar: SPELL_DATA_LOAD_RESULT llega muy a menudo
+            if not self.recheckPending then
+                self.recheckPending=true
+                C_Timer.After(0.2, function()
+                    self.recheckPending=nil
+                    checkSpell(self)--检测法术
+                    XDInt()--德鲁伊设置
+                    checkMount()--检测坐骑
+                    setClickAtt(self)--设置属性
+                end)
+            end
 
         elseif event=='BAG_UPDATE_DELAYED' then
             checkItem(self)--检测物品

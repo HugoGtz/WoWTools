@@ -149,13 +149,8 @@ local function Set_OnMouseWheel(d)
 
     text= set_Text(text)--处理%s
 
-    if IsInRaid() then
-        C_ChatInfo.SendChatMessage(text, 'RAID')
-    elseif IsInGroup() then
-        C_ChatInfo.SendChatMessage(text, 'PARTY')
-    else
-        WoWTools_ChatMixin:Chat(text, nil, nil)
-    end
+    --Chat elige INSTANCE_CHAT/RAID/PARTY y respeta el bloqueo de chat de 12.0
+    WoWTools_ChatMixin:Chat(text, nil, nil)
 end
 
 

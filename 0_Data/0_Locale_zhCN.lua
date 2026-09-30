@@ -1548,4 +1548,14 @@ WoWTools_L_zhCN= {
     ['Opacity (unusable, cannot buy, collected)']= '透明度|n|n无法使用|n不可购买|n已收集',
     PROFESSIONS_SPECS_ADD_KNOWLEDGE= '运用知识',
     DELETE_GOOD_ITEM_FMT= '你真的要摧毁%s吗？\n\n请在输入框中输入%s以确认。',
+    --Fase 4
+    Step= '步长',
+    ['WITHDRAW~4']= '提取',
+    ['Also in player choices']= '也用于玩家选择',
+    ['Untracks every quest that is not on the current map, including the ones you track manually.']= '取消追踪不在当前地图上的所有任务，包括手动追踪的任务。',
+    ['Open after pet battles']= '宠物对战结束后打开',
+    ['Need to enable "%s"']= '需要启用‘%s’',
+    ['Thanks for the summon']= '谢谢拉我',
+    ['May cause Interface action blocked errors when opening panels in combat']= '战斗中打开面板时可能导致界面行为被阻止',
+    Old= '旧',
 }

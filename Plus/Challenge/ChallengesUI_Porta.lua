@@ -61,14 +61,14 @@ local function Create_Button(frame)
         elseif event=='PLAYER_REGEN_DISABLED' then
             self:SetShown(false)
         elseif event=='PLAYER_REGEN_ENABLED' then
-            self:SetShown(true)
+            self:SetShown(not Save().hidePort)
         end
     end)
 
 
     frame:HookScript('OnShow', function(self)
         if not InCombatLockdown() then
-            self.spellPort:SetShown(true)
+            self.spellPort:SetShown(not Save().hidePort)
         end
         self.spellPort:RegisterEvent('PLAYER_REGEN_DISABLED')
         self.spellPort:RegisterEvent('PLAYER_REGEN_ENABLED')

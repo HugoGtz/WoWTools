@@ -431,10 +431,26 @@ end
 
 
 
-local function WoWTools_Word_Filters(_, _, msg, name, _, _, _, _, _, _, _, _, _, guid)
+local Word_Filters
+
+--el filtro se llama una vez por ventana de chat: contar cada línea (lineID) una sola vez
+local LastLineID, LastLineResult
+local function WoWTools_Word_Filters(_, _, msg, name, _, _, _, _, _, _, _, _, lineID, guid)--lineID=arg11, guid=arg12
     if not canaccessvalue(msg) or not canaccessvalue(name) or not canaccessvalue(guid) then--valores secretos (12.0)
         return false
     end
+    if lineID and canaccessvalue(lineID) then
+        if lineID==LastLineID then
+            return LastLineResult
+        end
+        LastLineID= lineID
+        LastLineResult= Word_Filters(msg, name, guid)
+        return LastLineResult
+    end
+    return Word_Filters(msg, name, guid)
+end
+
+function Word_Filters(msg, name, guid)
     if Save().userChatFilter and Save().userChatFilterTab[name] then
         Save().userChatFilterTab[name]= {
                 num= Save().userChatFilterTab[name].num +1,
@@ -459,7 +475,7 @@ local function WoWTools_Word_Filters(_, _, msg, name, _, _, _, _, _, _, _, _, _,
         then--自已, 好友
             return false
 
-        elseif strlenutf8(msg)>Save().myChatFilterNum or msg:find('WTS') then-- msg:find('<.->') or  then
+        elseif strlenutf8(msg)>Save().myChatFilterNum or msg:find('%f[%w][Ww][Tt][Ss]%f[%W]') then--WTS/wts como palabra-- msg:find('<.->') or  then
             if Save().myChatFilterAutoAdd then
                 Save().myChatFilterPlayers[guid]= 1
             else

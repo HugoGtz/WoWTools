@@ -130,8 +130,12 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 GetValue= function() return not Save().disabled end,
                 SetValue= function()
                     Save().disabled= not Save().disabled and true or nil
-                    Init()
-                    WoWTools_AuctionHouseMixin:Init_AccountStore()
+                    if not Save().disabled then
+                        if C_AddOns.IsAddOnLoaded('Blizzard_AuctionHouseUI') then
+                            Init()
+                        end
+                        WoWTools_AuctionHouseMixin:Init_AccountStore()
+                    end
                 end,
                 tooltip=WoWTools_L.RELOADUI,
             })

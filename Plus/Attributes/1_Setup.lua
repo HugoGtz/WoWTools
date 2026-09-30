@@ -17,6 +17,11 @@ local function Set_Color()
     GreenColor= {r=r or 0, g=g or 1, b=b or 0, a=a or 1}
 end
 
+--5_Blizzard_Settings.lua: aplicar el color elegido sin pulsar "reset"
+function WoWTools_AttributesMixin:Set_Color()
+    Set_Color()
+end
+
 
 local function get_PrimaryStat()--取得主属
     local spec= GetSpecialization() or 0
@@ -120,7 +125,7 @@ local function set_Text_Value(frame, value, value2)
         else
             if frame.useNumber then
                 if frame.bit==0 then
-                    text= BreakUpLargeNumbers(value)..(value2 and '/'..BreakUpLargeNumbers(value) or '')
+                    text= BreakUpLargeNumbers(value)..(value2 and '/'..BreakUpLargeNumbers(value2) or '')
                 else
                     text= WoWTools_DataMixin:MK(value, frame.bit)..( value2 and '/'..WoWTools_DataMixin:MK(value2, frame.bit) or '')
                 end
@@ -799,6 +804,9 @@ end
 --精通4
 EventsTable.MASTERY= function(frame)
     frame:RegisterEvent('MASTERY_UPDATE')
+    frame:SetScript('OnEvent', function()
+        WoWTools_AttributesMixin:Frame_Init()
+    end)
     frame.onEnterFunc = Mastery_OnEnter
 end
 

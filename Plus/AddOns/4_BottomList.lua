@@ -55,7 +55,7 @@ local function Create_Button(index)
         local loadable, reason = C_AddOns.IsAddOnLoadable(addonIndex, character)
         --local checkboxState = C_AddOns.GetAddOnEnableState(addonIndex, character)
         --if ( not InGlue() ) then
-            enabled = (C_AddOns.GetAddOnEnableState(addonIndex, UnitName("player")) > Enum.AddOnEnableState.None)
+            enabled = (C_AddOns.GetAddOnEnableState(addonIndex, WoWTools_DataMixin.Player.GUID) > Enum.AddOnEnableState.None)
         --else
             --enabled = (checkboxState > Enum.AddOnEnableState.None)
         --end

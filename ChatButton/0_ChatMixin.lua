@@ -16,7 +16,13 @@ function WoWTools_ChatMixin:Chat(text, name, printText)
         return
     end
 
-    if name then
+    --12.0: durante encuentros no se puede enviar chat desde addons
+    local locked= not printText and C_ChatInfo.InChatMessagingLockdown and C_ChatInfo.InChatMessagingLockdown()
+
+    if locked then
+        return
+
+    elseif name then
         C_ChatInfo.SendChatMessage(text, 'WHISPER', nil, name)
     elseif printText then
         if not ChatEdit_InsertLink(text) then

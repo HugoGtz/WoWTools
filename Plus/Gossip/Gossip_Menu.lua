@@ -55,6 +55,13 @@ local function Init_Menu(self, root)
     sub:SetTooltip(function(tooltip)
         tooltip:AddLine(WoWTools_L['When there is only one option, select it automatically.'], nil, nil,nil, true)
     end)
+    sub:CreateCheckbox(
+        WoWTools_L['Also in player choices'],
+    function()
+        return Save().uniqueChoice
+    end, function ()
+        Save().uniqueChoice= not Save().uniqueChoice and true or nil
+    end)
 
 
 --自定义,闲话

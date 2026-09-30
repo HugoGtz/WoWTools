@@ -20,9 +20,15 @@ local function Set_Target()
 
     local UnitFrame = plate.UnitFrame
     local frame--= get_isAddOnPlater(plate.UnitFrame.unit)--C_AddOns.IsAddOnLoaded("Plater")
+    --los subframes pueden no existir (nameplate de 12.0 u otros addons de nameplates)
+    local softIcon= UnitFrame.SoftTargetFrame and UnitFrame.SoftTargetFrame.Icon
+    local raidIcon= UnitFrame.RaidTargetFrame and UnitFrame.RaidTargetFrame.RaidTargetIcon
+    local classIcon= UnitFrame.ClassificationFrame and UnitFrame.ClassificationFrame.classificationIndicator
+    local widget= UnitFrame.WidgetContainer
+
     targetFrame:ClearAllPoints()
     if Save().TargetFramePoint=='TOP' then
-        if UnitFrame.SoftTargetFrame.Icon:IsShown() then
+        if softIcon and softIcon:IsShown() then
             frame= UnitFrame.SoftTargetFrame
         else
             frame= UnitFrame.name or UnitFrame.healthBar
@@ -35,14 +41,14 @@ local function Set_Target()
         w= w+ Save().w
         h= h+ Save().h
         local n, p
-        if UnitFrame.RaidTargetFrame.RaidTargetIcon:IsVisible() then
-            n= UnitFrame.RaidTargetFrame.RaidTargetIcon:GetWidth()+ UnitFrame.ClassificationFrame.classificationIndicator:GetWidth()
+        if raidIcon and raidIcon:IsVisible() then
+            n= raidIcon:GetWidth()+ (classIcon and classIcon:GetWidth() or 0)
 
         --[[elseif UnitFrame.WidgetContainer:IsVisible() then
             n= UnitFrame.WidgetContainer:GetWidth()]]
 
-        elseif UnitFrame.ClassificationFrame.classificationIndicator:IsVisible() then
-            n= UnitFrame.ClassificationFrame.classificationIndicator:GetWidth()
+        elseif classIcon and classIcon:IsVisible() then
+            n= classIcon:GetWidth()
         end
 
         if UnitFrame.questProgress then
@@ -53,14 +59,14 @@ local function Set_Target()
         targetFrame:SetPoint('CENTER', UnitFrame, Save().x+ (-n+p)/2, Save().y)
     else
 
-        if UnitFrame.RaidTargetFrame.RaidTargetIcon:IsVisible() then
+        if raidIcon and raidIcon:IsVisible() then
             frame= UnitFrame.RaidTargetFrame
 
-        elseif UnitFrame.ClassificationFrame.classificationIndicator:IsVisible() then
-            frame= UnitFrame.ClassificationFrame.classificationIndicator
+        elseif classIcon and classIcon:IsVisible() then
+            frame= classIcon
 
-        elseif UnitFrame.WidgetContainer:IsVisible() then
-            frame= UnitFrame.WidgetContainer
+        elseif widget and widget:IsVisible() then
+            frame= widget
         else
             frame= UnitFrame.healthBar or UnitFrame.name
         end

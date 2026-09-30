@@ -388,7 +388,7 @@ function WoWTools_LoadUIMixin:CovenantRenown(frame, covenantID)
         levelInfo.rewardInfo = C_CovenantSanctumUI.GetRenownRewardsForLevel(covenantID, i)
     end
     CovenantRenownFrame.TrackFrame:Init(renownLevelsInfo)
-    CovenantRenownFrame.maxLevel = renownLevelsInfo[#renownLevelsInfo].level
+    CovenantRenownFrame.maxLevel = renownLevelsInfo[#renownLevelsInfo] and renownLevelsInfo[#renownLevelsInfo].level or 0
 
 
     CovenantRenownFrame.actualLevel = C_CovenantSanctumUI.GetRenownLevel()

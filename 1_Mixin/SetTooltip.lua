@@ -283,8 +283,7 @@ local function Set_DungeonScore(self, dungeonScoreLink)
 
 	-- Sort Alphabetically. 
 	table.sort(sortTable, function(a, b)
----@diagnostic disable-next-line: missing-return, discard-returns
-        strcmputf8i(a.mapName, b.mapName)
+        return strcmputf8i(a.mapName or '', b.mapName or '') < 0
     end)
 
 	for i = 1, #sortTable do
@@ -484,7 +483,7 @@ function WoWTools_SetTooltipMixin:Setup(tooltip, data, frame)
     local vignetteGUID= data.vignetteGUID
 
     local uiMapID= data.uiMapID
-    local areaPoiID= data.uiMapID
+    local areaPoiID= data.areaPoiID
 
     local speciesID= data.speciesID
     local petID= data.petID
@@ -536,11 +535,11 @@ function WoWTools_SetTooltipMixin:Setup(tooltip, data, frame)
         tooltip:SetAchievementByID(achievementID)
 
     elseif data.frame and data.frame.questID then
-        GameTooltip_SetTitle(tooltip, WoWTools_QuestMixin:GetName(questID))
+        GameTooltip_SetTitle(tooltip, WoWTools_QuestMixin:GetName(data.frame.questID))
         GameTooltip_AddQuest(data.frame)
 
     elseif frame and frame.questID then
-        GameTooltip_SetTitle(tooltip, WoWTools_QuestMixin:GetName(questID))
+        GameTooltip_SetTitle(tooltip, WoWTools_QuestMixin:GetName(frame.questID))
         GameTooltip_AddQuest(frame)
 
     elseif questID then

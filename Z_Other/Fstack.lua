@@ -246,7 +246,7 @@ local function Init_Create(frame)
 
         local text=label:GetText()
         if canaccessvalue(text) then
-            text= text:match('Frame Attributes %- (.+)') or text
+            text= text:match('Frame Attributes %- (.+)') or text:match('^.- %- (.+)$') or text--título no inglés
         else
             text=format(WoWTools_L.EVENTTRACE_SECRET_FMT, '')
         end

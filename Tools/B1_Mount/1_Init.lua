@@ -156,7 +156,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
             if Save().Mounts then--旧数据
                 WoWToolsPlusPlayerDate['Tools_Mounts']={
-                    Item= Save().Mounts[ITEMS] or P_Mouts_Tab.Items or {},
+                    Item= Save().Mounts[ITEMS] or P_Mouts_Tab.Item or {},--antes .Items (errata)
                     Spell= Save().Mounts[SPELLS] or P_Mouts_Tab.Spell or {},
                     Floor= Save().Mounts[FLOOR] or P_Mouts_Tab.Floor or {},
                     Ground= Save().Mounts[MOUNT_JOURNAL_FILTER_GROUND] or P_Mouts_Tab.Ground or {},

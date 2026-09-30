@@ -13,17 +13,34 @@ local function Get_InstanceID()
     return instanceID
 end
 
-local function Get_List_Tab(instanceID)
-    local mapData
-    if WoWTools_MapIDAchievementData and instanceID then
-        mapData= WoWTools_MapIDAchievementData[instanceID]
+--Los datos traen IDs repetidos (x3): se deduplican y ordenan una vez por instancia, sin tocar la tabla global
+local UniqueMapData={}
+local function Get_MapData(instanceID)
+    if UniqueMapData[instanceID] then
+        return UniqueMapData[instanceID]
     end
+    local raw= WoWTools_MapIDAchievementData and WoWTools_MapIDAchievementData[instanceID]
+    if not raw then
+        return
+    end
+    local list, seen= {}, {}
+    for _, achievementID in ipairs(raw) do
+        if not seen[achievementID] then
+            seen[achievementID]= true
+            table.insert(list, achievementID)
+        end
+    end
+    table.sort(list)
+    UniqueMapData[instanceID]= list
+    return list
+end
+
+local function Get_List_Tab(instanceID)
+    local mapData= instanceID and Get_MapData(instanceID)
     local to= mapData and #mapData or 0
     if to==0 then
         return
     end
-
-    table.sort(mapData)
 
     local tab={}
     local co= 0
@@ -566,7 +583,7 @@ local function Init_Achievement()
             end
             if button.Player and button.Player.idText then
                 local flags= button.id and select(9, GetAchievementInfo(button.id))
-                if flags==0x20000 then
+                if flags and bit.band(flags, ACHIEVEMENT_FLAGS_ACCOUNT or 0x20000)~=0 then--flag de bits, no igualdad
                     button.Player.idText:SetText(WoWTools_DataMixin.Icon.net2..'|cffff00ff'..button.id..'|r')
                 else
                     button.Player.idText:SetText(button.id or '')
@@ -752,7 +769,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 if Save().disabled then
                     print(
                         addName..WoWTools_DataMixin.Icon.icon2,
-                        WoWTools_TextMixin:GetEnabeleDisable(Save().disabled),
+                        WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
                         WoWTools_L.REQUIRES_RELOAD
                     )
                 end

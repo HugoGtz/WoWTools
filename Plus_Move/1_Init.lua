@@ -3,15 +3,11 @@
 local P_Save={
     --disabledMove=true,--禁用移动
     point={},--移动
-    SavePoint= WoWTools_DataMixin.Player.husandro,--保存窗口,位置
+    SavePoint= true,--保存窗口,位置 (antes solo para el autor: los paneles volvían a su sitio sin explicación)
     --moveToScreenFuori=WoWTools_DataMixin.Player.husandro,--可以移到屏幕外
 
     --disabledZoom=true,--禁用缩放
-    scale={--缩放
-        ['UIWidgetPowerBarContainerFrame']= 0.85,
-        ['ZoneAbilityFrame']= 0.85,
-        ['BankFrame']=0.85,
-    },
+    scale={},--缩放 (antes 0.85 por defecto en ZoneAbilityFrame, UIWidgetPowerBarContainerFrame y BankFrame)
     size={},
     disabledSize={
         ['WorldMapFrame']= not WoWTools_DataMixin.Player.husandro
@@ -149,8 +145,13 @@ local function Init()
         WoWTools_MoveMixin.Frames[name]= nil
     end
 
-    for name in ipairs(UIPanelWindows) do
-        if _G[name]
+    for name in pairs(UIPanelWindows) do--diccionario por nombre: ipairs no iteraba nunca
+        if type(name)=='string'
+            and _G[name]
+            and type(_G[name])=='table'
+            and _G[name].IsProtected
+            and not _G[name]:IsProtected()
+            and not Save().no[name]
             and not _G[name]:IsMovable()
             and not _G[name].moveFrameData
             and not _G[name].ResizeButton

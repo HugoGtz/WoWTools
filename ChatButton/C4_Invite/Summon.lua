@@ -44,7 +44,7 @@ local function Init()
                     if not InCombatLockdown() and PlayerCanTeleport() then
                         C_SummonInfo.ConfirmSummon()
                         StaticPopup_Hide("CONFIRM_SUMMON")
-                        if not IsInGroup() or Save().notSummonChat then
+                        if not IsInGroup() or not Save().SummonChat then
                             return
                         end
                         local isInRaid= IsInRaid()
@@ -65,13 +65,19 @@ local function Init()
         end
     end)
 
-    StaticPopupDialogs["CONFIRM_SUMMON"].OnHide= function(self)
+    local function onHide(self)
         if self.SummonTimer then
             self.SummonTimer:Cancel()
             self.SummonTimer=nil
         end
         self.enabledAutoSummon=nil
         self.isCancelled=nil
+        self.isCancelledAuto=nil--si no, tras cancelar una vez ya no se autoacepta nunca
+    end
+    if StaticPopupDialogs["CONFIRM_SUMMON"].OnHide then--encadenar en vez de pisar la de Blizzard
+        WoWTools_DataMixin:Hook(StaticPopupDialogs["CONFIRM_SUMMON"], "OnHide", onHide)
+    else
+        StaticPopupDialogs["CONFIRM_SUMMON"].OnHide= onHide
     end
 
     WoWTools_DataMixin:Hook(StaticPopupDialogs["CONFIRM_SUMMON"], "OnShow",function()--StaticPopup.lua

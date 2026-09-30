@@ -56,6 +56,13 @@ local currentRegion= GetCurrentRegion()
 
 
 local function GetWeek()--周数
+    --Clave de semana según el reinicio real del servidor (antes: medianoche local, borraba bloqueos antes de tiempo)
+    local secs= C_DateAndTime and C_DateAndTime.GetSecondsUntilWeeklyReset and C_DateAndTime.GetSecondsUntilWeeklyReset()
+    local now= GetServerTime and GetServerTime()
+    if secs and now and secs>0 and now>0 then
+        return floor((now+ secs)/ 604800)
+    end
+
     local region= currentRegion
     local d = date("*t")
     local cd= region==1 and 2 or (region==3 and 3) or 4--1US(includes Brazil and Oceania) 2Korea 3Europe (includes Russia) 4Taiwan 5China
@@ -70,6 +77,10 @@ local function GetWeek()--周数
         week=52
     end
     return week
+end
+
+function WoWTools_DataMixin:GetWeek()
+    return GetWeek()
 end
 
 --PlayerUtil.GetClassColor():WrapTextInColorCode(linkText)
@@ -281,7 +292,8 @@ function WoWTools_DataMixin:Info(data1)
     WoWTools_TextMixin:ShowText({t}, WoWTools_DataMixin.Icon.icon2..(type(data1)=='string' and data1 or tostring(data)))--, {notClear=true})
 end
 
-if not _G[SLASH_INFOSLASH1] then
+--no pisar un /info de otro addon (antes se comprobaba _G[nil])
+if not SlashCmdList["INFOSLASH"] and not (hash_SlashCmdList and hash_SlashCmdList['/INFO']) then
     SLASH_INFOSLASH1 = "/info"
     SlashCmdList["INFOSLASH"] = function(msg)
 	    WoWTools_DataMixin:Info(msg)

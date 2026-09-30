@@ -76,7 +76,7 @@ function WoWTools_CooldownMixin:SetFrame(frame, tab)
         if canaccessvalue(startTime) and startTime then
             local duration= (endTime - startTime) / 1000
             local channel= true
-            self:Setup(frame, nil, duration, nil, true, channel, nil,nil)
+            self:Setup(frame, startTime/1000, duration, nil, true, channel, nil,nil)--inicio real, no GetTime()
             return texture
         end
 
@@ -84,7 +84,7 @@ function WoWTools_CooldownMixin:SetFrame(frame, tab)
         if canaccessvalue(startTime) and startTime then
             local channel= false
             local duration= (endTime - startTime) / 1000
-            self:Setup(frame, nil, duration, nil, true, channel, nil,nil)
+            self:Setup(frame, startTime/1000, duration, nil, true, channel, nil,nil)
             return texture
         end
 

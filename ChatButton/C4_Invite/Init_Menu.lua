@@ -234,9 +234,9 @@ local function Init_Menu(self, root)
     sub2=sub:CreateCheckbox(
         chatName,
     function()
-        return not Save().notSummonChat
+        return Save().SummonChat
     end, function()
-        Save().notSummonChat= not Save().notSummonChat and true or nil
+        Save().SummonChat= not Save().SummonChat and true or nil
     end)
     sub2:SetTooltip(function(tooltip)
         tooltip:AddLine(

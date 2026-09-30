@@ -45,8 +45,8 @@ local function Init()
     --BankPanel 标题
     BankPanel.Header.Text:SetShadowOffset(1, -1)
 
---替换，原生
-    function BankPanel:RefreshHeaderText()
+--Post-proceso con hook (antes se sustituía el método de Blizzard: taint en BankFrame)
+    WoWTools_DataMixin:Hook(BankPanel, 'RefreshHeaderText', function(self)
         if Save().allBank then
             self.Header.Text:SetText('')
         else
@@ -58,7 +58,7 @@ local function Init()
                 self.Header.Text:SetTextColor(1,0.5,0)
             end
         end
-    end
+    end)
 
 --提取，菜单
     BankPanel.Header.Text:EnableMouse(true)
@@ -154,13 +154,15 @@ local function Init_UI()
     end)
 
     BankPanel.AutoDepositFrame.DepositButton:SetText('')
---替换，原生
-    function BankPanel.AutoDepositFrame.DepositButton:UpdateTextForBankType()
+--Post-proceso con hook (antes se sustituía el método de Blizzard)
+    local function Set_DepositButton(self)
+        self:SetText('')
         self:SetNormalAtlas(self:GetActiveBankType() == Enum.BankType.Account
             and 'quest-important-available'
             or 'Professions_Tracking_Fish'
         )
     end
+    WoWTools_DataMixin:Hook(BankPanel.AutoDepositFrame.DepositButton, 'UpdateTextForBankType', Set_DepositButton)
     BankPanel.AutoDepositFrame.DepositButton:SetScript('OnLeave', GameTooltip_Hide)
     BankPanel.AutoDepositFrame.DepositButton:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, 'ANCHOR_LEFT')

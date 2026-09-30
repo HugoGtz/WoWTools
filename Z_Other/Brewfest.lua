@@ -164,8 +164,8 @@ local function Init()
         elseif event=='UNIT_AURA' then
             if arg2 and arg2.addedAuras then
                 for _, info in pairs(arg2.addedAuras) do
-                    if info.spellId==43052 then
-                        self.Timer= nil
+                    if canaccessvalue(info.spellId) and info.spellId==43052 then
+                        self.Time= nil--reiniciar el contador (antes se borraba self.Timer, que no existe)
                         self.spellId=nil
                         WoWTools_DataMixin:PlaySound(SOUNDKIT.IG_SPELLBOOK_OPEN)
                         break
@@ -209,8 +209,12 @@ local function Init()
     end)
 
     btn:SetScript('OnClick', function(_, d)
-        if d=='LeftButton' and IsShiftKeyDown() then
-            local macroId = CreateMacro('Ram', 236912, '/click ExtraActionButton1')
+        if d=='LeftButton' and IsShiftKeyDown() and not InCombatLockdown() then
+            --no crear una macro duplicada en cada Shift+clic
+            local macroId= GetMacroIndexByName('Ram')
+            if not macroId or macroId==0 then
+                macroId = CreateMacro('Ram', 236912, '/click ExtraActionButton1')
+            end
             print(WoWTools_DataMixin.Icon.icon2..addName, WoWTools_L.CREATE_MACROS, 'Ram',
                 macroId and '/click ExtraActionButton1' or (WoWTools_L['NONE~2'])
             )

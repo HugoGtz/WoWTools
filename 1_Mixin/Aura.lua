@@ -44,7 +44,7 @@ function WoWTools_AuraMixin:Get(unit, spellTab, filter)--HELPFUL HARMFUL
 
             if not canaccessvalue(data) or  not data then
                 return
-            elseif spellTab[data.spellId] then
+            elseif canaccessvalue(data.spellId) and spellTab[data.spellId] then--spellId secreto no puede ser clave
                 return data, index
             end
         end

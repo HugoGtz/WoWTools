@@ -19,70 +19,98 @@ end
 
 
 
-local function get_text_byte(text)
-    local num=0
-    if type(text)=='number' then
-        num= text
-    elseif type(text)=='string' then
-         for i=1, #text do
-            num= num+ (string.byte(text, i) or 0)
-         end
+local function sort_value(value)
+    if type(value)=='number' or type(value)=='string' then
+        return value
     end
-    return num
+    return 0
+end
+
+--compara números como números y textos por orden alfabético (UTF-8)
+local function sort_compare(a, b)
+    if type(a)==type(b) then
+        if type(a)=='string' then
+            if strcmputf8i then
+                return strcmputf8i(a, b) < 0
+            end
+            return a:lower() < b:lower()
+        end
+        return a < b
+    end
+    return type(a)=='number'
 end
 
 
 
 
 local Is_In_Search
-local function sort_pets_list(type)
-    if Is_In_Search then
+local function sort_pets_list(sortType)
+    if Is_In_Search or InCombatLockdown() then
         return
     end
-    Is_In_Search= true
 
-    do
-        local tab= {}
-        for _, btn in pairs(AllListFrame.Buttons) do
-            if btn.petData and btn.petData.slotID then
-                local info = C_StableInfo.GetStablePetInfo(btn.petData.slotID) or {}
+    local tab= {}
+    for _, btn in pairs(AllListFrame.Buttons) do
+        if btn.petData and btn.petData.slotID then
+            local info = C_StableInfo.GetStablePetInfo(btn.petData.slotID)
+            if info and info.slotID then
                 table.insert(tab, {
-                    slotID= get_text_byte(info.slotID),
-                    petNumber= get_text_byte(info.petNumber),
-                    type= get_text_byte(info.type),
-                    creatureID= get_text_byte(info.CreatureID),
-                    uiModelSceneID= get_text_byte(info.uiModelSceneID),
-                    displayID= get_text_byte(info.displayID),
-                    name= get_text_byte(info.name),
-                    specialization= get_text_byte(info.specialization),
-                    icon= get_text_byte(info.icon),
-                    familyName= get_text_byte(info.familyName)
+                    slotID= info.slotID,
+                    petNumber= info.petNumber,
+                    value= sort_value(info[sortType=='creatureID' and 'CreatureID' or sortType]),
                 })
-
-            end
-        end
-        table.sort(tab, function(a, b)
-            return a[type] < b[type]
-        end)
-
-        if not Save().sortDown then--点击，从前，向后
-            for i, newTab in pairs(tab) do
-                do
-                    local index= i+  MAX_SUMMONABLE_HUNTER_PETS
-                    C_StableInfo.SetPetSlot(newTab.slotID, index)
-                end
-            end
-        else
-            local all= #AllListFrame.Buttons
-            for i, newTab in pairs(tab) do
-                do
-                    local newIndex= all-i+1
-                    C_StableInfo.SetPetSlot(newTab.slotID, newIndex)
-                end
             end
         end
     end
-    Is_In_Search=nil
+    if #tab==0 then
+        return
+    end
+
+    table.sort(tab, function(a, b)
+        if a.value==b.value then
+            return a.slotID < b.slotID
+        end
+        return sort_compare(a.value, b.value)
+    end)
+
+    --posición actual de cada mascota; SetPetSlot intercambia las mascotas de los dos huecos
+    local petBySlot, slotByPet= {}, {}
+    for _, info in pairs(tab) do
+        petBySlot[info.slotID]= info.petNumber
+        slotByPet[info.petNumber]= info.slotID
+    end
+
+    local sortDown= Save().sortDown
+    local index= 0
+    Is_In_Search= true
+
+    local function Step()
+        if InCombatLockdown() or not StableFrame:IsShown() then
+            Is_In_Search=nil
+            return
+        end
+        while index < #tab do
+            index= index+1
+            local petNumber= tab[index].petNumber
+            local target= sortDown and (NUM_PET_SLOTS_HUNTER - index + 1) or (index + MAX_SUMMONABLE_HUNTER_PETS)
+            local from= slotByPet[petNumber]
+            if from and from~=target then
+                local other= petBySlot[target]
+                C_StableInfo.SetPetSlot(from, target)
+                petBySlot[target]= petNumber
+                slotByPet[petNumber]= target
+                petBySlot[from]= other
+                if other then
+                    slotByPet[other]= from
+                end
+                --un movimiento cada vez, para no saturar al servidor
+                C_Timer.After(0.2, Step)
+                return
+            end
+        end
+        Is_In_Search=nil
+    end
+    Step()
 end
 
 

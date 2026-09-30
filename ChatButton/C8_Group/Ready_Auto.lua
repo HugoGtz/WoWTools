@@ -37,14 +37,9 @@ local function Set_Ready(timeLeft)
             '|cffff00ffAlt', WoWTools_L.CANCEL
         )
 
-        timeLeft= Save().autoReadySeconds or 3
-
-        if not timeLeft then
-            local time= Get_LeftTime()
-            if time then
-                timeLeft= math.mix(timeLeft, time)
-            end
-        end
+        --no esperar más que el tiempo que queda de la comprobación (antes math.mix, que no existe, en código muerto)
+        local left= Get_LeftTime()
+        timeLeft= math.min(Save().autoReadySeconds or 3, (left and left>0) and left or 35)
 
         AutoReadyTime= C_Timer.NewTimer(timeLeft, function()
             if ReadyCheckFrame:IsShown() then

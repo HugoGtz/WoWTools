@@ -139,8 +139,8 @@ end
 
 local function Set_SlotKeystoneSay()
     local mapChallengeModeID, affixes, powerLevel = C_ChallengeMode.GetSlottedKeystoneInfo()
+    --OnKeystoneSlotted se ejecuta con el marco abierto: no comprobar IsVisible
     if not Save().slotKeystoneSay
-        or ChallengesKeystoneFrame:IsVisible()
         or not mapChallengeModeID
     then
         return
@@ -554,9 +554,12 @@ local function Init()
             UI_Party_Info()
         end
 
-        local has= C_ChallengeMode.HasSlottedKeystone()
-        self.InsetKeyButton:SetEnabled(not has)
-        self.ClearKeyButton:SetEnabled(has)
+        local has= C_ChallengeMode.HasSlottedKeystone() and true or false
+        if self.hasSlotted~=has then--solo cuando cambia, no en cada fotograma
+            self.hasSlotted= has
+            self.InsetKeyButton:SetEnabled(not has)
+            self.ClearKeyButton:SetEnabled(has)
+        end
     end)
 
 
@@ -564,6 +567,7 @@ local function Init()
 
     KeyFrame:SetScript('OnHide', function(self)
         self.elapsed=nil
+        self.hasSlotted=nil
         self.KeyButton:Reset()
         self.KeyButton.Text:SetText('')
 

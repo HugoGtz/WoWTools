@@ -73,7 +73,8 @@ local function Init_Auto_Repair()
         end
         local Co, Can= GetRepairAllCost()
         if Can and Co and Co>0 then
-            if CanGuildBankRepair() and GetGuildBankMoney()>=Co  then
+            local limit= GetGuildBankWithdrawMoney()--límite diario del rango (-1 = sin límite)
+            if CanGuildBankRepair() and (limit==-1 or (limit or 0)>=Co) and (GetGuildBankMoney() or 0)>=Co  then
                 do
                     RepairAllItems(true)
                 end

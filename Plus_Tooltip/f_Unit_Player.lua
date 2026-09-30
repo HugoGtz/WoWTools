@@ -179,7 +179,7 @@ function WoWTools_TooltipMixin:Set_Unit_Player(tooltip, name, unit, guid)
 
         else
             local text=lineLeft2:GetText()
-            if text and text~='' and not text:find('|A:') then
+            if canaccessvalue(text) and text and text~='' and not text:find('|A:') then--valor secreto (12.0)
                 lineLeft2:SetText(
                     '|A:UI-HUD-MicroMenu-GuildCommunities-Mouseover:0:0|a'
                     ..(text:match('(.-)%-') or text)

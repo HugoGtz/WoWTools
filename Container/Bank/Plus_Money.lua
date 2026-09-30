@@ -355,8 +355,8 @@ end
 
 --提取
 local function Init_Out_Menu(self, root)
-    if not C_Bank.CanDepositMoney(Enum.BankType.Account) then
-        root:CreateTitle('|cff606060'..(WoWTools_L['DEPOSIT~4']))
+    if not C_Bank.CanWithdrawMoney(Enum.BankType.Account) then
+        root:CreateTitle('|cff606060'..(WoWTools_L['WITHDRAW~4']))
         return
     end
 
@@ -401,7 +401,7 @@ local function Init_Out_Menu(self, root)
     sub:SetTooltip(function(tooltip)
         tooltip:AddLine(WoWTools_L['OPENING+BANK'])
         if Save().autoOutMoney then
-            Save_Tooltip(tooltip)
+            Out_Tooltip(tooltip)
         end
     end)
 
@@ -419,7 +419,7 @@ local function Init_Out_Menu(self, root)
         end,
         name='',
         tooltip=function(tooltip)
-            Save_Tooltip(tooltip)
+            Out_Tooltip(tooltip)
         end,
         minValue=0,
         maxValue=100000,
@@ -460,7 +460,7 @@ local function Init_Out_Menu(self, root)
         )
         tooltip:AddLine(' ')
         tooltip:AddLine(
-            (WoWTools_L['DEPOSIT~5'])
+            (WoWTools_L['WITHDRAW~3'])
             ..' '
             ..C_CurrencyInfo.GetCoinTextureString(bank)
         )

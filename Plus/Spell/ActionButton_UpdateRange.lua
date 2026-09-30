@@ -1,4 +1,23 @@
 --法术按键, 颜色 ActionButton.lua
+
+--restaura el color como ActionButton:UpdateUsable(), sin llamar al método del botón seguro (taint)
+local function Set_UsableColor(frame)
+    if not frame.action or not frame.icon then
+        return
+    end
+    local isUsable, notEnoughMana= C_ActionBar.IsUsableAction(frame.action)
+    if not canaccessvalue(isUsable) or not canaccessvalue(notEnoughMana) then
+        return
+    end
+    if isUsable then
+        frame.icon:SetVertexColor(1, 1, 1)
+    elseif notEnoughMana then
+        frame.icon:SetVertexColor(0.5, 0.5, 1)
+    else
+        frame.icon:SetVertexColor(0.4, 0.4, 0.4)
+    end
+end
+
 local function Init()
     if not WoWToolsPlusSave['Plus_Spell'].actionButtonRangeColor then
         return
@@ -16,7 +35,15 @@ local function Init()
         if not frame.setHooksecurefunc and frame.UpdateUsable then
             WoWTools_DataMixin:Hook(frame, 'UpdateUsable', function(self)
                 local isUsable= C_ActionBar.IsUsableAction(self.action)
-                if canaccessvalue(isUsable) and isUsable and C_ActionBar.HasRangeRequirements(self.action) and C_ActionBar.IsActionInRange(self.action)==false then
+                if not canaccessvalue(isUsable) or not isUsable then
+                    return
+                end
+                local hasRange= C_ActionBar.HasRangeRequirements(self.action)
+                if not canaccessvalue(hasRange) or not hasRange then
+                    return
+                end
+                local inRange2= C_ActionBar.IsActionInRange(self.action)
+                if canaccessvalue(inRange2) and inRange2==false then
                     self.icon:SetVertexColor(1,0,0)
                 end
             end)
@@ -31,9 +58,7 @@ local function Init()
         if ( frame.HotKey:GetText() == RANGE_INDICATOR ) then
             if ( checksRange ) then
                 if ( inRange ) then
-                    if frame.UpdateUsable then
-                        frame:UpdateUsable()
-                    end
+                    Set_UsableColor(frame)
                 else
                     frame.icon:SetVertexColor(1,0,0)
                 end
@@ -41,8 +66,8 @@ local function Init()
         else
             if ( checksRange and not inRange ) then
                 frame.icon:SetVertexColor(1,0,0)
-            elseif frame.UpdateUsable then
-                frame:UpdateUsable()
+            else
+                Set_UsableColor(frame)
             end
         end
     end)

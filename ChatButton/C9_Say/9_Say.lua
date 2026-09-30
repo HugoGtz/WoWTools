@@ -63,28 +63,56 @@ local function rest_numWhisper_Tips()--重置密语，数量
     set_numWhisper_Tips()--最后密语,数量, 提示
 end
 
-local function findWhisper(name)
+local MaxWhisperMsg= 50--mensajes guardados por contacto (antes sin límite)
+
+local function findWhisper(name, battleTag)
     for index, tab in pairs(Save().WhisperTab) do
-        if tab.name==name then
+        if tab.name==name or (battleTag and tab.battleTag==battleTag) then
             return index
         end
     end
 end
 
-local function getWhisper(event, text, name, _, _, _, _, _, _, _, _, _, guid)
+--BNet: el nombre |K..|k solo vale en esta sesión; buscar el actual por BattleTag
+local function Get_BNetName(tab)
+    if tab.battleTag then
+        for i=1, BNGetNumFriends() do
+            local info= C_BattleNet.GetFriendAccountInfo(i)
+            if info and info.battleTag==tab.battleTag and info.accountName then
+                return info.accountName
+            end
+        end
+    end
+    return tab.name
+end
+
+local function getWhisper(event, text, name, _, _, _, _, _, _, _, _, _, guid, bnSenderID)
     if not canaccessvalue(text) or not canaccessvalue(name) or not canaccessvalue(guid) then--valores secretos (12.0)
         return
     end
     if WoWTools_DataMixin.Player.Name_Realm~=name and name then
         local type= event:find('INFORM') and true or nil--_INFORM 发送
-        local index=findWhisper(name)
+        local wow= event:find('MSG_BN') and true or nil
+        local battleTag
+        if wow and canaccessvalue(bnSenderID) and bnSenderID then
+            local info= C_BattleNet.GetAccountInfoByID(bnSenderID)
+            battleTag= info and info.battleTag
+        end
+        local index=findWhisper(name, battleTag)
         local tab= {text=text, type=type, player=WoWTools_DataMixin.Player.Name_Realm, time=date('%X')}
         if index then
-            Save().WhisperTab[index].guid=guid
-            table.insert(Save().WhisperTab[index].msg, tab)
+            local data= Save().WhisperTab[index]
+            data.guid=guid
+            if wow then
+                data.name= name--token de la sesión actual
+                data.battleTag= battleTag or data.battleTag
+            end
+            table.insert(data.msg, tab)
+            while #data.msg>MaxWhisperMsg do
+                table.remove(data.msg, 1)
+            end
         else
-            local wow= event:find('MSG_BN') and true or nil
-            table.insert(Save().WhisperTab, 1, {name=name, wow=wow, guid=guid, msg={tab}})
+            table.insert(Save().WhisperTab, 1, {name=name, wow=wow, battleTag=battleTag, guid=guid, msg={tab}})
         end
         if not type then
             Save().numWhisper= Save().numWhisper + 1--最后密语,数量
@@ -254,8 +282,9 @@ local function Init_Menu(self, root)
             sub2=sub:CreateButton(
                 (tab.wow and WoWTools_DataMixin.Icon.wow2 or '')..(playerName or ' '),
             function(data)
-                WoWTools_ChatMixin:Say(nil, data.name, data.wow)
-                self:settings(SLASH_WHISPER1, WoWTools_L.SLASH_TEXTTOSPEECH_WHISPER, data.name, data.wow)
+                local toName= data.wow and Get_BNetName(data) or data.name
+                WoWTools_ChatMixin:Say(nil, toName, data.wow)
+                self:settings(SLASH_WHISPER1, WoWTools_L.SLASH_TEXTTOSPEECH_WHISPER, toName, data.wow)
                 return MenuResponse.Open
             end, tab)
 
@@ -339,7 +368,7 @@ local function Init_Menu(self, root)
             function(data)
                 local findIndex= findWhisper(data.name)
                 if findIndex then
-                    Save().WhisperTab[findIndex]=nil
+                    table.remove(Save().WhisperTab, findIndex)--=nil dejaba un hueco en la lista
                     print(
                         addName..WoWTools_DataMixin.Icon.icon2,
                         '|cnGREEN_FONT_COLOR:'..(WoWTools_L.REMOVE)..'|r',
@@ -606,6 +635,13 @@ panel:SetScript("OnEvent", function(self, event, arg1, arg2, ...)
                 if #Save().WhisperTab>120 then
                     for i=121, #Save().WhisperTab do
                         Save().WhisperTab[i]=nil
+                    end
+                end
+                for _, tab in pairs(Save().WhisperTab) do--recortar historiales antiguos
+                    if type(tab.msg)=='table' then
+                        while #tab.msg>MaxWhisperMsg do
+                            table.remove(tab.msg, 1)
+                        end
                     end
                 end
 

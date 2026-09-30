@@ -118,7 +118,7 @@ local function Init()
         if value==nil then
             return
         end
-        local max= Minimap:GetZoomLevels()
+        local max= (Minimap:GetZoomLevels() or 1)-1--índices válidos: 0 .. niveles-1
         local select=  (type(value)=='number' and value-1)
                         or (value=='max' and max)
                         or 0

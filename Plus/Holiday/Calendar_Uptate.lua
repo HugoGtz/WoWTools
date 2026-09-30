@@ -63,6 +63,18 @@ local function Init()
         atlas='UI-HUD-Calendar-'..tonumber(date('%d'))..'-Mouseover'
     })
     btn:SetPoint('RIGHT', CalendarFrame.FilterButton, 'LEFT', 0, -3)
+    --actualizar el día (fecha del juego) cada vez que se abre, por si pasó la medianoche
+    CalendarFrame:HookScript('OnShow', function()
+        local day= C_DateAndTime.GetCurrentCalendarTime().monthDay
+        local atlas= day and 'UI-HUD-Calendar-'..day..'-Mouseover'
+        if atlas and C_Texture.GetAtlasInfo(atlas) then
+            if btn.texture then
+                btn.texture:SetAtlas(atlas)
+            else
+                btn:SetNormalAtlas(atlas)
+            end
+        end
+    end)
     btn:SetScript('OnLeave', function() GameTooltip:Hide() end)
     btn:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, 'ANCHOR_LEFT')

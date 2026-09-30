@@ -25,7 +25,7 @@ local function Init()
         if self.cost< GetMoney() then
             text= '|cnGREEN_FONT_COLOR:'..text..'|r'
         else
-            text= '|cnGREEN_FONT_COLOR:'..text..'|r'
+            text= '|cnWARNING_FONT_COLOR:'..text..'|r'
         end
 		GameTooltip:SetOwner(self,"ANCHOR_BOTTOMLEFT")
 		GameTooltip:ClearLines()
@@ -47,7 +47,7 @@ local function Init()
             for i=1,GetNumTrainerServices() do
                 if select(index, GetTrainerServiceInfo(i))=="available" then
                     local money= GetTrainerServiceCost(i) or 0
-                    if money<= GetMoney() then
+                    if cost + money<= GetMoney() then--GetMoney() no baja hasta el siguiente frame
                         local link=GetTrainerServiceItemLink(i) or GetTrainerServiceInfo(i)
                         BuyTrainerService(i)
                         cost= cost +money

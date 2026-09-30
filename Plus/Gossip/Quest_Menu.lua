@@ -190,6 +190,8 @@ local function Init_Menu(self, root)
         Save().autoSortQuest= not Save().autoSortQuest and true or nil
         self:set_Event()--仅显示本地图任务,事件
         self:set_Only_Show_Zone_Quest()--显示本区域任务
+    end):SetTooltip(function(tooltip)
+        tooltip:AddLine(WoWTools_L['Untracks every quest that is not on the current map, including the ones you track manually.'], nil, nil, nil, true)
     end)
 
 

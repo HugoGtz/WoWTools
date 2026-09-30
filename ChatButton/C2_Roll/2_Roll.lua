@@ -114,8 +114,9 @@ local function get_Save_Max()--清除时,保存数据
     local maxTab, max= nil, 0
     for _, tab in pairs(RollTab) do
         if tab.roll and tab.roll>max then
+            max= tab.roll
             maxTab= tab
-            if tab==100 then
+            if max>=100 then
                 break
             end
         end
@@ -280,11 +281,16 @@ local function Init_Menu(self, root)
         end
     end
 
-    table.sort(_tabNew, function(a, b)
+    --table.sort no ordena una tabla por nombre: pasarla a array
+    local sorted={}
+    for _, tab in pairs(_tabNew) do
+        table.insert(sorted, tab)
+    end
+    table.sort(sorted, function(a, b)
         return a.index< b.index
     end)
 
-    for _, tab in pairs(_tabNew) do
+    for _, tab in ipairs(sorted) do
         sub=root:CreateButton(
             tab.header,
         function(data)

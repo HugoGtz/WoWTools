@@ -500,7 +500,7 @@ local function Init()
     ScrappingMachineFrame.ScrapButton:HookScript('OnLeave', GameTooltip_Hide)
     ScrappingMachineFrame.ScrapButton:HookScript('OnEnter', function(self)
         local spellID= C_ScrappingMachineUI.GetScrapSpellID()
-        if not spellID or self:IsMouseOver() then
+        if not spellID then
             return
         end
         GameTooltip:SetOwner(self:GetParent(), "ANCHOR_BOTTOMRIGHT")
@@ -556,7 +556,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             GetValue=function() return not Save().disabled end,
             SetValue= function()
                 Save().disabled= not Save().disabled and true or nil
-                print(addName..WoWTools_DataMixin.Icon.icon2, WoWTools_TextMixin:GetEnabeleDisable(Save().disabled), WoWTools_L.REQUIRES_RELOAD)
+                print(addName..WoWTools_DataMixin.Icon.icon2, WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled), WoWTools_L.REQUIRES_RELOAD)
             end,
             layout= WoWTools_OtherMixin.Layout,
             category= WoWTools_OtherMixin.Category,

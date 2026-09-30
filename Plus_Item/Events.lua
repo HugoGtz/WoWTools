@@ -175,9 +175,7 @@ end
 function WoWTools_ItemMixin.Events:Blizzard_FrameXML()
     --boss掉落，物品, 可能，会留下 StaticPopup1 框架
     --AlertFrames.xml
-    WoWTools_DataMixin:Hook('BossBanner_ConfigureLootFrame', function(lootFrame, data)--LevelUpDisplay.lua data= { itemID = itemID, quantity = quantity, playerName = playerName, className = className, itemLink = itemLink }
-        WoWTools_ItemMixin:SetItemStats(lootFrame, data.itemLink, {point=lootFrame.Icon})
-    end)
+    --BossBanner_ConfigureLootFrame ya se engancha en Frames.lua (antes se aplicaba dos veces)
 
 --拾取时, 弹出, 物品提示，信息, 战利品
 --GroupLootFrame.xml

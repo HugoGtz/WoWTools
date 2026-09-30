@@ -208,7 +208,7 @@ EventRegistry:RegisterFrameEventAndCallback("BAG_UPDATE_DELAYED", function()
 
                 if C_Item.IsItemKeystoneByID(itemID) then--挑战
                     WoWToolsPlus_WoWDate[guid].Keystone.link= C_Container.GetContainerItemLink(bagID, slotID)
-                else
+                elseif not WoWToolsPlus_WoWDate[guid].Item[itemID] then--una sola consulta por objeto (no por hueco)
                     local bag=C_Item.GetItemCount(itemID)--物品ID
                     WoWToolsPlus_WoWDate[guid].Item[itemID]={
                         bag=bag,
@@ -425,10 +425,14 @@ end)]]
 
 
 
-EventRegistry:RegisterFrameEventAndCallback("ADDON_LOADED", function(owner, arg1)
-    if arg1~='WoWToolsPlus' then
+--Crea las SavedVariables (y migra las del WoWTools original). Idempotente: la llama también
+--z_Panel.lua por si su ADDON_LOADED llega antes que este (instalación limpia).
+local IsSavedInit
+function WoWTools_DataMixin:Init_SavedVariables()
+    if IsSavedInit then
         return
     end
+    IsSavedInit= true
 
     --Migración: las primeras versiones del fork guardaban con los nombres del WoWTools original.
     --Si el original está cargado, esos globales son suyos y no se tocan.
@@ -444,10 +448,20 @@ EventRegistry:RegisterFrameEventAndCallback("ADDON_LOADED", function(owner, arg1
     WoWToolsPlus_WoWDate= WoWToolsPlus_WoWDate or {}
 
     WoWToolsPlusPlayerDate= WoWToolsPlusPlayerDate or {}
+end
+
+EventRegistry:RegisterFrameEventAndCallback("ADDON_LOADED", function(owner, arg1)
+    if arg1~='WoWToolsPlus' then
+        return
+    end
+
+    WoWTools_DataMixin:Init_SavedVariables()
 
     WoWTools_DataMixin.Icon.Player= WoWTools_UnitMixin:GetRaceIcon('player')
 
     WoWTools_DataMixin.Player.GUID= UnitGUID('player')
+
+    WoWTools_DataMixin.Player.Week= WoWTools_DataMixin:GetWeek() or WoWTools_DataMixin.Player.Week
 
     local day= date('%x')--日期
     local guid= WoWTools_DataMixin.Player.GUID

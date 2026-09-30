@@ -108,7 +108,7 @@ local function Set_CheckButton(btn, isRightText)
         self.Text:SetText(...)
     end
     function btn:GetText(...)
-        self.Text:GetText(...)
+        return self.Text:GetText(...)
     end
 
     btn:SetScript('OnLeave', function(...) On_Leave(...) end)

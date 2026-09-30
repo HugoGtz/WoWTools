@@ -439,7 +439,7 @@ local function Init_Options()--设置 Frame
             local hex= WoWTools_ColorMixin:RGBtoHEX(setR, setG, setB,setA, self)--RGB转HEX
             hex= hex and '|c'..hex or '|cffff8200'
             Save().greenColor= hex
-            GreenColor= {r=setR or 1, g=setG or 0, b=setB or 0, a=setA or 1}
+            WoWTools_AttributesMixin:Set_Color()
         end
         WoWTools_ColorMixin:ShowColorFrame(self.r, self.g, self.b,self.a, function()
                 setR, setG, setB, setA= WoWTools_ColorMixin:Get_ColorFrameRGBA()
@@ -471,7 +471,7 @@ local function Init_Options()--设置 Frame
             local hex= WoWTools_ColorMixin:RGBtoHEX(setR, setG, setB,setA, self)--RGB转HEX
             hex= hex and '|c'..hex or '|cnWARNING_FONT_COLOR:'
             Save().redColor= hex
-            RedColor= {r=setR or 1, g=setG or 0, b=setB or 0, a=setA or 1}
+            WoWTools_AttributesMixin:Set_Color()
         end
         WoWTools_ColorMixin:ShowColorFrame(self.r, self.g, self.b,self.a, function()
                 setR, setG, setB, setA= WoWTools_ColorMixin:Get_ColorFrameRGBA()

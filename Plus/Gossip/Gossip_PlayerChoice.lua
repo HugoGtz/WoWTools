@@ -99,11 +99,12 @@ local function Init()
                     if enabled then
                         local saveChecked= Save().choice[optionFrame.optionInfo.spellID]
                         optionFrame.check:SetChecked(saveChecked)
-                        if saveChecked or (soloOption and Save().unique) then
-                            optionFrame.optionInfo.rarity = optionFrame.optionInfo.rarity or 0
-
-
-                            table.insert(tab, optionFrame.optionInfo)
+                        --opción única: flag propio (uniqueChoice), desactivado por defecto
+                        if saveChecked or (soloOption and Save().uniqueChoice) then
+                            --copia: no modificar la tabla optionInfo de Blizzard
+                            local info= CopyTable(optionFrame.optionInfo, true)
+                            info.rarity = info.rarity or 0
+                            table.insert(tab, info)
                         end
                     end
                 end

@@ -104,7 +104,7 @@ function WoWTools_TimeMixin:SecondsToFullTime(seconds, upData, curData)
     if days > 0 then str = str .. days ..(WoWTools_L.D) end
     if hours > 0 then str = str .. hours ..(WoWTools_L['h']) end
     if minutes > 0 then str = str .. minutes ..(WoWTools_L['m']) end
-    if seconds>0 then str = str .. minutes ..(WoWTools_L['s']) end
+    if seconds>0 then str = str .. seconds ..(WoWTools_L['s']) end
 
 
     return str

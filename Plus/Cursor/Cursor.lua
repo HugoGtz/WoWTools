@@ -4,7 +4,7 @@ local function Save()
 end
 
 local CursorFrame
-local Pool, Used={}, {}
+local Pool, Used, Spare={}, {}, {}--Spare: texturas sobrantes al bajar maxParticles (se reutilizan)
 local maxParticles, duration, rotate, size, minDistance, egim, rate, randomTexture, gravity
 
 
@@ -137,13 +137,13 @@ local function Init_Texture(isInit)
         atlas= WoWTools_CursorMixin.DefaultTexture
     end
 
-    local max= math.max(#Pool+#Used, maxParticles)
-
-    for i = 1, max do
-        if not Pool[i] then
-            Pool[i] = UIParent:CreateTexture()
-            Pool[i]:SetBlendMode('ADD')
-        end
+    --Pool+Used no debe pasar de maxParticles
+    local need= math.max((maxParticles or 0) - #Used, 0)
+    for i = #Pool+1, need do
+        Pool[i] = table.remove(Spare) or UIParent:CreateTexture()
+        Pool[i]:SetBlendMode('ADD')
+    end
+    for i = 1, #Pool do
         Set_Texture(Pool[i], atlas, texture, isInit)
     end
 
@@ -207,8 +207,11 @@ local function Cursor_Settings()
         Init_Texture(true)
     end
 
-    for i=math.max(#Pool+#Used, maxParticles)+1, #Pool, 1 do
-        Pool[i]:Hide()
+    --no pasar de maxParticles: guardar las sobrantes
+    while #Pool>0 and #Pool+#Used > (maxParticles or 0) do
+        local part= table.remove(Pool)
+        part:Hide()
+        Spare[#Spare+1]= part
     end
 
     CursorFrame:SetShown(true)

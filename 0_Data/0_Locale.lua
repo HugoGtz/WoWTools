@@ -386,6 +386,15 @@ local enUS= {
     ['Loot window Shift: disable']= 'Loot Window Shift: Disable',
     ['Opacity (unusable, cannot buy, collected)']= 'Opacity|n|nUnusable|nCannot be bought|nCollected',
     DELETE_GOOD_ITEM_FMT= 'Do you really want to destroy %s?\n\nType \"%s\" into the field to confirm.',
+    --Fase 4
+    Step= 'Step',
+    ['Also in player choices']= 'Also in player choices',
+    ['Untracks every quest that is not on the current map, including the ones you track manually.']= 'Untracks every quest that is not on the current map, including the ones you track manually.',
+    ['Open after pet battles']= 'Open after pet battles',
+    ['Need to enable "%s"']= 'Need to enable "%s"',
+    ['Thanks for the summon']= 'Thanks for the summon',
+    ['May cause Interface action blocked errors when opening panels in combat']= 'May cause Interface action blocked errors when opening panels in combat',
+    Old= 'Old',
 }
 
 local esES= {
@@ -846,6 +855,15 @@ local esES= {
     ['Loot window Shift: disable']= 'Ventana de botín Shift: desactivar',
     ['Opacity (unusable, cannot buy, collected)']= 'Opacidad|n|nNo utilizable|nNo se puede comprar|nConseguido',
     DELETE_GOOD_ITEM_FMT= '¿Seguro que quieres destruir %s?\n\nEscribe \"%s\" en el campo para confirmar.',
+    --Fase 4
+    Step= 'Paso',
+    ['Also in player choices']= 'También en elecciones del jugador',
+    ['Untracks every quest that is not on the current map, including the ones you track manually.']= 'Deja de seguir todas las misiones que no estén en el mapa actual, incluidas las que sigues a mano.',
+    ['Open after pet battles']= 'Abrir al terminar un duelo de mascotas',
+    ['Need to enable "%s"']= 'Hay que activar "%s"',
+    ['Thanks for the summon']= 'Gracias por la invocación',
+    ['May cause Interface action blocked errors when opening panels in combat']= 'Puede causar errores de acción de interfaz bloqueada al abrir paneles en combate',
+    Old= 'Antiguo',
 }
 
 local current= (locale=='esES' or locale=='esMX') and esES or enUS

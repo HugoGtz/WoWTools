@@ -20,8 +20,8 @@ WoWTools_QuestMixin={}
 
 function WoWTools_QuestMixin:IsValidQuestID(questID)
     if questID then
-        questID = type(questID)~='number' and tonumber(questID) or questID or 0
-        if questID>0 and questID<2e9 then
+        questID = tonumber(questID)--antes 'abc' llegaba a la comparación y daba error
+        if questID and questID>0 and questID<2e9 then
             return questID
         end
     end
@@ -104,7 +104,8 @@ function WoWTools_QuestMixin:GetRewardInfo(questID)
     bestQuality= -1
     for i = 1, GetNumQuestLogChoices(questID) or 0, 1 do
         local itemName, itemTexture, quantity, quality, isUsable, itemID= GetQuestLogChoiceInfo(i, questID)
-        if itemID and quantity and quality > bestQuality then
+        if itemID and quantity and quality and quality > bestQuality then
+            bestQuality= quality
             data= {
                 name=itemName,
                 itemID=itemID,
@@ -126,6 +127,7 @@ function WoWTools_QuestMixin:GetRewardInfo(questID)
         for i = 1, numRewards, 1 do
             local itemName, itemTexture, numItems, quality, isUsable, itemID, itemLevel= GetQuestLogRewardInfo(i, questID)
             if itemName and itemID and quality and quality > bestQuality then
+                bestQuality= quality
                 data= {
                     name=itemName,
                     itemID=itemID,
@@ -453,8 +455,11 @@ function WoWTools_QuestMixin:GetAtlasColor(questID, info, tagInfo, isComplete)--
         if tagID then
             icon=  QuestUtils_GetQuestTagAtlas(tagID, tagInfo.worldQuestType)
         elseif questLogIndex then
-    	    local _, frequency, isRepeatable, isLegendary, _, isImportant, isMeta = GetAvailableQuestInfo(questLogIndex)
-            icon= QuestUtil.GetQuestIconOffer(isLegendary, frequency, isRepeatable, C_CampaignInfo.IsCampaignQuest(questID), C_QuestLog.IsQuestCalling(questID), isImportant, isMeta)
+            --GetAvailableQuestInfo es para el diálogo del NPC, no para el registro: usar los datos de info
+            local qc= info.questClassification
+            local QC= Enum.QuestClassification or {}
+            local isRepeatable= C_QuestLog.IsRepeatableQuest and C_QuestLog.IsRepeatableQuest(questID)
+            icon= QuestUtil.GetQuestIconOffer(qc~=nil and qc==QC.Legendary, info.frequency, isRepeatable, C_CampaignInfo.IsCampaignQuest(questID), C_QuestLog.IsQuestCalling(questID), qc~=nil and qc==QC.Important, qc~=nil and qc==QC.Meta)
         end
         if icon then
             atlas= select(3, WoWTools_TextureMixin:IsAtlas(icon))

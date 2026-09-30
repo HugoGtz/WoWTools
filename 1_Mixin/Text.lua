@@ -102,35 +102,23 @@ end
 
 
 
+--Convierte un texto de formato de Blizzard (%s, %d, %1$s...) en un patrón Lua de búsqueda.
+--Escapa todos los caracteres mágicos, incluidos %, ] y $ (antes "100%" daba un patrón inválido).
 function WoWTools_TextMixin:Magic(text)
     if type(text)~='string' then
         return text
     end
-
-    local tab= {'%.', '%(','%)','%+', '%-', '%*', '%?', '%[', '%^'}
-    for _, v in pairs(tab) do
-        text= text:gsub(v,'%%'..v)
-    end
-    tab={
-        ['%%%d%$s']= '%(%.%-%)',
-        ['%%s']= '%(%.%-%)',
-        ['%%%d%$d']= '%(%%d%+%)',
-        ['%%d']= '%(%%d%+%)',
-    }
-    local find
-    for k,v in pairs(tab) do
-        text= text:gsub(k,v)
-        find=true
-    end
-    if find then
-        tab={'%$'}
-    else
-        tab={'%%','%$'}
-    end
-    for _, v in pairs(tab) do
-        text= text:gsub(v,'%%'..v)
-    end
-    return text
+    local specs= {}
+    text= text:gsub('%%%%', '\3')--"%%" literal
+    text= text:gsub('%%%d*%$?[sd]', function(spec)
+        specs[#specs+1]= spec:sub(-1)=='d' and '(%d+)' or '(.-)'
+        return '\1'..#specs..'\2'
+    end)
+    text= text:gsub('[%^%$%(%)%%%.%[%]%*%+%-%?]', '%%%0')
+    text= text:gsub('\1(%d+)\2', function(index)
+        return specs[tonumber(index)]
+    end)
+    return (text:gsub('\3', '%%%%'))
 end
 
 

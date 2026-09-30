@@ -27,6 +27,12 @@ local function Decline()
     StaticPopup_Hide("PARTY_INVITE")
 end
 
+--rechazar sin apuntar al que invita (p.ej. zona de descanso)
+local function DeclineOnly()
+    DeclineGroup()
+    StaticPopup_Hide("PARTY_INVITE")
+end
+
 local function Accept()
     AcceptGroup()
     StaticPopup_Hide("PARTY_INVITE")
@@ -131,7 +137,7 @@ local function Settings(_, name, isTank, isHealer, isDamage, isNativeRealm, allo
         setPrint()
 
         if InvTimer then InvTimer:Cancel() InvTimer=nil end
-        InvTimer = C_Timer.NewTimer(3, Decline)
+        InvTimer = C_Timer.NewTimer(3, DeclineOnly)
 
     else
 
@@ -182,11 +188,15 @@ local function Init()
                 WoWTools_L.ADD,
                 WoWTools_UnitMixin:GetLink(nil, InviterPlayerGUID, nil, false)
             )
-            Decline()
+            DeclineOnly()--ya se sumó arriba
         end
     end
 
-    StaticPopupDialogs["PARTY_INVITE"].OnUpdate=function(self)
+    local oldOnUpdate= StaticPopupDialogs["PARTY_INVITE"].OnUpdate--encadenar, no pisar
+    StaticPopupDialogs["PARTY_INVITE"].OnUpdate=function(self, ...)
+        if oldOnUpdate then
+            oldOnUpdate(self, ...)
+        end
         if InvTimer and IsModifierKeyDown() then
             InvTimer:Cancel()
             InvTimer=nil

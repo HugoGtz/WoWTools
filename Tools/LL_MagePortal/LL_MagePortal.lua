@@ -11,7 +11,7 @@ if WoWTools_DataMixin.Player.Faction=='Horde' then--部落
         {spell=3567, spell2=11417, name='奥格瑞玛', luce=true},
         {spell=3563, spell2=11418, name='幽暗城'},
         {spell=3566, spell2=11420, name='雷霆崖'},
-        {spell=32272, spell2=32267, name='银月城'},
+        {spell=32272, spell2=32267, name='银月城(旧)', old=true},--mismo nombre que 1259190 (Midnight)
         {spell=49358, spell2=49361, name='斯通纳德'},
         {spell=35715, spell2=35717, name='沙塔斯'},
         {spell=53140, spell2=53142, name='诺森德'},
@@ -211,6 +211,7 @@ local function Init_Button(tab)
     btn.spellID= tab.spell
     btn.spellID2= tab.spell2
     btn.luce= tab.luce
+    btn.old= tab.old
     btn.name1= WoWTools_DataMixin.onlyChinese and tab.name
 
     function btn:set_cool()
@@ -231,11 +232,17 @@ local function Init_Button(tab)
         local done=false
         if name1 and icon1 then
             self:SetAttribute('type', 'spell')--设置属性
-            self:SetAttribute('spell', name1)
+            --mismo nombre en dos hechizos (Lunargenta): por ID para no lanzar el otro
+            self:SetAttribute('spell', self.old and self.spellID or name1)
             if icon1 then
                 self.texture:SetTexture(icon1)
             end
-            self.name1= self.name1 or Get_Spell_Label(self.spellID, name1)
+            if not self.name1 then
+                self.name1= Get_Spell_Label(self.spellID, name1)
+                if self.old and self.name1 then
+                    self.name1= self.name1..' ('..WoWTools_L['Old']..')'
+                end
+            end
             done=true
         end
 
@@ -244,7 +251,7 @@ local function Init_Button(tab)
             local icon2= C_Spell.GetSpellTexture(self.spellID2)
             if name2 and icon2 then
                 self:SetAttribute('type2', 'spell')
-                self:SetAttribute('spell2', name2)
+                self:SetAttribute('spell2', self.old and self.spellID2 or name2)
                 self.texture2:SetTexture(icon2)
                 self.name2= self.name2 or name2
                 done= done==true and true or done

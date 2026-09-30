@@ -515,16 +515,30 @@ local function Init()
     end)
 
     function fastButton:set_PickupContainerItem(classID, subClassID, findString)--自动放物品
-        if #self.canSendTab>0 then
-            for bag= Enum.BagIndex.Backpack, NUM_BAG_FRAMES+ NUM_REAGENTBAG_FRAMES do
-                for slot=1, C_Container.GetContainerNumSlots(bag) do
-                    local info= check_Enabled_Item(classID, subClassID, findString, bag, slot)
-                    if info then
-                        C_Container.PickupContainerItem(bag, slot)
-                        ClickSendMailItemButton(self.canSendTab[1])
-                        if #self.canSendTab==0 or not self:IsShown() then
-                            return
-                        end
+        --huecos libres calculados aquí: no depender de que SendMailFrame_Update se dispare al instante
+        local used={}
+        local function get_free_slot()
+            for i= 1, ATTACHMENTS_MAX_SEND do
+                if not used[i] and not HasSendMailItem(i) then
+                    return i
+                end
+            end
+        end
+        local index= get_free_slot()
+        if not index then
+            return
+        end
+        for bag= Enum.BagIndex.Backpack, NUM_BAG_FRAMES+ NUM_REAGENTBAG_FRAMES do
+            for slot=1, C_Container.GetContainerNumSlots(bag) do
+                local info= check_Enabled_Item(classID, subClassID, findString, bag, slot)
+                if info then
+                    C_Container.PickupContainerItem(bag, slot)
+                    ClickSendMailItemButton(index)
+                    used[index]= true
+                    ClearCursor()--si no se pudo adjuntar, no dejar el objeto en el cursor
+                    index= get_free_slot()
+                    if not index or not self:IsShown() then
+                        return
                     end
                 end
             end

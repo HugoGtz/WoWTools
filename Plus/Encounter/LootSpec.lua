@@ -388,13 +388,13 @@ local function Set_LootSpec(self, encounterID)
     local logID
 
     if lootSpecID then
-        local loot= GetLootSpecialization() or 0
+        local prevLoot= GetLootSpecialization() or 0
         local curID= PlayerUtil.GetCurrentSpecID()
 
-        loot= loot==0 and curID or loot
+        local loot= prevLoot==0 and curID or prevLoot
 
         if loot>0 and loot~= lootSpecID then
-            logID= curID
+            logID= prevLoot--guardar el valor previo (0 = especialización actual) para restaurarlo tal cual
 
             SetLootSpecialization(lootSpecID)
 
@@ -421,11 +421,11 @@ local function Rest_LootSpec(self)
         return
     end
     local loot= GetLootSpecialization() or 0
-    loot= loot==0 and PlayerUtil.GetCurrentSpecID() or loot
     if loot~= self.spceLog then
         SetLootSpecialization(self.spceLog)
 
-        local _, name, _, icon, role = GetSpecializationInfoByID(self.spceLog)
+        local specID= self.spceLog==0 and PlayerUtil.GetCurrentSpecID() or self.spceLog
+        local _, name, _, icon, role = GetSpecializationInfoByID(specID or 0)
 
         if name then
             print(

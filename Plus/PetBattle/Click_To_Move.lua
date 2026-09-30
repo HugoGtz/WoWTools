@@ -449,7 +449,7 @@ local function Init_Button()
         self:ClearAllPoints()
         if Save().PlayerFrame then
             local contextual= PlayerFrame_GetPlayerFrameContentContextual()
-            if contextual.PrestigePortrait:GetScale()~=0.6 then--PlayerFranme.lua中有设置过了，这里就不重复设置了
+            if contextual.PrestigePortrait:GetScale()~=0.6 and not InCombatLockdown() then--PlayerFranme.lua中有设置过了，这里就不重复设置了
                 contextual.PrestigePortrait:SetScale(0.6)
                 contextual.PrestigeBadge:SetScale(0.6)
             end

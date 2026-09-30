@@ -164,6 +164,28 @@ end
 
 
 
+--Muchos SetValue alternan (x= not x) en vez de asignar el valor recibido.
+--Con "Predeterminados" se llamaban aunque el valor ya fuera el correcto e invertían la casilla:
+--solo se llaman si el valor booleano cambia de verdad.
+local function Bool_Setter(getValue, setValue)
+    if not setValue or not getValue then
+        return setValue
+    end
+    return function(value, ...)
+        if (not getValue()) ~= (not value) then
+            return setValue(value, ...)
+        end
+    end
+end
+
+--Valor por defecto: tab.default si se indica (valor de fábrica); si no, el valor actual al registrar.
+local function Get_Default(default, getValue, value2)
+    if default~=nil then
+        return default
+    end
+    return getValue() or value2
+end
+
 --添加，Check
 function WoWTools_PanelMixin:OnlyCheck(tab, root)
     local setting=Settings.RegisterProxySetting(
@@ -171,9 +193,9 @@ function WoWTools_PanelMixin:OnlyCheck(tab, root)
         Set_VariableIndex(),
         Settings.VarType.Boolean,
         tab.name,
-        tab.GetValue() or tab.value,
+        Get_Default(tab.default, tab.GetValue, tab.value),
         tab.GetValue,
-        tab.SetValue or tab.func
+        Bool_Setter(tab.GetValue, tab.SetValue or tab.func)
     )
 
     local sub= Settings.CreateCheckbox(tab.category or Category, setting, tab.tooltip)
@@ -262,9 +284,9 @@ function WoWTools_PanelMixin:CheckMenu(tab, root)
         Set_VariableIndex(),--variable
         Settings.VarType.Boolean,--variableType
         tab.name,--name
-        tab.GetValue(),--defaultValue
+        Get_Default(tab.default, tab.GetValue),--defaultValue
         tab.GetValue,--getValue
-        tab.SetValue or tab.func--setValue
+        Bool_Setter(tab.GetValue, tab.SetValue or tab.func)--setValue
     )
 
     local dropdownSetting= Settings.RegisterProxySetting(--categoryTbl, variable, variableType, name, defaultValue, getValue, setValue
@@ -336,9 +358,9 @@ function WoWTools_PanelMixin:Check_Button(tab, root)
         Set_VariableIndex(),
         Settings.VarType.Boolean,
         tab.checkName,
-        tab.GetValue(),
+        Get_Default(tab.default, tab.GetValue),
         tab.GetValue,
-        tab.SetValue
+        Bool_Setter(tab.GetValue, tab.SetValue)
     )
     local sub= CreateSettingsCheckboxWithButtonInitializer(
         checkSetting,--setting
@@ -370,9 +392,9 @@ function WoWTools_PanelMixin:Check_Slider(tab, root)
         Set_VariableIndex(),
         Settings.VarType.Boolean,
         tab.checkName,
-        tab.checkGetValue(),
+        Get_Default(tab.checkDefault, tab.checkGetValue),
         tab.checkGetValue,
-        tab.checkSetValue
+        Bool_Setter(tab.checkGetValue, tab.checkSetValue)
     )
 
     local sliderSetting = Settings.RegisterProxySetting(

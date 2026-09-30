@@ -55,6 +55,14 @@ local function Init()
             end)
 
         elseif event=='PLAYER_DEAD' then
+            --no liberar si hay piedra de alma/reencarnación o se pulsa un modificador
+            local options= C_DeathInfo.GetSelfResurrectOptions and C_DeathInfo.GetSelfResurrectOptions()
+            if IsModifierKeyDown()
+                or (options and canaccesstable(options) and #options>0)
+                or (HasSoulstone and HasSoulstone())
+            then
+                return
+            end
 
             RepopMe()--死后将你的幽灵释放到墓地。
 

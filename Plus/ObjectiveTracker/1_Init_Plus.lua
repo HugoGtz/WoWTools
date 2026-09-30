@@ -126,7 +126,7 @@ local function Init()
             local subIcon
             if type(index)=='number' then
                 --local criteriaString, criteriaType, completed, quantity, reqQuantity, charName, flags, assetID, quantityString = GetAchievementCriteriaInfo(achievementID, index);
-                local assetID= select(8, GetAchievementCriteriaInfoByID(achievementID, index))
+                local assetID= select(8, GetAchievementCriteriaInfo(achievementID, index))
                 subIcon = assetID and select(10, GetAchievementInfo(assetID))
             end
             WoWTools_ObjectiveMixin:Set_Line_Icon(line, subIcon)
@@ -321,9 +321,9 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         SetValue= function()
             Save().disabled= not Save().disabled and true or nil
 
-            Init()
-
-            if Save().disabled then
+            if not Save().disabled then
+                Init()
+            else
                 print(
                     WoWTools_DataMixin.Icon.icon2..WoWTools_ObjectiveMixin.addName,
                     WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),

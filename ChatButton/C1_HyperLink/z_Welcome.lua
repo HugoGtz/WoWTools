@@ -3,9 +3,15 @@ local function Save()
     return WoWToolsPlusSave['ChatButton_HyperLink'] or {}
 end
 
-local raidMS=ERR_RAID_MEMBER_ADDED_S:gsub("%%s", "(.+)")--%s加入了团队。
-local partyMS= JOINED_PARTY:gsub("%%s", "(.+)")--%s加入了队伍。
-local guildMS= ERR_GUILD_JOIN_S:gsub("%%s", "(.+)")--加入了公会
+--escapar . ( - etc. de la cadena localizada antes de convertir %s en captura
+local function ToPattern(fmt)
+    local pat= fmt:gsub('[%^%$%(%)%%%.%[%]%*%+%-%?]', '%%%0')
+    pat= pat:gsub('%%%%s', '(.+)')
+    return pat
+end
+local raidMS= ToPattern(ERR_RAID_MEMBER_ADDED_S)--%s加入了团队。
+local partyMS= ToPattern(JOINED_PARTY)--%s加入了队伍。
+local guildMS= ToPattern(ERR_GUILD_JOIN_S)--加入了公会
 
 
 
@@ -40,9 +46,12 @@ local function Init()
                 WoWTools_ChatMixin:Chat(WoWToolsPlusPlayerDate['HyperLinkGroupWelcomeText'] or (WoWTools_DataMixin.Player.IsCN and '{rt1}欢迎{rt1}' or '{rt1}Hi{rt1}'), group, nil)
             end
 
-        elseif guild and IsInGuild() and text:find(guildMS) then
+        elseif guild and IsInGuild() and CanGuildInvite() then--solo quien puede invitar: si no, cada miembro con el addon saludaba (spam en /g)
 
             C_Timer.After(2, function()
+                if C_ChatInfo.InChatMessagingLockdown and C_ChatInfo.InChatMessagingLockdown() then
+                    return
+                end
                 C_ChatInfo.SendChatMessage(
                     (WoWToolsPlusPlayerDate['HyperLinkGuildWelcomeText'] or (WoWTools_DataMixin.Player.IsCN and '欢迎' or EMOTE103_CMD1:gsub('/','')))
                     ..' '

@@ -271,6 +271,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         return
     end
 
+    WoWTools_DataMixin:Init_SavedVariables()--por si llega antes que el de 2_DataMixin_WoW
     WoWToolsPlusSave['WoWTools_Settings']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['WoWTools_Settings'], P_Save)
     P_Save= nil
 

@@ -17,13 +17,17 @@ function WoWTools_ObjectiveMixin:Add_ClearAll_Button(frame, tooltip, func)
         GameTooltip:AddLine(
             (WoWTools_L.CLEAR_ALL)
             ..'|A:bags-button-autosort-up:0:0|a|cffff00ff'..(f.tooltip or '')
-            ..WoWTools_DataMixin.Icon.left
+            ..'|r Shift+'..WoWTools_DataMixin.Icon.left
         )
         GameTooltip:Show()
         f:SetAlpha(1)
     end)
 
-    btn:SetScript('OnClick', func)
+    btn:SetScript('OnClick', function(...)
+        if IsShiftKeyDown() then--evita quitar todo el seguimiento con un clic accidental
+            func(...)
+        end
+    end)
     --btn:SetScript('OnDoubleClick', function()
     btn.tooltip= tooltip
 end

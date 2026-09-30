@@ -31,14 +31,19 @@ local function Init()
         for _, buble in pairs(C_ChatBubbles.GetAllChatBubbles() or {}) do
             if not buble.setAlphaOK or set then
                 local frame= buble:GetChildren()
-                if frame then
+                if frame and frame.String then
                     local fontString = frame.String
-                    local point, relativeTo, relativePoint, ofsx, ofsy = fontString:GetPoint(1)
+                    local scale= Save().chatBubbleSacal or 1--SavedVariables antiguas: nil
+                    --guardar el punto original: al reaplicar (set=true) los desplazamientos se volvían a dividir
+                    if not buble.wowtoolsPoint then
+                        buble.wowtoolsPoint= {fontString:GetPoint(1)}
+                    end
+                    local point, relativeTo, relativePoint, ofsx, ofsy = unpack(buble.wowtoolsPoint)
                     local currentScale= buble:GetScale()
-                    frame:SetScale(Save().chatBubbleSacal)
+                    frame:SetScale(scale)
                     if point then
-                        local scaleRatio = Save().chatBubbleSacal / currentScale
-                        fontString:SetPoint(point, relativeTo, relativePoint, ofsx / scaleRatio, ofsy / scaleRatio)
+                        local scaleRatio = scale / currentScale
+                        fontString:SetPoint(point, relativeTo, relativePoint, (ofsx or 0) / scaleRatio, (ofsy or 0) / scaleRatio)
                     end
                     local tab={frame:GetRegions()}
                     for _, region in pairs(tab) do
@@ -77,8 +82,13 @@ local function Init()
     BubblesFrame:SetScript('OnEvent', function(self, event)
         if event=='PLAYER_ENTERING_WORLD' then
             self:set_event()
-        else
-            self:set_chat_bubbles()
+        elseif not self.pending then
+            --el bocadillo de este mensaje aún no existe: esperar al siguiente frame
+            self.pending= true
+            C_Timer.After(0, function()
+                self.pending= nil
+                self:set_chat_bubbles()
+            end)
         end
     end)
 

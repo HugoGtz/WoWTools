@@ -189,7 +189,7 @@ function WoWTools_LabelMixin:ItemCurrencyTips(settings)--物品升级界面，�
             local num= C_Item.GetItemCount(tab.id, true, false, true)
             local itemQuality= C_Item.GetItemQualityByID(tab.id)
 
-            if (showAll or tab.show or num>0) and itemQuality>=1 then
+            if (showAll or tab.show or num>0) and itemQuality and itemQuality>=1 then
                 local icon= select(5, C_Item.GetItemInfoInstant(tab.id))
                 local name=showName and C_Item.GetItemNameByID(tab.id)
                 text= ((icon and icon>0) and '|T'..icon..':0|t' or '')

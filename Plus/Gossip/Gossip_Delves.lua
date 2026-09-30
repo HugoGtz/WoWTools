@@ -72,11 +72,11 @@ local function Get_Options(self)
 
 
     local Option, availableLevel, completeLevel
+    if IsInGroup() and gossipOptions[num] and gossipOptions[num].gossipOptionID then
+        C_DelvesUI.RequestPartyEligibilityForDelveTiers(gossipOptions[num].gossipOptionID)
+    end
     for level=num, 1, -1 do
         local option= gossipOptions[level] or {}
-        if IsInGroup() then
-            C_DelvesUI.RequestPartyEligibilityForDelveTiers(gossipOptions[num].gossipOptionID)
-        end
 
         if option.status == Enum.GossipOptionStatus.AlreadyComplete then
             completeLevel= completeLevel or level

@@ -108,10 +108,10 @@ function WoWTools_MenuMixin:CreateSlider(root, tab)
         f:EnableMouseWheel(true)
         f:SetScript('OnMouseWheel', function(s, d)
             local value= getValue(s, desc) or 1
-            if d== 1 then
-                value= value- step
-            elseif d==-1 then
+            if d== 1 then--rueda arriba = más, como en la UI de Blizzard
                 value= value+ step
+            elseif d==-1 then
+                value= value- step
             end
             value= value> maxValue and maxValue or value
             value= value< minValue and minValue or value
@@ -127,6 +127,7 @@ function WoWTools_MenuMixin:CreateSlider(root, tab)
         f:SetScript('OnHide', function(s)
             s:SetScript('OnMouseWheel', nil)
             s:SetScript('OnValueChanged', nil)
+            s:SetScript('OnUpdate', nil)--el frame es del pool del menú: no dejar OnUpdate de quien lo usó antes
             s:SetScript('OnHide', nil)
         end)
 
@@ -346,11 +347,12 @@ function WoWTools_MenuMixin:BgAplha(root, GetValue, SetValue, RestFunc, onlyRoot
             return MenuResponse.Refresh
         end)
 
-        for i=0, 1.0, 0.1 do
+        for k=0, 10 do--pasos enteros: con 'for i=0,1,0.1' se acumulaba error y faltaba el 1.0
+            local i= k/10
             sub2:CreateRadio(
                 i,
             function(alpha)
-                return (GetValue() or 1)==alpha
+                return math.abs((GetValue() or 1)-alpha)<0.001
             end, function(alpha)
                 SetValue(alpha)
                 return MenuResponse.Refresh
@@ -556,7 +558,7 @@ function WoWTools_MenuMixin:OpenSpellBook(root, index)--天赋和法术书
     end)
     if isSpellBook then
         sub:SetTooltip(function(tooltip)
-            GameTooltip_AddErrorLine(tooltip, 'Bug')
+            GameTooltip_AddErrorLine(tooltip, WoWTools_L['Errors may occur'])
         end)
     end
 
@@ -866,7 +868,7 @@ WoWTools_MenuMixin:SetGridMode(sub, num)
 
 --SetScrollMode UIParent:GetHeight()
 function WoWTools_MenuMixin:SetScrollMode(root)
-    root:SetScrollMode(math.max(20*35, GetScreenHeight()-70))
+    root:SetScrollMode(math.max(200, GetScreenHeight()-70))--no pasar del alto de la pantalla (antes mínimo 700)
 end
 --[[
 --SetScrollMod

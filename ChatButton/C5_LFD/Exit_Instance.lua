@@ -106,10 +106,6 @@ local function Init_Frame()
     frame:RegisterEvent('CONFIRM_LOOT_ROLL')
 
     frame:SetScript('OnEvent', function(self, event, arg1, arg2)
-        if event=='' then
-            Save_Instance_Num()
-        end
-
         if event=='LFG_COMPLETION_REWARD' or event=='LOOT_CLOSED' then--or event=='SCENARIO_COMPLETED' then--自动离开
             if Save().leaveInstance
                 and IsInLFGDungeon()
@@ -180,7 +176,8 @@ local function Init_Frame()
             end
 
         elseif event=='CONFIRM_LOOT_ROLL' then
-            if not Save().disabled_CONFIRM_LOOT_ROLL and arg1 and arg2 then
+            --opcional (clave nueva): antes se confirmaba siempre y el objeto quedaba ligado sin preguntar
+            if Save().autoConfirmLootRoll and arg1 and arg2 then
                 ConfirmLootRoll(arg1, arg2)
                 StaticPopup_Hide("CONFIRM_LOOT_ROLL", arg1)
             end

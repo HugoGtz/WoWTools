@@ -1338,9 +1338,9 @@ local function Init_Menu(self, root)
     sub2=sub:CreateCheckbox(
         WoWTools_L.ITEM_BIND_ON_PICKUP,
     function()
-        return not Save().disabled_CONFIRM_LOOT_ROLL
+        return Save().autoConfirmLootRoll
     end, function()
-        Save().disabled_CONFIRM_LOOT_ROLL= not Save().disabled_CONFIRM_LOOT_ROLL and true or nil
+        Save().autoConfirmLootRoll= not Save().autoConfirmLootRoll and true or nil
     end)
     sub2:SetTooltip(function(tooltip)
         tooltip:AddLine(WoWTools_L.LOOT_NO_DROP)

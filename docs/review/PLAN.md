@@ -42,4 +42,6 @@ Informes detallados: `review_A_core.md`, `review_B_plus1.md`, `review_C_plus2.md
 - [x] MK() escala china; Text:sub corta UTF-8; Realm.lua ES/US
 
 ## Fase 4 — Lógica media y pulido UI
-- Ver secciones Medio/Bajo/UI de cada informe.
+- [x] Medio/Bajo/UI de los 4 informes (ver commit; pendientes marcados "requiere prueba en juego")
+- [ ] Pendiente de decisión: fuente forzada a 12px en todas las etiquetas (1_Mixin/Label.lua)
+- [ ] Descartados por rediseño: WorldMapFrame redimensionado, MERCHANT_ITEMS_PER_PAGE, botones seguros en Professions/Gem, MountJournal_FullUpdate, GenerateItemSlotsForSelectedTab

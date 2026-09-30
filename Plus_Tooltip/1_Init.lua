@@ -303,10 +303,10 @@ local function Init_Panel()
         name= 'SetTooltipMoney',
         tooltip= (WoWTools_L['Fix'])..' MoneyFrame_Update '..(WoWTools_L.ERRORS)
                 ..'|n'..(WoWTools_L.REQUIRES_RELOAD),
-        GetValue= function() return not Save().disabledFix.MoneyFrame_Update end,
+        GetValue= function() return Save().replaceSetTooltipMoney end,
         category= WoWTools_TooltipMixin.Category,
         SetValue= function()
-            Save().disabledFix.MoneyFrame_Update= not Save().disabledFix.MoneyFrame_Update and true or nil
+            Save().replaceSetTooltipMoney= not Save().replaceSetTooltipMoney and true or nil
         end
     })
 
@@ -314,10 +314,10 @@ local function Init_Panel()
         name= 'UnitFrame_UpdateTooltip',
         tooltip= (WoWTools_L.UNIT_POPUP_RIGHT_CLICK)..': '..WoWTools_TextMixin:GetShowHide(false)
                 ..'|n'..(WoWTools_L.REQUIRES_RELOAD),
-        GetValue= function() return not Save().disabledFix.UnitFrame_UpdateTooltip end,
+        GetValue= function() return Save().replaceUnitFrameTooltip end,
         category= WoWTools_TooltipMixin.Category,
         SetValue= function()
-            Save().disabledFix.UnitFrame_UpdateTooltip= not Save().disabledFix.UnitFrame_UpdateTooltip and true or nil
+            Save().replaceUnitFrameTooltip= not Save().replaceUnitFrameTooltip and true or nil
         end
     })
 
@@ -514,8 +514,12 @@ local function Init()
     end]]
 
 
-    if not Save().disabledFix.MoneyFrame_Update then
+    --Reemplazos globales: contaminan código de Blizzard (taint en 12.0), por eso son opcionales (claves nuevas, desactivadas)
+    if Save().replaceSetTooltipMoney then
         function SetTooltipMoney(frame, money, _, prefixText, suffixText)
+            if not money or not canaccessvalue(money) then
+                return
+            end
             frame:AddLine(
                 (WoWTools_TextMixin:CN(prefixText) or "")
                 .. " "
@@ -526,7 +530,7 @@ local function Init()
             )
         end
     end
-    if not Save().disabledFix.UnitFrame_UpdateTooltip then
+    if Save().replaceUnitFrameTooltip then
         function UnitFrame_UpdateTooltip (self)
             GameTooltip_SetDefaultAnchor(GameTooltip, self);
             if GameTooltip:SetUnit(self.unit, self.hideStatusOnTooltip) then
@@ -623,6 +627,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             else
                 self:RegisterEvent('PLAYER_ENTERING_WORLD')
                 self:RegisterEvent('PLAYER_LEAVING_WORLD')
+                self:RegisterEvent('PLAYER_LOGOUT')
                 do
                     Init_Panel()
                 end
@@ -656,6 +661,12 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             else
                 Save().graphicsViewDistance=nil
             end
+        end
+
+    elseif event=='PLAYER_LOGOUT' then--no dejar la distancia de visión a 0 al salir del juego
+        if Save() and Save().graphicsViewDistance then
+            C_CVar.SetCVar('graphicsViewDistance', Save().graphicsViewDistance)
+            Save().graphicsViewDistance=nil
         end
     end
 end)

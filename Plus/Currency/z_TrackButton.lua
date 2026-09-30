@@ -983,7 +983,7 @@ local function Init()
 			GameTooltip:AddDoubleLine(WoWTools_L.BINDING_NAME_TOGGLECURRENCY, WoWTools_DataMixin.Icon.left)
 			GameTooltip:AddDoubleLine((WoWTools_L.SLASH_TEXTTOSPEECH_MENU), WoWTools_DataMixin.Icon.right)
 			GameTooltip:AddLine(' ')
-			GameTooltip:AddDoubleLine(WoWTools_L.NPE_MOVE, 'Atl+'..WoWTools_DataMixin.Icon.right)
+			GameTooltip:AddDoubleLine(WoWTools_L.NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)
 
 			local num= self.frame.pool:GetNumActive()+ self.frame.itemPool:GetNumActive()+ self.frame.itemPool2:GetNumActive()
 			GameTooltip:AddDoubleLine(

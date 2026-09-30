@@ -48,13 +48,8 @@ local function Init()
 
     check:RegisterEvent('LOOT_READY')
     check:SetScript('OnEvent', function()
-        if IsShiftKeyDown() and not InCombatLockdown() then
-            C_CVar.SetCVar("autoLootDefault", '0')
-            print(
-                WoWTools_MerchantMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                '|cffff00ff|A:Cursor_lootall_128:0:0|a'..(WoWTools_L.AUTO_LOOT_DEFAULT_TEXT)..' Plus|r','|cnGREEN_FONT_COLOR:Shift|r', WoWTools_L.AUTO_LOOT_DEFAULT_TEXT, WoWTools_TextMixin:GetEnabeleDisable(C_CVar.GetCVarBool("autoLootDefault")))
-
-        else
+        --Shift: no despojar esta vez (sin tocar el CVar, que antes quedaba apagado para siempre)
+        if not IsShiftKeyDown() then
             if C_CVar.GetCVarBool("autoLootDefault") then
                 for i = GetNumLootItems(), 1, -1 do
                     LootSlot(i)
@@ -65,7 +60,7 @@ local function Init()
 
 
     LootFrame:HookScript("OnShow", function ()
-        if C_CVar.GetCVarBool("autoLootDefault") then
+        if C_CVar.GetCVarBool("autoLootDefault") and not IsShiftKeyDown() then
             for i= GetNumLootItems(), 1, -1 do
                 LootSlot(i)
             end

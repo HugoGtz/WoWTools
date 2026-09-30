@@ -35,7 +35,7 @@ local function Set_GetColumns(self)
         function self:GetColumns()
             return Get_Columns(self)
         end
-        if not self~=ContainerFrameCombinedBags then
+        if self~=ContainerFrameCombinedBags then
             function self:GetPaddingWidth()
                 return 15
             end
@@ -55,6 +55,7 @@ local function Update_Frame(self)
         or not self.GetColumns
         or not self:IsVisible()
         or not Save().enabledCombinedColumns
+        or InCombatLockdown()--regenerar botones de objeto en combate da acción bloqueada
     then
         return
     end

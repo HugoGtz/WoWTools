@@ -105,7 +105,9 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 GetValue=function() return not Save().disabled end,
                 SetValue= function()
                     Save().disabled= not Save().disabled and true or nil
-                    Init()
+                    if not Save().disabled then--al desactivar no instalar los hooks (hace falta /reload)
+                        Init()
+                    end
                 end,
                 tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_L.RELOADUI)
             })

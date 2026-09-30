@@ -44,15 +44,11 @@ local function Init_Open()
     if InCombatLockdown() then
         panel:RegisterEvent('PLAYER_REGEN_ENABLED')
     else
-        EventRegistry:RegisterFrameEventAndCallback("CALENDAR_UPDATE_EVENT_LIST", function(owner)
-            if CalendarFrame:IsShown() then
-                ToggleCalendar()
-            end
-            EventRegistry:UnregisterCallback('CALENDAR_UPDATE_EVENT_LIST', owner)
-        end)
-        if not CalendarFrame then
-            ToggleCalendar()
+        --cargar el calendario y pedir los eventos sin abrir/cerrar la ventana (evita el parpadeo)
+        if not C_AddOns.IsAddOnLoaded('Blizzard_Calendar') then
+            C_AddOns.LoadAddOn('Blizzard_Calendar')
         end
+        C_Calendar.OpenCalendar()
     end
 end
 

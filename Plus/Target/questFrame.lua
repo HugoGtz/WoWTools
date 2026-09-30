@@ -236,7 +236,14 @@ local function Init()
             Check_AllPlate()
 
         else--event=='UNIT_QUEST_LOG_CHANGED' or event=='QUEST_POI_UPDATE' or event=='SCENARIO_COMPLETED' or event=='SCENARIO_UPDATE' or event=='SCENARIO_CRITERIA_UPDATE' then
-            C_Timer.After(2, Check_AllPlate)
+            --un solo temporizador: se reinicia en cada evento
+            if self.checkTimer then
+                self.checkTimer:Cancel()
+            end
+            self.checkTimer= C_Timer.NewTimer(2, function()
+                self.checkTimer= nil
+                Check_AllPlate()
+            end)
         end
     end)
 

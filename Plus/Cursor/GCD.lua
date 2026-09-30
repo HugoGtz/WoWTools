@@ -103,7 +103,8 @@ local function Init()
     GCDFrame:SetScript('OnEvent', function(self)
         local data= C_Spell.GetSpellCooldown(61304)
 
-        if not data then
+        if not data or not canaccesstable(data) or not canaccessvalue(data.startTime) or not canaccessvalue(data.duration) then--valores secretos en combate (12.0)
+            self:SetShown(false)
             return
         end
 

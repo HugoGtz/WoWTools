@@ -86,7 +86,7 @@ local function Init(btn)
 
 
     if (WoWTools_DataMixin.Player.Region==1 or WoWTools_DataMixin.Player.Region==3) then
-        WoWTools_InviteMixin.SummonThxText = '{rt1}thx{rt1}, sum me'
+        WoWTools_InviteMixin.SummonThxText = '{rt1}'..WoWTools_L['Thanks for the summon']..'{rt1}'
     elseif WoWTools_DataMixin.Player.Region==5 then
         WoWTools_InviteMixin.SummonThxText= '{rt1}谢谢{rt1}, 拉我'
     else
@@ -128,8 +128,9 @@ panel:SetScript('OnEvent', function(self, event, arg1)
                 restingTips=true,--休息区提示
                 ChannelText=WoWTools_DataMixin.Player.IsCN and '1' or 'inv',--频道, 邀请, 事件,内容
 
-                Summon= true,--接受, 召唤
-                notSummonChat=nil,--不说
+                Summon= nil,--接受, 召唤 (opcional: te teletransporta sin preguntar)
+                notSummonChat=nil,--不说 (clave antigua, ya no se usa)
+                SummonChat=nil,--decir gracias al grupo (opcional)
                 SummonThxText=nil,--自定义THX内容
                 SummonThxInRaid=nil,--在团里也说谢谢
 

@@ -49,14 +49,15 @@ local function Init_Button_Menu(self, root)
     end, function()
         do
             local tab= Save().buttons[self.name]
+            local character= WoWTools_AddOnsMixin:GetIsPlayer()--solo el personaje seleccionado en AddonList
             for i=1, C_AddOns.GetNumAddOns() do
                 local name= C_AddOns.GetAddOnName(i)
                 local value=tab[name]
                 local vType= type(value)
                 if vType=='boolean' or vType=='number' or value==WoWTools_DataMixin.Player.GUID then
-                    C_AddOns.EnableAddOn(i)
+                    C_AddOns.EnableAddOn(i, character)
                 else
-                    C_AddOns.DisableAddOn(i)
+                    C_AddOns.DisableAddOn(i, character)
                 end
             end
         end

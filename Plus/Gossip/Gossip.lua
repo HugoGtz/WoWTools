@@ -548,7 +548,7 @@ local function Create_GossipOptionCheckBox(btn, info)
 
         elseif not Save().not_Gossip_Text_Icon and (WoWToolsPlusPlayerDate['GossipTextIcon'][self.gossipOptionID] or WoWTools_GossipMixin:Get_GossipData()[self.gossipOptionID]) then
             for _, info2 in pairs( C_GossipInfo.GetOptions() or {}) do
-                if info2.gossipOptionID==self.gossipOptionID and info.name and info.name~=self.name then
+                if info2.gossipOptionID==self.gossipOptionID and info2.name and info2.name~=self.name then
                     GameTooltip:AddLine('|cnGREEN_FONT_COLOR:'..info2.name)
                     break
                 end
@@ -671,11 +671,11 @@ local function Create_AvailableQuestCheck(btn, info)
         local questID, text
         if data then
             questID= data.questID or self:GetParent():GetID()
-            text= info.title
+            text= data.title
         end
 
-        self.questID= data.questID
-        self.spellID= data.spellID
+        self.questID= questID
+        self.spellID= data and data.spellID
         self.text= text
         self:set_alpha()
         self:SetShown(questID and text)

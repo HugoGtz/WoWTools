@@ -3,7 +3,9 @@
 
 
 local function Init()
-
+    if not AccountStoreFrame or not AccountStoreFrame.CategoryList then
+        return
+    end
     WoWTools_DataMixin:Hook(AccountStoreFrame.CategoryList.ScrollBox, 'Update', function(frame)
         if not frame:HasView() then
             return
@@ -63,5 +65,9 @@ end
 
 
 function WoWTools_AuctionHouseMixin:Init_AccountStore()
-    Init()
+    if AccountStoreFrame then
+        Init()
+    else--Blizzard_AccountStore se carga bajo demanda
+        EventUtil.ContinueOnAddOnLoaded('Blizzard_AccountStore', function() Init() end)
+    end
 end

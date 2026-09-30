@@ -82,8 +82,8 @@ function WoWTools_FrameMixin:ScaleFrame(frame, delta, value, func)
     end
     if IsAltKeyDown() then
         n= n or 1
-        n= delta==1 and n-0.05 or n
-        n= delta==-1 and n+0.05 or n
+        n= delta==1 and n+0.05 or n--rueda arriba = más grande, como en la interfaz de Blizzard
+        n= delta==-1 and n-0.05 or n
         n= n>4 and 4 or n
         n= n<0.4 and 0.4 or n
         if func then

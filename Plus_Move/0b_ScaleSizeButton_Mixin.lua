@@ -237,6 +237,8 @@ local function Init_Point_Menu(self, root)
         tooltip:AddLine(name)
         tooltip:AddLine(WoWTools_L['Custom position when shown'])
         tooltip:AddLine('|A:NPE_Icon:0:0|aEsc '..(WoWTools_L['DISABLE~2']))
+        --toca el gestor de paneles de Blizzard (taint)
+        GameTooltip_AddErrorLine(tooltip, WoWTools_L['May cause Interface action blocked errors when opening panels in combat'])
         local tab= P_UIPanelWindows[name] or UIPanelWindows[name]
         if tab then
             tooltip:AddLine(' ')

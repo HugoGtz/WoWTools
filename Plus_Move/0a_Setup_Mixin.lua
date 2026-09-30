@@ -250,9 +250,8 @@ function WoWTools_MoveMixin:Setup(frame, tab)
         end
     end
 
-    if not target then
-        Set_Frame_Point(frame, name)--设置, 移动, 位置
-    end
+    --también con asa (target): antes la posición se guardaba pero no se restauraba
+    Set_Frame_Point(frame, name)--设置, 移动, 位置
 end
 
 

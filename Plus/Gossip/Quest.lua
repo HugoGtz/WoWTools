@@ -51,8 +51,8 @@ local function select_Reward(questID)--自动:选择奖励
         return
     end
 
-    local bestValue, bestLevel= 0, 0
-    local notColleced, upItem, selectItemLink, bestItem
+    local bestValue, bestTier= 0, 0
+    local selectItemLink, bestItem
 
     for i = 1, numQuests do
         local frame= _G['QuestInfoRewardsFrameQuestInfoItem'..i]
@@ -72,8 +72,7 @@ local function select_Reward(questID)--自动:选择奖励
                             if frame2 and frame2.check then
                                 if index==self.index then
                                     if Save().questRewardCheck[self.questID] then
-                                        frame2:Click()
-                                        CompleteQuest()
+                                        frame2:Click()--solo seleccionar; marcar una preferencia no entrega la misión
                                     end
                                 else
                                     frame2.check:SetChecked(false)
@@ -129,38 +128,36 @@ local function select_Reward(questID)--自动:选择奖励
                     and not C_MountJournal.GetMountFromItem(itemID)--坐骑
                     and isUsable
                 then
+                    --puntuación: mejora de equipo (3) > sin coleccionar (2) > precio de venta (1)
+                    local tier, value= 0, 0
                     if itemLevel and itemLevel>1 and C_Item.IsEquippableItem(itemLink) then
+                        local rewardLevel= WoWTools_ItemMixin:GetItemLevel(itemLink) or itemLevel
                         for _, invSlot in ipairs({WoWTools_ItemMixin:GetEquipSlotID(itemEquipLoc)}) do
                             local itemLinkPlayer = GetInventoryItemLink('player', invSlot)
                             if itemLinkPlayer then
                                 local lv=WoWTools_ItemMixin:GetItemLevel(itemLinkPlayer)
-                                if lv and lv>1 and itemLevel-lv>0 and (bestLevel and bestLevel<lv or not bestLevel) then
-                                    bestLevel= lv
-                                    bestItem = i
-                                    selectItemLink=itemLink
-                                    upItem=true
-                                    break
+                                if lv and lv>1 and rewardLevel-lv>0 and rewardLevel-lv>value then
+                                    tier, value= 3, rewardLevel-lv
                                 end
                             end
                         end
                     end
 
-                    if not upItem then
+                    if tier==0 then
                         local isCollected, isSelf= select(2, WoWTools_CollectionMixin:Item(itemLink))--物品是否收集 
                         if isCollected==false and isSelf then
-                            bestItem = i
-                            selectItemLink=itemLink
-                            notColleced=true
+                            tier, value= 2, 0
                         end
                     end
 
-                    if not (notColleced and upItem) and count and sellPrice then
-                        local totalValue = (sellPrice and sellPrice * count) or 0
-                        if totalValue > bestValue then
-                            bestValue = totalValue
-                            bestItem = i
-                            selectItemLink=itemLink
-                        end
+                    if tier==0 and count and sellPrice and sellPrice*count>0 then
+                        tier, value= 1, sellPrice*count
+                    end
+
+                    if tier>0 and (tier>bestTier or (tier==bestTier and value>bestValue)) then
+                        bestTier, bestValue= tier, value
+                        bestItem = i
+                        selectItemLink=itemLink
                     end
                 end
             end

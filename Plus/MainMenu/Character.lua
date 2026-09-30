@@ -34,7 +34,7 @@ local function Init()
 
         local text2, value= WoWTools_DurabiliyMixin:Get(false)--耐久度
         self.Text2:SetText(text2:gsub('%%', ''))
-        WoWTools_FrameMixin:HelpFrame({frame=CharacterMicroButton, topoint=self.text2, point='left', size={40,40}, color={r=1,g=0,b=0,a=1}, onlyOne=true, show=value<30})--设置，提示
+        WoWTools_FrameMixin:HelpFrame({frame=CharacterMicroButton, topoint=self.Text2, point='left', size={40,40}, color={r=1,g=0,b=0,a=1}, onlyOne=true, show=value<30})--设置，提示
     end
 
     frame:RegisterEvent('EQUIPMENT_SWAP_FINISHED')
@@ -66,7 +66,7 @@ local function Init()
             ..WoWTools_DataMixin.Icon.right
         )
         GameTooltip:AddLine(
-            (bat and '|cff626262:' or (C_CurrencyInfo.GetCurrencyListSize() > 0 and '|cffffffff') or '|cff626262')
+            (bat and '|cff626262' or (C_CurrencyInfo.GetCurrencyListSize() > 0 and '|cffffffff') or '|cff626262')
             ..(WoWTools_L.TOKENS)..'|r'
             ..WoWTools_DataMixin.Icon.mid
             ..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN)

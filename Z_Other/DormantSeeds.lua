@@ -191,7 +191,8 @@ local function Init()
     function Button:set_Shown(show)
         if self:CanChangeAttribute() then
             self:SetShown(
-                show or (self.uiMapID and not C_PetBattles.IsInBattle() and select(2, IsInInstance())=='none')
+                not Save().disabled--desactivado: ocultar siempre (antes seguía visible en la zona)
+                and (show or (self.uiMapID and not C_PetBattles.IsInBattle() and select(2, IsInInstance())=='none'))
             )
         end
     end
@@ -313,14 +314,15 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         end,
         buttonText= WoWTools_L.RESET_POSITION,
         buttonFunc= function()
-            Save().Point=nil
+            Save().point=nil
             if Button then
                 Button:set_Point()
             end
             print(addName..WoWTools_DataMixin.Icon.icon2, WoWTools_L.RESET_POSITION)
         end,
         tooltip=function()
-            return  WoWTools_ItemMixin:GetName(2200) or addName
+            local mapInfo= C_Map.GetMapInfo(2200)--2200 es un uiMapID, no un itemID
+            return mapInfo and mapInfo.name and WoWTools_TextMixin:CN(mapInfo.name) or addName
         end,
         layout= WoWTools_OtherMixin.Layout,
         category= WoWTools_OtherMixin.Category,

@@ -61,7 +61,7 @@ local function EventFilter(_, _, text, ...)
 			end
 
 			local info= WoWTools_FactionMixin:GetInfo(factionID)
-			text= text..(info.atla and '|A:'..info.atlas..':0:0|a' or (info.texture and '|T'..info.texture..':0|t') or '')
+			text= text..(info.atlas and '|A:'..info.atlas..':0:0|a' or (info.texture and '|T'..info.texture..':0|t') or '')
 				..(info.factionStandingtext or '')
 				..(info.hasRewardPending or '')..(info.valueText and ' '..info.valueText or '')
 

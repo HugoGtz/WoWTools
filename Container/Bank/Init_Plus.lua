@@ -104,8 +104,8 @@ local function Init()
     end
 
 --BankFrame，标题，加颜色
---替换，原生
-    function BankPanel:RequestTitleRefresh()
+--Antes se sustituía BankPanel:RequestTitleRefresh (contamina BankFrame); ahora se post-procesa con hook
+    local function Set_Title(self)
         local name, freeAll, numAll
         if self:GetActiveBankType() == Enum.BankType.Account then
             BankFrameTitleText:SetTextColor(0, 0.8, 1)
@@ -133,9 +133,10 @@ local function Init()
             )
         )
     end
+    WoWTools_DataMixin:Hook(BankPanel, 'RequestTitleRefresh', Set_Title)
     BankPanel:HookScript('OnEvent', function(self, event, containerID)
         if event== 'BAG_UPDATE' and self:GetTabData(containerID) then
-            BankPanel:RequestTitleRefresh()
+            Set_Title(self)
         end
     end)
 

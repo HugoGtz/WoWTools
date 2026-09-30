@@ -478,10 +478,16 @@ local function Init_Spell_Button()
     SpellButton.count:SetPoint('BOTTOMRIGHT',-2, 9)
 
     function SpellButton:set_count()
-        local data= self.spellID and C_Spell.GetSpellCharges(self.spellID) or {}
+        local data= self.spellID and C_Spell.GetSpellCharges(self.spellID)
+        if not data or not canaccesstable(data) then
+            data= {}
+        end
         local num, max= data.currentCharges, data.maxCharges
+        if not canaccessvalue(num) or not canaccessvalue(max) then
+            num, max= nil, nil
+        end
         self.count:SetText((max and max>1) and num or '')
-        self.texture:SetDesaturated(num and num>0)
+        self.texture:SetDesaturated(num==0)--gris solo sin cargas
     end
     SpellButton:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT")

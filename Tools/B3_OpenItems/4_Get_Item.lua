@@ -221,7 +221,14 @@ local function Get_ValeItem(bag, slot)
             )
         then-- 8 使用: 在龙鳞探险队中的声望提高1000点
             local spell= select(2, C_Item.GetItemSpell(info.hyperlink))
-            if spell and not C_Item.IsAnimaItemByID(info.hyperlink) then-- or C_Item.IsArtifactPowerItem(info.hyperlink)) then
+            --no proponer objetos ligados a la cuenta/banda (fichas de reputación o conocimiento): pueden gastarse en el personaje equivocado
+            local bindType= select(14, C_Item.GetItemInfo(info.hyperlink))
+            local isAccount= bindType and Enum.ItemBind and (
+                bindType==Enum.ItemBind.ToWoWAccount
+                or bindType==Enum.ItemBind.ToBnetAccount
+                or bindType==Enum.ItemBind.ToBnetAccountUntilEquipped
+            )
+            if spell and not isAccount and not C_Item.IsAnimaItemByID(info.hyperlink) then-- or C_Item.IsArtifactPowerItem(info.hyperlink)) then
                 if info.itemID==207002 then--封装命运
                     if not WoWTools_AuraMixin:Get('player', {[415603]=true}) then
                         return info

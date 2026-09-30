@@ -499,10 +499,9 @@ local function Init_Options()
         Save().creatureUIParent= not Save().creatureUIParent and true or nil
         WoWTools_TargetMixin:Set_All_Init()
         if not Save().creatureUIParent and not Save().target then
-            print('|cnWARNING_FONT_COLOR:'..(
-                WoWTools_DataMixin.onlyChinese
-                    and '需要启用‘1) '..'|A:common-icon-rotateright:0:0|a'..'目标’'
-                    or ('Need to enable the \"1) |Acommon-icon-rotateright:0:0|a'..WoWTools_TargetMixin.addName..'\"')
+            print('|cnWARNING_FONT_COLOR:'..format(
+                WoWTools_L['Need to enable "%s"'],
+                '1) |A:common-icon-rotateright:0:0|a'..(WoWTools_L.TARGET)
             ))
         end
     end)

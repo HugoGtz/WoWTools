@@ -628,8 +628,10 @@ local function Init()
         if Save().disabled
             or InCombatLockdown()
             or not data
+            or not canaccesstable(data)
             or not data.lines
             or not data.lines[1]
+            or not canaccessvalue(data.lines[1].leftText)--valor secreto dentro de instancias
             or not data.lines[1].leftText
         then
             return

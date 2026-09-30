@@ -39,12 +39,12 @@ function WoWTools_DataMixin:Hook(obj, ...)
     if o then
         t= type(o)
         if t=='table' then
-            if (not o.IsForbidden or not select(2, o:IsForbidden())) then
+            if not o.IsForbidden or not o:IsForbidden() then
                 hooksecurefunc(obj, ...)
-                return
             elseif WoWTools_DataMixin.Player.husandro then
                 print('|cnWARNING_FONT_COLOR:被保护|r', obj, ...)
             end
+            return--un objeto prohibido no se engancha
         end
         hooksecurefunc(obj, ...)
 
@@ -113,7 +113,7 @@ function WoWTools_DataMixin:Load(id, typeString)
     elseif typeString=='challengeMap' then
         C_ChallengeMode.RequestLeaders(id)
 
-    elseif id=='club' then
+    elseif typeString=='club' then
         return C_ClubFinder.RequestPostingInformationFromClubId(id)
     end
 end
@@ -284,8 +284,8 @@ function WoWTools_DataMixin:Get_CVar_Tooltips(info)--取得CVar信息 WoWTools_D
     return (info.msg and info.msg..'|n' or '')..info.name..'|n'
     ..(info.value and C_CVar.GetCVar(info.name)== info.value and format('|A:%s:0:0|a', 'common-icon-checkmark') or '')
     ..(info.value and (WoWTools_L.SETTINGS)..info.value..' ' or '')
-    ..'('..(WoWTools_L.REFORGE_CURRENT)..'|cnGREEN_FONT_COLOR:'..format('%.1f',C_CVar.GetCVar(info.name))..'|r |r'
-    ..(WoWTools_L.DEFAULT)..'|cffff00ff'..format('%.1f', C_CVar.GetCVarDefault(info.name))..')|r'
+    ..'('..(WoWTools_L.REFORGE_CURRENT)..'|cnGREEN_FONT_COLOR:'..format('%.1f', tonumber(C_CVar.GetCVar(info.name)) or 0)..'|r |r'
+    ..(WoWTools_L.DEFAULT)..'|cffff00ff'..format('%.1f', tonumber(C_CVar.GetCVarDefault(info.name)) or 0)..')|r'
 end
 
 

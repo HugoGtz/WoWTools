@@ -356,8 +356,12 @@ local function Init()
         self:SetParent(Save().setParent and GeneralDockManager or UIParent)
 
         self:SetMovable(not toChatFrame)
-        self:SetClampedToScreen(toChatFrame)
-        self:RegisterForDrag(toChatFrame and '' or "RightButton")
+        self:SetClampedToScreen(true)--movida libremente también: si no, se podía perder fuera de la pantalla
+        if toChatFrame then
+            self:RegisterForDrag()
+        else
+            self:RegisterForDrag("RightButton")
+        end
     end
 
     function btn:set_tooltip()

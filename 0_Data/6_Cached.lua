@@ -36,7 +36,7 @@ local function Cached_ItemLevel(unit, guid)
     local data= WoWTools_DataMixin.PlayerInfo[guid] or {}
 
     local combatRole= UnitGroupRolesAssigned(unit)-- TANK, HEALER, DAMAGER, NONE
-    local faction= UnitFactionGroup('player')
+    local faction= UnitFactionGroup(unit)--facción de la unidad, no la del jugador
 
     combatRole= combatRole~='NONE' and combatRole or nil
     faction= faction~='' and faction or data.faction
@@ -68,6 +68,7 @@ local function Cached_ItemLevel(unit, guid)
 
         color= WoWTools_UnitMixin:GetColor(unit, guid),
         combatRole= combatRole,
+        time= GetTime(),--para no reinspeccionar datos recientes
         --sex= UnitSex(unit),
         --col= hex,
         --r=r,
@@ -133,17 +134,24 @@ local function GetGroupGuidDate()--队伍数据收集
     end
 
     local unitList= {'player'}
+    local now= GetTime()
     for _, tab in pairs(UnitTab) do
-        if tab.name then
+        if canaccessvalue(tab.name) and tab.name then
             WoWTools_DataMixin.GroupGuid[tab.name]= tab
         end
-        if tab.guid then
+        if canaccessvalue(tab.guid) and tab.guid then
             WoWTools_DataMixin.GroupGuid[tab.guid]= tab
+            --Solo inspeccionar si no hay datos de los últimos 5 min
+            local info= WoWTools_DataMixin.PlayerInfo[tab.guid]
+            if not (info and info.time and now-info.time<300) then
+                table.insert(unitList, tab.unit)
+            end
         end
-        table.insert(unitList, tab.unit)
     end
 
-    WoWTools_UnitMixin:GetNotifyInspect(unitList)--取得装等
+    if not InCombatLockdown() then
+        WoWTools_UnitMixin:GetNotifyInspect(unitList)--取得装等
+    end
 end
 
 
@@ -228,6 +236,8 @@ FrameUtil.RegisterFrameForEvents(frame, {
 
 frame:SetScript('OnEvent', function(self, event, arg1)
     if event=='PLAYER_ENTERING_WORLD' then
+        WoWTools_DataMixin.Player.Week= WoWTools_DataMixin:GetWeek() or WoWTools_DataMixin.Player.Week--por si la sesión cruza el reinicio semanal
+        WoWTools_DataMixin.Player.IsMaxLevel= UnitLevel('player')>=GetMaxLevelForLatestExpansion()--recalcular (Timerunning, cambios de expansión)
         C_Timer.After(2, function()
             GetGroupGuidDate()
             WoWTools_UnitMixin:GetNotifyInspect(nil, 'player')--取得,自已, 装等
@@ -239,7 +249,19 @@ frame:SetScript('OnEvent', function(self, event, arg1)
         Set_New_Layer(self, 'party1')--位面, 设置，清除
 
     elseif event=='GROUP_LEFT' or event=='GROUP_ROSTER_UPDATE' then
-        GetGroupGuidDate()
+        --GROUP_ROSTER_UPDATE es muy frecuente en banda: agrupar en un único timer
+        if self.rosterTimer then
+            self.rosterTimer:Cancel()
+            self.rosterTimer= nil
+        end
+        if event=='GROUP_LEFT' then
+            GetGroupGuidDate()
+        else
+            self.rosterTimer= C_Timer.NewTimer(2, function()
+                self.rosterTimer= nil
+                GetGroupGuidDate()
+            end)
+        end
 
     elseif event=='BARBER_SHOP_RESULT' then
         local success= arg1

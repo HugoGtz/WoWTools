@@ -86,8 +86,8 @@ TypeTabs= {
 
             if not isFind or (
                 itemID==findID
-                or (name and name:find(findText))
-                or (cnName and cnName:find(findText))
+                or (name and name:upper():find(findText, 1, true))
+                or (cnName and cnName:upper():find(findText, 1, true))
             )
             then
                 data:Insert({
@@ -196,8 +196,8 @@ TypeTabs= {
 
             if not isFind or (
                     itemID==findID
-                    or (name and name:find(findText))
-                    or (cnName and cnName:find(findText))
+                    or (name and name:upper():find(findText, 1, true))
+                    or (cnName and cnName:upper():find(findText, 1, true))
                 )
             then
                 data:Insert({
@@ -284,8 +284,8 @@ TypeTabs= {
 
             if not isFind or (
                 currencyID==findID
-                or (name and name:find(findText))
-                or (cnName and cnName:find(findText))
+                or (name and name:upper():find(findText, 1, true))
+                or (cnName and cnName:upper():find(findText, 1, true))
             ) then
                 data:Insert({
                     currencyID= currencyID,
@@ -544,8 +544,8 @@ TypeTabs= {
             end
             if text then
                 if not isFind or (
-                    text:upper():find(findText)
-                    or insName:upper():find(findText)
+                    text:upper():find(findText, 1, true)
+                    or insName:upper():find(findText, 1, true)
                 ) then
                     data:Insert({
                         insName= WoWTools_TextMixin:CN(insName),
@@ -608,15 +608,15 @@ TypeTabs= {
                 num= num+1
                 name= '|cff606060'..num..'|r'..WoWTools_TextMixin:CN(name)
                 if select(2, math.modf(num/2))~=0 then
-                    rare= (rare and ' ' or '')..name
+                    rare= (rare and rare..' ' or '')..name
                 else
-                    rare2= (rare2 and ' ' or '')..name
+                    rare2= (rare2 and rare2..' ' or '')..name
                 end
             end
             if rare then
                 if not isFind or (
-                        rare and rare:upper():find(findText)
-                        or (rare2 and rare:upper():find(findText))
+                        rare and rare:upper():find(findText, 1, true)
+                        or (rare2 and rare2:upper():find(findText, 1, true))
                 ) then
                     data:Insert({
                         rare= rare,
@@ -700,8 +700,8 @@ TypeTabs= {
             end
             if boos then
                 if not isFind or (
-                        boos and boos:upper():find(findText)
-                        or (boos2 and boos:upper():find(findText))
+                        boos and boos:upper():find(findText, 1, true)
+                        or (boos2 and boos2:upper():find(findText, 1, true))
                 ) then
                     data:Insert({
                         boos= boos,
@@ -1008,20 +1008,20 @@ local function Init_Right_List()
 
         if isFind and (
                 itemLink and (
-                    itemLink:upper():find(findText)
+                    itemLink:upper():find(findText, 1, true)
                     or WEEKLY_REWARDS_MYTHIC_KEYSTONE:upper()==findText
                 )
-                or (cnLink and cnLink:upper():find(findText))
+                or (cnLink and cnLink:upper():find(findText, 1, true))
 
-                or fullName:upper():find(findText)
+                or fullName:upper():find(findText, 1, true)
 
                 or (realm and realm:upper()==findText)
 
-                or (class and class:upper():find(findText))
-                or (cnClass and cnClass:upper():find(findText))
+                or (class and class:upper():find(findText, 1, true))
+                or (cnClass and cnClass:upper():find(findText, 1, true))
 
-                or (faction and faction:upper():find(findText))
-                or (cnFaction and cnFaction:upper():find(findText))
+                or (faction and faction:upper():find(findText, 1, true))
+                or (cnFaction and cnFaction:upper():find(findText, 1, true))
 
                 or (battleTag and battleTag:upper()==findText)
                 or region==findText
@@ -1068,11 +1068,20 @@ local function Init_Right_List()
         if not v1 or not v2 then
             return false
         else
-            return v1.guid==WoWTools_DataMixin.Player.GUID
-                or v1.itemLevel>v2.itemLevel
-                or v1.score> v2.score
-                or v1.weekLevel> v2.weekLevel
-                or v1.weekNum> v2.weekNum
+            --Orden estricto (jerárquico); con 'or' encadenados table.sort podía fallar
+            local me= WoWTools_DataMixin.Player.GUID
+            if (v1.guid==me) ~= (v2.guid==me) then
+                return v1.guid==me
+            elseif v1.itemLevel~=v2.itemLevel then
+                return v1.itemLevel>v2.itemLevel
+            elseif v1.score~=v2.score then
+                return v1.score> v2.score
+            elseif v1.weekLevel~=v2.weekLevel then
+                return v1.weekLevel> v2.weekLevel
+            elseif v1.weekNum~=v2.weekNum then
+                return v1.weekNum> v2.weekNum
+            end
+            return (v1.guid or '')<(v2.guid or '')
         end
     end)
 

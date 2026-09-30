@@ -24,7 +24,7 @@ Show_Tooltip.STATUS= function(frame)
     local tooltipText = effectiveStatDisplay
 
     if ( ( posBuff == 0 ) and ( negBuff == 0 ) ) then
-		GameTooltip:AddLine(tooltipText..effectiveStatDisplay..FONT_COLOR_CODE_CLOSE, frame.r, frame.g, frame.b,true)
+        GameTooltip:AddDoubleLine(frame.nameText or frame.name or ' ', tooltipText, frame.r, frame.g, frame.b, frame.r, frame.g, frame.b)
 	else
 		if ( posBuff > 0 or negBuff < 0 ) then
 			tooltipText = tooltipText.." ("..BreakUpLargeNumbers(stat - posBuff - negBuff)..FONT_COLOR_CODE_CLOSE
@@ -85,13 +85,15 @@ Show_Tooltip.STATUS= function(frame)
         end
         GameTooltip:AddLine(text, nil, nil, nil,true)
     end
-    if frame.value and frame.value~=stat then
+    --frame.value es el valor efectivo de referencia: comparar con el efectivo actual
+    local current= effectiveStat or stat
+    if frame.value and current and frame.value~=current then
         GameTooltip:AddLine(' ')
         local text
-        if frame.value< stat then
-            text= Save().greenColor..'+ '..format('%s', WoWTools_DataMixin:MK(stat- frame.value,3))
+        if frame.value< current then
+            text= Save().greenColor..'+ '..format('%s', WoWTools_DataMixin:MK(current- frame.value,3))
         else
-            text= Save().redColor..'- '..format('%s', WoWTools_DataMixin:MK(3, frame.value- stat))
+            text= Save().redColor..'- '..format('%s', WoWTools_DataMixin:MK(frame.value- current, 3))
         end
         GameTooltip:AddDoubleLine(format('%i', frame.value), text)
     end
@@ -119,7 +121,7 @@ Show_Tooltip.CRITCHANCE= function(frame)
 		critChance = meleeCrit
 		rating = CR_CRIT_MELEE
 	end
-    GameTooltip:AddDoubleLine(frame.nameText or frame.name or ' ', format('%.2f%%', critChance + 0.5), frame.r, frame.g, frame.b, frame.r, frame.g, frame.b)
+    GameTooltip:AddDoubleLine(frame.nameText or frame.name or ' ', format('%.2f%%', critChance), frame.r, frame.g, frame.b, frame.r, frame.g, frame.b)
 
 	local extraCritChance = GetCombatRatingBonus(rating)
 	local extraCritRating = GetCombatRating(rating)
@@ -167,7 +169,7 @@ Show_Tooltip.HASTE= function(frame)
 	else
 		hasteFormatString = "%s"
 	end
-	GameTooltip:AddDoubleLine(frame.nameText or frame.name or ' ', format(hasteFormatString, format("%0.2f%%", haste + 0.5)), frame.r, frame.g, frame.b, frame.r, frame.g, frame.b)
+	GameTooltip:AddDoubleLine(frame.nameText or frame.name or ' ', format(hasteFormatString, format("%0.2f%%", haste)), frame.r, frame.g, frame.b, frame.r, frame.g, frame.b)
 	GameTooltip:AddLine(
         WoWTools_TextMixin:CN(_G["STAT_HASTE_"..WoWTools_DataMixin.Player.Class.."_TOOLTIP"])
         or (WoWTools_L.STAT_HASTE_TOOLTIP),
@@ -202,9 +204,9 @@ Show_Tooltip.VERSATILITY= function(frame)
             versatilityDamageTakenReduction,
             BreakUpLargeNumbers(versatility),
             versatilityDamageBonus,
-            versatilityDamageTakenReduction,
-            nil, nil, nil, true
-        )
+            versatilityDamageTakenReduction
+        ),
+        nil, nil, nil, true
     )
 end
 

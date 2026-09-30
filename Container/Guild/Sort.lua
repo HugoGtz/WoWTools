@@ -45,14 +45,16 @@ local function Init_Sort()
     for slot = 1, MAX_GUILDBANK_SLOTS_PER_TAB do
         itemLink = GetGuildBankItemLink(currentIndex, slot)
         if itemLink then
-            _, _, itemQuality, _, _, _, _, _, _, itemTexture, _, classID, subclassID= C_Item.GetItemInfo(itemLink)
+            --GetItemInfoInstant es síncrono (GetItemInfo da nil sin caché y el sort comparaba nil)
+            _, _, _, _, itemTexture, classID, subclassID= C_Item.GetItemInfoInstant(itemLink)
+            itemQuality= select(3, C_Item.GetItemInfo(itemLink))
             table.insert(items, {
                 slot = slot,
                 link = itemLink,
-                icon= itemTexture,
-                rarity = itemQuality,
-                type = classID,
-                subType = subclassID,
+                icon= itemTexture or 0,
+                rarity = itemQuality or 0,
+                type = classID or 0,
+                subType = subclassID or 0,
             })
         end
     end
@@ -67,7 +69,10 @@ local function Init_Sort()
         if a.type == b.type then
             if a.subType == b.subType then
                 if a.rarity == b.rarity then
-                    return a.icon < b.icon
+                    if a.icon ~= b.icon then
+                        return a.icon < b.icon
+                    end
+                    return a.slot < b.slot
                 else
                     return a.rarity > b.rarity
                 end
@@ -107,6 +112,13 @@ local function Init_Sort()
             if item.slot ~= item.indexSlot and GetGuildBankItemLink(currentIndex, item.indexSlot)~=item.link then
                 PickupGuildBankItem(currentIndex, item.slot)
                 PickupGuildBankItem(currentIndex, item.indexSlot)
+                --El objeto que ocupaba indexSlot pasa al hueco antiguo
+                for _, other in pairs(items) do
+                    if other~=item and other.slot==item.indexSlot then
+                        other.slot= item.slot
+                        break
+                    end
+                end
                 item.slot= item.indexSlot
                 find=true
                 break

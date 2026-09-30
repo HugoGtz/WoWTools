@@ -176,7 +176,7 @@ local function Init_Menu(self, root)
         Delete_AllItem()
         return MenuResponse.Refresh
     end, {rightText=
-        Save().auto and '|cnGREEN_FONT_COLOR:' or '|cnDISABLED_FONT_COLOR:'
+        (Save().auto and '|cnGREEN_FONT_COLOR:' or '|cnDISABLED_FONT_COLOR:')
         ..(WoWTools_L.SELF_CAST_AUTO)
         ..'|r'..CountTable(Save().item)
     })
@@ -393,6 +393,10 @@ local function Create_Button(frame)
                     ..(WoWTools_L.HOUSING_DECOR_STORAGE_ITEM_DESTROY)
                 )
                 icon= info.iconFileID
+                --guardar la búsqueda del usuario para restaurarla al salir
+                if self.prevSearch==nil then
+                    self.prevSearch= BagItemSearchBox and BagItemSearchBox:GetText() or ''
+                end
                 C_Container.SetItemSearch(C_Item.GetItemNameByID(info.itemID) or '')
             end
         end
@@ -427,7 +431,10 @@ local function Create_Button(frame)
     btn:SetScript('OnLeave', function(self)
         GameTooltip_Hide()
         self:SetNormalAtlas('common-icon-delete')
-        C_Container.SetItemSearch('')
+        if self.prevSearch~=nil then
+            C_Container.SetItemSearch(self.prevSearch)
+            self.prevSearch= nil
+        end
     end)
     btn:SetScript('OnEnter', function(self)
         self:SetAlpha(1)
