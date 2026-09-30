@@ -306,7 +306,7 @@ end)
 --Al iniciar sesión todos los módulos ya han registrado su casilla: se agrupan por tema
 --y después se añade la sección de datos al final de la página.
 local Groups= {
-    {title='Module group: Interface', mixins={'WoWTools_MoveMixin', 'WoWTools_TextureMixin', 'WoWTools_TooltipMixin', 'WoWTools_ItemMixin', 'WoWTools_CursorMixin', 'WoWTools_TargetMixin', 'WoWTools_UnitMixin', 'WoWTools_AttributesMixin', 'WoWTools_MainMenuMixin', 'WoWTools_MinimapMixin', 'WoWTools_ColorMixin', 'WoWTools_ObjectiveMixin'}},
+    {title='Module group: Interface', mixins={'WoWTools_MoveMixin', 'WoWTools_TextureMixin', 'WoWTools_TooltipMixin', 'WoWTools_ItemMixin', 'WoWTools_CursorMixin', 'WoWTools_TargetMixin', 'WoWTools_UnitMixin', 'WoWTools_AttributesMixin', 'WoWTools_MainMenuMixin', 'WoWTools_MinimapMixin', 'WoWTools_ColorMixin', 'WoWTools_ObjectiveMixin', 'WoWTools_ActionBarsMixin'}},
     {title='Module group: Chat and social', mixins={'WoWTools_ChatMixin', 'WoWTools_FriendsMixin'}},
     {title='Module group: Items and gold', mixins={'WoWTools_BagMixin', 'WoWTools_BankMixin', 'WoWTools_GuildBankMixin', 'WoWTools_MerchantMixin', 'WoWTools_MailMixin', 'WoWTools_AuctionHouseMixin', 'WoWTools_CurrencyMixin', 'WoWTools_ProfessionMixin', 'WoWTools_GemMixin'}},
     {title='Module group: Character and collections', mixins={'WoWTools_PaperDollMixin', 'WoWTools_SpellMixin', 'WoWTools_MacroMixin', 'WoWTools_CollectionMixin', 'WoWTools_FactionMixin', 'WoWTools_HunterMixin', 'WoWTools_PetBattleMixin', 'WoWTools_HouseMixin'}},

@@ -1128,6 +1128,8 @@ local enUS= {
     ['Not found']= 'Not found',
     ['Show addon messages in chat']= 'Show addon messages in chat',
     ['Tip.Panel.ChatMessages']= 'Shows in the chat what the addon does on its own (items sold, repairs, quests accepted, errors…). Off by default so the chat stays clean.',
+    ['Module.ActionBars']= 'Action bar style',
+    ['Tip.ActionBars.Enable']= 'Restyles the action bars: frameless icons with a rounded mask, shorter white keybind text, a subtler vehicle XP bar, and the same style on the zone ability bar and pet battle buttons.',
 }
 
 local esES= {
@@ -2330,6 +2332,8 @@ local esES= {
     ['Not found']= 'No encontrado',
     ['Show addon messages in chat']= 'Mostrar mensajes del addon en el chat',
     ['Tip.Panel.ChatMessages']= 'Muestra en el chat lo que el addon hace por su cuenta (objetos vendidos, reparaciones, misiones aceptadas, errores…). Desactivado por defecto para no llenar el chat.',
+    ['Module.ActionBars']= 'Estilo de barras de acción',
+    ['Tip.ActionBars.Enable']= 'Cambia el aspecto de las barras de acción: iconos sin marco con máscara redondeada, atajos de teclado más cortos en blanco, barra de experiencia del vehículo más discreta y el mismo estilo en la barra de habilidad de zona y en los botones de las batallas de mascotas.',
 }
 
 local current= (locale=='esES' or locale=='esMX') and esES or enUS
