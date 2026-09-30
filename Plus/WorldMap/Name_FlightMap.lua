@@ -43,9 +43,7 @@ local function Init()
         tooltip:AddDoubleLine(
             '|A:FlightMaster:0:0|a'
             ..(WoWTools_DataMixin.onlyChinese and '飞行点' or MAP_LEGEND_FLIGHTPOINT),
-            format(
-                CLUB_FINDER_LOOKING_FOR_CLASS_SPEC,
-                WoWTools_TextMixin:GetShowHide(Save().ShowFlightMap_Name),
+            WoWTools_Join(WoWTools_TextMixin:GetShowHide(Save().ShowFlightMap_Name),
                 WoWTools_DataMixin.onlyChinese and '名称' or  LFG_LIST_TITLE
             )
         )

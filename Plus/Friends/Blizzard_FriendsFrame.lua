@@ -39,14 +39,14 @@ local function Init_Friends_Menu(self, root)
     local sub, name
     if not BNConnected() then
         root:CreateTitle(
-            WoWTools_DataMixin.onlyChinese and '断开战网' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SOCIAL_TWITTER_DISCONNECT, COMMUNITY_COMMAND_BATTLENET),
+            WoWTools_DataMixin.onlyChinese and '断开战网' or WoWTools_Join(SOCIAL_TWITTER_DISCONNECT, COMMUNITY_COMMAND_BATTLENET),
             WARNING_FONT_COLOR
         )
         root:CreateDivider()
     end
 
     root:CreateTitle(
-        WoWTools_DataMixin.onlyChinese and '登入游戏' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, LOG_IN, GAME)
+        WoWTools_DataMixin.onlyChinese and '登入游戏' or WoWTools_Join(LOG_IN, GAME)
     )
     root:CreateRadio(
         OptionText:format(FRIENDS_TEXTURE_ONLINE, WoWTools_DataMixin.onlyChinese and '有空' or FRIENDS_LIST_AVAILABLE),
@@ -92,7 +92,7 @@ local function Init_Friends_Menu(self, root)
 
     root:CreateDivider()
     sub= root:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '其他玩家' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, HUD_EDIT_MODE_SETTINGS_CATEGORY_TITLE_MISC, PLAYER),
+        WoWTools_DataMixin.onlyChinese and '其他玩家' or WoWTools_Join(HUD_EDIT_MODE_SETTINGS_CATEGORY_TITLE_MISC, PLAYER),
     function()
         return MenuResponse.Open
     end)
@@ -667,7 +667,7 @@ local function Init()--好友列表, 初始化
         if not isConnected and not self.ConnectedLabel then
             self.ConnectedLabel= WoWTools_LabelMixin:Create(self.TitleContainer, {
                 name= 'WoWToolsFriendsConnectedLabel',
-                text= WoWTools_DataMixin.onlyChinese and '战网断开' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SOCIAL_TWITTER_DISCONNECT, COMMUNITY_COMMAND_BATTLENET),
+                text= WoWTools_DataMixin.onlyChinese and '战网断开' or WoWTools_Join(SOCIAL_TWITTER_DISCONNECT, COMMUNITY_COMMAND_BATTLENET),
                 --color= {r=1,g=0,b=0},
             })
             self.ConnectedLabel:SetPoint('LEFT', FriendsFrameTitleText, 0, 0)

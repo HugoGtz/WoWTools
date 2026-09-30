@@ -119,7 +119,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 Save().size= nil
             end
 
-            WoWTools_ItemMixin.addName= '|A:Barbershop-32x32:0:0|a'..(WoWTools_DataMixin.onlyChinese and '物品信息' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ITEMS, INFO))
+            WoWTools_ItemMixin.addName= '|A:Barbershop-32x32:0:0|a'..(WoWTools_DataMixin.onlyChinese and '物品信息' or WoWTools_Join(ITEMS, INFO))
             WoWTools_ItemMixin.Category, WoWTools_ItemMixin.Layout= WoWTools_PanelMixin:AddSubCategory({
                 name=WoWTools_ItemMixin.addName,
                 disabled=Save().disabled

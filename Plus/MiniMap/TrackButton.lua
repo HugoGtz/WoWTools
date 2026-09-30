@@ -834,7 +834,7 @@ local function Init_Menu(self, root)--菜单
     sub:CreateCheckbox(
         '|A:chatframe-button-icon-voicechat:0:0|a'
         ..(Save().hideVigentteCurrentOnWorldMap and '|cff626262' or '')
-        ..(WoWTools_DataMixin.onlyChinese and '播放声音' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, EVENTTRACE_BUTTON_PLAY, SOUND)),
+        ..(WoWTools_DataMixin.onlyChinese and '播放声音' or WoWTools_Join(EVENTTRACE_BUTTON_PLAY, SOUND)),
     function()
         return Save().vigentteSound
     end, function()

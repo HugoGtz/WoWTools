@@ -153,9 +153,9 @@ function WoWTools_MapMixin:GetDifficultyColor(difficultyName, difficultyID)--Dif
                 if IsLegacyDifficulty(difficultyID) then
                     local id= NormalizeLegacyDifficultyID(difficultyID)
                     if id== DifficultyUtil.ID.Raid10Normal then
-                        difficultyName= format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, difficultyID, '10')
+                        difficultyName= WoWTools_Join(difficultyID, '10')
                     elseif id==DifficultyUtil.ID.Raid25Normal then
-                        difficultyName= format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, difficultyID, '25')
+                        difficultyName= WoWTools_Join(difficultyID, '25')
                     end
 
                     color= DISABLED_FONT_COLOR

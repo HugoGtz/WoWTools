@@ -35,11 +35,11 @@ Informes detallados: `review_A_core.md`, `review_B_plus1.md`, `review_C_plus2.md
 - [x] Defaults de SavedVariables no se fusionan (varios 0_Init/1_Init)
 
 ## Fase 3 — Localización es/en
-- [ ] Sistema `Locales/` (enUS, esES, esMX) sustituyendo literales
-- [ ] Textos chinos sin alternativa (~15 reales)
-- [ ] ~100 literales en inglés
-- [ ] ~390 usos de CLUB_FINDER_LOOKING_FOR_CLASS_SPEC como pegamento
-- [ ] MK() escala china; Text:sub corta UTF-8; Realm.lua ES/US
+- [x] Sistema `Locales/` (enUS, esES, esMX) sustituyendo literales
+- [x] Textos chinos sin alternativa (~15 reales)
+- [x] ~100 literales en inglés
+- [x] ~390 usos de CLUB_FINDER_LOOKING_FOR_CLASS_SPEC como pegamento
+- [x] MK() escala china; Text:sub corta UTF-8; Realm.lua ES/US
 
 ## Fase 4 — Lógica media y pulido UI
 - Ver secciones Medio/Bajo/UI de cada informe.

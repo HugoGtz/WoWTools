@@ -22,7 +22,7 @@ local useSecureAction
 local function Init_Menu(self, root)
     local sub, sub2
     root:CreateButton(
-        WoWTools_DataMixin.Icon.left..MicroButtonTooltipText('角色信息', "TOGGLECHARACTER0"),
+        WoWTools_DataMixin.Icon.left..MicroButtonTooltipText(WoWTools_DataMixin.onlyChinese and '角色信息' or CHARACTER_BUTTON, "TOGGLECHARACTER0"),
     function()
         WoWTools_LoadUIMixin:OpenPaperDoll(1, 3)
         return MenuResponse.Open
@@ -91,7 +91,7 @@ local function Init_Menu(self, root)
     end)
     sub2:SetTooltip(function(tooltip)
         tooltip:AddLine('SecureActionButtonTemplate')
-        GameTooltip_AddHighlightLine(tooltip, WoWTools_DataMixin.onlyChinese and '战斗中可更换武器' or 'Weapons can be switched during combat')
+        GameTooltip_AddHighlightLine(tooltip, WoWTools_DataMixin.onlyChinese and '战斗中可更换武器' or WoWTools_L['Weapons can be switched during combat'])
         tooltip:AddLine(' ')
         GameTooltip_AddInstructionLine(tooltip, WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
         GameTooltip_AddErrorLine(tooltip, WoWTools_DataMixin.onlyChinese and'友情提示: 可能会出现错误' or 'Note: Errors may occur')
@@ -611,7 +611,7 @@ local function Init()--添加装备管理框
         GameTooltip:AddLine(' ')
         GameTooltip_AddInstructionLine(
             GameTooltip,
-            WoWTools_DataMixin.Icon.left..MicroButtonTooltipText('角色信息', "TOGGLECHARACTER0")
+            WoWTools_DataMixin.Icon.left..MicroButtonTooltipText(WoWTools_DataMixin.onlyChinese and '角色信息' or CHARACTER_BUTTON, "TOGGLECHARACTER0")
         )
 
         GameTooltip:AddDoubleLine(

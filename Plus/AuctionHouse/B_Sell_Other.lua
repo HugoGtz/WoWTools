@@ -142,7 +142,7 @@ local function Init_ShowCommoditiesButton()
         GameTooltip:ClearLines();
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_AuctionHouseMixin.addName)
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '显示模式' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SHOW, MODE), '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '转到' or CONVERT)..'|r '..(WoWTools_DataMixin.onlyChinese and '材料' or PROFESSIONS_COLUMN_HEADER_REAGENTS))
+        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '显示模式' or WoWTools_Join(SHOW, MODE), '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '转到' or CONVERT)..'|r '..(WoWTools_DataMixin.onlyChinese and '材料' or PROFESSIONS_COLUMN_HEADER_REAGENTS))
         GameTooltip:Show();
     end)
     showCommoditiesButton:SetScript('OnClick', function()

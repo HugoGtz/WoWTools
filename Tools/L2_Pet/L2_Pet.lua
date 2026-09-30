@@ -96,7 +96,7 @@ local function Init_Menu(self, root)
     local num=0
 --自动召唤
     root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '自动召唤' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, SUMMONS),
+        WoWTools_DataMixin.onlyChinese and '自动召唤' or WoWTools_Join(SELF_CAST_AUTO, SUMMONS),
     function()
         return Save().autoSummon
     end, function()
@@ -399,7 +399,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
             Save().speciesID= Save().speciesID or 2780
 
-            addName= '|T3150958:0|t'..(WoWTools_DataMixin.onlyChinese and '黛西' or 'Daisy')
+            addName= '|T3150958:0|t'..(WoWTools_DataMixin.onlyChinese and '黛西' or WoWTools_L['Daisy'])
 
             WoWTools_ToolsMixin:CreateButton({
                 name='SummonPet',

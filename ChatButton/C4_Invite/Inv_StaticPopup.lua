@@ -101,7 +101,7 @@ local function Settings(_, name, isTank, isHealer, isDamage, isNativeRealm, allo
         text= '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '拒绝' or DECLINE)..' '..Save().InvNoFriend[inviterGUID]..'/'..Save().InvNoFriendNum..'|r'
         setPrint()
 
-        StaticPopupFrame.button3:SetText(WoWTools_DataMixin.onlyChinese and '移除拒绝' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, REMOVE, DECLINE))
+        StaticPopupFrame.button3:SetText(WoWTools_DataMixin.onlyChinese and '移除拒绝' or WoWTools_Join(REMOVE, DECLINE))
 
         if InvTimer then InvTimer:Cancel() InvTimer=nil end
 
@@ -117,7 +117,7 @@ local function Settings(_, name, isTank, isHealer, isDamage, isNativeRealm, allo
         sec=isInLFG() and 10 or 3--是否有FB, 排除中
 
         text= '|cnGREEN_FONT_COLOR:'
-            ..(WoWTools_DataMixin.onlyChinese and '接受好友' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ACCEPT, FRIENDS))
+            ..(WoWTools_DataMixin.onlyChinese and '接受好友' or WoWTools_Join(ACCEPT, FRIENDS))
             ..'|r'
         setPrint()
 
@@ -128,7 +128,7 @@ local function Settings(_, name, isTank, isHealer, isDamage, isNativeRealm, allo
     elseif IsResting() and Save().NoInvInResting and not questSessionActive then
         sec= 3
         text= '|cnWARNING_FONT_COLOR:'
-            ..(WoWTools_DataMixin.onlyChinese and '休息区拒绝' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, DECLINE, format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, CALENDAR_STATUS_OUT, ZONE)))
+            ..(WoWTools_DataMixin.onlyChinese and '休息区拒绝' or WoWTools_Join(DECLINE, WoWTools_Join(CALENDAR_STATUS_OUT, ZONE)))
             ..'|r'
         setPrint()
 
@@ -157,7 +157,7 @@ local function Init()
     end)
 
 
-    StaticPopupDialogs["PARTY_INVITE"].button3= WoWTools_DataMixin.onlyChinese and '添加拒绝' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ADD, DECLINE)--添加拒绝按钮
+    StaticPopupDialogs["PARTY_INVITE"].button3= WoWTools_DataMixin.onlyChinese and '添加拒绝' or WoWTools_Join(ADD, DECLINE)--添加拒绝按钮
     StaticPopupDialogs["PARTY_INVITE"].OnAlt=function()
         if not InviterPlayerGUID then
             return

@@ -694,7 +694,7 @@ local function Init_Button_Menu(self, root)
 
 --3D
     root:CreateCheckbox(
-        '|A:WildBattlePetCapturable:0:0|a'..(WoWTools_DataMixin.onlyChinese and '显示3D' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SHOW, '3D')),
+        '|A:WildBattlePetCapturable:0:0|a'..(WoWTools_DataMixin.onlyChinese and '显示3D' or WoWTools_Join(SHOW, '3D')),
     function(data)
         return Save().AbilityButton['petmodelShow_'..self.name]
     end, function(data)
@@ -856,7 +856,7 @@ local function Set_Move_Button(btn)
             print(
                 WoWTools_DataMixin.addName,
                 '|cnWARNING_FONT_COLOR:',
-                WoWTools_DataMixin.onlyChinese and '保存失败' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SAVE, FAILED)
+                WoWTools_DataMixin.onlyChinese and '保存失败' or WoWTools_Join(SAVE, FAILED)
             )
         end
     end)

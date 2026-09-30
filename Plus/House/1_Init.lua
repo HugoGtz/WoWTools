@@ -20,7 +20,7 @@ local function Catalog_ListNum(frame)
     frame.numItemLabel:EnableMouse(true)
     frame.numItemLabel:SetScript('OnLeave', WoWToolsButton_OnLeave)
     frame.numItemLabel:SetScript('OnEnter', WoWToolsButton_OnEnter)
-    frame.numItemLabel.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '家具数量' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, AUCTION_HOUSE_QUANTITY_LABEL, CATALOG_SHOP_TYPE_DECOR))
+    frame.numItemLabel.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '家具数量' or WoWTools_Join(AUCTION_HOUSE_QUANTITY_LABEL, CATALOG_SHOP_TYPE_DECOR))
     function frame.numItemLabel:set_alpha()
         self:SetAlpha(self:IsMouseOver() and 0.5 or 1)
     end

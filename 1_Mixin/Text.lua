@@ -178,7 +178,16 @@ function WoWTools_TextMixin:sub(text, size, letterSize, lower)
     text= self:CN(text)
 
     if not text:find("[\228-\233][\128-\191][\128-\191]") then--检查 UTF-8 字符
-        text= text:sub(1, letterSize or size)
+        --Cortar por caracteres UTF-8, no por bytes: antes partía letras con acento (á, ñ...)
+        local n, out= letterSize or size, {}
+        for char in text:gmatch("[%z\1-\127\194-\244][\128-\191]*") do
+            if n<=0 then
+                break
+            end
+            out[#out+1]= char
+            n= n-1
+        end
+        text= table.concat(out)
         return lower and strlower(text) or text
     else
         local i, output = 1, ''

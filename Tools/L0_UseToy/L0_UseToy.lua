@@ -327,7 +327,7 @@ local function Init_Menu(self, root)
 
 
 --移除未收集
-    name= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '移除未收集' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, REMOVE, NOT_COLLECTED))
+    name= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '移除未收集' or WoWTools_Join(REMOVE, NOT_COLLECTED))
     sub:CreateButton(
         name,
     function(data)
@@ -621,7 +621,7 @@ local function Init()
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
         GameTooltip:AddDoubleLine(
-            WoWTools_DataMixin.onlyChinese and '随机' or 'Random',
+            WoWTools_DataMixin.onlyChinese and '随机' or WoWTools_L['Random'],
             (ToyButton.Locked_Value and '' or '|cnGREEN_FONT_COLOR:#'..#self.Random_List..'|r')
             ..(ToyButton.Selected_Value and '|A:transmog-icon-checkmark:0:0|a' or '')
             ..(ToyButton.Locked_Value and '|A:AdventureMapIcon-Lock:0:0|a' or '')
@@ -822,7 +822,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             WoWToolsPlusSave['Tools_UseToy']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Tools_UseToy'], P_Save)
             P_Save= nil
 
-            addName='|A:collections-icon-favorites:0:0|a'..(WoWTools_DataMixin.onlyChinese and '随机玩具' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, USE, TOY))
+            addName='|A:collections-icon-favorites:0:0|a'..(WoWTools_DataMixin.onlyChinese and '随机玩具' or WoWTools_Join(USE, TOY))
 
             ToyButton= WoWTools_ToolsMixin:CreateButton({
                 name='UseToy',

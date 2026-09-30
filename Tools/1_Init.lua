@@ -144,7 +144,7 @@ local function Init_Menu(self, root)
 
 --显示
     sub:CreateTitle(WoWTools_DataMixin.onlyChinese and '显示' or SHOW)
-    sub:CreateCheckbox('|A:newplayertutorial-drag-cursor:0:0|a'..(WoWTools_DataMixin.onlyChinese and '移过图标' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ENTER_LFG,EMBLEM_SYMBOL)), function()
+    sub:CreateCheckbox('|A:newplayertutorial-drag-cursor:0:0|a'..(WoWTools_DataMixin.onlyChinese and '移过图标' or WoWTools_Join(ENTER_LFG,EMBLEM_SYMBOL)), function()
         return Save().isEnterShow
     end, function()
         Save().isEnterShow = not Save().isEnterShow and true or false
@@ -168,7 +168,7 @@ local function Init_Menu(self, root)
 
     sub:CreateCheckbox(
         '|A:UI-HUD-MicroMenu-GameMenu-Mouseover:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '显示主菜单' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SHOW, MAINMENU_BUTTON)),
+        ..(WoWTools_DataMixin.onlyChinese and '显示主菜单' or WoWTools_Join(SHOW, MAINMENU_BUTTON)),
     function()
         return Save().isMainMenuHide
     end, function()

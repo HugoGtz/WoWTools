@@ -425,7 +425,7 @@ local function Init_Menu_Item(_, sub)
     ClearAll_Menu(sub, 'Item')
 
     sub2=sub:CreateTitle(
-        WoWTools_DataMixin.onlyChinese and '拖曳物品' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, DRAG_MODEL, ITEMS)
+        WoWTools_DataMixin.onlyChinese and '拖曳物品' or WoWTools_Join(DRAG_MODEL, ITEMS)
     )
     sub2:SetTooltip(function (tooltip)
         tooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '添加' or ADD)
@@ -538,7 +538,7 @@ local function Init_Menu(self, root)
 --坐骑秀
     sub2=sub:CreateButton(
         '|A:bags-greenarrow:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '坐骑秀' or 'Mount show'),
+        ..(WoWTools_DataMixin.onlyChinese and '坐骑秀' or WoWTools_L['Mount show']),
     function()
         _G['WoWToolsToolsMountFrame']:initMountShow()
         return MenuResponse.Open
@@ -592,7 +592,7 @@ local function Init_Menu(self, root)
     sub2=sub:CreateButton(
         '|T'..FRIENDS_TEXTURE_AFK..':0|t'
         ..(WoWTools_UnitMixin:UnitIsAFK('player') and '|cff626262' or '')
-        ..(WoWTools_DataMixin.onlyChinese and '暂离' or 'AFK'),
+        ..(WoWTools_DataMixin.onlyChinese and '暂离' or WoWTools_L['AFK']),
     function()
         WoWTools_ChatMixin:SendText(SLASH_CHAT_AFK1)
         return MenuResponse.Open

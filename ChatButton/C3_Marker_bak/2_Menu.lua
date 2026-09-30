@@ -223,7 +223,7 @@ local function Init_Menu(self, root)
     sub=root:CreateCheckbox(
         (Save().tank==0 and Save().healer==0 and '|cff626262' or '')
         ..'|A:mechagon-projects:0:0|a'
-        ..((WoWTools_DataMixin.onlyChinese and '自动标记' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, EVENTTRACE_MARKER))
+        ..((WoWTools_DataMixin.onlyChinese and '自动标记' or WoWTools_Join(SELF_CAST_AUTO, EVENTTRACE_MARKER))
         ..WoWTools_DataMixin.Icon.TANK..WoWTools_DataMixin.Icon.HEALER
     ), function ()
         return Save().autoSet
@@ -278,7 +278,7 @@ local function Init_Menu(self, root)
 
 
 
-    sub=root:CreateCheckbox(WoWTools_DataMixin.onlyChinese and '队员就绪信息' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, PLAYERS_IN_GROUP, format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, READY, INFO)), function()
+    sub=root:CreateCheckbox(WoWTools_DataMixin.onlyChinese and '队员就绪信息' or WoWTools_Join(PLAYERS_IN_GROUP, WoWTools_Join(READY, INFO)), function()
         return Save().groupReadyTips
     end, function()
         Save().groupReadyTips= not Save().groupReadyTips and true or false
@@ -318,7 +318,7 @@ local function Init_Menu(self, root)
 
     sub= root:CreateButton(
         WoWTools_MarkerMixin:Get_ReadyTextAtlas(Save().autoReady)
-        or (WoWTools_DataMixin.onlyChinese and '无就绪' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, NONE, READY)),
+        or (WoWTools_DataMixin.onlyChinese and '无就绪' or WoWTools_Join(NONE, READY)),
     function()
         local show= ReadyCheckFrame:IsShown()
         ReadyCheckFrame:SetShown(not show)
@@ -326,7 +326,7 @@ local function Init_Menu(self, root)
         return MenuResponse.Refresh
     end)
     sub:SetTooltip(function (tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '显示就绪框' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SHOW, READY))
+        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '显示就绪框' or WoWTools_Join(SHOW, READY))
         tooltip:AddLine('ReadyCheckFrame')
     end)
 

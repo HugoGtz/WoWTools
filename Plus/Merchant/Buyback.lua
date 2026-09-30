@@ -69,7 +69,7 @@ local function set_buyback_item()
 
                 index
                 ..')|cnWARNING_FONT_COLOR:'
-                ..(WoWTools_DataMixin.onlyChinese and '购回失败' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, BUYBACK, INCOMPLETE)),
+                ..(WoWTools_DataMixin.onlyChinese and '购回失败' or WoWTools_Join(BUYBACK, INCOMPLETE)),
 
                 info[1],
                 info[2] and C_CurrencyInfo.GetCoinTextureString(info[2]) or ''
@@ -173,7 +173,7 @@ local function Init_Menu(self, root)
             end, {itemID=itemID})
 
             sub:SetTooltip(function(tooltip)
-                tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '添加回购' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ADD, BUYBACK))
+                tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '添加回购' or WoWTools_Join(ADD, BUYBACK))
             end)
         end
     end
@@ -183,7 +183,7 @@ local function Init_Menu(self, root)
     WoWTools_MerchantMixin:Buyback_Menu(self, root)
 
     root:CreateDivider()
-    root:CreateTitle(WoWTools_DataMixin.onlyChinese and '拖曳物品' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, DRAG_MODEL, ITEMS))
+    root:CreateTitle(WoWTools_DataMixin.onlyChinese and '拖曳物品' or WoWTools_Join(DRAG_MODEL, ITEMS))
 end
 
 
@@ -251,7 +251,7 @@ local function Init()
             end
 
         else
-            GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '拖曳物品' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, DRAG_MODEL, ITEMS))
+            GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '拖曳物品' or WoWTools_Join(DRAG_MODEL, ITEMS))
             GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
         end
         GameTooltip:Show()

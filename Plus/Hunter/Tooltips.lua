@@ -32,8 +32,8 @@ local function SetTooltip(frame, pet)
                 GameTooltip:AddDoubleLine(
                     col
                     ..(indexType=='petAbilities'
-                        and (WoWTools_DataMixin.onlyChinese and '基础技能' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, BASE_SETTINGS_TAB, ABILITIES))
-                        or (WoWTools_DataMixin.onlyChinese and '专精技能' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SPECIALIZATION, ABILITIES))
+                        and (WoWTools_DataMixin.onlyChinese and '基础技能' or WoWTools_Join(BASE_SETTINGS_TAB, ABILITIES))
+                        or (WoWTools_DataMixin.onlyChinese and '专精技能' or WoWTools_Join(SPECIALIZATION, ABILITIES))
                     ),
                     WoWTools_HunterMixin:GetAbilitieIconForTab(name, false, 18)
                 )

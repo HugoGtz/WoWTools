@@ -235,7 +235,7 @@ local function Init_Point_Menu(self, root)
 
     sub:SetTooltip(function(tooltip)
         tooltip:AddLine(name)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '显示时，自定义位置' or  'When show, custom position')
+        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '显示时，自定义位置' or  WoWTools_L['Custom position when shown'])
         tooltip:AddLine('|A:NPE_Icon:0:0|aEsc '..(WoWTools_DataMixin.onlyChinese and '无效' or DISABLE))
         local tab= P_UIPanelWindows[name] or UIPanelWindows[name]
         if tab then
@@ -347,14 +347,14 @@ end
     end)
 
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '按Esc键，隐藏框休' or 'Press the Esc key to hide the frame')
+        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '按Esc键，隐藏框休' or WoWTools_L['Press Esc to hide the frame'])
         tooltip:AddLine(' ')
         tooltip:AddLine('|cff606060'..(WoWTools_DataMixin.onlyChinese and '忽略' or IGNORE_DIALOG))
         tooltip:AddLine('|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '禁用' or DISABLE))
         tooltip:AddLine('|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '启用' or ENABLE))
         tooltip:AddLine(' ')
         tooltip:AddLine(
-            format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, WoWTools_DataMixin.onlyChinese and '当前' or REFORGE_CURRENT, 'UISpecialFrames')
+            WoWTools_Join(WoWTools_DataMixin.onlyChinese and '当前' or REFORGE_CURRENT, 'UISpecialFrames')
             ..': '
             ..WoWTools_TextMixin:GetEnabeleDisable(Set_ESC(name) and true or false)
         )
@@ -540,7 +540,7 @@ local function Init_Menu(self, root)
     root:CreateDivider()
     sub=root:CreateRadio(
         (Save().point[name] and '' or '|cff626262')
-        ..(WoWTools_DataMixin.onlyChinese and '清除位置' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SLASH_STOPWATCH_PARAM_STOP2, CHOOSE_LOCATION:gsub(CHOOSE , ''))),
+        ..(WoWTools_DataMixin.onlyChinese and '清除位置' or WoWTools_Join(SLASH_STOPWATCH_PARAM_STOP2, CHOOSE_LOCATION:gsub(CHOOSE , ''))),
     function()
         return Save().point[name]
     end, function()
@@ -715,12 +715,12 @@ local function Set_Tooltip(self)
     elseif target:IsProtected() then
         GameTooltip:AddDoubleLine(
             WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT,
-            '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '禁止操作' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, DISABLE, NPE_CONTROLS))
+            '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '禁止操作' or WoWTools_Join(DISABLE, NPE_CONTROLS))
         )
         GameTooltip:AddLine(' ')
     end
 
-    GameTooltip:AddDoubleLine('|cffff00ff'..name, format('%s %.2f', WoWTools_DataMixin.onlyChinese and '实际' or 'Effective', target:GetEffectiveScale()))
+    GameTooltip:AddDoubleLine('|cffff00ff'..name, format('%s %.2f', WoWTools_DataMixin.onlyChinese and '实际' or WoWTools_L['Effective'], target:GetEffectiveScale()))
     local parent= target:GetParent()
     if parent then
         GameTooltip:AddDoubleLine(parent:GetName() or 'Parent', format('%.2f', parent:GetScale()))

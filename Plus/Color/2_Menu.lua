@@ -33,7 +33,7 @@ local function Init_Menu(self, root)
 --清除记录
 	sub=root:CreateButton(
 		'|A:bags-button-autosort-up:0:0|a'
-		..(WoWTools_DataMixin.onlyChinese and '清除记录' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SLASH_STOPWATCH_PARAM_STOP2, EVENTTRACE_LOG_HEADER)),
+		..(WoWTools_DataMixin.onlyChinese and '清除记录' or WoWTools_Join(SLASH_STOPWATCH_PARAM_STOP2, EVENTTRACE_LOG_HEADER)),
 	function()
 		Save().logColor={}
 		WoWTools_ColorMixin:Set_SaveLogList()
@@ -41,7 +41,7 @@ local function Init_Menu(self, root)
 	end, {rightText= #Save().logColor})
 	sub:SetTooltip(function(tooltip)
 		tooltip:AddLine(
-			format((WoWTools_DataMixin.onlyChinese and '最多保存%d个颜色' or 'Save up to %d colors'), Save().logMaxColor or 10)
+			format((WoWTools_DataMixin.onlyChinese and '最多保存%d个颜色' or WoWTools_L['Save up to %d colors']), Save().logMaxColor or 10)
 		)
 	end)
 	WoWTools_MenuMixin:SetRightText(sub)
@@ -85,7 +85,7 @@ local function Init_Menu(self, root)
 --禁止自动隐藏
 	sub=root:CreateCheckbox(
 		'|A:newplayertutorial-drag-cursor:0:0|a'
-		..(WoWTools_DataMixin.onlyChinese and '自动隐藏' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, HIDE)),
+		..(WoWTools_DataMixin.onlyChinese and '自动隐藏' or WoWTools_Join(SELF_CAST_AUTO, HIDE)),
 	function()
 		return not Save().notHideFuori
 	end, function()
@@ -93,14 +93,14 @@ local function Init_Menu(self, root)
 		self:Settings()
 	end)
 	sub:SetTooltip(function(tooltip)
-		tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '框架外点击：自动隐藏' or 'Click outside the ColorFrame: Auto-hide')
+		tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '框架外点击：自动隐藏' or WoWTools_L['Click outside the color picker: auto-hide'])
 	end)
 
 
 --自动显示
 	root:CreateDivider()
 	sub=root:CreateCheckbox(
-		WoWTools_DataMixin.onlyChinese and '自动显示' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, SHOW),
+		WoWTools_DataMixin.onlyChinese and '自动显示' or WoWTools_Join(SELF_CAST_AUTO, SHOW),
 	function()
 		return Save().autoShow
 	end, function()
@@ -108,7 +108,7 @@ local function Init_Menu(self, root)
 	end)
 	sub:SetTooltip(function(tooltip)
 		tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '显示' or SHOW)
-		tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '登入游戏' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, LOG_IN, GAME))
+		tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '登入游戏' or WoWTools_Join(LOG_IN, GAME))
 	end)
 
 
@@ -175,9 +175,9 @@ local function Init()
 		GameTooltip:SetOwner(self, 'ANCHOR_RIGHT')
 		GameTooltip_SetTitle(GameTooltip,
 			WoWTools_DataMixin.Icon.icon2
-			..(WoWTools_DataMixin.onlyChinese and '自动隐藏' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, HIDE))
+			..(WoWTools_DataMixin.onlyChinese and '自动隐藏' or WoWTools_Join(SELF_CAST_AUTO, HIDE))
 		)
-		GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '框架外点击：自动隐藏' or 'Click outside the ColorFrame: Auto-hide')
+		GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '框架外点击：自动隐藏' or WoWTools_L['Click outside the color picker: auto-hide'])
 		GameTooltip:Show()
 		self:SetAlpha(0.3)
 	end)

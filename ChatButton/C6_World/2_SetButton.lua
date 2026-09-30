@@ -132,7 +132,7 @@ local function Init(btn)
 
         local find= CountTable(WoWTools_WorldMixin:Get_FilterTextTab() or {})
 
-        GameTooltip:AddDoubleLine((WoWTools_DataMixin.onlyChinese and '屏蔽刷屏' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, IGNORE, CLUB_FINDER_REPORT_SPAM))..' #'..find, WoWTools_TextMixin:GetEnabeleDisable(Save().myChatFilter))
+        GameTooltip:AddDoubleLine((WoWTools_DataMixin.onlyChinese and '屏蔽刷屏' or WoWTools_Join(IGNORE, CLUB_FINDER_REPORT_SPAM))..' #'..find, WoWTools_TextMixin:GetEnabeleDisable(Save().myChatFilter))
         GameTooltip:AddLine(' ')
 
         local clubID, channelNumber, name, disabled, clubInfo, col

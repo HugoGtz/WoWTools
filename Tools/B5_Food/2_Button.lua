@@ -223,7 +223,7 @@ local function Init()
         GameTooltip:ClearLines()
         local itemID, itemLink = self:get_tooltip_item()
         if itemID and itemLink then
-            GameTooltip:AddDoubleLine(WoWTools_ItemMixin:GetName(itemID), WoWTools_DataMixin.onlyChinese and '添加自定义' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ADD, CUSTOM))
+            GameTooltip:AddDoubleLine(WoWTools_ItemMixin:GetName(itemID), WoWTools_DataMixin.onlyChinese and '添加自定义' or WoWTools_Join(ADD, CUSTOM))
         else
             GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_FoodMixin.addName)
             GameTooltip:AddLine(' ')
@@ -247,7 +247,7 @@ local function Init()
             GameTooltip:AddDoubleLine(
                 (Save().onlyMaxExpansion and '|cnGREEN_FONT_COLOR:' or '|cff626262')
                 ..(WoWTools_DataMixin.onlyChinese and '仅当前版本物品'
-                    or format(LFG_LIST_CROSS_FACTION, format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, REFORGE_CURRENT, GAME_VERSION_LABEL))
+                    or format(LFG_LIST_CROSS_FACTION, WoWTools_Join(REFORGE_CURRENT, GAME_VERSION_LABEL))
                 ),
                 WoWTools_TextMixin:GetEnabeleDisable(Save().onlyMaxExpansion)
             )

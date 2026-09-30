@@ -254,10 +254,10 @@ local function Init_Menu_Sell(_, root)
     if WoWTools_MenuMixin:CheckInCombat(root) then
         return
     elseif not C_MerchantFrame.IsSellAllJunkEnabled() then
-        root:CreateTitle(WoWTools_DataMixin.onlyChinese and '商人不收' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, AUCTION_HOUSE_SELL_TAB, DISABLE))
+        root:CreateTitle(WoWTools_DataMixin.onlyChinese and '商人不收' or WoWTools_Join(AUCTION_HOUSE_SELL_TAB, DISABLE))
         return
     elseif MerchantFrame.selectedTab~=1 then
-        root:CreateTitle(WoWTools_DataMixin.onlyChinese and '切换到商人' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SWITCH, MERCHANT))
+        root:CreateTitle(WoWTools_DataMixin.onlyChinese and '切换到商人' or WoWTools_Join(SWITCH, MERCHANT))
         return
     end
 
@@ -390,7 +390,7 @@ end
 local function Init()
     StaticPopupDialogs['WoWTools_AutoBuy']= {
         text = WoWTools_DataMixin.Icon.icon2
-        ..(WoWTools_DataMixin.onlyChinese and '自动购买' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, PURCHASE))
+        ..(WoWTools_DataMixin.onlyChinese and '自动购买' or WoWTools_Join(SELF_CAST_AUTO, PURCHASE))
         ..'|n'..WoWTools_DataMixin.Icon.Player..WoWTools_DataMixin.Player.Name_Realm
         ..'|n',
         button1 = WoWTools_DataMixin.onlyChinese and '购买' or PURCHASE,
@@ -487,14 +487,14 @@ local function Init()
                 GameTooltip:AddDoubleLine(
                     name,
                     '|A:bags-button-autosort-up:0:0|a|cnWARNING_FONT_COLOR:'
-                    ..(WoWTools_DataMixin.onlyChinese and '移除出售' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, REMOVE, AUCTION_HOUSE_SELL_TAB))
+                    ..(WoWTools_DataMixin.onlyChinese and '移除出售' or WoWTools_Join(REMOVE, AUCTION_HOUSE_SELL_TAB))
                 )
                 self.texture:SetAtlas('bags-button-autosort-up')
             else
                 GameTooltip:AddDoubleLine(
                     name,
                     '|T236994:0|t|cnGREEN_FONT_COLOR:'
-                    ..(WoWTools_DataMixin.onlyChinese and '添加出售' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ADD, AUCTION_HOUSE_SELL_TAB))
+                    ..(WoWTools_DataMixin.onlyChinese and '添加出售' or WoWTools_Join(ADD, AUCTION_HOUSE_SELL_TAB))
                 )
                 if icon then
                     self.texture:SetTexture(icon)
@@ -524,12 +524,12 @@ local function Init()
             local num= self:set_text()--回购，数量，提示
             GameTooltip:AddDoubleLine(
                 '|A:Perks-ShoppingCart:0:0|a|cffff00ff'
-                ..(WoWTools_DataMixin.onlyChinese and '自动购买' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, PURCHASE)),
+                ..(WoWTools_DataMixin.onlyChinese and '自动购买' or WoWTools_Join(SELF_CAST_AUTO, PURCHASE)),
                 '|cnGREEN_FONT_COLOR: #'..num..'|r'
             )
             GameTooltip:AddLine(' ')
             GameTooltip:AddDoubleLine(
-                (WoWTools_DataMixin.onlyChinese and '拖曳物品' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, DRAG_MODEL, ITEMS))
+                (WoWTools_DataMixin.onlyChinese and '拖曳物品' or WoWTools_Join(DRAG_MODEL, ITEMS))
                 ..WoWTools_DataMixin.Icon.left,
                 WoWTools_DataMixin.onlyChinese and '出售/购买' or (AUCTION_HOUSE_SELL_TAB..'/'..PURCHASE)
             )
@@ -614,7 +614,7 @@ local function Init()
             MenuUtil.CreateContextMenu(self,  function(f, root)
                 Init_Menu_Sell(self, root)
                 root:CreateDivider()
-                root:CreateTitle(WoWTools_DataMixin.onlyChinese and '拖曳物品' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, DRAG_MODEL, ITEMS))
+                root:CreateTitle(WoWTools_DataMixin.onlyChinese and '拖曳物品' or WoWTools_Join(DRAG_MODEL, ITEMS))
                 WoWTools_MerchantMixin:Player_Sell_Menu(f, root)
 
                 WoWTools_MerchantMixin:BuyItem_Menu(f, root)

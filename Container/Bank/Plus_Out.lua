@@ -139,7 +139,7 @@ local function Init_RightTab_Menu(root, tabData)
         ..(WoWTools_DataMixin.onlyChinese and '提取' or WITHDRAW)..' #'..itemNum
     )
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '可用搜索过滤' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SEARCH, CALENDAR_FILTERS))
+        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '可用搜索过滤' or WoWTools_Join(SEARCH, CALENDAR_FILTERS))
     end)
     if itemNum==0 then
         return
@@ -232,7 +232,7 @@ local function Init()
                 GameTooltip:AddLine(
                     WoWTools_DataMixin.Icon.mid
                     ..'|cnGREEN_FONT_COLOR:<'
-                    ..(WoWTools_DataMixin.onlyChinese and '提取' or WITHDRAW)--..(WoWTools_DataMixin.onlyChinese and '提取菜单' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, WITHDRAW, HUD_EDIT_MODE_MICRO_MENU_LABEL))
+                    ..(WoWTools_DataMixin.onlyChinese and '提取' or WITHDRAW)--..(WoWTools_DataMixin.onlyChinese and '提取菜单' or WoWTools_Join(WITHDRAW, HUD_EDIT_MODE_MICRO_MENU_LABEL))
                     ..'>|A:dressingroom-button-appearancelist-up:0:0|a'
                 )
                 GameTooltip:Show()

@@ -95,7 +95,7 @@ local function Init_Menu(self, root)
 	sub=root:CreateButton(
 		'|A:poi-workorders:0:0|a'
 		..(index==2 and '|cnWARNING_FONT_COLOR:' or  (num==0 and '|cff606060') or '')
-		..(WoWTools_DataMixin.onlyChinese and '复制聊天' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, CALENDAR_COPY_EVENT, CHAT))
+		..(WoWTools_DataMixin.onlyChinese and '复制聊天' or WoWTools_Join(CALENDAR_COPY_EVENT, CHAT))
 		..' '..num,
 	function()
 		Get_Text(self)
@@ -376,7 +376,7 @@ frame:SetScript('OnEvent', function(self, event, arg1)
 	end
 
 	WoWToolsPlusSave['Plus_ChatCopy']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_ChatCopy'], {isShowButton=true})
-	addName= '|A:poi-workorders:0:0|a'..(WoWTools_DataMixin.onlyChinese and '复制聊天' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, CALENDAR_COPY_EVENT, CHAT))
+	addName= '|A:poi-workorders:0:0|a'..(WoWTools_DataMixin.onlyChinese and '复制聊天' or WoWTools_Join(CALENDAR_COPY_EVENT, CHAT))
 
 	WoWTools_PanelMixin:OnlyCheck({
 		name= addName,

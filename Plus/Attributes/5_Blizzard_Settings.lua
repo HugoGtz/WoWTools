@@ -73,7 +73,7 @@ local function Init_Options()--设置 Frame
             end
             if not info.zeroShow then
                 GameTooltip:AddLine(' ')
-                GameTooltip:AddDoubleLine(WoWTools_TextMixin:GetShowHide(not Save().tab[self.name].hide), (WoWTools_DataMixin.onlyChinese and '值' or 'value: ')..' < 1 ='..(WoWTools_DataMixin.onlyChinese and '隐藏' or HIDE))
+                GameTooltip:AddDoubleLine(WoWTools_TextMixin:GetShowHide(not Save().tab[self.name].hide), (WoWTools_DataMixin.onlyChinese and '值' or WoWTools_L['value: '])..' < 1 ='..(WoWTools_DataMixin.onlyChinese and '隐藏' or HIDE))
             end
             GameTooltip:Show()
         end)
@@ -150,7 +150,7 @@ local function Init_Options()--设置 Frame
 
             --位数，bit
             local sliderBit=WoWTools_SliderMixin:CSlider(Frame, {w=100,h=20, min=0, max=3, value=Save().tab['STATUS'].bit or 3, setp=1, color=nil,
-                text= WoWTools_ColorMixin:SetStringColor(WoWTools_DataMixin.onlyChinese and '位数' or 'bit'),
+                text= WoWTools_ColorMixin:SetStringColor(WoWTools_DataMixin.onlyChinese and '位数' or WoWTools_L['Decimals']),
                 func=function(self, value)
                     value= math.floor(value)
                     self:SetValue(value)
@@ -386,7 +386,7 @@ local function Init_Options()--设置 Frame
 
     --位数，bit
     local sliderBit= WoWTools_SliderMixin:CSlider(Frame, {w=100 ,h=20, min=0, max=3, value=Save().bit or 0, setp=1, color=nil,
-        text=(WoWTools_DataMixin.onlyChinese and '位数' or 'bit'),
+        text=(WoWTools_DataMixin.onlyChinese and '位数' or WoWTools_L['Decimals']),
         func=function(self, value)
             value= math.ceil(value)
             self:SetValue(value)
@@ -602,7 +602,7 @@ local function Init_Options()--设置 Frame
     checkStrupper:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '大写' or 'Uppercase')
+        GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '大写' or WoWTools_L['Uppercase'])
         GameTooltip:Show()
     end)
 
@@ -621,7 +621,7 @@ local function Init_Options()--设置 Frame
     checkStrlower:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '小写' or 'Lowercase')
+        GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '小写' or WoWTools_L['Lowercase'])
         GameTooltip:Show()
     end)
 
@@ -644,7 +644,7 @@ local function Init_Options()--设置 Frame
 
 
     local sliderButtonAlpha = WoWTools_SliderMixin:CSlider(Frame, {min=0, max=1, value=Save().buttonAlpha or 0.3, setp=0.1, color=true,
-    text=WoWTools_DataMixin.onlyChinese and '专精透明度' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SPECIALIZATION, 'Alpha'),
+    text=WoWTools_DataMixin.onlyChinese and '专精透明度' or WoWTools_Join(SPECIALIZATION, 'Alpha'),
     func=function(self, value)
         value= tonumber(format('%.1f', value))
         value= value==0 and 0 or value
@@ -660,7 +660,7 @@ local function Init_Options()--设置 Frame
     sliderButtonAlpha:SetPoint("TOPLEFT", slider4, 'BOTTOMLEFT', 0,-24)
 
     local sliderButtonScale = WoWTools_SliderMixin:CSlider(Frame, {min=0.4, max=4, value=Save().buttonScale or 1, setp=0.1, color=true,
-    text=WoWTools_DataMixin.onlyChinese and '专精缩放' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SPECIALIZATION, HOUSING_EXPERT_DECOR_SUBMODE_SCALE),
+    text=WoWTools_DataMixin.onlyChinese and '专精缩放' or WoWTools_Join(SPECIALIZATION, HOUSING_EXPERT_DECOR_SUBMODE_SCALE),
     func=function(self, value)
         value= tonumber(format('%.01f', value))
         value= value<0.4 and 0.4 or value
@@ -696,7 +696,7 @@ local function Init_Options()--设置 Frame
 
     local checkHidePet= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
     checkHidePet:SetPoint('BOTTOMLEFT')
-    checkHidePet.text:SetText(WoWTools_DataMixin.onlyChinese and '自动隐藏' or  format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, HIDE))
+    checkHidePet.text:SetText(WoWTools_DataMixin.onlyChinese and '自动隐藏' or  WoWTools_Join(SELF_CAST_AUTO, HIDE))
     checkHidePet:SetChecked(Save().hideInPetBattle)
     checkHidePet:SetScript('OnMouseDown', function()
         Save().hideInPetBattle= not Save().hideInPetBattle and true or false

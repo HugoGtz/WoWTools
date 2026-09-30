@@ -24,7 +24,7 @@ function WoWTools_GroupMixin:Get_ReadyText(ready)
         )
     else
         return '|A:Cursor_OpenHand_32:0:0|a'..HIGHLIGHT_FONT_COLOR:WrapTextInColorCode(
-            WoWTools_DataMixin.onlyChinese and '手动就绪' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, READY, TRACKER_SORT_MANUAL)
+            WoWTools_DataMixin.onlyChinese and '手动就绪' or WoWTools_Join(READY, TRACKER_SORT_MANUAL)
         )
     end
 end
@@ -240,7 +240,7 @@ local function Init_Menu(self, root)
 
     if tab[1]=='r' then
         sub2=sub:CreateCheckbox(
-            WoWTools_DataMixin.onlyChinese and '队员HP' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, PLAYERS_IN_GROUP, "HP"),
+            WoWTools_DataMixin.onlyChinese and '队员HP' or WoWTools_Join(PLAYERS_IN_GROUP, "HP"),
         function()
             return Save().showRaidHPTooltip
         end, function()
@@ -321,10 +321,10 @@ end
     sub:SetTooltip(function(tooltip)
         tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '跨阵营' or COMMUNITIES_EDIT_DIALOG_CROSS_FACTION)
         tooltip:AddLine(' ')
-        tooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '创建跨阵营队伍' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, COMMUNITIES_EDIT_DIALOG_CROSS_FACTION, START_A_GROUP),  WoWTools_TextMixin:GetEnabeleDisable(C_PartyInfo.CanFormCrossFactionParties()))
+        tooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '创建跨阵营队伍' or WoWTools_Join(COMMUNITIES_EDIT_DIALOG_CROSS_FACTION, START_A_GROUP),  WoWTools_TextMixin:GetEnabeleDisable(C_PartyInfo.CanFormCrossFactionParties()))
         local hex= IsInGroup() and '' or '|cff626262'
         tooltip:AddDoubleLine(
-            hex..(WoWTools_DataMixin.onlyChinese and '跨阵营队伍' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, COMMUNITIES_EDIT_DIALOG_CROSS_FACTION, HUD_EDIT_MODE_SETTING_UNIT_FRAME_SORT_BY_SETTING_GROUP)),
+            hex..(WoWTools_DataMixin.onlyChinese and '跨阵营队伍' or WoWTools_Join(COMMUNITIES_EDIT_DIALOG_CROSS_FACTION, HUD_EDIT_MODE_SETTING_UNIT_FRAME_SORT_BY_SETTING_GROUP)),
             hex..WoWTools_TextMixin:GetYesNo(isCrossFactionParty)..' #'..crossNum..' '..(WoWTools_DataMixin.onlyChinese and '队员' or PLAYERS_IN_GROUP)
         )
     end)
@@ -375,7 +375,7 @@ end
         return MenuResponse.Refresh
     end)
     sub:SetTooltip(function (tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '显示就绪框' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SHOW, READY))
+        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '显示就绪框' or WoWTools_Join(SHOW, READY))
         tooltip:AddLine('ReadyCheckFrame')
     end)
 
@@ -431,7 +431,7 @@ end
         function(data)
             StaticPopup_Show('WoWTools_EditText',
                 WoWTools_GroupMixin.addName
-                ..'|n|n'..(WoWTools_DataMixin.onlyChinese and '自定义发送信息' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, CUSTOM, SEND_MESSAGE))
+                ..'|n|n'..(WoWTools_DataMixin.onlyChinese and '自定义发送信息' or WoWTools_Join(CUSTOM, SEND_MESSAGE))
                 ..'|n|n|cnGREEN_FONT_COLOR:'..format('|A:%s:0:0|a', data.icon)..data.text..'|r|n|n'
                 ..(WoWTools_DataMixin.onlyChinese and '队伍' or HUD_EDIT_MODE_SETTING_UNIT_FRAME_GROUPS),
             nil,
@@ -764,7 +764,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
             WoWToolsPlusPlayerDate['GroupMouseUpText']= WoWToolsPlusPlayerDate['GroupMouseUpText']
                 or (WoWTools_DataMixin.Player.Region==1 or WoWTools_DataMixin.Player.Region==3) and 'sum me, pls'
                 or (WoWTools_DataMixin.Player.Region==5  and '求拉, 谢谢  {rt1}')
-                or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC,SUMMON, COMBATLOG_FILTER_STRING_ME)
+                or WoWTools_Join(SUMMON, COMBATLOG_FILTER_STRING_ME)
 
             WoWToolsPlusPlayerDate['GroupMouseDownText']= WoWToolsPlusPlayerDate['GroupMouseDownText']
                 or (WoWTools_DataMixin.Player.Region~=5 and 'inv, thx{rt1}') or '1'

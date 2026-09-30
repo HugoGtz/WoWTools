@@ -86,7 +86,7 @@ local PointTab={
 
 --按钮增强
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '按钮增强' or 'Button Plus',
+        WoWTools_DataMixin.onlyChinese and '按钮增强' or WoWTools_L['Button Plus'],
     function()
         return not Save().hideBottomList
     end, function()
@@ -127,7 +127,7 @@ local PointTab={
     local num, num2= GetNumMacros()
 
     local delete= WARNING_FONT_COLOR:WrapTextInColorCode(
-        WoWTools_DataMixin.onlyChinese and '全部删除' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, DELETE, ALL)
+        WoWTools_DataMixin.onlyChinese and '全部删除' or WoWTools_Join(DELETE, ALL)
     )
 --全部删除
     --root:CreateDivider()
@@ -319,7 +319,7 @@ local function Init_Created()
     TargetButton.textCursor=0
     TargetButton.text2Cursor=nil
     TargetButton.tip=nil
-    TargetButton.tip2=WoWTools_DataMixin.onlyChinese and '光环名称' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, AURAS, NAME)
+    TargetButton.tip2=WoWTools_DataMixin.onlyChinese and '光环名称' or WoWTools_Join(AURAS, NAME)
     function TargetButton:settings()
         self:ClearAllPoints()
         local point= Save().toRightLeft
@@ -369,7 +369,7 @@ local function Init()
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_MacroMixin.addName)
         GameTooltip:AddLine(' ')
-        GameTooltip:AddLine('|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '请不要在战斗中使用' or 'Please do not use in combat'))
+        GameTooltip:AddLine('|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '请不要在战斗中使用' or WoWTools_L['Please do not use in combat']))
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(' ', (WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL)..WoWTools_DataMixin.Icon.left)
         GameTooltip:Show()

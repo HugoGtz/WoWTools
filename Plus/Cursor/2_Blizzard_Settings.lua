@@ -609,7 +609,7 @@ local function Init_Options(panel)
     --随机, 图片
     panel.randomTextureCheck= CreateFrame('CheckButton', nil, panel, "InterfaceOptionsCheckButtonTemplate")
     panel.randomTextureCheck:SetPoint("LEFT", notUseColorCheck.text, 'RIGHT', 10,0)
-    panel.randomTextureCheck.text:SetText('|TInterface\\PVPFrame\\Icons\\PVP-Banner-Emblem-47:0|t'..(WoWTools_DataMixin.onlyChinese and '随机图标' or 'Random '..EMBLEM_SYMBOL))
+    panel.randomTextureCheck.text:SetText('|TInterface\\PVPFrame\\Icons\\PVP-Banner-Emblem-47:0|t'..(WoWTools_DataMixin.onlyChinese and '随机图标' or WoWTools_L['Random icon']..EMBLEM_SYMBOL))
     panel.randomTextureCheck:SetChecked(Save().randomTexture)
     panel.randomTextureCheck:SetScript('OnMouseDown', function()
         Save().randomTexture= not Save().randomTexture and true or false

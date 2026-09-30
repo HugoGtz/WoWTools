@@ -46,7 +46,7 @@ function WoWTools_ItemMixin:SetOptions(frame, root, tab)
         sub:SetTooltip(function(tooltip)
             tooltip:AddLine(
                 tips
-                or (WoWTools_DataMixin.onlyChinese and '需要刷新' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, NEED, REFRESH))
+                or (WoWTools_DataMixin.onlyChinese and '需要刷新' or WoWTools_Join(NEED, REFRESH))
             )
         end)
     end
@@ -816,9 +816,9 @@ function WoWTools_ItemMixin:GetEquipSlotName(slotID)
         local name= WoWTools_TextMixin:CN(_G[slotName])
         if name then
             if slotID==11 or slotID==13 then--戒指, 饰品
-                name= format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, name, '1')
+                name= WoWTools_Join(name, '1')
             elseif slotID==12 or slotID==14 then
-                name= format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, name, '2')
+                name= WoWTools_Join(name, '2')
             end
             return name, slotName
         end

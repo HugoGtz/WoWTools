@@ -375,7 +375,7 @@ local function Init_Menu(self, root)
 	sub2:SetTooltip(function(tooltip)
 		tooltip:AddLine(
 			WoWTools_DataMixin.onlyChinese and '仅显示有图标声望'
-			or format(LFG_LIST_CROSS_FACTION, format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, FACTION, EMBLEM_SYMBOL))
+			or format(LFG_LIST_CROSS_FACTION, WoWTools_Join(FACTION, EMBLEM_SYMBOL))
 		)
 		TrackButton_Settings()
 	end)
@@ -419,7 +419,7 @@ local function Init_Menu(self, root)
 
 --自动隐藏
 	sub2=sub:CreateCheckbox(
-		WoWTools_DataMixin.onlyChinese and '自动隐藏' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, HIDE),
+		WoWTools_DataMixin.onlyChinese and '自动隐藏' or WoWTools_Join(SELF_CAST_AUTO, HIDE),
 	function()
 		return not Save().notAutoHideTrack
 	end, function()

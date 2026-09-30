@@ -379,7 +379,7 @@ local function Init_Menu(self, root)
 
         print(
             WoWTools_CombatMixin.addName..WoWTools_DataMixin.Icon.icon2,
-            WoWTools_DataMixin.onlyChinese and '重置完成' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, RESET, COMPLETE)
+            WoWTools_DataMixin.onlyChinese and '重置完成' or WoWTools_Join(RESET, COMPLETE)
         )
         return MenuResponse.Open
     end)
@@ -428,7 +428,7 @@ local function Init_Menu(self, root)
     })
     sub:CreateSpacer()
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '测试' or 'Test',
+        WoWTools_DataMixin.onlyChinese and '测试' or WoWTools_L['Test'],
     function()
         WoWTools_ChatMixin:Chat(WoWTools_TimeMixin:SecondsToClock(Save().SayTime), nil, nil)
         return MenuResponse.Open
@@ -480,7 +480,7 @@ local function Init_Menu(self, root)
     end)
 
     sub:CreateDivider()
-    local clearText= WoWTools_DataMixin.onlyChinese and '清除记录' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, RESET, EVENTTRACE_LOG_HEADER)
+    local clearText= WoWTools_DataMixin.onlyChinese and '清除记录' or WoWTools_Join(RESET, EVENTTRACE_LOG_HEADER)
     sub:CreateButton(
         clearText,
     function()

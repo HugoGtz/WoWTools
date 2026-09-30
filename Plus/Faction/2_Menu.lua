@@ -37,7 +37,7 @@ local function Init_Menu(self, root)
 
 --自动隐藏
 	sub2=sub:CreateCheckbox(
-		WoWTools_DataMixin.onlyChinese and '自动隐藏' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, HIDE),
+		WoWTools_DataMixin.onlyChinese and '自动隐藏' or WoWTools_Join(SELF_CAST_AUTO, HIDE),
 	function()
 		return not Save().notAutoHideTrack
 	end, function()
@@ -127,7 +127,7 @@ local function Init_Menu(self, root)
 		tooltip:AddLine('|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '需求' or NEED))
 		tooltip:AddLine(
 			WoWTools_DataMixin.onlyChinese and '展开选项 |A:editmode-down-arrow:16:11:0:-7|a 声望'
-			or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, HUD_EDIT_MODE_EXPAND_OPTIONS, REPUTATION)
+			or WoWTools_Join(HUD_EDIT_MODE_EXPAND_OPTIONS, REPUTATION)
 		)
 	end)
 

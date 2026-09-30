@@ -225,7 +225,7 @@ local function AddBankTabSettingsToTooltip(self, tabData)
     end
     if text then
         GameTooltip_AddNormalLine(GameTooltip,
-            format(WoWTools_DataMixin and '指定到：|cnHIGHLIGHT_FONT_COLOR:%s|r' or BANK_TAB_DEPOSIT_ASSIGNMENTS, text)
+            format(WoWTools_DataMixin.onlyChinese and '指定到：|cnHIGHLIGHT_FONT_COLOR:%s|r' or BANK_TAB_DEPOSIT_ASSIGNMENTS, text)
         )
     end
     if FlagsUtil.IsSet(depositFlags, Enum.BagSlotFlags.DisableAutoSort) then

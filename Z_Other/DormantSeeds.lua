@@ -108,7 +108,7 @@ local function Init()
             print(
                 WoWTools_DataMixin.addName,
                 '|cnWARNING_FONT_COLOR:',
-                WoWTools_DataMixin.onlyChinese and '保存失败' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SAVE, FAILED)
+                WoWTools_DataMixin.onlyChinese and '保存失败' or WoWTools_Join(SAVE, FAILED)
             )
         end
     end)
@@ -302,7 +302,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     WoWToolsPlusSave['Other_DormantSeeds']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Other_DormantSeeds'], P_Save)
     P_Save= nil
 
-    addName= '|T656681:0|t'..(WoWTools_DataMixin.onlyChinese and '梦境之种' or 'DormantSeeds')
+    addName= '|T656681:0|t'..(WoWTools_DataMixin.onlyChinese and '梦境之种' or WoWTools_L['Dormant seeds'])
 
     WoWTools_PanelMixin:Check_Button({
         checkName= addName,

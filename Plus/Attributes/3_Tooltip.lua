@@ -419,7 +419,7 @@ Show_Tooltip.SPEED= function(frame)
     GameTooltip:AddDoubleLine((WoWTools_DataMixin.onlyChinese and '驭空术' or LANDING_DRAGONRIDING_PANEL_TITLE)..format(' %.0f%%', 100*100/BASE_MOVEMENT_SPEED), '100')
     if WoWTools_UnitMixin:UnitExists('vehicle') then
         currentSpeed = GetUnitSpeed('vehicle')
-        GameTooltip:AddDoubleLine((WoWTools_DataMixin.onlyChinese and '载具' or 'Vehicle')..format(' %.0f%%', currentSpeed*100/BASE_MOVEMENT_SPEED), format('%.2f', currentSpeed))
+        GameTooltip:AddDoubleLine((WoWTools_DataMixin.onlyChinese and '载具' or WoWTools_L['Vehicle'])..format(' %.0f%%', currentSpeed*100/BASE_MOVEMENT_SPEED), format('%.2f', currentSpeed))
     end
 end
 

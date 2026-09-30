@@ -74,7 +74,7 @@ local function Init_Button_Menu(self, root)
         print(
             addName..WoWTools_DataMixin.Icon.icon2,
             Save().favorites[self.itemID] and self.itemID or '',
-            WoWTools_DataMixin.onlyChinese and '需求刷新' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, NEED, REFRESH)
+            WoWTools_DataMixin.onlyChinese and '需求刷新' or WoWTools_Join(NEED, REFRESH)
         )
         Set_Gem()
     end)
@@ -807,7 +807,7 @@ local function Init_Menu(self, root)
     sub:SetEnabled(Frame:CanChangeAttribute())
 
     root:CreateCheckbox(
-        format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, WoWTools_DataMixin.onlyChinese and '法术' or SPELLS, 'Button'),
+        WoWTools_Join(WoWTools_DataMixin.onlyChinese and '法术' or SPELLS, 'Button'),
     function()
         return not Save().disableSpell
     end, function()
@@ -824,7 +824,7 @@ local function Init_Menu(self, root)
 
     root:CreateButton(
         '|A:auctionhouse-icon-favorite:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '清除标记' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SLASH_STOPWATCH_PARAM_STOP2, EVENTTRACE_BUTTON_MARKER))
+        ..(WoWTools_DataMixin.onlyChinese and '清除标记' or WoWTools_Join(SLASH_STOPWATCH_PARAM_STOP2, EVENTTRACE_BUTTON_MARKER))
         ..' |cnGREEN_FONT_COLOR:#'..num,
     function()
         Save().favorites={}
@@ -839,7 +839,7 @@ local function Init_Menu(self, root)
 
     root:CreateButton(
          '|A:common-icon-rotateright:0:0|a'
-         ..(WoWTools_DataMixin.onlyChinese and '清除左边' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SLASH_STOPWATCH_PARAM_STOP2, HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_LEFT))
+         ..(WoWTools_DataMixin.onlyChinese and '清除左边' or WoWTools_Join(SLASH_STOPWATCH_PARAM_STOP2, HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_LEFT))
          ..' |cnGREEN_FONT_COLOR:#'
          ..num,
     function()
@@ -853,7 +853,7 @@ local function Init_Menu(self, root)
     
     root:CreateButton(
         '|A:bags-greenarrow:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '清除上面' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SLASH_STOPWATCH_PARAM_STOP2, HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_UP))
+        ..(WoWTools_DataMixin.onlyChinese and '清除上面' or WoWTools_Join(SLASH_STOPWATCH_PARAM_STOP2, HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_UP))
         ..' |cnGREEN_FONT_COLOR:#'
         ..num,
     function()
@@ -867,7 +867,7 @@ local function Init_Menu(self, root)
     
     root:CreateButton(
          '|A:common-icon-rotateleft:0:0|a'
-         ..(WoWTools_DataMixin.onlyChinese and '清除右边' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SLASH_STOPWATCH_PARAM_STOP2, HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_RIGHT))
+         ..(WoWTools_DataMixin.onlyChinese and '清除右边' or WoWTools_Join(SLASH_STOPWATCH_PARAM_STOP2, HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_RIGHT))
          ..' |cnGREEN_FONT_COLOR:#'
          ..num,
     function()
@@ -878,7 +878,7 @@ local function Init_Menu(self, root)
 
     root:CreateButton(
         '|A:bags-button-autosort-up:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '清除记录' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SLASH_STOPWATCH_PARAM_STOP2, EVENTTRACE_LOG_HEADER)),
+        ..(WoWTools_DataMixin.onlyChinese and '清除记录' or WoWTools_Join(SLASH_STOPWATCH_PARAM_STOP2, EVENTTRACE_LOG_HEADER)),
     function()
         Save().gemLoc={
             [WoWTools_DataMixin.Player.Class]={}

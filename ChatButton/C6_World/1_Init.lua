@@ -54,9 +54,9 @@ local function Init_Dialogs()
     }
 
     StaticPopupDialogs['WoWToolsChatWolrdAddPlayerNameChatFilter']= {
-        text=(WoWTools_DataMixin.onlyChinese and '自定义屏蔽' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, CUSTOM, IGNORE))
+        text=(WoWTools_DataMixin.onlyChinese and '自定义屏蔽' or WoWTools_Join(CUSTOM, IGNORE))
             ..'|n|n'..WoWTools_DataMixin.Player.Name_Realm..'|n'
-            ..(WoWTools_DataMixin.onlyChinese and '名字-服务器' or 'Name-Realm'),-- format(FULL_PLAYER_NAME, NAME, VAS_REALM_LABEL)),
+            ..(WoWTools_DataMixin.onlyChinese and '名字-服务器' or WoWTools_L['Name-Realm']),-- format(FULL_PLAYER_NAME, NAME, VAS_REALM_LABEL)),
         whileDead=true, hideOnEscape=true, exclusive=true,
         hasEditBox=true,
         button1= WoWTools_DataMixin.onlyChinese and '添加' or ADD,

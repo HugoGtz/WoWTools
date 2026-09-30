@@ -22,11 +22,11 @@ local function Init_Menu(self, root)
          WoWTools_EncounterMixin:Init_JourneysList()
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要重新加载' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, LANDING_PAGE_RENOWN_LABEL, 'List'))
+        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要重新加载' or WoWTools_Join(LANDING_PAGE_RENOWN_LABEL, 'List'))
     end)
 
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '名望列表' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, JOURNEYS_RENOWN_LABEL, 'List'),
+        WoWTools_DataMixin.onlyChinese and '名望列表' or WoWTools_Join(JOURNEYS_RENOWN_LABEL, 'List'),
     function()
         return not Save().JourneysList.disabled
     end, function()
@@ -51,7 +51,7 @@ local function Init_Menu(self, root)
     end)
 --副本列表
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '副本列表' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, INSTANCE, 'List'),
+        WoWTools_DataMixin.onlyChinese and '副本列表' or WoWTools_Join(INSTANCE, 'List'),
     function()
         return not Save().hideInsList
     end, function()

@@ -53,7 +53,7 @@ local function Init()
          GameTooltip:AddLine(
             WoWTools_DataMixin.Icon.wow2
             ..'|cnGREEN_FONT_COLOR:<'
-            ..(WoWTools_DataMixin.onlyChinese and '战团物品' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ACCOUNT_QUEST_LABEL, ITEMS))
+            ..(WoWTools_DataMixin.onlyChinese and '战团物品' or WoWTools_Join(ACCOUNT_QUEST_LABEL, ITEMS))
             ..WoWTools_DataMixin.Icon.mid
             ..'>'
         )

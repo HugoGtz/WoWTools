@@ -133,10 +133,10 @@ function WoWTools_MenuMixin:DungeonDifficulty(_, root)
 		if toggleDifficultyID then
             root:CreateDivider()
             local sub= root:CreateTitle(
-                WoWTools_DataMixin.onlyChinese and '动态副本'  or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, DYNAMIC, INSTANCE)
+                WoWTools_DataMixin.onlyChinese and '动态副本'  or WoWTools_Join(DYNAMIC, INSTANCE)
             )
             sub:SetTooltip(function(tooltip)
-                tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '可修改难度' or 'Difficulty can be changed')
+                tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '可修改难度' or WoWTools_L['Difficulty can be changed'])
                 tooltip:AddLine( WoWTools_MapMixin:GetDifficultyColor(nil, toggleDifficultyID))
             end)
 

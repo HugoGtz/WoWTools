@@ -102,7 +102,7 @@ local function Init_Menu(self, root)
 
 --属性小数
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '属性小数' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, STAT_CATEGORY_ATTRIBUTES, 'Decimals'),
+        WoWTools_DataMixin.onlyChinese and '属性小数' or WoWTools_Join(STAT_CATEGORY_ATTRIBUTES, 'Decimals'),
     function()
         return not Save().notStatusPlusFunc
     end, function ()
@@ -123,7 +123,7 @@ local function Init_Menu(self, root)
         sub:CreateRadio(
             bitColor
             ..(i==-1 and (WoWTools_DataMixin.onlyChinese and '无' or NONE)
-             or ((WoWTools_DataMixin.onlyChinese and '小数点 ' or 'bit ')..i)),
+             or ((WoWTools_DataMixin.onlyChinese and '小数点 ' or WoWTools_L['Decimals '])..i)),
         function(data)
             return Save().itemLevelBit==data.bit
         end, function(data)
@@ -160,7 +160,7 @@ local function Init_Menu(self, root)
 
     root:CreateDivider()
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '弹出框' or 'Flyout',
+        WoWTools_DataMixin.onlyChinese and '弹出框' or WoWTools_L['Flyout'],
     function()
         return not Save().notFlyout
     end, function()

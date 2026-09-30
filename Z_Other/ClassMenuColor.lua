@@ -101,6 +101,8 @@ _tab={
 [1478]= 14,
 }
 
+local AmbiguousNames= {}
+
 for specID, classID in pairs(_tab) do
     local className, classFile= GetClassInfo(classID)
     local hex=className and classFile and select(4, GetClassColor(classFile))
@@ -114,7 +116,14 @@ for specID, classID in pairs(_tab) do
                     ..'|c'..hex
                     ..WoWTools_TextMixin:CN(name)
                     ..'|r'
-                classTabs[name..(specID==251 and '251' or '')]= colorText--251 DEATHKNIGHT 冰霜
+                --Nombres compartidos entre clases (Sagrado, Restauración, Escarcha...): por especialización y,
+                --si el nombre es ambiguo, no colorear por nombre (antes una clase salía con el color de otra)
+                classTabs[name..specID]= colorText
+                if classTabs[name]==nil then
+                    classTabs[name]= colorText
+                elseif classTabs[name]~=colorText then
+                    AmbiguousNames[name]= true
+                end
             end
         end
     end
@@ -127,9 +136,9 @@ end
     WoWTools_DataMixin:Hook(MenuUtil, 'SetElementText', function(desc, text)
         if not issecretvalue(text) and text then
             local colorText
-            if type(desc.data)=='table' and (desc.data.specID==251 or desc.data.specID==64) then
+            if type(desc.data)=='table' and desc.data.specID then
                 colorText= classTabs[text..desc.data.specID]
-            else
+            elseif not AmbiguousNames[text] then
                 colorText= classTabs[text]
             end
             if colorText then
@@ -158,8 +167,8 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
         if WoWTools_OtherMixin:AddOption(
             'ClassMenuColor',
-            '|A:dressingroom-button-appearancelist-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '职业菜单' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, CLASS, HUD_EDIT_MODE_MICRO_MENU_LABEL)),
-            WoWTools_DataMixin.onlyChinese and '添加 颜色 图标' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ADD, COLOR..', '..EMBLEM_SYMBOL)
+            '|A:dressingroom-button-appearancelist-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '职业菜单' or WoWTools_Join(CLASS, HUD_EDIT_MODE_MICRO_MENU_LABEL)),
+            WoWTools_DataMixin.onlyChinese and '添加 颜色 图标' or WoWTools_Join(ADD, COLOR..', '..EMBLEM_SYMBOL)
         ) then
             Init()
         end

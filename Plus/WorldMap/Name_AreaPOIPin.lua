@@ -214,7 +214,7 @@ function WoWTools_WorldMapMixin:AreaPOINameMenu(_, root)
         minValue=4,
         maxValue=24,
         step=1,
-        --tooltip=WoWTools_DataMixin.onlyChinese and '需要刷新' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, NEED, REFRESH)
+        --tooltip=WoWTools_DataMixin.onlyChinese and '需要刷新' or WoWTools_Join(NEED, REFRESH)
     })
     sub:CreateSpacer()
     --sub:CreateDivider()

@@ -67,7 +67,7 @@ local function Init()
 	ColorPickerFrame.Content.ColorSwatchCurrent:HookScript('OnEnter', function(self)
 		GameTooltip:SetOwner(ColorPickerFrame, "ANCHOR_RIGHT")
         GameTooltip:ClearLines()
-		GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and "当前颜色" or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, REFORGE_CURRENT, COLOR))
+		GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and "当前颜色" or WoWTools_Join(REFORGE_CURRENT, COLOR))
 		GameTooltip:Show()
 		self:SetAlpha(0.5)
 	end)
@@ -162,7 +162,7 @@ local function Init()
 		icon.tooltip= function(self)
 			GameTooltip:AddLine(' ')
 			GameTooltip:AddDoubleLine(
-				(WoWTools_DataMixin.onlyChinese and '常用颜色' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SAVE, COLOR))..' '..self.index,
+				(WoWTools_DataMixin.onlyChinese and '常用颜色' or WoWTools_Join(SAVE, COLOR))..' '..self.index,
 				(WoWTools_DataMixin.onlyChinese and '替换' or REPLACE)..WoWTools_DataMixin.Icon.right
 			)
 		end

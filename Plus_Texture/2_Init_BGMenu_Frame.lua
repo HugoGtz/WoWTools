@@ -480,7 +480,7 @@ local function Add_Frame_Menu(self, root)
         return MenuResponse.Open
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '统一/分开' or 'Unified/Separated')
+        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '统一/分开' or WoWTools_L['Unified/Separate'])
     end)
 
     local find
@@ -777,7 +777,7 @@ local function Init_Menu(self, root, isSub)
             Settings(IsEnabledSaveBg(name) and self or nil)
         end,
         name= ((self.PortraitContainer or self.Emblem or self.Header) and '' or '|cff626262')
-            ..(WoWTools_DataMixin.onlyChinese and '头像' or 'Portrait'),
+            ..(WoWTools_DataMixin.onlyChinese and '头像' or WoWTools_L['Portrait']),
         minValue=0,
         maxValue=1,
         step=0.05,

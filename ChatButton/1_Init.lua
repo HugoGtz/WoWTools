@@ -186,7 +186,7 @@ local function Init_Menu(self, root)
         end, {index=index, p=tab[1], p2=tab[2]})
 
         sub2:SetTooltip(function(tooltip, desc)
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '菜单位置' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, HUD_EDIT_MODE_MICRO_MENU_LABEL,CHOOSE_LOCATION))
+            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '菜单位置' or WoWTools_Join(HUD_EDIT_MODE_MICRO_MENU_LABEL,CHOOSE_LOCATION))
             tooltip:AddDoubleLine(desc.data.p, desc.data.p2)
         end)
     end
@@ -219,7 +219,7 @@ local function Init_Menu(self, root)
     sub:SetTooltip(function(tooltip)
         tooltip:AddLine('SetParent '..'|cnGREEN_FONT_COLOR:'..self:GetParent():GetName())
     end)
---WoWTools_DataMixin.onlyChinese and '聊天框底部' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, HUD_EDIT_MODE_CHAT_FRAME_LABEL, HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_DOWN),
+--WoWTools_DataMixin.onlyChinese and '聊天框底部' or WoWTools_Join(HUD_EDIT_MODE_CHAT_FRAME_LABEL, HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_DOWN),
 --放到聊天框左边
 
     sub=root:CreateCheckbox(
@@ -238,14 +238,14 @@ local function Init_Menu(self, root)
 --移过图标
     sub=root:CreateCheckbox(
         '|A:newplayertutorial-drag-cursor:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '移过图标' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ENTER_LFG,EMBLEM_SYMBOL)),
+        ..(WoWTools_DataMixin.onlyChinese and '移过图标' or WoWTools_Join(ENTER_LFG,EMBLEM_SYMBOL)),
     function()
         return Save().isEnterShowMenu
     end, function()
         Save().isEnterShowMenu = not Save().isEnterShowMenu and true or nil
     end)
     sub:SetTooltip(function (tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '显示菜单' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SHOW, HUD_EDIT_MODE_MICRO_MENU_LABEL))
+        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '显示菜单' or WoWTools_Join(SHOW, HUD_EDIT_MODE_MICRO_MENU_LABEL))
     end)
 
 
@@ -468,7 +468,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 Init()
             end
 
-            WoWTools_ChatMixin.addName='|A:voicechat-icon-textchat-silenced:0:0|a'..(WoWTools_DataMixin.onlyChinese and '聊天工具' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, CHAT, AUCTION_SUBCATEGORY_PROFESSION_TOOLS))
+            WoWTools_ChatMixin.addName='|A:voicechat-icon-textchat-silenced:0:0|a'..(WoWTools_DataMixin.onlyChinese and '聊天工具' or WoWTools_Join(CHAT, AUCTION_SUBCATEGORY_PROFESSION_TOOLS))
 
             WoWTools_ChatMixin.Category, WoWTools_ChatMixin.Layout= WoWTools_PanelMixin:AddSubCategory({
                 name=WoWTools_ChatMixin.addName,

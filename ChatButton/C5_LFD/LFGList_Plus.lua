@@ -289,7 +289,7 @@ local function Init()--预创建队伍增强
                 if f.realm then
                     GameTooltip:SetOwner(f, "ANCHOR_LEFT")
                     GameTooltip:ClearLines()
-                    GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '服务器' or 'Realm', '|cnGREEN_FONT_COLOR:'..f.realm)
+                    GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '服务器' or WoWTools_L['Realm'], '|cnGREEN_FONT_COLOR:'..f.realm)
                     GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_LFDMixin.addName)
                     GameTooltip:Show()
                 end

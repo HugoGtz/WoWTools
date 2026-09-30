@@ -155,7 +155,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                                                                         mainMenuAlphaValue=0.7,
                                                                     })
 
-        WoWTools_MainMenuMixin.addName= '|A:UI-HUD-MicroMenu-GameMenu-Mouseover:0:0|a'..(WoWTools_DataMixin.onlyChinese and '菜单Plus' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, HUD_EDIT_MODE_MICRO_MENU_LABEL, 'Plus'))
+        WoWTools_MainMenuMixin.addName= '|A:UI-HUD-MicroMenu-GameMenu-Mouseover:0:0|a'..(WoWTools_DataMixin.onlyChinese and '菜单Plus' or WoWTools_Join(HUD_EDIT_MODE_MICRO_MENU_LABEL, 'Plus'))
 
         Category, Layout= WoWTools_PanelMixin:AddSubCategory({
             name= WoWTools_MainMenuMixin.addName,

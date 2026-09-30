@@ -58,7 +58,7 @@ local function Set_Aura()--光环取消
             if canaccessvalue(data.spellId) and Save().aura[data.spellId] then
                 CancelUnitBuff("player", i, nil)-- 'CANCELABLE')
                 print(addName,
-                    WoWTools_DataMixin.onlyChinese and '取消光环' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, CANCEL, AURAS),
+                    WoWTools_DataMixin.onlyChinese and '取消光环' or WoWTools_Join(CANCEL, AURAS),
                     WoWTools_SpellMixin:GetLink(data.spellId, true)
                 )
                 break
@@ -114,7 +114,7 @@ end
 
 local function Init_Menu(self, root)
     local sub
-    sub=root:CreateTitle(WoWTools_DataMixin.onlyChinese and '取消光环' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, CANCEL, AURAS))
+    sub=root:CreateTitle(WoWTools_DataMixin.onlyChinese and '取消光环' or WoWTools_Join(CANCEL, AURAS))
     sub:SetTooltip(function(tooltip)
         tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '仅限脱战' or format(LFG_LIST_CROSS_FACTION, HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_OUT_OF_COMBAT))
     end)

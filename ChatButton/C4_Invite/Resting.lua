@@ -15,12 +15,12 @@ local function Init()
 
     frame.enterText= '|A:communities-icon-addgroupplus:0:0|a'..(
                     WoWTools_DataMixin.onlyChinese and '进入|cnGREEN_FONT_COLOR:休息|r区'
-                    or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ENTER_LFG, format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, '|cnGREEN_FONT_COLOR:Rest|r', ZONE))
+                    or WoWTools_Join(ENTER_LFG, WoWTools_Join('|cnGREEN_FONT_COLOR:Rest|r', ZONE))
                 )
 
     frame.leaveText= '|A:communities-icon-addgroupplus:0:0|a'..(
                     WoWTools_DataMixin.onlyChinese and '离开|cnWARNING_FONT_COLOR:休息|r区'
-                    or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, LEAVE, format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, '|cnWARNING_FONT_COLOR:Rest|r', ZONE))
+                    or WoWTools_Join(LEAVE, WoWTools_Join('|cnWARNING_FONT_COLOR:Rest|r', ZONE))
                 )
 
     function frame:set_event()

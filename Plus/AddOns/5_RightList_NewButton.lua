@@ -167,7 +167,7 @@ local function Init()
     NewButton.Text3:SetScript('OnEnter', function (self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip_SetTitle(GameTooltip, format('|cnGREEN_FONT_COLOR:%s|r + |cffff00ff%s|r',
-            WoWTools_DataMixin.onlyChinese and '已加载', LOAD_ADDON,
+            WoWTools_DataMixin.onlyChinese and '已加载' or LOAD_ADDON,
             WoWTools_DataMixin.onlyChinese and '只能按需加载' or ADDON_DEMAND_LOADED
         ), nil)
         GameTooltip:Show()
@@ -212,7 +212,7 @@ local function Init()
     end)
     NewButton.Text:SetScript('OnEnter', function (self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
-        GameTooltip_SetTitle(GameTooltip, WoWTools_DataMixin.onlyChinese and '已选中' or 'Selected')
+        GameTooltip_SetTitle(GameTooltip, WoWTools_DataMixin.onlyChinese and '已选中' or WoWTools_L['Selected'])
         GameTooltip:Show()
         self:SetAlpha(0.3)
     end)

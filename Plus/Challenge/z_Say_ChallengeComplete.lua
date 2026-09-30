@@ -304,7 +304,7 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end)
     sub2:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '显示UI' or  format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SHOW, 'UI'))
+        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '显示UI' or  WoWTools_Join(SHOW, 'UI'))
     end)
 
 --显示/隐藏

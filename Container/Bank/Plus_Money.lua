@@ -76,7 +76,7 @@ local function Save_Money(num)
     print(
         WoWTools_BankMixin.addName..WoWTools_DataMixin.Icon.icon2,
         '|A:Banker:0:0|a|cff00ccff'
-        ..(WoWTools_DataMixin.onlyChinese and '自动存钱' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, DEPOSIT))
+        ..(WoWTools_DataMixin.onlyChinese and '自动存钱' or WoWTools_Join(SELF_CAST_AUTO, DEPOSIT))
         ..'|r',
         C_CurrencyInfo.GetCoinTextureString(money)
     )
@@ -158,7 +158,7 @@ local function Out_Money(num)
     print(
         WoWTools_BankMixin.addName..WoWTools_DataMixin.Icon.icon2,
         WoWTools_DataMixin.Icon.Player
-        ..WoWTools_ColorMixin:SetStringColor(WoWTools_DataMixin.onlyChinese and '自动填充' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, WITHDRAW)),
+        ..WoWTools_ColorMixin:SetStringColor(WoWTools_DataMixin.onlyChinese and '自动填充' or WoWTools_Join(SELF_CAST_AUTO, WITHDRAW)),
         C_CurrencyInfo.GetCoinTextureString(money)
     )
 
@@ -224,7 +224,7 @@ local function Init_Save_Menu(self, root)
     local deposit= Save().autoSaveMoney or 500
     sub=autoSub:CreateCheckbox(
         '|cff00ccff'
-        ..(WoWTools_DataMixin.onlyChinese and '自动存钱' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, DEPOSIT)),
+        ..(WoWTools_DataMixin.onlyChinese and '自动存钱' or WoWTools_Join(SELF_CAST_AUTO, DEPOSIT)),
     function()
         return Save().autoSaveMoney
     end, function()
@@ -232,7 +232,7 @@ local function Init_Save_Menu(self, root)
         self:settings()
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '打开银行时' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, OPENING, BANK))
+        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '打开银行时' or WoWTools_Join(OPENING, BANK))
         if Save().autoSaveMoney then
             Save_Tooltip(tooltip)
         end
@@ -281,7 +281,7 @@ local function Init_Save_Menu(self, root)
 --全部存钱
     sub=root:CreateButton(
         '|cff00ccff'
-        ..(WoWTools_DataMixin.onlyChinese and '全部存钱' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ALL, DEPOSIT)),
+        ..(WoWTools_DataMixin.onlyChinese and '全部存钱' or WoWTools_Join(ALL, DEPOSIT)),
     function()
         C_Bank.DepositMoney(Enum.BankType.Account, GetMoney())
         return MenuResponse.Open
@@ -390,7 +390,7 @@ local function Init_Out_Menu(self, root)
     local out= Save().autoOutMoney or 500
     sub=autoSub:CreateCheckbox(
         WoWTools_ColorMixin:SetStringColor(
-            WoWTools_DataMixin.onlyChinese and '自动提取' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, WITHDRAW)
+            WoWTools_DataMixin.onlyChinese and '自动提取' or WoWTools_Join(SELF_CAST_AUTO, WITHDRAW)
         ),
     function()
         return Save().autoOutMoney
@@ -399,7 +399,7 @@ local function Init_Out_Menu(self, root)
         self:settings()
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '打开银行时' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, OPENING, BANK))
+        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '打开银行时' or WoWTools_Join(OPENING, BANK))
         if Save().autoOutMoney then
             Save_Tooltip(tooltip)
         end
@@ -444,7 +444,7 @@ local function Init_Out_Menu(self, root)
 
 --全部提取
     sub=root:CreateButton(
-        WoWTools_ColorMixin:SetStringColor(WoWTools_DataMixin.onlyChinese and '全部提取' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ALL, DEPOSIT)),
+        WoWTools_ColorMixin:SetStringColor(WoWTools_DataMixin.onlyChinese and '全部提取' or WoWTools_Join(ALL, DEPOSIT)),
     function()
         C_Bank.WithdrawMoney(Enum.BankType.Account, C_Bank.FetchDepositedMoney(Enum.BankType.Account) or 0)
         return MenuResponse.Open
@@ -653,7 +653,7 @@ local function Init()
         GameTooltip:ClearLines()
         GameTooltip:AddLine(
             WoWTools_DataMixin.Icon.icon2
-            ..(WoWTools_DataMixin.onlyChinese and '打开银行时' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, OPENING, BANK))
+            ..(WoWTools_DataMixin.onlyChinese and '打开银行时' or WoWTools_Join(OPENING, BANK))
         )
         GameTooltip:AddLine(' ')
 

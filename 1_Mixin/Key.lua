@@ -143,7 +143,7 @@ end]]
 --快捷键
 function WoWTools_KeyMixin:SetMenu(frame, root, tab)
     local sub=root:CreateButton(
-        (WoWTools_DataMixin.onlyChinese and '设置捷键' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SETTINGS, SETTINGS_KEYBINDINGS_LABEL))
+        (WoWTools_DataMixin.onlyChinese and '设置捷键' or WoWTools_Join(SETTINGS, SETTINGS_KEYBINDINGS_LABEL))
         ..(tab.key and ' ['..tab.key..']' or ''),
     function(data)
         StaticPopup_Show('WoWTools_EditText',

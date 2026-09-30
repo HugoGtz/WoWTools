@@ -442,7 +442,7 @@ local function Movie_SubMenu(root, movieID)
     end
 
     local sub=root:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '下载' or 'Download',
+        WoWTools_DataMixin.onlyChinese and '下载' or WoWTools_L['Download'],
     function(data)
         PreloadMovie(data.movieID)
         return MenuResponse.Open
@@ -486,7 +486,7 @@ local function Init_Menu(_, root)
 
 --跳过，视频，
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '跳过播放影片' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, RENOWN_LEVEL_UP_SKIP_BUTTON, PLAY_MOVIE_PREPEND:match('%(.+)%)') or PLAY_MOVIE_PREPEND),
+        WoWTools_DataMixin.onlyChinese and '跳过播放影片' or WoWTools_Join(RENOWN_LEVEL_UP_SKIP_BUTTON, PLAY_MOVIE_PREPEND:match('%(.+)%)') or PLAY_MOVIE_PREPEND),
     function()
         return Save().stopMovie
     end, function()
@@ -496,7 +496,7 @@ local function Init_Menu(_, root)
     sub:SetTooltip(function(tooltip)
         tooltip:AddLine('PLAY_MOVIE')
         GameTooltip_AddHighlightLine(tooltip,
-            WoWTools_DataMixin.onlyChinese and '已经播放' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ANIMA_DIVERSION_NODE_SELECTED, EVENTTRACE_BUTTON_PLAY)
+            WoWTools_DataMixin.onlyChinese and '已经播放' or WoWTools_Join(ANIMA_DIVERSION_NODE_SELECTED, EVENTTRACE_BUTTON_PLAY)
         )
     end)
 
@@ -520,7 +520,7 @@ local function Init_Menu(_, root)
 
 --跳过，过场动画
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '跳过过场动画' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, RENOWN_LEVEL_UP_SKIP_BUTTON, CINEMATICS),
+        WoWTools_DataMixin.onlyChinese and '跳过过场动画' or WoWTools_Join(RENOWN_LEVEL_UP_SKIP_BUTTON, CINEMATICS),
     function()
         return Save().stopCinematics
     end, function()

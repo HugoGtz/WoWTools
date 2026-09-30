@@ -31,7 +31,7 @@ local function Show_ClorFrame()
 	print(
 		WoWTools_ColorMixin.addName..WoWTools_DataMixin.Icon.icon2,
 		'|cnGREEN_FONT_COLOR:'
-		..(WoWTools_DataMixin.onlyChinese and '自动显示' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, SHOW))
+		..(WoWTools_DataMixin.onlyChinese and '自动显示' or WoWTools_Join(SELF_CAST_AUTO, SHOW))
 
 	)
 

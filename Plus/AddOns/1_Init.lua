@@ -115,7 +115,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     P_Save=nil
     Save().Bg_Alpha= nil
 
-    WoWTools_AddOnsMixin.addName='|A:Garr_Building-AddFollowerPlus:0:0|a'..(WoWTools_DataMixin.onlyChinese and '插件管理' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ADDONS, CHAT_MODERATE))
+    WoWTools_AddOnsMixin.addName='|A:Garr_Building-AddFollowerPlus:0:0|a'..(WoWTools_DataMixin.onlyChinese and '插件管理' or WoWTools_Join(ADDONS, CHAT_MODERATE))
 
     --添加控制面板
     WoWTools_PanelMixin:OnlyCheck({

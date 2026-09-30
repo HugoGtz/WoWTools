@@ -1,5 +1,5 @@
 --Flyout, 技能，提示
---'|A:common-icon-backarrow:0:0|a'..(WoWTools_DataMixin.onlyChinese and '法术弹出框' or 'SpellFlyout')
+--'|A:common-icon-backarrow:0:0|a'..(WoWTools_DataMixin.onlyChinese and '法术弹出框' or WoWTools_L['Spell flyout'])
 
 local SpellTab={}--WoWTools_DataMixin.ChallengesSpellTabs
 

@@ -29,7 +29,7 @@ local function Init_Menu(self, root)
     root:CreateDivider()
 
     sub=root:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '隐藏物品' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, HIDE, ITEMS),
+        WoWTools_DataMixin.onlyChinese and '隐藏物品' or WoWTools_Join(HIDE, ITEMS),
     function()
         return MenuResponse.Open
     end)
@@ -58,7 +58,7 @@ local function Init_Menu(self, root)
             self:Init_Sell_Item_Button()
             print(
                 WoWTools_AuctionHouseMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                WoWTools_DataMixin.onlyChinese and '清除隐藏物品' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SLASH_STOPWATCH_PARAM_STOP2, format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, HIDE, ITEMS))
+                WoWTools_DataMixin.onlyChinese and '清除隐藏物品' or WoWTools_Join(SLASH_STOPWATCH_PARAM_STOP2, WoWTools_Join(HIDE, ITEMS))
             )
         end})
         return MenuResponse.Open
@@ -111,9 +111,7 @@ local function Init_Menu(self, root)
 
 --物品品质
     sub= root:CreateButton(
-        WoWTools_ItemMixin:GetColor(Save().sellItemQualiy, {text=format(
-            CLUB_FINDER_LOOKING_FOR_CLASS_SPEC,
-            WoWTools_DataMixin.onlyChinese and '品质' or PROFESSIONS_COLUMN_HEADER_QUALITY,
+        WoWTools_ItemMixin:GetColor(Save().sellItemQualiy, {text=WoWTools_Join(WoWTools_DataMixin.onlyChinese and '品质' or PROFESSIONS_COLUMN_HEADER_QUALITY,
             WoWTools_ItemMixin.QualityText[Save().sellItemQualiy] or Save().sellItemQualiy
         )}),
     function()
@@ -140,14 +138,14 @@ local function Init_Menu(self, root)
 
 --转到出售
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '转到出售' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, NPE_TURN, AUCTION_HOUSE_SELL_TAB),
+        WoWTools_DataMixin.onlyChinese and '转到出售' or WoWTools_Join(NPE_TURN, AUCTION_HOUSE_SELL_TAB),
     function()
         return Save().intShowSellItem
     end, function()
         Save().intShowSellItem= not Save().intShowSellItem and true or nil
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '显示拍卖行时' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SHOW, BUTTON_LAG_AUCTIONHOUSE))
+        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '显示拍卖行时' or WoWTools_Join(SHOW, BUTTON_LAG_AUCTIONHOUSE))
     end)
 
 --打开，选项

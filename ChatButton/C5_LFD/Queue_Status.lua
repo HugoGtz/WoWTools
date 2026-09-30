@@ -506,7 +506,7 @@ local function Init_Menu(self, root)
 --队伍查找器
     root:CreateButton(
         WoWTools_DataMixin.Icon.mid
-        ..MicroButtonTooltipText('队伍查找器', "TOGGLEGROUPFINDER"),
+        ..MicroButtonTooltipText(WoWTools_DataMixin.onlyChinese and '队伍查找器' or DUNGEONS_BUTTON, "TOGGLEGROUPFINDER"),
     function ()
         WoWTools_DataMixin:Call('PVEFrame_ToggleFrame')
         return MenuResponse.Open
@@ -596,7 +596,7 @@ local function Init()
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip_SetTitle(GameTooltip, 
             WoWTools_DataMixin.Icon.icon2
-            ..(WoWTools_DataMixin.onlyChinese and '列表信息' or  format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SOCIAL_QUEUE_TOOLTIP_HEADER, INFO))
+            ..(WoWTools_DataMixin.onlyChinese and '列表信息' or  WoWTools_Join(SOCIAL_QUEUE_TOOLTIP_HEADER, INFO))
         )
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(
@@ -609,7 +609,7 @@ local function Init()
         )
         GameTooltip:AddDoubleLine(
             WoWTools_DataMixin.Icon.mid
-            ..MicroButtonTooltipText('队伍查找器', "TOGGLEGROUPFINDER")
+            ..MicroButtonTooltipText(WoWTools_DataMixin.onlyChinese and '队伍查找器' or DUNGEONS_BUTTON, "TOGGLEGROUPFINDER")
         )
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '移动' or NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)

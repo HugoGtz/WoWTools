@@ -52,7 +52,7 @@ local function Out_Money(num)
 
         print(
             WoWTools_GuildBankMixin.addName..WoWTools_DataMixin.Icon.icon2,
-            WoWTools_DataMixin.onlyChinese and '自动提取' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, WITHDRAW),
+            WoWTools_DataMixin.onlyChinese and '自动提取' or WoWTools_Join(SELF_CAST_AUTO, WITHDRAW),
             '|cnGREEN_FONT_COLOR:'..C_CurrencyInfo.GetCoinTextureString(money)
         )
     end
@@ -195,7 +195,7 @@ local function Init_Menu(self, root)
 --自动提取
     local out= Save().autoOutMoney or 0
     autoSub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '自动提取' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, WITHDRAW),
+        WoWTools_DataMixin.onlyChinese and '自动提取' or WoWTools_Join(SELF_CAST_AUTO, WITHDRAW),
     function()
         return Save().autoOutMoney
     end, function()
@@ -244,7 +244,7 @@ local function Init_Menu(self, root)
 
 --全部提取
     sub=root:CreateButton(
-        WoWTools_ColorMixin:SetStringColor(WoWTools_DataMixin.onlyChinese and '全部提取' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ALL, DEPOSIT)),
+        WoWTools_ColorMixin:SetStringColor(WoWTools_DataMixin.onlyChinese and '全部提取' or WoWTools_Join(ALL, DEPOSIT)),
     function()
         Out_Money(0)
         return MenuResponse.Open
@@ -370,7 +370,7 @@ local function Init()
    function btn:tooltip()
         GameTooltip:SetOwner(btn, 'ANCHOR_LEFT')
         GameTooltip_SetTitle(GameTooltip,
-            WoWTools_DataMixin.onlyChinese and '打开公会银行时' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, OPENING, GUILD_BANK)
+            WoWTools_DataMixin.onlyChinese and '打开公会银行时' or WoWTools_Join(OPENING, GUILD_BANK)
         )
         GameTooltip:AddLine(' ')
 
@@ -391,7 +391,7 @@ local function Init()
 
         GameTooltip:AddDoubleLine(
             WoWTools_DataMixin.Icon.icon2
-            ..(WoWTools_DataMixin.onlyChinese and '自动提取' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, WITHDRAW)),
+            ..(WoWTools_DataMixin.onlyChinese and '自动提取' or WoWTools_Join(SELF_CAST_AUTO, WITHDRAW)),
 
             r
         )

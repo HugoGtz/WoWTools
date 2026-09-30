@@ -369,7 +369,7 @@ end]]
             local toggleDifficultyID = select(7, GetDifficultyInfo(difficultyID))
             if toggleDifficultyID then
                 tooltip:AddDoubleLine(
-                    WoWTools_DataMixin.onlyChinese and '可修改难度' or 'Difficulty can be changed',
+                    WoWTools_DataMixin.onlyChinese and '可修改难度' or WoWTools_L['Difficulty can be changed'],
                     WoWTools_MapMixin:GetDifficultyColor(nil, toggleDifficultyID),
                     0,1,0
                 )

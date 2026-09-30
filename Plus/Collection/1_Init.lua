@@ -62,7 +62,7 @@ local function Init_Menu(self, root)
         step=1,
         tooltip=function(tooltip)
             tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '宠物列表' or PROFESSIONS_CURRENT_LISTINGS )
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '技能图标' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ABILITIES, EMBLEM_SYMBOL))
+            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '技能图标' or WoWTools_Join(ABILITIES, EMBLEM_SYMBOL))
         end
 
     })
@@ -94,7 +94,7 @@ local function Init_Menu(self, root)
 
 --外观：物品
     sub= root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '外观：物品' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, WARDROBE, WARDROBE_ITEMS),
+        WoWTools_DataMixin.onlyChinese and '外观：物品' or WoWTools_Join(WARDROBE, WARDROBE_ITEMS),
     function()
         return not Save().hideItems
     end, function()
@@ -102,12 +102,12 @@ local function Init_Menu(self, root)
         WoWTools_CollectionMixin:Init_Wardrober_Items()--幻化 5
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要刷新' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, NEED, REFRESH))
+        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要刷新' or WoWTools_Join(NEED, REFRESH))
     end)
 
 --外观：套装
     sub= root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '外观：套装' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, WARDROBE, WARDROBE_SETS),
+        WoWTools_DataMixin.onlyChinese and '外观：套装' or WoWTools_Join(WARDROBE, WARDROBE_SETS),
     function()
         return not Save().hideSets
     end, function()
@@ -115,7 +115,7 @@ local function Init_Menu(self, root)
         WoWTools_CollectionMixin:Init_Wardrober_Sets()--幻化,套装 5
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要刷新' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, NEED, REFRESH))
+        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要刷新' or WoWTools_Join(NEED, REFRESH))
     end)
 
     root:CreateDivider()

@@ -24,7 +24,7 @@ local function Init_Menu(self, root)
        self:set_enable()
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine('Alt+'..(WoWTools_DataMixin.onlyChinese and '暂时禁用' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, BOOSTED_CHAR_SPELL_TEMPLOCK, DISABLE)))
+        tooltip:AddLine('Alt+'..(WoWTools_DataMixin.onlyChinese and '暂时禁用' or WoWTools_Join(BOOSTED_CHAR_SPELL_TEMPLOCK, DISABLE)))
     end)
 
 --低等级任务
@@ -43,7 +43,7 @@ local function Init_Menu(self, root)
     root:CreateDivider()
     num= CountTable(Save().questRewardCheck or {})
     sub=root:CreateCheckbox(
-        (WoWTools_DataMixin.onlyChinese and '自动选择奖励' or format(TITLE_REWARD, format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, CHOOSE)))
+        (WoWTools_DataMixin.onlyChinese and '自动选择奖励' or format(TITLE_REWARD, WoWTools_Join(SELF_CAST_AUTO, CHOOSE)))
         ..(num==0 and ' |cff626262' or ' ')
         ..num,
     function()
@@ -83,7 +83,7 @@ local function Init_Menu(self, root)
     num= CountTable(Save().questOption or {})
     
     sub=root:CreateButton(
-        '     '..(WoWTools_DataMixin.onlyChinese and '自定义任务' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, CUSTOM, QUESTS_LABEL))
+        '     '..(WoWTools_DataMixin.onlyChinese and '自定义任务' or WoWTools_Join(CUSTOM, QUESTS_LABEL))
         ..(num==0 and ' |cff626262' or ' ')
         ..num,
     function()
@@ -151,11 +151,11 @@ local function Init_Menu(self, root)
     sub:SetTooltip(function(tooltip)
         tooltip:AddLine(
             WoWTools_DataMixin.onlyChinese and '显示所有数量'
-            or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SHOW, ALL)
+            or WoWTools_Join(SHOW, ALL)
         )
         tooltip:AddLine(
             WoWTools_DataMixin.onlyChinese and '在副本中禁用|n任务>0'
-            or (format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, AGGRO_WARNING_IN_INSTANCE, DISABLE)..'|n'..QUESTS_LABEL..' >0')
+            or (WoWTools_Join(AGGRO_WARNING_IN_INSTANCE, DISABLE)..'|n'..QUESTS_LABEL..' >0')
         )
     end)
 
@@ -186,7 +186,7 @@ local function Init_Menu(self, root)
 
 --当前地图
     root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '当前地图' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, REFORGE_CURRENT, WORLD_MAP),
+        WoWTools_DataMixin.onlyChinese and '当前地图' or WoWTools_Join(REFORGE_CURRENT, WORLD_MAP),
     function()
         return Save().autoSortQuest
     end, function()

@@ -71,7 +71,7 @@ local function Init_Menu(self, root)
         WoWTools_InviteMixin:Inv_All_Unit()
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '周围玩家' or 'Players around')
+        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '周围玩家' or WoWTools_L['Players around'])
     end)
 
     sub:CreateButton(WoWTools_DataMixin.onlyChinese and '再次邀请' or INVITE, InvPlateGuidFunc)
@@ -98,7 +98,7 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetScrollMode(sub)
 
 
-    sub=root:CreateCheckbox((select(2, IsInInstance())~='none' and '|cff626262' or '')..(WoWTools_DataMixin.onlyChinese and '邀请目标' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, INVITE, TARGET))..'|A:poi-traveldirections-arrow2:0:0|a', function()
+    sub=root:CreateCheckbox((select(2, IsInInstance())~='none' and '|cff626262' or '')..(WoWTools_DataMixin.onlyChinese and '邀请目标' or WoWTools_Join(INVITE, TARGET))..'|A:poi-traveldirections-arrow2:0:0|a', function()
         return Save().InvTar
     end, function()
         Save().InvTar= not Save().InvTar and true or nil
@@ -107,7 +107,7 @@ local function Init_Menu(self, root)
     end)
     sub:SetTooltip(function(tooltip)
         tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '仅限队长' or format(LFG_LIST_CROSS_FACTION, LEADER))
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '不在副本中' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, NO, INSTANCE))
+        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '不在副本中' or WoWTools_Join(NO, INSTANCE))
     end)
 
     sub=root:CreateCheckbox((WoWTools_DataMixin.onlyChinese and '频道' or CHANNEL)..'|A:poi-traveldirections-arrow2:0:0|a'..('|cnGREEN_FONT_COLOR: '..Save().ChannelText..'|r'), function()
@@ -184,7 +184,7 @@ local function Init_Menu(self, root)
 
     sub:CreateTitle(WoWTools_DataMixin.onlyChinese and '拒绝' or DECLINE)
     sub2=sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '休息区' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, CALENDAR_STATUS_OUT, ZONE),
+        WoWTools_DataMixin.onlyChinese and '休息区' or WoWTools_Join(CALENDAR_STATUS_OUT, ZONE),
     function()
         return Save().NoInvInResting
     end, function()
@@ -197,7 +197,7 @@ local function Init_Menu(self, root)
 
     sub:CreateDivider()
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '测试' or 'Test',
+        WoWTools_DataMixin.onlyChinese and '测试' or WoWTools_L['Test'],
     function()
         local name= UnitName('player')
         StaticPopup_Show("PARTY_INVITE", '|n'..format(WoWTools_DataMixin.onlyChinese and '"%s邀请你加入队伍"' or INVITATION, name)..'|n|n')
@@ -285,7 +285,7 @@ local function Init_Menu(self, root)
 
 
     sub=root:CreateCheckbox(WoWTools_DataMixin.onlyChinese and '休息区信息' or
-        format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, '|cnGREEN_FONT_COLOR:Rest|r', ZONE), INFO), function()
+        WoWTools_Join(WoWTools_Join('|cnGREEN_FONT_COLOR:Rest|r', ZONE), INFO), function()
         return Save().restingTips
     end, function()
         Save().restingTips= not Save().restingTips and true or false

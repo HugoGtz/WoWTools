@@ -402,7 +402,7 @@ local function Init_Menu(self, root)
 
 --UI编辑
     sub=root:CreateButton(
-        (WoWTools_DataMixin.onlyChinese and 'UI编辑' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, 'UI', EDIT))..WoWTools_DataMixin.Icon.mid,
+        (WoWTools_DataMixin.onlyChinese and 'UI编辑' or WoWTools_Join('UI', EDIT))..WoWTools_DataMixin.Icon.mid,
     function()
         WoWTools_WorldMapMixin:PlayerPin_ShowUI()
         return MenuResponse.Open
@@ -529,7 +529,7 @@ local function Init()
         tooltip:AddLine(' ')
         tooltip:AddLine(WoWTools_DataMixin.Icon.left..(WoWTools_DataMixin.onlyChinese and '新建' or NEW), 1,1,1)
         tooltip:AddLine(WoWTools_DataMixin.Icon.right..(WoWTools_DataMixin.onlyChinese and '菜单' or CONTACTS_MENU_NAME), 1,1,1)
-        tooltip:AddLine(WoWTools_DataMixin.Icon.mid..(WoWTools_DataMixin.onlyChinese and 'UI编辑' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, 'UI', EDIT)), 1,1,1)
+        tooltip:AddLine(WoWTools_DataMixin.Icon.mid..(WoWTools_DataMixin.onlyChinese and 'UI编辑' or WoWTools_Join('UI', EDIT)), 1,1,1)
     end
 
     function Button:set_point()

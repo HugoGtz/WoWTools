@@ -127,7 +127,7 @@ local function Init_Columns_Menu(self, root2)
 
     root:SetTooltip(function(tooltip)
         GameTooltip_AddInstructionLine(tooltip, WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
-        GameTooltip_AddErrorLine(tooltip, WoWTools_DataMixin.onlyChinese and '可能会出现错误' or 'Errors may occur')
+        GameTooltip_AddErrorLine(tooltip, WoWTools_DataMixin.onlyChinese and '可能会出现错误' or WoWTools_L['Errors may occur'])
     end)
 
 if Save().enabledCombinedColumns then
@@ -400,7 +400,7 @@ local function Init()
         end)
 
         sub= root:CreateCheckbox(
-            WoWTools_DataMixin.onlyChinese and '禁用排序' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, DISABLE, STABLE_FILTER_BUTTON_LABEL),
+            WoWTools_DataMixin.onlyChinese and '禁用排序' or WoWTools_Join(DISABLE, STABLE_FILTER_BUTTON_LABEL),
         function()
             return C_Container.GetBackpackAutosortDisabled()
         end, function()
@@ -413,7 +413,7 @@ local function Init()
         end)
 
         sub= root:CreateCheckbox(
-            WoWTools_DataMixin.onlyChinese and '禁用出售垃圾' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, DISABLE, SELL_ALL_JUNK_ITEMS_EXCLUDE_HEADER),
+            WoWTools_DataMixin.onlyChinese and '禁用出售垃圾' or WoWTools_Join(DISABLE, SELL_ALL_JUNK_ITEMS_EXCLUDE_HEADER),
         function()
             return C_Container.GetBackpackSellJunkDisabled()
         end, function()

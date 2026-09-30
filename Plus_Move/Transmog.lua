@@ -81,7 +81,7 @@ local function Create_ResizeButton(name, data)
         self:GetNormalTexture():SetAlpha(1)
         GameTooltip_ShowSimpleTooltip(GameTooltip,
             WoWTools_DataMixin.Icon.icon2..
-            format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, WoWTools_DataMixin.onlyChinese and '宽度' or HUD_EDIT_MODE_SETTING_CHAT_FRAME_WIDTH, self.tooltip)
+            WoWTools_Join(WoWTools_DataMixin.onlyChinese and '宽度' or HUD_EDIT_MODE_SETTING_CHAT_FRAME_WIDTH, self.tooltip)
             ..WoWTools_DataMixin.Icon.left,
             nil, nil, self
         )

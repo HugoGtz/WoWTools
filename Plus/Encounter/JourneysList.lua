@@ -295,7 +295,7 @@ local function Init()
     Button= CreateFrame('DropdownButton', 'WoWToolsEJFactionMenuButton', EncounterJournalJourneysFrame, 'WoWToolsMenuTemplate')
     Button:SetPoint('LEFT', EncounterJournalInstanceSelect.ExpansionDropdown, 'RIGHT', 8, 0)
     Button:SetNormalTexture(0)
-    Button.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '名望列表' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, JOURNEYS_RENOWN_LABEL, 'List'))
+    Button.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '名望列表' or WoWTools_Join(JOURNEYS_RENOWN_LABEL, 'List'))
     Button:SetupMenu(Init_Menu)
 
     Button.text= Button:CreateFontString(nil, 'BORDER', 'ChatFontSmall')

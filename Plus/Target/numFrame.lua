@@ -182,11 +182,11 @@ local function Init_Button()
         else
             GameTooltip:AddLine(
                 WoWTools_ColorMixin:SetStringColor(
-                    format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, CREATURE, TARGET)..'('..YOU..')')
+                    WoWTools_Join(CREATURE, TARGET)..'('..YOU..')')
                     ..' |cnGREEN_FONT_COLOR:'
-                    ..format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, PLAYERS_IN_GROUP, TARGET)
+                    ..WoWTools_Join(PLAYERS_IN_GROUP, TARGET)
                     ..'('..YOU..')|r |cffffffff'
-                    ..format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, CREATURE, AUCTION_HOUSE_QUANTITY_LABEL)
+                    ..WoWTools_Join(CREATURE, AUCTION_HOUSE_QUANTITY_LABEL)
                     ..'|r'
                 )
         end

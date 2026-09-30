@@ -21,7 +21,7 @@ local function Init_Menu(self, root)
 
 
 --副本信息
-    name='|A:QuestLegendary:0:0|a'..(WoWTools_DataMixin.onlyChinese and '副本信息' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, INSTANCE, INFO))
+    name='|A:QuestLegendary:0:0|a'..(WoWTools_DataMixin.onlyChinese and '副本信息' or WoWTools_Join(INSTANCE, INFO))
     sub= root:CreateCheckbox(
         name,
     function()
@@ -40,14 +40,14 @@ local function Init_Menu(self, root)
             Save().insNamegsub=value>0 and value or nil
             WoWTools_ChallengeMixin:ChallengesUI_Info()
         end,
-        name=WoWTools_DataMixin.onlyChinese and '截取' or 'gsub',
+        name=WoWTools_DataMixin.onlyChinese and '截取' or WoWTools_L['Truncate'],
         minValue=0,
         maxValue=30,
         tooltip=function(tooltip)
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '副本名称' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, INSTANCE, NAME))
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '截取' or 'gsub')
+            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '副本名称' or WoWTools_Join(INSTANCE, NAME))
+            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '截取' or WoWTools_L['Truncate'])
             tooltip:AddLine(" ")
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '0-不截取' or '0-Not gsub')
+            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '0-不截取' or WoWTools_L['0 - Do not truncate'])
         end,
         step=1,
     })
@@ -361,7 +361,7 @@ local function Init_Menu(self, root)
 --词缀, 右下角
     name= '|T463829:0|t'
         ..(C_MythicPlus.GetCurrentSeason()==WoWTools_DataMixin.SeasonAffixSchedule and '' or '|cff828282')
-        ..(WoWTools_DataMixin.onlyChinese and '词缀列表' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, 'Affix', INFO))
+        ..(WoWTools_DataMixin.onlyChinese and '词缀列表' or WoWTools_Join('Affix', INFO))
     sub= root:CreateCheckbox(
         name,
     function()
@@ -379,7 +379,7 @@ local function Init_Menu(self, root)
             GameTooltip:AddLine(' ')
             GameTooltip:AddLine(
                 '|cnWARNING_FONT_COLOR:'
-                ..(WoWTools_DataMixin.onlyChinese and '当前赛季数据不匹配' or 'Current season data mismatch')
+                ..(WoWTools_DataMixin.onlyChinese and '当前赛季数据不匹配' or WoWTools_L['Current season data mismatch'])
             )
         end
     end)
@@ -487,7 +487,7 @@ sub:CreateTitle(name)
 
 --挑战信息 right
     name= '|A:challenges-medal-gold:0:0|a'
-    ..(WoWTools_DataMixin.onlyChinese and '挑战信息' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, PLAYER_DIFFICULTY5, INFO))
+    ..(WoWTools_DataMixin.onlyChinese and '挑战信息' or WoWTools_Join(PLAYER_DIFFICULTY5, INFO))
     sub= root:CreateCheckbox(
         name,
     function()
@@ -564,7 +564,7 @@ sub:CreateTitle(name)
         return MenuResponse.Open
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '显示UI' or  format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SHOW, 'UI'))
+        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '显示UI' or  WoWTools_Join(SHOW, 'UI'))
     end)
 
 --菜单
@@ -578,7 +578,7 @@ end
 
 --[[其他信息
     name= '|A:ChallengeMode-Chest:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '其他信息' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, OTHER, INFO))
+        ..(WoWTools_DataMixin.onlyChinese and '其他信息' or WoWTools_Join(OTHER, INFO))
     sub= root:CreateCheckbox(
         name,
     function()

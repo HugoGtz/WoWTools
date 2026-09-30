@@ -495,7 +495,7 @@ local function Init_Out_Bank_Menu(self, root)
     num, items= Get_Bank_Num(tabID, nil, nil, true)
     name= ((disabled or num==0) and '|cff828282' or '')
         ..'|A:Cursor_OpenHand_32:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '提取物品' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, WITHDRAW, ITEMS))
+        ..(WoWTools_DataMixin.onlyChinese and '提取物品' or WoWTools_Join(WITHDRAW, ITEMS))
         ..' #'..num
     sub= root:CreateButton(
        name,
@@ -513,7 +513,7 @@ local function Init_Out_Bank_Menu(self, root)
     num, items= Get_Bank_Num(tabID, nil, nil, false)
     name= ((disabled or num==0) and '|cff828282' or '')
         ..'|A:Cursor_OpenHand_32:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '提取材料' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, WITHDRAW, BAG_FILTER_REAGENTS))
+        ..(WoWTools_DataMixin.onlyChinese and '提取材料' or WoWTools_Join(WITHDRAW, BAG_FILTER_REAGENTS))
         ..' #'..num
     sub= root:CreateButton(
         name,
@@ -554,7 +554,7 @@ local function Init_Out_Bag_Menu(self, root)
     num, items= Get_Bag_Num(nil, nil, true)
     name= ((disabled or num==0) and '|cff828282' or '')
         ..'|A:bag-main:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '存放物品' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, DEPOSIT, ITEMS))
+        ..(WoWTools_DataMixin.onlyChinese and '存放物品' or WoWTools_Join(DEPOSIT, ITEMS))
         ..' #'..num
     sub= root:CreateButton(
         name,
@@ -573,7 +573,7 @@ local function Init_Out_Bag_Menu(self, root)
     num, items= Get_Bag_Num(nil, nil, false)
     name= ((disabled or num==0) and '|cff828282' or '')
         ..'|A:bag-main:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '存放材料' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, DEPOSIT, BAG_FILTER_REAGENTS))
+        ..(WoWTools_DataMixin.onlyChinese and '存放材料' or WoWTools_Join(DEPOSIT, BAG_FILTER_REAGENTS))
         ..' #'..num
     sub= root:CreateButton(
         name,

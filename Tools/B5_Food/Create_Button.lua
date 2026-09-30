@@ -332,7 +332,7 @@ function WoWTools_FoodMixin:Check_Items(isPrint)
     if isPrint then
         print(
             WoWTools_FoodMixin.addName..WoWTools_DataMixin.Icon.icon2,
-            WoWTools_DataMixin.onlyChinese and '查询完成' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, WHO, COMPLETE)
+            WoWTools_DataMixin.onlyChinese and '查询完成' or WoWTools_Join(WHO, COMPLETE)
         )
     end
 

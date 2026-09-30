@@ -113,7 +113,7 @@ local function Init_Menu(self, root)
         tooltip:AddLine(self:get_location())
     end)
 
-    sub2:CreateCheckbox(WoWTools_DataMixin.onlyChinese and '截取名称' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SHORT, NAME), function()
+    sub2:CreateCheckbox(WoWTools_DataMixin.onlyChinese and '截取名称' or WoWTools_Join(SHORT, NAME), function()
         return Save().showBindNameShort
     end, function()
         Save().showBindNameShort= not Save().showBindNameShort and true or false
@@ -122,7 +122,7 @@ local function Init_Menu(self, root)
 
 --移除未收集
     sub:CreateDivider()
-    name= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '移除未收集' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, REMOVE, NOT_COLLECTED))
+    name= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '移除未收集' or WoWTools_Join(REMOVE, NOT_COLLECTED))
     sub:CreateButton(
         name,
     function(data)
@@ -431,7 +431,7 @@ local function Init()
             GameTooltip:AddLine(' ')
             GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
             GameTooltip:AddDoubleLine(
-                WoWTools_DataMixin.onlyChinese and '随机' or 'Random',
+                WoWTools_DataMixin.onlyChinese and '随机' or WoWTools_L['Random'],
                 (btn.Locked_Value and '' or '|cnGREEN_FONT_COLOR:#'..#self.Random_List..'|r')
                 ..(btn.Selected_Value and '|A:transmog-icon-checkmark:0:0|a' or '')
                 ..(btn.Locked_Value and '|A:AdventureMapIcon-Lock:0:0|a' or '')
@@ -446,7 +446,7 @@ local function Init()
                 if itemID then
                     GameTooltip:AddDoubleLine(
                         '|T'..(select(5, C_Item.GetItemInfoInstant(itemID)) or 0)..':32|t|cnGREEN_FONT_COLOR:'
-                        ..(WoWTools_DataMixin.onlyChinese and '发现就绪' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, BATTLE_PET_SOURCE_11, READY)),
+                        ..(WoWTools_DataMixin.onlyChinese and '发现就绪' or WoWTools_Join(BATTLE_PET_SOURCE_11, READY)),
                         WoWTools_DataMixin.Icon.right
                     )
                 end

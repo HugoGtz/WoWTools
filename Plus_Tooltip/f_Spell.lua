@@ -54,13 +54,13 @@ local function Set_HunterPet(tooltip, spellID, size)
     if icon2~='' then
         tooltip:AddDoubleLine(
             icon2,
-            WoWTools_DataMixin.onlyChinese and '专精技能' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SPECIALIZATION, ABILITIES)
+            WoWTools_DataMixin.onlyChinese and '专精技能' or WoWTools_Join(SPECIALIZATION, ABILITIES)
         )
     end
     if icon~='' then
         tooltip:AddDoubleLine(
             icon,
-            WoWTools_DataMixin.onlyChinese and '基础技能' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, BASE_SETTINGS_TAB, ABILITIES)
+            WoWTools_DataMixin.onlyChinese and '基础技能' or WoWTools_Join(BASE_SETTINGS_TAB, ABILITIES)
         )
     end
 

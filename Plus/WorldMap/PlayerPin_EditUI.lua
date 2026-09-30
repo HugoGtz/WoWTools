@@ -1273,7 +1273,7 @@ local function Init()
 --捕捉，名称
     Frame.getNameButton= CreateFrame('DropdownButton', nil, Frame, 'WoWToolsMenu3Template')
     Frame.getNameButton:SetPoint('TOPLEFT', worldButton, 'BOTTOMLEFT', 0, -52)
-    Frame.getNameButton.tooltip= (WoWTools_DataMixin.onlyChinese and '捕捉名称' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, UNIT_CAPTURABLE, NAME))
+    Frame.getNameButton.tooltip= (WoWTools_DataMixin.onlyChinese and '捕捉名称' or WoWTools_Join(UNIT_CAPTURABLE, NAME))
         ..WoWTools_DataMixin.Icon.left..WoWTools_DataMixin.Icon.right
         ..(WoWTools_DataMixin.onlyChinese and '记录' or EVENTTRACE_LOG_HEADER)
     Frame.getNameButton:SetNormalAtlas('Cursor_unablecast_32')
@@ -1683,7 +1683,7 @@ local function Init()
 
     Frame.getMapXYButton= CreateFrame('Button', nil, Frame, 'WoWToolsButtonTemplate')
     Frame.getMapXYButton:SetPoint('TOPLEFT', Frame.getNameButton, 'BOTTOMLEFT', 0, -4)
-    Frame.getMapXYButton.tooltip= WoWTools_DataMixin.onlyChinese and '捕捉XY' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, UNIT_CAPTURABLE, 'XY')
+    Frame.getMapXYButton.tooltip= WoWTools_DataMixin.onlyChinese and '捕捉XY' or WoWTools_Join(UNIT_CAPTURABLE, 'XY')
     Frame.getMapXYButton:SetNormalAtlas('Cursor_unablecast_32')
     function Frame.getMapXYButton:set_event()
         self:SetNormalAtlas(self.isSatrt and 'cursor_crosshairs_32' or 'Cursor_unablecast_32')
@@ -2088,7 +2088,7 @@ local function Init()
         GameTooltip:ClearLines()
         GameTooltip:AddLine(
             ((not self.name or self.name==Frame.nameEdit.name) and '|cff626262' or '')
-            ..(WoWTools_DataMixin.onlyChinese and '设置名称' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SETTINGS, NAME))
+            ..(WoWTools_DataMixin.onlyChinese and '设置名称' or WoWTools_Join(SETTINGS, NAME))
         )
         GameTooltip:Show()
         self:SetAlpha(0.5)
@@ -2589,7 +2589,7 @@ local function Init()
     Frame.dataUscita.tooltip=(WoWTools_DataMixin.onlyChinese and '分享' or SOCIAL_SHARE_TEXT)
         ..WoWTools_DataMixin.Icon.left
         ..WoWTools_DataMixin.Icon.right
-        ..(WoWTools_DataMixin.onlyChinese and '数据Lua' or 'Data lua')
+        ..(WoWTools_DataMixin.onlyChinese and '数据Lua' or WoWTools_L['Lua data'])
     Frame.dataUscita:SetScript('OnClick', function(_, d)
         if d=='LeftButton' then
             Zip_Data(SaveWoW())

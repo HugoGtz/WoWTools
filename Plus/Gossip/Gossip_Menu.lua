@@ -45,7 +45,7 @@ local function Init_Menu(self, root)
     end)
 --唯一对话  
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '唯一对话' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ITEM_UNIQUE, ENABLE_DIALOG),
+        WoWTools_DataMixin.onlyChinese and '唯一对话' or WoWTools_Join(ITEM_UNIQUE, ENABLE_DIALOG),
     function()
         return  Save().unique
     end, function ()
@@ -53,7 +53,7 @@ local function Init_Menu(self, root)
         WoWTools_GossipMixin:UpdateGossip()--更新GossipFrame
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '当选项只有一个时，自动对话' or 'When there is only one option, automatic dialogue.', nil, nil,nil, true)
+        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '当选项只有一个时，自动对话' or WoWTools_L['When there is only one option, select it automatically.'], nil, nil,nil, true)
     end)
 
 
@@ -63,7 +63,7 @@ local function Init_Menu(self, root)
 
     sub=root:CreateButton(
         '|T0:0|t'
-        ..(WoWTools_DataMixin.onlyChinese and '自动对话' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, ENABLE_DIALOG)),
+        ..(WoWTools_DataMixin.onlyChinese and '自动对话' or WoWTools_Join(SELF_CAST_AUTO, ENABLE_DIALOG)),
     function()
         return MenuResponse.Open
     end, {rightText=num})
@@ -99,7 +99,7 @@ local function Init_Menu(self, root)
     num2= CountTable(WoWTools_GossipMixin:Get_GossipData() or {})
 
     sub=root:CreateCheckbox(
-        (WoWTools_DataMixin.onlyChinese and '对话替换' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, DIALOG_VOLUME, REPLACE))
+        (WoWTools_DataMixin.onlyChinese and '对话替换' or WoWTools_Join(DIALOG_VOLUME, REPLACE))
         ..WoWTools_DataMixin.Icon.mid,
         --..((num+num2)==0 and '|cff626262' or '')
         --..(num..'/'..num2),
@@ -156,7 +156,7 @@ local function Init_Menu(self, root)
     num= CountTable(Save().NPC or {})
     
     sub=root:CreateButton(
-        '|T0:0|t'..(WoWTools_DataMixin.onlyChinese and '禁用NPC' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, DISABLE, 'NPC')),--..(num==0 and ' |cff626262' or ' ')..num,
+        '|T0:0|t'..(WoWTools_DataMixin.onlyChinese and '禁用NPC' or WoWTools_Join(DISABLE, 'NPC')),--..(num==0 and ' |cff626262' or ' ')..num,
     function()
         return MenuResponse.Open
     end, {rightText=num})

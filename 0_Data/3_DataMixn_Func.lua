@@ -183,12 +183,18 @@ function WoWTools_DataMixin:MK(number, bit)
     bit = bit or 1
 
     local t= ''
-    if number>=1e8 then-- 1234 56789
+    if self.onlyChinese and number>=1e8 then-- 1234 56789 (escala china: 亿)
         number= number/1e8
         t='m'-- '|cffff00ffm|r'
     elseif self.onlyChinese and number>= 1e4 then
         number= number/1e4
         t='w'--'|cff00ff00w|r'
+    elseif not self.onlyChinese and number>=1e9 then--escala occidental: k, M, B (antes 25M salía como 25000k)
+        number= number/1e9
+        t='B'
+    elseif not self.onlyChinese and number>=1e6 then
+        number= number/1e6
+        t='M'
     elseif number>=1e3 then
         number= number/1e3
         t='k'-- '|cffffffffk|r'

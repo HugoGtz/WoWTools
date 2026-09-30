@@ -275,7 +275,7 @@ local function Init_Button_Menu(self, root)
 
     sub=root:CreateButton(
         (SaveUse('use')[value] and SaveUse('use')[value].add and '|cff00ccff' or '')
-        ..(WoWTools_DataMixin.onlyChinese and '添加参数'or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ADD, MACRO)),
+        ..(WoWTools_DataMixin.onlyChinese and '添加参数'or WoWTools_Join(ADD, MACRO)),
     function()
          StaticPopup_Show('WoWTools_EditText',
             addName..'|n|n'..valueName..' |cffffffff('..(WoWTools_DataMixin.onlyChinese and '参数' or MACRO)..')|r'
@@ -939,7 +939,7 @@ local function Init_Menu(self, root)
 --添加，自定义
     root:CreateDivider()
     root:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '添加自定义' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ADD, CUSTOM),
+        WoWTools_DataMixin.onlyChinese and '添加自定义' or WoWTools_Join(ADD, CUSTOM),
     function()
         Init_UseFrame()
         return MenuResponse.Open
@@ -1055,7 +1055,7 @@ local function Init_Menu(self, root)
             Save().subName= value
             Init_Button()
         end,
-        name=WoWTools_DataMixin.onlyChinese and '截取' or 'sub',
+        name=WoWTools_DataMixin.onlyChinese and '截取' or WoWTools_L['Truncate'],
         minValue=0,
         maxValue=20,
         step=1,
@@ -1118,11 +1118,11 @@ local function Init_Menu(self, root)
 
     sub:CreateButton(
         '|A:UI-HUD-UnitFrame-Player-Group-FriendOnlineIcon:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '清除输入数据' or 'Clear input data'),
+        ..(WoWTools_DataMixin.onlyChinese and '清除输入数据' or WoWTools_L['Clear input data']),
     function()
         StaticPopup_Show('WoWTools_OK',
             addName..'|n|n|A:UI-HUD-UnitFrame-Player-Group-FriendOnlineIcon:0:0|a'
-            ..(WoWTools_DataMixin.onlyChinese and '清除输入数据' or 'Clear input data'),
+            ..(WoWTools_DataMixin.onlyChinese and '清除输入数据' or WoWTools_L['Clear input data']),
             nil,
         {SetValue=function()
             WoWToolsPlusPlayerDate['EmoteButton']= CopyTable(P_SaveUse)
@@ -1298,7 +1298,7 @@ MainButton:SetScript('OnEvent', function(self, event, arg1)
                 buttonFunc= Rest_Button,
                 layout= WoWTools_ChatMixin.Layout,
                 category= WoWTools_ChatMixin.Category,
-                tooltip= WoWTools_DataMixin.onlyChinese and '按钮' or 'Button',
+                tooltip= WoWTools_DataMixin.onlyChinese and '按钮' or WoWTools_L['Button'],
             })
 
             if Save().disabled then

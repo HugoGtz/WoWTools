@@ -235,7 +235,7 @@ local function Init_Menu(self, root)
         WoWTools_MenuMixin:SetRightText(sub2)
 
         sub2:SetTooltip(function(tooltip)
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '最多保存120条' or 'Save up to 120 recordsf')
+            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '最多保存120条' or WoWTools_L['Save up to 120 records'])
         end)
 
         sub:CreateDivider()
@@ -523,7 +523,7 @@ local function Init()
             GameTooltip:AddDoubleLine((Save().text or '')..(Save().type and ' '..Save().type or ''),(name or '')..WoWTools_DataMixin.Icon.left)
         end
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '密语数量' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SLASH_TEXTTOSPEECH_WHISPER, AUCTION_HOUSE_QUANTITY_LABEL), Save().numWhisper)
+        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '密语数量' or WoWTools_Join(SLASH_TEXTTOSPEECH_WHISPER, AUCTION_HOUSE_QUANTITY_LABEL), Save().numWhisper)
         GameTooltip:Show()
     end
 

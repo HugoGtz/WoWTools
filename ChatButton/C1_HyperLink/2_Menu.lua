@@ -76,7 +76,7 @@ local function Init_Menu(self, root)
     sub2:CreateButton(
         (InCombatLockdown() and '|cff626262' or '')
         ..'|A:mechagon-projects:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '设置关键词' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SETTINGS, WoWTools_DataMixin.Language.key)),
+        ..(WoWTools_DataMixin.onlyChinese and '设置关键词' or WoWTools_Join(SETTINGS, WoWTools_DataMixin.Language.key)),
     function()
         if not WoWTools_HyperLink.Category then
             WoWTools_PanelMixin:Open()
@@ -102,7 +102,7 @@ local function Init_Menu(self, root)
 
 --物品数量
     sub2= sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '物品数量' or  format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ITEMS, AUCTION_HOUSE_QUANTITY_LABEL),
+        WoWTools_DataMixin.onlyChinese and '物品数量' or  WoWTools_Join(ITEMS, AUCTION_HOUSE_QUANTITY_LABEL),
     function()
         return not Save().notShowItemCount
     end, function()
@@ -141,7 +141,7 @@ local function Init_Menu(self, root)
         Save().showCVarName= not Save().showCVarName and true or nil
     end)
     sub2:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '测试' or 'Test',
+        WoWTools_DataMixin.onlyChinese and '测试' or WoWTools_L['Test'],
     function()
         if InCombatLockdown() then
             return
@@ -196,7 +196,7 @@ local function Init_Menu(self, root)
     sub=root:CreateCheckbox(
         col
         ..'|A:chatframe-button-icon-voicechat:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '事件声音' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, EVENTS_LABEL, SOUND)),
+        ..(WoWTools_DataMixin.onlyChinese and '事件声音' or WoWTools_Join(EVENTS_LABEL, SOUND)),
     function()
         return Save().setPlayerSound
     end, function()
@@ -268,7 +268,7 @@ local function Init_Menu(self, root)
 --欢迎加入
     sub=root:CreateCheckbox(
         '|A:socialqueuing-icon-group:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '欢迎加入' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, EMOTE103_CMD1:gsub('/',''), JOIN)),
+        ..(WoWTools_DataMixin.onlyChinese and '欢迎加入' or WoWTools_Join(EMOTE103_CMD1:gsub('/',''), JOIN)),
     function()
         return Save().guildWelcome or Save().groupWelcome
     end, function()
@@ -295,7 +295,7 @@ local function Init_Menu(self, root)
 
     sub2= sub:CreateButton('|A:communities-guildbanner-background:0:0|a'..(WoWTools_DataMixin.onlyChinese and '修改' or EDIT), function ()
         StaticPopup_Show('WoWTools_EditText',
-            (WoWTools_DataMixin.onlyChinese and '欢迎加入' or 'Welcome to join')..'|n|A:communities-guildbanner-background:0:0|a'..(WoWTools_DataMixin.onlyChinese and '公会新成员' or LFG_LIST_GUILD_MEMBER),
+            (WoWTools_DataMixin.onlyChinese and '欢迎加入' or WoWTools_L['Welcome to join'])..'|n|A:communities-guildbanner-background:0:0|a'..(WoWTools_DataMixin.onlyChinese and '公会新成员' or LFG_LIST_GUILD_MEMBER),
             nil,
             {
                 text=WoWToolsPlusPlayerDate['HyperLinkGuildWelcomeText'],
@@ -339,7 +339,7 @@ local function Init_Menu(self, root)
 
     sub2= sub:CreateButton('|A:socialqueuing-icon-group:0:0|a'..(WoWTools_DataMixin.onlyChinese and '修改' or EDIT), function ()
         StaticPopup_Show('WoWTools_EditText',
-            (WoWTools_DataMixin.onlyChinese and '欢迎加入' or 'Welcome to join')..'|n|A:socialqueuing-icon-group:0:0|a'..(WoWTools_DataMixin.onlyChinese and '队伍新成员' or SPELL_TARGET_TYPE14_DESC),
+            (WoWTools_DataMixin.onlyChinese and '欢迎加入' or WoWTools_L['Welcome to join'])..'|n|A:socialqueuing-icon-group:0:0|a'..(WoWTools_DataMixin.onlyChinese and '队伍新成员' or SPELL_TARGET_TYPE14_DESC),
             nil,
             {
                 text=WoWToolsPlusPlayerDate['HyperLinkGroupWelcomeText'],
@@ -487,7 +487,7 @@ local function Init_Menu(self, root)
         tooltip:AddLine(' ')
         tooltip:AddLine('|cnGREEN_FONT_COLOR:Ctrl|r '..(WoWTools_DataMixin.onlyChinese and '显示' or SHOW))
         tooltip:AddLine(' ')
-        tooltip:AddLine('|cnGREEN_FONT_COLOR:Shift|r '..(WoWTools_DataMixin.onlyChinese and '材质信息' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, TEXTURES_SUBHEADER, INFO)))
+        tooltip:AddLine('|cnGREEN_FONT_COLOR:Shift|r '..(WoWTools_DataMixin.onlyChinese and '材质信息' or WoWTools_Join(TEXTURES_SUBHEADER, INFO)))
         tooltip:AddLine(' ')
         tooltip:AddLine('|cnGREEN_FONT_COLOR:Ctrl+C|r '.. (WoWTools_DataMixin.onlyChinese and '复制' or CALENDAR_COPY_EVENT)..' \"File\" '..(WoWTools_DataMixin.onlyChinese and '类型' or TYPE))
     end)
@@ -519,7 +519,7 @@ local function Init_Menu(self, root)
 
 --添加按钮
     sub2=sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '添加按钮' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ADD, 'Button'),
+        WoWTools_DataMixin.onlyChinese and '添加按钮' or WoWTools_Join(ADD, 'Button'),
     function ()
         return not Save().not_Add_Reload_Button
     end, function ()

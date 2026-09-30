@@ -144,7 +144,7 @@ local function Init_Options()
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '显示敌方姓名板' or BINDING_NAME_NAMEPLATES, WoWTools_TextMixin:GetEnabeleDisable(C_CVar.GetCVarBool("nameplateShowEnemies")))
         GameTooltip:AddLine(' ')
         local r,g,b,a= Save().targetColor.r, Save().targetColor.g, Save().targetColor.b, Save().targetColor.a
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.Icon.left..(WoWTools_DataMixin.onlyChinese and '设置颜色' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SETTINGS, COLOR)), (WoWTools_DataMixin.onlyChinese and '默认' or DEFAULT)..WoWTools_DataMixin.Icon.right, r,g,b, 1,1,1)
+        GameTooltip:AddDoubleLine(WoWTools_DataMixin.Icon.left..(WoWTools_DataMixin.onlyChinese and '设置颜色' or WoWTools_Join(SETTINGS, COLOR)), (WoWTools_DataMixin.onlyChinese and '默认' or DEFAULT)..WoWTools_DataMixin.Icon.right, r,g,b, 1,1,1)
         GameTooltip:AddDoubleLine('r='..r..' g='..g..' b='..b, 'a='..a, r,g,b, r,g,b)
         GameTooltip:AddLine(' ')
         GameTooltip:Show()
@@ -196,7 +196,7 @@ local function Init_Options()
     combatCheck.Text:SetScript('OnEnter', function(self2)
         local r,g,b,a= Save().targetInCombatColor.r, Save().targetInCombatColor.g, Save().targetInCombatColor.b, Save().targetInCombatColor.a
         GameTooltip:SetOwner(self2, "ANCHOR_LEFT")
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.Icon.left..(WoWTools_DataMixin.onlyChinese and '设置颜色' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SETTINGS, COLOR)), (WoWTools_DataMixin.onlyChinese and '默认' or DEFAULT)..WoWTools_DataMixin.Icon.right, r,g,b, 1,1,1)
+        GameTooltip:AddDoubleLine(WoWTools_DataMixin.Icon.left..(WoWTools_DataMixin.onlyChinese and '设置颜色' or WoWTools_Join(SETTINGS, COLOR)), (WoWTools_DataMixin.onlyChinese and '默认' or DEFAULT)..WoWTools_DataMixin.Icon.right, r,g,b, 1,1,1)
         GameTooltip:AddDoubleLine('r='..r..' g='..g..' b='..b, 'a='..a, r,g,b, r,g,b)
         GameTooltip:Show()
         self2:SetAlpha(0.3)
@@ -454,7 +454,7 @@ local function Init_Options()
 
 --[[
     local sel2= CreateFrame('CheckButton', nil, Frame, "InterfaceOptionsCheckButtonTemplate")
-    sel2.Text:SetText('2) '..(WoWTools_DataMixin.onlyChinese and '怪物数量' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, CREATURE, AUCTION_HOUSE_QUANTITY_LABEL)))
+    sel2.Text:SetText('2) '..(WoWTools_DataMixin.onlyChinese and '怪物数量' or WoWTools_Join(CREATURE, AUCTION_HOUSE_QUANTITY_LABEL)))
     sel2:SetPoint('TOPLEFT', menu.edit, 'BOTTOMLEFT', -32, -32)
     sel2:SetChecked(Save().creature)
     sel2:SetScript('OnLeave', GameTooltip_Hide)
@@ -465,11 +465,11 @@ local function Init_Options()
             GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and WoWTools_ColorMixin:SetStringColor('怪物目标(你)|r |cnGREEN_FONT_COLOR:队友目标(你)|r |cffffffff怪物数量|r'))
         else
             GameTooltip:AddLine(WoWTools_ColorMixin:SetStringColor(
-                format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, CREATURE, TARGET)
+                WoWTools_Join(CREATURE, TARGET)
                 ..'('..YOU..')|r |cnGREEN_FONT_COLOR:'
-                ..format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, PLAYERS_IN_GROUP, TARGET)
+                ..WoWTools_Join(PLAYERS_IN_GROUP, TARGET)
                 ..'('..YOU..')|r |cffffffff'
-                ..format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, CREATURE, AUCTION_HOUSE_QUANTITY_LABEL)
+                ..WoWTools_Join(CREATURE, AUCTION_HOUSE_QUANTITY_LABEL)
                 ..'|r')
             )
         end
@@ -576,7 +576,7 @@ local function Init_Options()
         end
         root:CreateDivider()
         for _, tab2 in pairs({
-            {'healthBar', WoWTools_DataMixin.onlyChinese and '生命条' or 'HealthBar'},
+            {'healthBar', WoWTools_DataMixin.onlyChinese and '生命条' or WoWTools_L['Health bar']},
             {'name', WoWTools_DataMixin.onlyChinese and '名称' or NAME},
         }) do
             root:CreateCheckbox(
@@ -660,7 +660,7 @@ local function Init_Options()
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_TargetMixin.addName)
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.Icon.left..(WoWTools_DataMixin.onlyChinese and '设置颜色' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SETTINGS ,COLOR)),
+        GameTooltip:AddDoubleLine(WoWTools_DataMixin.Icon.left..(WoWTools_DataMixin.onlyChinese and '设置颜色' or WoWTools_Join(SETTINGS ,COLOR)),
                             'r'..Save().unitIsMeColor.r..' g'..Save().unitIsMeColor.g..' b'..Save().unitIsMeColor.b..' a'..Save().unitIsMeColor.a)
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.Icon.right..(WoWTools_DataMixin.onlyChinese and '默认' or DEFAULT), 'r1 g1 b1 a1' )
         GameTooltip:Show()
@@ -743,7 +743,7 @@ local function Init_Options()
 
 
     local questCheck= CreateFrame('CheckButton', nil, Frame, "InterfaceOptionsCheckButtonTemplate")
-    questCheck.Text:SetText('4) '..(WoWTools_DataMixin.onlyChinese and '任务进度' or (format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, QUESTS_LABEL, PVP_PROGRESS_REWARDS_HEADER))))
+    questCheck.Text:SetText('4) '..(WoWTools_DataMixin.onlyChinese and '任务进度' or (WoWTools_Join(QUESTS_LABEL, PVP_PROGRESS_REWARDS_HEADER))))
     --questCheck:SetPoint('TOPLEFT', sel2, 'BOTTOMLEFT',0,-64)
     questCheck:SetPoint('TOPLEFT', menu.edit, 'BOTTOMLEFT', -32, -32)
     questCheck:SetChecked(Save().quest)
@@ -755,7 +755,7 @@ local function Init_Options()
     local questAllFactionCheck= CreateFrame('CheckButton', nil, Frame, "InterfaceOptionsCheckButtonTemplate")
     questAllFactionCheck.Text:SetFormattedText(
         '%s|A:%s:0:0|a|A:%s:0:0|a',
-        WoWTools_DataMixin.onlyChinese and '所有阵营' or TRANSMOG_SHOW_ALL_FACTIONS or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ALL, FACTION),
+        WoWTools_DataMixin.onlyChinese and '所有阵营' or TRANSMOG_SHOW_ALL_FACTIONS or WoWTools_Join(ALL, FACTION),
         WoWTools_DataMixin.Icon.Horde, WoWTools_DataMixin.Icon.Alliance)
 
     questAllFactionCheck:SetPoint('LEFT', questCheck.Text, 'RIGHT',2,0)
@@ -775,7 +775,7 @@ local function Init_Options()
     end)
 
     --[[local instanceCheck= CreateFrame('CheckButton', nil, Frame, "InterfaceOptionsCheckButtonTemplate")
-    instanceCheck.Text:SetText(WoWTools_DataMixin.onlyChinese and '在副本里显示' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SHOW, INSTANCE))
+    instanceCheck.Text:SetText(WoWTools_DataMixin.onlyChinese and '在副本里显示' or WoWTools_Join(SHOW, INSTANCE))
     instanceCheck:SetPoint('TOPLEFT', questCheck, 'BOTTOMRIGHT')
     instanceCheck:SetChecked(Save().questShowInstance)
     instanceCheck:SetScript('OnClick', function()

@@ -880,7 +880,7 @@ local function Init_All_Role(_, root)
         return MenuResponse.Open
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(MicroButtonTooltipText('队伍查找器', "TOGGLEGROUPFINDER"))
+        tooltip:AddLine(MicroButtonTooltipText(WoWTools_DataMixin.onlyChinese and '队伍查找器' or DUNGEONS_BUTTON, "TOGGLEGROUPFINDER"))
     end)
 
     root:CreateDivider()
@@ -925,7 +925,7 @@ local function Init_All_Role(_, root)
         return MenuResponse.Open
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(MicroButtonTooltipText('队伍查找器', "TOGGLEGROUPFINDER"))
+        tooltip:AddLine(MicroButtonTooltipText(WoWTools_DataMixin.onlyChinese and '队伍查找器' or DUNGEONS_BUTTON, "TOGGLEGROUPFINDER"))
     end)
 
     root:CreateDivider()
@@ -1046,7 +1046,7 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(MicroButtonTooltipText('队伍查找器', "TOGGLEGROUPFINDER"))
+        tooltip:AddLine(MicroButtonTooltipText(WoWTools_DataMixin.onlyChinese and '队伍查找器' or DUNGEONS_BUTTON, "TOGGLEGROUPFINDER"))
     end)
 
 
@@ -1055,20 +1055,20 @@ local function Init_Menu(self, root)
 
 
 --设置, 小眼睛, 信息
-    sub2=sub:CreateCheckbox('|A:common-icon-rotateleft:0:0|a'..(WoWTools_DataMixin.onlyChinese and '离开副本' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC,LEAVE, INSTANCE)), function()
+    sub2=sub:CreateCheckbox('|A:common-icon-rotateleft:0:0|a'..(WoWTools_DataMixin.onlyChinese and '离开副本' or WoWTools_Join(LEAVE, INSTANCE)), function()
         return Save().leaveInstance
     end, function()
         Save().leaveInstance= not Save().leaveInstance and true or nil
         WoWTools_LFDMixin:Init_Exit_Instance()
     end)
     sub2:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '离开副本和战场' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, LEAVE, format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, INSTANCE, BATTLEFIELDS)))
+        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '离开副本和战场' or WoWTools_Join(LEAVE, WoWTools_Join(INSTANCE, BATTLEFIELDS)))
         tooltip:AddLine(' ')
         if WoWTools_DataMixin.onlyChinese then
             tooltip:AddLine('离开随机: 自动掷骰')
         else
-            tooltip:AddLine(format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, LEAVE,LFG_TYPE_RANDOM_DUNGEON))
-            tooltip:AddLine(format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, ROLL))
+            tooltip:AddLine(WoWTools_Join(LEAVE,LFG_TYPE_RANDOM_DUNGEON))
+            tooltip:AddLine(WoWTools_Join(SELF_CAST_AUTO, ROLL))
         end
     end)
 
@@ -1077,7 +1077,7 @@ local function Init_Menu(self, root)
 
 
 --设置, 信息 QueueStatusFrame.lua
-    sub2=sub:CreateCheckbox('|A:groupfinder-eye-frame:0:0|a'..(WoWTools_DataMixin.onlyChinese and '列表信息' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SOCIAL_QUEUE_TOOLTIP_HEADER,INFO)), function()
+    sub2=sub:CreateCheckbox('|A:groupfinder-eye-frame:0:0|a'..(WoWTools_DataMixin.onlyChinese and '列表信息' or WoWTools_Join(SOCIAL_QUEUE_TOOLTIP_HEADER,INFO)), function()
         return not Save().hideQueueStatus
     end, function()
         Save().hideQueueStatus = not Save().hideQueueStatus and true or nil
@@ -1103,7 +1103,7 @@ local function Init_Menu(self, root)
 
 
 --设置, 预创建队伍增强
-    sub2=sub:CreateCheckbox('|A:UI-HUD-MicroMenu-Groupfinder-Mouseover:0:0|a'..(WoWTools_DataMixin.onlyChinese and '预创建队伍增强' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, LFGLIST_NAME, 'Plus')), function()
+    sub2=sub:CreateCheckbox('|A:UI-HUD-MicroMenu-Groupfinder-Mouseover:0:0|a'..(WoWTools_DataMixin.onlyChinese and '预创建队伍增强' or WoWTools_Join(LFGLIST_NAME, 'Plus')), function()
         return Save().LFGPlus
     end, function()
         Save().LFGPlus = not Save().LFGPlus and true or nil
@@ -1177,7 +1177,7 @@ local function Init_Menu(self, root)
         WoWTools_LFDMixin:Init_RepopMe()
     end)
     sub3:SetTooltip(function(tooltip)
-       tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '有队伍副本除外' or  'Except for group instance')
+       tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '有队伍副本除外' or  WoWTools_L['Except for group instances'])
     end)
 
 
@@ -1189,7 +1189,7 @@ local function Init_Menu(self, root)
 --[[前往副本 Plus
     sub:CreateDivider()
     sub2= sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '前往副本' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, PET_ACTION_MOVE_TO, INSTANCE),
+        WoWTools_DataMixin.onlyChinese and '前往副本' or WoWTools_Join(PET_ACTION_MOVE_TO, INSTANCE),
     function()
         return not Save().disabledLFGDungeonReadyDialog
     end, function()
@@ -1204,7 +1204,7 @@ local function Init_Menu(self, root)
 
 --队伍查找器, 接受邀请, 信息
     sub2=sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '邀请信息' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, INVITE, INFO),
+        WoWTools_DataMixin.onlyChinese and '邀请信息' or WoWTools_Join(INVITE, INFO),
     function()
         return not Save().disabedLFDInviteInfo
     end, function()
@@ -1253,7 +1253,7 @@ local function Init_Menu(self, root)
         num= complete+ num
     end
     sub2= sub:CreateButton(
-        (WoWTools_DataMixin.onlyChinese and '副本次数' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, INSTANCE, COMPLETE))..' #'..num,
+        (WoWTools_DataMixin.onlyChinese and '副本次数' or WoWTools_Join(INSTANCE, COMPLETE))..' #'..num,
     function()
         return MenuResponse.Open
     end)
@@ -1347,7 +1347,7 @@ local function Init_Menu(self, root)
     end)
 
     sub:CreateDivider()
-    sub:CreateCheckbox('|A:communities-icon-notification:0:0|a'..(WoWTools_DataMixin.onlyChinese and '战利品 Plus' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, LOOT, 'Plus')), function()
+    sub:CreateCheckbox('|A:communities-icon-notification:0:0|a'..(WoWTools_DataMixin.onlyChinese and '战利品 Plus' or WoWTools_Join(LOOT, 'Plus')), function()
         return not Save().disabledLootPlus
     end, function()
         Save().disabledLootPlus= not Save().disabledLootPlus and true or nil

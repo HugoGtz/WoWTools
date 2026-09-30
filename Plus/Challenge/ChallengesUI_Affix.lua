@@ -214,7 +214,7 @@ local function Init()
             GameTooltip:AddLine(' ')
             GameTooltip:AddLine(
                 '|cnWARNING_FONT_COLOR:'
-                ..(WoWTools_DataMixin.onlyChinese and '当前赛季数据不匹配' or 'Current season data mismatch')
+                ..(WoWTools_DataMixin.onlyChinese and '当前赛季数据不匹配' or WoWTools_L['Current season data mismatch'])
             )
         end
         GameTooltip:Show()

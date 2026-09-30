@@ -281,8 +281,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
                 end,
                 tooltip=function()
                     return WoWTools_DataMixin.onlyChinese and '节日: 美酒节（赛羊）'
-                        or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC,
-                            CALENDAR_FILTER_HOLIDAYS,
+                        or WoWTools_Join(CALENDAR_FILTER_HOLIDAYS,
                             WoWTools_TextMixin:CN(C_Item.GetItemNameByID(33976), {itemID=33976, isName=true})
                             or ''
                         )

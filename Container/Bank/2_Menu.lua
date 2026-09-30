@@ -23,7 +23,7 @@ local function Init_Menu(self, root)
 
 --标签
     sub2=sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '标签' or 'Tab',
+        WoWTools_DataMixin.onlyChinese and '标签' or WoWTools_L['Tab'],
     function()
         return Save().plusTab
     end, function()
@@ -35,7 +35,7 @@ local function Init_Menu(self, root)
     end)
 
 --索引
-    sub2=sub:CreateCheckbox(WoWTools_DataMixin.onlyChinese and '索引' or 'Index', function()
+    sub2=sub:CreateCheckbox(WoWTools_DataMixin.onlyChinese and '索引' or WoWTools_L['Index'], function()
         return Save().plusIndex
     end, function()
         Save().plusIndex= not Save().plusIndex and true or false--显示，索引
@@ -46,7 +46,7 @@ local function Init_Menu(self, root)
     end)
 
 --物品信息
-    sub2=sub:CreateCheckbox(WoWTools_DataMixin.onlyChinese and '物品信息' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ITEMS, INFO), function()
+    sub2=sub:CreateCheckbox(WoWTools_DataMixin.onlyChinese and '物品信息' or WoWTools_Join(ITEMS, INFO), function()
         return Save().plusItem
     end, function()
         Save().plusItem= not Save().plusItem and true or false--显示，索引
@@ -65,7 +65,7 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:CVar(sub, 'bankConfirmTabCleanUp', nil, WoWTools_DataMixin.onlyChinese and '你确定要自动整理你的物品吗？|n该操作会影响所有的标签。' or BANK_CONFIRM_CLEANUP_PROMPT)
 
     sub2= sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '禁用排序' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, DISABLE, STABLE_FILTER_BUTTON_LABEL),
+        WoWTools_DataMixin.onlyChinese and '禁用排序' or WoWTools_Join(DISABLE, STABLE_FILTER_BUTTON_LABEL),
     function()
         return C_Container.GetBankAutosortDisabled()
     end, function()
@@ -98,7 +98,7 @@ local function Init_Menu(self, root)
     end)
     sub:SetTooltip(function(tooltip)
         GameTooltip_AddErrorLine(tooltip,
-            WoWTools_DataMixin.onlyChinese and '“物品信息” 同时打，会卡' or (format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ITEMS, INFO)..': '..(TICKET_TYPE3 or 'Bug'))
+            WoWTools_DataMixin.onlyChinese and '“物品信息” 同时打，会卡' or (WoWTools_Join(ITEMS, INFO)..': '..(TICKET_TYPE3 or 'Bug'))
         )
         tooltip:AddLine(' ')
         GameTooltip_AddErrorLine(tooltip,
@@ -138,7 +138,7 @@ local function Init_Menu(self, root)
             Save().line=value
             WoWTools_BankMixin:Init_AllBank()
         end,
-        name=WoWTools_DataMixin.onlyChinese and '间隔' or 'Interval',
+        name=WoWTools_DataMixin.onlyChinese and '间隔' or WoWTools_L['Interval'],
         minValue=0,
         maxValue=32,
         step=1,
@@ -201,7 +201,7 @@ local function Init()
 
     --[[
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '保存物品' or  format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SAVE, ITEMS),
+        WoWTools_DataMixin.onlyChinese and '保存物品' or  WoWTools_Join(SAVE, ITEMS),
     function()
         return Save().saveWoWData
     end, function()

@@ -74,7 +74,7 @@ panel:SetScript("OnEvent", function(self, event, arg1)
         if arg1== 'WoWToolsPlus' then
             if WoWTools_OtherMixin:AddOption(
                 'HelpTip',
-                '|A:newplayertutorial-drag-cursor:0:0|a'..(WoWTools_DataMixin.onlyChinese and '隐藏教程' or  format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, HIDE, SHOW_TUTORIALS)),
+                '|A:newplayertutorial-drag-cursor:0:0|a'..(WoWTools_DataMixin.onlyChinese and '隐藏教程' or  WoWTools_Join(HIDE, SHOW_TUTORIALS)),
                 nil
             ) then
                 Init()

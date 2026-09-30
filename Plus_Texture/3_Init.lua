@@ -86,7 +86,7 @@ local function Init_Panel()
 WoWTools_PanelMixin:CheckMenu({
     category=WoWTools_TextureMixin.Category,
     layout= WoWTools_TextureMixin.Layout,
-    name= WoWTools_DataMixin.onlyChinese and '自定义颜色' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, AUCTION_HOUSE_FILTER_DROPDOWN_CUSTOM, CLASS_COLORS),
+    name= WoWTools_DataMixin.onlyChinese and '自定义颜色' or WoWTools_Join(AUCTION_HOUSE_FILTER_DROPDOWN_CUSTOM, CLASS_COLORS),
     tooltip=tooltip,
     GetValue=function()
         return Save().useColor
@@ -235,7 +235,7 @@ WoWTools_PanelMixin:CheckMenu({
 
 
     WoWTools_PanelMixin:Check_Slider({
-        checkName= (WoWTools_DataMixin.onlyChinese and '职业能量' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, CLASS, ENERGY))..' 1 2 3',
+        checkName= (WoWTools_DataMixin.onlyChinese and '职业能量' or WoWTools_Join(CLASS, ENERGY))..' 1 2 3',
         checkGetValue= function() return Save().classPowerNum end,
         tooltip= tooltip,
         checkSetValue= function()

@@ -123,7 +123,7 @@ local ButtonList={
         name='AddGem',
         texture=135998,
         classID=3,
-        tooltip=WoWTools_DataMixin.onlyChinese and '添加宝石' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ADD, AUCTION_CATEGORY_GEMS),
+        tooltip=WoWTools_DataMixin.onlyChinese and '添加宝石' or WoWTools_Join(ADD, AUCTION_CATEGORY_GEMS),
         click=function()
             local free= MaxNumeri- get_num_items()
             if free==0 or InCombatLockdown() then
@@ -144,7 +144,7 @@ local ButtonList={
     },{
         name='AddItem',
         texture=135995,
-        tooltip=WoWTools_DataMixin.onlyChinese and '添加装备' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ADD, BAG_FILTER_EQUIPMENT),
+        tooltip=WoWTools_DataMixin.onlyChinese and '添加装备' or WoWTools_Join(ADD, BAG_FILTER_EQUIPMENT),
         click=function()
             local free= MaxNumeri-get_num_items()
             if free==0 or InCombatLockdown() then
@@ -171,7 +171,7 @@ local ButtonList={
     },{
         name='AddAll',
         atlas='communities-chat-icon-plus',
-        tooltip=WoWTools_DataMixin.onlyChinese and '全部添加' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ADD, ALL),
+        tooltip=WoWTools_DataMixin.onlyChinese and '全部添加' or WoWTools_Join(ADD, ALL),
         click=function()
             local free= MaxNumeri-get_num_items()
             if free==0 or InCombatLockdown() then
@@ -394,11 +394,11 @@ local function Init_Button()
         GameTooltip:AddDoubleLine(
             (WoWTools_DataMixin.onlyChinese and '禁用' or DISABLE)
             ..'|A:talents-button-reset:0:0|a'
-            ..(WoWTools_DataMixin.onlyChinese and '自动添加' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, ADD)),
+            ..(WoWTools_DataMixin.onlyChinese and '自动添加' or WoWTools_Join(SELF_CAST_AUTO, ADD)),
             '|cnGREEN_FONT_COLOR:#'..self.Text:GetText()
         )
         GameTooltip:AddDoubleLine(
-            WoWTools_DataMixin.Icon.left..(WoWTools_DataMixin.onlyChinese and '拖曳物品' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, DRAG_MODEL, ITEMS)),
+            WoWTools_DataMixin.Icon.left..(WoWTools_DataMixin.onlyChinese and '拖曳物品' or WoWTools_Join(DRAG_MODEL, ITEMS)),
             (WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL)..WoWTools_DataMixin.Icon.right
         )
         GameTooltip:Show()

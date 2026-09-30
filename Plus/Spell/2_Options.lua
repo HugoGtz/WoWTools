@@ -38,7 +38,7 @@ local function Init()
 
 --法术弹出框
     WoWTools_PanelMixin:OnlyCheck({
-        name= '|A:common-icon-backarrow:0:0|a'..(WoWTools_DataMixin.onlyChinese and '法术弹出框' or 'SpellFlyout'),
+        name= '|A:common-icon-backarrow:0:0|a'..(WoWTools_DataMixin.onlyChinese and '法术弹出框' or WoWTools_L['Spell flyout']),
         tooltip= WoWTools_PanelMixin.addName,
         GetValue= function() return Save().flyoutText end,
         category= WoWTools_SpellMixin.Category,
@@ -58,7 +58,7 @@ local function Init()
 
 --动作条颜色
     WoWTools_PanelMixin:OnlyCheck({
-        name= '|A:UI-HUD-ActionBar-Interrupt:0:0|a'..(WoWTools_DataMixin.onlyChinese and '动作条颜色' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ACTIONBARS_LABEL, COLOR)),
+        name= '|A:UI-HUD-ActionBar-Interrupt:0:0|a'..(WoWTools_DataMixin.onlyChinese and '动作条颜色' or WoWTools_Join(ACTIONBARS_LABEL, COLOR)),
         tooltip= WoWTools_PanelMixin.addName,
         GetValue= function() return Save().actionButtonRangeColor end,
         category= WoWTools_SpellMixin.Category,
@@ -78,7 +78,7 @@ local function Init()
 
 --专精按钮
     WoWTools_PanelMixin:OnlyCheck({
-        name= '|A:talents-node-choiceflyout-circle-greenglow:0:0|a'..(WoWTools_DataMixin.onlyChinese and '专精按钮' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SPECIALIZATION, 'Button')),
+        name= '|A:talents-node-choiceflyout-circle-greenglow:0:0|a'..(WoWTools_DataMixin.onlyChinese and '专精按钮' or WoWTools_Join(SPECIALIZATION, 'Button')),
         tooltip= WoWTools_PanelMixin.addName,
         GetValue= function() return Save().specButton.enabled end,
         category= WoWTools_SpellMixin.Category,
@@ -170,7 +170,7 @@ end
         name= WoWTools_SpellMixin.addName,
         tooltip= WoWTools_DataMixin.onlyChinese and '法术距离, 颜色'
                 or (
-                    format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SPELLS, TRACKER_SORT_PROXIMITY)..': '.. COLOR
+                    WoWTools_Join(SPELLS, TRACKER_SORT_PROXIMITY)..': '.. COLOR
 
             ),
         Value= not Save().disabled,

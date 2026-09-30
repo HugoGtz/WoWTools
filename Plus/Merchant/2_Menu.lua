@@ -29,7 +29,7 @@ local function Player_Sell_Menu(_, root)
     num= CountTable(SellBuyItemsSave().sell or {})
     sub=root:CreateCheckbox(
         '|A:bags-button-autosort-up:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '出售自定义' or  format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, AUCTION_HOUSE_SELL_TAB, CUSTOM)),
+        ..(WoWTools_DataMixin.onlyChinese and '出售自定义' or  WoWTools_Join(AUCTION_HOUSE_SELL_TAB, CUSTOM)),
         --..(num==0 and '|cff626262' or '')
         --..' #'..num,
     function()
@@ -38,7 +38,7 @@ local function Player_Sell_Menu(_, root)
         Save().notSellCustom= not Save().notSellCustom and true or nil
     end, {rightText= num})
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '备注：在战斗中无法出售物品' or (NOTE_COLON..': '..format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT, ITEM_UNSELLABLE)))
+        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '备注：在战斗中无法出售物品' or (NOTE_COLON..': '..WoWTools_Join(HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT, ITEM_UNSELLABLE)))
     end)
     WoWTools_MenuMixin:SetRightText(sub)
 
@@ -174,7 +174,7 @@ local function BuyItem_Menu(self, root)
     end
     sub=root:CreateCheckbox(
         '|A:Perks-ShoppingCart:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '自动购买' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, PURCHASE)),--..'|cnGREEN_FONT_COLOR: #'..(num or '')..'|r',
+        ..(WoWTools_DataMixin.onlyChinese and '自动购买' or WoWTools_Join(SELF_CAST_AUTO, PURCHASE)),--..'|cnGREEN_FONT_COLOR: #'..(num or '')..'|r',
     function()
         return not Save().notAutoBuy
     end, function()
@@ -266,7 +266,7 @@ local function Init_Menu(self, root)
 --自动出售垃圾
     sub=root:CreateCheckbox(
         '|A:bags-button-autosort-up:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '自动出售垃圾' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, SELL_ALL_JUNK_ITEMS_EXCLUDE_HEADER)),
+        ..(WoWTools_DataMixin.onlyChinese and '自动出售垃圾' or WoWTools_Join(SELF_CAST_AUTO, SELL_ALL_JUNK_ITEMS_EXCLUDE_HEADER)),
     function()
         return not Save().notSellJunk
     end, function()
@@ -280,7 +280,7 @@ local function Init_Menu(self, root)
             WoWTools_DataMixin.onlyChinese and '品质：%s' or PROFESSIONS_CRAFTING_QUALITY,
             WoWTools_ItemMixin.QualityText[0]
         ))
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '备注：在战斗中无法出售物品' or (NOTE_COLON..': '..format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT, ITEM_UNSELLABLE)))
+        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '备注：在战斗中无法出售物品' or (NOTE_COLON..': '..WoWTools_Join(HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT, ITEM_UNSELLABLE)))
     end)
 
 
@@ -302,7 +302,7 @@ local function Init_Menu(self, root)
 
     sub=root:CreateCheckbox(
         '|A:bags-button-autosort-up:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '出售首领掉落' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, AUCTION_HOUSE_SELL_TAB,TRANSMOG_SOURCE_1)),
+        ..(WoWTools_DataMixin.onlyChinese and '出售首领掉落' or WoWTools_Join(AUCTION_HOUSE_SELL_TAB,TRANSMOG_SOURCE_1)),
         --..(num==0 and '|cff626262' or '')
         --..' #'..num,
     function()
@@ -313,7 +313,7 @@ local function Init_Menu(self, root)
     sub:SetTooltip(function(tooltip)
         local avgItemLevel= (GetAverageItemLevel() or 60)- 30
         tooltip:AddLine((WoWTools_DataMixin.onlyChinese and '物品等级' or STAT_AVERAGE_ITEM_LEVEL)..' < ' ..math.ceil(avgItemLevel))
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '备注：在战斗中无法出售物品' or (NOTE_COLON..': '..format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT, ITEM_UNSELLABLE)))
+        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '备注：在战斗中无法出售物品' or (NOTE_COLON..': '..WoWTools_Join(HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT, ITEM_UNSELLABLE)))
     end)
     WoWTools_MenuMixin:SetRightText(sub)
 
@@ -362,7 +362,7 @@ local function Init_Menu(self, root)
 --[[添加 按钮菜单
     sub2= sub:CreateCheckbox(
         '|A:Perks-ShoppingCart:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '按钮菜单' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ADD, HUD_EDIT_MODE_MICRO_MENU_LABEL),
+        ..(WoWTools_DataMixin.onlyChinese and '按钮菜单' or WoWTools_Join(ADD, HUD_EDIT_MODE_MICRO_MENU_LABEL),
     function()
         return Save().addButtonMenu
     end, function()
@@ -388,7 +388,7 @@ local function Init_Menu(self, root)
 --自动修理
     root:CreateDivider()
     sub=root:CreateCheckbox(
-        '|A:SpellIcon-256x256-RepairAll:0:0|a'..(WoWTools_DataMixin.onlyChinese and '自动修理所有物品' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, REPAIR_ALL_ITEMS)),
+        '|A:SpellIcon-256x256-RepairAll:0:0|a'..(WoWTools_DataMixin.onlyChinese and '自动修理所有物品' or WoWTools_Join(SELF_CAST_AUTO, REPAIR_ALL_ITEMS)),
     function()
         return not Save().notAutoRepairAll
     end, function()
@@ -427,7 +427,7 @@ local function Init_Menu(self, root)
 
 --商人 Plus
     sub=root:CreateCheckbox(
-        '|A:communities-icon-addgroupplus:0:0|a'..(WoWTools_DataMixin.onlyChinese and '商人 Plus' or  format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, MERCHANT, 'Plus')),
+        '|A:communities-icon-addgroupplus:0:0|a'..(WoWTools_DataMixin.onlyChinese and '商人 Plus' or  WoWTools_Join(MERCHANT, 'Plus')),
     function()
         return not Save().notPlus
     end, function()
@@ -468,7 +468,7 @@ local function Init_Menu(self, root)
         tooltip:AddLine(' ')
         tooltip:AddLine(
             WoWTools_DataMixin.onlyChinese and '拾取窗口 Shift: 禁用'
-            or (format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, HUD_EDIT_MODE_LOOT_FRAME_LABEL, 'Shift: ')..DISABLE)
+            or (WoWTools_Join(HUD_EDIT_MODE_LOOT_FRAME_LABEL, 'Shift: ')..DISABLE)
         )
         tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '不在战斗中' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_OUT_OF_COMBAT)
         tooltip:AddLine(' ')

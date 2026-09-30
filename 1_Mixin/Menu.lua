@@ -267,7 +267,7 @@ function WoWTools_MenuMixin:FrameStrata(frame, root, GetValue, SetValue)
     sub=root:CreateButton(
         '|A:Garr_SwapIcon:0:0:|a'
         ..(enable and '' or '|cff626262')
-        ..(WoWTools_DataMixin.onlyChinese and '框架层' or 'Strata'),
+        ..(WoWTools_DataMixin.onlyChinese and '框架层' or WoWTools_L['Strata']),
     function()
         return MenuResponse.Refresh
     end, {rightText=value})
@@ -326,7 +326,7 @@ function WoWTools_MenuMixin:BgAplha(root, GetValue, SetValue, RestFunc, onlyRoot
     sub2=WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=GetValue,
         setValue=SetValue,
-        name=WoWTools_DataMixin.onlyChinese and '背景透明度' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, BACKGROUND, HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY),
+        name=WoWTools_DataMixin.onlyChinese and '背景透明度' or WoWTools_Join(BACKGROUND, HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY),
         minValue=0,
         maxValue=1,
         step=0.1,
@@ -525,7 +525,7 @@ function WoWTools_MenuMixin:OpenJournal(root, tab)
         return MenuResponse.Refresh
     end, tab)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(MicroButtonTooltipText(WoWTools_DataMixin.onlyChinese and '打开战团藏品' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, UNWRAP, COLLECTIONS), "TOGGLECOLLECTIONS"))
+        tooltip:AddLine(MicroButtonTooltipText(WoWTools_DataMixin.onlyChinese and '打开战团藏品' or WoWTools_Join(UNWRAP, COLLECTIONS), "TOGGLECOLLECTIONS"))
     end)
 end
 --[[
@@ -549,7 +549,7 @@ function WoWTools_MenuMixin:OpenSpellBook(root, index)--天赋和法术书
 
     local sub= root:CreateButton(
         (isSpellBook and '|cnWARNING_FONT_COLOR:' or '')
-        ..MicroButtonTooltipText('天赋和法术书', "TOGGLETALENTS"),
+        ..MicroButtonTooltipText(WoWTools_DataMixin.onlyChinese and '天赋和法术书' or PLAYERSPELLS_BUTTON, "TOGGLETALENTS"),
     function()
         WoWTools_LoadUIMixin:SpellBook(index)
         return MenuResponse.Open
@@ -656,7 +656,7 @@ function WoWTools_MenuMixin:OpenOptions(root, tab)
         t:AddDoubleLine(name and name..WoWTools_DataMixin.Icon.icon2 or WoWTools_DataMixin.addName, name2)
         t:AddDoubleLine(
             WoWTools_DataMixin.onlyChinese and '打开选项界面'
-            or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, UNWRAP, OPTIONS), 'UI')
+            or WoWTools_Join(WoWTools_Join(UNWRAP, OPTIONS), 'UI')
         )
         local isType= type(tooltip)
         if isType=='string' then

@@ -93,8 +93,8 @@ end
 local function Init_ClickToMove_Menu(self, root)
     local sub
     for _, tab in pairs({
-        {'0', WoWTools_DataMixin.onlyChinese and '锁定禁用' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, LOCK, DISABLE)},
-        {'1', WoWTools_DataMixin.onlyChinese and '锁定启用' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, LOCK, ENABLE)},
+        {'0', WoWTools_DataMixin.onlyChinese and '锁定禁用' or WoWTools_Join(LOCK, DISABLE)},
+        {'1', WoWTools_DataMixin.onlyChinese and '锁定启用' or WoWTools_Join(LOCK, ENABLE)},
     }) do
         sub=root:CreateRadio(
             '|A:AdventureMapIcon-Lock:0:0|a'..tab[2],
@@ -116,7 +116,7 @@ local function Init_ClickToMove_Menu(self, root)
 
     sub=root:CreateRadio(
         '|A:AdventureMapIcon-Lock:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '自动锁定' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, LOCK)),
+        ..(WoWTools_DataMixin.onlyChinese and '自动锁定' or WoWTools_Join(SELF_CAST_AUTO, LOCK)),
     function()
         return Save().AutoClickToMove
     end, function()
@@ -415,7 +415,7 @@ local function Init_Button()
     CVarNameTabs={
         ['autoInteract']= WoWTools_DataMixin.Icon.right..(WoWTools_DataMixin.onlyChinese and '点击移动' or CLICK_TO_MOVE),
         ['cameraSmoothStyle']= WoWTools_DataMixin.onlyChinese and '镜头跟随模式' or CAMERA_FOLLOWING_STYLE,
-        ['cameraSmoothTrackingStyle']= WoWTools_DataMixin.onlyChinese and '点击移动镜头' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, CLICK_TO_MOVE, CAMERA_LABEL)
+        ['cameraSmoothTrackingStyle']= WoWTools_DataMixin.onlyChinese and '点击移动镜头' or WoWTools_Join(CLICK_TO_MOVE, CAMERA_LABEL)
     }
 
     local btn= CreateFrame('DropdownButton', 'WoWToolsClickToMoveButton', PlayerFrame, 'WoWToolsMenu2Template')

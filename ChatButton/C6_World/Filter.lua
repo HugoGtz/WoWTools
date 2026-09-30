@@ -58,7 +58,7 @@ local function Init_Filter_Menu(self, root)
 
 --屏蔽刷屏
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '屏蔽刷屏' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, IGNORE, CLUB_FINDER_REPORT_SPAM),
+        WoWTools_DataMixin.onlyChinese and '屏蔽刷屏' or WoWTools_Join(IGNORE, CLUB_FINDER_REPORT_SPAM),
 
     function()
         return Save().myChatFilter
@@ -190,7 +190,7 @@ local function Init_Filter_Menu(self, root)
 
 
 --自动添加
-    sub:CreateCheckbox((WoWTools_DataMixin.onlyChinese and '自动添加' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, ADD)), function()
+    sub:CreateCheckbox((WoWTools_DataMixin.onlyChinese and '自动添加' or WoWTools_Join(SELF_CAST_AUTO, ADD)), function()
         return Save().myChatFilterAutoAdd
     end, function()
         Save().myChatFilterAutoAdd= not Save().myChatFilterAutoAdd and true or nil
@@ -207,7 +207,7 @@ local function Init_Filter_Menu(self, root)
 --全部加入, 临时屏蔽
     sub2=sub:CreateButton(
         '|A:GreenCross:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '全部添加' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ALL, ADD)),
+        ..(WoWTools_DataMixin.onlyChinese and '全部添加' or WoWTools_Join(ALL, ADD)),
         --..' #'..filterNum,
     function()
         Set_Add_All_Player_Filter()
@@ -255,7 +255,7 @@ local function Init_Filter_Menu(self, root)
             end
             --tooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '屏蔽玩家' or IGNORE_PLAYER, WoWTools_DataMixin.Icon.left)                
             tooltip:AddDoubleLine(
-                '|cnGREEN_FONT_COLOR:'..strlenutf8(description.data.text)..(WoWTools_DataMixin.onlyChinese and '字符' or 'Word count'),
+                '|cnGREEN_FONT_COLOR:'..strlenutf8(description.data.text)..(WoWTools_DataMixin.onlyChinese and '字符' or WoWTools_L['Word count']),
                 '|cnGREEN_FONT_COLOR:#'..(description.data.data.num or 0)..(WoWTools_DataMixin.onlyChinese and "次" or VOICEMACRO_LABEL_CHARGE1)
             )
             tooltip:AddLine(' ')
@@ -344,7 +344,7 @@ local function Init_User_Filter_Menu(_, root)
     end
 
     sub= root:CreateCheckbox(
-        (WoWTools_DataMixin.onlyChinese and '自定义屏蔽' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, CUSTOM, IGNORE)),
+        (WoWTools_DataMixin.onlyChinese and '自定义屏蔽' or WoWTools_Join(CUSTOM, IGNORE)),
         --.. ' '.. useNum,
     function()
         return Save().userChatFilter

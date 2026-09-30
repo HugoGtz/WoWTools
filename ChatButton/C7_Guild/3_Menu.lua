@@ -112,7 +112,7 @@ local function Init_Guild_Menu(self, root)
 
 
     sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '显示名单' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SHOW, GUILD_TAB_ROSTER),
+        WoWTools_DataMixin.onlyChinese and '显示名单' or WoWTools_Join(SHOW, GUILD_TAB_ROSTER),
     function()
         return Save().showListName
     end, function()
@@ -151,7 +151,7 @@ local function Init_Guild_Menu(self, root)
             Save().subGuildName= value~=0 and value or nil
             frame.Low:SetText(Get_Guild_Name())
         end,
-        name=WoWTools_DataMixin.onlyChinese and '截取' or 'sub' ,
+        name=WoWTools_DataMixin.onlyChinese and '截取' or WoWTools_L['Truncate'] ,
         minValue=0,
         maxValue=93,--最长31英文字符
         step=1,

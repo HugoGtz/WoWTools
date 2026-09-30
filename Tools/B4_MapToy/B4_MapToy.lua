@@ -231,7 +231,7 @@ local function Init_Menu(self, root)
     sub2:SetTooltip(function (tooltip)
         tooltip:AddLine(
             WoWTools_DataMixin.onlyChinese and '禁用最高级'
-            or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, DISABLE, BEST), LEVEL)
+            or WoWTools_Join(WoWTools_Join(DISABLE, BEST), LEVEL)
         )
     end)
 

@@ -20,10 +20,10 @@ end
 local function Set_Map_Waypoint(self)
     local mapID = WorldMapFrame.mapID
     if not mapID then
-        print(WoWTools_DataMixin.onlyChinese and '没有找到uiMapID' or "Not found uiMapID")
+        print(WoWTools_DataMixin.onlyChinese and '没有找到uiMapID' or WoWTools_L['uiMapID not found'])
         return
     elseif not C_Map.CanSetUserWaypointOnMap(mapID) then
-        print(WoWTools_DataMixin.onlyChinese and '当前地图不能标记' or "Cannot set waypoints on this map")
+        print(WoWTools_DataMixin.onlyChinese and '当前地图不能标记' or WoWTools_L['Cannot set waypoints on this map'])
         return
     end
 
@@ -61,7 +61,7 @@ end
         x, y= x*0.01, y*0.01
 
         if x>1 or y>1 then
-            print(WoWTools_DataMixin.onlyChinese and '错误XY' or 'Error XY')
+            print(WoWTools_DataMixin.onlyChinese and '错误XY' or WoWTools_L['Invalid coordinates'])
             return
         end
 
@@ -71,7 +71,7 @@ end
 
         print(C_Map.GetUserWaypointHyperlink(), x*100, y*100)
     else
-        print(WoWTools_DataMixin.onlyChinese and '错误XY' or 'Error XY')
+        print(WoWTools_DataMixin.onlyChinese and '错误XY' or WoWTools_L['Invalid coordinates'])
     end
 end
 
@@ -112,7 +112,7 @@ local function Init_Menu(self, root)
         (WorldMapFrame.mapID==MapUtil.GetDisplayableMapForPlayer() and '|cff626262' or '')
         ..WoWTools_DataMixin.Icon.Player
         ..(WoWTools_DataMixin.onlyChinese and '返回当前地图' or
-        format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, PREVIOUS, REFORGE_CURRENT), WORLD_MAP)
+        WoWTools_Join(WoWTools_Join(PREVIOUS, REFORGE_CURRENT), WORLD_MAP)
     ), function()
         local mapID2= MapUtil.GetDisplayableMapForPlayer()
         if mapID2 then
@@ -258,9 +258,9 @@ local function Init()
 
         local mapID = WorldMapFrame.mapID
         if not mapID then
-            GameTooltip:AddLine('|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '没有找到MapID' or "Not found MapID"))
+            GameTooltip:AddLine('|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '没有找到MapID' or WoWTools_L['MapID not found']))
         elseif not C_Map.CanSetUserWaypointOnMap(mapID) then
-            GameTooltip:AddLine('|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '当前地图不能标记' or "Cannot set waypoints on this map"))
+            GameTooltip:AddLine('|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '当前地图不能标记' or WoWTools_L['Cannot set waypoints on this map']))
         end
 
         GameTooltip:Show()

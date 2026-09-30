@@ -487,7 +487,7 @@ local function Init_Menu(self, root)
 
 --[[挑战开始
     sub= root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '挑战开始' or  format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, PLAYER_DIFFICULTY5, START),
+        WoWTools_DataMixin.onlyChinese and '挑战开始' or  WoWTools_Join(PLAYER_DIFFICULTY5, START),
     function()
         return not Save().hideAffixSay
     end, function()
@@ -499,7 +499,7 @@ local function Init_Menu(self, root)
 
 --挑战结束
     sub= root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '挑战结束' or  format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, PLAYER_DIFFICULTY5, COMPLETE),
+        WoWTools_DataMixin.onlyChinese and '挑战结束' or  WoWTools_Join(PLAYER_DIFFICULTY5, COMPLETE),
     function()
         return not Save().hideEndKeystoneSay
     end, function()

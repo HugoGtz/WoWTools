@@ -121,7 +121,7 @@ function WoWTools_WorldMapMixin:SendPlayerPoint()--发送玩家位置
         name =name or name2
         WoWTools_ChatMixin:Chat(name, nil, true)
     else
-        print(WoWTools_DataMixin.onlyChinese and '当前地图不能标记' or "Cannot set waypoints on this map")
+        print(WoWTools_DataMixin.onlyChinese and '当前地图不能标记' or WoWTools_L['Cannot set waypoints on this map'])
     end
 end
 

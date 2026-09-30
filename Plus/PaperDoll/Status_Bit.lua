@@ -427,7 +427,7 @@ local function Init()
         )
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(
-            (WoWTools_DataMixin.onlyChinese and '小数 ' or 'Decimals ')
+            (WoWTools_DataMixin.onlyChinese and '小数 ' or WoWTools_L['Decimals '])
             ..(
                 bit==-1 and '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '禁用' or DISABLE)..'|r'
                 or ('|cnGREEN_FONT_COLOR:'..bit)

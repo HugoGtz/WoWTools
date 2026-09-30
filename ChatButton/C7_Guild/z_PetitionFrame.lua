@@ -80,7 +80,7 @@ local function Init()
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(WoWTools_ChatMixin.addName, WoWTools_GuildMixin.addName)
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '自动要求签名' or  format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, REQUEST_SIGNATURE), WoWTools_DataMixin.onlyChinese and '目标' or TARGET)
+        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '自动要求签名' or  WoWTools_Join(SELF_CAST_AUTO, REQUEST_SIGNATURE), WoWTools_DataMixin.onlyChinese and '目标' or TARGET)
         GameTooltip:Show()
     end)
 

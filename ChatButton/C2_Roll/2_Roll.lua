@@ -202,7 +202,7 @@ local function Init_Menu(self, root)
 --
     sub2= sub:CreateCheckbox(
         '|A:bags-button-autosort-up:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '自动清除' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, SLASH_STOPWATCH_PARAM_STOP2)),
+        ..(WoWTools_DataMixin.onlyChinese and '自动清除' or WoWTools_Join(SELF_CAST_AUTO, SLASH_STOPWATCH_PARAM_STOP2)),
     function ()
         return Save().autoClear
     end, function ()
@@ -215,7 +215,7 @@ local function Init_Menu(self, root)
 --清除记录
     sub2=sub:CreateButton(
         '|A:bags-button-autosort-up:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '清除记录' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SLASH_STOPWATCH_PARAM_STOP2, EVENTTRACE_LOG_HEADER)),
+        ..(WoWTools_DataMixin.onlyChinese and '清除记录' or WoWTools_Join(SLASH_STOPWATCH_PARAM_STOP2, EVENTTRACE_LOG_HEADER)),
     function()
         Save().save={}
         return MenuResponse.CloseAll

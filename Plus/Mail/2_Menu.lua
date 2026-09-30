@@ -47,7 +47,7 @@ local function Init_Menu(self, root)
 
 
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '物品快捷键' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ITEMS, SETTINGS_KEYBINDINGS_LABEL),
+        WoWTools_DataMixin.onlyChinese and '物品快捷键' or WoWTools_Join(ITEMS, SETTINGS_KEYBINDINGS_LABEL),
     function()
         return not Save().hideItemButtonList
     end, function()
@@ -56,14 +56,14 @@ local function Init_Menu(self, root)
     end)
 
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '自动转到发件箱' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, NPE_TURN, SENDMAIL)),
+        WoWTools_DataMixin.onlyChinese and '自动转到发件箱' or WoWTools_Join(SELF_CAST_AUTO, WoWTools_Join(NPE_TURN, SENDMAIL)),
     function()
         return not Save().notAutoToSendFrame
     end, function()
         Save().notAutoToSendFrame= not Save().notAutoToSendFrame and true or nil
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '尚未发现信件' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, TAXI_PATH_UNREACHABLE, MAIL_LABEL))
+        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '尚未发现信件' or WoWTools_Join(TAXI_PATH_UNREACHABLE, MAIL_LABEL))
     end)
 
 

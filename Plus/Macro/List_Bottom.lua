@@ -499,7 +499,7 @@ local function Sub_Menu(root, tab)
     if tab.icon then
         sub=root:CreateButton(
             '|T'..(tab.icon or 0)..':0|t'
-            ..(WoWTools_DataMixin.onlyChinese and '设置图标' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SETTINGS, EMBLEM_SYMBOL)),
+            ..(WoWTools_DataMixin.onlyChinese and '设置图标' or WoWTools_Join(SETTINGS, EMBLEM_SYMBOL)),
         function(data)
             if not InCombatLockdown() then
                 WoWTools_MacroMixin:SetMacroTexture(data.icon)
@@ -669,7 +669,7 @@ local function Init_SpellBook_Menu(self, root)
 --FS
     if WoWTools_DataMixin.Player.Class=='MAGE' then
         local sub=root:CreateButton(
-            WoWTools_DataMixin.onlyChinese and '解散水元素' or 'PetDismiss',
+            WoWTools_DataMixin.onlyChinese and '解散水元素' or WoWTools_L['Dismiss pet'],
         function()
             if InCombatLockdown() then
                 return

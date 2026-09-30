@@ -133,7 +133,7 @@ local function Init_Cancel_Button()
     local all= CreateFrame('Button', 'WoWToolsAuctionHouseAllCancelButton', cancelButton, 'UIPanelButtonTemplate')
     all:SetPoint('RIGHT', cancelButton, 'LEFT', -2, 0)
     all:SetSize(100,22)
-    all.text=WoWTools_DataMixin.onlyChinese and '全部取消' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ALL, CANCEL)
+    all.text=WoWTools_DataMixin.onlyChinese and '全部取消' or WoWTools_Join(ALL, CANCEL)
     all:SetText(all.text)
 
     function all:Stop()

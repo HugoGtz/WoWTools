@@ -16,7 +16,7 @@ local function Init_Menu(self, root)
 
 --标签
     root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '标签' or 'Tab',
+        WoWTools_DataMixin.onlyChinese and '标签' or WoWTools_L['Tab'],
     function()
         return Save().plusTab
     end, function()
@@ -26,7 +26,7 @@ local function Init_Menu(self, root)
 
 --索引
     root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '索引' or 'Index',
+        WoWTools_DataMixin.onlyChinese and '索引' or WoWTools_L['Index'],
     function()
         return Save().showIndex
     end, function()
@@ -36,7 +36,7 @@ local function Init_Menu(self, root)
 
 --物品信息
     root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '物品信息' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ITEMS, INFO),
+        WoWTools_DataMixin.onlyChinese and '物品信息' or WoWTools_Join(ITEMS, INFO),
     function()
         return Save().plusItem
     end, function()
@@ -62,7 +62,7 @@ local function Init_Menu(self, root)
         end
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '打开公会银行时' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, OPENING, GUILD_BANK))
+        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '打开公会银行时' or WoWTools_Join(OPENING, GUILD_BANK))
         tooltip:AddLine(MicroButtonTooltipText(WoWTools_DataMixin.onlyChinese and '打开所有背包' or BINDING_NAME_OPENALLBAGS, "OPENALLBAGS")
     )
     end)

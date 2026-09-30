@@ -67,7 +67,7 @@ local function Init_Plus_Menu(self, root)
         WoWTools_MinimapMixin:Init_Minimap_Zoom()
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '更新地区时' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, UPDATE, ZONE))
+        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '更新地区时' or WoWTools_Join(UPDATE, ZONE))
     end)
     WoWTools_MinimapMixin:Zoom_Menu(self, sub)
 
@@ -109,7 +109,7 @@ local function Init_Plus_Menu(self, root)
     sub= root:CreateCheckbox(
         WoWTools_DataMixin.Icon.icon2
         ..'|cnWARNING_FONT_COLOR:'
-        ..(WoWTools_DataMixin.onlyChinese and '收集图标' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, WEEKLY_REWARDS_GET_CONCESSION, EMBLEM_SYMBOL)),
+        ..(WoWTools_DataMixin.onlyChinese and '收集图标' or WoWTools_Join(WEEKLY_REWARDS_GET_CONCESSION, EMBLEM_SYMBOL)),
     function ()
         return not Save().Icons.disabled
     end, function()
@@ -130,7 +130,7 @@ if Save().Icons.disabled then
             Save().Icons.borderAlpha2=value
             WoWTools_MinimapMixin:Init_SetMinamp_Texture()
         end,
-        name=WoWTools_DataMixin.onlyChinese and '外框透明度' or 'Border alpha',
+        name=WoWTools_DataMixin.onlyChinese and '外框透明度' or WoWTools_L['Border opacity'],
         minValue=0,
         maxValue=1,
         step=0.05,
@@ -147,7 +147,7 @@ if Save().Icons.disabled then
             Save().Icons.bgAlpha2=value
             WoWTools_MinimapMixin:Init_SetMinamp_Texture()
         end,
-        name=WoWTools_DataMixin.onlyChinese and '背景透明度' or 'Background alpha',
+        name=WoWTools_DataMixin.onlyChinese and '背景透明度' or WoWTools_L['Background opacity'],
         minValue=0,
         maxValue=1,
         step=0.05,

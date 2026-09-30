@@ -128,7 +128,7 @@ function WoWTools_LFDMixin:ShowMenu_LFGDungeonReadyDialog(root)
     root:CreateDivider()
 
     local sub= root:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '显示进入' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SHOW, ENTER_LFG),
+        WoWTools_DataMixin.onlyChinese and '显示进入' or WoWTools_Join(SHOW, ENTER_LFG),
     function()
         if LFGDungeonReadyPopup:IsShown() then
             StaticPopupSpecial_Hide(LFGDungeonReadyPopup)

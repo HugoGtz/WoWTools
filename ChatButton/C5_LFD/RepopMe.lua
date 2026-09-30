@@ -40,7 +40,7 @@ local function Init()
                 if WoWTools_DataMixin.Player.husandro then
                     print(WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
                         WoWTools_DataMixin.onlyChinese and '开启了所有区域自动释放和复活'
-                        or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ALL, FLOOR)..': '..PVP_WAR_MODE_ENABLED..'('..BATTLE_PET_RELEASE..'/'.. RESURRECT..')'
+                        or WoWTools_Join(ALL, FLOOR)..': '..PVP_WAR_MODE_ENABLED..'('..BATTLE_PET_RELEASE..'/'.. RESURRECT..')'
                     )
                 end
             end
@@ -135,7 +135,7 @@ local function Init()
             print(
                 WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 '|cnGREEN_FONT_COLOR:',
-                WoWTools_DataMixin.onlyChinese and '取消复活' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, CANCEL, RESURRECT)
+                WoWTools_DataMixin.onlyChinese and '取消复活' or WoWTools_Join(CANCEL, RESURRECT)
             )
             self:Hide()
 

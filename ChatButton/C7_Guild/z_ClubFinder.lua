@@ -104,7 +104,7 @@ local function set_check(frame)
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(
             '|A:communities-icon-addgroupplus:0:0|a'
-            ..(WoWTools_DataMixin.onlyChinese and '自动申请' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, SIGN_UP))
+            ..(WoWTools_DataMixin.onlyChinese and '自动申请' or WoWTools_Join(SELF_CAST_AUTO, SIGN_UP))
             ..WoWTools_DataMixin.Icon.left,
 
             WoWTools_TextMixin:GetEnabeleDisable(not Save().notAutoRequestToJoinClub)

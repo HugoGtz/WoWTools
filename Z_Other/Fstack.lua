@@ -299,7 +299,7 @@ local function Init_Create(frame)
     frame.HighlightButton:SetPoint('LEFT', frame.VisibilityButton, 'RIGHT')
     Set_CheckBox(frame.HighlightButton, 'loottoast-itemborder-glow')
 
-    frame.DynamicUpdateButton.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '动态更新' or frame.HighlightButton.Label:GetText() or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, DYNAMIC, UPDATE))
+    frame.DynamicUpdateButton.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '动态更新' or frame.HighlightButton.Label:GetText() or WoWTools_Join(DYNAMIC, UPDATE))
     frame.DynamicUpdateButton:ClearAllPoints()
     frame.DynamicUpdateButton:SetPoint('LEFT', frame.HighlightButton, 'RIGHT')
     Set_CheckBox(frame.DynamicUpdateButton)--, 'AlliedRace-UnlockingFrame-GenderMouseOverGlow')

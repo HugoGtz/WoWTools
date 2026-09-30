@@ -166,7 +166,7 @@ local function Init_Menu(_, root)
         end, {icon=icon, spellID=tab.spellID, itemID=tab.itemID})
 
         sub:SetTooltip(function(tooltip, description)
-            tooltip:AddLine((WoWTools_DataMixin.onlyChinese and '设置图标' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SETTINGS, EMBLEM_SYMBOL)))
+            tooltip:AddLine((WoWTools_DataMixin.onlyChinese and '设置图标' or WoWTools_Join(SETTINGS, EMBLEM_SYMBOL)))
             if description.data.itemID then
                 tooltip:AddLine(' ')
                 tooltip:AddLine(WoWTools_ItemMixin:GetName(description.data.itemID))--取得法术，名称
@@ -222,7 +222,7 @@ local function Init()
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(
             '|cnGREEN_FONT_COLOR:'
-            ..(WoWTools_DataMixin.onlyChinese and '设置图标' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SETTINGS, EMBLEM_SYMBOL))
+            ..(WoWTools_DataMixin.onlyChinese and '设置图标' or WoWTools_Join(SETTINGS, EMBLEM_SYMBOL))
             ..(icon and '|T'..icon..':0|t' or ''),
             WoWTools_DataMixin.Icon.left
         )

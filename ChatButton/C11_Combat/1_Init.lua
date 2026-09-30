@@ -20,7 +20,7 @@ local function Init_Menu(self, root)
     end
 
 --战斗信息
-    local sub=root:CreateCheckbox(WoWTools_DataMixin.onlyChinese and '战斗信息' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, COMBAT, INFO), function()
+    local sub=root:CreateCheckbox(WoWTools_DataMixin.onlyChinese and '战斗信息' or WoWTools_Join(COMBAT, INFO), function()
         return not Save().button.disabled
     end, function()
         self:set_Click()
@@ -57,7 +57,7 @@ local function Init_Menu(self, root)
     if sub then
         sub:SetTooltip(function(tooltip)
             tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '战斗中缩放'
-                    or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT, HOUSING_EXPERT_DECOR_SUBMODE_SCALE)
+                    or WoWTools_Join(HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT, HOUSING_EXPERT_DECOR_SUBMODE_SCALE)
             )
         end)
     end
@@ -90,7 +90,7 @@ local function Init_Menu(self, root)
     sub=root:CreateButton(
         '|T'..FRIENDS_TEXTURE_AFK..':0|t'
         ..(WoWTools_UnitMixin:UnitIsAFK('player') and '|cff626262' or '')
-        ..(WoWTools_DataMixin.onlyChinese and '暂离' or 'AFK'),
+        ..(WoWTools_DataMixin.onlyChinese and '暂离' or WoWTools_L['AFK']),
     function()
         WoWTools_ChatMixin:SendText(SLASH_CHAT_AFK1)
         return MenuResponse.Open
@@ -258,7 +258,7 @@ panel:SetScript('OnEvent', function(self, event, arg1)
     end
 
 
-    WoWTools_CombatMixin.addName= '|A:Warfronts-BaseMapIcons-Horde-Barracks-Minimap:0:0|a'..(WoWTools_DataMixin.onlyChinese and '战斗信息' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, COMBAT, INFO))
+    WoWTools_CombatMixin.addName= '|A:Warfronts-BaseMapIcons-Horde-Barracks-Minimap:0:0|a'..(WoWTools_DataMixin.onlyChinese and '战斗信息' or WoWTools_Join(COMBAT, INFO))
 
     local notData= not WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Time.totalTime
                 or not WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Time.upData

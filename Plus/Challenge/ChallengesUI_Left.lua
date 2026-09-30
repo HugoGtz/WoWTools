@@ -325,7 +325,7 @@ local function Init_Menu(self, root)
 
 --所有角色   
     sub2=sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '所有角色' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ALL, CHARACTER),
+        WoWTools_DataMixin.onlyChinese and '所有角色' or WoWTools_Join(ALL, CHARACTER),
     function()
         return Save().leftAllPlayer
     end, function()
@@ -339,8 +339,8 @@ local function Init_Menu(self, root)
         WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL,
     function()
         StaticPopup_Show('WoWTools_OK',
-        (WoWTools_DataMixin.onlyChinese and '所有角色' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ALL, CHARACTER))
-            ..'\n|T525134:0|t'..(WoWTools_DataMixin.onlyChinese and '挑战数据' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, PLAYER_DIFFICULTY5, SAVE))
+        (WoWTools_DataMixin.onlyChinese and '所有角色' or WoWTools_Join(ALL, CHARACTER))
+            ..'\n|T525134:0|t'..(WoWTools_DataMixin.onlyChinese and '挑战数据' or WoWTools_Join(PLAYER_DIFFICULTY5, SAVE))
             ..'\n\n'
             ..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL)
             ..'\n',
@@ -354,7 +354,7 @@ local function Init_Menu(self, root)
         end})
     end)
     sub3:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '挑战数据' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, PLAYER_DIFFICULTY5, SAVE))
+        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '挑战数据' or WoWTools_Join(PLAYER_DIFFICULTY5, SAVE))
     end)
 
 

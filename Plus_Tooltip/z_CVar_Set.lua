@@ -5,7 +5,7 @@ function WoWTools_TooltipMixin:Set_CVar(reset, tips, notPrint)
     local tab={
         {   name='missingTransmogSourceInItemTooltips',
             value='1',
-            msg=WoWTools_DataMixin.onlyChinese and '显示装备幻化来源' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SHOW, format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, TRANSMOGRIFY, SOURCES)),
+            msg=WoWTools_DataMixin.onlyChinese and '显示装备幻化来源' or WoWTools_Join(SHOW, WoWTools_Join(TRANSMOGRIFY, SOURCES)),
         },
         {   name='nameplateOccludedAlphaMult',
             value='0.15',
@@ -17,11 +17,11 @@ function WoWTools_TooltipMixin:Set_CVar(reset, tips, notPrint)
         },
         {   name='UberTooltips',
             value='1',
-            msg=WoWTools_DataMixin.onlyChinese and '显示法术信息' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SHOW, SPELL_MESSAGES)
+            msg=WoWTools_DataMixin.onlyChinese and '显示法术信息' or WoWTools_Join(SHOW, SPELL_MESSAGES)
         },
         {   name="alwaysCompareItems",
              value= "1",
-             msg= WoWTools_DataMixin.onlyChinese and '总是比较装备' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ALWAYS, COMPARE_ACHIEVEMENTS:gsub(ACHIEVEMENTS, ITEMS))
+             msg= WoWTools_DataMixin.onlyChinese and '总是比较装备' or WoWTools_Join(ALWAYS, COMPARE_ACHIEVEMENTS:gsub(ACHIEVEMENTS, ITEMS))
         },
         {   name="profanityFilter",
             value= '0',
@@ -43,7 +43,7 @@ function WoWTools_TooltipMixin:Set_CVar(reset, tips, notPrint)
         },
         {   name='worldPreloadNonCritical',--https://wago.io/ZtSxpza28
             value='0',--2
-            msg= WoWTools_DataMixin.onlyChinese and '世界非关键预加载' or 'World Preload Non Critical'
+            msg= WoWTools_DataMixin.onlyChinese and '世界非关键预加载' or WoWTools_L['World Preload Non Critical']
         }
     }
 

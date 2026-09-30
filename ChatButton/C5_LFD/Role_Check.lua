@@ -369,7 +369,7 @@ local function Init()
             or '',
 
             info.autoAccept and
-                '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '自动邀请' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, INVITE))..'|r'
+                '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '自动邀请' or WoWTools_Join(SELF_CAST_AUTO, INVITE))..'|r'
             or '',--对方是否开启, 自动邀请
 
             info.activityID and

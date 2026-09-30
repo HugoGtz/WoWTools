@@ -45,7 +45,7 @@ local function Init()--WoWTools_DataMixin:Hook(GameTooltipStatusBar, 'UpdateUnit
                 text= '假死'
             else
                 WoWTools_DataMixin:Load(5384, 'spell')
-                text= C_Spell.GetSpellName(5384) or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, NO, DEAD)
+                text= C_Spell.GetSpellName(5384) or WoWTools_Join(NO, DEAD)
             end
         else
             text= format('%i%%', UnitHealthPercent(unit, true, CurveConstants.ScaleTo100))

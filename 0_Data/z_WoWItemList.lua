@@ -1275,7 +1275,7 @@ local function OnEnter_BattleTexture(self)
     if battleTag~=WoWTools_DataMixin.Player.BattleTag then
         GameTooltip:AddLine(
             '|A:tokens-guildRealmTransfer-small:0:0|a|cnWARNING_FONT_COLOR:'
-            ..(WoWTools_DataMixin.onlyChinese and '不同战网' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, OTHER, COMMUNITY_COMMAND_BATTLENET))
+            ..(WoWTools_DataMixin.onlyChinese and '不同战网' or WoWTools_Join(OTHER, COMMUNITY_COMMAND_BATTLENET))
         )
     end
 
@@ -1298,7 +1298,7 @@ local function OnEnter_BattleTexture(self)
     if curRegion then
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(
-            format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, WoWTools_DataMixin.onlyChinese and '当前' or REFORGE_CURRENT, ' Region'),
+            WoWTools_Join(WoWTools_DataMixin.onlyChinese and '当前' or REFORGE_CURRENT, ' Region'),
             curRegion
         )
     end
@@ -1457,7 +1457,7 @@ end
 local function set_right_tooltip(tooltip, desc)
     tooltip:AddLine('|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '清除' or SLASH_STOPWATCH_PARAM_STOP2))
     tooltip:AddDoubleLine(
-    format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, WoWTools_DataMixin.onlyChinese and '当前' or REFORGE_CURRENT,  'Region'),
+    WoWTools_Join(WoWTools_DataMixin.onlyChinese and '当前' or REFORGE_CURRENT,  'Region'),
         WoWTools_DataMixin.Player.Region
     )
     tooltip:AddDoubleLine(
@@ -1521,7 +1521,7 @@ local function Init_Right_Menu(self, root)
 
 --清除不同战网
     local tagTtext= '|A:bags-button-autosort-up:0:0|a'
-            ..(WoWTools_DataMixin.onlyChinese and '其它战网' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, OTHER, COMMUNITY_COMMAND_BATTLENET))
+            ..(WoWTools_DataMixin.onlyChinese and '其它战网' or WoWTools_Join(OTHER, COMMUNITY_COMMAND_BATTLENET))
     sub= root:CreateButton(
         tagTtext,
     function()
@@ -1763,7 +1763,7 @@ local function Init_LeftButton_Menu(self, root)
     local clear_all= tab.clear_all
 
     if not wowData then
-        root:CreateTitle(WoWTools_DataMixin.Icon.wow2..(WoWTools_DataMixin.onlyChinese and '无数据' or 'No data'))
+        root:CreateTitle(WoWTools_DataMixin.Icon.wow2..(WoWTools_DataMixin.onlyChinese and '无数据' or WoWTools_L['No data']))
         return
     end
 
@@ -1798,13 +1798,13 @@ local function Init_LeftButton_Menu(self, root)
 
     sub=root:CreateButton(
         WoWTools_DataMixin.Icon.wow2
-        ..(WoWTools_DataMixin.onlyChinese and '所有角色' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ALL, CHARACTER)),
+        ..(WoWTools_DataMixin.onlyChinese and '所有角色' or WoWTools_Join(ALL, CHARACTER)),
     function()
             StaticPopup_Show('WoWTools_OK',
             '|A:'..atlas..':0:0|a'
             ..self.tip
             ..'|n|n|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '清除' or SLASH_STOPWATCH_PARAM_STOP2)
-            ..WoWTools_DataMixin.Icon.wow2..(WoWTools_DataMixin.onlyChinese and '所有角色' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ALL, CHARACTER)),
+            ..WoWTools_DataMixin.Icon.wow2..(WoWTools_DataMixin.onlyChinese and '所有角色' or WoWTools_Join(ALL, CHARACTER)),
             nil,
             {SetValue=function()
                 clear_all()
@@ -1848,7 +1848,7 @@ local function Init_List(showListType, isShow)
     Frame= WoWTools_FrameMixin:Create(nil, {
         name='WoWToolsWoWItemListFrame',
         header= WoWTools_DataMixin.Icon.wow2
-            ..(WoWTools_DataMixin.onlyChinese and '战网物品' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ACCOUNT_QUEST_LABEL, ITEMS)),
+            ..(WoWTools_DataMixin.onlyChinese and '战网物品' or WoWTools_Join(ACCOUNT_QUEST_LABEL, ITEMS)),
         size={800, 600}
     })
 
@@ -2192,7 +2192,7 @@ function WoWTools_DataMixin:CreateWoWItemListButton(frame, tab)
         GameTooltip:SetOwner(s, "ANCHOR_LEFT")
         GameTooltip_SetTitle(GameTooltip,
             WoWTools_DataMixin.Icon.wow2
-            ..(WoWTools_DataMixin.onlyChinese and '战团物品' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ACCOUNT_QUEST_LABEL, ITEMS))
+            ..(WoWTools_DataMixin.onlyChinese and '战团物品' or WoWTools_Join(ACCOUNT_QUEST_LABEL, ITEMS))
         )
         if s.tip then
             if type(s.tip)=='function' then
@@ -2223,7 +2223,7 @@ end
 function WoWTools_DataMixin:OpenWoWItemListMenu(_, root, showListType)--战团，物品列表
     local sub= root:CreateButton(
         WoWTools_DataMixin.Icon.wow2
-        ..(WoWTools_DataMixin.onlyChinese and '战网物品' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ACCOUNT_QUEST_LABEL, ITEMS)),
+        ..(WoWTools_DataMixin.onlyChinese and '战网物品' or WoWTools_Join(ACCOUNT_QUEST_LABEL, ITEMS)),
     function(data)
         Init_List(data.showListType)
         return MenuResponse.Open

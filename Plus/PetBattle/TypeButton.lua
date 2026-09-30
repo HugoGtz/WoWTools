@@ -232,7 +232,7 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWTools_PetBattleMixin.addName4)
         tooltip:AddLine(' ')
         tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '自动显示：'
-            or (format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, SHOW)..':')
+            or (WoWTools_Join(SELF_CAST_AUTO, SHOW)..':')
         )
         tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '宠物手册' or PET_JOURNAL)
         tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '宠物对战' or PET_BATTLE_PVP_QUEUE)

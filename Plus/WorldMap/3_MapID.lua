@@ -39,7 +39,7 @@ local function Set_Text()
             if instanceID then
                 m=INSTANCE..instanceID..'  '..m
                 if LfgDungeonID then
-                    m=(WoWTools_DataMixin.onlyChinese and '随机' or 'Random')..LfgDungeonID..'  '..m
+                    m=(WoWTools_DataMixin.onlyChinese and '随机' or WoWTools_L['Random'])..LfgDungeonID..'  '..m
                 end
             end
         end]]
@@ -111,7 +111,7 @@ local function Init()
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '查看' or VIEW, WoWTools_DataMixin.Icon.left)
         GameTooltip:AddDoubleLine(
-            WoWTools_DataMixin.onlyChinese and '发送链接' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SEND_LABEL, COMMUNITIES_INVITE_MANAGER_COLUMN_TITLE_LINK),
+            WoWTools_DataMixin.onlyChinese and '发送链接' or WoWTools_Join(SEND_LABEL, COMMUNITIES_INVITE_MANAGER_COLUMN_TITLE_LINK),
             WoWTools_DataMixin.Icon.right
         )
         GameTooltip:Show()

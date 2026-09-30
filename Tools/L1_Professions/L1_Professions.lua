@@ -167,7 +167,7 @@ local function Init_KeyButton_Menu(self, root)
 
     root:CreateDivider()
     sub=root:CreateCheckbox(
-        (WoWTools_DataMixin.onlyChinese and '设置快捷键' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SETTINGS, SETTINGS_KEYBINDINGS_LABEL))
+        (WoWTools_DataMixin.onlyChinese and '设置快捷键' or WoWTools_Join(SETTINGS, SETTINGS_KEYBINDINGS_LABEL))
         ..'|cnGREEN_FONT_COLOR:'..(Save()[self.type] or ''),
     function()
         return WoWTools_KeyMixin:IsKeyValid(self)

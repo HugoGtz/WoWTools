@@ -219,7 +219,7 @@ local function Init_Menu(self, root)
         sub=root:CreateButton(WoWTools_DataMixin.onlyChinese and '无' or  NONE)
         sub:SetTooltip(function(tooltip)
             tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '使用/禁用' or (USE..'/'..DISABLE))
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '拖曳物品到这里' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, DRAG_MODEL, ITEMS))
+            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '拖曳物品到这里' or WoWTools_Join(DRAG_MODEL, ITEMS))
         end)
     end
     root:CreateDivider()
@@ -323,7 +323,7 @@ local OptionsList={{
     })
 
     sub:CreateDivider()
-    sub2=sub:CreateTitle(WoWTools_DataMixin.onlyChinese and '拖曳物品' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, DRAG_MODEL, ITEMS))
+    sub2=sub:CreateTitle(WoWTools_DataMixin.onlyChinese and '拖曳物品' or WoWTools_Join(DRAG_MODEL, ITEMS))
     sub2:SetTooltip(function(tooltip)
         tooltip:AddDoubleLine(self.useText, self.noText)
     end)

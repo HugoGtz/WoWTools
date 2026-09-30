@@ -169,7 +169,7 @@ local function Init_Sub_Menu(_, root, stat, index, name)
     root:CreateDivider()
     for va=-1, 0 do
         sub=root:CreateCheckbox(
-            (WoWTools_DataMixin.onlyChinese and '自动隐藏' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, HIDE))
+            (WoWTools_DataMixin.onlyChinese and '自动隐藏' or WoWTools_Join(SELF_CAST_AUTO, HIDE))
             ..(p_stats.hideAt==va and '|A:auctionhouse-icon-favorite:0:0|a' or ''),
         function(data)
             local tab= Find_Stats(data.stat, data.index, false)

@@ -28,7 +28,7 @@ local function Create_BossButtonList(btn)
         GameTooltip:SetOwner(self, 'ANCHOR_LEFT')
         GameTooltip_SetTitle(GameTooltip,
             WoWTools_DataMixin.Icon.icon2
-            ..(WoWTools_DataMixin.onlyChinese and '索引' or 'index')
+            ..(WoWTools_DataMixin.onlyChinese and '索引' or WoWTools_L['Index'])
             ..' |cffffffff'..(self:GetText() or '')
         )
         GameTooltip:Show()
@@ -76,7 +76,7 @@ local function Create_BossButtonList(btn)
                 ..'|r|n'
                 ..(WoWTools_TextMixin:CN(name) or encounterID )
                 ..'|n|n'
-                ..(WoWTools_DataMixin.onlyChinese and '击败首领：记录' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, LFG_LIST_BOSSES_DEFEATED, EVENTTRACE_LOG_HEADER)),
+                ..(WoWTools_DataMixin.onlyChinese and '击败首领：记录' or WoWTools_Join(LFG_LIST_BOSSES_DEFEATED, EVENTTRACE_LOG_HEADER)),
                 nil,
                 {SetValue=function()
                     WoWToolsPlusPlayerDate['BossKilled'][encounterID]= nil
@@ -102,7 +102,7 @@ local function Create_BossButtonList(btn)
                 '|A:bags-button-autosort-up:0:0|a|cnWARNING_FONT_COLOR:'
                 ..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL)
                 ..'|r|n|n'
-                ..(WoWTools_DataMixin.onlyChinese and '击败首领：记录' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, LFG_LIST_BOSSES_DEFEATED, EVENTTRACE_LOG_HEADER)),
+                ..(WoWTools_DataMixin.onlyChinese and '击败首领：记录' or WoWTools_Join(LFG_LIST_BOSSES_DEFEATED, EVENTTRACE_LOG_HEADER)),
                 nil,
                 {SetValue=function()
                 WoWToolsPlusPlayerDate['BossKilled']={}
@@ -155,7 +155,7 @@ local function Create_BossButtonList(btn)
         GameTooltip:SetOwner(self, 'ANCHOR_LEFT')
         GameTooltip_SetTitle(GameTooltip,
             WoWTools_DataMixin.Icon.icon2
-            ..(WoWTools_DataMixin.onlyChinese and '怪物数量' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, AUCTION_HOUSE_QUANTITY_LABEL, CREATURE))
+            ..(WoWTools_DataMixin.onlyChinese and '怪物数量' or WoWTools_Join(AUCTION_HOUSE_QUANTITY_LABEL, CREATURE))
             ..' |cffffffff'..self:GetText()
         )
         local encounterID= self:GetParent().encounterID
@@ -283,7 +283,7 @@ local function Init()
     EncounterJournalEncounterFrameInfo.allNumLabel:SetScript('OnEnter', WoWToolsButton_OnEnter)
     EncounterJournalEncounterFrameInfo.allNumLabel:SetScript('OnLeave', WoWToolsButton_OnLeave)
     EncounterJournalEncounterFrameInfo.allNumLabel.tooltip= WoWTools_DataMixin.Icon.icon2..(
-        WoWTools_DataMixin.onlyChinese and '首领数量' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, AUCTION_HOUSE_QUANTITY_LABEL, BOSSES)
+        WoWTools_DataMixin.onlyChinese and '首领数量' or WoWTools_Join(AUCTION_HOUSE_QUANTITY_LABEL, BOSSES)
     )
     function EncounterJournalEncounterFrameInfo.allNumLabel:set_alpha()
         self:SetAlpha(self:IsMouseOver() and 0.5 or 1)
@@ -415,7 +415,7 @@ local function Init()
                     tips= tips
                         ..item
                         ..(WoWTools_DataMixin.onlyChinese and '未收集' or NOT_COLLECTED)..'|r'
-                        ..(not isSelf and ' |cffffffff'..(WoWTools_DataMixin.onlyChinese and '其他职业' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, OTHER, CLASS))..'|r' or '')
+                        ..(not isSelf and ' |cffffffff'..(WoWTools_DataMixin.onlyChinese and '其他职业' or WoWTools_Join(OTHER, CLASS))..'|r' or '')
                 end
             else
                 itemText= WoWTools_CollectionMixin:Mount(nil, itemID)--坐骑物品

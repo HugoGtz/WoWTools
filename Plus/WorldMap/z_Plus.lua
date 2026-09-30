@@ -98,11 +98,11 @@ local function Set_Campaign_OnEnter(self)
 
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(
-            (WoWTools_DataMixin and '章节' or 'ChapterIDs')
+            (WoWTools_DataMixin.onlyChinese and '章节' or WoWTools_L['Chapter'])
             ..' '
             ..format('%d/%d', chapterIndex, count),
 
-            (campaign.isWarCampaign and '阵营战役' or WAR_CAMPAIGN)
+            (campaign.isWarCampaign and (WoWTools_DataMixin.onlyChinese and '阵营战役' or WAR_CAMPAIGN))
             or (WoWTools_DataMixin.onlyChinese and '战役' or CONTAINER_CAMPAIGN_PROGRESS)
         )
 --章节

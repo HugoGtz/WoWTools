@@ -329,12 +329,12 @@ local function ResizeButton2_Menu(self, root)
         Create_ItemButton()
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '物品名称' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ITEMS, NAME))
+        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '物品名称' or WoWTools_Join(ITEMS, NAME))
     end)
 
 --物品信息
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '物品信息' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ITEMS, INFO),
+        WoWTools_DataMixin.onlyChinese and '物品信息' or WoWTools_Join(ITEMS, INFO),
     function()
         return not Save().notItemInfo
     end, function()
@@ -373,7 +373,7 @@ local function ResizeButton2_Menu(self, root)
         tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '透明度' or HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY)
         tooltip:AddLine(" ")
         GameTooltip_AddErrorLine(tooltip, WoWTools_DataMixin.onlyChinese and '无法使用' or MOUNT_JOURNAL_FILTER_UNUSABLE)
-        GameTooltip_AddErrorLine(tooltip, WoWTools_DataMixin.onlyChinese and '不可购买' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, PURCHASE, DISABLE))
+        GameTooltip_AddErrorLine(tooltip, WoWTools_DataMixin.onlyChinese and '不可购买' or WoWTools_Join(PURCHASE, DISABLE))
         GameTooltip_AddErrorLine(tooltip, WoWTools_DataMixin.onlyChinese and '已收集' or TRANSMOG_COLLECTED)
     end)
     WoWTools_MenuMixin:SetRightText(sub)

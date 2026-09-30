@@ -129,7 +129,7 @@ local function Init_CurrencyMenu(self, root)
 	table.sort(tab, function(a, b) return a> b end)
 
 	sub=root:CreateCheckbox(
-		(WoWTools_DataMixin.onlyChinese and '指定货币' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, COMBAT_ALLY_START_MISSION, TOKENS)),
+		(WoWTools_DataMixin.onlyChinese and '指定货币' or WoWTools_Join(COMBAT_ALLY_START_MISSION, TOKENS)),
 	function()
 		return Save().indicato
 	end, function()
@@ -251,7 +251,7 @@ local function Init_Menu(self, root)
 
 --自动隐藏
 	sub=root:CreateCheckbox(
-		WoWTools_DataMixin.onlyChinese and '自动隐藏' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, HIDE),
+		WoWTools_DataMixin.onlyChinese and '自动隐藏' or WoWTools_Join(SELF_CAST_AUTO, HIDE),
 	function()
 		return not Save().notAutoHideTrack
 	end, function()
@@ -550,7 +550,7 @@ local function Set_ItemButton(btn)
 
 		col= C_Item.IsEquippedItem(self.itemID) and '|cff626262' or col
 
-		GameTooltip:AddDoubleLine(col..(WoWTools_DataMixin.onlyChinese and '拿取' or 'Pickup'), col..('Alt+'..WoWTools_DataMixin.Icon.left))
+		GameTooltip:AddDoubleLine(col..(WoWTools_DataMixin.onlyChinese and '拿取' or WoWTools_L['Pick up']), col..('Alt+'..WoWTools_DataMixin.Icon.left))
 
         GameTooltip:Show()
 	end

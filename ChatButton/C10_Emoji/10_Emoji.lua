@@ -239,7 +239,7 @@ local function Init_EmojiFrame()
                 ..self.text
             )
             GameTooltip:AddLine(
-                (WoWTools_DataMixin.onlyChinese and '插入' or 'Insert')
+                (WoWTools_DataMixin.onlyChinese and '插入' or WoWTools_L['Insert'])
                 ..WoWTools_DataMixin.Icon.left
                 ..' '..WoWTools_DataMixin.Icon.right..(WoWTools_DataMixin.onlyChinese and '发送' or SEND_LABEL))
             GameTooltip:Show()
@@ -303,7 +303,7 @@ local function Init_Menu(self, root)
     --sub2=sub:CreateButton(WoWTools_DataMixin.onlyChinese and '显示/隐藏' or format('%s/%s', SHOW, HIDE), function() return MenuResponse.Open end)
 --显示
     root:CreateTitle(WoWTools_DataMixin.onlyChinese and '显示' or SHOW)
-    root:CreateCheckbox('|A:newplayertutorial-drag-cursor:0:0|a'..(WoWTools_DataMixin.onlyChinese and '移过图标' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ENTER_LFG,EMBLEM_SYMBOL)), function()
+    root:CreateCheckbox('|A:newplayertutorial-drag-cursor:0:0|a'..(WoWTools_DataMixin.onlyChinese and '移过图标' or WoWTools_Join(ENTER_LFG,EMBLEM_SYMBOL)), function()
         return Save().showEnter
     end, function()
         Save().showEnter = not Save().showEnter and true or nil
@@ -536,7 +536,7 @@ local function Init()
             GameTooltip:SetText(
                 format('|T%s:26|t%s', self:get_texture() or '' , self:get_emoji_text() or '')
                 ..WoWTools_DataMixin.Icon.left
-                ..(self.chatFrameEditBox and (WoWTools_DataMixin.onlyChinese and '插入' or 'Insert') or (WoWTools_DataMixin.onlyChinese and '发送' or SEND_LABEL))
+                ..(self.chatFrameEditBox and (WoWTools_DataMixin.onlyChinese and '插入' or WoWTools_L['Insert']) or (WoWTools_DataMixin.onlyChinese and '发送' or SEND_LABEL))
             )
         end
         if self.numFilter==0 then

@@ -25,13 +25,13 @@ local function Init_Menu(self, root)
 
     local sub
     root:CreateButton(
-        '|A:characterundelete-RestoreButton:0:0|a'..(WoWTools_DataMixin.onlyChinese and '重置数值' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, RESET, STATUS_TEXT_VALUE)),
+        '|A:characterundelete-RestoreButton:0:0|a'..(WoWTools_DataMixin.onlyChinese and '重置数值' or WoWTools_Join(RESET, STATUS_TEXT_VALUE)),
     function()
         WoWTools_AttributesMixin:Frame_Init(true)--初始， 或设置
         print(
             WoWTools_AttributesMixin.addName..WoWTools_DataMixin.Icon.icon2,
             '|cnGREEN_FONT_COLOR:',
-            WoWTools_DataMixin.onlyChinese and '重置数值' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, RESET, STATUS_TEXT_VALUE)
+            WoWTools_DataMixin.onlyChinese and '重置数值' or WoWTools_Join(RESET, STATUS_TEXT_VALUE)
         )
         return MenuResponse.Open
     end)
@@ -66,7 +66,7 @@ local function Init_Menu(self, root)
 --[[目标移动速度
     if _G['WoWToolsAttributesTargetMoveButton'] then
         sub= root:CreateButton(
-            '|A:common-icon-rotateright:0:0|a'..(WoWTools_DataMixin.onlyChinese and '目标移动' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, TARGET, NPE_MOVE)),
+            '|A:common-icon-rotateright:0:0|a'..(WoWTools_DataMixin.onlyChinese and '目标移动' or WoWTools_Join(TARGET, NPE_MOVE)),
         function()
             return MenuResponse.Open
         end)

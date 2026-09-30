@@ -40,7 +40,7 @@ local function Init_Panel()
 
 
     root= WoWTools_PanelMixin:OnlyCheck({
-        name= WoWTools_DataMixin.onlyChinese and '跟随鼠标' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, FOLLOW, MOUSE_LABEL),
+        name= WoWTools_DataMixin.onlyChinese and '跟随鼠标' or WoWTools_Join(FOLLOW, MOUSE_LABEL),
         tooltip= WoWTools_TooltipMixin.addName,
         GetValue= function() return Save().setDefaultAnchor end,
         category= WoWTools_TooltipMixin.Category,
@@ -215,7 +215,7 @@ local function Init_Panel()
     }, root)
 
     WoWTools_PanelMixin:OnlyCheck({
-        name= WoWTools_DataMixin.onlyChinese and 'NPC职业颜色' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, 'NPC', CLASS_COLORS),
+        name= WoWTools_DataMixin.onlyChinese and 'NPC职业颜色' or WoWTools_Join('NPC', CLASS_COLORS),
         tooltip= WoWTools_TooltipMixin.addName,
         GetValue= function() return not Save().disabledNPCcolor end,
         category= WoWTools_TooltipMixin.Category,
@@ -239,7 +239,7 @@ local function Init_Panel()
 
 
     WoWTools_PanelMixin:OnlyCheck({
-        name= format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, '|A:NPE_Icon:0:0|aCtrl+Shift', WoWTools_DataMixin.onlyChinese and '复制链接' or BROWSER_COPY_LINK),
+        name= WoWTools_Join('|A:NPE_Icon:0:0|aCtrl+Shift', WoWTools_DataMixin.onlyChinese and '复制链接' or BROWSER_COPY_LINK),
         tooltip= 'wowhead.com|nraider.io',
         GetValue= function() return Save().ctrl end,
         category= WoWTools_TooltipMixin.Category,
@@ -270,7 +270,7 @@ local function Init_Panel()
     })
 
     --[[WoWTools_PanelMixin:OnlyCheck({
-        name= (WoWTools_DataMixin.onlyChinese and '物品数值' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ITEMS, STATUS_TEXT_VALUE))..' mk',
+        name= (WoWTools_DataMixin.onlyChinese and '物品数值' or WoWTools_Join(ITEMS, STATUS_TEXT_VALUE))..' mk',
         tooltip= '1k008, 2w008, 3m008',
         GetValue= function() return Save().showItemMK end,
         category= WoWTools_TooltipMixin.Category,
@@ -301,7 +301,7 @@ local function Init_Panel()
     WoWTools_PanelMixin:Header(Layout, WARNING_FONT_COLOR:WrapTextInColorCode(WoWTools_DataMixin.onlyChinese and '替换原生' or REPLACE))
     WoWTools_PanelMixin:OnlyCheck({
         name= 'SetTooltipMoney',
-        tooltip= (WoWTools_DataMixin.onlyChinese and '修复' or 'Fix')..' MoneyFrame_Update '..(WoWTools_DataMixin.onlyChinese and '错误' or ERRORS)
+        tooltip= (WoWTools_DataMixin.onlyChinese and '修复' or WoWTools_L['Fix'])..' MoneyFrame_Update '..(WoWTools_DataMixin.onlyChinese and '错误' or ERRORS)
                 ..'|n'..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD),
         GetValue= function() return not Save().disabledFix.MoneyFrame_Update end,
         category= WoWTools_TooltipMixin.Category,
@@ -326,7 +326,7 @@ local function Init_Panel()
 
     WoWTools_PanelMixin:Header(Layout, 'CVar')
     root= WoWTools_PanelMixin:OnlyCheck({
-        name= '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '锁定设置' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, LOCK, SETTINGS)),
+        name= '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '锁定设置' or WoWTools_Join(LOCK, SETTINGS)),
         tooltip= function() return WoWTools_TooltipMixin:Set_CVar(nil, true, true) end,
         GetValue= function() return Save().setCVar end,
         category= WoWTools_TooltipMixin.Category,
@@ -341,7 +341,7 @@ local function Init_Panel()
         layout= Layout,
         SetValue= function()
             WoWTools_TooltipMixin:Set_CVar()
-            print(WoWTools_DataMixin.onlyChinese and '设置完成' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SETTINGS, COMPLETE))
+            print(WoWTools_DataMixin.onlyChinese and '设置完成' or WoWTools_Join(SETTINGS, COMPLETE))
         end
     }, root)
 
@@ -350,7 +350,7 @@ local function Init_Panel()
         layout= Layout,
         SetValue= function()
             WoWTools_TooltipMixin:Set_CVar(true, nil, nil)
-            print(WoWTools_DataMixin.onlyChinese and '默认完成' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, DEFAULT, COMPLETE))
+            print(WoWTools_DataMixin.onlyChinese and '默认完成' or WoWTools_Join(DEFAULT, COMPLETE))
         end
     }, root)
 

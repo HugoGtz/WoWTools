@@ -52,7 +52,7 @@ local function Init()
         tooltip=function(tooltip)
             tooltip:AddLine(
                 '|A:BonusLoot-Chest:0:0|a'
-                ..(WoWTools_DataMixin.onlyChinese and '保存物品' or  format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SAVE, ITEMS))
+                ..(WoWTools_DataMixin.onlyChinese and '保存物品' or  WoWTools_Join(SAVE, ITEMS))
                 ..WoWTools_DataMixin.Icon.right
                 ..WoWTools_TextMixin:GetEnabeleDisable(Save().saveWoWData)
             )
@@ -64,7 +64,7 @@ local function Init()
                 MenuUtil.CreateContextMenu(self, function(_, root)
                     local sub=root:CreateCheckbox(
                         '|A:BonusLoot-Chest:0:0|a'
-                        ..(WoWTools_DataMixin.onlyChinese and '保存物品' or  format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SAVE, ITEMS)),
+                        ..(WoWTools_DataMixin.onlyChinese and '保存物品' or  WoWTools_Join(SAVE, ITEMS)),
                     function()
                         return Save().saveWoWData
                     end, function()

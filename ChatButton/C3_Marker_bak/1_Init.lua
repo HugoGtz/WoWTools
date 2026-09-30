@@ -105,7 +105,7 @@ local function Init(btn)
         local autoSet, tank, tank2, healer, isSelf, target= Save().autoSet, Save().tank, Save().tank2, Save().healer, Save().isSelf, Save().target
         GameTooltip:AddDoubleLine(
             (autoSet and '|cnGREEN_FONT_COLOR:' or '|cff828282')
-            ..(WoWTools_DataMixin.onlyChinese and '自动标记' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, EVENTTRACE_MARKER)),
+            ..(WoWTools_DataMixin.onlyChinese and '自动标记' or WoWTools_Join(SELF_CAST_AUTO, EVENTTRACE_MARKER)),
             WoWTools_TextMixin:GetEnabeleDisable(autoSet)
         )
         GameTooltip:AddLine(' ')
