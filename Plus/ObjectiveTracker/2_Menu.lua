@@ -160,7 +160,7 @@ local function Init_Menu(self, root)
     sub:CreateSpacer()
 
 
-    sub= WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_ObjectiveMixin.addName, tooltip=function(tooltip)
+    sub= WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_ObjectiveMixin.addName, name2=WoWTools_L['Settings...'], tooltip=function(tooltip)
         tooltip:AddLine(' ')
         tooltip:AddLine('|cnWARNING_FONT_COLOR:BUG')
         tooltip:AddLine(WoWTools_L['Note: errors may occur'])
@@ -295,3 +295,70 @@ function WoWTools_ObjectiveMixin:Init_Menu()
 end
 
 
+--Esquema del Centro de control (docs/SETTINGS.md): los mismos ajustes que el menú del rastreador
+local function MenuButton()
+    return _G['WoWToolsObjectiveTrackerFrameMenuButton']
+end
+
+local function Set_Event()
+    local btn= MenuButton()
+    if btn then
+        btn:set_event()
+    end
+end
+
+local function Set_Scale()
+    local btn= MenuButton()
+    if btn then
+        btn:set_scale()
+    end
+end
+
+local Options= {
+    {type='section', text='Automations'},
+    {type='check', key='autoHide', text='Auto collapse in instances', tooltip='Tip.Objective.AutoCollapse', automation=true,
+        get= function(save) return save.autoHide end,
+        set= function(save, value) save.autoHide= value and true or nil end,
+        apply= Set_Event,
+    },
+    {type='check', key='autoHideInCombat', text='HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT',
+        tooltip='Tip.Objective.AutoCombat', automation=true, indent=true,
+        disabled= function(save) return not save.autoHide end,
+        get= function(save) return save.autoHideInCombat end,
+        set= function(save, value) save.autoHideInCombat= value and true or nil end,
+        apply= Set_Event,
+    },
+
+    {type='section', text='Appearance'},
+    {type='slider', key='scale', text='HOUSING_EXPERT_DECOR_SUBMODE_SCALE', tooltip='Tip.Menu.Scale', min=0.4, max=4, step=0.1, format='%.1f',
+        noCombat=true,
+        get= function(save) return save.scale or 1 end,
+        set= function(save, value) save.scale= tonumber(format('%.1f', value)) or 1 end,
+        apply= Set_Scale,
+    },
+    {type='slider', key='alpha', text='HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY', min=0, max=1, step=0.01, format='%.2f',
+        noCombat=true,
+        get= function(save) return save.alpha or 1 end,
+        set= function(save, value) save.alpha= tonumber(format('%.2f', value)) or 1 end,
+        apply= Set_Scale,
+    },
+
+    {type='section', text='Advanced'},
+    {type='button', key='clearAll', text='OBJECTIVES_STOP_TRACKING', buttonText='CLEAR_ALL', tooltip='Tip.Objective.ClearAll', confirm=true,
+        disabled= function(_, M) return not M:IsEnabled() end,
+        func= function()
+            WoWTools_ObjectiveMixin:Clear_Achievement()
+            WoWTools_ObjectiveMixin:Clear_CampaignQuest()
+            WoWTools_ObjectiveMixin:Clear_MonthlyActivities()
+            WoWTools_ObjectiveMixin:Clear_ProfessionsRecipe()
+            WoWTools_ObjectiveMixin:Clear_Quest()
+            WoWTools_ObjectiveMixin:Clear_WorldQuest()
+            WoWTools_ObjectiveMixin:Clear_ContentTracking()
+            WoWTools_ObjectiveMixin:Clear_NeighborhoodInitiative()
+        end,
+    },
+}
+
+function WoWTools_ObjectiveMixin:Get_Options()
+    return Options
+end

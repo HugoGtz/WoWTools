@@ -199,6 +199,10 @@ WoWTools_Module:Register({
     defaults= P_Save,
     mixin= WoWTools_ObjectiveMixin,
     panel= false,
+    tooltip= 'Tip.Objective.Module',
+    options= function()
+        return WoWTools_ObjectiveMixin:Get_Options()
+    end,
     onLoad= function()
         WoWTools_ObjectiveMixin.addName= '|A:Objective-Nub:0:0|a|cnWARNING_FONT_COLOR:'..(WoWTools_L['Module.Objective tracker'])..'|r'
 
