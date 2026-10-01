@@ -6,11 +6,11 @@
 
 local frame
 
-local function Init()
+local Init= WoWTools_Once(function()
     frame= CreateFrame('Frame')
 
     frame.Text= WoWTools_LabelMixin:Create(LFDMicroButton,  {
-        size=WoWToolsPlusSave['Plus_MainMenu'].size,
+        size=WoWTools_MainMenuMixin:Save().size,
         color=true,
     })
     frame.Text:SetPoint('TOP', LFDMicroButton, 0,  -3)
@@ -91,8 +91,7 @@ local function Init()
     end)
 
 
-    Init=function()end
-end
+end)
 
 
 

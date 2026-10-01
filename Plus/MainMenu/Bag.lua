@@ -11,11 +11,11 @@
 
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     local frame= CreateFrame('Frame')
 
     frame.Text= WoWTools_LabelMixin:Create(MainMenuBarBackpackButton,  {
-        size=WoWToolsPlusSave['Plus_MainMenu'].size,
+        size=WoWTools_MainMenuMixin:Save().size,
         name='WoWToolsBackpackMoneyLabel',
         color=true
     })
@@ -25,7 +25,7 @@ local function Init()
 
     function frame:settings()
         local money=0
-        if WoWToolsPlusSave['Plus_MainMenu'].moneyWoW then
+        if WoWTools_MainMenuMixin:Save().moneyWoW then
             for _, info in pairs(WoWToolsPlus_WoWDate or {}) do
                 if info.Money then
                     money= money+ info.Money
@@ -199,8 +199,7 @@ local function Init()
 
 
 
-    Init=function()end
-end
+end)
 
 
 

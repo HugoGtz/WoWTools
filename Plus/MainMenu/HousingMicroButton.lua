@@ -1,4 +1,4 @@
-local function Init()
+local Init= WoWTools_Once(function()
     --if not C_NeighborhoodInitiative.GetActiveNeighborhood()  then
 
 
@@ -6,12 +6,12 @@ local function Init()
     frame.label= frame:CreateFontString('WoWToolsHousingMicroButtonInitiativesLastPointLabel', 'ARTWORK', 'WoWToolsFonts')
     frame.label:SetPoint('TOP', HousingMicroButton, 0, -3)
     frame.label:SetJustifyH('CENTER')
-    frame.label:SetFontHeight(WoWToolsPlusSave['Plus_MainMenu'].size or 12)
+    frame.label:SetFontHeight(WoWTools_MainMenuMixin:Save().size or 12)
 
     frame.label2= frame:CreateFontString('WoWToolsHousingMicroButtonInitiativesLastPointLabel', 'ARTWORK', 'WoWToolsFonts')
     frame.label2:SetPoint('BOTTOM', HousingMicroButton, 0, 3)
     frame.label2:SetJustifyH('CENTER')
-    frame.label2:SetFontHeight(WoWToolsPlusSave['Plus_MainMenu'].size or 12)
+    frame.label2:SetFontHeight(WoWTools_MainMenuMixin:Save().size or 12)
 
     WoWTools_ColorMixin:SetLabelColor(frame.label)
     WoWTools_ColorMixin:SetLabelColor(frame.label2)
@@ -126,8 +126,7 @@ local function Init()
         frame:set_currency()
     end)
 
-    Init=function() end
-end
+end)
 function WoWTools_MainMenuMixin:HousingMicroButton()
     Init()
 end

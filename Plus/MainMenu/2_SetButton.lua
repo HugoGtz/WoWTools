@@ -1,18 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['Plus_MainMenu']
-end
-
-
-
-
-
-
-
-
-
-
-
 local MicroButtonNames = {
     'CharacterMicroButton',
     'ProfessionMicroButton',
@@ -41,13 +27,13 @@ local BagButtonNames={
 local function Set_MicroButton_OnLeave_Alpha(self)
     local texture= self.Portrait or self:GetNormalTexture()
     if texture then
-        texture:SetAlpha(Save().mainMenuAlphaValue)
+        texture:SetAlpha(WoWTools_MainMenuMixin:Save().mainMenuAlphaValue)
     end
     if self.Background then
         self.Background:SetAlpha(0)
     end
     if self.texture2 then
-        self.texture2:SetAlpha(Save().mainMenuAlphaValue)
+        self.texture2:SetAlpha(WoWTools_MainMenuMixin:Save().mainMenuAlphaValue)
     end
 end
 
@@ -83,7 +69,7 @@ local function Set_Bag_OnLeave_Alpha(self)
 
     local texture= _G[name..'IconTexture']
     if texture then
-        texture:SetAlpha(Save().mainMenuAlphaValue)
+        texture:SetAlpha(WoWTools_MainMenuMixin:Save().mainMenuAlphaValue)
     end
     texture=_G[name..'NormalTexture']
     if texture then
@@ -112,7 +98,7 @@ end
 
 local IsHookAlpha
 local function Set_Alpha()
-    if Save().disabled or not Save().enabledMainMenuAlpha then
+    if WoWTools_MainMenuMixin:Save().disabled or not WoWTools_MainMenuMixin:Save().enabledMainMenuAlpha then
         return
     end
 
@@ -141,7 +127,7 @@ local function Set_Alpha()
         end
     end
 
-    local alpha= Save().mainMenuAlphaValue or 0.7
+    local alpha= WoWTools_MainMenuMixin:Save().mainMenuAlphaValue or 0.7
 
     WoWTools_TextureMixin:SetAlphaColor(BagBarExpandToggle.NormalTexture, nil, nil, alpha)
 
@@ -151,7 +137,7 @@ end
 
 local function Sett_Label()
     for _, lable in pairs(WoWTools_MainMenuMixin.Labels) do
-        WoWTools_LabelMixin:Create(nil, {size=Save().size, changeFont=lable, color=true})
+        WoWTools_LabelMixin:Create(nil, {size=WoWTools_MainMenuMixin:Save().size, changeFont=lable, color=true})
     end
 end
 

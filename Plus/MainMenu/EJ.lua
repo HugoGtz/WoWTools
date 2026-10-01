@@ -23,10 +23,10 @@ local function Get_Perks_Info()
 end
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     local frame= CreateFrame('Frame')
 
-    frame.Text= WoWTools_LabelMixin:Create(EJMicroButton,  {size=WoWToolsPlusSave['Plus_MainMenu'].size, color=true})
+    frame.Text= WoWTools_LabelMixin:Create(EJMicroButton,  {size=WoWTools_MainMenuMixin:Save().size, color=true})
     --frame.Text:SetPoint('TOP', EJMicroButton, 0,  -3)
     frame.Text:SetPoint('BOTTOM', EJMicroButton, 0,  3)
 
@@ -120,8 +120,7 @@ local function Init()
         end
     end)
 
-    Init=function()end
-end
+end)
 
 
 function WoWTools_MainMenuMixin:Init_EJ()

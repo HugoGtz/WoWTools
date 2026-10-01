@@ -11,7 +11,7 @@
 
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     CollectionsMicroButton:HookScript('OnEnter', function()
         if KeybindFrames_InQuickKeybindMode() or Kiosk.IsEnabled() then
             return
@@ -64,8 +64,7 @@ local function Init()
         end
     end)
 
-    Init=function()end
-end
+end)
 
 
 

@@ -1,6 +1,6 @@
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     local frame= CreateFrame('Frame')
     --table.insert(Frames, frame)
     PlayerSpellsMicroButton.frame= frame
@@ -16,9 +16,9 @@ local function Init()
     PlayerSpellsMicroButton.Texture2:SetScale(0.5)
 
 
-    if WoWToolsPlusSave['Plus_MainMenu'].enabledMainMenuAlpha then
-        PlayerSpellsMicroButton.Portrait:SetAlpha(WoWToolsPlusSave['Plus_MainMenu'].mainMenuAlphaValue)
-        PlayerSpellsMicroButton.Texture2:SetAlpha(WoWToolsPlusSave['Plus_MainMenu'].mainMenuAlphaValue)
+    if WoWTools_MainMenuMixin:Save().enabledMainMenuAlpha then
+        PlayerSpellsMicroButton.Portrait:SetAlpha(WoWTools_MainMenuMixin:Save().mainMenuAlphaValue)
+        PlayerSpellsMicroButton.Texture2:SetAlpha(WoWTools_MainMenuMixin:Save().mainMenuAlphaValue)
     end
 
 
@@ -127,8 +127,7 @@ local function Init()
         end
     end)
 
-    Init=function()end
-end
+end)
 
 
 function WoWTools_MainMenuMixin:Init_Talent()

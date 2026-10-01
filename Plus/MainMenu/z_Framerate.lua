@@ -1,8 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['Plus_MainMenu']
-end
-
 local FramerateButton
 
 
@@ -16,7 +12,7 @@ local FramerateButton
 
 
 local function Init()
-    if not Save().frameratePlus then
+    if not WoWTools_MainMenuMixin:Save().frameratePlus then
         return
     end
 
@@ -41,8 +37,8 @@ local function Init()
         ResetCursor()
         self:StopMovingOrSizing()
         if WoWTools_FrameMixin:IsInSchermo(self) then
-            Save().frameratePoint={self:GetPoint(1)}
-            Save().frameratePoint[2]=nil
+            WoWTools_MainMenuMixin:Save().frameratePoint={self:GetPoint(1)}
+            WoWTools_MainMenuMixin:Save().frameratePoint[2]=nil
         end
     end)
     FramerateButton:SetScript("OnMouseUp", ResetCursor)
@@ -58,7 +54,7 @@ local function Init()
         GameTooltip:ClearLines()
         GameTooltip:AddLine(MicroButtonTooltipText(FRAMERATE_LABEL, "TOGGLEFPS"))
         GameTooltip:AddDoubleLine(WoWTools_L.NPE_MOVE, WoWTools_DataMixin.Icon.right)
-        GameTooltip:AddDoubleLine(WoWTools_L.FONT_SIZE, (Save().framerateSize or 12)..WoWTools_DataMixin.Icon.mid)
+        GameTooltip:AddDoubleLine(WoWTools_L.FONT_SIZE, (WoWTools_MainMenuMixin:Save().framerateSize or 12)..WoWTools_DataMixin.Icon.mid)
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_MainMenuMixin.addName)
         GameTooltip:Show()
     end
@@ -69,7 +65,7 @@ local function Init()
         if IsModifierKeyDown() then
             return
         end
-        local size=Save().framerateSize or 12
+        local size=WoWTools_MainMenuMixin:Save().framerateSize or 12
         if d==1 then
             size=size+1
             size = size>72 and 72 or size
@@ -77,13 +73,13 @@ local function Init()
             size=size-1
             size= size<6 and 6 or size
         end
-        Save().framerateSize=size
+        WoWTools_MainMenuMixin:Save().framerateSize=size
         self:set_size()
         self:set_tooltips()
     end)
 
     function FramerateButton:set_size()
-        WoWTools_LabelMixin:Create(nil, {size=Save().framerateSize or 12, changeFont=FramerateFrame.FramerateText, color=true})--Save().size, nil , Labels.fpsms, true)    
+        WoWTools_LabelMixin:Create(nil, {size=WoWTools_MainMenuMixin:Save().framerateSize or 12, changeFont=FramerateFrame.FramerateText, color=true})--WoWTools_MainMenuMixin:Save().size, nil , Labels.fpsms, true)    
     end
     FramerateButton:set_size()
 
@@ -92,14 +88,14 @@ local function Init()
     FramerateFrame:SetMovable(true)
     FramerateFrame:SetClampedToScreen(true)
     FramerateFrame:HookScript('OnShow', function(self)
-        if Save().frameratePoint and FramerateFrame then
+        if WoWTools_MainMenuMixin:Save().frameratePoint and FramerateFrame then
             self:ClearAllPoints()
-            self:SetPoint(Save().frameratePoint[1], UIParent, Save().frameratePoint[3], Save().frameratePoint[4], Save().frameratePoint[5])
+            self:SetPoint(WoWTools_MainMenuMixin:Save().frameratePoint[1], UIParent, WoWTools_MainMenuMixin:Save().frameratePoint[3], WoWTools_MainMenuMixin:Save().frameratePoint[4], WoWTools_MainMenuMixin:Save().frameratePoint[5])
         end
     end)
     FramerateFrame:SetFrameStrata('HIGH')
 
-    if Save().framerateLogIn and not FramerateFrame:IsShown() then
+    if WoWTools_MainMenuMixin:Save().framerateLogIn and not FramerateFrame:IsShown() then
         FramerateFrame:Toggle()
     end
 
