@@ -347,8 +347,8 @@ local function Init_Menu(self, root)
         WoWTools_MenuMixin:SetRightText(sub)
 
         WoWTools_MenuMixin:OpenOptions(sub, {
-            category=WoWTools_MoveMixin.Category,
-            name=WoWTools_L.SETTINGS
+            name=WoWTools_MoveMixin.addName,
+            name2=WoWTools_L['Settings...'],
         })
     end
 
@@ -393,9 +393,8 @@ local function Init_Menu(self, root)
     sub=root:CreateDivider()
 
     sub=WoWTools_MenuMixin:OpenOptions(root, {
-        category=WoWTools_MoveMixin.Category,
-        name= self.name,
-        name2= WoWTools_MoveMixin.addName,
+        name= WoWTools_MoveMixin.addName,
+        name2= WoWTools_L['Settings...'],
     })
 
 

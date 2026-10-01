@@ -21,84 +21,74 @@ local P_Save={
     --disablesWorldMapFrameSize= true
 }
 
-local Layout
-local Init_Panel= WoWTools_Once(function()
+--Nombres de las ventanas (se guardan al cargar: Events/Frames se vacían al aplicarlas)
+local EventNames, FrameNames= {}, {}
 
-    local tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD)
-
-    WoWTools_PanelMixin:Header(Layout, WoWTools_L.RESET_ALL_BUTTON_TEXT)
-
-
-    WoWTools_PanelMixin:Check_Button({
-        checkName= WoWTools_L['Save position'],
-        GetValue= function() return WoWTools_MoveMixin:Save().SavePoint end,
-        SetValue= function()
-            WoWTools_MoveMixin:Save().SavePoint= not WoWTools_MoveMixin:Save().SavePoint and true or nil
+local function Frame_Option(name)
+    return {type='check', key='no:'..name, text=(name:gsub('Blizzard_', '')), tooltip='Tip.Move.FrameModule', reload=true,
+        get= function(save) return not (save.no and save.no[name]) end,
+        set= function(save, value)
+            save.no= save.no or {}
+            save.no[name]= not value and true or nil
         end,
-        buttonText= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2),
-        buttonFunc= function()
-            StaticPopup_Show('WoWTools_RestData',
-                WoWTools_MoveMixin.addName,
-                nil,
-            function()
-                WoWTools_MoveMixin:Save().point={}
+    }
+end
+
+--Esquema del Centro de control (docs/SETTINGS.md). Antes: subpágina de Blizzard.
+local function Get_Options()
+    local list= {
+        {type='section', text='GENERAL'},
+        {type='check', key='savePoint', text='Save position', tooltip='Tip.Move.SavePoint', reload=true,
+            get= function(save) return save.SavePoint end,
+            set= function(save, value) save.SavePoint= value and true or nil end,
+        },
+        {type='button', key='clearPoint', text='Clear saved positions', buttonText='SLASH_STOPWATCH_PARAM_STOP2',
+            tooltip='Tip.Move.ClearAllPoints', indent=true,
+            func= function()
+                StaticPopup_Show('WoWTools_RestData', WoWTools_MoveMixin.addName, nil, function()
+                    WoWTools_MoveMixin:Save().point={}
+                end)
+            end,
+        },
+        {type='check', key='moveAlpha', text='Fade frame when moving', tooltip='Frame fades when you start moving', reload=true,
+            get= function(save) return not save.notMoveAlpha end,
+            set= function(save, value) save.notMoveAlpha= not value and true or nil end,
+        },
+        {type='slider', key='alpha', text='HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY', tooltip='Tip.Move.AlphaValue',
+            min=0, max=0.9, step=0.1, format='%.1f', indent=true,
+            disabled= function(save) return save.notMoveAlpha end,
+            get= function(save) return save.alpha or 0.5 end,
+            set= function(save, value) save.alpha= WoWTools_DataMixin:GetFormatter1to10(value, 0, 1) end,
+        },
+        {type='note', text='Tip.Move.PerFrame'},
+
+        {type='section', text='Advanced: windows loaded on demand'},
+    }
+    for _, name in ipairs(EventNames) do
+        table.insert(list, Frame_Option(name))
+    end
+    table.insert(list, {type='section', text='Advanced: always-loaded windows'})
+    for _, name in ipairs(FrameNames) do
+        table.insert(list, Frame_Option(name))
+    end
+    table.insert(list, {type='section', text='Advanced'})
+    table.insert(list, {type='button', key='reset', text='Reset module settings', buttonText='RESET',
+        func= function()
+            StaticPopup_Show('WoWTools_RestData', WoWTools_MoveMixin.addName, nil, function()
+                WoWToolsPlusSave['Plus_Move']= nil
             end)
         end,
-        tooltip= WoWTools_L['Tip.Move.SavePoint']..'|n|n'..'|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD),
-        layout= Layout,
-        category= WoWTools_MoveMixin.Category,
     })
+    return list
+end
 
-    WoWTools_PanelMixin:Check_Slider({
-        checkName= WoWTools_L['Fade frame when moving'],
-        checkGetValue= function() return not WoWTools_MoveMixin:Save().notMoveAlpha end,
-        checkTooltip= WoWTools_L['Frame fades when you start moving']..'|n|n'..'|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD),
-        siderTooltip= WoWTools_L['Tip.Move.AlphaValue'],
-        checkSetValue= function()
-            WoWTools_MoveMixin:Save().notMoveAlpha= not WoWTools_MoveMixin:Save().notMoveAlpha and true or nil
-            WoWTools_Print(WoWTools_DataMixin.Icon.icon2..WoWTools_MoveMixin.addName, WoWTools_L.REQUIRES_RELOAD)
-        end,
-        sliderGetValue= function() return WoWTools_MoveMixin:Save().alpha or 0.5 end,
-        minValue= 0,
-        maxValue= 0.9,
-        step= 0.1,
-        sliderSetValue= function(_, _, value2)
-            if value2 then
-                WoWTools_MoveMixin:Save().alpha= WoWTools_DataMixin:GetFormatter1to10(value2, 0, 1)
-            end
-        end,
-        layout= Layout,
-        category= WoWTools_MoveMixin.Category,
-    })
+local Options
+function WoWTools_MoveMixin:Get_Options()
+    Options= Options or Get_Options()
+    return Options
+end
 
 
-    local index=0
-    local function Add_Options(name)
-        WoWTools_PanelMixin:OnlyCheck({
-            name= name:gsub('Blizzard_', ''),
-            tooltip= WoWTools_L['Tip.Move.FrameModule']..'|n|n'..tooltip,
-            category= WoWTools_MoveMixin.Category,
-            Value= not WoWTools_MoveMixin:Save().no[name],
-            GetValue= function() return not WoWTools_MoveMixin:Save().no[name] end,
-            SetValue= function()
-                WoWTools_MoveMixin:Save().no[name]= not WoWTools_MoveMixin:Save().no[name] and true or nil
-            end
-        })
-    end
-
-    WoWTools_PanelMixin:Header(Layout, WoWTools_L['Advanced: windows loaded on demand'])
-    for name in pairs(WoWTools_MoveMixin.Events) do
-        index= index+1
-        Add_Options(name)
-    end
-
-    index=0
-    WoWTools_PanelMixin:Header(Layout, WoWTools_L['Advanced: always-loaded windows'])
-    for name in pairs(WoWTools_MoveMixin.Frames) do
-        index=index+1
-        Add_Options(name)
-    end
-end)
 
 
 
@@ -179,7 +169,7 @@ end
 
 
 
---Página de opciones propia (subcategoría): se crea siempre, también con el módulo desactivado
+--Se ejecuta siempre (onLoad), también con el módulo desactivado
 local function Init_Category()
     WoWTools_MoveMixin:Save().UIPanelWindows= WoWTools_MoveMixin:Save().UIPanelWindows or P_Save.UIPanelWindows
     --Antes: WoWTools_MoveMixin:Save().Esc= WoWTools_MoveMixin:Save() (faltaba .Esc), la tabla se guardaba dentro de sí misma
@@ -191,31 +181,14 @@ local function Init_Category()
 
     P_Save= nil
 
-    WoWTools_MoveMixin.Category, Layout= WoWTools_PanelMixin:AddSubCategory({
-        name=WoWTools_MoveMixin.addName,
-        disabled= WoWTools_MoveMixin:Save().disabled,
-    })
-
-    WoWTools_PanelMixin:Check_Button({
-        checkName= WoWTools_L.ENABLE,
-        GetValue= function() return not WoWTools_MoveMixin:Save().disabled end,
-        SetValue= function()
-            WoWTools_MoveMixin:Save().disabled= not WoWTools_MoveMixin:Save().disabled and true or nil
-            Init_Panel()
-        end,
-        buttonText= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.RESET),
-        buttonFunc= function()
-            StaticPopup_Show('WoWTools_RestData',
-                WoWTools_MoveMixin.addName,
-                nil,
-            function()
-                WoWToolsPlusSave['Plus_Move']= nil
-            end)
-        end,
-        tooltip= WoWTools_L['Tip.Move.Enable']..'|n|n'..'|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD),
-        layout= Layout,
-        category= WoWTools_MoveMixin.Category,
-    })
+    for name in pairs(WoWTools_MoveMixin.Events) do
+        table.insert(EventNames, name)
+    end
+    for name in pairs(WoWTools_MoveMixin.Frames) do
+        table.insert(FrameNames, name)
+    end
+    table.sort(EventNames)
+    table.sort(FrameNames)
 
     if WoWTools_MoveMixin:Save().disabled then
         WoWTools_MoveMixin.Events={}
@@ -234,10 +207,11 @@ WoWTools_Module:Register({
     defaults= P_Save,
     tooltip= 'Tip.Move.Enable',
     mixin= WoWTools_MoveMixin,
-    panel= false,--tiene su propia subcategoría (Init_Category)
+    options= function()
+        return WoWTools_MoveMixin:Get_Options()
+    end,
     onLoad= Init_Category,
     onEnable= function()
-        Init_Panel()
         Init()
         Init_Events()
     end,
