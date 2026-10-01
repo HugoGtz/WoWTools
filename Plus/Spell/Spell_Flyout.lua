@@ -157,7 +157,7 @@ end
 
 
 function WoWTools_SpellMixin:Init_Spell_Flyout()
-    if WoWToolsPlusSave['Plus_Spell'].flyoutText then
+    if WoWTools_SpellMixin:Save().flyoutText then
         Init()
     end
 end

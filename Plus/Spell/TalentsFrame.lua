@@ -1,8 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_Spell']
-end
-
-
 local function Init()
     WoWTools_DataMixin:Hook(ClassTalentButtonSpendMixin, 'UpdateSpendText', function(btn)
         local info= btn.nodeInfo-- C_Traits.GetNodeInfo btn:GetSpellID()
@@ -49,7 +44,7 @@ end
 
 
 function WoWTools_SpellMixin:Init_TalentsFrame()
-    if Save().talentsFramePlus and C_AddOns.IsAddOnLoaded('Blizzard_PlayerSpells') then
+    if WoWTools_SpellMixin:Save().talentsFramePlus and C_AddOns.IsAddOnLoaded('Blizzard_PlayerSpells') then
         Init()
     end
 end

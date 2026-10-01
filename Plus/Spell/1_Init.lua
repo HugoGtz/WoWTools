@@ -1,23 +1,32 @@
 
-local function Save()
-    return WoWToolsPlusSave['Plus_Spell']
-end
+local P_Save= {
+    specButton={
+    scale= 1,
+    --isToTOP=true
+    --point={}
+    --strata='MEDIUM'
+    hideInCombat=true,
+    enabled=true,
+    },
+
+    bg={
+        texture={},
+        show=true,
+        --icon='',
+    },
+    setUITexture=true,
+
+    flyoutText=true,
+    actionButtonRangeColor=true,
+
+    spellBookPlus=true,
+    talentsFramePlus=true,
+}
 
 
 
 
-
-local function Init()
-    if not C_AddOns.IsAddOnLoaded('Blizzard_PlayerSpells') then
-        EventRegistry:RegisterFrameEventAndCallback("ADDON_LOADED", function(owner, arg1)
-            if arg1=='Blizzard_PlayerSpells' then
-                Init()
-                EventRegistry:UnregisterCallback('ADDON_LOADED', owner)
-            end
-        end)
-        return
-    end
-
+local function Init_PlayerSpells()
     WoWTools_SpellMixin:Init_TalentsFrame()
     WoWTools_SpellMixin:Init_SpellBookFrame()
     WoWTools_SpellMixin:Init_Spec_Button()
@@ -28,9 +37,6 @@ local function Init()
     reload.tooltip=WoWTools_DataMixin.Icon.icon2..(WoWTools_L['RELOADUI~2'])
     reload:SetScript('OnClick', function() WoWTools_DataMixin:Reload() end)
     WoWTools_TextureMixin:SetButton(reload, 0.5)
-
-
-    Init=function()end
 end
 
 
@@ -41,64 +47,31 @@ end
 
 
 
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
+--Tiene su propia página de opciones (2_Options.lua, se crea al entrar al juego): panel=false
+WoWTools_Module:Register({
+    key= 'Plus_Spell',
+    name= 'SPELLS',
+    icon= 'UI-HUD-MicroMenu-SpellbookAbilities-Mouseover',
+    group= 'Character',
+    defaults= P_Save,
+    tooltip= 'Tip.Spell.Enable',
+    mixin= WoWTools_SpellMixin,
+    panel= false,
+    onEnable= function(_, save)
+        --Claves antiguas que ya no se usan
+        WoWToolsPlusSave['Other_SpellFrame']=nil
+        WoWToolsPlusSave['Other_SpellFlyout']=nil
 
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event=='ADDON_LOADED' then
-        if arg1== 'WoWToolsPlus' then
-
-            WoWToolsPlusSave['Other_SpellFrame']=nil
-            WoWToolsPlusSave['Other_SpellFlyout']=nil
-
-            WoWToolsPlusSave['Plus_Spell']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Spell'], {
-                specButton={
-                scale= 1,
-                --isToTOP=true
-                --point={}
-                --strata='MEDIUM'
-                hideInCombat=true,
-                enabled=true,
-                },
-
-                bg={
-                    texture={},
-                    show=true,
-                    --icon='',
-                },
-                setUITexture=true,
-
-                flyoutText=true,
-                actionButtonRangeColor=true,
-
-                spellBookPlus=true,
-                talentsFramePlus=true,
-            })
-
-
-            if not Save().bg then
-                Save().bg={texture={},show=true}
-            end
-
-            WoWTools_SpellMixin.addName= '|A:UI-HUD-MicroMenu-SpellbookAbilities-Mouseover:0:0|a'
-                ..(WoWTools_L.SPELLS)
-
-            if Save().disabled then
-                self:SetScript('OnEvent', nil)
-            else
-                self:RegisterEvent('PLAYER_ENTERING_WORLD')
-                Init()
-            end
-            self:UnregisterEvent(event)
-
+        if not save.bg then
+            save.bg={texture={},show=true}
         end
-
-    elseif event=='PLAYER_ENTERING_WORLD' then
+    end,
+    blizzard= {Blizzard_PlayerSpells= Init_PlayerSpells},
+    events= {PLAYER_ENTERING_WORLD= function()
         WoWTools_SpellMixin:Init_Options()
         WoWTools_SpellMixin:Init_Spec_Button()
         WoWTools_SpellMixin:Init_Spell_Flyout()
         WoWTools_SpellMixin:Init_ActionButton_UpdateRange()
-        self:SetScript('OnEvent', nil)
-        self:UnregisterEvent(event)
-    end
-end)
+        return true
+    end},
+})

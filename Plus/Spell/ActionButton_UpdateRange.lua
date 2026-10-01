@@ -18,7 +18,7 @@ local function Set_UsableColor(frame)
 end
 
 local function Init()
-    if not WoWToolsPlusSave['Plus_Spell'].actionButtonRangeColor then
+    if not WoWTools_SpellMixin:Save().actionButtonRangeColor then
         return
     end
 
