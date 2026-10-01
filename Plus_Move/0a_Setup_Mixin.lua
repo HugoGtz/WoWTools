@@ -1,16 +1,11 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_Move'] or {}
-end
-
 WoWTools_MoveMixin={
     Events={},
     Frames={},
-    Save=Save,
 }
 
 function WoWTools_MoveMixin:GetSize(name)
-    if name and not Save().disabledSize[name] then
-        return Save().size[name]
+    if name and not WoWTools_MoveMixin:Save().disabledSize[name] then
+        return WoWTools_MoveMixin:Save().size[name]
     end
 end
 
@@ -19,8 +14,8 @@ local function Set_Frame_Point(self, name)
     local data= self and self.moveFrameData
 
     local p
-    if data and name and Save().SavePoint and not data.notSave then
-        p= Save().point[name]
+    if data and name and WoWTools_MoveMixin:Save().SavePoint and not data.notSave then
+        p= WoWTools_MoveMixin:Save().point[name]
     end
 
     if not p or not p[1] then
@@ -95,8 +90,8 @@ local function Set_OnDragStop(self)
     frame:StopMovingOrSizing()
 
     if not data.notSave and WoWTools_FrameMixin:IsInSchermo(frame) then
-        Save().point[name]= {frame:GetPoint(1)}
-        Save().point[name][2]= nil
+        WoWTools_MoveMixin:Save().point[name]= {frame:GetPoint(1)}
+        WoWTools_MoveMixin:Save().point[name][2]= nil
     end
 end
 
@@ -166,8 +161,8 @@ function WoWTools_MoveMixin:Setup(frame, tab)
     end
 
 
-    local SavePoint= Save().SavePoint or tab.savePoint
-    --local moveToScreenFuori= Save().moveToScreenFuori
+    local SavePoint= WoWTools_MoveMixin:Save().SavePoint or tab.savePoint
+    --local moveToScreenFuori= WoWTools_MoveMixin:Save().moveToScreenFuori
 
     local click= tab.click--RightButton LeftButton nil
     local notSave= ((tab.notSave or not SavePoint) and not tab.save) and true or nil
@@ -217,7 +212,7 @@ function WoWTools_MoveMixin:GetPoint(frame, name)
     if not name then
         return
     end
-    return Save().point[name]
+    return WoWTools_MoveMixin:Save().point[name]
 end
 
 function WoWTools_MoveMixin:ClearPoint(frame, name)
@@ -225,5 +220,5 @@ function WoWTools_MoveMixin:ClearPoint(frame, name)
     if not name then
         return
     end
-    Save().point[name]= nil
+    WoWTools_MoveMixin:Save().point[name]= nil
 end

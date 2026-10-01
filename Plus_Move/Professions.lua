@@ -1,10 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_Move']
-end
-
-
-
-
 local function Update_Frame()
     --WoWTools_DataMixin:Call(ProfessionsFrame, 'Refresh', ProfessionsFrame)
     ProfessionsFrame:Refresh()
@@ -40,12 +33,12 @@ function WoWTools_MoveMixin.Events:Blizzard_Professions()
         local frame= self:GetParent()
         local name= frame:GetName()
         if ProfessionsUtil.IsCraftingMinimized() then
-            scale= Save().scale[name..'Mini']
-            size= Save().size[name..'Mini']
+            scale= WoWTools_MoveMixin:Save().scale[name..'Mini']
+            size= WoWTools_MoveMixin:Save().size[name..'Mini']
 
         else
-            scale= Save().scale[name..'Normal']
-            size= Save().size[name..'Normal']
+            scale= WoWTools_MoveMixin:Save().scale[name..'Normal']
+            size= WoWTools_MoveMixin:Save().size[name..'Normal']
         end
         if scale then
             frame:SetScale(scale)
@@ -62,8 +55,8 @@ function WoWTools_MoveMixin.Events:Blizzard_Professions()
     function ProfessionsFrame.OrdersPage:GetDesiredPageWidth()--Blizzard_ProfessionsCrafterOrderPage.lua
         local frame= self:GetParent()
         local name= frame:GetName()
-        local scale= Save().scale[name..'Order']
-        local size= Save().size[name..'Order']
+        local scale= WoWTools_MoveMixin:Save().scale[name..'Order']
+        local size= WoWTools_MoveMixin:Save().size[name..'Order']
         if scale then
             frame:SetScale(scale)
         end
@@ -79,8 +72,8 @@ function WoWTools_MoveMixin.Events:Blizzard_Professions()
     function ProfessionsFrame.SpecPage:GetDesiredPageWidth()--Blizzard_ProfessionsSpecializations.lua
         local frame= self:GetParent()
         local name= frame:GetName()
-        local scale= Save().scale[name..'Spec']
-        local size= Save().size[name..'Spec']
+        local scale= WoWTools_MoveMixin:Save().scale[name..'Spec']
+        local size= WoWTools_MoveMixin:Save().size[name..'Spec']
         if scale then
             frame:SetScale(scale)
         end
@@ -100,26 +93,26 @@ function WoWTools_MoveMixin.Events:Blizzard_Professions()
         local name= self:GetName()
 
         if ProfessionsUtil.IsCraftingMinimized() then
-            scale= Save().scale[name..'Mini']
-            size= Save().size[name..'Mini']
+            scale= WoWTools_MoveMixin:Save().scale[name..'Mini']
+            size= WoWTools_MoveMixin:Save().size[name..'Mini']
             self.ResizeButton.minWidth= 404
             self.ResizeButton.minHeight= 650
         elseif self.TabSystem.selectedTabID==1 then
-            scale= Save().scale[name..'Normal']
-            size= Save().size[name..'Normal']
+            scale= WoWTools_MoveMixin:Save().scale[name..'Normal']
+            size= WoWTools_MoveMixin:Save().size[name..'Normal']
             self.ResizeButton.minWidth= 830
             self.ResizeButton.minHeight= 580
             if size or scale then
                 Update_Frame()
             end
         elseif self.TabSystem.selectedTabID==2 then
-            scale= Save().scale[name..'Spec']
-            size= Save().size[name..'Spec']
+            scale= WoWTools_MoveMixin:Save().scale[name..'Spec']
+            size= WoWTools_MoveMixin:Save().size[name..'Spec']
             self.ResizeButton.minWidth= 1144
             self.ResizeButton.minHeight= 658
         elseif self.TabSystem.selectedTabID==3 then
-            scale= Save().scale[name..'Order']
-            size= Save().size[name..'Order']
+            scale= WoWTools_MoveMixin:Save().scale[name..'Order']
+            size= WoWTools_MoveMixin:Save().size[name..'Order']
             self.ResizeButton.minWidth= 1050
             self.ResizeButton.minHeight= 240
             if size or scale then
@@ -224,37 +217,37 @@ function WoWTools_MoveMixin.Events:Blizzard_Professions()
         local sacle= frame:GetScale()
         local name= ProfessionsFrame:GetName()
         if ProfessionsUtil.IsCraftingMinimized() then
-            Save().scale[name..'Mini']= sacle
+            WoWTools_MoveMixin:Save().scale[name..'Mini']= sacle
         elseif frame.TabSystem.selectedTabID==2 then
-            Save().scale[name..'Spec']= sacle
+            WoWTools_MoveMixin:Save().scale[name..'Spec']= sacle
         elseif frame.TabSystem.selectedTabID==3 then
-            Save().scale[name..'Order']= sacle
+            WoWTools_MoveMixin:Save().scale[name..'Order']= sacle
         else
-            Save().scale[name..'Normal']= sacle
+            WoWTools_MoveMixin:Save().scale[name..'Normal']= sacle
         end
     end,
     scaleRestFunc=function()
         local name= ProfessionsFrame:GetName()
         if ProfessionsUtil.IsCraftingMinimized() then
-            Save().scale[name..'Mini']= nil
+            WoWTools_MoveMixin:Save().scale[name..'Mini']= nil
         elseif ProfessionsFrame.TabSystem.selectedTabID==2 then
-            Save().scale[name..'Spec']= nil
+            WoWTools_MoveMixin:Save().scale[name..'Spec']= nil
         elseif ProfessionsFrame.TabSystem.selectedTabID==3 then
-            Save().scale[name..'Order']= nil
+            WoWTools_MoveMixin:Save().scale[name..'Order']= nil
         else
-            Save().scale[name..'Normal']= nil
+            WoWTools_MoveMixin:Save().scale[name..'Normal']= nil
         end
     end,
     sizeRestTooltipColorFunc=function()
         local name= ProfessionsFrame:GetName()
         if ProfessionsUtil.IsCraftingMinimized() then
-            return Save().size[name..'Mini'] and '' or '|cff626262'
+            return WoWTools_MoveMixin:Save().size[name..'Mini'] and '' or '|cff626262'
         elseif ProfessionsFrame.TabSystem.selectedTabID==2 then
-            return Save().size[name..'Spec'] and '' or '|cff626262'
+            return WoWTools_MoveMixin:Save().size[name..'Spec'] and '' or '|cff626262'
         elseif ProfessionsFrame.TabSystem.selectedTabID==3 then
-            return Save().size[name..'Order'] and '' or '|cff626262'
+            return WoWTools_MoveMixin:Save().size[name..'Order'] and '' or '|cff626262'
         else
-            return Save().size[name..'Normal'] and '' or '|cff626262'
+            return WoWTools_MoveMixin:Save().size[name..'Normal'] and '' or '|cff626262'
         end
     end,
     sizeStopFunc=function(frame)
@@ -269,7 +262,7 @@ function WoWTools_MoveMixin.Events:Blizzard_Professions()
         else
             name= name..'Normal'
         end
-        Save().size[name]= size
+        WoWTools_MoveMixin:Save().size[name]= size
         Update_Frame()
     end,
     sizeRestFunc=function(f)
@@ -287,10 +280,10 @@ function WoWTools_MoveMixin.Events:Blizzard_Professions()
             f:SetSize(942, 658)
         end
         Update_Frame()
-        Save().size[name..'Spec']=nil
-        Save().size[name..'Order']=nil
-        Save().size[name..'Normal']=nil
-        Save().size[name..'Mini']=nil
+        WoWTools_MoveMixin:Save().size[name..'Spec']=nil
+        WoWTools_MoveMixin:Save().size[name..'Order']=nil
+        WoWTools_MoveMixin:Save().size[name..'Normal']=nil
+        WoWTools_MoveMixin:Save().size[name..'Mini']=nil
     end})
 
     self:Setup(ProfessionsFrame.CraftingPage.CraftingOutputLog, {frame=ProfessionsFrame})

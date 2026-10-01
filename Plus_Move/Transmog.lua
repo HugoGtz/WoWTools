@@ -1,8 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['Plus_Move']
-end
-
 local ListTab={
     OutfitCollection= {minValue= 83, rest=312, title=TRANSMOG_OUTFIT_NAME_DEFAULT},
     CharacterPreview= {minValue=300, rest=657, title=MODEL},
@@ -11,10 +7,10 @@ local ListTab={
 local function Set_TransmogWidth(onlyName)
     if not WoWTools_FrameMixin:IsLocked(TransmogFrame) then
         if onlyName then
-            TransmogFrame[onlyName]:SetWidth(Save()['Transmog'..onlyName..'Width'] or ListTab[onlyName].rest)
+            TransmogFrame[onlyName]:SetWidth(WoWTools_MoveMixin:Save()['Transmog'..onlyName..'Width'] or ListTab[onlyName].rest)
         else
             for name, data in pairs(ListTab) do
-                TransmogFrame[name]:SetWidth(Save()['Transmog'..name..'Width'] or data.rest)
+                TransmogFrame[name]:SetWidth(WoWTools_MoveMixin:Save()['Transmog'..name..'Width'] or data.rest)
             end
         end
     end
@@ -23,7 +19,7 @@ end
 
 local function Rest_Size()
     for name in pairs(ListTab) do
-        Save()['Transmog'..name..'Width']= nil
+        WoWTools_MoveMixin:Save()['Transmog'..name..'Width']= nil
     end
     if not WoWTools_FrameMixin:IsLocked(TransmogFrame) then
         TransmogFrame:SetSize(1618, 883)
@@ -69,7 +65,7 @@ local function Create_ResizeButton(name, data)
 
     function btn.set_width(self)
         self:SetScript('OnUpdate', nil)
-        Save()['Transmog'..self.name..'Width']= math.floor(self:GetParent():GetWidth())
+        WoWTools_MoveMixin:Save()['Transmog'..self.name..'Width']= math.floor(self:GetParent():GetWidth())
         if self._eventOwner then
             EventRegistry:UnregisterCallback('PLAYER_REGEN_DISABLED', self._eventOwner)
             self._eventOwner=nil
@@ -291,7 +287,7 @@ local function Init()
     onShowFunc=true,
     scaleStopFunc=function(frame, btn)
         WoWTools_CollectionMixin:Refresh_TransmogItems()
-        Save().scale[btn.name]= frame:GetScale()
+        WoWTools_MoveMixin:Save().scale[btn.name]= frame:GetScale()
     end,
     sizeUpdateFunc=function()
         WoWTools_CollectionMixin:Refresh_TransmogItems()
@@ -308,9 +304,9 @@ local function Init()
             root:CreateSpacer()
             local sub= WoWTools_MenuMixin:CreateSlider(root, {
                 getValue=function(_, desc)
-                    return Save()['Transmog'..desc.data.name..'Width'] or desc.data.rest
+                    return WoWTools_MoveMixin:Save()['Transmog'..desc.data.name..'Width'] or desc.data.rest
                 end, setValue=function(value, _, desc)
-                    Save()['Transmog'..desc.data.name..'Width']=  value
+                    WoWTools_MoveMixin:Save()['Transmog'..desc.data.name..'Width']=  value
                     Set_TransmogWidth(desc.data.name)
                     WoWTools_CollectionMixin:Refresh_TransmogItems()
                 end,

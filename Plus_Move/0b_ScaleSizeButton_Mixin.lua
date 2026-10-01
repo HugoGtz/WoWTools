@@ -1,9 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['Plus_Move']
-end
-
-
 local P_UIPanelWindows= {}
 
 
@@ -38,7 +33,7 @@ local function Save_Frame_Size(self)
         local w, h= self:GetParent():GetSize()
         w= math.modf(w)
         h= math.modf(h)
-        Save().size[self.name]= {w, h}
+        WoWTools_MoveMixin:Save().size[self.name]= {w, h}
     end
 end
 
@@ -112,11 +107,11 @@ local function Init_Point_Menu(self, root)
     sub=root:CreateCheckbox(
         WoWTools_L.LOCK_FOCUS_FRAME,
     function()
-        return Save().UIPanelWindows[name]
+        return WoWTools_MoveMixin:Save().UIPanelWindows[name]
     end, function()
-        Save().UIPanelWindows[name]= not Save().UIPanelWindows[name] and true or nil
+        WoWTools_MoveMixin:Save().UIPanelWindows[name]= not WoWTools_MoveMixin:Save().UIPanelWindows[name] and true or nil
 
-        if Save().UIPanelWindows[name] then
+        if WoWTools_MoveMixin:Save().UIPanelWindows[name] then
             if UIPanelWindows[name] then
                 P_UIPanelWindows[name]= UIPanelWindows[name]
                 UIPanelWindows[name]= nil
@@ -152,7 +147,7 @@ local function Init_Point_Menu(self, root)
     end)
     sub:SetEnabled(
         (P_UIPanelWindows[name] or UIPanelWindows[name])
-        and Save().point[name]
+        and WoWTools_MoveMixin:Save().point[name]
         and target:CanChangeAttribute()
     )
 
@@ -162,15 +157,15 @@ local function Init_Point_Menu(self, root)
 
     root:CreateDivider()
     local index=0
-    for frameName in pairs(Save().UIPanelWindows) do
+    for frameName in pairs(WoWTools_MoveMixin:Save().UIPanelWindows) do
         index= index+1
         sub=root:CreateCheckbox(
             (index<10 and ' ' or '')..index..') '..frameName,
         function(data)
-            return Save().UIPanelWindows[data.name]
+            return WoWTools_MoveMixin:Save().UIPanelWindows[data.name]
         end, function(data)
-            Save().UIPanelWindows[data.name]= not Save().UIPanelWindows[data.name] and true or nil
-            FrameOnShow_SetPoint(self, Save().UIPanelWindows[data.name])
+            WoWTools_MoveMixin:Save().UIPanelWindows[data.name]= not WoWTools_MoveMixin:Save().UIPanelWindows[data.name] and true or nil
+            FrameOnShow_SetPoint(self, WoWTools_MoveMixin:Save().UIPanelWindows[data.name])
         end, {name=frameName})
         sub:SetTooltip(function(tooltip, desc)
             WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Move.LockPointList'])
@@ -189,7 +184,7 @@ local function Init_Point_Menu(self, root)
                 WoWTools_L.CLEAR_ALL,
             nil,
             {SetValue=function()
-                Save().UIPanelWindows={}
+                WoWTools_MoveMixin:Save().UIPanelWindows={}
             end})
             return MenuResponse.Open
         end)
@@ -215,12 +210,12 @@ local function Init_Menu(self, root)
         return target:GetScale()
     end, function(value)
         if not WoWTools_FrameMixin:IsLocked(target) then
-            Save().scale[name]=value
+            WoWTools_MoveMixin:Save().scale[name]=value
             Set_Frame_Scale(target, value)
         end
     end, function()
         if not WoWTools_FrameMixin:IsLocked(target) then
-            Save().scale[name]=nil
+            WoWTools_MoveMixin:Save().scale[name]=nil
             if self.scaleRestFunc then
                 self.scaleRestFunc(target, self)
             end
@@ -234,9 +229,9 @@ local function Init_Menu(self, root)
         sub=root:CreateCheckbox(
             WoWTools_L['HUD_EDIT_MODE_SETTING_ARCHAEOLOGY_BAR_SIZE~2'],
         function()
-            return not Save().disabledSize[name]
+            return not WoWTools_MoveMixin:Save().disabledSize[name]
         end, function()
-            Save().disabledSize[name]= not Save().disabledSize[name] and true or nil
+            WoWTools_MoveMixin:Save().disabledSize[name]= not WoWTools_MoveMixin:Save().disabledSize[name] and true or nil
         end, {rightText=format('%i|cff626262x|r%i', target:GetWidth(),target:GetHeight())})
         WoWTools_MenuMixin:SetRightText(sub)
 
@@ -257,7 +252,7 @@ local function Init_Menu(self, root)
             getValue=function()
                 return math.modf(target:GetWidth())
             end, setValue=function(value)
-                if not WoWTools_FrameMixin:IsLocked(target) and not Save().disabledSize[name] then
+                if not WoWTools_FrameMixin:IsLocked(target) and not WoWTools_MoveMixin:Save().disabledSize[name] then
                     target:SetWidth(value)
                     if self.sizeUpdateFunc then
                         self.sizeUpdateFunc(target, self)
@@ -274,14 +269,14 @@ local function Init_Menu(self, root)
             maxValue=self.maxWidth or math.modf(UIParent:GetWidth()),
             step=5,
         })
-        sub2:SetEnabled(not Save().disabledSize[name])
+        sub2:SetEnabled(not WoWTools_MoveMixin:Save().disabledSize[name])
         sub:CreateSpacer()
         sub:CreateSpacer()
         sub2=WoWTools_MenuMixin:CreateSlider(sub, {
             getValue=function()
                 return math.modf(target:GetHeight())
             end, setValue=function()
-                if not WoWTools_FrameMixin:IsLocked(target) and not Save().disabledSize[name] then
+                if not WoWTools_FrameMixin:IsLocked(target) and not WoWTools_MoveMixin:Save().disabledSize[name] then
                     if self.sizeUpdateFunc then
                         self.sizeUpdateFunc(target, self)
                     end
@@ -297,12 +292,12 @@ local function Init_Menu(self, root)
             maxValue= self.maxHeight or math.modf(UIParent:GetHeight()),
             step=5,
         })
-        sub2:SetEnabled(not Save().disabledSize[name])
+        sub2:SetEnabled(not WoWTools_MoveMixin:Save().disabledSize[name])
         sub:CreateSpacer()
         sub2=sub:CreateButton(
             '+0.1%',
         function()
-            if not WoWTools_FrameMixin:IsLocked(target) and not Save().disabledSize[name] then
+            if not WoWTools_FrameMixin:IsLocked(target) and not WoWTools_MoveMixin:Save().disabledSize[name] then
                 Set_ScalePercent(self, true)
             end
             return MenuResponse.Refresh
@@ -311,7 +306,7 @@ local function Init_Menu(self, root)
         sub2=sub:CreateButton(
             '-0.1%',
         function()
-            if not WoWTools_FrameMixin:IsLocked(target) and not Save().disabledSize[name] then
+            if not WoWTools_FrameMixin:IsLocked(target) and not WoWTools_MoveMixin:Save().disabledSize[name] then
                 Set_ScalePercent(self, false)
             end
             return MenuResponse.Refresh
@@ -320,9 +315,9 @@ local function Init_Menu(self, root)
         sub2=sub:CreateRadio(
             WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2,
         function()
-            return Save().size[name]
+            return WoWTools_MoveMixin:Save().size[name]
         end, function()
-            Save().size[name]=nil
+            WoWTools_MoveMixin:Save().size[name]=nil
             if not WoWTools_FrameMixin:IsLocked(target) then
                 if self.sizeRestFunc then
                     self.sizeRestFunc(target, self)
@@ -340,11 +335,11 @@ local function Init_Menu(self, root)
         sub=root:CreateCheckbox(
             (WoWTools_L.CHANNELPULLOUT_OPACITY_LABEL),
         function()
-            return not Save().disabledAlpha[name]
+            return not WoWTools_MoveMixin:Save().disabledAlpha[name]
         end, function()
-            Save().disabledAlpha[name]= not Save().disabledAlpha[name] and true or nil
+            WoWTools_MoveMixin:Save().disabledAlpha[name]= not WoWTools_MoveMixin:Save().disabledAlpha[name] and true or nil
             self:set_move_event()
-        end, {rightText= Save().alpha or 1})
+        end, {rightText= WoWTools_MoveMixin:Save().alpha or 1})
         sub:SetTooltip(function(tooltip)
             WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Move.Alpha'])
             tooltip:AddLine(WoWTools_L['CAMERA_SMARTER~2'])
@@ -360,10 +355,10 @@ local function Init_Menu(self, root)
 
     root:CreateDivider()
     sub=root:CreateRadio(
-        (Save().point[name] and '' or '|cff626262')
+        (WoWTools_MoveMixin:Save().point[name] and '' or '|cff626262')
         ..(WoWTools_L['Clear position']),
     function()
-        return Save().point[name]
+        return WoWTools_MoveMixin:Save().point[name]
     end, function()
         local data= target.moveFrameData
         if data
@@ -375,7 +370,7 @@ local function Init_Menu(self, root)
                 P_UIPanelWindows[name]= nil
             end
 
-            Save().point[name]=nil
+            WoWTools_MoveMixin:Save().point[name]=nil
 
             if self.restPointFunc then
                 self.restPointFunc(self)
@@ -415,7 +410,7 @@ end
 
 local function Set_Move_Alpha(frame)
     local name= frame and frame:GetName()
-    if not name or Save().notMoveAlpha then
+    if not name or WoWTools_MoveMixin:Save().notMoveAlpha then
         return
     end
 
@@ -428,7 +423,7 @@ local function Set_Move_Alpha(frame)
     frame.ResizeButton:SetScript('OnEvent', function(self, event)
         local target= self:GetParent()
         if event=='PLAYER_STARTED_MOVING' then
-            target:SetAlpha(Save().alpha)
+            target:SetAlpha(WoWTools_MoveMixin:Save().alpha)
 
         elseif event=='PLAYER_STOPPED_MOVING' then
             target:SetAlpha(1)
@@ -439,7 +434,7 @@ local function Set_Move_Alpha(frame)
 
 
     function frame.ResizeButton:set_move_event()
-        if Save().disabledAlpha[self.name] or Save().alpha==1 then
+        if WoWTools_MoveMixin:Save().disabledAlpha[self.name] or WoWTools_MoveMixin:Save().alpha==1 then
             self:UnregisterAllEvents()
             self:SetScript('OnShow', nil)
             self:SetScript('OnHide', nil)
@@ -517,7 +512,7 @@ local function Set_Tooltip(self)
         if self.sizeRestTooltipColorFunc then
             col=self.sizeRestTooltipColorFunc(self)
         end
-        col=col or (Save().size[name] and '' or '|cff626262')
+        col=col or (WoWTools_MoveMixin:Save().size[name] and '' or '|cff626262')
 
         local w, h
         w= math.modf(target:GetWidth())
@@ -528,7 +523,7 @@ local function Set_Tooltip(self)
 
         GameTooltip:AddDoubleLine(
             col..(WoWTools_L['HUD_EDIT_MODE_SETTING_ARCHAEOLOGY_BAR_SIZE~2'])..format(' %s |cffffffffx|r %s', w, h),
-                WoWTools_TextMixin:GetEnabeleDisable(not Save().disabledSize[name])..WoWTools_DataMixin.Icon.right
+                WoWTools_TextMixin:GetEnabeleDisable(not WoWTools_MoveMixin:Save().disabledSize[name])..WoWTools_DataMixin.Icon.right
         )
 
         if self.sizeTooltip then
@@ -550,7 +545,7 @@ local function Set_Tooltip(self)
     if self.set_move_event then
         GameTooltip:AddDoubleLine(
             (WoWTools_L['Alpha when moving ']),
-            Save().disabledAlpha[name] and WoWTools_TextMixin:GetEnabeleDisable(false) or ('|cnGREEN_FONT_COLOR:'..Save().alpha)
+            WoWTools_MoveMixin:Save().disabledAlpha[name] and WoWTools_TextMixin:GetEnabeleDisable(false) or ('|cnGREEN_FONT_COLOR:'..Save().alpha)
         )
     end
 
@@ -608,7 +603,7 @@ local function Set_OnMouseUp(self)
         if self.scaleStopFunc then
             self.scaleStopFunc(target, self)
         elseif self.name then
-            Save().scale[self.name]= target:GetScale()
+            WoWTools_MoveMixin:Save().scale[self.name]= target:GetScale()
         end
     end
     self.SOS= nil
@@ -670,7 +665,7 @@ local function Set_OnMouseDown(self, d)
             end
         end)
 
-    elseif d=='RightButton' and self.setSize and not Save().disabledSize[self.name] then
+    elseif d=='RightButton' and self.setSize and not WoWTools_MoveMixin:Save().disabledSize[self.name] then
 
         local continueResizeStart = true
         if target.onResizeStartCallback then
@@ -792,7 +787,7 @@ function WoWTools_MoveMixin:Scale_Size_Button(frame, tab)
         frame:SetResizable(true)
         btn:Init(frame, minW, minH, maxW , maxH, rotationDegrees)
 
-        local size= Save().size[name]
+        local size= WoWTools_MoveMixin:Save().size[name]
         if size or initFunc then
             Set_Init_Frame(btn, frame, size, initFunc)
         end
@@ -803,7 +798,7 @@ function WoWTools_MoveMixin:Scale_Size_Button(frame, tab)
     --btn:SetClampedToScreen(true)
 
 
-    local scale= Save().scale[name]
+    local scale= WoWTools_MoveMixin:Save().scale[name]
     if scale and scale~=1 then
         Set_Frame_Scale(frame, scale)
     end
@@ -844,7 +839,7 @@ function WoWTools_MoveMixin:Scale_Size_Button(frame, tab)
         Set_Move_Alpha(frame)
     end
 
-    if Save().UIPanelWindows[name] and UIPanelWindows[name] then
+    if WoWTools_MoveMixin:Save().UIPanelWindows[name] and UIPanelWindows[name] then
         P_UIPanelWindows[name]= UIPanelWindows[name]
         UIPanelWindows[name]= nil
         FrameOnShow_SetPoint(btn, false)
@@ -873,13 +868,13 @@ function WoWTools_MoveMixin:Set_SizeScale(frame)
         return
     end
 
-    local scale= Save().scale[name]
+    local scale= WoWTools_MoveMixin:Save().scale[name]
     if scale then
         Set_Frame_Scale(frame, scale)
     end
 
     if frame.ResizeButton.setSize then
-        local size= Save().size[name]
+        local size= WoWTools_MoveMixin:Save().size[name]
         if size then
             Set_Frame_Size(frame, size[1], size[2])
         end
@@ -889,7 +884,7 @@ end
 
 function WoWTools_MoveMixin:Set_Frame_Scale(frame)
     local name= frame:GetName()
-    local value= name and Save().scale[name]
+    local value= name and WoWTools_MoveMixin:Save().scale[name]
     if value then
         Set_Frame_Scale(frame, value)
     end

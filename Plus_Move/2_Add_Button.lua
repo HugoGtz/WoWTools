@@ -1,8 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_Move']
-end
-
-
 local function Set_Tooltip(self)
     GameTooltip:SetOwner(self, "ANCHOR_LEFT")
     GameTooltip:ClearLines()
@@ -21,7 +16,7 @@ local function Set_Tooltip(self)
     )
     if self.setZoom then
         GameTooltip:AddDoubleLine(
-            (WoWTools_L.HOUSING_EXPERT_DECOR_SUBMODE_SCALE)..' |cnGREEN_FONT_COLOR:'..(Save().scale[self.name] or 1),
+            (WoWTools_L.HOUSING_EXPERT_DECOR_SUBMODE_SCALE)..' |cnGREEN_FONT_COLOR:'..(WoWTools_MoveMixin:Save().scale[self.name] or 1),
             'Alt+'..WoWTools_DataMixin.Icon.mid
         )
     end
@@ -32,11 +27,11 @@ end
 local function Init_Menu(self, root)
     if self.setZoom then
         WoWTools_MenuMixin:Scale(self, root, function()
-            return Save().scale[self.name] or 1
+            return WoWTools_MoveMixin:Save().scale[self.name] or 1
         end, function(value)
             local frame= self:GetParent()
             if frame:CanChangeAttribute() then
-                Save().scale[self.name]= value
+                WoWTools_MoveMixin:Save().scale[self.name]= value
                 frame:SetScale(value)
             end
         end)
@@ -44,10 +39,10 @@ local function Init_Menu(self, root)
 
     root:CreateButton(
         '|A:characterundelete-RestoreButton:0:0|a'
-        ..(Save().point[self.name] and '' or '|cff828282')
+        ..(WoWTools_MoveMixin:Save().point[self.name] and '' or '|cff828282')
         ..(WoWTools_L.RESET_POSITION),
     function()
-        Save().point[self.name]= nil
+        WoWTools_MoveMixin:Save().point[self.name]= nil
         local p=self.pointSave
         if p and p[1] then
             local frame= self:GetParent()
@@ -68,7 +63,7 @@ end
 local function SetupButton(frame, tab)
     tab= tab or {}
     local name
-    --if frame and not Save().disabledMove and not frame.WoWToolsMoveButton then
+    --if frame and not WoWTools_MoveMixin:Save().disabledMove and not frame.WoWToolsMoveButton then
     if frame and not frame.WoWToolsMoveButton then
         name= tab.name or frame:GetName()
     end
@@ -77,7 +72,7 @@ local function SetupButton(frame, tab)
     end
 
     tab= tab or {}
-    local setZoom= not tab.notZoom-- and not Save().disabledZoom
+    local setZoom= not tab.notZoom-- and not WoWTools_MoveMixin:Save().disabledZoom
     --local click= tab.click
     local setPoint= tab.setPoint
     local size= tab.size or 23
@@ -128,7 +123,7 @@ local function SetupButton(frame, tab)
     end)
 
     if setZoom then
-        local scale= Save().scale[name]
+        local scale= WoWTools_MoveMixin:Save().scale[name]
         if scale and scale~=1 then
             if WoWTools_FrameMixin:IsLocked(frame) then--tras /reload en combate: esperar
                 EventRegistry:RegisterFrameEventAndCallback("PLAYER_REGEN_ENABLED", function(owner)
@@ -141,10 +136,10 @@ local function SetupButton(frame, tab)
         end
 
         btn:SetScript('OnMouseWheel', function(self, delta)
-            Save().scale[self.name]= WoWTools_FrameMixin:ScaleFrame(
+            WoWTools_MoveMixin:Save().scale[self.name]= WoWTools_FrameMixin:ScaleFrame(
                 self:GetParent(),
                 delta,
-                Save().scale[self.name]
+                WoWTools_MoveMixin:Save().scale[self.name]
             )
             Set_Tooltip(self)
         end)
