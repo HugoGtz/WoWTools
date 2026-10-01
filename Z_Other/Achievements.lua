@@ -1,7 +1,8 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_Achievement']
-end
+--WoWTools_MapIDAchievementData (0_Data) se vacía a propósito si el módulo está desactivado
+-- luacheck: globals WoWTools_MapIDAchievementData
 local addName
+local Module--lo devuelve WoWTools_Module:Register (al final del archivo)
+local NoData--faltan los datos de logros por instancia: no se añade nada
 
 local function InGuildView()
     return AchievementFrame.selectedTab == 2
@@ -178,7 +179,7 @@ end
 
 
 local function Set_AchievementTemplate(self, show)
-    local alpha= Save().completedAlpha or 1
+    local alpha= Module:Save().completedAlpha or 1
     alpha= (self.completed and not self:IsSelected() and not show) and alpha or 1
 
     WoWTools_TextureMixin:SetFrame(self, {alpha=alpha, notColor=true})
@@ -241,11 +242,11 @@ local function Init_Achievement()
         end)
 
         WoWTools_MenuMixin:BgAplha(sub, function()
-            return Save().completedAlpha or 1
+            return Module:Save().completedAlpha or 1
         end, function(value)
-            Save().completedAlpha=value
+            Module:Save().completedAlpha=value
         end, function()
-            Save().completedAlpha= nil
+            Module:Save().completedAlpha= nil
         end, true)
 
         WoWTools_MenuMixin:OpenOptions(sub, {
@@ -497,11 +498,11 @@ local function Init_Achievement()
             end
         end)
     end
-    if Save().AchievementFrameFilterDropDown then
-        AchievementFrame_SetFilter(Save().AchievementFrameFilterDropDown)
+    if Module:Save().AchievementFrameFilterDropDown then
+        AchievementFrame_SetFilter(Module:Save().AchievementFrameFilterDropDown)
     end
     WoWTools_DataMixin:Hook('AchievementFrame_SetFilter', function(value)
-        Save().AchievementFrameFilterDropDown = value
+        Module:Save().AchievementFrameFilterDropDown = value
     end)
 
 
@@ -568,9 +569,6 @@ local function Init_Achievement()
             AchievementFrameSummaryCategoriesStatusBarText:SetText(text            )
         end
     end)
-
-
-    Init_Achievement=function()end
 end
 
 
@@ -606,62 +604,33 @@ local function Init_EncounterJournal()
         EncounterJournalSearchBox.achievementButton.instanceID=  instanceID and select(10, EJ_GetInstanceInfo(instanceID)) or nil
         EncounterJournalSearchBox.achievementButton:set_text()
     end)
-
-    Init_EncounterJournal=function()end
 end
 
 
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if arg1== 'WoWToolsPlus' then
-        WoWToolsPlusSave['Plus_Achievement']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Achievement'], {completedAlpha=1})
-        addName= '|A:UI-Achievement-Shield-NoPoints:0:0|a'..(WoWTools_L.ACHIEVEMENTS)
-
-        WoWTools_PanelMixin:OnlyCheck({
-            name= addName,
-            Value= not Save().disabled,
-            GetValue=function() return not Save().disabled end,
-            SetValue= function()
-                Save().disabled= not Save().disabled and true or nil
-                if Save().disabled then
-                    WoWTools_Print(
-                        addName..WoWTools_DataMixin.Icon.icon2,
-                        WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-                        WoWTools_L.REQUIRES_RELOAD
-                    )
-                end
-            end,
-            tooltip= WoWTools_L['Tip.Achievement.Option']..'|n|n'..WoWTools_L.REQUIRES_RELOAD,
-        })
-
-        if Save().disabled or not WoWTools_MapIDAchievementData then
+Module= WoWTools_Module:Register({
+    key= 'Plus_Achievement',
+    name= 'ACHIEVEMENTS',
+    icon= 'UI-Achievement-Shield-NoPoints',
+    group= 'Character',
+    defaults= {completedAlpha=1},
+    tooltip= 'Tip.Achievement.Option',
+    onLoad= function(M)
+        addName= M.addName
+        if not M:IsEnabled() or not WoWTools_MapIDAchievementData then
             WoWTools_MapIDAchievementData={}
-            self:SetScript('OnEvent', nil)
-            self:UnregisterEvent(event)
-        else
-            if C_AddOns.IsAddOnLoaded('Blizzard_AchievementUI') then
+            NoData= true
+        end
+    end,
+    blizzard= {
+        Blizzard_AchievementUI= function()
+            if not NoData then
                 Init_Achievement()
             end
-            if C_AddOns.IsAddOnLoaded('Blizzard_EncounterJournal') then
+        end,
+        Blizzard_EncounterJournal= function()
+            if not NoData then
                 Init_EncounterJournal()
             end
-        end
-
-    elseif arg1=='Blizzard_AchievementUI' and WoWToolsPlusSave then
-        Init_Achievement()
-        if C_AddOns.IsAddOnLoaded('Blizzard_EncounterJournal') then
-            self:SetScript('OnEvent', nil)
-            self:UnregisterEvent(event)
-        end
-
-    elseif arg1=='Blizzard_EncounterJournal' and WoWToolsPlusSave then
-       Init_EncounterJournal()
-
-        if C_AddOns.IsAddOnLoaded('Blizzard_AchievementUI') then
-            self:SetScript('OnEvent', nil)
-            self:UnregisterEvent(event)
-        end
-    end
-end)
+        end,
+    },
+})

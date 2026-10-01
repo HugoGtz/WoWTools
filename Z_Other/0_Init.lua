@@ -1,9 +1,6 @@
 
 
 WoWTools_OtherMixin={
-    Save=function()
-       return WoWToolsPlusSave['Other'] or {}
-    end,
     OpenOption=function()end
 }
 
@@ -41,41 +38,38 @@ end
 
 
 
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
+--'Otros' no es un módulo: solo guarda opciones sueltas (disabledADD) de otros archivos, sin casilla propia
+WoWTools_Module:Register({
+    key= 'Other',
+    name= 'Module.Other',
+    icon= 'QuestNormal',
+    group= 'Tools',
+    defaults= {disabledADD={}},
+    mixin= WoWTools_OtherMixin,
+    panel= false,
+    onLoad= function()
+        if WoWToolsPlusSave['Other_ClassMenuColor'] and WoWToolsPlusSave['Other_ClassMenuColor'].disabled then
+            WoWTools_OtherMixin:Save().disabledADD.ClassMenuColor= true
+            WoWToolsPlusSave['Other_ClassMenuColor'].disabled= nil
+        end
+        if WoWToolsPlusSave['Other_DELETE'] and WoWToolsPlusSave['Other_DELETE'].disabled then
+            WoWTools_OtherMixin:Save().disabledADD.DELETE= true
+            WoWToolsPlusSave['Other_DELETE'].disabled= nil
+        end
+        if WoWToolsPlusSave['Other_MoneyFrame'] and WoWToolsPlusSave['Other_MoneyFrame'].disabled then
+            WoWTools_OtherMixin:Save().disabledADD.MoneyFrame= true
+            WoWToolsPlusSave['Other_MoneyFrame'].disabled= nil
+        end
 
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if arg1~= 'WoWToolsPlus' then
-        return
-    end
+        --Fork: autocompletar "DELETE" pasa a estar desactivado por defecto (se puede volver a activar en opciones)
+        if not WoWTools_OtherMixin:Save().forkDeleteOptIn then
+            WoWTools_OtherMixin:Save().disabledADD.DELETE= true
+            WoWTools_OtherMixin:Save().forkDeleteOptIn= true
+        end
 
-    WoWToolsPlusSave['Other']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Other'], {disabledADD={}})
+        --Fork: sin página 'Otros'; sus opciones se agrupan por tema en la página principal
 
-    if WoWToolsPlusSave['Other_ClassMenuColor'] and WoWToolsPlusSave['Other_ClassMenuColor'].disabled then
-        WoWTools_OtherMixin:Save().disabledADD.ClassMenuColor= true
-        WoWToolsPlusSave['Other_ClassMenuColor'].disabled= nil
-    end
-    if WoWToolsPlusSave['Other_DELETE'] and WoWToolsPlusSave['Other_DELETE'].disabled then
-        WoWTools_OtherMixin:Save().disabledADD.DELETE= true
-        WoWToolsPlusSave['Other_DELETE'].disabled= nil
-    end
-    if WoWToolsPlusSave['Other_MoneyFrame'] and WoWToolsPlusSave['Other_MoneyFrame'].disabled then
-        WoWTools_OtherMixin:Save().disabledADD.MoneyFrame= true
-        WoWToolsPlusSave['Other_MoneyFrame'].disabled= nil
-    end
-
-    --Fork: autocompletar "DELETE" pasa a estar desactivado por defecto (se puede volver a activar en opciones)
-    if not WoWTools_OtherMixin:Save().forkDeleteOptIn then
-        WoWTools_OtherMixin:Save().disabledADD.DELETE= true
-        WoWTools_OtherMixin:Save().forkDeleteOptIn= true
-    end
-
-
-    WoWTools_OtherMixin.addName= '|A:QuestNormal:0:0|a'..(WoWTools_L['Module.Other'])
-
-    --Fork: sin página 'Otros'; sus opciones se agrupan por tema en la página principal
-
-
-    self:SetScript('OnEvent', nil)
-    self:UnregisterEvent(event)
-end)
+        --Opciones sueltas (cada una en su archivo)
+        WoWTools_OtherMixin:Init_DELETE()
+    end,
+})
