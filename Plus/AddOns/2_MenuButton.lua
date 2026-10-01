@@ -1,19 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['Plus_AddOns'] or {}
-end
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init_Menu(self, root)
     if not self:IsMouseOver() then
         return
@@ -21,16 +6,16 @@ local function Init_Menu(self, root)
 
     local sub, num
 
-    num= CountTable(Save().fast or {})
+    num= CountTable(WoWTools_AddOnsMixin:Save().fast or {})
 
     sub=root:CreateCheckbox(
         (num==0 and '|cff626262' or '')
         ..(WoWTools_L['Shortcut list '])
         ..num,
     function()
-        return not Save().hideLeftList
+        return not WoWTools_AddOnsMixin:Save().hideLeftList
     end, function()
-        Save().hideLeftList= not Save().hideLeftList and true or nil
+        WoWTools_AddOnsMixin:Save().hideLeftList= not WoWTools_AddOnsMixin:Save().hideLeftList and true or nil
          WoWTools_AddOnsMixin:Init_Left_Buttons()
     end)
     sub:SetTooltip(function(tooltip)
@@ -40,9 +25,9 @@ local function Init_Menu(self, root)
     end)
 
     WoWTools_MenuMixin:Scale(self, sub, function()
-        return Save().leftListScale or 1
+        return WoWTools_AddOnsMixin:Save().leftListScale or 1
     end, function(value)
-        Save().leftListScale= value
+        WoWTools_AddOnsMixin:Save().leftListScale= value
          WoWTools_AddOnsMixin:Init_Left_Buttons()
     end)
     sub:CreateDivider()
@@ -56,7 +41,7 @@ local function Init_Menu(self, root)
             ..'|n'..(WoWTools_L['Shortcut list']),
             nil,
             {SetValue=function()
-                Save().fast={}
+                WoWTools_AddOnsMixin:Save().fast={}
                 WoWTools_AddOnsMixin:Init_Left_Buttons()
             end}
         )
@@ -70,9 +55,9 @@ local function Init_Menu(self, root)
     sub=root:CreateCheckbox(
         (WoWTools_L['ADDONS+EMBLEM_SYMBOL']),
     function()
-        return Save().load_list
+        return WoWTools_AddOnsMixin:Save().load_list
     end, function()
-        Save().load_list= not Save().load_list and true or nil
+        WoWTools_AddOnsMixin:Save().load_list= not WoWTools_AddOnsMixin:Save().load_list and true or nil
         WoWTools_AddOnsMixin:Init_Bottom_Buttons()
     end)
     sub:SetTooltip(function(tooltip)
@@ -84,9 +69,9 @@ local function Init_Menu(self, root)
     sub2=sub:CreateCheckbox(
         WoWTools_L['Position: top'],
     function()
-        return Save().load_list_top
+        return WoWTools_AddOnsMixin:Save().load_list_top
     end, function()
-        Save().load_list_top= not Save().load_list_top and true or nil
+        WoWTools_AddOnsMixin:Save().load_list_top= not WoWTools_AddOnsMixin:Save().load_list_top and true or nil
         WoWTools_AddOnsMixin:Init_Bottom_Buttons()
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.AddOns.BottomListTop'])
@@ -94,9 +79,9 @@ local function Init_Menu(self, root)
     sub2=sub:CreateCheckbox(
         WoWTools_L['Icon only'],
     function()
-        return Save().load_list_onlyIcon
+        return WoWTools_AddOnsMixin:Save().load_list_onlyIcon
     end, function()
-        Save().load_list_onlyIcon= not Save().load_list_onlyIcon and true or false
+        WoWTools_AddOnsMixin:Save().load_list_onlyIcon= not WoWTools_AddOnsMixin:Save().load_list_onlyIcon and true or false
         WoWTools_AddOnsMixin:Init_Bottom_Buttons()
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.AddOns.BottomListIconOnly'])
@@ -104,9 +89,9 @@ local function Init_Menu(self, root)
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
-            return Save().load_list_size or 22
+            return WoWTools_AddOnsMixin:Save().load_list_size or 22
         end, setValue=function(value)
-            Save().load_list_size= value
+            WoWTools_AddOnsMixin:Save().load_list_size= value
             WoWTools_AddOnsMixin:Init_Bottom_Buttons()
         end,
         name=WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_ICON_SIZE,
@@ -128,16 +113,16 @@ local function Init_Menu(self, root)
 
 
 
-    num= CountTable(Save().buttons or {})
+    num= CountTable(WoWTools_AddOnsMixin:Save().buttons or {})
 
     sub=root:CreateCheckbox(
         (num==0 and '|cff626262' or '')
         ..(WoWTools_L['Shortcut list ~2'])
         ..num,
     function()
-        return not Save().hideRightList
+        return not WoWTools_AddOnsMixin:Save().hideRightList
     end, function()
-        Save().hideRightList= not Save().hideRightList and true or nil
+        WoWTools_AddOnsMixin:Save().hideRightList= not WoWTools_AddOnsMixin:Save().hideRightList and true or nil
         WoWTools_AddOnsMixin:Init_Right_Buttons()
     end)
     sub:SetTooltip(function(tooltip)
@@ -147,9 +132,9 @@ local function Init_Menu(self, root)
     end)
 
     WoWTools_MenuMixin:Scale(self, sub, function()
-        return Save().rightListScale or 1
+        return WoWTools_AddOnsMixin:Save().rightListScale or 1
     end, function(value)
-        Save().rightListScale= value
+        WoWTools_AddOnsMixin:Save().rightListScale= value
         WoWTools_AddOnsMixin:Init_Right_Buttons()
     end)
 
@@ -163,7 +148,7 @@ local function Init_Menu(self, root)
             ..'|n'..(WoWTools_L['Shortcut list~2']),
             nil,
             {SetValue=function()
-                Save().buttons={}
+                WoWTools_AddOnsMixin:Save().buttons={}
                 WoWTools_AddOnsMixin:Init_Right_Buttons()
             end}
         )
@@ -185,10 +170,10 @@ local function Init_Menu(self, root)
     sub=root:CreateCheckbox(
         (WoWTools_L.INFO)..' Plus',
     function()
-        return not Save().disabledInfoPlus
+        return not WoWTools_AddOnsMixin:Save().disabledInfoPlus
     end, function()
-        Save().disabledInfoPlus= not Save().disabledInfoPlus and true
-        if not Save().disabledInfoPlus then
+        WoWTools_AddOnsMixin:Save().disabledInfoPlus= not WoWTools_AddOnsMixin:Save().disabledInfoPlus and true
+        if not WoWTools_AddOnsMixin:Save().disabledInfoPlus then
             WoWTools_Print(
                 WoWTools_AddOnsMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 WoWTools_L.REQUIRES_RELOAD
@@ -207,14 +192,14 @@ local function Init_Menu(self, root)
 --BG Alpha
     WoWTools_MenuMixin:BgAplha(sub,
     function()--GetValue
-        return Save().bgAlpha or 0.5
+        return WoWTools_AddOnsMixin:Save().bgAlpha or 0.5
     end, function(value)--SetValue
-        Save().bgAlpha= value
+        WoWTools_AddOnsMixin:Save().bgAlpha= value
         WoWTools_AddOnsMixin:Init_Left_Buttons()
         WoWTools_AddOnsMixin:Init_Bottom_Buttons()
         WoWTools_AddOnsMixin:Init_Right_Buttons()
     end, function()--RestFunc
-        Save().bgAlpha= nil
+        WoWTools_AddOnsMixin:Save().bgAlpha= nil
         WoWTools_AddOnsMixin:Init_Left_Buttons()
         WoWTools_AddOnsMixin:Init_Bottom_Buttons()
         WoWTools_AddOnsMixin:Init_Right_Buttons()
@@ -260,7 +245,7 @@ local function Init()
 
     btn:SetScript('OnLeave', GameTooltip_Hide)
     btn:SetScript('OnEnter', function(self)
-        if Save().load_list_top  then
+        if WoWTools_AddOnsMixin:Save().load_list_top  then
             GameTooltip:SetOwner(AddonList, "ANCHOR_RIGHT")
         else
             GameTooltip:SetOwner(self, "ANCHOR_LEFT")

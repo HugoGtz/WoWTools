@@ -46,11 +46,6 @@ local P_Save={
 
 
 
-local function Save()
-    return WoWToolsPlusSave['Plus_AddOns'] or {}
-end
-
-
 --#####
 --#####
 local function Init()
@@ -59,51 +54,19 @@ local function Init()
     WoWTools_AddOnsMixin:Init_Right_Buttons()
     WoWTools_AddOnsMixin:Init_Left_Buttons()
     WoWTools_AddOnsMixin:Init_Info_Plus()
-    Init=function()end
 end
 
 
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if arg1~= 'WoWToolsPlus' then
-        return
-    end
-
-    WoWToolsPlusSave['Plus_AddOns']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_AddOns'], P_Save)
-    P_Save=nil
-    Save().Bg_Alpha= nil
-
-    WoWTools_AddOnsMixin.addName='|A:Garr_Building-AddFollowerPlus:0:0|a'..(WoWTools_L['Module.AddOn manager'])
-
-    WoWTools_PanelMixin:OnlyCheck({
-        name= WoWTools_AddOnsMixin.addName,
-        tooltip= WoWTools_L['Tip.AddOns.Enable']..'|n|n'..WoWTools_L['REQUIRES_RELOAD~2'],
-        Value= not Save().disabled,
-        GetValue=function () return not Save().disabled end,
-        SetValue= function()
-            Save().disabled = not Save().disabled and true or nil
-            if not Save().disabled then
-                if Init() then
-                    Init=function()end
-                    return
-                end
-            end
-            WoWTools_Print(
-                WoWTools_AddOnsMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-                WoWTools_L['REQUIRES_RELOAD~2']
-            )
-        end
-    })
-
-
-
-    if not Save().disabled then
+WoWTools_Module:Register({
+    key= 'Plus_AddOns',
+    name= 'Module.AddOn manager',
+    icon= 'Garr_Building-AddFollowerPlus',
+    group= 'Tools',
+    defaults= P_Save,
+    tooltip= 'Tip.AddOns.Enable',
+    mixin= WoWTools_AddOnsMixin,
+    onEnable= function(_, save)
+        save.Bg_Alpha= nil--clave antigua que ya no se usa
         Init()
-    end
-
-    self:SetScript('OnEvent', nil)
-    self:UnregisterEvent(event)
-end)
+    end,
+})

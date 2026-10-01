@@ -1,19 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['Plus_AddOns'] or {}
-end
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
 
 
@@ -47,14 +32,14 @@ local function Init()
             texture= 0,
             SetValue=function(newIcon, newText)
                 local name= '|T'..(newIcon or 0)..':0|t'..newText
-                if Save().buttons[name] then
+                if WoWTools_AddOnsMixin:Save().buttons[name] then
                     WoWTools_Print(
                         WoWTools_DataMixin.Icon.icon2..name,
                         '|cnWARNING_FONT_COLOR:',
                         WoWTools_L.REPLACE
                     )
                 end
-                Save().buttons[name]= select(3 , WoWTools_AddOnsMixin:Get_AddListInfo())
+                WoWTools_AddOnsMixin:Save().buttons[name]= select(3 , WoWTools_AddOnsMixin:Get_AddListInfo())
                 WoWTools_DataMixin:Call('AddonList_Update')
             end
         })

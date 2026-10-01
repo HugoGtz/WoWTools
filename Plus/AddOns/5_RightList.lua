@@ -1,8 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['Plus_AddOns'] or {}
-end
-
 local Buttons={}
 local RightFrame
 local Name= 'WoWToolsAddOnsRightListButton'
@@ -16,7 +12,7 @@ local function Set_OnEnter_Tooltip(self, tooltip)
     tooltip:AddLine(self.name)
     WoWTools_AddOnsMixin:Show_Select_Tooltip(
         tooltip,
-        Save().buttons[self.name] or {}
+        WoWTools_AddOnsMixin:Save().buttons[self.name] or {}
     )
 end
 
@@ -31,10 +27,10 @@ local function Init_Button_Menu(self, root)
     sub=root:CreateCheckbox(
         (WoWTools_L['LOAD_ADDON~2']),
     function(data)
-        return Save().load_Button_Name==data.name
+        return WoWTools_AddOnsMixin:Save().load_Button_Name==data.name
     end, function()
         do
-            local tab= Save().buttons[self.name]
+            local tab= WoWTools_AddOnsMixin:Save().buttons[self.name]
             local character= WoWTools_AddOnsMixin:GetIsPlayer()--solo el personaje seleccionado en AddonList
             for i=1, C_AddOns.GetNumAddOns() do
                 local name= C_AddOns.GetAddOnName(i)
@@ -47,7 +43,7 @@ local function Init_Button_Menu(self, root)
                 end
             end
         end
-        Save().load_Button_Name= self.name
+        WoWTools_AddOnsMixin:Save().load_Button_Name= self.name
         WoWTools_DataMixin:Reload()
     end, {name=self.name})
     sub:SetTooltip(function(tooltip)
@@ -70,7 +66,7 @@ local function Init_Button_Menu(self, root)
             ..'|n'..data.name,
             nil,
             {SetValue=function()
-                Save().buttons[data.name]= allTab
+                WoWTools_AddOnsMixin:Save().buttons[data.name]= allTab
                 WoWTools_DataMixin:Call('AddonList_Update')
             end}
         )
@@ -95,12 +91,12 @@ local function Init_Button_Menu(self, root)
             text= name,
             texture= texture,
             SetValue=function(newIcon, newText)
-                local new=Save().buttons[data.name]
+                local new=WoWTools_AddOnsMixin:Save().buttons[data.name]
                 if new then
-                    for n in pairs(Save().buttons) do
+                    for n in pairs(WoWTools_AddOnsMixin:Save().buttons) do
                         if data.name==n then
-                            Save().buttons[n]= nil
-                            Save().buttons['|T'..(newIcon or 0)..':0|t'..newText]= new
+                            WoWTools_AddOnsMixin:Save().buttons[n]= nil
+                            WoWTools_AddOnsMixin:Save().buttons['|T'..(newIcon or 0)..':0|t'..newText]= new
                             WoWTools_DataMixin:Call('AddonList_Update')
                             return
                         end
@@ -118,7 +114,7 @@ local function Init_Button_Menu(self, root)
             ..'|n'..data.name,
             nil,
             {SetValue=function()
-                Save().buttons[self.name]=nil
+                WoWTools_AddOnsMixin:Save().buttons[self.name]=nil
                 WoWTools_DataMixin:Call('AddonList_Update')
             end}
         )
@@ -147,14 +143,14 @@ local function Create_Button(index)
 
     function btn:set_settings()
         local load, all= 0, 0
-        for name in pairs(Save().buttons[self.name] or {}) do
+        for name in pairs(WoWTools_AddOnsMixin:Save().buttons[self.name] or {}) do
             if C_AddOns.DoesAddOnExist(name) then
                 if Is_Load(name) then
                     load= load +1
                 end
                 all= all+1
             else
-                Save().buttons[self.name][name]=nil
+                WoWTools_AddOnsMixin:Save().buttons[self.name][name]=nil
             end
         end
         self.Text:SetFormattedText(
@@ -169,7 +165,7 @@ local function Create_Button(index)
         self:SetWidth(self.Text:GetWidth()+4)
         self:SetHeight(self.Text:GetHeight()+6)
         self:SetButtonState(self.isLoadAll and 'PUSHED' or 'NORMAL')
-        self.loadTexture:SetShown(Save().load_Button_Name==self.name)
+        self.loadTexture:SetShown(WoWTools_AddOnsMixin:Save().load_Button_Name==self.name)
     end
 
     btn:SetupMenu(Init_Button_Menu)
@@ -227,7 +223,7 @@ local function Set_Right_Buttons()
 
     local index=1
     local w=0
-    for name in pairs(Save().buttons) do
+    for name in pairs(WoWTools_AddOnsMixin:Save().buttons) do
         local btn= _G[Name..index] or Create_Button(index)
         btn.name= name
         btn.numAllLoad= load+ need
@@ -252,7 +248,7 @@ end
 
 
 local function Init()
-    if Save().hideRightList then
+    if WoWTools_AddOnsMixin:Save().hideRightList then
         return
     end
 
@@ -269,11 +265,11 @@ local function Init()
     RightFrame.Background:SetPoint('TOPLEFT', RightFrame)
 
     function RightFrame:settings()
-        local show= not Save().hideRightList
-        self:SetScale(Save().rightListScale or 1)
+        local show= not WoWTools_AddOnsMixin:Save().hideRightList
+        self:SetScale(WoWTools_AddOnsMixin:Save().rightListScale or 1)
         self:SetShown(show)
         _G['WoWToolsAddonsNewButton']:SetShown(show)
-        self.Background:SetColorTexture(0, 0, 0, Save().bgAlpha or 0.5)
+        self.Background:SetColorTexture(0, 0, 0, WoWTools_AddOnsMixin:Save().bgAlpha or 0.5)
     end
 
     RightFrame:settings()

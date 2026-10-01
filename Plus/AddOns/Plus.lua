@@ -1,21 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['Plus_AddOns'] or {}
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Find_AddOn_Dependencies(find, check)
     local addonIndex= check:GetID()
     local tab={}
@@ -68,7 +51,7 @@ local function Create_Check(frame)
     frame.check:SetPoint('RIGHT', frame.Status, 'LEFT')
 
     frame.check:SetScript('OnClick', function(self)
-        Save().fast[self.name]= not Save().fast[self.name] and self:GetID() or nil
+        WoWTools_AddOnsMixin:Save().fast[self.name]= not WoWTools_AddOnsMixin:Save().fast[self.name] and self:GetID() or nil
         WoWTools_AddOnsMixin:Init_Left_Buttons()
     end)
 
@@ -123,7 +106,7 @@ local function Create_Check(frame)
 
     function frame.check:set_leave_alpha()
         local addonIndex= self:GetID()
-        self:SetAlpha(Save().fast[self.name] and 1 or 0)
+        self:SetAlpha(WoWTools_AddOnsMixin:Save().fast[self.name] and 1 or 0)
         self.Text:SetAlpha(C_AddOns.GetAddOnDependencies(addonIndex) and 0.3 or 1)
         local check= self:GetParent().Enabled
         check:SetAlpha(check:GetChecked() and 1 or 0)
@@ -197,9 +180,9 @@ local function Init_Set_List(self, addonIndex)
 
     local name = C_AddOns.GetAddOnName(addonIndex)
 	local title = C_AddOns.GetAddOnTitle(addonIndex)
-    local isChecked= Save().fast[name] and true or false
+    local isChecked= WoWTools_AddOnsMixin:Save().fast[name] and true or false
     if isChecked then
-        Save().fast[name]= addonIndex
+        WoWTools_AddOnsMixin:Save().fast[name]= addonIndex
     end
 
     local iconTexture = C_AddOns.GetAddOnMetadata(addonIndex, "IconTexture")
@@ -256,7 +239,7 @@ end
 
 
 local function Init()
-    if Save().disabledInfoPlus then
+    if WoWTools_AddOnsMixin:Save().disabledInfoPlus then
         return
     end
 
@@ -291,7 +274,7 @@ local function Init()
         GameTooltip:AddLine(WoWTools_L.DISABLE_ALL_ADDONS)
 
         local index= self:GetID()
-        local enabled= Save().enableAllButtn
+        local enabled= WoWTools_AddOnsMixin:Save().enableAllButtn
 
         GameTooltip:AddDoubleLine(
             (WoWTools_L.ENABLE)
@@ -341,7 +324,7 @@ local function Init()
         self:set_tooltips()
     end)
     function btn:set_icon()
-        if Save().enableAllButtn then
+        if WoWTools_AddOnsMixin:Save().enableAllButtn then
             self:SetNormalTexture('Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools')
         else
             self:SetNormalAtlas('talents-button-reset')
@@ -349,7 +332,7 @@ local function Init()
     end
     btn:SetScript('OnClick', function(self, d)
         if d=='LeftButton' then
-            Save().enableAllButtn= not Save().enableAllButtn and true or nil
+            WoWTools_AddOnsMixin:Save().enableAllButtn= not WoWTools_AddOnsMixin:Save().enableAllButtn and true or nil
             self:set_icon()
         else
             WoWTools_AddOnsMixin:FindAddon(self:GetID())
@@ -359,7 +342,7 @@ local function Init()
     btn:set_icon()
 
     AddonList.DisableAllButton:HookScript('OnClick', function()
-        if not Save().enableAllButtn then
+        if not WoWTools_AddOnsMixin:Save().enableAllButtn then
             return
         end
 
