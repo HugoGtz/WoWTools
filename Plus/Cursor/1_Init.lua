@@ -75,31 +75,26 @@ local P_Save={
 
 
 
---Lienzo de la página de opciones del cursor
-local panel= CreateFrame("Frame")
-
 --Módulo registrado con la API común (docs/REFACTOR.md, R2).
---'disabled' aquí es el rastro del cursor (desactivado por defecto), no el módulo: las opciones y el GCD
---arrancan siempre, por eso van en onLoad y no en onEnable. Página de opciones propia (panel=false).
+--'disabled' aquí es el rastro del cursor (ya no existe), no el módulo: el GCD arranca siempre (onLoad) y
+--se activa con su propia opción (disabledGCD). Por eso la tarjeta no lleva interruptor (toggle=false).
+--Opciones: esquema del Centro de control (2_Blizzard_Settings.lua).
 WoWTools_Module:Register({
     key= 'Plus_Cursor',
     name= 'Module.Cursor',
     icon= 'newplayertutorial-icon-mouse-turn',
     group= 'Interface',
+    tooltip= 'Tip.Cursor.EnableGCD',
     defaults= P_Save,
     mixin= WoWTools_CursorMixin,
-    panel= false,
+    toggle= false,
+    options= function()
+        return WoWTools_CursorMixin:Get_Options()
+    end,
     onLoad= function()
+        WoWTools_CursorMixin:Set_Color()
         EventUtil.RegisterOnceFrameEventAndCallback('PLAYER_ENTERING_WORLD', function()
             WoWTools_CursorMixin:GCD_Settings()
         end)
-
-        WoWTools_CursorMixin:Set_Options(panel)
-
-        if not C_AddOns.IsAddOnLoaded('Blizzard_Settings') then
-            EventUtil.ContinueOnAddOnLoaded('Blizzard_Settings', function()
-                WoWTools_CursorMixin:Set_Options(panel)
-            end)
-        end
     end,
 })
