@@ -95,7 +95,6 @@ local function Init()
     CalendarYearName:SetPoint('RIGHT', btn, 'LEFT', -22, 1)
     CalendarYearName:SetScale(1.3)
     CalendarYearName:SetShadowOffset(1, -1)
-    Init=function()end
 end
 
 function WoWTools_HolidayMixin:Init_Calendar_Uptate()

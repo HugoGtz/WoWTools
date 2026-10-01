@@ -1,7 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['Plus_Holiday']
-end
 local TrackButton
 local NumButton=0
 local Name='WoWToolsHolidayTrackButton'
@@ -227,8 +224,8 @@ local function Get_Button_Text(event)
     title= title:match(HEADER_COLON..'(.+)') or title
     title= not event.isValid and '|cff626262'..title..'|r' or title
     local msg
-    if Save().left then
-        msg= ((Save().showDate and event.eventTime) and '|cffffffff'..event.eventTime..'|r ' or '')
+    if WoWTools_HolidayMixin:Save().left then
+        msg= ((WoWTools_HolidayMixin:Save().showDate and event.eventTime) and '|cffffffff'..event.eventTime..'|r ' or '')
             ..(text and text..' ' or '')
             ..(texture or '')
             ..title
@@ -236,7 +233,7 @@ local function Get_Button_Text(event)
         msg= title
             ..(texture or '')
             ..(text and ' '..text or '')
-            ..((Save().showDate and event.eventTime) and ' |cffffffff'..event.eventTime..'|r' or '')
+            ..((WoWTools_HolidayMixin:Save().showDate and event.eventTime) and ' |cffffffff'..event.eventTime..'|r' or '')
     end
 
     icon= icon or CALENDAR_EVENTTYPE_TEXTURES[event.eventType]
@@ -361,7 +358,7 @@ local function Create_Button(index)
     end)
 
     btn:SetScript('OnEnter', function(self)
-        if Save().left then
+        if WoWTools_HolidayMixin:Save().left then
             GameTooltip:SetOwner(self.text, "ANCHOR_LEFT")
         else
             GameTooltip:SetOwner(self.text, "ANCHOR_RIGHT")
@@ -413,15 +410,15 @@ local function Create_Button(index)
 
     function btn:settings()
         self.text:ClearAllPoints()
-        if Save().left then
+        if WoWTools_HolidayMixin:Save().left then
             self.text:SetPoint('RIGHT', self, 'LEFT',1, 0)
         else
             self.text:SetPoint('LEFT', self, 'RIGHT', -1, 0)
         end
-        self.text:SetJustifyH(Save().left and 'RIGHT' or 'LEFT')
+        self.text:SetJustifyH(WoWTools_HolidayMixin:Save().left and 'RIGHT' or 'LEFT')
 
         self:ClearAllPoints()
-        if Save().toTopTrack then
+        if WoWTools_HolidayMixin:Save().toTopTrack then
             self:SetPoint('BOTTOM', _G[Name..(self:GetID()-1)] or TrackButton, 'TOP')
         else
             self:SetPoint('TOP',  _G[Name..(self:GetID()-1)] or TrackButton, 'BOTTOM')
@@ -493,8 +490,8 @@ local function Set_Text(monthOffset, day)
 
                 if _CalendarFrame_IsPlayerCreatedEvent(event.calendarType)
                     or not isToDay
-                    or not Save().onGoing
-                    or (Save().onGoing and isValid)
+                    or not WoWTools_HolidayMixin:Save().onGoing
+                    or (WoWTools_HolidayMixin:Save().onGoing and isValid)
                 then
                     event.index= i
                     event.isValid= isValid
@@ -529,7 +526,7 @@ local function Set_Text(monthOffset, day)
     local btn, s, tcoords
     local width=0
     local num= #events
-    local toLeft= Save().left
+    local toLeft= WoWTools_HolidayMixin:Save().left
 
     TrackButton.Background:ClearAllPoints()
 
@@ -566,7 +563,7 @@ local function Set_Text(monthOffset, day)
 
 
     if num>0 then
-        local toTop= Save().toTopTrack
+        local toTop= WoWTools_HolidayMixin:Save().toTopTrack
         if toLeft then
             TrackButton.Background:SetPoint(toTop and 'BOTTOMRIGHT' or 'TOPRIGHT', _G[Name..1])
             TrackButton.Background:SetPoint(toTop and 'TOPRIGHT' or 'BOTTOMRIGHT', _G[Name..num])
@@ -607,9 +604,9 @@ local function Init_Menu(self, root)
     sub=root:CreateCheckbox(
         WoWTools_L.SHOW,
     function()
-        return not Save().hide
+        return not WoWTools_HolidayMixin:Save().hide
     end, function()
-        Save().hide= not Save().hide and true or nil
+        WoWTools_HolidayMixin:Save().hide= not WoWTools_HolidayMixin:Save().hide and true or nil
         self:set_event()
         self:set_shown()
     end)
@@ -620,9 +617,9 @@ local function Init_Menu(self, root)
     sub=root:CreateCheckbox(
         WoWTools_L['Ongoing only'],
     function()
-        return Save().onGoing
+        return WoWTools_HolidayMixin:Save().onGoing
     end, function()
-        Save().onGoing= not Save().onGoing and true or false
+        WoWTools_HolidayMixin:Save().onGoing= not WoWTools_HolidayMixin:Save().onGoing and true or false
         Set_Text()
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Holiday.OngoingOnly'])
@@ -630,9 +627,9 @@ local function Init_Menu(self, root)
     sub=root:CreateCheckbox(
         WoWTools_L['TIME_LABEL~2'],
     function()
-        return Save().showDate
+        return WoWTools_HolidayMixin:Save().showDate
     end, function()
-        Save().showDate= not Save().showDate and true or nil
+        WoWTools_HolidayMixin:Save().showDate= not WoWTools_HolidayMixin:Save().showDate and true or nil
         Set_Text()
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Holiday.ShowTime'])
@@ -644,9 +641,9 @@ local function Init_Menu(self, root)
     local sub2=sub:CreateCheckbox(
         WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_LEFT,
     function()
-        return Save().left
+        return WoWTools_HolidayMixin:Save().left
     end, function()
-        Save().left= not Save().left and true or nil
+        WoWTools_HolidayMixin:Save().left= not WoWTools_HolidayMixin:Save().left and true or nil
         WoWTools_HolidayMixin:Init_TrackButton()
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Holiday.AlignLeft'])
@@ -654,25 +651,25 @@ local function Init_Menu(self, root)
     sub2=sub:CreateCheckbox(
         WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP,
     function()
-        return Save().toTopTrack
+        return WoWTools_HolidayMixin:Save().toTopTrack
     end, function()
-        Save().toTopTrack = not Save().toTopTrack and true or nil
+        WoWTools_HolidayMixin:Save().toTopTrack = not WoWTools_HolidayMixin:Save().toTopTrack and true or nil
        WoWTools_HolidayMixin:Init_TrackButton()
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Holiday.GrowUp'])
 
     WoWTools_MenuMixin:Scale(self, sub, function()
-        return Save().scale or 1
+        return WoWTools_HolidayMixin:Save().scale or 1
     end, function(value)
-        Save().scale=value
+        WoWTools_HolidayMixin:Save().scale=value
         self:settings()
     end)
 
     WoWTools_MenuMixin:BgAplha(sub,
     function()
-        return Save().bgAlpha or 0.5
+        return WoWTools_HolidayMixin:Save().bgAlpha or 0.5
     end, function(value)
-        Save().bgAlpha=value
+        WoWTools_HolidayMixin:Save().bgAlpha=value
         self:settings()
     end)
 
@@ -680,13 +677,13 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:FrameStrata(self, sub, function(data)
         return self:GetFrameStrata()==data
     end, function(data)
-        Save().strata= data
+        WoWTools_HolidayMixin:Save().strata= data
         self:settings()
     end)
 
 	sub:CreateDivider()
-	WoWTools_MenuMixin:RestPoint(self, sub, Save().point, function()
-		Save().point=nil
+	WoWTools_MenuMixin:RestPoint(self, sub, WoWTools_HolidayMixin:Save().point, function()
+		WoWTools_HolidayMixin:Save().point=nil
 		self:set_point()
 		WoWTools_Print(
             WoWTools_HolidayMixin.addName..WoWTools_DataMixin.Icon.icon2,
@@ -709,7 +706,7 @@ local function Init()
     TrackButton.texture:SetPoint('CENTER')
     TrackButton.texture:SetSize(20,10)
     function TrackButton:set_alpha()
-        local isShow= not Save().hide
+        local isShow= not WoWTools_HolidayMixin:Save().hide
         self.texture:SetAlpha(isShow and 0.3 or 1)
         if isShow then
             self.texture:SetAtlas('Adventure-MissionEnd-Line')
@@ -736,14 +733,14 @@ local function Init()
         self:StopMovingOrSizing()
         if WoWTools_FrameMixin:IsInSchermo(self) then
             self:StopMovingOrSizing()
-            Save().point={self:GetPoint(1)}
-            Save().point[2]=nil
+            WoWTools_HolidayMixin:Save().point={self:GetPoint(1)}
+            WoWTools_HolidayMixin:Save().point[2]=nil
         end
     end)
 
     function TrackButton:set_event()
         self:UnregisterAllEvents()
-        if Save().hide then
+        if WoWTools_HolidayMixin:Save().hide then
             return
         end
         self:RegisterEvent('PLAYER_ENTERING_WORLD')
@@ -797,7 +794,7 @@ local function Init()
             or UnitInVehicle('player') or OverrideActionBar:IsShown()
             or (InCombatLockdown() or isInCombat)
 
-        local showFrame= not hide and not Save().hide
+        local showFrame= not hide and not WoWTools_HolidayMixin:Save().hide
 
         self:SetShown(not hide)
         self:set_alpha()
@@ -810,7 +807,7 @@ local function Init()
             CalendarDayButton_OnEnter(self)
             GameTooltip:AddLine(' ')
         else
-            if Save().left then
+            if WoWTools_HolidayMixin:Save().left then
                 GameTooltip:SetOwner(self, "ANCHOR_LEFT")
             else
                 GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
@@ -839,7 +836,7 @@ local function Init()
         end
     end)
     TrackButton:SetScript('OnMouseWheel', function(self, d)
-		Save().hide= d==1
+		WoWTools_HolidayMixin:Save().hide= d==1
         self:set_event()
         self:set_shown()
         self:set_tooltip()
@@ -852,8 +849,8 @@ local function Init()
 
     function TrackButton:set_point()
         self:ClearAllPoints()
-        if Save().point then
-            self:SetPoint(Save().point[1], UIParent, Save().point[3], Save().point[4], Save().point[5])
+        if WoWTools_HolidayMixin:Save().point then
+            self:SetPoint(WoWTools_HolidayMixin:Save().point[1], UIParent, WoWTools_HolidayMixin:Save().point[3], WoWTools_HolidayMixin:Save().point[4], WoWTools_HolidayMixin:Save().point[5])
         else
             self:SetPoint('TOPLEFT', 400, -100)
         end
@@ -862,10 +859,10 @@ local function Init()
 
 
     function TrackButton:settings()
-        self:SetFrameStrata(Save().strata or 'MEDIUM')
-        self.Frame:SetScale(Save().scale or 1)
+        self:SetFrameStrata(WoWTools_HolidayMixin:Save().strata or 'MEDIUM')
+        self.Frame:SetScale(WoWTools_HolidayMixin:Save().scale or 1)
 
-        self.Background:SetColorTexture(0, 0, 0, Save().bgAlpha or 0.5)
+        self.Background:SetColorTexture(0, 0, 0, WoWTools_HolidayMixin:Save().bgAlpha or 0.5)
 
 
         self:set_shown()
