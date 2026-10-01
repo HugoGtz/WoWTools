@@ -78,7 +78,6 @@ local function Init_Menu(self, root)
     root:CreateDivider()
     sub=WoWTools_MenuMixin:OpenOptions(root, {
         name=WoWTools_SpellMixin.addName,
-        category=WoWTools_SpellMixin.Category,
         name2='|A:spellbook-item-iconframe:0:0|a'..(WoWTools_L.SPELLBOOK),
     })
     WoWTools_MenuMixin:Reload(sub)

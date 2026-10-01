@@ -18,7 +18,6 @@ local function Init_Spec_Menu(self, root)
 
     sub=WoWTools_MenuMixin:OpenOptions(root, {
         name=WoWTools_SpellMixin.addName,
-        category=WoWTools_SpellMixin.Category
     })
 
 
@@ -355,6 +354,21 @@ local function Init()
     Init=function()end
 end
 
+
+--Centro de control: what= 'parent' (lo que hace la casilla UIParent), 'strata' o nada (escala y orientación)
+function WoWTools_SpellMixin:Spec_Button_Settings(what)
+    if not SpecFrame then
+        return
+    end
+    if what=='strata' then
+        SpecFrame:set_strata()
+    else
+        SpecFrame:Settings()
+        if what=='parent' then
+            SpecFrame:set_point()
+        end
+    end
+end
 
 function WoWTools_SpellMixin:Init_Spec_Button()
     Init()
