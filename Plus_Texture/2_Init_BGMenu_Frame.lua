@@ -1,5 +1,5 @@
 local function Save()
-    return WoWToolsPlusSave['Plus_Texture'].Bg
+    return WoWTools_TextureMixin:Save().Bg
 end
 local function BGTextureSave()
     return WoWToolsPlusPlayerDate['BGTexture'] or {}

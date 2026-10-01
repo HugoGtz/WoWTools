@@ -2,10 +2,6 @@
 --iconos sin marco con máscara, atajos más cortos, barra de vehículo y de habilidad de zona. Opción en Opciones -> WoWToolsPlus -> Interfaz.
 WoWTools_ActionBarsMixin= {}
 
-local function Save()
-    return WoWToolsPlusSave['Plus_Texture'] or {}
-end
-
 local function Set_Texture(self)
     if self then
         WoWTools_TextureMixin:HideTexture(self.SlotArt)--, nil, true, 0)
@@ -170,19 +166,20 @@ local Styles= {
     Blizzard_ZoneAbility= Style_ZoneAbility,
 }
 
-EventUtil.ContinueOnAddOnLoaded('WoWToolsPlus', function()
+--Se llama desde 3_Init.lua (onLoad de Plus_Texture), al cargar WoWToolsPlus
+function WoWTools_ActionBarsMixin:Init()
     WoWTools_ActionBarsMixin.addName= '|A:UI-HUD-ActionBar-IconFrame-AddRow:0:0|a'..WoWTools_L['Module.ActionBars']
 
     WoWTools_PanelMixin:OnlyCheck({
         name= WoWTools_ActionBarsMixin.addName,
         tooltip= WoWTools_L['Tip.ActionBars.Enable']..'|n|n'..WoWTools_L.REQUIRES_RELOAD,
-        GetValue= function() return not Save().disabledActionBars end,
+        GetValue= function() return not WoWTools_TextureMixin:Save().disabledActionBars end,
         SetValue= function()
-            Save().disabledActionBars= not Save().disabledActionBars and true or nil
+            WoWTools_TextureMixin:Save().disabledActionBars= not WoWTools_TextureMixin:Save().disabledActionBars and true or nil
         end
     })
 
-    if Save().disabledActionBars then
+    if WoWTools_TextureMixin:Save().disabledActionBars then
         return
     end
     for addonName, style in pairs(Styles) do
@@ -190,4 +187,4 @@ EventUtil.ContinueOnAddOnLoaded('WoWToolsPlus', function()
             style(WoWTools_TextureMixin)
         end)
     end
-end)
+end

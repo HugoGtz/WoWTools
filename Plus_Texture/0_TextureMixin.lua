@@ -5,9 +5,6 @@ WoWTools_TextureMixin={
     Frames={},
     min=0.5,
     tabAlpha= 0.75,
-    Save=function()
-        return WoWToolsPlusSave['Plus_Texture'] or {}
-    end,
     SaveLog=function()
         return WoWToolsPlusPlayerDate['TextureClassColor'] or {}
     end,
