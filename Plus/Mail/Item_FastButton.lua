@@ -566,6 +566,14 @@ end
 
 
 
+--Refresco desde el Centro de control (mostrar lista, escala)
+function WoWTools_MailMixin:Refresh_Fast_Button()
+    if fastButton then
+        fastButton:set_scale()
+        fastButton:set_shown()
+    end
+end
+
 function WoWTools_MailMixin:Init_Fast_Button()
     Init()
 end

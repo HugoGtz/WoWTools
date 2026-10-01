@@ -354,6 +354,14 @@ end
 
 
 
+--Refresco desde el Centro de control (mostrar lista, escala)
+function WoWTools_MailMixin:Refresh_Send_History()
+    if Button then
+        Set_Button()
+        set_list()
+    end
+end
+
 function WoWTools_MailMixin:Init_Send_History_Name()
     Init()
 end
