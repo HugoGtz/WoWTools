@@ -104,7 +104,7 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWTools_L['NO+INSTANCE'])
     end)
 
-    sub=root:CreateCheckbox((WoWTools_L.CHANNEL)..'|A:poi-traveldirections-arrow2:0:0|a'..('|cnGREEN_FONT_COLOR: '..Save().ChannelText..'|r'), function()
+    sub=root:CreateCheckbox((WoWTools_L.CHANNEL)..'|A:poi-traveldirections-arrow2:0:0|a'..('|cnGREEN_FONT_COLOR: '..WoWTools_InviteMixin:Save().ChannelText..'|r'), function()
         return WoWTools_InviteMixin:Save().Channel
     end, function()
         WoWTools_InviteMixin:Save().Channel = not WoWTools_InviteMixin:Save().Channel and true or nil
@@ -129,7 +129,7 @@ local function Init_Menu(self, root)
                 WoWTools_Print(
                     WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,
                     WoWTools_L.CHANNEL,
-                    '|cnGREEN_FONT_COLOR:'..Save().ChannelText..'|r'
+                    '|cnGREEN_FONT_COLOR:'..WoWTools_InviteMixin:Save().ChannelText..'|r'
                 )
             end,
         })
@@ -253,7 +253,7 @@ local function Init_Menu(self, root)
 
 
 
-    sub=root:CreateCheckbox((WoWTools_L.HUD_EDIT_MODE_FOCUS_FRAME_LABEL)..(WoWTools_InviteMixin:Save().setFucus and ' |cnGREEN_FONT_COLOR:'..Save().focusKey..'|r + '..WoWTools_DataMixin.Icon.left or ''), function()
+    sub=root:CreateCheckbox((WoWTools_L.HUD_EDIT_MODE_FOCUS_FRAME_LABEL)..(WoWTools_InviteMixin:Save().setFucus and ' |cnGREEN_FONT_COLOR:'..WoWTools_InviteMixin:Save().focusKey..'|r + '..WoWTools_DataMixin.Icon.left or ''), function()
         return WoWTools_InviteMixin:Save().setFucus
     end, function()
         WoWTools_InviteMixin:Save().setFucus= not WoWTools_InviteMixin:Save().setFucus and true or nil
@@ -349,6 +349,10 @@ local function Init_Menu(self, root)
         end)
     end
     WoWTools_MenuMixin:SetScrollMode(sub2)
+
+--Ajustes... (página del módulo en el Centro de control)
+    root:CreateDivider()
+    WoWTools_ChatMixin:Open_SettingsPanel(root, WoWTools_InviteMixin.addName)
 end
 
 

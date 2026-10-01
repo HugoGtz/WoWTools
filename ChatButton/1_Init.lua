@@ -359,93 +359,150 @@ local Init= WoWTools_Once(function()
 end)
 
 
-local Init_Panel_Once= WoWTools_Once(function()
-    WoWTools_PanelMixin:Header(WoWTools_ChatMixin.Layout, WoWTools_L.OPTIONS)
-
-    for _, data in pairs (WoWTools_ChatMixin:GetAllAddList()) do
-        WoWTools_PanelMixin:OnlyCheck({
-            category= WoWTools_ChatMixin.Category,
-            name= data.tooltip,
-            tooltip= WoWTools_L['Tip.Chat.AddButton']..'|n|n'..data.name,
-            Value= not WoWTools_ChatMixin:Save().disabledADD[data.name],
-            GetValue= function() return not WoWTools_ChatMixin:Save().disabledADD[data.name] end,
-            SetValue= function()
-                WoWTools_ChatMixin:Save().disabledADD[data.name]= not WoWTools_ChatMixin:Save().disabledADD[data.name] and true or nil
-            end
-        })
-    end
-end)
-
---Solo se crea con el módulo activado (puede activarse más tarde desde la casilla)
-local function Init_Panel()
-    if WoWTools_ChatMixin:Save().disabled then
+--Refresco en vivo de la barra (lo usan el menú y el Centro de control). all: también los botones
+function WoWTools_ChatMixin:Refresh(all)
+    local btn= _G['WoWToolsChatButtonMainButton']
+    if not btn then
         return
     end
-    Init_Panel_Once()
+    btn:settings()
+    if all then
+        Set_All_Buttons(btn)
+    end
 end
 
 
---Página de opciones propia (subcategoría): se crea siempre, aunque esté desactivado
-local function Init_Options()
-    WoWTools_ChatMixin:Save().disabledADD= WoWTools_ChatMixin:Save().disabledADD or {}
+local StrataList= {'BACKGROUND','LOW','MEDIUM','HIGH','DIALOG','FULLSCREEN','FULLSCREEN_DIALOG'}
 
-    WoWTools_ChatMixin.Category, WoWTools_ChatMixin.Layout= WoWTools_PanelMixin:AddSubCategory({
-        name=WoWTools_ChatMixin.addName,
-        disabled=WoWTools_ChatMixin:Save().disabled
-    })
+local function Strata_Values()
+    local list= {}
+    for _, strata in ipairs(StrataList) do
+        table.insert(list, {value=strata, text=strata})
+    end
+    return list
+end
 
-    WoWTools_PanelMixin:Check_Button({
-        checkName= WoWTools_L.ENABLE,
-        GetValue= function() return not WoWTools_ChatMixin:Save().disabled end,
-        SetValue= function()
-            WoWTools_ChatMixin:Save().disabled= not WoWTools_ChatMixin:Save().disabled and true or nil
-            Init_Panel()
+local function Anchor_Values()
+    return {
+        {value=1, text='HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN'},
+        {value=2, text='HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP'},
+        {value=3, text='HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_LEFT'},
+        {value=4, text='HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_RIGHT'},
+    }
+end
+
+local function Refresh()
+    WoWTools_ChatMixin:Refresh()
+end
+
+local function Refresh_All()
+    WoWTools_ChatMixin:Refresh(true)
+end
+
+--Esquema del Centro de control (docs/SETTINGS.md): mismos campos que el menú del botón
+local Options= {
+    {type='section', text='GENERAL'},
+    {type='check', key='enterShowMenu', text='Open menus on mouseover', tooltip='Tip.Chat.EnterShowMenu',
+        get= function(save) return save.isEnterShowMenu end,
+        set= function(save, value) save.isEnterShowMenu= value and true or nil end,
+    },
+    {type='check', key='tooltip', text='Show tooltips', tooltip='Tip.Chat.Tooltip',
+        get= function(save) return not save.disabledTooltiip end,
+        set= function(save, value) save.disabledTooltiip= not value and true or nil end,
+    },
+    {type='children'},
+
+    {type='section', text='Appearance'},
+    {type='slider', key='scale', text='SCALE', tooltip='Tip.Menu.Scale', min=0.4, max=4, step=0.1, format='%.1f',
+        get= function(save) return save.scale or 1 end,
+        set= function(save, value) save.scale= value end,
+        apply= Refresh,
+    },
+    {type='check', key='vertical', text='Vertical layout', tooltip='Tip.Chat.Vertical',
+        get= function(save) return save.isVertical end,
+        set= function(save, value) save.isVertical= value and true or nil end,
+        apply= Refresh_All,
+    },
+    {type='dropdown', key='anchorMenu', text='Menu direction', tooltip='Tip.Chat.MenuAnchor',
+        values= Anchor_Values,
+        get= function(save) return save.anchorMenuIndex or 1 end,
+        set= function(save, value) save.anchorMenuIndex= value end,
+        apply= Refresh_All,
+    },
+    {type='slider', key='pointX', text='Button spacing', tooltip='Tip.Chat.Border', min=-15, max=15, step=1,
+        get= function(save) return save.pointX or 0 end,
+        set= function(save, value) save.pointX= value end,
+        apply= Refresh_All,
+    },
+    {type='slider', key='borderAlpha', text='Border opacity', tooltip='Tip.Chat.Border', min=0, max=1, step=0.1, format='%.1f',
+        get= function(save) return save.borderAlpha or 0.3 end,
+        set= function(save, value) save.borderAlpha= value end,
+        apply= Refresh_All,
+    },
+    {type='slider', key='bgAlpha', text='BACKGROUND+HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY', tooltip='Tip.Menu.BgAlpha',
+        min=0, max=1, step=0.1, format='%.1f',
+        get= function(save) return save.bgAlpha or 0 end,
+        set= function(save, value) save.bgAlpha= value end,
+        apply= Refresh_All,
+    },
+    {type='check', key='bgClassColor', text='CLASS_COLORS', tooltip='Tip.Chat.BgClassColor', indent=true,
+        get= function(save) return save.bgUseClassColor end,
+        set= function(save, value) save.bgUseClassColor= value and true or nil end,
+        apply= Refresh_All,
+    },
+    {type='dropdown', key='strata', text='Strata', tooltip='Tip.Menu.Strata',
+        values= Strata_Values,
+        get= function(save) return save.strata or 'MEDIUM' end,
+        set= function(save, value) save.strata= value end,
+        apply= Refresh,
+    },
+
+    {type='check', key='chatFrameLeft', text='Attach under the chat menu button', tooltip='Tip.Chat.ChatFrameLeft',
+        get= function(save) return save.setChatFrameLeft end,
+        set= function(save, value)
+            save.setChatFrameLeft= value and true or nil
+            if save.setChatFrameLeft then
+                save.Point= nil
+            end
         end,
-        buttonText= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.RESET),
-        buttonFunc= function()
-            StaticPopup_Show('WoWTools_RestData',
-                WoWTools_ChatMixin.addName,
-                nil,
-            function()
+        apply= Refresh,
+    },
+    {type='check', key='uiParent', text='Attach to UIParent', tooltip='Tip.Chat.UIParent',
+        get= function(save) return not save.setParent end,
+        set= function(save, value) save.setParent= not value and true or nil end,
+        apply= Refresh,
+    },
+    {type='button', key='resetPoint', text='RESET_POSITION', buttonText='RESET',
+        disabled= function(save) return save.setChatFrameLeft or not save.Point end,
+        func= function(M, save)
+            save.Point= nil
+            M:Refresh()
+            M:Print(WoWTools_L.RESET_POSITION)
+        end,
+    },
+
+    {type='section', text='Advanced'},
+    {type='button', key='reset', text='Reset all settings', buttonText='RESET', tooltip='Tip.Menu.RestData',
+        func= function(M)
+            StaticPopup_Show('WoWTools_RestData', M.addName, nil, function()
                 WoWToolsPlusSave['ChatButton']= nil
             end)
         end,
-        tooltip= WoWTools_L['Tip.Chat.Enable']..'|n|n'..'|cnWARNING_FONT_COLOR:'..(WoWTools_L.REQUIRES_RELOAD),
-        layout= WoWTools_ChatMixin.Layout,
-        category= WoWTools_ChatMixin.Category,
-    })
-
-    WoWTools_PanelMixin:OnlyButton({
-        buttonText= WoWTools_L.RESET_POSITION,
-        category= WoWTools_ChatMixin.Category,
-        layout= WoWTools_ChatMixin.Layout,
-        SetValue= function()
-            WoWTools_ChatMixin:Save().Point=nil
-            if _G['WoWToolsChatButtonMainButton'] then
-                _G['WoWToolsChatButtonMainButton']:settings()
-            end
-            WoWTools_Print(
-                WoWTools_ChatMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                WoWTools_L.RESET_POSITION
-            )
-        end
-    })
-
-    WoWTools_PanelMixin:Header(WoWTools_ChatMixin.Layout, WoWTools_L.OTHER)
-
-    EventUtil.ContinueOnAddOnLoaded('Blizzard_Settings', Init_Panel)
-end
+    },
+}
 
 
 --Los botones (submódulos) se registran después, con parent='ChatButton'
 WoWTools_Module:Register({
     key= 'ChatButton', name= 'Module.Chat tools', icon= 'voicechat-icon-textchat-silenced', group= 'Chat',
     defaults= P_Save, tooltip= 'Tip.Chat.Enable', mixin= WoWTools_ChatMixin,
-    panel= false,--tiene su propia página de opciones (Init_Options)
-    onLoad= Init_Options,
+    options= Options,
+    onLoad= function(_, save)
+        save.disabledADD= save.disabledADD or {}
+    end,
     onEnable= Init,
     childToggle= WoWTools_Module:DisabledADDToggle({
         ChatButtonGroup='Group', ChatButtonGuild='Guild', ChatButton_LFD='LFD', ChatButton_HyperLink='HyperLink',
-        ChatButton_Say='Say', ChatButton_Invite='Invite', ChatButton_Roll='Roll', Plus_EmoteButton='ChatButton_Emoji',
+        ChatButton_Say='Say', ChatButton_Invite='Invite', ChatButton_Roll='Roll',--Plus_EmoteButton usa su propio interruptor
     }),
 })

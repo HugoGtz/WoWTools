@@ -61,10 +61,7 @@ local function Init_Menu(self, root)
         ..'|A:mechagon-projects:0:0|a'
         ..WoWTools_L['Set keywords'],
     function()
-        if not WoWTools_HyperLink.Category then
-            WoWTools_PanelMixin:Open()
-        end
-        WoWTools_PanelMixin:Open(WoWTools_HyperLink.Category, WoWTools_HyperLink.addName)
+        WoWTools_PanelMixin:Open(nil, WoWTools_HyperLink.addName)--página del módulo en el Centro de control
         return MenuResponse.Open
     end)
 
@@ -224,6 +221,9 @@ local function Init_Menu(self, root)
         tooltip:AddLine(WoWTools_L.MAINMENU_BUTTON)
         tooltip:AddLine(WoWTools_L.OPTIONS)
     end)
+
+    root:CreateDivider()
+    WoWTools_ChatMixin:Open_SettingsPanel(root, WoWTools_HyperLink.addName)
 end
 
 

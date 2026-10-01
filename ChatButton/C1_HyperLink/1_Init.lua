@@ -22,7 +22,6 @@ local P_Save={
 
 local Init= WoWTools_Once(function()
     local btn= WoWTools_ChatMixin:GetButtonForName('HyperLink')
-    WoWTools_HyperLink:Blizzard_Settings()
     WoWTools_HyperLink:Init_Menu()
 
     btn.eventSoundTexture= btn:CreateTexture(nil,'OVERLAY')
@@ -107,6 +106,7 @@ end)
 WoWTools_Module:Register({
     key= 'ChatButton_HyperLink', name= 'COMMUNITIES_INVITE_MANAGER_COLUMN_TITLE_LINK+EMBLEM_SYMBOL', icon= 'voicechat-icon-STT-on',
     parent= 'ChatButton', defaults= P_Save, mixin= WoWTools_HyperLink,
+    options= function() return WoWTools_HyperLink:GetOptions() end,--3_Options.lua
     onEnable= function()
         WoWTools_HyperLink:Save().disabledTalkingPringText= nil
         WoWToolsPlusSave['ChatButton_Markers']= nil

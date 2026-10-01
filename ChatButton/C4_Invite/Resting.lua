@@ -40,6 +40,9 @@ function WoWTools_InviteMixin:Init_Resting()
 end
 
 function WoWTools_InviteMixin:Resting_Settings()
+    if not self.RestingFrame then--se crea al entrar al mundo
+        return
+    end
     self.RestingFrame:set_event()
     self.RestingFrame:settings()
 end

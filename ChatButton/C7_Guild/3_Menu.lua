@@ -362,6 +362,8 @@ local function Init_Menu(self, root)
 
     if not IsInGuild() then
         WoW_List(self, root)
+        root:CreateDivider()
+        WoWTools_ChatMixin:Open_SettingsPanel(root, WoWTools_GuildMixin.addName)
         return
     end
 
@@ -385,6 +387,10 @@ local function Init_Menu(self, root)
             tooltip:AddLine(WoWTools_L.GUILD_IMPEACH_POPUP_TEXT, nil,nil,nil, true)
         end)
     end
+
+    --antes de la lista de miembros (puede ser muy larga)
+    root:CreateDivider()
+    WoWTools_ChatMixin:Open_SettingsPanel(root, WoWTools_GuildMixin.addName)
 
     Guild_Player_List(self, root)
 end

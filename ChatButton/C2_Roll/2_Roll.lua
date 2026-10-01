@@ -315,6 +315,9 @@ local function Init_Menu(self, root)
         WoWTools_MenuMixin:SetScrollMode(sub)
     end
 
+    root:CreateDivider()
+    WoWTools_ChatMixin:Open_SettingsPanel(root, addName)
+
     WoWTools_MenuMixin:SetScrollMode(root)
 
     _tabNew= nil
@@ -435,7 +438,31 @@ end)
 
 WoWTools_Module:Register({
     key= 'ChatButton_Roll', name= 'ROLL', icon= 'Interface\\PVPFrame\\Icons\\PVP-Banner-Emblem-47',
-    parent= 'ChatButton', defaults= P_Save, mixin= M,
+    parent= 'ChatButton', defaults= P_Save, mixin= M, tooltip= 'Tip.Roll.Enable',
+    options= {
+        {type='section', text='GENERAL'},
+        {type='check', key='is1000', text='Roll 1-1000', tooltip='Tip.Roll.Roll1000',
+            get= function(save) return save.is1000 end,
+            set= function(save, value) save.is1000= value and true or nil end},
+        {type='check', key='saveLog', text='Save the last 40 rolls', tooltip='Tip.Roll.SaveLog',
+            get= function(save) return save.saveLog end,
+            set= function(save, value) save.saveLog= value and true or nil end,
+            apply= function() panel:set_event() end},
+        {type='button', key='clearLog', text='SLASH_STOPWATCH_PARAM_STOP2+EVENTTRACE_LOG_HEADER', buttonText='SLASH_STOPWATCH_PARAM_STOP2',
+            tooltip='Tip.Roll.ClearLog', confirm=true,
+            disabled= function(save) return #(save.save or {})==0 end,
+            func= function(_, save) save.save={} end},
+
+        {type='section', text='Automations'},
+        {type='check', key='autoClear', text='Entering combat: Clear', tooltip='Tip.Roll.AutoClear', automation=true,
+            get= function(save) return save.autoClear end,
+            set= function(save, value) save.autoClear= value and true or false end,
+            apply= function()
+                if RollButton and RollButton.autoClearTips then
+                    setAutoClearRegisterEvent()
+                end
+            end},
+    },
     onEnable= function()
         addName= M.addName
 

@@ -126,9 +126,143 @@ local function Init(btn)
 end
 
 
+--Marco de información de colas (Queue_Status.lua)
+local function Refresh_QueueFrame()
+    local btn= _G['WoWToolsChatToolsLFDTooltipButton']
+    if btn and btn.settings then
+        btn:settings()
+    end
+end
+
+local function Seconds(value)
+    return format('%d %s', value, WoWTools_L.LOSS_OF_CONTROL_SECONDS)
+end
+
+local function Strata_Values()
+    local list= {}
+    for _, strata in ipairs({'BACKGROUND','LOW','MEDIUM','HIGH','DIALOG','FULLSCREEN','FULLSCREEN_DIALOG'}) do
+        table.insert(list, {value=strata, text=strata})
+    end
+    return list
+end
+
+local function Hide_Queue(save)
+    return save.hideQueueStatus
+end
+
+--Solo en vivo si el módulo ya arrancó y tiene su botón (si no, se aplicará al arrancar)
+local function Live(func)
+    return function(M, ...)
+        if M.started and WoWTools_ChatMixin:GetButtonForName('LFD') then
+            func(M, ...)
+        end
+    end
+end
+
+local Options= {
+    {type='section', text='GENERAL'},
+    {type='check', key='queueInfo', text='SOCIAL_QUEUE_TOOLTIP_HEADER+INFO', tooltip='Tip.LFD.QueueInfo',
+        get= function(save) return not save.hideQueueStatus end,
+        set= function(save, value) save.hideQueueStatus= not value and true or nil end,
+        apply= Live(function(M) M:Set_Queue_Status() end),
+    },
+    {type='check', key='hideLocked', text='Hide locked instances', tooltip='Tip.LFD.HideLocked',
+        get= function(save) return save.hideDontEnterMenu end,
+        set= function(save, value) save.hideDontEnterMenu= value and true or nil end,
+    },
+    {type='check', key='lootPlus', text='Loot Plus', tooltip='Tip.LFD.LootPlus',
+        get= function(save) return not save.disabledLootPlus end,
+        set= function(save, value) save.disabledLootPlus= not value and true or nil end,
+    },
+
+    {type='section', text='Automations'},
+    {type='check', key='roleCheck', text='Auto-accept role checks', tooltip='Tip.LFD.RoleCheck', automation=true, reload=true,
+        get= function(save) return save.autoSetPvPRole end,
+        set= function(save, value) save.autoSetPvPRole= value and true or nil end,
+        apply= Live(function(M) M:Init_RolePollPopup() end),
+    },
+    {type='check', key='autoRole', text='Set roles from specialization', tooltip='Tip.LFD.AutoRole', automation=true, indent=true,
+        disabled= function(save) return not save.autoSetPvPRole end,
+        get= function(save) return save.autoSetRole end,
+        set= function(save, value) save.autoSetRole= value and true or false end,
+        apply= Live(function(M) M:Init_RolePollPopup() end),
+    },
+    {type='slider', key='sec', text='Auto confirm', tooltip='Tip.LFD.AutoConfirmSec', automation=true,
+        min=1, max=20, step=1, format=Seconds,
+        get= function(save) return save.sec or 5 end,
+        set= function(save, value) save.sec= math.floor(value+0.5) end,
+    },
+    {type='check', key='leaveInstance', text='LEAVE+INSTANCE', tooltip='Tip.LFD.LeaveInstance', automation=true,
+        get= function(save) return save.leaveInstance end,
+        set= function(save, value) save.leaveInstance= value and true or nil end,
+        apply= Live(function(M) M:Init_Exit_Instance() end),
+    },
+    {type='check', key='reMe', text='Release, Resurrect', tooltip='Tip.LFD.ReleaseRes', automation=true,
+        get= function(save) return save.ReMe end,
+        set= function(save, value) save.ReMe= value and true or false end,
+        apply= Live(function(M) M:Init_RepopMe() end),
+    },
+    {type='check', key='reMeAll', text='Also outside battlegrounds', tooltip='Tip.LFD.ReleaseResAll', automation=true, indent=true,
+        disabled= function(save) return not save.ReMe end,
+        get= function(save) return save.ReMe_AllZone end,
+        set= function(save, value) save.ReMe_AllZone= value and true or false end,
+        apply= Live(function(M) M:Init_RepopMe() end),
+    },
+    {type='check', key='autoRoll', text='Roll on loot automatically', tooltip='Tip.LFD.AutoRoll', automation=true,
+        get= function(save) return save.autoROLL end,
+        set= function(save, value) save.autoROLL= value and true or nil end,
+    },
+    {type='check', key='confirmBoP', text='Confirm Bind on Pickup rolls', tooltip='Tip.LFD.ConfirmBoP', automation=true,
+        get= function(save) return save.autoConfirmLootRoll end,
+        set= function(save, value) save.autoConfirmLootRoll= value and true or nil end,
+    },
+
+    {type='section', text='Appearance'},
+    {type='slider', key='tipsScale', text='SCALE', tooltip='Tip.Menu.Scale', min=0.4, max=4, step=0.1, format='%.1f',
+        disabled= Hide_Queue,
+        get= function(save) return save.tipsScale or 1 end,
+        set= function(save, value) save.tipsScale= value end,
+        apply= Refresh_QueueFrame,
+    },
+    {type='slider', key='tipsAlpha', text='BACKGROUND+HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY', tooltip='Tip.Menu.BgAlpha',
+        min=0, max=1, step=0.1, format='%.1f',
+        disabled= Hide_Queue,
+        get= function(save) return save.tipsAlpha or 0.5 end,
+        set= function(save, value) save.tipsAlpha= value end,
+        apply= Refresh_QueueFrame,
+    },
+    {type='dropdown', key='strata', text='Strata', tooltip='Tip.Menu.Strata',
+        values= Strata_Values,
+        disabled= Hide_Queue,
+        get= function(save) return save.queueStatusStrata or 'MEDIUM' end,
+        set= function(save, value) save.queueStatusStrata= value end,
+        apply= Refresh_QueueFrame,
+    },
+    {type='button', key='resetPoint', text='RESET_POSITION', buttonText='RESET',
+        disabled= function(save) return not save.tipsFramePoint end,
+        func= function(_, save)
+            save.tipsFramePoint= nil
+            Refresh_QueueFrame()
+        end,
+    },
+
+    {type='section', text='Advanced'},
+    {type='button', key='clearComplete', text='INSTANCE+COMPLETE', buttonText='CLEAR_ALL', tooltip='Tip.LFD.ClearComplete',
+        confirm='CLEAR_ALL',
+        disabled= function(save) return not next(save.wow or {}) end,
+        func= function(_, save)
+            save.wow= {}
+        end,
+    },
+}
+
+
+
+
 WoWTools_Module:Register({
     key= 'ChatButton_LFD', name= 'Module.Group Finder', icon= 'groupfinder-eye-frame',
     parent= 'ChatButton', mixin= WoWTools_LFDMixin,
+    options= Options,
     defaults= {
         ReMe=true,
         autoSetRole=true,

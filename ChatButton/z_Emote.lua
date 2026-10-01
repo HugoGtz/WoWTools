@@ -1129,28 +1129,87 @@ end
 
 
 MainButton= CreateFrame('Button', 'WoWToolsChatEmoteButton', UIParent, 'WoWToolsButtonTemplate')
+
+--Refresco en vivo desde el Centro de control (solo si los botones ya existen)
+local function Refresh()
+    if MainButton.pool and not M:Save().disabled then
+        Init_Button()
+    end
+end
+
+local StrataValues= {}
+for _, name in ipairs({'BACKGROUND', 'LOW', 'MEDIUM', 'HIGH', 'DIALOG', 'FULLSCREEN', 'FULLSCREEN_DIALOG'}) do
+    table.insert(StrataValues, {value=name, text=name})
+end
+
+local function Not_UIParent(save)
+    return not save.isUIParent
+end
+
+local function Slider(key, text, tooltip, min, max, step, default, disabled)
+    return {type='slider', key=key, text=text, tooltip=tooltip, min=min, max=max, step=step,
+        format= step<1 and '%.1f' or nil, disabled=disabled, indent= disabled and true or nil,
+        get= function(save) return save[key] or default end,
+        set= function(save, value) save[key]= value end,
+        apply= Refresh}
+end
+
 WoWTools_Module:Register({
     key= 'Plus_EmoteButton', name= 'EMOTE_MESSAGE', icon= 'newplayerchat-chaticon-newcomer',
     parent= 'ChatButton', defaults= CopyTable(P_Save), tooltip= 'Tip.Emote.Enable', mixin= M,
     reload= false,
-    panel= false,--su casilla (con botón de restablecer) va en la página del Botón de chat
+    onToggle= function()--lo mismo que hacía su casilla de la página del Botón de chat
+        Init()
+    end,
+    options= {
+        {type='section', text='GENERAL'},
+        {type='note', text='Tip.Emote.ChooseInMenu'},
+        {type='button', key='addCustom', text='ADD+CUSTOM', tooltip='Tip.Emote.AddCustom',
+            func= function() Init_UseFrame() end},
+        {type='button', key='clearAll', text='EVENTTRACE_BUTTON_DISABLE_FILTERS', tooltip='Tip.Emote.ClearAll', confirm=true,
+            func= function(_, save)
+                save.emoji= {}
+                save.command= {}
+                save.chat= {}
+                Refresh()
+            end},
+
+        {type='section', text='Appearance'},
+        {type='check', key='isUIParent', text='Free-floating bar', tooltip='Tip.Emote.UIParent',
+            get= function(save) return save.isUIParent end,
+            set= function(save, value) save.isUIParent= value and true or nil end,
+            apply= Refresh},
+        {type='dropdown', key='strata', text='Strata', tooltip='Tip.Menu.Strata', values= StrataValues, indent=true,
+            disabled= Not_UIParent,
+            get= function(save) return save.strata or 'MEDIUM' end,
+            set= function(save, value) save.strata= value end,
+            apply= Refresh},
+        Slider('line', 'AUCTION_HOUSE_QUANTITY_LABEL', 'Tip.Emote.Line', 1, 60, 1, 1, Not_UIParent),
+        Slider('bgAlpha', 'BACKGROUND+HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY', 'Tip.Menu.BgAlpha', 0, 1, 0.1, 0, Not_UIParent),
+        Slider('scale', 'SCALE', 'Tip.Menu.Scale', 0.4, 4, 0.1, 1),
+        Slider('alpha', 'Icon opacity', 'Tip.Emote.IconAlpha', 0, 1, 0.1, 0.5),
+        Slider('fontScale', 'FONT_SIZE~2', 'Tip.Emote.FontScale', 0.2, 4, 0.1, 1),
+        Slider('subName', 'Truncate', 'Tip.Emote.Truncate', 0, 20, 1, LOCALE_koKR and 1 or 3),
+        Slider('width', 'HUD_EDIT_MODE_SETTING_CHAT_FRAME_WIDTH', 'Tip.Emote.Size', 0, 128, 1, 32),
+        Slider('height', 'HUD_EDIT_MODE_SETTING_CHAT_FRAME_HEIGHT', 'Tip.Emote.Size', 0, 128, 1, 32),
+
+        {type='section', text='Advanced'},
+        {type='check', key='isSecure', text='Secure macro buttons', tooltip='Tip.Emote.Secure', noCombat=true,
+            get= function(save) return save.isSecure end,
+            set= function(save, value) save.isSecure= value and true or nil end,
+            apply= Refresh},
+        {type='button', key='reset', text='RESET_ALL_BUTTON_TEXT', buttonText='RESET', tooltip='Tip.Emote.Reset',
+            disabled= function(save) return save.disabled or not MainButton.pool end,
+            func= function() Rest_Button() end},
+        {type='button', key='clearData', text='Clear input data', buttonText='SLASH_STOPWATCH_PARAM_STOP2', tooltip='Tip.Emote.ClearData',
+            confirm=true,
+            func= function()
+                WoWToolsPlusPlayerDate['EmoteButton']= CopyTable(P_SaveUse)
+            end},
+    },
     onLoad= function()
         WoWToolsPlusPlayerDate['EmoteButton']= WoWToolsPlusPlayerDate['EmoteButton'] or CopyTable(P_SaveUse)
         addName= M.addName
-
-        WoWTools_PanelMixin:Check_Button({
-            checkName= addName,
-            GetValue= function() return not M:Save().disabled end,
-            SetValue= function()
-                M:Save().disabled= not M:Save().disabled and true or nil
-                Init()
-            end,
-            buttonText= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.RESET),
-            buttonFunc= Rest_Button,
-            layout= WoWTools_ChatMixin.Layout,
-            category= WoWTools_ChatMixin.Category,
-            tooltip= WoWTools_L['Tip.Emote.Enable']..'|n|n'..WoWTools_L['Button'],
-        })
     end,
     onEnable= function()
         MainButton:RegisterEvent('PLAYER_ENTERING_WORLD')

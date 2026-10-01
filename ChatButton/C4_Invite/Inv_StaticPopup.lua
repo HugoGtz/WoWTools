@@ -93,16 +93,20 @@ local function Settings(_, name, isTank, isHealer, isDamage, isNativeRealm, allo
     end
 
 
+    --Esperas configurables (Centro de control); sin valor guardado, las de siempre (3 s, o 10 s en cola)
+    local acceptSec= WoWTools_InviteMixin:Save().FriendAceInviteSec or 3
+    local declineSec= WoWTools_InviteMixin:Save().InvDeclineSec or 3
+
     if WoWTools_InviteMixin:Save().InvNoFriend[inviterGUID] then
-        sec= 3
-        text= '|cnWARNING_FONT_COLOR:'..(WoWTools_L.DECLINE)..' '..Save().InvNoFriend[inviterGUID]..'/'..Save().InvNoFriendNum..'|r'
+        sec= declineSec
+        text= '|cnWARNING_FONT_COLOR:'..(WoWTools_L.DECLINE)..' '..WoWTools_InviteMixin:Save().InvNoFriend[inviterGUID]..'/'..WoWTools_InviteMixin:Save().InvNoFriendNum..'|r'
         setPrint()
 
         StaticPopupFrame.button3:SetText(WoWTools_L['REMOVE+DECLINE'])
 
         if InvTimer then InvTimer:Cancel() InvTimer=nil end
 
-        InvTimer = C_Timer.NewTimer(3, Decline)
+        InvTimer = C_Timer.NewTimer(sec, Decline)
 
     elseif WoWTools_UnitMixin:GetIsFriendIcon(nil, inviterGUID, nil) then
         if not WoWTools_InviteMixin:Save().FriendAceInvite then
@@ -110,7 +114,7 @@ local function Settings(_, name, isTank, isHealer, isDamage, isNativeRealm, allo
             return
         end
 
-        sec=isInLFG() and 10 or 3
+        sec=isInLFG() and math.max(10, acceptSec) or acceptSec
 
         text= '|cnGREEN_FONT_COLOR:'
             ..(WoWTools_L['ACCEPT+FRIENDS'])
@@ -121,14 +125,14 @@ local function Settings(_, name, isTank, isHealer, isDamage, isNativeRealm, allo
         InvTimer = C_Timer.NewTimer(sec, Accept)
 
     elseif IsResting() and WoWTools_InviteMixin:Save().NoInvInResting and not questSessionActive then
-        sec= 3
+        sec= declineSec
         text= '|cnWARNING_FONT_COLOR:'
             ..WoWTools_L['Decline in rest zone']
             ..'|r'
         setPrint()
 
         if InvTimer then InvTimer:Cancel() InvTimer=nil end
-        InvTimer = C_Timer.NewTimer(3, DeclineOnly)
+        InvTimer = C_Timer.NewTimer(sec, DeclineOnly)
 
     else
 

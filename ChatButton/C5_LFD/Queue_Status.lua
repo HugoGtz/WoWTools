@@ -457,10 +457,7 @@ local function Init_Menu(self, root)
     sub:SetEnabled(UnitIsGroupLeader("player"))
 
     root:CreateDivider()
-    sub= WoWTools_MenuMixin:OpenOptions(root, {
-        name=WoWTools_LFDMixin.addName,
-        category=WoWTools_ChatMixin.Category
-    })
+    sub= WoWTools_ChatMixin:Open_SettingsPanel(root, WoWTools_LFDMixin.addName)
 
 
 --FrameStrata

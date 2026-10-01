@@ -858,7 +858,7 @@ local function Init_Menu(self, root)
     function()
         WoWTools_LFDMixin:Save().tipsFramePoint=nil
         if _G['WoWToolsChatToolsLFDTooltipButton'] then
-            _G['WoWToolsChatToolsLFDTooltipButton']:set_Point()
+            _G['WoWToolsChatToolsLFDTooltipButton']:settings()--set_Point no existía
             WoWTools_Print(
                 WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 WoWTools_L.RESET_POSITION
@@ -1184,6 +1184,10 @@ local function Init_Menu(self, root)
         WoWTools_DataMixin:Call('VehicleExit')
         return MenuResponse.Open
     end)
+
+--Ajustes... (página del módulo en el Centro de control)
+    root:CreateDivider()
+    WoWTools_ChatMixin:Open_SettingsPanel(root, WoWTools_LFDMixin.addName)
 
 
      WoWTools_MenuMixin:SetScrollMode(root)

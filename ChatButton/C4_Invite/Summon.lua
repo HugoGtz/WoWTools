@@ -20,9 +20,10 @@ local Init= WoWTools_Once(function()
                     self.SummonTimer:Cancel()
                     self.SummonTimer= nil
                 end
-                WoWTools_CooldownMixin:Setup(self, nil, 3, nil, true, true, nil)
+                local sec= WoWTools_InviteMixin:Save().SummonSec or 3--espera configurable (por defecto 3 s)
+                WoWTools_CooldownMixin:Setup(self, nil, sec, nil, true, true, nil)
 
-                self.SummonTimer= C_Timer.NewTimer(3, function()
+                self.SummonTimer= C_Timer.NewTimer(sec, function()
                     if not InCombatLockdown() and PlayerCanTeleport() then
                         C_SummonInfo.ConfirmSummon()
                         StaticPopup_Hide("CONFIRM_SUMMON")

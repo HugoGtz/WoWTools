@@ -288,6 +288,9 @@ end
         end, tab)
         WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Group.WheelEdit'])
     end
+
+    root:CreateDivider()
+    WoWTools_ChatMixin:Open_SettingsPanel(root, WoWTools_GroupMixin.addName)
 end
 
 
@@ -515,6 +518,14 @@ local Init= WoWTools_Once(function()
 end)
 
 
+--Refresca el botón tras cambiar un ajuste (Centro de control)
+function WoWTools_GroupMixin:Refresh()
+    if GroupButton and GroupButton.typeText then
+        Settings(GroupButton)
+    end
+end
+
+
 --###########
 --###########
 local panel= CreateFrame("Frame")
@@ -539,6 +550,45 @@ end)
 WoWTools_Module:Register({
     key= 'ChatButtonGroup', name= 'Module.Group', icon= 'socialqueuing-icon-group',
     parent= 'ChatButton', defaults= {autoReady=0}, mixin= WoWTools_GroupMixin,
+    options= {
+        {type='section', text='GENERAL'},
+        {type='check', key='raidHP', text='Group members HP', tooltip='Tip.Group.MembersHP',
+            get= function(save) return save.showRaidHPTooltip end,
+            set= function(save, value) save.showRaidHPTooltip= value and true or nil end,
+        },
+        {type='input', key='wheelUp', text='KEY_MOUSEWHEELUP', tooltip='Tip.Group.WheelEdit', width=220,
+            get= function() return WoWToolsPlusPlayerDate['GroupMouseUpText'] or '' end,
+            set= function(_, text) WoWToolsPlusPlayerDate['GroupMouseUpText']= text end,
+        },
+        {type='input', key='wheelDown', text='KEY_MOUSEWHEELDOWN', tooltip='Tip.Group.WheelEdit', width=220,
+            get= function() return WoWToolsPlusPlayerDate['GroupMouseDownText'] or '' end,
+            set= function(_, text) WoWToolsPlusPlayerDate['GroupMouseDownText']= text end,
+        },
+
+        {type='section', text='Automations'},
+        {type='dropdown', key='autoReady', text='READY_CHECK', tooltip='Tip.Group.AutoReady', automation=true,
+            values= {
+                {value=0, text='READY+TRACKER_SORT_MANUAL'},
+                {value=1, text='Auto ready'},
+                {value=2, text='Auto not ready'},
+            },
+            get= function(save) return save.autoReady or 0 end,
+            set= function(save, value) save.autoReady= value end,
+            apply= function(M, save)
+                if (save.autoReady or 0)>0 and ReadyCheckFrame and ReadyCheckFrame:IsShown() then
+                    ConfirmReadyCheck(save.autoReady==1 and 1 or nil)
+                    ReadyCheckFrame:SetShown(false)
+                end
+                M:Refresh()
+            end,
+        },
+        {type='slider', key='autoReadySeconds', text='Delay (seconds)', tooltip='Tip.Group.AutoReadyDelay',
+            automation=true, indent=true, min=1, max=30, step=1,
+            disabled= function(save) return (save.autoReady or 0)==0 end,
+            get= function(save) return save.autoReadySeconds or 3 end,
+            set= function(save, value) save.autoReadySeconds= value~=3 and value or nil end,
+        },
+    },
     onEnable= function()
         WoWTools_GroupMixin:Save().autoReady= WoWTools_GroupMixin:Save().autoReady or 0
 

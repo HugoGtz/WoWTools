@@ -365,6 +365,9 @@ local function Init_Menu(self, root)
         end)
     end
     WoWTools_MenuMixin:SetScrollMode(sub)
+
+    root:CreateDivider()
+    WoWTools_ChatMixin:Open_SettingsPanel(root, addName)
 end
 
 
@@ -386,9 +389,9 @@ local Init= WoWTools_Once(function()
             if M:Save().type==SLASH_WHISPER1 then
                 name= GetUnitName('target', true)
             elseif M:Save().name then
-                name= M:Save().isWoW and WoWTools_DataMixin.Icon.net2..'|cff28a3ff'..Save().name or M:Save().name
+                name= M:Save().isWoW and WoWTools_DataMixin.Icon.net2..'|cff28a3ff'..M:Save().name or M:Save().name
             end
-            GameTooltip:AddDoubleLine((M:Save().text or '')..(M:Save().type and ' '..Save().type or ''),(name or '')..WoWTools_DataMixin.Icon.left)
+            GameTooltip:AddDoubleLine((M:Save().text or '')..(M:Save().type and ' '..M:Save().type or ''),(name or '')..WoWTools_DataMixin.Icon.left)
         end
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(WoWTools_L['SLASH_TEXTTOSPEECH_WHISPER+AUCTION_HOUSE_QUANTITY_LABEL'], M:Save().numWhisper)
@@ -446,6 +449,44 @@ end)
 WoWTools_Module:Register({
     key= 'ChatButton_Say', name= 'SAY', icon= 'transmog-icon-chat',
     parent= 'ChatButton', defaults= P_Save, mixin= M,
+    options= {
+        {type='section', text='GENERAL'},
+        --Canal del botón (clic izquierdo): el mismo campo que eligen las casillas del menú
+        {type='dropdown', key='type', text='Default channel', tooltip='Tip.Say.DefaultChannel',
+            values= {
+                {value=SLASH_SAY1, text='SAY'},
+                {value=SLASH_YELL1, text='YELL'},
+                {value=SLASH_WHISPER1, text='Whisper target'},
+            },
+            get= function(save)
+                if save.type==SLASH_SAY1 or save.type==SLASH_YELL1 then
+                    return save.type
+                end
+                return SLASH_WHISPER1--susurro al objetivo o a un contacto
+            end,
+            set= function(save, value)
+                local text= value==SLASH_SAY1 and WoWTools_L.SAY
+                    or value==SLASH_YELL1 and WoWTools_L.YELL
+                    or WoWTools_L.SLASH_TEXTTOSPEECH_WHISPER
+                if SayButton then
+                    SayButton:settings(value, text, nil, nil)
+                else
+                    save.type, save.text, save.name, save.isWoW= value, text, nil, nil
+                end
+            end,
+        },
+        {type='button', key='clearWhispers', text='Whisper history', buttonText='CLEAR_ALL', tooltip='Tip.Say.ClearWhispers',
+            confirm='CLEAR_ALL',
+            func= function(_, save)
+                save.WhisperTab={}
+                if SayButton then
+                    rest_numWhisper_Tips()
+                else
+                    save.numWhisper=0
+                end
+            end,
+        },
+    },
     onEnable= function()
         M:Save().text= M:Save().text or (WoWTools_L.SAY)
 

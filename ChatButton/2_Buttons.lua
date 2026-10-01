@@ -209,10 +209,11 @@ function WoWTools_ChatMixin:GetAllAddList()
     return AddList
 end
 
+--Entrada "Ajustes..." del menú: abre la página del módulo (name= su addName) en el Centro de control
 function WoWTools_ChatMixin:Open_SettingsPanel(root, name)
     return WoWTools_MenuMixin:OpenOptions(root, {
-        category=self.Category,
-        name=name or self.addName
+        name=name or self.addName,
+        name2=WoWTools_L['Settings...'],
     })
 end
 function WoWTools_ChatMixin:GetButtonForName(name)
