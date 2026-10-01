@@ -475,6 +475,75 @@ function Style:Button(button, opts)
 end
 
 
+--Botón de icono de las barras (chat, Herramientas): icono cuadrado redondeado como las barras de acción,
+--borde de 1 px y tinte de acento al pasar el ratón o pulsado. No usa scripts (solo texturas de estado),
+--así que el módulo puede hacer SetScript('OnEnter') antes o después.
+--Espera btn.texture (icono) y, si existe, btn.IconMask. El aro btn.border solo se ve si el módulo
+--lo pone en 'bag-border' para marcar un estado (p. ej. Monturas).
+local function Crop(texture)
+    if not (texture.GetAtlas and texture:GetAtlas()) then
+        local c= Style.Size.crop
+        texture:SetTexCoord(c, 1-c, c, 1-c)
+    end
+end
+
+local function Set_ButtonTint(btn)
+    local st= btn.WoWToolsStyle
+    st.highlight:SetVertexColor(AccentRGBA(Style.Alpha.hover))
+    st.pushed:SetVertexColor(AccentRGBA(Style.Alpha.selected))
+end
+
+function Style:IconButton(btn)
+    if not CanStyle(btn) or not btn.texture or Defer(Style.IconButton, btn) then
+        return btn
+    end
+    local st= State(btn)
+    local px= PixelSize(btn, Style.Size.border)
+
+    btn.texture:ClearAllPoints()
+    btn.texture:SetPoint('TOPLEFT', px, -px)
+    btn.texture:SetPoint('BOTTOMRIGHT', -px, px)
+
+    if not st.iconDone then
+        st.iconDone= true
+
+        btn.IconMask= btn.IconMask or btn:CreateMaskTexture()
+        btn.IconMask:SetAtlas(MASK_ATLAS)
+        btn.texture:RemoveMaskTexture(btn.IconMask)
+        btn.texture:AddMaskTexture(btn.IconMask)
+
+        Crop(btn.texture)
+        hooksecurefunc(btn.texture, 'SetTexture', Crop)
+
+        if btn.border then
+            btn.border:SetShown(btn.border:GetAtlas()=='bag-border')
+            hooksecurefunc(btn.border, 'SetAtlas', function(t, atlas)
+                t:SetShown(atlas=='bag-border')
+            end)
+        end
+
+        btn:SetHighlightTexture(WHITE, 'ADD')
+        btn:SetPushedTexture(WHITE)
+        st.highlight= btn:GetHighlightTexture()
+        st.pushed= btn:GetPushedTexture()
+        st.pushed:SetBlendMode('ADD')
+        Accented[btn]= Set_ButtonTint
+        Create_Border(btn)
+        Set_BorderColor(btn, Unpack(Style.Color.border))
+    end
+
+    btn.IconMask:ClearAllPoints()
+    btn.IconMask:SetAllPoints(btn.texture)
+    for _, t in pairs({st.highlight, st.pushed}) do--al botón y no al icono: hay módulos que encogen el icono
+        t:ClearAllPoints()
+        t:SetPoint('TOPLEFT', px, -px)
+        t:SetPoint('BOTTOMRIGHT', -px, px)
+    end
+    Set_ButtonTint(btn)
+    return btn
+end
+
+
 --Campo de texto: panel plano y borde de acento mientras tiene el foco
 --opts: igual que Panel (alpha...)
 function Style:Input(editBox, opts)

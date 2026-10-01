@@ -22,12 +22,14 @@ function WoWTools_LabelMixin:Create(frame, tab)
     local wheel= tab.wheel
     local text= tab.text
 
-    font = font or frame:CreateFontString(name, layer, fontName)
+    --Estilo común (docs/STYLE.md): sobre iconos y botones se mantiene el contorno para que los números
+    --se lean encima de cualquier textura; en paneles y ventanas, fuente de Blizzard con sombra de 1 px.
+    local owner= font and font:GetParent() or frame
+    local onIcon= tab.outline or (owner.IsObjectType and owner:IsObjectType('Button'))
+
+    font = font or frame:CreateFontString(name, layer, (onIcon or tab.fontName) and fontName or 'GameFontHighlight')
     if copyFont and copyFont.GetFont then
         local fontName2, size2, fontFlag2 = copyFont:GetFont()
-        if WoWTools_DataMixin.onlyChinese and not LOCALE_zhCN then
-            fontName2= 'Fonts\\ARHei.ttf'
-        end
         font:SetFont(fontName2, size or size2, fontFlag2)
         font:SetTextColor(copyFont:GetTextColor())
         font:SetFontObject(copyFont:GetFontObject())
@@ -37,19 +39,18 @@ function WoWTools_LabelMixin:Create(frame, tab)
             font:SetJustifyH(justifyH)
         end
     else
-        if WoWTools_DataMixin.onlyChinese or size then--THICKOUTLINE
-            local fontName2, size2, fontFlag2= font:GetFont()
-            if WoWTools_DataMixin.onlyChinese and not LOCALE_zhCN then
-                fontName2= 'Fonts\\ARHei.ttf'
+        local fontName2, size2, fontFlag2= font:GetFont()
+        if onIcon then
+            font:SetFont(fontName2, size, notFlag and fontFlag2 or 'OUTLINE')
+        else
+            if tab.size then
+                font:SetFont(fontName2, size, notFlag and fontFlag2 or '')
             end
-            font:SetFont(fontName2, size or size2, notFlag and fontFlag2 or 'OUTLINE')
+            font:SetShadowOffset(1, -1)
+            font:SetShadowColor(0, 0, 0, 1)
         end
-
         font:SetJustifyH(justifyH or 'LEFT')
     end
-    --if not notShadow then
-        --font:SetShadowOffset(1, -1)
-    --end
     if color~=false then
         if color==true then
             WoWTools_ColorMixin:SetLabelColor(font)

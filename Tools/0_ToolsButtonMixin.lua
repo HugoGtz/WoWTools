@@ -169,6 +169,8 @@ function WoWTools_ToolsMixin:CreateButton(tab)
     end
     btn:SetData(tab)
 
+    WoWTools_Style:IconButton(btn)
+
     Set_ButtonPoint(btn, tab)
 
     table.insert(AllButtons, name)

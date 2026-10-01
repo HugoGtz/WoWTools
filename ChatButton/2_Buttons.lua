@@ -152,6 +152,7 @@ local function Set_Button(btn)
 
     Set_Button_Script(btn)
     btn:SetAllSettings()
+    WoWTools_Style:IconButton(btn)
 end
 
 

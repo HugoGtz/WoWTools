@@ -37,6 +37,7 @@ Si el marco está protegido y estás en combate, la llamada se aplaza hasta `PLA
 | `Style:Row(button, opts)` | Fila: acento al 15 % con el ratón encima, 25 % si está activa. `opts.height=true` la deja en 20 px. |
 | `Style:Icon(texture, size, opts)` | Recorte del 8 % y máscara redondeada (`UI-HUD-CoolDownManager-Mask`, la de las barras de acción). `size`: número o `'small'`/`'normal'`/`'large'`. `opts.mask=false` sin máscara. Llámala después de `SetTexture`/`SetAtlas`; con atlas no recorta. |
 | `Style:Button(button, opts)` | Botón plano: quita el arte de Blizzard, relleno al 5 %, borde, acento al pasar el ratón y 40 % de opacidad desactivado. `opts.icon=true`: solo icono (sin fondo ni borde, conserva la NormalTexture). |
+| `Style:IconButton(btn)` | Botón de icono de las barras (chat, Herramientas): icono cuadrado redondeado con recorte, borde de 1 px y tinte de acento con el ratón encima o pulsado. Solo texturas de estado (no usa scripts). El aro `btn.border` solo se ve en `'bag-border'` (estado del módulo). |
 | `Style:Input(editBox, opts)` | Campo plano; borde de acento mientras tiene el foco. |
 | `Style:Text(fontString, size, kind)` | Objeto de fuente de Blizzard + sombra de 1 px. `size`: `'small'`/`'normal'`/`'medium'`/`'large'` o 10/12/14/16. `kind`: `'text'`/`'muted'`/`'disabled'`/`'accent'`. |
 | `Style:SetActive(frame, bool)` | Estado activo/seleccionado: borde de acento al 60 % (y relleno en filas). |
@@ -97,3 +98,9 @@ margen `Style.Size.pad` y el contenido debajo de la cabecera (`Plus/Color/Select
 - No crear bordes con `SetBackdrop` y `edgeSize` fijo: se emborronan con escalas no enteras (el estilo usa `PixelUtil`).
 - No poner `Style:Icon` con recorte sobre atlas ya ajustados (lo detecta solo si llamas después de `SetAtlas`).
 - `Style:Button` con `opts.icon` quita las texturas de resaltado y pulsado del botón; si las necesitas, pasa `keepHighlight=true`.
+
+## Texto de `WoWTools_LabelMixin:Create`
+
+- Sobre un botón (icono): fuente compacta con contorno, para leer los números encima de cualquier textura.
+- En paneles y ventanas: `GameFontHighlight` con sombra de 1 px, sin contorno. `size` sigue funcionando.
+- `outline=true` fuerza el contorno.

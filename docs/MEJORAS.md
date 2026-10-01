@@ -85,8 +85,8 @@ Funciones del estilo: `Style:Panel(frame)`, `Style:Header(frame, title)`, `Style
 
 ### Dónde se aplica
 
-1. **Fuente forzada**: quitar el 12 px con contorno grueso de `1_Mixin/Label.lua` y usar `Style:Text`.
-2. **Barras flotantes**: barra del chat, barra de Herramientas y botones de especialización con `Style:Panel` + `Style:Icon`.
+1. ✅ **Fuente forzada**: quitar el 12 px con contorno grueso de `1_Mixin/Label.lua` y usar `Style:Text`.
+2. ✅ **Barras flotantes**: barra del chat y de Herramientas con `Style:IconButton` (falta: botones de especialización).
 3. **Seguidores** (Reputación, Monedas, Eventos festivos): un único componente con el estilo (ver sección 2).
 4. **Míticas+**: información compacta por mazmorra (nivel y puntuación); el detalle, al pasar el ratón; paneles laterales
    con `Style:Panel` y sin solaparse con Raider.IO.
