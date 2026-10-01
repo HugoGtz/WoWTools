@@ -3,10 +3,6 @@
 
 
 
-local function Save()
-    return WoWToolsPlusSave['ObjectiveTracker']
-end
-
 WoWTools_ObjectiveTabs={
     ['ScenarioObjectiveTracker']=false,
 
@@ -71,9 +67,9 @@ local function Init_Menu(self, root)
         '|cnWARNING_FONT_COLOR:'
         ..(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT),
     function()
-        return Save().autoHideInCombat
+        return WoWTools_ObjectiveMixin:Save().autoHideInCombat
     end, function()
-        Save().autoHideInCombat = not Save().autoHideInCombat and true or nil
+        WoWTools_ObjectiveMixin:Save().autoHideInCombat = not WoWTools_ObjectiveMixin:Save().autoHideInCombat and true or nil
         self:set_event()
     end)
     sub2:SetTooltip(function(tooltip)
@@ -94,9 +90,9 @@ local function Init_Menu(self, root)
     sub=root:CreateCheckbox(
         WoWTools_L.SELF_CAST_AUTO,
     function()
-        return Save().autoHide
+        return WoWTools_ObjectiveMixin:Save().autoHide
     end, function()
-        Save().autoHide = not Save().autoHide and true or nil
+        WoWTools_ObjectiveMixin:Save().autoHide = not WoWTools_ObjectiveMixin:Save().autoHide and true or nil
         self:set_event()
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Objective.AutoCollapse'])
@@ -129,10 +125,10 @@ local function Init_Menu(self, root)
 
     root:CreateDivider()
     WoWTools_MenuMixin:Scale(ObjectiveTrackerFrame, root, function()
-        return Save().scale
+        return WoWTools_ObjectiveMixin:Save().scale
     end, function(value)
         if not Is_Locked() then
-            Save().scale= value
+            WoWTools_ObjectiveMixin:Save().scale= value
             self:set_scale()
         end
     end)
@@ -141,17 +137,17 @@ local function Init_Menu(self, root)
         '|A:MonkUI-LightOrb:0:0|a'..(WoWTools_L.HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY),
     function()
         return MenuResponse.Open
-    end, {rightText=Save().alpha or 1})
+    end, {rightText=WoWTools_ObjectiveMixin:Save().alpha or 1})
     WoWTools_MenuMixin:SetRightText(sub)
 
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
-            return Save().alpha or 1
+            return WoWTools_ObjectiveMixin:Save().alpha or 1
         end,
         setValue=function(value)
             if not Is_Locked() then
-                Save().alpha= value
+                WoWTools_ObjectiveMixin:Save().alpha= value
                 self:set_scale()
             end
         end,
@@ -176,14 +172,14 @@ local function Init_Menu(self, root)
 end
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     local MenuButton=CreateFrame('DropdownButton', 'WoWToolsObjectiveTrackerFrameMenuButton', ObjectiveTrackerFrame.Header, 'WoWToolsMenuTemplate') --WoWTools_ButtonMixin:Menu(ObjectiveTrackerFrame.Header, {size=20,name='WoWToolsObjectiveTrackerFrameMenuButton'})
     MenuButton:SetSize(20,20)
 
     function MenuButton:set_scale()
         if not Is_Locked() then
-            ObjectiveTrackerFrame:SetScale(Save().scale or 1)
-            ObjectiveTrackerFrame:SetAlpha(Save().alpha or 1)
+            ObjectiveTrackerFrame:SetScale(WoWTools_ObjectiveMixin:Save().scale or 1)
+            ObjectiveTrackerFrame:SetAlpha(WoWTools_ObjectiveMixin:Save().alpha or 1)
         end
     end
 
@@ -194,12 +190,12 @@ local function Init()
     function MenuButton:set_event()
         self:UnregisterAllEvents()
 
-        if Save().autoHide then
+        if WoWTools_ObjectiveMixin:Save().autoHide then
             self:RegisterEvent('PLAYER_ENTERING_WORLD')
             self:RegisterEvent("CHALLENGE_MODE_START")
             self:RegisterEvent('ZONE_CHANGED_NEW_AREA')
 
-            if Save().autoHideInCombat then
+            if WoWTools_ObjectiveMixin:Save().autoHideInCombat then
                 self:RegisterEvent('PLAYER_REGEN_DISABLED')
                 self:RegisterEvent('PLAYER_REGEN_ENABLED')
             end
@@ -260,11 +256,11 @@ local function Init()
 
 
     ObjectiveTrackerFrame.Header.MinimizeButton:HookScript('OnMouseUp', function()
-        Save().initIsCollapsed= ObjectiveTrackerFrame:IsCollapsed()
+        WoWTools_ObjectiveMixin:Save().initIsCollapsed= ObjectiveTrackerFrame:IsCollapsed()
     end)
 
     WoWTools_DataMixin:Hook(ObjectiveTrackerFrame.Header, 'SetCollapsed', function(_, collapsed)
-        Save().initIsCollapsed= collapsed
+        WoWTools_ObjectiveMixin:Save().initIsCollapsed= collapsed
         MenuButton:set_shown()
     end)
 
@@ -280,7 +276,7 @@ local function Init()
     MenuButton:set_event()
     MenuButton:set_shown()
 
-    if Save().autoHide and Save().initIsCollapsed and not Is_Locked()  then
+    if WoWTools_ObjectiveMixin:Save().autoHide and WoWTools_ObjectiveMixin:Save().initIsCollapsed and not Is_Locked()  then
         ObjectiveTrackerFrame:SetCollapsed(true)--:ToggleCollapsed()
     end
 
@@ -291,8 +287,7 @@ local function Init()
     end)
 
 
-    Init=function()end
-end
+end)
 
 
 function WoWTools_ObjectiveMixin:Init_Menu()

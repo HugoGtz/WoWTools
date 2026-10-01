@@ -10,12 +10,7 @@ local P_Save={
 }
 
 
-local function Save()
-    return WoWToolsPlusSave['ObjectiveTracker']
-end
-
-
-local function Init()
+local Init= WoWTools_Once(function()
     ScenarioObjectiveTracker.Header.numStagesLabel= WoWTools_LabelMixin:Create(ScenarioObjectiveTracker.Header, {copyFont=ScenarioObjectiveTracker.StageBlock.Name, justifyH='RIGHT'})
     ScenarioObjectiveTracker.Header.numStagesLabel:SetPoint('LEFT', ScenarioObjectiveTracker.Header.Text, 'RIGHT')
 
@@ -191,46 +186,42 @@ local function Init()
 
 
     WoWTools_ObjectiveMixin:Init_Menu()
-    Init=function()end
-end
-
-
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if arg1~= 'WoWToolsPlus' then
-        return
-    end
-
-    WoWToolsPlusSave['ObjectiveTracker']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['ObjectiveTracker'], P_Save)
-    P_Save= nil
-
-    WoWTools_ObjectiveMixin.addName= '|A:Objective-Nub:0:0|a|cnWARNING_FONT_COLOR:'..(WoWTools_L['Module.Objective tracker'])..'|r'
-
-    WoWTools_PanelMixin:OnlyCheck({
-        name=WoWTools_ObjectiveMixin.addName,
-        tooltip=WoWTools_L['Tip.Objective.Module']..'|n|n'..'|cnWARNING_FONT_COLOR:Bug',
-        GetValue= function() return not Save().disabled end,
-        SetValue= function()
-            Save().disabled= not Save().disabled and true or nil
-
-            if not Save().disabled then
-                Init()
-            else
-                WoWTools_Print(
-                    WoWTools_DataMixin.Icon.icon2..WoWTools_ObjectiveMixin.addName,
-                    WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-                    WoWTools_L.REQUIRES_RELOAD
-                )
-            end
-        end
-    })
-
-    if not Save().disabled then
-        Init()
-    end
-
-    self:SetScript('OnEvent', nil)
-    self:UnregisterEvent(event)
 end)
+
+
+--Módulo registrado con la API común (docs/REFACTOR.md, R2).
+--La casilla es propia (panel=false, en onLoad): activar arranca ya sin recargar, el nombre va en color y el tooltip avisa de 'Bug'.
+WoWTools_Module:Register({
+    key= 'ObjectiveTracker',
+    name= 'Module.Objective tracker',
+    icon= 'Objective-Nub',
+    group= 'Interface',
+    defaults= P_Save,
+    mixin= WoWTools_ObjectiveMixin,
+    panel= false,
+    onLoad= function()
+        WoWTools_ObjectiveMixin.addName= '|A:Objective-Nub:0:0|a|cnWARNING_FONT_COLOR:'..(WoWTools_L['Module.Objective tracker'])..'|r'
+
+        WoWTools_PanelMixin:OnlyCheck({
+            name=WoWTools_ObjectiveMixin.addName,
+            tooltip=WoWTools_L['Tip.Objective.Module']..'|n|n'..'|cnWARNING_FONT_COLOR:Bug',
+            GetValue= function() return not WoWTools_ObjectiveMixin:Save().disabled end,
+            SetValue= function()
+                WoWTools_ObjectiveMixin:Save().disabled= not WoWTools_ObjectiveMixin:Save().disabled and true or nil
+
+                if not WoWTools_ObjectiveMixin:Save().disabled then
+                    Init()
+                else
+                    WoWTools_Print(
+                        WoWTools_DataMixin.Icon.icon2..WoWTools_ObjectiveMixin.addName,
+                        WoWTools_TextMixin:GetEnabeleDisable(not WoWTools_ObjectiveMixin:Save().disabled),
+                        WoWTools_L.REQUIRES_RELOAD
+                    )
+                end
+            end
+        })
+    end,
+    onEnable= function()
+        Init()
+    end,
+})
