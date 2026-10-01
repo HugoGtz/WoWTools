@@ -9,6 +9,8 @@ local P_Save={
 }
 
 
+WoWTools_GemMixin= {}--para agrupar el módulo en la página principal
+
 local addName
 local Frame
 local Set_Gem
@@ -16,11 +18,6 @@ local Set_Gem
 local SpellsTab={
     433397,
 }
-
-local function Save()
-    return WoWToolsPlusSave['Plus_Gem']
-end
-
 
 for _, spellID in pairs(SpellsTab) do
    WoWTools_DataMixin:Load(spellID, 'spell')
@@ -36,17 +33,17 @@ local function set_save_gem(itemEquipLoc, gemLink, index)
     if not itemEquipLoc then
         return
     end
-    Save().gemLoc[WoWTools_DataMixin.Player.Class][itemEquipLoc]= Save().gemLoc[WoWTools_DataMixin.Player.Class][itemEquipLoc] or {}
+    WoWTools_GemMixin:Save().gemLoc[WoWTools_DataMixin.Player.Class][itemEquipLoc]= WoWTools_GemMixin:Save().gemLoc[WoWTools_DataMixin.Player.Class][itemEquipLoc] or {}
     local gemID
     if gemLink then
         gemID= C_Item.GetItemInfoInstant(gemLink)
         if gemID then
-            Save().gemLoc[WoWTools_DataMixin.Player.Class][itemEquipLoc][index]= gemID
+            WoWTools_GemMixin:Save().gemLoc[WoWTools_DataMixin.Player.Class][itemEquipLoc][index]= gemID
         end
     end
 
-    gemID= gemID or Save().gemLoc[WoWTools_DataMixin.Player.Class][itemEquipLoc][index]
-    Save().gemLoc[WoWTools_DataMixin.Player.Class][itemEquipLoc][index]= gemID
+    gemID= gemID or WoWTools_GemMixin:Save().gemLoc[WoWTools_DataMixin.Player.Class][itemEquipLoc][index]
+    WoWTools_GemMixin:Save().gemLoc[WoWTools_DataMixin.Player.Class][itemEquipLoc][index]= gemID
     return gemID
 end
 
@@ -56,13 +53,13 @@ local function Init_Button_Menu(self, root)
         '|A:auctionhouse-icon-favorite:0:0|a'
         ..(WoWTools_L.EVENTTRACE_BUTTON_MARKER),
     function()
-        return Save().favorites[self.itemID]
+        return WoWTools_GemMixin:Save().favorites[self.itemID]
     end, function()
-        Save().favorites[self.itemID]= not Save().favorites[self.itemID] and true or nil
+        WoWTools_GemMixin:Save().favorites[self.itemID]= not WoWTools_GemMixin:Save().favorites[self.itemID] and true or nil
         self:set_favorite()
         WoWTools_Print(
             addName..WoWTools_DataMixin.Icon.icon2,
-            Save().favorites[self.itemID] and self.itemID or '',
+            WoWTools_GemMixin:Save().favorites[self.itemID] and self.itemID or '',
             WoWTools_L['NEED+REFRESH~2']
         )
         Set_Gem()
@@ -74,9 +71,9 @@ local function Init_Button_Menu(self, root)
         '|A:common-icon-rotateright:0:0|a'
         ..(WoWTools_L.HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_LEFT),
     function ()
-        return Save().gemLeft[self.itemID]
+        return WoWTools_GemMixin:Save().gemLeft[self.itemID]
     end, function ()
-        Save().gemLeft[self.itemID]= not Save().gemLeft[self.itemID] and true or nil
+        WoWTools_GemMixin:Save().gemLeft[self.itemID]= not WoWTools_GemMixin:Save().gemLeft[self.itemID] and true or nil
         Set_Gem()
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gem.PlaceLeft'])
@@ -85,9 +82,9 @@ local function Init_Button_Menu(self, root)
         '|A:bags-greenarrow:0:0|a'
         ..(WoWTools_L['HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_UP~2']),
     function ()
-        return Save().gemTop[self.itemID]
+        return WoWTools_GemMixin:Save().gemTop[self.itemID]
     end, function ()
-        Save().gemTop[self.itemID]= not Save().gemTop[self.itemID] and true or nil
+        WoWTools_GemMixin:Save().gemTop[self.itemID]= not WoWTools_GemMixin:Save().gemTop[self.itemID] and true or nil
         Set_Gem()
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gem.PlaceTop'])
@@ -96,9 +93,9 @@ local function Init_Button_Menu(self, root)
         '|A:common-icon-rotateleft:0:0|a'
         ..(WoWTools_L.HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_RIGHT),
     function ()
-        return Save().gemRight[self.itemID]
+        return WoWTools_GemMixin:Save().gemRight[self.itemID]
     end, function ()
-        Save().gemRight[self.itemID]= not Save().gemRight[self.itemID] and true or nil
+        WoWTools_GemMixin:Save().gemRight[self.itemID]= not WoWTools_GemMixin:Save().gemRight[self.itemID] and true or nil
         Set_Gem()
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gem.PlaceRight'])
@@ -132,7 +129,7 @@ local function creatd_button(index, parent)
     btn:SetScript('OnShow', function(self) self:set_event() end)
 
     function btn:set_favorite()
-        self.favorite:SetShown(Save().favorites[self.itemID])
+        self.favorite:SetShown(WoWTools_GemMixin:Save().favorites[self.itemID])
     end
     function btn:set_alpha()
         local alpha= 1
@@ -177,10 +174,10 @@ local function creatd_button(index, parent)
         ClearCursor()
         if IsAltKeyDown() then
             if d=='LeftButton' then
-                Save().gemLeft[self.itemID]= not Save().gemLeft[self.itemID] and true or nil
+                WoWTools_GemMixin:Save().gemLeft[self.itemID]= not WoWTools_GemMixin:Save().gemLeft[self.itemID] and true or nil
                 Set_Gem()
             elseif d=='RightButton' then
-                Save().gemRight[self.itemID]= not Save().gemRight[self.itemID] and true or nil
+                WoWTools_GemMixin:Save().gemRight[self.itemID]= not WoWTools_GemMixin:Save().gemRight[self.itemID] and true or nil
                 Set_Gem()
             end
         elseif d=='LeftButton' then
@@ -192,7 +189,7 @@ local function creatd_button(index, parent)
     end)
     btn:SetScript("OnMouseWheel", function(self)
         if IsAltKeyDown() then
-            Save().gemTop[self.itemID]= not Save().gemTop[self.itemID] and true or nil
+            WoWTools_GemMixin:Save().gemTop[self.itemID]= not WoWTools_GemMixin:Save().gemTop[self.itemID] and true or nil
             Set_Gem()
         end
     end)
@@ -252,7 +249,7 @@ end
 
 function Set_Gem()--Blizzard_ItemSocketingUI.lua MAX_NUM_SOCKETS
     local items, gemLeft, gemTop, gemRight= {}, {}, {}, {}
-    local scale= Save().scale or 1
+    local scale= WoWTools_GemMixin:Save().scale or 1
 
     for bag= Enum.BagIndex.Backpack, NUM_BAG_FRAMES do-- + NUM_REAGENTBAG_FRAMES do
         for slot=1, C_Container.GetContainerNumSlots(bag) do
@@ -273,15 +270,15 @@ function Set_Gem()--Blizzard_ItemSocketingUI.lua MAX_NUM_SOCKETS
                         slot=slot,
                         level= level or 0,
                         expacID= expacID or 0,
-                        favorite= Save().favorites[info.itemID]
+                        favorite= WoWTools_GemMixin:Save().favorites[info.itemID]
                     }
-                    if Save().gemLeft[info.itemID] then
+                    if WoWTools_GemMixin:Save().gemLeft[info.itemID] then
                         table.insert(gemLeft, tab)
 
-                    elseif Save().gemTop[info.itemID] then
+                    elseif WoWTools_GemMixin:Save().gemTop[info.itemID] then
                         table.insert(gemTop, tab)
 
-                    elseif Save().gemRight[info.itemID] then
+                    elseif WoWTools_GemMixin:Save().gemRight[info.itemID] then
                         table.insert(gemRight, tab)
                     else
                         local type
@@ -389,7 +386,7 @@ end
 
 
 local function Init_Spell_Button()
-    if Save().disableSpell then
+    if WoWTools_GemMixin:Save().disableSpell then
         return
     end
 
@@ -519,8 +516,8 @@ local function Init_ItemSocketingFrame_Update()
             elseif itemEquipLoc=='INVTYPE_WEAPON' then--16, 17
                 itemEquipLoc= itemEquipLoc..(GetInventoryItemLink('player', 16)==link and 16 or 17)
             end
-            if not Save().gemLoc[WoWTools_DataMixin.Player.Class][itemEquipLoc] then
-                Save().gemLoc[WoWTools_DataMixin.Player.Class][itemEquipLoc]={}
+            if not WoWTools_GemMixin:Save().gemLoc[WoWTools_DataMixin.Player.Class][itemEquipLoc] then
+                WoWTools_GemMixin:Save().gemLoc[WoWTools_DataMixin.Player.Class][itemEquipLoc]={}
             end
         end
     end
@@ -666,9 +663,9 @@ local function Init_Menu(self, root)
     sub=root:CreateCheckbox(
         WoWTools_L.SHOW,
     function()
-        return not Save().hide
+        return not WoWTools_GemMixin:Save().hide
     end, function()
-        Save().hide= not Save().hide and true or nil
+        WoWTools_GemMixin:Save().hide= not WoWTools_GemMixin:Save().hide and true or nil
         self:set_shown()
     end)
     sub:SetEnabled(Frame:CanChangeAttribute())
@@ -677,33 +674,33 @@ local function Init_Menu(self, root)
     sub=root:CreateCheckbox(
         WoWTools_Join(WoWTools_L.SPELLS, 'Button'),
     function()
-        return not Save().disableSpell
+        return not WoWTools_GemMixin:Save().disableSpell
     end, function()
-        Save().disableSpell= not Save().disableSpell and true or false
+        WoWTools_GemMixin:Save().disableSpell= not WoWTools_GemMixin:Save().disableSpell and true or false
         WoWTools_Print(
             addName..WoWTools_DataMixin.Icon.icon2,
-            WoWTools_TextMixin:GetEnabeleDisable(not Save().disableSpell),
+            WoWTools_TextMixin:GetEnabeleDisable(not WoWTools_GemMixin:Save().disableSpell),
             WoWTools_L.REQUIRES_RELOAD
         )
     end, {})
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gem.SpellButton'])
 
     root:CreateDivider()
-    num= CountTable(Save().favorites or {})
+    num= CountTable(WoWTools_GemMixin:Save().favorites or {})
 
     root:CreateButton(
         '|A:auctionhouse-icon-favorite:0:0|a'
         ..(WoWTools_L['SLASH_STOPWATCH_PARAM_STOP2+EVENTTRACE_BUTTON_MARKER'])
         ..' |cnGREEN_FONT_COLOR:#'..num,
     function()
-        Save().favorites={}
+        WoWTools_GemMixin:Save().favorites={}
         for _, frame in pairs(Frame.buttons) do
             frame:set_favorite()
         end
         return MenuResponse.Refresh
     end)
 
-    num= CountTable(Save().gemLeft or {})
+    num= CountTable(WoWTools_GemMixin:Save().gemLeft or {})
 
     sub=root:CreateButton(
          '|A:common-icon-rotateright:0:0|a'
@@ -711,13 +708,13 @@ local function Init_Menu(self, root)
          ..' |cnGREEN_FONT_COLOR:#'
          ..num,
     function()
-        Save().gemLeft={}
+        WoWTools_GemMixin:Save().gemLeft={}
         Set_Gem()
         return MenuResponse.Refresh
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gem.ClearColumn'])
 
-    num= CountTable(Save().gemTop or {})
+    num= CountTable(WoWTools_GemMixin:Save().gemTop or {})
     
     sub=root:CreateButton(
         '|A:bags-greenarrow:0:0|a'
@@ -725,13 +722,13 @@ local function Init_Menu(self, root)
         ..' |cnGREEN_FONT_COLOR:#'
         ..num,
     function()
-        Save().gemTop={}
+        WoWTools_GemMixin:Save().gemTop={}
         Set_Gem()
         return MenuResponse.Refresh
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gem.ClearColumn'])
 
-    num= CountTable(Save().gemRight or {})
+    num= CountTable(WoWTools_GemMixin:Save().gemRight or {})
     
     sub=root:CreateButton(
          '|A:common-icon-rotateleft:0:0|a'
@@ -739,7 +736,7 @@ local function Init_Menu(self, root)
          ..' |cnGREEN_FONT_COLOR:#'
          ..num,
     function()
-        Save().gemRight={}
+        WoWTools_GemMixin:Save().gemRight={}
         Set_Gem()
         return MenuResponse.Refresh
     end)
@@ -749,7 +746,7 @@ local function Init_Menu(self, root)
         '|A:bags-button-autosort-up:0:0|a'
         ..(WoWTools_L['SLASH_STOPWATCH_PARAM_STOP2+EVENTTRACE_LOG_HEADER']),
     function()
-        Save().gemLoc={
+        WoWTools_GemMixin:Save().gemLoc={
             [WoWTools_DataMixin.Player.Class]={}
         }
         WoWTools_DataMixin:Call('ItemSocketingFrame_Update')
@@ -769,7 +766,7 @@ local function Init_Button_All()
         })
     btn:SetPoint('LEFT', 26)
     function btn:set_texture()
-        if Save().hide then
+        if WoWTools_GemMixin:Save().hide then
             btn:SetNormalAtlas('talents-button-reset')
         else
             btn:SetNormalTexture('Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools')
@@ -777,7 +774,7 @@ local function Init_Button_All()
     end
     function btn:set_shown()
         if Frame:CanChangeAttribute() then
-            Frame:SetShown(not Save().hide)
+            Frame:SetShown(not WoWTools_GemMixin:Save().hide)
             self:set_texture()
         else
             self:RegisterEvent('PLAYER_REGEN_ENABLED')
@@ -785,7 +782,7 @@ local function Init_Button_All()
     end
     function btn:set_scale()
         if Frame:CanChangeAttribute() then
-            Frame:SetScale(Save().scale or 1)
+            Frame:SetScale(WoWTools_GemMixin:Save().scale or 1)
             Set_Gem()
         else
             self:RegisterEvent('PLAYER_REGEN_ENABLED')
@@ -800,8 +797,8 @@ local function Init_Button_All()
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, addName)
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_TextMixin:GetShowHide(not Save().hide), WoWTools_DataMixin.Icon.left)
-        GameTooltip:AddDoubleLine((WoWTools_L.HOUSING_EXPERT_DECOR_SUBMODE_SCALE)..' |cnGREEN_FONT_COLOR:'..(Save().scale or 1), WoWTools_DataMixin.Icon.mid)
+        GameTooltip:AddDoubleLine(WoWTools_TextMixin:GetShowHide(not WoWTools_GemMixin:Save().hide), WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine((WoWTools_L.HOUSING_EXPERT_DECOR_SUBMODE_SCALE)..' |cnGREEN_FONT_COLOR:'..(WoWTools_GemMixin:Save().scale or 1), WoWTools_DataMixin.Icon.mid)
         GameTooltip:AddDoubleLine(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.right)
         GameTooltip:Show()
     end
@@ -818,7 +815,7 @@ local function Init_Button_All()
     end)
     btn:SetScript('OnClick', function(self, d)
         if d=='LeftButton' then
-            Save().hide= not Save().hide and true or nil
+            WoWTools_GemMixin:Save().hide= not WoWTools_GemMixin:Save().hide and true or nil
             self:set_shown()
             self:set_texture()
             self:set_tooltips()
@@ -832,12 +829,12 @@ local function Init_Button_All()
         if not self:CanChangeAttribute() then
             return
         end
-        local n= Save().scale or 1
+        local n= WoWTools_GemMixin:Save().scale or 1
         n= d==1 and n+0.05 or n
         n= d==-1 and n-0.05 or n
         n= n>4 and 4 or n
         n= n<0.4 and 0.4 or n
-        Save().scale= n
+        WoWTools_GemMixin:Save().scale= n
         self:set_scale()
         self:set_tooltips()
     end)
@@ -924,67 +921,52 @@ local function Init()
             ItemSocketingDescription.playerModel:SetParent(ItemSocketingScrollFrame)
         end
     end)
-
-
-    Init=function()end
 end
 
+
+local Register_Init= WoWTools_Once(function()
+    EventUtil.ContinueOnAddOnLoaded('Blizzard_ItemSocketingUI', Init)
+end)
 
 local function Load_Init()
-    if Save().disabled then
-        return
+    if not WoWTools_GemMixin:Save().disabled then
+        Register_Init()
     end
-
-    if C_AddOns.IsAddOnLoaded('Blizzard_ItemSocketingUI') then
-        Init()
-    else
-        EventRegistry:RegisterFrameEventAndCallback("ADDON_LOADED", function(owner, arg1)
-            if arg1=='Blizzard_ItemSocketingUI' then
-                Init()
-                EventRegistry:UnregisterCallback('ADDON_LOADED', owner)
-            end
-        end)
-    end
-    Load_Init=function()end
 end
 
 
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if arg1~= 'WoWToolsPlus' then
-        return
-    end
+--Módulo registrado con la API común (docs/REFACTOR.md, R2).
+--La casilla es propia (panel=false, en onLoad): activar arranca ya sin recargar; solo al desactivar pide recargar.
+WoWTools_Module:Register({
+    key= 'Plus_Gem',
+    name= 'Module.Gem sockets',
+    icon= 4555592,
+    group= 'Items',
+    defaults= P_Save,
+    mixin= WoWTools_GemMixin,
+    panel= false,
+    onLoad= function()
+        addName= WoWTools_GemMixin.addName
 
-    WoWToolsPlusSave['Plus_Gem']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Gem'], P_Save)
-    P_Save=nil
-
-    addName= '|T4555592:0|t'..(WoWTools_L['Module.Gem sockets'])
-    WoWTools_GemMixin= WoWTools_GemMixin or {}--para agrupar el módulo en la página principal
-    WoWTools_GemMixin.addName= addName
-
-    WoWTools_PanelMixin:OnlyCheck({
-        name= addName,
-        tooltip= WoWTools_L['Tip.Gem.Enable'],
-        GetValue= function() return not Save().disabled end,
-        SetValue= function()
-            Save().disabled = not Save().disabled and true or nil
-            Load_Init()
-            if Save().disabled then
-                WoWTools_Print(
-                    addName..WoWTools_DataMixin.Icon.icon2,
-                    WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-                    WoWTools_L.RELOADUI
-                )
+        WoWTools_PanelMixin:OnlyCheck({
+            name= addName,
+            tooltip= WoWTools_L['Tip.Gem.Enable'],
+            GetValue= function() return not WoWTools_GemMixin:Save().disabled end,
+            SetValue= function()
+                WoWTools_GemMixin:Save().disabled = not WoWTools_GemMixin:Save().disabled and true or nil
+                Load_Init()
+                if WoWTools_GemMixin:Save().disabled then
+                    WoWTools_Print(
+                        addName..WoWTools_DataMixin.Icon.icon2,
+                        WoWTools_TextMixin:GetEnabeleDisable(not WoWTools_GemMixin:Save().disabled),
+                        WoWTools_L.RELOADUI
+                    )
+                end
             end
-        end
-    })
-
-    Load_Init()
-
-    self:SetScript('OnEvent', nil)
-    self:UnregisterEvent(event)
-end)
+        })
+    end,
+    onEnable= Load_Init,
+})
 
 
 function WoWTools_MoveMixin.Events:Blizzard_ItemSocketingUI()
