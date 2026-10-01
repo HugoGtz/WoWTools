@@ -396,6 +396,26 @@ end
 
 
 
+--Refrescos para el Centro de control (solo si la ventana de macros ya se preparó)
+function WoWTools_MacroMixin:Refresh_Layout()
+    if TargetButton and MacroFrame and not InCombatLockdown() then
+        WoWTools_DataMixin:Call(MacroFrame.ChangeTab, MacroFrame, 1)
+        TargetButton:settings()
+        WoWTools_MacroMixin:Init_Set_BG()
+    end
+end
+
+function WoWTools_MacroMixin:Refresh_BottomList(onlyList)
+    if TargetButton then
+        WoWTools_MacroMixin:Init_List_Button()
+        if not onlyList then
+            WoWTools_MacroMixin:Init_AddNew_Button()
+            TargetButton:settings()
+        end
+    end
+end
+
+
 function WoWTools_MacroMixin:Init_Button()
     Init()
     Init_Created()
