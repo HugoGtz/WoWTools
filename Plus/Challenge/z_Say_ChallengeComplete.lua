@@ -369,6 +369,13 @@ function WoWTools_ChallengeMixin:Say_ChallengeComplete()
     Init()
 end
 
+--Escala y capa del botón (Centro de control)
+function WoWTools_ChallengeMixin:Say_ChallengeComplete_Settings()
+    if SayButton then
+        SayButton:set_scale()
+    end
+end
+
 function WoWTools_ChallengeMixin:Say_ChallengeComplete_Menu(frame, root)
     if frame:IsMouseOver() then
         Init_Menu(SayButton, root)
