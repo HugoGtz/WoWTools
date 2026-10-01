@@ -3,61 +3,21 @@ WoWTools_FriendsMixin={}
 
 
 
-local function Save()
-    return WoWToolsPlusSave['Plus_FriendsList']
-end
-
-
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWToolsPlus' then
-
-            WoWToolsPlusSave['Plus_FriendsList']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_FriendsList'], {
-                Friends={},
-            })
-
-            WoWTools_FriendsMixin.addName= '|A:socialqueuing-icon-group:0:0|a'..(WoWTools_L['Module.Friends list'])
-
-            WoWTools_PanelMixin:OnlyCheck({
-                name= WoWTools_FriendsMixin.addName,
-                tooltip= WoWTools_L['Tip.Friends.Enable'],
-                GetValue= function() return not Save().disabled end,
-                SetValue= function()
-                    Save().disabled= not Save().disabled and true or nil
-                    WoWTools_Print(
-                        WoWTools_FriendsMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                        WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-                        WoWTools_L.REQUIRES_RELOAD
-                    )
-                end
-            })
-
-            if Save().disabled then
-                self:UnregisterEvent(event)
-                self:SetScript('OnEvent', nil)
-            else
-                WoWTools_FriendsMixin:Blizzard_QuickJoin()
-                WoWTools_FriendsMixin:Blizzard_RaidFrame()
-                WoWTools_FriendsMixin:Blizzard_FriendsFrame()
-
-                if C_AddOns.IsAddOnLoaded('Blizzard_RaidUI') then
-                    WoWTools_FriendsMixin:Blizzard_RaidUI()
-                    self:UnregisterEvent(event)
-                    self:SetScript('OnEvent', nil)
-                end
-            end
-
-        elseif arg1=='Blizzard_RaidUI' and WoWToolsPlusSave then
-            WoWTools_FriendsMixin:Blizzard_RaidUI()
-            self:UnregisterEvent(event)
-            self:SetScript('OnEvent', nil)
-        end
-
-    --elseif event=='LOADING_SCREEN_DISABLED' then
-        --WoWTools_FriendsMixin:Blizzard_FriendsFrame()
-        --self:UnregisterEvent(event)
-    end
-end)
+--Módulo registrado con la API común (docs/REFACTOR.md, R2)
+WoWTools_Module:Register({
+    key= 'Plus_FriendsList',
+    name= 'Module.Friends list',
+    icon= 'socialqueuing-icon-group',
+    group= 'Chat',
+    defaults= {Friends={}},
+    tooltip= 'Tip.Friends.Enable',
+    mixin= WoWTools_FriendsMixin,
+    onEnable= function()
+        WoWTools_FriendsMixin:Blizzard_QuickJoin()
+        WoWTools_FriendsMixin:Blizzard_RaidFrame()
+        WoWTools_FriendsMixin:Blizzard_FriendsFrame()
+    end,
+    blizzard= {Blizzard_RaidUI= function()
+        WoWTools_FriendsMixin:Blizzard_RaidUI()
+    end},
+})

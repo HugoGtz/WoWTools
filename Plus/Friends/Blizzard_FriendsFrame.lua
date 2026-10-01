@@ -1,6 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_FriendsList']
-end
 local OptionTexture={
     ['Availabel'] = FRIENDS_TEXTURE_ONLINE,
     ['DND']= FRIENDS_TEXTURE_DND,
@@ -31,12 +28,12 @@ local function Init_Friends_Menu(self, root)
     sub= root:CreateRadio(
         OptionText:format(FRIENDS_TEXTURE_ONLINE, WoWTools_L.FRIENDS_LIST_AVAILABLE),
     function()
-        return Save().Friends[WoWTools_DataMixin.Player.GUID]== 'Availabel'
+        return WoWTools_FriendsMixin:Save().Friends[WoWTools_DataMixin.Player.GUID]== 'Availabel'
     end, function()
-        if Save().Friends[WoWTools_DataMixin.Player.GUID]== 'Availabel' then
-            Save().Friends[WoWTools_DataMixin.Player.GUID]= nil
+        if WoWTools_FriendsMixin:Save().Friends[WoWTools_DataMixin.Player.GUID]== 'Availabel' then
+            WoWTools_FriendsMixin:Save().Friends[WoWTools_DataMixin.Player.GUID]= nil
         else
-            Save().Friends[WoWTools_DataMixin.Player.GUID]= 'Availabel'
+            WoWTools_FriendsMixin:Save().Friends[WoWTools_DataMixin.Player.GUID]= 'Availabel'
         end
         self:set_status()
         return MenuResponse.Refresh
@@ -46,12 +43,12 @@ local function Init_Friends_Menu(self, root)
     sub= root:CreateRadio(
         OptionText:format(FRIENDS_TEXTURE_AFK, WoWTools_L.FRIENDS_LIST_AWAY),
     function()
-        return Save().Friends[WoWTools_DataMixin.Player.GUID]== 'Away'
+        return WoWTools_FriendsMixin:Save().Friends[WoWTools_DataMixin.Player.GUID]== 'Away'
     end, function()
-        if Save().Friends[WoWTools_DataMixin.Player.GUID]== 'Away' then
-            Save().Friends[WoWTools_DataMixin.Player.GUID]= nil
+        if WoWTools_FriendsMixin:Save().Friends[WoWTools_DataMixin.Player.GUID]== 'Away' then
+            WoWTools_FriendsMixin:Save().Friends[WoWTools_DataMixin.Player.GUID]= nil
         else
-            Save().Friends[WoWTools_DataMixin.Player.GUID]= 'Away'
+            WoWTools_FriendsMixin:Save().Friends[WoWTools_DataMixin.Player.GUID]= 'Away'
         end
         self:set_status()
         return MenuResponse.Refresh
@@ -61,12 +58,12 @@ local function Init_Friends_Menu(self, root)
     sub= root:CreateRadio(
         OptionText:format(FRIENDS_TEXTURE_DND, WoWTools_L.FRIENDS_LIST_BUSY),
     function()
-        return Save().Friends[WoWTools_DataMixin.Player.GUID]== 'DND'
+        return WoWTools_FriendsMixin:Save().Friends[WoWTools_DataMixin.Player.GUID]== 'DND'
     end, function()
-        if Save().Friends[WoWTools_DataMixin.Player.GUID]== 'DND' then
-            Save().Friends[WoWTools_DataMixin.Player.GUID]= nil
+        if WoWTools_FriendsMixin:Save().Friends[WoWTools_DataMixin.Player.GUID]== 'DND' then
+            WoWTools_FriendsMixin:Save().Friends[WoWTools_DataMixin.Player.GUID]= nil
         else
-            Save().Friends[WoWTools_DataMixin.Player.GUID]= 'DND'
+            WoWTools_FriendsMixin:Save().Friends[WoWTools_DataMixin.Player.GUID]= 'DND'
         end
         self:set_status()
         return MenuResponse.Refresh
@@ -87,7 +84,7 @@ local function Init_Friends_Menu(self, root)
         data.name,
         nil,
         {SetValue=function()
-            Save().Friends= {}
+            WoWTools_FriendsMixin:Save().Friends= {}
             WoWTools_Print(
                 WoWTools_FriendsMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 data.name
@@ -97,15 +94,15 @@ local function Init_Friends_Menu(self, root)
     end, {name=name})
     sub:CreateDivider()
 
-    for guid, stat in pairs(Save().Friends) do
+    for guid, stat in pairs(WoWTools_FriendsMixin:Save().Friends) do
         if guid~=WoWTools_DataMixin.Player.GUID then
             local btn= sub:CreateCheckbox(
                 format('|A:%s:0:0|a', OptionTexture[stat] or '')
                 ..WoWTools_UnitMixin:GetPlayerInfo(nil, guid, nil, {reName=true, reRealm=true}),
             function(data)
-                return Save().Friends[data.guid]
+                return WoWTools_FriendsMixin:Save().Friends[data.guid]
             end, function(data)
-                Save().Friends[data.guid]= not Save().Friends[data.guid] and data.stat or nil
+                WoWTools_FriendsMixin:Save().Friends[data.guid]= not WoWTools_FriendsMixin:Save().Friends[data.guid] and data.stat or nil
             end, {guid=guid, stat=stat})
             btn:SetData(guid)
             btn:SetTooltip(function(tooltip, desc)
@@ -118,9 +115,9 @@ local function Init_Friends_Menu(self, root)
 
     root:CreateDivider()
     sub= root:CreateCheckbox('|A:Battlenet-ClientIcon-App:0:0|a'..(WoWTools_L.FRIEND)..' Plus', function()
-        return not Save().disabledFriendPlus
+        return not WoWTools_FriendsMixin:Save().disabledFriendPlus
     end, function()
-        Save().disabledFriendPlus= not Save().disabledFriendPlus and true or nil
+        WoWTools_FriendsMixin:Save().disabledFriendPlus= not WoWTools_FriendsMixin:Save().disabledFriendPlus and true or nil
         WoWTools_DataMixin:Call('FriendsList_Update', true)
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Friends.FriendPlus'])
@@ -136,7 +133,7 @@ end
 
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     OptionText= (WoWTools_L.SETTINGS).."|T%s:0:|t %s"
     RegionNames = {
         [1] = WoWTools_L.NORTH_AMERICA,
@@ -169,7 +166,7 @@ local function Init()
         local text
 
         local alpha= 1
-        if Save().Friends[WoWTools_DataMixin.Player.GUID]=='Availabel' then
+        if WoWTools_FriendsMixin:Save().Friends[WoWTools_DataMixin.Player.GUID]=='Availabel' then
             if bnetAFK or bnetDND then
                 C_BattleNet.SetAFK(false)
                 C_BattleNet.SetDND(false)
@@ -178,14 +175,14 @@ local function Init()
             end
             self:SetNormalTexture(FRIENDS_TEXTURE_ONLINE)
 
-        elseif Save().Friends[WoWTools_DataMixin.Player.GUID]=='Away' then
+        elseif WoWTools_FriendsMixin:Save().Friends[WoWTools_DataMixin.Player.GUID]=='Away' then
             if not bnetAFK then
                 C_BattleNet.SetAFK(true)
                 text= format(OptionText, FRIENDS_TEXTURE_AFK, WoWTools_L.FRIENDS_LIST_AWAY)
             end
             self:SetNormalTexture(FRIENDS_TEXTURE_AFK)
 
-        elseif Save().Friends[WoWTools_DataMixin.Player.GUID]=='DND' then
+        elseif WoWTools_FriendsMixin:Save().Friends[WoWTools_DataMixin.Player.GUID]=='DND' then
             if not bnetDND then
                 C_BattleNet.SetDND(true)
                 text= format(OptionText, FRIENDS_TEXTURE_DND, WoWTools_L.FRIENDS_LIST_BUSY)
@@ -226,7 +223,7 @@ local function Init()
 
 
      WoWTools_DataMixin:Hook('FriendsFrame_UpdateFriendButton', function(self)
-        if Save().disabledFriendPlus then
+        if WoWTools_FriendsMixin:Save().disabledFriendPlus then
             return
         end
 
@@ -462,8 +459,7 @@ local function Init()
         end)
     end)
 
-    Init=function()end
-end
+end)
 
 
 function WoWTools_FriendsMixin:Blizzard_FriendsFrame()

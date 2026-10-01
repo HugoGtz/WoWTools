@@ -1,7 +1,7 @@
 
 
 
-local function Init()
+local Init= WoWTools_Once(function()
 
     QuickJoinToastButton.Toast:ClearAllPoints()
     QuickJoinToastButton.Toast:SetPoint('BOTTOMLEFT', QuickJoinToastButton, 'TOPLEFT', 29, 2)
@@ -153,8 +153,7 @@ local function Init()
     end)
 
 
-    Init=function()end
-end
+end)
 
 
 function WoWTools_FriendsMixin:Blizzard_QuickJoin()

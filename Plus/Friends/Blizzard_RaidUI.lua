@@ -104,7 +104,7 @@ local function Init_RaidGroupFrame_Update()
 end
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     WoWTools_DataMixin:Hook('RaidGroupFrame_Update', function()
         Init_RaidGroupFrame_Update()
     end)
@@ -124,8 +124,7 @@ local function Init()
     end)
 
 
-    Init=function()end
-end
+end)
 
 
 function WoWTools_FriendsMixin:Blizzard_RaidUI()
