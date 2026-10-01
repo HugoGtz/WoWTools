@@ -1,9 +1,4 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_Attributes']
-end
-
-
-local function Init()
+local Init= WoWTools_Once(function()
     local button= CreateFrame('Button', 'WoWToolsAttributesMainButton', UIParent, 'WoWToolsButton2Template')
 
 
@@ -17,23 +12,23 @@ local function Init()
     WoWTools_TextureMixin:SetAlphaColor(button.classPortrait, true)
 
     function button:set_Show_Hide()
-        self.frame:SetShown(not Save().hide)
-        self.texture:SetAlpha(Save().hide and 1 or Save().buttonAlpha or 0.3)
-        self.classPortrait:SetAlpha(Save().hide and 1 or Save().buttonAlpha or 0)
-        self:SetScale(Save().buttonScale or 1)
+        self.frame:SetShown(not WoWTools_AttributesMixin:Save().hide)
+        self.texture:SetAlpha(WoWTools_AttributesMixin:Save().hide and 1 or WoWTools_AttributesMixin:Save().buttonAlpha or 0.3)
+        self.classPortrait:SetAlpha(WoWTools_AttributesMixin:Save().hide and 1 or WoWTools_AttributesMixin:Save().buttonAlpha or 0)
+        self:SetScale(WoWTools_AttributesMixin:Save().buttonScale or 1)
     end
 
     function button:set_Point()
         self:ClearAllPoints()
-        if Save().point then
-            button:SetPoint(Save().point[1], UIParent, Save().point[3], Save().point[4], Save().point[5])
+        if WoWTools_AttributesMixin:Save().point then
+            button:SetPoint(WoWTools_AttributesMixin:Save().point[1], UIParent, WoWTools_AttributesMixin:Save().point[3], WoWTools_AttributesMixin:Save().point[4], WoWTools_AttributesMixin:Save().point[5])
         else
             button:SetPoint('LEFT', 23, 180)
         end
     end
 
     function button:set_strata()
-        self:SetFrameStrata(Save().strata or 'MEDIUM')
+        self:SetFrameStrata(WoWTools_AttributesMixin:Save().strata or 'MEDIUM')
     end
 
     button:RegisterForDrag("RightButton")
@@ -48,8 +43,8 @@ local function Init()
         ResetCursor()
         self:StopMovingOrSizing()
         if WoWTools_FrameMixin:IsInSchermo(self) then
-            Save().point={self:GetPoint(1)}
-            Save().point[2]=nil
+            WoWTools_AttributesMixin:Save().point={self:GetPoint(1)}
+            WoWTools_AttributesMixin:Save().point[2]=nil
         end
     end)
 
@@ -62,7 +57,7 @@ local function Init()
         GameTooltip:AddDoubleLine(WoWTools_L.DAMAGE_METER_RESET_ALL_SESSIONS, WoWTools_DataMixin.Icon.left)
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(WoWTools_L.SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
-        GameTooltip:AddDoubleLine(WoWTools_TextMixin:GetShowHide(not Save().hide), WoWTools_DataMixin.Icon.mid)
+        GameTooltip:AddDoubleLine(WoWTools_TextMixin:GetShowHide(not WoWTools_AttributesMixin:Save().hide), WoWTools_DataMixin.Icon.mid)
         GameTooltip:AddDoubleLine(WoWTools_L.NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)
         GameTooltip:Show()
     end
@@ -92,9 +87,9 @@ local function Init()
 
     button:SetScript('OnMouseWheel', function(self, d)
         if d==1 then
-            Save().hide= true
+            WoWTools_AttributesMixin:Save().hide= true
         elseif d==-1 then
-            Save().hide= nil
+            WoWTools_AttributesMixin:Save().hide= nil
         end
         self:set_Show_Hide()
         self:set_tooltip()
@@ -114,7 +109,7 @@ local function Init()
 
 
     function button:settings(sceneType)
-        if Save().hideInPetBattle then
+        if WoWTools_AttributesMixin:Save().hideInPetBattle then
             self:SetShown(
                 not C_PetBattles.IsInBattle()
                 and not (UnitInVehicle('player') or OverrideActionBar:IsShown())-- or UnitHasVehicleUI('player'))
@@ -126,7 +121,7 @@ local function Init()
     end
     function button:set_event()
         self:UnregisterAllEvents()
-        if Save().hideInPetBattle then
+        if WoWTools_AttributesMixin:Save().hideInPetBattle then
             self:RegisterEvent('PET_BATTLE_OPENING_DONE')
             self:RegisterEvent('PET_BATTLE_CLOSE')
             self:RegisterEvent('PLAYER_ENTERING_WORLD')
@@ -160,8 +155,8 @@ local function Init()
     C_Timer.After(4, function()
         button.frame:SetPoint('BOTTOM')
         button.frame:SetSize(1, 1)
-        if Save().scale and Save().scale~=1 then
-            button.frame:SetScale(Save().scale)
+        if WoWTools_AttributesMixin:Save().scale and WoWTools_AttributesMixin:Save().scale~=1 then
+            button.frame:SetScale(WoWTools_AttributesMixin:Save().scale)
         end
         button.frame:RegisterUnitEvent("PLAYER_SPECIALIZATION_CHANGED", "player")
 
@@ -205,8 +200,7 @@ local function Init()
     end)
 
 
-   Init=function()end
-end
+end)
 
 
 function WoWTools_AttributesMixin:Create_Button()

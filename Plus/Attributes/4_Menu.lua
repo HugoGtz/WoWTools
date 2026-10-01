@@ -1,8 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_Attributes'] or {}
-end
-
-
 local function Init_Menu(self, root)
     if not self:IsMouseOver() then
         return
@@ -28,7 +23,7 @@ local function Init_Menu(self, root)
     function()
         return self.frame:IsShown()
     end, function()
-        Save().hide= not Save().hide and true or nil
+        WoWTools_AttributesMixin:Save().hide= not WoWTools_AttributesMixin:Save().hide and true or nil
         self:set_Show_Hide()
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Attributes.Show'])
@@ -44,12 +39,12 @@ local function Init_Menu(self, root)
 
     WoWTools_MenuMixin:BgAplha(sub,
     function()--GetValue
-        return Save().bgAlpha or 0.5
+        return WoWTools_AttributesMixin:Save().bgAlpha or 0.5
     end, function(value)--SetValue
-        Save().bgAlpha=value
+        WoWTools_AttributesMixin:Save().bgAlpha=value
         WoWTools_AttributesMixin:Frame_Init(true)
     end, function()--RestFunc
-        Save().bgAlpha= 0.5
+        WoWTools_AttributesMixin:Save().bgAlpha= 0.5
         WoWTools_AttributesMixin:Frame_Init(true)
     end)--onlyRoot
 
@@ -57,14 +52,14 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:FrameStrata(self, sub, function(data)
         return self:GetFrameStrata()==data
     end, function(data)
-        Save().strata= data
+        WoWTools_AttributesMixin:Save().strata= data
         self:set_strata()
     end)
 
 
     sub:CreateDivider()
-    WoWTools_MenuMixin:RestPoint(self, sub, Save().point, function()
-        Save().point=nil
+    WoWTools_MenuMixin:RestPoint(self, sub, WoWTools_AttributesMixin:Save().point, function()
+        WoWTools_AttributesMixin:Save().point=nil
         self:set_Point()
         return MenuResponse.Open
     end)

@@ -1,22 +1,19 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_Attributes'] or {}
-end
 local Frame=CreateFrame('Frame')
 local Category
 
 
-local function Init_Options()
+local Init_Options= WoWTools_Once(function()
     local last, check, findTank, findDps
     local Tabs= WoWTools_AttributesMixin:Get_Tabs()
 
     for index, info in pairs(Tabs) do
         if info.dps and not findDps then
             check=WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
-            check:SetChecked(Save().onlyDPS)
+            check:SetChecked(WoWTools_AttributesMixin:Save().onlyDPS)
             check:SetPoint('TOPLEFT', last, 'BOTTOMLEFT',0, -16)
             check.text:SetFormattedText(LFG_LIST_CROSS_FACTION , INLINE_DAMAGER_ICON..INLINE_HEALER_ICON)
             check:SetScript('OnMouseUp',function()
-                Save().onlyDPS = not Save().onlyDPS and true or false
+                WoWTools_AttributesMixin:Save().onlyDPS = not WoWTools_AttributesMixin:Save().onlyDPS and true or false
                 WoWTools_AttributesMixin:Frame_Init(true)
             end)
             findDps=true
@@ -31,7 +28,7 @@ local function Init_Options()
         end
 
         check= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
-        check:SetChecked(not Save().tab[info.name].hide)
+        check:SetChecked(not WoWTools_AttributesMixin:Save().tab[info.name].hide)
         if info.name=='STATUS' or info.name=='SPEED' or info.name=='LIFESTEAL' then
             if last then
                 check:SetPoint('TOPLEFT', last, 'BOTTOMLEFT',0, -16)
@@ -46,7 +43,7 @@ local function Init_Options()
         check.zeroShow= info.zeroShow
 
         check:SetScript('OnMouseUp',function(self)
-            Save().tab[self.name].hide= not Save().tab[self.name].hide and true or nil
+            WoWTools_AttributesMixin:Save().tab[self.name].hide= not WoWTools_AttributesMixin:Save().tab[self.name].hide and true or nil
             WoWTools_AttributesMixin:Frame_Init(true)
         end)
         check:SetScript('OnEnter', function(self)
@@ -59,7 +56,7 @@ local function Init_Options()
             end
             if not info.zeroShow then
                 GameTooltip:AddLine(' ')
-                GameTooltip:AddDoubleLine(WoWTools_TextMixin:GetShowHide(not Save().tab[self.name].hide), (WoWTools_L['value: '])..' < 1 ='..(WoWTools_L.HIDE))
+                GameTooltip:AddDoubleLine(WoWTools_TextMixin:GetShowHide(not WoWTools_AttributesMixin:Save().tab[self.name].hide), (WoWTools_L['value: '])..' < 1 ='..(WoWTools_L.HIDE))
             end
             GameTooltip:Show()
         end)
@@ -73,13 +70,13 @@ local function Init_Options()
             text.name= info.name
             text.text= info.text
             text:SetScript('OnMouseDown', function(self)
-                local R,G,B,A= Save().tab[self.name].r, Save().tab[self.name].g, Save().tab[self.name].r, Save().tab[self.name].a or 1-- self.r, self.g, self.b, self.a
+                local R,G,B,A= WoWTools_AttributesMixin:Save().tab[self.name].r, WoWTools_AttributesMixin:Save().tab[self.name].g, WoWTools_AttributesMixin:Save().tab[self.name].r, WoWTools_AttributesMixin:Save().tab[self.name].a or 1-- self.r, self.g, self.b, self.a
                 local setA, setR, setG, setB
                 local function func()
-                    Save().tab[self.name].r= setR
-                    Save().tab[self.name].g= setG
-                    Save().tab[self.name].b= setB
-                    Save().tab[self.name].a= setA
+                    WoWTools_AttributesMixin:Save().tab[self.name].r= setR
+                    WoWTools_AttributesMixin:Save().tab[self.name].g= setG
+                    WoWTools_AttributesMixin:Save().tab[self.name].b= setB
+                    WoWTools_AttributesMixin:Save().tab[self.name].a= setA
                     self:SetTextColor(setR, setG, setB, setA)
                     local btn= _G['WoWToolsAttributesMainButton']
                     if btn and btn[self.name] then
@@ -101,10 +98,10 @@ local function Init_Options()
                 )
             end)
             text:SetScript('OnEnter', function(self)
-                local r2= Save().tab[self.name].r or 1
-                local g2= Save().tab[self.name].g or 0.82
-                local b2= Save().tab[self.name].b or 0
-                local a2= Save().tab[self.name].a or 1
+                local r2= WoWTools_AttributesMixin:Save().tab[self.name].r or 1
+                local g2= WoWTools_AttributesMixin:Save().tab[self.name].g or 0.82
+                local b2= WoWTools_AttributesMixin:Save().tab[self.name].b or 0
+                local a2= WoWTools_AttributesMixin:Save().tab[self.name].a or 1
                 GameTooltip:SetOwner(self, "ANCHOR_LEFT")
                 GameTooltip:ClearLines()
                 GameTooltip:AddDoubleLine(self.text, self.name, r2, g2, b2)
@@ -119,12 +116,12 @@ local function Init_Options()
 
         if info.name=='STATUS' then
             local current= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
-            current:SetChecked(Save().tab[info.name].bar)
+            current:SetChecked(WoWTools_AttributesMixin:Save().tab[info.name].bar)
             current:SetPoint('LEFT', text, 'RIGHT',2,0)
             current.text:SetText('Bar')
             current.text:SetTextColor(PlayerUtil.GetClassColor():GetRGB())
             current:SetScript('OnMouseUp',function()
-                Save().tab['STATUS'].bar= not Save().tab['STATUS'].bar and true or false
+                WoWTools_AttributesMixin:Save().tab['STATUS'].bar= not WoWTools_AttributesMixin:Save().tab['STATUS'].bar and true or false
                 WoWTools_AttributesMixin:Frame_Init(true)
             end)
             current:SetScript('OnEnter', function(self)
@@ -134,13 +131,13 @@ local function Init_Options()
             current:SetScript('OnLeave', function(self2) GameTooltip:Hide() self2:SetAlpha(1) end)
             current.name= info.name
 
-            local sliderBit=WoWTools_SliderMixin:CSlider(Frame, {w=100,h=20, min=0, max=3, value=Save().tab['STATUS'].bit or 3, setp=1, color=nil,
+            local sliderBit=WoWTools_SliderMixin:CSlider(Frame, {w=100,h=20, min=0, max=3, value=WoWTools_AttributesMixin:Save().tab['STATUS'].bit or 3, setp=1, color=nil,
                 text= WoWTools_ColorMixin:SetStringColor(WoWTools_L['Decimals']),
                 func=function(self, value)
                     value= math.floor(value)
                     self:SetValue(value)
                     self.Text:SetText(value)
-                    Save().tab['STATUS'].bit= value==0 and 0 or value
+                    WoWTools_AttributesMixin:Save().tab['STATUS'].bit= value==0 and 0 or value
                     WoWTools_AttributesMixin:Frame_Init(true)
                 end,
                 tips=nil
@@ -152,12 +149,12 @@ local function Init_Options()
 
         elseif info.name=='VERSATILITY' then
             local check2=WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
-            check2:SetChecked(Save().tab['VERSATILITY'].onlyDefense)
+            check2:SetChecked(WoWTools_AttributesMixin:Save().tab['VERSATILITY'].onlyDefense)
             check2:SetPoint('LEFT', text, 'RIGHT',2,0)
             check2.text:SetText((WoWTools_L['Defense only']))
             check2:SetScript('OnMouseDown', function(self)
-                Save().tab['VERSATILITY'].onlyDefense= not Save().tab['VERSATILITY'].onlyDefense and true or nil
-                if Save().tab['VERSATILITY'].onlyDefense then
+                WoWTools_AttributesMixin:Save().tab['VERSATILITY'].onlyDefense= not WoWTools_AttributesMixin:Save().tab['VERSATILITY'].onlyDefense and true or nil
+                if WoWTools_AttributesMixin:Save().tab['VERSATILITY'].onlyDefense then
                     check2.A.text:SetTextColor(0.62, 0.62, 0.62)
                 else
                     check2.A.text:SetTextColor(1, 0.82, 0)
@@ -175,11 +172,11 @@ local function Init_Options()
             check2.name= info.name
 
             check2.A=WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
-            check2.A:SetChecked(Save().tab['VERSATILITY'].damageAndDefense)
+            check2.A:SetChecked(WoWTools_AttributesMixin:Save().tab['VERSATILITY'].damageAndDefense)
             check2.A:SetPoint('LEFT', check2.text, 'RIGHT',2,0)
             check2.A.text:SetText('22/18%')
             check2.A:SetScript('OnMouseDown', function(self)
-                Save().tab['VERSATILITY'].damageAndDefense= not Save().tab['VERSATILITY'].damageAndDefense and true or nil
+                WoWTools_AttributesMixin:Save().tab['VERSATILITY'].damageAndDefense= not WoWTools_AttributesMixin:Save().tab['VERSATILITY'].damageAndDefense and true or nil
                 WoWTools_AttributesMixin:Frame_Init(true)
             end)
             check2.A:SetScript('OnEnter', function(self)
@@ -192,7 +189,7 @@ local function Init_Options()
             end)
             check2.A.name= info.name
 
-            if Save().tab['VERSATILITY'].onlyDefense then
+            if WoWTools_AttributesMixin:Save().tab['VERSATILITY'].onlyDefense then
                 check2.A.text:SetTextColor(0.62, 0.62, 0.62)
             end
         end
@@ -206,16 +203,16 @@ local function Init_Options()
     --text:SetPoint('TOPLEFT', last, 'BOTTOMLEFT',0, -16)
     text:SetText(WoWTools_L['Shadow'])
     text:EnableMouse(true)
-    text.r, text.g, text.b, text.a= Save().font.r, Save().font.g, Save().font.b, Save().font.a
+    text.r, text.g, text.b, text.a= WoWTools_AttributesMixin:Save().font.r, WoWTools_AttributesMixin:Save().font.g, WoWTools_AttributesMixin:Save().font.b, WoWTools_AttributesMixin:Save().font.a
     WoWTools_AttributesMixin:Set_Shadow(text)
     text:SetScript('OnMouseDown', function(self)
         local R,G,B,A= self.r, self.g, self.b, self.a
         local setA, setR, setG, setB
         local function func()
-            Save().font.r= setR
-            Save().font.g= setG
-            Save().font.b= setB
-            Save().font.a= setA
+            WoWTools_AttributesMixin:Save().font.r= setR
+            WoWTools_AttributesMixin:Save().font.g= setG
+            WoWTools_AttributesMixin:Save().font.b= setB
+            WoWTools_AttributesMixin:Save().font.a= setA
             WoWTools_AttributesMixin:Set_Shadow(self)
             WoWTools_AttributesMixin:Frame_Init(true)
         end
@@ -238,13 +235,13 @@ local function Init_Options()
         self2:SetAlpha(0.3)
     end)
 
-    local sliderX=WoWTools_SliderMixin:CSlider(Frame, {w=120 ,h=20, min=-5, max=5, value=Save().font.x, setp=1, color=nil,
+    local sliderX=WoWTools_SliderMixin:CSlider(Frame, {w=120 ,h=20, min=-5, max=5, value=WoWTools_AttributesMixin:Save().font.x, setp=1, color=nil,
         text='X',
         func=function(self, value)
             value= math.floor(value)
             self:SetValue(value)
             self.Text:SetText(value)
-            Save().font.x= value==0 and 0 or value
+            WoWTools_AttributesMixin:Save().font.x= value==0 and 0 or value
             WoWTools_AttributesMixin:Set_Shadow(self.text)
             WoWTools_AttributesMixin:Frame_Init(true)
         end, tips=nil
@@ -252,12 +249,12 @@ local function Init_Options()
     sliderX:SetPoint("TOPLEFT", text, 'BOTTOMLEFT',0,-12)
     sliderX.text= text
 
-    local sliderY= WoWTools_SliderMixin:CSlider(Frame, {w=120 ,h=20, min=-5, max=5, value=Save().font.y, setp=1, color=true,
+    local sliderY= WoWTools_SliderMixin:CSlider(Frame, {w=120 ,h=20, min=-5, max=5, value=WoWTools_AttributesMixin:Save().font.y, setp=1, color=true,
         text='Y', func=function(self, value, userInput)
             value= math.floor(value)
             self:SetValue(value)
             self.Text:SetText(value)
-            Save().font.y= value==0 and 0 or value
+            WoWTools_AttributesMixin:Save().font.y= value==0 and 0 or value
             WoWTools_AttributesMixin:Set_Shadow(self.text)
             WoWTools_AttributesMixin:Frame_Init(true)
         end, tips=nil
@@ -268,9 +265,9 @@ local function Init_Options()
     local notTextCheck= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
     notTextCheck:SetPoint("TOPLEFT", Frame, 'TOP', 0, -32)
     notTextCheck.text:SetText(WoWTools_L['Hide values'])
-    notTextCheck:SetChecked(Save().notText)
+    notTextCheck:SetChecked(WoWTools_AttributesMixin:Save().notText)
     notTextCheck:SetScript('OnMouseDown', function()
-        Save().notText= not Save().notText and true or nil
+        WoWTools_AttributesMixin:Save().notText= not WoWTools_AttributesMixin:Save().notText and true or nil
         WoWTools_AttributesMixin:Frame_Init(true)
     end)
 
@@ -286,12 +283,12 @@ local function Init_Options()
         self:SetAlpha(0.3)
     end)
     textColor:SetText('23%')
-    WoWTools_ColorMixin:RGBtoHEX(Save().textColor.r, Save().textColor.g, Save().textColor.b, Save().textColor.a, textColor)
+    WoWTools_ColorMixin:RGBtoHEX(WoWTools_AttributesMixin:Save().textColor.r, WoWTools_AttributesMixin:Save().textColor.g, WoWTools_AttributesMixin:Save().textColor.b, WoWTools_AttributesMixin:Save().textColor.a, textColor)
     textColor:SetScript('OnMouseDown', function(self)
         local setR, setG, setB, setA
         local R,G,B,A= self.r, self.g, self.b, self.a
         local function func()
-            Save().textColor= {r=setR, g=setG, b=setB, a=setA}
+            WoWTools_AttributesMixin:Save().textColor= {r=setR, g=setG, b=setB, a=setA}
             self:SetTextColor(setR, setG, setB, setA)
             WoWTools_AttributesMixin:Frame_Init(true)
         end
@@ -309,9 +306,9 @@ local function Init_Options()
     check= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
     check:SetPoint("TOPLEFT", notTextCheck, 'BOTTOMLEFT')
     check.text:SetText((WoWTools_L.BINDING_NAME_STRAFELEFT)..' 23%'..Tabs[2].text)
-    check:SetChecked(Save().toLeft)
+    check:SetChecked(WoWTools_AttributesMixin:Save().toLeft)
     check:SetScript('OnMouseDown', function()
-        Save().toLeft= not Save().toLeft and true or nil
+        WoWTools_AttributesMixin:Save().toLeft= not WoWTools_AttributesMixin:Save().toLeft and true or nil
         WoWTools_AttributesMixin:Frame_Init(true)
     end)
 
@@ -319,19 +316,19 @@ local function Init_Options()
     local check5= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
     check5:SetPoint("TOPLEFT", check, 'BOTTOMLEFT')
     check5.text:SetText((WoWTools_L.STATUS_TEXT_VALUE)..' 2K')
-    check5:SetChecked(Save().useNumber)
+    check5:SetChecked(WoWTools_AttributesMixin:Save().useNumber)
     check5:SetScript('OnMouseDown', function()
-        Save().useNumber= not Save().useNumber and true or nil
+        WoWTools_AttributesMixin:Save().useNumber= not WoWTools_AttributesMixin:Save().useNumber and true or nil
         WoWTools_AttributesMixin:Frame_Init(true)
     end)
 
-    local sliderBit= WoWTools_SliderMixin:CSlider(Frame, {w=100 ,h=20, min=0, max=3, value=Save().bit or 0, setp=1, color=nil,
+    local sliderBit= WoWTools_SliderMixin:CSlider(Frame, {w=100 ,h=20, min=0, max=3, value=WoWTools_AttributesMixin:Save().bit or 0, setp=1, color=nil,
         text=(WoWTools_L['Decimals']),
         func=function(self, value)
             value= math.ceil(value)
             self:SetValue(value)
             self.Text:SetText(value)
-            Save().bit= value==0 and 0 or value
+            WoWTools_AttributesMixin:Save().bit= value==0 and 0 or value
             WoWTools_AttributesMixin:Frame_Init(true)
         end,
     tips=nil})
@@ -341,11 +338,11 @@ local function Init_Options()
     local barValueText= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
     barValueText:SetPoint("TOPLEFT", check5, 'BOTTOMLEFT')
     barValueText.text:SetText(WoWTools_L.BENEFICIAL)
-    barValueText:SetChecked(Save().setMaxMinValue)
+    barValueText:SetChecked(WoWTools_AttributesMixin:Save().setMaxMinValue)
     barValueText:SetScript('OnMouseDown', function()
-        Save().setMaxMinValue= not Save().setMaxMinValue and true or false
+        WoWTools_AttributesMixin:Save().setMaxMinValue= not WoWTools_AttributesMixin:Save().setMaxMinValue and true or false
         WoWTools_AttributesMixin:Frame_Init(true)
-        if Save().setMaxMinValue then
+        if WoWTools_AttributesMixin:Save().setMaxMinValue then
             C_Timer.After(0.3, function()
                 for _, info in pairs(WoWTools_AttributesMixin:Get_Tabs()) do
                     local btn= _G['WoWToolsAttributesMainButton']
@@ -371,14 +368,14 @@ local function Init_Options()
         self:SetAlpha(0.3)
     end)
     Frame.barGreenColor:SetText('+12')
-    WoWTools_ColorMixin:HEXtoRGB(Save().greenColor, Frame.barGreenColor)
+    WoWTools_ColorMixin:HEXtoRGB(WoWTools_AttributesMixin:Save().greenColor, Frame.barGreenColor)
     Frame.barGreenColor:SetScript('OnMouseDown', function(self)
         local setR, setG, setB, setA
         local R,G,B,A= self.r, self.g, self.b, self.a
         local function func()
             local hex= WoWTools_ColorMixin:RGBtoHEX(setR, setG, setB,setA, self)
             hex= hex and '|c'..hex or '|cffff8200'
-            Save().greenColor= hex
+            WoWTools_AttributesMixin:Save().greenColor= hex
             WoWTools_AttributesMixin:Set_Color()
         end
         WoWTools_ColorMixin:ShowColorFrame(self.r, self.g, self.b,self.a, function()
@@ -403,14 +400,14 @@ local function Init_Options()
         self:SetAlpha(0.3)
     end)
     Frame.barRedColor:SetText('-12')
-    WoWTools_ColorMixin:HEXtoRGB(Save().redColor, Frame.barRedColor)
+    WoWTools_ColorMixin:HEXtoRGB(WoWTools_AttributesMixin:Save().redColor, Frame.barRedColor)
     Frame.barRedColor:SetScript('OnMouseDown', function(self)
         local setR, setG, setB, setA
         local R,G,B,A= self.r, self.g, self.b, self.a
         local function func()
             local hex= WoWTools_ColorMixin:RGBtoHEX(setR, setG, setB,setA, self)
             hex= hex and '|c'..hex or '|cnWARNING_FONT_COLOR:'
-            Save().redColor= hex
+            WoWTools_AttributesMixin:Save().redColor= hex
             WoWTools_AttributesMixin:Set_Color()
         end
         WoWTools_ColorMixin:ShowColorFrame(self.r, self.g, self.b,self.a, function()
@@ -426,41 +423,41 @@ local function Init_Options()
     local check2= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})--bar
     check2:SetPoint("TOPLEFT", barValueText, 'BOTTOMLEFT',0,-62)
     check2.text:SetText('Bar')
-    check2:SetChecked(Save().bar)
+    check2:SetChecked(WoWTools_AttributesMixin:Save().bar)
     check2:SetScript('OnMouseDown', function()
-        Save().bar= not Save().bar and true or false
+        WoWTools_AttributesMixin:Save().bar= not WoWTools_AttributesMixin:Save().bar and true or false
         WoWTools_AttributesMixin:Frame_Init(true)
     end)
 
     local check3= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
     check3:SetPoint("LEFT", check2.text, 'RIGHT', 6, 0)
     check3.text:SetText((WoWTools_L.FORMATTING).. ' 2')
-    check3:SetChecked(Save().barTexture2)
+    check3:SetChecked(WoWTools_AttributesMixin:Save().barTexture2)
     check3:SetScript('OnMouseDown', function()
-        Save().barTexture2= not Save().barTexture2 and true or false
+        WoWTools_AttributesMixin:Save().barTexture2= not WoWTools_AttributesMixin:Save().barTexture2 and true or false
         WoWTools_AttributesMixin:Frame_Init(true)
     end)
 
-    local barWidth= WoWTools_SliderMixin:CSlider(Frame, {w=120, h=20, min=-119, max=250, value=Save().barWidth, setp=1, color=nil,
+    local barWidth= WoWTools_SliderMixin:CSlider(Frame, {w=120, h=20, min=-119, max=250, value=WoWTools_AttributesMixin:Save().barWidth, setp=1, color=nil,
         text=WoWTools_L.WIDE,
         func=function(self, value)
             value= math.floor(value)
             self:SetValue(value)
             self.Text:SetText(value)
-            Save().barWidth= value==0 and 0 or value
+            WoWTools_AttributesMixin:Save().barWidth= value==0 and 0 or value
             WoWTools_AttributesMixin:Frame_Init(true)
         end, tips=nil
     })
     barWidth:SetPoint("LEFT", check3.text, 'RIGHT', 10, 0)
 
     --bar, x
-    local barX= WoWTools_SliderMixin:CSlider(Frame, {w=120, h=20, min=-250, max=250, value=Save().barX, setp=1, color=true,
+    local barX= WoWTools_SliderMixin:CSlider(Frame, {w=120, h=20, min=-250, max=250, value=WoWTools_AttributesMixin:Save().barX, setp=1, color=true,
         text='X',
         func=function(self, value)
             value= math.floor(value)
             self:SetValue(value)
             self.Text:SetText(value)
-            Save().barX= value==0 and 0 or value
+            WoWTools_AttributesMixin:Save().barX= value==0 and 0 or value
             WoWTools_AttributesMixin:Frame_Init(true)
         end, tips=nil
     })
@@ -470,45 +467,45 @@ local function Init_Options()
     local barToLeft= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
     barToLeft:SetPoint("TOPLEFT", check2, 'BOTTOMLEFT')
     barToLeft.text:SetText(WoWTools_L.BINDING_NAME_STRAFELEFT)
-    barToLeft:SetChecked(Save().barToLeft)
+    barToLeft:SetChecked(WoWTools_AttributesMixin:Save().barToLeft)
     barToLeft:SetScript('OnMouseDown', function()
-        Save().barToLeft= not Save().barToLeft and true or nil
+        WoWTools_AttributesMixin:Save().barToLeft= not WoWTools_AttributesMixin:Save().barToLeft and true or nil
         WoWTools_AttributesMixin:Frame_Init(true)
     end)
 
-    local slider= WoWTools_SliderMixin:CSlider(Frame, {w=120, h=20, min=-5, max=10, value=Save().vertical, setp=0.1, color=nil,
+    local slider= WoWTools_SliderMixin:CSlider(Frame, {w=120, h=20, min=-5, max=10, value=WoWTools_AttributesMixin:Save().vertical, setp=0.1, color=nil,
         text='|T450907:0|t|T450905:0|t',
         func=function(self, value)
             value= tonumber(format('%.1f', value))
             self:SetValue(value)
             self.Text:SetText(value)
-            Save().vertical= value==0 and 0 or value
+            WoWTools_AttributesMixin:Save().vertical= value==0 and 0 or value
             WoWTools_AttributesMixin:Frame_Init(true)
         end,
         tips=nil
     })
     slider:SetPoint("TOPLEFT", barToLeft, 'BOTTOMLEFT', 0,-80)
 
-    local slider2= WoWTools_SliderMixin:CSlider(Frame, {w=120, h=20, min=-0.1, max=40, value=Save().horizontal, setp=0.1, color=true,
+    local slider2= WoWTools_SliderMixin:CSlider(Frame, {w=120, h=20, min=-0.1, max=40, value=WoWTools_AttributesMixin:Save().horizontal, setp=0.1, color=true,
         text='|T450908:0|t|T450906:0|t',
         func=function(self, value)
             value= tonumber(format('%.1f', value))
             self:SetValue(value)
             self.Text:SetText(value)
-            Save().horizontal=value
+            WoWTools_AttributesMixin:Save().horizontal=value
             WoWTools_AttributesMixin:Frame_Init(true)
         end,
         tips=nil
     })
     slider2:SetPoint("LEFT", slider, 'RIGHT', 10,0)
 
-    local slider3= WoWTools_SliderMixin:CSlider(Frame, {w=120, h=20, min=0, max=20, value=Save().gsubText or 0, setp=1, color=nil,
+    local slider3= WoWTools_SliderMixin:CSlider(Frame, {w=120, h=20, min=0, max=20, value=WoWTools_AttributesMixin:Save().gsubText or 0, setp=1, color=nil,
         text=WoWTools_L.BINDING_NAME_SCREENSHOT,
         func=function(self, value, userInput)
             value= math.floor(value)
             self:SetValue(value)
             self.Text:SetText(value)
-            Save().gsubText= value>0 and value or nil
+            WoWTools_AttributesMixin:Save().gsubText= value>0 and value or nil
             WoWTools_AttributesMixin:Frame_Init(true)
             WoWTools_Print(
                 WoWTools_AttributesMixin.addName..WoWTools_DataMixin.Icon.icon2,
@@ -525,11 +522,11 @@ local function Init_Options()
     local checkStrlower= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
     checkStrupper:SetPoint("LEFT", slider3, 'RIGHT')
     checkStrupper.text:SetText('ABC')
-    checkStrupper:SetChecked(Save().strupper)
+    checkStrupper:SetChecked(WoWTools_AttributesMixin:Save().strupper)
     checkStrupper:SetScript('OnMouseDown', function()
-        Save().strupper= not Save().strupper and true or nil
-        if Save().strupper then
-            Save().strlower=nil
+        WoWTools_AttributesMixin:Save().strupper= not WoWTools_AttributesMixin:Save().strupper and true or nil
+        if WoWTools_AttributesMixin:Save().strupper then
+            WoWTools_AttributesMixin:Save().strlower=nil
             checkStrlower:SetChecked(false)
         end
         WoWTools_AttributesMixin:Frame_Init(true)
@@ -544,11 +541,11 @@ local function Init_Options()
 
     checkStrlower:SetPoint("LEFT", checkStrupper.text, 'RIGHT')
     checkStrlower.text:SetText('abc')
-    checkStrlower:SetChecked(Save().strlower)
+    checkStrlower:SetChecked(WoWTools_AttributesMixin:Save().strlower)
     checkStrlower:SetScript('OnMouseDown', function()
-        Save().strlower= not Save().strlower and true or nil
-        if Save().strlower then
-            Save().strupper=nil
+        WoWTools_AttributesMixin:Save().strlower= not WoWTools_AttributesMixin:Save().strlower and true or nil
+        if WoWTools_AttributesMixin:Save().strlower then
+            WoWTools_AttributesMixin:Save().strupper=nil
             checkStrupper:SetChecked(false)
         end
         WoWTools_AttributesMixin:Frame_Init(true)
@@ -561,13 +558,13 @@ local function Init_Options()
         GameTooltip:Show()
     end)
 
-    local slider4= WoWTools_SliderMixin:CSlider(Frame, {w=nil, h=20, min=0.3, max=4, value=Save().scale or 1, setp=0.1, color=nil,
+    local slider4= WoWTools_SliderMixin:CSlider(Frame, {w=nil, h=20, min=0.3, max=4, value=WoWTools_AttributesMixin:Save().scale or 1, setp=0.1, color=nil,
         text=WoWTools_L.HOUSING_EXPERT_DECOR_SUBMODE_SCALE,
         func=function(self, value)
             value= tonumber(format('%.1f', value)) or 1
             self:SetValue(value)
             self.Text:SetText(value)
-            Save().scale=value
+            WoWTools_AttributesMixin:Save().scale=value
             local btn= _G['WoWToolsAttributesMainButton']
             if btn then
                 btn.frame:SetScale(value)
@@ -578,7 +575,7 @@ local function Init_Options()
     slider4:SetPoint("TOPLEFT", slider3, 'BOTTOMLEFT', 0,-24)
 
 
-    local sliderButtonAlpha = WoWTools_SliderMixin:CSlider(Frame, {min=0, max=1, value=Save().buttonAlpha or 0.3, setp=0.1, color=true,
+    local sliderButtonAlpha = WoWTools_SliderMixin:CSlider(Frame, {min=0, max=1, value=WoWTools_AttributesMixin:Save().buttonAlpha or 0.3, setp=0.1, color=true,
     text=WoWTools_L['Specialization alpha'],
     func=function(self, value)
         value= tonumber(format('%.1f', value))
@@ -586,7 +583,7 @@ local function Init_Options()
         value= value==1 and 1 or value
         self:SetValue(value)
         self.Text:SetText(value)
-        Save().buttonAlpha= value
+        WoWTools_AttributesMixin:Save().buttonAlpha= value
         local btn= _G['WoWToolsAttributesMainButton']
         if btn then
             btn:set_Show_Hide()
@@ -594,7 +591,7 @@ local function Init_Options()
     end})
     sliderButtonAlpha:SetPoint("TOPLEFT", slider4, 'BOTTOMLEFT', 0,-24)
 
-    local sliderButtonScale = WoWTools_SliderMixin:CSlider(Frame, {min=0.4, max=4, value=Save().buttonScale or 1, setp=0.1, color=true,
+    local sliderButtonScale = WoWTools_SliderMixin:CSlider(Frame, {min=0.4, max=4, value=WoWTools_AttributesMixin:Save().buttonScale or 1, setp=0.1, color=true,
     text=WoWTools_L['SPECIALIZATION+HOUSING_EXPERT_DECOR_SUBMODE_SCALE'],
     func=function(self, value)
         value= tonumber(format('%.01f', value))
@@ -602,7 +599,7 @@ local function Init_Options()
         value= value>4 and 4 or value
         self:SetValue(value)
         self.Text:SetText(value)
-        Save().buttonScale= value
+        WoWTools_AttributesMixin:Save().buttonScale= value
         local btn= _G['WoWToolsAttributesMainButton']
         if btn then
             btn:set_Show_Hide()
@@ -614,7 +611,7 @@ local function Init_Options()
     local restPosti= WoWTools_ButtonMixin:Cbtn(Frame, {size=20, atlas='characterundelete-RestoreButton'})
     restPosti:SetPoint('BOTTOMRIGHT')
     restPosti:SetScript('OnClick', function()
-        Save().point=nil
+        WoWTools_AttributesMixin:Save().point=nil
         local btn= _G['WoWToolsAttributesMainButton']
         if btn then
             btn:set_Point()
@@ -624,7 +621,7 @@ local function Init_Options()
     restPosti:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddLine((not Save().point and '|cff626262' or '')..(WoWTools_L.RESET_POSITION))
+        GameTooltip:AddLine((not WoWTools_AttributesMixin:Save().point and '|cff626262' or '')..(WoWTools_L.RESET_POSITION))
         GameTooltip:Show()
     end)
 
@@ -632,9 +629,9 @@ local function Init_Options()
     local checkHidePet= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
     checkHidePet:SetPoint('BOTTOMLEFT')
     checkHidePet.text:SetText(WoWTools_L['SELF_CAST_AUTO+HIDE'])
-    checkHidePet:SetChecked(Save().hideInPetBattle)
+    checkHidePet:SetChecked(WoWTools_AttributesMixin:Save().hideInPetBattle)
     checkHidePet:SetScript('OnMouseDown', function()
-        Save().hideInPetBattle= not Save().hideInPetBattle and true or false
+        WoWTools_AttributesMixin:Save().hideInPetBattle= not WoWTools_AttributesMixin:Save().hideInPetBattle and true or false
         local btn= _G['WoWToolsAttributesMainButton']
         if btn then
            btn:set_event()
@@ -642,23 +639,22 @@ local function Init_Options()
         end
     end)
 
-    Init_Options=function()end
-end
+end)
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     Category= WoWTools_PanelMixin:AddSubCategory({
         name=WoWTools_AttributesMixin.addName,
         frame=Frame,
-        disabled= Save().disabled,
+        disabled= WoWTools_AttributesMixin:Save().disabled,
     })
 
-    WoWTools_PanelMixin:ReloadButton({panel=Frame, addName=WoWTools_AttributesMixin.addName, restTips=nil, checked=not Save().disabled, clearTips=nil, reload=false,
+    WoWTools_PanelMixin:ReloadButton({panel=Frame, addName=WoWTools_AttributesMixin.addName, restTips=nil, checked=not WoWTools_AttributesMixin:Save().disabled, clearTips=nil, reload=false,
         disabledfunc=function()
-            Save().disabled = not Save().disabled and true or nil
+            WoWTools_AttributesMixin:Save().disabled = not WoWTools_AttributesMixin:Save().disabled and true or nil
             WoWTools_Print(
                 WoWTools_AttributesMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
+                WoWTools_TextMixin:GetEnabeleDisable(not WoWTools_AttributesMixin:Save().disabled),
                 WoWTools_L['REQUIRES_RELOAD~2']
             )
         end,
@@ -668,23 +664,13 @@ local function Init()
         end
     })
 
-    if Save().disabled then
+    if WoWTools_AttributesMixin:Save().disabled then
         Init_Options=function()end
     else
-        if C_AddOns.IsAddOnLoaded('Blizzard_Settings') then
-            Init_Options()
-        else
-            EventRegistry:RegisterFrameEventAndCallback("ADDON_LOADED", function(owner, arg1)
-                if arg1=='Blizzard_Settings' then
-                    Init_Options()
-                    EventRegistry:UnregisterCallback('ADDON_LOADED', owner)
-                end
-            end)
-        end
+        EventUtil.ContinueOnAddOnLoaded('Blizzard_Settings', Init_Options)
     end
 
-    Init=function()end
-end
+end)
 
 
 function WoWTools_AttributesMixin:Init_Options()

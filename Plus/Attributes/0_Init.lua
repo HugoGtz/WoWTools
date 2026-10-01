@@ -46,41 +46,25 @@ local P_Save={
 
 -- STAT_CATEGORY_ATTRIBUTES--PaperDollFrame.lua
 
-local function Save()
-    return WoWToolsPlusSave['Plus_Attributes'] or {}
-end
-
-
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWToolsPlus' then
-
-            WoWToolsPlusSave['Plus_Attributes']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Attributes'], P_Save)
-            P_Save=nil
-
-            WoWTools_AttributesMixin.addName= '|A:charactercreate-icon-customize-body-selected:0:0|a'..(WoWTools_L['Module.Attributes'])
-
-            WoWTools_AttributesMixin:Init_Options()
-
-            if Save().disabled then
-                self:SetScript('OnEvent', nil)
-            else
-                self:RegisterEvent("PLAYER_ENTERING_WORLD")
-            end
-            self:UnregisterEvent(event)
-        end
-
-    elseif event=='PLAYER_ENTERING_WORLD' then
+--Módulo registrado con la API común (docs/REFACTOR.md, R2).
+--Tiene su propia página de opciones con su casilla (panel=false), que se crea siempre (onLoad).
+WoWTools_Module:Register({
+    key= 'Plus_Attributes',
+    name= 'Module.Attributes',
+    icon= 'charactercreate-icon-customize-body-selected',
+    group= 'Interface',
+    defaults= P_Save,
+    mixin= WoWTools_AttributesMixin,
+    panel= false,
+    onLoad= function()
+        WoWTools_AttributesMixin:Init_Options()
+    end,
+    events= {PLAYER_ENTERING_WORLD= function()
         do
             WoWTools_AttributesMixin:Create_Button()
         end
         WoWTools_AttributesMixin:Frame_Init(true)
         WoWTools_AttributesMixin:Init_Vehicle_Speed()
-
-        self:UnregisterEvent(event)
-        self:SetScript('OnEvent', nil)
-    end
-end)
+        return true
+    end},
+})

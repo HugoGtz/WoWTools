@@ -1,8 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_Attributes'] or {}
-end
-
-
 local Role, PrimaryStat, Tabs
 local RedColor
 local GreenColor
@@ -10,10 +5,10 @@ local GreenColor
 
 
 local function Set_Color()
-    local r,g,b,a= WoWTools_ColorMixin:HEXtoRGB(Save().redColor)
+    local r,g,b,a= WoWTools_ColorMixin:HEXtoRGB(WoWTools_AttributesMixin:Save().redColor)
     RedColor= {r=r or 1, g=g or 0, b=b or 0, a=a or 1}
 
-    r,g,b,a= WoWTools_ColorMixin:HEXtoRGB(Save().greenColor)
+    r,g,b,a= WoWTools_ColorMixin:HEXtoRGB(WoWTools_AttributesMixin:Save().greenColor)
     GreenColor= {r=r or 0, g=g or 1, b=b or 0, a=a or 1}
 end
 
@@ -68,31 +63,31 @@ local function set_Tabs()
     end
 
     for index, info in pairs(Tabs) do
-        if not Save().tab[info.name]then
-            Save().tab[info.name]={name= info.name}
+        if not WoWTools_AttributesMixin:Save().tab[info.name]then
+            WoWTools_AttributesMixin:Save().tab[info.name]={name= info.name}
         end
-        Tabs[index].r= index==1 and r or Save().tab[info.name].r or 1
-        Tabs[index].g= index==1 and g or Save().tab[info.name].g or 0.82
-        Tabs[index].b= index==1 and b or Save().tab[info.name].b or 0
-        Tabs[index].a= index==1 and 1 or Save().tab[info.name].a or 1
+        Tabs[index].r= index==1 and r or WoWTools_AttributesMixin:Save().tab[info.name].r or 1
+        Tabs[index].g= index==1 and g or WoWTools_AttributesMixin:Save().tab[info.name].g or 0.82
+        Tabs[index].b= index==1 and b or WoWTools_AttributesMixin:Save().tab[info.name].b or 0
+        Tabs[index].a= index==1 and 1 or WoWTools_AttributesMixin:Save().tab[info.name].a or 1
         Tabs[index].useNumber=info.name=='STATUS' and true
                             or Tabs[index].usePercent and nil
-                            or (Save().useNumber and not Tabs[index].usePercent ) and true
+                            or (WoWTools_AttributesMixin:Save().useNumber and not Tabs[index].usePercent ) and true
                             or Tabs[index].useNumber
-        Tabs[index].bit= Save().tab[info.name].bit or Save().bit or 0
-        --Tabs[index].current= Save().tab[info.name].current
-        Tabs[index].damageAndDefense= Save().tab[info.name].damageAndDefense
-        Tabs[index].onlyDefense= Save().tab[info.name].onlyDefense
-        Tabs[index].bar= Save().tab[info.name].bar and true or (Save().bar and Tabs[index].bar)
-        Tabs[index].textValue= Save().setMaxMinValue and Tabs[index].textValue or false
+        Tabs[index].bit= WoWTools_AttributesMixin:Save().tab[info.name].bit or WoWTools_AttributesMixin:Save().bit or 0
+        --Tabs[index].current= WoWTools_AttributesMixin:Save().tab[info.name].current
+        Tabs[index].damageAndDefense= WoWTools_AttributesMixin:Save().tab[info.name].damageAndDefense
+        Tabs[index].onlyDefense= WoWTools_AttributesMixin:Save().tab[info.name].onlyDefense
+        Tabs[index].bar= WoWTools_AttributesMixin:Save().tab[info.name].bar and true or (WoWTools_AttributesMixin:Save().bar and Tabs[index].bar)
+        Tabs[index].textValue= WoWTools_AttributesMixin:Save().setMaxMinValue and Tabs[index].textValue or false
 
-        Tabs[index].hide= Save().tab[info.name].hide
+        Tabs[index].hide= WoWTools_AttributesMixin:Save().tab[info.name].hide
         Tabs[index].zeroShow= info.zeroShow
         if not Tabs[index].hide then
             if info.name=='STAGGER' and (WoWTools_DataMixin.Player.Class~='MONK' or Role~='TANK') then
                 Tabs[index].hide= true
             elseif info.dps then
-                if Role~='DAMAGER' and Role~='HEALER' and Save().onlyDPS then
+                if Role~='DAMAGER' and Role~='HEALER' and WoWTools_AttributesMixin:Save().onlyDPS then
                     Tabs[index].hide= true
                 end
             elseif info.tank then
@@ -113,7 +108,7 @@ local function set_Text_Value(frame, value, value2)
         frame.value= value
     end
 
-    if not Save().notText then
+    if not WoWTools_AttributesMixin:Save().notText then
         local text
         if value<1 and not frame.zeroShow then
             text= ''
@@ -133,9 +128,9 @@ local function set_Text_Value(frame, value, value2)
                 end
             end
             if frame.value< value then
-                text= Save().greenColor..text
+                text= WoWTools_AttributesMixin:Save().greenColor..text
             elseif frame.value> value then
-                text= Save().redColor..text
+                text= WoWTools_AttributesMixin:Save().redColor..text
             end
         end
         frame.text:SetText(text)
@@ -163,7 +158,7 @@ local function set_Text_Value(frame, value, value2)
             frame.barTexture:SetShown(true)
 
             frame.barTextureSpark:ClearAllPoints()
-            if Save().barToLeft then
+            if WoWTools_AttributesMixin:Save().barToLeft then
                 frame.barTextureSpark:SetPoint('LEFT', frame.barTexture,-3,0)
             else
                 frame.barTextureSpark:SetPoint('RIGHT', frame.barTexture, 3,0)
@@ -191,13 +186,13 @@ local function set_Text_Value(frame, value, value2)
                 end
             end
             if frame.bar and frame.bar:IsShown() then
-                if Save().barToLeft then
+                if WoWTools_AttributesMixin:Save().barToLeft then
                     text= text..icon
                 else
                     text= icon..text
                 end
             else
-                if Save().toLeft then
+                if WoWTools_AttributesMixin:Save().toLeft then
                     text= text..icon
                 else
                     text= icon..text
@@ -214,7 +209,7 @@ local function set_Text_Value(frame, value, value2)
                     barX= frame.bar:GetWidth()*(value3/100)
                 end
                 frame.textValue:ClearAllPoints()
-                if Save().barToLeft then
+                if WoWTools_AttributesMixin:Save().barToLeft then
                     frame.textValue:SetPoint('RIGHT', frame.bar, -(barX)-3, 0)
                 else
                     frame.textValue:SetPoint('LEFT', frame.bar, barX+3, 0)
@@ -253,7 +248,7 @@ end
 
 local function set_CRITCHANCE_Text(frame)
     local critChance
-    if Save().useNumber then
+    if WoWTools_AttributesMixin:Save().useNumber then
         local rating
         local spellCrit = get_minCrit()
         local rangedCrit = GetRangedCritChance()
@@ -289,7 +284,7 @@ end
 
 local function set_HASTE_Text(frame)
     local haste
-    if Save().useNumber then
+    if WoWTools_AttributesMixin:Save().useNumber then
         haste= GetCombatRating(CR_HASTE_MELEE)--CR_HASTE_RANGED CR_HASTE_SPELL
     else
         haste = GetHaste()
@@ -305,7 +300,7 @@ end
 --PaperDollFrame.lua
 local function set_MASTERY_Text(frame)
     local mastery
-    if Save().useNumber then
+    if WoWTools_AttributesMixin:Save().useNumber then
         mastery= GetCombatRating(CR_MASTERY)
     else
         mastery = GetMasteryEffect()
@@ -320,7 +315,7 @@ end
 
 local function set_VERSATILITY_Text(frame)
     local value, value2
-    if Save().useNumber then
+    if WoWTools_AttributesMixin:Save().useNumber then
         value = GetCombatRating(CR_VERSATILITY_DAMAGE_DONE)
     else
         if frame.onlyDefense then
@@ -344,7 +339,7 @@ end
 
 local function set_LIFESTEAL_Text(frame)
     local lifesteal
-    if Save().useNumber then
+    if WoWTools_AttributesMixin:Save().useNumber then
         lifesteal= GetCombatRating(CR_LIFESTEAL)
     else
         lifesteal= GetLifesteal()
@@ -359,7 +354,7 @@ end
 
 local function set_AVOIDANCE_Text(frame)
     local avoidance
-    if Save().useNumber then
+    if WoWTools_AttributesMixin:Save().useNumber then
         avoidance= GetCombatRating(CR_AVOIDANCE)
     else
         avoidance= GetAvoidance()
@@ -374,7 +369,7 @@ end
 
 local function set_DODGE_Text(frame)
     local chance
-    if Save().useNumber then
+    if WoWTools_AttributesMixin:Save().useNumber then
         chance= GetCombatRating(CR_DODGE)
     else
         chance= GetDodgeChance()
@@ -394,7 +389,7 @@ local function set_ARMOR_Text(frame)
     if not frame or not canaccessvalue(effectiveArmor) then
         return 0, 0
 
-    elseif Save().useNumber then
+    elseif WoWTools_AttributesMixin:Save().useNumber then
         value= effectiveArmor
 
     else
@@ -411,7 +406,7 @@ end
 
 local function set_PARRY_Text(frame)
     local chance
-    if Save().useNumber then
+    if WoWTools_AttributesMixin:Save().useNumber then
         chance= GetCombatRating(CR_PARRY)
     else
         chance= GetParryChance()
@@ -426,7 +421,7 @@ end
 
 local function set_BLOCK_Text(frame)
     local chance
-    if Save().useNumber then
+    if WoWTools_AttributesMixin:Save().useNumber then
         chance= GetCombatRating(CR_BLOCK)
     else
         chance= GetBlockChance()
@@ -467,34 +462,34 @@ end
 
 local function set_Frame(frame, rest)
     if rest then
-        frame:SetSize(Save().horizontal, 12+ (Save().vertical or 3))
+        frame:SetSize(WoWTools_AttributesMixin:Save().horizontal, 12+ (WoWTools_AttributesMixin:Save().vertical or 3))
 
         frame.label:ClearAllPoints()
-        if Save().toLeft then
+        if WoWTools_AttributesMixin:Save().toLeft then
             frame.label:SetPoint('LEFT', frame, 'RIGHT',-5,0)
         else
             frame.label:SetPoint('RIGHT', frame, 'LEFT', 5,0)
         end
 
         local text= frame.nameText
-        if Save().strupper then
+        if WoWTools_AttributesMixin:Save().strupper then
             text= strupper(text)
-        elseif Save().strlower then
+        elseif WoWTools_AttributesMixin:Save().strlower then
             text= strlower(text)
         end
-        if Save().gsubText then
-            text= WoWTools_TextMixin:sub(text, Save().gsubText)
+        if WoWTools_AttributesMixin:Save().gsubText then
+            text= WoWTools_TextMixin:sub(text, WoWTools_AttributesMixin:Save().gsubText)
         end
         frame.label:SetText(text or '')
 
         frame.text:ClearAllPoints()
-        if Save().toLeft then
+        if WoWTools_AttributesMixin:Save().toLeft then
             frame.text:SetPoint('RIGHT', frame, 'LEFT', 5,0)
         else
             frame.text:SetPoint('LEFT', frame, 'RIGHT',-5,0)
         end
 
-        if Save().toLeft then
+        if WoWTools_AttributesMixin:Save().toLeft then
             frame.label:SetJustifyH('LEFT')
             frame.text:SetJustifyH('RIGHT')
         else
@@ -505,7 +500,7 @@ local function set_Frame(frame, rest)
         WoWTools_AttributesMixin:Set_Shadow(frame.text)
 
         frame.bg:ClearAllPoints()
-        if Save().toLeft then
+        if WoWTools_AttributesMixin:Save().toLeft then
             frame.bg:SetPoint('TOPRIGHT', frame.label, 1, 1)
             frame.bg:SetPoint('BOTTOM', frame.label, 0, -1)
             frame.bg:SetPoint('LEFT', frame.text, -1, 0)
@@ -514,7 +509,7 @@ local function set_Frame(frame, rest)
             frame.bg:SetPoint('BOTTOM', frame.label, 0, -1)
             frame.bg:SetPoint('RIGHT', frame.text, 1, 0)
         end
-        frame.bg:SetAlpha(Save().bgAlpha or 0.5)
+        frame.bg:SetAlpha(WoWTools_AttributesMixin:Save().bgAlpha or 0.5)
 
         if frame.isBar then
             local value
@@ -543,24 +538,24 @@ local function set_Frame(frame, rest)
             end
             frame.bar:SetMinMaxValues(0, value)
             frame.bar.maxValue=value
-            frame.bar:SetSize(120+Save().barWidth, 10)
+            frame.bar:SetSize(120+WoWTools_AttributesMixin:Save().barWidth, 10)
             frame.bar:ClearAllPoints()
-            if Save().barToLeft then
-                frame.bar:SetPoint('RIGHT', frame, 'LEFT', -(Save().barX), 0)
+            if WoWTools_AttributesMixin:Save().barToLeft then
+                frame.bar:SetPoint('RIGHT', frame, 'LEFT', -(WoWTools_AttributesMixin:Save().barX), 0)
                 frame.bar:SetReverseFill(true)
             else
-                frame.bar:SetPoint('LEFT', frame, 'RIGHT', Save().barX, 0)
+                frame.bar:SetPoint('LEFT', frame, 'RIGHT', WoWTools_AttributesMixin:Save().barX, 0)
                 frame.bar:SetReverseFill(false)
             end
 
-            if Save().barTexture2 then
+            if WoWTools_AttributesMixin:Save().barTexture2 then
                 frame.bar:SetStatusBarTexture('Interface\\TargetingFrame\\UI-StatusBar')
             else
                 frame.bar:SetStatusBarTexture('UI-HUD-UnitFrame-Player-PortraitOn-Bar-Health-Status')
             end
 
             frame.barTexture:ClearAllPoints()
-            if Save().barToLeft then
+            if WoWTools_AttributesMixin:Save().barToLeft then
                 frame.barTexture:SetPoint('RIGHT')
             else
                 frame.barTexture:SetPoint('LEFT')
@@ -571,20 +566,20 @@ local function set_Frame(frame, rest)
         if frame.textValue then
             frame.textValue:ClearAllPoints()
             frame.textValue:SetTextColor(frame.r,frame.g,frame.b,frame.a)
-            if not Save().notText then
-                if Save().toLeft then
+            if not WoWTools_AttributesMixin:Save().notText then
+                if WoWTools_AttributesMixin:Save().toLeft then
                     frame.textValue:SetPoint('RIGHT', frame.text, 'LEFT')--, -30-(frame.bit*6), 0)
                 else
                     frame.textValue:SetPoint('LEFT', frame.text, 'RIGHT')--, 30+(frame.bit*6), 0)
                 end
             else
-                if Save().toLeft then
+                if WoWTools_AttributesMixin:Save().toLeft then
                     frame.text:SetPoint('RIGHT', frame, 'LEFT')
                 else
                     frame.text:SetPoint('LEFT', frame, 'RIGHT')
                 end
             end
-            frame.textValue:SetShown(Save().setMaxMinValue)
+            frame.textValue:SetShown(WoWTools_AttributesMixin:Save().setMaxMinValue)
         end
     end
 
@@ -682,7 +677,7 @@ local function Frame_Init(rest)
                 frame.label= WoWTools_LabelMixin:Create(frame, {mouse=true, color={r=info.r, g=info.g,b=info.b, a=info.a}})--nil, nil, nil, {info.r,info.g,info.b,info.a}, nil)
 
 
-                frame.text= WoWTools_LabelMixin:Create(frame, {color={r=1,g=1,b=1}, justifyH= Save().toLeft and 'RIGHT'})--nil, nil, nil, {1,1,1}, nil, Save().toLeft and 'RIGHT' or 'LEFT')
+                frame.text= WoWTools_LabelMixin:Create(frame, {color={r=1,g=1,b=1}, justifyH= WoWTools_AttributesMixin:Save().toLeft and 'RIGHT'})--nil, nil, nil, {1,1,1}, nil, WoWTools_AttributesMixin:Save().toLeft and 'RIGHT' or 'LEFT')
 
 
                 frame.bg= frame:CreateTexture(nil, 'BACKGROUND')
@@ -729,10 +724,10 @@ local function Frame_Init(rest)
                     frame.textValue:SetShown(info.textValue)
                 end
 
-                if Save().notText then
+                if WoWTools_AttributesMixin:Save().notText then
                     frame.text:SetText('')
                 else
-                    frame.text:SetTextColor(Save().textColor.r, Save().textColor.g, Save().textColor.b, Save().textColor.a)
+                    frame.text:SetTextColor(WoWTools_AttributesMixin:Save().textColor.r, WoWTools_AttributesMixin:Save().textColor.g, WoWTools_AttributesMixin:Save().textColor.b, WoWTools_AttributesMixin:Save().textColor.a)
                 end
 
                 frame.r, frame.g, frame.b, frame.a= info.r,info.g,info.b,info.a
@@ -768,8 +763,8 @@ end
 
 function WoWTools_AttributesMixin:Set_Shadow(label)
     if label then
-        label:SetShadowColor(Save().font.r, Save().font.g, Save().font.b, Save().font.a)
-        label:SetShadowOffset(Save().font.x, Save().font.y)
+        label:SetShadowColor(WoWTools_AttributesMixin:Save().font.r, WoWTools_AttributesMixin:Save().font.g, WoWTools_AttributesMixin:Save().font.b, WoWTools_AttributesMixin:Save().font.a)
+        label:SetShadowOffset(WoWTools_AttributesMixin:Save().font.x, WoWTools_AttributesMixin:Save().font.y)
     end
 end
 

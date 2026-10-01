@@ -1,8 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_Attributes'] or {}
-end
-
-
 local Show_Tooltip={}
 
 
@@ -90,9 +85,9 @@ Show_Tooltip.STATUS= function(frame)
         GameTooltip:AddLine(' ')
         local text
         if frame.value< current then
-            text= Save().greenColor..'+ '..format('%s', WoWTools_DataMixin:MK(current- frame.value,3))
+            text= WoWTools_AttributesMixin:Save().greenColor..'+ '..format('%s', WoWTools_DataMixin:MK(current- frame.value,3))
         else
-            text= Save().redColor..'- '..format('%s', WoWTools_DataMixin:MK(frame.value- current, 3))
+            text= WoWTools_AttributesMixin:Save().redColor..'- '..format('%s', WoWTools_DataMixin:MK(frame.value- current, 3))
         end
         GameTooltip:AddDoubleLine(format('%i', frame.value), text)
     end
