@@ -1,8 +1,4 @@
 
-local function Save()
-	return WoWToolsPlusSave['Currency2']
-end
-
 local MaxTabs={}
 
 
@@ -35,7 +31,7 @@ local function Currency_Max(_, curID)
         end
 
     
-        for currencyID, _ in pairs(Save().tokens) do
+        for currencyID, _ in pairs(WoWTools_CurrencyMixin:Save().tokens) do
             if not MaxTabs[currencyID] and not tab[currencyID] then
                 local isMax, isMaxWeek= WoWTools_CurrencyMixin:IsMax(currencyID)
                 if isMax or isMaxWeek then
@@ -85,7 +81,7 @@ local OwerID
 
 
 function WoWTools_CurrencyMixin:Init_MaxTooltip()
-    if Save().hideCurrencyMax then
+    if WoWTools_CurrencyMixin:Save().hideCurrencyMax then
         if OwerID then
             EventRegistry:UnregisterCallback('CURRENCY_DISPLAY_UPDATE', OwerID)
         end

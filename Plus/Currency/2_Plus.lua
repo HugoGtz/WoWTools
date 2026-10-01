@@ -1,9 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['Currency2']
-end
-
-
 local function Create(frame)
 
 	frame.check= CreateFrame('CheckButton', nil, frame, "MinimalCheckboxArtTemplate")
@@ -35,7 +30,7 @@ local function Create(frame)
 		GameTooltip:AddLine(
 			WoWTools_DataMixin.Icon.icon2
 			..(WoWTools_L.TRACKING)
-			..': '..(Save().indicato and '|cnGREEN_FONT_COLOR:' or '|cff626262')
+			..': '..(WoWTools_CurrencyMixin:Save().indicato and '|cnGREEN_FONT_COLOR:' or '|cff626262')
 			..(WoWTools_L.COMBAT_ALLY_START_MISSION)
 		)
 		GameTooltip:Show()
@@ -43,7 +38,7 @@ local function Create(frame)
 	frame.check:SetScript('OnClick', function(self)
 		local id= self:GetCurrencyID()
 		if id then
-			Save().tokens[id]= not Save().tokens[id] and true or nil
+			WoWTools_CurrencyMixin:Save().tokens[id]= not WoWTools_CurrencyMixin:Save().tokens[id] and true or nil
 			WoWTools_CurrencyMixin:Init_TrackButton()
 		end
 	end)
@@ -101,8 +96,8 @@ local function set_Tokens_Button(self)
 
 	info= self.elementData or info
 
-	self.check:SetChecked(Save().tokens[info.currencyID])
-	--self.check:SetShown(info.currencyID and not Save().Hide and Save().indicato)
+	self.check:SetChecked(WoWTools_CurrencyMixin:Save().tokens[info.currencyID])
+	--self.check:SetShown(info.currencyID and not WoWTools_CurrencyMixin:Save().Hide and WoWTools_CurrencyMixin:Save().indicato)
 
 
 	local accountWide
@@ -134,7 +129,7 @@ end
 
 
 local function Init()
-	if Save().notPlus then
+	if WoWTools_CurrencyMixin:Save().notPlus then
 		return
 	end
 
@@ -261,7 +256,7 @@ end
 
 
 local function Init_PlusButton()
-	if  Save().notPlus then
+	if  WoWTools_CurrencyMixin:Save().notPlus then
 		return
 	end
 
@@ -310,7 +305,7 @@ local function Init_PlusButton()
 	end)
 
 	Init_PlusButton=function()
-		_G['WoWToolsCurrencyExpandeListButton']:SetShown(not Save().notPlus)
+		_G['WoWToolsCurrencyExpandeListButton']:SetShown(not WoWTools_CurrencyMixin:Save().notPlus)
 	end
 end
 

@@ -1,8 +1,5 @@
 
 
-local function Save()
-    return WoWToolsPlusSave['Currency2']
-end
 local TrackButton, Frame
 
 
@@ -23,7 +20,7 @@ local function MenuList_Item(self, root)
 	local sub, sub2
 
 	local itemTab={}
-	for itemID in pairs(Save().item  or {}) do
+	for itemID in pairs(WoWTools_CurrencyMixin:Save().item  or {}) do
 		table.insert(itemTab, {
 			itemID= itemID,
 			itemQuality=C_Item.GetItemQualityByID(itemID) or 0
@@ -38,12 +35,12 @@ local function MenuList_Item(self, root)
 	end)
 
 	sub=root:CreateCheckbox(
-		(Save().Hide and '|cff626262' or'')
+		(WoWTools_CurrencyMixin:Save().Hide and '|cff626262' or'')
 		..(WoWTools_L.ITEMS),
 	function ()
-		return not Save().disabledItemTrack
+		return not WoWTools_CurrencyMixin:Save().disabledItemTrack
 	end, function()
-		Save().disabledItemTrack = not Save().disabledItemTrack and true or nil
+		WoWTools_CurrencyMixin:Save().disabledItemTrack = not WoWTools_CurrencyMixin:Save().disabledItemTrack and true or nil
 		self:settings()
 	end, {rightText=#itemTab})
 	WoWTools_MenuMixin:SetRightText(sub)
@@ -53,9 +50,9 @@ local function MenuList_Item(self, root)
 		sub2=sub:CreateCheckbox(
 			WoWTools_ItemMixin:GetName(info.itemID),
 		function(data)
-			return Save().item[data.itemID]
+			return WoWTools_CurrencyMixin:Save().item[data.itemID]
 		end, function(data)
-			Save().item[data.itemID]= not Save().item[data.itemID] and true or nil
+			WoWTools_CurrencyMixin:Save().item[data.itemID]= not WoWTools_CurrencyMixin:Save().item[data.itemID] and true or nil
 			self:settings()
 		end, {itemID=info.itemID, rightText=index, rightColor=DISABLED_FONT_COLOR})
 
@@ -66,16 +63,16 @@ local function MenuList_Item(self, root)
 
 	sub:CreateDivider()
 	WoWTools_MenuMixin:ClearAll(sub, function()
-		Save().item={}
+		WoWTools_CurrencyMixin:Save().item={}
 		self:settings()
 	end)
 
 	sub2=sub:CreateCheckbox(
 		WARNING_FONT_COLOR:WrapTextInColorCode(WoWTools_L.USE_ITEM),
 	function()
-		return Save().itemButtonUse
+		return WoWTools_CurrencyMixin:Save().itemButtonUse
 	end, function()
-		Save().itemButtonUse= not Save().itemButtonUse and true or nil
+		WoWTools_CurrencyMixin:Save().itemButtonUse= not WoWTools_CurrencyMixin:Save().itemButtonUse and true or nil
 	end)
 	sub2:SetTooltip(function(tooltip)
 		WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Currency.UseItem'])
@@ -94,7 +91,7 @@ local function Init_CurrencyMenu(self, root)
 	local  sub, sub2
 
 	local tab={}
-	for currencyID in pairs(Save().tokens) do
+	for currencyID in pairs(WoWTools_CurrencyMixin:Save().tokens) do
 		table.insert(tab, currencyID)
 	end
 	table.sort(tab, function(a, b) return a> b end)
@@ -102,9 +99,9 @@ local function Init_CurrencyMenu(self, root)
 	sub=root:CreateCheckbox(
 		(WoWTools_L['COMBAT_ALLY_START_MISSION+TOKENS']),
 	function()
-		return Save().indicato
+		return WoWTools_CurrencyMixin:Save().indicato
 	end, function()
-		Save().indicato= not Save().indicato and true or nil
+		WoWTools_CurrencyMixin:Save().indicato= not WoWTools_CurrencyMixin:Save().indicato and true or nil
 		self:settings()
 		WoWTools_CurrencyMixin:UpdateTokenFrame()
 	end, {rightText=#tab})
@@ -116,7 +113,7 @@ local function Init_CurrencyMenu(self, root)
 		table.insert(tab, '-')
 		for i=1, numTokens do
 			local data= C_CurrencyInfo.GetCurrencyListInfo(i) or {}
-			if not Save().tokens[data.currencyID] then
+			if not WoWTools_CurrencyMixin:Save().tokens[data.currencyID] then
 				if data.isHeader then
 					table.insert(tab, WoWTools_TextMixin:CN(data.name))
 				else
@@ -138,10 +135,10 @@ local function Init_CurrencyMenu(self, root)
 			sub2=sub:CreateCheckbox(
 				WoWTools_CurrencyMixin:GetName(currencyID, nil, nil) or currencyID,
 			function(data)
-				return Save().tokens[data.currencyID]
+				return WoWTools_CurrencyMixin:Save().tokens[data.currencyID]
 
 			end, function(data)
-				Save().tokens[data.currencyID]= not Save().tokens[data.currencyID] and true or nil
+				WoWTools_CurrencyMixin:Save().tokens[data.currencyID]= not WoWTools_CurrencyMixin:Save().tokens[data.currencyID] and true or nil
 				self:settings()
 				WoWTools_CurrencyMixin:UpdateTokenFrame()
 
@@ -170,11 +167,11 @@ local function Init_CurrencyMenu(self, root)
 		GetValue=function()
 		end, CheckValue=function(button1, currencyID)
 			button1:SetText(
-				Save().tokens[currencyID] and (WoWTools_L.UPDATE)
+				WoWTools_CurrencyMixin:Save().tokens[currencyID] and (WoWTools_L.UPDATE)
 				or (WoWTools_L.ADD)
 			)
 		end, SetValue=function(currencyID)
-			Save().tokens[currencyID]=true
+			WoWTools_CurrencyMixin:Save().tokens[currencyID]=true
 			self:settings()
 		end})
 	end)
@@ -183,7 +180,7 @@ local function Init_CurrencyMenu(self, root)
 
 	sub:CreateDivider()
 	WoWTools_MenuMixin:ClearAll(sub, function()
-		Save().tokens={}
+		WoWTools_CurrencyMixin:Save().tokens={}
 		self:settings()
 		WoWTools_CurrencyMixin:UpdateTokenFrame()
 	end)
@@ -199,9 +196,9 @@ local function Init_Menu(self, root)
     sub=root:CreateCheckbox(
         WoWTools_L.SHOW,
     function()
-        return Save().str
+        return WoWTools_CurrencyMixin:Save().str
     end, function ()
-		Save().str= not Save().str and true or false
+		WoWTools_CurrencyMixin:Save().str= not WoWTools_CurrencyMixin:Save().str and true or false
 		self:set_frameshown()
     end)
 	WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Currency.ShowList'])
@@ -209,9 +206,9 @@ local function Init_Menu(self, root)
 	sub=root:CreateCheckbox(
 		WoWTools_L['SELF_CAST_AUTO+HIDE'],
 	function()
-		return not Save().notAutoHideTrack
+		return not WoWTools_CurrencyMixin:Save().notAutoHideTrack
 	end, function()
-		Save().notAutoHideTrack= not Save().notAutoHideTrack and true or nil
+		WoWTools_CurrencyMixin:Save().notAutoHideTrack= not WoWTools_CurrencyMixin:Save().notAutoHideTrack and true or nil
 		self:settings()
 	end)
 	sub:SetTooltip(function(tooltip)
@@ -236,9 +233,9 @@ local function Init_Menu(self, root)
     local sub2= sub:CreateCheckbox(
         WoWTools_L.PROFESSIONS_FLYOUT_SHOW_NAME,
     function ()
-        return Save().nameShow
+        return WoWTools_CurrencyMixin:Save().nameShow
     end, function ()
-        Save().nameShow= not Save().nameShow and true or nil
+        WoWTools_CurrencyMixin:Save().nameShow= not WoWTools_CurrencyMixin:Save().nameShow and true or nil
         self:settings()
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Currency.ShowName'])
@@ -246,9 +243,9 @@ local function Init_Menu(self, root)
     sub2= sub:CreateCheckbox(
         (WoWTools_L.BINDING_NAME_STRAFERIGHT),
     function ()
-        return Save().toRightTrackText
+        return WoWTools_CurrencyMixin:Save().toRightTrackText
     end, function ()
-        Save().toRightTrackText = not Save().toRightTrackText and true or false
+        WoWTools_CurrencyMixin:Save().toRightTrackText = not WoWTools_CurrencyMixin:Save().toRightTrackText and true or false
         self:settings()
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Currency.TextRight'])
@@ -257,17 +254,17 @@ local function Init_Menu(self, root)
     sub2= sub:CreateCheckbox(
         (WoWTools_L.HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_UP)..'|A:bags-greenarrow:0:0|a',
     function ()
-        return Save().toTopTrack
+        return WoWTools_CurrencyMixin:Save().toTopTrack
     end, function ()
-        Save().toTopTrack = not Save().toTopTrack and true or nil
+        WoWTools_CurrencyMixin:Save().toTopTrack = not WoWTools_CurrencyMixin:Save().toTopTrack and true or nil
 		self:settings()
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Currency.GrowUp'])
 
     WoWTools_MenuMixin:Scale(self, sub, function()
-        return Save().scaleTrackButton
+        return WoWTools_CurrencyMixin:Save().scaleTrackButton
     end, function(value)
-        Save().scaleTrackButton= value
+        WoWTools_CurrencyMixin:Save().scaleTrackButton= value
         self:settings()
     end)
 
@@ -275,24 +272,24 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:FrameStrata(self, sub, function(data)
 		return self:GetFrameStrata()==data
     end, function(data)
-        Save().strata= data
+        WoWTools_CurrencyMixin:Save().strata= data
         self:settings()
     end)
 
 	WoWTools_MenuMixin:BgAplha(sub,
 	function()--GetValue
-		return Save().trackBgAlpha or 0.5
+		return WoWTools_CurrencyMixin:Save().trackBgAlpha or 0.5
 	end, function(value)--SetValue
-		Save().trackBgAlpha= value
+		WoWTools_CurrencyMixin:Save().trackBgAlpha= value
 		self:settings()
 	end, function()--RestFunc
-		Save().bgAlpha= nil
+		WoWTools_CurrencyMixin:Save().bgAlpha= nil
 		self:settings()
 	end)--onlyRoot
 
 	sub:CreateDivider()
-	 WoWTools_MenuMixin:RestPoint(self, sub, Save().point, function()
-		Save().point=nil
+	 WoWTools_MenuMixin:RestPoint(self, sub, WoWTools_CurrencyMixin:Save().point, function()
+		WoWTools_CurrencyMixin:Save().point=nil
 		self:settings()
 	end)
 	WoWTools_MenuMixin:Reload(sub)
@@ -308,12 +305,12 @@ local function Set_ItemName(self)
 	local text
 	local numText= WoWTools_ItemMixin:GetCount(itemID, {notZero=true})
 
-	if Save().nameShow then
+	if WoWTools_CurrencyMixin:Save().nameShow then
 		text= WoWTools_TextMixin:CN(C_Item.GetItemNameByID(itemID), {itemID=itemID, isName=true})
 	end
 
 	if text or numText then
-		if Save().toRightTrackText then
+		if WoWTools_CurrencyMixin:Save().toRightTrackText then
 			text=(text or '')..(text and numText and ' ' or '')..(numText or '')
 		else
 			text=(numText or '')..(text and numText and ' ' or '')..(text or '')
@@ -361,7 +358,7 @@ local function Set_CurrencyName(btn)
 
 	if info then
 		local name
-		if Save().nameShow and info.name then
+		if WoWTools_CurrencyMixin:Save().nameShow and info.name then
 			name= WoWTools_TextMixin:CN(info.name)
 			if C_CurrencyInfo.IsAccountTransferableCurrency(btn.currencyID) then
 				name= '|cff00d1ff'..name..'|r'
@@ -384,7 +381,7 @@ local function Set_CurrencyName(btn)
 			num= '|cnGREEN_FONT_COLOR:'..num..'|r'
 		end
 
-		if Save().toRightTrackText then
+		if WoWTools_CurrencyMixin:Save().toRightTrackText then
 			text= format('%s%s%s%s', name and name..' ' or '',  num or '', need and ' '..need or '', max or '')
 		else
 			text= format('%s%s%s%s', max or '', need and need..' ' or '', num or '', name and ' '..name or '')
@@ -407,7 +404,7 @@ local function Set_ItemButton(btn)
 		end
     end)
 	function btn:set_tooltip()
-		if Save().toRightTrackText then
+		if WoWTools_CurrencyMixin:Save().toRightTrackText then
             GameTooltip:SetOwner(self.text, "ANCHOR_RIGHT")
         else
             GameTooltip:SetOwner(self.text, "ANCHOR_LEFT")
@@ -495,7 +492,7 @@ local function Set_ItemButton(btn)
 		btn.border:SetAllPoints()
 	end
 
-	if Save().itemButtonUse then
+	if WoWTools_CurrencyMixin:Save().itemButtonUse then
 		btn:SetAttribute('type', 'item')
 	end
 end
@@ -510,7 +507,7 @@ local function Set_CurrencyButton(btn)
     end)
 
     btn:SetScript('OnEnter', function(self)
-        if Save().toRightTrackText then
+        if WoWTools_CurrencyMixin:Save().toRightTrackText then
             GameTooltip:SetOwner(self.text, "ANCHOR_RIGHT")
         else
             GameTooltip:SetOwner(self.text, "ANCHOR_LEFT")
@@ -554,8 +551,8 @@ local function Init_Button(self)
 	local tab={}
 	local bat= InCombatLockdown()
 
-	if Save().indicato then
-		for currencyID in pairs(Save().tokens) do
+	if WoWTools_CurrencyMixin:Save().indicato then
+		for currencyID in pairs(WoWTools_CurrencyMixin:Save().tokens) do
 			local data= C_CurrencyInfo.GetCurrencyInfo(currencyID)
 			if data and data.currencyID then
 				table.insert(tab, {currencyID=data.currencyID})
@@ -575,10 +572,10 @@ local function Init_Button(self)
 	end
 
 
-	if not Save().disabledItemTrack then
-		if (Save().itemButtonUse and not bat or not Save().itemButtonUse) then
+	if not WoWTools_CurrencyMixin:Save().disabledItemTrack then
+		if (WoWTools_CurrencyMixin:Save().itemButtonUse and not bat or not WoWTools_CurrencyMixin:Save().itemButtonUse) then
 			local itemTab={}
-			for itemID in pairs(Save().item) do
+			for itemID in pairs(WoWTools_CurrencyMixin:Save().item) do
 				WoWTools_DataMixin:Load(itemID, 'item')
 				if C_Item.GetItemInfoInstant(itemID) and C_Item.GetItemCount(itemID)>0 then
 					table.insert(itemTab, {itemQuality=C_Item.GetItemQualityByID(itemID) or 1, itemID=itemID})--{text= text, icon=icon, itemID= itemID, itemQuality=itemQuality or 0, name=name})
@@ -600,13 +597,13 @@ local function Init_Button(self)
 	end
 
 	local bgWidth= 0
-	local toTopTrack= Save().toTopTrack
-	local toRightTrackText= Save().toRightTrackText
+	local toTopTrack= WoWTools_CurrencyMixin:Save().toTopTrack
+	local toRightTrackText= WoWTools_CurrencyMixin:Save().toRightTrackText
 	local last= self
 	local prima
 
 
-	local isUsaButton= Save().itemButtonUse
+	local isUsaButton= WoWTools_CurrencyMixin:Save().itemButtonUse
 	for _, tables in pairs(tab) do
 		local itemID= tables.itemID
         local itemButtonUse=(isUsaButton and itemID) and true or nil
@@ -671,11 +668,11 @@ end
 
 
 local function Init()
-	if Save().Hide then
+	if WoWTools_CurrencyMixin:Save().Hide then
 		return
 	end
 
-	for itemID in pairs(Save().item) do
+	for itemID in pairs(WoWTools_CurrencyMixin:Save().item) do
 		WoWTools_DataMixin:Load(itemID, 'item')
 	end
 
@@ -714,7 +711,7 @@ local function Init()
 		else
 			self.texture:SetPoint('TOPLEFT', 1.5,-6)
 			self.texture:SetPoint('BOTTOMRIGHT',-1.5,6)
-			local isShow= Save().str
+			local isShow= WoWTools_CurrencyMixin:Save().str
 			self.texture:SetAlpha(isShow and 0.5 or 1)
 			if isShow then
 				self.texture:SetAtlas('Adventure-MissionEnd-Line')
@@ -726,7 +723,7 @@ local function Init()
 
 	function TrackButton:set_frameshown()
 		if self.frame:CanChangeAttribute() then
-			self.frame:SetShown(Save().str and self:IsShown())
+			self.frame:SetShown(WoWTools_CurrencyMixin:Save().str and self:IsShown())
 		end
 		self:set_texture()
 	end
@@ -734,8 +731,8 @@ local function Init()
 
 	function TrackButton:set_shown(isInCombat)
 		if self:CanChangeAttribute() then
-			local show= not Save().Hide
-			if show and not Save().notAutoHideTrack then
+			local show= not WoWTools_CurrencyMixin:Save().Hide
+			if show and not WoWTools_CurrencyMixin:Save().notAutoHideTrack then
 				show= not (
 					select(2, IsInInstance())~='none'
 					or C_PetBattles.IsInBattle()
@@ -751,7 +748,7 @@ local function Init()
 
 
 	function TrackButton:set_tooltip()
-		if Save().toRightTrackText then
+		if WoWTools_CurrencyMixin:Save().toRightTrackText then
 			GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
 		else
 			GameTooltip:SetOwner(self, "ANCHOR_LEFT")
@@ -769,7 +766,7 @@ local function Init()
 			GameTooltip:SetItemByID(itemID)
 			GameTooltip:AddLine(' ')
 			GameTooltip:AddDoubleLine(itemLink or ('itemID'..itemID),
-					Save().item[itemID] and
+					WoWTools_CurrencyMixin:Save().item[itemID] and
 						('|cnWARNING_FONT_COLOR:'..(WoWTools_L.REMOVE)..'|A:common-icon-redx:0:0|a')
 					or ('|cnGREEN_FONT_COLOR:'..(WoWTools_L.ADD)..format('|A:%s:0:0|a', 'common-icon-checkmark'))
 			)
@@ -811,8 +808,8 @@ local function Init()
         ResetCursor()
         self:StopMovingOrSizing()
         if WoWTools_FrameMixin:IsInSchermo(self) then
-			Save().point={self:GetPoint(1)}
-			Save().point[2]=nil
+			WoWTools_CurrencyMixin:Save().point={self:GetPoint(1)}
+			WoWTools_CurrencyMixin:Save().point[2]=nil
         end
 	end)
 	TrackButton:SetScript("OnMouseUp", ResetCursor)
@@ -825,12 +822,12 @@ local function Init()
 
 		local infoType, itemID, itemLink = GetCursorInfo()
         if infoType == "item" and itemID then
-			Save().item[itemID]= not Save().item[itemID] and true or nil
+			WoWTools_CurrencyMixin:Save().item[itemID]= not WoWTools_CurrencyMixin:Save().item[itemID] and true or nil
 			WoWTools_Print(
 				WoWTools_CurrencyMixin.addName..WoWTools_DataMixin.Icon.icon2,
 				WoWTools_L.TRACKING,
 
-				Save().item[itemID] and
+				WoWTools_CurrencyMixin:Save().item[itemID] and
 				('|cnGREEN_FONT_COLOR:'..(WoWTools_L.ADD)..format('|A:%s:0:0|a', 'common-icon-checkmark'))
 				or ('|cnWARNING_FONT_COLOR:'..(WoWTools_L.REMOVE)..'|A:common-icon-redx:0:0|a'),
 
@@ -862,7 +859,7 @@ local function Init()
 
 	TrackButton:SetScript('OnMouseWheel', function(self, d)
 		if self:CanChangeAttribute() then
-			Save().str= d==-1
+			WoWTools_CurrencyMixin:Save().str= d==-1
 			self:set_frameshown()
 			self:set_tooltip()
 		end
@@ -870,7 +867,7 @@ local function Init()
 
 	function TrackButton:settings()
 		self:UnregisterAllEvents()
-		if not Save().notAutoHideTrack  then
+		if not WoWTools_CurrencyMixin:Save().notAutoHideTrack  then
 			self:RegisterEvent('PLAYER_ENTERING_WORLD')
 			self:RegisterEvent('ZONE_CHANGED_NEW_AREA')
 			self:RegisterEvent('PET_BATTLE_OPENING_DONE')
@@ -891,16 +888,16 @@ local function Init()
 			return
 		end
 
-		self.Bg:SetColorTexture(0, 0, 0, Save().trackBgAlpha or 0.5)
+		self.Bg:SetColorTexture(0, 0, 0, WoWTools_CurrencyMixin:Save().trackBgAlpha or 0.5)
 
-		self.frame:SetScale(Save().scaleTrackButton or 1)
+		self.frame:SetScale(WoWTools_CurrencyMixin:Save().scaleTrackButton or 1)
 
 		self:set_shown()
-		self:SetFrameStrata(Save().strata or 'MEDIUM')
+		self:SetFrameStrata(WoWTools_CurrencyMixin:Save().strata or 'MEDIUM')
 
 		self:ClearAllPoints()
-		if Save().point then
-			self:SetPoint(Save().point[1], UIParent, Save().point[3], Save().point[4], Save().point[5])
+		if WoWTools_CurrencyMixin:Save().point then
+			self:SetPoint(WoWTools_CurrencyMixin:Save().point[1], UIParent, WoWTools_CurrencyMixin:Save().point[3], WoWTools_CurrencyMixin:Save().point[4], WoWTools_CurrencyMixin:Save().point[5])
 		else
 			self:SetPoint('CENTER', -100, -100)
 		end

@@ -1,11 +1,6 @@
 
 
 
-local function Save()
-	return WoWToolsPlusSave['Currency2']
-end
-
-
 local function Init_Menu(self, root)
 	if not self:IsMouseOver() then
 		return
@@ -17,17 +12,17 @@ local function Init_Menu(self, root)
 	sub=root:CreateCheckbox(
 		WoWTools_L.TRACKING,
 	function()
-		return not Save().Hide
+		return not WoWTools_CurrencyMixin:Save().Hide
 	end, function()
-		Save().Hide= not Save().Hide and true or nil
+		WoWTools_CurrencyMixin:Save().Hide= not WoWTools_CurrencyMixin:Save().Hide and true or nil
 		WoWTools_CurrencyMixin:Init_TrackButton()
 	end)
 	WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Currency.Track'])
 
 
 
-	WoWTools_MenuMixin:RestPoint(self, sub, Save().point, function()
-		Save().point=nil
+	WoWTools_MenuMixin:RestPoint(self, sub, WoWTools_CurrencyMixin:Save().point, function()
+		WoWTools_CurrencyMixin:Save().point=nil
 		WoWTools_CurrencyMixin:Init_TrackButton()
 	end)
 
@@ -35,9 +30,9 @@ local function Init_Menu(self, root)
 	sub=root:CreateCheckbox(
 		'|A:communities-icon-chat:0:0|a'..(WoWTools_L['CAPPED~2']),
 	function ()
-		return not Save().hideCurrencyMax
+		return not WoWTools_CurrencyMixin:Save().hideCurrencyMax
 	end, function ()
-		Save().hideCurrencyMax= not Save().hideCurrencyMax and true or nil
+		WoWTools_CurrencyMixin:Save().hideCurrencyMax= not WoWTools_CurrencyMixin:Save().hideCurrencyMax and true or nil
 		WoWTools_CurrencyMixin:Init_MaxTooltip()
 	end)
 	sub:SetTooltip(function (tooltip)
@@ -53,9 +48,9 @@ local function Init_Menu(self, root)
 	sub=root:CreateCheckbox(
 		'Plus',
 	function()
-		return not Save().notPlus
+		return not WoWTools_CurrencyMixin:Save().notPlus
 	end, function()
-		Save().notPlus= not Save().notPlus and true or nil
+		WoWTools_CurrencyMixin:Save().notPlus= not WoWTools_CurrencyMixin:Save().notPlus and true or nil
 		WoWTools_CurrencyMixin:Init_Plus()
 	end)
 	sub:SetTooltip(function (tooltip)
@@ -70,7 +65,7 @@ local function Init_Menu(self, root)
 end
 
 
-local function Init()
+local Init= WoWTools_Once(function()
 	local btn= CreateFrame('DropdownButton', 'WoWToolsPlusCurrencyMenuButton', TokenFrame, 'WoWToolsMenuTemplate')
 	btn:SetupMenu(Init_Menu)
 	btn.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_L.SLASH_TEXTTOSPEECH_MENU)..WoWTools_DataMixin.Icon.left
@@ -85,67 +80,30 @@ local function Init()
 
 
 
-	Init=function()end
-end
-
-
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-panel:RegisterEvent('PLAYER_ENTERING_WORLD')
-
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWToolsPlus' then
-
-			WoWToolsPlusSave['Currency2']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Currency2'], {
-				tokens={},
-				item={},
-				Hide=true,
-				str=true,
-				toRightTrackText=true,
-			})
-
-			Save().ItemInteractionID= nil
-
-			WoWTools_CurrencyMixin.addName= '|A:bags-junkcoin:0:0|a'..(WoWTools_L['Module.Currencies'])
-
-			WoWTools_PanelMixin:OnlyCheck({
-				name= WoWTools_CurrencyMixin.addName,
-				tooltip= WoWTools_L['Tip.Currency.Enable'],
-				GetValue= function() return not Save().disabled end,
-				SetValue= function()
-					Save().disabled= not Save().disabled and true or nil
-
-					WoWTools_Print(
-						WoWTools_CurrencyMixin.addName..WoWTools_DataMixin.Icon.icon2,
-						WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-						WoWTools_L.REQUIRES_RELOAD
-					)
-				end
-			})
-
-			--WoWTools_CurrencyMixin:Init_ItemInteractionFrame()
-
-
-			if Save().disabled then
-				self:UnregisterAllEvents()
-				self:SetScript('OnEvent', nil)
-
-			else
-
-				WoWTools_CurrencyMixin:Init_MaxTooltip()
-
-				if C_AddOns.IsAddOnLoaded('Blizzard_TokenUI') then
-					Init()
-					self:UnregisterAllEvents()
-					self:SetScript('OnEvent', nil)
-				end
-			end
-
-		elseif arg1=='Blizzard_TokenUI' and Save() then
-			Init()
-			self:UnregisterAllEvents()
-			self:SetScript('OnEvent', nil)
-		end
-    end
 end)
+
+
+--Módulo registrado con la API común (docs/REFACTOR.md, R1)
+WoWTools_Module:Register({
+	key= 'Currency2',
+	name= 'Module.Currencies',
+	icon= 'bags-junkcoin',
+	group= 'Items',
+	defaults= {
+		tokens={},
+		item={},
+		Hide=true,
+		str=true,
+		toRightTrackText=true,
+	},
+	tooltip= 'Tip.Currency.Enable',
+	mixin= WoWTools_CurrencyMixin,
+	onEnable= function(_, save)
+		save.ItemInteractionID= nil
+		--WoWTools_CurrencyMixin:Init_ItemInteractionFrame()
+		WoWTools_CurrencyMixin:Init_MaxTooltip()
+	end,
+	blizzard= {Blizzard_TokenUI= function()
+		Init()
+	end},
+})

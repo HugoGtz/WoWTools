@@ -1,12 +1,6 @@
 
-local function Save()
-	return WoWToolsPlusSave['Currency2']
-end
-
-
-
 local function Init()
-	if Save().notPlus then
+	if WoWTools_CurrencyMixin:Save().notPlus then
 		return
 	end
 
