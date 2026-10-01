@@ -1,10 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['Plus_House']
-end
-
-
-
 local function Catalog_ListNum(frame)
     if not frame or frame.numItemLabel then
         return
@@ -230,16 +224,6 @@ end
 
 local function Init_HousingTemplates()
 
-    if not C_AddOns.IsAddOnLoaded('Blizzard_HousingTemplates') then
-        EventRegistry:RegisterFrameEventAndCallback("ADDON_LOADED", function(owner, arg1)
-            if arg1=='Blizzard_HousingTemplates' then
-                Init_HousingTemplates()
-                EventRegistry:UnregisterCallback('ADDON_LOADED', owner)
-            end
-        end)
-        return
-    end
-
     WoWTools_DataMixin:Hook(HousingCatalogDecorEntryMixin, 'AddTooltipTrackingLines', function(btn, tooltip)
         local entryInfo= btn:HasValidData() and btn.entryInfo
         if not entryInfo then
@@ -324,7 +308,6 @@ local function Init_HousingTemplates()
         btn.indexLabel:SetText(btn.GetElementDataIndex and btn:GetElementDataIndex() or '')
     end)
 
-    Init_HousingTemplates=function()end
 end
 
 
@@ -379,16 +362,6 @@ local function Set_EntryInfo(frame, entryInfo)
 
 local function Init_HousingModelPreview()
 
-    if not C_AddOns.IsAddOnLoaded('Blizzard_HousingModelPreview') then
-        EventRegistry:RegisterFrameEventAndCallback("ADDON_LOADED", function(owner, arg1)
-            if arg1=='Blizzard_HousingModelPreview' then
-                Init_HousingModelPreview()
-                EventRegistry:UnregisterCallback('ADDON_LOADED', owner)
-            end
-        end)
-        return
-    end
-
 
 
     WoWTools_DataMixin:Hook(HousingModelPreviewMixin, 'OnLoad', function(self)
@@ -426,20 +399,10 @@ local function Init_HousingModelPreview()
     end
 
 
-    Init_HousingModelPreview=function()end
 end
 
 
 local function Init_HousingDashboard()
-    if not C_AddOns.IsAddOnLoaded('Blizzard_HousingDashboard') then
-        EventRegistry:RegisterFrameEventAndCallback("ADDON_LOADED", function(owner, arg1)
-            if arg1=='Blizzard_HousingDashboard' then
-                Init_HousingDashboard()
-                EventRegistry:UnregisterCallback('ADDON_LOADED', owner)
-            end
-        end)
-        return
-    end
 
     local menu= CreateFrame('DropdownButton', 'WoWToolsHousingDashboardMenuButton', HousingDashboardFrameCloseButton, 'WoWToolsMenuTemplate')
     menu:SetPoint('RIGHT', HousingDashboardFrameCloseButton, 'LEFT')
@@ -465,36 +428,21 @@ local function Init_HousingDashboard()
     Catalog_ListNum(HousingDashboardFrame.CatalogContent.OptionsContainer)
 
 
-    Init_HousingDashboard=function()end
 end
 
 
-local panel= CreateFrame("Frame")
-panel:RegisterEvent('ADDON_LOADED')
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if arg1~= 'WoWToolsPlus' then
-        return
-    end
-
-    WoWToolsPlusSave['Plus_House']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_House'], {})
-    WoWTools_HouseMixin.addName= '|A:house-chest-icon:0:0|a'..(WoWTools_L['Module.Housing'])
-
-    WoWTools_PanelMixin:OnlyCheck({
-        name= WoWTools_HouseMixin.addName,
-        GetValue= function() return not Save().disabled end,
-        func= function()
-            Save().disabled= not Save().disabled and true or nil
-        end,
-        tooltip= WoWTools_L['Tip.House.Module']..'|n|n'..WoWTools_L.REQUIRES_RELOAD
-    })
-
-    if not Save().disabled then
-        Init_HousingDashboard()
-        Init_HousingTemplates()
-        Init_HousingModelPreview()
-    end
-
-    self:SetScript('OnEvent', nil)
-    self:UnregisterEvent(event)
-end)
-
+--Módulo registrado con la API común (docs/REFACTOR.md, R2)
+WoWTools_Module:Register({
+    key= 'Plus_House',
+    name= 'Module.Housing',
+    icon= 'house-chest-icon',
+    group= 'Character',
+    defaults= {},
+    tooltip= 'Tip.House.Module',
+    mixin= WoWTools_HouseMixin,
+    blizzard= {
+        Blizzard_HousingDashboard= Init_HousingDashboard,
+        Blizzard_HousingTemplates= Init_HousingTemplates,
+        Blizzard_HousingModelPreview= Init_HousingModelPreview,
+    },
+})
