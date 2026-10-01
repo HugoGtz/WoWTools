@@ -123,12 +123,7 @@ local function Init_Friends_Menu(self, root)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Friends.FriendPlus'])
 
     root:CreateDivider()
-    root:CreateButton(
-        (InCombatLockdown() and '|cff626262' or '')
-        ..WoWTools_FriendsMixin.addName,
-    function()
-        WoWTools_PanelMixin:Open(nil, WoWTools_FriendsMixin.addName)
-    end)
+    WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_FriendsMixin.addName, name2=WoWTools_L['Settings...']})
 end
 
 
