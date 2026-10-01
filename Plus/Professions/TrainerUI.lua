@@ -1,9 +1,4 @@
 --Blizzard_TrainerUI
-local function Save()
-    return WoWToolsPlusSave['Plus_Professions']
-end
-
-
 local function Init()
     ClassTrainerFrame.BuyAll= WoWTools_ButtonMixin:Cbtn(ClassTrainerFrame, {isUI=true, size={ClassTrainerTrainButton:GetSize()}})
     ClassTrainerFrame.BuyAll:SetPoint('RIGHT', ClassTrainerTrainButton, 'LEFT',-2,0)
@@ -99,13 +94,13 @@ local function Init()
         local text= ClassTrainerFrame.BuyAll.all..' '..ClassTrainerFrame.BuyAll.name
         text= (ClassTrainerFrame.BuyAll.all>0 and ClassTrainerFrame.BuyAll.cost>GetMoney() and '|cnWARNING_FONT_COLOR:' or '')..text
         ClassTrainerFrame.BuyAll:SetText(text)
-        ClassTrainerFrame.BuyAll:SetShown(not Save().disabledClassTrainer)
+        ClassTrainerFrame.BuyAll:SetShown(not WoWTools_ProfessionMixin:Save().disabledClassTrainer)
 	end)
 
     local btn2= WoWTools_ButtonMixin:Cbtn(ClassTrainerFrame.TitleContainer)
 
     function btn2:set_icon()
-        if Save().disabledClassTrainer then
+        if WoWTools_ProfessionMixin:Save().disabledClassTrainer then
             self:SetNormalAtlas('talents-button-reset')
         else
             self:SetNormalTexture('Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools')
@@ -117,8 +112,8 @@ local function Init()
     btn2:SetSize(20,20)
     btn2:SetAlpha(0.5)
     btn2:SetScript('OnClick', function(self)
-        Save().disabledClassTrainer= not Save().disabledClassTrainer and true or nil
-        ClassTrainerFrame.BuyAll:SetShown(not Save().disabledClassTrainer)
+        WoWTools_ProfessionMixin:Save().disabledClassTrainer= not WoWTools_ProfessionMixin:Save().disabledClassTrainer and true or nil
+        ClassTrainerFrame.BuyAll:SetShown(not WoWTools_ProfessionMixin:Save().disabledClassTrainer)
         self:set_icon()
         self:set_tooltip()
     end)
@@ -126,7 +121,7 @@ local function Init()
     function btn2:set_tooltip()
         GameTooltip:SetOwner(ClassTrainerFrame.TitleContainer, "ANCHOR_TOPLEFT")
 		GameTooltip:ClearLines()
-		GameTooltip:AddDoubleLine(WoWTools_L['ALL+LEARN'], WoWTools_TextMixin:GetShowHide(not Save().disabledClassTrainer))
+		GameTooltip:AddDoubleLine(WoWTools_L['ALL+LEARN'], WoWTools_TextMixin:GetShowHide(not WoWTools_ProfessionMixin:Save().disabledClassTrainer))
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_ProfessionMixin.addName)
 		GameTooltip:Show()
@@ -145,7 +140,6 @@ local function Init()
         skillButton.name:SetTextColor(color:GetRGB())
     end)
 
-    Init=function()end
 end
 
 

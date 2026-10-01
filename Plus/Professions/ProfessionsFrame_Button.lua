@@ -1,7 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['Plus_Professions']
-end
 local Frame
 
 
@@ -20,12 +17,12 @@ local function Init_Frame()
 
 
     function Frame:set_scale()
-        self:SetScale(Save().scaleButton or 1)
+        self:SetScale(WoWTools_ProfessionMixin:Save().scaleButton or 1)
     end
     Frame:set_scale()
 
 
-    if Save().showFuocoButton then
+    if WoWTools_ProfessionMixin:Save().showFuocoButton then
         function Frame:set_event()
             self:UnregisterAllEvents()
             if ProfessionsFrame:IsVisible() then
@@ -182,7 +179,7 @@ local function Init_Buttons()
             button.name= name
             button.skillLine= skillLine
 
-            if skillLine==185 and Save().showFuocoButton then
+            if skillLine==185 and WoWTools_ProfessionMixin:Save().showFuocoButton then
                 Init_Fuoco_Button(button)
             end
             last= button
@@ -205,9 +202,9 @@ end
 
 local function Init()
     if Frame then
-        Frame:SetShown(Save().setButton)
+        Frame:SetShown(WoWTools_ProfessionMixin:Save().setButton)
     else
-        if Save().setButton then
+        if WoWTools_ProfessionMixin:Save().setButton then
             do
                 Init_Frame()
             end
@@ -232,7 +229,7 @@ end
 
 
 local function Init_Menu(self, root)
-    if Save().showFuocoButton
+    if WoWTools_ProfessionMixin:Save().showFuocoButton
         and WoWTools_MenuMixin:CheckInCombat(root)
         or not self:IsMouseOver()
     then
@@ -244,10 +241,10 @@ local function Init_Menu(self, root)
     sub=root:CreateCheckbox(
         WoWTools_L['SHOW_QUICK_BUTTON~3'],
     function()
-        return Save().setButton
+        return WoWTools_ProfessionMixin:Save().setButton
     end, function()
-        Save().setButton= not Save().setButton and true or false
-        if Save().showFuocoButton  then
+        WoWTools_ProfessionMixin:Save().setButton= not WoWTools_ProfessionMixin:Save().setButton and true or false
+        if WoWTools_ProfessionMixin:Save().showFuocoButton  then
             WoWTools_Print(WoWTools_DataMixin.addName,  WoWTools_ProfessionMixin.addName, WoWTools_L.REQUIRES_RELOAD)
         end
         Init()
@@ -258,9 +255,9 @@ local function Init_Menu(self, root)
     sub2=sub:CreateCheckbox(
         WoWTools_SpellMixin:GetName(818),
     function()
-        return Save().showFuocoButton
+        return WoWTools_ProfessionMixin:Save().showFuocoButton
     end, function()
-        Save().showFuocoButton= not Save().showFuocoButton and true or nil
+        WoWTools_ProfessionMixin:Save().showFuocoButton= not WoWTools_ProfessionMixin:Save().showFuocoButton and true or nil
     end)
     sub2:SetTooltip(function(tooltip)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Professions.CookingFire'])
@@ -278,9 +275,9 @@ local function Init_Menu(self, root)
 
 
     WoWTools_MenuMixin:Scale(self, root, function()
-        return Save().scaleButton or 1
+        return WoWTools_ProfessionMixin:Save().scaleButton or 1
     end, function(value)
-        Save().scaleButton= value
+        WoWTools_ProfessionMixin:Save().scaleButton= value
         if Frame then
             Frame:set_scale()
         end

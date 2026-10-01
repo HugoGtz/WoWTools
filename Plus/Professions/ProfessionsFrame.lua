@@ -1,19 +1,4 @@
 --Blizzard_TrainerUI
-local function Save()
-    return WoWToolsPlusSave['Plus_Professions']
-end
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
     --###
     --Blizzard_Professions.lua  ProfessionsRecipeSchematicFormMixin:Init
@@ -129,14 +114,14 @@ local function Init()
             btn:SetPoint('TOPLEFT', frame.enchantSlot, 'BOTTOMLEFT')
             btn:SetAlpha(0.3)
             function btn:settings()
-                if Save().disabledEnchant then
+                if WoWTools_ProfessionMixin:Save().disabledEnchant then
                     self:SetNormalAtlas('talents-button-reset')
                 else
                     self:SetNormalTexture('Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools')
                 end
             end
             btn:SetScript('OnClick', function(self)
-                Save().disabledEnchant= not Save().disabledEnchant and true or nil
+                WoWTools_ProfessionMixin:Save().disabledEnchant= not WoWTools_ProfessionMixin:Save().disabledEnchant and true or nil
                 self:settings()
             end)
             btn:SetScript('OnLeave', function(self) GameTooltip:Hide() self:SetAlpha(0.3) end)
@@ -145,7 +130,7 @@ local function Init()
                 GameTooltip:ClearLines()
                 GameTooltip:SetItemByID(38682)
                 GameTooltip:AddLine(' ')
-                GameTooltip:AddDoubleLine(WoWTools_L.AUTO_JOIN, WoWTools_TextMixin:GetEnabeleDisable(not Save().disabledEnchant))
+                GameTooltip:AddDoubleLine(WoWTools_L.AUTO_JOIN, WoWTools_TextMixin:GetEnabeleDisable(not WoWTools_ProfessionMixin:Save().disabledEnchant))
                 GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_ProfessionMixin.addName)
                 GameTooltip:Show()
                 self:SetAlpha(1)
@@ -157,7 +142,7 @@ local function Init()
         btn:SetShown(true)
 
 
-        if Save().disabledEnchant then
+        if WoWTools_ProfessionMixin:Save().disabledEnchant then
             return
         end
 
@@ -231,7 +216,6 @@ local function Init()
         end
     end)
 
-    Init=function()end
 end
 
 

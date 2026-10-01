@@ -1,10 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_Professions']
-end
-
-
-
-
 --local ArcheologyButton
 
 
@@ -28,15 +21,6 @@ end
 
 
 local function Init_ArchaeologyFrame()
-    if not C_AddOns.IsAddOnLoaded("Blizzard_ArchaeologyUI") then
-        EventRegistry:RegisterFrameEventAndCallback("ADDON_LOADED", function(owner, arg1)
-            if arg1=='Blizzard_ArchaeologyUI' then
-                Init_ArchaeologyFrame()
-                EventRegistry:UnregisterCallback('ADDON_LOADED', owner)
-            end
-        end)
-        return
-    end
 
 
     WoWTools_DataMixin:Hook(ArchaeologyFrame.completedPage, 'UpdateFrame', function(self)
@@ -134,7 +118,6 @@ local function Init_ArchaeologyFrame()
 
     ArchaeologyFrameInfoButton:SetFrameStrata('DIALOG')
 
-    Init_ArchaeologyFrame=function()end
 end
 
 
@@ -157,7 +140,7 @@ local function Init_ProgressBar()
 
     btn:SetPoint('RIGHT', ArcheologyDigsiteProgressBar, 'LEFT', 0, -4)
     function btn:set_atlas()
-        self:SetNormalAtlas(Save().ArcheologySound and 'chatframe-button-icon-voicechat' or 'chatframe-button-icon-speaker-off')
+        self:SetNormalAtlas(WoWTools_ProfessionMixin:Save().ArcheologySound and 'chatframe-button-icon-voicechat' or 'chatframe-button-icon-speaker-off')
     end
     btn.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_L.SOUND)
 
@@ -168,17 +151,17 @@ local function Init_ProgressBar()
     end
 
     btn:SetScript('OnClick', function(self)
-        Save().ArcheologySound= not Save().ArcheologySound and true or false
+        WoWTools_ProfessionMixin:Save().ArcheologySound= not WoWTools_ProfessionMixin:Save().ArcheologySound and true or false
         self:set_atlas()
         self:set_event()
-        if Save().ArcheologySound then
+        if WoWTools_ProfessionMixin:Save().ArcheologySound then
             self:play_sound()
         end
     end)
 
     function btn:set_event()
         self:UnregisterAllEvents()
-        if self:IsVisible() and Save().ArcheologySound then
+        if self:IsVisible() and WoWTools_ProfessionMixin:Save().ArcheologySound then
             self:RegisterUnitEvent('UNIT_AURA', 'player')
         end
         self:set_atlas()
@@ -275,9 +258,9 @@ local function Init_ProgressBar()
                 (select(3, GetProfessions()) and '' or '|cff626262')
                 ..(WoWTools_L['SELF_CAST_AUTO+SHOW']),
             function()
-                return Save().showArcheologyBar
+                return WoWTools_ProfessionMixin:Save().showArcheologyBar
             end, function()
-                Save().showArcheologyBar= not Save().showArcheologyBar and true or nil
+                WoWTools_ProfessionMixin:Save().showArcheologyBar= not WoWTools_ProfessionMixin:Save().showArcheologyBar and true or nil
                 self:set_event()
             end)
             sub:SetTooltip(function(tooltip)
@@ -359,7 +342,7 @@ local function Init_ProgressBar()
         self:UnregisterEvent('PLAYER_STOPPED_MOVING')
         self:UnregisterEvent('PLAYER_ENTERING_WORLD')
 
-        if Save().showArcheologyBar and select(3, GetProfessions()) then
+        if WoWTools_ProfessionMixin:Save().showArcheologyBar and select(3, GetProfessions()) then
             self:RegisterEvent('PLAYER_ENTERING_WORLD')
             if select(2, IsInInstance())=='none' then
                 self:RegisterEvent('PLAYER_STOPPED_MOVING')
@@ -408,12 +391,11 @@ local function Init_ProgressBar()
     end)
 
 
-    if Save().showArcheologyBar and select(3, GetProfessions()) then
+    if WoWTools_ProfessionMixin:Save().showArcheologyBar and select(3, GetProfessions()) then
         bar:show_bar()
     end
 
     bar:set_event()
-    Init_ProgressBar=function()end
 end
 
 
@@ -427,6 +409,10 @@ end
 
 
 function WoWTools_ProfessionMixin:Init_Archaeology()
-    Init_ArchaeologyFrame()
     Init_ProgressBar()
+end
+
+--Se llama al cargar Blizzard_ArchaeologyUI (campo blizzard del módulo)
+function WoWTools_ProfessionMixin:Init_ArchaeologyFrame()
+    Init_ArchaeologyFrame()
 end
