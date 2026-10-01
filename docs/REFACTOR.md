@@ -124,7 +124,7 @@ resolvedor de `WoWTools_L`, `TextMixin:Magic`, `TextMixin:sub` (UTF-8), `MK`, `S
   - [x] API de módulos `WoWTools_Module:Register` + despachador único de eventos
   - [x] Escaneo de bolsas compartido (ver docs/MEJORAS.md, sección 4)
   - [x] Selector de color migrado a la API
-- [ ] R2 migración de módulos (21/28; faltan Personaje, Míticas+, Herramientas, Botón de chat, Mover marcos, Texturas/Barras de acción, Otros)
+- [x] R2 migración de módulos (28/28, con submódulos de Herramientas y del chat; pendiente de probar en el juego)
 - [ ] R3 esperas de Blizzard unificadas
 - [ ] R4 funciones gigantes (0/7; `Init_TypeTabs_Data` se fue con la ventana de objetos)
 - [ ] R5 orden y nombres
