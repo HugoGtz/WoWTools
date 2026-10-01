@@ -14,6 +14,8 @@ local M= WoWTools_Module:Register({
     onEnable = function(M, save) ... end,       --arranque: una sola vez y solo si está activado
     onLogin  = function(M, save) ... end,       --al entrar al juego (PLAYER_ENTERING_WORLD), una vez
     blizzard = {Blizzard_X= function(M, save) ... end}, --cuando esa ventana de Blizzard esté cargada
+    events   = {PET_STABLE_SHOW= function(M, save, ...) ... end}, --eventos del juego (un solo marco para todos);
+                                                                  --devolver true deja de escuchar ese evento
 })
 
 Después, en cualquier archivo del módulo: M:Save().algo, M:IsEnabled(), M:Print(...), M.addName
@@ -27,6 +29,33 @@ WoWTools_Module= {
 }
 
 local Loaded--ya llegó ADDON_LOADED de WoWToolsPlus
+
+--Despachador único de eventos de los módulos: evento -> {M= handler}
+local Handlers= {}
+local EventFrame= CreateFrame('Frame')
+EventFrame:SetScript('OnEvent', function(self, event, ...)
+    for M, func in pairs(Handlers[event] or {}) do
+        if func(M, M:Save(), ...) then
+            WoWTools_Module:UnregisterEvent(M, event)
+        end
+    end
+end)
+
+function WoWTools_Module:RegisterEvent(M, event, func)
+    Handlers[event]= Handlers[event] or {}
+    Handlers[event][M]= func
+    EventFrame:RegisterEvent(event)
+end
+
+function WoWTools_Module:UnregisterEvent(M, event)
+    local list= Handlers[event]
+    if list then
+        list[M]= nil
+        if not next(list) then
+            EventFrame:UnregisterEvent(event)
+        end
+    end
+end
 
 --Envoltorio "ejecutar una sola vez" (sustituye al truco Init=function()end)
 function WoWTools_Once(func)
@@ -119,6 +148,9 @@ local function Start(M)
         EventUtil.ContinueOnPlayerLogin(function()
             def.onLogin(M, M:Save())
         end)
+    end
+    for event, func in pairs(def.events or {}) do
+        WoWTools_Module:RegisterEvent(M, event, func)
     end
     for addonName, func in pairs(def.blizzard or {}) do
         EventUtil.ContinueOnAddOnLoaded(addonName, function()
