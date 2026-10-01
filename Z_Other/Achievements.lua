@@ -614,6 +614,14 @@ Module= WoWTools_Module:Register({
     group= 'Character',
     defaults= {completedAlpha=1},
     tooltip= 'Tip.Achievement.Option',
+    options= {
+        {type='section', text='Appearance'},
+        {type='slider', key='completedAlpha', text='Completed achievements opacity', tooltip='Tip.Achievement.CompletedAlpha',
+            min=0, max=1, step=0.1, format='%.1f',
+            get= function(save) return save.completedAlpha or 1 end,
+            set= function(save, value) save.completedAlpha= tonumber(format('%.1f', value)) end,
+        },
+    },
     onLoad= function(M)
         addName= M.addName
         if not M:IsEnabled() or not WoWTools_MapIDAchievementData then
