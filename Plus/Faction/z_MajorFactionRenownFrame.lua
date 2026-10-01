@@ -323,4 +323,11 @@ function WoWTools_FactionMixin:Init_MajorFactionRenownFrame()
 end
 
 
-
+--Centro de control: aplica los ajustes de la lista de la ventana de renombre (si ya se abrió)
+function WoWTools_FactionMixin:Refresh_RenownFrame()
+    if Button then
+        Settings()
+        Button:set_texture()
+        Button:set_scale()
+    end
+end

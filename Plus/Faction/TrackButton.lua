@@ -699,3 +699,28 @@ end
 function WoWTools_FactionMixin:Init_TrackButton()
     Init()
 end
+
+--Centro de control: aplica todos los ajustes del botón de rastreo (lo mismo que hace su menú)
+function WoWTools_FactionMixin:Refresh_TrackButton()
+	if not TrackButton then
+		return
+	end
+	for index= 1, NumButton do
+		local btn= _G['WoWToolsFactionTrackButton'..index]
+		if btn then
+			btn:set_text_point()
+			btn:ClearAllPoints()
+			if WoWTools_FactionMixin:Save().toTopTrack then
+				btn:SetPoint('BOTTOM', _G['WoWToolsFactionTrackButton'..(index-1)] or TrackButton, 'TOP')
+			else
+				btn:SetPoint('TOP', _G['WoWToolsFactionTrackButton'..(index-1)] or TrackButton, 'BOTTOM')
+			end
+		end
+	end
+	TrackButton:ClearAllPoints()
+	TrackButton:set_Point()
+	TrackButton:settings()
+	TrackButton:set_strata()
+	TrackButton:set_bgalpha()
+	TrackButton:set_Shown()
+end
