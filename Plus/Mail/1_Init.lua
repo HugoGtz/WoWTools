@@ -2,11 +2,6 @@ WoWTools_MailMixin={}
 
 
 
-local function Save()
-    return WoWToolsPlusSave['Plus_Mail']
-end
-
-
 function WoWTools_MailMixin:SetSendName(name, guid)
     name= name or WoWTools_UnitMixin:GetFullName(nil, nil, guid)
     if not name then
@@ -65,23 +60,23 @@ function WoWTools_MailMixin:RefreshAll()
 end
 
 
-local function Init()--SendMailNameEditBox
+local Init= WoWTools_Once(function()--SendMailNameEditBox
     --rellenar con lo último enviado solo si el jugador activó guardarlo (logSendInfo)
-    if Save().logSendInfo and Save().lastSendPlayer then
-        WoWTools_MailMixin:SetSendName(Save().lastSendPlayer)
+    if WoWTools_MailMixin:Save().logSendInfo and WoWTools_MailMixin:Save().lastSendPlayer then
+        WoWTools_MailMixin:SetSendName(WoWTools_MailMixin:Save().lastSendPlayer)
     end
 
-    if Save().logSendInfo and Save().lastSendSub then
-        SendMailSubjectEditBox:SetText(Save().lastSendSub)
+    if WoWTools_MailMixin:Save().logSendInfo and WoWTools_MailMixin:Save().lastSendSub then
+        SendMailSubjectEditBox:SetText(WoWTools_MailMixin:Save().lastSendSub)
     end
 
-    if Save().logSendInfo and Save().lastSendBody then
-        SendMailBodyEditBox:SetText(Save().lastSendBody)
+    if WoWTools_MailMixin:Save().logSendInfo and WoWTools_MailMixin:Save().lastSendBody then
+        SendMailBodyEditBox:SetText(WoWTools_MailMixin:Save().lastSendBody)
     end
     SendMailNameEditBox:ClearFocus()
 
-    if not Save().notAutoToSendFrame and not GameLimitedMode_IsActive() then
-        C_Timer.After(Save().autoToSendFrameSecond or 1, function()
+    if not WoWTools_MailMixin:Save().notAutoToSendFrame and not GameLimitedMode_IsActive() then
+        C_Timer.After(WoWTools_MailMixin:Save().autoToSendFrameSecond or 1, function()
             if GetInboxNumItems()==0 then
                 MailFrameTab_OnClick(nil, 2)
             end
@@ -103,67 +98,37 @@ local function Init()--SendMailNameEditBox
 
     WoWTools_MailMixin:Init_Fast_Button()
 
-    Init=function()end
-end
-
-
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-
-
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWToolsPlus' then
-
-            WoWToolsPlusSave['Plus_Mail']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Mail'], {
-                --hideUIPlus=true,
-                --hideSendNameList=true,
-                --hideHistoryList=true,
-                --hideItemButtonList=true
-
-                --autoToSendFrameSecond=1,
-
-                lastSendPlayerList= {},
-                lastMaxSendPlayerList=20,
-                show={
-                    ['FRIEND']=true,
-                },
-                fast={},
-                fastShow=true,
-                scaleFastButton=1.3,
-                --INBOXITEMS_TO_DISPLAY=7,
-            })
-
-            WoWTools_MailMixin.addName= '|A:UI-HUD-Minimap-Mail-Mouseover:0:0|a'..(WoWTools_L['Module.Mail'])
-
-            WoWTools_PanelMixin:OnlyCheck({
-                name= WoWTools_MailMixin.addName,
-                GetValue= function() return not Save().disabled end,
-                SetValue= function()
-                    Save().disabled= not Save().disabled and true or nil
-                    if Save().disabled then
-                        WoWTools_Print(
-                            WoWTools_MailMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                            WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-                            WoWTools_L.REQUIRES_RELOAD
-                        )
-                    end
-                    Init()
-                end,
-                tooltip= WoWTools_L['Tip.Mail.Module'],
-            })
-
-            if not Save().disabled then                
-                self:RegisterEvent('MAIL_SHOW')
-            else
-                self:SetScript('OnEvent', nil)
-            end
-            self:UnregisterEvent(event)
-        end
-
-    elseif event=='MAIL_SHOW' then
-        Init()
-        self:SetScript('OnEvent', nil)
-        self:UnregisterEvent(event)
-    end
 end)
+
+
+--Módulo registrado con la API común (docs/REFACTOR.md, R1)
+WoWTools_Module:Register({
+    key= 'Plus_Mail',
+    name= 'Module.Mail',
+    icon= 'UI-HUD-Minimap-Mail-Mouseover',
+    group= 'Items',
+    defaults= {
+        --hideUIPlus=true,
+        --hideSendNameList=true,
+        --hideHistoryList=true,
+        --hideItemButtonList=true
+
+        --autoToSendFrameSecond=1,
+
+        lastSendPlayerList= {},
+        lastMaxSendPlayerList=20,
+        show={
+            ['FRIEND']=true,
+        },
+        fast={},
+        fastShow=true,
+        scaleFastButton=1.3,
+        --INBOXITEMS_TO_DISPLAY=7,
+    },
+    tooltip= 'Tip.Mail.Module',
+    mixin= WoWTools_MailMixin,
+    events= {MAIL_SHOW= function()
+        Init()
+        return true
+    end},
+})

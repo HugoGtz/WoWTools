@@ -1,14 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_Mail']
-end
-
-
-
-
-
-
-
-
 local function Init()
     SendMailNameEditBox.clearButton= WoWTools_ButtonMixin:Cbtn(SendMailNameEditBox, {
         size=22,
@@ -34,7 +23,7 @@ local function Init()
     SendMailNameEditBox.playerTipsLable= WoWTools_LabelMixin:Create(SendMailNameEditBox, {justifyH='CENTER', size=10})
     SendMailNameEditBox.playerTipsLable:SetPoint('BOTTOM', SendMailNameEditBox, 'TOP',0,-3)
     function SendMailNameEditBox:save_log()
-        Save().lastSendPlayer= Save().logSendInfo and WoWTools_UnitMixin:GetFullName(self:GetText()) or nil
+        WoWTools_MailMixin:Save().lastSendPlayer= WoWTools_MailMixin:Save().logSendInfo and WoWTools_UnitMixin:GetFullName(self:GetText()) or nil
     end
     SendMailNameEditBox:HookScript('OnTextChanged', function(self)
         local name= WoWTools_UnitMixin:GetFullName(self:GetText())
@@ -76,11 +65,11 @@ local function Init()
     SendMailSubjectEditBox.numLetters:SetAlpha(0)
     function SendMailSubjectEditBox:save_log()
         local text
-        if Save().logSendInfo then
+        if WoWTools_MailMixin:Save().logSendInfo then
             text= self:GetText() or ''
             if text==EMOTE56_CMD1:gsub('/','') or text:gsub(' ', '')== '' then text= nil end
         end
-        Save().lastSendSub=text
+        WoWTools_MailMixin:Save().lastSendSub=text
     end
     SendMailSubjectEditBox:HookScript('OnTextChanged', function(self)
         self.numLetters:SetFormattedText('%d/%d', self:GetNumLetters() or 0, self:GetMaxLetters() or 0)
@@ -106,11 +95,11 @@ local function Init()
     end
     function SendMailBodyEditBox:save_log()
         local text
-        if Save().logSendInfo then
+        if WoWTools_MailMixin:Save().logSendInfo then
             text= self:GetText() or ''
             if text:gsub(' ', '')== '' then text= nil end
         end
-        Save().lastSendBody=text
+        WoWTools_MailMixin:Save().lastSendBody=text
     end
     SendMailBodyEditBox:HookScript('OnTextChanged', function(self)
         self.numLetters:SetFormattedText('%d/%d', self:GetNumLetters() or 0, self:GetMaxLetters() or 0)

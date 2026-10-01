@@ -1,8 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_Mail']
-end
-
-
 local listButton
 
 
@@ -104,7 +99,7 @@ local function Init_WoW(root)
         if wowInfo
             and wowInfo.playerGuid
             and wowInfo.wowProjectID==WOW_PROJECT_MAINLINE
-            and (wowInfo.isOnline or Save().show['WoW'])
+            and (wowInfo.isOnline or WoWTools_MailMixin:Save().show['WoW'])
         then
             local name= WoWTools_UnitMixin:GetFullName(wowInfo.characterName, nil, wowInfo.playerGuid)
             if not WoWTools_MailMixin:GetRealmInfo(name) then
@@ -131,9 +126,9 @@ local function Init_WoW(root)
     sub=root:CreateCheckbox(
         WoWTools_L.FRIENDS_LIST_OFFLINE,
     function()
-        return Save().show['WoW']
+        return WoWTools_MailMixin:Save().show['WoW']
     end, function()
-        Save().show['WoW']= not Save().show['WoW'] and true or nil
+        WoWTools_MailMixin:Save().show['WoW']= not WoWTools_MailMixin:Save().show['WoW'] and true or nil
         return MenuResponse.CloseAll
     end)
     sub:SetTooltip(function(tooltip)
@@ -150,7 +145,7 @@ local function Init_Friend(root)
     for i=1 , C_FriendList.GetNumFriends() do
         local game= C_FriendList.GetFriendInfoByIndex(i) or {}
         local guid= game.guid
-        if guid and not WoWToolsPlus_WoWDate[guid] and (game.connected or Save().show['FRIEND']) then
+        if guid and not WoWToolsPlus_WoWDate[guid] and (game.connected or WoWTools_MailMixin:Save().show['FRIEND']) then
             local name= WoWTools_UnitMixin:GetFullName(nil, nil, guid)
             if not WoWTools_MailMixin:GetRealmInfo(name) then
                 root:CreateButton(
@@ -171,9 +166,9 @@ local function Init_Friend(root)
     sub=root:CreateCheckbox(
         WoWTools_L.FRIENDS_LIST_OFFLINE,
     function()
-        return Save().show['FRIEND']
+        return WoWTools_MailMixin:Save().show['FRIEND']
     end, function()
-        Save().show['FRIEND']= not Save().show['FRIEND'] and true or nil
+        WoWTools_MailMixin:Save().show['FRIEND']= not WoWTools_MailMixin:Save().show['FRIEND'] and true or nil
         return MenuResponse.CloseAll
     end)
     sub:SetTooltip(function(tooltip)
@@ -189,8 +184,8 @@ local function Init_Guild(root)
     local num=0
     for index=1, GetNumGuildMembers() do
         local name, rankName, rankIndex, lv, _, _, _, _, isOnline, _, _, _, _, _, _, _, guid = GetGuildRosterInfo(index)
-        --if name and guid and (isOnline or rankIndex<2 or (Save().show['GUILD'] and num<60)) and not WoWToolsPlus_WoWDate[guid] then
-        if name and guid and (isOnline or rankIndex<2 or Save().show['GUILD']) and not WoWToolsPlus_WoWDate[guid] and not WoWTools_MailMixin:GetRealmInfo(name) then
+        --if name and guid and (isOnline or rankIndex<2 or (WoWTools_MailMixin:Save().show['GUILD'] and num<60)) and not WoWToolsPlus_WoWDate[guid] then
+        if name and guid and (isOnline or rankIndex<2 or WoWTools_MailMixin:Save().show['GUILD']) and not WoWToolsPlus_WoWDate[guid] and not WoWTools_MailMixin:GetRealmInfo(name) then
             local text= WoWTools_UnitMixin:GetPlayerInfo(nil, guid, nil, {reName=true, reRealm=true, level=lv})
 
             if not isOnline then
@@ -221,9 +216,9 @@ local function Init_Guild(root)
     sub=root:CreateCheckbox(
         WoWTools_L.FRIENDS_LIST_OFFLINE,
     function()
-        return Save().show['GUILD']
+        return WoWTools_MailMixin:Save().show['GUILD']
     end, function()
-        Save().show['GUILD']= not Save().show['GUILD'] and true or nil
+        WoWTools_MailMixin:Save().show['GUILD']= not WoWTools_MailMixin:Save().show['GUILD'] and true or nil
         return MenuResponse.CloseAll
     end)
     sub:SetTooltip(function(tooltip)
@@ -239,7 +234,7 @@ local function Init_Club(root, clubID)
     local num=0
     for _, memberID in pairs(C_Club.GetClubMembers(clubID) or {}) do
         local tab = C_Club.GetMemberInfo(clubID, memberID)
-        if tab and tab.guid and tab.name and (tab.zone or tab.role<4 or (Save().show['CLUB'])) and not WoWToolsPlus_WoWDate[tab.guid] then
+        if tab and tab.guid and tab.name and (tab.zone or tab.role<4 or (WoWTools_MailMixin:Save().show['CLUB'])) and not WoWToolsPlus_WoWDate[tab.guid] then
             if not WoWTools_MailMixin:GetRealmInfo(tab.name) then
                 local faction= tab.faction==Enum.PvPFaction.Alliance and 'Alliance' or tab.faction==Enum.PvPFaction.Horde and 'Horde'
                 local  text= WoWTools_UnitMixin:GetPlayerInfo(nil, tab.guid, nil, {reName=true, reRealm=true, faction=faction, level=tab.level})
@@ -273,9 +268,9 @@ local function Init_Club(root, clubID)
     sub=root:CreateCheckbox(
         WoWTools_L.FRIENDS_LIST_OFFLINE,
     function()
-        return Save().show['CLUB']
+        return WoWTools_MailMixin:Save().show['CLUB']
     end, function()
-        Save().show['CLUB']= not Save().show['CLUB'] and true or nil
+        WoWTools_MailMixin:Save().show['CLUB']= not WoWTools_MailMixin:Save().show['CLUB'] and true or nil
         return MenuResponse.CloseAll
     end)
     sub:SetTooltip(function(tooltip)
@@ -338,9 +333,9 @@ local function Init_Menu(_, root)
     sub=root:CreateCheckbox(
         WoWTools_L['Saved content'],
     function()
-        return Save().logSendInfo
+        return WoWTools_MailMixin:Save().logSendInfo
     end, function()
-        Save().logSendInfo= not Save().logSendInfo and true or nil
+        WoWTools_MailMixin:Save().logSendInfo= not WoWTools_MailMixin:Save().logSendInfo and true or nil
         SendMailNameEditBox:save_log()
         SendMailSubjectEditBox:save_log()
         SendMailBodyEditBox:save_log()
@@ -358,7 +353,7 @@ end
 
 
 local function Init()
-    if Save().hideSendNameList then
+    if WoWTools_MailMixin:Save().hideSendNameList then
         return
     end
 
@@ -419,7 +414,7 @@ local function Init()
         self.btn.tooltip= WoWTools_MailMixin:GetRealmInfo(name)
         self.btn:SetShown(name and true or false)
         self.btn:SetAlpha(self.btn.tooltip and 0.5 or 1)
-        self:SetShown(not Save().hideSendNameList)
+        self:SetShown(not WoWTools_MailMixin:Save().hideSendNameList)
     end
 
     listButton:SetScript('OnEvent',  listButton.Settings)

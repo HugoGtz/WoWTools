@@ -1,11 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_Mail']
-end
-
-
-
-
-
 local function Init_Menu(self, root)
     if not self:IsMouseOver() then
         return
@@ -17,9 +9,9 @@ local function Init_Menu(self, root)
     local tipSub= root:CreateCheckbox(
         (WoWTools_L.INBOX)..' Plus',
     function()
-        return not Save().hide
+        return not WoWTools_MailMixin:Save().hide
     end, function()
-        Save().hide= not Save().hide and true or nil
+        WoWTools_MailMixin:Save().hide= not WoWTools_MailMixin:Save().hide and true or nil
         WoWTools_MailMixin:Init_InBox()
     end)
     WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Mail.InBoxPlus'])
@@ -30,9 +22,9 @@ local function Init_Menu(self, root)
     sub=root:CreateCheckbox(
         WoWTools_L.WHO_LIST,
     function()
-        return not Save().hideSendNameList
+        return not WoWTools_MailMixin:Save().hideSendNameList
     end, function()
-        Save().hideSendNameList= not Save().hideSendNameList and true or nil
+        WoWTools_MailMixin:Save().hideSendNameList= not WoWTools_MailMixin:Save().hideSendNameList and true or nil
         WoWTools_MailMixin:Init_Send_Name_List()
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Mail.NameList'])
@@ -41,9 +33,9 @@ local function Init_Menu(self, root)
     sub=root:CreateCheckbox(
         WoWTools_L['Recipient history'],
     function()
-        return not Save().hideHistoryList
+        return not WoWTools_MailMixin:Save().hideHistoryList
     end, function()
-        Save().hideHistoryList= not Save().hideHistoryList and true or nil
+        WoWTools_MailMixin:Save().hideHistoryList= not WoWTools_MailMixin:Save().hideHistoryList and true or nil
         WoWTools_MailMixin:Init_Send_History_Name()
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Mail.History'])
@@ -52,9 +44,9 @@ local function Init_Menu(self, root)
     sub=root:CreateCheckbox(
         WoWTools_L['ITEMS+SETTINGS_KEYBINDINGS_LABEL'],
     function()
-        return not Save().hideItemButtonList
+        return not WoWTools_MailMixin:Save().hideItemButtonList
     end, function()
-        Save().hideItemButtonList= not Save().hideItemButtonList and true or nil
+        WoWTools_MailMixin:Save().hideItemButtonList= not WoWTools_MailMixin:Save().hideItemButtonList and true or nil
         WoWTools_MailMixin:Init_Fast_Button()
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Mail.FastButtons'])
@@ -62,9 +54,9 @@ local function Init_Menu(self, root)
     sub=root:CreateCheckbox(
         WoWTools_L['Auto switch to Send Mail'],
     function()
-        return not Save().notAutoToSendFrame
+        return not WoWTools_MailMixin:Save().notAutoToSendFrame
     end, function()
-        Save().notAutoToSendFrame= not Save().notAutoToSendFrame and true or nil
+        WoWTools_MailMixin:Save().notAutoToSendFrame= not WoWTools_MailMixin:Save().notAutoToSendFrame and true or nil
     end)
     sub:SetTooltip(function(tooltip)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Mail.AutoSend'])
@@ -75,9 +67,9 @@ local function Init_Menu(self, root)
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
-            return Save().autoToSendFrameSecond or 1
+            return WoWTools_MailMixin:Save().autoToSendFrameSecond or 1
         end, setValue=function(value)
-            Save().autoToSendFrameSecond=value
+            WoWTools_MailMixin:Save().autoToSendFrameSecond=value
         end,
         name=WoWTools_L.LOSS_OF_CONTROL_SECONDS ,
         minValue=0.5,

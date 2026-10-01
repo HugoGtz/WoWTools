@@ -1,7 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_Mail']
-end
-
 local AUCTION_REMOVED_MAIL_SUBJECT= WoWTools_TextMixin:Magic(AUCTION_REMOVED_MAIL_SUBJECT)
 
 
@@ -442,7 +438,7 @@ end
 
 
 local function Init_InboxFrame_Update()
-    local hide= Save().hide
+    local hide= WoWTools_MailMixin:Save().hide
     local player= UnitName('player')
     for i=1, INBOXITEMS_TO_DISPLAY do
         local btn=_G["MailItem"..i.."Button"]
@@ -627,7 +623,7 @@ local function Set_OpenMail_Update()
     end
 
     local sender, _, money, CODAmount
-    local hide= Save().hide
+    local hide= WoWTools_MailMixin:Save().hide
 
     if not hide then
         sender, _, money, CODAmount= select(3, GetInboxHeaderInfo(InboxFrame.openMailID))
@@ -707,7 +703,7 @@ end
 
 
 local function Init()
-    if Save().hide then
+    if WoWTools_MailMixin:Save().hide then
         return
     end
 

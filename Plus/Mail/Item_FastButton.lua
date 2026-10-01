@@ -1,7 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_Mail']
-end
-
 local fastButton
 local Buttons= {}
 
@@ -62,9 +58,9 @@ local function Init_Menu(self, root)
     local tipSub= root:CreateCheckbox(
         WoWTools_L.SHOW,
     function()
-        return Save().fastShow
+        return WoWTools_MailMixin:Save().fastShow
     end, function()
-        Save().fastShow= not Save().fastShow and true or false
+        WoWTools_MailMixin:Save().fastShow= not WoWTools_MailMixin:Save().fastShow and true or false
         self:set_shown()
     end)
     WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Mail.FastShow'])
@@ -154,12 +150,12 @@ local function Init_Menu(self, root)
     sub=WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_MailMixin.addName})
 
     WoWTools_MenuMixin:Scale(self, sub, function()
-        return Save().scaleFastButton or 1
+        return WoWTools_MailMixin:Save().scaleFastButton or 1
     end, function(value)
-        Save().scaleFastButton= value
+        WoWTools_MailMixin:Save().scaleFastButton= value
         self:set_scale()
     end, function(value)
-        Save().scaleFastButton= value
+        WoWTools_MailMixin:Save().scaleFastButton= value
         self:set_scale()
     end)
 end
@@ -183,12 +179,12 @@ local function Fast_Button_Set_Menu(self, root, showName, setName)
     local sub=root:CreateCheckbox(
         showName,
     function(data)
-        return Save().fast[self.name]==data.name
+        return WoWTools_MailMixin:Save().fast[self.name]==data.name
     end, function(data)
-        if Save().fast[self.name]==data.name then
-            Save().fast[self.name]=nil
+        if WoWTools_MailMixin:Save().fast[self.name]==data.name then
+            WoWTools_MailMixin:Save().fast[self.name]=nil
         else
-            Save().fast[self.name]=data.name
+            WoWTools_MailMixin:Save().fast[self.name]=data.name
         end
         self:set_Player_Lable()
     end, {name=setName})
@@ -196,7 +192,7 @@ local function Fast_Button_Set_Menu(self, root, showName, setName)
     sub:SetTooltip(function(tooltip, description)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Mail.FastRecipient'])
         tooltip:AddLine(description.data.name)
-        local findName= Save().fast[self.name]
+        local findName= WoWTools_MailMixin:Save().fast[self.name]
         if findName==description.data.name then
             tooltip:AddLine(WoWTools_L.REMOVE)
         elseif findName then
@@ -226,7 +222,7 @@ end
 local function Init_Fast_Button_Menu(self, root)
     local sub
     local num=0
-    local playerName= Save().fast[self.name]
+    local playerName= WoWTools_MailMixin:Save().fast[self.name]
     local newName= WoWTools_UnitMixin:GetFullName(SendMailNameEditBox:GetText())
 
     root:CreateTitle(
@@ -341,7 +337,7 @@ local function Init_Button()
             btn.playerTexture:SetSize(22/2, 22/2)
             btn.playerTexture:SetPoint('BOTTOMLEFT')
             function btn:set_Player_Lable()
-                self.playerTexture:SetShown(Save().fast[self.name] and true or false)
+                self.playerTexture:SetShown(WoWTools_MailMixin:Save().fast[self.name] and true or false)
             end
             btn:set_Player_Lable()
             function btn:set_alpha()
@@ -384,7 +380,7 @@ local function Init_Button()
 
             btn:SetScript('OnClick', function(self, d)
                 if d=='LeftButton' then
-                    local name= Save().fast[self.name]
+                    local name= WoWTools_MailMixin:Save().fast[self.name]
                     if name and name~=WoWTools_DataMixin.Player.Name_Realm then
                          WoWTools_MailMixin:SetSendName(name)
                     end
@@ -397,7 +393,7 @@ local function Init_Button()
             btn:SetScript('OnLeave', function(self) self:set_alpha() GameTooltip:Hide() self:settings() end)
             btn:SetScript('OnEnter', function(self)
                 self:settings()
-                local playerName= Save().fast[self.name]
+                local playerName= WoWTools_MailMixin:Save().fast[self.name]
                 local playerNameInfo= WoWTools_MailMixin:GetNameInfo(playerName)
                 GameTooltip:SetOwner(self, "ANCHOR_LEFT")
                 GameTooltip:ClearLines()
@@ -441,7 +437,7 @@ end
 
 
 local function Init()
-    if Save().hideItemButtonList then
+    if WoWTools_MailMixin:Save().hideItemButtonList then
         return
     end
 
@@ -454,15 +450,15 @@ local function Init()
     fastButton.frame:SetPoint('TOPLEFT', fastButton, 'BOTTOMLEFT')
 
     function fastButton:Settings()
-        self:SetShown(not Save().hideItemButtonList)
+        self:SetShown(not WoWTools_MailMixin:Save().hideItemButtonList)
     end
     function fastButton:set_scale()
-        self.frame:SetScale(Save().scaleFastButton or 1)
+        self.frame:SetScale(WoWTools_MailMixin:Save().scaleFastButton or 1)
     end
     function fastButton:set_shown()
-        self.frame:SetShown(Save().fastShow)
-        self:SetAlpha(Save().fastShow and 1 or 0.3)
-        self:SetNormalAtlas(Save().fastShow and 'NPE_ArrowDown' or 'NPE_ArrowRight')
+        self.frame:SetShown(WoWTools_MailMixin:Save().fastShow)
+        self:SetAlpha(WoWTools_MailMixin:Save().fastShow and 1 or 0.3)
+        self:SetNormalAtlas(WoWTools_MailMixin:Save().fastShow and 'NPE_ArrowDown' or 'NPE_ArrowRight')
     end
     function fastButton:set_tooltips()
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
