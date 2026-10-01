@@ -111,7 +111,7 @@ local function Init_Menu(self, root)
 
 
 	root:CreateDivider()
-	WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_ColorMixin.addName})
+	WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_ColorMixin.addName, name2=WoWTools_L['Settings...']})
 end
 
 
