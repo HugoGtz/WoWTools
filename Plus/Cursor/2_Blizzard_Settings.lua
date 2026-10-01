@@ -1,8 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['Plus_Cursor']
-end
-
 --Descripción (tooltip) para las casillas propias del panel
 local function Set_Description(check, text)
     check:HookScript('OnEnter', function(self)
@@ -15,12 +11,12 @@ local function Set_Description(check, text)
 end
 
 local function Set_Color()
-    if Save().notUseColor then
+    if WoWTools_CursorMixin:Save().notUseColor then
         WoWTools_CursorMixin.Color= CreateColor(1,1,1,1)
-    elseif Save().usrClassColor or not Save().color then
+    elseif WoWTools_CursorMixin:Save().usrClassColor or not WoWTools_CursorMixin:Save().color then
         WoWTools_CursorMixin.Color= PlayerUtil.GetClassColor()
     else
-        local col= Save().color
+        local col= WoWTools_CursorMixin:Save().color
         WoWTools_CursorMixin.Color= CreateColor(col.r or 1, col.g or 1, col.b or 1, col.a or 1)
     end
 end
@@ -40,69 +36,69 @@ end
 
 
 local function Init_GCD_Options(panel)
-    if Save().disabledGCD then
+    if WoWTools_CursorMixin:Save().disabledGCD then
         return
     end
 
-    panel.sliderSize = WoWTools_SliderMixin:CSlider(panel, {min=8, max=256, value=Save().gcdSize, setp=1,
+    panel.sliderSize = WoWTools_SliderMixin:CSlider(panel, {min=8, max=256, value=WoWTools_CursorMixin:Save().gcdSize, setp=1,
     text=WoWTools_L.HUD_EDIT_MODE_SETTING_BAGS_SIZE,
     func=function(self, value)
         value= math.floor(value)
         self:SetValue(value)
         self.Text:SetText(value)
-        Save().gcdSize= value
+        WoWTools_CursorMixin:Save().gcdSize= value
         WoWTools_CursorMixin:GCD_Settings(true)
     end})
     panel.sliderSize:SetPoint("TOPLEFT", panel.gcdCheck, 'BOTTOMLEFT', 0, -20)
 
-    local alphaSlider = WoWTools_SliderMixin:CSlider(panel, {min=0.1, max=1, value=Save().alpha, setp=0.1, color=true,
+    local alphaSlider = WoWTools_SliderMixin:CSlider(panel, {min=0.1, max=1, value=WoWTools_CursorMixin:Save().alpha, setp=0.1, color=true,
     text=WoWTools_L.HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY,
     func=function(self, value)
         value= tonumber(format('%.1f', value))
         self:SetValue(value)
         self.Text:SetText(value)
-        Save().gcdAlpha= value
+        WoWTools_CursorMixin:Save().gcdAlpha= value
         WoWTools_CursorMixin:GCD_Settings(true)
     end})
     alphaSlider:SetPoint("TOPLEFT", panel.sliderSize, 'BOTTOMLEFT', 0, -20)
 
-    local sliderX = WoWTools_SliderMixin:CSlider(panel, {min=-100, max=100, value=Save().gcdX , setp=1,
+    local sliderX = WoWTools_SliderMixin:CSlider(panel, {min=-100, max=100, value=WoWTools_CursorMixin:Save().gcdX , setp=1,
     text='X',
     func=function(self, value)
         value= math.floor(value)
         self:SetValue(value)
         self.Text:SetText(value)
-        Save().gcdX= value==0 and 0 or value
+        WoWTools_CursorMixin:Save().gcdX= value==0 and 0 or value
         WoWTools_CursorMixin:GCD_Settings(true)
     end})
     sliderX:SetPoint("TOPLEFT", alphaSlider, 'BOTTOMLEFT', 0, -20)
 
-    local sliderY = WoWTools_SliderMixin:CSlider(panel, {min=-100, max=100, value=Save().gcdY, setp=1, color=true,
+    local sliderY = WoWTools_SliderMixin:CSlider(panel, {min=-100, max=100, value=WoWTools_CursorMixin:Save().gcdY, setp=1, color=true,
     text='Y',
     func=function(self, value)
         value= math.floor(value)
         self:SetValue(value)
         self.Text:SetText(value)
-        Save().gcdY= value==0 and 0 or value
+        WoWTools_CursorMixin:Save().gcdY= value==0 and 0 or value
         WoWTools_CursorMixin:GCD_Settings(true)
     end})
     sliderY:SetPoint("TOPLEFT", sliderX, 'BOTTOMLEFT', 0, -20)
 
     local checkReverse=CreateFrame('CheckButton', nil, panel, "InterfaceOptionsCheckButtonTemplate")
-    checkReverse:SetChecked(Save().gcdReverse)
+    checkReverse:SetChecked(WoWTools_CursorMixin:Save().gcdReverse)
     checkReverse.text:SetText(WoWTools_L.HUD_EDIT_MODE_SETTING_BAGS_DIRECTION)
     checkReverse:SetScript('OnMouseUp', function()
-        Save().gcdReverse = not Save().gcdReverse and true or false
+        WoWTools_CursorMixin:Save().gcdReverse = not WoWTools_CursorMixin:Save().gcdReverse and true or false
         WoWTools_CursorMixin:GCD_Settings(true)
     end)
     checkReverse:SetPoint("TOPLEFT", sliderY, 'BOTTOMLEFT', 0, -20)
     Set_Description(checkReverse, WoWTools_L['Tip.Cursor.GCDReverse'])
 
     local checkDrawBling=CreateFrame('CheckButton', nil, panel, "InterfaceOptionsCheckButtonTemplate")
-    checkDrawBling:SetChecked(Save().gcdReverse)
+    checkDrawBling:SetChecked(WoWTools_CursorMixin:Save().gcdReverse)
     checkDrawBling.text:SetText('|TInterface\\Cooldown\\star4:16|tDrawBling')
     checkDrawBling:SetScript('OnMouseUp', function()
-        Save().gcdDrawBling = not Save().gcdDrawBling and true or false
+        WoWTools_CursorMixin:Save().gcdDrawBling = not WoWTools_CursorMixin:Save().gcdDrawBling and true or false
         WoWTools_CursorMixin:GCD_Settings(true)
     end)
     checkDrawBling:SetPoint("LEFT", checkReverse.text, 'RIGHT', 2, 00)
@@ -114,14 +110,14 @@ local function Init_GCD_Options(panel)
     local addColorButton= WoWTools_ButtonMixin:Cbtn(panel, {size=20})
     local numColorText= WoWTools_LabelMixin:Create(panel, {justifyH='RIGHT'})
     numColorText:SetPoint('RIGHT', dropDown, 'LEFT')
-    numColorText:SetText(#Save().GCDTexture)
+    numColorText:SetText(#WoWTools_CursorMixin:Save().GCDTexture)
 
     local function set_panel_Texture()
-        local texture= Save().GCDTexture[Save().gcdTextureIndex]
+        local texture= WoWTools_CursorMixin:Save().GCDTexture[WoWTools_CursorMixin:Save().gcdTextureIndex]
         texture= texture or WoWTools_CursorMixin.DefaultGCDTexture
         panel.Texture:SetTexture(texture)
         addColorEdit:SetText(texture)
-        numColorText:SetText(#Save().GCDTexture)
+        numColorText:SetText(#WoWTools_CursorMixin:Save().GCDTexture)
     end
 
 
@@ -129,22 +125,22 @@ local function Init_GCD_Options(panel)
     dropDown:SetWidth(195)
     dropDown.Text:ClearAllPoints()
     dropDown.Text:SetPoint('CENTER')
-    dropDown:SetDefaultText(Save().Atlas[Save().gcdTextureIndex] or select(3, WoWTools_TextureMixin:IsAtlas(WoWTools_CursorMixin.DefaultGCDTexture, 0)))
+    dropDown:SetDefaultText(WoWTools_CursorMixin:Save().Atlas[WoWTools_CursorMixin:Save().gcdTextureIndex] or select(3, WoWTools_TextureMixin:IsAtlas(WoWTools_CursorMixin.DefaultGCDTexture, 0)))
     dropDown:SetupMenu(function(self, root)
         if not self:IsMouseOver() then
             return
         end
         local sub
         --local num=0
-        for index, texture in pairs(Save().GCDTexture) do
+        for index, texture in pairs(WoWTools_CursorMixin:Save().GCDTexture) do
             local isAtlas, _, icon= WoWTools_TextureMixin:IsAtlas(texture, 64)
             sub=root:CreateCheckbox(
                 '',
             function(data)
-                return Save().gcdTextureIndex==data.index
+                return WoWTools_CursorMixin:Save().gcdTextureIndex==data.index
             end, function(data)
-                Save().gcdTextureIndex=data.index
-                Save().randomTexture=nil
+                WoWTools_CursorMixin:Save().gcdTextureIndex=data.index
+                WoWTools_CursorMixin:Save().randomTexture=nil
                 panel.randomTextureCheck:SetChecked(false)
                 self:SetDefaultText(data.icon)
                 set_panel_Texture()
@@ -174,10 +170,10 @@ local function Init_GCD_Options(panel)
     delColorButton:SetSize(20,20)
     delColorButton:SetNormalAtlas('xmarksthespot')
     delColorButton:SetScript('OnClick', function()
-        local texture= Save().GCDTexture[Save().gcdTextureIndex]
+        local texture= WoWTools_CursorMixin:Save().GCDTexture[WoWTools_CursorMixin:Save().gcdTextureIndex]
         local icon = texture and '|T'..texture..':0|t'
-        table.remove(Save().GCDTexture, Save().gcdTextureIndex)
-        Save().gcdTextureIndex=1
+        table.remove(WoWTools_CursorMixin:Save().GCDTexture, WoWTools_CursorMixin:Save().gcdTextureIndex)
+        WoWTools_CursorMixin:Save().gcdTextureIndex=1
         set_panel_Texture()
         WoWTools_CursorMixin:GCD_Settings(true)
         addColorEdit:SetText(texture or WoWTools_CursorMixin.DefaultGCDTexture)
@@ -192,9 +188,9 @@ local function Init_GCD_Options(panel)
     local function add_Color()
         local text= addColorEdit:GetText() or ''
         if text:gsub(' ','')~='' then
-            table.insert(Save().GCDTexture, text)
+            table.insert(WoWTools_CursorMixin:Save().GCDTexture, text)
             addColorEdit:SetText('')
-            numColorText:SetText(#Save().GCDTexture)
+            numColorText:SetText(#WoWTools_CursorMixin:Save().GCDTexture)
         end
     end
     addColorEdit:SetPoint("TOPLEFT", dropDown, 'BOTTOMLEFT',2,-2)
@@ -252,7 +248,7 @@ end
 
 
 local function Init_Options(panel)
-    if Save().disabledGCD then
+    if WoWTools_CursorMixin:Save().disabledGCD then
         return
     end
 
@@ -267,10 +263,10 @@ local function Init_Options(panel)
     useClassColorCheck:SetPoint("BOTTOMLEFT")
     useClassColorCheck.text:SetText(WoWTools_L.CLASS_COLORS)
     useClassColorCheck.text:SetTextColor(PlayerUtil.GetClassColor():GetRGB())
-    useClassColorCheck:SetChecked(Save().usrClassColor)
+    useClassColorCheck:SetChecked(WoWTools_CursorMixin:Save().usrClassColor)
     useClassColorCheck:SetScript('OnMouseDown', function()
-        Save().usrClassColor= not Save().usrClassColor and true or false
-        Save().notUseColor=nil
+        WoWTools_CursorMixin:Save().usrClassColor= not WoWTools_CursorMixin:Save().usrClassColor and true or false
+        WoWTools_CursorMixin:Save().notUseColor=nil
         notUseColorCheck:SetChecked(false)
         Set_Color()
         WoWTools_CursorMixin:GCD_Settings(true)
@@ -282,17 +278,17 @@ local function Init_Options(panel)
     colorText:EnableMouse(true)
     colorText.r, colorText.g, colorText.b, colorText.a= WoWTools_CursorMixin.Color:GetRGBA()
     colorText:SetScript('OnMouseDown', function(self)
-        local usrClassColor= Save().usrClassColor
-        local notUseColor= Save().notUseColor
-        Save().usrClassColor=nil
-        Save().notUseColor=nil
+        local usrClassColor= WoWTools_CursorMixin:Save().usrClassColor
+        local notUseColor= WoWTools_CursorMixin:Save().notUseColor
+        WoWTools_CursorMixin:Save().usrClassColor=nil
+        WoWTools_CursorMixin:Save().notUseColor=nil
         useClassColorCheck:SetChecked(false)
         notUseColorCheck:SetChecked(false)
 
         local valueR, valueG, valueB, valueA= self.r, self.g, self.b, self.a
         local setA, setR, setG, setB
         local function func()
-            Save().color= {r=setR, g=setG, b=setB, a=setA}
+            WoWTools_CursorMixin:Save().color= {r=setR, g=setG, b=setB, a=setA}
             self:SetTextColor(setR, setG, setB, setA)
             Set_Color()
             WoWTools_CursorMixin:GCD_Settings(true)
@@ -303,11 +299,11 @@ local function Init_Options(panel)
             end, function()
                 setR, setG, setB, setA= valueR, valueG, valueB, valueA
                 if usrClassColor then
-                    Save().usrClassColor=true
+                    WoWTools_CursorMixin:Save().usrClassColor=true
                     WoWTools_CursorMixin:GCD_Settings(true)
                     useClassColorCheck:SetChecked(true)
                 elseif notUseColor then
-                    Save().notUseColor=true
+                    WoWTools_CursorMixin:Save().notUseColor=true
                     WoWTools_CursorMixin:GCD_Settings(true)
                     notUseColorCheck:SetChecked(true)
                 end
@@ -327,9 +323,9 @@ local function Init_Options(panel)
 
     notUseColorCheck:SetPoint("LEFT", colorText, 'RIGHT')
     notUseColorCheck.text:SetText(WoWTools_L.NONE)
-    notUseColorCheck:SetChecked(Save().notUseColor)
+    notUseColorCheck:SetChecked(WoWTools_CursorMixin:Save().notUseColor)
     notUseColorCheck:SetScript('OnMouseDown', function()
-        Save().notUseColor= not Save().notUseColor and true or nil
+        WoWTools_CursorMixin:Save().notUseColor= not WoWTools_CursorMixin:Save().notUseColor and true or nil
         Set_Color()
         useClassColorCheck:SetChecked(false)
         WoWTools_CursorMixin:GCD_Settings(true)
@@ -339,9 +335,9 @@ local function Init_Options(panel)
     panel.randomTextureCheck= CreateFrame('CheckButton', nil, panel, "InterfaceOptionsCheckButtonTemplate")
     panel.randomTextureCheck:SetPoint("LEFT", notUseColorCheck.text, 'RIGHT', 10,0)
     panel.randomTextureCheck.text:SetText('|TInterface\\PVPFrame\\Icons\\PVP-Banner-Emblem-47:0|t'..(WoWTools_L['Random icon']))
-    panel.randomTextureCheck:SetChecked(Save().randomTexture)
+    panel.randomTextureCheck:SetChecked(WoWTools_CursorMixin:Save().randomTexture)
     panel.randomTextureCheck:SetScript('OnMouseDown', function()
-        Save().randomTexture= not Save().randomTexture and true or false
+        WoWTools_CursorMixin:Save().randomTexture= not WoWTools_CursorMixin:Save().randomTexture and true or false
         WoWTools_CursorMixin:GCD_Settings(true)
     end)
     panel.randomTextureCheck:SetScript('OnLeave', function()
@@ -387,7 +383,7 @@ local function Init(panel)
     WoWTools_PanelMixin:AddSubCategory({
         name= WoWTools_CursorMixin.addName,
         frame= panel,
-        disabled= Save().disabledCursor and  Save().disabledGCD,
+        disabled= WoWTools_CursorMixin:Save().disabledCursor and  WoWTools_CursorMixin:Save().disabledGCD,
     })
 
     WoWTools_PanelMixin:ReloadButton({
@@ -406,11 +402,11 @@ local function Init(panel)
 
 
     panel.gcdCheck=CreateFrame('CheckButton', nil, panel, "InterfaceOptionsCheckButtonTemplate")
-    panel.gcdCheck:SetChecked(not Save().disabledGCD)
+    panel.gcdCheck:SetChecked(not WoWTools_CursorMixin:Save().disabledGCD)
     panel.gcdCheck:SetPoint("TOPLEFT", 0, -35)
     panel.gcdCheck.text:SetText((WoWTools_L.ENABLE).. ' GCD')
     panel.gcdCheck:SetScript('OnMouseDown', function()
-        Save().disabledGCD = not Save().disabledGCD and true or nil
+        WoWTools_CursorMixin:Save().disabledGCD = not WoWTools_CursorMixin:Save().disabledGCD and true or nil
         WoWTools_CursorMixin:GCD_Settings(true)
         WoWTools_CursorMixin:Set_Options(panel)
     end)

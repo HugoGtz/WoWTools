@@ -75,34 +75,31 @@ local P_Save={
 
 
 
+--Lienzo de la página de opciones del cursor
 local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
 
+--Módulo registrado con la API común (docs/REFACTOR.md, R2).
+--'disabled' aquí es el rastro del cursor (desactivado por defecto), no el módulo: las opciones y el GCD
+--arrancan siempre, por eso van en onLoad y no en onEnable. Página de opciones propia (panel=false).
+WoWTools_Module:Register({
+    key= 'Plus_Cursor',
+    name= 'Module.Cursor',
+    icon= 'newplayertutorial-icon-mouse-turn',
+    group= 'Interface',
+    defaults= P_Save,
+    mixin= WoWTools_CursorMixin,
+    panel= false,
+    onLoad= function()
+        EventUtil.RegisterOnceFrameEventAndCallback('PLAYER_ENTERING_WORLD', function()
+            WoWTools_CursorMixin:GCD_Settings()
+        end)
 
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWToolsPlus' then
+        WoWTools_CursorMixin:Set_Options(panel)
 
-            WoWToolsPlusSave['Plus_Cursor']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Cursor'], P_Save)
-            P_Save=nil
-
-            WoWTools_CursorMixin.addName= '|A:newplayertutorial-icon-mouse-turn:0:0|a'..(WoWTools_L['Module.Cursor'])
-
-            self:RegisterEvent('PLAYER_ENTERING_WORLD')
-
-            WoWTools_CursorMixin:Set_Options(self)
-
-            if C_AddOns.IsAddOnLoaded('Blizzard_Settings') then
-                self:UnregisterEvent(event)
-            end
-
-        elseif arg1=='Blizzard_Settings' and WoWToolsPlusSave then
-            WoWTools_CursorMixin:Set_Options(self)
-            self:UnregisterEvent(event)
+        if not C_AddOns.IsAddOnLoaded('Blizzard_Settings') then
+            EventUtil.ContinueOnAddOnLoaded('Blizzard_Settings', function()
+                WoWTools_CursorMixin:Set_Options(panel)
+            end)
         end
-
-    elseif event=='PLAYER_ENTERING_WORLD' then
-        WoWTools_CursorMixin:GCD_Settings()
-        self:UnregisterEvent(event)
-    end
-end)
+    end,
+})

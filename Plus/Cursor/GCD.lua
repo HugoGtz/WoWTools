@@ -1,13 +1,9 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_Cursor']
-end
-
 local GCDFrame
 
 
 local function set_GCD_Texture()
-    local index= Save().randomTexture and random(1, #Save().GCDTexture) or Save().gcdTextureIndex
-    GCDFrame.cooldown:SetSwipeTexture(Save().GCDTexture[index] or WoWTools_CursorMixin.DefaultGCDTexture)
+    local index= WoWTools_CursorMixin:Save().randomTexture and random(1, #WoWTools_CursorMixin:Save().GCDTexture) or WoWTools_CursorMixin:Save().gcdTextureIndex
+    GCDFrame.cooldown:SetSwipeTexture(WoWTools_CursorMixin:Save().GCDTexture[index] or WoWTools_CursorMixin.DefaultGCDTexture)
 end
 
 
@@ -32,7 +28,7 @@ end
 
 
 local function GCD_Settings(isTest)
-    if Save().disabledGCD then
+    if WoWTools_CursorMixin:Save().disabledGCD then
         if GCDFrame then
             GCDFrame:UnregisterEvent('SPELL_UPDATE_COOLDOWN')
             GCDFrame:SetShown(false)
@@ -40,7 +36,7 @@ local function GCD_Settings(isTest)
         return
     end
 
-    gcdSize, gcdX, gcdY= Save().gcdSize, Save().gcdX, Save().gcdY
+    gcdSize, gcdX, gcdY= WoWTools_CursorMixin:Save().gcdSize, WoWTools_CursorMixin:Save().gcdX, WoWTools_CursorMixin:Save().gcdY
 
     GCDFrame:SetSize(gcdSize*2, gcdSize*2)
 
@@ -48,7 +44,7 @@ local function GCD_Settings(isTest)
 
     GCDFrame.cooldown:SetSwipeColor(WoWTools_CursorMixin.Color:GetRGBA())
 
-    if Save().randomTexture then
+    if WoWTools_CursorMixin:Save().randomTexture then
         GCDFrame:SetScript('OnHide', function()
             set_GCD_Texture()
         end)
@@ -57,10 +53,10 @@ local function GCD_Settings(isTest)
     end
 
     GCDFrame:RegisterEvent('SPELL_UPDATE_COOLDOWN')
-    GCDFrame:SetAlpha(Save().gcdAlpha)
+    GCDFrame:SetAlpha(WoWTools_CursorMixin:Save().gcdAlpha)
 
-    GCDFrame.cooldown:SetReverse(Save().gcdReverse)
-    GCDFrame.cooldown:SetDrawBling(Save().gcdDrawBling)
+    GCDFrame.cooldown:SetReverse(WoWTools_CursorMixin:Save().gcdReverse)
+    GCDFrame.cooldown:SetDrawBling(WoWTools_CursorMixin:Save().gcdDrawBling)
 
     if isTest then
         GCDFrame:SetShown(false)
@@ -82,7 +78,7 @@ end
 
 
 local function Init()
-    if Save().disabledGCD then
+    if WoWTools_CursorMixin:Save().disabledGCD then
         return
     end
 
