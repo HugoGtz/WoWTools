@@ -296,6 +296,18 @@ end
 
 
 
+--Refresco para el Centro de control: solo si los botones ya se crearon (ventana de profesiones cargada)
+function WoWTools_ProfessionMixin:Refresh_ProfessionsFrame_Button()
+    if not _G['WoWToolsProfessionsEnableButton'] then
+        return
+    end
+    Init()
+    if Frame then
+        Frame:set_scale()
+    end
+end
+
+
 function WoWTools_ProfessionMixin:Init_ProfessionsFrame_Button()
     local btn=WoWTools_ButtonMixin:Menu(ProfessionsFrame.CloseButton, {name='WoWToolsProfessionsEnableButton'})
     btn:SetPoint('RIGHT', ProfessionsFrame.MaximizeMinimize.MinimizeButton, 'LEFT', -2, 0)
