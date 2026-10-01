@@ -36,7 +36,7 @@ DBM, WeakAuras, Bartender4, AstralKeys, MDT, MRT…). Complementa a `docs/REFACT
 | Mejora | Detalle |
 |---|---|
 | **Tiempo de espera configurable** para aceptar invitaciones e invocaciones | Hoy son 3 s fijos; reutilizar el deslizador que ya existe para la comprobación de rol |
-| **Abrir las opciones desde el compartimento de addons** (botón de la esquina del minimapa de Blizzard) y con `/wtp` | Al quitar el módulo Minimapa ya no hay acceso rápido |
+| ✅ **Abrir las opciones desde el compartimento de addons** (botón de la esquina del minimapa de Blizzard) y con `/wtp` | Al quitar el módulo Minimapa ya no hay acceso rápido |
 | **Portales de Míticas+**: en el tooltip, si lo tienes y cuánto le queda de reutilización; aviso de qué portales te faltan | La información ya está, solo falta mostrarla |
 | **Exportar / importar la configuración** (texto para copiar) | Para pasarla a otro PC o a otra cuenta |
 | **Avisos de monedas al límite** como aviso en pantalla, no en el chat | El chat ahora está silenciado por defecto |
@@ -90,6 +90,6 @@ Funciones del estilo: `Style:Panel(frame)`, `Style:Header(frame, title)`, `Style
 3. **Seguidores** (Reputación, Monedas, Eventos festivos): un único componente con el estilo (ver sección 2).
 4. **Míticas+**: información compacta por mazmorra (nivel y puntuación); el detalle, al pasar el ratón; paneles laterales
    con `Style:Panel` y sin solaparse con Raider.IO.
-5. **Panel de opciones**: nombres sin iconos pegados al texto.
+5. ✅ **Panel de opciones**: Centro de control (`docs/SETTINGS.md`), nombres sin iconos pegados al texto.
 
 Se hace junto al refactor: cada módulo que se migra a la API nueva (R2) se pasa al estilo común.

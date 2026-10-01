@@ -56,6 +56,7 @@ WoWTools_Module:Register({
     defaults= P_Save,
     mixin= WoWTools_AttributesMixin,
     panel= false,
+    toggle= true,--su casilla está en un lienzo propio: el Centro de control pone el interruptor estándar (save.disabled)
     onLoad= function()
         WoWTools_AttributesMixin:Init_Options()
     end,

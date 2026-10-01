@@ -1,7 +1,54 @@
-local Category, Layout = Settings.RegisterVerticalLayoutCategory('|TInterface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools.tga:0|t|cffff00ffWoW|r|cff00ff00Tools|r|cff00ccffPlus|r')
+--[[
+Panel de Blizzard (Opciones › AddOns). La categoría principal "WoWToolsPlus" es un lienzo (canvas)
+que dibuja el Centro de control (1_Mixin/ControlCenter.lua). Las subpáginas de los módulos
+(AddSubCategory) siguen siendo páginas verticales de Blizzard que cuelgan de ella.
+
+Las llamadas sin categoría (OnlyCheck, Check_Button... que antes iban a la página principal) ya no
+crean nada en Blizzard: se guardan en WoWTools_PanelMixin.Legacy y el Centro de control las muestra
+(como interruptor del módulo que las creó o como tarjeta propia). Devuelven un objeto que se puede
+pasar como root a otras llamadas: sus hijas también se guardan.
+]]
+
+local MainFrame= CreateFrame('Frame')--lienzo de la categoría principal (lo rellena el Centro de control)
+MainFrame:Hide()
+
+local Category, Layout = Settings.RegisterCanvasLayoutCategory(MainFrame, '|TInterface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools.tga:0|t|cffff00ffWoW|r|cff00ff00Tools|r|cff00ccffPlus|r')
+if Layout and Layout.AddAnchorPoint then--el lienzo ocupa toda la zona de contenido del panel
+    Layout:AddAnchorPoint('TOPLEFT', 0, 0)
+    Layout:AddAnchorPoint('BOTTOMRIGHT', 0, 0)
+end
 Settings.RegisterAddOnCategory(Category)
 
-WoWTools_PanelMixin={}
+WoWTools_PanelMixin={
+    Category= Category,
+    Frame= MainFrame,
+    Legacy= {},        --casillas y botones sueltos (sin categoría), en orden de creación
+    SubCategories= {}, --{name=, category=, layout=, parent=, module=, enable=} de cada AddSubCategory
+                       --(enable: su casilla "Activar", {get=, set=, tooltip=})
+}
+
+local LayoutOf= {}--categoría -> layout (las subpáginas creadas con AddSubCategory)
+local SubOf= {}--categoría -> registro de WoWTools_PanelMixin.SubCategories
+
+local function Plain(text)
+    return type(text)=='string' and text:gsub('|A.-|a', ''):gsub('|T.-|t', ''):gsub('|c%x%x%x%x%x%x%x%x', ''):gsub('|cn.-:', ''):gsub('|r', '') or ''
+end
+
+--Interruptor del módulo en el Centro de control: la casilla "Activar" de su subpágina,
+--o la casilla con el nombre del módulo que se está cargando (p. ej. Emotes en la página del Botón de chat)
+local function Note_Enable(category, name, getValue, setValue, tooltip)
+    if not (getValue and setValue) then
+        return
+    end
+    local sub= category and SubOf[category]
+    if sub and not sub.enable and name==WoWTools_L.ENABLE then
+        sub.enable= {get= getValue, set= setValue, tooltip= tooltip}
+    end
+    local M= WoWTools_Module and WoWTools_Module.Current
+    if M and not M.subToggle and M.addName and Plain(name)~='' and Plain(name)==Plain(M.addName) then
+        M.subToggle= {get= getValue, set= setValue, tooltip= tooltip}
+    end
+end
 
 
 local variableIndex=0
@@ -23,21 +70,75 @@ end
 
 
 
+
+--------------------------------------------------------------------------------
+--Elementos sueltos (antes en la página principal): se guardan para el Centro de control
+--------------------------------------------------------------------------------
+
+local Noop= function() end
+local ProxyMeta= {__index= function() return Noop end}--métodos de initializer que no hacen nada
+
+local function IsProxy(root)
+    return type(root)=='table' and rawget(root, 'WoWToolsLegacy')~=nil
+end
+
+local function Capture(kind, tab, root)
+    local entry= {
+        kind= kind,
+        tab= tab,
+        module= WoWTools_Module and WoWTools_Module.Current or nil,
+        children= {},
+    }
+    if IsProxy(root) then
+        entry.parent= root.WoWToolsLegacy
+        table.insert(root.WoWToolsLegacy.children, entry)
+    else
+        table.insert(WoWTools_PanelMixin.Legacy, entry)
+    end
+    entry.proxy= setmetatable({WoWToolsLegacy= entry}, ProxyMeta)
+    return entry.proxy
+end
+
+
+--Categoría y layout de destino; nil si iba a la página principal (entonces se guarda)
+local function Target(tab, root, needLayout)
+    if IsProxy(root) then
+        return
+    end
+    local category= tab.category
+    local layout= tab.layout or (category and LayoutOf[category])
+    if not layout and category and SettingsPanel and SettingsPanel.GetLayout then
+        layout= SettingsPanel:GetLayout(category)
+    end
+    if (not category and not tab.layout) or category==Category or layout==Layout then
+        return
+    end
+    if needLayout and not layout then
+        return
+    end
+    return category, layout
+end
+
+
+
+
 --Settings.OpenToCategory(categoryID, scrollToElementName)
+--Sin categoría (o la principal): abre el Centro de control; con name, en la página de ese módulo.
 function WoWTools_PanelMixin:Open(category, name)
+    if not (category and category.GetID) or category==Category then
+        if WoWTools_ControlCenter then
+            WoWTools_ControlCenter:Open(name)
+        elseif not InCombatLockdown() then
+            Settings.OpenToCategory(Category:GetID())
+        end
+        return
+    end
     if InCombatLockdown() then
         return
     end
-
-    category= (category and category.GetID) and category or Category
     Category.expanded=true
-
-    
-        name= name or category:GetName()
-    
-
+    name= name or category:GetName()
     category.OnEvaluateState= category.OnEvaluateState or function()end
-
     Settings.OpenToCategory(category:GetID(), name)
 end
 
@@ -51,17 +152,37 @@ function WoWTools_PanelMixin:AddSubCategory(tab)
     end
 
     local name= (disabled and '|cff828282' or '')..tab.name
+    local parent= tab.category or Category
 
+    local category, layout
     if tab.frame then
-        return Settings.RegisterCanvasLayoutSubcategory(tab.category or Category, tab.frame, name)
+        category, layout= Settings.RegisterCanvasLayoutSubcategory(parent, tab.frame, name)
     else
-        return Settings.RegisterVerticalLayoutSubcategory(tab.category or Category, name)--Blizzard_SettingsInbound.lua
+        category, layout= Settings.RegisterVerticalLayoutSubcategory(parent, name)--Blizzard_SettingsInbound.lua
     end
+
+    if category then
+        if layout then
+            LayoutOf[category]= layout
+        end
+        local sub= {
+            name= tab.name,
+            category= category,
+            layout= layout,
+            parent= parent,
+            module= WoWTools_Module and WoWTools_Module.Current or nil,
+        }
+        SubOf[category]= sub
+        table.insert(self.SubCategories, sub)
+    end
+    return category, layout
 end
 
 
 function WoWTools_PanelMixin:Header(layout, title)
-    layout= layout or Layout
+    if not layout or layout==Layout then--la página principal ya no es una lista: los títulos sueltos se ignoran
+        return
+    end
     layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(title))
 end
 
@@ -82,6 +203,7 @@ local function Bool_Setter(getValue, setValue)
         end
     end
 end
+WoWTools_PanelMixin.Bool_Setter= Bool_Setter
 
 --Valor por defecto: tab.default si se indica (valor de fábrica); si no, el valor actual al registrar.
 local function Get_Default(default, getValue, value2)
@@ -92,8 +214,12 @@ local function Get_Default(default, getValue, value2)
 end
 
 function WoWTools_PanelMixin:OnlyCheck(tab, root)
+    local category= Target(tab, root)
+    if not category then
+        return Capture('check', tab, root)
+    end
     local setting=Settings.RegisterProxySetting(
-        tab.category or Category,
+        category,
         Set_VariableIndex(),
         Settings.VarType.Boolean,
         tab.name,
@@ -102,7 +228,8 @@ function WoWTools_PanelMixin:OnlyCheck(tab, root)
         Bool_Setter(tab.GetValue, tab.SetValue or tab.func)
     )
 
-    local sub= Settings.CreateCheckbox(tab.category or Category, setting, tab.tooltip)
+    local sub= Settings.CreateCheckbox(category, setting, tab.tooltip)
+    Note_Enable(category, tab.name, tab.GetValue, setting and Bool_Setter(tab.GetValue, tab.SetValue or tab.func), tab.tooltip)
 
     if root then
         sub:SetParentInitializer(root)
@@ -113,7 +240,10 @@ end
 
 --CreateSettingsButtonInitializer(name, buttonText, buttonClick, tooltip, addSearchTags)
 function WoWTools_PanelMixin:OnlyButton(tab, root)
-    local layout= tab.layout or Layout
+    local _, layout= Target(tab, root, true)
+    if not layout then
+        return Capture('button', tab, root)
+    end
     local sub= CreateSettingsButtonInitializer(--Blizzard_SettingControls.lua
         tab.title or tab.name or '',
         tab.buttonText or '',
@@ -132,8 +262,12 @@ end
 
 
 function WoWTools_PanelMixin:OnlyMenu(tab, root)
+    local category= Target(tab, root)
+    if not category then
+        return Capture('menu', tab, root)
+    end
     local setting= Settings.RegisterProxySetting(--categoryTbl, variable, variableType, name, defaultValue, getValue, setValue
-        tab.category or Category,
+        category,
         Set_VariableIndex(),
         Settings.VarType.Number,
         tab.name,
@@ -143,7 +277,7 @@ function WoWTools_PanelMixin:OnlyMenu(tab, root)
     )
 
     local sub= Settings.CreateDropdown(--setting, options, tooltip
-        tab.category or Category,
+        category,
         setting,
         tab.GetOptions,
         tab.tooltip
@@ -159,9 +293,12 @@ end
 --Blizzard_SettingControls.lua
 --CreateSettingsCheckboxDropdownInitializer(cbSetting, cbLabel, cbTooltip, dropdownSetting, dropdownOptions, dropDownLabel, dropDownTooltip)
 function WoWTools_PanelMixin:CheckMenu(tab, root)
-    local layout= tab.layout or Layout
+    local category, layout= Target(tab, root, true)
+    if not category then
+        return Capture('checkMenu', tab, root)
+    end
     local cbSetting=Settings.RegisterProxySetting(
-        tab.category or Category,--categoryTbl
+        category,--categoryTbl
         Set_VariableIndex(),--variable
         Settings.VarType.Boolean,--variableType
         tab.name,--name
@@ -171,7 +308,7 @@ function WoWTools_PanelMixin:CheckMenu(tab, root)
     )
 
     local dropdownSetting= Settings.RegisterProxySetting(--categoryTbl, variable, variableType, name, defaultValue, getValue, setValue
-        tab.category or Category,
+        category,
         Set_VariableIndex(),
         Settings.VarType.Number,
         tab.name,
@@ -207,9 +344,12 @@ end
 --CreateSettingsCheckboxWithButtonInitializer(setting, buttonText, buttonClick, evaluateState, clickRequiresSet, tooltip)
 
 function WoWTools_PanelMixin:Check_Button(tab, root)
-    local layout= tab.layout or Layout
+    local category, layout= Target(tab, root, true)
+    if not category then
+        return Capture('checkButton', tab, root)
+    end
     local checkSetting=Settings.RegisterProxySetting(
-        tab.category or Category,
+        category,
         Set_VariableIndex(),
         Settings.VarType.Boolean,
         tab.checkName,
@@ -217,6 +357,7 @@ function WoWTools_PanelMixin:Check_Button(tab, root)
         tab.GetValue,
         Bool_Setter(tab.GetValue, tab.SetValue)
     )
+    Note_Enable(category, tab.checkName, tab.GetValue, Bool_Setter(tab.GetValue, tab.SetValue), tab.tooltip)
     local sub= CreateSettingsCheckboxWithButtonInitializer(
         checkSetting,--setting
         tab.buttonText,--buttonText
@@ -234,9 +375,12 @@ end
 
 
 function WoWTools_PanelMixin:Check_Slider(tab, root)
-    local layout= tab.layout or Layout
+    local category, layout= Target(tab, root, true)
+    if not category then
+        return Capture('checkSlider', tab, root)
+    end
     local checkSetting=Settings.RegisterProxySetting(
-        tab.category or Category,
+        category,
         Set_VariableIndex(),
         Settings.VarType.Boolean,
         tab.checkName,
@@ -246,7 +390,7 @@ function WoWTools_PanelMixin:Check_Slider(tab, root)
     )
 
     local sliderSetting = Settings.RegisterProxySetting(
-        tab.category or Category,
+        category,
         Set_VariableIndex(),
         Settings.VarType.Number,
         tab.sliderName or tab.checkName,
@@ -283,8 +427,12 @@ end
 
 
 function WoWTools_PanelMixin:OnlySlider(tab, root)
+    local category= Target(tab, root)
+    if not category then
+        return Capture('slider', tab, root)
+    end
     local setting = Settings.RegisterProxySetting(
-        tab.category or Category,
+        category,
         Set_VariableIndex(),
         Settings.VarType.Number,
         tab.name,
@@ -298,7 +446,7 @@ function WoWTools_PanelMixin:OnlySlider(tab, root)
         return WoWTools_DataMixin:GetFormatter1to10(value or 1, 0, 1)
     end)
 
-    local sub=Settings.CreateSlider(tab.category or Category, setting, options, tab.tooltip);
+    local sub=Settings.CreateSlider(category, setting, options, tab.tooltip);
     Settings.SetOnValueChangedCallback(setting:GetVariable(), tab.SetValue)
 
     if root then
@@ -368,119 +516,11 @@ function WoWTools_PanelMixin:ReloadButton(tab)
     end
 end
 
---[[
-Reorganiza la página principal (fork): los módulos se registran en el orden en que carga cada archivo.
-Aquí se agrupan por tema, con un encabezado por grupo, y se ordenan por nombre dentro de cada grupo.
-startIndex: primer elemento que se reorganiza (lo anterior, p. ej. "General", se deja igual).
-groups: { {title='Interfaz', names={addName, ...}}, ... }. Lo que no encaje va al grupo "Otros".
-Si la estructura interna de Blizzard no es la esperada, no se toca nada.
-]]
-local function Get_Init_Name(init)
-    local data= type(init)=='table' and init.data
-    if type(data)~='table' then
-        return
-    end
-    if data.setting and data.setting.GetName then
-        return data.setting:GetName()
-    end
-    return data.name
-end
 
-local function Get_Parent(init)
-    return init.parentInitializer or (init.GetParentInitializer and init:GetParentInitializer())
-end
-
-local function Plain_Name(name)
-    return (name or ''):gsub('|A.-|a', ''):gsub('|T.-|t', ''):gsub('|c%x%x%x%x%x%x%x%x', ''):gsub('|cn.-:', ''):gsub('|r', ''):gsub('^%s+', '')
-end
-
-function WoWTools_PanelMixin:Organize_Main(startIndex, groups, otherTitle)
-    local ok, err= pcall(function()
-        local list= Layout.GetInitializers and Layout:GetInitializers()
-        if type(list)~='table' or #list<startIndex then
-            return
-        end
-
-        --Bloques: un elemento principal y los hijos que lo siguen
-        local blocks= {}
-        for index= startIndex, #list do
-            local init= list[index]
-            local isHeader= init.GetTemplate and init:GetTemplate()=='SettingsListSectionHeaderTemplate'
-            if isHeader then
-                --los encabezados sueltos antiguos se descartan; se crean de nuevo por grupo
-            else
-            if Get_Parent(init) and #blocks>0 then
-                table.insert(blocks[#blocks].items, init)
-            else
-                table.insert(blocks, {name= Get_Init_Name(init), items= {init}})
-            end
-            end
-        end
-
-        local groupBlocks= {}
-        local other= {}
-        for _, block in ipairs(blocks) do
-            local found
-            if block.name then
-                for gIndex, group in ipairs(groups) do
-                    for _, name in ipairs(group.names) do
-                        if name and name~='' and block.name:find(name, 1, true) then
-                            found= gIndex
-                            break
-                        end
-                    end
-                    if found then
-                        break
-                    end
-                end
-            end
-            if found then
-                groupBlocks[found]= groupBlocks[found] or {}
-                table.insert(groupBlocks[found], block)
-            elseif block.name then--los encabezados sueltos antiguos (sin nombre) se descartan
-                table.insert(other, block)
-            end
-        end
-
-        local function Sort(tab)
-            table.sort(tab, function(a, b)
-                local x, y= Plain_Name(a.name), Plain_Name(b.name)
-                if strcmputf8i then
-                    return strcmputf8i(x, y)<0
-                end
-                return x<y
-            end)
-        end
-
-        local newList= {}
-        for index= 1, startIndex-1 do
-            newList[index]= list[index]
-        end
-        local function Add(title, tab)
-            if not tab or #tab==0 then
-                return
-            end
-            Sort(tab)
-            table.insert(newList, CreateSettingsListSectionHeaderInitializer(title))
-            for _, block in ipairs(tab) do
-                for _, init in ipairs(block.items) do
-                    table.insert(newList, init)
-                end
-            end
-        end
-        for gIndex, group in ipairs(groups) do
-            Add(group.title, groupBlocks[gIndex])
-        end
-        Add(otherTitle, other)
-
-        wipe(list)
-        for index, init in ipairs(newList) do
-            list[index]= init
-        end
-    end)
+--Compatibilidad: la página principal ya no es una lista que haya que reorganizar (la agrupa el Centro de control)
+function WoWTools_PanelMixin:Organize_Main()
 end
 
 function WoWTools_PanelMixin:GetMainCount()
-    local list= Layout.GetInitializers and Layout:GetInitializers()
-    return type(list)=='table' and #list or 0
+    return 0
 end

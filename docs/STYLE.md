@@ -16,11 +16,19 @@ Cámbialos solo en `Style.lua`; los módulos los leen, nunca copian los números
 | `Style.Color.button` | blanco 5 % | relleno de botón plano |
 | `Style.Color.text` / `muted` / `disabled` | blanco / gris 70 % / gris 50 % | texto |
 | `Style.Color.accent` | color de la clase (o el elegido con `SetAccent`) | hover, activo, títulos |
+| `Style.Color.inset` | negro 30 % | zona hundida (barra lateral) |
+| `Style.Color.track` | blanco 15 % | carril de interruptores, deslizadores y barras de desplazamiento |
+| `Style.Color.warning` | amarillo (1, 0.82, 0) | avisos ("requiere /reload") |
 | `Style.Alpha.hover` / `selected` / `active` / `disabled` | 0.15 / 0.25 / 0.60 / 0.40 | estados |
 | `Style.Size.grid` / `pad` / `gap` | 4 / 4 / 2 | rejilla, margen interior, hueco entre iconos |
 | `Style.Size.row` / `header` | 20 / 20 | alto de fila y de cabecera |
 | `Style.Size.icon.small` / `normal` / `large` | 16 / 20 / 32 | iconos |
 | `Style.Size.crop` | 0.08 | recorte de iconos |
+| `Style.Size.control` / `option` | 24 / 32 | alto de un control (botón, desplegable, campo) / alto mínimo de una fila de opción |
+| `Style.Size.card` / `nav` / `sidebar` | 76 / 28 / 176 | tarjeta de módulo / elemento y ancho de la barra lateral |
+| `Style.Size.switch` | `{w=32, h=16, knob=12}` | interruptor |
+| `Style.Size.slider` | `{track=4, thumb=12, value=44}` | deslizador (carril, tirador, campo del valor) |
+| `Style.Size.scrollbar` | 4 | ancho visible de la barra de desplazamiento |
 | `Style.Font.small` / `normal` / `medium` / `large` | `GameFontHighlightSmall` / `GameFontHighlight` / `...Medium` / `...Large` | fuentes |
 
 Los colores son tablas `{r, g, b, a}`. `Style:Space(n)` devuelve `n * 4`.
@@ -43,6 +51,30 @@ Si el marco está protegido y estás en combate, la llamada se aplaza hasta `PLA
 | `Style:SetActive(frame, bool)` | Estado activo/seleccionado: borde de acento al 60 % (y relleno en filas). |
 | `Style:Outline(region)` | Contorno de acento compartido alrededor de cualquier región, también texturas sueltas. `Style:Outline(nil)` lo oculta. |
 | `Style:SetAccent(r, g, b)` / `:GetAccent()` | Cambia el acento (se guarda en `WoWToolsPlusSave.Style`) y repinta lo que lo usa. `SetAccent()` sin valores vuelve al color de la clase. |
+| `Style:Line(frame, vertical)` | Línea de 1 px con el color del borde (separadores). |
+| `Style:Accent(texture, alpha)` | Pinta una textura con el acento y la repinta en `SetAccent`. |
+| `Style:SetIcon(texture, icono, reserva)` | Atlas si existe (`C_Texture.GetAtlasInfo`), si no textura o la de reserva; limpia las coordenadas de un atlas anterior (marcos reciclados). Después, `Style:Icon` para recortar. |
+| `Style:SetTooltip(frame, título, texto, anclaje)` | Tooltip de Blizzard con título y descripción (textos o funciones). Usa `HookScript`. |
+
+## Componentes (constructores)
+
+Crean marcos propios ya con el estilo. Avisan de lo que hace el jugador con un campo de función; los `Set*` hechos por
+código **no** lo llaman (así no hay bucles al cargar valores). Los usa el Centro de control (`SETTINGS.md`).
+
+| Función | Aspecto y estados | API |
+|---|---|---|
+| `Style:CreateSwitch(parent)` | 32×16: carril blanco 15 % (apagado) o acento 60 % (encendido), botón de 12 px (gris a la izquierda / blanco a la derecha). Borde de acento con el ratón encima. Área de clic +4 px. Desactivado 40 %. | `:SetChecked(v)`, `:GetChecked()`, `.onChange(self, v)`, `:Enable()/:Disable()` |
+| `Style:CreateSlider(parent, ancho)` | Carril de 4 px, relleno de acento hasta el tirador (12 px, blanco; acento con el ratón encima) y valor editable de 44 px a la derecha. | `:SetRange(min, max, paso)`, `:SetValue(v)`, `:GetValue()`, `.format`, `:SetEnabled(b)`, `.onChange(self, v)` |
+| `Style:CreateDropdown(parent, ancho)` | Botón plano 24 px con el valor y flecha; abre el menú de Blizzard (`MenuUtil`) con opciones de radio. | `.values` (lista `{value, text}` o función), `:SetValue(v)`, `.onChange(self, v)` |
+| `Style:CreateColorSwatch(parent)` | Muestra 40×24 con borde y el código `#RRGGBB` a la izquierda; abre `ColorPickerFrame` (Cancelar vuelve al color anterior). | `:SetColor(r, g, b, a)`, `.hasAlpha`, `.onChange(self, r, g, b, a)` |
+| `Style:CreateInput(parent, ancho)` | Campo plano 24 px, borde de acento con el foco, texto de ayuda atenuado si está vacío. Intro o perder el foco guarda; Esc deshace. | `:SetValue(t)`, `:SetPlaceholder(t)`, `.onCommit(self, t)`, `.onTextChanged(self, t, userInput)` |
+| `Style:CreateButton(parent, texto, opts)` | Botón plano 24 px, ancho según el texto (mín. 64), icono opcional de 16. | `:SetLabel(t)`; `opts={icon=, fallback=, width=}` |
+| `Style:CreateScroll(parent)` | ScrollFrame + hijo (`.Child`) + barra fina de 4 px (solo si hace falta; acento al pasar el ratón o arrastrar). Rueda: 48 px. | `:SetContentHeight(h)`, `:ScrollTo(y)` |
+| `Style:CreateNavItem(parent)` | Fila de 28 px: icono 16, texto y contador. Seleccionado: relleno 25 % y barra de acento de 2 px a la izquierda; texto blanco (atenuado si no). | `.Icon`, `.Text`, `.Count`, `:SetSelected(b)` |
+| `Style:CreateCard(parent)` | Tarjeta de 76 px (botón plano): icono 32, título, descripción de 2 líneas, interruptor arriba a la derecha, pie que se ilumina con el acento al pasar el ratón y aviso (`Badge`) abajo a la izquierda. | `.Icon`, `.Title`, `.Desc`, `.Switch`, `.Footer`, `.Badge`, `:SetDimmed(b)` |
+
+Espaciado del Centro de control (todo múltiplo de 4): margen de contenido 16, separación entre tarjetas 8, margen
+interior de filas y tarjetas 8/12, secciones de 24 px con 4 px debajo, cabecera de 48 px y barra de recarga de 40 px.
 
 ## Ejemplos
 

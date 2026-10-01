@@ -10,8 +10,9 @@
 ###IconAtlas: orderhalltalents-done-glow
 ## X-Website: https://github.com/HugoGtz/WoWTools
 ## OptionalDeps: LibStub-1.0, CallbackHandler-1.0, LibDataBroker-1.1, LibDBIcon-1.0, LibRangeCheck-3.0
-####AddonCompartmentFunc: WowTools_OnAddonCompartmentClick
-####AddonCompartmentFuncOnEnter: WowTools_OnAddonCompartmentFuncOnEnter
+## AddonCompartmentFunc: WoWToolsPlus_OnAddonCompartmentClick
+## AddonCompartmentFuncOnEnter: WoWToolsPlus_OnAddonCompartmentEnter
+## AddonCompartmentFuncOnLeave: WoWToolsPlus_OnAddonCompartmentLeave
 
 Source\Libs\LibStub.lua
 Source\Libs\CallbackHandler-1.0.lua
@@ -57,6 +58,8 @@ Source\Libs\LibRangeCheck-3.0.lua
 1_Mixin\Style.lua
 1_Mixin\Module.lua
 1_Mixin\BagScan.lua
+1_Mixin\Options.lua
+1_Mixin\ControlCenter.lua
 
 2_Template\Button.lua
 2_Template\Button.xml
