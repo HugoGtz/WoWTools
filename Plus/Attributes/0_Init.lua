@@ -47,18 +47,17 @@ local P_Save={
 -- STAT_CATEGORY_ATTRIBUTES--PaperDollFrame.lua
 
 --Módulo registrado con la API común (docs/REFACTOR.md, R2).
---Tiene su propia página de opciones con su casilla (panel=false), que se crea siempre (onLoad).
+--Opciones: esquema del Centro de control (5_Blizzard_Settings.lua); interruptor estándar (save.disabled, pide /reload).
 WoWTools_Module:Register({
     key= 'Plus_Attributes',
     name= 'Module.Attributes',
     icon= 'charactercreate-icon-customize-body-selected',
     group= 'Interface',
+    tooltip= 'Tip.Attributes.Enable',
     defaults= P_Save,
     mixin= WoWTools_AttributesMixin,
-    panel= false,
-    toggle= true,--su casilla está en un lienzo propio: el Centro de control pone el interruptor estándar (save.disabled)
-    onLoad= function()
-        WoWTools_AttributesMixin:Init_Options()
+    options= function()
+        return WoWTools_AttributesMixin:Get_Options()
     end,
     events= {PLAYER_ENTERING_WORLD= function()
         do

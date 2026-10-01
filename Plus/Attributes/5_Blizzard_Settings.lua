@@ -1,685 +1,362 @@
-local Frame=CreateFrame('Frame')
-local Category
+--Opciones de Atributos para el Centro de control (esquema de docs/SETTINGS.md).
+--Antes era una subpágina de Blizzard con marcos propios; ahora todo está en el esquema `options` (0_Init.lua).
 
-
-local Init_Options= WoWTools_Once(function()
-    local last, check, findTank, findDps
-    local Tabs= WoWTools_AttributesMixin:Get_Tabs()
-
-    for index, info in pairs(Tabs) do
-        if info.dps and not findDps then
-            check=WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
-            check:SetChecked(WoWTools_AttributesMixin:Save().onlyDPS)
-            check:SetPoint('TOPLEFT', last, 'BOTTOMLEFT',0, -16)
-            check.text:SetFormattedText(LFG_LIST_CROSS_FACTION , INLINE_DAMAGER_ICON..INLINE_HEALER_ICON)
-            check:SetScript('OnMouseUp',function()
-                WoWTools_AttributesMixin:Save().onlyDPS = not WoWTools_AttributesMixin:Save().onlyDPS and true or false
-                WoWTools_AttributesMixin:Frame_Init(true)
-            end)
-            findDps=true
-            last=check
-
-        elseif info.tank and not findTank then
-            local text= WoWTools_LabelMixin:Create(Frame)
-            text:SetPoint('TOPLEFT', last, 'BOTTOMLEFT',0, -16)
-            text:SetFormattedText(LFG_LIST_CROSS_FACTION , INLINE_TANK_ICON)
-            findTank=true
-            last= text
-        end
-
-        check= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
-        check:SetChecked(not WoWTools_AttributesMixin:Save().tab[info.name].hide)
-        if info.name=='STATUS' or info.name=='SPEED' or info.name=='LIFESTEAL' then
-            if last then
-                check:SetPoint('TOPLEFT', last, 'BOTTOMLEFT',0, -16)
-            else
-                check:SetPoint('TOPLEFT', 0, -32)
-            end
-        else
-            check:SetPoint('TOPLEFT', last, 'BOTTOMLEFT',0, 6)
-        end
-        check.name= info.name
-        check.text2= info.text
-        check.zeroShow= info.zeroShow
-
-        check:SetScript('OnMouseUp',function(self)
-            WoWTools_AttributesMixin:Save().tab[self.name].hide= not WoWTools_AttributesMixin:Save().tab[self.name].hide and true or nil
-            WoWTools_AttributesMixin:Frame_Init(true)
-        end)
-        check:SetScript('OnEnter', function(self)
-            GameTooltip:SetOwner(self, "ANCHOR_LEFT")
-            GameTooltip:ClearLines()
-            local btn= _G['WoWToolsAttributesMainButton']
-            if btn then
-                local value= btn[self.name] and btn[self.name].value
-                GameTooltip:AddDoubleLine(self.text2, format('%.2f%%', value or 0))
-            end
-            if not info.zeroShow then
-                GameTooltip:AddLine(' ')
-                GameTooltip:AddDoubleLine(WoWTools_TextMixin:GetShowHide(not WoWTools_AttributesMixin:Save().tab[self.name].hide), (WoWTools_L['value: '])..' < 1 ='..(WoWTools_L.HIDE))
-            end
-            GameTooltip:Show()
-        end)
-        check:SetScript('OnLeave', GameTooltip_Hide)
-
-        local text= WoWTools_LabelMixin:Create(check, {color={r=info.r or 1, g=info.g or 0.82, b=info.b or 0, a=info.a or 1}})--nil, nil, nil, {r,g,b,a})--Text
-        text:SetPoint('LEFT', check, 'RIGHT')
-        text:SetText(info.text)
-        if index>1 then
-            text:EnableMouse(true)
-            text.name= info.name
-            text.text= info.text
-            text:SetScript('OnMouseDown', function(self)
-                local R,G,B,A= WoWTools_AttributesMixin:Save().tab[self.name].r, WoWTools_AttributesMixin:Save().tab[self.name].g, WoWTools_AttributesMixin:Save().tab[self.name].r, WoWTools_AttributesMixin:Save().tab[self.name].a or 1-- self.r, self.g, self.b, self.a
-                local setA, setR, setG, setB
-                local function func()
-                    WoWTools_AttributesMixin:Save().tab[self.name].r= setR
-                    WoWTools_AttributesMixin:Save().tab[self.name].g= setG
-                    WoWTools_AttributesMixin:Save().tab[self.name].b= setB
-                    WoWTools_AttributesMixin:Save().tab[self.name].a= setA
-                    self:SetTextColor(setR, setG, setB, setA)
-                    local btn= _G['WoWToolsAttributesMainButton']
-                    if btn and btn[self.name] then
-                        if btn[self.name].label then
-                            btn[self.name].label:SetTextColor(setR, setG, setB, setA)
-                        end
-                        if btn[self.name].bar then
-                            btn[self.name].bar:SetStatusBarColor(setR,setG,setB,setA)
-                        end
-                    end
-                end
-                WoWTools_ColorMixin:ShowColorFrame(R,G,B,A, function()
-                        setR, setG, setB, setA = WoWTools_ColorMixin:Get_ColorFrameRGBA()
-                        func()
-                    end,function()
-                         setR, setG, setB, setA= R,G,B,A
-                        func()
-                    end
-                )
-            end)
-            text:SetScript('OnEnter', function(self)
-                local r2= WoWTools_AttributesMixin:Save().tab[self.name].r or 1
-                local g2= WoWTools_AttributesMixin:Save().tab[self.name].g or 0.82
-                local b2= WoWTools_AttributesMixin:Save().tab[self.name].b or 0
-                local a2= WoWTools_AttributesMixin:Save().tab[self.name].a or 1
-                GameTooltip:SetOwner(self, "ANCHOR_LEFT")
-                GameTooltip:ClearLines()
-                GameTooltip:AddDoubleLine(self.text, self.name, r2, g2, b2)
-                GameTooltip:AddDoubleLine(WoWTools_L.SETTINGS, (WoWTools_L.COLOR)..WoWTools_DataMixin.Icon.left)
-                GameTooltip:AddLine(' ')
-                GameTooltip:AddDoubleLine(format('r%.2f', r2)..format('  g%.2f', g2)..format('  b%.2f', b2), format('a%.2f', a2))
-                GameTooltip:Show()
-                self:SetAlpha(0.3)
-            end)
-            text:SetScript('OnLeave', function(self) GameTooltip:Hide() self:SetAlpha(1) end)
-        end
-
-        if info.name=='STATUS' then
-            local current= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
-            current:SetChecked(WoWTools_AttributesMixin:Save().tab[info.name].bar)
-            current:SetPoint('LEFT', text, 'RIGHT',2,0)
-            current.text:SetText('Bar')
-            current.text:SetTextColor(PlayerUtil.GetClassColor():GetRGB())
-            current:SetScript('OnMouseUp',function()
-                WoWTools_AttributesMixin:Save().tab['STATUS'].bar= not WoWTools_AttributesMixin:Save().tab['STATUS'].bar and true or false
-                WoWTools_AttributesMixin:Frame_Init(true)
-            end)
-            current:SetScript('OnEnter', function(self)
-                WoWTools_AttributesMixin:Set_Tooltips(self, nil)
-                self:SetAlpha(0.3)
-            end)
-            current:SetScript('OnLeave', function(self2) GameTooltip:Hide() self2:SetAlpha(1) end)
-            current.name= info.name
-
-            local sliderBit=WoWTools_SliderMixin:CSlider(Frame, {w=100,h=20, min=0, max=3, value=WoWTools_AttributesMixin:Save().tab['STATUS'].bit or 3, setp=1, color=nil,
-                text= WoWTools_ColorMixin:SetStringColor(WoWTools_L['Decimals']),
-                func=function(self, value)
-                    value= math.floor(value)
-                    self:SetValue(value)
-                    self.Text:SetText(value)
-                    WoWTools_AttributesMixin:Save().tab['STATUS'].bit= value==0 and 0 or value
-                    WoWTools_AttributesMixin:Frame_Init(true)
-                end,
-                tips=nil
-            })
-            sliderBit:SetPoint("LEFT", current.text, 'RIGHT', 6,0)
-            sliderBit:SetSize(100,20)
-
-
-
-        elseif info.name=='VERSATILITY' then
-            local check2=WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
-            check2:SetChecked(WoWTools_AttributesMixin:Save().tab['VERSATILITY'].onlyDefense)
-            check2:SetPoint('LEFT', text, 'RIGHT',2,0)
-            check2.text:SetText((WoWTools_L['Defense only']))
-            check2:SetScript('OnMouseDown', function(self)
-                WoWTools_AttributesMixin:Save().tab['VERSATILITY'].onlyDefense= not WoWTools_AttributesMixin:Save().tab['VERSATILITY'].onlyDefense and true or nil
-                if WoWTools_AttributesMixin:Save().tab['VERSATILITY'].onlyDefense then
-                    check2.A.text:SetTextColor(0.62, 0.62, 0.62)
-                else
-                    check2.A.text:SetTextColor(1, 0.82, 0)
-                end
-                WoWTools_AttributesMixin:Frame_Init(true)
-            end)
-            check2:SetScript('OnEnter', function(self)
-                WoWTools_AttributesMixin:Set_Tooltips(self, nil)
-                self:SetAlpha(0.3)
-            end)
-            check2:SetScript('OnLeave', function(self)
-                GameTooltip:Hide()
-                self:SetAlpha(1)
-            end)
-            check2.name= info.name
-
-            check2.A=WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
-            check2.A:SetChecked(WoWTools_AttributesMixin:Save().tab['VERSATILITY'].damageAndDefense)
-            check2.A:SetPoint('LEFT', check2.text, 'RIGHT',2,0)
-            check2.A.text:SetText('22/18%')
-            check2.A:SetScript('OnMouseDown', function(self)
-                WoWTools_AttributesMixin:Save().tab['VERSATILITY'].damageAndDefense= not WoWTools_AttributesMixin:Save().tab['VERSATILITY'].damageAndDefense and true or nil
-                WoWTools_AttributesMixin:Frame_Init(true)
-            end)
-            check2.A:SetScript('OnEnter', function(self)
-                WoWTools_AttributesMixin:Set_Tooltips(self, nil)
-                self:SetAlpha(0.3)
-            end)
-            check2.A:SetScript('OnLeave', function(self)
-                GameTooltip:Hide()
-                self:SetAlpha(1)
-            end)
-            check2.A.name= info.name
-
-            if WoWTools_AttributesMixin:Save().tab['VERSATILITY'].onlyDefense then
-                check2.A.text:SetTextColor(0.62, 0.62, 0.62)
-            end
-        end
-        last= check
-    end
-
-
-
-    local text= WoWTools_LabelMixin:Create(Frame, {size=26})--26)--Text
-    text:SetPoint('TOPLEFT', last, 'BOTTOMLEFT',0, -30)
-    --text:SetPoint('TOPLEFT', last, 'BOTTOMLEFT',0, -16)
-    text:SetText(WoWTools_L['Shadow'])
-    text:EnableMouse(true)
-    text.r, text.g, text.b, text.a= WoWTools_AttributesMixin:Save().font.r, WoWTools_AttributesMixin:Save().font.g, WoWTools_AttributesMixin:Save().font.b, WoWTools_AttributesMixin:Save().font.a
-    WoWTools_AttributesMixin:Set_Shadow(text)
-    text:SetScript('OnMouseDown', function(self)
-        local R,G,B,A= self.r, self.g, self.b, self.a
-        local setA, setR, setG, setB
-        local function func()
-            WoWTools_AttributesMixin:Save().font.r= setR
-            WoWTools_AttributesMixin:Save().font.g= setG
-            WoWTools_AttributesMixin:Save().font.b= setB
-            WoWTools_AttributesMixin:Save().font.a= setA
-            WoWTools_AttributesMixin:Set_Shadow(self)
-            WoWTools_AttributesMixin:Frame_Init(true)
-        end
-        WoWTools_ColorMixin:ShowColorFrame(self.r, self.g, self.b, self.a, function()
-                setR, setG, setB, setA = WoWTools_ColorMixin:Get_ColorFrameRGBA()
-                func()
-            end, function()
-                setR, setG, setB, setA= R,G,B,A
-                func()
-            end
-        )
-    end)
-    text:SetScript('OnLeave', function(self2) self2:SetAlpha(1) GameTooltip:Hide() end)
-    text:SetScript('OnEnter', function(self2)
-        GameTooltip:SetOwner(self2, "ANCHOR_LEFT")
-        GameTooltip:ClearLines()
-        GameTooltip:AddDoubleLine(WoWTools_L.SETTINGS, (WoWTools_L['Shadow'])..WoWTools_DataMixin.Icon.left..(WoWTools_L.COLOR))
-        GameTooltip:AddDoubleLine('r'..(self2.r or 1)..' g'..(self2.g or 1)..' b'..(self2.b or 1), 'a'..(self2.a or 1))
-        GameTooltip:Show()
-        self2:SetAlpha(0.3)
-    end)
-
-    local sliderX=WoWTools_SliderMixin:CSlider(Frame, {w=120 ,h=20, min=-5, max=5, value=WoWTools_AttributesMixin:Save().font.x, setp=1, color=nil,
-        text='X',
-        func=function(self, value)
-            value= math.floor(value)
-            self:SetValue(value)
-            self.Text:SetText(value)
-            WoWTools_AttributesMixin:Save().font.x= value==0 and 0 or value
-            WoWTools_AttributesMixin:Set_Shadow(self.text)
-            WoWTools_AttributesMixin:Frame_Init(true)
-        end, tips=nil
-    })
-    sliderX:SetPoint("TOPLEFT", text, 'BOTTOMLEFT',0,-12)
-    sliderX.text= text
-
-    local sliderY= WoWTools_SliderMixin:CSlider(Frame, {w=120 ,h=20, min=-5, max=5, value=WoWTools_AttributesMixin:Save().font.y, setp=1, color=true,
-        text='Y', func=function(self, value, userInput)
-            value= math.floor(value)
-            self:SetValue(value)
-            self.Text:SetText(value)
-            WoWTools_AttributesMixin:Save().font.y= value==0 and 0 or value
-            WoWTools_AttributesMixin:Set_Shadow(self.text)
-            WoWTools_AttributesMixin:Frame_Init(true)
-        end, tips=nil
-    })
-    sliderY:SetPoint("LEFT", sliderX, 'RIGHT', 2, 0)
-    sliderY.text= text
-
-    local notTextCheck= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
-    notTextCheck:SetPoint("TOPLEFT", Frame, 'TOP', 0, -32)
-    notTextCheck.text:SetText(WoWTools_L['Hide values'])
-    notTextCheck:SetChecked(WoWTools_AttributesMixin:Save().notText)
-    notTextCheck:SetScript('OnMouseDown', function()
-        WoWTools_AttributesMixin:Save().notText= not WoWTools_AttributesMixin:Save().notText and true or nil
-        WoWTools_AttributesMixin:Frame_Init(true)
-    end)
-
-    local textColor= WoWTools_LabelMixin:Create(Frame, {size=20})
-    textColor:SetPoint('LEFT', notTextCheck.text,'RIGHT', 5, 0)
-    textColor:EnableMouse(true)
-    textColor:SetScript('OnLeave', function(self) GameTooltip:Hide() self:SetAlpha(1) end)
-    textColor:SetScript('OnEnter', function(self)
-        GameTooltip:SetOwner(self, "ANCHOR_LEFT")
-        GameTooltip:ClearLines()
-        GameTooltip:AddDoubleLine(WoWTools_L.SETTINGS, WoWTools_DataMixin.Icon.left..self.hex..(WoWTools_L.COLOR))
-        GameTooltip:Show()
-        self:SetAlpha(0.3)
-    end)
-    textColor:SetText('23%')
-    WoWTools_ColorMixin:RGBtoHEX(WoWTools_AttributesMixin:Save().textColor.r, WoWTools_AttributesMixin:Save().textColor.g, WoWTools_AttributesMixin:Save().textColor.b, WoWTools_AttributesMixin:Save().textColor.a, textColor)
-    textColor:SetScript('OnMouseDown', function(self)
-        local setR, setG, setB, setA
-        local R,G,B,A= self.r, self.g, self.b, self.a
-        local function func()
-            WoWTools_AttributesMixin:Save().textColor= {r=setR, g=setG, b=setB, a=setA}
-            self:SetTextColor(setR, setG, setB, setA)
-            WoWTools_AttributesMixin:Frame_Init(true)
-        end
-        WoWTools_ColorMixin:ShowColorFrame(self.r, self.g, self.b,self.a, function()
-                setR, setG, setB, setA= WoWTools_ColorMixin:Get_ColorFrameRGBA()
-                func()
-            end,function()
-                setR, setG, setB, setA= R,G,B,A
-                func()
-            end
-        )
-    end)
-
-
-    check= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
-    check:SetPoint("TOPLEFT", notTextCheck, 'BOTTOMLEFT')
-    check.text:SetText((WoWTools_L.BINDING_NAME_STRAFELEFT)..' 23%'..Tabs[2].text)
-    check:SetChecked(WoWTools_AttributesMixin:Save().toLeft)
-    check:SetScript('OnMouseDown', function()
-        WoWTools_AttributesMixin:Save().toLeft= not WoWTools_AttributesMixin:Save().toLeft and true or nil
-        WoWTools_AttributesMixin:Frame_Init(true)
-    end)
-
-
-    local check5= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
-    check5:SetPoint("TOPLEFT", check, 'BOTTOMLEFT')
-    check5.text:SetText((WoWTools_L.STATUS_TEXT_VALUE)..' 2K')
-    check5:SetChecked(WoWTools_AttributesMixin:Save().useNumber)
-    check5:SetScript('OnMouseDown', function()
-        WoWTools_AttributesMixin:Save().useNumber= not WoWTools_AttributesMixin:Save().useNumber and true or nil
-        WoWTools_AttributesMixin:Frame_Init(true)
-    end)
-
-    local sliderBit= WoWTools_SliderMixin:CSlider(Frame, {w=100 ,h=20, min=0, max=3, value=WoWTools_AttributesMixin:Save().bit or 0, setp=1, color=nil,
-        text=(WoWTools_L['Decimals']),
-        func=function(self, value)
-            value= math.ceil(value)
-            self:SetValue(value)
-            self.Text:SetText(value)
-            WoWTools_AttributesMixin:Save().bit= value==0 and 0 or value
-            WoWTools_AttributesMixin:Frame_Init(true)
-        end,
-    tips=nil})
-    sliderBit:SetPoint("LEFT", check5.text, 'RIGHT', 6,0)
-
-
-    local barValueText= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
-    barValueText:SetPoint("TOPLEFT", check5, 'BOTTOMLEFT')
-    barValueText.text:SetText(WoWTools_L.BENEFICIAL)
-    barValueText:SetChecked(WoWTools_AttributesMixin:Save().setMaxMinValue)
-    barValueText:SetScript('OnMouseDown', function()
-        WoWTools_AttributesMixin:Save().setMaxMinValue= not WoWTools_AttributesMixin:Save().setMaxMinValue and true or false
-        WoWTools_AttributesMixin:Frame_Init(true)
-        if WoWTools_AttributesMixin:Save().setMaxMinValue then
-            C_Timer.After(0.3, function()
-                for _, info in pairs(WoWTools_AttributesMixin:Get_Tabs()) do
-                    local btn= _G['WoWToolsAttributesMainButton']
-                    if btn then
-                        local frame= btn[info.name]
-                        if frame and frame.textValue then
-                            frame.textValue:SetText('+12')
-                        end
-                    end
-                end
-            end)
-        end
-    end)
-    Frame.barGreenColor= WoWTools_LabelMixin:Create(Frame, {size=20})--20)
-    Frame.barGreenColor:SetPoint('LEFT', barValueText.text,'RIGHT', 2, 0)
-    Frame.barGreenColor:EnableMouse(true)
-    Frame.barGreenColor:SetScript('OnLeave', function(self) GameTooltip:Hide() self:SetAlpha(1) end)
-    Frame.barGreenColor:SetScript('OnEnter', function(self)
-        GameTooltip:SetOwner(self, "ANCHOR_LEFT")
-        GameTooltip:ClearLines()
-        GameTooltip:AddDoubleLine(WoWTools_L.SETTINGS, WoWTools_DataMixin.Icon.left..self.hex..(WoWTools_L.COLOR))
-        GameTooltip:Show()
-        self:SetAlpha(0.3)
-    end)
-    Frame.barGreenColor:SetText('+12')
-    WoWTools_ColorMixin:HEXtoRGB(WoWTools_AttributesMixin:Save().greenColor, Frame.barGreenColor)
-    Frame.barGreenColor:SetScript('OnMouseDown', function(self)
-        local setR, setG, setB, setA
-        local R,G,B,A= self.r, self.g, self.b, self.a
-        local function func()
-            local hex= WoWTools_ColorMixin:RGBtoHEX(setR, setG, setB,setA, self)
-            hex= hex and '|c'..hex or '|cffff8200'
-            WoWTools_AttributesMixin:Save().greenColor= hex
-            WoWTools_AttributesMixin:Set_Color()
-        end
-        WoWTools_ColorMixin:ShowColorFrame(self.r, self.g, self.b,self.a, function()
-                setR, setG, setB, setA= WoWTools_ColorMixin:Get_ColorFrameRGBA()
-                func()
-            end, function()
-                setR, setG, setB, setA= R,G,B,A
-                func()
-            end
-        )
-    end)
-
-    Frame.barRedColor= WoWTools_LabelMixin:Create(Frame, {size=20})--20)
-    Frame.barRedColor:SetPoint('LEFT', Frame.barGreenColor,'RIGHT', 2, 0)
-    Frame.barRedColor:EnableMouse(true)
-    Frame.barRedColor:SetScript('OnLeave', function(self) GameTooltip:Hide() self:SetAlpha(1) end)
-    Frame.barRedColor:SetScript('OnEnter', function(self)
-        GameTooltip:SetOwner(self, "ANCHOR_LEFT")
-        GameTooltip:ClearLines()
-        GameTooltip:AddDoubleLine(WoWTools_L.SETTINGS, WoWTools_DataMixin.Icon.left..self.hex..(WoWTools_L.COLOR))
-        GameTooltip:Show()
-        self:SetAlpha(0.3)
-    end)
-    Frame.barRedColor:SetText('-12')
-    WoWTools_ColorMixin:HEXtoRGB(WoWTools_AttributesMixin:Save().redColor, Frame.barRedColor)
-    Frame.barRedColor:SetScript('OnMouseDown', function(self)
-        local setR, setG, setB, setA
-        local R,G,B,A= self.r, self.g, self.b, self.a
-        local function func()
-            local hex= WoWTools_ColorMixin:RGBtoHEX(setR, setG, setB,setA, self)
-            hex= hex and '|c'..hex or '|cnWARNING_FONT_COLOR:'
-            WoWTools_AttributesMixin:Save().redColor= hex
-            WoWTools_AttributesMixin:Set_Color()
-        end
-        WoWTools_ColorMixin:ShowColorFrame(self.r, self.g, self.b,self.a, function()
-                setR, setG, setB, setA= WoWTools_ColorMixin:Get_ColorFrameRGBA()
-                func()
-            end, function()
-                setR, setG, setB, setA= R,G,B,A
-                func()
-            end
-        )
-    end)
-
-    local check2= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})--bar
-    check2:SetPoint("TOPLEFT", barValueText, 'BOTTOMLEFT',0,-62)
-    check2.text:SetText('Bar')
-    check2:SetChecked(WoWTools_AttributesMixin:Save().bar)
-    check2:SetScript('OnMouseDown', function()
-        WoWTools_AttributesMixin:Save().bar= not WoWTools_AttributesMixin:Save().bar and true or false
-        WoWTools_AttributesMixin:Frame_Init(true)
-    end)
-
-    local check3= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
-    check3:SetPoint("LEFT", check2.text, 'RIGHT', 6, 0)
-    check3.text:SetText((WoWTools_L.FORMATTING).. ' 2')
-    check3:SetChecked(WoWTools_AttributesMixin:Save().barTexture2)
-    check3:SetScript('OnMouseDown', function()
-        WoWTools_AttributesMixin:Save().barTexture2= not WoWTools_AttributesMixin:Save().barTexture2 and true or false
-        WoWTools_AttributesMixin:Frame_Init(true)
-    end)
-
-    local barWidth= WoWTools_SliderMixin:CSlider(Frame, {w=120, h=20, min=-119, max=250, value=WoWTools_AttributesMixin:Save().barWidth, setp=1, color=nil,
-        text=WoWTools_L.WIDE,
-        func=function(self, value)
-            value= math.floor(value)
-            self:SetValue(value)
-            self.Text:SetText(value)
-            WoWTools_AttributesMixin:Save().barWidth= value==0 and 0 or value
-            WoWTools_AttributesMixin:Frame_Init(true)
-        end, tips=nil
-    })
-    barWidth:SetPoint("LEFT", check3.text, 'RIGHT', 10, 0)
-
-    --bar, x
-    local barX= WoWTools_SliderMixin:CSlider(Frame, {w=120, h=20, min=-250, max=250, value=WoWTools_AttributesMixin:Save().barX, setp=1, color=true,
-        text='X',
-        func=function(self, value)
-            value= math.floor(value)
-            self:SetValue(value)
-            self.Text:SetText(value)
-            WoWTools_AttributesMixin:Save().barX= value==0 and 0 or value
-            WoWTools_AttributesMixin:Frame_Init(true)
-        end, tips=nil
-    })
-    barX:SetPoint("TOPLEFT", barWidth.Low, 'BOTTOMLEFT', 0, -10)
-
-
-    local barToLeft= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
-    barToLeft:SetPoint("TOPLEFT", check2, 'BOTTOMLEFT')
-    barToLeft.text:SetText(WoWTools_L.BINDING_NAME_STRAFELEFT)
-    barToLeft:SetChecked(WoWTools_AttributesMixin:Save().barToLeft)
-    barToLeft:SetScript('OnMouseDown', function()
-        WoWTools_AttributesMixin:Save().barToLeft= not WoWTools_AttributesMixin:Save().barToLeft and true or nil
-        WoWTools_AttributesMixin:Frame_Init(true)
-    end)
-
-    local slider= WoWTools_SliderMixin:CSlider(Frame, {w=120, h=20, min=-5, max=10, value=WoWTools_AttributesMixin:Save().vertical, setp=0.1, color=nil,
-        text='|T450907:0|t|T450905:0|t',
-        func=function(self, value)
-            value= tonumber(format('%.1f', value))
-            self:SetValue(value)
-            self.Text:SetText(value)
-            WoWTools_AttributesMixin:Save().vertical= value==0 and 0 or value
-            WoWTools_AttributesMixin:Frame_Init(true)
-        end,
-        tips=nil
-    })
-    slider:SetPoint("TOPLEFT", barToLeft, 'BOTTOMLEFT', 0,-80)
-
-    local slider2= WoWTools_SliderMixin:CSlider(Frame, {w=120, h=20, min=-0.1, max=40, value=WoWTools_AttributesMixin:Save().horizontal, setp=0.1, color=true,
-        text='|T450908:0|t|T450906:0|t',
-        func=function(self, value)
-            value= tonumber(format('%.1f', value))
-            self:SetValue(value)
-            self.Text:SetText(value)
-            WoWTools_AttributesMixin:Save().horizontal=value
-            WoWTools_AttributesMixin:Frame_Init(true)
-        end,
-        tips=nil
-    })
-    slider2:SetPoint("LEFT", slider, 'RIGHT', 10,0)
-
-    local slider3= WoWTools_SliderMixin:CSlider(Frame, {w=120, h=20, min=0, max=20, value=WoWTools_AttributesMixin:Save().gsubText or 0, setp=1, color=nil,
-        text=WoWTools_L.BINDING_NAME_SCREENSHOT,
-        func=function(self, value, userInput)
-            value= math.floor(value)
-            self:SetValue(value)
-            self.Text:SetText(value)
-            WoWTools_AttributesMixin:Save().gsubText= value>0 and value or nil
-            WoWTools_AttributesMixin:Frame_Init(true)
-            WoWTools_Print(
-                WoWTools_AttributesMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                '|cnGREEN_FONT_COLOR:'..value..'|r',
-                WoWTools_L['Text 0=No']
-            )
-        end,
-        tips=nil
-    })
-    slider3:SetPoint("TOPLEFT", slider, 'BOTTOMLEFT', 0,-24)
-
-
-    local checkStrupper= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
-    local checkStrlower= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
-    checkStrupper:SetPoint("LEFT", slider3, 'RIGHT')
-    checkStrupper.text:SetText('ABC')
-    checkStrupper:SetChecked(WoWTools_AttributesMixin:Save().strupper)
-    checkStrupper:SetScript('OnMouseDown', function()
-        WoWTools_AttributesMixin:Save().strupper= not WoWTools_AttributesMixin:Save().strupper and true or nil
-        if WoWTools_AttributesMixin:Save().strupper then
-            WoWTools_AttributesMixin:Save().strlower=nil
-            checkStrlower:SetChecked(false)
-        end
-        WoWTools_AttributesMixin:Frame_Init(true)
-    end)
-    checkStrupper:SetScript('OnLeave', GameTooltip_Hide)
-    checkStrupper:SetScript('OnEnter', function(self)
-        GameTooltip:SetOwner(self, "ANCHOR_LEFT")
-        GameTooltip:ClearLines()
-        GameTooltip:AddLine(WoWTools_L['Uppercase'])
-        GameTooltip:Show()
-    end)
-
-    checkStrlower:SetPoint("LEFT", checkStrupper.text, 'RIGHT')
-    checkStrlower.text:SetText('abc')
-    checkStrlower:SetChecked(WoWTools_AttributesMixin:Save().strlower)
-    checkStrlower:SetScript('OnMouseDown', function()
-        WoWTools_AttributesMixin:Save().strlower= not WoWTools_AttributesMixin:Save().strlower and true or nil
-        if WoWTools_AttributesMixin:Save().strlower then
-            WoWTools_AttributesMixin:Save().strupper=nil
-            checkStrupper:SetChecked(false)
-        end
-        WoWTools_AttributesMixin:Frame_Init(true)
-    end)
-    checkStrlower:SetScript('OnLeave', GameTooltip_Hide)
-    checkStrlower:SetScript('OnEnter', function(self)
-        GameTooltip:SetOwner(self, "ANCHOR_LEFT")
-        GameTooltip:ClearLines()
-        GameTooltip:AddLine(WoWTools_L['Lowercase'])
-        GameTooltip:Show()
-    end)
-
-    local slider4= WoWTools_SliderMixin:CSlider(Frame, {w=nil, h=20, min=0.3, max=4, value=WoWTools_AttributesMixin:Save().scale or 1, setp=0.1, color=nil,
-        text=WoWTools_L.HOUSING_EXPERT_DECOR_SUBMODE_SCALE,
-        func=function(self, value)
-            value= tonumber(format('%.1f', value)) or 1
-            self:SetValue(value)
-            self.Text:SetText(value)
-            WoWTools_AttributesMixin:Save().scale=value
-            local btn= _G['WoWToolsAttributesMainButton']
-            if btn then
-                btn.frame:SetScale(value)
-            end
-        end,
-        tips=nil
-    })
-    slider4:SetPoint("TOPLEFT", slider3, 'BOTTOMLEFT', 0,-24)
-
-
-    local sliderButtonAlpha = WoWTools_SliderMixin:CSlider(Frame, {min=0, max=1, value=WoWTools_AttributesMixin:Save().buttonAlpha or 0.3, setp=0.1, color=true,
-    text=WoWTools_L['Specialization alpha'],
-    func=function(self, value)
-        value= tonumber(format('%.1f', value))
-        value= value==0 and 0 or value
-        value= value==1 and 1 or value
-        self:SetValue(value)
-        self.Text:SetText(value)
-        WoWTools_AttributesMixin:Save().buttonAlpha= value
-        local btn= _G['WoWToolsAttributesMainButton']
-        if btn then
-            btn:set_Show_Hide()
-        end
-    end})
-    sliderButtonAlpha:SetPoint("TOPLEFT", slider4, 'BOTTOMLEFT', 0,-24)
-
-    local sliderButtonScale = WoWTools_SliderMixin:CSlider(Frame, {min=0.4, max=4, value=WoWTools_AttributesMixin:Save().buttonScale or 1, setp=0.1, color=true,
-    text=WoWTools_L['SPECIALIZATION+HOUSING_EXPERT_DECOR_SUBMODE_SCALE'],
-    func=function(self, value)
-        value= tonumber(format('%.01f', value))
-        value= value<0.4 and 0.4 or value
-        value= value>4 and 4 or value
-        self:SetValue(value)
-        self.Text:SetText(value)
-        WoWTools_AttributesMixin:Save().buttonScale= value
-        local btn= _G['WoWToolsAttributesMainButton']
-        if btn then
-            btn:set_Show_Hide()
-        end
-    end})
-    sliderButtonScale:SetPoint("TOPLEFT", sliderButtonAlpha, 'BOTTOMLEFT', 0,-24)
-
-
-    local restPosti= WoWTools_ButtonMixin:Cbtn(Frame, {size=20, atlas='characterundelete-RestoreButton'})
-    restPosti:SetPoint('BOTTOMRIGHT')
-    restPosti:SetScript('OnClick', function()
-        WoWTools_AttributesMixin:Save().point=nil
-        local btn= _G['WoWToolsAttributesMainButton']
-        if btn then
-            btn:set_Point()
-        end
-    end)
-    restPosti:SetScript('OnLeave', GameTooltip_Hide)
-    restPosti:SetScript('OnEnter', function(self)
-        GameTooltip:SetOwner(self, "ANCHOR_LEFT")
-        GameTooltip:ClearLines()
-        GameTooltip:AddLine((not WoWTools_AttributesMixin:Save().point and '|cff626262' or '')..(WoWTools_L.RESET_POSITION))
-        GameTooltip:Show()
-    end)
-
-
-    local checkHidePet= WoWTools_ButtonMixin:Cbtn(Frame, {isCheck=true})
-    checkHidePet:SetPoint('BOTTOMLEFT')
-    checkHidePet.text:SetText(WoWTools_L['SELF_CAST_AUTO+HIDE'])
-    checkHidePet:SetChecked(WoWTools_AttributesMixin:Save().hideInPetBattle)
-    checkHidePet:SetScript('OnMouseDown', function()
-        WoWTools_AttributesMixin:Save().hideInPetBattle= not WoWTools_AttributesMixin:Save().hideInPetBattle and true or false
-        local btn= _G['WoWToolsAttributesMainButton']
-        if btn then
-           btn:set_event()
-            btn:settings()
-        end
-    end)
-
-end)
-
-
-local Init= WoWTools_Once(function()
-    Category= WoWTools_PanelMixin:AddSubCategory({
-        name=WoWTools_AttributesMixin.addName,
-        frame=Frame,
-        disabled= WoWTools_AttributesMixin:Save().disabled,
-    })
-
-    WoWTools_PanelMixin:ReloadButton({panel=Frame, addName=WoWTools_AttributesMixin.addName, restTips=nil, checked=not WoWTools_AttributesMixin:Save().disabled, clearTips=nil, reload=false,
-        disabledfunc=function()
-            WoWTools_AttributesMixin:Save().disabled = not WoWTools_AttributesMixin:Save().disabled and true or nil
-            WoWTools_Print(
-                WoWTools_AttributesMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                WoWTools_TextMixin:GetEnabeleDisable(not WoWTools_AttributesMixin:Save().disabled),
-                WoWTools_L['REQUIRES_RELOAD~2']
-            )
-        end,
-        clearfunc= function()
-            WoWToolsPlusSave['Plus_Attributes']=nil
-            WoWTools_DataMixin:Reload()
-        end
-    })
-
-    if WoWTools_AttributesMixin:Save().disabled then
-        Init_Options=function()end
-    else
-        EventUtil.ContinueOnAddOnLoaded('Blizzard_Settings', Init_Options)
-    end
-
-end)
-
-
-function WoWTools_AttributesMixin:Init_Options()
-    Init()
+local function Button()
+    return _G['WoWToolsAttributesMainButton']
 end
 
+--Vuelve a dibujar el panel (solo si el botón existe: con el módulo desactivado no se crea)
+local function Refresh()
+    if Button() then
+        WoWTools_AttributesMixin:Frame_Init(true)
+    end
+end
+
+local function Refresh_Show()
+    local btn= Button()
+    if btn then
+        btn:set_Show_Hide()
+    end
+end
+
+local function Tab(save, name)
+    save.tab= save.tab or {}
+    save.tab[name]= save.tab[name] or {name=name}
+    return save.tab[name]
+end
+
+local StatList= {
+    {name='STATUS', text='Primary stat'},
+    {name='CRITCHANCE', text='STAT_CRITICAL_STRIKE'},
+    {name='HASTE', text='STAT_HASTE'},
+    {name='MASTERY', text='STAT_MASTERY'},
+    {name='VERSATILITY', text='STAT_VERSATILITY'},
+    {name='LIFESTEAL', text='STAT_LIFESTEAL'},
+    {name='AVOIDANCE', text='STAT_AVOIDANCE'},
+    {name='ARMOR', text='STAT_ARMOR', tank=true},
+    {name='DODGE', text='STAT_DODGE', tank=true},
+    {name='PARRY', text='STAT_PARRY', tank=true},
+    {name='BLOCK', text='STAT_BLOCK', tank=true},
+    {name='STAGGER', text='STAT_STAGGER', tank=true},
+    {name='SPEED', text='STAT_MOVEMENT_SPEED'},
+}
+
+local StrataValues= {}
+for _, strata in ipairs({'BACKGROUND','LOW','MEDIUM','HIGH','DIALOG','FULLSCREEN','FULLSCREEN_DIALOG'}) do
+    table.insert(StrataValues, {value=strata, text=strata})
+end
+
+local function Hex_Get(hex, r, g, b)
+    local r2, g2, b2, a2= WoWTools_ColorMixin:HEXtoRGB(hex)
+    return r2 or r, g2 or g, b2 or b, a2 or 1
+end
+
+local function Hex_Set(r, g, b, a)
+    local hex= WoWTools_ColorMixin:RGBtoHEX(r, g, b, a)
+    return hex and '|c'..hex
+end
+
+local function Stat_Hidden(info)
+    return function(save)
+        return Tab(save, info.name).hide
+    end
+end
+
+local function Get_Options()
+    local list= {
+        {type='section', text='GENERAL'},
+        {type='check', key='show', text='SHOW', tooltip='Tip.Attributes.Show',
+            get= function(save) return not save.hide end,
+            set= function(save, value) save.hide= not value and true or nil end,
+            apply= Refresh_Show,
+        },
+        {type='check', key='onlyDPS', text='Hide secondary stats when tanking', tooltip='Tip.Attributes.OnlyDPS',
+            get= function(save) return save.onlyDPS end,
+            set= function(save, value) save.onlyDPS= value and true or false end,
+            apply= Refresh,
+        },
+        {type='button', key='resetValues', text='RESET+STATUS_TEXT_VALUE', buttonText='RESET', tooltip='Tip.Attributes.Reset',
+            func= Refresh,
+        },
+
+        {type='section', text='Automations'},
+        {type='check', key='hideInPetBattle', text='SELF_CAST_AUTO+HIDE', tooltip='Tip.Attributes.AutoHide', automation=true,
+            get= function(save) return save.hideInPetBattle end,
+            set= function(save, value) save.hideInPetBattle= value and true or false end,
+            apply= function()
+                local btn= Button()
+                if btn then
+                    btn:set_event()
+                    btn:settings()
+                end
+            end,
+        },
+
+        {type='section', text='Shown stats'},
+    }
+
+    for _, info in ipairs(StatList) do
+        table.insert(list, {type='check', key='stat'..info.name, text=info.text,
+            tooltip= info.tank and 'Tip.Attributes.TankStat' or 'Tip.Attributes.Stat',
+            get= function(save) return not Tab(save, info.name).hide end,
+            set= function(save, value) Tab(save, info.name).hide= not value and true or nil end,
+            apply= Refresh,
+        })
+        if info.name=='STATUS' then
+            table.insert(list, {type='check', key='statusBar', text='Bar', tooltip='Tip.Attributes.StatusBar', indent=true,
+                disabled= Stat_Hidden(info),
+                get= function(save) return Tab(save, 'STATUS').bar end,
+                set= function(save, value) Tab(save, 'STATUS').bar= value and true or false end,
+                apply= Refresh,
+            })
+            table.insert(list, {type='slider', key='statusBit', text='Decimals', min=0, max=3, step=1, indent=true,
+                disabled= Stat_Hidden(info),
+                get= function(save) return Tab(save, 'STATUS').bit or 3 end,
+                set= function(save, value) Tab(save, 'STATUS').bit= math.floor(value) end,
+                apply= Refresh,
+            })
+        elseif info.name=='VERSATILITY' then
+            table.insert(list, {type='check', key='versOnlyDefense', text='Defense only', tooltip='Tip.Attributes.VersDefense', indent=true,
+                disabled= Stat_Hidden(info),
+                get= function(save) return Tab(save, 'VERSATILITY').onlyDefense end,
+                set= function(save, value) Tab(save, 'VERSATILITY').onlyDefense= value and true or nil end,
+                apply= Refresh,
+            })
+            table.insert(list, {type='check', key='versBoth', text='Damage and defense', tooltip='Tip.Attributes.VersBoth', indent=true,
+                disabled= function(save) return Tab(save, 'VERSATILITY').hide or Tab(save, 'VERSATILITY').onlyDefense end,
+                get= function(save) return Tab(save, 'VERSATILITY').damageAndDefense end,
+                set= function(save, value) Tab(save, 'VERSATILITY').damageAndDefense= value and true or nil end,
+                apply= Refresh,
+            })
+        end
+    end
+
+    table.insert(list, {type='section', text='Stat colors'})
+    for _, info in ipairs(StatList) do
+        if info.name~='STATUS' then--el atributo principal usa el color de la clase
+            table.insert(list, {type='color', key='color'..info.name, text=info.text, hasAlpha=true,
+                tooltip='Tip.Attributes.StatColor',
+                get= function(save)
+                    local t= Tab(save, info.name)
+                    return t.r or 1, t.g or 0.82, t.b or 0, t.a or 1
+                end,
+                set= function(save, r, g, b, a)
+                    local t= Tab(save, info.name)
+                    t.r, t.g, t.b, t.a= r, g, b, a
+                end,
+                apply= function()
+                    local btn= Button()
+                    local frame= btn and btn[info.name]
+                    if frame then
+                        local t= Tab(WoWTools_AttributesMixin:Save(), info.name)
+                        if frame.label then
+                            frame.label:SetTextColor(t.r, t.g, t.b, t.a)
+                        end
+                        if frame.bar then
+                            frame.bar:SetStatusBarColor(t.r, t.g, t.b, t.a)
+                        end
+                    end
+                    Refresh()
+                end,
+            })
+        end
+    end
+
+    local more= {
+        {type='section', text='Values'},
+        {type='check', key='notText', text='Show values', tooltip='Tip.Attributes.ShowValues',
+            get= function(save) return not save.notText end,
+            set= function(save, value) save.notText= not value and true or nil end,
+            apply= Refresh,
+        },
+        {type='color', key='textColor', text='Value color', hasAlpha=true, indent=true,
+            disabled= function(save) return save.notText end,
+            get= function(save) local c= save.textColor or {} return c.r or 1, c.g or 1, c.b or 1, c.a or 1 end,
+            set= function(save, r, g, b, a) save.textColor= {r=r, g=g, b=b, a=a} end,
+            apply= Refresh,
+        },
+        {type='check', key='useNumber', text='Show as numbers', tooltip='Tip.Attributes.UseNumber',
+            get= function(save) return save.useNumber end,
+            set= function(save, value) save.useNumber= value and true or nil end,
+            apply= Refresh,
+        },
+        {type='slider', key='bit', text='Decimals', tooltip='Tip.Attributes.Decimals', min=0, max=3, step=1,
+            get= function(save) return save.bit or 0 end,
+            set= function(save, value) save.bit= math.floor(value) end,
+            apply= Refresh,
+        },
+        {type='check', key='setMaxMinValue', text='Show changes', tooltip='Tip.Attributes.Changes',
+            get= function(save) return save.setMaxMinValue end,
+            set= function(save, value) save.setMaxMinValue= value and true or false end,
+            apply= Refresh,
+        },
+        {type='color', key='greenColor', text='Increase color', indent=true,
+            disabled= function(save) return not save.setMaxMinValue end,
+            get= function(save) return Hex_Get(save.greenColor, 0, 1, 0) end,
+            set= function(save, r, g, b, a) save.greenColor= Hex_Set(r, g, b, a) or '|cff00ff00' end,
+            apply= Refresh,
+        },
+        {type='color', key='redColor', text='Decrease color', indent=true,
+            disabled= function(save) return not save.setMaxMinValue end,
+            get= function(save) return Hex_Get(save.redColor, 1, 0, 0) end,
+            set= function(save, r, g, b, a) save.redColor= Hex_Set(r, g, b, a) or '|cffff4800' end,
+            apply= Refresh,
+        },
+        {type='check', key='toLeft', text='Values on the left', tooltip='Tip.Attributes.ToLeft',
+            get= function(save) return save.toLeft end,
+            set= function(save, value) save.toLeft= value and true or nil end,
+            apply= Refresh,
+        },
+        {type='slider', key='gsubText', text='Shorten names', tooltip='Tip.Attributes.Shorten', min=0, max=20, step=1,
+            get= function(save) return save.gsubText or 0 end,
+            set= function(save, value) value= math.floor(value) save.gsubText= value>0 and value or nil end,
+            apply= Refresh,
+        },
+        {type='dropdown', key='textCase', text='Text case', tooltip='Tip.Attributes.TextCase',
+            values= {
+                {value='none', text='NONE'},
+                {value='upper', text='Uppercase'},
+                {value='lower', text='Lowercase'},
+            },
+            get= function(save) return save.strupper and 'upper' or save.strlower and 'lower' or 'none' end,
+            set= function(save, value)
+                save.strupper= value=='upper' and true or nil
+                save.strlower= value=='lower' and true or nil
+            end,
+            apply= Refresh,
+        },
+
+        {type='section', text='Bars'},
+        {type='check', key='bar', text='Show bars', tooltip='Tip.Attributes.Bars',
+            get= function(save) return save.bar end,
+            set= function(save, value) save.bar= value and true or false end,
+            apply= Refresh,
+        },
+        {type='check', key='barTexture2', text='Alternative bar texture', indent=true,
+            disabled= function(save) return not save.bar end,
+            get= function(save) return save.barTexture2 end,
+            set= function(save, value) save.barTexture2= value and true or false end,
+            apply= Refresh,
+        },
+        {type='slider', key='barWidth', text='WIDE', tooltip='Tip.Attributes.BarWidth', min=-119, max=250, step=1, indent=true,
+            disabled= function(save) return not save.bar end,
+            get= function(save) return save.barWidth or 0 end,
+            set= function(save, value) save.barWidth= math.floor(value) end,
+            apply= Refresh,
+        },
+        {type='slider', key='barX', text='X', min=-250, max=250, step=1, indent=true,
+            disabled= function(save) return not save.bar end,
+            get= function(save) return save.barX or 0 end,
+            set= function(save, value) save.barX= math.floor(value) end,
+            apply= Refresh,
+        },
+        {type='check', key='barToLeft', text='Bars on the left', indent=true,
+            disabled= function(save) return not save.bar end,
+            get= function(save) return save.barToLeft end,
+            set= function(save, value) save.barToLeft= value and true or nil end,
+            apply= Refresh,
+        },
+
+        {type='section', text='Appearance'},
+        {type='slider', key='scale', text='HOUSING_EXPERT_DECOR_SUBMODE_SCALE', min=0.3, max=4, step=0.1, format='%.1f',
+            get= function(save) return save.scale or 1 end,
+            set= function(save, value) save.scale= tonumber(format('%.1f', value)) or 1 end,
+            apply= function(_, save)
+                local btn= Button()
+                if btn then
+                    btn.frame:SetScale(save.scale)
+                end
+            end,
+        },
+        {type='slider', key='vertical', text='Vertical spacing', min=-5, max=10, step=0.1, format='%.1f',
+            get= function(save) return save.vertical or 0 end,
+            set= function(save, value) save.vertical= tonumber(format('%.1f', value)) end,
+            apply= Refresh,
+        },
+        {type='slider', key='horizontal', text='Horizontal spacing', min=-0.1, max=40, step=0.1, format='%.1f',
+            get= function(save) return save.horizontal or 0 end,
+            set= function(save, value) save.horizontal= tonumber(format('%.1f', value)) end,
+            apply= Refresh,
+        },
+        {type='color', key='shadow', text='Shadow', tooltip='Tip.Attributes.Shadow', hasAlpha=true,
+            get= function(save) local c= save.font or {} return c.r or 0, c.g or 0, c.b or 0, c.a or 1 end,
+            set= function(save, r, g, b, a)
+                save.font= save.font or {x=0, y=0}
+                save.font.r, save.font.g, save.font.b, save.font.a= r, g, b, a
+            end,
+            apply= Refresh,
+        },
+        {type='slider', key='shadowX', text= function() return WoWTools_L['Shadow']..' X' end, min=-5, max=5, step=1, indent=true,
+            get= function(save) return save.font and save.font.x or 0 end,
+            set= function(save, value) save.font= save.font or {r=0, g=0, b=0, a=1} save.font.x= math.floor(value) end,
+            apply= Refresh,
+        },
+        {type='slider', key='shadowY', text= function() return WoWTools_L['Shadow']..' Y' end, min=-5, max=5, step=1, indent=true,
+            get= function(save) return save.font and save.font.y or 0 end,
+            set= function(save, value) save.font= save.font or {r=0, g=0, b=0, a=1} save.font.y= math.floor(value) end,
+            apply= Refresh,
+        },
+        {type='slider', key='bgAlpha', text='BACKGROUND+HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY', tooltip='Tip.Menu.BgAlpha',
+            min=0, max=1, step=0.1, format='%.1f',
+            get= function(save) return save.bgAlpha or 0.5 end,
+            set= function(save, value) save.bgAlpha= tonumber(format('%.1f', value)) end,
+            apply= Refresh,
+        },
+        {type='dropdown', key='strata', text='Strata', tooltip='Tip.Menu.Strata', values=StrataValues,
+            get= function(save) return save.strata or 'MEDIUM' end,
+            set= function(save, value) save.strata= value end,
+            apply= function()
+                local btn= Button()
+                if btn then
+                    btn:set_strata()
+                end
+            end,
+        },
+        {type='slider', key='buttonAlpha', text='Specialization alpha', tooltip='Tip.Attributes.ButtonAlpha', min=0, max=1, step=0.1, format='%.1f',
+            get= function(save) return save.buttonAlpha or 0.3 end,
+            set= function(save, value) save.buttonAlpha= tonumber(format('%.1f', value)) end,
+            apply= Refresh_Show,
+        },
+        {type='slider', key='buttonScale', text='SPECIALIZATION+HOUSING_EXPERT_DECOR_SUBMODE_SCALE', min=0.4, max=4, step=0.1, format='%.1f',
+            get= function(save) return save.buttonScale or 1 end,
+            set= function(save, value) save.buttonScale= math.min(4, math.max(0.4, tonumber(format('%.1f', value)) or 1)) end,
+            apply= Refresh_Show,
+        },
+        {type='button', key='resetPoint', text='RESET_POSITION', buttonText='RESET',
+            disabled= function(save) return not save.point end,
+            func= function(_, save)
+                save.point= nil
+                local btn= Button()
+                if btn then
+                    btn:set_Point()
+                end
+            end,
+        },
+
+        {type='section', text='Advanced'},
+        {type='button', key='reset', text='Reset module settings', buttonText='RESET', confirm=true,
+            func= function()
+                WoWToolsPlusSave['Plus_Attributes']=nil
+                WoWTools_DataMixin:Reload()
+            end,
+        },
+    }
+    for _, opt in ipairs(more) do
+        table.insert(list, opt)
+    end
+    return list
+end
+
+local Options
+function WoWTools_AttributesMixin:Get_Options()
+    Options= Options or Get_Options()
+    return Options
+end
+
+--Entrada "Ajustes..." del menú: abre su página del Centro de control (sus submenús: fondo, capa, posición)
 function WoWTools_AttributesMixin:Open_Options(root)
     return WoWTools_MenuMixin:OpenOptions(root, {
-            name= WoWTools_AttributesMixin.addName,
-            category=Category,
-        })
+        name= WoWTools_AttributesMixin.addName,
+        name2= WoWTools_L['Settings...'],
+    })
 end
