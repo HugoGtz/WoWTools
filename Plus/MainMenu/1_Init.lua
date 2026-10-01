@@ -1,149 +1,88 @@
-local Category, Layout
+local function Framerate_Button()
+    return _G['WoWToolsPlusFramerateButton']
+end
 
+local StrataValues= {}
+for _, strata in ipairs({'BACKGROUND','LOW','MEDIUM','HIGH','DIALOG','FULLSCREEN','FULLSCREEN_DIALOG'}) do
+    table.insert(StrataValues, {value=strata, text=strata})
+end
 
+--Esquema del Centro de control (docs/SETTINGS.md). Antes: subpágina de Blizzard.
+local Options= {
+    {type='section', text='GENERAL'},
+    {type='slider', key='size', text='FONT_SIZE', tooltip='Tip.MainMenu.FontSize', min=8, max=18, step=1,
+        get= function(save) return save.size or 10 end,
+        set= function(save, value) save.size= math.floor(value) end,
+        apply= function() WoWTools_MainMenuMixin:Settings() end,
+    },
 
+    {type='section', text='Appearance'},
+    {type='check', key='alpha', text='Fade buttons', tooltip='Tip.MainMenu.Alpha', reload=true,
+        get= function(save) return save.enabledMainMenuAlpha end,
+        set= function(save, value) save.enabledMainMenuAlpha= value and true or false end,
+    },
+    {type='slider', key='alphaValue', text='HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY', min=0.1, max=1, step=0.1, format='%.1f', indent=true,
+        disabled= function(save) return not save.enabledMainMenuAlpha end,
+        get= function(save) return save.mainMenuAlphaValue or 0.7 end,
+        set= function(save, value) save.mainMenuAlphaValue= WoWTools_DataMixin:GetFormatter1to10(value, 0, 1) end,
+        apply= function() WoWTools_MainMenuMixin:Settings() end,
+    },
 
-
-
-
-
-
-
-local Init_Options= WoWTools_Once(function()
-    WoWTools_PanelMixin:Header(Layout,
-        (WoWTools_MainMenuMixin:Save().disabled and '|cff828282' or '')
-        ..'1) Plus'
-    )
-
-    local initializer2= WoWTools_PanelMixin:OnlyCheck({
-        name= WoWTools_L.ENABLE,
-        tooltip= WoWTools_L['Tip.MainMenu.Enable']..'|n|n'..WoWTools_MainMenuMixin.addName,
-        GetValue= function() return not WoWTools_MainMenuMixin:Save().disabled end,
-        category= Category,
-        SetValue= function()
-            WoWTools_MainMenuMixin:Save().disabled= not WoWTools_MainMenuMixin:Save().disabled and true or nil
-            if not WoWTools_MainMenuMixin:Save().disabled then
-                WoWTools_MainMenuMixin:Settings()
-            else
-                WoWTools_Print(
-                    WoWTools_MainMenuMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                    WoWTools_TextMixin:GetEnabeleDisable(not WoWTools_MainMenuMixin:Save().disabled),
-                    WoWTools_L.RELOADUI
-                )
-            end
-        end
-    })
-
-    local initializer= WoWTools_PanelMixin:OnlySlider({
-        name= WoWTools_L.FONT_SIZE,
-        GetValue= function() return WoWTools_MainMenuMixin:Save().size end,
-        minValue= 8,
-        maxValue= 18,
-        setp= 1,
-        tooltip= WoWTools_L['Tip.MainMenu.FontSize']..'|n|n'..WoWTools_MainMenuMixin.addName,
-        category= Category,
-        SetValue= function(_, _, value2)
-            if value2 then
-                WoWTools_MainMenuMixin:Save().size=value2
-                WoWTools_MainMenuMixin:Settings()
-            end
-        end
-    })
-    initializer:SetParentInitializer(initializer2, function() if WoWTools_MainMenuMixin:Save().plus then return true else return false end end)
-
-    initializer= WoWTools_PanelMixin:Check_Slider({
-        checkName= WoWTools_L.HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY,
-        checkGetValue= function() return WoWTools_MainMenuMixin:Save().enabledMainMenuAlpha end,
-        checkTooltip= WoWTools_L['Tip.MainMenu.Alpha']..'|n|n'..WoWTools_MainMenuMixin.addName,
-        checkSetValue= function()
-            WoWTools_MainMenuMixin:Save().enabledMainMenuAlpha= not WoWTools_MainMenuMixin:Save().enabledMainMenuAlpha and true or false
-            WoWTools_Print(
-                WoWTools_MainMenuMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                WoWTools_L.REQUIRES_RELOAD
-            )
-        end,
-        sliderGetValue= function() return WoWTools_MainMenuMixin:Save().mainMenuAlphaValue end,
-        minValue= 0.1,
-        maxValue= 1,
-        step= 0.1,
-        sliderSetValue= function(_, _, value2)
-            if value2 then
-                WoWTools_MainMenuMixin:Save().mainMenuAlphaValue= WoWTools_DataMixin:GetFormatter1to10(value2, 0, 1)
-                WoWTools_MainMenuMixin:Settings()
-            end
-        end,
-        layout= Layout,
-        category= Category,
-    })
-    initializer:SetParentInitializer(initializer2, function() if WoWTools_MainMenuMixin:Save().plus then return true else return false end end)
-
-    WoWTools_PanelMixin:Header(Layout,
-        (WoWTools_MainMenuMixin:Save().frameratePlus and '' or '|cff828282')
-        ..'2) '..(WoWTools_L.SYSTEM)
-    )
-
-    initializer2= WoWTools_PanelMixin:OnlyCheck({
-        name= (WoWTools_L.FRAMERATE_LABEL)..' Plus',
-        tooltip= WoWTools_L['Tip.MainMenu.FrameratePlus']..'|n|n'..MicroButtonTooltipText(FRAMERATE_LABEL, "TOGGLEFPS"),
-        GetValue= function() return WoWTools_MainMenuMixin:Save().frameratePlus end,
-        category= Category,
-        SetValue= function()
-            WoWTools_MainMenuMixin:Save().frameratePlus= not WoWTools_MainMenuMixin:Save().frameratePlus and true or nil
-            if _G['WoWToolsPlusFramerateButton'] then
-                WoWTools_Print(
-                    WoWTools_MainMenuMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                    WoWTools_TextMixin:GetEnabeleDisable(WoWTools_MainMenuMixin:Save().frameratePlus),
-                    WoWTools_L.RELOADUI
-                )
-            else
+    {type='section', text='FRAMERATE_LABEL'},
+    {type='check', key='frameratePlus', text= function() return WoWTools_L.FRAMERATE_LABEL..' Plus' end,
+        tooltip='Tip.MainMenu.FrameratePlus', reload=true,
+        get= function(save) return save.frameratePlus end,
+        set= function(save, value) save.frameratePlus= value and true or nil end,
+        apply= function(_, save)
+            if save.frameratePlus and not Framerate_Button() then
                 WoWTools_MainMenuMixin:Init_Framerate_Plus()
             end
-        end
-    })
-    initializer= WoWTools_PanelMixin:OnlyCheck({
-        name= (WoWTools_L.LOG_IN)..' WoW: '..(WoWTools_L.SHOW),
-        tooltip= WoWTools_L['Tip.MainMenu.FramerateLogIn']..'|n|n'..MicroButtonTooltipText(FRAMERATE_LABEL, "TOGGLEFPS"),
-        GetValue= function() return WoWTools_MainMenuMixin:Save().framerateLogIn end,
-        category= Category,
-        SetValue= function()
-            WoWTools_MainMenuMixin:Save().framerateLogIn= not WoWTools_MainMenuMixin:Save().framerateLogIn and true or nil
+        end,
+    },
+    {type='check', key='framerateLogIn', text='Show at login', tooltip='Tip.MainMenu.FramerateLogIn', indent=true, automation=true,
+        disabled= function(save) return not save.frameratePlus end,
+        get= function(save) return save.framerateLogIn end,
+        set= function(save, value) save.framerateLogIn= value and true or nil end,
+        apply= function(_, save)
             WoWTools_MainMenuMixin:Init_Framerate_Plus()
-            if WoWTools_MainMenuMixin:Save().framerateLogIn and not FramerateFrame:IsShown() then
+            if save.framerateLogIn and FramerateFrame and not FramerateFrame:IsShown() then
                 FramerateFrame:Toggle()
             end
-        end
-    })
-    initializer:SetParentInitializer(initializer2, function() if WoWTools_MainMenuMixin:Save().frameratePlus then return true else return false end end)
+        end,
+    },
+    {type='slider', key='framerateSize', text='FONT_SIZE', tooltip='Tip.MainMenu.FramerateSize', min=6, max=72, step=1, indent=true,
+        disabled= function(save) return not save.frameratePlus end,
+        get= function(save) return save.framerateSize or 12 end,
+        set= function(save, value) save.framerateSize= math.floor(value) end,
+        apply= function()
+            local btn= Framerate_Button()
+            if btn then
+                btn:set_size()
+            end
+        end,
+    },
 
-
-end)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    {type='section', text='Advanced'},
+    {type='dropdown', key='shopStrata', text='Shop window strata', tooltip='Tip.Menu.Strata', values=StrataValues,
+        get= function(save) return save.CatalogShopFrameStrata or 'MEDIUM' end,
+        set= function(save, value) save.CatalogShopFrameStrata= value end,
+        apply= function(_, save)
+            if CatalogShopFrame and not WoWTools_FrameMixin:IsLocked(CatalogShopFrame) then
+                CatalogShopFrame:SetFrameStrata(save.CatalogShopFrameStrata)
+            end
+        end,
+    },
+}
 
 
 --Módulo registrado con la API común (docs/REFACTOR.md, R2).
---Tiene su propia página de opciones (panel=false); los FPS y esa página van siempre (onLoad).
+--Los FPS van siempre (onLoad), aunque el micromenú esté desactivado. Interruptor estándar (save.disabled, pide /reload).
 WoWTools_Module:Register({
     key= 'Plus_MainMenu',
     name= 'Module.Micro menu',
     icon= 'UI-HUD-MicroMenu-GameMenu-Mouseover',
     group= 'Interface',
+    tooltip= 'Tip.MainMenu.Enable',
     defaults= {
         plus=true,
         size=10,
@@ -151,14 +90,9 @@ WoWTools_Module:Register({
         mainMenuAlphaValue=0.7,
     },
     mixin= WoWTools_MainMenuMixin,
-    panel= false,
-    onLoad= function(M, save)
-        Category, Layout= WoWTools_PanelMixin:AddSubCategory({
-            name= M.addName,
-            disabled= save.disabled and not save.frameratePlus,
-        })
+    options= Options,
+    onLoad= function()
         WoWTools_MainMenuMixin:Init_Framerate_Plus()
-        EventUtil.ContinueOnAddOnLoaded('Blizzard_Settings', Init_Options)
     end,
     onEnable= function()
         WoWTools_MainMenuMixin:Settings()
