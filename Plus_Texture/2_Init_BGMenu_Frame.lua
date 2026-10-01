@@ -675,9 +675,8 @@ local function Init_Menu(self, root, isSub)
 
     --sub:CreateSpacer()
     sub2=WoWTools_MenuMixin:OpenOptions(sub, {
-        category= WoWTools_TextureMixin.Category,
-        name= name,
-        name2= WoWTools_TextureMixin.addName,
+        name= WoWTools_TextureMixin.addName,
+        name2= WoWTools_L['Settings...'],
     })
 --Web
     sub3=sub2:CreateButton(
@@ -889,6 +888,11 @@ function WoWTools_TextureMixin:Init_BGMenu_Frame(frame, tab)
     Settings(frame)
 end
 
+
+--Centro de control: vuelve a aplicar el fondo de todos los marcos con fondo propio
+function WoWTools_TextureMixin:Refresh_BG()
+    Settings()
+end
 
 function WoWTools_TextureMixin:Get_BGName()
     return BGName
