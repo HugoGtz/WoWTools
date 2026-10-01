@@ -12,36 +12,42 @@ end
 
 
 local Textures={}
+local SIZE= WoWTools_Style.Size.icon.small--16
+
+--Historial a la izquierda del selector, en un panel propio con el estilo común.
+--Como mucho 10 filas; con más colores el panel se ensancha (mínimo 5 por fila).
 local function Set_SaveLogList()
 	local logColor= Save().logColor
 	local n= math.min(#logColor, Save().logMaxColor or 10)
+
+	local panel= WoWTools_ColorMixin:Get_Panel('log', WoWTools_L['Color.History'])
+	if not panel.isSetPoint then
+		panel:SetPoint('TOPRIGHT', ColorPickerFrame, 'TOPLEFT', -WoWTools_Style.Size.pad, 0)
+		panel.isSetPoint= true
+	end
+
+	local perRow= math.max(5, math.ceil(n/10))
 
 	for i=1, n, 1 do
 		local icon= Textures[i]
 		local col= logColor[i]
 		if not Textures[i] then
-			icon= WoWTools_ColorMixin:Create_Texture(col.r, col.g, col.b, col.a)
-			if i==1 then
-				icon:SetPoint('TOPRIGHT', ColorPickerFrame, "TOPLEFT", 0, -20)
-			else
-				icon:SetPoint('TOP', Textures[i-1], 'BOTTOM')
-			end
+			icon= WoWTools_ColorMixin:Create_Texture(col.r, col.g, col.b, col.a, nil, panel, SIZE)
 			icon.tooltip= (WoWTools_L.EVENTTRACE_LOG_HEADER)..' '..i
 			table.insert(Textures, icon)
 		end
+		WoWTools_ColorMixin:Set_Cell(icon, panel, (i-1)%perRow, math.floor((i-1)/perRow), SIZE)
 		icon.r, icon.g, icon.b, icon.a= col.r, col.g, col.b, col.a
 		icon:SetColorTexture(col.r, col.g, col.b , 1)
 		icon:SetShown(true)
 	end
 
-	for i= 11, n, 10 do
-		Textures[i]:ClearAllPoints()
-		Textures[i]:SetPoint('TOPRIGHT', Textures[i-10], 'TOPLEFT')
-	end
-
 	for i=n+1, #Textures, 1 do
 		Textures[i]:SetShown(false)
 	end
+
+	WoWTools_ColorMixin:Set_PanelSize(panel, math.min(n, perRow), math.ceil(n/perRow), SIZE)
+	panel:SetShown(n>0)
 end
 
 

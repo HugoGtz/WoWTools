@@ -307,6 +307,11 @@ local function Create_EditBox(index, tab)
     end)
 
    
+--Estilo común: campo plano con borde de acento mientras tiene el foco (oculta el arte de SearchBoxTemplate).
+--Va al final: los SetScript de arriba sustituirían a sus HookScript.
+    WoWTools_Style:Input(frame)
+    WoWTools_Style:Text(frame.Instructions, 'small', 'muted')
+
     table.insert(EditBoxs, tab.name)
 end
 

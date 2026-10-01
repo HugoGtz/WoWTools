@@ -4,7 +4,8 @@ local locale= GetLocale()
 
 local enUS= {
     AutoEnterDelve= 'Auto enter',
-    AutoEnterDelveTip= 'Enters the delve automatically after 3 seconds.\nHold Alt to cancel.',
+    AutoEnterDelveTip= 'Enters the delve automatically after 3 seconds.\nHold Alt to cancel.',
+
     --Frases compuestas (antes se unían dos textos de Blizzard)
     ['DRAG_MODEL+ITEMS']= 'Drag items',
     ['SELF_CAST_AUTO+HIDE']= 'Auto hide',
@@ -437,6 +438,10 @@ local enUS= {
     ['Tip.Color.AutoShow']= 'Automatically opens the color picker when you log in.',
     ['Tip.Color.SlotChoose']= 'Saves the color currently selected in the picker to this slot.',
     ['Tip.Color.SlotDefault']= 'Resets this slot to its default color.',
+    --Cabeceras de los paneles del selector de colores (estilo común)
+    ['Color.Palettes']= 'Palettes',
+    ['Color.UIColors']= 'Interface colors',
+    ['Color.History']= 'Recent',
     ['Tip.AuctionHouse.Enable']= 'Improves the Auction House: extra info in buy results, a quick list of bag items to sell, remembered prices and double-click to cancel auctions. It also shows in the account store how many items of each category you own.',
     ['Tip.AuctionHouse.BuyPlus']= 'In the Buy tab, shows how many of each item you own, whether it is already known or collected, its stats, and marks your own auctions. Double-clicking a row opens the buyout confirmation.',
     ['Tip.AuctionHouse.SellPlus']= 'In the Sell tab, adds a list of bag items that can be auctioned, remembers the last price used for each item, compares the price with the vendor price and lets you move on to the next item quickly.',
@@ -892,7 +897,8 @@ local enUS= {
     ['Reset raid marker tool']= 'Reset raid marker tool',
     ['Auto-fill confirmation words']= 'Auto-fill confirmation words (DELETE…)',
     ['Frame inspector (/fstack)']= 'Frame inspector (/fstack)',
-    ['Not found']= 'Not found',
+    ['Not found']= 'Not found',
+
     ['Show addon messages in chat']= 'Show addon messages in chat',
     ['Tip.Panel.ChatMessages']= 'Shows in the chat what the addon does on its own (items sold, repairs, quests accepted, errors…). Off by default so the chat stays clean.',
     ['Module.ActionBars']= 'Action bar style',
@@ -975,7 +981,8 @@ local esES= {
     ['Word count']= 'Número de caracteres',
     ['World Preload Non Critical']= 'Precarga no crítica del mundo',
     ['uiMapID not found']= 'No se encontró uiMapID',
-    ['value: ']= 'valor: ',
+    ['value: ']= 'valor: ',
+
     --Frases compuestas (antes se unían dos textos de Blizzard)
     ['DRAG_MODEL+ITEMS']= 'Arrastrar objetos',
     ['SELF_CAST_AUTO+HIDE']= 'Ocultar automáticamente',
@@ -1408,6 +1415,10 @@ local esES= {
     ['Tip.Color.AutoShow']= 'Abre automáticamente el selector de colores al entrar en el juego.',
     ['Tip.Color.SlotChoose']= 'Guarda en esta ranura el color seleccionado ahora en el selector.',
     ['Tip.Color.SlotDefault']= 'Restablece esta ranura a su color predeterminado.',
+    --Cabeceras de los paneles del selector de colores (estilo común)
+    ['Color.Palettes']= 'Paletas',
+    ['Color.UIColors']= 'Colores de la interfaz',
+    ['Color.History']= 'Recientes',
     ['Tip.AuctionHouse.Enable']= 'Mejora la casa de subastas: información extra en los resultados de compra, lista rápida de objetos de tus bolsas para vender, precios recordados y cancelar subastas con doble clic. También muestra en la tienda de cuenta cuántos objetos de cada categoría tienes.',
     ['Tip.AuctionHouse.BuyPlus']= 'En la pestaña Comprar muestra cuántas unidades tienes de cada objeto, si ya lo conoces o coleccionaste, sus atributos, y marca tus propias subastas. Doble clic en una fila abre la confirmación de compra por el precio de compra inmediata.',
     ['Tip.AuctionHouse.SellPlus']= 'En la pestaña Vender añade una lista de objetos de tus bolsas que se pueden subastar, recuerda el último precio usado para cada objeto, muestra el precio frente al del mercader y permite pasar al siguiente objeto rápidamente.',
@@ -1863,7 +1874,8 @@ local esES= {
     ['Reset raid marker tool']= 'Restablecer herramienta de marcas',
     ['Auto-fill confirmation words']= 'Autocompletar palabras de confirmación (BORRAR…)',
     ['Frame inspector (/fstack)']= 'Inspector de marcos (/fstack)',
-    ['Not found']= 'No encontrado',
+    ['Not found']= 'No encontrado',
+
     ['Show addon messages in chat']= 'Mostrar mensajes del addon en el chat',
     ['Tip.Panel.ChatMessages']= 'Muestra en el chat lo que el addon hace por su cuenta (objetos vendidos, reparaciones, misiones aceptadas, errores…). Desactivado por defecto para no llenar el chat.',
     ['Module.ActionBars']= 'Estilo de barras de acción',

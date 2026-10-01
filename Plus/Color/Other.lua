@@ -99,6 +99,7 @@ local function Init()
 
 	ColorPickerFrame.Content.ColorPicker.alphaText=WoWTools_LabelMixin:Create(ColorPickerFrame.Content.ColorPicker)
 	ColorPickerFrame.Content.ColorPicker.alphaText:SetPoint('BOTTOM', ColorPickerFrame.Content.ColorPicker.Alpha, 'TOP',0,1)
+	WoWTools_Style:Text(ColorPickerFrame.Content.ColorPicker.alphaText, 'small', 'text')
 
 	ColorPickerFrame.Content.ColorPicker:HookScript("OnColorSelect", OnColorSelect)
 	OnColorSelect(ColorPickerFrame.Content.ColorPicker, ColorPickerFrame:GetColorRGB())

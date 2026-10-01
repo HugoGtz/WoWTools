@@ -162,7 +162,6 @@ local function Init()
 	btn.frame:SetSize(1,1)
 
 	btn.autoHideTexture= btn:CreateTexture(nil, 'BORDER')
-	btn.autoHideTexture:SetSize(23,23)
 	btn.autoHideTexture:SetPoint('LEFT', ColorPickerFrame.Footer.CancelButton, 'RIGHT', 0, -1)
 	btn.autoHideTexture:SetAtlas('newplayertutorial-drag-cursor')
 	btn.autoHideTexture:EnableMouse(true)
@@ -197,6 +196,12 @@ local function Init()
 
 	btn:SetupMenu(Init_Menu)
 	btn:Settings()
+
+--Estilo común: botón plano de solo icono (después de los SetScript, que sustituyen a los HookScript)
+	btn:SetSize(WoWTools_Style.Size.icon.normal, WoWTools_Style.Size.icon.normal)
+	WoWTools_Style:Button(btn, {icon=true})
+	WoWTools_Style:Icon(btn.autoHideTexture, 'normal', {mask=false})
+
 	btn:set_alpha()
 end
 
