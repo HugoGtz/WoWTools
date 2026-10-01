@@ -1,6 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_Challenges'] or {}
-end
 local Frame
 
 
@@ -307,12 +304,12 @@ local function Create_Label(frame)
 
     frame:EnableMouse(true)
     frame:HookScript('OnEnter', function(self)
-        if not Save().hideIns then
+        if not WoWTools_ChallengeMixin:Save().hideIns then
             Set_OnEnter(self)
         end
     end)
     frame:SetScript('OnMouseDown', function(self)
-        if not Save().hideIns then
+        if not WoWTools_ChallengeMixin:Save().hideIns then
             WoWTools_LoadUIMixin:JournalInstance(nil, self.journalInstanceID, nil)
         end
     end)
@@ -414,7 +411,7 @@ local function SetUp(self)
     end
 
 
-    local insNamegsub= Save().insNamegsub
+    local insNamegsub= WoWTools_ChallengeMixin:Save().insNamegsub
     local nameText = C_ChallengeMode.GetMapUIInfo(self.mapID)
     self.nameLable.name= nameText
 
@@ -551,7 +548,7 @@ end
 --####
 --####
 local function Init()
-    if Save().hideIns then
+    if WoWTools_ChallengeMixin:Save().hideIns then
         return
     end
 
@@ -562,8 +559,8 @@ local function Init()
     Frame:SetPoint('TOPLEFT')
 
     function Frame:Settings()
-        local show= not Save().hideIns
-        self:SetScale(Save().insScale or 1)
+        local show= not WoWTools_ChallengeMixin:Save().hideIns
+        self:SetScale(WoWTools_ChallengeMixin:Save().insScale or 1)
         self:SetShown(show)
         if show then
             Set_Update(self:GetParent())
@@ -571,7 +568,7 @@ local function Init()
     end
 
     WoWTools_DataMixin:Hook(ChallengesFrame, 'Update', function(self)
-        if not Save().hideIns then
+        if not WoWTools_ChallengeMixin:Save().hideIns then
             Set_Update(self)
         end
     end)
@@ -579,7 +576,7 @@ local function Init()
     ChallengesFrame.WeeklyInfo.Child.DungeonScoreInfo:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT", 0, 0)
         local desc= WoWTools_L.DUNGEON_SCORE_DESC
-        if not Save().hideIns then
+        if not WoWTools_ChallengeMixin:Save().hideIns then
             WoWTools_SetTooltipMixin:Frame(self, GameTooltip, {dungeonScore= WoWTools_ChallengeMixin:GetDungeonScoreLink()})
             GameTooltip:AddLine(' ')
             GameTooltip_AddColoredLine(GameTooltip, desc, HIGHLIGHT_FONT_COLOR)

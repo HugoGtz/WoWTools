@@ -1,12 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_Challenges'] or {}
-end
-
-
-
-
-
-
 local function Create_Button(frame)
     if frame.spellPort then
         return
@@ -60,14 +51,14 @@ local function Create_Button(frame)
         elseif event=='PLAYER_REGEN_DISABLED' then
             self:SetShown(false)
         elseif event=='PLAYER_REGEN_ENABLED' then
-            self:SetShown(not Save().hidePort)
+            self:SetShown(not WoWTools_ChallengeMixin:Save().hidePort)
         end
     end)
 
 
     frame:HookScript('OnShow', function(self)
         if not InCombatLockdown() then
-            self.spellPort:SetShown(not Save().hidePort)
+            self.spellPort:SetShown(not WoWTools_ChallengeMixin:Save().hidePort)
         end
         self.spellPort:RegisterEvent('PLAYER_REGEN_DISABLED')
         self.spellPort:RegisterEvent('PLAYER_REGEN_ENABLED')
@@ -126,8 +117,8 @@ local function Set_Update()--Blizzard_ChallengesUI.lua
 
             if frame.spellPort:CanChangeAttribute() then
                 frame.spellPort:SetAttribute("spell",  spellID)--local name= C_Spell.GetSpellName(frame.spellID) 
-                frame.spellPort:SetShown(not Save().hidePort)
-                frame.spellPort:SetScale(Save().portScale or 1)
+                frame.spellPort:SetShown(not WoWTools_ChallengeMixin:Save().hidePort)
+                frame.spellPort:SetScale(WoWTools_ChallengeMixin:Save().portScale or 1)
             end
         end
     end
@@ -170,7 +161,7 @@ end
 --####
 --####
 local function Init()
-    if Save().hidePort then
+    if WoWTools_ChallengeMixin:Save().hidePort then
         return
     end
 

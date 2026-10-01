@@ -1,6 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_Challenges'] or {}
-end
 local CurrentWeek
 local Frame
 
@@ -73,7 +70,7 @@ end
 
 
 local function Init()
-    if Save().hideAffix then
+    if WoWTools_ChallengeMixin:Save().hideAffix then
         return
     end
 
@@ -100,10 +97,10 @@ local function Init()
 
 
     function Frame:Settings()
-        self:SetSize(Save().affixW or 238, Save().affixH or 177)
-        self:SetPoint('BOTTOMRIGHT', ChallengesFrame, 'BOTTOMRIGHT', Save().affixX or -45, Save().affixY or 300)
-        self:SetScale(Save().affixScale or 0.4)
-        self:SetShown(not Save().hideAffix)
+        self:SetSize(WoWTools_ChallengeMixin:Save().affixW or 238, WoWTools_ChallengeMixin:Save().affixH or 177)
+        self:SetPoint('BOTTOMRIGHT', ChallengesFrame, 'BOTTOMRIGHT', WoWTools_ChallengeMixin:Save().affixX or -45, WoWTools_ChallengeMixin:Save().affixY or 300)
+        self:SetScale(WoWTools_ChallengeMixin:Save().affixScale or 0.4)
+        self:SetShown(not WoWTools_ChallengeMixin:Save().hideAffix)
     end
 
     Frame:SetScript('OnShow', function(self)

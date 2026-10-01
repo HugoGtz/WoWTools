@@ -1,9 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_Challenges'] or {}
-end
-
-
-
 local function Init_Menu(self, root)
     if not self:IsMouseOver() then
         return
@@ -17,9 +11,9 @@ local function Init_Menu(self, root)
     sub= root:CreateCheckbox(
         name,
     function()
-        return not Save().hideIns
+        return not WoWTools_ChallengeMixin:Save().hideIns
     end, function()
-        Save().hideIns = not Save().hideIns and true or nil
+        WoWTools_ChallengeMixin:Save().hideIns = not WoWTools_ChallengeMixin:Save().hideIns and true or nil
         WoWTools_ChallengeMixin:ChallengesUI_Info()
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Challenge.DungeonInfo'])
@@ -28,9 +22,9 @@ local function Init_Menu(self, root)
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
-            return Save().insNamegsub or 0
+            return WoWTools_ChallengeMixin:Save().insNamegsub or 0
         end, setValue=function(value)
-            Save().insNamegsub=value>0 and value or nil
+            WoWTools_ChallengeMixin:Save().insNamegsub=value>0 and value or nil
             WoWTools_ChallengeMixin:ChallengesUI_Info()
         end,
         name=WoWTools_L['Truncate'],
@@ -48,13 +42,13 @@ local function Init_Menu(self, root)
 
     WoWTools_MenuMixin:ScaleRoot(self, sub,
     function()
-        return Save().insScale or 1
+        return WoWTools_ChallengeMixin:Save().insScale or 1
     end, function(value)
-        Save().insScale=value
+        WoWTools_ChallengeMixin:Save().insScale=value
         WoWTools_ChallengeMixin:ChallengesUI_Info()
     end, function()
-        Save().insScale=nil
-        Save().insNamegsub=nil
+        WoWTools_ChallengeMixin:Save().insScale=nil
+        WoWTools_ChallengeMixin:Save().insNamegsub=nil
         WoWTools_ChallengeMixin:ChallengesUI_Info()
     end)
 
@@ -66,9 +60,9 @@ local function Init_Menu(self, root)
         '|A:WarlockPortal-Yellow-32x32:0:0|a|cnWARNING_FONT_COLOR:'
         ..(WoWTools_L['SPELLS~2']),
     function()
-        return not Save().hidePort
+        return not WoWTools_ChallengeMixin:Save().hidePort
     end, function()
-        Save().hidePort = not Save().hidePort and true or nil
+        WoWTools_ChallengeMixin:Save().hidePort = not WoWTools_ChallengeMixin:Save().hidePort and true or nil
         WoWTools_ChallengeMixin:ChallengesUI_Porta()
     end)
     sub:SetTooltip(function(tooltip)
@@ -80,12 +74,12 @@ local function Init_Menu(self, root)
 
     WoWTools_MenuMixin:ScaleRoot(self, sub,
     function()
-        return Save().portScale or 1
+        return WoWTools_ChallengeMixin:Save().portScale or 1
     end, function(value)
-        Save().portScale=value
+        WoWTools_ChallengeMixin:Save().portScale=value
         WoWTools_ChallengeMixin:ChallengesUI_Porta()
     end, function()
-        Save().portScale=nil
+        WoWTools_ChallengeMixin:Save().portScale=nil
         WoWTools_ChallengeMixin:ChallengesUI_Porta()
     end)
 
@@ -108,9 +102,9 @@ local function Init_Menu(self, root)
     sub= root:CreateCheckbox(
         name,
     function()
-        return not Save().hideActivities
+        return not WoWTools_ChallengeMixin:Save().hideActivities
     end, function()
-        Save().hideActivities= not Save().hideActivities and true or nil
+        WoWTools_ChallengeMixin:Save().hideActivities= not WoWTools_ChallengeMixin:Save().hideActivities and true or nil
         WoWTools_ChallengeMixin:ChallengesUI_Activities()
     end)
     sub:SetTooltip(function(tooltip)
@@ -132,9 +126,9 @@ local function Init_Menu(self, root)
         'PvP '
         ..(WoWTools_L.INFO),
     function()
-        return not Save().activitiesHidePvP
+        return not WoWTools_ChallengeMixin:Save().activitiesHidePvP
     end, function()
-        Save().activitiesHidePvP= not Save().activitiesHidePvP and true or nil
+        WoWTools_ChallengeMixin:Save().activitiesHidePvP= not WoWTools_ChallengeMixin:Save().activitiesHidePvP and true or nil
         WoWTools_ChallengeMixin:ChallengesUI_Activities()
     end)
     WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Challenge.VaultPvP'])
@@ -145,9 +139,9 @@ local function Init_Menu(self, root)
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
-            return Save().activitiesX or 10
+            return WoWTools_ChallengeMixin:Save().activitiesX or 10
         end, setValue=function(value)
-            Save().activitiesX=value
+            WoWTools_ChallengeMixin:Save().activitiesX=value
             WoWTools_ChallengeMixin:ChallengesUI_Activities()
         end,
         name='X',
@@ -161,9 +155,9 @@ local function Init_Menu(self, root)
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
-            return Save().activitiesY or -53
+            return WoWTools_ChallengeMixin:Save().activitiesY or -53
         end, setValue=function(value)
-            Save().activitiesY=value
+            WoWTools_ChallengeMixin:Save().activitiesY=value
             WoWTools_ChallengeMixin:ChallengesUI_Activities()
         end,
         name='Y',
@@ -175,14 +169,14 @@ local function Init_Menu(self, root)
 
     WoWTools_MenuMixin:ScaleRoot(self, sub,
     function()
-        return Save().activitiesScale or 1
+        return WoWTools_ChallengeMixin:Save().activitiesScale or 1
     end, function(value)
-        Save().activitiesScale=value
+        WoWTools_ChallengeMixin:Save().activitiesScale=value
         WoWTools_ChallengeMixin:ChallengesUI_Activities()
     end, function()
-        Save().activitiesScale=nil
-        Save().activitiesX=nil
-        Save().activitiesY=nil
+        WoWTools_ChallengeMixin:Save().activitiesScale=nil
+        WoWTools_ChallengeMixin:Save().activitiesX=nil
+        WoWTools_ChallengeMixin:Save().activitiesY=nil
         WoWTools_ChallengeMixin:ChallengesUI_Activities()
     end)
 
@@ -197,9 +191,9 @@ local function Init_Menu(self, root)
     sub= root:CreateCheckbox(
         name,
     function()
-        return not Save().hideGuild
+        return not WoWTools_ChallengeMixin:Save().hideGuild
     end, function()
-        Save().hideGuild= not Save().hideGuild and true or nil
+        WoWTools_ChallengeMixin:Save().hideGuild= not WoWTools_ChallengeMixin:Save().hideGuild and true or nil
         WoWTools_ChallengeMixin:ChallengesUI_Guild()
     end)
     sub:SetTooltip(function(tooltip)
@@ -212,9 +206,9 @@ local function Init_Menu(self, root)
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
     getValue=function()
-        return Save().guildX or -15
+        return WoWTools_ChallengeMixin:Save().guildX or -15
     end, setValue=function(value)
-        Save().guildX=value
+        WoWTools_ChallengeMixin:Save().guildX=value
         WoWTools_ChallengeMixin:ChallengesUI_Guild()
     end,
         name='X',
@@ -228,9 +222,9 @@ local function Init_Menu(self, root)
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
     getValue=function()
-        return Save().guildY or -32
+        return WoWTools_ChallengeMixin:Save().guildY or -32
     end, setValue=function(value)
-        Save().guildY=value
+        WoWTools_ChallengeMixin:Save().guildY=value
         WoWTools_ChallengeMixin:ChallengesUI_Guild()
     end,
         name='Y',
@@ -244,9 +238,9 @@ local function Init_Menu(self, root)
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
-            return Save().guildBgAlpha or 0.5
+            return WoWTools_ChallengeMixin:Save().guildBgAlpha or 0.5
         end, setValue=function(value)
-            Save().guildBgAlpha=value
+            WoWTools_ChallengeMixin:Save().guildBgAlpha=value
             WoWTools_ChallengeMixin:ChallengesUI_Guild()
         end,
         name=WoWTools_L.HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY,
@@ -261,15 +255,15 @@ local function Init_Menu(self, root)
     sub:CreateSpacer()
     WoWTools_MenuMixin:ScaleRoot(self, sub,
     function()
-        return Save().guildScale or 1
+        return WoWTools_ChallengeMixin:Save().guildScale or 1
     end, function(value)
-        Save().guildScale=value
+        WoWTools_ChallengeMixin:Save().guildScale=value
         WoWTools_ChallengeMixin:ChallengesUI_Guild()
     end, function()
-        Save().guildScale=nil
-        Save().guildX=nil
-        Save().guildY=nil
-        Save().guildBgAlpha=nil
+        WoWTools_ChallengeMixin:Save().guildScale=nil
+        WoWTools_ChallengeMixin:Save().guildX=nil
+        WoWTools_ChallengeMixin:Save().guildY=nil
+        WoWTools_ChallengeMixin:Save().guildBgAlpha=nil
         WoWTools_ChallengeMixin:ChallengesUI_Guild()
     end)
 
@@ -283,9 +277,9 @@ local function Init_Menu(self, root)
     sub= root:CreateCheckbox(
         name,
     function()
-        return not Save().hideAffix
+        return not WoWTools_ChallengeMixin:Save().hideAffix
     end, function()
-        Save().hideAffix= not Save().hideAffix and true or nil
+        WoWTools_ChallengeMixin:Save().hideAffix= not WoWTools_ChallengeMixin:Save().hideAffix and true or nil
         WoWTools_ChallengeMixin:ChallengesUI_Affix()
     end)
     sub:SetTooltip(function(tooltip)
@@ -308,9 +302,9 @@ local function Init_Menu(self, root)
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
     getValue=function()
-        return Save().affixW or 238
+        return WoWTools_ChallengeMixin:Save().affixW or 238
     end, setValue=function(value)
-        Save().affixW=value
+        WoWTools_ChallengeMixin:Save().affixW=value
         WoWTools_ChallengeMixin:ChallengesUI_Affix()
     end,
         name=WoWTools_L.HUD_EDIT_MODE_SETTING_CHAT_FRAME_WIDTH,
@@ -324,9 +318,9 @@ local function Init_Menu(self, root)
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
     getValue=function()
-        return Save().affixH or 177
+        return WoWTools_ChallengeMixin:Save().affixH or 177
     end, setValue=function(value)
-        Save().affixH=value
+        WoWTools_ChallengeMixin:Save().affixH=value
         WoWTools_ChallengeMixin:ChallengesUI_Affix()
     end,
         name=WoWTools_L.HUD_EDIT_MODE_SETTING_CHAT_FRAME_HEIGHT,
@@ -341,9 +335,9 @@ local function Init_Menu(self, root)
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
     getValue=function()
-        return Save().affixX or -45
+        return WoWTools_ChallengeMixin:Save().affixX or -45
     end, setValue=function(value)
-        Save().affixX=value
+        WoWTools_ChallengeMixin:Save().affixX=value
         WoWTools_ChallengeMixin:ChallengesUI_Affix()
     end,
         name='X',
@@ -357,9 +351,9 @@ sub:CreateSpacer()
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
     getValue=function()
-        return Save().affixY or 300
+        return WoWTools_ChallengeMixin:Save().affixY or 300
     end, setValue=function(value)
-        Save().affixY=value
+        WoWTools_ChallengeMixin:Save().affixY=value
         WoWTools_ChallengeMixin:ChallengesUI_Affix()
     end,
         name='Y',
@@ -371,16 +365,16 @@ sub:CreateSpacer()
 
     WoWTools_MenuMixin:ScaleRoot(self, sub,
     function()
-        return Save().affixScale or 0.4
+        return WoWTools_ChallengeMixin:Save().affixScale or 0.4
     end, function(value)
-        Save().affixScale=value
+        WoWTools_ChallengeMixin:Save().affixScale=value
         WoWTools_ChallengeMixin:ChallengesUI_Affix()
     end, function()
-        Save().affixScale=nil
-        Save().affixW=nil
-        Save().affixH=nil
-        Save().affixX=nil
-        Save().affixY=nil
+        WoWTools_ChallengeMixin:Save().affixScale=nil
+        WoWTools_ChallengeMixin:Save().affixW=nil
+        WoWTools_ChallengeMixin:Save().affixH=nil
+        WoWTools_ChallengeMixin:Save().affixX=nil
+        WoWTools_ChallengeMixin:Save().affixY=nil
         WoWTools_ChallengeMixin:ChallengesUI_Affix()
     end)
 
@@ -393,9 +387,9 @@ sub:CreateTitle(name)
     sub= root:CreateCheckbox(
         name,
     function()
-        return not Save().hideRight
+        return not WoWTools_ChallengeMixin:Save().hideRight
     end, function()
-        Save().hideRight= not Save().hideRight and true or nil
+        WoWTools_ChallengeMixin:Save().hideRight= not WoWTools_ChallengeMixin:Save().hideRight and true or nil
         WoWTools_ChallengeMixin:ChallengesUI_Right()
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Challenge.RightInfo'])
@@ -404,9 +398,9 @@ sub:CreateTitle(name)
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
     getValue=function()
-        return Save().rightX or 10
+        return WoWTools_ChallengeMixin:Save().rightX or 10
     end, setValue=function(value)
-        Save().rightX=value
+        WoWTools_ChallengeMixin:Save().rightX=value
         WoWTools_ChallengeMixin:ChallengesUI_Right()
     end,
         name='X',
@@ -420,9 +414,9 @@ sub:CreateTitle(name)
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
     getValue=function()
-        return Save().rightY or -53
+        return WoWTools_ChallengeMixin:Save().rightY or -53
     end, setValue=function(value)
-        Save().rightY=value
+        WoWTools_ChallengeMixin:Save().rightY=value
         WoWTools_ChallengeMixin:ChallengesUI_Right()
     end,
         name='Y',
@@ -434,14 +428,14 @@ sub:CreateTitle(name)
 
     WoWTools_MenuMixin:ScaleRoot(self, sub,
     function()
-        return Save().rightScale or 1
+        return WoWTools_ChallengeMixin:Save().rightScale or 1
     end, function(value)
-        Save().rightScale=value
+        WoWTools_ChallengeMixin:Save().rightScale=value
         WoWTools_ChallengeMixin:ChallengesUI_Right()
     end, function()
-        Save().rightScale=nil
-        Save().rightX=nil
-        Save().rightY=nil
+        WoWTools_ChallengeMixin:Save().rightScale=nil
+        WoWTools_ChallengeMixin:Save().rightX=nil
+        WoWTools_ChallengeMixin:Save().rightY=nil
         WoWTools_ChallengeMixin:ChallengesUI_Right()
     end)
 

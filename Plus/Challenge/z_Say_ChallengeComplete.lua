@@ -1,7 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_Challenges'] or {}
-end
-
 local SayButton
 
 
@@ -193,7 +189,7 @@ local function Init_Menu(self, root)
             WoWTools_L['Load'],
         function()
             WoWTools_ChallengeMixin:Say_ChallengeComplete()
-            Save().hideEndKeystoneSay= nil
+            WoWTools_ChallengeMixin:Save().hideEndKeystoneSay= nil
             return MenuResponse.CloseAll
         end)
         return
@@ -212,16 +208,16 @@ local function Init_Menu(self, root)
     local tipSub= sub:CreateCheckbox(
         WoWTools_L.BATTLEFIELD_MINIMAP_SHOW_ALWAYS,
     function()
-        return Save().allShowEndKeystoneSay
+        return WoWTools_ChallengeMixin:Save().allShowEndKeystoneSay
     end, function()
-        Save().allShowEndKeystoneSay= not Save().allShowEndKeystoneSay and true or nil
+        WoWTools_ChallengeMixin:Save().allShowEndKeystoneSay= not WoWTools_ChallengeMixin:Save().allShowEndKeystoneSay and true or nil
     end)
     WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Challenge.AlwaysShow'])
 
     WoWTools_MenuMixin:Scale(self, sub, function()
-        return Save().endKeystoneSayScale or 1
+        return WoWTools_ChallengeMixin:Save().endKeystoneSayScale or 1
     end, function(value)
-        Save().endKeystoneSayScale= value
+        WoWTools_ChallengeMixin:Save().endKeystoneSayScale= value
         self:set_scale()
     end)
 
@@ -229,7 +225,7 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:FrameStrata(self, sub, function(data)
         return self:GetFrameStrata()==data
     end, function(data)
-        Save().endeystoneSayStrata= data
+        WoWTools_ChallengeMixin:Save().endeystoneSayStrata= data
         self:set_scale()
     end)
 
@@ -260,13 +256,13 @@ end
 
 
 local function Init()
-    if Save().hideEndKeystoneSay then
+    if WoWTools_ChallengeMixin:Save().hideEndKeystoneSay then
         return
     end
 
-    if Save().EndKeystoneSayText then
-        WoWToolsPlusPlayerDate.EndKeystoneSayText= Save().EndKeystoneSayText
-        Save().EndKeystoneSayText= nil
+    if WoWTools_ChallengeMixin:Save().EndKeystoneSayText then
+        WoWToolsPlusPlayerDate.EndKeystoneSayText= WoWTools_ChallengeMixin:Save().EndKeystoneSayText
+        WoWTools_ChallengeMixin:Save().EndKeystoneSayText= nil
     end--sin texto guardado solo se envía el enlace; el texto sugerido aparece al editar (Edit_Say_Text)
 
     SayButton= WoWTools_ButtonMixin:Cbtn(nil, {
@@ -293,8 +289,8 @@ local function Init()
         ResetCursor()
         self:StopMovingOrSizing()
         if WoWTools_FrameMixin:IsInSchermo(self) then
-            Save().sayButtonPoint={self:GetPoint(1)}
-            Save().sayButtonPoint[2]= nil
+            WoWTools_ChallengeMixin:Save().sayButtonPoint={self:GetPoint(1)}
+            WoWTools_ChallengeMixin:Save().sayButtonPoint[2]= nil
         end
     end)
 
@@ -327,14 +323,14 @@ local function Init()
         WoWTools_BagMixin:Find(true, {itemLocation = self:GetItemLocation()})
     end)
 
-    if Save().sayButtonPoint then
-        SayButton:SetPoint(Save().sayButtonPoint[1], UIParent, Save().sayButtonPoint[3], Save().sayButtonPoint[4], Save().sayButtonPoint[5])
+    if WoWTools_ChallengeMixin:Save().sayButtonPoint then
+        SayButton:SetPoint(WoWTools_ChallengeMixin:Save().sayButtonPoint[1], UIParent, WoWTools_ChallengeMixin:Save().sayButtonPoint[3], WoWTools_ChallengeMixin:Save().sayButtonPoint[4], WoWTools_ChallengeMixin:Save().sayButtonPoint[5])
     else
         SayButton:SetPoint('CENTER', 100, 100)
     end
     function SayButton:set_scale()
-        self:SetScale(Save().endKeystoneSayScale or 1)
-        self:SetFrameStrata(Save().endeystoneSayStrata or 'MEDIUM')
+        self:SetScale(WoWTools_ChallengeMixin:Save().endKeystoneSayScale or 1)
+        self:SetFrameStrata(WoWTools_ChallengeMixin:Save().endeystoneSayStrata or 'MEDIUM')
     end
 
 
@@ -344,7 +340,7 @@ local function Init()
     end)
     SayButton:SetScript('OnShow', function(self)
         self:RegisterEvent('BAG_UPDATE_DELAYED')
-        if not Save().allShowEndKeystoneSay then
+        if not WoWTools_ChallengeMixin:Save().allShowEndKeystoneSay then
             self:RegisterEvent('PLAYER_ENTERING_WORLD')
         end
         Settings(false)
@@ -364,7 +360,7 @@ local function Init()
     SayButton:set_scale()
 
     Init=function()
-        SayButton:SetShown(not Save().hideEndKeystoneSay)
+        SayButton:SetShown(not WoWTools_ChallengeMixin:Save().hideEndKeystoneSay)
     end
 end
 

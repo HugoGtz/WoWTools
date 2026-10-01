@@ -1,7 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_Challenges'] or {}
-end
-
 local KeyFrame
 
 
@@ -264,17 +260,17 @@ local function Init_Menu(self, root)
     sub=root:CreateCheckbox(
         'Plus',
     function()
-        return not Save().hideKeyUI
+        return not WoWTools_ChallengeMixin:Save().hideKeyUI
     end, function()
-        Save().hideKeyUI= not Save().hideKeyUI and true or nil
+        WoWTools_ChallengeMixin:Save().hideKeyUI= not WoWTools_ChallengeMixin:Save().hideKeyUI and true or nil
         WoWTools_ChallengeMixin:ChallengesKeystoneFrame()
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Challenge.KeystonePlus'])
 
     WoWTools_MenuMixin:Scale(self, sub, function()
-        return Save().keystoneScale or 1
+        return WoWTools_ChallengeMixin:Save().keystoneScale or 1
     end, function(value)
-        Save().keystoneScale= value
+        WoWTools_ChallengeMixin:Save().keystoneScale= value
         WoWTools_ChallengeMixin:ChallengesKeystoneFrame()
     end)
 
@@ -289,9 +285,9 @@ local function Init_Menu(self, root)
     sub= root:CreateCheckbox(
         WoWTools_L['PLAYER_DIFFICULTY5+COMPLETE'],
     function()
-        return not Save().hideEndKeystoneSay
+        return not WoWTools_ChallengeMixin:Save().hideEndKeystoneSay
     end, function()
-        Save().hideEndKeystoneSay= not Save().hideEndKeystoneSay and true or nil
+        WoWTools_ChallengeMixin:Save().hideEndKeystoneSay= not WoWTools_ChallengeMixin:Save().hideEndKeystoneSay and true or nil
         WoWTools_ChallengeMixin:Say_ChallengeComplete()
     end)
     sub:SetTooltip(function(tootip)
@@ -371,8 +367,8 @@ local function Init()
     function KeyFrame:settings()
 
         self.ChatTooltipTexture:SetShown(false)
-        self:SetShown(not Save().hideKeyUI)
-        self:SetScale(Save().keystoneScale or 1)
+        self:SetShown(not WoWTools_ChallengeMixin:Save().hideKeyUI)
+        self:SetScale(WoWTools_ChallengeMixin:Save().keystoneScale or 1)
     end
 
 

@@ -1,6 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_Challenges'] or {}
-end
 local Frame
 
 
@@ -248,7 +245,7 @@ end
 
 
 local function Init()
-    if Save().hideRight then
+    if WoWTools_ChallengeMixin:Save().hideRight then
         return
     end
 
@@ -261,9 +258,9 @@ local function Init()
     Create_Label()
 
     function Frame:Settings()
-        self:SetPoint('TOPLEFT', ChallengesFrame, 'TOPRIGHT', Save().rightX or 2, Save().rightY or -22)
-        self:SetShown(not Save().hideRight)
-        self:SetScale(Save().rightScale or 1)
+        self:SetPoint('TOPLEFT', ChallengesFrame, 'TOPRIGHT', WoWTools_ChallengeMixin:Save().rightX or 2, WoWTools_ChallengeMixin:Save().rightY or -22)
+        self:SetShown(not WoWTools_ChallengeMixin:Save().hideRight)
+        self:SetScale(WoWTools_ChallengeMixin:Save().rightScale or 1)
      end
 
     Frame:SetScript('OnShow', function(self)

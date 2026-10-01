@@ -1,8 +1,5 @@
 
 
-local function Save()
-    return WoWToolsPlusSave['Plus_Challenges'] or {}
-end
 local Frame
 
 
@@ -66,7 +63,7 @@ end
 
 
 local function Init()
-    if not IsInGuild() or Save().hideGuild then
+    if not IsInGuild() or WoWTools_ChallengeMixin:Save().hideGuild then
         return
     end
 
@@ -90,10 +87,10 @@ local function Init()
     })
 
     function Frame:Settings()
-        self:SetPoint('TOPRIGHT', ChallengesFrame, Save().guildX or -15, Save().guildY or -32)
-        self:SetScale(Save().guildScale or 1)
-        self.Background:SetAlpha(Save().guildBgAlpha or 0.5)
-        self:SetShown(not Save().hideGuild and IsInGuild())
+        self:SetPoint('TOPRIGHT', ChallengesFrame, WoWTools_ChallengeMixin:Save().guildX or -15, WoWTools_ChallengeMixin:Save().guildY or -32)
+        self:SetScale(WoWTools_ChallengeMixin:Save().guildScale or 1)
+        self.Background:SetAlpha(WoWTools_ChallengeMixin:Save().guildBgAlpha or 0.5)
+        self:SetShown(not WoWTools_ChallengeMixin:Save().hideGuild and IsInGuild())
      end
 
      Frame:SetScript('OnShow', function(self)
