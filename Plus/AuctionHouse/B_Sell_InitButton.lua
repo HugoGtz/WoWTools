@@ -335,6 +335,14 @@ function WoWTools_AuctionHouseMixin:Init_Sell()
     end
 end
 
+--Refresco desde el Centro de control (mostrar lista, escala, filas, calidad, ocultos)
+function WoWTools_AuctionHouseMixin:Refresh_Sell()
+    if AuctionHouseButton then
+        AuctionHouseButton:Settings()
+        AuctionHouseButton:Init_Sell_Item_Button()
+    end
+end
+
 function WoWTools_AuctionHouseMixin:Init_Sell_Item_Button()
     C_Timer.After(0.3, Init_Sell_Item_Button)
 end

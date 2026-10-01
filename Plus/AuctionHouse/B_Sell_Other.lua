@@ -372,6 +372,12 @@ local function Init_MaxSellItemCheck()
         WoWTools_AuctionHouseMixin:Save().isMaxSellItem= not WoWTools_AuctionHouseMixin:Save().isMaxSellItem and true or false
         MaxSellItemCheck:SetChecked(WoWTools_AuctionHouseMixin:Save().isMaxSellItem)
     end)
+
+    --Refresco desde el Centro de control
+    function WoWTools_AuctionHouseMixin:Refresh_MaxSellItem()
+        MaxSellItemCheck:SetChecked(self:Save().isMaxSellItem)
+        MaxSellItemCheck2:SetChecked(self:Save().isMaxSellItem)
+    end
 end
 
 
