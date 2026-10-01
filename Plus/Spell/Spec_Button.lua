@@ -93,7 +93,8 @@ local function Create_Spec_Button(index)
 
     btn:SetSize(32,32)
     btn:SetNormalTexture(texture or 0)
-    WoWTools_ButtonMixin:AddMask(btn, false)
+    btn.texture= btn:GetNormalTexture()
+    WoWTools_Style:IconButton(btn)
     --btn:SetClampedToScreen(true)
     --table.insert(SpecFrame.Buttons, btn)
 
@@ -113,10 +114,6 @@ local function Create_Spec_Button(index)
     btn.RoleIcon:SetPoint('BOTTOMRIGHT', 2, -1.2)
     btn.RoleIcon:SetAtlas(GetMicroIconForRoleEnum(GetSpecializationRoleEnum(index, false, false)), TextureKitConstants.IgnoreAtlasSize)
 
-    btn.SelectIcon= btn:CreateTexture(nil, 'OVERLAY')
-    btn.SelectIcon:SetAllPoints()
-    btn.SelectIcon:SetAtlas('ChromieTime-Button-Selection')
-    btn.SelectIcon:SetVertexColor(0,1,0)
 
     function btn:Set_Active()
         if self.isActive then
@@ -219,7 +216,7 @@ local function Create_Spec_Button(index)
         self.isLoot= isLoot
         self.lootID= lootID
 
-        self.SelectIcon:SetShown(isActive)
+        WoWTools_Style:SetActive(self, isActive)--la activa, con el borde del color de acento
 
         if isLoot then
             if lootID==0 then
