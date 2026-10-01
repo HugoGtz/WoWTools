@@ -263,7 +263,7 @@ end
 
 
 local function Init()
-    if WoWToolsPlusSave['Plus_AuctionHouse'].disabledBuyPlus then
+    if WoWTools_AuctionHouseMixin:Save().disabledBuyPlus then
         return
     end
     hooksecurefunc(AuctionHouseTableCellFavoriteMixin, 'Populate', function(btn, rowData)

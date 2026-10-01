@@ -50,11 +50,11 @@ function WoWTools_AuctionHouseMixin:GetItemSellStatus(bag, slot, isCheckHideItem
             if
                 info.itemID
                 and info.hyperlink
-                and info.quality>= WoWToolsPlusSave['Plus_AuctionHouse'].sellItemQualiy
+                and info.quality>= WoWTools_AuctionHouseMixin:Save().sellItemQualiy
                 and (isCheckHideItem
                     and (
-                        (info.itemID==82800 and not WoWToolsPlusSave['Plus_AuctionHouse'].hideSellPet[info.hyperlink:match('Hbattlepet:(%d+)')])
-                        or (info.itemID~=82800 and not WoWToolsPlusSave['Plus_AuctionHouse'].hideSellItem[info.itemID])
+                        (info.itemID==82800 and not WoWTools_AuctionHouseMixin:Save().hideSellPet[info.hyperlink:match('Hbattlepet:(%d+)')])
+                        or (info.itemID~=82800 and not WoWTools_AuctionHouseMixin:Save().hideSellItem[info.itemID])
                     )
                     or not isCheckHideItem
                 )

@@ -1,14 +1,5 @@
 
 
-local function Save()
-    return WoWToolsPlusSave['Plus_AuctionHouse'] or {}
-end
-
-
-
-
-
-
 local function Init_Menu(self, root)
     if not self:IsMouseOver() then
         return
@@ -18,9 +9,9 @@ local function Init_Menu(self, root)
     sub=root:CreateCheckbox(
         WoWTools_L.SHOW,
     function()
-        return not Save().hideSellItemList
+        return not WoWTools_AuctionHouseMixin:Save().hideSellItemList
     end, function()
-        Save().hideSellItemList= not Save().hideSellItemList and true or nil
+        WoWTools_AuctionHouseMixin:Save().hideSellItemList= not WoWTools_AuctionHouseMixin:Save().hideSellItemList and true or nil
         self:Settings()
         self:Init_Sell_Item_Button()
     end)
@@ -37,9 +28,9 @@ local function Init_Menu(self, root)
     sub2=sub:CreateCheckbox(
         WoWTools_L.HIDE,
     function()
-        return Save().hideSellItemListButton
+        return WoWTools_AuctionHouseMixin:Save().hideSellItemListButton
     end, function()
-        Save().hideSellItemListButton= not Save().hideSellItemListButton and true or nil
+        WoWTools_AuctionHouseMixin:Save().hideSellItemListButton= not WoWTools_AuctionHouseMixin:Save().hideSellItemListButton and true or nil
         self:Init_Sell_Item_Button()
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.AuctionHouse.HideMarked'])
@@ -52,8 +43,8 @@ local function Init_Menu(self, root)
         data.name,
         nil,
         {SetValue=function()
-            Save().hideSellItem={}
-            Save().hideSellPet={}
+            WoWTools_AuctionHouseMixin:Save().hideSellItem={}
+            WoWTools_AuctionHouseMixin:Save().hideSellPet={}
             self:Init_Sell_Item_Button()
             WoWTools_Print(
                 WoWTools_AuctionHouseMixin.addName..WoWTools_DataMixin.Icon.icon2,
@@ -66,13 +57,13 @@ local function Init_Menu(self, root)
 
     sub:CreateDivider()
     local find=false
-    for itemID in pairs(Save().hideSellItem) do
+    for itemID in pairs(WoWTools_AuctionHouseMixin:Save().hideSellItem) do
         sub2= sub:CreateCheckbox(
             WoWTools_ItemMixin:GetName(itemID, nil),
         function(data)
-            return Save().hideSellItem[data.itemID]
+            return WoWTools_AuctionHouseMixin:Save().hideSellItem[data.itemID]
         end, function(data)
-            Save().hideSellItem[data.itemID]= not Save().hideSellItem[data.itemID] and true or nil
+            WoWTools_AuctionHouseMixin:Save().hideSellItem[data.itemID]= not WoWTools_AuctionHouseMixin:Save().hideSellItem[data.itemID] and true or nil
             self:Init_Sell_Item_Button()
         end, {itemID= itemID})
         WoWTools_SetTooltipMixin:Set_Menu(sub2)
@@ -83,16 +74,16 @@ local function Init_Menu(self, root)
     if find then
         sub:CreateDivider()
     end
-    for speciesID, itemLink in pairs(Save().hideSellPet) do
+    for speciesID, itemLink in pairs(WoWTools_AuctionHouseMixin:Save().hideSellPet) do
         local speciesName, speciesIcon, _, companionID = C_PetJournal.GetPetInfoBySpeciesID(speciesID)
         if speciesName then
             sub2= sub:CreateCheckbox(
                 '|T'..(speciesIcon or 0)..':0|t'
                 ..WoWTools_TextMixin:CN(speciesName, {npcID=companionID, isName=true}),
             function(data)
-                return Save().hideSellPet[data.speciesID]
+                return WoWTools_AuctionHouseMixin:Save().hideSellPet[data.speciesID]
             end, function(data)
-                Save().hideSellPet[data.speciesID]= not Save().hideSellPet[data.speciesID] and data.itemLink or nil
+                WoWTools_AuctionHouseMixin:Save().hideSellPet[data.speciesID]= not WoWTools_AuctionHouseMixin:Save().hideSellPet[data.speciesID] and data.itemLink or nil
                 self:Init_Sell_Item_Button()
             end, {speciesID= speciesID, itemLink= itemLink})
 
@@ -108,8 +99,8 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetScrollMode(sub)
 
     sub= root:CreateButton(
-        WoWTools_ItemMixin:GetColor(Save().sellItemQualiy, {text=WoWTools_Join(WoWTools_L.PROFESSIONS_COLUMN_HEADER_QUALITY,
-            WoWTools_ItemMixin.QualityText[Save().sellItemQualiy] or Save().sellItemQualiy
+        WoWTools_ItemMixin:GetColor(WoWTools_AuctionHouseMixin:Save().sellItemQualiy, {text=WoWTools_Join(WoWTools_L.PROFESSIONS_COLUMN_HEADER_QUALITY,
+            WoWTools_ItemMixin.QualityText[WoWTools_AuctionHouseMixin:Save().sellItemQualiy] or WoWTools_AuctionHouseMixin:Save().sellItemQualiy
         )}),
     function()
         return MenuResponse.Open
@@ -123,9 +114,9 @@ local function Init_Menu(self, root)
         sub2=sub:CreateCheckbox(
             WoWTools_ItemMixin.QualityText[quality] or quality,
         function(data)
-            return Save().sellItemQualiy== data.quality
+            return WoWTools_AuctionHouseMixin:Save().sellItemQualiy== data.quality
         end, function(data)
-            Save().sellItemQualiy= data.quality
+            WoWTools_AuctionHouseMixin:Save().sellItemQualiy= data.quality
             self:Init_Sell_Item_Button()
         end, {quality=quality})
         sub2:SetTooltip(function(tooltip, desc)
@@ -137,9 +128,9 @@ local function Init_Menu(self, root)
     sub=root:CreateCheckbox(
         WoWTools_L['NPE_TURN+AUCTION_HOUSE_SELL_TAB'],
     function()
-        return Save().intShowSellItem
+        return WoWTools_AuctionHouseMixin:Save().intShowSellItem
     end, function()
-        Save().intShowSellItem= not Save().intShowSellItem and true or nil
+        WoWTools_AuctionHouseMixin:Save().intShowSellItem= not WoWTools_AuctionHouseMixin:Save().intShowSellItem and true or nil
     end)
     sub:SetTooltip(function(tooltip)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.AuctionHouse.GoToSell'])
@@ -152,9 +143,9 @@ local function Init_Menu(self, root)
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
-            return Save().numButton
+            return WoWTools_AuctionHouseMixin:Save().numButton
         end, setValue=function(value)
-            Save().numButton=value
+            WoWTools_AuctionHouseMixin:Save().numButton=value
             self:Init_Sell_Item_Button()
         end,
         name=WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_NUM_ROWS,
@@ -165,9 +156,9 @@ local function Init_Menu(self, root)
     sub:CreateSpacer()
 
     WoWTools_MenuMixin:Scale(self, sub, function()
-        return Save().scaleSellButton or 1
+        return WoWTools_AuctionHouseMixin:Save().scaleSellButton or 1
     end, function(value)
-        Save().scaleSellButton= value
+        WoWTools_AuctionHouseMixin:Save().scaleSellButton= value
         self:Settings()
     end)
 

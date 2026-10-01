@@ -98,7 +98,7 @@ end
 
 
 local function Init()
-    if WoWToolsPlusSave['Plus_AuctionHouse'].disabledAuctionsPlus then
+    if WoWTools_AuctionHouseMixin:Save().disabledAuctionsPlus then
         return
     end
 

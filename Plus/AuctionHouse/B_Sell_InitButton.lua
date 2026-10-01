@@ -1,12 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['Plus_AuctionHouse'] or {}
-end
-
-
-
-
-
 local AuctionHouseButton
 
 
@@ -27,7 +19,7 @@ local function Create_Button()
 
     function btn:set_alpha()
         btn:SetAlpha(
-            (self.isPet and Save().hideSellPet[self.isPet] or  Save().hideSellItem[self:GetItemID()])
+            (self.isPet and WoWTools_AuctionHouseMixin:Save().hideSellPet[self.isPet] or  WoWTools_AuctionHouseMixin:Save().hideSellItem[self:GetItemID()])
             and 0.3 or 1
         )
     end
@@ -84,12 +76,12 @@ local function Create_Button()
             local itemID= C_Item.GetItemID(self.itemLocation)
             if itemID then
                 if self.isPet then
-                    Save().hideSellPet[self.isPet]= not Save().hideSellPet[self.isPet] and self:GetItemLink() or nil
+                    WoWTools_AuctionHouseMixin:Save().hideSellPet[self.isPet]= not WoWTools_AuctionHouseMixin:Save().hideSellPet[self.isPet] and self:GetItemLink() or nil
                 else
-                    Save().hideSellItem[itemID]= not Save().hideSellItem[itemID] and true or nil
+                    WoWTools_AuctionHouseMixin:Save().hideSellItem[itemID]= not WoWTools_AuctionHouseMixin:Save().hideSellItem[itemID] and true or nil
                 end
 
-                if Save().hideSellItemListButton then
+                if WoWTools_AuctionHouseMixin:Save().hideSellItemListButton then
                     WoWTools_AuctionHouseMixin:Init_Sell_Item_Button()
                 else
                     self:set_alpha()
@@ -117,11 +109,11 @@ end
 
 
 local function Init_Sell_Item_Button()
-    if Save().hideSellItemList then
+    if WoWTools_AuctionHouseMixin:Save().hideSellItemList then
        return
     end
 
-    local isCheckHideItem= Save().hideSellItemListButton
+    local isCheckHideItem= WoWTools_AuctionHouseMixin:Save().hideSellItemListButton
     local isCommoditiesSellFrame, isItemSellFrame= WoWTools_AuctionHouseMixin:GetDisplayMode()
 
     local Tab={}
@@ -174,10 +166,10 @@ local function Init_Sell_Item_Button()
         index= index+1
     end
 
-    for i= Save().numButton+1, index-1, Save().numButton  do
+    for i= WoWTools_AuctionHouseMixin:Save().numButton+1, index-1, WoWTools_AuctionHouseMixin:Save().numButton  do
         local btn= AuctionHouseButton.buttons[i]
         btn:ClearAllPoints()
-        btn:SetPoint('LEFT', AuctionHouseButton.buttons[i-Save().numButton], 'RIGHT', 2, 0)
+        btn:SetPoint('LEFT', AuctionHouseButton.buttons[i-WoWTools_AuctionHouseMixin:Save().numButton], 'RIGHT', 2, 0)
     end
 
     for i= index, #AuctionHouseButton.buttons do
@@ -187,7 +179,7 @@ local function Init_Sell_Item_Button()
         end
     end
 
-    local textColor= WoWTools_ItemMixin:GetColor(Save().sellItemQualiy, {text=index-1})
+    local textColor= WoWTools_ItemMixin:GetColor(WoWTools_AuctionHouseMixin:Save().sellItemQualiy, {text=index-1})
 
     AuctionHouseButton.Text:SetText(textColor)
 end
@@ -235,8 +227,8 @@ local function Init()
     end
 
     function AuctionHouseButton:Settings()
-        self.frame:SetScale(Save().scaleSellButton or 1)
-        local hide= Save().hideSellItemList
+        self.frame:SetScale(WoWTools_AuctionHouseMixin:Save().scaleSellButton or 1)
+        local hide= WoWTools_AuctionHouseMixin:Save().hideSellItemList
         self.frame:SetShown(not hide)
         if hide then
             self.Text:SetText('|cff828282'..(WoWTools_L.HIDE))
@@ -311,7 +303,7 @@ local function Init()
     WoWTools_DataMixin:Hook(AuctionHouseFrame.CommoditiesSellFrame, 'SetItem', function(self)
         C_Timer.After(0.3, function()
             AuctionHouseButton:set_select_tips()
-            if Save().isMaxSellItem and self.QuantityInput.MaxButton:IsEnabled() then
+            if WoWTools_AuctionHouseMixin:Save().isMaxSellItem and self.QuantityInput.MaxButton:IsEnabled() then
                 self:SetToMaxQuantity()
             end
         end)
@@ -320,7 +312,7 @@ local function Init()
     WoWTools_DataMixin:Hook(AuctionHouseFrame.ItemSellFrame, 'SetItem', function(self)
         C_Timer.After(0.3, function()
             AuctionHouseButton:set_select_tips()
-            if Save().isMaxSellItem and self.QuantityInput.MaxButton:IsEnabled() then
+            if WoWTools_AuctionHouseMixin:Save().isMaxSellItem and self.QuantityInput.MaxButton:IsEnabled() then
                 self:SetToMaxQuantity()
             end
         end)
@@ -338,7 +330,7 @@ end
 
 
 function WoWTools_AuctionHouseMixin:Init_Sell()
-    if not Save().disabledSellPlus then
+    if not WoWTools_AuctionHouseMixin:Save().disabledSellPlus then
         Init()
     end
 end

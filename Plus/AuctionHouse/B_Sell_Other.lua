@@ -1,9 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['Plus_AuctionHouse'] or {}
-end
-
-
 local function Init_NextItem()
 
     AuctionHouseFrame.CommoditiesSellFrame.PostButton:SetHeight(32)--<Size x="194" y="22"/>
@@ -161,7 +156,7 @@ end
 
 
 local function OnShowToSellFrame()
-    if not Save().intShowSellItem or not AuctionHouseFrame:IsShown() then
+    if not WoWTools_AuctionHouseMixin:Save().intShowSellItem or not AuctionHouseFrame:IsShown() then
         return
     end
 
@@ -206,8 +201,8 @@ local function GetDefaultPrice(itemLocation)
 
     local classID= select(6, C_Item.GetItemInfoInstant(itemID))
 
-    if Save().SellItemDefaultPrice[itemID] then
-        price= Save().SellItemDefaultPrice[itemID]
+    if WoWTools_AuctionHouseMixin:Save().SellItemDefaultPrice[itemID] then
+        price= WoWTools_AuctionHouseMixin:Save().SellItemDefaultPrice[itemID]
 
     elseif C_MountJournal.GetMountFromItem(itemID) or C_ToyBox.GetToyInfo(itemID) then
         price= 999999900
@@ -285,9 +280,9 @@ local function Save_SellItem_Price(frame)
         if itemID  then
             local unitPrice= frame.PriceInput:GetAmount()
             if unitPrice and unitPrice>100000 then
-                Save().SellItemDefaultPrice[itemID]= unitPrice
+                WoWTools_AuctionHouseMixin:Save().SellItemDefaultPrice[itemID]= unitPrice
             else
-                Save().SellItemDefaultPrice[itemID]=nil
+                WoWTools_AuctionHouseMixin:Save().SellItemDefaultPrice[itemID]=nil
             end
         end
     end
@@ -345,7 +340,7 @@ local function Init_MaxSellItemCheck()
     MaxSellItemCheck= CreateFrame('CheckButton', nil, AuctionHouseFrame.CommoditiesSellFrame.QuantityInput.MaxButton, 'InterfaceOptionsCheckButtonTemplate')
     MaxSellItemCheck:SetPoint('LEFT', AuctionHouseFrame.CommoditiesSellFrame.QuantityInput.MaxButton, 'RIGHT')
     MaxSellItemCheck:SetSize(24,24)
-    MaxSellItemCheck:SetChecked(Save().isMaxSellItem)
+    MaxSellItemCheck:SetChecked(WoWTools_AuctionHouseMixin:Save().isMaxSellItem)
 
     MaxSellItemCheck:SetScript('OnLeave', GameTooltip_Hide)
     MaxSellItemCheck:SetScript('OnEnter', function(self)
@@ -356,14 +351,14 @@ local function Init_MaxSellItemCheck()
         GameTooltip:Show()
     end)
     MaxSellItemCheck:SetScript('OnClick', function()
-        Save().isMaxSellItem= not Save().isMaxSellItem and true or false
-        MaxSellItemCheck2:SetChecked(Save().isMaxSellItem)
+        WoWTools_AuctionHouseMixin:Save().isMaxSellItem= not WoWTools_AuctionHouseMixin:Save().isMaxSellItem and true or false
+        MaxSellItemCheck2:SetChecked(WoWTools_AuctionHouseMixin:Save().isMaxSellItem)
     end)
 
     MaxSellItemCheck2= CreateFrame('CheckButton', nil, AuctionHouseFrame.ItemSellFrame.QuantityInput.MaxButton, 'InterfaceOptionsCheckButtonTemplate')
     MaxSellItemCheck2:SetPoint('LEFT', AuctionHouseFrame.ItemSellFrame.QuantityInput.MaxButton, 'RIGHT')
     MaxSellItemCheck2:SetSize(24,24)
-    MaxSellItemCheck2:SetChecked(Save().isMaxSellItem)
+    MaxSellItemCheck2:SetChecked(WoWTools_AuctionHouseMixin:Save().isMaxSellItem)
 
     MaxSellItemCheck2:SetScript('OnLeave', GameTooltip_Hide)
     MaxSellItemCheck2:SetScript('OnEnter', function(self)
@@ -374,14 +369,14 @@ local function Init_MaxSellItemCheck()
         GameTooltip:Show()
     end)
     MaxSellItemCheck2:SetScript('OnClick', function()
-        Save().isMaxSellItem= not Save().isMaxSellItem and true or false
-        MaxSellItemCheck:SetChecked(Save().isMaxSellItem)
+        WoWTools_AuctionHouseMixin:Save().isMaxSellItem= not WoWTools_AuctionHouseMixin:Save().isMaxSellItem and true or false
+        MaxSellItemCheck:SetChecked(WoWTools_AuctionHouseMixin:Save().isMaxSellItem)
     end)
 end
 
 
 local function Init()
-    if Save().disabledSellPlus then
+    if WoWTools_AuctionHouseMixin:Save().disabledSellPlus then
         return
     end
 
