@@ -926,3 +926,20 @@ function WoWTools_CurrencyMixin:Init_TrackButton()
     Init()
 end
 
+--Centro de control: aplica los ajustes del botón de rastreo (lo mismo que hace su menú).
+--Solo si la ventana de monedas ya se cargó (el botón se crea con ella).
+function WoWTools_CurrencyMixin:Refresh_TrackButton(what)
+	if TrackButton then
+		if what=='shown' then
+			TrackButton:set_frameshown()
+		else
+			TrackButton:settings()
+		end
+		if what=='tokens' then
+			self:UpdateTokenFrame()
+		end
+	elseif what=='init' and self.started and TokenFrame then
+		Init()
+	end
+end
+
