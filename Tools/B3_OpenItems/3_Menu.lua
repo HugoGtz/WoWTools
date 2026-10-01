@@ -1,21 +1,13 @@
 
 
-local function Save()
-    return WoWToolsPlusSave['Tools_OpenItems']
-end
-
-
-
-
-
 local function Edit_Item(self, info)
 
     StaticPopup_Show('WoWTools_EditText',
         WoWTools_OpenItemMixin.addName..'|n|n'
         ..WoWTools_ItemMixin:GetName(info.itemID)..'|n|n'
         ..format(WoWTools_L.ERR_ZONE_EXPLORED,
-        Save().no[info.itemID] and self.noText
-        or (Save().use[info.itemID] and self.useText)
+        WoWTools_OpenItemMixin:Save().no[info.itemID] and self.noText
+        or (WoWTools_OpenItemMixin:Save().use[info.itemID] and self.useText)
         or (WoWTools_L['NEW~2'])
     ),
     nil,
@@ -23,7 +15,7 @@ local function Edit_Item(self, info)
         itemID=info.itemID,
         itemLink=info.itemLink,
 
-        text=Save().use[info.itemID],
+        text=WoWTools_OpenItemMixin:Save().use[info.itemID],
         OnShow=function(s, data)
             local edit= s.editBox or s:GetEditBox()
             local b3= s.button3 or s:GetButton3()
@@ -38,7 +30,7 @@ local function Edit_Item(self, info)
             local num= dateInfo.text[useStr] and dateInfo.text[useStr]:match('%d+')
             num= num and tonumber(num)
 
-            edit:SetNumber(num or Save().use[data.itemID] or 1)
+            edit:SetNumber(num or WoWTools_OpenItemMixin:Save().use[data.itemID] or 1)
             b3:SetText(self.noText)
         end,
         OnHide=function(s)
@@ -50,8 +42,8 @@ local function Edit_Item(self, info)
             local edit= s.editBox or s:GetEditBox()
             local num= edit:GetNumber()
             num = num<1 and 1 or num
-            Save().use[data.itemID]=num
-            Save().no[data.itemID]=nil
+            WoWTools_OpenItemMixin:Save().use[data.itemID]=num
+            WoWTools_OpenItemMixin:Save().no[data.itemID]=nil
             WoWTools_OpenItemMixin:Get_Item()
             WoWTools_Print(WoWTools_DataMixin.Icon.icon2..WoWTools_OpenItemMixin.addName,
                 WoWTools_ItemMixin:GetLink(data.itemID),
@@ -61,8 +53,8 @@ local function Edit_Item(self, info)
             )
         end,
         OnAlt=function(_, data)
-            Save().no[data.itemID]=true
-            Save().use[data.itemID]=nil
+            WoWTools_OpenItemMixin:Save().no[data.itemID]=true
+            WoWTools_OpenItemMixin:Save().use[data.itemID]=nil
             WoWTools_OpenItemMixin:Get_Item()
             WoWTools_Print(WoWTools_DataMixin.addName, WoWTools_OpenItemMixin.addName,
                 WoWTools_ItemMixin:GetLink(info.itemID),
@@ -124,10 +116,10 @@ local function Remove_NoUse_Menu(self, root, itemID, type, numUse, index)
     sub:CreateButton(
         '|A:common-icon-redx:0:0|a'..(WoWTools_L.REMOVE),
     function(data)
-        Save()[data.type][data.itemID]=nil
+        WoWTools_OpenItemMixin:Save()[data.type][data.itemID]=nil
 
         WoWTools_Print(WoWTools_DataMixin.Icon.icon2..WoWTools_OpenItemMixin.addName,
-            Save()[data.type][data.itemID]
+            WoWTools_OpenItemMixin:Save()[data.type][data.itemID]
             and '|cnGREEN_FONT_COLOR:'..(WoWTools_L.REMOVE)..'|r'
             or ('|cnWARNING_FONT_COLOR:'..(WoWTools_L.SPELL_FAILED_ITEM_GONE)),
 
@@ -158,7 +150,7 @@ local function Remove_All_Menu(self, root, type, num)
             local index=0
                 local type2= data.type=='no' and self.noText or self.useText
                 WoWTools_Print(WoWTools_DataMixin.Icon.icon2..WoWTools_OpenItemMixin.addName)
-                for itemID in pairs(Save()[data.type]) do
+                for itemID in pairs(WoWTools_OpenItemMixin:Save()[data.type]) do
                     index= index+1
                     WoWTools_Print(
                         index..')',
@@ -168,7 +160,7 @@ local function Remove_All_Menu(self, root, type, num)
                     )
                 end
                 WoWTools_Print(WoWTools_L.CLEAR_ALL, '|A:common-icon-redx:0:0|a|cnGREEN_FONT_COLOR:#',  index)
-                Save()[data.type]={}
+                WoWTools_OpenItemMixin:Save()[data.type]={}
                 WoWTools_OpenItemMixin:Get_Item()
         end})
         return MenuResponse.Open
@@ -224,8 +216,8 @@ local function Init_Menu(self, root)
     end
     root:CreateDivider()
 
-    local no= CountTable(Save().no or {})
-    local use= CountTable(Save().use or {})
+    local no= CountTable(WoWTools_OpenItemMixin:Save().no or {})
+    local use= CountTable(WoWTools_OpenItemMixin:Save().use or {})
 
     sub= root:CreateButton(
         self.noText,
@@ -239,7 +231,7 @@ local function Init_Menu(self, root)
         Remove_All_Menu(self, sub, 'no', no)
     end
     local index=0
-    for itemID in pairs(Save().no) do
+    for itemID in pairs(WoWTools_OpenItemMixin:Save().no) do
         index= index+1
         Remove_NoUse_Menu(self, sub, itemID, 'no', nil, index)
     end
@@ -258,7 +250,7 @@ local function Init_Menu(self, root)
         Remove_All_Menu(self, sub, 'use', use)
     end
     index=0
-    for itemID, numUse in pairs(Save().use) do
+    for itemID, numUse in pairs(WoWTools_OpenItemMixin:Save().use) do
         index= index+1
         Remove_NoUse_Menu(self, sub, itemID, 'use', numUse, index)
     end
@@ -298,9 +290,9 @@ local OptionsList={{
         sub= root:CreateCheckbox(
             info.name,
         function(data)
-            return Save()[data.type]
+            return WoWTools_OpenItemMixin:Save()[data.type]
         end, function(data)
-            Save()[data.type]= not Save()[data.type] and true
+            WoWTools_OpenItemMixin:Save()[data.type]= not WoWTools_OpenItemMixin:Save()[data.type] and true
             WoWTools_OpenItemMixin:Get_Item()
         end, {type=info.type, tooltip=info.tooltip})
         sub:SetTooltip(function(tooltip, description)
@@ -318,13 +310,13 @@ local OptionsList={{
 
     WoWTools_KeyMixin:SetMenu(self, sub, {
         name= WoWTools_OpenItemMixin.addName,
-        key=Save().KEY,
+        key=WoWTools_OpenItemMixin:Save().KEY,
         GetKey=function(key)
-            Save().KEY= key
+            WoWTools_OpenItemMixin:Save().KEY= key
             self:settings()
         end,
         OnAlt=function()
-            Save().KEY=nil
+            WoWTools_OpenItemMixin:Save().KEY=nil
             self:settings()
         end,
     })

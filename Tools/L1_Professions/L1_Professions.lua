@@ -3,9 +3,7 @@ local P_Save={
     fishing='BUTTON1',
     archaeology='F',
 }
-local function Save()
-    return WoWToolsPlusSave['Tools_Professions']
-end
+local Module= {}--lo completa WoWTools_Module:Register (al final del archivo)
 
 local function Create_Button(index)
     local name, icon, _, _, _, _, skillLine = GetProfessionInfo(index)
@@ -140,7 +138,7 @@ local function Init_KeyButton_Menu(self, root)
     root:CreateDivider()
     sub=root:CreateCheckbox(
         (WoWTools_L['SETTINGS+SETTINGS_KEYBINDINGS_LABEL~2'])
-        ..'|cnGREEN_FONT_COLOR:'..(Save()[self.type] or ''),
+        ..'|cnGREEN_FONT_COLOR:'..(Module:Save()[self.type] or ''),
     function()
         return WoWTools_KeyMixin:IsKeyValid(self)
     end, function()
@@ -154,18 +152,18 @@ local function Init_KeyButton_Menu(self, root)
     WoWTools_KeyMixin:SetMenu(self, sub,  {
         icon='|A:NPE_ArrowDown:0:0|a',
         name=WoWTools_TextMixin:CN(self.name),
-        key=Save()[self.type],
+        key=Module:Save()[self.type],
         GetKey=function(key)
-            Save()[self.type]=key
+            Module:Save()[self.type]=key
         end,
     })
 
     sub2=sub:CreateCheckbox(
         WoWTools_L.SAVE,
     function()
-        return Save()['save_'..self.type]
+        return Module:Save()['save_'..self.type]
     end, function()
-        Save()['save_'..self.type]= not Save()['save_'..self.type] and true or nil
+        Module:Save()['save_'..self.type]= not Module:Save()['save_'..self.type] and true or nil
     end)
     sub2:SetTooltip(function(tooltip)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Professions.KeySave'])
@@ -278,10 +276,10 @@ local function Init_KeyButton(index, type)
     WoWTools_KeyMixin:Init(button, nil, true)
 
     function button:GetKEY()
-        return Save()[self.type] or (self.type=='fishing' and 'BUTTON1') or 'F'
+        return Module:Save()[self.type] or (self.type=='fishing' and 'BUTTON1') or 'F'
     end
 
-    if Save()['save_'..type] then
+    if Module:Save()['save_'..type] then
        button:set_key(true)
     end
 end
@@ -310,29 +308,12 @@ local function Init()
 end
 
 
---###########
---###########
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-
-
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWToolsPlus' then
-
-            WoWToolsPlusSave['Tools_Professions']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Tools_Professions'], P_Save)
-            P_Save= nil
-
-            if WoWTools_ToolsMixin:Get_MainButton() then
-                self:RegisterEvent('PLAYER_ENTERING_WORLD')
-            else
-                self:SetScript('OnEvent', nil)
-            end
-            self:UnregisterEvent(event)
+WoWTools_Module:Register({
+    key= 'Tools_Professions', name= 'Module.Professions', icon= 136243, group= 'Tools',
+    parent= 'WoWTools_ToolsButton', defaults= P_Save, mixin= Module,
+    onEnable= function()
+        if WoWTools_ToolsMixin:Get_MainButton() then
+            WoWTools_ToolsMixin:OnEnterWorld(Init)
         end
-
-    elseif event == 'PLAYER_ENTERING_WORLD' then
-        Init()
-        self:UnregisterEvent(event)
-    end
-end)
+    end,
+})

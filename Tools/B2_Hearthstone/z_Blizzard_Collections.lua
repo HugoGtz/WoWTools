@@ -1,7 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['Tools_Hearthstone']
-end
 local function SaveItems()
     return WoWToolsPlusPlayerDate['HearthstoneItems']
 end
@@ -25,11 +22,11 @@ local function Remove_Toy(itemID)
             btn:Set_SelectValue_Random(nil)
         end
         if isLock then
-            Save().lockedToy=nil
+            WoWTools_HearthstoneMixin:Save().lockedToy=nil
             btn:Set_LockedValue_Random(nil)
         end
     elseif btn.itemID==itemID then
-        btn:Init_Random(Save().lockedToy)
+        btn:Init_Random(WoWTools_HearthstoneMixin:Save().lockedToy)
     end
 end
 
@@ -43,7 +40,7 @@ local function Add_Remove_Toy(itemID)
         else
             SaveItems()[itemID]= true
             if btn then
-                btn:Init_Random(Save().lockedToy)
+                btn:Init_Random(WoWTools_HearthstoneMixin:Save().lockedToy)
             end
         end
     end
@@ -103,15 +100,14 @@ end
 
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     WoWTools_DataMixin:Hook('ToySpellButton_UpdateButton', function(btn)
         if not btn.hearthstone then
             Create_Button(btn)
         end
         btn.hearthstone:set_alpha()
     end)
-    Init=function()end
-end
+end)
 
 
 

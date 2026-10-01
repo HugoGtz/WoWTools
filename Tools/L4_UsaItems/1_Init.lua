@@ -207,7 +207,7 @@ end
 
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     StaticPopupDialogs['WoWToolsUseItemsADD']={
         text= WoWTools_UseItemsMixin.addName..'|n|n%s: %s',
         whileDead=true, hideOnEscape=true, exclusive=true,
@@ -284,9 +284,7 @@ local function Init()
 
     WoWTools_UseItemsMixin:Init_PlayerSpells()
     WoWTools_UseItemsMixin:Init_UI_Toy()
-
-    Init=function()end
-end
+end)
 
 
 
@@ -297,49 +295,46 @@ end
 
 
 
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWToolsPlus' then
-            WoWToolsPlusPlayerDate['Tools_UseItems']= WoWToolsPlusPlayerDate['Tools_UseItems'] or P_Tabs
+WoWTools_Module:Register({
+    key= 'Tools_UseItems', name= 'Module.Use items', icon= 'soulbinds_tree_conduit_icon_utility', group= 'Tools',
+    parent= 'WoWTools_ToolsButton', tooltip= 'Tip.UseItems.Enable', mixin= WoWTools_UseItemsMixin,
+    --siempre: su casilla en la página de Herramientas
+    onLoad= function(M)
+        WoWToolsPlusPlayerDate['Tools_UseItems']= WoWToolsPlusPlayerDate['Tools_UseItems'] or P_Tabs
 
-            WoWTools_UseItemsMixin.addName= '|A:soulbinds_tree_conduit_icon_utility:0:0|a'..(WoWTools_L['Module.Use items'])
-
-            WoWTools_ToolsMixin:Set_AddList(function(category)
-                WoWTools_PanelMixin:OnlyCheck({
-                category= category,
-                name= WoWTools_UseItemsMixin.addName,
-                tooltip= WoWTools_L['Tip.UseItems.Enable']..'|n|n'..WoWTools_UseItemsMixin.addName..'|n'..(WoWTools_L.REQUIRES_RELOAD),
-                GetValue= function() return not Save().disabled end,
-                SetValue= function()
-                    Save().disabled= not Save().disabled and true or nil
-                end})
+        WoWTools_ToolsMixin:Set_AddList(function(category)
+            WoWTools_PanelMixin:OnlyCheck({
+            category= category,
+            name= M.addName,
+            tooltip= WoWTools_L['Tip.UseItems.Enable']..'|n|n'..M.addName..'|n'..(WoWTools_L.REQUIRES_RELOAD),
+            GetValue= function() return not Save().disabled end,
+            SetValue= function()
+                Save().disabled= not Save().disabled and true or nil
+            end})
+        end)
+    end,
+    onEnable= function()
+        if WoWTools_ToolsMixin:Get_MainButton() then
+            WoWTools_ToolsMixin:OnEnterWorld(function()
+                Init()
+                WoWTools_UseItemsMixin:Init_All_Buttons()
             end)
 
-            if WoWTools_ToolsMixin:Get_MainButton() and not Save().disabled then
-                self:RegisterEvent('PLAYER_ENTERING_WORLD')
-
-                for _, ID in pairs(Save().item) do
-                   WoWTools_DataMixin:Load(ID, 'item')
-                end
-                for _, ID in pairs(Save().spell) do
-                   WoWTools_DataMixin:Load(ID, 'spell')
-                end
-                for _, ID in pairs(Save().equip) do
-                   WoWTools_DataMixin:Load(ID, 'item')
-                end
-            else
-                self:SetScript('OnEvent', nil)
+            for _, ID in pairs(Save().item) do
+               WoWTools_DataMixin:Load(ID, 'item')
             end
-
-            self:UnregisterEvent(event)
+            for _, ID in pairs(Save().spell) do
+               WoWTools_DataMixin:Load(ID, 'spell')
+            end
+            for _, ID in pairs(Save().equip) do
+               WoWTools_DataMixin:Load(ID, 'item')
+            end
         end
+    end,
+})
 
-    elseif event=='PLAYER_ENTERING_WORLD' then
-        Init()
-        WoWTools_UseItemsMixin:Init_All_Buttons()
-        self:SetScript('OnEvent', nil)
-        self:UnregisterEvent(event)
-    end
-end)
+--Sus ajustes (incluido disabled) son por personaje: viven en WoWToolsPlusPlayerDate, no en WoWToolsPlusSave.
+--Así M:Save()/M:IsEnabled() de la API miran la misma tabla que el resto del módulo.
+function WoWTools_UseItemsMixin:Save()
+    return Save() or {}
+end

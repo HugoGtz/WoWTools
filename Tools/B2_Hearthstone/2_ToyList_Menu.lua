@@ -1,7 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['Tools_Hearthstone']
-end
 local function SaveItems()
     return WoWToolsPlusPlayerDate['HearthstoneItems']
 end
@@ -38,7 +35,7 @@ function WoWTools_HearthstoneMixin:Init_Menu_Toy(frame, root)
         end
 
         local has= PlayerHasToy(itemID)
-        local isLoked= Save().lockedToy==itemID
+        local isLoked= WoWTools_HearthstoneMixin:Save().lockedToy==itemID
         sub=root:CreateCheckbox(
             (isLoked and '|cnGREEN_FONT_COLOR:' or (has and '' or '|cff626262'))
             ..icon
@@ -66,11 +63,11 @@ function WoWTools_HearthstoneMixin:Init_Menu_Toy(frame, root)
             ..icon
             ..(WoWTools_L.LOCK)..'|A:AdventureMapIcon-Lock:0:0|a',
         function(data)
-            return Save().lockedToy==data.itemID
+            return WoWTools_HearthstoneMixin:Save().lockedToy==data.itemID
         end, function(data)
             if data.has then
-                local toy= Save().lockedToy~=data.itemID and itemID or nil
-                Save().lockedToy= toy
+                local toy= WoWTools_HearthstoneMixin:Save().lockedToy~=data.itemID and itemID or nil
+                WoWTools_HearthstoneMixin:Save().lockedToy= toy
                 frame:Set_LockedValue_Random(toy)
             end
         end, {itemID=itemID, name=toyName, has=has})

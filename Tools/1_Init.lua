@@ -1,24 +1,17 @@
-local function Save()
-    return WoWToolsPlusSave['WoWTools_ToolsButton']
-end
-
-
-
-
-local function Init_Panel()
+local Init_Panel= WoWTools_Once(function()
 
 
 
     local initializer=WoWTools_PanelMixin:Check_Button({
         checkName= WoWTools_L.ENABLE,
-        GetValue= function() return not Save().disabled end,
+        GetValue= function() return not WoWTools_ToolsMixin:Save().disabled end,
         SetValue= function()
-            Save().disabled= not Save().disabled and true or nil
-            WoWTools_Print(WoWTools_ToolsMixin.addName..WoWTools_DataMixin.Icon.icon2, WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled), WoWTools_L.REQUIRES_RELOAD)
+            WoWTools_ToolsMixin:Save().disabled= not WoWTools_ToolsMixin:Save().disabled and true or nil
+            WoWTools_Print(WoWTools_ToolsMixin.addName..WoWTools_DataMixin.Icon.icon2, WoWTools_TextMixin:GetEnabeleDisable(not WoWTools_ToolsMixin:Save().disabled), WoWTools_L.REQUIRES_RELOAD)
         end,
         buttonText= WoWTools_L.RESET_POSITION,
         buttonFunc= function()
-            Save().point=nil
+            WoWTools_ToolsMixin:Save().point=nil
             local btn= WoWTools_ToolsMixin:Get_MainButton()
             if btn then
                 btn:set_point()
@@ -65,9 +58,9 @@ do
                     category= WoWTools_ToolsMixin.Category,
                     name= data.tooltip,
                     tooltip= WoWTools_L['Tip.Tools.AddButton']..'|n|n'..data.name,
-                    GetValue= function() return not Save().disabledADD[data.name] end,
+                    GetValue= function() return not WoWTools_ToolsMixin:Save().disabledADD[data.name] end,
                     SetValue= function()
-                        Save().disabledADD[data.name]= not Save().disabledADD[data.name] and true or nil
+                        WoWTools_ToolsMixin:Save().disabledADD[data.name]= not WoWTools_ToolsMixin:Save().disabledADD[data.name] and true or nil
                     end
                 })
 
@@ -78,16 +71,16 @@ do
                     layout=WoWTools_ToolsMixin.Layout,
                     name= data.tooltip,
                     tooltip=WoWTools_L['Tip.Tools.AddButtonPoint']..'|n|n'..data.name,
-                    GetValue= function() return not Save().disabledADD[data.name] end,
+                    GetValue= function() return not WoWTools_ToolsMixin:Save().disabledADD[data.name] end,
                     SetValue= function()
-                        Save().disabledADD[data.name]= not Save().disabledADD[data.name] and true or nil
+                        WoWTools_ToolsMixin:Save().disabledADD[data.name]= not WoWTools_ToolsMixin:Save().disabledADD[data.name] and true or nil
                     end,
 
                     DropDownGetValue=function()
-                        return Save().BottomPoint[data.name] and 2 or 1
+                        return WoWTools_ToolsMixin:Save().BottomPoint[data.name] and 2 or 1
                     end,
                     DropDownSetValue=function(value)
-                        Save().BottomPoint[data.name]= value==2 and true or nil
+                        WoWTools_ToolsMixin:Save().BottomPoint[data.name]= value==2 and true or nil
                         WoWTools_ToolsMixin:RestAllPoint()
                     end,
                     GetOptions=function()
@@ -106,8 +99,7 @@ do
 end
 
     WoWTools_ToolsMixin:Clear_AddList()
-    Init_Panel= function()end
-end
+end)
 
 
 
@@ -145,25 +137,25 @@ local function Init_Menu(self, root)
 
     sub:CreateTitle(WoWTools_L.SHOW)
     sub2=sub:CreateCheckbox('|A:newplayertutorial-drag-cursor:0:0|a'..(WoWTools_L['ENTER_LFG+EMBLEM_SYMBOL']), function()
-        return Save().isEnterShow
+        return WoWTools_ToolsMixin:Save().isEnterShow
     end, function()
-        Save().isEnterShow = not Save().isEnterShow and true or false
+        WoWTools_ToolsMixin:Save().isEnterShow = not WoWTools_ToolsMixin:Save().isEnterShow and true or false
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Tools.EnterShow'])
 
     sub:CreateTitle(WoWTools_L.HIDE)
     sub2=sub:CreateCheckbox('|A:Warfronts-BaseMapIcons-Horde-Barracks-Minimap:0:0|a'..(WoWTools_L.ENTERING_COMBAT), function()
-        return Save().isCombatHide
+        return WoWTools_ToolsMixin:Save().isCombatHide
     end, function()
-        Save().isCombatHide = not Save().isCombatHide and true or false
+        WoWTools_ToolsMixin:Save().isCombatHide = not WoWTools_ToolsMixin:Save().isCombatHide and true or false
         self:set_event()
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Tools.CombatHide'])
 
     sub2=sub:CreateCheckbox('|A:transmog-gearSlot-unassigned-feet:0:0|a'..(WoWTools_L.NPE_MOVE), function()
-        return Save().isMovingHide
+        return WoWTools_ToolsMixin:Save().isMovingHide
     end, function()
-        Save().isMovingHide = not Save().isMovingHide and true or false
+        WoWTools_ToolsMixin:Save().isMovingHide = not WoWTools_ToolsMixin:Save().isMovingHide and true or false
         self:set_event()
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Tools.MovingHide'])
@@ -172,9 +164,9 @@ local function Init_Menu(self, root)
         '|A:UI-HUD-MicroMenu-GameMenu-Mouseover:0:0|a'
         ..(WoWTools_L['SHOW+MAINMENU_BUTTON']),
     function()
-        return Save().isMainMenuHide
+        return WoWTools_ToolsMixin:Save().isMainMenuHide
     end, function()
-        Save().isMainMenuHide= not Save().isMainMenuHide and true or false
+        WoWTools_ToolsMixin:Save().isMainMenuHide= not WoWTools_ToolsMixin:Save().isMainMenuHide and true or false
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Tools.MainMenuHide'])
 
@@ -183,9 +175,9 @@ local function Init_Menu(self, root)
     sub=WoWTools_ToolsMixin:OpenMenu(root)
 
     sub2=sub:CreateCheckbox('30x30', function()
-        return Save().height==30
+        return WoWTools_ToolsMixin:Save().height==30
     end, function()
-        Save().height= Save().height==10 and 30 or 10
+        WoWTools_ToolsMixin:Save().height= WoWTools_ToolsMixin:Save().height==10 and 30 or 10
         self:set_size()
     end)
     sub2:SetTooltip(function(tooltip)
@@ -196,9 +188,9 @@ local function Init_Menu(self, root)
     sub2=sub:CreateCheckbox(
         WoWTools_L.EMBLEM_SYMBOL,
     function()
-        return Save().showIcon
+        return WoWTools_ToolsMixin:Save().showIcon
     end, function()
-        Save().showIcon= not Save().showIcon and true or false
+        WoWTools_ToolsMixin:Save().showIcon= not WoWTools_ToolsMixin:Save().showIcon and true or false
         self:set_icon()
     end)
     sub2:SetTooltip(function(tooltip)
@@ -208,17 +200,17 @@ local function Init_Menu(self, root)
 
     WoWTools_MenuMixin:BgAplha(sub,
     function()
-        return Save().bgAlpha
+        return WoWTools_ToolsMixin:Save().bgAlpha
     end, function(value)
-        Save().bgAlpha= value
+        WoWTools_ToolsMixin:Save().bgAlpha= value
         WoWTools_ToolsMixin:ShowBackground()
     end)
 
    WoWTools_MenuMixin:Scale(self, sub, function()
-        return Save().scale
+        return WoWTools_ToolsMixin:Save().scale
     end, function(data)
         if self:CanChangeAttribute() then
-            Save().scale=data
+            WoWTools_ToolsMixin:Save().scale=data
             self:set_scale()
         else
             WoWTools_Print(WoWTools_ToolsMixin.addName..WoWTools_DataMixin.Icon.icon2, WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
@@ -229,7 +221,7 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:FrameStrata(self, sub, function(data)
         return self:GetFrameStrata()==data
     end, function(data)
-        Save().strata= data
+        WoWTools_ToolsMixin:Save().strata= data
         self:set_strata()
     end)
 
@@ -239,16 +231,16 @@ local function Init_Menu(self, root)
         '|A:bag-reagent-border:0:0|a'..(WoWTools_L.EMBLEM_BORDER),
     function()
         return MenuResponse.Open
-    end, {rightText= Save().borderAlpha or 0})
+    end, {rightText= WoWTools_ToolsMixin:Save().borderAlpha or 0})
     WoWTools_MenuMixin:SetRightText(sub2)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Tools.BorderAlpha'])
 
     sub2:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub2, {
         getValue=function()
-            return Save().borderAlpha or 0
+            return WoWTools_ToolsMixin:Save().borderAlpha or 0
         end, setValue=function(value)
-            Save().borderAlpha=value
+            WoWTools_ToolsMixin:Save().borderAlpha=value
             local list, Name= WoWTools_ToolsMixin:Get_All_Buttons()
             for _, name in pairs(list) do
                 _G[Name..name]:set_border_alpha()
@@ -266,8 +258,8 @@ local function Init_Menu(self, root)
 
 
     sub:CreateDivider()
-    WoWTools_MenuMixin:RestPoint(self, sub, Save().point, function()
-        Save().point=nil
+    WoWTools_MenuMixin:RestPoint(self, sub, WoWTools_ToolsMixin:Save().point, function()
+        WoWTools_ToolsMixin:Save().point=nil
         self:set_point()
     end)
 
@@ -290,23 +282,23 @@ end
 
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     local btn= WoWTools_ToolsMixin:Get_MainButton()
 
     btn.texture=btn:CreateTexture(nil, 'BORDER')
     btn.texture:SetPoint('CENTER')
     btn.texture:SetSize(10,10)
-    btn.texture:SetShown(Save().showIcon)
+    btn.texture:SetShown(WoWTools_ToolsMixin:Save().showIcon)
     btn.texture:SetTexture('Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools')
 
     function btn:set_size()
-        self:SetSize(30, Save().height or 10)
+        self:SetSize(30, WoWTools_ToolsMixin:Save().height or 10)
     end
 
 
 
     function btn:set_icon()
-        self.texture:SetShown(Save().showIcon)
+        self.texture:SetShown(WoWTools_ToolsMixin:Save().showIcon)
     end
 
 
@@ -315,7 +307,7 @@ local function Init()
            WoWTools_Print(WoWTools_ToolsMixin.addName..WoWTools_DataMixin.Icon.icon2, '|cnWARNING_FONT_COLOR:'..(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT))
         else
             self:ClearAllPoints()
-            local p=Save().point
+            local p=WoWTools_ToolsMixin:Save().point
             if p and p[1] then
                 self:SetPoint(p[1], UIParent, p[3], p[4], p[5])
             else
@@ -326,12 +318,12 @@ local function Init()
 
     function btn:set_scale()
         if self:CanChangeAttribute() then
-            self:SetScale(Save().scale or 1)
+            self:SetScale(WoWTools_ToolsMixin:Save().scale or 1)
         end
     end
 
     function btn:set_strata()
-        self:SetFrameStrata(Save().strata or 'MEDIUM')
+        self:SetFrameStrata(WoWTools_ToolsMixin:Save().strata or 'MEDIUM')
     end
 
     function btn:set_tooltip()
@@ -358,8 +350,8 @@ local function Init()
         ResetCursor()
         self:StopMovingOrSizing()
         if WoWTools_FrameMixin:IsInSchermo(self) then
-            Save().point={self:GetPoint(1)}
-            Save().point[2]=nil
+            WoWTools_ToolsMixin:Save().point={self:GetPoint(1)}
+            WoWTools_ToolsMixin:Save().point[2]=nil
         end
     end)
 
@@ -411,10 +403,10 @@ local function Init()
 
     function btn:set_event()
         self.Frame:UnregisterAllEvents()
-        if Save().isCombatHide then
+        if WoWTools_ToolsMixin:Save().isCombatHide then
             self.Frame:RegisterEvent('PLAYER_REGEN_DISABLED')
         end
-        if Save().isMovingHide then
+        if WoWTools_ToolsMixin:Save().isMovingHide then
             self.Frame:RegisterEvent('PLAYER_STARTED_MOVING')
         end
     end
@@ -434,112 +426,107 @@ local function Init()
 
     GameMenuFrame:HookScript('OnShow', function()
         local b= WoWTools_ToolsMixin:Get_MainButton()
-        if b.Frame:IsShown() and Save().isMainMenuHide then
+        if b.Frame:IsShown() and WoWTools_ToolsMixin:Save().isMainMenuHide then
             b:set_shown()
         end
     end)
 
-
-
-    Init=function()end
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-panel:RegisterEvent('PLAYER_ENTERING_WORLD')
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWToolsPlus' then
-            WoWToolsPlusSave['WoWTools_ToolsButton']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['WoWTools_ToolsButton'], {
-                --disabled=true,
-
-                disabledADD={},
-                BottomPoint={
-                    Mount=true,
-                    Hearthstone=true,
-                    OpenItems=true,
-                    MapToy=true,
-                },
-                scale=1,
-                strata='MEDIUM',
-
-                height=10,
-                lineNum=10,
-
-                isEnterShow=true,
-                isCombatHide=true,
-                isMovingHide=true,
-                isMainMenuHide=true,
-                showIcon=true,
-                --loadCollectionUI=nil,
-                --show=false,
-                --point
-
-                bgAlpha= 0.5,
-                borderAlpha=0,
-            })
-
-            Save().borderAlpha= Save().borderAlpha or 0.3
-
-            if type(Save().bgAlpha)~='number' then
-                Save().bgAlpha= 0
-            end
-
-            Save().BottomPoint= Save().BottomPoint or {
-                Mount=true,
-                Hearthstone=true,
-                OpenItems=true,
-                MapToy=true,
-            }
-
-            WoWTools_ToolsMixin:Init()
-
-            WoWTools_ToolsMixin.Category, WoWTools_ToolsMixin.Layout= WoWTools_PanelMixin:AddSubCategory({
-                name=WoWTools_ToolsMixin.addName,
-                disabled= not WoWTools_ToolsMixin:Get_MainButton(),
-            })
-
-
-            if WoWTools_ToolsMixin:Get_MainButton() then
-                Init()
-                self:RegisterEvent("PLAYER_LOGOUT")
-            end
-
-            if C_AddOns.IsAddOnLoaded('Blizzard_Settings') then
-                self:UnregisterEvent(event)
-            end
-
-        elseif arg1=='Blizzard_Settings' then
-            Init_Panel()
-            self:UnregisterEvent(event)
-        end
-
-    elseif event=='PLAYER_ENTERING_WORLD' then
-        if C_AddOns.IsAddOnLoaded('Blizzard_Settings') then
-            Init_Panel()
-        end
-        self:UnregisterEvent(event)
-
-    elseif event == "PLAYER_LOGOUT" then
-        if not WoWTools_DataMixin.ClearAllSave then
-            local btn= WoWTools_ToolsMixin:Get_MainButton()
-            if btn then
-                Save().show= btn.Frame:IsShown()
-            end
-        end
-    end
 end)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+WoWTools_Module:Register({
+    key= 'WoWTools_ToolsButton', name= 'Module.Tools', icon= 'Professions-Crafting-Orders-Icon', group= 'Tools',
+    tooltip= 'Tip.Tools.Enable', mixin= WoWTools_ToolsMixin,
+    panel= false,--tiene su propia categoría (AddSubCategory), con la casilla y los botones de cada herramienta
+    defaults= {
+        --disabled=true,
+
+        disabledADD={},
+        BottomPoint={
+            Mount=true,
+            Hearthstone=true,
+            OpenItems=true,
+            MapToy=true,
+        },
+        scale=1,
+        strata='MEDIUM',
+
+        height=10,
+        lineNum=10,
+
+        isEnterShow=true,
+        isCombatHide=true,
+        isMovingHide=true,
+        isMainMenuHide=true,
+        showIcon=true,
+        --loadCollectionUI=nil,
+        --show=false,
+        --point
+
+        bgAlpha= 0.5,
+        borderAlpha=0,
+    },
+
+    --siempre (también desactivado): la categoría de opciones se crea igual
+    onLoad= function(M, save)
+        save.borderAlpha= save.borderAlpha or 0.3
+
+        if type(save.bgAlpha)~='number' then
+            save.bgAlpha= 0
+        end
+
+        save.BottomPoint= save.BottomPoint or {
+            Mount=true,
+            Hearthstone=true,
+            OpenItems=true,
+            MapToy=true,
+        }
+
+        M:Init()--crea el botón principal (si no está desactivado)
+
+        M.Category, M.Layout= WoWTools_PanelMixin:AddSubCategory({
+            name=M.addName,
+            disabled= not M:Get_MainButton(),
+        })
+
+        --La página se rellena cuando ya se han añadido los botones de las herramientas:
+        --al cargar Blizzard_Settings, o al entrar al mundo si ya estaba cargado
+        if not C_AddOns.IsAddOnLoaded('Blizzard_Settings') then
+            EventUtil.ContinueOnAddOnLoaded('Blizzard_Settings', Init_Panel)
+        end
+        EventRegistry:RegisterFrameEventAndCallback('PLAYER_ENTERING_WORLD', function(owner)
+            if C_AddOns.IsAddOnLoaded('Blizzard_Settings') then
+                Init_Panel()
+            end
+            EventRegistry:UnregisterCallback('PLAYER_ENTERING_WORLD', owner)
+        end)
+    end,
+
+    onEnable= function(M)
+        if M:Get_MainButton() then
+            Init()
+        end
+    end,
+
+    events= {PLAYER_LOGOUT= function(M, save)
+        if not WoWTools_DataMixin.ClearAllSave then
+            local btn= M:Get_MainButton()
+            if btn then
+                save.show= btn.Frame:IsShown()
+            end
+        end
+    end},
+})

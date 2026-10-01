@@ -171,33 +171,19 @@ end
 
 
 
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
+WoWTools_Module:Register({
+    key= 'Tools_OpenItems', name= 'Module.Open items', icon= 'BonusLoot-Chest', group= 'Tools',
+    parent= 'WoWTools_ToolsButton', defaults= P_Save, mixin= WoWTools_OpenItemMixin,
+    onEnable= function(M)
+        WoWTools_ToolsMixin:CreateButton({
+            name='OpenItems',
+            tooltip=M.addName,
+        })
 
-
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWToolsPlus' then
-            WoWToolsPlusSave['Tools_OpenItems']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Tools_OpenItems'], P_Save)
-            P_Save= nil
-
-            WoWTools_OpenItemMixin.addName= '|A:BonusLoot-Chest:0:0|a'..(WoWTools_L['Module.Open items'])
-
-            WoWTools_ToolsMixin:CreateButton({
-                name='OpenItems',
-                tooltip=WoWTools_OpenItemMixin.addName,
-            })
-
-            if WoWTools_ToolsMixin:Get_ButtonForName('OpenItems') then
-                self:RegisterEvent('PLAYER_ENTERING_WORLD')
-            else
-                self:SetScript('OnEvent', nil)
-            end
-            self:UnregisterEvent(event)
+        if WoWTools_ToolsMixin:Get_ButtonForName('OpenItems') then
+            WoWTools_ToolsMixin:OnEnterWorld(function()
+                M:Init_Button()
+            end)
         end
-
-    elseif event=='PLAYER_ENTERING_WORLD' then
-        WoWTools_OpenItemMixin:Init_Button()
-        self:UnregisterEvent(event)
-    end
-end)
+    end,
+})

@@ -8,9 +8,6 @@ local P_Save={
     showBindName=true,
     lockedToy=nil,
 }
-local function Save()
-    return WoWToolsPlusSave['Tools_Hearthstone']
-end
 local function SaveItems()
     return WoWToolsPlusPlayerDate['HearthstoneItems']
 end
@@ -81,9 +78,9 @@ local function Init_Menu(self, root)
     sub=WoWTools_ToolsMixin:OpenMenu(root, WoWTools_HearthstoneMixin.addName)
 
     sub2=sub:CreateCheckbox(WoWTools_L['SPELL_TARGET_CENTER_LOC~2'], function()
-        return Save().showBindName
+        return WoWTools_HearthstoneMixin:Save().showBindName
     end, function()
-        Save().showBindName= not Save().showBindName and true or false
+        WoWTools_HearthstoneMixin:Save().showBindName= not WoWTools_HearthstoneMixin:Save().showBindName and true or false
         self:set_location()
     end)
     sub2:SetTooltip(function(tooltip)
@@ -92,9 +89,9 @@ local function Init_Menu(self, root)
     end)
 
     sub2= sub2:CreateCheckbox(WoWTools_L['SHORT+NAME'], function()
-        return Save().showBindNameShort
+        return WoWTools_HearthstoneMixin:Save().showBindNameShort
     end, function()
-        Save().showBindNameShort= not Save().showBindNameShort and true or false
+        WoWTools_HearthstoneMixin:Save().showBindNameShort= not WoWTools_HearthstoneMixin:Save().showBindNameShort and true or false
         self:set_location()
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Hearthstone.BindNameShort'])
@@ -117,7 +114,7 @@ local function Init_Menu(self, root)
                 end
             end
             if n>0 then
-                self:Init_Random(Save().lockedToy)
+                self:Init_Random(WoWTools_HearthstoneMixin:Save().lockedToy)
             end
         end})
         return MenuResponse.Open
@@ -173,7 +170,7 @@ local function Init_Menu(self, root)
 end
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     local btn= WoWTools_ToolsMixin:Get_ButtonForName('Hearthstone')
     --btn:SetAttribute("type1", "macro")
     btn:SetAttribute("type1", "toy")
@@ -274,9 +271,9 @@ local function Init()
 
     function btn:set_location()
         local text
-        if Save().showBindName then
+        if WoWTools_HearthstoneMixin:Save().showBindName then
             text= self:get_location()
-            if text and Save().showBindNameShort then
+            if text and WoWTools_HearthstoneMixin:Save().showBindNameShort then
                 text= WoWTools_TextMixin:sub(text, 2, 5)
             end
         end
@@ -320,7 +317,7 @@ local function Init()
             end
 
         elseif event=='TOYS_UPDATED' or event=='NEW_TOY_ADDED' then
-            self:Init_Random(Save().lockedToy)
+            self:Init_Random(WoWTools_HearthstoneMixin:Save().lockedToy)
 
         elseif event=='HEARTHSTONE_BOUND' then
             self:set_location()
@@ -463,7 +460,7 @@ local function Init()
         self:Set_Random_Value(self.Selected_Value or self.Locked_Value or self.Random_List[1] or 200869)
     end
 
-    btn:Init_Random(Save().lockedToy)
+    btn:Init_Random(WoWTools_HearthstoneMixin:Save().lockedToy)
 
 
     function btn:set_event()
@@ -490,58 +487,36 @@ local function Init()
     btn:set_location()
     btn:Get_Random_Value()
     btn:set_event()
-
-    Init=function()end
-end
+end)
 
 
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWToolsPlus' then
+WoWTools_Module:Register({
+    key= 'Tools_Hearthstone', name= 'Module.Hearthstones', icon= 'delves-bountiful', group= 'Tools',
+    parent= 'WoWTools_ToolsButton', defaults= P_Save, mixin= WoWTools_HearthstoneMixin,
+    onEnable= function(M)
+        WoWToolsPlusPlayerDate['HearthstoneItems']= WoWToolsPlusPlayerDate['HearthstoneItems'] or CopyTable(P_Items)
 
-            WoWToolsPlusSave['Tools_Hearthstone']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Tools_Hearthstone'], P_Save)
-            P_Save= nil
+        WoWTools_ToolsMixin:CreateButton({
+            name='Hearthstone',
+            tooltip= M.addName,
+        })
 
-            WoWToolsPlusPlayerDate['HearthstoneItems']= WoWToolsPlusPlayerDate['HearthstoneItems'] or CopyTable(P_Items)
+        if WoWTools_ToolsMixin:Get_ButtonForName('Hearthstone') then
+            WoWTools_ToolsMixin:OnEnterWorld(function()
+                Init()
+            end)
 
-            WoWTools_HearthstoneMixin.addName='|A:delves-bountiful:0:0|a'..(WoWTools_L['Module.Hearthstones'])
-
-            WoWTools_ToolsMixin:CreateButton({
-                name='Hearthstone',
-                tooltip= WoWTools_HearthstoneMixin.addName,
-            })
-
-
-            if WoWTools_ToolsMixin:Get_ButtonForName('Hearthstone') then
-                self:RegisterEvent('PLAYER_ENTERING_WORLD')
-
-                for _, data in pairs(ModifiedMenuTab) do
-                    WoWTools_DataMixin:Load(data.itemID, 'item')
-                end
-
-                for itemID in pairs(SaveItems()) do
-                   WoWTools_DataMixin:Load(itemID, 'item')
-                end
-
-                if C_AddOns.IsAddOnLoaded('Blizzard_Collections') then
-                    WoWTools_HearthstoneMixin:Blizzard_Collections()
-                    self:UnregisterEvent(event)
-                end
-
-            else
-                self:SetScript('OnEvent', nil)
-                self:UnregisterAllEvents()
+            for _, data in pairs(ModifiedMenuTab) do
+                WoWTools_DataMixin:Load(data.itemID, 'item')
             end
 
-        elseif arg1=='Blizzard_Collections' and WoWToolsPlusSave then
-            WoWTools_HearthstoneMixin:Blizzard_Collections()
-            self:UnregisterEvent(event)
-        end
+            for itemID in pairs(SaveItems()) do
+               WoWTools_DataMixin:Load(itemID, 'item')
+            end
 
-    elseif event=='PLAYER_ENTERING_WORLD' then
-        Init()
-        self:UnregisterEvent(event)
-    end
-end)
+            EventUtil.ContinueOnAddOnLoaded('Blizzard_Collections', function()
+                M:Blizzard_Collections()
+            end)
+        end
+    end,
+})

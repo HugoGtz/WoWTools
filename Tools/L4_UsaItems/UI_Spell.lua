@@ -77,7 +77,7 @@ end
 
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     WoWTools_DataMixin:Hook(SpellBookItemMixin, 'UpdateVisuals', function(frame)
          if not frame.Button.useSpell then
             Create_Button(frame.Button)
@@ -87,22 +87,14 @@ local function Init()
         frame.Button.useSpell:set_alpha()
         frame.Button.useSpell:SetShown(spellID and not C_Spell.IsSpellPassive(spellID))
     end)
-    Init=function()end
-end
+end)
 
 
 
 
 
 function WoWTools_UseItemsMixin:Init_PlayerSpells()
-    if C_AddOns.IsAddOnLoaded('Blizzard_PlayerSpells') then
+    EventUtil.ContinueOnAddOnLoaded('Blizzard_PlayerSpells', function()
         Init()
-    else
-        EventRegistry:RegisterFrameEventAndCallback("ADDON_LOADED", function(owner, arg1)
-            if arg1=='Blizzard_PlayerSpells' then
-                Init()
-                EventRegistry:UnregisterCallback('ADDON_LOADED', owner)
-            end
-        end)
-    end
+    end)
 end

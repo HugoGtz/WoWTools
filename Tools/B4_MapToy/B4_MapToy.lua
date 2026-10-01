@@ -33,28 +33,7 @@ elseif WoWTools_DataMixin.Player.Faction=='Horde' then
 end
 
 
-local addName
-
-
-
-local function Save()
-    return WoWToolsPlusSave['Tools_MapToy']
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+local Module= {}--lo completa WoWTools_Module:Register (al final del archivo)
 
 
 
@@ -198,7 +177,7 @@ local function Init_Menu(self, root)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.MapToy.Spell'])
     end)
 
-    local tab=CopyTable(Save().no)
+    local tab=CopyTable(Module:Save().no)
     tab[WoWTools_DataMixin.Player.GUID]= true
 
     root:CreateDivider()
@@ -210,9 +189,9 @@ local function Init_Menu(self, root)
         sub2=sub:CreateCheckbox(
             WoWTools_UnitMixin:GetPlayerInfo(nil, guid, nil, {reName=true, reRealm=true}),
         function(data)
-            return Save().no[data]
+            return Module:Save().no[data]
         end, function(data)
-            Save().no[data]= not Save().no[data] and true or nil
+            Module:Save().no[data]= not Module:Save().no[data] and true or nil
         end, guid)
         WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.MapToy.DisableChar'])
     end
@@ -227,9 +206,9 @@ local function Init_Menu(self, root)
             WoWTools_L.LEVEL
         ),
     function()
-        return Save().maxLevelIsDisabled
+        return Module:Save().maxLevelIsDisabled
     end, function()
-        Save().maxLevelIsDisabled= not Save().maxLevelIsDisabled and true or false
+        Module:Save().maxLevelIsDisabled= not Module:Save().maxLevelIsDisabled and true or false
     end)
     sub2:SetTooltip(function (tooltip)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.MapToy.MaxLevel'])
@@ -245,8 +224,8 @@ local function Init_Menu(self, root)
         WoWTools_L.CLEAR_ALL,
         nil,
         {SetValue=function()
-            Save().no={}
-            Save().maxLevelIsDisabled=nil
+            Module:Save().no={}
+            Module:Save().maxLevelIsDisabled=nil
         end})
         return MenuResponse.Open
     end)
@@ -274,7 +253,7 @@ end
 
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     local btn= WoWTools_ToolsMixin:Get_ButtonForName('MapToy')
     if not btn then
         return
@@ -362,9 +341,7 @@ local function Init()
 
     btn:settings()
     btn:set_texture()
-
-    Init=function()end
-end
+end)
 
 
 
@@ -376,80 +353,65 @@ end
 
 
 
---###########
---###########
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
+WoWTools_Module:Register({
+    key= 'Tools_MapToy', name= 'ADVENTURE_MAP_TITLE', icon= 'Taxi_Frame_Yellow', group= 'Tools',
+    parent= 'WoWTools_ToolsButton', tooltip= 'Tip.MapToy.Enable', mixin= Module,
+    defaults= {
+        no={
+            --[guid]=true
+        },
+        maxLevelIsDisabled=true,
+    },
+    --siempre: su casilla en la página de Herramientas
+    onLoad= function(M, save)
+        save.autoAddDisabled= nil
 
-
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWToolsPlus' then
-            WoWToolsPlusSave['Tools_MapToy']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Tools_MapToy'], {
-                no={
-                    --[guid]=true
-                },
-                maxLevelIsDisabled=true,
+        WoWTools_ToolsMixin:Set_AddList(function(category, layout)
+             WoWTools_PanelMixin:Check_Button({
+                 checkName= M.addName,
+                 GetValue= function() return not M:Save().disabled end,
+                 SetValue= function()
+                     M:Save().disabled = not M:Save().disabled and true or nil
+                 end,
+                 buttonText= WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2,
+                 buttonFunc= function()
+                    StaticPopup_Show('WoWTools_OK',
+                    M.addName,
+                    nil,
+                    {SetValue=function()
+                        M:Save().no={}
+                        M:Save().maxLevelIsDisabled=true
+                    end})
+                 end,
+                 tooltip= WoWTools_L['Tip.MapToy.Enable'],
+                 layout= layout,
+                 category= category,
+             })
+         end)
+    end,
+    onEnable= function(M, save)
+        if not save.no[WoWTools_DataMixin.Player.GUID]
+            and not (save.maxLevelIsDisabled and WoWTools_DataMixin.Player.IsMaxLevel)
+         then
+            WoWTools_ToolsMixin:CreateButton({
+                name='MapToy',
+                tooltip=M.addName,
+                disabledOptions=true
             })
-
-            Save().autoAddDisabled= nil
-
-            addName= '|A:Taxi_Frame_Yellow:0:0|a'..(WoWTools_L.ADVENTURE_MAP_TITLE)
-
-            WoWTools_ToolsMixin:Set_AddList(function(category, layout)
-                 WoWTools_PanelMixin:Check_Button({
-                     checkName= addName,
-                     GetValue= function() return not Save().disabled end,
-                     SetValue= function()
-                         Save().disabled = not Save().disabled and true or nil
-                     end,
-                     buttonText= WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2,
-                     buttonFunc= function()
-                        StaticPopup_Show('WoWTools_OK',
-                        addName,
-                        nil,
-                        {SetValue=function()
-                            Save().no={}
-                            Save().maxLevelIsDisabled=true
-                        end})
-                     end,
-                     tooltip= WoWTools_L['Tip.MapToy.Enable'],
-                     layout= layout,
-                     category= category,
-                 })
-             end)
-
-            if not Save().disabled
-                and not Save().no[WoWTools_DataMixin.Player.GUID]
-                and not (Save().maxLevelIsDisabled and WoWTools_DataMixin.Player.IsMaxLevel)
-             then
-                WoWTools_ToolsMixin:CreateButton({
-                    name='MapToy',
-                    tooltip=addName,
-                    disabledOptions=true
-                })
-            end
-
-            if WoWTools_ToolsMixin:Get_ButtonForName('MapToy') then
-                self:RegisterEvent('PLAYER_ENTERING_WORLD')
-
-                for _, info in pairs(Tab) do
-                    WoWTools_DataMixin:Load(info.itemID, 'item')
-                    for _, achievementID in pairs(info.achievements) do
-                        GetAchievementCategory(achievementID)
-                    end
-                end
-                WoWTools_DataMixin:Load(SpellID, 'spell')
-
-            else
-                self:SetScript('OnEvent', nil)
-            end
-            self:UnregisterEvent(event)
         end
 
-    elseif event=='PLAYER_ENTERING_WORLD' then
-        Init()
-        self:SetScript('OnEvent', nil)
-        self:UnregisterEvent(event)
-    end
-end)
+        if WoWTools_ToolsMixin:Get_ButtonForName('MapToy') then
+            WoWTools_ToolsMixin:OnEnterWorld(function()
+                Init()
+            end)
+
+            for _, info in pairs(Tab) do
+                WoWTools_DataMixin:Load(info.itemID, 'item')
+                for _, achievementID in pairs(info.achievements) do
+                    GetAchievementCategory(achievementID)
+                end
+            end
+            WoWTools_DataMixin:Load(SpellID, 'spell')
+        end
+    end,
+})

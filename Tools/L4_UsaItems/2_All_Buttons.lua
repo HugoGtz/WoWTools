@@ -301,7 +301,7 @@ end
 
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     WoWTools_ToolsMixin:Set_AddList(function(_, layout)
         WoWTools_PanelMixin:Header(layout, WoWTools_UseItemsMixin.addName)
     end)
@@ -353,9 +353,7 @@ local function Init()
             end
         end
     end
-
-    Init=function()end
-end
+end)
 
 
 

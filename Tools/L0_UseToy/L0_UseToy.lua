@@ -1,5 +1,5 @@
 
-local addName
+local Module= {}--lo completa WoWTools_Module:Register (al final del archivo)
 
 local P_Items={
     [122129]=true,[169347]=true,[174873]=true,[140160]=true,[180873]=true,[188699]=true,[38301]=true,
@@ -57,24 +57,17 @@ local P_Save={
 }
 
 
-local function Save()
-    return WoWToolsPlusSave['Tools_UseToy']
-end
-
-
-
-
 local ToyButton
 local function Set_Alt_Table()
     ModifiedTab={
-        [Save().Alt or 69775]='Alt',
-        [Save().Ctrl or 109183]='Ctrl',
-        [Save().Shift or 86568]='Shift',
+        [Module:Save().Alt or 69775]='Alt',
+        [Module:Save().Ctrl or 109183]='Ctrl',
+        [Module:Save().Shift or 86568]='Shift',
     }
     ModifiedMenuTab={
-        {type='Alt', itemID= Save().Alt or 69775},
-        {type='Ctrl', itemID= Save().Ctrl or 109183},
-        {type='Shift', itemID= Save().Shift or 86568}
+        {type='Alt', itemID= Module:Save().Alt or 69775},
+        {type='Ctrl', itemID= Module:Save().Ctrl or 109183},
+        {type='Shift', itemID= Module:Save().Shift or 86568}
     }
 end
 
@@ -85,12 +78,12 @@ local function Set_Alt_Menu(root, itemID)
         WoWTools_DataMixin:Load(info.itemID, 'item')
         sub=root:CreateCheckbox(info.type..'|T'..(select(5, C_Item.GetItemInfoInstant(info.itemID)) or 0)..':0|t',
             function(data)
-                return Save()[data.type]== data.itemID2
+                return Module:Save()[data.type]== data.itemID2
             end, function(data)
-                if Save()[data.type]==data.itemID2 then
-                    Save()[data.type]=nil
+                if Module:Save()[data.type]==data.itemID2 then
+                    Module:Save()[data.type]=nil
                 else
-                    Save()[data.type]= data.itemID2
+                    Module:Save()[data.type]= data.itemID2
                 end
                 Set_Alt_Table()
                 ToyButton:set_alt()
@@ -106,33 +99,33 @@ end
 
 
 local function Remove_Toy(itemID)
-    Save().items[itemID]=nil
+    Module:Save().items[itemID]=nil
     local isSelect, isLock= ToyButton:Check_Random_Value(itemID)
     if isLock or isSelect then
         if isSelect then
             ToyButton:Set_SelectValue_Random(nil)
         end
         if isLock then
-            Save().lockedToy=nil
+            Module:Save().lockedToy=nil
             ToyButton:Set_LockedValue_Random(nil)
         end
     elseif ToyButton.itemID==itemID then
-        ToyButton:Init_Random(Save().lockedToy)
+        ToyButton:Init_Random(Module:Save().lockedToy)
     end
 end
 
 
 
 local function Add_Toy(itemID)
-    Save().items[itemID]= true
-    ToyButton:Init_Random(Save().lockedToy)
+    Module:Save().items[itemID]= true
+    ToyButton:Init_Random(Module:Save().lockedToy)
 end
 
 
 
 local function Add_Remove_Toy(itemID)
     if itemID then
-        if Save().items[itemID] then
+        if Module:Save().items[itemID] then
             Remove_Toy(itemID)
         else
             Add_Toy(itemID)
@@ -183,7 +176,7 @@ end
 local function Init_Menu_Toy(_, root)
     local sub, sub2, name, toyName, icon
     local index=0
-    for itemID in pairs(Save().items) do
+    for itemID in pairs(Module:Save().items) do
        WoWTools_DataMixin:Load(itemID, 'item')
 
         toyName, icon = select(2, C_ToyBox.GetToyInfo(itemID))
@@ -197,13 +190,13 @@ local function Init_Menu_Toy(_, root)
             name='itemID '.. itemID
         end
 
-        local alt= (Save().Alt==itemID and 'A' or '')
-            ..(Save().Ctrl==itemID and 'C' or '')
-            ..(Save().Shift==itemID and 'S' or '')
+        local alt= (Module:Save().Alt==itemID and 'A' or '')
+            ..(Module:Save().Ctrl==itemID and 'C' or '')
+            ..(Module:Save().Shift==itemID and 'S' or '')
         alt= alt~='' and '|cnGREEN_FONT_COLOR:['..alt..']|r' or alt
 
         local has= PlayerHasToy(itemID)
-        local isLoked= Save().lockedToy==itemID
+        local isLoked= Module:Save().lockedToy==itemID
 
         sub=root:CreateCheckbox(
             (isLoked and '|cnGREEN_FONT_COLOR:' or (has and '' or '|cff626262'))
@@ -215,7 +208,7 @@ local function Init_Menu_Toy(_, root)
             return ToyButton.itemID==data.itemID
         end, function(data)
             if data.has then
-                if not Save().lockedToy then
+                if not Module:Save().lockedToy then
                     local toy= ToyButton.Selected_Value~=data.itemID and data.itemID or nil
                     ToyButton:Set_SelectValue_Random(toy)
                 end
@@ -232,11 +225,11 @@ local function Init_Menu_Toy(_, root)
             ..icon
             ..(WoWTools_L.LOCK)..'|A:AdventureMapIcon-Lock:0:0|a',
         function(data)
-            return Save().lockedToy==data.itemID
+            return Module:Save().lockedToy==data.itemID
         end, function(data)
             if data.has then
-                Save().lockedToy= Save().lockedToy~=data.itemID and itemID or nil
-                ToyButton:Init_Random(Save().lockedToy)
+                Module:Save().lockedToy= Module:Save().lockedToy~=data.itemID and itemID or nil
+                ToyButton:Init_Random(Module:Save().lockedToy)
             end
         end, {itemID=itemID, name=toyName, has=has})
         sub2:SetTooltip(function(tooltip, desc)
@@ -275,7 +268,7 @@ end
 local function Init_Menu(self, root)
     local sub, sub2, name
 
-    sub=WoWTools_ToolsMixin:OpenMenu(root, addName)
+    sub=WoWTools_ToolsMixin:OpenMenu(root, Module.addName)
 
 
     name= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L['REMOVE+NOT_COLLECTED'])
@@ -287,16 +280,16 @@ local function Init_Menu(self, root)
         nil,
         {SetValue=function()
             local n=0
-            for itemID in pairs(Save().items) do
+            for itemID in pairs(Module:Save().items) do
                 WoWTools_DataMixin:Load(itemID, 'item')
                 if not PlayerHasToy(itemID) then
-                    Save().items[itemID]=nil
+                    Module:Save().items[itemID]=nil
                     n=n+1
                     WoWTools_Print(n, WoWTools_L.REMOVE, WoWTools_ItemMixin:GetLink(itemID))
                 end
             end
             if n>0 then
-                ToyButton:Init_Random(Save().lockedToy)
+                ToyButton:Init_Random(Module:Save().lockedToy)
             end
         end})
         return MenuResponse.Open
@@ -311,8 +304,8 @@ local function Init_Menu(self, root)
         data.name,
         nil,
         {SetValue=function()
-            Save().items={}
-            WoWTools_Print(WoWTools_DataMixin.Icon.icon2..addName, WoWTools_L.CLEAR_ALL)
+            Module:Save().items={}
+            WoWTools_Print(WoWTools_DataMixin.Icon.icon2..Module.addName, WoWTools_L.CLEAR_ALL)
             ToyButton:Rest_Random()
         end})
     end, {name=name})
@@ -327,9 +320,9 @@ local function Init_Menu(self, root)
         data.name,
         nil,
         {SetValue=function()
-            Save().items= P_Items
+            Module:Save().items= P_Items
             ToyButton:Rest_Random()
-            WoWTools_Print(WoWTools_DataMixin.Icon.icon2..addName, '|cnGREEN_FONT_COLOR:', WoWTools_L.TRANSMOGRIFY_TOOLTIP_REVERT)
+            WoWTools_Print(WoWTools_DataMixin.Icon.icon2..Module.addName, '|cnGREEN_FONT_COLOR:', WoWTools_L.TRANSMOGRIFY_TOOLTIP_REVERT)
         end})
         return MenuResponse.Open
     end, {name=name})
@@ -346,14 +339,14 @@ local function Init_Menu(self, root)
     end)
 
     WoWTools_KeyMixin:SetMenu(self, sub, {
-        name=addName,
-        key=Save().KEY,
+        name=Module.addName,
+        key=Module:Save().KEY,
         GetKey=function(key)
-            Save().KEY=key
+            Module:Save().KEY=key
             WoWTools_KeyMixin:Setup(ToyButton)
         end,
         OnAlt=function(s)
-            Save().KEY=nil
+            Module:Save().KEY=nil
             WoWTools_KeyMixin:Setup(ToyButton)
         end,
     })
@@ -379,18 +372,18 @@ local function setToySpellButton_UpdateButton(btn)
             return self:GetParent().itemID
         end
         function btn.useToy:set_alpha()
-            self:SetAlpha(Save().items[self:get_itemID()] and 1 or 0.1)
+            self:SetAlpha(Module:Save().items[self:get_itemID()] and 1 or 0.1)
         end
         function btn.useToy:set_tooltips()
             GameTooltip:SetOwner(self, "ANCHOR_LEFT")
             GameTooltip:ClearLines()
-            GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, addName)
+            GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, Module.addName)
             GameTooltip:AddLine(' ')
             local itemID=self:get_itemID()
             local icon= select(5, C_Item.GetItemInfoInstant(itemID))
             GameTooltip:AddDoubleLine(
                 (icon and '|T'..icon..':0|t' or '')..(itemID and C_ToyBox.GetToyLink(itemID) or itemID),
-                WoWTools_TextMixin:GetEnabeleDisable(Save().items[itemID])..WoWTools_DataMixin.Icon.left
+                WoWTools_TextMixin:GetEnabeleDisable(Module:Save().items[itemID])..WoWTools_DataMixin.Icon.left
             )
             GameTooltip:AddDoubleLine(WoWTools_L.SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
             GameTooltip:Show()
@@ -419,8 +412,8 @@ end
 
 --###
 --###
-local function Init()
-    WoWTools_KeyMixin:Init(ToyButton, function() return Save().KEY end)
+local Init= WoWTools_Once(function()
+    WoWTools_KeyMixin:Init(ToyButton, function() return Module:Save().KEY end)
 
     ToyButton:SetAttribute("type1", "toy")
     ToyButton:SetAttribute("alt-type1", "toy")
@@ -456,7 +449,7 @@ local function Init()
             if itemID and success then
                 if ModifiedTab[itemID] then
                     self:set_alt()
-                elseif Save().items[itemID] then
+                elseif Module:Save().items[itemID] then
                     self:Set_Random_Event()--is_Random_Eevent
                 end
                 if not self.is_Random_Eevent then
@@ -476,7 +469,7 @@ local function Init()
             end
 
         elseif event=='TOYS_UPDATED' or event=='NEW_TOY_ADDED' then
-            self:Init_Random(Save().lockedToy)
+            self:Init_Random(Module:Save().lockedToy)
 
         elseif event=='BAG_UPDATE_COOLDOWN' then
             self:set_cool()
@@ -533,7 +526,7 @@ local function Init()
         end)
 
         if self:CanChangeAttribute() then
-            local itemID= Save().lockedToy or get_not_cooldown_toy()
+            local itemID= Module:Save().lockedToy or get_not_cooldown_toy()
             if itemID then
                 self.Selected_Value=itemID
                 self:Set_Random_Value(itemID)
@@ -567,7 +560,7 @@ local function Init()
 
     function ToyButton:Get_Random_Data()
         local tab={}
-        for itemID in pairs(Save().items) do
+        for itemID in pairs(Module:Save().items) do
             WoWTools_DataMixin:Load(itemID, 'item')
             if PlayerHasToy(itemID) then
                 local duration= select(2, C_Item.GetItemCooldown(itemID))
@@ -602,7 +595,7 @@ local function Init()
         self:Set_Random_Value( self.Locked_Value or self.Selected_Value or self.Random_List[1] or 6948)
     end
 
-    ToyButton:Init_Random(Save().lockedToy)
+    ToyButton:Init_Random(Module:Save().lockedToy)
 
 
     function ToyButton:set_event()
@@ -630,57 +623,31 @@ local function Init()
     end)
 
 
-    if C_AddOns.IsAddOnLoaded('Blizzard_Collections') then
+    EventUtil.ContinueOnAddOnLoaded('Blizzard_Collections', function()
         WoWTools_DataMixin:Hook('ToySpellButton_UpdateButton', setToySpellButton_UpdateButton)
-    else
-        EventRegistry:RegisterFrameEventAndCallback("ADDON_LOADED", function(owner, arg1)
-            if arg1=='Blizzard_Collections' then
-                WoWTools_DataMixin:Hook('ToySpellButton_UpdateButton', setToySpellButton_UpdateButton)
-                EventRegistry:UnregisterCallback('ADDON_LOADED', owner)
-            end
-        end)
-    end
-
-    Init=function()end
-end
-
-
---###########
---###########
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWToolsPlus' then
-
-            WoWToolsPlusSave['Tools_UseToy']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Tools_UseToy'], P_Save)
-            P_Save= nil
-
-            addName='|A:collections-icon-favorites:0:0|a'..(WoWTools_L['USE+TOY'])
-
-            ToyButton= WoWTools_ToolsMixin:CreateButton({
-                name='UseToy',
-                tooltip=addName,
-            })
-
-            if ToyButton then
-                self:RegisterEvent('PLAYER_ENTERING_WORLD')
-
-                for itemID in pairs(Save().items) do
-                   WoWTools_DataMixin:Load(itemID, 'item')
-                end
-
-                Set_Alt_Table()
-
-            else
-                self:SetScript('OnEvent', nil)
-                self:UnregisterEvent(event)
-            end
-        end
-
-    elseif event == 'PLAYER_ENTERING_WORLD' then
-        Init()
-        self:SetScript('OnEvent', nil)
-        self:UnregisterEvent(event)
-    end
+    end)
 end)
+
+
+WoWTools_Module:Register({
+    key= 'Tools_UseToy', name= 'USE+TOY', icon= 'collections-icon-favorites', group= 'Tools',
+    parent= 'WoWTools_ToolsButton', defaults= P_Save, mixin= Module,
+    onEnable= function(M, save)
+        ToyButton= WoWTools_ToolsMixin:CreateButton({
+            name='UseToy',
+            tooltip=M.addName,
+        })
+
+        if ToyButton then
+            WoWTools_ToolsMixin:OnEnterWorld(function()
+                Init()
+            end)
+
+            for itemID in pairs(save.items) do
+               WoWTools_DataMixin:Load(itemID, 'item')
+            end
+
+            Set_Alt_Table()
+        end
+    end,
+})

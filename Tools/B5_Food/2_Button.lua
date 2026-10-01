@@ -1,15 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['Tools_Foods']
-end
-
-
-
-
-
-
-
-
 local function Set_AltSpell()
     local btn= WoWTools_ToolsMixin:Get_ButtonForName('Food')
     if not btn or not btn:CanChangeAttribute() then
@@ -17,7 +6,7 @@ local function Set_AltSpell()
     end
 
     local item, alt, ctrl, shift
-    local tab= Save().spells[WoWTools_DataMixin.Player.Class]
+    local tab= WoWTools_FoodMixin:Save().spells[WoWTools_DataMixin.Player.Class]
 
     if tab then
         item, alt, ctrl, shift= tab.item, tab.alt, tab.ctrl, tab.shift
@@ -57,15 +46,15 @@ local function Add_Item(info)
         OnShow=function(self, data)
             local b1= self.button1 or self:GetButton1()
             local b3= self:GetButton3()
-            b1:SetEnabled(not Save().addItems[data.itemID])
-            b3:SetEnabled(Save().addItems[data.itemID])
+            b1:SetEnabled(not WoWTools_FoodMixin:Save().addItems[data.itemID])
+            b3:SetEnabled(WoWTools_FoodMixin:Save().addItems[data.itemID])
         end,
         SetValue = function(_, data)
-            Save().addItems[data.itemID]= true
+            WoWTools_FoodMixin:Save().addItems[data.itemID]= true
             WoWTools_FoodMixin:Check_Items()
         end,
         OnAlt = function(_, data)
-            Save().addItems[data.itemID]= nil
+            WoWTools_FoodMixin:Save().addItems[data.itemID]= nil
             WoWTools_FoodMixin:Check_Items()
         end
     })
@@ -91,7 +80,7 @@ local function Init()
     btn.CheckFrame= CreateFrame('Frame')
     function btn.CheckFrame:set_event()
         self:UnregisterAllEvents()
-        if Save().autoWho then
+        if WoWTools_FoodMixin:Save().autoWho then
             self:RegisterEvent('BAG_UPDATE_DELAYED')
         end
     end
@@ -109,18 +98,18 @@ local function Init()
 
     WoWTools_TextureMixin:CreateBG(btn, {
         isColor=true,
-        alpha= Save().bgAlpha or 0.5,
+        alpha= WoWTools_FoodMixin:Save().bgAlpha or 0.5,
         point=function(bg)
            bg:SetPoint('BOTTOMRIGHT', 1, -1)
         end,
     })
     function btn:set_background()
-        self.Background:SetColorTexture(0, 0, 0, Save().bgAlpha or 0.5)
+        self.Background:SetColorTexture(0, 0, 0, WoWTools_FoodMixin:Save().bgAlpha or 0.5)
     end
 
     function btn:set_strata()
         if self:CanChangeAttribute() then
-            self:SetFrameStrata(Save().strata or 'MEDIUM')
+            self:SetFrameStrata(WoWTools_FoodMixin:Save().strata or 'MEDIUM')
         end
     end
 
@@ -130,7 +119,7 @@ local function Init()
         end
         self:ClearAllPoints()
 
-        local p= Save().point
+        local p= WoWTools_FoodMixin:Save().point
         if p and p[1] then
             self:SetParent(UIParent)
             self:SetPoint(p[1], UIParent, p[3], p[4], p[5])
@@ -143,7 +132,7 @@ local function Init()
 
     function btn:set_scale()
         if self:CanChangeAttribute() then
-            self:SetScale(Save().scale or 1)
+            self:SetScale(WoWTools_FoodMixin:Save().scale or 1)
         end
     end
 
@@ -171,8 +160,8 @@ local function Init()
             self:StopMovingOrSizing()
         end
         if WoWTools_FrameMixin:IsInSchermo(self) then
-            Save().point={self:GetPoint(1)}
-            Save().point[2]=nil
+            WoWTools_FoodMixin:Save().point={self:GetPoint(1)}
+            WoWTools_FoodMixin:Save().point[2]=nil
         end
         if self:CanChangeAttribute() then
             self:SetParent(UIParent)
@@ -240,9 +229,9 @@ local function Init()
                 GameTooltip:AddLine(' ')
             end
             GameTooltip:AddDoubleLine(
-                (Save().onlyMaxExpansion and '|cnGREEN_FONT_COLOR:' or '|cff626262')
+                (WoWTools_FoodMixin:Save().onlyMaxExpansion and '|cnGREEN_FONT_COLOR:' or '|cff626262')
                 ..(WoWTools_L['Only current version items']),
-                WoWTools_TextMixin:GetEnabeleDisable(Save().onlyMaxExpansion)
+                WoWTools_TextMixin:GetEnabeleDisable(WoWTools_FoodMixin:Save().onlyMaxExpansion)
             )
         end
         GameTooltip:Show()
@@ -287,7 +276,7 @@ local function Init()
     btn:SetAttribute('shift-type1', 'spell')
 
 
-    if Save().point then
+    if WoWTools_FoodMixin:Save().point then
         btn:set_point()
     end
     btn:set_strata()

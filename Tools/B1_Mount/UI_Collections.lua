@@ -305,7 +305,7 @@ end
 
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     WoWTools_DataMixin:Hook('MountJournal_InitMountButton',function(frame)--Blizzard_MountCollection.lua
         if not frame.spellID or not frame.mountID then
             if frame and frame.WoWToolsButton then
@@ -358,25 +358,16 @@ local function Init()
 
     btn:rest_type()
     btn:SetupMenu(Init_UI_List_Menu)
-
-    Init=function()end
-end
+end)
 
 
 
 
 
 function WoWTools_MountMixin:Init_MountJournal()
-     if C_AddOns.IsAddOnLoaded('Blizzard_Collections') then
-        Init()
-    else
-        EventRegistry:RegisterFrameEventAndCallback("ADDON_LOADED", function(owner, arg1)
-            if arg1=='Blizzard_Collections' then
-                Init()
-                EventRegistry:UnregisterCallback('ADDON_LOADED', owner)
-            end
-        end)
-    end
+     EventUtil.ContinueOnAddOnLoaded('Blizzard_Collections', function()
+         Init()
+     end)
 end
 
 

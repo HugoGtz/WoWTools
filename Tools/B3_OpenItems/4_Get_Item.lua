@@ -1,10 +1,5 @@
 
 
-local function Save()
-    return WoWToolsPlusSave['Tools_OpenItems']
-end
-
-
 local function Set_Att(self, bag, slot, icon, itemID)
     if self.isDisabled then
         return
@@ -58,7 +53,7 @@ local function Get_ValeItem(bag, slot)
         or not info.hyperlink
         or info.isLocked
         or not info.iconFileID
-        or (Save().no[info.itemID] and not Save().use[info.itemID])
+        or (WoWTools_OpenItemMixin:Save().no[info.itemID] and not WoWTools_OpenItemMixin:Save().use[info.itemID])
     then
         return
     end
@@ -94,8 +89,8 @@ local function Get_ValeItem(bag, slot)
 
 
 
-    if Save().use[info.itemID] then
-        if Save().use[info.itemID]<=info.stackCount then
+    if WoWTools_OpenItemMixin:Save().use[info.itemID] then
+        if WoWTools_OpenItemMixin:Save().use[info.itemID]<=info.stackCount then
             return info
         end
 
@@ -106,7 +101,7 @@ local function Get_ValeItem(bag, slot)
         end
 
     elseif C_Item.IsCosmeticItem(info.hyperlink) or isWQ then-- itemEquipLoc and _G[itemEquipLoc] then
-        if Save().mago then--and not C_Item.IsCosmeticItem(info.itemID) then --and info.quality then
+        if WoWTools_OpenItemMixin:Save().mago then--and not C_Item.IsCosmeticItem(info.itemID) then --and info.quality then
             local isCollected, isSelf= select(2, WoWTools_CollectionMixin:Item(info.hyperlink, nil, nil, true))
 
             --No equipar objetos sin ligar (BoE): se ligarían y perderían su valor
@@ -125,7 +120,7 @@ local function Get_ValeItem(bag, slot)
         end
 
         if info.hasLoot then
-            if Save().open then
+            if WoWTools_OpenItemMixin:Save().open then
                 if dateInfo.text[LOCKED] and WoWTools_DataMixin.Player.Class=='ROGUE' then--DZ
                     return info
                 else--if not dateInfo.text[LOCKED] then
@@ -133,7 +128,7 @@ local function Get_ValeItem(bag, slot)
                 end
             end
         elseif classID==Enum.ItemClass.Recipe then
-            if Save().ski then
+            if WoWTools_OpenItemMixin:Save().ski then
                 if subclassID == 0 then
                     if C_Item.GetItemSpell(info.hyperlink) then
                         return info
@@ -143,7 +138,7 @@ local function Get_ValeItem(bag, slot)
                 end
             end
         elseif classID==Enum.ItemClass.Miscellaneous and subclassID==Enum.ItemMiscellaneousSubclass.Mount then
-            if Save().mount then
+            if WoWTools_OpenItemMixin:Save().mount then
                 local mountID = C_MountJournal.GetMountFromItem(info.itemID)
                 if mountID then
                     local isCollected =select(11, C_MountJournal.GetMountInfoByID(mountID))
@@ -153,12 +148,12 @@ local function Get_ValeItem(bag, slot)
                 end
             end
         elseif C_ToyBox.GetToyInfo(info.itemID) then
-            if Save().toy and not PlayerHasToy(info.itemID) then
+            if WoWTools_OpenItemMixin:Save().toy and not PlayerHasToy(info.itemID) then
                 return info
             end
 
         elseif info.hyperlink:find('Hbattlepet:(%d+)') or (classID==Enum.ItemClass.Miscellaneous and subclassID==Enum.ItemMiscellaneousSubclass.CompanionPet) then
-            if Save().pet then
+            if WoWTools_OpenItemMixin:Save().pet then
                 local speciesID = info.hyperlink:match('Hbattlepet:(%d+)') or select(13, C_PetJournal.GetPetInfoByItemID(info.itemID))
                 if speciesID then
                     local numCollected, limit= C_PetJournal.GetNumCollectedInfo(speciesID)
@@ -168,7 +163,7 @@ local function Get_ValeItem(bag, slot)
                 end
             end
 
-        elseif Save().alt
+        elseif WoWTools_OpenItemMixin:Save().alt
             and C_Item.IsUsableItem(info.hyperlink)
             and (
                 (classID~=Enum.ItemClass.Questitem
@@ -208,7 +203,7 @@ local function Get_Items(self)
     self.IsEquipItem=nil
     self:Clear()
 
-    local bagMax= Save().reagent and (NUM_BAG_FRAMES + NUM_REAGENTBAG_FRAMES ) or NUM_BAG_FRAMES
+    local bagMax= WoWTools_OpenItemMixin:Save().reagent and (NUM_BAG_FRAMES + NUM_REAGENTBAG_FRAMES ) or NUM_BAG_FRAMES
     for bag= Enum.BagIndex.Backpack, bagMax do--Constants.InventoryConstants.NumBagSlots
         for slot=1, C_Container.GetContainerNumSlots(bag) do
             local info= Get_ValeItem(bag, slot)

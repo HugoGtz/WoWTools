@@ -1,11 +1,7 @@
 
 
 
-WoWTools_ToolsMixin={
-
-    --Save={disabledADD={}, lineNum=10, isHideBackground=nil},   
-    addName='|A:Professions-Crafting-Orders-Icon:0:0|a'..WoWTools_L['Module.Tools'],
-}
+WoWTools_ToolsMixin={}--addName y Save() los pone WoWTools_Module (Tools/1_Init.lua)
 
 local Name= 'WoWToolsToolsButton'
 
@@ -21,14 +17,9 @@ local LeftButtons2={}
 local RightButtons={}
 local BottomButtons={}
 local LeftNewLineButton--antes global por falta de local
-local function Save()
-    return WoWToolsPlusSave['WoWTools_ToolsButton']
-end
-
-
 local function Set_BG(frame)
     --if frame and frame.Background then
-        frame.Background:SetColorTexture(0, 0, 0, Save().bgAlpha or 0)
+        frame.Background:SetColorTexture(0, 0, 0, WoWTools_ToolsMixin:Save().bgAlpha or 0)
     --end
 end
 
@@ -49,7 +40,7 @@ local function Get_ParentFrame(tab)
     if tab.parentFrame then
         return tab.parentFrame
 
-    elseif Save().BottomPoint[tab.name]
+    elseif WoWTools_ToolsMixin:Save().BottomPoint[tab.name]
         or tab.isMoveButton
     then
         return MainButton
@@ -90,7 +81,7 @@ local function Set_ButtonPoint(btn, tab)
     else
 
 --BOOTOM
-        if Save().BottomPoint[name] or tab.isMoveButton then
+        if WoWTools_ToolsMixin:Save().BottomPoint[name] or tab.isMoveButton then
             local num=#BottomButtons
             if num==0 then
                 btn.IsShownFrameEnterButton=true
@@ -112,7 +103,7 @@ local function Set_ButtonPoint(btn, tab)
                 MainButton.LeftFrame1:SetPoint('TOP', btn)
                 MainButton.LeftFrame1:SetPoint('LEFT', btn)
             else
-                local numLine= Save().lineNum or 10
+                local numLine= WoWTools_ToolsMixin:Save().lineNum or 10
                 if select(2, math.modf(num / numLine))==0 then
                     btn:SetPoint('RIGHT', _G[Name..LeftNewLineButton], 'LEFT')
                     MainButton.LeftFrame1:SetPoint('LEFT', btn)
@@ -139,7 +130,7 @@ function WoWTools_ToolsMixin:CreateButton(tab)
     if not tab.disabledOptions then
         table.insert(AddList, tab)
     end
-    if not MainButton or Save().disabledADD[name] then
+    if not MainButton or WoWTools_ToolsMixin:Save().disabledADD[name] then
         return
     end
 
@@ -158,7 +149,7 @@ function WoWTools_ToolsMixin:CreateButton(tab)
     btn.IconMask:SetPoint("BOTTOMRIGHT", btn, "BOTTOMRIGHT", -5, 5)
 
     function btn:set_border_alpha()
-        self.border:SetAlpha(Save().borderAlpha or 0.3)
+        self.border:SetAlpha(WoWTools_ToolsMixin:Save().borderAlpha or 0.3)
     end
 
     function btn:GetData()
@@ -180,7 +171,7 @@ end
 
 
 function WoWTools_ToolsMixin:Init()
-    if Save().disabled then
+    if WoWTools_ToolsMixin:Save().disabled then
         return
     end
 
@@ -188,13 +179,13 @@ function WoWTools_ToolsMixin:Init()
 
     MainButton.Frame= CreateFrame('Frame', nil, MainButton)
     MainButton.Frame:SetAllPoints()
-    MainButton.Frame:SetShown(Save().show)
+    MainButton.Frame:SetShown(WoWTools_ToolsMixin:Save().show)
     MainButton.IsShownFrameEnterButton=true
 
 
 
 
-    local bgSet= {isAllPoint=true, isColor=true, alpha= Save().bgAlpha}
+    local bgSet= {isAllPoint=true, isColor=true, alpha= WoWTools_ToolsMixin:Save().bgAlpha}
     MainButton.LeftFrame1= CreateFrame('Frame', nil , MainButton.Frame)
     WoWTools_TextureMixin:CreateBG(MainButton.LeftFrame1, bgSet)
 
@@ -281,7 +272,7 @@ end
 
 
 function WoWTools_ToolsMixin:EnterShowFrame(btn)
-    if btn.IsShownFrameEnterButton and Save().isEnterShow and not MainButton.Frame:IsShown() then
+    if btn.IsShownFrameEnterButton and WoWTools_ToolsMixin:Save().isEnterShow and not MainButton.Frame:IsShown() then
         MainButton:set_shown()
     end
 end
@@ -315,4 +306,17 @@ function WoWTools_ToolsMixin:Get_MainButton()
 end
 function WoWTools_ToolsMixin:Get_ButtonForName(name)
     return _G[Name..name]
+end
+
+--Ejecuta func una sola vez en el primer PLAYER_ENTERING_WORLD.
+--Un marco por llamada (y no el despachador común de WoWTools_Module, que no garantiza orden)
+--para que los botones se sigan creando en el mismo orden que antes
+function WoWTools_ToolsMixin:OnEnterWorld(func)
+    local frame= CreateFrame('Frame')
+    frame:RegisterEvent('PLAYER_ENTERING_WORLD')
+    frame:SetScript('OnEvent', function(f, event)
+        f:UnregisterEvent(event)
+        f:SetScript('OnEvent', nil)
+        func()
+    end)
 end

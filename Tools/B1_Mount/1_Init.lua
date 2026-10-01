@@ -99,71 +99,49 @@ function WoWTools_MountMixin:P_Mouts_Tab()
 end
 
 
-local function Save()
-    return WoWToolsPlusSave['Tools_Mounts']
-end
-
-
-
-
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWToolsPlus' then
-            WoWTools_MountMixin.addName= '|TInterface\\Icons\\MountJournalPortrait:0|t'..(WoWTools_L['Module.Mounts'])
-
-            WoWToolsPlusSave['Tools_Mounts']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Tools_Mounts'], P_Save)
-            P_Save= nil
-
-            if Save().Mounts then
-                WoWToolsPlusPlayerDate['Tools_Mounts']={
-                    Item= Save().Mounts[ITEMS] or P_Mouts_Tab.Item or {},--antes .Items (errata)
-                    Spell= Save().Mounts[SPELLS] or P_Mouts_Tab.Spell or {},
-                    Floor= Save().Mounts[FLOOR] or P_Mouts_Tab.Floor or {},
-                    Ground= Save().Mounts[MOUNT_JOURNAL_FILTER_GROUND] or P_Mouts_Tab.Ground or {},
-                    Flying= Save().Mounts[MOUNT_JOURNAL_FILTER_FLYING] or P_Mouts_Tab.Flying or {},
-                    Aquatic= Save().Mounts[MOUNT_JOURNAL_FILTER_AQUATIC] or P_Mouts_Tab.Aquatic or {},
-                    Dragonriding= Save().Mounts[MOUNT_JOURNAL_FILTER_DRAGONRIDING] or P_Mouts_Tab.Dragonriding or {},
-                    Shift= Save().Mounts.Shift or P_Mouts_Tab.Shift or {},
-                    Alt= Save().Mounts.Alt or P_Mouts_Tab.Alt or {},
-                    Ctrl= Save().Mounts.Ctrl or P_Mouts_Tab.Ctrl or {},
-                }
-                Save().Mounts= nil
-            else
-                WoWToolsPlusPlayerDate['Tools_Mounts']= WoWToolsPlusPlayerDate['Tools_Mounts'] or P_Mouts_Tab
-            end
-
-            WoWTools_ToolsMixin:CreateButton({
-                name='Mount',
-                tooltip=WoWTools_MountMixin.addName,
-            })
-
-            if WoWTools_ToolsMixin:Get_ButtonForName('Mount') then
-
-                self:RegisterEvent('PLAYER_ENTERING_WORLD')
-
-                WoWTools_MountMixin.faction= WoWTools_DataMixin.Player.Faction=='Horde' and 0 or (WoWTools_DataMixin.Player.Faction=='Alliance' and 1)
-
-                for name, tab in pairs(WoWToolsPlusPlayerDate['Tools_Mounts']) do
-                    for ID in pairs(tab) do
-                        WoWTools_DataMixin:Load(ID,  name=='Item' and 'item' or 'spell')
-                    end
-                end
-
-                WoWTools_MountMixin:Init_MountJournal()
-                WoWTools_MountMixin:Init_UI_SpellBook_Menu()
-
-            else
-                self:SetScript('OnEvent', nil)
-            end
-
-            self:UnregisterEvent(event)
+WoWTools_Module:Register({
+    key= 'Tools_Mounts', name= 'Module.Mounts', icon= 'Interface\\Icons\\MountJournalPortrait', group= 'Tools',
+    parent= 'WoWTools_ToolsButton', defaults= P_Save, mixin= WoWTools_MountMixin,
+    onEnable= function(M, save)
+        if save.Mounts then
+            WoWToolsPlusPlayerDate['Tools_Mounts']={
+                Item= save.Mounts[ITEMS] or P_Mouts_Tab.Item or {},--antes .Items (errata)
+                Spell= save.Mounts[SPELLS] or P_Mouts_Tab.Spell or {},
+                Floor= save.Mounts[FLOOR] or P_Mouts_Tab.Floor or {},
+                Ground= save.Mounts[MOUNT_JOURNAL_FILTER_GROUND] or P_Mouts_Tab.Ground or {},
+                Flying= save.Mounts[MOUNT_JOURNAL_FILTER_FLYING] or P_Mouts_Tab.Flying or {},
+                Aquatic= save.Mounts[MOUNT_JOURNAL_FILTER_AQUATIC] or P_Mouts_Tab.Aquatic or {},
+                Dragonriding= save.Mounts[MOUNT_JOURNAL_FILTER_DRAGONRIDING] or P_Mouts_Tab.Dragonriding or {},
+                Shift= save.Mounts.Shift or P_Mouts_Tab.Shift or {},
+                Alt= save.Mounts.Alt or P_Mouts_Tab.Alt or {},
+                Ctrl= save.Mounts.Ctrl or P_Mouts_Tab.Ctrl or {},
+            }
+            save.Mounts= nil
+        else
+            WoWToolsPlusPlayerDate['Tools_Mounts']= WoWToolsPlusPlayerDate['Tools_Mounts'] or P_Mouts_Tab
         end
 
-    elseif event== 'PLAYER_ENTERING_WORLD'  then
-        WoWTools_MountMixin:Init_Button()
-        self:UnregisterEvent(event)
-        self:SetScript('OnEvent', nil)
-    end
-end)
+        WoWTools_ToolsMixin:CreateButton({
+            name='Mount',
+            tooltip=M.addName,
+        })
+
+        if WoWTools_ToolsMixin:Get_ButtonForName('Mount') then
+
+            WoWTools_ToolsMixin:OnEnterWorld(function()
+                M:Init_Button()
+            end)
+
+            M.faction= WoWTools_DataMixin.Player.Faction=='Horde' and 0 or (WoWTools_DataMixin.Player.Faction=='Alliance' and 1)
+
+            for name, tab in pairs(WoWToolsPlusPlayerDate['Tools_Mounts']) do
+                for ID in pairs(tab) do
+                    WoWTools_DataMixin:Load(ID,  name=='Item' and 'item' or 'spell')
+                end
+            end
+
+            M:Init_MountJournal()
+            M:Init_UI_SpellBook_Menu()
+        end
+    end,
+})

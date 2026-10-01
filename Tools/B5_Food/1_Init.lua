@@ -71,12 +71,6 @@ local P_Save={
 
 
 
-local function Save()
-    return WoWToolsPlusSave['Tools_Foods']
-end
-
-
-
 local PaneIDs={
     [113509]=1,
     [80610]=1,
@@ -94,7 +88,7 @@ local PaneIDs={
 
 
 function WoWTools_FoodMixin:Get_Item_Valid(itemID)
-    local save= Save()
+    local save= WoWTools_FoodMixin:Save()
     if itemID
         and itemID~= WoWTools_ToolsMixin:Get_ButtonForName('Food').itemID
         and not save.noUseItems[itemID]
@@ -133,73 +127,56 @@ end
 
 
 
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
+WoWTools_Module:Register({
+    key= 'Tools_Foods', name= 'Module.Food', icon= 'Food', group= 'Tools',
+    parent= 'WoWTools_ToolsButton', defaults= P_Save, mixin= WoWTools_FoodMixin,
+    onEnable= function(M, save)
+        save.spells= save.spells or ClassSpells
 
+        local class= save.spells[WoWTools_DataMixin.Player.Class]
 
-
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWToolsPlus' then
-
-            WoWToolsPlusSave['Tools_Foods']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Tools_Foods'], P_Save)
-            P_Save= nil
-
-            Save().spells= Save().spells or ClassSpells
-
-            local class= Save().spells[WoWTools_DataMixin.Player.Class]
-
-            if not class then
-                Save().spells[WoWTools_DataMixin.Player.Class]= {}
-            else
-               WoWTools_DataMixin:Load(class.item, 'item')
-               WoWTools_DataMixin:Load(class.alt, 'spell')
-               WoWTools_DataMixin:Load(class.shift, 'spell')
-               WoWTools_DataMixin:Load(class.ctrl, 'spell')
-            end
-
-            WoWTools_FoodMixin.addName= '|A:Food:0:0|a'..(WoWTools_L['Module.Food'])
-
-            WoWTools_ToolsMixin:CreateButton({
-                name='Food',
-                tooltip=WoWTools_FoodMixin.addName,
-                isMoveButton=true,
-                option=function(category, layout, initializer)
-                    WoWTools_PanelMixin:OnlyButton({
-                        category=category,
-                        layout=layout,
-                        tooltip=WoWTools_FoodMixin.addName,
-                        buttonText= WoWTools_L['RESET_POSITION~2'],
-                        SetValue= function()
-                            local btn= WoWTools_ToolsMixin:Get_ButtonForName('Food')
-                            Save().point=nil
-                            if btn and not WoWTools_FrameMixin:IsLocked(btn) then
-                                btn:set_point()
-                            end
-                        end
-                    }, initializer)
-                end
-            })
-
-            if WoWTools_ToolsMixin:Get_ButtonForName('Food') then
-                self:RegisterEvent('PLAYER_ENTERING_WORLD')
-                WoWTools_FoodMixin:Init_Button()
-
-                if Save().autoLogin or Save().autoWho  then
-                    self:RegisterEvent('BAG_UPDATE_DELAYED')
-                end
-            else
-                self:SetScript('OnEvent', nil)
-            end
-            self:UnregisterEvent(event)
+        if not class then
+            save.spells[WoWTools_DataMixin.Player.Class]= {}
+        else
+           WoWTools_DataMixin:Load(class.item, 'item')
+           WoWTools_DataMixin:Load(class.alt, 'spell')
+           WoWTools_DataMixin:Load(class.shift, 'spell')
+           WoWTools_DataMixin:Load(class.ctrl, 'spell')
         end
 
-    elseif event == 'PLAYER_ENTERING_WORLD' then
-        WoWTools_FoodMixin:Init_Button()
-        self:UnregisterEvent(event)
+        WoWTools_ToolsMixin:CreateButton({
+            name='Food',
+            tooltip=M.addName,
+            isMoveButton=true,
+            option=function(category, layout, initializer)
+                WoWTools_PanelMixin:OnlyButton({
+                    category=category,
+                    layout=layout,
+                    tooltip=M.addName,
+                    buttonText= WoWTools_L['RESET_POSITION~2'],
+                    SetValue= function()
+                        local btn= WoWTools_ToolsMixin:Get_ButtonForName('Food')
+                        M:Save().point=nil
+                        if btn and not WoWTools_FrameMixin:IsLocked(btn) then
+                            btn:set_point()
+                        end
+                    end
+                }, initializer)
+            end
+        })
 
-    elseif event=='BAG_UPDATE_DELAYED' then
-        WoWTools_FoodMixin:Check_Items()
-        self:UnregisterEvent(event)
-    end
-end)
+        if WoWTools_ToolsMixin:Get_ButtonForName('Food') then
+            WoWTools_ToolsMixin:OnEnterWorld(function()
+                M:Init_Button()
+            end)
+            M:Init_Button()
+
+            if save.autoLogin or save.autoWho  then
+                WoWTools_Module:RegisterEvent(M, 'BAG_UPDATE_DELAYED', function()
+                    M:Check_Items()
+                    return true
+                end)
+            end
+        end
+    end,
+})

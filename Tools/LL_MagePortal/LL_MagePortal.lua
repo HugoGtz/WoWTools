@@ -62,12 +62,9 @@ local P_Save={
     --disabled
 }
 
-local function Save()
-    return WoWToolsPlusSave['Tools_MagePortal']
-end
-
 local Buttons
 local addName
+local Module= {}--lo completa WoWTools_Module:Register (al final del archivo)
 
 
 local function Get_Spell_Label(spellID, text)
@@ -85,12 +82,12 @@ local function Set_Button_Label(btn)
         return
     end
 
-    if Save().showText then
+    if Module:Save().showText then
         if not btn.text then
             btn.text=WoWTools_LabelMixin:Create(btn, {color= not btn.luce})
         end
         btn.text:ClearAllPoints(0)
-        if Save().isLeft then
+        if Module:Save().isLeft then
             btn.text:SetPoint('RIGHT', btn, 'LEFT')
         else
             btn.text:SetPoint('LEFT', btn, 'RIGHT')
@@ -114,9 +111,9 @@ local function Init_Options(category, layout)
         category= category,
         name= '|cff3fc6ea'..(WoWTools_L.ENABLE)..'|r',
         tooltip= WoWTools_L['Tip.MagePortal.Enable']..'|n|n'..(addName or ''),
-        GetValue= function() return not Save().disabled end,
+        GetValue= function() return not Module:Save().disabled end,
         SetValue= function()
-            Save().disabled= not Save().disabled and true or nil
+            Module:Save().disabled= not Module:Save().disabled and true or nil
         end
     })
 
@@ -124,9 +121,9 @@ local function Init_Options(category, layout)
         category= category,
         name= '|cff3fc6ea'..(WoWTools_L['Position: left'])..'|r',
         tooltip= WoWTools_L['Tip.MagePortal.Left']..'|n|n'..(addName or ''),
-        GetValue= function() return Save().isLeft end,
+        GetValue= function() return Module:Save().isLeft end,
         SetValue= function()
-            Save().isLeft= not Save().isLeft and true or false
+            Module:Save().isLeft= not Module:Save().isLeft and true or false
             WoWTools_ToolsMixin:RestAllPoint()
             Set_Button_All_Label()
         end
@@ -136,9 +133,9 @@ local function Init_Options(category, layout)
         category= category,
         name= '|cff3fc6ea'..(WoWTools_L.PROFESSIONS_FLYOUT_SHOW_NAME)..'|r',
         tooltip= WoWTools_L['Tip.MagePortal.ShowText']..'|n|n'..(addName or ''),
-        GetValue= function() return Save().showText end,
+        GetValue= function() return Module:Save().showText end,
         SetValue= function()
-            Save().showText= not Save().showText and true or false
+            Module:Save().showText= not Module:Save().showText and true or false
             Set_Button_All_Label()
         end
     }, initializer)
@@ -157,7 +154,7 @@ local function Init_Button(tab)
         name=buttonName,
         tooltip='|T626001:0|t'..('|T'..(icon or 0)..':0|t')..(WoWTools_TextMixin:CN(name, {spellID=tab.spell, isName=true}) or tab.spell),
         isLeftOnlyLine=function()
-            return Save().isLeft
+            return Module:Save().isLeft
         end,
         disabledOptions=true,
     })
@@ -312,38 +309,29 @@ local function Init_Button(tab)
 end
 
 
---###########
---###########
-local panel=CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
+WoWTools_Module:Register({
+    key= 'Tools_MagePortal', name= '%s Portal', icon= 626001, group= 'Tools',
+    parent= 'WoWTools_ToolsButton', tooltip= 'Tip.MagePortal.Enable', defaults= P_Save, mixin= Module,
+    --siempre: sus opciones en la página de Herramientas
+    onLoad= function(M, save)
+        M.addName= '|T626001:0|t|cff3fc6ea'..(format(WoWTools_L['%s Portal'], UnitClass('player'))..'|r')
 
+        if save.disabled or not WoWTools_ToolsMixin:Get_MainButton() then
+            Tab={}
+        end
 
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWToolsPlus' then
-
-            WoWToolsPlusSave['Tools_MagePortal']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Tools_MagePortal'], P_Save)
-            P_Save= nil
-
-            if not Save().disabled and WoWTools_ToolsMixin:Get_MainButton() then
-                addName= '|T626001:0|t|cff3fc6ea'..(format(WoWTools_L['%s Portal'], UnitClass('player'))..'|r')
-                self:RegisterEvent('PLAYER_ENTERING_WORLD')
-            else
+        WoWTools_ToolsMixin:Set_AddList(Init_Options)
+    end,
+    onEnable= function(M)
+        if WoWTools_ToolsMixin:Get_MainButton() then
+            addName= M.addName
+            WoWTools_ToolsMixin:OnEnterWorld(function()
+                Buttons={}
+                for _, tab in pairs(Tab) do
+                    Init_Button(tab)
+                end
                 Tab={}
-                self:SetScript('OnEvent', nil)
-                self:UnregisterEvent(event)
-            end
-
-            WoWTools_ToolsMixin:Set_AddList(Init_Options)
+            end)
         end
-
-    elseif event=='PLAYER_ENTERING_WORLD' then
-        Buttons={}
-        for _, tab in pairs(Tab) do
-            Init_Button(tab)
-        end
-        Tab={}
-        self:SetScript('OnEvent', nil)
-        self:UnregisterEvent(event)
-    end
-end)
+    end,
+})

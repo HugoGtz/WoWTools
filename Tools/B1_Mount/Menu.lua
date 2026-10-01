@@ -1,6 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['Tools_Mounts']
-end
 local function SaveLog()
     return WoWToolsPlusPlayerDate['Tools_Mounts']
 end
@@ -542,7 +539,7 @@ local function Init_Menu(self, root)
     root:CreateDivider()
     sub=root:CreateButton(
         '|T413588:0|t'
-        ..(Save().KEY or (WoWTools_L.MOUNT)),
+        ..(WoWTools_MountMixin:Save().KEY or (WoWTools_L.MOUNT)),
     function()
         C_MountJournal.SummonByID(0)
         return MenuResponse.Refresh
@@ -555,13 +552,13 @@ local function Init_Menu(self, root)
     WoWTools_KeyMixin:SetMenu(self, sub, {
         icon='|A:NPE_ArrowDown:0:0|a',
         name= WoWTools_MountMixin.addName,
-        key=Save().KEY,
+        key=WoWTools_MountMixin:Save().KEY,
         GetKey=function(key)
-            Save().KEY=key
+            WoWTools_MountMixin:Save().KEY=key
             WoWTools_KeyMixin:Setup(self)
         end,
         OnAlt=function()
-            Save().KEY=nil
+            WoWTools_MountMixin:Save().KEY=nil
             WoWTools_KeyMixin:Setup(self)
         end,
     })

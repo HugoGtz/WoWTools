@@ -409,10 +409,10 @@ end
 
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     local btn= WoWTools_ToolsMixin:Get_ButtonForName('Mount')
 
-    WoWTools_KeyMixin:Init(btn, function() return WoWToolsPlusSave['Tools_Mounts'].KEY end)
+    WoWTools_KeyMixin:Init(btn, function() return WoWTools_MountMixin:Save().KEY end)
 
     btn:SetAttribute("type1", "spell")
     btn:SetAttribute("alt-type1", "spell")
@@ -679,10 +679,7 @@ local function Init()
             self:settings()
         end
     end)
-
-
-    Init=function()end
-end
+end)
 
 
 

@@ -1,22 +1,9 @@
 
-local function Save()
-    return WoWToolsPlusSave['Tools_Foods']
-end
-
-
-
-
-
-
-
-
-
-
 local function AltSpell_Menu(_, root)
     root:CreateDivider()
 
     local sub,sub2, sub3, spellSub, num
-    local spells= Save().spells[WoWTools_DataMixin.Player.Class]
+    local spells= WoWTools_FoodMixin:Save().spells[WoWTools_DataMixin.Player.Class]
     --local item, alt, ctrl, shift= tab.item, tab.alt, tab.ctrl, tab.shift
     local keyTab={
         {type='Alt', spellID=spells.alt},
@@ -32,10 +19,10 @@ local function AltSpell_Menu(_, root)
             ..(WoWTools_SpellMixin:GetName(tab.spellID) or ''),
 
         function(data)
-            return Save().spells[WoWTools_DataMixin.Player.Class][data.type]==data.spellID and data.spellID~=nil
+            return WoWTools_FoodMixin:Save().spells[WoWTools_DataMixin.Player.Class][data.type]==data.spellID and data.spellID~=nil
 
         end, function(data)
-            Save().spells[WoWTools_DataMixin.Player.Class][data.type]= not Save().spells[WoWTools_DataMixin.Player.Class][data.type] and data.spellID or nil
+            WoWTools_FoodMixin:Save().spells[WoWTools_DataMixin.Player.Class][data.type]= not WoWTools_FoodMixin:Save().spells[WoWTools_DataMixin.Player.Class][data.type] and data.spellID or nil
             WoWTools_FoodMixin:Init_Button()
 
         end, {type=string.lower(tab.type), spellID=tab.spellID})
@@ -66,10 +53,10 @@ local function AltSpell_Menu(_, root)
                                 WoWTools_SpellMixin:GetName(spellData.spellID),
 
                             function(data)
-                                return Save().spells[WoWTools_DataMixin.Player.Class][data.type]==data.spellID
+                                return WoWTools_FoodMixin:Save().spells[WoWTools_DataMixin.Player.Class][data.type]==data.spellID
 
                             end, function(data)
-                                Save().spells[WoWTools_DataMixin.Player.Class][data.type]= Save().spells[WoWTools_DataMixin.Player.Class][data.type]~= data.spellID and data.spellID or nil
+                                WoWTools_FoodMixin:Save().spells[WoWTools_DataMixin.Player.Class][data.type]= WoWTools_FoodMixin:Save().spells[WoWTools_DataMixin.Player.Class][data.type]~= data.spellID and data.spellID or nil
                                 WoWTools_FoodMixin:Init_Button()
 
                             end, {type=string.lower(tab.type), spellID=spellData.spellID})
@@ -107,11 +94,11 @@ end
 
 
 local function Check_All_SubClass(setClassID)
-    Save().class[setClassID]= Save().class[setClassID] or {}
+    WoWTools_FoodMixin:Save().class[setClassID]= WoWTools_FoodMixin:Save().class[setClassID] or {}
     for subClassID= 0, 20 do
         local subClass=C_Item.GetItemSubClassInfo(setClassID, subClassID)
         if subClass then
-            Save().class[setClassID][subClassID]=true
+            WoWTools_FoodMixin:Save().class[setClassID][subClassID]=true
         else
             break
         end
@@ -138,12 +125,12 @@ local function Check_All_Menu(_, root, setClassID)
                 if data.classID then
                     Check_All_SubClass(data.classID)
                 else
-                    Save().class={}
+                    WoWTools_FoodMixin:Save().class={}
                     for classID=0, 20 do
-                        if not Save().DisableClassID[classID] then
+                        if not WoWTools_FoodMixin:Save().DisableClassID[classID] then
                             local class= C_Item.GetItemClassInfo(classID)
                             if class then
-                                Save().class[classID]= {}
+                                WoWTools_FoodMixin:Save().class[classID]= {}
                                 Check_All_SubClass(classID)
                             else
                                 break
@@ -163,9 +150,9 @@ local function Check_All_Menu(_, root, setClassID)
     sub=root:CreateButton(WoWTools_L.UNCHECK_ALL, function(data)
         if IsControlKeyDown() or data.classID then
             if data.classID then
-                Save().class[data.classID]= nil
+                WoWTools_FoodMixin:Save().class[data.classID]= nil
             else
-                Save().class={}
+                WoWTools_FoodMixin:Save().class={}
             end
             WoWTools_FoodMixin:Check_Items()
         end
@@ -218,7 +205,7 @@ local function Init_Menu(self, root)
     end
 
     sub=root:CreateButton(
-        (Save().autoWho and '|cnGREEN_FONT_COLOR:' or '')
+        (WoWTools_FoodMixin:Save().autoWho and '|cnGREEN_FONT_COLOR:' or '')
         ..'|A:common-icon-zoomin:0:0|a'
         ..(WoWTools_L['WHO~3'])
         ..WoWTools_DataMixin.Icon.mid,
@@ -232,9 +219,9 @@ local function Init_Menu(self, root)
         class= C_Item.GetItemClassInfo(classID)
         if class then
             sub3=sub2:CreateCheckbox(classID..' '..WoWTools_TextMixin:CN(class)..' '..(items[classID] and items[classID].num or ''), function(data)
-                return Save().DisableClassID[data.classID]
+                return WoWTools_FoodMixin:Save().DisableClassID[data.classID]
             end, function(data)
-                Save().DisableClassID[data.classID]= not Save().DisableClassID[data.classID] and true or nil
+                WoWTools_FoodMixin:Save().DisableClassID[data.classID]= not WoWTools_FoodMixin:Save().DisableClassID[data.classID] and true or nil
                 WoWTools_FoodMixin:Check_Items()
                 return MenuResponse.Refresh
             end, {classID=classID})
@@ -244,12 +231,12 @@ local function Init_Menu(self, root)
 
     sub2=sub:CreateButton(WoWTools_L.DISABLE, function() return MenuResponse.Open end)
     find=0
-    for itemID in pairs(Save().noUseItems) do
+    for itemID in pairs(WoWTools_FoodMixin:Save().noUseItems) do
         find=find+1
         sub3=sub2:CreateCheckbox(find..') '..WoWTools_ItemMixin:GetName(itemID), function(data)
-            return Save().noUseItems[data.itemID]
+            return WoWTools_FoodMixin:Save().noUseItems[data.itemID]
         end, function(data)
-            Save().noUseItems[data.itemID]= not Save().noUseItems[data.itemID] and true or nil
+            WoWTools_FoodMixin:Save().noUseItems[data.itemID]= not WoWTools_FoodMixin:Save().noUseItems[data.itemID] and true or nil
             WoWTools_FoodMixin:Check_Items()
         end, {itemID=itemID})
         sub3:SetTooltip(function(tooltip, desc)
@@ -266,7 +253,7 @@ local function Init_Menu(self, root)
         WoWTools_L.CLEAR_ALL,
         nil,
         {SetValue=function()
-            Save().noUseItems={}
+            WoWTools_FoodMixin:Save().noUseItems={}
             WoWTools_FoodMixin:Check_Items()
         end})
         return MenuResponse.Open
@@ -277,20 +264,20 @@ local function Init_Menu(self, root)
 
     sub:CreateDivider()
     sub2=sub:CreateCheckbox(WoWTools_L['On login: search'], function()
-        return Save().autoLogin
+        return WoWTools_FoodMixin:Save().autoLogin
     end, function()
-        Save().autoLogin= not Save().autoLogin and true or nil
-        if Save().autoLogin then
+        WoWTools_FoodMixin:Save().autoLogin= not WoWTools_FoodMixin:Save().autoLogin and true or nil
+        if WoWTools_FoodMixin:Save().autoLogin then
             WoWTools_FoodMixin:Check_Items()
         end
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Food.AutoLogin'])
 
     sub2=sub:CreateCheckbox(WoWTools_L['SELF_CAST_AUTO+UPDATE'], function()
-        return Save().autoWho
+        return WoWTools_FoodMixin:Save().autoWho
     end, function()
-        Save().autoWho= not Save().autoWho and true or nil
-        if Save().autoWho then
+        WoWTools_FoodMixin:Save().autoWho= not WoWTools_FoodMixin:Save().autoWho and true or nil
+        if WoWTools_FoodMixin:Save().autoWho then
             WoWTools_FoodMixin:Check_Items()
         end
         self.CheckFrame:set_event()
@@ -307,18 +294,18 @@ local function Init_Menu(self, root)
         sub2=sub:CreateCheckbox(
             WoWTools_L['Only current version items'],
         function()
-            return Save().onlyMaxExpansion
+            return WoWTools_FoodMixin:Save().onlyMaxExpansion
         end, function()
-            Save().onlyMaxExpansion= not Save().onlyMaxExpansion and true or nil
+            WoWTools_FoodMixin:Save().onlyMaxExpansion= not WoWTools_FoodMixin:Save().onlyMaxExpansion and true or nil
             WoWTools_FoodMixin:Check_Items()
         end)
         WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Food.OnlyCurrentExp'])
     end
 
     sub2=sub:CreateCheckbox(WoWTools_L['Usable only'], function()
-        return Save().olnyUsaItem
+        return WoWTools_FoodMixin:Save().olnyUsaItem
     end, function()
-        Save().olnyUsaItem= not Save().olnyUsaItem and true or false
+        WoWTools_FoodMixin:Save().olnyUsaItem= not WoWTools_FoodMixin:Save().olnyUsaItem and true or false
         WoWTools_FoodMixin:Check_Items()
     end)
     sub2:SetTooltip(function(tooltip)
@@ -329,16 +316,16 @@ local function Init_Menu(self, root)
 
     WoWTools_MenuMixin:BgAplha(sub,
     function()
-        return Save().bgAlpha or 0
+        return WoWTools_FoodMixin:Save().bgAlpha or 0
     end, function(value)
-        Save().bgAlpha= value
+        WoWTools_FoodMixin:Save().bgAlpha= value
         self:set_background()
     end)
 
     WoWTools_MenuMixin:Scale(self, sub, function()
-        return Save().scale or 1
+        return WoWTools_FoodMixin:Save().scale or 1
     end, function(value)
-        Save().scale= value
+        WoWTools_FoodMixin:Save().scale= value
         self:set_scale()
     end)
 
@@ -347,7 +334,7 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:FrameStrata(self, sub, function(data)
         return self:GetFrameStrata()==data
     end, function(data)
-        Save().strata= data
+        WoWTools_FoodMixin:Save().strata= data
         self:set_strata()
     end)
 
@@ -357,7 +344,7 @@ local function Init_Menu(self, root)
         ..(WoWTools_L.AUCTION_HOUSE_QUANTITY_LABEL),
     function()
         return MenuResponse.Open
-    end, {rightText= Save().numLine})
+    end, {rightText= WoWTools_FoodMixin:Save().numLine})
     WoWTools_MenuMixin:SetRightText(sub2)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Food.NumLine'])
 
@@ -365,9 +352,9 @@ local function Init_Menu(self, root)
     sub2:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub2, {
         getValue=function()
-            return Save().numLine
+            return WoWTools_FoodMixin:Save().numLine
         end, setValue=function(value)
-            Save().numLine=value
+            WoWTools_FoodMixin:Save().numLine=value
             WoWTools_FoodMixin:Check_Items()
         end,
         --name=,
@@ -384,15 +371,15 @@ local function Init_Menu(self, root)
         ..(WoWTools_L.EMBLEM_BORDER),
     function()
         return MenuResponse.Open
-    end, {rightText= Save().borderAlpha or 0})
+    end, {rightText= WoWTools_FoodMixin:Save().borderAlpha or 0})
     WoWTools_MenuMixin:SetRightText(sub2)
 
     sub2:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub2, {
         getValue=function()
-            return Save().borderAlpha or 0
+            return WoWTools_FoodMixin:Save().borderAlpha or 0
         end, setValue=function(value)
-            Save().borderAlpha=value
+            WoWTools_FoodMixin:Save().borderAlpha=value
             WoWTools_FoodMixin:Check_Items()
         end,
         name=WoWTools_L.HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY,
@@ -404,9 +391,9 @@ local function Init_Menu(self, root)
 
 
     sub:CreateDivider()
-    WoWTools_MenuMixin:RestPoint(self, sub, Save().point , function()
+    WoWTools_MenuMixin:RestPoint(self, sub, WoWTools_FoodMixin:Save().point , function()
         if self:CanChangeAttribute() then
-            Save().point=nil
+            WoWTools_FoodMixin:Save().point=nil
             self:set_point()
         end
     end)
@@ -419,12 +406,12 @@ local function Init_Menu(self, root)
     end)
 
     find=0
-    for itemID in pairs(Save().addItems) do
+    for itemID in pairs(WoWTools_FoodMixin:Save().addItems) do
         find=find+1
         sub2=sub:CreateCheckbox(find..') '..WoWTools_ItemMixin:GetName(itemID), function(data)
-            return Save().addItems[data.itemID]
+            return WoWTools_FoodMixin:Save().addItems[data.itemID]
         end, function(data)
-            Save().addItems[data.itemID]= not Save().addItems[data.itemID] and true or nil
+            WoWTools_FoodMixin:Save().addItems[data.itemID]= not WoWTools_FoodMixin:Save().addItems[data.itemID] and true or nil
             WoWTools_FoodMixin:Check_Items()
         end, {itemID=itemID})
         sub2:SetTooltip(function(tooltip, desc)
@@ -442,7 +429,7 @@ local function Init_Menu(self, root)
         data.name,
         nil,
         {SetValue=function()
-            Save().addItems={}
+            WoWTools_FoodMixin:Save().addItems={}
             WoWTools_FoodMixin:Check_Items()
         end})
         return MenuResponse.Open
@@ -451,9 +438,9 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetScrollMode(sub)
 
     sub2=sub:CreateCheckbox(WoWTools_L.BATTLEFIELD_MINIMAP_SHOW_ALWAYS, function()
-        return Save().addItemsShowAll
+        return WoWTools_FoodMixin:Save().addItemsShowAll
     end, function()
-        Save().addItemsShowAll= not Save().addItemsShowAll and true or nil
+        WoWTools_FoodMixin:Save().addItemsShowAll= not WoWTools_FoodMixin:Save().addItemsShowAll and true or nil
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Food.CustomShowAll'])
 
@@ -461,7 +448,7 @@ local function Init_Menu(self, root)
     find=nil
 --Enum.ItemClass
     for classID=0, 20 do
-        if not Save().DisableClassID[classID] then
+        if not WoWTools_FoodMixin:Save().DisableClassID[classID] then
             class= C_Item.GetItemClassInfo(classID)
             if class then
                 if not find then
@@ -470,16 +457,16 @@ local function Init_Menu(self, root)
                 end
 
                 sub=root:CreateCheckbox(classID..' '..WoWTools_TextMixin:CN(class)..' '..(items[classID] and items[classID].num or ''), function(data)
-                    return Save().class[data.classID]
+                    return WoWTools_FoodMixin:Save().class[data.classID]
                 end, function(data)
-                    if Save().class[data.classID] then
-                        Save().class[data.classID]= nil
+                    if WoWTools_FoodMixin:Save().class[data.classID] then
+                        WoWTools_FoodMixin:Save().class[data.classID]= nil
                     else
-                        Save().class[data.classID]= Save().class[data.classID] or {}
+                        WoWTools_FoodMixin:Save().class[data.classID]= WoWTools_FoodMixin:Save().class[data.classID] or {}
                         for i=0, 20 do
                             local name2= C_Item.GetItemSubClassInfo(data.classID, i)
                             if name2 and name2~='' then
-                                Save().class[data.classID][i]=true
+                                WoWTools_FoodMixin:Save().class[data.classID][i]=true
                             end
                         end
                     end
@@ -488,7 +475,7 @@ local function Init_Menu(self, root)
                 sub:SetTooltip(function(tooltip, description)
                     WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Food.Class'])
                     tooltip:AddLine(
-                        Save().class[description.data.classID]
+                        WoWTools_FoodMixin:Save().class[description.data.classID]
                         and (WoWTools_L.UNCHECK_ALL)
                         or (WoWTools_L.CHECK_ALL)
                     )
@@ -503,13 +490,13 @@ local function Init_Menu(self, root)
                             subClassID..' '..WoWTools_TextMixin:CN(subClass)..' '
                             ..(items[classID] and items[classID][subClassID] or ''),
                         function(data)
-                            return Save().class[data.classID] and Save().class[data.classID][data.subClassID]
+                            return WoWTools_FoodMixin:Save().class[data.classID] and WoWTools_FoodMixin:Save().class[data.classID][data.subClassID]
                         end, function(data)
-                            if Save().class[data.classID] and Save().class[data.classID][data.subClassID] then
-                                Save().class[data.classID][data.subClassID]=nil
+                            if WoWTools_FoodMixin:Save().class[data.classID] and WoWTools_FoodMixin:Save().class[data.classID][data.subClassID] then
+                                WoWTools_FoodMixin:Save().class[data.classID][data.subClassID]=nil
                             else
-                                Save().class[data.classID]= Save().class[data.classID] or {}
-                                Save().class[data.classID][data.subClassID]= true
+                                WoWTools_FoodMixin:Save().class[data.classID]= WoWTools_FoodMixin:Save().class[data.classID] or {}
+                                WoWTools_FoodMixin:Save().class[data.classID][data.subClassID]= true
                             end
                             WoWTools_FoodMixin:Check_Items()
                         end, {classID=classID, subClassID=subClassID})

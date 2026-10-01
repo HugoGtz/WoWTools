@@ -1,9 +1,5 @@
 
 
-local function Save()
-    return WoWToolsPlusSave['Tools_OpenItems']
-end
-
 local Events_All={
     'BAG_UPDATE_COOLDOWN',
     'BAG_UPDATE_DELAYED',
@@ -28,7 +24,7 @@ local Event_Unit={
 
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     local btn= WoWTools_ToolsMixin:Get_ButtonForName('OpenItems')
     if not btn then
         return
@@ -42,7 +38,7 @@ local function Init()
     btn.noText= '|A:talents-button-reset:0:0|a'..(WoWTools_L.DISABLE)
     btn.useText= '|A:jailerstower-wayfinder-rewardcheckmark:0:0|a'..(WoWTools_L.USE)
 
-    WoWTools_KeyMixin:Init(btn, function() return Save().KEY end)
+    WoWTools_KeyMixin:Init(btn, function() return WoWTools_OpenItemMixin:Save().KEY end)
 
     Mixin(btn, WoWTools_ItemLocationMixin)
 
@@ -243,7 +239,7 @@ local function Init()
             WoWTools_OpenItemMixin:Get_Item()
         end
 
-        if Save().KEY and not self.isDisabled then
+        if WoWTools_OpenItemMixin:Save().KEY and not self.isDisabled then
             self:RegisterEvent('PLAYER_MOUNT_DISPLAY_CHANGED')
         else
             self:UnregisterEvent('PLAYER_MOUNT_DISPLAY_CHANGED')
@@ -261,7 +257,7 @@ local function Init()
 
 
     function btn:set_key(isDisabled)
-        if Save().KEY then
+        if WoWTools_OpenItemMixin:Save().KEY then
             WoWTools_KeyMixin:Setup(self,
                 self.isDisabled
                 or not self:IsValid()
@@ -275,7 +271,7 @@ local function Init()
     end
 
     function btn:get_key()
-        local key= Save().KEY
+        local key= WoWTools_OpenItemMixin:Save().KEY
         if key then
             local col= C_KeyBindings.GetBindingByKey(key)==self:GetName()..':LeftButton' and '|cnGREEN_FONT_COLOR:' or '|cff828282'
             return col..(WoWTools_L.SETTINGS_KEYBINDINGS_LABEL)..'|r'
@@ -296,8 +292,8 @@ local function Init()
         if self:IsValid() then
             local itemID= self:GetItemID()
             if itemID then
-                Save().no[itemID]=true
-                Save().use[itemID]=nil
+                WoWTools_OpenItemMixin:Save().no[itemID]=true
+                WoWTools_OpenItemMixin:Save().use[itemID]=nil
             end
             WoWTools_OpenItemMixin:Get_Item()
         end
@@ -312,9 +308,7 @@ local function Init()
     btn:settings()
 
     WoWTools_OpenItemMixin:Get_Item()
-
-    Init=function()end
-end
+end)
 
 
 

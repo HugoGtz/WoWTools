@@ -89,27 +89,19 @@ end
 
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     WoWTools_DataMixin:Hook('ToySpellButton_UpdateButton', function(btn)
         if not btn.useItem then
            Create_Button(btn)
         end
         btn.useItem:set_alpha()
     end)
-    Init=function()end
-end
+end)
 
 
 
 function WoWTools_UseItemsMixin:Init_UI_Toy()
-    if C_AddOns.IsAddOnLoaded('Blizzard_Collections') then
+    EventUtil.ContinueOnAddOnLoaded('Blizzard_Collections', function()
         Init()
-    else
-        EventRegistry:RegisterFrameEventAndCallback("ADDON_LOADED", function(owner, arg1)
-            if arg1=='Blizzard_Collections' then
-                Init()
-                EventRegistry:UnregisterCallback('ADDON_LOADED', owner)
-            end
-        end)
-    end
+    end)
 end
