@@ -13,17 +13,12 @@ local P_Save={
     all_List_Size=28
 }
 
-local function Save()
-    return WoWToolsPlusSave['Plus_StableFrame']
-end
-
-local function On_Show()
+local On_Show= WoWTools_Once(function()
     WoWTools_HunterMixin:Init_StableFrame_Plus()
     WoWTools_HunterMixin:Init_Menu()
     WoWTools_HunterMixin:Set_StableFrame_List()
     WoWTools_HunterMixin:Init_UI()
-    On_Show=function()end
-end
+end)
 
 
 
@@ -73,49 +68,14 @@ local function Init()
             fontString:SetPoint("RIGHT", rightTexture, "LEFT")
         end)
     end)
-
-
-    Init=function()end
 end
 
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWToolsPlus' then
-
-            WoWToolsPlusSave['Plus_StableFrame']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_StableFrame'], P_Save)
-            P_Save= nil
-
-            WoWTools_HunterMixin.addName= '|A:groupfinder-icon-class-hunter:0:0|a'..(WoWTools_L['Module.Hunter stable'])
-
-                WoWTools_PanelMixin:OnlyCheck({
-                name= WoWTools_HunterMixin.addName,
-                tooltip= WoWTools_L['Tip.Hunter.Enable'],
-                GetValue=function() return not Save().disabled end,
-                SetValue= function()
-                    Save().disabled = not Save().disabled and true or nil
-                    WoWTools_Print(
-                        WoWTools_HunterMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                        WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-                        WoWTools_L['REQUIRES_RELOAD~2']
-                    )
-                end
-            })
-
-            if not Save().disabled then
-                self:RegisterEvent('PET_STABLE_SHOW')
-                Init()
-            else
-                self:SetScript('OnEvent', nil)
-            end
-            self:UnregisterEvent(event)
-        end
-
-    elseif event=='PET_STABLE_SHOW' then
+WoWTools_Module:Register({
+    key= 'Plus_StableFrame', name= 'Module.Hunter stable', icon= 'groupfinder-icon-class-hunter', group= 'Character',
+    defaults= P_Save, tooltip= 'Tip.Hunter.Enable', mixin= WoWTools_HunterMixin,
+    onEnable= Init,
+    events= {PET_STABLE_SHOW= function()
         On_Show()
-        self:SetScript('OnEvent', nil)
-        self:UnregisterEvent(event)
-    end
-end)
+        return true
+    end},
+})

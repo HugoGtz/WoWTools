@@ -4,30 +4,14 @@ if WoWTools_DataMixin.Player.Class~='HUNTER' then
 end
 
 
-local function Save()
-    return WoWToolsPlusSave['Plus_StableFrame']
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init_Menu(_, root)
     local sub
         sub=root:CreateCheckbox(
             '|A:dressingroom-button-appearancelist-up:0:0|a'..(WoWTools_L.BATTLE_PETS_TOTAL_PETS),
         function()
-            return Save().show_All_List
+            return WoWTools_HunterMixin:Save().show_All_List
         end, function()
-            Save().show_All_List= not Save().show_All_List and true or nil
+            WoWTools_HunterMixin:Save().show_All_List= not WoWTools_HunterMixin:Save().show_All_List and true or nil
             WoWTools_HunterMixin:Set_StableFrame_List()
             return MenuResponse.Close
         end)
@@ -35,13 +19,13 @@ local function Init_Menu(_, root)
 
         root:CreateDivider()
 
-        if Save().show_All_List then
+        if WoWTools_HunterMixin:Save().show_All_List then
             sub=root:CreateCheckbox(
                 WoWTools_L.PERKS_PROGRAM_ASCENDING,
             function()
-                return not Save().sortDown
+                return not WoWTools_HunterMixin:Save().sortDown
             end, function()
-                Save().sortDown= not Save().sortDown and true or nil
+                WoWTools_HunterMixin:Save().sortDown= not WoWTools_HunterMixin:Save().sortDown and true or nil
             end)
             sub:SetTooltip(function(tooltip)
                 WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Hunter.SortAscending'])
@@ -73,9 +57,9 @@ local function Init_Menu(_, root)
             root:CreateSpacer()
             WoWTools_MenuMixin:CreateSlider(root, {
                 getValue=function()
-                    return Save().all_List_Size or 28
+                    return WoWTools_HunterMixin:Save().all_List_Size or 28
                 end, setValue=function(value)
-                    Save().all_List_Size=value
+                    WoWTools_HunterMixin:Save().all_List_Size=value
                     local AllListFrame= _G['WoWTools_StableFrameAllList']
                     if AllListFrame then
                         AllListFrame:Settings()
@@ -96,9 +80,9 @@ local function Init_Menu(_, root)
         sub=root:CreateCheckbox(
             WoWTools_L.HUD_EDIT_MODE_HUD_TOOLTIP_LABEL,
         function()
-            return not Save().HideTips
+            return not WoWTools_HunterMixin:Save().HideTips
         end, function()
-            Save().HideTips= not Save().HideTips and true or nil
+            WoWTools_HunterMixin:Save().HideTips= not WoWTools_HunterMixin:Save().HideTips and true or nil
         end)
         WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Hunter.Tooltips'])
 
@@ -127,7 +111,7 @@ local function Init()
         GameTooltip:AddDoubleLine(
             (_G['WoWTools_StableFrameAllList'] and '' or '|cff828282')
             ..(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_ICON_SIZE),
-            (Save().all_List_Size or 22)..WoWTools_DataMixin.Icon.mid
+            (WoWTools_HunterMixin:Save().all_List_Size or 22)..WoWTools_DataMixin.Icon.mid
         )
         GameTooltip:Show()
     end
@@ -150,7 +134,7 @@ local function Init()
             return
         end
 
-        local value= Save().all_List_Size or 22
+        local value= WoWTools_HunterMixin:Save().all_List_Size or 22
         if d==1 then
            value= value+ 1
         elseif d==-1 then
@@ -160,7 +144,7 @@ local function Init()
         value= min(value, 72)
         value= max(value, 8)
 
-        Save().all_List_Size=value
+        WoWTools_HunterMixin:Save().all_List_Size=value
 
         AllListFrame:Settings()
 

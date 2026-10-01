@@ -13,7 +13,7 @@ end
 
 
 local function SetTooltip(frame, pet)
-    if WoWToolsPlusSave['Plus_StableFrame'].HideTips then
+    if WoWTools_HunterMixin:Save().HideTips then
         return
     end
 

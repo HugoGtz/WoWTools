@@ -10,15 +10,6 @@ local EXTRA_PET_STABLE_SLOT_LUA_INDEX = (Constants.PetConsts_PostCata.EXTRA_PET_
 local NUM_PET_SLOTS_HUNTER = Constants.PetConsts_PostCata.NUM_PET_SLOTS_HUNTER or 205
 
 
-local function Save()
-    return WoWToolsPlusSave['Plus_StableFrame']
-end
-
-
-
-
-
-
 local function sort_value(value)
     if type(value)=='number' or type(value)=='string' then
         return value
@@ -80,7 +71,7 @@ local function sort_pets_list(sortType)
         slotByPet[info.petNumber]= info.slotID
     end
 
-    local sortDown= Save().sortDown
+    local sortDown= WoWTools_HunterMixin:Save().sortDown
     local index= 0
     Is_In_Search= true
 
@@ -123,7 +114,7 @@ end
 
 
 local function set_button_size(btn)
-    local n= Save().all_List_Size or 28
+    local n= WoWTools_HunterMixin:Save().all_List_Size or 28
     AllListFrame.s= n
     btn:SetSize(n, n)
     btn.Icon:SetSize(n, n)
@@ -173,7 +164,7 @@ end
 
 
 local function Init()
-    if not Save().show_All_List then
+    if not WoWTools_HunterMixin:Save().show_All_List then
         return
     end
 
@@ -184,7 +175,7 @@ local function Init()
 
 
     AllListFrame.Buttons={}
-    AllListFrame.s= Save().all_List_Size or 28
+    AllListFrame.s= WoWTools_HunterMixin:Save().all_List_Size or 28
     WoWTools_TextureMixin:CreateBG(AllListFrame, {alpha=0.5, isColor=true})
 
     for i= EXTRA_PET_STABLE_SLOT_LUA_INDEX, NUM_PET_SLOTS_HUNTER do
@@ -257,8 +248,8 @@ local function Init()
 
 
     function AllListFrame:Settings()
-        self:SetShown(Save().show_All_List)
-        self.s= Save().all_List_Size
+        self:SetShown(WoWTools_HunterMixin:Save().show_All_List)
+        self.s= WoWTools_HunterMixin:Save().all_List_Size
         for _, btn2 in pairs(self.Buttons) do
             set_button_size(btn2)
         end

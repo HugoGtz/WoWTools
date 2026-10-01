@@ -151,7 +151,7 @@ local function created_model(btn, setBg)
 
     btn:HookScript('OnHide', btn.set_pet)
     btn:HookScript('OnEnter', function(self)
-        if WoWToolsPlusSave['Plus_StableFrame'].HideTips then
+        if WoWTools_HunterMixin:Save().HideTips then
             return
         end
         if self.petData and not self.locked and self:IsEnabled() then

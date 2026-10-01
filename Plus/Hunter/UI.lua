@@ -3,12 +3,8 @@ if WoWTools_DataMixin.Player.Class~='HUNTER' then
     return
 end
 
-local function Save()
-    return WoWToolsPlusSave['Plus_StableFrame'] or {}
-end
-
 function WoWTools_MoveMixin.Events:Blizzard_StableUI()
-    if Save().disabled then
+    if WoWTools_HunterMixin:Save().disabled then
         self:Setup(StableFrame)
         self:Setup(StableFrame.StabledPetList.ScrollBox, {frame=StableFrame})
     end
