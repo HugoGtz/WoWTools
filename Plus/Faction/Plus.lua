@@ -1,8 +1,3 @@
-local function Save()
-	return WoWToolsPlusSave['Plus_Faction']
-end
-
-
 local function Create_Frame(btn)
 	
 	--btn.Content.ReputationBar.BarText:ClearAllPoints()
@@ -38,7 +33,7 @@ local function Create_Frame(btn)
 	end
 	btn.check:SetScript('OnClick', function(self)
 		local factionID= self:GetParent():GetParent().elementData.factionID
-		Save().factions[factionID]= not Save().factions[factionID] and true or nil
+		WoWTools_FactionMixin:Save().factions[factionID]= not WoWTools_FactionMixin:Save().factions[factionID] and true or nil
 		WoWTools_FactionMixin:UpdatList()
 	end)
 	btn.check:SetScript('OnEnter', function(self)
@@ -74,7 +69,7 @@ end
 
 
 local function Init()
-	if Save().notPlus then
+	if WoWTools_FactionMixin:Save().notPlus then
 		return
 	end
 
@@ -86,7 +81,7 @@ local function Init()
 
 	WoWTools_DataMixin:Hook(ReputationEntryMixin, 'Initialize', function(btn)--factionRow, elementData)--ReputationFrame.lua
 		local data= {}
-		if not Save().notPlus then
+		if not WoWTools_FactionMixin:Save().notPlus then
 			data= WoWTools_FactionMixin:GetInfo(btn.factionID)
 		end
 
@@ -122,8 +117,8 @@ local function Init()
 			btn.texture:SetTexture(data.texture or 0)
 		end
 
-		btn.check:SetShown(Save().btn and Save().indicato)
-		btn.check:SetChecked(Save().factions[data.factionID])
+		btn.check:SetShown(WoWTools_FactionMixin:Save().btn and WoWTools_FactionMixin:Save().indicato)
+		btn.check:SetChecked(WoWTools_FactionMixin:Save().factions[data.factionID])
 	end)
 
 

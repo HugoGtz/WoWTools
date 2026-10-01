@@ -1,18 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['Plus_Faction']
-end
-
-
-
-
-
-
-
-
-
-
-
 local function Init_Menu(self, root)
     if not self:IsMouseOver() then
         return
@@ -22,15 +8,15 @@ local function Init_Menu(self, root)
 	sub=root:CreateCheckbox(
 		WoWTools_L.TRACKING,
 	function()
-		return Save().btn
+		return WoWTools_FactionMixin:Save().btn
 	end, function()
-		Save().btn= not Save().btn and true or nil
+		WoWTools_FactionMixin:Save().btn= not WoWTools_FactionMixin:Save().btn and true or nil
 		WoWTools_FactionMixin:UpdatList()
 		WoWTools_FactionMixin:Init_TrackButton()
 		WoWTools_Print(
 			WoWTools_FactionMixin.addName..WoWTools_DataMixin.Icon.icon2,
 			WoWTools_L.TRACKING,
-			WoWTools_TextMixin:GetShowHide(Save().btn)
+			WoWTools_TextMixin:GetShowHide(WoWTools_FactionMixin:Save().btn)
 		)
 	end)
 	WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Faction.Track'])
@@ -38,9 +24,9 @@ local function Init_Menu(self, root)
 	sub2=sub:CreateCheckbox(
 		WoWTools_L['SELF_CAST_AUTO+HIDE'],
 	function()
-		return not Save().notAutoHideTrack
+		return not WoWTools_FactionMixin:Save().notAutoHideTrack
 	end, function()
-		Save().notAutoHideTrack= not Save().notAutoHideTrack and true or nil
+		WoWTools_FactionMixin:Save().notAutoHideTrack= not WoWTools_FactionMixin:Save().notAutoHideTrack and true or nil
 		WoWTools_FactionMixin:Init_TrackButton()
 	end)
 	sub2:SetTooltip(function(tooltip)
@@ -53,8 +39,8 @@ local function Init_Menu(self, root)
 	end)
 
 	sub:CreateDivider()
-	WoWTools_MenuMixin:RestPoint(self, sub, Save().point, function()
-		Save().point=nil
+	WoWTools_MenuMixin:RestPoint(self, sub, WoWTools_FactionMixin:Save().point, function()
+		WoWTools_FactionMixin:Save().point=nil
 		WoWTools_FactionMixin:Init_TrackButton()
 		WoWTools_Print(
 			WoWTools_FactionMixin.addName..WoWTools_DataMixin.Icon.icon2,
@@ -63,19 +49,19 @@ local function Init_Menu(self, root)
 	end)
 
 	local new={}
-	for factionID in pairs(Save().factions) do
+	for factionID in pairs(WoWTools_FactionMixin:Save().factions) do
 		table.insert(new, factionID)
 	end
 	num= #new
 	table.sort(new, function(a,b) return a> b end)
 
 	sub=root:CreateCheckbox(
-		(Save().btn and '' or '|cff626262')
+		(WoWTools_FactionMixin:Save().btn and '' or '|cff626262')
 		..(WoWTools_L.COMBAT_ALLY_START_MISSION),
 	function()
-		return Save().indicato
+		return WoWTools_FactionMixin:Save().indicato
 	end, function()
-		Save().indicato= not Save().indicato and true or nil
+		WoWTools_FactionMixin:Save().indicato= not WoWTools_FactionMixin:Save().indicato and true or nil
 		WoWTools_FactionMixin:UpdatList()
 	end, {rightText=num})
 	WoWTools_MenuMixin:SetRightText(sub)
@@ -85,9 +71,9 @@ local function Init_Menu(self, root)
 		sub2=sub:CreateCheckbox(
 			WoWTools_FactionMixin:GetName(factionID),
 		function(data)
-			return Save().factions[data.factionID]
+			return WoWTools_FactionMixin:Save().factions[data.factionID]
 		end, function(data)
-			Save().factions[data.factionID]= not Save().factions[data.factionID] and true or nil
+			WoWTools_FactionMixin:Save().factions[data.factionID]= not WoWTools_FactionMixin:Save().factions[data.factionID] and true or nil
 			WoWTools_FactionMixin:UpdatList()
 		end, {factionID=factionID})
 		WoWTools_SetTooltipMixin:FactionMenu(sub2)
@@ -96,7 +82,7 @@ local function Init_Menu(self, root)
 
 	sub:CreateDivider()
 	WoWTools_MenuMixin:ClearAll(sub, function()
-		Save().factions={}
+		WoWTools_FactionMixin:Save().factions={}
 		WoWTools_FactionMixin:UpdatList()
 	end)
 
@@ -106,10 +92,10 @@ local function Init_Menu(self, root)
 		'|A:voicechat-icon-textchat-silenced:0:0|a'
 		..(WoWTools_L.COMBAT_TEXT_SHOW_REPUTATION_TEXT),
 	function()
-		return Save().factionUpdateTips
+		return WoWTools_FactionMixin:Save().factionUpdateTips
 	end, function()
-		Save().factionUpdateTips= not Save().factionUpdateTips and true or false
-		if Save().factionUpdateTips then
+		WoWTools_FactionMixin:Save().factionUpdateTips= not WoWTools_FactionMixin:Save().factionUpdateTips and true or false
+		if WoWTools_FactionMixin:Save().factionUpdateTips then
 			WoWTools_FactionMixin:Check_Chat_MSG()
 			WoWTools_Print(
 				FACTION_STANDING_INCREASED
@@ -131,9 +117,9 @@ local function Init_Menu(self, root)
 	sub=root:CreateCheckbox(
 		'UI Plus',
 	function()
-	return not Save().notPlus
+	return not WoWTools_FactionMixin:Save().notPlus
 	end, function()
-		Save().notPlus= not Save().notPlus and true or nil
+		WoWTools_FactionMixin:Save().notPlus= not WoWTools_FactionMixin:Save().notPlus and true or nil
 		WoWTools_FactionMixin:Init_Plus()
 	end)
 	sub:SetTooltip(function (tooltip)

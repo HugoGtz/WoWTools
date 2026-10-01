@@ -1,7 +1,3 @@
-local function Save()
-	return WoWToolsPlusSave['Plus_Faction']
-end
-
 local Button
 local Buttons={}
 
@@ -107,7 +103,7 @@ end
 
 
 local function Settings()
-    if Save().hide_MajorFactionRenownFrame_Button then
+    if WoWTools_FactionMixin:Save().hide_MajorFactionRenownFrame_Button then
         Button.frame:SetShown(false)
         return
     end
@@ -117,13 +113,13 @@ local function Settings()
 
     local index=0
     local btn, isSelect, atlas, text, isLocked
-    local onlyUnlockRenownFrame= Save().onlyUnlockRenownFrame
+    local onlyUnlockRenownFrame= WoWTools_FactionMixin:Save().onlyUnlockRenownFrame
 
     for _, factionID in pairs(Get_Major_Faction_List()) do
         local info= (
                     factionID
                     and factionID>0
-                    and not Save().hideRenownFrame[factionID]
+                    and not WoWTools_FactionMixin:Save().hideRenownFrame[factionID]
 
                 )
                 and C_MajorFactions.GetMajorFactionData(factionID)
@@ -171,7 +167,7 @@ end
 
 local function Set_HeaderText()
     local text=''
-    if not Save().hide_MajorFactionRenownFrame_Button then
+    if not WoWTools_FactionMixin:Save().hide_MajorFactionRenownFrame_Button then
         local factionID= MajorFactionRenownFrame:GetCurrentFactionID()
         local info=factionID and C_MajorFactions.GetMajorFactionData(factionID)
         if info then
@@ -188,7 +184,7 @@ local function Init_Menu(self, root)
     sub=root:CreateCheckbox(
         WoWTools_L.SHOW,
     function()
-        return not Save().hide_MajorFactionRenownFrame_Button
+        return not WoWTools_FactionMixin:Save().hide_MajorFactionRenownFrame_Button
     end, function()
         self:set_click()
     end)
@@ -196,7 +192,7 @@ local function Init_Menu(self, root)
 
     root:CreateDivider()
     sub=root:CreateButton(
-        (WoWTools_L.HIDE)..' #'..#Save().hideRenownFrame,
+        (WoWTools_L.HIDE)..' #'..#WoWTools_FactionMixin:Save().hideRenownFrame,
     function()
         return MenuResponse.Open
     end)
@@ -205,9 +201,9 @@ local function Init_Menu(self, root)
         '|A:Professions_Specialization_Lock_Glow:0:0|a'
         ..(WoWTools_L['Unlocked only']),
     function()
-        return Save().onlyUnlockRenownFrame
+        return WoWTools_FactionMixin:Save().onlyUnlockRenownFrame
     end, function()
-        Save().onlyUnlockRenownFrame= not Save().onlyUnlockRenownFrame and true or nil
+        WoWTools_FactionMixin:Save().onlyUnlockRenownFrame= not WoWTools_FactionMixin:Save().onlyUnlockRenownFrame and true or nil
         Settings()
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Faction.RenownUnlockedOnly'])
@@ -217,9 +213,9 @@ local function Init_Menu(self, root)
         sub2=sub:CreateCheckbox(
            index..')'.. WoWTools_FactionMixin:GetName(factionID),
         function(data)
-            return Save().hideRenownFrame[data.factionID]
+            return WoWTools_FactionMixin:Save().hideRenownFrame[data.factionID]
         end, function(data)
-            Save().hideRenownFrame[data.factionID]= not Save().hideRenownFrame[data.factionID] and true or nil
+            WoWTools_FactionMixin:Save().hideRenownFrame[data.factionID]= not WoWTools_FactionMixin:Save().hideRenownFrame[data.factionID] and true or nil
             Settings()
         end, {factionID=factionID})
 
@@ -234,12 +230,12 @@ local function Init_Menu(self, root)
 
     WoWTools_MenuMixin:ScaleRoot(self, sub,
     function()
-        return Save().MajorFactionRenownFrame_Button_Scale or 1
+        return WoWTools_FactionMixin:Save().MajorFactionRenownFrame_Button_Scale or 1
     end, function(value)
-        Save().MajorFactionRenownFrame_Button_Scale= value
+        WoWTools_FactionMixin:Save().MajorFactionRenownFrame_Button_Scale= value
         self:set_scale()
     end, function()
-        Save().MajorFactionRenownFrame_Button_Scale=nil
+        WoWTools_FactionMixin:Save().MajorFactionRenownFrame_Button_Scale=nil
         self:set_scale()
     end)
 end
@@ -249,10 +245,10 @@ local function Init()
     Button= WoWTools_ButtonMixin:Cbtn(MajorFactionRenownFrame.CloseButton, {size=22})
 
     function Button:set_scale()
-        self.frame:SetScale(Save().MajorFactionRenownFrame_Button_Scale or 1)
+        self.frame:SetScale(WoWTools_FactionMixin:Save().MajorFactionRenownFrame_Button_Scale or 1)
     end
     function Button:set_texture()
-        local hide= Save().hide_MajorFactionRenownFrame_Button
+        local hide= WoWTools_FactionMixin:Save().hide_MajorFactionRenownFrame_Button
         if hide then
             self:SetNormalTexture('Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools')
             self:SetAlpha(0.3)
@@ -267,14 +263,14 @@ local function Init()
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_FactionMixin.addName)
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_TextMixin:GetShowHide(not Save().hide_MajorFactionRenownFrame_Button), WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine(WoWTools_TextMixin:GetShowHide(not WoWTools_FactionMixin:Save().hide_MajorFactionRenownFrame_Button), WoWTools_DataMixin.Icon.left)
         GameTooltip:AddDoubleLine(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.right)
-        --GameTooltip:AddDoubleLine((HOUSING_EXPERT_DECOR_SUBMODE_SCALE)..' |cnGREEN_FONT_COLOR:'..(Save().MajorFactionRenownFrame_Button_Scale or 1), WoWTools_DataMixin.Icon.mid)
+        --GameTooltip:AddDoubleLine((HOUSING_EXPERT_DECOR_SUBMODE_SCALE)..' |cnGREEN_FONT_COLOR:'..(WoWTools_FactionMixin:Save().MajorFactionRenownFrame_Button_Scale or 1), WoWTools_DataMixin.Icon.mid)
         GameTooltip:Show()
     end
 
     function Button:set_click()
-        Save().hide_MajorFactionRenownFrame_Button= not Save().hide_MajorFactionRenownFrame_Button and true or nil
+        WoWTools_FactionMixin:Save().hide_MajorFactionRenownFrame_Button= not WoWTools_FactionMixin:Save().hide_MajorFactionRenownFrame_Button and true or nil
         Settings()
         self:set_texture()
     end

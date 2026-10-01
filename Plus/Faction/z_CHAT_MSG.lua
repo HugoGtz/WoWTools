@@ -22,7 +22,7 @@ local PATTERN_INCREASED_ACCOUNT_WIDE
 --#############
 --#############
 local function EventFilter(_, _, text, ...)
-	if not WoWToolsPlusSave['Plus_Faction'].factionUpdateTips then
+	if not WoWTools_FactionMixin:Save().factionUpdateTips then
 		return
 	end
 
@@ -134,7 +134,7 @@ function WoWTools_FactionMixin:Init_Chat_MSG()
 
     ChatFrame_AddMessageEventFilter('CHAT_MSG_COMBAT_FACTION_CHANGE', EventFilter)
 
-    if WoWToolsPlusSave['Plus_Faction'].factionUpdateTips then
+    if WoWTools_FactionMixin:Save().factionUpdateTips then
         C_Timer.After(4, Init_Check)
     end
 end

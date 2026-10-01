@@ -1,8 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['Plus_Faction']
-end
-
 local TrackButton, Frame
 
 local NumButton= 0
@@ -28,7 +24,7 @@ local NumButton= 0
 
 
 local function get_Faction_Info(factionID)
-	local data= WoWTools_FactionMixin:GetInfo(factionID, not Save().toRightTrackText) or {}
+	local data= WoWTools_FactionMixin:GetInfo(factionID, not WoWTools_FactionMixin:Save().toRightTrackText) or {}
 
 
 
@@ -36,15 +32,15 @@ local function get_Faction_Info(factionID)
 	if not data.factionID
 		or not data.isUnlocked
 		or (data.isCapped and not data.isParagon)
-		or (Save().onlyIcon and not (data.atlas or data.texture))
-		or (Save().onlyMajor and not data.isMajor)
+		or (WoWTools_FactionMixin:Save().onlyIcon and not (data.atlas or data.texture))
+		or (WoWTools_FactionMixin:Save().onlyMajor and not data.isMajor)
 		or not (data.factionStandingtext or data.valueText)
 	then
 		return
 	end
 
 	local name
-	if Save().onlyIcon then
+	if WoWTools_FactionMixin:Save().onlyIcon then
 		name=nil
 	elseif data.name then
 		name= WoWTools_TextMixin:CN(data.name)
@@ -61,7 +57,7 @@ local function get_Faction_Info(factionID)
 	local hasRewardPending= data.hasRewardPending or ''
 
 	local text
-	if Save().toRightTrackText then
+	if WoWTools_FactionMixin:Save().toRightTrackText then
 
 		text= factionStandingtext
 
@@ -149,7 +145,7 @@ local function Crated_Button(index)
 	local btn= CreateFrame("Button", 'WoWToolsFactionTrackButton'..index, Frame, 'WoWToolsButtonTemplate')
 	--btn:SetSize(16, 16)
 
-    if Save().toTopTrack then
+    if WoWTools_FactionMixin:Save().toTopTrack then
         btn:SetPoint('BOTTOM', _G['WoWToolsFactionTrackButton'..(index-1)] or TrackButton, 'TOP')
     else
         btn:SetPoint('TOP', _G['WoWToolsFactionTrackButton'..(index-1)] or TrackButton, 'BOTTOM')
@@ -180,12 +176,12 @@ local function Crated_Button(index)
 	btn.text:SetShadowOffset(1,-1)
     function btn:set_text_point()
 		self.text:ClearAllPoints()
-        if Save().toRightTrackText then
+        if WoWTools_FactionMixin:Save().toRightTrackText then
             self.text:SetPoint('LEFT', self, 'RIGHT')
         else
             self.text:SetPoint('RIGHT', self, 'LEFT')
         end
-        self.text:SetJustifyH(Save().toRightTrackText and 'RIGHT' or 'LEFT')
+        self.text:SetJustifyH(WoWTools_FactionMixin:Save().toRightTrackText and 'RIGHT' or 'LEFT')
     end
 
 	btn.canClickForOptions= true
@@ -217,15 +213,15 @@ local function TrackButton_Settings()
 
 	local faction={}
 
-	if Save().indicato then
-		for factionID in pairs(Save().factions or {}) do
+	if WoWTools_FactionMixin:Save().indicato then
+		for factionID in pairs(WoWTools_FactionMixin:Save().factions or {}) do
 			local text, texture, atlas= get_Faction_Info(factionID)
 			if text then
 				table.insert(faction, {text=text, texture=texture, atlas=atlas, factionID=factionID})
 			end
 		end
 		table.sort(faction, function(a, b) return a.factionID > b.factionID end)
-	else--if Save().onlyMajor then
+	else--if WoWTools_FactionMixin:Save().onlyMajor then
 
 		for index=1, C_Reputation.GetNumFactions() do
 			local info= C_Reputation.GetFactionDataByIndex(index) or {}
@@ -309,9 +305,9 @@ local function Init_Menu(self, root)
 	sub=root:CreateCheckbox(
 		WoWTools_L.SHOW,
 	function()
-		return Save().btnstr
+		return WoWTools_FactionMixin:Save().btnstr
 	end, function()
-		Save().btnstr= not Save().btnstr and true or false
+		WoWTools_FactionMixin:Save().btnstr= not WoWTools_FactionMixin:Save().btnstr and true or false
 		self:set_Shown()
 		TrackButton_Settings()
 	end)
@@ -323,9 +319,9 @@ local function Init_Menu(self, root)
 	sub2=sub:CreateCheckbox(
 		WoWTools_L.BINDING_NAME_STRAFERIGHT,
 	function()
-		return Save().toRightTrackText
+		return WoWTools_FactionMixin:Save().toRightTrackText
 	end, function()
-		Save().toRightTrackText= not Save().toRightTrackText and true or false
+		WoWTools_FactionMixin:Save().toRightTrackText= not WoWTools_FactionMixin:Save().toRightTrackText and true or false
 		for index=1, NumButton do
 			local btn= _G['WoWToolsFactionTrackButton'..index]
 			if btn then
@@ -340,14 +336,14 @@ local function Init_Menu(self, root)
 		'|A:bags-greenarrow:0:0|a'
 		..(WoWTools_L.HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_UP),
 	function()
-		return Save().toTopTrack
+		return WoWTools_FactionMixin:Save().toTopTrack
 	end, function()
-		Save().toTopTrack= not Save().toTopTrack and true or nil
+		WoWTools_FactionMixin:Save().toTopTrack= not WoWTools_FactionMixin:Save().toTopTrack and true or nil
 		for index= 1, NumButton do
 			local btn=_G['WoWToolsFactionTrackButton'..index]
 			if btn then
 				btn:ClearAllPoints()
-				if Save().toTopTrack then
+				if WoWTools_FactionMixin:Save().toTopTrack then
 					btn:SetPoint('BOTTOM', _G['WoWToolsFactionTrackButton'..(index-1)] or self, 'TOP')
 				else
 					btn:SetPoint('TOP', _G['WoWToolsFactionTrackButton'..(index-1)] or self, 'BOTTOM')
@@ -361,9 +357,9 @@ local function Init_Menu(self, root)
 	sub2=sub:CreateCheckbox(
 		WoWTools_L.PROFESSIONS_FLYOUT_SHOW_NAME,
 	function()
-		return not Save().onlyIcon
+		return not WoWTools_FactionMixin:Save().onlyIcon
 	end, function()
-		Save().onlyIcon= not Save().onlyIcon and true or nil
+		WoWTools_FactionMixin:Save().onlyIcon= not WoWTools_FactionMixin:Save().onlyIcon and true or nil
 		TrackButton_Settings()
 	end)
 	sub2:SetTooltip(function(tooltip)
@@ -376,17 +372,17 @@ local function Init_Menu(self, root)
 	sub2= sub:CreateCheckbox(
 		WoWTools_L['Renown only'],
 	function()
-		return Save().onlyMajor
+		return WoWTools_FactionMixin:Save().onlyMajor
 	end, function()
-		Save().onlyMajor= not Save().onlyMajor and true or nil
+		WoWTools_FactionMixin:Save().onlyMajor= not WoWTools_FactionMixin:Save().onlyMajor and true or nil
 		TrackButton_Settings()
 	end)
 	WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Faction.TrackRenownOnly'])
 
 	WoWTools_MenuMixin:Scale(self, sub, function()
-		return Save().scaleTrackButton or 1
+		return WoWTools_FactionMixin:Save().scaleTrackButton or 1
 	end, function(value)
-		Save().scaleTrackButton= value
+		WoWTools_FactionMixin:Save().scaleTrackButton= value
 		self:settings()
 	end)
 
@@ -394,27 +390,27 @@ local function Init_Menu(self, root)
 	WoWTools_MenuMixin:FrameStrata(self, sub, function(data)
 		return self:GetFrameStrata()==data
 	end, function(data)
-		Save().strata= data
+		WoWTools_FactionMixin:Save().strata= data
 		self:set_strata()
 	end)
 
 	WoWTools_MenuMixin:BgAplha(sub,
 	function()--GetValue
-		return Save().trackBgAlpha or 0.5
+		return WoWTools_FactionMixin:Save().trackBgAlpha or 0.5
 	end, function(value)--SetValue
-		Save().trackBgAlpha= value
+		WoWTools_FactionMixin:Save().trackBgAlpha= value
 		self:set_bgalpha()
 	end, function()--RestFunc
-		Save().bgAlpha= nil
+		WoWTools_FactionMixin:Save().bgAlpha= nil
 		self:set_bgalpha()
 	end)--onlyRoot
 
 	sub2=sub:CreateCheckbox(
 		WoWTools_L['SELF_CAST_AUTO+HIDE'],
 	function()
-		return not Save().notAutoHideTrack
+		return not WoWTools_FactionMixin:Save().notAutoHideTrack
 	end, function()
-		Save().notAutoHideTrack= not Save().notAutoHideTrack and true or nil
+		WoWTools_FactionMixin:Save().notAutoHideTrack= not WoWTools_FactionMixin:Save().notAutoHideTrack and true or nil
 		self:set_Shown()
 	end)
 	sub2:SetTooltip(function(tooltip)
@@ -427,8 +423,8 @@ local function Init_Menu(self, root)
 	end)
 
 	sub:CreateDivider()
-	WoWTools_MenuMixin:RestPoint(self, sub, Save().point, function()
-		Save().point=nil
+	WoWTools_MenuMixin:RestPoint(self, sub, WoWTools_FactionMixin:Save().point, function()
+		WoWTools_FactionMixin:Save().point=nil
 		self:ClearAllPoints()
 		self:set_Point()
 		WoWTools_Print(
@@ -458,7 +454,7 @@ end
 
 
 local function Init()
-	if not Save().btn then
+	if not WoWTools_FactionMixin:Save().btn then
 		return
 	end
 
@@ -474,15 +470,15 @@ local function Init()
 	TrackButton.NumButton=0
 	TrackButton.bgWidth=0
 	function TrackButton:set_bgalpha()
-		self.Bg:SetColorTexture(0, 0, 0, Save().trackBgAlpha or 0.5)
+		self.Bg:SetColorTexture(0, 0, 0, WoWTools_FactionMixin:Save().trackBgAlpha or 0.5)
 	end
 	function TrackButton:set_bg()
 		self.Bg:ClearAllPoints()
 		if self.numButton==0 then
 			return
 		end
-		if Save().toTopTrack then
-			if Save().toRightTrackText then
+		if WoWTools_FactionMixin:Save().toTopTrack then
+			if WoWTools_FactionMixin:Save().toRightTrackText then
 				self.Bg:SetPoint("TOPLEFT", _G['WoWToolsFactionTrackButton'..self.numButton], -1, 1)
 				self.Bg:SetPoint('BOTTOMLEFT', _G['WoWToolsFactionTrackButton'..1], -1, -1)
 			else
@@ -490,7 +486,7 @@ local function Init()
 				self.Bg:SetPoint('BOTTOMRIGHT', _G['WoWToolsFactionTrackButton'..1], 1, -1)
 			end
 		else
-			if Save().toRightTrackText then
+			if WoWTools_FactionMixin:Save().toRightTrackText then
 				self.Bg:SetPoint('TOPLEFT', _G['WoWToolsFactionTrackButton'..1], -1, 1)
 				self.Bg:SetPoint('BOTTOMLEFT', _G['WoWToolsFactionTrackButton'..self.numButton], -1, -1)
 			else
@@ -509,9 +505,9 @@ local function Init()
 
 
 	function TrackButton:set_Shown(isInComabt)
-		local hide= not Save().btn
+		local hide= not WoWTools_FactionMixin:Save().btn
 		or (
-		   not Save().notAutoHideTrack and (
+		   not WoWTools_FactionMixin:Save().notAutoHideTrack and (
 				select(2, IsInInstance())~='none'
 				or C_PetBattles.IsInBattle()
 				or UnitInVehicle('player')
@@ -521,7 +517,7 @@ local function Init()
 			)
 	   )
 	   	self:SetShown(not hide)
-		Frame:SetShown(not hide and Save().btnstr)
+		Frame:SetShown(not hide and WoWTools_FactionMixin:Save().btnstr)
 		TrackButton_Settings()
 		self:set_alpha()
 	end
@@ -551,10 +547,10 @@ local function Init()
 	end
 
 	function TrackButton:settings()
-		Frame:SetScale(Save().scaleTrackButton or 1)
+		Frame:SetScale(WoWTools_FactionMixin:Save().scaleTrackButton or 1)
 
 		self:UnregisterAllEvents()
-		if Save().btn then
+		if WoWTools_FactionMixin:Save().btn then
 			self:RegisterEvent('UPDATE_FACTION')
 			self:RegisterEvent('ZONE_CHANGED_NEW_AREA')
 			self:RegisterEvent('PLAYER_ENTERING_WORLD')
@@ -573,7 +569,7 @@ local function Init()
 	end
 
 	function TrackButton:set_alpha()
-		local isShow= Save().btnstr
+		local isShow= WoWTools_FactionMixin:Save().btnstr
 		self.texture:SetAlpha(isShow and 0.3 or 1)
 		if isShow then
 			self.texture:SetAtlas('Adventure-MissionEnd-Line')
@@ -583,7 +579,7 @@ local function Init()
 	end
 
 	function TrackButton:set_Point()
-		local p= Save().point
+		local p= WoWTools_FactionMixin:Save().point
 		if p and p[1] then
 			self:SetPoint(p[1], UIParent, p[3], p[4], p[5])
 		else
@@ -592,7 +588,7 @@ local function Init()
 	end
 
 	function TrackButton:set_strata()
-        self:SetFrameStrata(Save().strata or 'MEDIUM')
+        self:SetFrameStrata(WoWTools_FactionMixin:Save().strata or 'MEDIUM')
     end
 
 	TrackButton:RegisterForDrag("RightButton")
@@ -607,8 +603,8 @@ local function Init()
         ResetCursor()
         self:StopMovingOrSizing()
         if WoWTools_FrameMixin:IsInSchermo(self) then
-			Save().point={self:GetPoint(1)}
-			Save().point[2]=nil
+			WoWTools_FactionMixin:Save().point={self:GetPoint(1)}
+			WoWTools_FactionMixin:Save().point[2]=nil
 		end
 	end)
 	TrackButton:SetScript("OnMouseUp", ResetCursor)
@@ -628,7 +624,7 @@ local function Init()
 	end)
 
 	TrackButton:SetScript('OnMouseWheel', function(self, d)
-		Save().btnstr= d~=1
+		WoWTools_FactionMixin:Save().btnstr= d~=1
 		self:set_Shown()
 		TrackButton_Settings()
 		self:set_tooltip()
