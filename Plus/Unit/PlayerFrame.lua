@@ -214,6 +214,8 @@ local function Init()
                 self:settings()
             end)
             WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Unit.LootButtonAlways'])
+            root:CreateDivider()
+            WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_UnitMixin.addName})
         end
     end)
 
