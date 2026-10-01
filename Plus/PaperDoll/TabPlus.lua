@@ -1,6 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_PaperDoll']
-end
 local frame
 
 
@@ -135,7 +132,7 @@ end
 
 
 local function Init()
-    if Save().notTabPlus then
+    if WoWTools_PaperDollMixin:Save().notTabPlus then
         return
     end
 
@@ -364,7 +361,7 @@ local function Init()
 
        local pve, pvp, title, notCollected
        local name, icon, specIcon, nu, specName, setID
-        if not Save().notTabPlus then
+        if not WoWTools_PaperDollMixin:Save().notTabPlus then
             pve, pvp= Get_PvEPvPLevel()
             title, notCollected= Get_Title_Num()
             name, icon, specIcon, nu, specName, setID= Get_EquipmentSet()
@@ -397,7 +394,7 @@ local function Init()
         self:UnregisterAllEvents()
     end)
     frame:SetScript('OnShow', function(self)
-        if Save().notTabPlus then
+        if WoWTools_PaperDollMixin:Save().notTabPlus then
             return
         end
         self:RegisterEvent('PLAYER_EQUIPMENT_CHANGED')
@@ -414,7 +411,7 @@ local function Init()
     end
 
     Init=function()
-        local show= not Save().notTabPlus
+        local show= not WoWTools_PaperDollMixin:Save().notTabPlus
         frame:SetShown(show)
         frame.titleButton:SetShown(show)
     end

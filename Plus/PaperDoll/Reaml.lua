@@ -1,13 +1,5 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_PaperDoll']
-end
-
-
-
-
-
 local function Init()
-    if Save().notRealm then
+    if WoWTools_PaperDollMixin:Save().notRealm then
         return
     end
 
@@ -153,7 +145,7 @@ local function Init()
 
 
     Init=function()
-        _G['WoWToolsPaperDollWoWButton']:SetShown(not Save().notRealm)
+        _G['WoWToolsPaperDollWoWButton']:SetShown(not WoWTools_PaperDollMixin:Save().notRealm)
     end
 end
 

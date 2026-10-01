@@ -1,15 +1,11 @@
 --PaperDollFrame.lua
-local function Save()
-    return WoWToolsPlusSave['Plus_PaperDoll']
-end
-
 local btn
 
 
 
 
 local function Init()
-    if Save().notLevel then
+    if WoWTools_PaperDollMixin:Save().notLevel then
         return
     end
 
@@ -96,7 +92,7 @@ local function Init()
     CharacterLevelText:SetJustifyH('LEFT')
 
     WoWTools_DataMixin:Hook('PaperDollFrame_SetLevel', function()
-         if Save().notLevel then
+         if WoWTools_PaperDollMixin:Save().notLevel then
             return
         end
         local size= 18
@@ -262,7 +258,7 @@ local function Init()
 
     Init=function()
         WoWTools_DataMixin:Call('PaperDollFrame_SetLevel')
-        _G['WoWToolsPaperDollLevelButton']:SetShown(not Save().notLevel)
+        _G['WoWToolsPaperDollLevelButton']:SetShown(not WoWTools_PaperDollMixin:Save().notLevel)
     end
 end
 

@@ -1,8 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_PaperDoll']
-end
-
-
 local ITEM_LEVEL= ITEM_LEVEL:gsub('%%d', '%(%%d%+%)')
 local ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT= ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT:gsub('%%s/%%s','(.-%%d%+/%%d%+)')
 local PVP_ITEM_LEVEL_TOOLTIP= PVP_ITEM_LEVEL_TOOLTIP:gsub('%%d', '%(%%d%+%)')
@@ -11,7 +6,7 @@ local PVP_ITEM_LEVEL_TOOLTIP= PVP_ITEM_LEVEL_TOOLTIP:gsub('%%d', '%(%%d%+%)')
 
 local function set_item_Set(self, link)
     local set
-    if link and not Save().notFlyout then
+    if link and not WoWTools_PaperDollMixin:Save().notFlyout then
         set=select(16 , C_Item.GetItemInfo(link))
         if set then
             if set and not self.set then
@@ -71,7 +66,7 @@ end
 
 local function setFlyout(self)--, itemLink, slot)
 local itemLink
-    if not Save().notFlyout and canaccessvalue(self.location) and  self.location then
+    if not WoWTools_PaperDollMixin:Save().notFlyout and canaccessvalue(self.location) and  self.location then
         local t= type(self.location)
         if t=='number' then
             local locationData= EquipmentManager_GetLocationData(self.location)
@@ -195,17 +190,17 @@ local function Init()
 
         flyout.slotNameFrame.Label:SetText(slotName or '')
         flyout.slotNameFrame.Bg:SetWidth(flyout.slotNameFrame.Label:GetStringWidth()+24)
-        flyout.slotNameFrame:SetShown(not Save().notFlyout and slotName)
+        flyout.slotNameFrame:SetShown(not WoWTools_PaperDollMixin:Save().notFlyout and slotName)
     end)
 
 
-    EquipmentFlyoutFrameButtons:SetScale(not Save().notFlyout and Save().flyoutScale or 1)
+    EquipmentFlyoutFrameButtons:SetScale(not WoWTools_PaperDollMixin:Save().notFlyout and WoWTools_PaperDollMixin:Save().flyoutScale or 1)
 
     Init=function()
         if EquipmentFlyoutFrame:IsVisible() and not EquipmentFlyoutFrame:HasSecretValues() then
             WoWTools_DataMixin:Call('EquipmentFlyout_UpdateItems')
         end
-        EquipmentFlyoutFrameButtons:SetScale(not Save().notFlyout and Save().flyoutScale or 1)
+        EquipmentFlyoutFrameButtons:SetScale(not WoWTools_PaperDollMixin:Save().notFlyout and WoWTools_PaperDollMixin:Save().flyoutScale or 1)
     end
 end
 

@@ -1,10 +1,4 @@
 --PaperDollFrame.lua
-local function Save()
-    return WoWToolsPlusSave['Plus_PaperDoll']
-end
-
-
-
 local function Refresh()
     local frame= PaperDollFrame and PaperDollFrame.EquipmentManagerPane
     if frame and frame:IsVisible() then
@@ -107,14 +101,14 @@ end
 
 
 local function Init()
-    if Save().notEquipSetPLus then
+    if WoWTools_PaperDollMixin:Save().notEquipSetPLus then
         return
     end
 
 
     WoWTools_DataMixin:Hook('GearSetButton_OnClick', function(self, button)
         if not self.setID
-            or Save().notEquipSetPLus
+            or WoWTools_PaperDollMixin:Save().notEquipSetPLus
             or not IsModifierKeyDown()
         then
             return
@@ -129,7 +123,7 @@ local function Init()
 
     WoWTools_DataMixin:Hook('GearSetButton_OnEnter', function(btn)
         local setID= btn.setID
-        if not setID or Save().notEquipSetPLus then
+        if not setID or WoWTools_PaperDollMixin:Save().notEquipSetPLus then
             return
         end
         GameTooltip:SetOwner(btn:GetParent(), 'ANCHOR_RIGHT')
@@ -169,7 +163,7 @@ local function Init()
             Create_Button(btn)
         end
 
-        local enabled= not Save().notEquipSetPLus
+        local enabled= not WoWTools_PaperDollMixin:Save().notEquipSetPLus
         local setID= enabled and btn.setID or nil
 
         if setID then

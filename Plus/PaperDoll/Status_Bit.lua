@@ -1,8 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_PaperDoll']
-end
-
-
 local function status_set_rating(frame, rating)
     local num= rating and GetCombatRating(rating)
     if not canaccessvalue(num) or not num then
@@ -20,7 +15,7 @@ local function status_set_rating(frame, rating)
 end
 
 local function create_status_label(frame, rating)
-    local bit= Save().itemLevelBit or -1
+    local bit= WoWTools_PaperDollMixin:Save().itemLevelBit or -1
 
     if bit>=0 and frame:IsShown() then
         if not frame.numLabel then
@@ -225,7 +220,7 @@ local function Init_Defense()
     end)
 
     WoWTools_DataMixin:Hook('PaperDollFrame_SetLabelAndText', function(statFrame, _, text, isPercentage, numericValue)
-        local bit= Save().itemLevelBit or -1
+        local bit= WoWTools_PaperDollMixin:Save().itemLevelBit or -1
         if canaccessvalue(text) and canaccessvalue(numericValue) and bit>=0 and (isPercentage or (type(text)=='string' and text:find('%%'))) then
             statFrame.Value:SetFormattedText('%.0'..bit..'f%%', numericValue)
         end
@@ -234,12 +229,12 @@ end
 
 
 local function Init()
-    if Save().notStatusPlusFunc then
+    if WoWTools_PaperDollMixin:Save().notStatusPlusFunc then
         return
     end
 
     WoWTools_DataMixin:Hook('PaperDollFrame_SetItemLevel', function(statFrame)
-        local bit= Save().itemLevelBit or -1
+        local bit= WoWTools_PaperDollMixin:Save().itemLevelBit or -1
         if statFrame:IsShown() and bit>=0 then
             local avgItemLevel, avgItemLevelEquipped, avgItemLevelPvP = GetAverageItemLevel()
             if canaccessvalue(avgItemLevelPvP) then
@@ -258,7 +253,7 @@ local function Init()
     CharacterStatsPane.ItemLevelFrame.Value:EnableMouse(true)
     function CharacterStatsPane.ItemLevelFrame.Value:set_tooltips()
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
-        local bit= Save().itemLevelBit or -1
+        local bit= WoWTools_PaperDollMixin:Save().itemLevelBit or -1
         GameTooltip_SetTitle(GameTooltip,
             WoWTools_PaperDollMixin.addName..WoWTools_DataMixin.Icon.icon2
         )
@@ -287,10 +282,10 @@ local function Init()
         self:SetAlpha(0.7)
     end)
     CharacterStatsPane.ItemLevelFrame.Value:SetScript('OnMouseDown', function(self, d)
-        local n= (Save().itemLevelBit or -1)+ (d=='LeftButton' and -1 or 1)
+        local n= (WoWTools_PaperDollMixin:Save().itemLevelBit or -1)+ (d=='LeftButton' and -1 or 1)
         n= math.max(-1, n)
         n= math.min(4, n)
-        Save().itemLevelBit=n
+        WoWTools_PaperDollMixin:Save().itemLevelBit=n
         WoWTools_PaperDollMixin:UpdateStats()
         self:set_tooltips()
         self:SetAlpha(0.3)

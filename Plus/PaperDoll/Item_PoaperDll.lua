@@ -1,14 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_PaperDoll']
-end
-
-
-
-
-
-
-
-
 local pvpItemStr= PVP_ITEM_LEVEL_TOOLTIP:gsub('%%d', '%(%%d%+%)')
 local enchantStr= ENCHANTED_TOOLTIP_LINE:gsub('%%s','(.+)')
 local upgradeStr= ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT:gsub('%%s/%%s','(.-%%d%+/%%d%+)')
@@ -457,7 +446,7 @@ end
 
 
 local function set_Item_Tips(btn, slot, link, isPaperDollItemSlot)
-    if Save().hide then
+    if WoWTools_PaperDollMixin:Save().hide then
         link= nil
     end
 
@@ -681,7 +670,7 @@ end
 
 
 local function set_Slot_Num_Label(frame, slot, isEquipped)
-    local show= not Save().hide
+    local show= not WoWTools_PaperDollMixin:Save().hide
     if not frame.slotText and show and not isEquipped then
         frame.slotText=WoWTools_LabelMixin:Create(frame, {color=true, justifyH='CENTER', mouse=true})
         frame.slotText:EnableMouse(true)
@@ -724,7 +713,7 @@ end
 
 
 local function Init()
-    if Save().hide then
+    if WoWTools_PaperDollMixin:Save().hide then
         return
     end
 
@@ -732,13 +721,13 @@ local function Init()
         local slot= self:GetID()
 
         if PaperDoll_IsEquippedSlot(slot) then
-            local show= not Save().hide
+            local show= not WoWTools_PaperDollMixin:Save().hide
             local textureName = GetInventoryItemTexture("player", slot)
             local hasItem = textureName ~= nil and show
             local link= hasItem and GetInventoryItemLink('player', slot) or nil
             if slot~=4 and slot~=19 then
                 set_Item_Tips(self, slot, link, true)
-                WoWTools_ItemMixin:SetItemStats(self, link, {point=self.icon, size=Save().statFontSize, equipSlot=slot})
+                WoWTools_ItemMixin:SetItemStats(self, link, {point=self.icon, size=WoWTools_PaperDollMixin:Save().statFontSize, equipSlot=slot})
             end
             set_Slot_Num_Label(self, slot, link and true or nil)
             self.icon:SetAlpha((hasItem or not show) and 1 or 0.3)

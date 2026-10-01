@@ -1,9 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['Plus_PaperDoll']
-end
-
-
 local KeystoneLabel
 local StatusLabel
 
@@ -12,7 +7,7 @@ local function set_InspectPaperDollItemSlotButton_Update(frame)
     local unit= InspectFrame.unit or 'target'
 
     local slot= frame:GetID()
-	local link= (WoWTools_UnitMixin:UnitExists(unit) and not Save().hide) and GetInventoryItemLink(unit, slot) or nil
+	local link= (WoWTools_UnitMixin:UnitExists(unit) and not WoWTools_PaperDollMixin:Save().hide) and GetInventoryItemLink(unit, slot) or nil
 	WoWTools_DataMixin:Load(link, 'item')
 
     --set_Gem(frame, slot, link)
@@ -20,7 +15,7 @@ local function set_InspectPaperDollItemSlotButton_Update(frame)
     WoWTools_PaperDollMixin:Set_Item_Tips(frame, slot, link, false)
     WoWTools_PaperDollMixin:Set_Slot_Num_Label(frame, slot, link and true or false)
     WoWTools_ItemMixin:SetItemStats(frame, link, {point=frame.icon})
-    if not frame.OnEnter and not Save().hide then
+    if not frame.OnEnter and not WoWTools_PaperDollMixin:Save().hide then
         frame:SetScript('OnEnter', function(self)
             if self.link then
                 GameTooltip:ClearLines()
@@ -90,7 +85,7 @@ end
 local function set_InspectPaperDollFrame_SetLevel()
     local key
     local unit= InspectFrame.unit or 'target'
-    if not Save().hide and unit and WoWTools_UnitMixin:UnitExists(unit) then
+    if not WoWTools_PaperDollMixin:Save().hide and unit and WoWTools_UnitMixin:UnitExists(unit) then
         local guid= unit and UnitGUID(unit)
         local data= guid and WoWTools_DataMixin.PlayerInfo[guid]
         if data then
@@ -134,10 +129,10 @@ local function Init_UI()
     WoWTools_PaperDollMixin:Init_ShowHideButton(InspectFrame)
 
     function InspectLevelText:set_font_size()
-        WoWTools_LabelMixin:Create(nil, {changeFont=self, size= Save().hide and 12 or 22, justifyH='CENTER'})
+        WoWTools_LabelMixin:Create(nil, {changeFont=self, size= WoWTools_PaperDollMixin:Save().hide and 12 or 22, justifyH='CENTER'})
     end
 
-    if not Save().hide then
+    if not WoWTools_PaperDollMixin:Save().hide then
         InspectLevelText:set_font_size()
     end
 
@@ -149,7 +144,7 @@ local function Init_UI()
     function InspectFrame:set_status_label()
         local unit=self.unit
         local text
-        if not Save().hide and WoWTools_UnitMixin:UnitExists(unit) then
+        if not WoWTools_PaperDollMixin:Save().hide and WoWTools_UnitMixin:UnitExists(unit) then
             local tab={ 1,2,3,15,5,9, 10,6,7,8,11,12,13,14, 16,17}
             local sta, newSta={}, {}
             for _, slotID in pairs(tab) do
@@ -233,15 +228,7 @@ local function Init_UI()
 end
 
 
+--Se llama desde 1_Init.lua (campo blizzard) cuando Blizzard_InspectUI está cargado
 function WoWTools_PaperDollMixin:Init_InspectUI()
-    if C_AddOns.IsAddOnLoaded('Blizzard_InspectUI') then
-        Init_UI()
-    else
-        EventRegistry:RegisterFrameEventAndCallback("ADDON_LOADED", function(owner, arg1)
-             if arg1=='Blizzard_InspectUI' then
-                Init_UI()
-                EventRegistry:UnregisterCallback('ADDON_LOADED', owner)
-            end
-        end)
-    end
+    Init_UI()
 end

@@ -1,8 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_PaperDoll']
-end
-
-
 local function Settings()
     
 
@@ -38,9 +33,9 @@ local function Init_Menu(self, root)
     local tipSub= root:CreateCheckbox(
         WoWTools_L.ENABLE,
     function()
-        return not Save().hide
+        return not WoWTools_PaperDollMixin:Save().hide
     end, function()
-        Save().hide= not Save().hide and true or nil
+        WoWTools_PaperDollMixin:Save().hide= not WoWTools_PaperDollMixin:Save().hide and true or nil
         Settings()
     end)
     WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.PaperDoll.Slots'])
@@ -66,7 +61,7 @@ local function Init(frame)
 
     function btn:settings()
         self:SetAlpha(self:IsMouseOver() and 1 or 0.3)
-        if Save().hide then
+        if WoWTools_PaperDollMixin:Save().hide then
             self:SetNormalAtlas('talents-button-reset')
         else
             self:SetNormalTexture('Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools')

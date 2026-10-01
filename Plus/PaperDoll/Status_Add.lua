@@ -3,9 +3,6 @@ if WoWTools_DataMixin.Player.Ver<120005 then
     return
 end
 
-local function Save()
-    return WoWToolsPlusSave['Plus_PaperDoll']
-end
 local AttributesCategory={}
 local P_PAPERDOLL_STATCATEGORIES= PAPERDOLL_STATCATEGORIES
 
@@ -20,7 +17,7 @@ local P_PAPERDOLL_STATCATEGORIES= PAPERDOLL_STATCATEGORIES
 
 local function Data_Save()
     WoWTools_PaperDollMixin:UpdateStats()
-    Save().PAPERDOLL_STATCATEGORIES= PAPERDOLL_STATCATEGORIES
+    WoWTools_PaperDollMixin:Save().PAPERDOLL_STATCATEGORIES= PAPERDOLL_STATCATEGORIES
 end
 
 
@@ -387,7 +384,7 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.PaperDoll.StatClear'])
 
-    local restName= (Save().PAPERDOLL_STATCATEGORIES and '' or '|cff626262')
+    local restName= (WoWTools_PaperDollMixin:Save().PAPERDOLL_STATCATEGORIES and '' or '|cff626262')
         ..'|A:uitools-icon-refresh:0:0|a'
         ..(WoWTools_L.TRANSMOGRIFY_TOOLTIP_REVERT)
     local tipSub= sub:CreateButton(
@@ -398,7 +395,7 @@ local function Init_Menu(self, root)
         nil,
         {SetValue=function()
             PAPERDOLL_STATCATEGORIES= P_PAPERDOLL_STATCATEGORIES
-            Save().PAPERDOLL_STATCATEGORIES=nil
+            WoWTools_PaperDollMixin:Save().PAPERDOLL_STATCATEGORIES=nil
             WoWTools_PaperDollMixin:UpdateStats()
         end})
         return MenuResponse.Open
@@ -445,13 +442,13 @@ end
 
 --CharacterStatsPane
 local function Init()
-    if Save().notStatusPlus then
+    if WoWTools_PaperDollMixin:Save().notStatusPlus then
         return
     end
 
 
-    if Save().PAPERDOLL_STATCATEGORIES then
-        PAPERDOLL_STATCATEGORIES= Save().PAPERDOLL_STATCATEGORIES
+    if WoWTools_PaperDollMixin:Save().PAPERDOLL_STATCATEGORIES then
+        PAPERDOLL_STATCATEGORIES= WoWTools_PaperDollMixin:Save().PAPERDOLL_STATCATEGORIES
     end
 
 
@@ -513,7 +510,7 @@ local function Init()
     menu:SetupMenu(Init_Menu)
 
     Init=function()
-        _G['WoWToolsPaperDollStatusMenuButton']:SetShown(not Save().notStatusPlus)
+        _G['WoWToolsPaperDollStatusMenuButton']:SetShown(not WoWTools_PaperDollMixin:Save().notStatusPlus)
     end
 end
 
