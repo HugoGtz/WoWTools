@@ -1,9 +1,5 @@
 
 
-local function Save()
-    return WoWToolsPlusSave['Plus_Collection']
-end
-
 local SlotsIcon = {
     "|A:transmog-gearSlot-unassigned-head:0:0|a",--1
     "|A:transmog-gearSlot-unassigned-shoulder:0:0|a",--2
@@ -52,7 +48,7 @@ local function UpdateSlotButtons(self)
     for _, btn in pairs(self.SlotsFrame.Buttons) do
         local collected= 0
         local category
-        if not Save().hideItems then
+        if not WoWTools_CollectionMixin:Save().hideItems then
             local transmogLocation= btn.transmogLocation
             local slotID= transmogLocation:GetSlotID()
             if ( transmogLocation:IsIllusion() ) then
@@ -154,7 +150,7 @@ local function Init_Wardrober_Items()
 
     for _, btn in pairs(WardrobeCollectionFrame.ItemsCollectionFrame.SlotsFrame.Buttons) do
         btn:HookScript('OnEnter', function(self)
-            if Save().hideItems then
+            if WoWTools_CollectionMixin:Save().hideItems then
                 return
             end
             GameTooltip:AddLine(' ')
@@ -350,7 +346,7 @@ local function set_Items_Tooltips(self)--UpdateItems
 
             local itemLinks={}
 
-            if not Save().hideItems and self.transmogLocation then
+            if not WoWTools_CollectionMixin:Save().hideItems and self.transmogLocation then
                 local findLinks={}
                 if self.transmogLocation:IsIllusion() then--WardrobeItemsModelMixin:OnMouseDown(button)
                     local link= get_Link_Item_Type_Source(model.visualInfo.sourceID, 'illusion')--select(2, C_TransmogCollection.GetIllusionStrings(model.visualInfo.sourceID))
@@ -433,7 +429,7 @@ local function set_Items_Tooltips(self)--UpdateItems
             end
 
             local idex
-            if not Save().hideItems then
+            if not WoWTools_CollectionMixin:Save().hideItems then
                 idex= i + idexOffset
                 if not model.Text then
                     model.Text= WoWTools_LabelMixin:Create(model, {color={r=1,g=1,b=1}})
@@ -478,7 +474,7 @@ end
 
 
 local function Init()
-    if Save().hideItems then
+    if WoWTools_CollectionMixin:Save().hideItems then
         return
     end
     WoWTools_DataMixin:Hook(WardrobeCollectionFrame.ItemsCollectionFrame, 'UpdateItems', set_Items_Tooltips)

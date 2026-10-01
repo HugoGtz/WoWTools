@@ -3,11 +3,6 @@ local P_Save={
     --Wardrober_Items_Labels_Scale=1, 
     hideTransmogModelName= true,
 }
-local function Save()
-    return WoWToolsPlusSave['Plus_Collection'] or {}
-end
-
-
 local function Refresh_Pet()
     WoWTools_CollectionMixin:Init_Pet()
     if PetJournal and PetJournal:IsVisible() then
@@ -30,9 +25,9 @@ local function Init_Menu(self, root)
     sub=root:CreateCheckbox(
         WoWTools_L.PETS,
     function()
-        return not Save().hidePets
+        return not WoWTools_CollectionMixin:Save().hidePets
     end, function()
-        Save().hidePets= not Save().hidePets and true or nil
+        WoWTools_CollectionMixin:Save().hidePets= not WoWTools_CollectionMixin:Save().hidePets and true or nil
         Refresh_Pet()
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Collection.Pets'])
@@ -40,10 +35,10 @@ local function Init_Menu(self, root)
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
-            return Save().petListIconSize or 18
+            return WoWTools_CollectionMixin:Save().petListIconSize or 18
         end, setValue=function(value)
-            Save().petListIconSize=value
-            if not Save().hidePets then
+            WoWTools_CollectionMixin:Save().petListIconSize=value
+            if not WoWTools_CollectionMixin:Save().hidePets then
                 Refresh_Pet()
             end
         end,
@@ -62,16 +57,16 @@ local function Init_Menu(self, root)
     sub:CreateButton(
         WoWTools_L.RESET,
     function()
-        Save().petListIconSize=nil
+        WoWTools_CollectionMixin:Save().petListIconSize=nil
         Refresh_Pet()
     end)
 
     sub=root:CreateCheckbox(
         WoWTools_L.HEIRLOOMS,
     function()
-        return not Save().hideHeirloom
+        return not WoWTools_CollectionMixin:Save().hideHeirloom
     end, function()
-        Save().hideHeirloom= not Save().hideHeirloom and true or nil
+        WoWTools_CollectionMixin:Save().hideHeirloom= not WoWTools_CollectionMixin:Save().hideHeirloom and true or nil
         if HeirloomsJournal and HeirloomsJournal:IsShown() then
             HeirloomsJournal:FullRefreshIfVisible()
         end
@@ -83,9 +78,9 @@ local function Init_Menu(self, root)
     sub= root:CreateCheckbox(
         WoWTools_L['WARDROBE+WARDROBE_ITEMS'],
     function()
-        return not Save().hideItems
+        return not WoWTools_CollectionMixin:Save().hideItems
     end, function()
-        Save().hideItems= not Save().hideItems and true or nil
+        WoWTools_CollectionMixin:Save().hideItems= not WoWTools_CollectionMixin:Save().hideItems and true or nil
         WoWTools_CollectionMixin:Init_Wardrober_Items()
     end)
     sub:SetTooltip(function(tooltip)
@@ -96,9 +91,9 @@ local function Init_Menu(self, root)
     sub= root:CreateCheckbox(
         WoWTools_L['WARDROBE+WARDROBE_SETS'],
     function()
-        return not Save().hideSets
+        return not WoWTools_CollectionMixin:Save().hideSets
     end, function()
-        Save().hideSets= not Save().hideSets and true or nil
+        WoWTools_CollectionMixin:Save().hideSets= not WoWTools_CollectionMixin:Save().hideSets and true or nil
         WoWTools_CollectionMixin:Init_Wardrober_Sets()
     end)
     sub:SetTooltip(function(tooltip)
@@ -110,21 +105,21 @@ local function Init_Menu(self, root)
     sub=root:CreateCheckbox(
         WoWTools_L.ALL_CLASSES,
     function()
-        return not Save().hideHeirloomClassList
+        return not WoWTools_CollectionMixin:Save().hideHeirloomClassList
     end, function()
-        Save().hideHeirloomClassList= not Save().hideHeirloomClassList and true or nil
+        WoWTools_CollectionMixin:Save().hideHeirloomClassList= not WoWTools_CollectionMixin:Save().hideHeirloomClassList and true or nil
         WoWTools_CollectionMixin:Init_ClassList()
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Collection.ClassList'])
 
     WoWTools_MenuMixin:Scale(self, sub,
     function()
-        return Save().Heirlooms_Class_Scale or 1
+        return WoWTools_CollectionMixin:Save().Heirlooms_Class_Scale or 1
     end, function(value)
-        Save().Heirlooms_Class_Scale= value
+        WoWTools_CollectionMixin:Save().Heirlooms_Class_Scale= value
         WoWTools_CollectionMixin:Init_ClassList()
     end, function()
-        Save().Heirlooms_Class_Scale= nil
+        WoWTools_CollectionMixin:Save().Heirlooms_Class_Scale= nil
         WoWTools_CollectionMixin:Init_ClassList()
     end)
 
@@ -133,7 +128,7 @@ local function Init_Menu(self, root)
 end
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     WoWTools_CollectionMixin:Init_Mount()
     WoWTools_CollectionMixin:Init_Pet()
     WoWTools_CollectionMixin:Init_ToyBox()
@@ -146,49 +141,23 @@ local function Init()
     btn:SetPoint('RIGHT', CollectionsJournalCloseButton, 'LEFT')
     btn:SetupMenu(Init_Menu)
 
-    Init=function()end
-end
-
-
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWToolsPlus' then
-
-            WoWToolsPlusSave['Plus_Collection']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Collection'], P_Save)
-            P_Save=nil
-
-            WoWTools_CollectionMixin.addName= '|A:UI-HUD-MicroMenu-Collections-Mouseover:0:0|a'..(WoWTools_L['Module.Collections'])
-
-            WoWTools_PanelMixin:OnlyCheck({
-                name= WoWTools_CollectionMixin.addName,
-                GetValue= function() return not Save().disabled end,
-                SetValue= function()
-                    Save().disabled= not Save().disabled and true or nil
-                end,
-                tooltip=WoWTools_L['Tip.Collection.Enable']..'|n|n'..WoWTools_L.REQUIRES_RELOAD
-            })
-
-            if Save().disabled then
-                self:SetScript('OnEvent', nil)
-                self:UnregisterEvent(event)
-            else
-                WoWTools_CollectionMixin:Init_DressUpFrames()
-                WoWTools_CollectionMixin:Init_Transmog()
-
-                if C_AddOns.IsAddOnLoaded('Blizzard_Collections') then
-                    Init()
-                    self:SetScript('OnEvent', nil)
-                    self:UnregisterEvent(event)
-                end
-            end
-
-        elseif arg1=='Blizzard_Collections' and WoWToolsPlusSave then
-            Init()
-            self:SetScript('OnEvent', nil)
-            self:UnregisterEvent(event)
-        end
-    end
 end)
+
+
+--Módulo registrado con la API común (docs/REFACTOR.md, R1)
+WoWTools_Module:Register({
+    key= 'Plus_Collection',
+    name= 'Module.Collections',
+    icon= 'UI-HUD-MicroMenu-Collections-Mouseover',
+    group= 'Character',
+    defaults= P_Save,
+    tooltip= 'Tip.Collection.Enable',
+    mixin= WoWTools_CollectionMixin,
+    onEnable= function()
+        WoWTools_CollectionMixin:Init_DressUpFrames()
+        WoWTools_CollectionMixin:Init_Transmog()
+    end,
+    blizzard= {Blizzard_Collections= function()
+        Init()
+    end},
+})

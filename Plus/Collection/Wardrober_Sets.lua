@@ -1,7 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_Collection'] or {}
-end
-
 local SetsDataProvider
 local TipsLabel
 
@@ -12,7 +8,7 @@ local function Init_Button(btn)
     end
 
     btn:SetScript("OnEnter",function(self)
-        if not Save().hideSets then
+        if not WoWTools_CollectionMixin:Save().hideSets then
             GameTooltip:SetOwner(self.Icon or self, "ANCHOR_LEFT")--,8,-300)
             GameTooltip:ClearLines()
             --GameTooltip:AddDoubleLine('setID', self.setID)
@@ -74,7 +70,7 @@ local function Set_List_Button(btn, displayData)
 
     local setID= displayData.setID or btn.setID
 
-    if Save().hideSets or not setID then
+    if WoWTools_CollectionMixin:Save().hideSets or not setID then
         if btn.set_Rest then
             btn:set_Rest()
         end
@@ -151,7 +147,7 @@ end
 
 
 local function Init_Wardrobe_DetailsFrame(_, itemFrame)
-    if Save().hideSets  then
+    if WoWTools_CollectionMixin:Save().hideSets  then
         if itemFrame.indexbtn then
             for i = 1, itemFrame.indexbtn do
                 local btn=itemFrame['btn'..i]
@@ -234,7 +230,7 @@ end
 
 
 local function Init()
-    if Save().hideSets then
+    if WoWTools_CollectionMixin:Save().hideSets then
         return
     end
 
@@ -254,14 +250,14 @@ local function Init()
         if not btn:IsVisible() then
             return
         end
-        if buttonName == "LeftButton" or not Save().hideSets then
+        if buttonName == "LeftButton" or not WoWTools_CollectionMixin:Save().hideSets then
             TipsLabel:SetText(btn.tooltip or '')
         else
             TipsLabel:SetText("")
         end
     end)
     detailsFrame:HookScript('OnShow', function()
-        if Save().hideSets then
+        if WoWTools_CollectionMixin:Save().hideSets then
             TipsLabel:SetText('')
         end
     end)

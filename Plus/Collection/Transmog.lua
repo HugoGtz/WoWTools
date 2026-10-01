@@ -1,10 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['Plus_Collection']
-end
-
-
-
 local function Create_ModelName(frame)
     frame.Name= frame:CreateFontString(nil, 'ARTWORK', 'WoWToolsFont')
     frame.Name:SetPoint('BOTTOMLEFT')
@@ -43,9 +37,9 @@ local function Init_Menu(self, root)
     sub=root:CreateCheckbox(
         WoWTools_L['Model: show name'],
     function()
-        return not Save().hideTransmogModelName
+        return not WoWTools_CollectionMixin:Save().hideTransmogModelName
     end, function()
-        Save().hideTransmogModelName= not Save().hideTransmogModelName and true or nil
+        WoWTools_CollectionMixin:Save().hideTransmogModelName= not WoWTools_CollectionMixin:Save().hideTransmogModelName and true or nil
         WoWTools_CollectionMixin:Refresh_TransmogItems()
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Collection.ModelName'])
@@ -90,7 +84,7 @@ local function Init()
 
     WoWTools_DataMixin:Hook(TransmogItemModelMixin, 'UpdateItem', function(self)
         local itemLink
-        if not Save().hideTransmogModelName and self.elementData then
+        if not WoWTools_CollectionMixin:Save().hideTransmogModelName and self.elementData then
             local link= self.GetAppearanceLink and self:GetAppearanceLink() or (self.GetIllusionLink and self:GetIllusionLink())
             itemLink= WoWTools_ItemMixin:GetName(nil, link, nil, {notCount=true, label=self.Name})
         end
@@ -102,7 +96,7 @@ local function Init()
     end)
     WoWTools_DataMixin:Hook(TransmogSetModelMixin, 'UpdateSet', function(self)
         local name
-        if self.elementData and not Save().hideTransmogModelName then
+        if self.elementData and not WoWTools_CollectionMixin:Save().hideTransmogModelName then
             local totalQuality = 0
             local numTotalSlots = 0
             local waitingOnQuality = false
@@ -145,7 +139,7 @@ local function Init()
 
     WoWTools_DataMixin:Hook(TransmogCustomSetModelMixin, 'UpdateSet', function(self)
         local name
-        if self.elementData and not Save().hideTransmogModelName then
+        if self.elementData and not WoWTools_CollectionMixin:Save().hideTransmogModelName then
             local icon
             name, icon= C_TransmogCollection.GetCustomSetInfo(self.elementData.customSetID)
             if name then

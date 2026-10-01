@@ -1,9 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['Plus_Collection'] or {}
-end
-
-
 local ListButton
 local ClassButton={}
 local SpecButton={}
@@ -139,7 +134,7 @@ end
 
 
 local function Init()
-    if Save().hideHeirloomClassList then
+    if WoWTools_CollectionMixin:Save().hideHeirloomClassList then
         return
     end
 
@@ -187,7 +182,7 @@ local function Init()
     end
 
     function ListButton:set_scale()
-        self.frame:SetScale(Save().Heirlooms_Class_Scale or 1)
+        self.frame:SetScale(WoWTools_CollectionMixin:Save().Heirlooms_Class_Scale or 1)
     end
 
 
@@ -204,7 +199,7 @@ local function Init()
 
     Init=function()
         ListButton:set_scale()
-        ListButton:SetShown(not Save().hideHeirloomClassList)
+        ListButton:SetShown(not WoWTools_CollectionMixin:Save().hideHeirloomClassList)
     end
 end
 

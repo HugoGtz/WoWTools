@@ -1,17 +1,6 @@
 
 
 
-local function Save()
-    return WoWToolsPlusSave['Plus_Collection']
-end
-
-
-
-
-
-
-
-
 local Button
 
 local function UpdateMountDisplay()
@@ -33,12 +22,12 @@ local function UpdateMountDisplay()
     Button.Bg:SetAllPoints(Button.text)
 
     function Button:set_Alpha()
-        self:GetNormalTexture():SetAlpha(Save().ShowMountDisplayInfo and 0.2 or 0.5)
+        self:GetNormalTexture():SetAlpha(WoWTools_CollectionMixin:Save().ShowMountDisplayInfo and 0.2 or 0.5)
     end
     function Button:set_Tooltips()
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddDoubleLine(WoWTools_L['SHOW+INFO'], WoWTools_TextMixin:GetShowHide(not Save().ShowMountDisplayInfo))
+        GameTooltip:AddDoubleLine(WoWTools_L['SHOW+INFO'], WoWTools_TextMixin:GetShowHide(not WoWTools_CollectionMixin:Save().ShowMountDisplayInfo))
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_CollectionMixin.addName)
         GameTooltip:Show()
@@ -46,7 +35,7 @@ local function UpdateMountDisplay()
     function Button:set_Text()
 
         local text
-        if Save().ShowMountDisplayInfo then
+        if WoWTools_CollectionMixin:Save().ShowMountDisplayInfo then
             if MountJournal.selectedMountID then
                 local creatureDisplayInfoID, _, _, isSelfMount, mountTypeID, uiModelSceneID, animID, spellVisualKitID, disablePlayerMountPreview = C_MountJournal.GetMountInfoExtraByID(MountJournal.selectedMountID)
                 text= 'mountID |cffffffff'..MountJournal.selectedMountID
@@ -70,7 +59,7 @@ local function UpdateMountDisplay()
         self.Bg:SetShown(text)
     end
     Button:SetScript('OnClick', function(self)
-        Save().ShowMountDisplayInfo= not Save().ShowMountDisplayInfo and true or nil
+        WoWTools_CollectionMixin:Save().ShowMountDisplayInfo= not WoWTools_CollectionMixin:Save().ShowMountDisplayInfo and true or nil
         self:set_Text()
         self:set_Alpha()
         self:set_Tooltips()

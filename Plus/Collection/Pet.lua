@@ -1,14 +1,5 @@
 --Blizzard_PetCollection.lua
 
-local function Save()
-    return WoWToolsPlusSave['Plus_Collection']
-end
-
-
-
-
-
-
 local function Set_Script_Type(texture)
     texture:EnableMouse(true)
 
@@ -62,7 +53,7 @@ local function Set_Type(frame, petType, isRight)
     end
 
     local strongTexture, weakHintsTexture, strongIndex, weakHintsIndex
-    if not Save().hidePets then
+    if not WoWTools_CollectionMixin:Save().hidePets then
         strongTexture, weakHintsTexture, strongIndex, weakHintsIndex= WoWTools_PetBattleMixin:GetPetStrongWeakHints(petType)
     else
         petType= nil
@@ -102,7 +93,7 @@ end
 
 
 local function Init()
-    if Save().hidePets then
+    if WoWTools_CollectionMixin:Save().hidePets then
         return
     end
 
@@ -111,7 +102,7 @@ local function Init()
     PetJournal.PetCount.Label:SetJustifyH('RIGHT')
 
     WoWTools_DataMixin:Hook('PetJournal_UpdatePetList', function()
-        if not PetJournal:IsVisible() or Save().hidePets then
+        if not PetJournal:IsVisible() or WoWTools_CollectionMixin:Save().hidePets then
             return
         end
         PetJournal.PetCount.Count:SetFormattedText('%d/%d', C_PetJournal.GetNumPets())
@@ -119,8 +110,8 @@ local function Init()
 
     WoWTools_DataMixin:Hook('PetJournal_InitPetButton', function(pet, data)
         local abilityIconA, abilityIconB
-        if not Save().hidePets and Save().petListIconSize~=0 then
-            abilityIconA, abilityIconB= WoWTools_PetBattleMixin:GetAbilityIcon(data.speciesID, data.index, data.petID, true, Save().petListIconSize or 18)
+        if not WoWTools_CollectionMixin:Save().hidePets and WoWTools_CollectionMixin:Save().petListIconSize~=0 then
+            abilityIconA, abilityIconB= WoWTools_PetBattleMixin:GetAbilityIcon(data.speciesID, data.index, data.petID, true, WoWTools_CollectionMixin:Save().petListIconSize or 18)
         end
         if not pet.abilityLabel then
             pet.abilityLabel= WoWTools_LabelMixin:Create(pet, {layer='OVERLAY'})
@@ -183,7 +174,7 @@ local function Init()
         end
 
         local strongTexture, weakHintsTexture, strongIndex, weakHintsIndex
-        if not Save().hidePets then
+        if not WoWTools_CollectionMixin:Save().hidePets then
             strongTexture, weakHintsTexture, strongIndex, weakHintsIndex= WoWTools_PetBattleMixin:GetPetStrongWeakHints(petType)
         end
 
@@ -213,7 +204,7 @@ local function Init()
 
     WoWTools_DataMixin:Hook('PetJournal_UpdatePetLoadOut', function()
         local frame, petType, nextAbilityID
-        local isEnabled= not Save().hidePets
+        local isEnabled= not WoWTools_CollectionMixin:Save().hidePets
         for i=1, 3 do--MAX_ACTIVE_PETS
             local loadoutPlate = PetJournal.Loadout["Pet"..i]
             local petID = C_PetJournal.GetPetLoadOutInfo(i)

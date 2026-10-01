@@ -1,15 +1,9 @@
 --Blizzard_HeirloomCollection.lua
-local function Save()
-    return WoWToolsPlusSave['Plus_Collection'] or {}
-end
-
-
-
 local function Init()
     if PlayerIsTimerunning() then
         Init=function()end
         return
-    elseif  Save().hideHeirloom then--10.2.7
+    elseif  WoWTools_CollectionMixin:Save().hideHeirloom then--10.2.7
         return
     end
 
@@ -20,7 +14,7 @@ local function Init()
             return
         end
 
-        if Save().hideHeirloom then
+        if WoWTools_CollectionMixin:Save().hideHeirloom then
             if button.isPvP then
                 button.isPvP:SetShown(false)
             end
