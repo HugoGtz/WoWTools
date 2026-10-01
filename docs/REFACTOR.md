@@ -48,6 +48,8 @@ Lo que hace por dentro, igual para todos:
 - Aplica `SetDefaults`, crea `addName` con icono y la casilla del panel en su grupo.
 - Si el módulo está desactivado, no arranca nada.
 - `onEnable` se ejecuta **una sola vez** (se acaba el truco `Init=function()end`).
+- `onLoad` se ejecuta siempre, aunque el módulo esté desactivado (páginas de opciones propias, contadores).
+- `events` = eventos del juego con un único marco para todos los módulos (devolver true deja de escucharlo).
 - Las funciones de `blizzard` se ejecutan cuando esa ventana está cargada (ya o más tarde), con `EventUtil.ContinueOnAddOnLoaded`.
 
 Además:
@@ -122,7 +124,7 @@ resolvedor de `WoWTools_L`, `TextMixin:Magic`, `TextMixin:sub` (UTF-8), `MK`, `S
   - [x] API de módulos `WoWTools_Module:Register` + despachador único de eventos
   - [x] Escaneo de bolsas compartido (ver docs/MEJORAS.md, sección 4)
   - [x] Selector de color migrado a la API
-- [ ] R2 migración de módulos (1/28: Selector de color)
+- [ ] R2 migración de módulos (21/28; faltan Personaje, Míticas+, Herramientas, Botón de chat, Mover marcos, Texturas/Barras de acción, Otros)
 - [ ] R3 esperas de Blizzard unificadas
 - [ ] R4 funciones gigantes (0/7; `Init_TypeTabs_Data` se fue con la ventana de objetos)
 - [ ] R5 orden y nombres
