@@ -127,20 +127,6 @@ local function Init_Guild_Menu(self, root)
 
 
 
-    sub:CreateDivider()
-    sub2=sub:CreateCheckbox(WoWTools_L.GUILD_INFORMATION, function()
-        return Save().guildInfo
-    end, function()
-        Save().guildInfo= not Save().guildInfo and true or nil
-        self:set_guildinfo_event()
-    end)
-    sub2:SetTooltip(function(tooltip)
-        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Guild.GuildInfo'])
-        tooltip:AddLine(WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Guild.text)
-    end)
-
-
-
     sub:CreateSpacer()
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {

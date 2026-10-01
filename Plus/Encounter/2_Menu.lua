@@ -167,16 +167,8 @@ local function Init()
         icon:SetPoint('BOTTOMRIGHT', 2, -2)
     end
 
-    local wow= WoWTools_DataMixin:CreateWoWItemListButton(menu, {
-        name='WoWToolsEncounterJournalWoWButton',
-        type='Instance',
-        alpha=1,
-    })
-    wow:SetPoint('RIGHT', great, 'LEFT', -4, 0)
-
-
     local key =WoWTools_ButtonMixin:Cbtn(menu, {size=22})
-    key:SetPoint('RIGHT', wow, 'LEFT', -4, 0)
+    key:SetPoint('RIGHT', great, 'LEFT', -4, 0)
     key.texture= key:CreateTexture(nil,'BORDER')
     key.texture:SetPoint('TOPLEFT', 2, -2)
     key.texture:SetPoint('BOTTOMRIGHT', -2, 2)

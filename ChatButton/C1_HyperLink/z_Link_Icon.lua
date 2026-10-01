@@ -667,19 +667,9 @@ end
 local function Init()
     IsShowTimestamps= C_CVar.GetCVar('showTimestamps')~='none'
 
-    EventRegistry:RegisterFrameEventAndCallback("CVAR_UPDATE", function(_, arg1, arg2, ...)
+    EventRegistry:RegisterFrameEventAndCallback("CVAR_UPDATE", function(_, arg1, arg2)
         if arg1=='showTimestamps' then
             IsShowTimestamps= arg2~='none'
-        end
-        if Save().showCVarName then
-            WoWTools_Print(
-                WoWTools_DataMixin.Icon.icon2
-                ..'|A:voicechat-icon-STT-on:0:0|a|cffff00ffCVar|r|cff00ff00',
-                arg1,
-                '|r',
-                arg2,
-                ...
-            )
         end
     end)
 

@@ -545,10 +545,6 @@ local function Init()
     KeyButton:SetScript('OnEvent', function(self)
         C_Timer.After(2, function() self:set_settings() end)
     end)
-
-    KeyButton:SetScript('OnMouseDown', function()
-        WoWTools_DataMixin:OpenWoWItemListFrame()
-    end)
     --KeyButton:set_settings()
 
 

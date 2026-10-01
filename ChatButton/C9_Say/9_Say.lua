@@ -18,10 +18,6 @@ local addName
 local SayButton
 
 
- local function set_chatBubbles_Tips()
-    SayButton.tipBubbles:SetShown(not C_CVar.GetCVarBool("chatBubbles"))
-end
-
 
 --#######
 --#######
@@ -93,23 +89,12 @@ local function getWhisper(event, text, name, _, _, _, _, _, _, _, _, _, guid, bn
 end
 
 
-local function set_InInstance_Disabled_Bubbles()
-    if Save().inInstanceBubblesDisabled and not InCombatLockdown() then
-        if select(2, IsInInstance())~='none' then
-            C_CVar.SetCVar("chatBubbles", '0')
-        else
-            C_CVar.SetCVar("chatBubbles", '1')
-        end
-    end
-end
-
-
 local function Init_Menu(self, root)
     if not self:IsMouseOver() then
         return
     end
 
-    local sub, sub2, sub3, name, num
+    local sub, sub2, name, num
     --local isInCombat= InCombatLockdown()
 
     local chatType={
@@ -383,41 +368,6 @@ local function Init_Menu(self, root)
         end)
     end
     WoWTools_MenuMixin:SetScrollMode(sub)
-
-
-
-
-    root:CreateDivider()
-    sub2=root:CreateCheckbox(WoWTools_L.CHAT_BUBBLES_TEXT, function()
-        return C_CVar.GetCVarBool("chatBubbles")
-    end, function()
-        if not InCombatLockdown() then
-            C_CVar.SetCVar("chatBubbles", not C_CVar.GetCVarBool("chatBubbles") and '1' or '0')
-        else
-            WoWTools_Print(
-                addName..WoWTools_DataMixin.Icon.icon2,
-                WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT
-            )
-        end
-    end)
-    sub2:SetTooltip(function(tooltip)
-        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Say.Bubbles'])
-        tooltip:AddLine('C_CVar.SetCVar(\"chatBubbles\")')
-    end)
-
-    sub3=sub2:CreateCheckbox(WoWTools_L.SELF_CAST_AUTO, function()
-        return Save().inInstanceBubblesDisabled
-    end, function()
-        Save().inInstanceBubblesDisabled= not Save().inInstanceBubblesDisabled and true or nil
-        set_InInstance_Disabled_Bubbles()
-    end)
-
-    sub3:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_L.CHAT_BUBBLES_TEXT)
-        tooltip:AddLine(' ')
-        tooltip:AddDoubleLine((WoWTools_L.AGGRO_WARNING_IN_INSTANCE)..':', WoWTools_TextMixin:GetEnabeleDisable(false))
-        tooltip:AddDoubleLine((WoWTools_L.OTHER)..':', WoWTools_TextMixin:GetEnabeleDisable(true))
-    end)
 end
 
 
@@ -426,11 +376,6 @@ end
 local function Init()
     SayButton.typeText=WoWTools_LabelMixin:Create(SayButton, {color=true})--10, nil, nil, true)
     SayButton.typeText:SetPoint('BOTTOM',0,2)
-
-    SayButton.tipBubbles= SayButton:CreateTexture(nil, 'OVERLAY')
-    SayButton.tipBubbles:SetSize(8, 8)
-    SayButton.tipBubbles:SetPoint('TOPLEFT', 3, -0)
-    SayButton.tipBubbles:SetAtlas('talents-button-reset')
 
     SayButton.numWhisper=WoWTools_LabelMixin:Create(SayButton, {color={r=0,g=1,b=0}})
     SayButton.numWhisper:SetPoint('TOPRIGHT',-3, 0)
@@ -485,7 +430,6 @@ local function Init()
 
 
     SayButton:settings(Save().type, Save().text, Save().name, Save().isWoW)
-    set_chatBubbles_Tips()
     set_numWhisper_Tips()
 
     Init=function()end
@@ -514,8 +458,6 @@ panel:SetScript("OnEvent", function(self, event, arg1, arg2, ...)
                 self:RegisterEvent("CHAT_MSG_WHISPER")
                 self:RegisterEvent("CHAT_MSG_BN_WHISPER")
                 self:RegisterEvent("CHAT_MSG_BN_WHISPER_INFORM")
-                self:RegisterEvent('PLAYER_ENTERING_WORLD')
-                self:RegisterEvent('CVAR_UPDATE')
 
                 if #Save().WhisperTab>120 then
                     for i=121, #Save().WhisperTab do
@@ -539,11 +481,5 @@ panel:SetScript("OnEvent", function(self, event, arg1, arg2, ...)
 
     elseif event=='CHAT_MSG_WHISPER_INFORM' or event=='CHAT_MSG_WHISPER' or event=='CHAT_MSG_BN_WHISPER' or event=='CHAT_MSG_BN_WHISPER_INFORM' then
         getWhisper(event, arg1, arg2, ...)
-
-    elseif event== 'PLAYER_ENTERING_WORLD' then
-        set_InInstance_Disabled_Bubbles()
-
-    elseif event=='CVAR_UPDATE' and arg1=='chatBubbles' then
-        set_chatBubbles_Tips()
     end
 end)

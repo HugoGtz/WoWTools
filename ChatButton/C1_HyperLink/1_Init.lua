@@ -1,7 +1,6 @@
 local P_Save={
 
     linkIcon=true,
-    showCVarName=nil,
 
     channels={
     },
@@ -28,7 +27,6 @@ end
 
 local function Init()
     local btn= WoWTools_ChatMixin:GetButtonForName('HyperLink')
-    WoWTools_HyperLink:Init_EventTrace()
     WoWTools_HyperLink:Blizzard_Settings()
     WoWTools_HyperLink:Init_Menu()
 

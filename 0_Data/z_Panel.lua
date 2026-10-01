@@ -124,16 +124,6 @@ local function Init_Data()
     })
 
 
-    WoWTools_PanelMixin:OnlyButton({
-        title= WoWTools_DataMixin.Icon.wow2..WoWTools_L['ACCOUNT_QUEST_LABEL+ITEMS'],
-        buttonText= WoWTools_L.SHOW,
-        SetValue= function()
-           WoWTools_DataMixin:OpenWoWItemListFrame()
-        end,
-        tooltip= WoWTools_L['Tip.Panel.WarbandItems']
-    })
-
-
 
 
 

@@ -29,7 +29,6 @@ Source\Libs\LibRangeCheck-3.0.lua
 0_Data\4_DataMixn_NeedUpdate.lua
 0_Data\5_MapIDAchievements.lua
 0_Data\6_Cached.lua
-0_Data\z_WoWItemList.lua
 
 1_Mixin\StaticPopupDialogs.lua
 1_Mixin\Button.lua
@@ -357,7 +356,6 @@ ChatButton\C1_HyperLink\0_HyperLinkMixin.lua
 ChatButton\C1_HyperLink\1_Init.lua
 ChatButton\C1_HyperLink\2_Menu.lua
 ChatButton\C1_HyperLink\3_Options.lua
-ChatButton\C1_HyperLink\z_EventTrace.lua
 ChatButton\C1_HyperLink\z_Link_Icon.lua
 ChatButton\C1_HyperLink\z_Event_Sound.lua
 ChatButton\C1_HyperLink\z_Reload_Button.lua

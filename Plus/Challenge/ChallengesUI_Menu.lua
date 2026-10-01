@@ -452,7 +452,6 @@ sub:CreateTitle(name)
 
 
     root:CreateDivider()
-    --WoWTools_DataMixin:OpenWoWItemListMenu(self, root, 'Instance')
 
 
     sub=root:CreateButton(
@@ -478,14 +477,6 @@ local function Init()
     btn:SetFrameLevel(PVEFrame.TitleContainer:GetFrameLevel()+1)
 
     btn:SetupMenu(Init_Menu)
-
-    local wow= WoWTools_DataMixin:CreateWoWItemListButton(ChallengesFrame, {
-        name='WoWToolsChallengesFrameWoWItemButton',
-        type='Instance'
-    })
-    wow:SetFrameLevel(PVEFrameCloseButton:GetFrameLevel()+1)
-    wow:SetFrameStrata(PVEFrameCloseButton:GetFrameStrata())
-    wow:SetPoint('RIGHT', btn, 'LEFT')
 
     Init=function()end
 end

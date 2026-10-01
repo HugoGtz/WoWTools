@@ -87,7 +87,7 @@ local function Init()
 
     function btn:set_guildinfo_event()
         self:UnregisterEvent('CHAT_MSG_SYSTEM')
-        if IsInGuild() and (Save().guildInfo or not WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Guild.text) then
+        if IsInGuild() and not WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Guild.text then
             self:RegisterEvent('CHAT_MSG_SYSTEM')
             GuildInfo()
         end

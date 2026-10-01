@@ -33,18 +33,6 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Attributes.Show'])
 
-    sub=root:CreateButton(
-        '|A:communities-icon-chat:0:0|a'..(WoWTools_L.SEND_MESSAGE),
-    function()
-        self:send_Att_Chat()
-        return MenuResponse.Open
-    end)
-    sub:SetTooltip(function(tooltip)
-        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Attributes.SendMessage'])
-        tooltip:AddLine(self:get_sendTextTips())
-        tooltip:AddLine(self:get_Att_Text_Chat())
-    end)
-
     root:CreateDivider()
     WoWTools_MenuMixin:Set_Specialization(root)
 

@@ -16,73 +16,6 @@ local function Init()
     button.classPortrait:SetAtlas('bag-reagent-border')
     WoWTools_TextureMixin:SetAlphaColor(button.classPortrait, true)
 
-    function button:get_Att_Text_Chat()
-        local text=''
-        local specIndex= GetSpecialization()
-        if specIndex then
-            local specID= C_SpecializationInfo.GetSpecializationInfo(specIndex)
-            if specID then
-                local specTab= C_SpecializationInfo.GetSpellsDisplay(specID) or {}
-                for _, spellID in pairs (specTab) do
-                    local link= C_Spell.GetSpellLink(spellID)
-                    if link then
-                        text= link
-                        break
-                    end
-                end
-            end
-        end
-        local maxHealth= UnitHealthMax('player')
-        if canaccessvalue(maxHealth) then
-            text= text..'HP'..WoWTools_DataMixin:MK(maxHealth, 0)
-        end
-
-        for _, info in pairs(WoWTools_AttributesMixin:Get_Tabs()) do
-            local frame=button[info.name]
-            if not info.hide and info.name~='SPEED' and frame and frame:IsShown() and frame.value and frame.value>0 then
-                local value= frame.text:GetText()
-                if value then
-                    text= text..', '..info.text..value
-                end
-            end
-        end
-        return text
-    end
-
-    function button:get_sendTextTips()
-        if ChatEdit_GetActiveWindow() then
-            return WoWTools_L['EDIT~2']
-
-        elseif WoWTools_UnitMixin:UnitGUID('target') and UnitIsPlayer('target') and not WoWTools_UnitMixin:UnitIsUnit('player', 'target') then
-            return (WoWTools_L.SLASH_TEXTTOSPEECH_WHISPER)..': '.. GetUnitName('target', true)
-
-        elseif not UnitIsDeadOrGhost('player') and IsInInstance() then
-            return (WoWTools_L.SAY)
-
-        elseif IsInRaid() then
-            return WoWTools_L['Say: raid']
-
-        elseif IsInGroup() then
-            return WoWTools_L['Say: party']
-
-        else
-            return WoWTools_L.SAY
-        end
-    end
-
-    function button:send_Att_Chat()
-        local text= self:get_Att_Text_Chat()
-        if ChatEdit_GetActiveWindow() then
-            ChatEdit_InsertLink(text)
-        else
-            local name
-            if WoWTools_UnitMixin:UnitGUID('target') and UnitIsPlayer('target') and not WoWTools_UnitMixin:UnitIsUnit('player', 'target') then
-                name= GetUnitName('target', true)
-            end
-            WoWTools_ChatMixin:Chat(text, name, nil)
-        end
-    end
-
     function button:set_Show_Hide()
         self.frame:SetShown(not Save().hide)
         self.texture:SetAlpha(Save().hide and 1 or Save().buttonAlpha or 0.3)
@@ -130,7 +63,6 @@ local function Init()
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(WoWTools_L.SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
         GameTooltip:AddDoubleLine(WoWTools_TextMixin:GetShowHide(not Save().hide), WoWTools_DataMixin.Icon.mid)
-        GameTooltip:AddDoubleLine(self:get_sendTextTips(), 'Shift+'..WoWTools_DataMixin.Icon.right)
         GameTooltip:AddDoubleLine(WoWTools_L.NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)
         GameTooltip:Show()
     end
@@ -148,9 +80,6 @@ local function Init()
                 '|cnGREEN_FONT_COLOR:'..(WoWTools_L.DAMAGE_METER_RESET_ALL_SESSIONS)..'|r',
                 WoWTools_L.STATUS_TEXT_VALUE
             )
-
-        elseif d=='RightButton' and IsShiftKeyDown() then
-            self:send_Att_Chat()
 
         elseif d=='RightButton' and not IsModifierKeyDown() then
             WoWTools_AttributesMixin:Init_Menu(self)

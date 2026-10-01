@@ -49,13 +49,6 @@ local function Init()
         if KeybindFrames_InQuickKeybindMode() then
             return
         end
-         GameTooltip:AddLine(
-            WoWTools_DataMixin.Icon.wow2
-            ..'|cnGREEN_FONT_COLOR:<'
-            ..(WoWTools_L['ACCOUNT_QUEST_LABEL+ITEMS~2'])
-            ..WoWTools_DataMixin.Icon.mid
-            ..'>'
-        )
         GameTooltip:AddLine(' ')
 
         local numPlayer, allMoney= 0, 0
@@ -202,12 +195,6 @@ local function Init()
         if d=='RightButton' and not KeybindFrames_InQuickKeybindMode() and not InCombatLockdown() then--and not C_CVar.GetCVarBool("combinedBags") then
             ToggleAllBags()
         end
-    end)
-
-    MainMenuBarBackpackButton:EnableMouseWheel(true)
-    MainMenuBarBackpackButton:SetScript('OnMouseWheel', function(_, d)
-        local isShow= d==1
-        WoWTools_DataMixin:OpenWoWItemListFrame('Item', isShow)
     end)
 
 

@@ -17,7 +17,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
             WoWToolsPlusSave['Plus_FriendsList']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_FriendsList'], {
                 Friends={},
-                disabledBNFriendInfo=true and true or nil,
             })
 
             WoWTools_FriendsMixin.addName= '|A:socialqueuing-icon-group:0:0|a'..(WoWTools_L['Module.Friends list'])

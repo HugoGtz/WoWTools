@@ -60,8 +60,6 @@ local function Settings(self)
 
     self.textureNotInstance:SetShown(isInRaid and not isInInstance)
 
-    self.tipBubbles:SetShown(not C_CVar.GetCVarBool("chatBubblesParty"))
-
     local text= WoWTools_GroupMixin:Get_ReadyText()
     self.readyCheckTexture:SetAtlas(text:match('|A:(.-):'))
 end
@@ -108,7 +106,6 @@ local function Init_Menu(self, root)
     local isInInstance= select(2, IsInInstance())~='none'
     local num= GetNumGroupMembers() or 0
     local le= UnitIsGroupAssistant('player') or  UnitIsGroupLeader('player')
-    local isInBat= InCombatLockdown()
 
     for _, tab in pairs({
         {'p', (not isInGroup)},--/p
@@ -209,34 +206,6 @@ end
             hex..(WoWTools_L['COMMUNITIES_EDIT_DIALOG_CROSS_FACTION+HUD_EDIT_MODE_SETTING_UNIT_FRAME_SORT_BY_SETTING_GROUP']),
             hex..WoWTools_TextMixin:GetYesNo(isCrossFactionParty)..' #'..crossNum..' '..(WoWTools_L.PLAYERS_IN_GROUP)
         )
-    end)
-
-
-
-
-    sub=root:CreateCheckbox(
-        (isInBat and '|cff626262' or '')
-        ..(WoWTools_L.PARTY_CHAT_BUBBLES_TEXT),
-    function()
-        return C_CVar.GetCVarBool("chatBubblesParty")
-    end, function()
-        if not InCombatLockdown() then
-            C_CVar.SetCVar("chatBubblesParty", C_CVar.GetCVarBool("chatBubblesParty") and '0' or '1')
-            WoWTools_Print(
-                WoWTools_GroupMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                WoWTools_L.PARTY_CHAT_BUBBLES_TEXT,
-                WoWTools_TextMixin:GetEnabeleDisable(C_CVar.GetCVarBool("chatBubblesParty"))
-            )
-        else
-            WoWTools_Print(
-                WoWTools_GroupMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT
-            )
-        end
-    end)
-    sub:SetTooltip(function(tooltip)
-        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Group.ChatBubbles'])
-        tooltip:AddLine('CVar: chatBubblesParty')
     end)
 
 
@@ -494,14 +463,9 @@ local function Init()
     GroupButton.membersText=WoWTools_LabelMixin:Create(GroupButton, {color=true})--10, nil, nil, true)
     GroupButton.membersText:SetPoint('TOPRIGHT', -3, 0)
 
-    GroupButton.tipBubbles= GroupButton:CreateTexture(nil, 'OVERLAY')
-    GroupButton.tipBubbles:SetSize(8, 8)
-    GroupButton.tipBubbles:SetPoint('TOPLEFT', 3, 0)
-    GroupButton.tipBubbles:SetAtlas('talents-button-reset')
-
     GroupButton.readyCheckTexture= GroupButton:CreateTexture(nil, 'OVERLAY')
     GroupButton.readyCheckTexture:SetSize(8, 8)
-    GroupButton.readyCheckTexture:SetPoint('TOP', GroupButton.tipBubbles, 'BOTTOM')
+    GroupButton.readyCheckTexture:SetPoint('TOPLEFT', 3, -8)
     
 
     GroupButton.textureNotInstance=GroupButton:CreateTexture(nil,'BACKGROUND')
@@ -593,8 +557,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
                 self:RegisterEvent('GROUP_ROSTER_UPDATE')
 
-                self:RegisterEvent('CVAR_UPDATE')
-
 
                 WoWTools_GroupMixin:Init_AutoReady()
 
@@ -613,9 +575,6 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
     elseif event=='GROUP_LEFT' or event=='GROUP_JOINED' or event=='GROUP_FORMED' then
         ClickType= IsInRaid() and 'r' or 'p'
-        Settings(GroupButton)
-
-    elseif event=='CVAR_UPDATE' and arg1=='chatBubblesParty' then
         Settings(GroupButton)
 
     end

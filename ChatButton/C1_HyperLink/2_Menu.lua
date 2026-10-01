@@ -118,30 +118,6 @@ local function Init_Menu(self, root)
 
     sub:CreateDivider()
     sub2=sub:CreateCheckbox(
-        'CVar '..(WoWTools_L.LFG_LIST_TITLE ),
-    function()
-        return Save().showCVarName
-    end, function()
-        Save().showCVarName= not Save().showCVarName and true or nil
-    end)
-    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.HyperLink.CVarName'])
-    sub2= sub2:CreateButton(
-        WoWTools_L['Test'],
-    function()
-        if InCombatLockdown() then
-            return
-        end
-        local value= C_CVar.GetCVar('guildMemberNotify')
-       if C_CVar.SetCVar('guildMemberNotify', value=='0' and '1' or '0') then
-            C_Timer.After(0.3, function()
-                C_CVar.SetCVar('guildMemberNotify', value)
-            end)
-        end
-        return MenuResponse.Open
-    end)
-    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.HyperLink.CVarTest'])
-
-    sub2=sub:CreateCheckbox(
         (C_SocialRestrictions.IsChatDisabled() and '|cnWARNING_FONT_COLOR:' or '')
         ..(WoWTools_L.RESTRICT_CHAT_CONFIG_DISABLE),
     function()
@@ -226,103 +202,6 @@ local function Init_Menu(self, root)
         return MenuResponse.Open
     end)
 
-
---etrace
-    sub=root:CreateButton('|A:minimap-genericevent-hornicon:0:0|a|cffff00ffETR|rACE', function()
-        if EventTrace and EventTrace:IsVisible() then
-            EventTrace:Hide()
-        else
-            if not EventTrace then
-                UIParentLoadAddOn("Blizzard_EventTrace")
-            end
-            EventTrace:Show()
-        end
-
-        return MenuResponse.Open
-    end)
-
-    sub2=sub:CreateCheckbox(
-        'Plus',
-    function()
-        return not Save().hideEventTracePlus
-    end, function()
-        Save().hideEventTracePlus= not Save().hideEventTracePlus and true or nil
-        WoWTools_HyperLink:Init_EventTrace()
-        if Save().hideEventTracePlus then
-            WoWTools_Print(
-                WoWTools_HyperLink.addName..WoWTools_DataMixin.Icon.icon2,
-                WoWTools_L.REQUIRES_RELOAD
-            )
-        end
-    end)
-    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.HyperLink.EventTracePlus'])
-
-    sub2=sub:CreateCheckbox(
-        'Print',
-    function()
-        return Save().eventTracePrint
-    end, function()
-        Save().eventTracePrint= not Save().eventTracePrint and true or nil
-        WoWTools_Print(
-            WoWTools_HyperLink.addName..WoWTools_DataMixin.Icon.icon2,
-            Save().eventTracePrint and
-                '|cnGREEN_FONT_COLOR:'..(WoWTools_L.START)
-                or ('|cnWARNING_FONT_COLOR:'..(WoWTools_L['CLEAR_ALL~3']))
-            )
-        WoWTools_HyperLink:Init_EventTrace()
-    end)
-    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.HyperLink.EventTracePrint'])
-
-    local tab= WoWTools_HyperLink:Get_EventTrace_Print_Tab()
-    local newTab={}
-    for event, data in pairs(tab) do
-        table.insert(newTab, {event= event, index= data.index, num=data.num, arg= data.arg})
-    end
-
-    if #newTab>0 then
-        table.sort(newTab, function(a, b) return a.index> b.index end)
-
-        sub:CreateDivider()
-        for _, info in pairs(newTab) do
-            sub2=sub:CreateButton(
-                (select(2, math.modf((info.index-1)/2))==0 and '|cff10d3c8' or '|cffd3a21b')..info.index..') '
-                ..info.event..' '..info.num,
-            function(data)
-                WoWTools_ChatMixin:Chat(data.event, nil, true)
-                return MenuResponse.Open
-            end, info)
-            sub2:SetTooltip(function(tooltip, desc)
-                tooltip:AddLine('|cnGREEN_FONT_COLOR:'..(WoWTools_L.CLUB_FINDER_LINK_POST_IN_CHAT)..WoWTools_DataMixin.Icon.left)
-                for arg1, num in pairs(desc.data.arg) do
-                    tooltip:AddDoubleLine(arg1, num)
-                end
-            end)
-        end
-        WoWTools_MenuMixin:SetScrollMode(sub)
-    end
-
-
-
---fstack
-    sub=root:CreateButton('|A:QuestLegendaryTurnin:0:0|a|cff00ff00FST|rACK', function ()
-        if not C_AddOns.IsAddOnLoaded("Blizzard_DebugTools") then
-            C_AddOns.LoadAddOn("Blizzard_DebugTools")
-        end
-        FrameStackTooltip_ToggleDefaults()
-        return MenuResponse.Open
-    end)
-    sub:SetTooltip(function (tooltip)
-        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.HyperLink.FStack'])
-        tooltip:AddLine('|cnGREEN_FONT_COLOR:Alt|r '..(WoWTools_L.HUD_EDIT_MODE_SWITCH))
-        tooltip:AddLine(' ')
-        tooltip:AddLine('|cnGREEN_FONT_COLOR:Ctrl|r '..(WoWTools_L.SHOW))
-        tooltip:AddLine(' ')
-        tooltip:AddLine('|cnGREEN_FONT_COLOR:Shift|r '..(WoWTools_L['TEXTURES_SUBHEADER+INFO']))
-        tooltip:AddLine(' ')
-        tooltip:AddLine('|cnGREEN_FONT_COLOR:Ctrl+C|r '.. (WoWTools_L.CALENDAR_COPY_EVENT)..' \"File\" '..(WoWTools_L.TYPE))
-    end)
-
-    WoWTools_OtherMixin:OpenOption(sub, 'Plus')
 
 
     root:CreateDivider()
