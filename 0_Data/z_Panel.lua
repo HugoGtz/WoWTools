@@ -296,12 +296,12 @@ end)
 --Al iniciar sesión todos los módulos ya han registrado su casilla: se agrupan por tema
 --y después se añade la sección de datos al final de la página.
 local Groups= {
-    {title='Module group: Interface', mixins={'WoWTools_MoveMixin', 'WoWTools_CursorMixin', 'WoWTools_UnitMixin', 'WoWTools_AttributesMixin', 'WoWTools_MainMenuMixin', 'WoWTools_ColorMixin', 'WoWTools_ObjectiveMixin', 'WoWTools_ActionBarsMixin'}, extra={'Auto-fill confirmation words'}},
-    {title='Module group: Chat and social', mixins={'WoWTools_ChatMixin', 'WoWTools_FriendsMixin'}},
-    {title='Module group: Items and gold', mixins={'WoWTools_MailMixin', 'WoWTools_AuctionHouseMixin', 'WoWTools_CurrencyMixin', 'WoWTools_ProfessionMixin', 'WoWTools_GemMixin'}},
-    {title='Module group: Character and collections', mixins={'WoWTools_PaperDollMixin', 'WoWTools_SpellMixin', 'WoWTools_MacroMixin', 'WoWTools_CollectionMixin', 'WoWTools_FactionMixin', 'WoWTools_HunterMixin', 'WoWTools_HouseMixin'}, extra={'ACHIEVEMENTS'}},
-    {title='Module group: World and dungeons', mixins={'WoWTools_EncounterMixin', 'WoWTools_ChallengeMixin', 'WoWTools_HolidayMixin'}},
-    {title='Module group: Tools', mixins={'WoWTools_ToolsMixin', 'WoWTools_AddOnsMixin', 'WoWTools_OtherMixin'}},
+    {id='Interface', title='Module group: Interface', mixins={'WoWTools_MoveMixin', 'WoWTools_CursorMixin', 'WoWTools_UnitMixin', 'WoWTools_AttributesMixin', 'WoWTools_MainMenuMixin', 'WoWTools_ColorMixin', 'WoWTools_ObjectiveMixin', 'WoWTools_ActionBarsMixin'}, extra={'Auto-fill confirmation words'}},
+    {id='Chat', title='Module group: Chat and social', mixins={'WoWTools_ChatMixin', 'WoWTools_FriendsMixin'}},
+    {id='Items', title='Module group: Items and gold', mixins={'WoWTools_MailMixin', 'WoWTools_AuctionHouseMixin', 'WoWTools_CurrencyMixin', 'WoWTools_ProfessionMixin', 'WoWTools_GemMixin'}},
+    {id='Character', title='Module group: Character and collections', mixins={'WoWTools_PaperDollMixin', 'WoWTools_SpellMixin', 'WoWTools_MacroMixin', 'WoWTools_CollectionMixin', 'WoWTools_FactionMixin', 'WoWTools_HunterMixin', 'WoWTools_HouseMixin'}, extra={'ACHIEVEMENTS'}},
+    {id='World', title='Module group: World and dungeons', mixins={'WoWTools_EncounterMixin', 'WoWTools_ChallengeMixin', 'WoWTools_HolidayMixin'}},
+    {id='Tools', title='Module group: Tools', mixins={'WoWTools_ToolsMixin', 'WoWTools_AddOnsMixin', 'WoWTools_OtherMixin'}},
 }
 
 EventUtil.ContinueOnPlayerLogin(function()
@@ -314,6 +314,11 @@ EventUtil.ContinueOnPlayerLogin(function()
         for _, mixin in ipairs(group.mixins) do
             local name= _G[mixin] and _G[mixin].addName
             if type(name)=='string' and name~='' then
+                table.insert(names, name)
+            end
+        end
+        for _, name in ipairs(WoWTools_Module.GroupNames[group.id] or {}) do--módulos de la API nueva (campo group)
+            if not tContains(names, name) then
                 table.insert(names, name)
             end
         end

@@ -79,7 +79,6 @@ Sin cambiar comportamiento: extraer trozos con nombre (crear marco, menú, actua
 
 | Función | Líneas | Complejidad |
 |---|---|---|
-| `0_Data/z_WoWItemList.lua` → `Init_TypeTabs_Data` | 650 | 263 |
 | `ChatButton/C5_LFD/Queue_Status.lua` → `Set_Queue_Status` | 297 | 262 |
 | `Plus_Item/0_SetupInfo.lua` → `Get_Info` | 518 | 241 |
 | `Plus/Encounter/Plus.lua` → `Init` | 592 | 158 |
@@ -115,16 +114,16 @@ resolvedor de `WoWTools_L`, `TextMixin:Magic`, `TextMixin:sub` (UTF-8), `MK`, `S
 
 ## Estado
 
-Antes de R1: quitar lo que sobra (docs/MEJORAS.md, sección 1).
+- [x] Antes de R1: quitar lo que sobra (docs/MEJORAS.md, sección 1)
 
 
-- [ ] R1 API común + Selector de color
+- [x] R1 API común + Selector de color (pendiente de probar en el juego)
   - [x] Sistema de estilo `WoWTools_Style` (1_Mixin/Style.lua) aplicado al Selector de color
-  - [ ] API de módulos `WoWTools_Module:Register` + despachador único de eventos
-  - [ ] Escaneo de bolsas compartido (ver docs/MEJORAS.md, sección 4)
-  - [ ] Selector de color migrado a la API
-- [ ] R2 migración de módulos (0/28)
+  - [x] API de módulos `WoWTools_Module:Register` + despachador único de eventos
+  - [x] Escaneo de bolsas compartido (ver docs/MEJORAS.md, sección 4)
+  - [x] Selector de color migrado a la API
+- [ ] R2 migración de módulos (1/28: Selector de color)
 - [ ] R3 esperas de Blizzard unificadas
-- [ ] R4 funciones gigantes (0/8)
+- [ ] R4 funciones gigantes (0/7; `Init_TypeTabs_Data` se fue con la ventana de objetos)
 - [ ] R5 orden y nombres
 - [ ] R6 pruebas automáticas

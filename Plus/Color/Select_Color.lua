@@ -236,7 +236,7 @@ local function Init_Top(colorTab)
     local maxCols= 0
 
 --Paleta extra (Más colores): 216 colores, 24 por fila
-	if WoWToolsPlusSave['Plus_Color'].selectType2 then
+	if WoWTools_ColorMixin:Save().selectType2 then
         local n= 0
 		for r=0, 1, 0.2 do
 			for g=0, 1, 0.2 do

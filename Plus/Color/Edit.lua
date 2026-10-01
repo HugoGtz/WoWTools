@@ -10,7 +10,7 @@ local EditBoxs={}
 
 
 local function OnColorSelect(_, r, g, b)
-    if WoWToolsPlusSave['Plus_Color'].hide or not (r and g and b) then
+    if WoWTools_ColorMixin:Save().hide or not (r and g and b) then
         return
     end
 

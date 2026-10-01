@@ -10,7 +10,7 @@ local P_Save= {
 
 
 local function Save()
-	return WoWToolsPlusSave['Plus_Color']
+	return WoWTools_ColorMixin:Save()
 end
 
 
@@ -56,73 +56,27 @@ end
 
 
 
-local function Init()
-	do
-		WoWTools_ColorMixin:Init_Menu()
-	end
-	WoWTools_ColorMixin:Init_EditBox()
-	WoWTools_ColorMixin:Init_SelectColor()
-	WoWTools_ColorMixin:Init_Log()
-	WoWTools_ColorMixin:Init_Other()
-
-	Init=function()end
-end
-
-
-
-
-
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-
-
-
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWToolsPlus' then
-			WoWToolsPlusSave['Plus_Color']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_Color'], P_Save)
-			P_Save=nil
-
-			WoWTools_ColorMixin.addName= '|A:colorblind-colorwheel:0:0|a'..(WoWTools_L['Module.Color picker'])
-
-			WoWTools_PanelMixin:Check_Button({
-				checkName= WoWTools_ColorMixin.addName,
-				tooltip= WoWTools_L['Tip.Color.Enable']..'|n|n'..WoWTools_L.REQUIRES_RELOAD,
-				GetValue= function() return not Save().disabled end,
-				SetValue= function()
-					Save().disabled= not Save().disabled and true or nil
-					WoWTools_Print(
-						WoWTools_ColorMixin.addName..WoWTools_DataMixin.Icon.icon2,
-						WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-						WoWTools_L.REQUIRES_RELOAD
-					)
-				end,
-				buttonText='|A:colorblind-colorwheel:0:0|a'..(WoWTools_L.SHOW),
-				buttonFunc= function()
-					
-					WoWTools_ColorMixin:ShowColorFrame(nil, nil, nil, 1)
-				end,
-			})
-
-			if Save().disabled then
-				--WoWTools_ColorMixin:Init_CODE()
-				self:SetScript('OnEvent', nil)
-				self:UnregisterAllEvents()
-
-			else
-				self:RegisterEvent('PLAYER_ENTERING_WORLD')
-				ColorPickerFrame:SetScript('OnEvent', Set_Event)
-
-				ColorPickerFrame:HookScript('OnShow', function()
-					Init()
-				end)
-				self:UnregisterEvent(event)
-			end
-        end
-
-	elseif event=='PLAYER_ENTERING_WORLD' then
-		Show_ClorFrame()
-		self:SetScript('OnEvent', nil)
-		self:UnregisterEvent(event)
-    end
-end)
+--Módulo registrado con la API común (docs/REFACTOR.md, R1): arranque, ajustes, casilla del panel y grupo
+WoWTools_Module:Register({
+	key= 'Plus_Color',
+	name= 'Module.Color picker',
+	icon= 'colorblind-colorwheel',
+	group= 'Interface',
+	defaults= P_Save,
+	tooltip= 'Tip.Color.Enable',
+	mixin= WoWTools_ColorMixin,
+	button= {text= 'SHOW', func= function()
+		WoWTools_ColorMixin:ShowColorFrame(nil, nil, nil, 1)
+	end},
+	onEnable= function()
+		ColorPickerFrame:SetScript('OnEvent', Set_Event)
+		ColorPickerFrame:HookScript('OnShow', WoWTools_Once(function()
+			WoWTools_ColorMixin:Init_Menu()
+			WoWTools_ColorMixin:Init_EditBox()
+			WoWTools_ColorMixin:Init_SelectColor()
+			WoWTools_ColorMixin:Init_Log()
+			WoWTools_ColorMixin:Init_Other()
+		end))
+	end,
+	onLogin= Show_ClorFrame,
+})
