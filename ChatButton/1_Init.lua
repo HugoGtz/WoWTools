@@ -444,4 +444,8 @@ WoWTools_Module:Register({
     panel= false,--tiene su propia página de opciones (Init_Options)
     onLoad= Init_Options,
     onEnable= Init,
+    childToggle= WoWTools_Module:DisabledADDToggle({
+        ChatButtonGroup='Group', ChatButtonGuild='Guild', ChatButton_LFD='LFD', ChatButton_HyperLink='HyperLink',
+        ChatButton_Say='Say', ChatButton_Invite='Invite', ChatButton_Roll='Roll', Plus_EmoteButton='ChatButton_Emoji',
+    }),
 })

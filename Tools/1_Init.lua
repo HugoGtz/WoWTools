@@ -451,6 +451,10 @@ WoWTools_Module:Register({
     key= 'WoWTools_ToolsButton', name= 'Module.Tools', icon= 'Professions-Crafting-Orders-Icon', group= 'Tools',
     tooltip= 'Tip.Tools.Enable', mixin= WoWTools_ToolsMixin,
     panel= false,--tiene su propia categoría (AddSubCategory), con la casilla y los botones de cada herramienta
+    childToggle= WoWTools_Module:DisabledADDToggle({
+        Tools_Mounts='Mount', Tools_Hearthstone='Hearthstone', Tools_OpenItems='OpenItems', Tools_MapToy='MapToy',
+        Tools_Foods='Food', Tools_UseToy='UseToy', Tools_Professions='Profession',
+    }),
     defaults= {
         --disabled=true,
 
