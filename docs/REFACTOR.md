@@ -54,7 +54,9 @@ Además:
 - `WoWTools_Once(fn)`: envoltorio "ejecutar una vez" para los casos sueltos.
 - El panel principal agrupa por `group` en lugar de adivinarlo por el nombre (`Organize_Main` se simplifica).
 
-**Entregable:** la API con pruebas (ver R6) y **un módulo pequeño migrado** como ejemplo (Selector de color).
+Y el **sistema de estilo** `WoWTools_Style` (ver `docs/MEJORAS.md`, sección 5): estilo minimalista oscuro común.
+
+**Entregable:** la API y el estilo, con pruebas (ver R6), y **un módulo pequeño migrado** como ejemplo (Selector de color).
 
 ## Fase R2 — Migrar los módulos (uno por commit)
 
@@ -64,7 +66,7 @@ Orden, de menos a más riesgo:
 2. Medianos: Correo, Subasta, Monedas, Reputación, Colecciones, Logros, Lista de amigos, Rastreador de objetivos, Micromenú, Cursor, Atributos, Marcos de unidad, Hechizos, Personaje, Guía de aventuras, Gestor de addons.
 3. Grandes: Míticas+, Herramientas (y cada botón), Botón de chat (y cada submódulo), Mover marcos, Estilo de barras de acción.
 
-Por cada módulo: quitar su marco `ADDON_LOADED`, sus copias de `Save()` y sus `Init=function()end`.
+Por cada módulo: quitar su marco `ADDON_LOADED`, sus copias de `Save()` y sus `Init=function()end`, y aplicar `WoWTools_Style` a lo que dibuja.
 
 ## Fase R3 — Un solo sistema para esperar ventanas de Blizzard
 

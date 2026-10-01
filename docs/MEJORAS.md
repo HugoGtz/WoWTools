@@ -62,3 +62,34 @@ un comando `/wtp perf` puede mostrarlo.
 2. **Refactor R1** (API de módulos) incluyendo el despachador único y el escaneo de bolsas compartido.
 3. **Simplificar** (sección 2) a medida que se migran los módulos en R2.
 4. **Mejoras de funcionalidad** (sección 3), empezando por el tiempo de espera configurable y el acceso a opciones.
+
+## 5. Visual: estilo "minimalista oscuro"
+
+Elegido por el usuario. Mismo aspecto para todo lo que dibuja el addon (barras, menús propios, seguidores, Míticas+).
+
+### Reglas del estilo (`WoWTools_Style`, archivo `1_Mixin/Style.lua`)
+
+| Elemento | Regla |
+|---|---|
+| Fondo de panel | Negro plano al 70 % (cabeceras al 85 %), sin texturas de Blizzard |
+| Borde | 1 px, blanco al 10 %; color de acento al 60 % al pasar el ratón o si está activo |
+| Color de acento | Color de tu clase (opción: personalizado) |
+| Texto | Fuentes de Blizzard (`GameFontHighlight`/`GameFontNormal`) que respetan la escala de la interfaz; sombra de 1 px en lugar de contorno grueso |
+| Iconos | Recorte 8 % y máscara redondeada (como las barras de acción), tamaño fijo por contexto (16 / 20 / 32) |
+| Espaciado | Rejilla de 4 px; filas de 20 px |
+| Botones | Planos: icono o texto, sin los botones rojos de Blizzard en las ventanas propias |
+| Estados | Pasar el ratón: fila iluminada con el acento al 15 %; desactivado: 40 % de opacidad |
+
+Funciones del estilo: `Style:Panel(frame)`, `Style:Header(frame, title)`, `Style:Row(button)`, `Style:Icon(texture)`,
+`Style:Button(button)`, `Style:Text(fontString, size)`.
+
+### Dónde se aplica
+
+1. **Fuente forzada**: quitar el 12 px con contorno grueso de `1_Mixin/Label.lua` y usar `Style:Text`.
+2. **Barras flotantes**: barra del chat, barra de Herramientas y botones de especialización con `Style:Panel` + `Style:Icon`.
+3. **Seguidores** (Reputación, Monedas, Eventos festivos): un único componente con el estilo (ver sección 2).
+4. **Míticas+**: información compacta por mazmorra (nivel y puntuación); el detalle, al pasar el ratón; paneles laterales
+   con `Style:Panel` y sin solaparse con Raider.IO.
+5. **Panel de opciones**: nombres sin iconos pegados al texto.
+
+Se hace junto al refactor: cada módulo que se migra a la API nueva (R2) se pasa al estilo común.
