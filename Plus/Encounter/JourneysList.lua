@@ -1,5 +1,5 @@
 local function Save()
-    return WoWToolsPlusSave['Adventure_Journal'].JourneysList
+    return WoWTools_EncounterMixin:Save().JourneysList
 end
 
 

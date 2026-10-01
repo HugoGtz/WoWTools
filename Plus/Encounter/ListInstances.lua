@@ -1,12 +1,5 @@
 
 
-local function Save()
-    return WoWToolsPlusSave['Adventure_Journal']
-end
-
-
-
-
 local function Init_Fvorite_Menu(self, root)
     local sub=root:CreateCheckbox(WoWTools_L.FAVORITES, function()
         return self:get_save()
@@ -27,7 +20,7 @@ local function Init_Fvorite_Menu(self, root)
         WoWTools_L.CLEAR_ALL,
         nil,
         {SetValue=function()
-            Save().favorites={}
+            WoWTools_EncounterMixin:Save().favorites={}
             WoWTools_DataMixin:Call('EncounterJournal_ListInstances')
         end})
         return MenuResponse.Open
@@ -111,7 +104,7 @@ local function Init_Button(btn)
     WoWTools_TextureMixin:SetFrame(btn, {index=5, alpha=1})
 
     btn:HookScript('OnEnter', function(self)
-        if not Save().plus or not self.instanceID then
+        if not WoWTools_EncounterMixin:Save().plus or not self.instanceID then
             return
         end
 
@@ -194,7 +187,7 @@ local function Init_Button(btn)
         local isSaved= self:get_save()
         local insID= self:GetParent().instanceID
         if insID then
-            Save().favorites[WoWTools_DataMixin.Player.GUID][insID]= not isSaved and true or nil
+            WoWTools_EncounterMixin:Save().favorites[WoWTools_DataMixin.Player.GUID][insID]= not isSaved and true or nil
         end
         self:set_alpha()
     end
@@ -208,8 +201,8 @@ local function Init_Button(btn)
         self:SetAlpha((isSaved or self:IsMouseOver() or GameTooltip:IsOwned(self:GetParent())) and 1 or 0)
     end
     function btn.Favorites2:get_save()
-        Save().favorites[WoWTools_DataMixin.Player.GUID]= Save().favorites[WoWTools_DataMixin.Player.GUID] or {}
-        return Save().favorites[WoWTools_DataMixin.Player.GUID][self:GetParent().instanceID]
+        WoWTools_EncounterMixin:Save().favorites[WoWTools_DataMixin.Player.GUID]= WoWTools_EncounterMixin:Save().favorites[WoWTools_DataMixin.Player.GUID] or {}
+        return WoWTools_EncounterMixin:Save().favorites[WoWTools_DataMixin.Player.GUID][self:GetParent().instanceID]
     end
 
     btn.KeyTexture= btn:CreateTexture(nil, 'ARTWORK', nil, 6)
@@ -258,7 +251,7 @@ local function Init_Button(btn)
         self.Favorites2:set_alpha()
         self.Favorites2:SetShown(true)
 
-        local scale= Save().insListScale or 1
+        local scale= WoWTools_EncounterMixin:Save().insListScale or 1
         self.tipsText:SetScale(scale)
         self.challengeText:SetScale(scale)
         self.challengeText2:SetScale(scale)
@@ -269,7 +262,7 @@ end
 
 
 local function Init()
-    if Save().hideInsList then
+    if WoWTools_EncounterMixin:Save().hideInsList then
         return
     end
 
@@ -278,7 +271,7 @@ local function Init()
             return
         end
 
-        local hide= not Save().plus
+        local hide= not WoWTools_EncounterMixin:Save().plus
         for _, btn in pairs(frame:GetFrames() or {}) do--ScrollBox.lua
             if btn and btn.instanceID then
                 if hide then

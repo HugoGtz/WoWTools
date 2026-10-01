@@ -1,17 +1,6 @@
 local ITEM_CLASSES_ALLOWED= format(ITEM_CLASSES_ALLOWED, '(.+)')
 local ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT= ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT:gsub('%%s/%%s','(.-%%d%+/%%d%+)')
 
-local function Save()
-    return WoWToolsPlusSave['Adventure_Journal'] or {}
-end
-
-
-
-
-
-
-
-
 local function Create_BossButtonList(btn)
     btn.indexLabel= btn:CreateFontString(nil, 'OVERLAY', 'GameFontNormal')
 
@@ -266,7 +255,7 @@ end
 
 
 local function Init()
-    if not Save().plus then
+    if not WoWTools_EncounterMixin:Save().plus then
         return
     end
 

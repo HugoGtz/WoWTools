@@ -1,7 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['Adventure_Journal']
-end
-
 local function SaveUse()
     return WoWToolsPlusPlayerDate['LootSpec']
 end
@@ -248,7 +244,7 @@ end
 
 local function Init_Button(btn)
     btn.specButtons={}
-    local isOnlyClass= Save().lootOnlyClass
+    local isOnlyClass= WoWTools_EncounterMixin:Save().lootOnlyClass
 
     local index= 0
     local level= btn:GetFrameLevel()+5
@@ -380,8 +376,8 @@ local function Init_Loot()
             Init_Button(self)
         end
 
-        local scale= Save().lootScale or 1
-        local show= not Save().hideLootSpec and not DisabledShowBoossTabs[data.bossID]
+        local scale= WoWTools_EncounterMixin:Save().lootScale or 1
+        local show= not WoWTools_EncounterMixin:Save().hideLootSpec and not DisabledShowBoossTabs[data.bossID]
 
         for _, btn in pairs(self.specButtons) do
             if show then
@@ -401,7 +397,7 @@ local function Init()
     WoWToolsPlusPlayerDate['LootSpec']= WoWToolsPlusPlayerDate['LootSpec'] or {}
 
 
-    if Save().hideLootSpec then
+    if WoWTools_EncounterMixin:Save().hideLootSpec then
         return
     end
 
@@ -410,7 +406,7 @@ local function Init()
 
     function frame:set_event()
         self:UnregisterAllEvents()
-        if not Save().hideLootSpec then
+        if not WoWTools_EncounterMixin:Save().hideLootSpec then
             self:RegisterEvent('ENCOUNTER_START')
             self:RegisterEvent('ENCOUNTER_END')
         end
@@ -437,7 +433,7 @@ local function Init()
     WoWTools_DataMixin:Hook(EncounterJournalPinMixin, 'Refresh', function(self)
         local icon
         local encounterID= self.encounterID and select(7, EJ_GetEncounterInfo(self.encounterID))
-        if not Save().hideLootSpec and encounterID and SaveUse()[encounterID] then
+        if not WoWTools_EncounterMixin:Save().hideLootSpec and encounterID and SaveUse()[encounterID] then
             local lootSpecID=  SaveUse()[encounterID].class[WoWTools_DataMixin.Player.Class]
             if lootSpecID then
                 icon= select(4, GetSpecializationInfoByID(lootSpecID))

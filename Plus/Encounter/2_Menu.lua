@@ -1,9 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['Adventure_Journal']
-end
-
-
 local function Init_Menu(self, root)
     if not self:IsMouseOver() then
         return
@@ -13,9 +8,9 @@ local function Init_Menu(self, root)
     sub= root:CreateCheckbox(
         WoWTools_L.JOURNEYS_LABEL,
     function()
-        return not Save().hideJourneys
+        return not WoWTools_EncounterMixin:Save().hideJourneys
     end, function()
-        Save().hideJourneys= not Save().hideJourneys and true or nil
+        WoWTools_EncounterMixin:Save().hideJourneys= not WoWTools_EncounterMixin:Save().hideJourneys and true or nil
          WoWTools_EncounterMixin:Init_JourneysList()
     end)
     sub:SetTooltip(function(tooltip)
@@ -26,9 +21,9 @@ local function Init_Menu(self, root)
     sub=root:CreateCheckbox(
         WoWTools_L['Renown list'],
     function()
-        return not Save().JourneysList.disabled
+        return not WoWTools_EncounterMixin:Save().JourneysList.disabled
     end, function()
-        Save().JourneysList.disabled= not Save().JourneysList.disabled and true or nil
+        WoWTools_EncounterMixin:Save().JourneysList.disabled= not WoWTools_EncounterMixin:Save().JourneysList.disabled and true or nil
         WoWTools_EncounterMixin:Init_JourneysList()
     end)
     sub:SetTooltip(function(tooltip)
@@ -41,9 +36,9 @@ local function Init_Menu(self, root)
     sub=root:CreateCheckbox(
         'Plus',
     function()
-        return Save().plus
+        return WoWTools_EncounterMixin:Save().plus
     end, function()
-        Save().plus= not Save().plus and true or nil
+        WoWTools_EncounterMixin:Save().plus= not WoWTools_EncounterMixin:Save().plus and true or nil
     end)
     sub:SetTooltip(function(tooltip)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Encounter.Plus'])
@@ -52,9 +47,9 @@ local function Init_Menu(self, root)
     sub=root:CreateCheckbox(
         WoWTools_L['Instance listings'],
     function()
-        return not Save().hideInsList
+        return not WoWTools_EncounterMixin:Save().hideInsList
     end, function()
-        Save().hideInsList= not Save().hideInsList and true or nil
+        WoWTools_EncounterMixin:Save().hideInsList= not WoWTools_EncounterMixin:Save().hideInsList and true or nil
         WoWTools_EncounterMixin:Init_ListInstances()
     end)
     sub:SetTooltip(function(tooltip)
@@ -64,12 +59,12 @@ local function Init_Menu(self, root)
 
     sub:CreateSpacer()
     WoWTools_MenuMixin:ScaleRoot(self, sub, function()
-        return Save().insListScale or 1
+        return WoWTools_EncounterMixin:Save().insListScale or 1
     end, function(value)
-        Save().insListScale= value
+        WoWTools_EncounterMixin:Save().insListScale= value
         WoWTools_DataMixin:Call('EncounterJournal_ListInstances')
     end, function()
-        Save().insListScale= nil
+        WoWTools_EncounterMixin:Save().insListScale= nil
         WoWTools_DataMixin:Call('EncounterJournal_ListInstances')
     end)
 
@@ -77,9 +72,9 @@ local function Init_Menu(self, root)
     sub=root:CreateCheckbox(
         WoWTools_L.SELECT_LOOT_SPECIALIZATION,
     function()
-        return not Save().hideLootSpec
+        return not WoWTools_EncounterMixin:Save().hideLootSpec
     end, function()
-        Save().hideLootSpec= not Save().hideLootSpec and true or nil
+        WoWTools_EncounterMixin:Save().hideLootSpec= not WoWTools_EncounterMixin:Save().hideLootSpec and true or nil
         WoWTools_EncounterMixin:Init_LootSpec()
         WoWTools_DataMixin:Call('EncounterJournal_Refresh')
     end)
@@ -98,9 +93,9 @@ local function Init_Menu(self, root)
             )
         ),
     function()
-        return Save().lootOnlyClass
+        return WoWTools_EncounterMixin:Save().lootOnlyClass
     end, function()
-        Save().lootOnlyClass= not Save().lootOnlyClass and true or nil
+        WoWTools_EncounterMixin:Save().lootOnlyClass= not WoWTools_EncounterMixin:Save().lootOnlyClass and true or nil
     end)
     sub2:SetTooltip(function(tooltip)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Encounter.LootOnlyClass'])
@@ -109,26 +104,26 @@ local function Init_Menu(self, root)
 
     sub:CreateSpacer()
     WoWTools_MenuMixin:ScaleRoot(self, sub, function()
-        return Save().lootScale or 1
+        return WoWTools_EncounterMixin:Save().lootScale or 1
     end, function(value)
-        Save().lootScale= value
+        WoWTools_EncounterMixin:Save().lootScale= value
         WoWTools_DataMixin:Call('EncounterJournal_Refresh')
     end, function()
-        Save().lootScale= nil
+        WoWTools_EncounterMixin:Save().lootScale= nil
         WoWTools_DataMixin:Call('EncounterJournal_Refresh')
     end)
 
 
     root:CreateDivider()
-    local tier= Save().EncounterJournalTier or EJ_GetCurrentTier() or 1
+    local tier= WoWTools_EncounterMixin:Save().EncounterJournalTier or EJ_GetCurrentTier() or 1
     local tierName= EJ_GetTierInfo(tier)
     sub=root:CreateCheckbox(
         WoWTools_TextMixin:CN(tierName) or 'EJ Tier',
     function()
-        return Save().isSaveTier
+        return WoWTools_EncounterMixin:Save().isSaveTier
     end, function()
-        Save().isSaveTier= not Save().isSaveTier and true or false
-        Save().EncounterJournalTier= Save().isSaveTier and EJ_GetCurrentTier() or nil
+        WoWTools_EncounterMixin:Save().isSaveTier= not WoWTools_EncounterMixin:Save().isSaveTier and true or false
+        WoWTools_EncounterMixin:Save().EncounterJournalTier= WoWTools_EncounterMixin:Save().isSaveTier and EJ_GetCurrentTier() or nil
     end)
     sub:SetTooltip(function(tooltip)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Encounter.SaveTier'])

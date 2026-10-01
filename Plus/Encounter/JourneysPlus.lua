@@ -1,7 +1,7 @@
 
 
 local function Init()
-    if WoWToolsPlusSave['Adventure_Journal'].hideJourneys then
+    if WoWTools_EncounterMixin:Save().hideJourneys then
         return
     end
 
