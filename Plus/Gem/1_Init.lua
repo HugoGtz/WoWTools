@@ -842,6 +842,7 @@ local function Init_Button_All()
     btn:set_texture()
     btn:set_shown()
     btn:set_scale()
+    WoWTools_GemMixin.AllButton= btn--para el Centro de control (WoWTools_GemMixin:Refresh)
 end
 
 
@@ -924,6 +925,67 @@ local function Init()
 end
 
 
+--Refresco para el Centro de control: solo si la ventana de engarce ya se preparó
+function WoWTools_GemMixin:Refresh(favorites)
+    local btn= self.AllButton
+    if not btn or not Frame then
+        return
+    end
+    if favorites then
+        for _, frame in pairs(Frame.buttons) do
+            frame:set_favorite()
+        end
+    end
+    btn:set_shown()
+    btn:set_scale()
+    Set_Gem()
+end
+
+
+local function Clear_Button(key, field, label)
+    return {type='button', key=key, buttonText='SLASH_STOPWATCH_PARAM_STOP2', confirm=true,
+        text= function(save) return WoWTools_L[label]..' |cnGREEN_FONT_COLOR:#'..CountTable(save[field] or {}) end,
+        tooltip= key=='favorites' and 'Tip.Gem.ClearFavorites' or 'Tip.Gem.ClearColumn',
+        func= function(M, save)
+            save[field]= {}
+            M:Refresh(field=='favorites')
+        end}
+end
+
+local Options= {
+    {type='section', text='GENERAL'},
+    {type='check', key='show', text='SHOW', tooltip='Tip.Gem.Show', noCombat=true,
+        get= function(save) return not save.hide end,
+        set= function(save, value) save.hide= not value and true or nil end,
+        apply= function(M) M:Refresh() end},
+    {type='check', key='spell', text='Extract gem button', tooltip='Tip.Gem.SpellButton', reload=true,
+        get= function(save) return not save.disableSpell end,
+        set= function(save, value) save.disableSpell= not value and true or false end},
+
+    {type='section', text='Appearance'},
+    {type='slider', key='scale', text='HOUSING_EXPERT_DECOR_SUBMODE_SCALE', tooltip='Tip.Menu.Scale', noCombat=true,
+        min=0.4, max=4, step=0.05, format='%.2f',
+        disabled= function(save) return save.hide end,
+        get= function(save) return save.scale or 1 end,
+        set= function(save, value) save.scale= value end,
+        apply= function(M) M:Refresh() end},
+
+    {type='section', text='Advanced'},
+    Clear_Button('favorites', 'favorites', 'SLASH_STOPWATCH_PARAM_STOP2+EVENTTRACE_BUTTON_MARKER'),
+    Clear_Button('left', 'gemLeft', 'SLASH_STOPWATCH_PARAM_STOP2+HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_LEFT'),
+    Clear_Button('top', 'gemTop', 'SLASH_STOPWATCH_PARAM_STOP2+HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_UP'),
+    Clear_Button('right', 'gemRight', 'SLASH_STOPWATCH_PARAM_STOP2+HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_RIGHT'),
+    {type='button', key='record', text='SLASH_STOPWATCH_PARAM_STOP2+EVENTTRACE_LOG_HEADER', buttonText='SLASH_STOPWATCH_PARAM_STOP2',
+        tooltip='Tip.Gem.ClearRecord', confirm=true,
+        func= function(_, save)
+            save.gemLoc= {[WoWTools_DataMixin.Player.Class]={}}
+            if ItemSocketingFrame then
+                WoWTools_DataMixin:Call('ItemSocketingFrame_Update')
+            end
+        end},
+}
+
+
 local Register_Init= WoWTools_Once(function()
     EventUtil.ContinueOnAddOnLoaded('Blizzard_ItemSocketingUI', Init)
 end)
@@ -936,34 +998,29 @@ end
 
 
 --Módulo registrado con la API común (docs/REFACTOR.md, R2).
---La casilla es propia (panel=false, en onLoad): activar arranca ya sin recargar; solo al desactivar pide recargar.
+--Interruptor estándar con reload=false: activar arranca ya sin recargar; solo al desactivar pide recargar.
 WoWTools_Module:Register({
     key= 'Plus_Gem',
     name= 'Module.Gem sockets',
     icon= 4555592,
     group= 'Items',
     defaults= P_Save,
+    tooltip= 'Tip.Gem.Enable',
     mixin= WoWTools_GemMixin,
-    panel= false,
+    reload= false,
+    options= Options,
     onLoad= function()
         addName= WoWTools_GemMixin.addName
-
-        WoWTools_PanelMixin:OnlyCheck({
-            name= addName,
-            tooltip= WoWTools_L['Tip.Gem.Enable'],
-            GetValue= function() return not WoWTools_GemMixin:Save().disabled end,
-            SetValue= function()
-                WoWTools_GemMixin:Save().disabled = not WoWTools_GemMixin:Save().disabled and true or nil
-                Load_Init()
-                if WoWTools_GemMixin:Save().disabled then
-                    WoWTools_Print(
-                        addName..WoWTools_DataMixin.Icon.icon2,
-                        WoWTools_TextMixin:GetEnabeleDisable(not WoWTools_GemMixin:Save().disabled),
-                        WoWTools_L.RELOADUI
-                    )
-                end
-            end
-        })
+    end,
+    onToggle= function(M, enabled)
+        Load_Init()
+        if not enabled then
+            WoWTools_Print(
+                (M.addName or '')..WoWTools_DataMixin.Icon.icon2,
+                WoWTools_TextMixin:GetEnabeleDisable(enabled),
+                WoWTools_L.RELOADUI
+            )
+        end
     end,
     onEnable= Load_Init,
 })
