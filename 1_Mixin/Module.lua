@@ -6,6 +6,7 @@ local M= WoWTools_Module:Register({
     name     = 'Module.Color picker',   --clave de WoWTools_L para el nombre
     icon     = 'colorblind-colorwheel', --atlas (o ruta de textura) del icono
     group    = 'Interface',             --grupo del panel principal (ver Groups en 0_Data/z_Panel.lua)
+    parent   = 'WoWTools_ToolsButton',  --submódulo: se muestra dentro de la página de ese módulo (sin tarjeta propia)
     defaults = {logColor={}},           --valores por defecto (WoWTools_DataMixin:SetDefaults)
     tooltip  = 'Tip.Color.Enable',      --clave de WoWTools_L con la descripción
     reload   = true,                    --activar/desactivar pide /reload (por defecto true)
@@ -131,7 +132,7 @@ local function Start(M)
     WoWToolsPlusSave[M.key]= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave[M.key], def.defaults or {})
 
     M.addName= Get_Icon(def.icon)..(def.name and WoWTools_L[def.name] or M.key)
-    if def.group then
+    if def.group and not def.parent then
         WoWTools_Module.GroupNames[def.group]= WoWTools_Module.GroupNames[def.group] or {}
         table.insert(WoWTools_Module.GroupNames[def.group], M.addName)
     end
@@ -176,6 +177,7 @@ function WoWTools_Module:Register(def)
     M.key= def.key
     M.def= def
     M.group= def.group
+    M.parent= def.parent
 
     table.insert(self.List, M)
     self.ByKey[def.key]= M
@@ -188,6 +190,17 @@ end
 
 function WoWTools_Module:Get(key)
     return self.ByKey[key]
+end
+
+--Submódulos de un módulo (def.parent==key), en orden de registro
+function WoWTools_Module:GetChildren(key)
+    local list= {}
+    for _, M in ipairs(self.List) do
+        if M.parent==key then
+            table.insert(list, M)
+        end
+    end
+    return list
 end
 
 
