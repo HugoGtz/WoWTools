@@ -11,7 +11,6 @@ local EXTRA_PET_STABLE_SLOT_LUA_INDEX = (Constants.PetConsts_PostCata.EXTRA_PET_
 
 --local NUM_PET_SLOTS_HUNTER = Constants.PetConsts_PostCata.NUM_PET_SLOTS_HUNTER or 205
 
---召唤，法术，提示
 local CALL_PET_SPELL_IDS = {
     0883,
 	83242,
@@ -20,7 +19,7 @@ local CALL_PET_SPELL_IDS = {
 	83245,
 }
 
-WoWTools_DataMixin:Load(267116, 'spell')--动物伙伴
+WoWTools_DataMixin:Load(267116, 'spell')
 
 local backgroundForPetSpec = {
     [STABLE_PET_SPEC_CUNNING] = "hunter-stable-bg-art_cunning",
@@ -29,7 +28,7 @@ local backgroundForPetSpec = {
 }
 
 
-local function GetAbilitiesIcons(pet, line)--取得，宠物，技能，图标
+local function GetAbilitiesIcons(pet, line)
     if not pet then
         return ''
     end
@@ -45,12 +44,11 @@ end
 
 
 
---已激活宠物，Model 提示
 local function created_model(btn, setBg)
     btn.model= CreateFrame("PlayerModel", nil, btn)
     local w= btn:GetWidth()
 
-    if btn:GetID()==EXTRA_PET_STABLE_SLOT_LUA_INDEX then--11版本
+    if btn:GetID()==EXTRA_PET_STABLE_SLOT_LUA_INDEX then
         btn.model:SetFacing(-0.3)
         w=w+80
         btn.model:SetPoint('RIGHT', btn, 'LEFT')
@@ -72,7 +70,7 @@ local function created_model(btn, setBg)
         btn.model.shadow:SetAlpha(0.4)
 
         local slotID= btn:GetID()
-        btn.callSpellButton= WoWTools_ButtonMixin:Cbtn(btn, {size=18})--召唤，法术，提示
+        btn.callSpellButton= WoWTools_ButtonMixin:Cbtn(btn, {size=18})
         btn.callSpellButton.Texture=btn.callSpellButton:CreateTexture(nil, 'OVERLAY')
         btn.callSpellButton.Texture:SetAllPoints()
         --SetPortraitToTexture(btn.callSpellButton.Texture, 132161)
@@ -89,39 +87,39 @@ local function created_model(btn, setBg)
             end
         end)
 
-        btn.Portrait2= btn:CreateTexture(nil, 'OVERLAY')--宠物，类型，图标
+        btn.Portrait2= btn:CreateTexture(nil, 'OVERLAY')
         btn.Portrait2:SetSize(18, 18)
         btn.Portrait2:SetPoint('LEFT', btn.callSpellButton, 'RIGHT')
 
-        btn.abilitiesText= WoWTools_LabelMixin:Create(btn, {SetJustifyH='RIGHT'})--宠物，技能，提示
+        btn.abilitiesText= WoWTools_LabelMixin:Create(btn, {SetJustifyH='RIGHT'})
         btn.abilitiesText:SetPoint('BOTTOMRIGHT', btn.callSpellButton, 'BOTTOMLEFT',10,0)
 
-        btn.specTexture= btn:CreateTexture(nil, 'OVERLAY')--宠物，专精，图标
+        btn.specTexture= btn:CreateTexture(nil, 'OVERLAY')
         btn.specTexture:SetSize(18, 18)
         btn.specTexture:SetPoint('BOTTOMLEFT', btn.Portrait2, 'BOTTOMRIGHT')
 
-        btn.indexText=WoWTools_LabelMixin:Create(btn, {alpha=0.5})--索引
+        btn.indexText=WoWTools_LabelMixin:Create(btn, {alpha=0.5})
         btn.indexText:SetPoint('BOTTOMLEFT', btn.specTexture, 'BOTTOMRIGHT')
         btn.indexText:SetText(slotID)
 
     else
-        btn.specTexture= btn:CreateTexture(nil, 'OVERLAY')--宠物，专精，图标
+        btn.specTexture= btn:CreateTexture(nil, 'OVERLAY')
         btn.specTexture:SetSize(18, 18)
         btn.specTexture:SetPoint('BOTTOMRIGHT', 2, -2)
     end
 
-    btn.specText= WoWTools_LabelMixin:Create(btn, {color=true})--专精
+    btn.specText= WoWTools_LabelMixin:Create(btn, {color=true})
     btn.specText:SetPoint('TOP', 0, 12)
 
     function btn:set_pet()
-        local pet= self:IsVisible() and self.petData or {}--宠物，类型，图标
+        local pet= self:IsVisible() and self.petData or {}
         local displayID= pet.displayID or 0
         if displayID==0 then
             self.model:ClearModel()
         elseif displayID~=self.displayID then
             self.model:SetDisplayInfo(displayID)
         end
-        self.displayID= displayID--提示用，
+        self.displayID= displayID
         if self.model.bg then
             local atlas
             if displayID>0 then
@@ -134,7 +132,7 @@ local function created_model(btn, setBg)
                 self.model.bg:SetTexture(0)
             end
             self.model.shadow:SetShown(displayID>0)
-            self.abilitiesText:SetText(GetAbilitiesIcons(pet, true))--宠物，技能，提示
+            self.abilitiesText:SetText(GetAbilitiesIcons(pet, true))
             self.Portrait2:SetTexture(pet.icon or 0)
         else
             self.Icon:SetTexCoord(0, 1, 0, 1)
@@ -152,17 +150,17 @@ local function created_model(btn, setBg)
     WoWTools_DataMixin:Hook(btn, 'SetPet', btn.set_pet)--StableActivePetButtonTemplateMixin
 
     btn:HookScript('OnHide', btn.set_pet)
-    btn:HookScript('OnEnter', function(self)--信息，提示
-        if WoWToolsSave['Plus_StableFrame'].HideTips then
+    btn:HookScript('OnEnter', function(self)
+        if WoWTools_HunterMixin:Save().HideTips then
             return
         end
         if self.petData and not self.locked and self:IsEnabled() then
             WoWTools_HunterMixin:Set_Tooltips(self, self.petData)
-            GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '放入兽栏' or STABLE_PET_BUTTON_LABEL, WoWTools_DataMixin.Icon.right)
+            GameTooltip:AddDoubleLine(WoWTools_L.STABLE_PET_BUTTON_LABEL, WoWTools_DataMixin.Icon.right)
             if self:GetID()==EXTRA_PET_STABLE_SLOT_LUA_INDEX then
                 GameTooltip:AddDoubleLine(
-                    format('|cffaad372%s|r', WoWTools_DataMixin.onlyChinese and '天赋' or TALENT),
-                    format('|T461112:0|t|cffaad372%s|r', WoWTools_DataMixin.onlyChinese and '动物伙伴' or C_Spell.GetSpellLink(267116) or C_Spell.GetSpellName(267116) or 'Animal Companion')
+                    format('|cffaad372%s|r', WoWTools_L.TALENT),
+                    format('|T461112:0|t|cffaad372%s|r', C_Spell.GetSpellLink(267116) or C_Spell.GetSpellName(267116) or 'Animal Companion')
                 )
             end
             GameTooltip:Show()
@@ -183,30 +181,29 @@ end
 
 
 
---宠物，列表，提示
 local function Set_SetPet(btn)
     if btn.set_list_button_settings then
         btn:set_list_button_settings()
         return
     end
 
-    btn.Portrait2= btn:CreateTexture(nil, 'OVERLAY')--宠物，类型，图标
+    btn.Portrait2= btn:CreateTexture(nil, 'OVERLAY')
     btn.Portrait2:SetSize(20, 20)
     btn.Portrait2:SetPoint('RIGHT', btn.Portrait,'LEFT')
     btn.Portrait2:SetAlpha(0.5)
-    btn.abilitiesText= WoWTools_LabelMixin:Create(btn)--宠物，技能，提示
+    btn.abilitiesText= WoWTools_LabelMixin:Create(btn)
     btn.abilitiesText:SetPoint('BOTTOMRIGHT', btn.Background, -9, 8)
     btn.indexText= WoWTools_LabelMixin:Create(btn)--, {color={r=1,g=0,b=1}})--SlotID
     btn.indexText:SetPoint('TOPRIGHT', -9,-6)
     btn.indexText:SetAlpha(0.5)
 
     function btn:set_list_button_settings()
-        self.abilitiesText:SetText(GetAbilitiesIcons(self.petData, false))--宠物，技能，提示
-        local data= self.petData or {}--宠物，类型，图标
+        self.abilitiesText:SetText(GetAbilitiesIcons(self.petData, false))
+        local data= self.petData or {}
         self.Portrait2:SetTexture(data.icon or nil)
         self.indexText:SetText(data.slotID or '')
     end
-    btn:HookScript('OnEnter', function(self)--信息，提示
+    btn:HookScript('OnEnter', function(self)
         if self.petData then
             WoWTools_HunterMixin:Set_Tooltips(self, self.petData)
             GameTooltip:Show()
@@ -218,9 +215,7 @@ end
 
 
 
---猎人，兽栏 Plus Blizzard_StableUI.lua
 local function Init()
---宠物，列表，提示
     --WoWTools_DataMixin:Hook(StableStabledPetButtonTemplateMixin, 'SetPet', Set_SetPet)
 
     WoWTools_DataMixin:Hook(StableFrame.StabledPetList.ScrollBox, 'Update', function(self)
@@ -233,15 +228,15 @@ local function Init()
     end)
 
 
-    for _, btn in ipairs(StableFrame.ActivePetList.PetButtons) do--已激，宠物栏，提示
-        created_model(btn, true)--已激活宠物，Model 提示
+    for _, btn in ipairs(StableFrame.ActivePetList.PetButtons) do
+        created_model(btn, true)
     end
-    created_model(StableFrame.ActivePetList.BeastMasterSecondaryPetButton, false)--第二个，宠物，提示
+    created_model(StableFrame.ActivePetList.BeastMasterSecondaryPetButton, false)
 
-    WoWTools_DataMixin:Hook(StableFrame.PetModelScene, 'SetPet', function(self)--选定时，隐藏model
+    WoWTools_DataMixin:Hook(StableFrame.PetModelScene, 'SetPet', function(self)
         local frame= self:GetParent()
         local selecIndex= frame.selectedPet and frame.selectedPet.slotID
-        for _, btn2 in ipairs(frame.ActivePetList.PetButtons) do--已激，宠物栏，提示
+        for _, btn2 in ipairs(frame.ActivePetList.PetButtons) do
             btn2.model:SetShown(btn2.petData and not btn2.locked and selecIndex~=btn2:GetID())
         end
         local btn2= frame.ActivePetList.BeastMasterSecondaryPetButton
@@ -252,14 +247,11 @@ local function Init()
     local btnSecond= StableFrame.ActivePetList.BeastMasterSecondaryPetButton
     btnSecond.SpellFrame= CreateFrame('Frame', nil, btnSecond, 'StablePetAbilityTemplate')--StablePetAbilityMixin
     btnSecond.SpellFrame:SetPoint('TOPRIGHT', btnSecond, 'BOTTOMRIGHT', 10,-6)
-    btnSecond.SpellFrame:Initialize(267116)--动物伙伴
+    btnSecond.SpellFrame:Initialize(267116)
     btnSecond.SpellFrame.Icon:ClearAllPoints()
     btnSecond.SpellFrame.Icon:SetPoint('RIGHT')
     btnSecond.SpellFrame.Name:ClearAllPoints()
     btnSecond.SpellFrame.Name:SetPoint('RIGHT', btnSecond.SpellFrame.Icon, 'LEFT')
-    if WoWTools_DataMixin.onlyChinese and not LOCALE_zhCN then
-        btnSecond.SpellFrame.Name:SetText('动物伙伴')
-    end
     WoWTools_DataMixin:Hook(btnSecond, 'Refresh', function(self)
         if _G['WoWTools_StableFrameAllList'] then
             _G['WoWTools_StableFrameAllList'].btn6:settings()
@@ -272,11 +264,9 @@ local function Init()
     end)
 
 
---食物
-    StableFrame.PetModelScene.PetInfo.Food=WoWTools_LabelMixin:Create(StableFrame.PetModelScene.PetInfo, {copyFont=not WoWTools_DataMixin.onlyChinese and StableFrame.PetModelScene.PetInfo.Specialization, color={r=1,g=1,b=1}, size=16})--copyFont=StableFrame.PetModelScene.PetInfo.Specialization, 
+    StableFrame.PetModelScene.PetInfo.Food=WoWTools_LabelMixin:Create(StableFrame.PetModelScene.PetInfo, {copyFont=true and StableFrame.PetModelScene.PetInfo.Specialization, color={r=1,g=1,b=1}, size=16})--copyFont=StableFrame.PetModelScene.PetInfo.Specialization, 
     StableFrame.PetModelScene.PetInfo.Food:SetPoint('TOPRIGHT', StableFrame.PetModelScene.PetInfo.Exotic, 'BOTTOMRIGHT')
 
---特殊，加图标
     StableFrame.PetModelScene.PetInfo.ExoticTexture= StableFrame.PetModelScene.PetInfo:CreateTexture()
     StableFrame.PetModelScene.PetInfo.ExoticTexture:SetSize(18,18)
     StableFrame.PetModelScene.PetInfo.ExoticTexture:SetPoint('RIGHT', StableFrame.PetModelScene.PetInfo.Exotic, 'LEFT')
@@ -289,12 +279,11 @@ local function Init()
         local text
         if petData.slotID then
             local dietString = table.concat(C_StableInfo.GetStablePetFoodTypes(petData.slotID), LIST_DELIMITER)
-            text= format(WoWTools_DataMixin.onlyChinese and '食物：%s' or PET_DIET_TEMPLATE, dietString)
+            text= format(WoWTools_L.PET_DIET_TEMPLATE, dietString)
         end
         self.Food:SetText(text or '')
     end)
 
---添加按钮
 
     Init=function()end
 end

@@ -1,8 +1,5 @@
 
-local function Save()
-    return WoWToolsSave['Plus_AddOns'] or {}
-end
-local Buttons={}--快捷键
+local Buttons={}
 local LeftFrame
 local Name= 'WoWToolsAddOnsLeftListButton'
 
@@ -66,7 +63,7 @@ local function Create_Fast_Button(index)
             WoWTools_DataMixin.Icon.left
             ..WoWTools_TextMixin:GetEnabeleDisable(nil, true),
 
-          (WoWTools_DataMixin.onlyChinese and '转到' or NPE_TURN)
+          (WoWTools_L.NPE_TURN)
             ..WoWTools_DataMixin.Icon.right
             ..self:GetID()
         )
@@ -81,7 +78,7 @@ local function Create_Fast_Button(index)
             for i=1, C_AddOns.GetNumAddOns() do
                 if C_AddOns.GetAddOnName(i)== self.name then
                     findIndex= i
-                    Save().fast[self.name]= i
+                    WoWTools_AddOnsMixin:Save().fast[self.name]= i
                     self:set_tooltips()
                     break
                 end
@@ -150,11 +147,11 @@ local function Set_Left_Buttons()
 
     local newTab={}
     local max= C_AddOns.GetNumAddOns()
-    for name, index in pairs(Save().fast) do
+    for name, index in pairs(WoWTools_AddOnsMixin:Save().fast) do
         if C_AddOns.DoesAddOnExist(name) then
             table.insert(newTab, {name=name, index= type(index)=='number' and index or 1})
         else
-            Save().fast[name]= nil
+            WoWTools_AddOnsMixin:Save().fast[name]= nil
         end
     end
     table.sort(newTab, function(a, b) return a.index< b.index end)
@@ -197,7 +194,7 @@ end
 
 
 local function Init()
-    if Save().hideLeftList then
+    if WoWTools_AddOnsMixin:Save().hideLeftList then
         return
     end
 
@@ -210,9 +207,9 @@ local function Init()
     LeftFrame.Background:SetColorTexture(0,0,0)
 
     function LeftFrame:settings()
-        self:SetScale(Save().leftListScale or 1)
-        self:SetShown(not Save().hideLeftList)
-        self.Background:SetAlpha(Save().bgAlpha or 0.3)
+        self:SetScale(WoWTools_AddOnsMixin:Save().leftListScale or 1)
+        self:SetShown(not WoWTools_AddOnsMixin:Save().hideLeftList)
+        self.Background:SetAlpha(WoWTools_AddOnsMixin:Save().bgAlpha or 0.3)
     end
 
     LeftFrame:settings()

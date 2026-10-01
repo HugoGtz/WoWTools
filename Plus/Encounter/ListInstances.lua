@@ -1,53 +1,37 @@
---[[
-界面, 副本击杀
-Blizzard_EncounterJournal.lua
-name, id, timeLimit, texture, backgroundTexture, mapID = C_ChallengeMode.GetMapUIInfo(mapChallengeModeID)
-journalInstanceID = C_EncounterJournal.GetInstanceForGameMap(mapID)
-]]
 
 
-local function Save()
-    return WoWToolsSave['Adventure_Journal']
-end
-
-
-
-
---收藏,菜单
 local function Init_Fvorite_Menu(self, root)
-    local sub=root:CreateCheckbox(WoWTools_DataMixin.onlyChinese and '收藏' or FAVORITES, function()
+    local sub=root:CreateCheckbox(WoWTools_L.FAVORITES, function()
         return self:get_save()
     end, function()
         self:setup()
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Encounter.Favorite'])
         tooltip:AddLine(WoWTools_DataMixin.addName)
         tooltip:AddLine(WoWTools_EncounterMixin.addName)
     end)
 
     root:CreateDivider()
-    root:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL,
+    local tipSub= root:CreateButton(
+        WoWTools_L.CLEAR_ALL,
     function()
         StaticPopup_Show('WoWTools_OK',
-        WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL,
+        WoWTools_L.CLEAR_ALL,
         nil,
         {SetValue=function()
-            Save().favorites={}
+            WoWTools_EncounterMixin:Save().favorites={}
             WoWTools_DataMixin:Call('EncounterJournal_ListInstances')
         end})
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Encounter.FavoriteClear'])
 
     root:CreateDivider()
     WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_EncounterMixin.addName})
 end
 
 
-
-
-
---挑战，数据
 local function Set_Button_ChallengData(instanceID)
     if not C_MythicPlus.GetCurrentSeason() then
         return
@@ -56,7 +40,7 @@ local function Set_Button_ChallengData(instanceID)
     local challengeText, challengeText2
     local CurMaphallengeModeID
 
-    for _, mapChallengeModeID in pairs(C_ChallengeMode.GetMapTable() or {}) do--挑战地图 mapChallengeModeID
+    for _, mapChallengeModeID in pairs(C_ChallengeMode.GetMapTable() or {}) do
 
         WoWTools_DataMixin:Load(mapChallengeModeID, 'challengeMap')
 
@@ -64,9 +48,9 @@ local function Set_Button_ChallengData(instanceID)
         local journalInstanceID = mapID and C_EncounterJournal.GetInstanceForGameMap(mapID)
 
         if journalInstanceID==instanceID then
-            CurMaphallengeModeID= mapChallengeModeID--挑战,地图ID
+            CurMaphallengeModeID= mapChallengeModeID
             local nu, all, leavel, runScore= 0, 0, 0, 0
-            for _,v in pairs(C_MythicPlus.GetRunHistory(true, true) or {}) do--挑战,全部, 次数
+            for _,v in pairs(C_MythicPlus.GetRunHistory(true, true) or {}) do
                 if v.mapChallengeModeID==mapChallengeModeID then
                     if v.completed then
                         nu=nu+1
@@ -76,7 +60,7 @@ local function Set_Button_ChallengData(instanceID)
             end
 
             local affix
-            local affixScores, overAllScore= C_MythicPlus.GetSeasonBestAffixScoreInfoForMap(mapChallengeModeID)--最佳, 词缀
+            local affixScores, overAllScore= C_MythicPlus.GetSeasonBestAffixScoreInfoForMap(mapChallengeModeID)
             if(affixScores and #affixScores > 0) then
                 local nameA, _, filedataidA = C_ChallengeMode.GetAffixInfo(10)
                 local nameB, _, filedataidB = C_ChallengeMode.GetAffixInfo(9)
@@ -89,8 +73,8 @@ local function Set_Button_ChallengData(instanceID)
                 end
             end
 
-            runScore= overAllScore or 0--最佳, 分数
-            local intimeInfo= C_MythicPlus.GetSeasonBestForMap(mapChallengeModeID)--最佳, 等级
+            runScore= overAllScore or 0
+            local intimeInfo= C_MythicPlus.GetSeasonBestForMap(mapChallengeModeID)
             if intimeInfo then
                 leavel= intimeInfo.level
             end
@@ -116,31 +100,11 @@ local function Set_Button_ChallengData(instanceID)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---[[
-EncounterInstanceButtonTemplate
-QuestTitleFontBlackShadow
-]]
-
 local function Init_Button(btn)
     WoWTools_TextureMixin:SetFrame(btn, {index=5, alpha=1})
 
     btn:HookScript('OnEnter', function(self)
-        if not Save().plus or not self.instanceID then
+        if not WoWTools_EncounterMixin:Save().plus or not self.instanceID then
             return
         end
 
@@ -174,7 +138,7 @@ local function Init_Button(btn)
             GameTooltip:AddLine( 'mapChallengeModeID:|cffffffff'..WoWTools_DataMixin.Icon.icon2..self.mapChallengeModeID)
         end
 
-        WoWTools_EncounterMixin:GetInstanceData(self, true)--界面,击杀,数据
+        WoWTools_EncounterMixin:GetInstanceData(self, true)
 
         GameTooltip:Show()
         self.Favorites2:set_alpha()
@@ -184,19 +148,16 @@ local function Init_Button(btn)
         GameTooltip:Hide()
     end)
 
---界面,击杀,数据
     btn.tipsText= btn:CreateFontString(nil, 'ARTWORK', 'GameFontNormalSmall2')
-    --WoWTools_LabelMixin:Create(btn, {size=WoWTools_DataMixin.onlyChinese and 12 or 10, copyFont= not WoWTools_DataMixin.onlyChinese and btn.name or nil})
+    --WoWTools_LabelMixin:Create(btn, {size=WoWTools_DataMixin.onlyChinese and 12 or 10, copyFont= true and btn.name or nil})
     btn.tipsText:SetPoint('BOTTOMRIGHT', -8, 8)
     btn.tipsText:SetJustifyH('RIGHT')
 
---挑战，数据
     btn.challengeText= btn:CreateFontString(nil, 'ARTWORK', 'GameFontNormalSmall2')--WoWTools_LabelMixin:Create(btn, {size=WoWTools_DataMixin.onlyChinese and 12 or 10})
     btn.challengeText:SetPoint('BOTTOMLEFT',4,4)
     btn.challengeText2= btn:CreateFontString(nil, 'ARTWORK', 'GameFontNormalSmall2')-- WoWTools_LabelMixin:Create(btn, {size=WoWTools_DataMixin.onlyChinese and 12 or 10})
     btn.challengeText2:SetPoint('BOTTOMLEFT', btn.challengeText, 'BOTTOMRIGHT')
 
---收藏
     btn.Favorites2= CreateFrame('Button', nil, btn)
     WoWTools_ButtonMixin:Cbtn(btn, {btn=btn.Favorites2, atlas='PetJournal-FavoritesIcon', size=25, isType2=true})
     btn.Favorites2.border:SetTexture(0)
@@ -209,8 +170,8 @@ local function Init_Button(btn)
     btn.Favorites2:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip_SetTitle(GameTooltip, WoWTools_EncounterMixin.addName..WoWTools_DataMixin.Icon.icon2)
-        GameTooltip:AddDoubleLine('|A:PetJournal-FavoritesIcon:0:0|a'..(WoWTools_DataMixin.onlyChinese and '收藏' or FAVORITES), WoWTools_DataMixin.Icon.left)
-        GameTooltip:AddDoubleLine('|A:dressingroom-button-appearancelist-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL), WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine('|A:PetJournal-FavoritesIcon:0:0|a'..(WoWTools_L.FAVORITES), WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine('|A:dressingroom-button-appearancelist-up:0:0|a'..(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL), WoWTools_DataMixin.Icon.right)
         GameTooltip:Show()
         self:set_alpha()
     end)
@@ -226,7 +187,7 @@ local function Init_Button(btn)
         local isSaved= self:get_save()
         local insID= self:GetParent().instanceID
         if insID then
-            Save().favorites[WoWTools_DataMixin.Player.GUID][insID]= not isSaved and true or nil
+            WoWTools_EncounterMixin:Save().favorites[WoWTools_DataMixin.Player.GUID][insID]= not isSaved and true or nil
         end
         self:set_alpha()
     end
@@ -240,11 +201,10 @@ local function Init_Button(btn)
         self:SetAlpha((isSaved or self:IsMouseOver() or GameTooltip:IsOwned(self:GetParent())) and 1 or 0)
     end
     function btn.Favorites2:get_save()
-        Save().favorites[WoWTools_DataMixin.Player.GUID]= Save().favorites[WoWTools_DataMixin.Player.GUID] or {}
-        return Save().favorites[WoWTools_DataMixin.Player.GUID][self:GetParent().instanceID]
+        WoWTools_EncounterMixin:Save().favorites[WoWTools_DataMixin.Player.GUID]= WoWTools_EncounterMixin:Save().favorites[WoWTools_DataMixin.Player.GUID] or {}
+        return WoWTools_EncounterMixin:Save().favorites[WoWTools_DataMixin.Player.GUID][self:GetParent().instanceID]
     end
 
---当前, KEY地图,ID
     btn.KeyTexture= btn:CreateTexture(nil, 'ARTWORK', nil, 6)
     btn.KeyTexture:SetPoint('LEFT', btn.Favorites2, 'RIGHT')
     btn.KeyTexture:SetSize(23,23)
@@ -253,19 +213,18 @@ local function Init_Button(btn)
     btn.KeyTexture:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        local link= WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].Keystone.link
+        local link= WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Keystone.link
         if link then
             GameTooltip:SetHyperlink(link)
         else
             GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_EncounterMixin.addName)
-            GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '挑战' or PLAYER_DIFFICULTY5)
+            GameTooltip:AddLine(WoWTools_L.PLAYER_DIFFICULTY5)
         end
         GameTooltip:Show()
         self:SetAlpha(0.3)
         self.label:SetAlpha(0.3)
     end)
 
---当前KEY，等级
     btn.KeyTexture.label=btn:CreateFontString(nil, 'ARTWORK', 'GameFontWhite', 7)--WoWTools_LabelMixin:Create(btn, {r=1, g=1, b=1})
     btn.KeyTexture.label:SetPoint('TOP', btn.KeyTexture, 7, -8)
     function btn:clear_data()
@@ -278,25 +237,21 @@ local function Init_Button(btn)
     end
 
     function btn:settings()
---界面, 击杀, 数据
         self.tipsText:SetText(WoWTools_EncounterMixin:GetInstanceData(self) or '')
 
---挑战，数据
         local challengeText, challengeText2, CurMaphallengeModeID= Set_Button_ChallengData(self.instanceID)
         self.challengeText:SetText(challengeText or '')
         self.challengeText2:SetText(challengeText2 or '')
 
---当前, KEY地图,ID
         local isCurrent=  CurMaphallengeModeID and CurMaphallengeModeID==C_MythicPlus.GetOwnedKeystoneChallengeMapID()
         self.mapChallengeModeID= CurMaphallengeModeID
         self.KeyTexture:SetShown(isCurrent)
-        self.KeyTexture.label:SetText(isCurrent and C_MythicPlus.GetOwnedKeystoneLevel() or '')--当前KEY，等级
+        self.KeyTexture.label:SetText(isCurrent and C_MythicPlus.GetOwnedKeystoneLevel() or '')
 
---收藏
         self.Favorites2:set_alpha()
         self.Favorites2:SetShown(true)
 
-        local scale= Save().insListScale or 1
+        local scale= WoWTools_EncounterMixin:Save().insListScale or 1
         self.tipsText:SetScale(scale)
         self.challengeText:SetScale(scale)
         self.challengeText2:SetScale(scale)
@@ -306,35 +261,8 @@ local function Init_Button(btn)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---[[
-WoWTools_DataMixin:Hook('EncounterJournal_DisplayInstance', function(...) Init_DisplayInstance(...) end)
-EncounterInstanceButtonTemplate
-EncounterJournal_DisplayInstance
-EncounterJournal_ListInstances
-]]
 local function Init()
-    if Save().hideInsList then
+    if WoWTools_EncounterMixin:Save().hideInsList then
         return
     end
 
@@ -343,7 +271,7 @@ local function Init()
             return
         end
 
-        local hide= not Save().plus
+        local hide= not WoWTools_EncounterMixin:Save().plus
         for _, btn in pairs(frame:GetFrames() or {}) do--ScrollBox.lua
             if btn and btn.instanceID then
                 if hide then
@@ -372,9 +300,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
 
 
 function WoWTools_EncounterMixin:Init_ListInstances()

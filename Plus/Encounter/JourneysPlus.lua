@@ -1,7 +1,7 @@
 
 
 local function Init()
-    if WoWToolsSave['Adventure_Journal'].hideJourneys then
+    if WoWTools_EncounterMixin:Save().hideJourneys then
         return
     end
 
@@ -26,7 +26,6 @@ local function Init()
 
                 local factionID= btn.majorFactionData and btn.majorFactionData.factionID
                 local data= WoWTools_FactionMixin:GetInfo(factionID)
---等级
                 local levelLabel= btn.RenownCardFactionLevel or btn.JourneyCardLevel
                 if levelLabel
                     and data.isUnlocked
@@ -35,16 +34,13 @@ local function Init()
                 then
                     levelLabel:SetText(data.factionStandingtext)
                 end
---经验
                 btn.infoLabe:SetText(data.valueText or '')
---设置，背景
                 btn.NormalTexture:SetShown(btn.majorFactionData.isUnlocked)
             end
         end
     end)
 
 
---查看进度 JourneyProgressFrameMixin SetupProgressDetails
     WoWTools_DataMixin:Hook(EncounterJournalJourneysFrame.JourneyProgress, 'SetupRewardTrack', function(frame)
         local factionID= frame.majorFactionData and frame.majorFactionData.factionID
         if not frame.infoLabel then

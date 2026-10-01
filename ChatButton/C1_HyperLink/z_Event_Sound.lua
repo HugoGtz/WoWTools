@@ -1,8 +1,3 @@
---播放, 事件声音
-local function Save()
-    return WoWToolsSave['ChatButton_HyperLink'] or {}
-end
-
 local TimerType, Timer0, Timer1, Timer2, Timer3, Timer4
 
 
@@ -12,44 +7,44 @@ local TimerType, Timer0, Timer1, Timer2, Timer3, Timer4
 
 
 
-local function Set_PlayerSound()--事件, 声音
-    if not Save().setPlayerSound then
+local function Set_PlayerSound()
+    if not WoWTools_HyperLink:Save().setPlayerSound then
         return
     end
 
     if not C_CVar.GetCVarBool('Sound_EnableAllSound') then
         C_CVar.SetCVar('Sound_EnableAllSound', '1')
-        print(
+        WoWTools_Print(
             WoWTools_HyperLink.addName..WoWTools_DataMixin.Icon.icon2,
             '|cnGREEN_FONT_COLOR:CVar Sound_EnableAllSound|r',
-            WoWTools_DataMixin.onlyChinese and '开启声效' or ENABLE_SOUND
+            WoWTools_L.ENABLE_SOUND
         )
     end
     if C_CVar.GetCVar('Sound_MasterVolume')=='0' then
         C_CVar.SetCVar('Sound_MasterVolume', '1.0')
-        print(
+        WoWTools_Print(
             WoWTools_HyperLink.addName..WoWTools_DataMixin.Icon.icon2,
             '|cnGREEN_FONT_COLOR:CVar Sound_MasterVolume|r',
-            WoWTools_DataMixin.onlyChinese and '主音量' or MASTER_VOLUME,
+            WoWTools_L.MASTER_VOLUME,
             '1'
         )
     end
 
     if C_CVar.GetCVar('Sound_DialogVolume')=='0' then
         C_CVar.SetCVar('Sound_DialogVolume', '1.0')
-        print(
+        WoWTools_Print(
             WoWTools_HyperLink.addName..WoWTools_DataMixin.Icon.icon2,
             '|cnGREEN_FONT_COLOR:CVar Sound_DialogVolume|r',
-            WoWTools_DataMixin.onlyChinese and '对话' or DIALOG_VOLUME,
+            WoWTools_L.DIALOG_VOLUME,
             '1'
         )
     end
     if not C_CVar.GetCVarBool('Sound_EnableDialog') then
         C_CVar.SetCVar('Sound_EnableDialog', '1')
-        print(
+        WoWTools_Print(
             WoWTools_HyperLink.addName..WoWTools_DataMixin.Icon.icon2,
             '|cnGREEN_FONT_COLOR:CVar Sound_EnableDialog|r',
-            WoWTools_DataMixin.onlyChinese and '启用对话' or ENABLE_DIALOG
+            WoWTools_L['ENABLE_DIALOG~2']
         )
     end
 
@@ -64,10 +59,10 @@ end
 
 
 
-local function Init_Settings()
+local Init_Settings= WoWTools_Once(function()
 
     EventRegistry:RegisterFrameEventAndCallback("START_TIMER", function(owner, arg1, arg2, arg3)
-        if not Save().setPlayerSound then
+        if not WoWTools_HyperLink:Save().setPlayerSound then
             return
         end
         if arg2==0 and arg3==0 then
@@ -112,9 +107,7 @@ local function Init_Settings()
         if Timer0 then Timer0:Cancel() Timer0= nil end
     end)
 
-
-    Init_Settings=function()end
-end
+end)
 
 
 
@@ -126,9 +119,9 @@ end
 
 
 local function Init(btn)
-    local enabled= Save().setPlayerSound
+    local enabled= WoWTools_HyperLink:Save().setPlayerSound
 
-    WoWTools_DataMixin.IsSetPlayerSound= enabled--播放, 事件声音
+    WoWTools_DataMixin.IsSetPlayerSound= enabled
 
     if enabled then
         Init_Settings()

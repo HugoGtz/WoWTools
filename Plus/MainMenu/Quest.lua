@@ -1,4 +1,3 @@
---任务
 
 
 
@@ -6,10 +5,10 @@
 
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     local frame= CreateFrame('Frame')
 
-    frame.Text= WoWTools_LabelMixin:Create(QuestLogMicroButton,  {size=WoWToolsSave['Plus_MainMenu'].size, color=true})
+    frame.Text= WoWTools_LabelMixin:Create(QuestLogMicroButton,  {size=WoWTools_MainMenuMixin:Save().size, color=true})
     frame.Text:SetPoint('BOTTOM', QuestLogMicroButton, 0,  3)
     table.insert(WoWTools_MainMenuMixin.Labels, frame.Text)
 
@@ -34,18 +33,17 @@ local function Init()
             return
         end
         GameTooltip:AddLine(' ')
-        WoWTools_QuestMixin:GetQuestAll()--所有，任务，提示
+        WoWTools_QuestMixin:GetQuestAll()
         GameTooltip:Show()
     end)
 
-    Init=function()end
-end
+end)
 
 
 
 
 
 
-function WoWTools_MainMenuMixin:Init_Quest()--任务
+function WoWTools_MainMenuMixin:Init_Quest()
     Init()
 end

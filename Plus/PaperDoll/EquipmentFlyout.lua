@@ -1,46 +1,12 @@
---装备弹出 EquipmentFlyout.lua
-local function Save()
-    return WoWToolsSave['Plus_PaperDoll']
-end
+local ITEM_LEVEL= ITEM_LEVEL:gsub('%%d', '%(%%d%+%)')
+local ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT= ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT:gsub('%%s/%%s','(.-%%d%+/%%d%+)')
+local PVP_ITEM_LEVEL_TOOLTIP= PVP_ITEM_LEVEL_TOOLTIP:gsub('%%d', '%(%%d%+%)')
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-local ITEM_LEVEL= ITEM_LEVEL:gsub('%%d', '%(%%d%+%)')--"物品等级：%d"
-local ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT= ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT:gsub('%%s/%%s','(.-%%d%+/%%d%+)')-- "升级：%s/%s"
-local PVP_ITEM_LEVEL_TOOLTIP= PVP_ITEM_LEVEL_TOOLTIP:gsub('%%d', '%(%%d%+%)')--"装备：在竞技场和战场中将物品等级提高至%d。"
-
-
-
-local function set_item_Set(self, link)--套装
+local function set_item_Set(self, link)
     local set
-    if link and not Save().notFlyout then
+    if link and not WoWTools_PaperDollMixin:Save().notFlyout then
         set=select(16 , C_Item.GetItemInfo(link))
         if set then
             if set and not self.set then
@@ -56,10 +22,6 @@ local function set_item_Set(self, link)--套装
 end
 
 
-
-
-
-
 local function Create_ButtonLabel(btn)
     --local w, h= btn:GetSize()
     local h= btn:GetHeight()
@@ -71,7 +33,6 @@ local function Create_ButtonLabel(btn)
     btn.upgrade:SetPoint('LEFT')
     btn.itemType=WoWTools_LabelMixin:Create(btn)
     btn.itemType:SetPoint('TOPRIGHT')
---等级，比较
     btn.updown=WoWTools_LabelMixin:Create(btn)
     btn.updown:SetPoint('TOPLEFT')
 
@@ -79,25 +40,19 @@ local function Create_ButtonLabel(btn)
     btn.pvpItem:SetSize(h/3, h/3)
     btn.pvpItem:SetPoint('RIGHT')
     btn.pvpItem:SetAtlas('Warfronts-BaseMapIcons-Horde-Barracks-Minimap')
---[[提示，已装备
-    btn.isEquippedTexture= btn:CreateTexture(nil, 'OVERLAY')
-    btn.isEquippedTexture:SetPoint('CENTER')
-    btn.isEquippedTexture:SetSize(w+12, h+12)
-    btn.isEquippedTexture:SetAtlas('Forge-ColorSwatchHighlight')--'Forge-ColorSwatchSelection')
-    btn.isEquippedTexture:SetVertexColor(1,0,0)]]
 
     btn.setTexture=btn:CreateTexture()
     btn.setTexture:SetAllPoints(btn)
     btn.setTexture:SetAtlas('UI-HUD-MicroMenu-Highlightalert')
 
-    btn:HookScript('OnEnter', function(self)--查询
+    btn:HookScript('OnEnter', function(self)
         WoWTools_BagMixin:Find(true, {itemLink=self:GetItemLink()})
     end)
     btn:HookScript('OnLeave', function()
         WoWTools_BagMixin:Find(false)
     end)
     btn:HookScript('OnHide', function(self)
-        set_item_Set(self)--套装
+        set_item_Set(self)
         self.level:SetText('')
         self.upgrade:SetText('')
         self.itemType:SetText('')
@@ -109,19 +64,10 @@ local function Create_ButtonLabel(btn)
 end
 
 
-
-
-
-
-
-
-
-
 local function setFlyout(self)--, itemLink, slot)
 local itemLink
-    if not Save().notFlyout and canaccessvalue(self.location) and  self.location then
+    if not WoWTools_PaperDollMixin:Save().notFlyout and canaccessvalue(self.location) and  self.location then
         local t= type(self.location)
---玩家
         if t=='number' then
             local locationData= EquipmentManager_GetLocationData(self.location)
             --if canaccesstable(locationData) and locationData and locationData.slot and locationData.bag then
@@ -132,7 +78,6 @@ local itemLink
             if canaccesstable(locationData) and locationData and locationData.slot and locationData.bag then
                 itemLink= C_Container.GetContainerItemLink(locationData.bag, locationData.slot)
             end
---升级
         elseif t=='table' and canaccesstable(self.location) and self.location.IsValid and self.location:IsValid() then
 
             if self.location:IsEquipmentSlot() then
@@ -152,7 +97,7 @@ local itemLink
             Create_ButtonLabel(self)
         end
 
-        local dateInfo= WoWTools_ItemMixin:GetTooltip({itemLink=itemLink, text={ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT, PVP_ITEM_LEVEL_TOOLTIP, ITEM_LEVEL}, onlyText=true})--物品提示，信息
+        local dateInfo= WoWTools_ItemMixin:GetTooltip({itemLink=itemLink, text={ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT, PVP_ITEM_LEVEL_TOOLTIP, ITEM_LEVEL}, onlyText=true})
 
         level= dateInfo.text[ITEM_LEVEL]
         level= level and tonumber(level) or WoWTools_ItemMixin:GetItemLevel(itemLink)
@@ -198,7 +143,7 @@ local itemLink
         isSet= select(16 , C_Item.GetItemInfo(itemLink)) and true or false
     end
     if self.setTexture then
-        set_item_Set(self, itemLink)--套装
+        set_item_Set(self, itemLink)
         self.level:SetText(text or '')
         self.upgrade:SetText(upLevel or '')
         self.itemType:SetText(upText or '')
@@ -208,19 +153,6 @@ local itemLink
         self.setTexture:SetShown(isSet)
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init()
@@ -258,24 +190,19 @@ local function Init()
 
         flyout.slotNameFrame.Label:SetText(slotName or '')
         flyout.slotNameFrame.Bg:SetWidth(flyout.slotNameFrame.Label:GetStringWidth()+24)
-        flyout.slotNameFrame:SetShown(not Save().notFlyout and slotName)
+        flyout.slotNameFrame:SetShown(not WoWTools_PaperDollMixin:Save().notFlyout and slotName)
     end)
 
 
---缩放
-    EquipmentFlyoutFrameButtons:SetScale(not Save().notFlyout and Save().flyoutScale or 1)
+    EquipmentFlyoutFrameButtons:SetScale(not WoWTools_PaperDollMixin:Save().notFlyout and WoWTools_PaperDollMixin:Save().flyoutScale or 1)
 
     Init=function()
         if EquipmentFlyoutFrame:IsVisible() and not EquipmentFlyoutFrame:HasSecretValues() then
             WoWTools_DataMixin:Call('EquipmentFlyout_UpdateItems')
         end
---缩放
-        EquipmentFlyoutFrameButtons:SetScale(not Save().notFlyout and Save().flyoutScale or 1)
+        EquipmentFlyoutFrameButtons:SetScale(not WoWTools_PaperDollMixin:Save().notFlyout and WoWTools_PaperDollMixin:Save().flyoutScale or 1)
     end
 end
-
-
-
 
 
 function WoWTools_PaperDollMixin:Init_EquipmentFlyout()

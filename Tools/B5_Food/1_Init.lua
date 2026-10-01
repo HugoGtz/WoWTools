@@ -4,54 +4,48 @@ WoWTools_FoodMixin={}
 
 
 
---5512/治疗石 113509/魔法汉堡
 local ClassSpells={--{item=5512, alt=nil, shift=nil, ctrl=nil}
-    WARRIOR= {shift=6673},--zs 6673/战斗怒吼
+    WARRIOR= {shift=6673},
     PALADIN= {},--qs
     HUNTER= {},--lr
     ROGUE= {},--dz
-    PRIEST= {shift=21562,},--ms 21562/真言术：韧
+    PRIEST= {shift=21562,},
     DEATHKNIGHT= {},--dk
-    SHAMAN= {shift=462854},--sm 462854/天怒
-    MAGE= {item=113509, shift=1459, alt=190336},--fs 113509/魔法汉堡 190336/造餐术 190336/造餐术
-    WARLOCK= {alt=29893, shift=698, ctrl=6201},--ss 29893/制造灵魂之井 6201/制造治疗石 698/召唤仪式
+    SHAMAN= {shift=462854},
+    MAGE= {item=113509, shift=1459, alt=190336},
+    WARLOCK= {alt=29893, shift=698, ctrl=6201},
     MONK= {},--ws
-    DRUID= {shift=1126},--xd 1126/野性印记
+    DRUID= {shift=1126},
     DEMONHUNTER= {},--dh
-    EVOKER= {shift=364342},--ev 364342/青铜龙的祝福
+    EVOKER= {shift=364342},
 }
 
 
 local P_Save={
-    noUseItems={},--禁用物品
-    autoLogin= WoWTools_DataMixin.Player.husandro,--启动,查询
-    --isShowBackground=WoWTools_DataMixin.Player.husandro,--背景--旧数据
-    --onlyMaxExpansion=true,--仅本版本物品
+    noUseItems={},
     borderAlpha= 0,
     bgAlpha=0.5,
     olnyUsaItem=true,
     numLine=12,
-    autoWho=WoWTools_DataMixin.Player.husandro,
     class={
         [0]={
-            [1]=true,--药水
-            [2]=true,--药剂
-            [3]=true,--合计
-            [5]=true,--食物
+            [1]=true,
+            [2]=true,
+            [3]=true,
+            [5]=true,
             --[7]=false,
-            --[8]=false,--其它
         },
         [15]={
             [4]=true,
         }
     },
     addItems={
-        [113509]=true,--魔法汉堡
-        [80610]=true,--魔法布丁
-        [65499]=true,--魔法蛋糕
-        [43523]=true,--魔法酪饼
-        [43518]=true,--魔法馅饼
-        [5512]=true,--治疗石
+        [113509]=true,
+        [80610]=true,
+        [65499]=true,
+        [43523]=true,
+        [43518]=true,
+        [5512]=true,
     },
     DisableClassID={
         [1]=true,
@@ -77,19 +71,13 @@ local P_Save={
 
 
 
-local function Save()
-    return WoWToolsSave['Tools_Foods']
-end
-
-
-
 local PaneIDs={
-    [113509]=1,--魔法汉堡
-    [80610]=1,--魔法布丁
-    [65499]=1,--魔法蛋糕
-    [43523]=1,--魔法酪饼
-    [43518]=1,--魔法馅饼
-    [5512]=1,--治疗石
+    [113509]=1,
+    [80610]=1,
+    [65499]=1,
+    [43523]=1,
+    [43518]=1,
+    [5512]=1,
 }
 
 
@@ -100,7 +88,7 @@ local PaneIDs={
 
 
 function WoWTools_FoodMixin:Get_Item_Valid(itemID)
-    local save= Save()
+    local save= WoWTools_FoodMixin:Save()
     if itemID
         and itemID~= WoWTools_ToolsMixin:Get_ButtonForName('Food').itemID
         and not save.noUseItems[itemID]
@@ -139,73 +127,164 @@ end
 
 
 
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
+--Botón ya preparado (Init_Button): sus funciones set_* existen
+local function Get_Button()
+    local btn= WoWTools_ToolsMixin:Get_ButtonForName('Food')
+    if btn and btn.set_scale then
+        return btn
+    end
+end
 
+local function Check_Items()
+    if Get_Button() then
+        WoWTools_FoodMixin:Check_Items()
+    end
+end
 
+--Filtro de búsqueda: mismo campo que su casilla del menú
+local function Filter_Check(field, text, tooltip, off)
+    return {type='check', key=field, text=text, tooltip=tooltip,
+        get= function(save) return save[field] end,
+        set= function(save, value) save[field]= value and true or off end,
+        apply= Check_Items,
+    }
+end
 
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWTools' then
-
-            WoWToolsSave['Tools_Foods']= WoWToolsSave['Tools_Foods'] or P_Save
-            P_Save= nil
-
-            Save().spells= Save().spells or ClassSpells
-
-            local class= Save().spells[WoWTools_DataMixin.Player.Class]
-
-            if not class then
-                Save().spells[WoWTools_DataMixin.Player.Class]= {}
-            else
-               WoWTools_DataMixin:Load(class.item, 'item')
-               WoWTools_DataMixin:Load(class.alt, 'spell')
-               WoWTools_DataMixin:Load(class.shift, 'spell')
-               WoWTools_DataMixin:Load(class.ctrl, 'spell')
+local Options= {
+    {type='section', text='GENERAL'},
+    Filter_Check('olnyUsaItem', 'Usable only', 'Tip.Food.UsableOnly', false),
+    {type='check', key='onlyMaxExpansion', text='Only current version items', tooltip='Tip.Food.OnlyCurrentExp',
+        hidden= function() return PlayerIsTimerunning() end,
+        get= function(save) return save.onlyMaxExpansion end,
+        set= function(save, value) save.onlyMaxExpansion= value and true or nil end,
+        apply= Check_Items,
+    },
+    {type='check', key='addItemsShowAll', text='Always show custom items', tooltip='Tip.Food.CustomShowAll',
+        get= function(save) return save.addItemsShowAll end,
+        set= function(save, value) save.addItemsShowAll= value and true or nil end,
+        apply= Check_Items,
+    },
+    {type='button', key='lists', text='Categories and item lists', buttonText='EDIT', tooltip='Tip.Food.Lists',
+        disabled= function() return not Get_Button() end,
+        func= function()
+            local btn= Get_Button()
+            if btn and btn:CanChangeAttribute() then
+                WoWTools_FoodMixin:Init_Menu(btn)
             end
-
-            WoWTools_FoodMixin.addName= '|A:Food:0:0|a'..(WoWTools_DataMixin.onlyChinese and '食物' or POWER_TYPE_FOOD)
-
-            WoWTools_ToolsMixin:CreateButton({
-                name='Food',
-                tooltip=WoWTools_FoodMixin.addName,
-                isMoveButton=true,
-                option=function(category, layout, initializer)
-                    WoWTools_PanelMixin:OnlyButton({
-                        category=category,
-                        layout=layout,
-                        tooltip=WoWTools_FoodMixin.addName,
-                        buttonText= WoWTools_DataMixin.onlyChinese and '还原位置' or RESET_POSITION,
-                        SetValue= function()
-                            local btn= WoWTools_ToolsMixin:Get_ButtonForName('Food')
-                            Save().point=nil
-                            if btn and not WoWTools_FrameMixin:IsLocked(btn) then
-                                btn:set_point()
-                            end
-                        end
-                    }, initializer)
-                end
-            })
-
-            if WoWTools_ToolsMixin:Get_ButtonForName('Food') then
-                self:RegisterEvent('PLAYER_ENTERING_WORLD')
-                WoWTools_FoodMixin:Init_Button()
-
-                if Save().autoLogin or Save().autoWho  then
-                    self:RegisterEvent('BAG_UPDATE_DELAYED')
-                end
-            else
-                self:SetScript('OnEvent', nil)
+        end,
+    },
+    {type='button', key='search', text='Search bags now', buttonText='SEARCH', tooltip='Tip.Food.Search', noCombat=true,
+        disabled= function() return not Get_Button() end,
+        func= function()
+            if Get_Button() then
+                WoWTools_FoodMixin:Check_Items(true)
             end
-            self:UnregisterEvent(event)
+        end,
+    },
+
+    {type='section', text='Automations'},
+    {type='check', key='autoLogin', text='On login: search', tooltip='Tip.Food.AutoLogin', automation=true,
+        get= function(save) return save.autoLogin end,
+        set= function(save, value) save.autoLogin= value and true or nil end,
+        apply= function(_, save) if save.autoLogin then Check_Items() end end,
+    },
+    {type='check', key='autoWho', text='Search when bags change', tooltip='Tip.Food.AutoWho', automation=true,
+        desc='High CPU',
+        get= function(save) return save.autoWho end,
+        set= function(save, value) save.autoWho= value and true or nil end,
+        apply= function(_, save)
+            local btn= Get_Button()
+            if btn then
+                if save.autoWho then
+                    WoWTools_FoodMixin:Check_Items()
+                end
+                if btn.CheckFrame then
+                    btn.CheckFrame:set_event()
+                end
+            end
+        end,
+    },
+
+    {type='section', text='Appearance'},
+    {type='slider', key='scale', text='HOUSING_EXPERT_DECOR_SUBMODE_SCALE', tooltip='Tip.Menu.Scale',
+        min=0.4, max=4, step=0.05, format='%.2f', noCombat=true,
+        get= function(save) return save.scale or 1 end,
+        set= function(save, value) save.scale= value end,
+        apply= function() local btn= Get_Button() if btn then btn:set_scale() end end,
+    },
+    {type='slider', key='bgAlpha', text='BACKGROUND+HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY', tooltip='Tip.Menu.BgAlpha',
+        min=0, max=1, step=0.1, format='%.1f',
+        get= function(save) return save.bgAlpha or 0 end,
+        set= function(save, value) save.bgAlpha= value end,
+        apply= function() local btn= Get_Button() if btn then btn:set_background() end end,
+    },
+    {type='slider', key='borderAlpha', text='Border opacity', tooltip='Tip.Food.BorderAlpha',
+        min=0, max=1, step=0.1, format='%.1f',
+        get= function(save) return save.borderAlpha or 0 end,
+        set= function(save, value) save.borderAlpha= value end,
+        apply= Check_Items,
+    },
+    {type='slider', key='numLine', text='Buttons per row', tooltip='Tip.Food.NumLine',
+        min=1, max=60, step=1,
+        get= function(save) return save.numLine or 12 end,
+        set= function(save, value) save.numLine= value end,
+        apply= Check_Items,
+    },
+    {type='dropdown', key='strata', text='Strata', tooltip='Tip.Menu.Strata', noCombat=true,
+        values= function() return WoWTools_ToolsMixin:StrataValues() end,
+        get= function(save) return save.strata or 'MEDIUM' end,
+        set= function(save, value) save.strata= value end,
+        apply= function() local btn= Get_Button() if btn then btn:set_strata() end end,
+    },
+    {type='button', key='resetPoint', text='RESET_POSITION', buttonText='RESET', noCombat=true,
+        tooltip='Tip.Food.ResetPoint',
+        func= function(_, save)
+            save.point=nil
+            local btn= Get_Button()
+            if btn and not WoWTools_FrameMixin:IsLocked(btn) then
+                btn:set_point()
+            end
+        end,
+    },
+}
+
+
+WoWTools_Module:Register({
+    options= Options,
+    key= 'Tools_Foods', name= 'Module.Food', icon= 'Food', group= 'Tools',
+    parent= 'WoWTools_ToolsButton', defaults= P_Save, mixin= WoWTools_FoodMixin,
+    onEnable= function(M, save)
+        save.spells= save.spells or ClassSpells
+
+        local class= save.spells[WoWTools_DataMixin.Player.Class]
+
+        if not class then
+            save.spells[WoWTools_DataMixin.Player.Class]= {}
+        else
+           WoWTools_DataMixin:Load(class.item, 'item')
+           WoWTools_DataMixin:Load(class.alt, 'spell')
+           WoWTools_DataMixin:Load(class.shift, 'spell')
+           WoWTools_DataMixin:Load(class.ctrl, 'spell')
         end
 
-    elseif event == 'PLAYER_ENTERING_WORLD' then
-        WoWTools_FoodMixin:Init_Button()
-        self:UnregisterEvent(event)
+        WoWTools_ToolsMixin:CreateButton({
+            name='Food',
+            tooltip=M.addName,
+            isMoveButton=true,
+        })
 
-    elseif event=='BAG_UPDATE_DELAYED' then
-        WoWTools_FoodMixin:Check_Items()
-        self:UnregisterEvent(event)
-    end
-end)
+        if WoWTools_ToolsMixin:Get_ButtonForName('Food') then
+            WoWTools_ToolsMixin:OnEnterWorld(function()
+                M:Init_Button()
+            end)
+            M:Init_Button()
+
+            if save.autoLogin or save.autoWho  then
+                WoWTools_Module:RegisterEvent(M, 'BAG_UPDATE_DELAYED', function()
+                    M:Check_Items()
+                    return true
+                end)
+            end
+        end
+    end,
+})

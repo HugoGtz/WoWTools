@@ -1,196 +1,114 @@
-local function Save()
-    return WoWToolsSave['Plus_MainMenu']
+local function Framerate_Button()
+    return _G['WoWToolsPlusFramerateButton']
 end
 
-local Category, Layout
+local StrataValues= {}
+for _, strata in ipairs({'BACKGROUND','LOW','MEDIUM','HIGH','DIALOG','FULLSCREEN','FULLSCREEN_DIALOG'}) do
+    table.insert(StrataValues, {value=strata, text=strata})
+end
 
+--Esquema del Centro de control (docs/SETTINGS.md). Antes: subpágina de Blizzard.
+local Options= {
+    {type='section', text='GENERAL'},
+    {type='slider', key='size', text='FONT_SIZE', tooltip='Tip.MainMenu.FontSize', min=8, max=18, step=1,
+        get= function(save) return save.size or 10 end,
+        set= function(save, value) save.size= math.floor(value) end,
+        apply= function() WoWTools_MainMenuMixin:Settings() end,
+    },
 
+    {type='section', text='Appearance'},
+    {type='check', key='alpha', text='Fade buttons', tooltip='Tip.MainMenu.Alpha', reload=true,
+        get= function(save) return save.enabledMainMenuAlpha end,
+        set= function(save, value) save.enabledMainMenuAlpha= value and true or false end,
+    },
+    {type='slider', key='alphaValue', text='HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY', min=0.1, max=1, step=0.1, format='%.1f', indent=true,
+        disabled= function(save) return not save.enabledMainMenuAlpha end,
+        get= function(save) return save.mainMenuAlphaValue or 0.7 end,
+        set= function(save, value) save.mainMenuAlphaValue= WoWTools_DataMixin:GetFormatter1to10(value, 0, 1) end,
+        apply= function() WoWTools_MainMenuMixin:Settings() end,
+    },
 
-
-
-
-
-
-
-
-local function Init_Options()--初始, 选项
-    WoWTools_PanelMixin:Header(Layout,
-        (Save().disabled and '|cff828282' or '')
-        ..'1) Plus'
-    )
-
-    local initializer2= WoWTools_PanelMixin:OnlyCheck({
-        name= WoWTools_DataMixin.onlyChinese and '启用' or ENABLE,
-        tooltip= WoWTools_MainMenuMixin.addName,
-        GetValue= function() return not Save().disabled end,
-        category= Category,
-        SetValue= function()
-            Save().disabled= not Save().disabled and true or nil
-            if not Save().disabled then
-                WoWTools_MainMenuMixin:Settings()
-            else
-                print(
-                    WoWTools_MainMenuMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                    WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-                    WoWTools_DataMixin.onlyChinese and '重新加载UI' or RELOADUI
-                )
-            end
-        end
-    })
-
-    local initializer= WoWTools_PanelMixin:OnlySlider({
-        name= WoWTools_DataMixin.onlyChinese and '字体大小' or FONT_SIZE,
-        GetValue= function() return Save().size end,
-        minValue= 8,
-        maxValue= 18,
-        setp= 1,
-        tooltip= WoWTools_MainMenuMixin.addName,
-        category= Category,
-        SetValue= function(_, _, value2)
-            if value2 then
-                Save().size=value2
-                WoWTools_MainMenuMixin:Settings()
-            end
-        end
-    })
-    initializer:SetParentInitializer(initializer2, function() if Save().plus then return true else return false end end)
-
-    initializer= WoWTools_PanelMixin:Check_Slider({
-        checkName= WoWTools_DataMixin.onlyChinese and '透明度' or HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY,
-        checkGetValue= function() return Save().enabledMainMenuAlpha end,
-        checkTooltip= WoWTools_MainMenuMixin.addName,
-        checkSetValue= function()
-            Save().enabledMainMenuAlpha= not Save().enabledMainMenuAlpha and true or false
-            print(
-                WoWTools_MainMenuMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
-            )
-        end,
-        sliderGetValue= function() return Save().mainMenuAlphaValue end,
-        minValue= 0.1,
-        maxValue= 1,
-        step= 0.1,
-        sliderSetValue= function(_, _, value2)
-            if value2 then
-                Save().mainMenuAlphaValue= WoWTools_DataMixin:GetFormatter1to10(value2, 0, 1)
-                WoWTools_MainMenuMixin:Settings()
-            end
-        end,
-        layout= Layout,
-        category= Category,
-    })
-    initializer:SetParentInitializer(initializer2, function() if Save().plus then return true else return false end end)
-
-    WoWTools_PanelMixin:Header(Layout,
-        (Save().frameratePlus and '' or '|cff828282')
-        ..'2) '..(WoWTools_DataMixin.onlyChinese and '系统' or SYSTEM)
-    )
-
-    initializer2= WoWTools_PanelMixin:OnlyCheck({
-        name= (WoWTools_DataMixin.onlyChinese and '每秒帧数:' or FRAMERATE_LABEL)..' Plus',
-        tooltip= MicroButtonTooltipText(FRAMERATE_LABEL, "TOGGLEFPS"),
-        GetValue= function() return Save().frameratePlus end,
-        category= Category,
-        SetValue= function()
-            Save().frameratePlus= not Save().frameratePlus and true or nil
-            if _G['WoWToolsPlusFramerateButton'] then
-                print(
-                    WoWTools_MainMenuMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                    WoWTools_TextMixin:GetEnabeleDisable(Save().frameratePlus),
-                    WoWTools_DataMixin.onlyChinese and '重新加载UI' or RELOADUI
-                )
-            else
+    {type='section', text='FRAMERATE_LABEL'},
+    {type='check', key='frameratePlus', text= function() return WoWTools_L.FRAMERATE_LABEL..' Plus' end,
+        tooltip='Tip.MainMenu.FrameratePlus', reload=true,
+        get= function(save) return save.frameratePlus end,
+        set= function(save, value) save.frameratePlus= value and true or nil end,
+        apply= function(_, save)
+            if save.frameratePlus and not Framerate_Button() then
                 WoWTools_MainMenuMixin:Init_Framerate_Plus()
             end
-        end
-    })
-    initializer= WoWTools_PanelMixin:OnlyCheck({
-        name= (WoWTools_DataMixin.onlyChinese and '登入' or LOG_IN)..' WoW: '..(WoWTools_DataMixin.onlyChinese and '显示' or SHOW),
-        tooltip=  MicroButtonTooltipText(FRAMERATE_LABEL, "TOGGLEFPS"),
-        GetValue= function() return Save().framerateLogIn end,
-        category= Category,
-        SetValue= function()
-            Save().framerateLogIn= not Save().framerateLogIn and true or nil
+        end,
+    },
+    {type='check', key='framerateLogIn', text='Show at login', tooltip='Tip.MainMenu.FramerateLogIn', indent=true, automation=true,
+        disabled= function(save) return not save.frameratePlus end,
+        get= function(save) return save.framerateLogIn end,
+        set= function(save, value) save.framerateLogIn= value and true or nil end,
+        apply= function(_, save)
             WoWTools_MainMenuMixin:Init_Framerate_Plus()
-            if Save().framerateLogIn and not FramerateFrame:IsShown() then
+            if save.framerateLogIn and FramerateFrame and not FramerateFrame:IsShown() then
                 FramerateFrame:Toggle()
             end
-        end
-    })
-    initializer:SetParentInitializer(initializer2, function() if Save().frameratePlus then return true else return false end end)
+        end,
+    },
+    {type='slider', key='framerateSize', text='FONT_SIZE', tooltip='Tip.MainMenu.FramerateSize', min=6, max=72, step=1, indent=true,
+        disabled= function(save) return not save.frameratePlus end,
+        get= function(save) return save.framerateSize or 12 end,
+        set= function(save, value) save.framerateSize= math.floor(value) end,
+        apply= function()
+            local btn= Framerate_Button()
+            if btn then
+                btn:set_size()
+            end
+        end,
+    },
+
+    {type='section', text='Advanced'},
+    {type='dropdown', key='shopStrata', text='Shop window strata', tooltip='Tip.Menu.Strata', values=StrataValues,
+        get= function(save) return save.CatalogShopFrameStrata or 'MEDIUM' end,
+        set= function(save, value) save.CatalogShopFrameStrata= value end,
+        apply= function(_, save)
+            if CatalogShopFrame and not WoWTools_FrameMixin:IsLocked(CatalogShopFrame) then
+                CatalogShopFrame:SetFrameStrata(save.CatalogShopFrameStrata)
+            end
+        end,
+    },
+}
 
 
-    Init_Options= function()end
-end
+--Módulo registrado con la API común (docs/REFACTOR.md, R2).
+--Los FPS van siempre (onLoad), aunque el micromenú esté desactivado. Interruptor estándar (save.disabled, pide /reload).
+WoWTools_Module:Register({
+    key= 'Plus_MainMenu',
+    name= 'Module.Micro menu',
+    icon= 'UI-HUD-MicroMenu-GameMenu-Mouseover',
+    group= 'Interface',
+    tooltip= 'Tip.MainMenu.Enable',
+    defaults= {
+        plus=true,
+        size=10,
+        enabledMainMenuAlpha= true,
+        mainMenuAlphaValue=0.7,
+    },
+    mixin= WoWTools_MainMenuMixin,
+    options= Options,
+    onLoad= function()
+        WoWTools_MainMenuMixin:Init_Framerate_Plus()
+    end,
+    onEnable= function()
+        WoWTools_MainMenuMixin:Settings()
+        WoWTools_MainMenuMixin:Init_Character()
+        WoWTools_MainMenuMixin:Init_Professions()
+        WoWTools_MainMenuMixin:Init_Talent()
+        WoWTools_MainMenuMixin:Init_Achievement()
+        WoWTools_MainMenuMixin:HousingMicroButton()
+        WoWTools_MainMenuMixin:Init_Quest()
+        WoWTools_MainMenuMixin:Init_Guild()
+        WoWTools_MainMenuMixin:Init_LFD()
+        WoWTools_MainMenuMixin:Init_Collections()
+        WoWTools_MainMenuMixin:Init_EJ()
+        WoWTools_MainMenuMixin:Init_Store()
+        WoWTools_MainMenuMixin:Init_Help()
+        WoWTools_MainMenuMixin:Init_Bag()
+    end,
+})
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if arg1== 'WoWTools' then
-
-        WoWToolsSave['Plus_MainMenu']= WoWToolsSave['Plus_MainMenu'] or {
-                                                                        plus=true,
-                                                                        size=10,
-                                                                        enabledMainMenuAlpha= true,
-                                                                        mainMenuAlphaValue=0.7,
-                                                                    }
-
-        WoWTools_MainMenuMixin.addName= '|A:UI-HUD-MicroMenu-GameMenu-Mouseover:0:0|a'..(WoWTools_DataMixin.onlyChinese and '菜单Plus' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, HUD_EDIT_MODE_MICRO_MENU_LABEL, 'Plus'))
-
-        Category, Layout= WoWTools_PanelMixin:AddSubCategory({
-            name= WoWTools_MainMenuMixin.addName,
-            disabled= Save().disabled and not Save().frameratePlus,
-        })
-
-
-        if not WoWToolsSave['Plus_MainMenu'].disabled then
-            WoWTools_MainMenuMixin:Settings()
-            WoWTools_MainMenuMixin:Init_Character()--角色
-            WoWTools_MainMenuMixin:Init_Professions()--专业
-            WoWTools_MainMenuMixin:Init_Talent()--天赋
-            WoWTools_MainMenuMixin:Init_Achievement()--成就
-            WoWTools_MainMenuMixin:HousingMicroButton()--住宅信息板
-            WoWTools_MainMenuMixin:Init_Quest()--任务
-            WoWTools_MainMenuMixin:Init_Guild()--公会
-            WoWTools_MainMenuMixin:Init_LFD()--地下城查找器
-            WoWTools_MainMenuMixin:Init_Collections()--收藏
-            WoWTools_MainMenuMixin:Init_EJ()--冒险指南
-            WoWTools_MainMenuMixin:Init_Store()--商店
-            WoWTools_MainMenuMixin:Init_Help()--帮助
-            WoWTools_MainMenuMixin:Init_Bag()--背包
-        end
-
-        WoWTools_MainMenuMixin:Init_Framerate_Plus()--系统，fts
-
-        if C_AddOns.IsAddOnLoaded('Blizzard_Settings') then
-            Init_Options()
-            self:SetScript('OnEvent', nil)
-            self:UnregisterEvent(event)
-        end
-
-    elseif arg1=='Blizzard_Settings' then
-        Init_Options()
-        self:SetScript('OnEvent', nil)
-        self:UnregisterEvent(event)
-    end
-end)

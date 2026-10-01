@@ -1,17 +1,8 @@
---Flyout, 技能，提示
---'|A:common-icon-backarrow:0:0|a'..(WoWTools_DataMixin.onlyChinese and '法术弹出框' or 'SpellFlyout')
+--'|A:common-icon-backarrow:0:0|a'..(WoWTools_L['Spell flyout'])
 
 local SpellTab={}--WoWTools_DataMixin.ChallengesSpellTabs
 
 
---[[local function Vstr(t)--垂直文字
-    local len = select(2, t:gsub("[^\128-\193]", ""))
-    if(len == #t) then
-        return t:gsub(".", "%1|n")
-    else
-        return t:gsub("([%z\1-\127\194-\244][\128-\191]*)", "%1|n")
-    end
-end]]
 
 local CALL_PET_SPELL_IDS = {
 	[0883]=1,
@@ -58,12 +49,6 @@ local function GetHunterPetSpellText(spellID, isLeftPoint)
 end
 
 
-
-
-
-
-
-
 local function GetSpellText(spellID)
     if C_Spell.IsSpellPassive(spellID) then
         return
@@ -74,20 +59,20 @@ local function GetSpellText(spellID)
     des= WoWTools_TextMixin:CN(des)
     if des then
         text= des:match('|cff00ccff(.-)|r')
-            or des:match('传送至(.-)入口处')--传送至永茂林地入口处。
-            or des:match('传送到(.-)的入口')--传送到自由镇的入口
-            or des:match('将施法者传送到(.-)入口')--将施法者传送到青龙寺入口。
 
             or des:match('Teleportiert zum Eingang des (.-)%.')--Teleportiert zum Eingang des Immergrünen Flors.
             or des:match('Teleport to the entrance to (.-)%.')--Teleport to the entrance to The Everbloom.
             or des:match('Teletransporte a la entrada del (.-)%.')--Teletransporte a la entrada del Vergel Eterno.
+            or des:match('Teletransporte a la entrada de la (.-)%.')
+            or des:match('Teletransporte a la entrada de (.-)%.')
+            or des:match('Teletransporte a la entrada al (.-)%.')
             or des:match('Téléporte à l’entrée de la (.-)%.')--Téléporte à l’entrée de la Flore éternelle.
 
             or des:match('Teletrasporta all\'ingresso di (.-)%.')--Teletrasporta all'ingresso di Verdeterno.
             or des:match('Teletrasporta all\'ingresso del (.-)%.')
             or des:match('Teletrasporta all\'ingresso dell\'(.-)%.')
 
-            or des:match('Teleporta para a entrada de (.-)')--Teleporta para a entrada de Floretérnia.
+            or des:match('Teleporta para a entrada de (.-)%.')--Teleporta para a entrada de Floretérnia.
             or des:match('Телепортирует заклинателя в (.-)%.')--Телепортирует заклинателя в Вечное Цветение.
             or des:match('(.-) 입구로 순간이동합니다')--상록숲 입구로 순간이동합니다.
     end
@@ -98,7 +83,7 @@ local function GetSpellText(spellID)
             text= WoWTools_TextMixin:CN(text)
         end
         text=text:match('%-(.+)') or text
-        text=text:match('：(.+)') or text
+        text=text
         text=text:match(':(.+)') or text
         text=text:gsub(' %d','')
         text=text:gsub(SUMMONS,'')
@@ -108,11 +93,6 @@ local function GetSpellText(spellID)
 end
 
 
-
-
-
-
-
 local function Set_Text(self, text)
     if self.spellText then
         self.spellText:SetText(text or '')
@@ -120,47 +100,9 @@ local function Set_Text(self, text)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
 
-    if WoWTools_DataMixin.onlyChinese then
-        for _, info in pairs(WoWTools_DataMixin.ChallengesSpellTabs or {}) do
-            if info.spell and info.name then
-                SpellTab[info.spell]=info.name
-            end
-        end
-    end
 
---Flyout, 技能，提示
     WoWTools_DataMixin:Hook(SpellFlyoutPopupButtonMixin, 'UpdateGlyphState', function(self)
         if not self.spellID then
             Set_Text(self, nil)
@@ -197,7 +139,7 @@ local function Init()
             end
 
             if not hunterPetText and not isLeftPoint then
-                text= WoWTools_TextMixin:Vstr(text)--垂直文字
+                text= WoWTools_TextMixin:Vstr(text)
             end
 
         elseif self.spellText then
@@ -208,20 +150,14 @@ local function Init()
         Set_Text(self, text)
     end)
 
-    WoWTools_DataMixin:Hook(SpellFlyout, 'Toggle',  GameTooltip_Hide)--隐藏
+    WoWTools_DataMixin:Hook(SpellFlyout, 'Toggle',  GameTooltip_Hide)
 
     Init=function()end
 end
 
 
-
-
-
-
-
-
 function WoWTools_SpellMixin:Init_Spell_Flyout()
-    if WoWToolsSave['Plus_Spell'].flyoutText then
+    if WoWTools_SpellMixin:Save().flyoutText then
         Init()
     end
 end

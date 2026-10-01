@@ -1,5 +1,5 @@
 local function Save()
-    return WoWToolsPlayerDate['Tools_UseItems']
+    return WoWToolsPlusPlayerDate['Tools_UseItems']
 end
 
 
@@ -29,7 +29,7 @@ local function Create_Button(btn)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(WoWTools_ToolsMixin.addName, WoWTools_UseItemsMixin.addName)
-        GameTooltip_AddErrorLine(GameTooltip, WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+        GameTooltip_AddErrorLine(GameTooltip, WoWTools_L.REQUIRES_RELOAD)
         GameTooltip:AddLine(' ')
         if self.spellID then
             GameTooltip:AddDoubleLine(
@@ -40,7 +40,7 @@ local function Create_Button(btn)
                 WoWTools_DataMixin.Icon.left
             )
         end
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine(WoWTools_L.SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
         GameTooltip:Show()
     end
 
@@ -77,7 +77,7 @@ end
 
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     WoWTools_DataMixin:Hook(SpellBookItemMixin, 'UpdateVisuals', function(frame)
          if not frame.Button.useSpell then
             Create_Button(frame.Button)
@@ -87,22 +87,14 @@ local function Init()
         frame.Button.useSpell:set_alpha()
         frame.Button.useSpell:SetShown(spellID and not C_Spell.IsSpellPassive(spellID))
     end)
-    Init=function()end
-end
+end)
 
 
 
 
 
 function WoWTools_UseItemsMixin:Init_PlayerSpells()
-    if C_AddOns.IsAddOnLoaded('Blizzard_PlayerSpells') then
+    EventUtil.ContinueOnAddOnLoaded('Blizzard_PlayerSpells', function()
         Init()
-    else
-        EventRegistry:RegisterFrameEventAndCallback("ADDON_LOADED", function(owner, arg1)
-            if arg1=='Blizzard_PlayerSpells' then
-                Init()
-                EventRegistry:UnregisterCallback('ADDON_LOADED', owner)
-            end
-        end)
-    end
+    end)
 end

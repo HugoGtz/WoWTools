@@ -1,5 +1,5 @@
 
-local addName
+local Module= {}--lo completa WoWTools_Module:Register (al final del archivo)
 
 local P_Items={
     [122129]=true,[169347]=true,[174873]=true,[140160]=true,[180873]=true,[188699]=true,[38301]=true,
@@ -17,32 +17,26 @@ local P_Items={
     [35227]=true,[169303]=true,[166779]=true,[79769]=true,[134022]=true,[174874]=true,[183903]=true,
     [122119]=true,[183856]=true,[64997]=true,[138900]=true,[49703]=true,[190333]=true,[184223]=true,
     [52201]=true,[166308]=true,[122117]=true,[129113]=true,
-    [198537]=true,--[泰瓦恩的小号]
-    [191891]=true,--[啾讽教授完美得无可置喙的鹰身人伪装]
-    [202022]=true,--[耶努的风筝]
-    [198039]=true,--感激之岩
-    [205963]=true,--闻盐
-    [208658]=true,--谦逊之镜 使用: 变身为一个悔改的堕落艾瑞达。 (2​小时 冷却)
-    [210656]=true,--冬幕节袜子
-    [217726]=true,--砮皂之韧 10.2.7 
+    [198537]=true,
+    [191891]=true,
+    [202022]=true,
+    [198039]=true,
+    [205963]=true,
+    [208658]=true,
+    [210656]=true,
+    [217726]=true,
     [217724]=true,
     [217723]=true,
     [217725]=true,
     [220777]=true,--
-    [224552]=true,--洞穴探索者的火炬
-    [228914]=true,--爱蛛者眼镜
-    [245567]=true,--卡雷什记忆水晶
-    [147843]=true,--赛拉的备用斗篷
+    [224552]=true,
+    [228914]=true,
+    [245567]=true,
+    [147843]=true,
 }
 local ModifiedTab={
-    --[[[69775]='Alt',--维库饮水角
-    [109183]='Ctrl',--世界缩小器
-    [134032]='Shift',--精英旗帜]]
 }
 local ModifiedMenuTab={
-    --[[{type='Alt', itemID=69775},
-    {type='Ctrl', itemID=109183},
-    {type='Shift', itemID=134032},]]
 }
 for itemID in pairs(ModifiedTab) do
    WoWTools_DataMixin:Load(itemID, 'item')
@@ -56,31 +50,24 @@ local P_Save={
     showBindNameShort=true,
     showBindName=true,
     lockedToy=nil,
-    Alt=69775,--维库饮水角
-    Ctrl=109183,--世界缩小器
-    Shift=86568,--重拳先生的铜罗盘
+    Alt=69775,
+    Ctrl=109183,
+    Shift=86568,
 
 }
-
-
-local function Save()
-    return WoWToolsSave['Tools_UseToy']
-end
-
-
 
 
 local ToyButton
 local function Set_Alt_Table()
     ModifiedTab={
-        [Save().Alt or 69775]='Alt',--维库饮水角
-        [Save().Ctrl or 109183]='Ctrl',--世界缩小器
-        [Save().Shift or 86568]='Shift',--精英旗帜
+        [Module:Save().Alt or 69775]='Alt',
+        [Module:Save().Ctrl or 109183]='Ctrl',
+        [Module:Save().Shift or 86568]='Shift',
     }
     ModifiedMenuTab={
-        {type='Alt', itemID= Save().Alt or 69775},
-        {type='Ctrl', itemID= Save().Ctrl or 109183},
-        {type='Shift', itemID= Save().Shift or 86568}
+        {type='Alt', itemID= Module:Save().Alt or 69775},
+        {type='Ctrl', itemID= Module:Save().Ctrl or 109183},
+        {type='Shift', itemID= Module:Save().Shift or 86568}
     }
 end
 
@@ -91,77 +78,65 @@ local function Set_Alt_Menu(root, itemID)
         WoWTools_DataMixin:Load(info.itemID, 'item')
         sub=root:CreateCheckbox(info.type..'|T'..(select(5, C_Item.GetItemInfoInstant(info.itemID)) or 0)..':0|t',
             function(data)
-                return Save()[data.type]== data.itemID2
+                return Module:Save()[data.type]== data.itemID2
             end, function(data)
-                if Save()[data.type]==data.itemID2 then
-                    Save()[data.type]=nil
+                if Module:Save()[data.type]==data.itemID2 then
+                    Module:Save()[data.type]=nil
                 else
-                    Save()[data.type]= data.itemID2
+                    Module:Save()[data.type]= data.itemID2
                 end
                 Set_Alt_Table()
                 ToyButton:set_alt()
             end,
             {type=info.type, itemID=info.itemID, itemID2=itemID}
         )
-        WoWTools_SetTooltipMixin:Set_Menu(sub)
+        sub:SetTooltip(function(tooltip, desc)
+            WoWTools_SetTooltipMixin:Setup(tooltip, desc.data)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.UseToy.ModToy'])
+        end)
     end
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-local function Remove_Toy(itemID)--移除
-    Save().items[itemID]=nil
+local function Remove_Toy(itemID)
+    Module:Save().items[itemID]=nil
     local isSelect, isLock= ToyButton:Check_Random_Value(itemID)
     if isLock or isSelect then
         if isSelect then
             ToyButton:Set_SelectValue_Random(nil)
         end
         if isLock then
-            Save().lockedToy=nil
+            Module:Save().lockedToy=nil
             ToyButton:Set_LockedValue_Random(nil)
         end
     elseif ToyButton.itemID==itemID then
-        ToyButton:Init_Random(Save().lockedToy)
+        ToyButton:Init_Random(Module:Save().lockedToy)
     end
 end
 
 
 
-local function Add_Toy(itemID)--添加
-    Save().items[itemID]= true
-    ToyButton:Init_Random(Save().lockedToy)--初始
+local function Add_Toy(itemID)
+    Module:Save().items[itemID]= true
+    ToyButton:Init_Random(Module:Save().lockedToy)
 end
 
 
 
-local function Add_Remove_Toy(itemID)--移除/添加
+local function Add_Remove_Toy(itemID)
     if itemID then
-        if Save().items[itemID] then
-            Remove_Toy(itemID)--移除
+        if Module:Save().items[itemID] then
+            Remove_Toy(itemID)
         else
-            Add_Toy(itemID)--添加
+            Add_Toy(itemID)
         end
     end
 end
 
 
---设置，物品，提示
 local function Set_Menu_Tooltip(tooltip, desc)
     if desc.data then
-        WoWTools_SetTooltipMixin:Setup(tooltip, {itemID=desc.data.itemID})--设置，物品，提示
+        WoWTools_SetTooltipMixin:Setup(tooltip, {itemID=desc.data.itemID})
     end
 end
 
@@ -183,7 +158,7 @@ end
 
 
 
-local function get_not_cooldown_toy()--发现就绪
+local function get_not_cooldown_toy()
     local duration = select(2, C_Item.GetItemCooldown(ToyButton.itemID))
     if duration and duration>3 then
         for itemID in pairs(P_Items) do
@@ -198,33 +173,10 @@ local function get_not_cooldown_toy()--发现就绪
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init_Menu_Toy(_, root)
     local sub, sub2, name, toyName, icon
     local index=0
-    for itemID in pairs(Save().items) do
+    for itemID in pairs(Module:Save().items) do
        WoWTools_DataMixin:Load(itemID, 'item')
 
         toyName, icon = select(2, C_ToyBox.GetToyInfo(itemID))
@@ -238,67 +190,70 @@ local function Init_Menu_Toy(_, root)
             name='itemID '.. itemID
         end
 
-        local alt= (Save().Alt==itemID and 'A' or '')
-            ..(Save().Ctrl==itemID and 'C' or '')
-            ..(Save().Shift==itemID and 'S' or '')
+        local alt= (Module:Save().Alt==itemID and 'A' or '')
+            ..(Module:Save().Ctrl==itemID and 'C' or '')
+            ..(Module:Save().Shift==itemID and 'S' or '')
         alt= alt~='' and '|cnGREEN_FONT_COLOR:['..alt..']|r' or alt
 
---名称，锁定
         local has= PlayerHasToy(itemID)
-        local isLoked= Save().lockedToy==itemID
+        local isLoked= Module:Save().lockedToy==itemID
 
         sub=root:CreateCheckbox(
             (isLoked and '|cnGREEN_FONT_COLOR:' or (has and '' or '|cff626262'))
             ..alt..icon
             ..name
-            ..(isLoked and '|A:AdventureMapIcon-Lock:0:0|a' or '')--锁定
+            ..(isLoked and '|A:AdventureMapIcon-Lock:0:0|a' or '')
             ..(has and WoWTools_CooldownMixin:GetText(nil, itemID) or ''),--CD
         function(data)
             return ToyButton.itemID==data.itemID
         end, function(data)
             if data.has then
-                if not Save().lockedToy then
+                if not Module:Save().lockedToy then
                     local toy= ToyButton.Selected_Value~=data.itemID and data.itemID or nil
                     ToyButton:Set_SelectValue_Random(toy)
                 end
             end
         end, {itemID=itemID, name=toyName, has=has, rightText=index, rightColor=DISABLED_FONT_COLOR})
-        sub:SetTooltip(Set_Menu_Tooltip)
+        sub:SetTooltip(function(tooltip, desc)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.UseToy.SelectToy'])
+            Set_Menu_Tooltip(tooltip, desc)
+        end)
         WoWTools_MenuMixin:SetRightText(sub)
 
         sub2=sub:CreateCheckbox(
             (has and '' or '|cff626262')
             ..icon
-            ..(WoWTools_DataMixin.onlyChinese and '锁定' or LOCK)..'|A:AdventureMapIcon-Lock:0:0|a',
+            ..(WoWTools_L.LOCK)..'|A:AdventureMapIcon-Lock:0:0|a',
         function(data)
-            return Save().lockedToy==data.itemID
+            return Module:Save().lockedToy==data.itemID
         end, function(data)
             if data.has then
-                Save().lockedToy= Save().lockedToy~=data.itemID and itemID or nil
-                ToyButton:Init_Random(Save().lockedToy)
+                Module:Save().lockedToy= Module:Save().lockedToy~=data.itemID and itemID or nil
+                ToyButton:Init_Random(Module:Save().lockedToy)
             end
         end, {itemID=itemID, name=toyName, has=has})
-        sub2:SetTooltip(Set_Menu_Tooltip)
+        sub2:SetTooltip(function(tooltip, desc)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.UseToy.LockToy'])
+            Set_Menu_Tooltip(tooltip, desc)
+        end)
 
---设置
         sub2=sub:CreateButton(
             '|A:common-icon-zoomin:0:0|a'
-            ..MicroButtonTooltipText(WoWTools_DataMixin.onlyChinese and '战团藏品' or COLLECTIONS, "TOGGLECOLLECTIONS"),
+            ..MicroButtonTooltipText(WoWTools_L.COLLECTIONS, "TOGGLECOLLECTIONS"),
             set_ToggleCollectionsJournal,
             {itemID=itemID, name=toyName}
         )
         sub2:SetTooltip(function(tooltip)
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS)
+            tooltip:AddLine(WoWTools_L.SETTINGS)
         end)
 
         Set_Alt_Menu(sub, itemID)
 
---移除
         sub:CreateDivider()
         sub2=sub:CreateButton(
-            '|A:common-icon-redx:0:0|a'..(WoWTools_DataMixin.onlyChinese and '移除' or REMOVE),
+            '|A:common-icon-redx:0:0|a'..(WoWTools_L.REMOVE),
         function(data)
-            Remove_Toy(data.itemID)--移除
+            Remove_Toy(data.itemID)
             return MenuResponse.Refresh
         end, {itemID=itemID, name=toyName})
         sub2:SetTooltip(Set_Menu_Tooltip)
@@ -308,26 +263,15 @@ local function Init_Menu_Toy(_, root)
 end
 
 
-
-
-
-
-
-
-
-
 --#####
---主菜单
 --#####
 local function Init_Menu(self, root)
     local sub, sub2, name
---选项
 
-    sub=WoWTools_ToolsMixin:OpenMenu(root, addName)
+    sub=WoWTools_ToolsMixin:OpenMenu(root, Module.addName)
 
 
---移除未收集
-    name= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '移除未收集' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, REMOVE, NOT_COLLECTED))
+    name= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L['REMOVE+NOT_COLLECTED'])
     sub:CreateButton(
         name,
     function(data)
@@ -336,24 +280,23 @@ local function Init_Menu(self, root)
         nil,
         {SetValue=function()
             local n=0
-            for itemID in pairs(Save().items) do
+            for itemID in pairs(Module:Save().items) do
                 WoWTools_DataMixin:Load(itemID, 'item')
                 if not PlayerHasToy(itemID) then
-                    Save().items[itemID]=nil
+                    Module:Save().items[itemID]=nil
                     n=n+1
-                    print(n, WoWTools_DataMixin.onlyChinese and '移除' or REMOVE, WoWTools_ItemMixin:GetLink(itemID))
+                    WoWTools_Print(n, WoWTools_L.REMOVE, WoWTools_ItemMixin:GetLink(itemID))
                 end
             end
             if n>0 then
-                ToyButton:Init_Random(Save().lockedToy)
+                ToyButton:Init_Random(Module:Save().lockedToy)
             end
         end})
         return MenuResponse.Open
     end, {name=name})
 
 
---全部清除
-    name='|A:common-icon-redx:0:0|a'..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL)
+    name='|A:common-icon-redx:0:0|a'..(WoWTools_L.CLEAR_ALL)
     sub:CreateButton(
         name,
     function(data)
@@ -361,16 +304,15 @@ local function Init_Menu(self, root)
         data.name,
         nil,
         {SetValue=function()
-            Save().items={}
-            print(WoWTools_DataMixin.Icon.icon2..addName, WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL)
+            Module:Save().items={}
+            WoWTools_Print(WoWTools_DataMixin.Icon.icon2..Module.addName, WoWTools_L.CLEAR_ALL)
             ToyButton:Rest_Random()
         end})
     end, {name=name})
 
 
---还原
     local all= CountTable(P_Items or {})
-    name= '|A:common-icon-undo:0:0|a'..(WoWTools_DataMixin.onlyChinese and '还原' or TRANSMOGRIFY_TOOLTIP_REVERT)..' '..all
+    name= '|A:common-icon-undo:0:0|a'..(WoWTools_L.TRANSMOGRIFY_TOOLTIP_REVERT)..' '..all
     sub2=sub:CreateButton(
         name,
     function(data)
@@ -378,35 +320,34 @@ local function Init_Menu(self, root)
         data.name,
         nil,
         {SetValue=function()
-            Save().items= P_Items
+            Module:Save().items= P_Items
             ToyButton:Rest_Random()
-            print(WoWTools_DataMixin.Icon.icon2..addName, '|cnGREEN_FONT_COLOR:', WoWTools_DataMixin.onlyChinese and '还原' or TRANSMOGRIFY_TOOLTIP_REVERT)
+            WoWTools_Print(WoWTools_DataMixin.Icon.icon2..Module.addName, '|cnGREEN_FONT_COLOR:', WoWTools_L.TRANSMOGRIFY_TOOLTIP_REVERT)
         end})
         return MenuResponse.Open
     end, {name=name})
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.UseToy.RevertList'])
 
---设置
     sub:CreateDivider()
     sub2=sub:CreateButton(
         '|A:common-icon-zoomin:0:0|a'
-        ..MicroButtonTooltipText(WoWTools_DataMixin.onlyChinese and '战团藏品' or COLLECTIONS, "TOGGLECOLLECTIONS"),
+        ..MicroButtonTooltipText(WoWTools_L.COLLECTIONS, "TOGGLECOLLECTIONS"),
         set_ToggleCollectionsJournal
     )
     sub2:SetTooltip(function(tooltip)
-        tooltip:AddLine((WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS))
+        tooltip:AddLine((WoWTools_L.SETTINGS))
     end)
 
---设置捷键
     WoWTools_KeyMixin:SetMenu(self, sub, {
-        name=addName,
-        key=Save().KEY,
+        name=Module.addName,
+        key=Module:Save().KEY,
         GetKey=function(key)
-            Save().KEY=key
-            WoWTools_KeyMixin:Setup(ToyButton)--设置捷键
+            Module:Save().KEY=key
+            WoWTools_KeyMixin:Setup(ToyButton)
         end,
         OnAlt=function(s)
-            Save().KEY=nil
-            WoWTools_KeyMixin:Setup(ToyButton)--设置捷键
+            Module:Save().KEY=nil
+            WoWTools_KeyMixin:Setup(ToyButton)
         end,
     })
 
@@ -417,51 +358,14 @@ local function Init_Menu(self, root)
 
 
     Init_Menu_Toy(self, root)
+
+    WoWTools_ToolsMixin:SettingsMenu(root, Module)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --#############
---玩具界面, 按钮
 --#############
-local function setToySpellButton_UpdateButton(btn)--标记, 是否已选取
+local function setToySpellButton_UpdateButton(btn)
     if not btn.useToy then
         btn.useToy= WoWTools_ButtonMixin:Cbtn(btn,{size=16, texture=133567})
         btn.useToy:SetPoint('TOPLEFT',btn.name,'BOTTOMLEFT', 16, 0)
@@ -470,25 +374,25 @@ local function setToySpellButton_UpdateButton(btn)--标记, 是否已选取
             return self:GetParent().itemID
         end
         function btn.useToy:set_alpha()
-            self:SetAlpha(Save().items[self:get_itemID()] and 1 or 0.1)
+            self:SetAlpha(Module:Save().items[self:get_itemID()] and 1 or 0.1)
         end
         function btn.useToy:set_tooltips()
             GameTooltip:SetOwner(self, "ANCHOR_LEFT")
             GameTooltip:ClearLines()
-            GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, addName)
+            GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, Module.addName)
             GameTooltip:AddLine(' ')
             local itemID=self:get_itemID()
             local icon= select(5, C_Item.GetItemInfoInstant(itemID))
             GameTooltip:AddDoubleLine(
                 (icon and '|T'..icon..':0|t' or '')..(itemID and C_ToyBox.GetToyLink(itemID) or itemID),
-                WoWTools_TextMixin:GetEnabeleDisable(Save().items[itemID])..WoWTools_DataMixin.Icon.left
+                WoWTools_TextMixin:GetEnabeleDisable(Module:Save().items[itemID])..WoWTools_DataMixin.Icon.left
             )
-            GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
+            GameTooltip:AddDoubleLine(WoWTools_L.SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
             GameTooltip:Show()
         end
         btn.useToy:SetScript('OnMouseDown', function(self, d)
             if d=='LeftButton' then
-                Add_Remove_Toy(self:get_itemID())--移除/添加
+                Add_Remove_Toy(self:get_itemID())
                 self:set_tooltips()
                 self:set_alpha()
             else
@@ -508,31 +412,10 @@ local function setToySpellButton_UpdateButton(btn)--标记, 是否已选取
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --###
---初始
 --###
-local function Init()
-    WoWTools_KeyMixin:Init(ToyButton, function() return Save().KEY end)
+local Init= WoWTools_Once(function()
+    WoWTools_KeyMixin:Init(ToyButton, function() return Module:Save().KEY end)
 
     ToyButton:SetAttribute("type1", "toy")
     ToyButton:SetAttribute("alt-type1", "toy")
@@ -543,7 +426,6 @@ local function Init()
     ToyButton.text:SetPoint('BOTTOMRIGHT', ToyButton)
 
 
-    --设置 Alt Shift Ctrl
     function ToyButton:set_alt()
         self.isAltEvent=nil
         if not self:CanChangeAttribute() then
@@ -558,18 +440,10 @@ local function Init()
     end
 
 
-
-
-
     --CD
     function ToyButton:set_cool()
-        WoWTools_CooldownMixin:SetFrame(self, {itemID=self.itemID})--主图标冷却
+        WoWTools_CooldownMixin:SetFrame(self, {itemID=self.itemID})
     end
-
-
-
-
-
 
 
     ToyButton:SetScript('OnEvent', function(self, event, itemID, success)
@@ -577,7 +451,7 @@ local function Init()
             if itemID and success then
                 if ModifiedTab[itemID] then
                     self:set_alt()
-                elseif Save().items[itemID] then
+                elseif Module:Save().items[itemID] then
                     self:Set_Random_Event()--is_Random_Eevent
                 end
                 if not self.is_Random_Eevent then
@@ -597,7 +471,7 @@ local function Init()
             end
 
         elseif event=='TOYS_UPDATED' or event=='NEW_TOY_ADDED' then
-            self:Init_Random(Save().lockedToy)
+            self:Init_Random(Module:Save().lockedToy)
 
         elseif event=='BAG_UPDATE_COOLDOWN' then
             self:set_cool()
@@ -619,9 +493,9 @@ local function Init()
             GameTooltip:AddDoubleLine(col..name, col..data.type..'+'..WoWTools_DataMixin.Icon.left)
         end
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine(WoWTools_L.SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
         GameTooltip:AddDoubleLine(
-            WoWTools_DataMixin.onlyChinese and '随机' or 'Random',
+            WoWTools_L['Random'],
             (ToyButton.Locked_Value and '' or '|cnGREEN_FONT_COLOR:#'..#self.Random_List..'|r')
             ..(ToyButton.Selected_Value and '|A:transmog-icon-checkmark:0:0|a' or '')
             ..(ToyButton.Locked_Value and '|A:AdventureMapIcon-Lock:0:0|a' or '')
@@ -629,7 +503,6 @@ local function Init()
         )
 
 
---发现就绪
         local duration=self.itemID and select(2, C_Item.GetItemCooldown(self.itemID))
         if duration and duration>4 then
             ToyButton:Get_Random_Value()
@@ -655,7 +528,7 @@ local function Init()
         end)
 
         if self:CanChangeAttribute() then
-            local itemID= Save().lockedToy or get_not_cooldown_toy()--发现就绪
+            local itemID= Module:Save().lockedToy or get_not_cooldown_toy()
             if itemID then
                 self.Selected_Value=itemID
                 self:Set_Random_Value(itemID)
@@ -685,20 +558,11 @@ local function Init()
     end)
 
 
-
-
-
-
-
-
-
-
-
     Mixin(ToyButton, WoWTools_RandomMixin)
 
-    function ToyButton:Get_Random_Data()--取得数据库, {数据1, 数据2, 数据3, ...}
+    function ToyButton:Get_Random_Data()
         local tab={}
-        for itemID in pairs(Save().items) do
+        for itemID in pairs(Module:Save().items) do
             WoWTools_DataMixin:Load(itemID, 'item')
             if PlayerHasToy(itemID) then
                 local duration= select(2, C_Item.GetItemCooldown(itemID))
@@ -710,7 +574,7 @@ local function Init()
         return tab
     end
 
-    function ToyButton:Set_Random_Value(itemID)--设置，随机值
+    function ToyButton:Set_Random_Value(itemID)
         self.is_Random_Eevent=nil
         if not self:CanChangeAttribute() then
             self.is_Random_Eevent=true
@@ -729,17 +593,11 @@ local function Init()
         self:set_cool()
         self.text:SetText(self.Random_Numeri>0 and self.Random_Numeri or '')
     end
-    function ToyButton:Set_OnlyOneValue_Random()--当数据 <=1 时，设置值
+    function ToyButton:Set_OnlyOneValue_Random()
         self:Set_Random_Value( self.Locked_Value or self.Selected_Value or self.Random_List[1] or 6948)
     end
 
-    ToyButton:Init_Random(Save().lockedToy)--初始
-
-
-
-
-
-
+    ToyButton:Init_Random(Module:Save().lockedToy)
 
 
     function ToyButton:set_event()
@@ -751,7 +609,7 @@ local function Init()
         else
             self:UnregisterAllEvents()
         end
-        WoWTools_CooldownMixin:SetFrame(self)--主图标冷却
+        WoWTools_CooldownMixin:SetFrame(self)
     end
 
     ToyButton:SetScript('OnShow', function(self)
@@ -767,86 +625,134 @@ local function Init()
     end)
 
 
-
-
-
-
-    if C_AddOns.IsAddOnLoaded('Blizzard_Collections') then
+    EventUtil.ContinueOnAddOnLoaded('Blizzard_Collections', function()
         WoWTools_DataMixin:Hook('ToySpellButton_UpdateButton', setToySpellButton_UpdateButton)
-    else
-        EventRegistry:RegisterFrameEventAndCallback("ADDON_LOADED", function(owner, arg1)
-            if arg1=='Blizzard_Collections' then
-                WoWTools_DataMixin:Hook('ToySpellButton_UpdateButton', setToySpellButton_UpdateButton)
-                EventRegistry:UnregisterCallback('ADDON_LOADED', owner)
-            end
-        end)
-    end
+    end)
+end)
 
-    Init=function()end
+
+--Botón ya preparado (Init): sus funciones existen
+local function Get_Button()
+    if ToyButton and ToyButton.set_alt and ToyButton.Init_Random then
+        return ToyButton
+    end
 end
 
+--Juguete para clic con modificador: los de la lista y el actual
+local Default_Mod= {Alt=69775, Ctrl=109183, Shift=86568}
+local function Mod_Option(mod)
+    return {type='dropdown', key='mod_'..mod, text= mod..' + '..WoWTools_L['Click'], tooltip='Tip.UseToy.ModToy',
+        noCombat=true,
+        values= function(save)
+            local list, ids= {}, {}
+            local current= save[mod] or Default_Mod[mod]
+            ids[current]= true
+            for itemID in pairs(save.items or {}) do
+                ids[itemID]= true
+            end
+            for itemID in pairs(ids) do
+                local icon= select(5, C_Item.GetItemInfoInstant(itemID))
+                table.insert(list, {
+                    value=itemID,
+                    text= '|T'..(icon or 0)..':0|t'..(WoWTools_ItemMixin:GetName(itemID) or itemID)
+                        ..(itemID==Default_Mod[mod] and ' |cff828282('..WoWTools_L.DEFAULT..')|r' or ''),
+                })
+            end
+            table.sort(list, function(a, b) return a.value<b.value end)
+            return list
+        end,
+        get= function(save) return save[mod] or Default_Mod[mod] end,
+        set= function(save, value) save[mod]= value end,
+        apply= function()
+            Set_Alt_Table()
+            local btn= Get_Button()
+            if btn then
+                btn:set_alt()
+            end
+        end,
+    }
+end
 
+local function List_Button(key, text, tooltip, func)
+    return {type='button', key=key, text=text, buttonText=text, tooltip=tooltip, confirm=true,
+        disabled= function() return not Get_Button() end,
+        func= function(_, save)
+            if Get_Button() then
+                func(save, ToyButton)
+            end
+        end,
+    }
+end
 
+local Options= {
+    {type='section', text='GENERAL'},
+    WoWTools_ToolsMixin:KeyOption({tooltip='Tip.UseToy.Key', apply= function()
+        local btn= Get_Button()
+        if btn then
+            WoWTools_KeyMixin:Setup(btn)
+        end
+    end}),
+    Mod_Option('Alt'),
+    Mod_Option('Ctrl'),
+    Mod_Option('Shift'),
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---###########
---加载保存数据
---###########
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWTools' then
-
-            WoWToolsSave['Tools_UseToy']= WoWToolsSave['Tools_UseToy'] or P_Save
-            P_Save= nil
-
-            addName='|A:collections-icon-favorites:0:0|a'..(WoWTools_DataMixin.onlyChinese and '随机玩具' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, USE, TOY))
-
-            ToyButton= WoWTools_ToolsMixin:CreateButton({
-                name='UseToy',
-                tooltip=addName,
-            })
-
-            if ToyButton then
-                self:RegisterEvent('PLAYER_ENTERING_WORLD')
-
-                for itemID in pairs(Save().items) do
-                   WoWTools_DataMixin:Load(itemID, 'item')
-                end
-
-                Set_Alt_Table()
-
-            else
-                self:SetScript('OnEvent', nil)
-                self:UnregisterEvent(event)
+    {type='section', text='Toy list'},
+    {type='button', key='edit', text='Toy list', buttonText='EDIT', tooltip='Tip.UseToy.EditList',
+        disabled= function() return not Get_Button() end,
+        func= function()
+            local btn= Get_Button()
+            if btn then
+                MenuUtil.CreateContextMenu(btn, Init_Menu)
+            end
+        end,
+    },
+    List_Button('removeMissing', 'Remove uncollected', 'Tip.UseToy.RemoveMissing', function(save, btn)
+        local n=0
+        for itemID in pairs(save.items) do
+            WoWTools_DataMixin:Load(itemID, 'item')
+            if not PlayerHasToy(itemID) then
+                save.items[itemID]=nil
+                n=n+1
+                WoWTools_Print(n, WoWTools_L.REMOVE, WoWTools_ItemMixin:GetLink(itemID))
             end
         end
+        if n>0 then
+            btn:Init_Random(save.lockedToy)
+        end
+    end),
+    List_Button('clear', 'CLEAR_ALL', 'Tip.Menu.ClearAll', function(save, btn)
+        save.items={}
+        WoWTools_Print(WoWTools_DataMixin.Icon.icon2..Module.addName, WoWTools_L.CLEAR_ALL)
+        btn:Rest_Random()
+    end),
+    List_Button('revert', 'Restore default list', 'Tip.UseToy.RevertList', function(save, btn)
+        save.items= P_Items
+        btn:Rest_Random()
+        WoWTools_Print(WoWTools_DataMixin.Icon.icon2..Module.addName, '|cnGREEN_FONT_COLOR:', WoWTools_L.TRANSMOGRIFY_TOOLTIP_REVERT)
+    end),
+}
 
-    elseif event == 'PLAYER_ENTERING_WORLD' then
-        Init()--初始
-        self:SetScript('OnEvent', nil)
-        self:UnregisterEvent(event)
-    end
-end)
+
+WoWTools_Module:Register({
+    options= Options,
+    key= 'Tools_UseToy', name= 'USE+TOY', icon= 'collections-icon-favorites', group= 'Tools',
+    parent= 'WoWTools_ToolsButton', defaults= P_Save, mixin= Module,
+    onEnable= function(M, save)
+        ToyButton= WoWTools_ToolsMixin:CreateButton({
+            name='UseToy',
+            tooltip=M.addName,
+        })
+
+        if ToyButton then
+            WoWTools_ToolsMixin:OnEnterWorld(function()
+                Init()
+            end)
+
+            for itemID in pairs(save.items) do
+               WoWTools_DataMixin:Load(itemID, 'item')
+            end
+
+            Set_Alt_Table()
+        end
+    end,
+})

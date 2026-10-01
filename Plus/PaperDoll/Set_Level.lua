@@ -1,17 +1,11 @@
---更改,等级文本
 --PaperDollFrame.lua
---Init_ChromieTime()--时空漫游战役, 提示
-local function Save()
-    return WoWToolsSave['Plus_PaperDoll']
-end
-
 local btn
 
 
 
 
 local function Init()
-    if Save().notLevel then
+    if WoWTools_PaperDollMixin:Save().notLevel then
         return
     end
 
@@ -34,8 +28,8 @@ local function Init()
         )
         GameTooltip:AddDoubleLine(
             'sex |cffffffff'
-            ..(info.sex==Enum.UnitSex.Male and '|A:charactercreate-gendericon-male-selected:0:0|a'..(WoWTools_DataMixin.onlyChinese and '男' or BODY_1)
-                or (info.sex==Enum.UnitSex.Female and '|A:charactercreate-gendericon-female-selected:0:0|a'..(WoWTools_DataMixin.onlyChinese and '女' or BODY_2))
+            ..(info.sex==Enum.UnitSex.Male and '|A:charactercreate-gendericon-male-selected:0:0|a'..(WoWTools_L.BODY_1)
+                or (info.sex==Enum.UnitSex.Female and '|A:charactercreate-gendericon-female-selected:0:0|a'..(WoWTools_L.BODY_2))
                 or ''
             )
             ..' '..info.sex,
@@ -45,28 +39,28 @@ local function Init()
                 'displayID |cffffffff'..C_PlayerInfo.GetDisplayID()
         )
         GameTooltip:AddDoubleLine(
-            WoWTools_DataMixin.onlyChinese and '满级' or GUILD_RECRUITMENT_MAXLEVEL,
+            WoWTools_L.GUILD_RECRUITMENT_MAXLEVEL,
             GetMaxLevelForLatestExpansion(), nil,nil,nil,
             1,1,1
         )
 
         GameTooltip:AddLine(' ')
 
-        local expansionID = UnitChromieTimeID('player')--时空漫游战役 PartyUtil.lua
+        local expansionID = UnitChromieTimeID('player')
         local option = C_ChromieTime.GetChromieTimeExpansionOption(expansionID)
-        local expansion = option and WoWTools_TextMixin:CN(option.name) or (WoWTools_DataMixin.onlyChinese and '无' or NONE)
+        local expansion = option and WoWTools_TextMixin:CN(option.name) or (WoWTools_L.NONE)
         if option and option.previewAtlas then
             expansion= '|A:'..option.previewAtlas..':0:0|a'..expansion
         end
 
         GameTooltip:AddLine(
-            (WoWTools_DataMixin.onlyChinese and '选择时空漫游战役' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, CHROMIE_TIME_SELECT_EXAPANSION_BUTTON, CHROMIE_TIME_PREVIEW_CARD_DEFAULT_TITLE))
+            (WoWTools_L['CHROMIE_TIME_SELECT_EXAPANSION_BUTTON+CHROMIE_TIME_PREVIEW_CARD_DEFAULT_TITLE'])
             ..': '
             ..WoWTools_TextMixin:GetEnabeleDisable(C_PlayerInfo.CanPlayerEnterChromieTime())
         )
         GameTooltip:AddLine(
             format(
-                WoWTools_DataMixin.onlyChinese and '你目前处于|cffffffff时空漫游战役：%s|r' or PARTY_PLAYER_CHROMIE_TIME_SELF_LOCATION,
+                WoWTools_L.PARTY_PLAYER_CHROMIE_TIME_SELF_LOCATION,
 
                 expansion or WoWTools_TextMixin:GetYesNo(false)
             )
@@ -85,7 +79,7 @@ local function Init()
                 .. data.id,
 
                 col
-                ..(WoWTools_DataMixin.onlyChinese and '完成' or COMPLETE)..': '
+                ..(WoWTools_L.COMPLETE)..': '
                 ..WoWTools_TextMixin:GetYesNo(data.completed)
                 ..icon
             )
@@ -98,7 +92,7 @@ local function Init()
     CharacterLevelText:SetJustifyH('LEFT')
 
     WoWTools_DataMixin:Hook('PaperDollFrame_SetLevel', function()
-         if Save().notLevel then
+         if WoWTools_PaperDollMixin:Save().notLevel then
             return
         end
         local size= 18
@@ -115,19 +109,18 @@ local function Init()
         end
 
         if effectiveLevel ~= level then
-            levelText = EFFECTIVE_LEVEL_FORMAT:format('|cnGREEN_FONT_COLOR:'..effectiveLevel..'|r', levelText)--%s（%s）
+            levelText = EFFECTIVE_LEVEL_FORMAT:format('|cnGREEN_FONT_COLOR:'..effectiveLevel..'|r', levelText)
         end
 
         CharacterLevelText:SetTextToFit(
             (WoWTools_UnitMixin:GetFaction('player', nil, true, {size=size}) or '')
             ..(WoWTools_UnitMixin:GetRaceIcon('player', nil, nil, {size=size}) or '')
             ..(WoWTools_UnitMixin:GetClassIcon('player', nil, nil, {size=size}) or '')
-            ..format(WoWTools_DataMixin.onlyChinese and '等级 %s' or TOOLTIP_UNIT_LEVEL, levelText)
+            ..format(WoWTools_L.TOOLTIP_UNIT_LEVEL, levelText)
         )
     end)
 
 
---专精，职责
     CharacterFrame.PortraitSpecRole= CharacterFrame.PortraitContainer:CreateTexture('WoWToolsPaperDollSpecRoleTexture', 'OVERLAY', nil, 7)
     CharacterFrame.PortraitSpecRole:SetSize(22,22)
     CharacterFrame.PortraitSpecRole:SetPoint('BOTTOMRIGHT', CharacterFramePortrait, -5,8)
@@ -158,7 +151,6 @@ local function Init()
 
 
 
---战争模式
     local war= CreateFrame("Button", 'WoWToolsPaperDollWarModeButton', btn, 'WoWToolsButton2Template')
     war:SetPoint('RIGHT', btn, 'LEFT')
     war:SetSize(18, 18)
@@ -184,21 +176,21 @@ local function Init()
 
         GameTooltip:AddLine(
             WoWTools_DataMixin.Icon.icon2
-            ..(WoWTools_DataMixin.onlyChinese and '战争模式' or PVP_LABEL_WAR_MODE)
+            ..(WoWTools_L.PVP_LABEL_WAR_MODE)
             ..": |cnHIGHLIGHT_FONT_COLOR:"..WoWTools_TextMixin:GetEnabeleDisable(C_PvP.IsWarModeDesired())
         )
 
         if not C_PvP.ArePvpTalentsUnlocked() then
             if not WarmodeButtonMixin then
                 GameTooltip_AddErrorLine(GameTooltip, format(
-                    WoWTools_DataMixin.onlyChinese and '在%d级解锁' or PVP_TALENT_SLOT_LOCKED,
+                    WoWTools_L.PVP_TALENT_SLOT_LOCKED,
                     C_PvP.GetPvpTalentsUnlockedLevel() or 10
                 ))
             end
 
         elseif not C_PvP.CanToggleWarMode(true) or not C_PvP.CanToggleWarMode(false) or InCombatLockdown() then
             GameTooltip_AddErrorLine(GameTooltip,
-                WoWTools_DataMixin.onlyChinese and '当前不能操作' or SPELL_FAILED_NOT_HERE
+                WoWTools_L.SPELL_FAILED_NOT_HERE
             )
         end
 
@@ -235,7 +227,6 @@ local function Init()
 
 
 
---装备,总耐久度
     local du= CreateFrame('Button', 'WoWToolsPaperDollDurabiliyButton', btn, 'WoWToolsButton2Template')
     du:SetPoint('RIGHT', war, 'LEFT')
     du:SetSize(18, 18)
@@ -267,7 +258,7 @@ local function Init()
 
     Init=function()
         WoWTools_DataMixin:Call('PaperDollFrame_SetLevel')
-        _G['WoWToolsPaperDollLevelButton']:SetShown(not Save().notLevel)
+        _G['WoWToolsPaperDollLevelButton']:SetShown(not WoWTools_PaperDollMixin:Save().notLevel)
     end
 end
 

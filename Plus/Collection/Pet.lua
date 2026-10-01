@@ -1,14 +1,4 @@
---宠物 2
 --Blizzard_PetCollection.lua
-
-local function Save()
-    return WoWToolsSave['Plus_Collection']
-end
-
-
-
-
-
 
 local function Set_Script_Type(texture)
     texture:EnableMouse(true)
@@ -29,7 +19,6 @@ end
 
 
 
---类型
 local function Set_Type(frame, petType, isRight)
     if not frame.indicatoUp then
         frame.typeTexture= frame:CreateTexture(nil, 'OVERLAY', nil, 7)
@@ -64,7 +53,7 @@ local function Set_Type(frame, petType, isRight)
     end
 
     local strongTexture, weakHintsTexture, strongIndex, weakHintsIndex
-    if not Save().hidePets then
+    if not WoWTools_CollectionMixin:Save().hidePets then
         strongTexture, weakHintsTexture, strongIndex, weakHintsIndex= WoWTools_PetBattleMixin:GetPetStrongWeakHints(petType)
     else
         petType= nil
@@ -104,27 +93,25 @@ end
 
 
 local function Init()
-    if Save().hidePets then
+    if WoWTools_CollectionMixin:Save().hidePets then
         return
     end
 
---增加，总数
-    PetJournal.PetCount.Label:ClearAllPoints()--太长了，
+    PetJournal.PetCount.Label:ClearAllPoints()
     PetJournal.PetCount.Label:SetPoint('RIGHT', PetJournal.PetCount.Count, 'LEFT', -2, 0)
     PetJournal.PetCount.Label:SetJustifyH('RIGHT')
 
     WoWTools_DataMixin:Hook('PetJournal_UpdatePetList', function()
-        if not PetJournal:IsVisible() or Save().hidePets then
+        if not PetJournal:IsVisible() or WoWTools_CollectionMixin:Save().hidePets then
             return
         end
         PetJournal.PetCount.Count:SetFormattedText('%d/%d', C_PetJournal.GetNumPets())
     end)
 
---列表
     WoWTools_DataMixin:Hook('PetJournal_InitPetButton', function(pet, data)
         local abilityIconA, abilityIconB
-        if not Save().hidePets and Save().petListIconSize~=0 then
-            abilityIconA, abilityIconB= WoWTools_PetBattleMixin:GetAbilityIcon(data.speciesID, data.index, data.petID, true, Save().petListIconSize or 18)
+        if not WoWTools_CollectionMixin:Save().hidePets and WoWTools_CollectionMixin:Save().petListIconSize~=0 then
+            abilityIconA, abilityIconB= WoWTools_PetBattleMixin:GetAbilityIcon(data.speciesID, data.index, data.petID, true, WoWTools_CollectionMixin:Save().petListIconSize or 18)
         end
         if not pet.abilityLabel then
             pet.abilityLabel= WoWTools_LabelMixin:Create(pet, {layer='OVERLAY'})
@@ -187,7 +174,7 @@ local function Init()
         end
 
         local strongTexture, weakHintsTexture, strongIndex, weakHintsIndex
-        if not Save().hidePets then
+        if not WoWTools_CollectionMixin:Save().hidePets then
             strongTexture, weakHintsTexture, strongIndex, weakHintsIndex= WoWTools_PetBattleMixin:GetPetStrongWeakHints(petType)
         end
 
@@ -215,15 +202,13 @@ local function Init()
 
 
 
---1,2,3 PetCard, 技能
     WoWTools_DataMixin:Hook('PetJournal_UpdatePetLoadOut', function()
         local frame, petType, nextAbilityID
-        local isEnabled= not Save().hidePets
+        local isEnabled= not WoWTools_CollectionMixin:Save().hidePets
         for i=1, 3 do--MAX_ACTIVE_PETS
             local loadoutPlate = PetJournal.Loadout["Pet"..i]
             local petID = C_PetJournal.GetPetLoadOutInfo(i)
             petType = petID and select(10, C_PetJournal.GetPetInfoByPetID(petID))
---类型
             Set_Type(loadoutPlate, petType, true)
 
             for abilityIndex= 1, 3 do--CompanionLoadOutSpellTemplate
@@ -252,7 +237,6 @@ local function Init()
                 end
                 frame.typeTexture:SetTexture(petType and 'Interface\\TargetingFrame\\PetBadge-'..PET_TYPE_SUFFIX[petType] or 0)
 
---显示，没用选中，技能
                 nextAbilityID= frame.abilityID == loadoutPlate.abilities[abilityIndex] and loadoutPlate.abilities[abilityIndex+3] or loadoutPlate.abilities[abilityIndex]
 
                 local nextAbilityIcon, nextAbilityType
@@ -272,6 +256,6 @@ end
 
 
 
-function WoWTools_CollectionMixin:Init_Pet()--宠物 2
+function WoWTools_CollectionMixin:Init_Pet()
     Init()
 end

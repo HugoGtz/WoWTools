@@ -1,20 +1,18 @@
 local P_Save={
-    --load_Button_Name=BASE_SETTINGS_TAB,--记录，已加载方案
     buttons={
-        [WoWTools_DataMixin.Player.husandro and '一般' or BASE_SETTINGS_TAB]={
+        [BASE_SETTINGS_TAB]={
             ['BugSack']=true,
             ['!BugGrabber']=true,
             ['TextureAtlasViewer']=true,-- true, i or guid
-            ['WoWTools_Chinese']=(not LOCALE_zhCN and not LOCALE_zhTW) and true or nil,
-            ['WoWTools']=true,
-        }, [WoWTools_DataMixin.Player.husandro and '宠物对战' or PET_BATTLE_COMBAT_LOG]={
+            ['WoWToolsPlus']=true,
+        }, [PET_BATTLE_COMBAT_LOG]={
             ['BugSack']=true,
             ['!BugGrabber']=true,
             ['tdBattlePetScript']=true,
             --['zAutoLoadPetTeam_Rematch']=true,
             ['Rematch']=true,
-            ['WoWTools']=true,
-        }, [WoWTools_DataMixin.Player.husandro and '副本' or INSTANCE]={
+            ['WoWToolsPlus']=true,
+        }, [INSTANCE]={
             ['BugSack']=true,
             ['!BugGrabber']=true,
             --['WeakAuras']=true,
@@ -23,63 +21,32 @@ local P_Save={
             ['DBM-Core']=true,
             ['DBM-Challenges']=true,
             ['DBM-StatusBarTimers']=true,
-            ['WoWTools']=true,
+            ['WoWToolsPlus']=true,
         }
     },
     fast={
         ['TextureAtlasViewer']=true,
-        ['WoWTools']=true,
+        ['WoWToolsPlus']=true,
         --['WeakAuras']=true,
         --['WeakAurasOptions']=true,
     },
-    enableAllButtn= WoWTools_DataMixin.Player.husandro,--全部禁用时，不禁用本插件
 
 
-    load_list=WoWTools_DataMixin.Player.husandro,--禁用, 已加载，列表
     --load_list_top=true,
     load_list_onlyIcon=true,
     load_list_size=22,
 
     rightListScale=1,
-    --hideRightList=true, 隐藏右边列表
 
     leftListScale=1,
     --hideLeftList
 
-    --disabledInfoPlus=true,禁用plus
     --bgAlpha=0.3
-    --addonProfilerEnabled= true,--启用，CPU分析功能,默认开启
 }
 
 
 
-local function Save()
-    return WoWToolsSave['Plus_AddOns'] or {}
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --#####
---初始化
 --#####
 local function Init()
     WoWTools_AddOnsMixin:Init_Menu_Button()
@@ -87,71 +54,127 @@ local function Init()
     WoWTools_AddOnsMixin:Init_Right_Buttons()
     WoWTools_AddOnsMixin:Init_Left_Buttons()
     WoWTools_AddOnsMixin:Init_Info_Plus()
-    Init=function()end
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if arg1~= 'WoWTools' then
+--Refresco en vivo: solo si el módulo ya arrancó (si no, crearía sus marcos con el módulo desactivado)
+local function Refresh(M, ...)
+    if not M.started then
         return
     end
-
-    WoWToolsSave['Plus_AddOns']= WoWToolsSave['Plus_AddOns'] or P_Save
-    P_Save=nil
-    Save().Bg_Alpha= nil
-
-    WoWTools_AddOnsMixin.addName='|A:Garr_Building-AddFollowerPlus:0:0|a'..(WoWTools_DataMixin.onlyChinese and '插件管理' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ADDONS, CHAT_MODERATE))
-
-    --添加控制面板
-    WoWTools_PanelMixin:OnlyCheck({
-        name= WoWTools_AddOnsMixin.addName,
-        Value= not Save().disabled,
-        GetValue=function () return not Save().disabled end,
-        SetValue= function()
-            Save().disabled = not Save().disabled and true or nil
-            if not Save().disabled then
-                if Init() then
-                    Init=function()end
-                    return
-                end
-            end
-            print(
-                WoWTools_AddOnsMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-                WoWTools_DataMixin.onlyChinese and '需求重新加载' or REQUIRES_RELOAD
-            )
-        end
-    })
-
-
-
-    if not Save().disabled then
-        Init()
-        --[[if WoWTools_DataMixin.Player.husandro then
-            --PlaySound(SOUNDKIT.IG_MAINMENU_OPTION);
-            --HideUIPanel(GameMenuFrame);
-            ShowUIPanel(AddonList)
-        end
-        AddonList:HookScript('OnShow', function()
-            Init()
-        end)]]
+    for _, name in ipairs({...}) do
+        WoWTools_AddOnsMixin[name](WoWTools_AddOnsMixin)
     end
+end
 
-    self:SetScript('OnEvent', nil)
-    self:UnregisterEvent(event)
-end)
+local function Refresh_All(M)
+    Refresh(M, 'Init_Left_Buttons', 'Init_Bottom_Buttons', 'Init_Right_Buttons')
+end
+
+--Esquema del Centro de control (docs/SETTINGS.md): los mismos ajustes que el menú de la ventana de accesorios
+local Options= {
+    {type='section', text='Shortcut list'},
+    {type='check', key='leftList', text='SHOW', tooltip='Tip.AddOns.LeftList',
+        get= function(save) return not save.hideLeftList end,
+        set= function(save, value) save.hideLeftList= not value and true or nil end,
+        apply= function(M) Refresh(M, 'Init_Left_Buttons') end,
+    },
+    {type='slider', key='leftScale', text='HOUSING_EXPERT_DECOR_SUBMODE_SCALE', min=0.4, max=4, step=0.1, format='%.1f', indent=true,
+        disabled= function(save) return save.hideLeftList end,
+        get= function(save) return save.leftListScale or 1 end,
+        set= function(save, value) save.leftListScale= tonumber(format('%.1f', value)) or 1 end,
+        apply= function(M) Refresh(M, 'Init_Left_Buttons') end,
+    },
+    {type='button', key='leftClear', text='Clear shortcut list', buttonText='CLEAR_ALL', tooltip='Tip.AddOns.LeftListClear', confirm=true, indent=true,
+        func= function(M, save)
+            save.fast= {}
+            Refresh(M, 'Init_Left_Buttons')
+        end,
+    },
+
+    {type='section', text='ADDONS+EMBLEM_SYMBOL'},
+    {type='check', key='bottomList', text='SHOW', tooltip='Tip.AddOns.BottomList',
+        get= function(save) return save.load_list end,
+        set= function(save, value) save.load_list= value and true or nil end,
+        apply= function(M) Refresh(M, 'Init_Bottom_Buttons') end,
+    },
+    {type='check', key='bottomTop', text='Position: top', tooltip='Tip.AddOns.BottomListTop', indent=true,
+        disabled= function(save) return not save.load_list end,
+        get= function(save) return save.load_list_top end,
+        set= function(save, value) save.load_list_top= value and true or nil end,
+        apply= function(M) Refresh(M, 'Init_Bottom_Buttons') end,
+    },
+    {type='check', key='bottomIcon', text='Icon only', tooltip='Tip.AddOns.BottomListIconOnly', indent=true,
+        disabled= function(save) return not save.load_list end,
+        get= function(save) return save.load_list_onlyIcon end,
+        set= function(save, value) save.load_list_onlyIcon= value and true or false end,
+        apply= function(M) Refresh(M, 'Init_Bottom_Buttons') end,
+    },
+    {type='slider', key='bottomSize', text='HUD_EDIT_MODE_SETTING_ACTION_BAR_ICON_SIZE', min=8, max=72, step=1, indent=true,
+        disabled= function(save) return not save.load_list end,
+        get= function(save) return save.load_list_size or 22 end,
+        set= function(save, value) save.load_list_size= math.floor(value) end,
+        apply= function(M) Refresh(M, 'Init_Bottom_Buttons') end,
+    },
+
+    {type='section', text='Addon profiles'},
+    {type='check', key='rightList', text='SHOW', tooltip='Tip.AddOns.RightList',
+        get= function(save) return not save.hideRightList end,
+        set= function(save, value) save.hideRightList= not value and true or nil end,
+        apply= function(M) Refresh(M, 'Init_Right_Buttons') end,
+    },
+    {type='slider', key='rightScale', text='HOUSING_EXPERT_DECOR_SUBMODE_SCALE', min=0.4, max=4, step=0.1, format='%.1f', indent=true,
+        disabled= function(save) return save.hideRightList end,
+        get= function(save) return save.rightListScale or 1 end,
+        set= function(save, value) save.rightListScale= tonumber(format('%.1f', value)) or 1 end,
+        apply= function(M) Refresh(M, 'Init_Right_Buttons') end,
+    },
+    {type='button', key='rightClear', text='Delete all profiles', buttonText='CLEAR_ALL', tooltip='Tip.AddOns.RightListClear', confirm=true, indent=true,
+        func= function(M, save)
+            save.buttons= {}
+            Refresh(M, 'Init_Right_Buttons')
+        end,
+    },
+
+    {type='section', text='Appearance'},
+    {type='slider', key='bgAlpha', text='BACKGROUND+HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY', tooltip='Tip.Menu.BgAlpha',
+        min=0, max=1, step=0.1, format='%.1f',
+        get= function(save) return save.bgAlpha or 0.5 end,
+        set= function(save, value) save.bgAlpha= tonumber(format('%.1f', value)) end,
+        apply= Refresh_All,
+    },
+
+    {type='section', text='Advanced'},
+    {type='check', key='infoPlus', text= function() return WoWTools_L.INFO..' Plus' end, tooltip='Tip.AddOns.InfoPlus', reload=true,
+        get= function(save) return not save.disabledInfoPlus end,
+        set= function(save, value) save.disabledInfoPlus= not value and true or nil end,
+        apply= function(M) Refresh(M, 'Init_Info_Plus') end,
+    },
+    {type='check', key='keepEnabled', text='Keep WoWToolsPlus on "Disable all"', tooltip='Tip.AddOns.KeepEnabled', indent=true,
+        disabled= function(save) return save.disabledInfoPlus end,
+        get= function(save) return save.enableAllButtn end,
+        set= function(save, value) save.enableAllButtn= value and true or nil end,
+        apply= function()
+            local btn= _G['WoWToolsAddonsNotDisableButton']
+            if btn then
+                btn:set_icon()
+            end
+        end,
+    },
+}
+
+
+WoWTools_Module:Register({
+    key= 'Plus_AddOns',
+    name= 'Module.AddOn manager',
+    icon= 'Garr_Building-AddFollowerPlus',
+    group= 'Tools',
+    defaults= P_Save,
+    tooltip= 'Tip.AddOns.Enable',
+    mixin= WoWTools_AddOnsMixin,
+    options= Options,
+    onEnable= function(_, save)
+        save.Bg_Alpha= nil--clave antigua que ya no se usa
+        Init()
+    end,
+})

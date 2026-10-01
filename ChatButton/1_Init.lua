@@ -1,36 +1,21 @@
 local P_Save={
     --disabled=true,    
     disabledADD={
-        ['ChatButton_Emoji']= not WoWTools_DataMixin.Player.IsCN and not WoWTools_DataMixin.Player.husandro,
+        ['ChatButton_Emoji']= not WoWTools_DataMixin.Player.IsCN and true,
     },
     scale= 1,
     strata='MEDIUM',
-    --isVertical=nil,--方向, 竖
-    isEnterShowMenu= WoWTools_DataMixin.Player.husandro,-- 移过图标，显示菜单
 
-    borderAlpha=0,--外框，透明度
+    borderAlpha=0,
     bgAlpha=0,
 
     pointX=0,
-    anchorMenuIndex=1,--菜单位置 下，上，左，右
-    setChatFrameLeft=nil,--放到聊天框左边
+    anchorMenuIndex=1,
+    setChatFrameLeft=nil,
 
-    disabledTooltiip=nil,--禁用提示
+    disabledTooltiip=nil,
 
 }
-
-
-
-local function Save()
-    return WoWToolsSave['ChatButton'] or {}
-end
-
-
-
-
-
-
-
 
 
 
@@ -45,80 +30,68 @@ local function Set_All_Buttons(self)
 end
 
 
-
-
-
-
-
-
-
-
-
 local function Init_Menu(self, root)
     if not self:IsMouseOver() then
         return
     end
 
     local sub, sub2
---缩放
     WoWTools_MenuMixin:Scale(self, root, function()
-        return Save().scale
+        return WoWTools_ChatMixin:Save().scale
     end, function(value)
-        Save().scale= value
+        WoWTools_ChatMixin:Save().scale= value
         self:settings()
     end)
 
---显示背景
     sub=WoWTools_MenuMixin:BgAplha(root, function()
-        return Save().bgAlpha or 0
+        return WoWTools_ChatMixin:Save().bgAlpha or 0
     end, function(value)
-        Save().bgAlpha=value
+        WoWTools_ChatMixin:Save().bgAlpha=value
         self:set_backgroud()
     end, function()
-        Save().bgAlpha= nil
-        Save().bgUseClassColor= nil
+        WoWTools_ChatMixin:Save().bgAlpha= nil
+        WoWTools_ChatMixin:Save().bgUseClassColor= nil
         self:set_backgroud()
     end)
 
---职业颜色
     sub:CreateSpacer()
-    sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '职业颜色' or CLASS_COLORS,
+    sub2=sub:CreateCheckbox(
+        WoWTools_L.CLASS_COLORS,
     function()
-        return Save().bgUseClassColor
+        return WoWTools_ChatMixin:Save().bgUseClassColor
     end, function()
-        Save().bgUseClassColor= not Save().bgUseClassColor and true or nil
+        WoWTools_ChatMixin:Save().bgUseClassColor= not WoWTools_ChatMixin:Save().bgUseClassColor and true or nil
         self:set_backgroud()
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Chat.BgClassColor'])
 
 
 --FrameStrata
     WoWTools_MenuMixin:FrameStrata(self, root, function(data)
         return self:GetFrameStrata()==data
     end, function(data)
-        Save().strata= data
+        WoWTools_ChatMixin:Save().strata= data
         self:settings()
         return MenuResponse.Refresh
     end)
 
---外框，透明度
     sub=root:CreateButton(
-        '|A:bag-reagent-border:0:0|a'..(WoWTools_DataMixin.onlyChinese and '镶边' or EMBLEM_BORDER),
+        '|A:bag-reagent-border:0:0|a'..(WoWTools_L.EMBLEM_BORDER),
     function()
         return MenuResponse.Open
-    end, {rightText= Save().borderAlpha or 0.3})
+    end, {rightText= WoWTools_ChatMixin:Save().borderAlpha or 0.3})
     WoWTools_MenuMixin:SetRightText(sub)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Chat.Border'])
 
---Border 透明度
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
-            return Save().borderAlpha or 0.3
+            return WoWTools_ChatMixin:Save().borderAlpha or 0.3
         end, setValue=function(value)
-            Save().borderAlpha=value
+            WoWTools_ChatMixin:Save().borderAlpha=value
             Set_All_Buttons(self)
         end,
-        name=WoWTools_DataMixin.onlyChinese and '透明度' or HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY,
+        name=WoWTools_L.HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY,
         minValue=0,
         maxValue=1,
         step=0.1,
@@ -130,9 +103,9 @@ local function Init_Menu(self, root)
 
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
-            return Save().pointX or 0
+            return WoWTools_ChatMixin:Save().pointX or 0
         end, setValue=function(value)
-            Save().pointX=value
+            WoWTools_ChatMixin:Save().pointX=value
             Set_All_Buttons(self)
         end,
         name='X',
@@ -143,64 +116,64 @@ local function Init_Menu(self, root)
 
     sub:CreateDivider()
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '重置' or RESET,
+        WoWTools_L.RESET,
     function()
-        Save().pointX=0
-        Save().borderAlpha=0.3
+        WoWTools_ChatMixin:Save().pointX=0
+        WoWTools_ChatMixin:Save().borderAlpha=0.3
         Set_All_Buttons(self)
         return MenuResponse.Open
     end)
 
 
---方向, 竖
     sub=root:CreateCheckbox(
         '|A:bags-greenarrow:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '方向' or HUD_EDIT_MODE_SETTING_BAGS_DIRECTION),
+        ..(WoWTools_L.HUD_EDIT_MODE_SETTING_BAGS_DIRECTION),
     function()
-        return Save().isVertical
+        return WoWTools_ChatMixin:Save().isVertical
     end, function()
-        Save().isVertical= not Save().isVertical and true or nil
+        WoWTools_ChatMixin:Save().isVertical= not WoWTools_ChatMixin:Save().isVertical and true or nil
         self:settings()
         Set_All_Buttons(self)
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Chat.Vertical'])
 
 
 
---菜单位置
     local textTab={
-      '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '下' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN),
-      WoWTools_DataMixin.onlyChinese and '上' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP,
-      WoWTools_DataMixin.onlyChinese and '左' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_LEFT,
-      WoWTools_DataMixin.onlyChinese and '右' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_RIGHT,
+      '|cnGREEN_FONT_COLOR:'..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN),
+      WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP,
+      WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_LEFT,
+      WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_RIGHT,
     }
     for index, tab in pairs(WoWTools_ChatMixin.AnchorMenuTab) do
         sub2=sub:CreateCheckbox(
             textTab[index],
         function(data)
-            return (Save().anchorMenuIndex or 1)==data.index
+            return (WoWTools_ChatMixin:Save().anchorMenuIndex or 1)==data.index
 
         end, function(data)
-            Save().anchorMenuIndex= data.index
+            WoWTools_ChatMixin:Save().anchorMenuIndex= data.index
             Set_All_Buttons(self)
 
         end, {index=index, p=tab[1], p2=tab[2]})
 
         sub2:SetTooltip(function(tooltip, desc)
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '菜单位置' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, HUD_EDIT_MODE_MICRO_MENU_LABEL,CHOOSE_LOCATION))
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Chat.MenuAnchor'])
+            tooltip:AddLine(WoWTools_L['HUD_EDIT_MODE_MICRO_MENU_LABEL+CHOOSE_LOCATION'])
             tooltip:AddDoubleLine(desc.data.p, desc.data.p2)
         end)
     end
 
---HUD提示信息
 
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and 'HUD提示信息' or HUD_EDIT_MODE_HUD_TOOLTIP_LABEL,
+        WoWTools_L.HUD_EDIT_MODE_HUD_TOOLTIP_LABEL,
     function()
-        return not Save().disabledTooltiip
+        return not WoWTools_ChatMixin:Save().disabledTooltiip
     end, function()
-        Save().disabledTooltiip= not Save().disabledTooltiip and true or nil
+        WoWTools_ChatMixin:Save().disabledTooltiip= not WoWTools_ChatMixin:Save().disabledTooltiip and true or nil
     end)
     sub:SetTooltip(function (tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Chat.Tooltip'])
         tooltip:AddLine('GameTooltip')
     end)
 
@@ -208,82 +181,61 @@ local function Init_Menu(self, root)
     sub= root:CreateCheckbox(
         'UIParent',
     function()
-        return not Save().setParent
+        return not WoWTools_ChatMixin:Save().setParent
     end, function()
-        Save().setParent= not Save().setParent and true or nil
+        WoWTools_ChatMixin:Save().setParent= not WoWTools_ChatMixin:Save().setParent and true or nil
         self:settings()
         MenuUtil.ShowTooltip(self, function(tooltip)
             tooltip:AddLine('SetParent '..'|cnGREEN_FONT_COLOR:'..self:GetParent():GetName())
         end)
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Chat.UIParent'])
         tooltip:AddLine('SetParent '..'|cnGREEN_FONT_COLOR:'..self:GetParent():GetName())
     end)
---WoWTools_DataMixin.onlyChinese and '聊天框底部' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, HUD_EDIT_MODE_CHAT_FRAME_LABEL, HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_DOWN),
---放到聊天框左边
+--WoWTools_Join(HUD_EDIT_MODE_CHAT_FRAME_LABEL, HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_DOWN),
 
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '聊天框' or HUD_EDIT_MODE_CHAT_FRAME_LABEL,
+        WoWTools_L.HUD_EDIT_MODE_CHAT_FRAME_LABEL,
     function()
-        return Save().setChatFrameLeft
+        return WoWTools_ChatMixin:Save().setChatFrameLeft
     end, function()
-        Save().setChatFrameLeft= not Save().setChatFrameLeft and true or nil
-        if Save().setChatFrameLeft then
-            Save().Point= nil
+        WoWTools_ChatMixin:Save().setChatFrameLeft= not WoWTools_ChatMixin:Save().setChatFrameLeft and true or nil
+        if WoWTools_ChatMixin:Save().setChatFrameLeft then
+            WoWTools_ChatMixin:Save().Point= nil
         end
         self:settings()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Chat.ChatFrameLeft'])
 
 
---移过图标
     sub=root:CreateCheckbox(
         '|A:newplayertutorial-drag-cursor:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '移过图标' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ENTER_LFG,EMBLEM_SYMBOL)),
+        ..(WoWTools_L['ENTER_LFG+EMBLEM_SYMBOL']),
     function()
-        return Save().isEnterShowMenu
+        return WoWTools_ChatMixin:Save().isEnterShowMenu
     end, function()
-        Save().isEnterShowMenu = not Save().isEnterShowMenu and true or nil
+        WoWTools_ChatMixin:Save().isEnterShowMenu = not WoWTools_ChatMixin:Save().isEnterShowMenu and true or nil
     end)
     sub:SetTooltip(function (tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '显示菜单' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SHOW, HUD_EDIT_MODE_MICRO_MENU_LABEL))
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Chat.EnterShowMenu'])
+        tooltip:AddLine(WoWTools_L['SHOW+HUD_EDIT_MODE_MICRO_MENU_LABEL'])
     end)
 
 
 
---打开选项界面
     root:CreateDivider()
     sub= WoWTools_ChatMixin:Open_SettingsPanel(root, nil)
 
-    --重置位置
-    WoWTools_MenuMixin:RestPoint(self, sub, Save().Point, function()
-        Save().Point=nil
+    WoWTools_MenuMixin:RestPoint(self, sub, WoWTools_ChatMixin:Save().Point, function()
+        WoWTools_ChatMixin:Save().Point=nil
         self:settings()
         return MenuResponse.Open
     end)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    --[[WoWTools_ButtonMixin:Cbtn(nil, {
-        name='WoWToolsChatButtonMainButton',
-        icon='hide',
-        frameType='DropdownButton',
-    })]]
-
-local function Init()
+local Init= WoWTools_Once(function()
     local btn= CreateFrame('DropdownButton', 'WoWToolsChatButtonMainButton', UIParent)
 
     WoWTools_ChatMixin:Set_Button_Script(btn)
@@ -308,7 +260,7 @@ local function Init()
         self.Background:SetPoint('BOTTOMLEFT', btn1, -2, -2)
 
         local w= 30+ 4
-        if Save().isVertical then
+        if WoWTools_ChatMixin:Save().isVertical then
             self.Background:SetPoint('TOPLEFT', btn2, -2, 2)
             self.Background:SetWidth(w)
         else
@@ -316,15 +268,15 @@ local function Init()
             self.Background:SetHeight(w+1)
         end
 
-        local r,g,b,a= 0, 0, 0, Save().bgAlpha or 0
-        if Save().bgUseClassColor then
+        local r,g,b,a= 0, 0, 0, WoWTools_ChatMixin:Save().bgAlpha or 0
+        if WoWTools_ChatMixin:Save().bgUseClassColor then
             r,g,b= PlayerUtil.GetClassColor():GetRGB()
         end
         self.Background:SetColorTexture(r,g,b,a)
     end
 
     function btn:set_menu_anchor()
-        local point= WoWTools_ChatMixin.AnchorMenuTab[Save().anchorMenuIndex or 1]
+        local point= WoWTools_ChatMixin.AnchorMenuTab[WoWTools_ChatMixin:Save().anchorMenuIndex or 1]
         self:SetMenuAnchor(AnchorUtil.CreateAnchor(point[1], self, point[2]))
     end
 
@@ -333,31 +285,35 @@ local function Init()
     WoWTools_TextureMixin:SetEditBox(SELECTED_DOCK_FRAME.editBox, {alpha=1})
 
     function btn:settings()
-        if Save().isVertical then--方向, 竖
+        if WoWTools_ChatMixin:Save().isVertical then
             self:SetSize(30,10)
         else
             self:SetSize(10,30)
         end
         self:set_menu_anchor()
-        self:SetFrameStrata(Save().strata or 'MEDIUM')
-        self:SetScale(Save().scale or 1)
+        self:SetFrameStrata(WoWTools_ChatMixin:Save().strata or 'MEDIUM')
+        self:SetScale(WoWTools_ChatMixin:Save().scale or 1)
 
         self:ClearAllPoints()
 
-        local toChatFrame= Save().setChatFrameLeft and true or false
+        local toChatFrame= WoWTools_ChatMixin:Save().setChatFrameLeft and true or false
         if toChatFrame then
             self:SetPoint('TOP', ChatFrameMenuButton, 'BOTTOM')
-        elseif Save().Point then
-            self:SetPoint(Save().Point[1], UIParent, Save().Point[3], Save().Point[4], Save().Point[5])
+        elseif WoWTools_ChatMixin:Save().Point then
+            self:SetPoint(WoWTools_ChatMixin:Save().Point[1], UIParent, WoWTools_ChatMixin:Save().Point[3], WoWTools_ChatMixin:Save().Point[4], WoWTools_ChatMixin:Save().Point[5])
         else
             self:SetPoint('BOTTOMLEFT', SELECTED_CHAT_FRAME, 'TOPLEFT', -5, 30)
         end
 
-        self:SetParent(Save().setParent and GeneralDockManager or UIParent)
+        self:SetParent(WoWTools_ChatMixin:Save().setParent and GeneralDockManager or UIParent)
 
         self:SetMovable(not toChatFrame)
-        self:SetClampedToScreen(toChatFrame)
-        self:RegisterForDrag(toChatFrame and '' or "RightButton")
+        self:SetClampedToScreen(true)--movida libremente también: si no, se podía perder fuera de la pantalla
+        if toChatFrame then
+            self:RegisterForDrag()
+        else
+            self:RegisterForDrag("RightButton")
+        end
     end
 
     function btn:set_tooltip()
@@ -365,7 +321,7 @@ local function Init()
             return
         end
         GameTooltip:SetText(
-            (WoWTools_DataMixin.onlyChinese and '移动' or NPE_MOVE)
+            (WoWTools_L.NPE_MOVE)
             ..' Alt+'
             ..WoWTools_DataMixin.Icon.right
         )
@@ -383,8 +339,8 @@ local function Init()
         ResetCursor()
         self:StopMovingOrSizing()
         if WoWTools_FrameMixin:IsInSchermo(self) then
-            Save().Point={self:GetPoint(1)}
-            Save().Point[2]=nil
+            WoWTools_ChatMixin:Save().Point={self:GetPoint(1)}
+            WoWTools_ChatMixin:Save().Point[2]=nil
         end
     end)
 
@@ -392,7 +348,7 @@ local function Init()
         ResetCursor()
     end)
     btn:SetScript("OnMouseDown", function(self, d)
-        if IsAltKeyDown() and d=='RightButton' and self:IsMovable() then--移动光标
+        if IsAltKeyDown() and d=='RightButton' and self:IsMovable() then
             SetCursor('UI_MOVE_CURSOR')
             self:CloseMenu()
         end
@@ -400,130 +356,153 @@ local function Init()
 
     btn:settings()
     btn:SetupMenu(Init_Menu)
-
-    Init=function()end
-end
+end)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-local function Init_Panel()
-    if Save().disabled then
+--Refresco en vivo de la barra (lo usan el menú y el Centro de control). all: también los botones
+function WoWTools_ChatMixin:Refresh(all)
+    local btn= _G['WoWToolsChatButtonMainButton']
+    if not btn then
         return
     end
-
-    WoWTools_PanelMixin:Header(WoWTools_ChatMixin.Layout, WoWTools_DataMixin.onlyChinese and '选项' or OPTIONS)
-
-    for _, data in pairs (WoWTools_ChatMixin:GetAllAddList()) do
-        WoWTools_PanelMixin:OnlyCheck({
-            category= WoWTools_ChatMixin.Category,
-            name= data.tooltip,
-            tooltip= data.name,
-            Value= not Save().disabledADD[data.name],
-            GetValue= function() return not Save().disabledADD[data.name] end,
-            SetValue= function()
-                Save().disabledADD[data.name]= not Save().disabledADD[data.name] and true or nil
-            end
-        })
+    btn:settings()
+    if all then
+        Set_All_Buttons(btn)
     end
-
-    Init_Panel=function()end
 end
 
 
+local StrataList= {'BACKGROUND','LOW','MEDIUM','HIGH','DIALOG','FULLSCREEN','FULLSCREEN_DIALOG'}
 
-
-
-
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWTools' then
-
-            WoWToolsSave['ChatButton']= WoWToolsSave['ChatButton'] or P_Save
-            Save().disabledADD= Save().disabledADD or {}
-            P_Save=nil
-
-            if not Save().disabled then
-                Init()
-            end
-
-            WoWTools_ChatMixin.addName='|A:voicechat-icon-textchat-silenced:0:0|a'..(WoWTools_DataMixin.onlyChinese and '聊天工具' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, CHAT, AUCTION_SUBCATEGORY_PROFESSION_TOOLS))
-
-            WoWTools_ChatMixin.Category, WoWTools_ChatMixin.Layout= WoWTools_PanelMixin:AddSubCategory({
-                name=WoWTools_ChatMixin.addName,
-                disabled=Save().disabled
-            })
-
-            WoWTools_PanelMixin:Check_Button({
-                checkName= WoWTools_DataMixin.onlyChinese and '启用' or ENABLE,
-                GetValue= function() return not Save().disabled end,
-                SetValue= function()
-                    Save().disabled= not Save().disabled and true or nil
-                    Init_Panel()
-                end,
-                buttonText= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '重置' or RESET),
-                buttonFunc= function()
-                    StaticPopup_Show('WoWTools_RestData',
-                        WoWTools_ChatMixin.addName,
-                        nil,
-                    function()
-                        WoWToolsSave['ChatButton']= nil
-                    end)
-                end,
-                tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD),
-                layout= WoWTools_ChatMixin.Layout,
-                category= WoWTools_ChatMixin.Category,
-            })
-
-            WoWTools_PanelMixin:OnlyButton({
-                buttonText= WoWTools_DataMixin.onlyChinese and '重置位置' or RESET_POSITION,
-                category= WoWTools_ChatMixin.Category,
-                layout= WoWTools_ChatMixin.Layout,
-                SetValue= function()
-                    Save().Point=nil
-                    if _G['WoWToolsChatButtonMainButton'] then
-                        _G['WoWToolsChatButtonMainButton']:settings()
-                    end
-                    print(
-                        WoWTools_ChatMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                        WoWTools_DataMixin.onlyChinese and '重置位置' or RESET_POSITION
-                    )
-                end
-            })
-
-            WoWTools_PanelMixin:Header(WoWTools_ChatMixin.Layout, WoWTools_DataMixin.onlyChinese and '其它' or OTHER)
-
-            if C_AddOns.IsAddOnLoaded('Blizzard_Settings') then
-                Init_Panel()
-                self:UnregisterEvent(event)
-                self:SetScript('OnEvent', nil)
-            end
-
-        elseif arg1=='Blizzard_Settings' then
-            Init_Panel()
-            self:SetScript('OnEvent', nil)
-            self:UnregisterEvent(event)
-        end
+local function Strata_Values()
+    local list= {}
+    for _, strata in ipairs(StrataList) do
+        table.insert(list, {value=strata, text=strata})
     end
-end)
+    return list
+end
+
+local function Anchor_Values()
+    return {
+        {value=1, text='HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN'},
+        {value=2, text='HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP'},
+        {value=3, text='HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_LEFT'},
+        {value=4, text='HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_RIGHT'},
+    }
+end
+
+local function Refresh()
+    WoWTools_ChatMixin:Refresh()
+end
+
+local function Refresh_All()
+    WoWTools_ChatMixin:Refresh(true)
+end
+
+--Esquema del Centro de control (docs/SETTINGS.md): mismos campos que el menú del botón
+local Options= {
+    {type='section', text='GENERAL'},
+    {type='check', key='enterShowMenu', text='Open menus on mouseover', tooltip='Tip.Chat.EnterShowMenu',
+        get= function(save) return save.isEnterShowMenu end,
+        set= function(save, value) save.isEnterShowMenu= value and true or nil end,
+    },
+    {type='check', key='tooltip', text='Show tooltips', tooltip='Tip.Chat.Tooltip',
+        get= function(save) return not save.disabledTooltiip end,
+        set= function(save, value) save.disabledTooltiip= not value and true or nil end,
+    },
+    {type='children'},
+
+    {type='section', text='Appearance'},
+    {type='slider', key='scale', text='SCALE', tooltip='Tip.Menu.Scale', min=0.4, max=4, step=0.1, format='%.1f',
+        get= function(save) return save.scale or 1 end,
+        set= function(save, value) save.scale= value end,
+        apply= Refresh,
+    },
+    {type='check', key='vertical', text='Vertical layout', tooltip='Tip.Chat.Vertical',
+        get= function(save) return save.isVertical end,
+        set= function(save, value) save.isVertical= value and true or nil end,
+        apply= Refresh_All,
+    },
+    {type='dropdown', key='anchorMenu', text='Menu direction', tooltip='Tip.Chat.MenuAnchor',
+        values= Anchor_Values,
+        get= function(save) return save.anchorMenuIndex or 1 end,
+        set= function(save, value) save.anchorMenuIndex= value end,
+        apply= Refresh_All,
+    },
+    {type='slider', key='pointX', text='Button spacing', tooltip='Tip.Chat.Border', min=-15, max=15, step=1,
+        get= function(save) return save.pointX or 0 end,
+        set= function(save, value) save.pointX= value end,
+        apply= Refresh_All,
+    },
+    {type='slider', key='borderAlpha', text='Border opacity', tooltip='Tip.Chat.Border', min=0, max=1, step=0.1, format='%.1f',
+        get= function(save) return save.borderAlpha or 0.3 end,
+        set= function(save, value) save.borderAlpha= value end,
+        apply= Refresh_All,
+    },
+    {type='slider', key='bgAlpha', text='BACKGROUND+HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY', tooltip='Tip.Menu.BgAlpha',
+        min=0, max=1, step=0.1, format='%.1f',
+        get= function(save) return save.bgAlpha or 0 end,
+        set= function(save, value) save.bgAlpha= value end,
+        apply= Refresh_All,
+    },
+    {type='check', key='bgClassColor', text='CLASS_COLORS', tooltip='Tip.Chat.BgClassColor', indent=true,
+        get= function(save) return save.bgUseClassColor end,
+        set= function(save, value) save.bgUseClassColor= value and true or nil end,
+        apply= Refresh_All,
+    },
+    {type='dropdown', key='strata', text='Strata', tooltip='Tip.Menu.Strata',
+        values= Strata_Values,
+        get= function(save) return save.strata or 'MEDIUM' end,
+        set= function(save, value) save.strata= value end,
+        apply= Refresh,
+    },
+
+    {type='check', key='chatFrameLeft', text='Attach under the chat menu button', tooltip='Tip.Chat.ChatFrameLeft',
+        get= function(save) return save.setChatFrameLeft end,
+        set= function(save, value)
+            save.setChatFrameLeft= value and true or nil
+            if save.setChatFrameLeft then
+                save.Point= nil
+            end
+        end,
+        apply= Refresh,
+    },
+    {type='check', key='uiParent', text='Attach to UIParent', tooltip='Tip.Chat.UIParent',
+        get= function(save) return not save.setParent end,
+        set= function(save, value) save.setParent= not value and true or nil end,
+        apply= Refresh,
+    },
+    {type='button', key='resetPoint', text='RESET_POSITION', buttonText='RESET',
+        disabled= function(save) return save.setChatFrameLeft or not save.Point end,
+        func= function(M, save)
+            save.Point= nil
+            M:Refresh()
+            M:Print(WoWTools_L.RESET_POSITION)
+        end,
+    },
+
+    {type='section', text='Advanced'},
+    {type='button', key='reset', text='Reset all settings', buttonText='RESET', tooltip='Tip.Menu.RestData',
+        func= function(M)
+            StaticPopup_Show('WoWTools_RestData', M.addName, nil, function()
+                WoWToolsPlusSave['ChatButton']= nil
+            end)
+        end,
+    },
+}
+
+
+--Los botones (submódulos) se registran después, con parent='ChatButton'
+WoWTools_Module:Register({
+    key= 'ChatButton', name= 'Module.Chat tools', icon= 'voicechat-icon-textchat-silenced', group= 'Chat',
+    defaults= P_Save, tooltip= 'Tip.Chat.Enable', mixin= WoWTools_ChatMixin,
+    options= Options,
+    onLoad= function(_, save)
+        save.disabledADD= save.disabledADD or {}
+    end,
+    onEnable= Init,
+    childToggle= WoWTools_Module:DisabledADDToggle({
+        ChatButtonGroup='Group', ChatButtonGuild='Guild', ChatButton_LFD='LFD', ChatButton_HyperLink='HyperLink',
+        ChatButton_Say='Say', ChatButton_Invite='Invite', ChatButton_Roll='Roll',--Plus_EmoteButton usa su propio interruptor
+    }),
+})

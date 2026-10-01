@@ -1,251 +1,14 @@
-local function Save()
-    return WoWToolsSave['Plus_UnitFrame'] or {}
-end
-
-
 local function Is_InEditMode()
     if EditModeManagerFrame then
         return EditModeManagerFrame:IsEditModeActive()-- EditModeManagerFrame:ArePartyFramesForcedShown()
     end
 end
 
---[[local function Get_Unit_Status(unit)
-    local atlas,texture
-    if UnitHasIncomingResurrection(unit) then--正在复活
-        atlas='poi-traveldirections-arrow2'
-    elseif UnitIsUnconscious(unit) then--失控
-        atlas='cursor_legendaryquest_128'
-    elseif UnitIsCharmed(unit) or UnitIsPossessed(unit)  then--被魅惑
-        atlas= 'CovenantSanctum-Reservoir-Idle-NightFae-Spiral3'
-    elseif UnitIsFeignDeath(unit) then--假死
-        texture= 132293
 
-    elseif UnitIsGhost(unit) then
-        atlas='poi-soulspiritghost'
-
-    elseif UnitIsDead(unit) then
-        atlas= 'BattleBar-SwapPetFrame-DeadIcon'
-    end
-    return atlas, texture
-end]]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---[[目标的目标
-local function Create_potFrame(frame)
-    frame.ToTButton= CreateFrame('Button', nil, frame, 'WoWToolsButton2Template SecureUnitButtonTemplate')
-
-    local btn= frame.ToTButton
-    btn:SetSize(35,35)
-
-    btn.unit= frame.unit
-    btn.target= frame.unit..'target'
-    function btn:GetUnit()
-        return Is_InEditMode() and 'player' or self.target
-    end
-
-
-    btn:SetPoint('LEFT', frame, 'RIGHT', -3, 4)
-    btn:SetAttribute('type', 'target')
-    btn:SetAttribute('unit', btn.target)
-    btn:SetScript('OnLeave', GameTooltip_Hide)
-    btn:SetScript('OnEnter', function(self)
-        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-        GameTooltip:ClearLines()
-        GameTooltip:SetUnit(self:GetUnit())
-        GameTooltip:Show()
-    end)
-
-
---目标，图像
-    btn.Portrait= btn:CreateTexture(nil, 'BORDER')
-    WoWTools_ButtonMixin:AddMask(btn, true, btn.Portrait)
-    btn.Portrait:SetAllPoints()
-
-
-    btn.healthLable= WoWTools_LabelMixin:Create(btn, {size=14})
-    btn.healthLable:SetPoint('BOTTOM')
-    btn.healthLable:SetJustifyH('CENTER')
-    btn.healthLable:SetFontHeight(10)
-    btn.healthLable:SetTextColor(1,1,1)
-
-
-    function btn:set_portrait()
-        SetPortraitTexture(self.Portrait, self:GetUnit())--图像
-    end
-
-    function btn:set_health()
-        self.healthLable:SetFormattedText('%i', UnitHealthPercent(self:GetUnit(), true, CurveConstants.ScaleTo100))
-    end
-
-    function btn:set_event()
-        self:RegisterUnitEvent('UNIT_TARGET', self.target)
-        self:RegisterUnitEvent('UNIT_TARGETABLE_CHANGED', self.target)
-        self:RegisterUnitEvent('UNIT_PORTRAIT_UPDATE', self.target)
-        self:RegisterUnitEvent('UNIT_HEALTH', self.target)
-        self:set_portrait()
-        self:set_health()
-    end
-
-    btn:SetScript('OnEvent', function(self, event)
-        if event~='UNIT_HEALTH' then
-            SetPortraitTexture(self.Portrait, self:GetUnit())--图像
-        end
-        self:set_health()
-    end)
-
-    btn:SetScript('OnHide', function(self)
-        self.Portrait:SetTexture(0)
-        self:UnregisterAllEvents()
-        self.elapsed= 0.3
-    end)
-    btn:SetScript('OnShow', function(self)
-        self:set_event()
-    end)
-
-    if frame:IsVisible() then
-        btn:set_event()
-    end
-end
-]]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---[[队友，施法
-local function Create_castFrame(frame)
-    local unit= frame:GetUnit()
-    local castFrame= CreateFrame("Frame", 'WoWTools'..unit..'ToTCastingFrame', frame)
-    castFrame:SetPoint('BOTTOMLEFT', frame.ToTButton, 'BOTTOMRIGHT')
-    castFrame:SetSize(20,20)
-
-    castFrame.texture= castFrame:CreateTexture(nil, 'BACKGROUND')
-    castFrame.texture:SetAllPoints()
-    castFrame.texture:EnableMouse(true)
-    WoWTools_ButtonMixin:AddMask(castFrame)
-    castFrame.texture:Hide()
-
-    castFrame.texture:SetScript('OnLeave', function(self)
-        GameTooltip:Hide()
-        self:SetAlpha(1)
-    end)
-    castFrame.texture:SetScript('OnEnter', function(self)
-        local u= self:GetParent().unit
-        if not canaccessvalue(u) or not u then
-            return
-        end
-
-        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-        GameTooltip:ClearLines()
-        local spellID= select(8, UnitChannelInfo(u)) or select(9, UnitCastingInfo(u))
-        GameTooltip:SetSpellByID(spellID or 0)
-        GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_UnitMixin.addName)
-        GameTooltip:Show()
-        self:SetAlpha(0.5)
-    end)
-
-    function castFrame:settings()
-        local texture= WoWTools_CooldownMixin:SetFrame(self, {unit=self.unit})
-        texture= texture or (Is_InEditMode() and 4622499) or 0
-        self.texture:SetTexture(texture)
-        self.texture:SetShown(texture>0)
-    end
-
-
-    castFrame:SetScript('OnEvent', function(self, event, arg1)
-        if event=='UNIT_SPELLCAST_SENT' and not WoWTools_UnitMixin:UnitIsUnit(self.unit, arg1) then
-            return
-        else
-            self:settings()
-        end
-    end)
-
-    castFrame:SetScript('OnHide', function(self)
-        self.texture:SetTexture(0)
-        self:UnregisterAllEvents()
-        WoWTools_CooldownMixin:SetFrame(self)
-    end)
-
-    function castFrame:Init()
-        self.unit= self:GetParent():GetUnit()
-        local events= {--ActionButton.lua
-            'UNIT_SPELLCAST_CHANNEL_START',
-            'UNIT_SPELLCAST_CHANNEL_UPDATE',
-            'UNIT_SPELLCAST_START',
-            'UNIT_SPELLCAST_DELAYED',
-            'UNIT_SPELLCAST_RETICLE_TARGET',
-            'UNIT_SPELLCAST_EMPOWER_START',
-
-            'UNIT_SPELLCAST_INTERRUPTED',
-            'UNIT_SPELLCAST_SUCCEEDED',
-            'UNIT_SPELLCAST_RETICLE_CLEAR',
-            'UNIT_SPELLCAST_FAILED',
-            'UNIT_SPELLCAST_FAILED_QUIET',
-            'UNIT_SPELLCAST_STOP',
-            'UNIT_SPELLCAST_EMPOWER_STOP',
-            'UNIT_SPELLCAST_CHANNEL_STOP',
-        }
-        FrameUtil.RegisterFrameForUnitEvents(self, events, self.unit)
-        self:RegisterEvent('UNIT_SPELLCAST_SENT')
-        self:settings()
-    end
-
-    if frame:IsShown() then
-        castFrame:Init()
-    end
-    castFrame:SetScript('OnShow', function(self)
-        self:Init()
-    end)
-
-end]]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---成员派系
 local function Create_frame(partyFrame)
     local frame= CreateFrame("Frame", nil, partyFrame)
 
-    frame.faction=frame:CreateTexture('WoWTools'..partyFrame.unit..'FactionTexture', 'ARTWORK')
+    frame.faction=frame:CreateTexture('WoWToolsPlus'..partyFrame.unit..'FactionTexture', 'ARTWORK')
     frame.faction:SetSize(14,14)
     frame.faction:SetPoint('TOPLEFT', partyFrame.Portrait)
 
@@ -286,26 +49,6 @@ local function Create_frame(partyFrame)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---战斗指示
 local function Create_combatFrame(frame)
     frame.combatFrame= CreateFrame('Frame', nil, frame)
 
@@ -346,27 +89,16 @@ local function Create_combatFrame(frame)
 end
 
 
-
-
-
-
-
-
-
-
---队友位置
 local function Create_positionFrame(frame)
 
     local Frame= CreateFrame("Frame", nil, frame)
     Frame:SetPoint('LEFT', frame.PartyMemberOverlay.LeaderIcon, 'RIGHT')
     Frame:SetSize(1,1)
---地图，位置
     Frame.map= CreateFrame('Frame', nil, Frame)
     Frame.map.Text= Frame.map:CreateFontString(nil, 'BORDER', 'WoWToolsFont')--  WoWTools_LabelMixin:Create(Frame.map)
     Frame.map.Text:SetFontHeight(10)
     Frame.map.Text:SetPoint('LEFT', Frame)
     Frame.map:Hide()
---距离
     Frame.xy= CreateFrame('Frame', nil, Frame)
     Frame.xy:SetSize(1,1)
     Frame.xy:SetPoint('RIGHT', frame.Portrait, 'LEFT')
@@ -387,26 +119,22 @@ local function Create_positionFrame(frame)
         local text
         text= ''
 
---挑战, 分数
         local info= C_PlayerInfo.GetPlayerMythicPlusRatingSummary(self.unit)
         if info and info.currentSeasonScore and info.currentSeasonScore>0 then
             text= WoWTools_ChallengeMixin:KeystoneScorsoColor(info.currentSeasonScore, true)
         end
 
-        local mapID= C_Map.GetBestMapForUnit(self.unit)--地图ID
+        local mapID= C_Map.GetBestMapForUnit(self.unit)
         local mapInfo= mapID and C_Map.GetMapInfo(mapID)
         if mapInfo and mapInfo.name then
             local mapID2= C_Map.GetBestMapForUnit('player')
---在同一地图上
             text= text.. '|A:'..(mapID2== mapID and 'common-icon-checkmark' or 'poi-islands-table')..':0:0|a'
---地图名称
             text= text..WoWTools_TextMixin:CN(mapInfo.name)
         end
 
---距离
         local distanceSquared, checkedDistance = UnitDistanceSquared(self.unit)
-        if distanceSquared and checkedDistance then
-            text= text..' '..WoWTools_DataMixin:MK(distanceSquared, 0)
+        if canaccessvalue(distanceSquared) and distanceSquared and checkedDistance then
+            text= text..' '..WoWTools_DataMixin:MK(math.sqrt(distanceSquared), 0)--la API devuelve el cuadrado
         end
 
         self.Text:SetText(text)
@@ -458,21 +186,8 @@ local function Create_positionFrame(frame)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
---队友，死亡 Save().PartyDeadData={ [GetUnitName(self.unit, true) ] = 死亡次数 0}
 local function Rest_AllDeadData()
-     Save().PartyDeadData={}
+     WoWTools_UnitMixin:Save().PartyDeadData={}
      for i=1, MAX_PARTY_MEMBERS+1 do
         if _G['CompactPartyFrameMember'..i] then
             local frame= _G['CompactPartyFrameMember'..i].deadFrame
@@ -521,12 +236,12 @@ local function Create_deadFrame(frame)
         GameTooltip:ClearLines()
         GameTooltip:AddLine(self:GetParent().unit, 1,1,1)
         GameTooltip:AddLine(
-            WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '死亡' or DEAD)
+            WoWTools_DataMixin.Icon.icon2..(WoWTools_L.DEAD)
             ..': |cffffffff'..self:GetText()..'|r '
-           ..(WoWTools_DataMixin.onlyChinese and '次' or VOICEMACRO_LABEL_CHARGE1)
+           ..(WoWTools_L.VOICEMACRO_LABEL_CHARGE1)
         )
         GameTooltip:AddLine(
-            (WoWTools_DataMixin.onlyChinese and '全部重置' or RESET_ALL_BUTTON_TEXT)
+            (WoWTools_L.RESET_ALL_BUTTON_TEXT)
             ..WoWTools_DataMixin.Icon.left
         )
         GameTooltip:Show()
@@ -549,35 +264,13 @@ local function Create_deadFrame(frame)
     end
 
     function deadFrame:settings()
---死亡，次数
         local name= self:GetName()
         local text
         if name then
-            text= Save().PartyDeadData[name] or 0
+            text= WoWTools_UnitMixin:Save().PartyDeadData[name] or 0
         end
         self.Text:SetText(text or '')
     end
-
---编辑模式
-        --[[if Is_InEditMode() then
-            self.texture:SetTexture(WoWTools_DataMixin.Icon.icon)
-            return
---没用，连线
-        elseif not UnitIsConnected(unit) then
-            self.texture:SetTexture(0)
-            return
-        end]]
-
-        --[[local atlas, texture= Get_Unit_Status(unit)
-
-        if atlas then
-            self.texture:SetAtlas(atlas)
-        else
-            self.texture:SetTexture(texture or 0)
-        end]]
-
-
-
 
 
 
@@ -586,17 +279,17 @@ local function Create_deadFrame(frame)
             self.deadBool=nil
             local name= self:GetName()
             if name then
-                Save().PartyDeadData[name]= nil
+                WoWTools_UnitMixin:Save().PartyDeadData[name]= nil
             end
 
         else
-            if UnitIsDeadOrGhost(self.unit) then--死亡，次数 UnitInPartyIsAI
+            if UnitIsDeadOrGhost(self.unit) then
                 if not self.deadBool then
                     self.deadBool=true
 
                     local name= self:GetName()
                     if name then
-                        Save().PartyDeadData[name]= (Save().PartyDeadData[name] or 0)+1
+                        WoWTools_UnitMixin:Save().PartyDeadData[name]= (WoWTools_UnitMixin:Save().PartyDeadData[name] or 0)+1
                     end
                     self:settings()
                 end
@@ -627,46 +320,13 @@ local function Create_deadFrame(frame)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---先使用一次，用以Shift+点击，设置焦点功能, Invite.lua
 local function Init()--PartyFrame.lua
-    if WoWToolsSave['Plus_UnitFrame'].hidePartyFrame then
+    if WoWTools_UnitMixin:Save().hidePartyFrame then
         return
     end
 
     EventRegistry:RegisterFrameEventAndCallback("GROUP_LEFT", function()
-        Save().PartyDeadData= {}--队友，死亡，次数
+        WoWTools_UnitMixin:Save().PartyDeadData= {}
     end)
 
     PartyFrame.Background:SetWidth(124)--144
@@ -676,9 +336,6 @@ local function Init()--PartyFrame.lua
         local name= 'MemberFrame'..i
         local frame= PartyFrame[name]
         if frame then
-            --[[do
-                Create_potFrame(frame)--目标的目标
-            end]]
             WoWTools_UnitMixin:CreateUnitButton(frame, {
                 name= name,
                 point=function(btn, f)
@@ -706,28 +363,20 @@ local function Init()--PartyFrame.lua
             end
             --frame.PortraitMask:SetAlpha(0)
             --frame.Texture:SetAlpha(0)
-            --Create_castFrame(frame)--队友，施法
-            Create_frame(frame)--队伍, 标记, 成员派系
-            Create_combatFrame(frame, false)--战斗指示
+            Create_frame(frame)
+            Create_combatFrame(frame, false)
 
-            Create_positionFrame(frame)--队友位置
-            Create_deadFrame(frame)--队友，死亡
-
-        --[[WoWTools_DataMixin:Hook(frame, 'ToPlayerArt', function(self)--PartyMemberFrame.lua
-            self.Texture:SetAtlas('UI-HUD-UnitFrame-Party-PortraitOn-InCombat')--PartyFrameTemplates.xml
-        end)]]
+            Create_positionFrame(frame)
+            Create_deadFrame(frame)
 
 
-            WoWTools_DataMixin:Hook(frame, 'UpdateAssignedRoles', function(self)--隐藏, DPS 图标
+
+            WoWTools_DataMixin:Hook(frame, 'UpdateAssignedRoles', function(self)
                 self.PartyMemberOverlay.RoleIcon:SetAlpha(UnitGroupRolesAssigned(self.unit)== 'DAMAGER' and 0 or 1)
             end)
 
             frame.Texture:SetAlpha(0.5)
             WoWTools_DataMixin:Hook(frame, 'UpdateMember', function(self)
-                --[[local color= WoWTools_UnitMixin:GetColor(frame.unit)
-            --外框
-                self.Texture:SetVertexColor(color:GetRGB())
-                self.PortraitMask:SetVertexColor(color:GetRGB())]]
 
                 frame.deadFrame:UnregisterAllEvents()
                 frame.deadFrame:Init()
@@ -764,22 +413,8 @@ local function Init()--PartyFrame.lua
 
     Init=function()end
 end
---[[
-    WoWTools_DataMixin:Hook(PartyFrame, 'UpdatePartyFrames', function(self)
-        for frame in PartyFrame.PartyMemberFramePool:EnumerateActive() do
-            if not frame.ToTButton then
-                Init_CreateButton(frame)
-            end
-        end
-    end)
- WoWTools_DataMixin:Hook(PartyFrame, 'UpdatePartyFrames', function(unitFrame)
-    for memberFrame in unitFrame.PartyMemberFramePool:EnumerateActive() do
-        set_memberFrame(memberFrame)
-    end
-end)
-]]
 
 
-function WoWTools_UnitMixin:Init_PartyFrame()--小队
+function WoWTools_UnitMixin:Init_PartyFrame()
     Init()
 end

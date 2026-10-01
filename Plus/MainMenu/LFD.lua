@@ -1,4 +1,3 @@
---地下城查找器
 
 
 
@@ -7,11 +6,11 @@
 
 local frame
 
-local function Init()
+local Init= WoWTools_Once(function()
     frame= CreateFrame('Frame')
 
     frame.Text= WoWTools_LabelMixin:Create(LFDMicroButton,  {
-        size=WoWToolsSave['Plus_MainMenu'].size,
+        size=WoWTools_MainMenuMixin:Save().size,
         color=true,
     })
     frame.Text:SetPoint('TOP', LFDMicroButton, 0,  -3)
@@ -34,8 +33,8 @@ local function Init()
         frame:settings()
         GameTooltip:AddLine(' ')
 
-        local find= WoWTools_ChallengeMixin:ActivitiesTooltip()--周奖励，提示
-        local link= WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].Keystone.link
+        local find= WoWTools_ChallengeMixin:ActivitiesTooltip()
+        local link= WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Keystone.link
         if link then
             GameTooltip:AddLine(WoWTools_HyperLink:CN_Link(link, {isName=true}))
         end
@@ -48,13 +47,13 @@ local function Init()
         local col= bat and '|cff626262' or '|cffffffff'
         GameTooltip:AddLine(
             col
-            ..(WoWTools_DataMixin.onlyChinese and '地下城和团队副本' or GROUP_FINDER)
+            ..(WoWTools_L.GROUP_FINDER)
             ..WoWTools_DataMixin.Icon.mid
-            ..(WoWTools_DataMixin.onlyChinese and '上' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP)
+            ..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP)
         )
         GameTooltip:AddLine(
             col
-            ..(WoWTools_DataMixin.onlyChinese and 'PvP' or PVP)
+            ..(WoWTools_L.PVP)
             ..WoWTools_DataMixin.Icon.right
         )
         GameTooltip:AddLine(
@@ -62,9 +61,9 @@ local function Init()
                 (bat or PlayerIsTimerunning() or not WoWTools_DataMixin.Player.IsMaxLevel)
                 and '|cff626262' or '|cffffffff'
             )
-            ..(WoWTools_DataMixin.onlyChinese and '史诗地下城' or MYTHIC_DUNGEONS)
+            ..(WoWTools_L.MYTHIC_DUNGEONS)
             ..WoWTools_DataMixin.Icon.mid
-            ..(WoWTools_DataMixin.onlyChinese and '下' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN)
+            ..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN)
         )
 
         GameTooltip:Show()
@@ -92,13 +91,12 @@ local function Init()
     end)
 
 
-    Init=function()end
-end
+end)
 
 
 
 
 
-function WoWTools_MainMenuMixin:Init_LFD()--地下城查找器
+function WoWTools_MainMenuMixin:Init_LFD()
     Init()
 end

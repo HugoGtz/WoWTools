@@ -1,13 +1,3 @@
---[[
-数据来源
-https://wago.tools/db2/Achievement?locale=zhCN
-[Instance_ID]={
-    ID,
-    ...
-}
-
-[0] = "MapIDAchievementData 数据版本 12.0.1 - 65867 总数 244, 由 WoWTools Chinese Scanner 插件收集",
-]]
 WoWTools_MapIDAchievementData = {
 
 [998] = {

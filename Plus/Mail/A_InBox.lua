@@ -1,8 +1,4 @@
-local function Save()
-    return WoWToolsSave['Plus_Mail']
-end
-
-local AUCTION_REMOVED_MAIL_SUBJECT= WoWTools_TextMixin:Magic(AUCTION_REMOVED_MAIL_SUBJECT) --= "拍卖取消：%s";
+local AUCTION_REMOVED_MAIL_SUBJECT= WoWTools_TextMixin:Magic(AUCTION_REMOVED_MAIL_SUBJECT)
 
 
 
@@ -24,7 +20,6 @@ local function get_Money(num)
     end
     return text or ''
 end
---查找，信件里的第一个物品，超链接
 local function find_itemLink(itemCount, openMailID, itemLink)
     itemLink= (itemCount and itemCount>0) and itemLink
     if itemCount and itemCount>0 and not itemLink then
@@ -38,34 +33,35 @@ local function find_itemLink(itemCount, openMailID, itemLink)
     return itemLink
 end
 
---删除，或退信
-local function return_delete_InBox(openMailID)--删除，或退信
+local function return_delete_InBox(openMailID)
     local packageIcon, stationeryIcon, sender, subject, money, CODAmount, daysLeft, itemCount, wasRead, x, y, z, isGM, firstItemQuantity, firstItemLink = GetInboxHeaderInfo(openMailID)
 
     local itemName= find_itemLink(itemCount, openMailID, firstItemLink)
     local icon=packageIcon or stationeryIcon
 
     local text= GetInboxText(openMailID) or ''
-    text= text:gsub(' ','') and nil or text
+    if text:gsub('%s','')=='' then
+        text= nil
+    end
 
     local delOrRe
     local canDelete= InboxItemCanDelete(openMailID)
     if InboxItemCanDelete(openMailID) then
-        delOrRe= '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '删除' or DELETE)..'|r'
+        delOrRe= '|cnGREEN_FONT_COLOR:'..(WoWTools_L.DELETE)..'|r'
     else
-        delOrRe= '|cFFFF00FF'..(WoWTools_DataMixin.onlyChinese and '退信' or MAIL_RETURN)..'|r'
+        delOrRe= '|cFFFF00FF'..(WoWTools_L.MAIL_RETURN)..'|r'
     end
 
-    if canDelete and (not money or money==0) and (not CODAmount or CODAmount==0) and (not itemCount or itemCount) then
+    if canDelete and (not money or money==0) and (not CODAmount or CODAmount==0) and (not itemCount or itemCount==0) then
         DeleteInboxItem(openMailID)
     else
         InboxFrame.openMailID= openMailID
         OpenMailFrame.itemName= (itemCount and itemCount>0) and itemName or nil
         OpenMailFrame.money= money
-        WoWTools_DataMixin:Call('OpenMail_Delete')--删除，或退信 MailFrame.lua
+        WoWTools_DataMixin:Call('OpenMail_Delete')
     end
 
-    print(
+    WoWTools_Print(
         WoWTools_DataMixin.Icon.icon2..'|cFFFF00FF'..openMailID..')|r',
         ((icon and not itemName) and '|T'..icon..':0|t' or '')..delOrRe,
         WoWTools_UnitMixin:GetLink(nil, nil, sender, false),
@@ -78,7 +74,6 @@ local function return_delete_InBox(openMailID)--删除，或退信
 end
 
 
---隐藏，所有，选中提示
 local function set_btn_enterTipTexture_Hide_All()
     for i=1, INBOXITEMS_TO_DISPLAY do
         local btn=_G["MailItem"..i.."Button"]
@@ -98,28 +93,28 @@ end
 
 
 
-local function set_Tooltips_DeleteAll(self, del)--所有，删除，退信，提示
-    set_btn_enterTipTexture_Hide_All()--隐藏，所有，选中提示
+local function set_Tooltips_DeleteAll(self, del)
+    set_btn_enterTipTexture_Hide_All()
 
     GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
     GameTooltip:ClearLines()
-    GameTooltip:AddDoubleLine(WoWTools_MailMixin.addName, (WoWTools_DataMixin.onlyChinese and '收件箱' or INBOX)..' Plus')
+    GameTooltip:AddDoubleLine(WoWTools_MailMixin.addName, (WoWTools_L.INBOX)..' Plus')
     local num=0
-    local findReTips--显示第一个，退回信里，的物品
+    local findReTips
     for i=1, select(2, GetInboxNumItems()) do
         local canDelete=InboxItemCanDelete(i)
         local packageIcon, stationeryIcon, sender, subject, money, CODAmount, _, itemCount, wasRead, _, _, _, _, _, firstItemLink = GetInboxHeaderInfo(i)
         local moneyPaga= (CODAmount and CODAmount>0) and CODAmount or nil
         local moneyGet= (money and money>0) and money or nil
-        local itemLink= find_itemLink(itemCount, i, firstItemLink)--查找，信件里的第一个物品，超链接
+        local itemLink= find_itemLink(itemCount, i, firstItemLink)
         if (canDelete and del and not moneyPaga and not moneyGet and not itemLink) or (not del and not canDelete) then
             GameTooltip:AddDoubleLine((i<10 and ' ' or '')
                                     ..i..') |T'..(packageIcon or stationeryIcon)..':0|t'
                                     ..WoWTools_MailMixin:GetNameInfo(sender)
-                                    ..(not wasRead and ' |cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '未读' or COMMUNITIES_FRAME_JUMP_TO_UNREAD) or '')
+                                    ..(not wasRead and ' |cnWARNING_FONT_COLOR:'..(WoWTools_L.COMMUNITIES_FRAME_JUMP_TO_UNREAD) or '')
                                 , subject)
 
-            if not canDelete and (itemCount and itemCount>0) and not findReTips then--物品，提示
+            if not canDelete and (itemCount and itemCount>0) and not findReTips then
                 local allCount=0
                 for itemIndex= 1, itemCount do
                     local itemIndexLink= GetInboxItemLink(i, itemIndex)
@@ -135,7 +130,7 @@ local function set_Tooltips_DeleteAll(self, del)--所有，删除，退信，提
                 GameTooltip:AddLine(' ')
             end
 
-            if not findReTips then--显示，所有，选中提示
+            if not findReTips then
                 for i2=1, INBOXITEMS_TO_DISPLAY do
                     local btn=_G["MailItem"..i2.."Button"]
                     if btn and btn.enterTipTexture and btn.index==i then
@@ -150,18 +145,18 @@ local function set_Tooltips_DeleteAll(self, del)--所有，删除，退信，提
         end
     end
     GameTooltip:AddDoubleLine(' ',
-                        del and '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '删除' or DELETE)..'|r |cnGREEN_FONT_COLOR:#'..num
-                        or ('|cFFFF00FF'..(WoWTools_DataMixin.onlyChinese and '退信' or MAIL_RETURN)..'|r |cnGREEN_FONT_COLOR:#'..num)
+                        del and '|cnWARNING_FONT_COLOR:'..(WoWTools_L.DELETE)..'|r |cnGREEN_FONT_COLOR:#'..num
+                        or ('|cFFFF00FF'..(WoWTools_L.MAIL_RETURN)..'|r |cnGREEN_FONT_COLOR:#'..num)
                     )
     GameTooltip:Show()
 end
 
 
 
-local function eventEnter(self, get)--enter 提示，删除，或退信，按钮
+local function eventEnter(self, get)
     GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
     GameTooltip:ClearLines()
-    GameTooltip:AddDoubleLine(WoWTools_MailMixin.addName, (WoWTools_DataMixin.onlyChinese and '收件箱' or INBOX)..' Plus')
+    GameTooltip:AddDoubleLine(WoWTools_MailMixin.addName, (WoWTools_L.INBOX)..' Plus')
     GameTooltip:AddLine(' ')
     local packageIcon, stationeryIcon, _, _, _, _, _, itemCount = GetInboxHeaderInfo(self.openMailID)
     local allCount=0
@@ -185,14 +180,14 @@ local function eventEnter(self, get)--enter 提示，删除，或退信，按钮
 
     local text2
     if get then
-        text2= WoWTools_DataMixin.onlyChinese and '提取' or WITHDRAW
+        text2= WoWTools_L.WITHDRAW
     elseif self.canDelete then
-        text2= WoWTools_DataMixin.onlyChinese and '删除' or DELETE
+        text2= WoWTools_L.DELETE
     else
-        text2= WoWTools_DataMixin.onlyChinese and '退信' or MAIL_RETURN
+        text2= WoWTools_L.MAIL_RETURN
     end
     local icon= packageIcon or stationeryIcon
-    GameTooltip:AddLine('|cffff00ff'..self.openMailID..' |r'..(icon and '|T'..icon..':0|t')..text2..(allCount>1 and ' |cnGREEN_FONT_COLOR:'..WoWTools_DataMixin:MK(allCount,3)..'|r'..(WoWTools_DataMixin.onlyChinese and '物品' or ITEMS) or ''))
+    GameTooltip:AddLine('|cffff00ff'..self.openMailID..' |r'..(icon and '|T'..icon..':0|t')..text2..(allCount>1 and ' |cnGREEN_FONT_COLOR:'..WoWTools_DataMixin:MK(allCount,3)..'|r'..(WoWTools_L.ITEMS) or ''))
     GameTooltip:Show()
 end
 
@@ -209,7 +204,6 @@ end
 
 
 
---删除所有信，按钮
 local function Create_DeleteAllButton()
     InboxFrame.DeleteAllButton= WoWTools_ButtonMixin:Cbtn(InboxFrame, {
         size=25,
@@ -222,22 +216,21 @@ local function Create_DeleteAllButton()
         InboxFrame.DeleteAllButton:SetPoint('BOTTOMRIGHT', _G['MailItem1'], 'TOPRIGHT', 15, 15)
     end
 
-    InboxFrame.DeleteAllButton:SetScript('OnEnter', function(self)--提示，要删除信，内容
+    InboxFrame.DeleteAllButton:SetScript('OnEnter', function(self)
         set_Tooltips_DeleteAll(self, true)
     end)
     InboxFrame.DeleteAllButton:SetScript('OnLeave', function(self)
-        set_btn_enterTipTexture_Hide_All()--隐藏，所有，选中提示
+        set_btn_enterTipTexture_Hide_All()
         GameTooltip:Hide()
     end)
 
-    --删除信
     InboxFrame.DeleteAllButton:SetScript('OnClick', function(self)
 
         for i=1, select(2, GetInboxNumItems())do
             if InboxItemCanDelete(i) then
                 local money, CODAmount, _, itemCount= select(5, GetInboxHeaderInfo(i))
                 if (not money or money==0) and (not CODAmount or CODAmount==0) and (not itemCount or itemCount==0) then
-                    return_delete_InBox(i)--删除，或退信
+                    return_delete_InBox(i)
                     --DeleteInboxItem(i);
                     break
                 end
@@ -264,7 +257,6 @@ end
 
 
 
---退回，所有信，按钮
 local function Create_ReAllButton()
     InboxFrame.ReAllButton= WoWTools_ButtonMixin:Cbtn(InboxFrame, {
         size=25,
@@ -277,19 +269,18 @@ local function Create_ReAllButton()
         InboxFrame.ReAllButton:SetPoint('RIGHT', InboxFrame.DeleteAllButton,'LEFT')
     end
 
-    InboxFrame.ReAllButton:SetScript('OnEnter', function(self)--提示，要删除信，内容
+    InboxFrame.ReAllButton:SetScript('OnEnter', function(self)
         set_Tooltips_DeleteAll(self, false)
     end)
     InboxFrame.ReAllButton:SetScript('OnLeave', function(self)
-        set_btn_enterTipTexture_Hide_All()--隐藏，所有，选中提示
+        set_btn_enterTipTexture_Hide_All()
         GameTooltip:Hide()
     end)
 
-    --删除信
     InboxFrame.ReAllButton:SetScript('OnClick', function(self)
         for i=1, select(2, GetInboxNumItems()) do
             if not InboxItemCanDelete(i) then
-                return_delete_InBox(i)--删除，或退信
+                return_delete_InBox(i)
                 break
             end
         end
@@ -317,7 +308,6 @@ end
 
 
 
---删除，或退信，按钮
 local function Create_Unit_Button(btn, i)
     if btn.DeleteButton then
         return
@@ -331,7 +321,6 @@ local function Create_Unit_Button(btn, i)
 
     btn.countLable= _G['MailItem'..i..'ButtonCount']
 
-    --发信人，提示, 点击回复
     lable=_G["MailItem"..i.."Sender"]
     btn.senderLable= lable
 
@@ -340,7 +329,7 @@ local function Create_Unit_Button(btn, i)
             OpenMailSender.Name:SetText(self.playerName or self.sender)
             OpenMailSubject:SetText(self.subject)
             InboxFrame.openMailID= self.openMailID
-            WoWTools_DataMixin:Call('OpenMail_Reply')--回复
+            WoWTools_DataMixin:Call('OpenMail_Reply')
         end
         self:SetAlpha(1)
     end)
@@ -348,8 +337,8 @@ local function Create_Unit_Button(btn, i)
         if (self.playerName or self.sender) and self.canReply  then
             GameTooltip:SetOwner(self:GetParent(), "ANCHOR_LEFT")
             GameTooltip:ClearLines()
-            GameTooltip:AddDoubleLine(WoWTools_MailMixin.addName, (WoWTools_DataMixin.onlyChinese and '收件箱' or INBOX)..' Plus')
-            GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '回复' or REPLY_MESSAGE, self.playerName or self.sender)
+            GameTooltip:AddDoubleLine(WoWTools_MailMixin.addName, (WoWTools_L.INBOX)..' Plus')
+            GameTooltip:AddDoubleLine(WoWTools_L.REPLY_MESSAGE, self.playerName or self.sender)
             GameTooltip:Show()
         end
         self:SetAlpha(0.3)
@@ -359,18 +348,16 @@ local function Create_Unit_Button(btn, i)
         self:SetAlpha(1)
     end)
 
---信件，索引，提示
     btn.indexText= WoWTools_LabelMixin:Create(btn, {alpha= 0.5})
     btn.indexText:SetPoint('RIGHT', btn, 'LEFT',-2,0)
 
---提示，需要付钱, 可收取钱
-    btn.typeTexture= btn:CreateTexture(nil, 'OVERLAY')--图片
+    btn.typeTexture= btn:CreateTexture(nil, 'OVERLAY')
     btn.typeTexture:SetSize(150, 16)
     btn.typeTexture:SetPoint('BOTTOM', _G['MailItem'..i], 0,-4)
     btn.typeTexture:SetAtlas('jailerstower-wayfinder-rewardbackground-selected')
     btn.typeTexture:SetAlpha(0.75)
     --btn.typeTexture:EnableMouse(true)
-    btn.typeText= WoWTools_LabelMixin:Create(btn)--文本
+    btn.typeText= WoWTools_LabelMixin:Create(btn)
     btn.typeText:SetPoint('CENTER', btn.typeTexture)
     --btn.typeText:EnableMouse(true)
 
@@ -378,7 +365,7 @@ local function Create_Unit_Button(btn, i)
     btn.DeleteButton:SetPoint('BOTTOMRIGHT', _G['MailItem'..i], -4, 0)
 
     btn.DeleteButton:SetScript('OnClick', function(self)--OpenMail_Delete()
-        return_delete_InBox(self.openMailID)--删除，或退信
+        return_delete_InBox(self.openMailID)
         C_Timer.After(0.3, function()
             if self:IsMouseOver() then
                 eventEnter(self)
@@ -395,7 +382,6 @@ local function Create_Unit_Button(btn, i)
         GameTooltip:Hide()
     end)
 
-    --移过时，提示，选中，信件
     btn.DeleteButton.numItemLabel= WoWTools_LabelMixin:Create(btn.DeleteButton)
     btn.DeleteButton.numItemLabel:SetPoint('BOTTOMRIGHT')
     btn.enterTipTexture= btn:CreateTexture(nil, 'OVERLAY', nil, 7)
@@ -404,7 +390,6 @@ local function Create_Unit_Button(btn, i)
     btn.enterTipTexture:SetVertexColor(0,1,0)
     btn.enterTipTexture:Hide()
 
-    --提取，物品，和钱
     btn.outItemOrMoney= WoWTools_ButtonMixin:Cbtn(btn, {size={22, 20}, atlas='Cursor_OpenHand_32'})
     btn.outItemOrMoney:SetPoint('RIGHT', btn.DeleteButton, 'LEFT', -22, 0)
     btn.outItemOrMoney:SetScript('OnClick', function(self)
@@ -453,7 +438,7 @@ end
 
 
 local function Init_InboxFrame_Update()
-    local hide= Save().hide
+    local hide= WoWTools_MailMixin:Save().hide
     local player= UnitName('player')
     for i=1, INBOXITEMS_TO_DISPLAY do
         local btn=_G["MailItem"..i.."Button"]
@@ -472,14 +457,13 @@ local function Init_InboxFrame_Update()
             local invoiceType, itemName, playerName, bid, buyout, deposit, consignment = GetInboxInvoiceInfo(btn.index)
 
             local isCOD = CODAmount and CODAmount>0
-            local isAuctionHouse= invoiceType~=nil or sender==BUTTON_LAG_AUCTIONHOUSE--拍卖行
+            local isAuctionHouse= invoiceType~=nil or sender==BUTTON_LAG_AUCTIONHOUSE
             local isSelf= sender==player
 
             if hasItem and hasItem>1 then
                 btn.countLable:SetText('|cffffd100'..hasItem..'|r')
                 btn.countLable:SetShown(true)
             end
-            --发信人，提示, 点击回复
             btn.senderLable.canReply= canReply
             btn.senderLable.sender= sender
             btn.senderLable.subject= subject
@@ -488,38 +472,36 @@ local function Init_InboxFrame_Update()
 
             if sender and not isGM and not isSelf and not isAuctionHouse then
                 btn.senderLable:EnableMouse(true)
-                btn.senderLable:SetText(playerName and sender..'  '..WoWTools_MailMixin:GetNameInfo(playerName) or WoWTools_MailMixin:GetNameInfo(sender))--发信人，提示 
+                btn.senderLable:SetText(playerName and sender..'  '..WoWTools_MailMixin:GetNameInfo(playerName) or WoWTools_MailMixin:GetNameInfo(sender))
             else
                 btn.senderLable:EnableMouse(false)
             end
 
-            --信件，索引，提示
             btn.indexText:SetText(btn.index or '')
 
-            --提示，需要付钱, 可收取钱
             local text=''
-            if isAuctionHouse then--拍卖行，黄色
+            if isAuctionHouse then
                 btn.typeTexture:SetVertexColor(1,1,0)
                 btn.typeText:SetTextColor(1,1,0)
-                text= invoiceType=='buyer' and '|A:UI-HUD-Minimap-Zoom-Out:0:0|a'--卖
+                text= invoiceType=='buyer' and '|A:UI-HUD-Minimap-Zoom-Out:0:0|a'
                         or (subject and subject:match(AUCTION_REMOVED_MAIL_SUBJECT) and '|A:common-icon-undo:0:0|a')
-                        or '|A:UI-HUD-Minimap-Zoom-In:0:0|a'--买
+                        or '|A:UI-HUD-Minimap-Zoom-In:0:0|a'
 
-            elseif isCOD then--付款，红色
+            elseif isCOD then
                 btn.typeTexture:SetVertexColor(1,0,0)
                 btn.typeText:SetTextColor(1,0,0)
-                text= WoWTools_DataMixin.onlyChinese and '付款' or COD
+                text= WoWTools_L.COD
 
-            elseif isGM or isSelf then--GM, 自已,系统功能，如角色直升, 紫色
+            elseif isGM or isSelf then
                 btn.typeTexture:SetVertexColor(0,0.5,1)
                 btn.typeText:SetTextColor(0,0.5,1)
                 text= isGM and 'GM' or WoWTools_DataMixin.Icon.Player
 
-            else--绿色
+            else
                 btn.typeTexture:SetVertexColor(0,1,0)
                 btn.typeText:SetTextColor(0,1,0)
                 if money and money>0 then
-                    text= WoWTools_DataMixin.onlyChinese and '可取' or WITHDRAW
+                    text= WoWTools_L['WITHDRAW~2']
                 end
             end
 
@@ -532,7 +514,6 @@ local function Init_InboxFrame_Update()
             btn.typeTexture:SetShown(hasItem and hasItem>0 or text~='')
             btn.typeText:SetText(text)
 
-            --删除，或退信，按钮，设置参数
             btn.DeleteButton:SetNormalTexture(InboxItemCanDelete(btn.index) and 'xmarksthespot' or 'common-icon-undo')
             btn.DeleteButton.openMailID= btn.index
             btn.DeleteButton:SetShown(not isAuctionHouse)
@@ -552,18 +533,17 @@ local function Init_InboxFrame_Update()
 
 
     --####################
-    --所有，删除，退信，按钮
     --####################
-    local totalItems= select(2, GetInboxNumItems())  --信件，总数量
+    local totalItems= select(2, GetInboxNumItems())
 
-    local allMoney= 0--总，可收取钱
-    local allCODAmount= 0--总，要付款钱
-    local allItemCount= 0--总，物品数
-    local allSender= 0--总，发信人数
-    local allSenderTab= {}--总，发信人数,表
+    local allMoney= 0
+    local allCODAmount= 0
+    local allItemCount= 0
+    local allSender= 0
+    local allSenderTab= {}
 
-    local numCanDelete= 0--可以删除，数量
-    local numCanRe=0--可以退回，数量
+    local numCanDelete= 0
+    local numCanRe=0
 
     if not hide then
         for i= 1, totalItems do
@@ -588,33 +568,26 @@ local function Init_InboxFrame_Update()
         end
     end
 
-    InboxFrame.DeleteAllButton.Text:SetText(numCanDelete)--删除所有信，按钮
+    InboxFrame.DeleteAllButton.Text:SetText(numCanDelete)
     InboxFrame.DeleteAllButton:SetShown(numCanDelete>0)
 
-    --退回，所有信，按钮
     InboxFrame.ReAllButton.Text:SetText(numCanRe)
     InboxFrame.ReAllButton:SetShown(numCanRe>1)
 
 
-    --总，内容，提示
     local text=''
     if not hide then
-        local allSenderText--总，发信人数
+        local allSenderText
         if allSender>0 then
-            if WoWTools_DataMixin.onlyChinese then
-                allSenderText= '发信人'
-            else
-                allSenderText= ITEM_TEXT_FROM:gsub(',','')
-                allSenderText= allSenderText:gsub('，','')
-            end
+            allSenderText= ITEM_TEXT_FROM:gsub(',','')
             allSenderText= '|cnGREEN_FONT_COLOR:'..allSender..'|r'..allSenderText..' '
         end
         if totalItems>0 then
-            text= '|cnGREEN_FONT_COLOR:'..totalItems..'|r'..(WoWTools_DataMixin.onlyChinese and '信件' or MAIL_LABEL)..' '--总，信件
-                ..(allSenderText or '')--总，发信人数
-                ..(allItemCount>0 and '|cnGREEN_FONT_COLOR:'..allItemCount..'|r'..(WoWTools_DataMixin.onlyChinese and '物品' or ITEMS)..' ' or '')--总，物品数
-                ..(allMoney>0 and '|cnGREEN_FONT_COLOR:'..get_Money(allMoney)..'|r'..(WoWTools_DataMixin.onlyChinese and '可取' or WITHDRAW)..' ' or '')--总，可收取钱
-                ..(allCODAmount>0 and '|cnWARNING_FONT_COLOR:'.. get_Money(allCODAmount)..'|r'..(WoWTools_DataMixin.onlyChinese and '付款' or COD)..' ' or '')--总，要付款钱
+            text= '|cnGREEN_FONT_COLOR:'..totalItems..'|r'..(WoWTools_L.MAIL_LABEL)..' '
+                ..(allSenderText or '')
+                ..(allItemCount>0 and '|cnGREEN_FONT_COLOR:'..allItemCount..'|r'..(WoWTools_L.ITEMS)..' ' or '')
+                ..(allMoney>0 and '|cnGREEN_FONT_COLOR:'..get_Money(allMoney)..'|r'..(WoWTools_L['WITHDRAW~2'])..' ' or '')
+                ..(allCODAmount>0 and '|cnWARNING_FONT_COLOR:'.. get_Money(allCODAmount)..'|r'..(WoWTools_L.COD)..' ' or '')
         end
     end
     InboxFrame.AllTipsLable:SetText(text)
@@ -644,15 +617,13 @@ end
 
 
 
---提示，需要付钱, 可收取钱
---多物品，打开时
 local function Set_OpenMail_Update()
     if not OpenMailFrame_IsValidMailID() then
         return
     end
 
     local sender, _, money, CODAmount
-    local hide= Save().hide
+    local hide= WoWTools_MailMixin:Save().hide
 
     if not hide then
         sender, _, money, CODAmount= select(3, GetInboxHeaderInfo(InboxFrame.openMailID))
@@ -674,7 +645,6 @@ local function Set_OpenMail_Update()
     local moneyPaga= CODAmount and CODAmount>0 and CODAmount or nil
     local moneyGet= money and money>0 and money or nil
 
-    --提示，需要付钱
     if (moneyPaga or moneyGet) and not OpenMailFrame.CODAmountTips then
         OpenMailFrame.CODAmountTips= OpenMailFrame:CreateTexture(nil, 'OVERLAY')
         OpenMailFrame.CODAmountTips:SetSize(150, 25)
@@ -697,9 +667,9 @@ local function Set_OpenMail_Update()
         if (moneyPaga or moneyGet) then
             local text
             if moneyPaga then
-                text= (WoWTools_DataMixin.onlyChinese and '付款' or COD)
+                text= (WoWTools_L.COD)
             elseif moneyGet then
-                text= (WoWTools_DataMixin.onlyChinese and '可取' or WITHDRAW)
+                text= (WoWTools_L['WITHDRAW~2'])
             end
             text= text..' '..get_Money(moneyPaga or moneyGet)
             OpenMailFrame.moneyPagaTip:SetText(text)
@@ -709,7 +679,7 @@ local function Set_OpenMail_Update()
     end
 
     local btn
-    for i=1, ATTACHMENTS_MAX_RECEIVE do--物品，信息
+    for i=1, ATTACHMENTS_MAX_RECEIVE do
         btn = OpenMailFrame.OpenMailAttachments[i]
         if btn and btn:IsShown() then
            local itemLink= (not hide and HasInboxItem(InboxFrame.openMailID, i)) and GetInboxItemLink(InboxFrame.openMailID, i) or nil
@@ -732,26 +702,23 @@ end
 
 
 
---收信箱，物品，提示
 local function Init()
-    if Save().hide then
+    if WoWTools_MailMixin:Save().hide then
         return
     end
 
-    Create_DeleteAllButton()--删除所有信，按钮
-    Create_ReAllButton()--退回，所有信，按钮
+    Create_DeleteAllButton()
+    Create_ReAllButton()
 
---总，内容，提示
     InboxFrame.AllTipsLable= WoWTools_LabelMixin:Create(InboxFrame)
     InboxFrame.AllTipsLable:SetPoint('BOTTOM', InboxFrame, 'TOP', 0, 6)
-    --MailFrameTrialError:ClearAllPoints()--你需要升级你的账号才能开启这项功能。
 
     Init_InboxFrame_Update()
     WoWTools_DataMixin:Hook('InboxFrame_Update', function()
         Init_InboxFrame_Update()
     end)
 
-    MailFrame:HookScript('OnHide', function()--隐藏时，清除数据
+    MailFrame:HookScript('OnHide', function()
         for i=1, INBOXITEMS_TO_DISPLAY do
             local btn=_G["MailItem"..i.."Button"]
             if btn and btn.clear_all_date then
@@ -761,7 +728,6 @@ local function Init()
     end)
 
 
-    --提示，需要付钱, 可收取钱
     WoWTools_DataMixin:Hook('OpenMail_Update', function()
         Set_OpenMail_Update()
     end)
@@ -776,6 +742,6 @@ end
 
 
 
-function WoWTools_MailMixin:Init_InBox()--收信箱，物品，提示
+function WoWTools_MailMixin:Init_InBox()
     Init()
 end

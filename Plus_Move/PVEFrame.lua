@@ -8,7 +8,6 @@ local function Set_Width(w)
     PVE_FRAME_BASE_WIDTH= w or 563
 end
 
---地下城和团队副本 GroupFinderFrame
 function WoWTools_MoveMixin.Events:Blizzard_GroupFinder()
     LFGListPVEStub:SetPoint('BOTTOMRIGHT')
     LFDParentFrame:SetPoint('BOTTOMRIGHT')
@@ -59,7 +58,6 @@ function WoWTools_MoveMixin.Events:Blizzard_GroupFinder()
     RaidFinderQueueFrameRoleButtonTank:ClearAllPoints()
     RaidFinderQueueFrameRoleButtonTank:SetPoint('TOPLEFT', 35, -35)
 
-    --自定义，副本，创建，更多...
     LFGListFrame.EntryCreation.ActivityFinder.Dialog:ClearAllPoints()
     LFGListFrame.EntryCreation.ActivityFinder.Dialog:SetPoint('TOPLEFT',0, -30)
     LFGListFrame.EntryCreation.ActivityFinder.Dialog:SetPoint('BOTTOMRIGHT')
@@ -71,7 +69,6 @@ function WoWTools_MoveMixin.Events:Blizzard_GroupFinder()
    
 
 
---免费试玩账号无法使用该功能
     LFGListFrame.NothingAvailable.Inset.CustomBG:SetPoint('BOTTOMRIGHT', -15, 0)
 
     WoWTools_DataMixin:Hook('PVEFrame_ShowFrame', function()
@@ -128,11 +125,9 @@ function WoWTools_MoveMixin.Events:Blizzard_GroupFinder()
         end
     })
 
---预创建队伍，更多副本，列表
     self:Setup(LFGListFrame.EntryCreation.ActivityFinder.Dialog, {frame=PVEFrame})
 
 
---确定，进入副本
     self:Setup(LFGDungeonReadyPopup, {
         setResizeButtonPoint={'BOTTOMRIGHT', LFGDungeonReadyPopup, 6, -6},
     restPointFunc=function()
@@ -156,7 +151,6 @@ end
 
 
 
---地下城和团队副本, PVP
 function WoWTools_MoveMixin.Events:Blizzard_PVPUI()
     PVPUIFrame:SetPoint('BOTTOMRIGHT')
     LFGListPVPStub:SetPoint('BOTTOMRIGHT')
@@ -174,7 +168,6 @@ function WoWTools_MoveMixin.Events:Blizzard_PVPUI()
     PVEFrameBlueBg:SetPoint('BOTTOM')
     PVPQueueFrame.HonorInset.Background:SetPoint('BOTTOM')
 
---12.0才有 训练场
     TrainingGroundsFrame:SetPoint('BOTTOMRIGHT', PVPQueueFrame.HonorInset, 'BOTTOMLEFT')
     TrainingGroundsFrame.BonusTrainingGroundList.WorldBattlesTexture:ClearAllPoints()
     TrainingGroundsFrame.BonusTrainingGroundList.WorldBattlesTexture:SetAllPoints()
@@ -186,7 +179,6 @@ end
 
 
 
---挑战, 钥匙插件, 界面
 function WoWTools_MoveMixin.Events:Blizzard_ChallengesUI()
     self:Setup(ChallengesKeystoneFrame)
 
@@ -210,7 +202,6 @@ end
 
 
 
---地下堡
 function WoWTools_MoveMixin.Events:Blizzard_DelvesDashboardUI()
     DelvesDashboardFrame.ButtonPanelLayoutFrame:ClearAllPoints()
     DelvesDashboardFrame.ButtonPanelLayoutFrame:SetPoint('CENTER', 0, -62)--, 0, -130)

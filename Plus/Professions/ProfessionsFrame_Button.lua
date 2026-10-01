@@ -1,7 +1,4 @@
 
-local function Save()
-    return WoWToolsSave['Plus_Professions']
-end
 local Frame
 
 
@@ -20,12 +17,12 @@ local function Init_Frame()
 
 
     function Frame:set_scale()
-        self:SetScale(Save().scaleButton or 1)
+        self:SetScale(WoWTools_ProfessionMixin:Save().scaleButton or 1)
     end
     Frame:set_scale()
 
 
-    if Save().showFuocoButton then
+    if WoWTools_ProfessionMixin:Save().showFuocoButton then
         function Frame:set_event()
             self:UnregisterAllEvents()
             if ProfessionsFrame:IsVisible() then
@@ -58,7 +55,6 @@ end
 
 
 
---烹饪用火
 local function Init_Fuoco_Button(button)
     local btn= WoWTools_ButtonMixin:Cbtn(button, {
         isSecure=true,
@@ -120,10 +116,9 @@ local function Init_Fuoco_Button(button)
     end)
 
     local name= C_Spell.GetSpellName(818)
-    local toyName=C_Item.GetItemNameByID(134020)--玩具,大厨的帽子
+    local toyName=C_Item.GetItemNameByID(134020)
 
     if name and toyName then
-        --toyName= '世界缩小器'
         btn:SetAttribute('type*', 'macro')
         btn:SetAttribute('macrotext*',  '/usetoy '..toyName..'\n/cast [@cursor]'..name)
     else
@@ -141,17 +136,18 @@ end
 
 
 
---专业界面, 按钮
 local function Init_Buttons()
     local last
-    local tab={GetProfessions()}--prof1, prof2, archaeology, fishing, cooking
-    if tab[3]==10 and #tab>3 then
-        local archaeology=tab[3]--10
-        table.remove(tab, 3)
-        table.insert(tab, archaeology)
+    --GetProfessions() puede devolver nil en medio: lista sin huecos y arqueología al final
+    local prof1, prof2, archaeology, fishing, cooking= GetProfessions()
+    local tab={}
+    for _, index in ipairs({prof1 or false, prof2 or false, fishing or false, cooking or false, archaeology or false}) do
+        if index then
+            table.insert(tab, index)
+        end
     end
 
-    for k , index in pairs(tab) do
+    for k , index in ipairs(tab) do
         local name, icon, _, _, _, _, skillLine = GetProfessionInfo(index)
         if icon and skillLine then
             local button= WoWTools_ButtonMixin:Cbtn(Frame, {size=32})
@@ -183,8 +179,8 @@ local function Init_Buttons()
             button.name= name
             button.skillLine= skillLine
 
-            if skillLine==185 and Save().showFuocoButton then
-                Init_Fuoco_Button(button)--烹饪用火
+            if skillLine==185 and WoWTools_ProfessionMixin:Save().showFuocoButton then
+                Init_Fuoco_Button(button)
             end
             last= button
         end
@@ -206,9 +202,9 @@ end
 
 local function Init()
     if Frame then
-        Frame:SetShown(Save().setButton)
+        Frame:SetShown(WoWTools_ProfessionMixin:Save().setButton)
     else
-        if Save().setButton then
+        if WoWTools_ProfessionMixin:Save().setButton then
             do
                 Init_Frame()
             end
@@ -233,7 +229,7 @@ end
 
 
 local function Init_Menu(self, root)
-    if Save().showFuocoButton
+    if WoWTools_ProfessionMixin:Save().showFuocoButton
         and WoWTools_MenuMixin:CheckInCombat(root)
         or not self:IsMouseOver()
     then
@@ -242,55 +238,52 @@ local function Init_Menu(self, root)
 
     local sub, sub2
 
---启用
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '显示快捷按钮' or SHOW_QUICK_BUTTON,
+        WoWTools_L['SHOW_QUICK_BUTTON~3'],
     function()
-        return Save().setButton
+        return WoWTools_ProfessionMixin:Save().setButton
     end, function()
-        Save().setButton= not Save().setButton and true or false
-        if Save().showFuocoButton  then
-            print(WoWTools_DataMixin.addName,  WoWTools_ProfessionMixin.addName, WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+        WoWTools_ProfessionMixin:Save().setButton= not WoWTools_ProfessionMixin:Save().setButton and true or false
+        if WoWTools_ProfessionMixin:Save().showFuocoButton  then
+            WoWTools_Print(WoWTools_DataMixin.addName,  WoWTools_ProfessionMixin.addName, WoWTools_L.REQUIRES_RELOAD)
         end
         Init()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Professions.QuickButtons'])
 
 
---专业，界面上显示 烹饪用火按钮， 战斗不能隐藏
     sub2=sub:CreateCheckbox(
         WoWTools_SpellMixin:GetName(818),
     function()
-        return Save().showFuocoButton
+        return WoWTools_ProfessionMixin:Save().showFuocoButton
     end, function()
-        Save().showFuocoButton= not Save().showFuocoButton and true or nil
+        WoWTools_ProfessionMixin:Save().showFuocoButton= not WoWTools_ProfessionMixin:Save().showFuocoButton and true or nil
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Professions.CookingFire'])
         tooltip:AddLine('|cnWARNING_FONT_COLOR:BUG')
-        tooltip:AddLine((WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT )..': '..WoWTools_TextMixin:GetShowHide(false))
+        tooltip:AddLine((WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT )..': '..WoWTools_TextMixin:GetShowHide(false))
         tooltip:AddLine(' ')
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+        tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 
     sub:CreateDivider()
     sub2=sub:CreateTitle('BUG')
 
---重新加载UI
     WoWTools_MenuMixin:Reload(sub)
 
 
 
-    --缩放
     WoWTools_MenuMixin:Scale(self, root, function()
-        return Save().scaleButton or 1
+        return WoWTools_ProfessionMixin:Save().scaleButton or 1
     end, function(value)
-        Save().scaleButton= value
+        WoWTools_ProfessionMixin:Save().scaleButton= value
         if Frame then
             Frame:set_scale()
         end
     end)
 
     root:CreateDivider()
---打开选项界面
     WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_ProfessionMixin.addName})
 end
 
@@ -303,6 +296,18 @@ end
 
 
 
+--Refresco para el Centro de control: solo si los botones ya se crearon (ventana de profesiones cargada)
+function WoWTools_ProfessionMixin:Refresh_ProfessionsFrame_Button()
+    if not _G['WoWToolsProfessionsEnableButton'] then
+        return
+    end
+    Init()
+    if Frame then
+        Frame:set_scale()
+    end
+end
+
+
 function WoWTools_ProfessionMixin:Init_ProfessionsFrame_Button()
     local btn=WoWTools_ButtonMixin:Menu(ProfessionsFrame.CloseButton, {name='WoWToolsProfessionsEnableButton'})
     btn:SetPoint('RIGHT', ProfessionsFrame.MaximizeMinimize.MinimizeButton, 'LEFT', -2, 0)
@@ -310,7 +315,7 @@ function WoWTools_ProfessionMixin:Init_ProfessionsFrame_Button()
     btn:SetScript('OnEnter', function(f)
         GameTooltip:SetOwner(f, "ANCHOR_RIGHT")
         GameTooltip:ClearLines()
-        GameTooltip:AddDoubleLine((WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL)..WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine((WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL)..WoWTools_DataMixin.Icon.left)
         GameTooltip:Show()
     end)
 

@@ -1,34 +1,5 @@
---显示，隐藏，按钮
-local function Save()
-    return WoWToolsSave['Plus_PaperDoll']
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Settings()
     
-
-    --[[WoWTools_PaperDollMixin:Settings_Tab2()--头衔数量
-    WoWTools_PaperDollMixin:Settings_Tab1()--总装等
-    WoWTools_PaperDollMixin:Settings_Tab3()--标签, 内容,提示]]
-
-
 
 
     WoWTools_DataMixin:Call('PaperDollFrame_SetLevel')
@@ -43,24 +14,15 @@ local function Settings()
 
     if InspectFrame and InspectLevelText.set_font_size then
         InspectLevelText:set_font_size()
-        InspectFrame:set_status_label()--目标，属性
+        InspectFrame:set_status_label()
         InspectFrame.ShowHideButton:settings()
         if InspectFrame:IsShown() then
             WoWTools_DataMixin:Call('InspectPaperDollFrame_UpdateButtons')--InspectPaperDollFrame.lua
-            WoWTools_DataMixin:Call('InspectPaperDollFrame_SetLevel')--目标,天赋 装等
+            WoWTools_DataMixin:Call('InspectPaperDollFrame_SetLevel')
         end
     end
     
 end
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Menu(self, root)
@@ -68,24 +30,19 @@ local function Init_Menu(self, root)
         return
     end
 
-    root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '启用' or ENABLE,
+    local tipSub= root:CreateCheckbox(
+        WoWTools_L.ENABLE,
     function()
-        return not Save().hide
+        return not WoWTools_PaperDollMixin:Save().hide
     end, function()
-        Save().hide= not Save().hide and true or nil
+        WoWTools_PaperDollMixin:Save().hide= not WoWTools_PaperDollMixin:Save().hide and true or nil
         Settings()
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.PaperDoll.Slots'])
 
     root:CreateDivider()
     WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_PaperDollMixin.addName})
 end
-
-
-
-
-
-
 
 
 local function Init(frame)
@@ -104,10 +61,10 @@ local function Init(frame)
 
     function btn:settings()
         self:SetAlpha(self:IsMouseOver() and 1 or 0.3)
-        if Save().hide then
+        if WoWTools_PaperDollMixin:Save().hide then
             self:SetNormalAtlas('talents-button-reset')
         else
-            self:SetNormalTexture('Interface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools')
+            self:SetNormalTexture('Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools')
         end
     end
 
@@ -121,7 +78,7 @@ local function Init(frame)
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_PaperDollMixin.addName)
 
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.right)
 
         GameTooltip:Show()
         self:settings()
@@ -130,17 +87,6 @@ local function Init(frame)
 
     frame.ShowHideButton= btn
 end
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_PaperDollMixin:Init_ShowHideButton(frame)

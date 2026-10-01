@@ -1,15 +1,4 @@
---[[
-	<Button name="HousingCatalogDecorEntryTemplate" mixin="HousingCatalogDecorEntryMixin" inherits="BaseHousingCatalogEntryTemplate" virtual="true"/>
-	<Button name="HousingCatalogRoomEntryTemplate" mixin="HousingCatalogRoomEntryMixin" inherits="BaseHousingCatalogEntryTemplate" virtual="true">
-]]
 
-local function Save()
-    return WoWToolsSave['Plus_House']
-end
-
-
-
---列表，数量 ScrollingHousingCatalogMixin
 local function Catalog_ListNum(frame)
     if not frame or frame.numItemLabel then
         return
@@ -20,7 +9,7 @@ local function Catalog_ListNum(frame)
     frame.numItemLabel:EnableMouse(true)
     frame.numItemLabel:SetScript('OnLeave', WoWToolsButton_OnLeave)
     frame.numItemLabel:SetScript('OnEnter', WoWToolsButton_OnEnter)
-    frame.numItemLabel.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '家具数量' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, AUCTION_HOUSE_QUANTITY_LABEL, CATALOG_SHOP_TYPE_DECOR))
+    frame.numItemLabel.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_L['AUCTION_HOUSE_QUANTITY_LABEL+CATALOG_SHOP_TYPE_DECOR'])
     function frame.numItemLabel:set_alpha()
         self:SetAlpha(self:IsMouseOver() and 0.5 or 1)
     end
@@ -33,10 +22,6 @@ local function Catalog_ListNum(frame)
         f.numItemLabel:SetText('')
     end)
 end
-
-
-
-
 
 
 local function Set_Alpha(region)
@@ -58,21 +43,14 @@ local function Set_Texture(texture)
 end
 
 
-
-
-
-
 local function Create_Button(btn)
---有点大
     btn.InfoText:SetFontObject('GameFontWhite')
     btn.InfoText:ClearAllPoints()
     btn.InfoText:SetPoint('BOTTOMRIGHT' , -6, 2)
---可制定
     btn.CustomizeIcon:ClearAllPoints()--size 16,16
     btn.CustomizeIcon:SetPoint('BOTTOM', btn.InfoText, 'TOP')
 
 
---添加，追踪，按钮
     btn.trackableButton= CreateFrame('Button', nil, btn, 'WoWToolsButtonTemplate')
     btn.trackableButton:Hide()
     btn.trackableButton:SetSize(18,18)
@@ -93,7 +71,7 @@ local function Create_Button(btn)
         GameTooltip:SetOwner(self, 'ANCHOR_LEFT')
         GameTooltip_SetTitle(GameTooltip,
             --WoWTools_TooltipMixin.addName..
-            WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '追踪' or TRACKING)
+            WoWTools_DataMixin.Icon.icon2..(WoWTools_L.TRACKING)
         )
 
         local obj= WoWTools_HouseMixin:GetObjectiveText(entryInfo)
@@ -157,7 +135,6 @@ local function Create_Button(btn)
         self:tooltip()
     end)
 
---预览不可用
     btn.NotAsset= btn:CreateTexture()
     btn.NotAsset:SetPoint('LEFT', btn.trackableButton, 'RIGHT')
     btn.NotAsset:SetSize(16,16)
@@ -167,64 +144,42 @@ local function Create_Button(btn)
 
 
 
---可放置，室内，提示
     btn.Indoors= btn:CreateTexture()
     btn.Indoors:SetPoint('TOP', btn.trackableButton, 'BOTTOM')
     btn.Indoors:SetAtlas('house-room-limit-icon')
-    btn.Indoors.tooltip= WoWTools_DataMixin.onlyChinese and '只能放置在室内' or HOUSING_DECOR_ONLY_PLACEABLE_INSIDE
+    btn.Indoors.tooltip= WoWTools_L.HOUSING_DECOR_ONLY_PLACEABLE_INSIDE
     Set_Texture(btn.Indoors)
 
 
---可放置，室外，提示
     btn.Outdoors= btn:CreateTexture()
     btn.Outdoors:SetPoint('TOP', btn.Indoors, 'BOTTOM')
     btn.Outdoors:SetAtlas('house-outdoor-budget-icon')
-    btn.Outdoors.tooltip= WoWTools_DataMixin.onlyChinese and '只能放置在室外' or HOUSING_DECOR_ONLY_PLACEABLE_OUTSIDE
+    btn.Outdoors.tooltip= WoWTools_L.HOUSING_DECOR_ONLY_PLACEABLE_OUTSIDE
     Set_Texture(btn.Outdoors)
 
---[[是否可摧毁，此装饰无法被摧毁，也不会计入住宅收纳箱的容量限制
-    btn.NotCanDelete= btn:CreateTexture()
-    btn.NotCanDelete:SetPoint('TOPLEFT', btn.Outdoors, 'BOTTOMLEFT')
-    btn.NotCanDelete:SetAtlas('Objective-Fail')
-    btn.NotCanDelete.tooltip= WoWTools_DataMixin.onlyChinese and '此装饰无法被摧毁，也不会计入住宅收纳箱的容量限制' or HOUSING_DECOR_STORAGE_ITEM_CANNOT_DESTROY
-    Set_Texture(btn.NotCanDelete)
-    btn.NotCanDelete:SetAlpha(1)
-    function btn.NotCanDelete:set_alpha()
-        self:SetAlpha(self:IsMouseOver() and 0.3 or 1)
-    end]]
 
-    --匠心房间
     btn.IsPrefab= btn:CreateTexture()
     btn.IsPrefab:SetPoint('TOPLEFT', btn.Outdoors, 'BOTTOMLEFT')
     btn.IsPrefab:SetAtlas('house-chest-room-prefab-icon')
-    btn.IsPrefab.tooltip= WoWTools_DataMixin.onlyChinese and '匠心房间' or HOUSING_LAYOUT_PREFAB_ROOM_TOOLTIP
+    btn.IsPrefab.tooltip= WoWTools_L.HOUSING_LAYOUT_PREFAB_ROOM_TOOLTIP
     Set_Texture(btn.IsPrefab)
     btn.IsPrefab:SetAlpha(1)
     function btn.IsPrefab:set_alpha()
         self:SetAlpha(self:IsMouseOver() and 0.3 or 1)
     end
 
---可获得首次收集奖励
     btn.firstXP= btn:CreateTexture()
     btn.firstXP:SetPoint('TOP', btn.IsPrefab,'BOTTOM', -1, 4)
     btn.firstXP:SetAtlas('GarrMission_CurrencyIcon-Xp')
-    btn.firstXP.tooltip= WoWTools_DataMixin.onlyChinese and '|cnLIGHTBLUE_FONT_COLOR:可获得首次收集奖励|r' or HOUSING_DECOR_FIRST_ACQUISITION_AVAILABLE
+    btn.firstXP.tooltip= WoWTools_L.HOUSING_DECOR_FIRST_ACQUISITION_AVAILABLE
     Set_Texture(btn.firstXP)
     btn.firstXP:SetSize(20, 20)
---空间，大小
     btn.placementCostLabel= btn:CreateFontString(nil, nil, 'GameFontWhite')
     btn.placementCostLabel:SetPoint('TOPLEFT', btn.firstXP, 'BOTTOMLEFT', 5, 5)
-    btn.placementCostLabel.tooltip= WoWTools_DataMixin.onlyChinese and '装饰放置成本|cnNORMAL_FONT_COLOR:|n放置此装饰所需占用的装饰放置预算|r' or HOUSING_DECOR_PLACEMENT_COST_TOOLTIP
+    btn.placementCostLabel.tooltip= WoWTools_L.HOUSING_DECOR_PLACEMENT_COST_TOOLTIP
     Set_Texture(btn.placementCostLabel)
 
 
-
-
-
-
-
-
---索引
     btn.indexLabel= btn:CreateFontString(nil, 'BORDER', 'GameFontDisable')
     btn.indexLabel:SetFontHeight(10)
     btn.indexLabel:SetPoint('TOPLEFT',0, 7)
@@ -232,7 +187,6 @@ local function Create_Button(btn)
 
 
 
---选定，提示
     btn.selectBG= btn:CreateTexture()
     btn.selectBG:SetPoint('TOPLEFT', -16, 18)
     btn.selectBG:SetAlpha(0.5)
@@ -268,48 +222,7 @@ local function Create_Button(btn)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init_HousingTemplates()
-
-    if not C_AddOns.IsAddOnLoaded('Blizzard_HousingTemplates') then
-        EventRegistry:RegisterFrameEventAndCallback("ADDON_LOADED", function(owner, arg1)
-            if arg1=='Blizzard_HousingTemplates' then
-                Init_HousingTemplates()
-                EventRegistry:UnregisterCallback('ADDON_LOADED', owner)
-            end
-        end)
-        return
-    end
 
     WoWTools_DataMixin:Hook(HousingCatalogDecorEntryMixin, 'AddTooltipTrackingLines', function(btn, tooltip)
         local entryInfo= btn:HasValidData() and btn.entryInfo
@@ -328,12 +241,6 @@ local function Init_HousingTemplates()
     end)
 
 
-
-
-
-
-
---列表，数量 ScrollingHousingCatalogMixin
     WoWTools_DataMixin:Hook(ScrollingHousingCatalogMixin, 'OnLoad', Catalog_ListNum)
 
     WoWTools_DataMixin:Hook(HousingCatalogDecorEntryMixin, 'OnLoad', Create_Button)
@@ -372,14 +279,10 @@ local function Init_HousingTemplates()
             end
 
             if entryInfo.entryID then
-                show= ContentTrackingUtil.IsContentTrackingEnabled()--追踪当前可用
-                    and C_ContentTracking.IsTrackable(Enum.ContentTrackingType.Decor, entryInfo.entryID.recordID)--追踪功能对此物品可用
-                --isTrackable= show and C_ContentTracking.IsTracking(Enum.ContentTrackingType.Decor, entryInfo.entryID.recordID)--正在追踪
+                show= ContentTrackingUtil.IsContentTrackingEnabled()
+                    and C_ContentTracking.IsTrackable(Enum.ContentTrackingType.Decor, entryInfo.entryID.recordID)
             end
 
-            --[[if entryInfo.destroyableInstanceCount and entryInfo.destroyableInstanceCount<=0 then
-                notCanDelete= true
-            end]]
 
             isXP= entryInfo.firstAcquisitionBonus and entryInfo.firstAcquisitionBonus>0
             isIndoors= entryInfo.isAllowedIndoors
@@ -405,27 +308,7 @@ local function Init_HousingTemplates()
         btn.indexLabel:SetText(btn.GetElementDataIndex and btn:GetElementDataIndex() or '')
     end)
 
-    Init_HousingTemplates=function()end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Add_label(frame, name, layoutIndex, text)
@@ -440,7 +323,7 @@ local function Add_label(frame, name, layoutIndex, text)
     frame.TextContainer:AddLayoutChildren(frame.TextContainer[name])
 
     if name=='TagsText' then
-        frame.TextContainer[name].tooltip= WoWTools_DataMixin.onlyChinese and '标签' or format('CHAT_TAB_NAME', '')
+        frame.TextContainer[name].tooltip= WoWTools_L['Tab']
         Set_Alpha(frame.TextContainer[name])
     end
 end
@@ -455,7 +338,6 @@ local function Set_EntryInfo(frame, entryInfo)
 
         local obj, color
 
---来源
         if entryInfo then
             if (not entryInfo.sourceText or entryInfo.sourceText=='') then
                 obj= WoWTools_HouseMixin:GetObjectiveText(entryInfo)
@@ -464,40 +346,21 @@ local function Set_EntryInfo(frame, entryInfo)
         end
         frame:SetTextOrHide(frame.TextContainer.TrackingObjectiveText, obj)
 
---拥有数量
         local totalOwned = entryInfo.numPlaced + entryInfo.quantity + entryInfo.remainingRedeemable;
 	    local totalOwnedText = format('|A:house-decor-budget-icon:16:16|a%d |A:house-chest-icon:16:16|a %d', entryInfo.numPlaced, totalOwned)
         frame:SetTextOrHide(frame.TextContainer.NumOwned, totalOwnedText);
 
---关键词
         frame:SetTextOrHide(frame.TextContainer.TagsText, WoWTools_HouseMixin:GetTagsText(entryInfo))
---室内，外
         frame.TextContainer.InDoorsText:SetShown(entryInfo.isAllowedIndoors)
         frame.TextContainer.OutDoorsText:SetShown(entryInfo.isAllowedOutdoors)
---品质
         frame.NameContainer.Name:SetTextColor(color:GetRGB())
 
---设置，内容
         frame.TextContainer:SetFixedWidth(frame.TextContainer:GetWidth())
         frame.TextContainer:Layout()
     end
 
 
-
-
-
-
 local function Init_HousingModelPreview()
-
-    if not C_AddOns.IsAddOnLoaded('Blizzard_HousingModelPreview') then
-        EventRegistry:RegisterFrameEventAndCallback("ADDON_LOADED", function(owner, arg1)
-            if arg1=='Blizzard_HousingModelPreview' then
-                Init_HousingModelPreview()
-                EventRegistry:UnregisterCallback('ADDON_LOADED', owner)
-            end
-        end)
-        return
-    end
 
 
 
@@ -506,13 +369,10 @@ local function Init_HousingModelPreview()
         for _, label in pairs({self.TextContainer:GetRegions()}) do
             layoutIndex= math.max(label.layoutIndex or 0, layoutIndex)
         end
---来源
         Add_label(self, 'TrackingObjectiveText', layoutIndex+1)
---关键词
         Add_label(self, 'TagsText', layoutIndex+2)
---室内，外
-        Add_label(self, 'InDoorsText', layoutIndex+3, '|A:house-room-limit-icon:0:0|a'..(WoWTools_DataMixin.onlyChinese and '室内' or HOUSING_CATALOG_FILTERS_INDOORS))
-        Add_label(self, 'OutDoorsText', layoutIndex+4, '|A:house-outdoor-budget-icon:0:0|a'..(WoWTools_DataMixin.onlyChinese and '室外' or HOUSING_CATALOG_FILTERS_OUTDOORS))
+        Add_label(self, 'InDoorsText', layoutIndex+3, '|A:house-room-limit-icon:0:0|a'..(WoWTools_L.HOUSING_CATALOG_FILTERS_INDOORS))
+        Add_label(self, 'OutDoorsText', layoutIndex+4, '|A:house-outdoor-budget-icon:0:0|a'..(WoWTools_L.HOUSING_CATALOG_FILTERS_OUTDOORS))
     end)
 
     WoWTools_DataMixin:Hook(HousingModelPreviewMixin, 'PreviewCatalogEntryInfo', function(self, entryInfo)
@@ -527,13 +387,10 @@ local function Init_HousingModelPreview()
         for _, label in pairs({frame.ModelPreview.TextContainer:GetRegions()}) do
             layoutIndex= math.max(label.layoutIndex or 0, layoutIndex)
         end
---来源
         Add_label(frame.ModelPreview, 'TrackingObjectiveText', layoutIndex+1)
---关键词
         Add_label(frame.ModelPreview, 'TagsText', layoutIndex+2)
---室内，外
-        Add_label(frame.ModelPreview, 'InDoorsText', layoutIndex+3, '|A:house-room-limit-icon:0:0|a'..(WoWTools_DataMixin.onlyChinese and '室内' or HOUSING_CATALOG_FILTERS_INDOORS))
-        Add_label(frame.ModelPreview, 'OutDoorsText', layoutIndex+4, '|A:house-outdoor-budget-icon:0:0|a'..(WoWTools_DataMixin.onlyChinese and '室外' or HOUSING_CATALOG_FILTERS_OUTDOORS))
+        Add_label(frame.ModelPreview, 'InDoorsText', layoutIndex+3, '|A:house-room-limit-icon:0:0|a'..(WoWTools_L.HOUSING_CATALOG_FILTERS_INDOORS))
+        Add_label(frame.ModelPreview, 'OutDoorsText', layoutIndex+4, '|A:house-outdoor-budget-icon:0:0|a'..(WoWTools_L.HOUSING_CATALOG_FILTERS_OUTDOORS))
 
         WoWTools_DataMixin:Hook(frame.ModelPreview, 'PreviewCatalogEntryInfo', function(self, entryInfo)
             Set_EntryInfo(self, entryInfo)
@@ -542,42 +399,10 @@ local function Init_HousingModelPreview()
     end
 
 
-
-
-
-
-    Init_HousingModelPreview=function()end
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---住宅信息板
 local function Init_HousingDashboard()
-    if not C_AddOns.IsAddOnLoaded('Blizzard_HousingDashboard') then
-        EventRegistry:RegisterFrameEventAndCallback("ADDON_LOADED", function(owner, arg1)
-            if arg1=='Blizzard_HousingDashboard' then
-                Init_HousingDashboard()
-                EventRegistry:UnregisterCallback('ADDON_LOADED', owner)
-            end
-        end)
-        return
-    end
 
     local menu= CreateFrame('DropdownButton', 'WoWToolsHousingDashboardMenuButton', HousingDashboardFrameCloseButton, 'WoWToolsMenuTemplate')
     menu:SetPoint('RIGHT', HousingDashboardFrameCloseButton, 'LEFT')
@@ -587,67 +412,37 @@ local function Init_HousingDashboard()
         end
 
         local sub=WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_HouseMixin.addName})
---摧毁
         WoWTools_OtherMixin:OpenOption(sub,
-            '|A:XMarksTheSpot:0:0|a'..(WoWTools_DataMixin.onlyChinese and 'DELETE' or DELETE_ITEM_CONFIRM_STRING),
-            '|A:XMarksTheSpot:0:0|a'..(WoWTools_DataMixin.onlyChinese and '摧毁' or HOUSING_DECOR_STORAGE_ITEM_DESTROY_CONFIRMATION_STRING)
+            '|A:XMarksTheSpot:0:0|a'..(WoWTools_L.DELETE_ITEM_CONFIRM_STRING),
+            '|A:XMarksTheSpot:0:0|a'..(WoWTools_L.HOUSING_DECOR_STORAGE_ITEM_DESTROY_CONFIRMATION_STRING)
         )
     end)
 
---添加一个图标
     HousingDashboardFrame.CatalogContent.PreviewFrame.TextContainer.CollectionBonus:SetText(
         '|A:GarrMission_CurrencyIcon-Xp:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '|cnLIGHTBLUE_FONT_COLOR:可获得首次收集奖励|r' or HOUSING_DECOR_FIRST_ACQUISITION_AVAILABLE)
+        ..(WoWTools_L.HOUSING_DECOR_FIRST_ACQUISITION_AVAILABLE)
     )
 
 
 
---列表，数量 ScrollingHousingCatalogMixin
     Catalog_ListNum(HousingDashboardFrame.CatalogContent.OptionsContainer)
 
 
-    Init_HousingDashboard=function()end
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-local panel= CreateFrame("Frame")
-panel:RegisterEvent('ADDON_LOADED')
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if arg1~= 'WoWTools' then
-        return
-    end
-
-    WoWToolsSave['Plus_House']= WoWToolsSave['Plus_House'] or {}
-    WoWTools_HouseMixin.addName= '|A:house-chest-icon:0:0|a'..(WoWTools_DataMixin.onlyChinese and '住宅' or AUCTION_CATEGORY_HOUSING)
-
-    WoWTools_PanelMixin:OnlyCheck({
-        name= WoWTools_HouseMixin.addName,
-        GetValue= function() return not Save().disabled end,
-        func= function()
-            Save().disabled= not Save().disabled and true or nil
-        end,
-        tooltip= WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
-    })
-
-    if not Save().disabled then
-        Init_HousingDashboard()
-        Init_HousingTemplates()
-        Init_HousingModelPreview()
-    end
-
-    self:SetScript('OnEvent', nil)
-    self:UnregisterEvent(event)
-end)
-
+--Módulo registrado con la API común (docs/REFACTOR.md, R2)
+WoWTools_Module:Register({
+    key= 'Plus_House',
+    name= 'Module.Housing',
+    icon= 'house-chest-icon',
+    group= 'Character',
+    defaults= {},
+    tooltip= 'Tip.House.Module',
+    mixin= WoWTools_HouseMixin,
+    blizzard= {
+        Blizzard_HousingDashboard= Init_HousingDashboard,
+        Blizzard_HousingTemplates= Init_HousingTemplates,
+        Blizzard_HousingModelPreview= Init_HousingModelPreview,
+    },
+})

@@ -1,36 +1,21 @@
-local function Save()
-    return WoWToolsSave['Plus_Move'] or {}
-end
-
 WoWTools_MoveMixin={
     Events={},
     Frames={},
-    Save=Save,
 }
 
 function WoWTools_MoveMixin:GetSize(name)
-    if name and not Save().disabledSize[name] then
-        return Save().size[name]
+    if name and not WoWTools_MoveMixin:Save().disabledSize[name] then
+        return WoWTools_MoveMixin:Save().size[name]
     end
 end
 
 
-
-
-
-
-
-
-
-
-
---移动, 位置
-local function Set_Frame_Point(self, name)--设置, 移动, 位置
+local function Set_Frame_Point(self, name)
     local data= self and self.moveFrameData
 
     local p
-    if data and name and Save().SavePoint and not data.notSave then
-        p= Save().point[name]
+    if data and name and WoWTools_MoveMixin:Save().SavePoint and not data.notSave then
+        p= WoWTools_MoveMixin:Save().point[name]
     end
 
     if not p or not p[1] then
@@ -73,7 +58,6 @@ local function Set_OnDragStart(self, d)
         return
     end
 
---保护
     if frame:IsProtected() then
         frame._moveOwnerID= EventRegistry:RegisterFrameEventAndCallback("PLAYER_REGEN_DISABLED", function(owner)
             ResetCursor()
@@ -94,7 +78,6 @@ local function Set_OnDragStop(self)
 
     ResetCursor()
 
---保护，清除
     if frame._moveOwnerID then
         EventRegistry:UnregisterCallback('PLAYER_REGEN_DISABLED', frame._moveOwnerID)
         frame._moveOwnerID= nil
@@ -107,12 +90,11 @@ local function Set_OnDragStop(self)
     frame:StopMovingOrSizing()
 
     if not data.notSave and WoWTools_FrameMixin:IsInSchermo(frame) then
-        Save().point[name]= {frame:GetPoint(1)}
-        Save().point[name][2]= nil
+        WoWTools_MoveMixin:Save().point[name]= {frame:GetPoint(1)}
+        WoWTools_MoveMixin:Save().point[name][2]= nil
     end
 end
 
---设置光标
 local function Set_OnMouseDown(self, d)
     local data= self.moveFrameData
     local frame= _G[data.target] or self
@@ -129,20 +111,9 @@ local function Set_OnMouseDown(self, d)
 end
 
 
-
-
-
-
-
-
-
-
 local function Set_Move_Frame(frame, target, click, notSave, isAltKeyDown)
 
-    --if frame:IsMovable() and WoWTools_DataMixin.Player.husandro then
-      --  print('移动', '|cnWARNING_FONT_COLOR:已有别的插件设置|r', frame:GetName(), frame.moveFrameData)
 
---设置，数据
     frame.moveFrameData={
         target= target and target:GetName() or nil,
         click= click,
@@ -150,14 +121,12 @@ local function Set_Move_Frame(frame, target, click, notSave, isAltKeyDown)
         isAltKeyDown= isAltKeyDown,
     }
 
---设置，可移动
     frame:SetMovable(true)
 
     if target and not target.moveFrameData then
         target:SetMovable(true)
     end
 
---设置，响应事件
     if click=='RightButton' then
         frame:RegisterForDrag("RightButton")
     elseif click=='LeftButton' then
@@ -166,40 +135,11 @@ local function Set_Move_Frame(frame, target, click, notSave, isAltKeyDown)
         frame:RegisterForDrag("LeftButton", "RightButton")
     end
 
---开始移动
     frame:SetScript("OnDragStart", Set_OnDragStart)
---停止移动
     frame:SetScript("OnDragStop", Set_OnDragStop)
---设置光标
     frame:HookScript("OnMouseDown", Set_OnMouseDown)
---还原光标
    frame:HookScript("OnMouseUp", ResetCursor)
- --[[还原光标
-    frame:HookScript("OnLeave", function()
-        ResetCursor()
-    end)]]
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_MoveMixin:Setup(frame, tab)
@@ -210,11 +150,7 @@ function WoWTools_MoveMixin:Setup(frame, tab)
 
 
     if not frame or not name or frame.moveFrameData then-- or frame:IsMovable() then
-        if WoWTools_DataMixin.Player.husandro then
-            print('移动', frame, name, frame and frame.moveFrameData, '出现错误')
-        else
-            return
-        end
+        return
 
     elseif WoWTools_FrameMixin:IsLocked(target or frame) then
          EventRegistry:RegisterFrameEventAndCallback("PLAYER_REGEN_ENABLED", function(owner)
@@ -225,8 +161,8 @@ function WoWTools_MoveMixin:Setup(frame, tab)
     end
 
 
-    local SavePoint= Save().SavePoint or tab.savePoint
-    --local moveToScreenFuori= Save().moveToScreenFuori
+    local SavePoint= WoWTools_MoveMixin:Save().SavePoint or tab.savePoint
+    --local moveToScreenFuori= WoWTools_MoveMixin:Save().moveToScreenFuori
 
     local click= tab.click--RightButton LeftButton nil
     local notSave= ((tab.notSave or not SavePoint) and not tab.save) and true or nil
@@ -244,25 +180,17 @@ function WoWTools_MoveMixin:Setup(frame, tab)
 
     if frame.TitleContainer then
         Set_Move_Frame(frame.TitleContainer, target or frame, click, notSave, isAltKeyDown)
---会点不中，关闭按钮
         if frame.CloseButton then
             frame.CloseButton:SetFrameLevel(frame.TitleContainer:GetFrameLevel()+1)
         end
     end
 
-    if not target then
-        Set_Frame_Point(frame, name)--设置, 移动, 位置
-    end
+    --también con asa (target): antes la posición se guardaba pero no se restauraba
+    Set_Frame_Point(frame, name)
 end
 
 
-
-
-
-
-
-
-function WoWTools_MoveMixin:SetPoint(frame, name)--设置, 移动,
+function WoWTools_MoveMixin:SetPoint(frame, name)
     name= name or (frame and frame:GetName())
     if not name or not frame then
         return
@@ -279,18 +207,18 @@ function WoWTools_MoveMixin:SetPoint(frame, name)--设置, 移动,
     end
 end
 
-function WoWTools_MoveMixin:GetPoint(frame, name)--得到,位置数据
+function WoWTools_MoveMixin:GetPoint(frame, name)
     name= name or (frame and frame:GetName())
     if not name then
         return
     end
-    return Save().point[name]
+    return WoWTools_MoveMixin:Save().point[name]
 end
 
-function WoWTools_MoveMixin:ClearPoint(frame, name)--重置位置
+function WoWTools_MoveMixin:ClearPoint(frame, name)
     name= name or (frame and frame:GetName())
     if not name then
         return
     end
-    Save().point[name]= nil
+    WoWTools_MoveMixin:Save().point[name]= nil
 end

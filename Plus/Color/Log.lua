@@ -1,6 +1,6 @@
 
 local function Save()
-	return WoWToolsSave['Plus_Color'] or {}
+	return WoWTools_ColorMixin:Save()
 end
 
 
@@ -12,36 +12,42 @@ end
 
 
 local Textures={}
+local SIZE= WoWTools_Style.Size.icon.small--16
+
+--Historial a la izquierda del selector, en un panel propio con el estilo común.
+--Como mucho 10 filas; con más colores el panel se ensancha (mínimo 5 por fila).
 local function Set_SaveLogList()
 	local logColor= Save().logColor
 	local n= math.min(#logColor, Save().logMaxColor or 10)
+
+	local panel= WoWTools_ColorMixin:Get_Panel('log', WoWTools_L['Color.History'])
+	if not panel.isSetPoint then
+		panel:SetPoint('TOPRIGHT', ColorPickerFrame, 'TOPLEFT', -WoWTools_Style.Size.pad, 0)
+		panel.isSetPoint= true
+	end
+
+	local perRow= math.max(5, math.ceil(n/10))
 
 	for i=1, n, 1 do
 		local icon= Textures[i]
 		local col= logColor[i]
 		if not Textures[i] then
-			icon= WoWTools_ColorMixin:Create_Texture(col.r, col.g, col.b, col.a)--记录，打开时的颜色， 和历史
-			if i==1 then
-				icon:SetPoint('TOPRIGHT', ColorPickerFrame, "TOPLEFT", 0, -20)
-			else
-				icon:SetPoint('TOP', Textures[i-1], 'BOTTOM')
-			end
-			icon.tooltip= (WoWTools_DataMixin.onlyChinese and '记录' or EVENTTRACE_LOG_HEADER)..' '..i
+			icon= WoWTools_ColorMixin:Create_Texture(col.r, col.g, col.b, col.a, nil, panel, SIZE)
+			icon.tooltip= (WoWTools_L.EVENTTRACE_LOG_HEADER)..' '..i
 			table.insert(Textures, icon)
 		end
+		WoWTools_ColorMixin:Set_Cell(icon, panel, (i-1)%perRow, math.floor((i-1)/perRow), SIZE)
 		icon.r, icon.g, icon.b, icon.a= col.r, col.g, col.b, col.a
 		icon:SetColorTexture(col.r, col.g, col.b , 1)
 		icon:SetShown(true)
 	end
 
-	for i= 11, n, 10 do
-		Textures[i]:ClearAllPoints()
-		Textures[i]:SetPoint('TOPRIGHT', Textures[i-10], 'TOPLEFT')
-	end
-
 	for i=n+1, #Textures, 1 do
 		Textures[i]:SetShown(false)
 	end
+
+	WoWTools_ColorMixin:Set_PanelSize(panel, math.min(n, perRow), math.ceil(n/perRow), SIZE)
+	panel:SetShown(n>0)
 end
 
 
@@ -67,7 +73,7 @@ local function Init()
 	ColorPickerFrame.Content.ColorSwatchCurrent:HookScript('OnEnter', function(self)
 		GameTooltip:SetOwner(ColorPickerFrame, "ANCHOR_RIGHT")
         GameTooltip:ClearLines()
-		GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and "当前颜色" or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, REFORGE_CURRENT, COLOR))
+		GameTooltip:AddLine(WoWTools_L['REFORGE_CURRENT+COLOR'])
 		GameTooltip:Show()
 		self:SetAlpha(0.5)
 	end)
@@ -82,7 +88,7 @@ local function Init()
 		local r,g,b,a= ColorPickerFrame:GetPreviousValues()
 		GameTooltip:SetOwner(ColorPickerFrame, "ANCHOR_RIGHT")
         GameTooltip:ClearLines()
-		GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and "初始|n匹配值" or BATTLEGROUND_MATCHMAKING_VALUE, WoWTools_DataMixin.Icon.left)
+		GameTooltip:AddDoubleLine(WoWTools_L.BATTLEGROUND_MATCHMAKING_VALUE, WoWTools_DataMixin.Icon.left)
 		if r and g and b then
 			GameTooltip:AddLine(' ')
 			GameTooltip:AddDoubleLine(
@@ -110,21 +116,18 @@ local function Init()
 	Set_SaveLogList()
 
 
---保存，记录数量
 	ColorPickerFrame.Footer.OkayButton:HookScript('OnClick', function()
 		local logNum= Save().logMaxColor or 10
 		if logNum==0 then
 			Save().logColor={}
 			return
 		end
---检测，已存在
 		local r, g, b, a= WoWTools_ColorMixin:Get_ColorFrameRGBA()
 		for _, col in pairs(Save().logColor) do
 			if col.r==r and col.g==g and col.b==b and col.a== a then
 				return
 			end
 		end
---移除，最后，记录数量
 		local num= #Save().logColor
 		do
 			for i= num, logNum, -1 do
@@ -136,7 +139,6 @@ local function Init()
 	end)
 
 
---保存，颜色
 	for index, color in pairs(
 		{
 			{NORMAL_FONT_COLOR:GetRGBA()},
@@ -147,7 +149,7 @@ local function Init()
 	) do
 		local c= Save().saveColor[index] or color
 		local r,g,b,a= c[1] or 1, c[2] or 1, c[3] or 1, c[4] or 1
-		local icon= WoWTools_ColorMixin:Create_Texture(r,g,b,a)--记录，打开时的颜色， 和历史
+		local icon= WoWTools_ColorMixin:Create_Texture(r,g,b,a)
 		local s= icon:GetWidth()
 		if index==1 then
 			icon:SetPoint('TOPLEFT', ColorPickerFrame.Content.ColorSwatchOriginal, 'BOTTOMLEFT', 0, 0)
@@ -162,8 +164,8 @@ local function Init()
 		icon.tooltip= function(self)
 			GameTooltip:AddLine(' ')
 			GameTooltip:AddDoubleLine(
-				(WoWTools_DataMixin.onlyChinese and '常用颜色' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SAVE, COLOR))..' '..self.index,
-				(WoWTools_DataMixin.onlyChinese and '替换' or REPLACE)..WoWTools_DataMixin.Icon.right
+				(WoWTools_L['SAVE+COLOR'])..' '..self.index,
+				(WoWTools_L.REPLACE)..WoWTools_DataMixin.Icon.right
 			)
 		end
 		icon.notClick='RightButton'
@@ -200,33 +202,36 @@ local function Init()
 
 					local sub
 					local col= select(5, WoWTools_ColorMixin:Get_ColorFrameRGBA())
---当前
 					sub= root:CreateButton(
-						WoWTools_DataMixin.onlyChinese and '当前' or REFORGE_CURRENT,
+						WoWTools_L.REFORGE_CURRENT,
 					function (data)
 						settings(data)
 						return MenuResponse.Open
 					end, {r=self.r, g=self.g, b=self.b, a=self.a or 1})
 					sub:AddInitializer(add_icon)
 					sub:SetTooltip(set_tooltip)
---选择
 					sub= root:CreateButton(
-						WoWTools_DataMixin.onlyChinese and '选择' or CHOOSE,
+						WoWTools_L.CHOOSE,
 					function(data)
 						settings(data)
 						return MenuResponse.Open
 					end, col)
 					sub:AddInitializer(add_icon)
-					sub:SetTooltip(set_tooltip)
---默认
+					sub:SetTooltip(function(tooltip, desc)
+						WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Color.SlotChoose'])
+						set_tooltip(tooltip, desc)
+					end)
 					sub= root:CreateButton(
-						WoWTools_DataMixin.onlyChinese and '默认' or DEFAULT,
+						WoWTools_L.DEFAULT,
 					function (data)
 						settings(data)
 						return MenuResponse.Open
 					end, self.Color)
 					sub:AddInitializer(add_icon)
-					sub:SetTooltip(set_tooltip)
+					sub:SetTooltip(function(tooltip, desc)
+						WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Color.SlotDefault'])
+						set_tooltip(tooltip, desc)
+					end)
 					root:CreateDivider()
 
 				end)
@@ -253,7 +258,6 @@ function WoWTools_ColorMixin:Init_Log()
 end
 
 
---设置，记录
 function WoWTools_ColorMixin:Set_SaveLogList()
 	Set_SaveLogList()
 end

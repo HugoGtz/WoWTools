@@ -1,20 +1,7 @@
 local ITEM_CLASSES_ALLOWED= format(ITEM_CLASSES_ALLOWED, '(.+)')
-local ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT= ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT:gsub('%%s/%%s','(.-%%d%+/%%d%+)')-- "升级：%s/%s"
+local ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT= ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT:gsub('%%s/%%s','(.-%%d%+/%%d%+)')
 
-local function Save()
-    return WoWToolsSave['Adventure_Journal'] or {}
-end
-
-
-
-
-
-
-
-
---BOSS 列表 按钮
 local function Create_BossButtonList(btn)
---索引
     btn.indexLabel= btn:CreateFontString(nil, 'OVERLAY', 'GameFontNormal')
 
     btn.indexLabel:SetPoint('TOPRIGHT', -8, -7)
@@ -28,7 +15,7 @@ local function Create_BossButtonList(btn)
         GameTooltip:SetOwner(self, 'ANCHOR_LEFT')
         GameTooltip_SetTitle(GameTooltip,
             WoWTools_DataMixin.Icon.icon2
-            ..(WoWTools_DataMixin.onlyChinese and '索引' or 'index')
+            ..(WoWTools_L['Index'])
             ..' |cffffffff'..(self:GetText() or '')
         )
         GameTooltip:Show()
@@ -43,13 +30,12 @@ local function Create_BossButtonList(btn)
     btn.killButton:SetPoint('RIGHT', btn.indexLabel, 'LEFT', -5, 0)
     function btn.killButton:tooltip()
          GameTooltip:AddLine(
-            (WoWTools_DataMixin.onlyChinese and '已击败' or DUNGEON_ENCOUNTER_DEFEATED)
+            (WoWTools_L.DUNGEON_ENCOUNTER_DEFEATED)
             ..WoWTools_DataMixin.Icon.icon2
             ..'|cffffffff'..(self.Text:GetText() or '')
         )
     end
 
---全部清除
     --btn.killButton:SetScript('OnMouseDown', function(self)
         --MenuUtil.CreateContextMenu(self:GetParent(), function(_, root)
     btn.killButton:SetupMenu(function(self, root)
@@ -62,30 +48,31 @@ local function Create_BossButtonList(btn)
         if bossID then
             name, _, _, _, _, _, encounterID=  EJ_GetEncounterInfo(bossID)
             if encounterID then
-                killNum= WoWToolsPlayerDate['BossKilled'][encounterID]
+                killNum= WoWToolsPlusPlayerDate['BossKilled'][encounterID]
             end
         end
 
         local sub=root:CreateButton(
             '|A:bags-button-autosort-up:0:0|a'
-            ..(WoWTools_DataMixin.onlyChinese and '清除' or DELETE),
+            ..(WoWTools_L['DELETE~2']),
         function()
              StaticPopup_Show('WoWTools_OK',
                 '|A:bags-button-autosort-up:0:0|a|cnWARNING_FONT_COLOR:'
-                ..(WoWTools_DataMixin.onlyChinese and '清除' or DELETE)
+                ..(WoWTools_L['DELETE~2'])
                 ..'|r|n'
                 ..(WoWTools_TextMixin:CN(name) or encounterID )
                 ..'|n|n'
-                ..(WoWTools_DataMixin.onlyChinese and '击败首领：记录' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, LFG_LIST_BOSSES_DEFEATED, EVENTTRACE_LOG_HEADER)),
+                ..(WoWTools_L['LFG_LIST_BOSSES_DEFEATED+EVENTTRACE_LOG_HEADER']),
                 nil,
                 {SetValue=function()
-                    WoWToolsPlayerDate['BossKilled'][encounterID]= nil
+                    WoWToolsPlusPlayerDate['BossKilled'][encounterID]= nil
                     WoWTools_DataMixin:Call('EncounterJournal_Refresh')
                 end}
             )
             return MenuResponse.Open
         end)
         sub:SetTooltip(function(tooltip)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Encounter.KillDelete'])
             if encounterID then
                 tooltip:AddLine(WoWTools_TextMixin:CN(name))
                 tooltip:AddLine('encounterID |cffffffff'..encounterID)
@@ -94,26 +81,26 @@ local function Create_BossButtonList(btn)
         sub:SetEnabled(encounterID and killNum and true or false)
 
         root:CreateDivider()
-        root:CreateButton(
+        local tipSub= root:CreateButton(
             '|A:bags-button-autosort-up:0:0|a'
-            ..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL),
+            ..(WoWTools_L.CLEAR_ALL),
         function()
             StaticPopup_Show('WoWTools_OK',
                 '|A:bags-button-autosort-up:0:0|a|cnWARNING_FONT_COLOR:'
-                ..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL)
+                ..(WoWTools_L.CLEAR_ALL)
                 ..'|r|n|n'
-                ..(WoWTools_DataMixin.onlyChinese and '击败首领：记录' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, LFG_LIST_BOSSES_DEFEATED, EVENTTRACE_LOG_HEADER)),
+                ..(WoWTools_L['LFG_LIST_BOSSES_DEFEATED+EVENTTRACE_LOG_HEADER']),
                 nil,
                 {SetValue=function()
-                WoWToolsPlayerDate['BossKilled']={}
+                WoWToolsPlusPlayerDate['BossKilled']={}
                     WoWTools_DataMixin:Call('EncounterJournal_Refresh')
                 end}
             )
             return MenuResponse.Open
         end)
+        WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Encounter.KillClearAll'])
     end)
 
---增加 OnEnter
     btn:SetScript('OnLeave', GameTooltip_Hide)
     btn:SetScript('OnEnter', function(self)
         if not self.encounterID then
@@ -134,11 +121,10 @@ local function Create_BossButtonList(btn)
 
         if dungeonEncounterID then
             GameTooltip:AddDoubleLine('encounterID |cffffffff'..dungeonEncounterID)
-            local numKill=WoWToolsPlayerDate['BossKilled'][dungeonEncounterID] or 0
---已击败
+            local numKill=WoWToolsPlusPlayerDate['BossKilled'][dungeonEncounterID] or 0
             GameTooltip:AddLine(
-                format(WoWTools_DataMixin.onlyChinese and '%s（|cffffffff%d|r次）' or REAGENT_COST_CONSUME_CHARGES,
-                WoWTools_DataMixin.onlyChinese and '已击败' or DUNGEON_ENCOUNTER_DEFEATED,
+                format(WoWTools_L.REAGENT_COST_CONSUME_CHARGES,
+                WoWTools_L.DUNGEON_ENCOUNTER_DEFEATED,
                 numKill)
             )
         end
@@ -155,7 +141,7 @@ local function Create_BossButtonList(btn)
         GameTooltip:SetOwner(self, 'ANCHOR_LEFT')
         GameTooltip_SetTitle(GameTooltip,
             WoWTools_DataMixin.Icon.icon2
-            ..(WoWTools_DataMixin.onlyChinese and '怪物数量' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, AUCTION_HOUSE_QUANTITY_LABEL, CREATURE))
+            ..(WoWTools_L['AUCTION_HOUSE_QUANTITY_LABEL+CREATURE'])
             ..' |cffffffff'..self:GetText()
         )
         local encounterID= self:GetParent().encounterID
@@ -197,7 +183,6 @@ end
 
 
 
---Boss, 战利品, 物品信息
 local function Create_LootItems(btn)
     btn.itemText= WoWTools_LabelMixin:Create(btn, {mouse=true})--, color={r=1, g=1, b=1}})
     btn.itemText:SetPoint('BOTTOMRIGHT', btn.armorType, 'TOPRIGHT', 0, 2)
@@ -217,7 +202,6 @@ local function Create_LootItems(btn)
     btn.upText= WoWTools_LabelMixin:Create(btn)--, { color={r=1, g=1, b=1}})
     btn.upText:SetPoint('BOTTOMRIGHT', btn.itemText, 'TOPRIGHT', 0, 2)
 
---调整位置
     btn.name:SetPoint('TOPLEFT', btn.icon, 'TOPRIGHT', 7, -11)
     btn.slot:ClearAllPoints()
     btn.slot:SetPoint('TOPLEFT', btn.name, 'BOTTOMLEFT', 0, -4)
@@ -271,7 +255,7 @@ end
 
 
 local function Init()
-    if not Save().plus then
+    if not WoWTools_EncounterMixin:Save().plus then
         return
     end
 
@@ -283,7 +267,7 @@ local function Init()
     EncounterJournalEncounterFrameInfo.allNumLabel:SetScript('OnEnter', WoWToolsButton_OnEnter)
     EncounterJournalEncounterFrameInfo.allNumLabel:SetScript('OnLeave', WoWToolsButton_OnLeave)
     EncounterJournalEncounterFrameInfo.allNumLabel.tooltip= WoWTools_DataMixin.Icon.icon2..(
-        WoWTools_DataMixin.onlyChinese and '首领数量' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, AUCTION_HOUSE_QUANTITY_LABEL, BOSSES)
+        WoWTools_L['AUCTION_HOUSE_QUANTITY_LABEL+BOSSES']
     )
     function EncounterJournalEncounterFrameInfo.allNumLabel:set_alpha()
         self:SetAlpha(self:IsMouseOver() and 0.5 or 1)
@@ -295,7 +279,6 @@ local function Init()
     end)
 
 
---BOSS 列表 按钮
     WoWTools_DataMixin:Hook(EncounterBossButtonMixin, 'Init', function(self, data)
         if not data.bossID then
             return
@@ -309,9 +292,9 @@ local function Init()
 
         self.indexLabel:SetText(data.index or '')
         local encounterID= select(7, EJ_GetEncounterInfo(data.bossID))
-        local numKill=WoWToolsPlayerDate['BossKilled'][encounterID] or 0
+        local numKill=WoWToolsPlusPlayerDate['BossKilled'][encounterID] or 0
         if numKill>0 then
-            self.killButton.Text:SetFormattedText(WoWTools_DataMixin.onlyChinese and '%d次' or ITEM_SPELL_CHARGES, numKill)
+            self.killButton.Text:SetFormattedText(WoWTools_L.ITEM_SPELL_CHARGES, numKill)
             self.killButton:SetWidth(self.killButton.Text:GetStringWidth()+2)
         else
             self.killButton.Text:SetText('')
@@ -340,7 +323,6 @@ local function Init()
 
 
 
---综述,小地图提示
     EncounterJournal.encounter.instance.mapButton:SetScript('OnLeave', GameTooltip_Hide)
     EncounterJournal.encounter.instance.mapButton:SetScript('OnEnter', function(self)
         local name, description, bgImage, buttonImage1, loreImage, buttonImage2, dungeonAreaMapID, link, _, mapID= EJ_GetInstanceInfo()
@@ -375,26 +357,25 @@ local function Init()
 
 
 
---Boss, 战利品, 物品信息
     WoWTools_DataMixin:Hook(EncounterJournalItemMixin, 'Init', function(btn)
-        local itemText--专精图标, 幻化，坐骑，宠物
-        local tips--itemText提示用
-        local classText--物品专精
-        local upText--升级：
+        local itemText
+        local tips
+        local classText
+        local upText
         local itemInfo = C_EncounterJournal.GetLootInfoByIndex(btn.index) or  {}
         local itemLink= btn.link or itemInfo.link
         local itemID= btn.itemID or itemInfo.itemID
 
         if itemLink and itemID then
-            local slotText= btn.slot and btn.slot:GetText() or ''--是装备物品
+            local slotText= btn.slot and btn.slot:GetText() or ''
             if slotText~='' then
-                local specTable = C_Item.GetItemSpecInfo(itemLink) or {}--专精图标
+                local specTable = C_Item.GetItemSpecInfo(itemLink) or {}
                 local specTableNum=#specTable
                 if specTableNum>0 then
                     local specA=''
                     local class
                     table.sort(specTable, function (a2, b2) return a2<b2 end)
-                    tips= WoWTools_DataMixin.onlyChinese and '拾取专精' or format(PROFESSIONS_SPECIALIZATION_TITLE, UNIT_FRAME_DROPDOWN_SUBSECTION_TITLE_LOOT )
+                    tips= WoWTools_L['Loot specialization']
                     for _,  specID in pairs(specTable) do
                         local _, name,_, icon2, _, classFile= GetSpecializationInfoByID(specID)
                         if icon2 and classFile then
@@ -407,23 +388,22 @@ local function Init()
                         itemText= (itemText or '')..specA
                     end
                 end
---物品是否收集, 返回图标, 幻化
                 local item, collected, isSelf = WoWTools_CollectionMixin:Item(itemLink, nil, true)
                 if item and not collected then
                     itemText= (itemText or '')..item
                     tips= tips and tips..'|n|n' or ''
                     tips= tips
                         ..item
-                        ..(WoWTools_DataMixin.onlyChinese and '未收集' or NOT_COLLECTED)..'|r'
-                        ..(not isSelf and ' |cffffffff'..(WoWTools_DataMixin.onlyChinese and '其他职业' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, OTHER, CLASS))..'|r' or '')
+                        ..(WoWTools_L.NOT_COLLECTED)..'|r'
+                        ..(not isSelf and ' |cffffffff'..(WoWTools_L['OTHER+CLASS'])..'|r' or '')
                 end
             else
-                itemText= WoWTools_CollectionMixin:Mount(nil, itemID)--坐骑物品
-                itemText= itemText or select(3, WoWTools_PetBattleMixin:Collected(nil, itemID, true))--宠物物品
-                itemText= itemText or WoWTools_CollectionMixin:Toy(itemID)--玩具,是否收集
+                itemText= WoWTools_CollectionMixin:Mount(nil, itemID)
+                itemText= itemText or select(3, WoWTools_PetBattleMixin:Collected(nil, itemID, true))
+                itemText= itemText or WoWTools_CollectionMixin:Toy(itemID)
             end
 
-            local dateInfo= WoWTools_ItemMixin:GetTooltip({hyperLink=itemLink, text={--物品提示，信息 format(ITEM_CLASSES_ALLOWED, '(.+)') --"职业：%s"
+            local dateInfo= WoWTools_ItemMixin:GetTooltip({hyperLink=itemLink, text={
                     ITEM_CLASSES_ALLOWED,
                     ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT
                 }})
@@ -431,22 +411,7 @@ local function Init()
             classText= dateInfo.text[ITEM_CLASSES_ALLOWED]
             upText= dateInfo.text[ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT]
 
-            if upText and WoWTools_ChineseMixin then
-                local en= upText:match('(.+) %d+/%d+')
-                if en then
-                    local cn= WoWTools_TextMixin:CN(en)
-                    if cn then
-                        upText= upText:gsub(en, cn)
-                    end
-                end
-            end
-
             if classText then
-                if WoWTools_ChineseMixin then--汉化
-                    classText= (classText..PLAYER_LIST_DELIMITER):gsub('.-'..PLAYER_LIST_DELIMITER, function(a)
-                        return WoWTools_TextMixin:CN(a)
-                    end)
-                end
                 local class=UnitClass('player')
                 if not classText:find(class) then
                     classText= '|cff626262'..classText..'|r'
@@ -462,20 +427,9 @@ local function Init()
 
         btn.itemText:SetText(itemText or '')
         btn.itemText.tips= tips
---拾取, 职业
-        if classText and WoWTools_ChineseMixin then
-            classText= classText:gsub('(.-),', function(t)
-                local a= WoWTools_TextMixin:CN(t:gsub('^ ', ''))
-                if a and a~=t then
-                    return a..', '
-                end
-            end)
-        end
         btn.classLabel:SetText(classText or '')
         btn.upText:SetText(upText or '')
-    --显示, 物品, 属性
         WoWTools_ItemMixin:SetItemStats(btn, itemLink, {point= btn.IconBorder})
-    --物品法术，提示
         local spellID= select(2, C_Item.GetItemSpell(itemLink or itemID))
         
         btn.spellTexture.spellID= spellID
@@ -511,7 +465,6 @@ local function Init()
 
 
 
---技能提示，OnEnter, OnMouseDown发超链接
     WoWTools_DataMixin:Hook('EncounterJournal_UpdateButtonState', function(frame)
         WoWTools_DataMixin:Load(frame:GetParent().spellID, 'spell')
         if frame.isHooked then
@@ -530,7 +483,7 @@ local function Init()
             GameTooltip:AddDoubleLine(
                 WoWTools_DataMixin.Icon.right
                 ..'|cnGREEN_FONT_COLOR:<'
-                ..(WoWTools_DataMixin.onlyChinese and '链接至聊天栏' or COMMUNITIES_INVITE_MANAGER_LINK_TO_CHAT)
+                ..(WoWTools_L.COMMUNITIES_INVITE_MANAGER_LINK_TO_CHAT)
                 ..'>|r'
                 ..(IsInGroup() and '|A:communities-icon-chat:0:0|a' or '')
             )
@@ -567,7 +520,6 @@ local function Init()
 
 
 
---Boss技能加图标
     local function Add_SpellIcon(text)
         local find
         text=text:gsub('|Hspell:.-]|h',function(link)
@@ -636,7 +588,6 @@ local function Init()
 
 
 
---BOSS模型
     WoWTools_DataMixin:Hook('EncounterJournal_DisplayCreature', function(self)
         local text=''
         local model= EncounterJournal.encounter.info.model
@@ -654,7 +605,7 @@ local function Init()
             text= text..'uiModelSceneID '..self.uiModelSceneID..'|n'
         end
         text= text..'CreatureDisplayID ' .. self.displayInfo
-        local name= WoWTools_TextMixin:CN(self.name)--汉化
+        local name= WoWTools_TextMixin:CN(self.name)
         if name~=self.name then
             text= text..'|n'..name
         end
@@ -672,7 +623,6 @@ local function Init()
 
 
 
---贸易站 任务，提示
     WoWTools_DataMixin:Hook(MonthlyActivitiesButtonMixin, 'ShowTooltip', function(self)
         local data = self:GetData()
         local id= data and data.ID
@@ -681,7 +631,7 @@ local function Init()
         end
         GameTooltip:AddLine(
             '|cnGREEN_FONT_COLOR:<'
-            ..(WoWTools_DataMixin.onlyChinese and '超链接' or COMMUNITIES_INVITE_MANAGER_COLUMN_TITLE_LINK)..WoWTools_DataMixin.Icon.right
+            ..(WoWTools_L.COMMUNITIES_INVITE_MANAGER_COLUMN_TITLE_LINK)..WoWTools_DataMixin.Icon.right
             ..'>'
         )
         GameTooltip:AddLine(
@@ -712,7 +662,6 @@ local function Init()
 
 
 
---套装, 收集数
     WoWTools_DataMixin:Hook(LootJournalItemSetButtonMixin, 'Init', function(frame, data)
         local text
         if not frame.setNum then
@@ -720,7 +669,7 @@ local function Init()
             frame.setNum:SetPoint('RIGHT', frame.SetName)
         end
         if data and data.setID then
-            text= WoWTools_CollectionMixin:SetID(data.setID, nil, true)--套装, 收集数
+            text= WoWTools_CollectionMixin:SetID(data.setID, nil, true)
         end
         for _, btn in pairs(frame.ItemButtons or {}) do
             if btn.itemID then
@@ -736,7 +685,6 @@ local function Init()
         frame.setNum:SetText(text or '')
     end)
 
---套装信息 物品信息 LootJournalItemSetsMixin
     WoWTools_DataMixin:Hook(EncounterJournal.LootJournalItems.ItemSetsFrame, 'ConfigureItemButton', function(_, btn)
         WoWTools_ItemMixin:SetItemStats(btn, btn.itemLink, {
             itemID=btn.itemID,
@@ -746,7 +694,6 @@ local function Init()
     end)
 
 
---暗影国度 暗影之力 LootJournalMixin
     WoWTools_DataMixin:Hook(EncounterJournal.LootJournal, 'Refresh', function(frame)
         if not frame:IsShown() then
             return
@@ -757,7 +704,7 @@ local function Init()
             frame.allNumLabel:EnableMouse(true)
             frame.allNumLabel:SetScript('OnEnter', WoWToolsButton_OnEnter)
             frame.allNumLabel:SetScript('OnLeave', WoWToolsButton_OnLeave)
-            frame.allNumLabel.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '总计' or TOTAL)
+            frame.allNumLabel.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_L.TOTAL)
         end
         frame.allNumLabel:SetText(frame.powers and #frame.powers or '')
     end)
@@ -780,14 +727,12 @@ local function Init()
             end
         end
         if not btn.slotNameLabel then
---符文铭刻于：
             btn.slotNameLabel= btn:CreateFontString(nil, 'ARTWORK', 'GameFontNormalSmall2')
             btn.slotNameLabel:SetPoint('BOTTOMLEFT', btn.Name, 'TOPLEFT')
             btn.slotNameLabel:SetPoint('RIGHT', -6, 0)
             btn.slotNameLabel:SetPoint('TOP', 0, -6)
             btn.slotNameLabel:SetJustifyH('LEFT')
             btn.slotNameLabel:SetTextColor(RUNEFORGE_LEGEDARY_SPEC_COLOR:GetRGB())
---法术，提示
             btn.spellTexture= btn:CreateTexture(nil, 'OVERLAY')
             btn.spellTexture:SetPoint('RIGHT', btn.Icon, 9, 0)
             btn.spellTexture:SetSize(20, 20)
@@ -800,7 +745,6 @@ local function Init()
                     tooltip:SetSpellByID(self.spellID)
                 end
             end
---索引
             btn.indexLabel= btn:CreateFontString(nil, 'OVERLAY', 'GameFontNormalSmall2')
             btn.indexLabel:SetPoint('LEFT', btn.Icon, -3, 0)
             btn.indexLabel:SetTextColor(HIGHLIGHT_FONT_COLOR:GetRGB())
@@ -833,8 +777,8 @@ local function Init()
     down:SetPoint('RIGHT', EncounterJournalEncounterFrameInfoDifficulty, 'LEFT')
     down:SetNormalAtlas('NPE_ArrowDown')
     down.tooltip= WoWTools_DataMixin.Icon.icon2
-                ..(WoWTools_DataMixin.onlyChinese and '展开选项|A:editmode-down-arrow:16:11:0:-7|a' or HUD_EDIT_MODE_EXPAND_OPTIONS)
-                ..'|n'..WARNING_FONT_COLOR:WrapTextInColorCode(WoWTools_DataMixin.onlyChinese and '不要太快' or ERR_GENERIC_THROTTLE)
+                ..(WoWTools_L.HUD_EDIT_MODE_EXPAND_OPTIONS)
+                ..'|n'..WARNING_FONT_COLOR:WrapTextInColorCode(WoWTools_L['ERR_GENERIC_THROTTLE~2'])
     down:SetScript('OnClick', function(self)
         if not EncounterJournal.encounter.usedHeaders or self.isRun then
             return
@@ -856,8 +800,8 @@ local function Init()
     local up= CreateFrame('Button', 'WoWToolsEncounterUpBossSpellButton',  down, 'WoWToolsButtonTemplate')
     up:SetPoint('RIGHT', down, 'LEFT')
     up.tooltip= WoWTools_DataMixin.Icon.icon2
-            ..(WoWTools_DataMixin.onlyChinese and '收起选项|A:editmode-up-arrow:16:11:0:3|a' or HUD_EDIT_MODE_COLLAPSE_OPTIONS)
-            --..WARNING_FONT_COLOR:WrapTextInColorCode(WoWTools_DataMixin.onlyChinese and '不要太快' or ERR_GENERIC_THROTTLE)
+            ..(WoWTools_L.HUD_EDIT_MODE_COLLAPSE_OPTIONS)
+            --..WARNING_FONT_COLOR:WrapTextInColorCode(ERR_GENERIC_THROTTLE)
     up:SetNormalAtlas('NPE_ArrowUp')
     up:SetScript('OnClick', function()
         if not EncounterJournal.encounter.usedHeaders then
@@ -873,7 +817,7 @@ local function Init()
     local overDown=CreateFrame('Button', 'WoWToolsEncounterDownOverviewButton',  EncounterJournalEncounterFrameInfoOverviewScrollFrame, 'WoWToolsButtonTemplate')
     overDown:SetPoint('RIGHT', EncounterJournalEncounterFrameInfoDifficulty, 'LEFT')
     overDown:SetNormalAtlas('NPE_ArrowDown')
-    overDown.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '展开选项|A:editmode-down-arrow:16:11:0:-7|a' or HUD_EDIT_MODE_EXPAND_OPTIONS)
+    overDown.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_L.HUD_EDIT_MODE_EXPAND_OPTIONS)
     overDown:SetScript('OnClick', function()
         if not EncounterJournal.encounter.overviewFrame.overviews then
             return
@@ -887,7 +831,7 @@ local function Init()
     end)
     local overUp= CreateFrame('Button', 'WoWToolsEncounterUpBossSpellButton',  overDown, 'WoWToolsButtonTemplate')
     overUp:SetPoint('RIGHT', overDown, 'LEFT')
-    overUp.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '收起选项|A:editmode-up-arrow:16:11:0:3|a' or HUD_EDIT_MODE_COLLAPSE_OPTIONS)
+    overUp.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_L.HUD_EDIT_MODE_COLLAPSE_OPTIONS)
     overUp:SetNormalAtlas('NPE_ArrowUp')
     overUp:SetScript('OnClick', function()
         if not EncounterJournal.encounter.overviewFrame.overviews then

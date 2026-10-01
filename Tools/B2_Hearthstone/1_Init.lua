@@ -1,11 +1,6 @@
 WoWTools_HearthstoneMixin={}
 
 
---[[local ModifiedTab={
-    [6948]='shift',--炉石
-    [110560]='ctrl',--要塞炉石
-    [140192]='alt',--达拉然炉石
-}]]
 
 local P_Save={
     items={},
@@ -13,65 +8,54 @@ local P_Save={
     showBindName=true,
     lockedToy=nil,
 }
-local function Save()
-    return WoWToolsSave['Tools_Hearthstone']
-end
 local function SaveItems()
-    return WoWToolsPlayerDate['HearthstoneItems']
+    return WoWToolsPlusPlayerDate['HearthstoneItems']
 end
 
 
 
 
 local P_Items={
-    [142542]=true,--城镇传送之书
-    [162973]=true,--冬天爷爷的炉石
-    [163045]=true,--无头骑士的炉石
-    [165669]=true,--春节长者的炉石
-    [165670]=true,--小匹德菲特的可爱炉石
-    [165802]=true,--复活节的炉石
-    [166746]=true,--吞火者的炉石
-    [166747]=true,--美酒节狂欢者的炉石
-    [168907]=true,--全息数字化炉石
-    [172179]=true,--永恒旅者的炉石
-    [188952]=true,--被统御的炉石
-    [190196]=true,--开悟者炉石
-    [190237]=true,--掮灵传送矩阵
-    [193588]=true,--时光旅行者的炉石
-    [200630]=true,--欧恩伊尔轻风贤者的炉石, 找不到数据
-    [209035]=true,--烈焰炉石
-    [212337]=true,--炉之石
-    [210455]=true,--德莱尼全息宝石
-    [93672]=true,--黑暗之门
-    [206195]=true,--纳鲁之路
-    [208704]=true,--幽邃住民的土灵炉石
-    [236687]=true,--高爆炉石
-    [228940]=true,--恶名丝线炉石
-    [235016]=true,--重部署模块
-    [246565]=true,--星瀚炉石
-    [245970]=true,--P.O.S.T.总管的特快炉石 11.2.7
-    [257736]=true,--圣光呼唤炉石 12.0
-    [265100]=true,--核心守卫的炉石
+    [142542]=true,
+    [162973]=true,
+    [163045]=true,
+    [165669]=true,
+    [165670]=true,
+    [165802]=true,
+    [166746]=true,
+    [166747]=true,
+    [168907]=true,
+    [172179]=true,
+    [188952]=true,
+    [190196]=true,
+    [190237]=true,
+    [193588]=true,
+    [200630]=true,
+    [209035]=true,
+    [212337]=true,
+    [210455]=true,
+    [93672]=true,
+    [206195]=true,
+    [208704]=true,
+    [236687]=true,
+    [228940]=true,
+    [235016]=true,
+    [246565]=true,
+    [245970]=true,
+    [257736]=true,
+    [265100]=true,
 }
 
 
 
 local ModifiedMenuTab={
-    {type='Alt', itemID=140192, icon=1444943},--达拉然炉石
-    {type='Ctrl', itemID=110560, icon=1041860},--要塞炉石
-    {type='Shift', itemID=6948, icon=134414},----炉石
+    {type='Alt', itemID=140192, icon=1444943},
+    {type='Ctrl', itemID=110560, icon=1041860},
+    {type='Shift', itemID=6948, icon=134414},
 }
 
 
-
-
-
-
-
-
-
-
-local function get_not_cooldown_toy(self)--发现就绪
+local function get_not_cooldown_toy(self)
     local duration = select(2, C_Item.GetItemCooldown(self.itemID))
     if duration and duration>3 then
         for itemID in pairs(P_Items) do
@@ -86,43 +70,34 @@ local function get_not_cooldown_toy(self)--发现就绪
 end
 
 
-
-
-
-
-
-
-
-
-
 local function Init_Menu(self, root)
     local sub, sub2, name
     WoWTools_HearthstoneMixin:Init_Menu_Toy(self, root)
 
---选项
     root:CreateDivider()
     sub=WoWTools_ToolsMixin:OpenMenu(root, WoWTools_HearthstoneMixin.addName)
 
-    sub2=sub:CreateCheckbox(WoWTools_DataMixin.onlyChinese and '绑定位置' or SPELL_TARGET_CENTER_LOC, function()
-        return Save().showBindName
+    sub2=sub:CreateCheckbox(WoWTools_L['SPELL_TARGET_CENTER_LOC~2'], function()
+        return WoWTools_HearthstoneMixin:Save().showBindName
     end, function()
-        Save().showBindName= not Save().showBindName and true or false
-        self:set_location()--显示, 炉石, 绑定位置
+        WoWTools_HearthstoneMixin:Save().showBindName= not WoWTools_HearthstoneMixin:Save().showBindName and true or false
+        self:set_location()
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Hearthstone.BindName'])
         tooltip:AddLine(self:get_location())
     end)
 
-    sub2:CreateCheckbox(WoWTools_DataMixin.onlyChinese and '截取名称' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SHORT, NAME), function()
-        return Save().showBindNameShort
+    sub2= sub2:CreateCheckbox(WoWTools_L['SHORT+NAME'], function()
+        return WoWTools_HearthstoneMixin:Save().showBindNameShort
     end, function()
-        Save().showBindNameShort= not Save().showBindNameShort and true or false
-        self:set_location()--显示, 炉石, 绑定位置
+        WoWTools_HearthstoneMixin:Save().showBindNameShort= not WoWTools_HearthstoneMixin:Save().showBindNameShort and true or false
+        self:set_location()
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Hearthstone.BindNameShort'])
 
---移除未收集
     sub:CreateDivider()
-    name= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '移除未收集' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, REMOVE, NOT_COLLECTED))
+    name= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L['REMOVE+NOT_COLLECTED'])
     sub:CreateButton(
         name,
     function(data)
@@ -135,19 +110,18 @@ local function Init_Menu(self, root)
                 if not C_ToyBox.GetToyInfo(itemID) or not PlayerHasToy(itemID) then
                     SaveItems()[itemID]=nil
                     n=n+1
-                    print(n, WoWTools_DataMixin.onlyChinese and '移除' or REMOVE, WoWTools_ItemMixin:GetLink(itemID))
+                    WoWTools_Print(n, WoWTools_L.REMOVE, WoWTools_ItemMixin:GetLink(itemID))
                 end
             end
             if n>0 then
-                self:Init_Random(Save().lockedToy)
+                self:Init_Random(WoWTools_HearthstoneMixin:Save().lockedToy)
             end
         end})
         return MenuResponse.Open
     end, {name=name})
 
 
---全部清除
-    name= '|A:common-icon-redx:0:0|a'..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL)
+    name= '|A:common-icon-redx:0:0|a'..(WoWTools_L.CLEAR_ALL)
     sub:CreateButton(
         name,
     function(data)
@@ -155,8 +129,8 @@ local function Init_Menu(self, root)
         data.name,
         nil,
         {SetValue=function()
-            WoWToolsPlayerDate['HearthstoneItems']={}
-            print(WoWTools_DataMixin.Icon.icon2..WoWTools_HearthstoneMixin.addName, WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL)
+            WoWToolsPlusPlayerDate['HearthstoneItems']={}
+            WoWTools_Print(WoWTools_DataMixin.Icon.icon2..WoWTools_HearthstoneMixin.addName, WoWTools_L.CLEAR_ALL)
             self:Rest_Random()
         end})
         return MenuResponse.Open
@@ -164,52 +138,41 @@ local function Init_Menu(self, root)
 
 
 
---还原
     local all= CountTable(P_Items or {})
-    name= '|A:common-icon-undo:0:0|a'..(WoWTools_DataMixin.onlyChinese and '还原' or TRANSMOGRIFY_TOOLTIP_REVERT)..' '..all
-    sub:CreateButton(
+    name= '|A:common-icon-undo:0:0|a'..(WoWTools_L.TRANSMOGRIFY_TOOLTIP_REVERT)..' '..all
+    sub2= sub:CreateButton(
         name,
     function(data)
         StaticPopup_Show('WoWTools_OK',
         data.name,
         nil,
         {SetValue=function()
-            WoWToolsPlayerDate['HearthstoneItems']= CopyTable(P_Items)
+            WoWToolsPlusPlayerDate['HearthstoneItems']= CopyTable(P_Items)
             self:Rest_Random()
-            print(WoWTools_DataMixin.Icon.icon2..WoWTools_HearthstoneMixin.addName, '|cnGREEN_FONT_COLOR:', WoWTools_DataMixin.onlyChinese and '还原' or TRANSMOGRIFY_TOOLTIP_REVERT)
+            WoWTools_Print(WoWTools_DataMixin.Icon.icon2..WoWTools_HearthstoneMixin.addName, '|cnGREEN_FONT_COLOR:', WoWTools_L.TRANSMOGRIFY_TOOLTIP_REVERT)
         end})
         return MenuResponse.Open
     end, {name=name})
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Hearthstone.RevertList'])
 
 
---设置
     sub:CreateDivider()
     sub2=sub:CreateButton(
-        '|A:common-icon-zoomin:0:0|a'..(WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS),
+        '|A:common-icon-zoomin:0:0|a'..(WoWTools_L.SETTINGS),
     function()
         WoWTools_LoadUIMixin:Journal(3)
         return MenuResponse.Open
     end
     )
     sub2:SetTooltip(function(tooltip)
-        tooltip:AddLine(MicroButtonTooltipText(WoWTools_DataMixin.onlyChinese and '战团藏品' or COLLECTIONS, "TOGGLECOLLECTIONS"))
+        tooltip:AddLine(MicroButtonTooltipText(WoWTools_L.COLLECTIONS, "TOGGLECOLLECTIONS"))
     end)
+
+    WoWTools_ToolsMixin:SettingsMenu(root, WoWTools_HearthstoneMixin)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-local function Init()
+local Init= WoWTools_Once(function()
     local btn= WoWTools_ToolsMixin:Get_ButtonForName('Hearthstone')
     --btn:SetAttribute("type1", "macro")
     btn:SetAttribute("type1", "toy")
@@ -230,11 +193,11 @@ local function Init()
         icon:SetSize(10, 10)
         icon:SetTexture(data.icon)
 
-        if data.type=='Alt' then--达拉然炉石
+        if data.type=='Alt' then
             icon:SetPoint('BOTTOMRIGHT',-3,3)
-        elseif data.type=='Ctrl' then--要塞炉石
+        elseif data.type=='Ctrl' then
             icon:SetPoint('BOTTOMLEFT',2,2)
-        elseif data.type=='Shift' then--炉石
+        elseif data.type=='Shift' then
             icon:SetPoint('TOPLEFT',2,-2)
         end
 
@@ -246,13 +209,6 @@ local function Init()
     end
 
 
-
-
-
-
-
-
-    --设置 Alt Shift Ctrl
     function btn:set_alt()
         self.isAltEvent=nil
         if not self:CanChangeAttribute() then
@@ -311,24 +267,21 @@ local function Init()
     end
 
 
-    --取得，炉石, 绑定位置
     function btn:get_location()
         return WoWTools_TextMixin:CN(GetBindLocation())
     end
 
-    --显示, 炉石, 绑定位置
     function btn:set_location()
         local text
-        if Save().showBindName then
+        if WoWTools_HearthstoneMixin:Save().showBindName then
             text= self:get_location()
-            if text and Save().showBindNameShort then
+            if text and WoWTools_HearthstoneMixin:Save().showBindNameShort then
                 text= WoWTools_TextMixin:sub(text, 2, 5)
             end
         end
         self.text:SetText(text or '')
     end
 
-    --提示, 炉石, 绑定位置，文本
     function btn:set_tooltip_location(tooltip)
         if tooltip.textLeft then
             tooltip.textLeft:SetText(self:get_location() or '')
@@ -337,19 +290,8 @@ local function Init()
 
     --CD
     function btn:set_cool(itemID)
-        WoWTools_CooldownMixin:SetFrame(self, {itemID=itemID or self.itemID})--主图标冷却
+        WoWTools_CooldownMixin:SetFrame(self, {itemID=itemID or self.itemID})
     end
-
-
-
-
-
-
-
-
-
-
-
 
 
     btn:SetScript('OnEvent', function(self, event, arg1, arg2)
@@ -377,7 +319,7 @@ local function Init()
             end
 
         elseif event=='TOYS_UPDATED' or event=='NEW_TOY_ADDED' then
-            self:Init_Random(Save().lockedToy)
+            self:Init_Random(WoWTools_HearthstoneMixin:Save().lockedToy)
 
         elseif event=='HEARTHSTONE_BOUND' then
             self:set_location()
@@ -393,20 +335,6 @@ local function Init()
             self:set_textureModifier(arg2)
         end
     end)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --Tooltip
@@ -429,9 +357,9 @@ local function Init()
                 GameTooltip:AddDoubleLine(col..name, col..data.type..'+'..WoWTools_DataMixin.Icon.left)
             end
             GameTooltip:AddLine(' ')
-            GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
+            GameTooltip:AddDoubleLine(WoWTools_L.SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
             GameTooltip:AddDoubleLine(
-                WoWTools_DataMixin.onlyChinese and '随机' or 'Random',
+                WoWTools_L['Random'],
                 (btn.Locked_Value and '' or '|cnGREEN_FONT_COLOR:#'..#self.Random_List..'|r')
                 ..(btn.Selected_Value and '|A:transmog-icon-checkmark:0:0|a' or '')
                 ..(btn.Locked_Value and '|A:AdventureMapIcon-Lock:0:0|a' or '')
@@ -439,14 +367,13 @@ local function Init()
             )
 
 
---发现就绪
             local duration= self.itemID and select(2, C_Item.GetItemCooldown(self.itemID))
             if duration and duration>3 then
                 local itemID= get_not_cooldown_toy(self)
                 if itemID then
                     GameTooltip:AddDoubleLine(
                         '|T'..(select(5, C_Item.GetItemInfoInstant(itemID)) or 0)..':32|t|cnGREEN_FONT_COLOR:'
-                        ..(WoWTools_DataMixin.onlyChinese and '发现就绪' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, BATTLE_PET_SOURCE_11, READY)),
+                        ..(WoWTools_L['BATTLE_PET_SOURCE_11+READY']),
                         WoWTools_DataMixin.Icon.right
                     )
                 end
@@ -457,17 +384,6 @@ local function Init()
 
         self:set_tooltip_location(GameTooltip)
     end
-
-
-
-
-
-
-
-
-
-
-
 
 
     btn:SetScript("OnEnter",function(self)
@@ -484,7 +400,7 @@ local function Init()
             end
         end)
         if self:CanChangeAttribute() then
-            local itemID= get_not_cooldown_toy(self)--发现就绪
+            local itemID= get_not_cooldown_toy(self)
             if itemID then
                 self.Selected_Value=itemID
                 self:Set_Random_Value(itemID)
@@ -517,18 +433,9 @@ local function Init()
     end)
 
 
-
-
-
-
-
-
-
-
-
     Mixin(btn, WoWTools_RandomMixin)
 
-    function btn:Get_Random_Data()--取得数据库, {数据1, 数据2, 数据3, ...}
+    function btn:Get_Random_Data()
         local tab={}
         for itemID in pairs(SaveItems()) do
             if PlayerHasToy(itemID) then
@@ -538,7 +445,7 @@ local function Init()
         return tab
     end
 
-    function btn:Set_Random_Value(itemID)--设置，随机值
+    function btn:Set_Random_Value(itemID)
         self.is_Random_Eevent=nil
         if not self:CanChangeAttribute() then
             self.is_Random_Eevent=true
@@ -551,19 +458,11 @@ local function Init()
         self.texture:SetTexture(select(5, C_Item.GetItemInfoInstant(itemID)) or 134414)
         self:set_cool()
     end
-    function btn:Set_OnlyOneValue_Random()--当数据 <=1 时，设置值
-        self:Set_Random_Value(self.Selected_Value or self.Locked_Value or self.Random_List[1] or 200869)--欧恩牌清淡饮水角
+    function btn:Set_OnlyOneValue_Random()
+        self:Set_Random_Value(self.Selected_Value or self.Locked_Value or self.Random_List[1] or 200869)
     end
 
-    btn:Init_Random(Save().lockedToy)--初始
-
-
-
-
-
-
-
-
+    btn:Init_Random(WoWTools_HearthstoneMixin:Save().lockedToy)
 
 
     function btn:set_event()
@@ -577,7 +476,7 @@ local function Init()
             self:Get_Random_Value()
         else
             self:UnregisterAllEvents()
-            WoWTools_CooldownMixin:SetFrame(self)--主图标冷却
+            WoWTools_CooldownMixin:SetFrame(self)
         end
     end
 
@@ -585,87 +484,112 @@ local function Init()
     btn:SetScript('OnHide', function(self) self:set_event() end)
 
 
-
-
-
-
-
-
-
-
-
-
-
     --C_Timer.After(4, function()
     btn:set_alt()
     btn:set_location()
     btn:Get_Random_Value()
     btn:set_event()
+end)
 
-    Init=function()end
+
+--Botón ya preparado (Init): sus funciones existen
+local function Get_Button()
+    local btn= WoWTools_ToolsMixin:Get_ButtonForName('Hearthstone')
+    if btn and btn.set_location then
+        return btn
+    end
 end
 
+local function List_Button(key, text, tooltip, func)
+    return {type='button', key=key, text=text, buttonText=text, tooltip=tooltip, confirm=true,
+        func= function()
+            func(Get_Button())
+        end,
+    }
+end
+
+local Options= {
+    {type='section', text='GENERAL'},
+    {type='check', key='bindName', text='Show bind location', tooltip='Tip.Hearthstone.BindName',
+        get= function(save) return save.showBindName end,
+        set= function(save, value) save.showBindName= value and true or false end,
+        apply= function() local btn= Get_Button() if btn then btn:set_location() end end,
+    },
+    {type='check', key='bindNameShort', text='Short name', tooltip='Tip.Hearthstone.BindNameShort', indent=true,
+        disabled= function(save) return not save.showBindName end,
+        get= function(save) return save.showBindNameShort end,
+        set= function(save, value) save.showBindNameShort= value and true or false end,
+        apply= function() local btn= Get_Button() if btn then btn:set_location() end end,
+    },
+
+    {type='section', text='Toy list'},
+    {type='button', key='edit', text='Toy list', buttonText='EDIT', tooltip='Tip.Hearthstone.EditList',
+        disabled= function() return not Get_Button() end,
+        func= function()
+            local btn= Get_Button()
+            if btn then
+                MenuUtil.CreateContextMenu(btn, Init_Menu)
+            end
+        end,
+    },
+    List_Button('removeMissing', 'Remove uncollected', 'Tip.Hearthstone.RemoveMissing', function(btn)
+        local n=0
+        for itemID in pairs(SaveItems()) do
+            if not C_ToyBox.GetToyInfo(itemID) or not PlayerHasToy(itemID) then
+                SaveItems()[itemID]=nil
+                n=n+1
+                WoWTools_Print(n, WoWTools_L.REMOVE, WoWTools_ItemMixin:GetLink(itemID))
+            end
+        end
+        if n>0 and btn then
+            btn:Init_Random(WoWTools_HearthstoneMixin:Save().lockedToy)
+        end
+    end),
+    List_Button('clear', 'CLEAR_ALL', 'Tip.Menu.ClearAll', function(btn)
+        WoWToolsPlusPlayerDate['HearthstoneItems']={}
+        WoWTools_Print(WoWTools_DataMixin.Icon.icon2..WoWTools_HearthstoneMixin.addName, WoWTools_L.CLEAR_ALL)
+        if btn then
+            btn:Rest_Random()
+        end
+    end),
+    List_Button('revert', 'Restore default list', 'Tip.Hearthstone.RevertList', function(btn)
+        WoWToolsPlusPlayerDate['HearthstoneItems']= CopyTable(P_Items)
+        if btn then
+            btn:Rest_Random()
+        end
+        WoWTools_Print(WoWTools_DataMixin.Icon.icon2..WoWTools_HearthstoneMixin.addName, '|cnGREEN_FONT_COLOR:', WoWTools_L.TRANSMOGRIFY_TOOLTIP_REVERT)
+    end),
+}
 
 
+WoWTools_Module:Register({
+    options= Options,
+    key= 'Tools_Hearthstone', name= 'Module.Hearthstones', icon= 'delves-bountiful', group= 'Tools',
+    parent= 'WoWTools_ToolsButton', defaults= P_Save, mixin= WoWTools_HearthstoneMixin,
+    onEnable= function(M)
+        WoWToolsPlusPlayerDate['HearthstoneItems']= WoWToolsPlusPlayerDate['HearthstoneItems'] or CopyTable(P_Items)
 
+        WoWTools_ToolsMixin:CreateButton({
+            name='Hearthstone',
+            tooltip= M.addName,
+        })
 
+        if WoWTools_ToolsMixin:Get_ButtonForName('Hearthstone') then
+            WoWTools_ToolsMixin:OnEnterWorld(function()
+                Init()
+            end)
 
-
-
-
-
-
-
-
-
-
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWTools' then
-
-            WoWToolsSave['Tools_Hearthstone']= WoWToolsSave['Tools_Hearthstone'] or P_Save
-            P_Save= nil
-
-            WoWToolsPlayerDate['HearthstoneItems']= WoWToolsPlayerDate['HearthstoneItems'] or CopyTable(P_Items)
-
-            WoWTools_HearthstoneMixin.addName='|A:delves-bountiful:0:0|a'..(WoWTools_DataMixin.onlyChinese and '炉石' or TUTORIAL_TITLE31)
-
-            WoWTools_ToolsMixin:CreateButton({
-                name='Hearthstone',
-                tooltip= WoWTools_HearthstoneMixin.addName,
-            })
-
-
-            if WoWTools_ToolsMixin:Get_ButtonForName('Hearthstone') then
-                self:RegisterEvent('PLAYER_ENTERING_WORLD')
-
-                for _, data in pairs(ModifiedMenuTab) do
-                    WoWTools_DataMixin:Load(data.itemID, 'item')
-                end
-
-                for itemID in pairs(SaveItems()) do
-                   WoWTools_DataMixin:Load(itemID, 'item')
-                end
-
-                if C_AddOns.IsAddOnLoaded('Blizzard_Collections') then
-                    WoWTools_HearthstoneMixin:Blizzard_Collections()
-                    self:UnregisterEvent(event)
-                end
-
-            else
-                self:SetScript('OnEvent', nil)
-                self:UnregisterAllEvents()
+            for _, data in pairs(ModifiedMenuTab) do
+                WoWTools_DataMixin:Load(data.itemID, 'item')
             end
 
-        elseif arg1=='Blizzard_Collections' and WoWToolsSave then
-            WoWTools_HearthstoneMixin:Blizzard_Collections()
-            self:UnregisterEvent(event)
-        end
+            for itemID in pairs(SaveItems()) do
+               WoWTools_DataMixin:Load(itemID, 'item')
+            end
 
-    elseif event=='PLAYER_ENTERING_WORLD' then
-        Init()
-        self:UnregisterEvent(event)
-    end
-end)
+            EventUtil.ContinueOnAddOnLoaded('Blizzard_Collections', function()
+                M:Blizzard_Collections()
+            end)
+        end
+    end,
+})

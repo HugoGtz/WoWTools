@@ -1,6 +1,5 @@
---法术书，选项
 local function SaveLog()
-    return WoWToolsPlayerDate['Tools_Mounts']
+    return WoWToolsPlusPlayerDate['Tools_Mounts']
 end
 
 
@@ -25,7 +24,7 @@ local function Create_Button(btn)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(WoWTools_ToolsMixin.addName, WoWTools_MountMixin.addName)
-        GameTooltip_AddErrorLine(GameTooltip, WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+        GameTooltip_AddErrorLine(GameTooltip, WoWTools_L.REQUIRES_RELOAD)
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(
             WoWTools_SpellMixin:GetName(self.spellID)
@@ -33,7 +32,7 @@ local function Create_Button(btn)
 
             WoWTools_DataMixin.Icon.left
         )
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine(WoWTools_L.SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
         GameTooltip:Show()
         self:SetAlpha(1)
     end
@@ -59,7 +58,7 @@ end
 
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     WoWTools_DataMixin:Hook(SpellBookItemMixin, 'UpdateVisuals', function(frame)
         if not frame.Button.mountSpell then
             Create_Button(frame.Button)
@@ -68,23 +67,15 @@ local function Init()
         frame.Button.mountSpell.spellID= frame.spellBookItemInfo.spellID
         frame.Button.mountSpell:settings()
     end)
-    Init=function()end
-end
+end)
 
 
 
 
 
-function WoWTools_MountMixin:Init_UI_SpellBook_Menu()--法术书，选项
+function WoWTools_MountMixin:Init_UI_SpellBook_Menu()
 
-    if C_AddOns.IsAddOnLoaded('Blizzard_PlayerSpells') then
+    EventUtil.ContinueOnAddOnLoaded('Blizzard_PlayerSpells', function()
         Init()
-    else
-        EventRegistry:RegisterFrameEventAndCallback("ADDON_LOADED", function(owner, arg1)
-            if arg1=='Blizzard_PlayerSpells' then
-                Init()
-                EventRegistry:UnregisterCallback('ADDON_LOADED', owner)
-            end
-        end)
-    end
+    end)
 end

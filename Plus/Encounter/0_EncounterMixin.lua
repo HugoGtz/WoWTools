@@ -1,47 +1,22 @@
 
---[[冒险指南
-EncounterJournal.encounter.info == EncounterJournalEncounterFrameInfo
-EncounterJournal.encounter.info.BossesScrollBox == EncounterJournalEncounterFrameInfo.BossesScrollBox
-
-EncounterJournal.encounter.info.detailsScroll == EncounterJournalEncounterFrameInfoDetailsScrollFrame
-EncounterJournal.encounter.infoFrame ==          EncounterJournalEncounterFrameInfoDetailsScrollFrameScrollChild
-
-EncounterJournalEncounterFrameInfoDetailsScrollFrameScrollChild
-
-EncounterJournal.encounter.overviewFrame == EncounterJournal.encounter.info.overviewScroll.child
-EncounterJournal.encounter.overviewFrame == EncounterJournalEncounterFrameInfoOverviewScrollFrameScrollChild
-]]
 WoWTools_EncounterMixin={}
 
 
-
-
-
-function WoWTools_EncounterMixin:GetBossNameSort(name)--取得怪物名称, 短名称
+function WoWTools_EncounterMixin:GetBossNameSort(name)
     name= WoWTools_TextMixin:CN(name)
     name=name:gsub('(,.+)','')
-    name=name:gsub('(，.+)','')
     name=name:gsub('·.+','')
-    name=name:gsub('%-.+','')
+    --no cortar por '-': rompe nombres como "The One-Armed Bandit"
     name=name:gsub('<.+>', '')
     return name
 end
 
 
-
-
-
-
-
-
-
-
-
 local function Set_WorldData_Tooltip()
-    for guid, info in pairs(WoWTools_WoWDate or {}) do
+    for guid, info in pairs(WoWToolsPlus_WoWDate or {}) do
         local text, find, num= nil, false, 0
 
-        for bossName in pairs(info.Worldboss.boss) do--世界BOSS
+        for bossName in pairs(info.Worldboss.boss) do
             num=num+1
             text= text and text..' ' or '   '
             text= text..'|cffffffff'..num..')|r|cnWARNING_FONT_COLOR:'..WoWTools_EncounterMixin:GetBossNameSort(WoWTools_TextMixin:CN(bossName))..'|r'
@@ -52,7 +27,7 @@ local function Set_WorldData_Tooltip()
         end
 
         text, num= nil, 0
-        for bossName, _ in pairs(info.Rare.boss) do--稀有怪
+        for bossName, _ in pairs(info.Rare.boss) do
             num= num+1
             text= text and text..' ' or ''
             text= text..'(|cffffffff'..num..'|r)|cnWARNING_FONT_COLOR:'.. WoWTools_EncounterMixin:GetBossNameSort(WoWTools_TextMixin:CN(bossName))..'|r'
@@ -72,27 +47,6 @@ local function Set_WorldData_Tooltip()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function GetInstanceData(frame, showTips)
     local text,find
     local instanceID= frame.instanceID or frame.journalInstanceID
@@ -107,11 +61,11 @@ local function GetInstanceData(frame, showTips)
         or instanceID==557
         or instanceID==322
         or instanceID==2774
-    then--世界BOSS
+    then
         if showTips then
-            Set_WorldData_Tooltip(frame)--角色世界BOSS提示
+            Set_WorldData_Tooltip(frame)
         else
-            for guid, info in pairs(WoWTools_WoWDate or {}) do--世界BOSS
+            for guid, info in pairs(WoWToolsPlus_WoWDate or {}) do
                 if guid==WoWTools_DataMixin.Player.GUID then
                     local num=0
                     for bossName in pairs(info.Worldboss.boss) do
@@ -182,7 +136,6 @@ end
 
 
 
---界面,击杀,数据
 function WoWTools_EncounterMixin:GetInstanceData(frame, showTips)
     return GetInstanceData(frame, showTips)
 end

@@ -1,24 +1,6 @@
 WoWTools_UnitMixin={}
 
 
-
-
-
-
-
---[[
-frame.unit 必需有
-
-WoWTools_UnitMixin:CreateUnitButton(frame,
-{
-tab.name='', 必需有
-point= function(TotButton, frame)
-end
-},
-size=35,
-anchor='ANCHOR_LEFT'
-unit=frame.unit,--如果有这个，只显示前当UNIT
-]]
 function WoWTools_UnitMixin:CreateUnitButton(frame, tab)
     local name= tab.name.. (tab.isTarget and 'ToT' or 'UnitButton')
     if _G[name] then
@@ -26,11 +8,9 @@ function WoWTools_UnitMixin:CreateUnitButton(frame, tab)
     end
 
     local btn= CreateFrame('Button', name, frame, 'WoWToolsButton2Template SecureUnitButtonTemplate')
---位置
     if tab.point then
         tab.point(btn, frame)
     end
---大小
     local size= tab.size or 35
     btn:SetSize(size, size)
     btn.anchor= tab.anchor
@@ -42,7 +22,7 @@ function WoWTools_UnitMixin:CreateUnitButton(frame, tab)
         btn.unit= unit
     end
 
-    btn.isTarget= tab.isTarget--目标的目标
+    btn.isTarget= tab.isTarget
 
     btn.texture:SetTexCoord(1,0,0,1)
     WoWTools_InviteMixin:SetFocusButton(btn)
@@ -71,10 +51,6 @@ function WoWTools_UnitMixin:CreateUnitButton(frame, tab)
     end)
 
 
---目标，图像
-    --[[btn.Portrait= btn:CreateTexture(nil, 'BORDER')
-    WoWTools_ButtonMixin:AddMask(btn, true, btn.Portrait)
-    btn.Portrait:SetAllPoints()]]
 
     btn.hp= btn:CreateFontString(nil, 'BORDER', 'WoWToolsFont2')--WoWTools_LabelMixin:Create(btn, {size=14})
     btn.hp:SetPoint('BOTTOM')
@@ -83,7 +59,7 @@ function WoWTools_UnitMixin:CreateUnitButton(frame, tab)
 
 
     function btn:set_portrait()
-        SetPortraitTexture(self.texture, self:GetUnit())--图像
+        SetPortraitTexture(self.texture, self:GetUnit())
     end
 
     function btn:set_health()
@@ -104,7 +80,7 @@ function WoWTools_UnitMixin:CreateUnitButton(frame, tab)
 
     btn:SetScript('OnEvent', function(f, event)
         if event~='UNIT_HEALTH' then
-            SetPortraitTexture(f.texture, f:GetUnit())--图像
+            SetPortraitTexture(f.texture, f:GetUnit())
         end
         f:set_health()
     end)
@@ -124,11 +100,6 @@ function WoWTools_UnitMixin:CreateUnitButton(frame, tab)
 end
 
 
-
-
-
-
-
 function WoWTools_UnitMixin:UnitExists(unit)
     local exits= UnitExists(unit)
     if issecretvalue(exits) or exits then
@@ -144,16 +115,6 @@ function WoWTools_UnitMixin:UnitIsAFK(unit)
         return isAFK
     end
 end
---[[
-function UnitIsPlayer(unit)
-    local guid= self:UnitGUID(unit)
-    if guid then
-        local isPlayer= UnitIsPlayer(unit)
-        if canaccessvalue(isPlayer) then
-            return isPlayer
-        end
-    end
-end]]
 
 
 function WoWTools_UnitMixin:UnitIsUnit(unit, unit2)
@@ -173,23 +134,23 @@ function WoWTools_UnitMixin:UnitGUID(unit, name)
         end
 
     elseif canaccessvalue(name) and name then
-        local info= C_FriendList.GetFriendInfo(name:gsub('%-'..WoWTools_DataMixin.Player.Realm, ''))--好友
+        local info= C_FriendList.GetFriendInfo(name:gsub('%-'..WoWTools_DataMixin.Player.Realm, ''))
         if info and canaccesstable(info) and canaccessvalue(info.guid) then
             return info.guid
         end
 
         name= self:GetFullName(name)
         if name then
-            if WoWTools_DataMixin.GroupGuid[name] then--队友
+            if WoWTools_DataMixin.GroupGuid[name] then
                 return WoWTools_DataMixin.GroupGuid[name].guid
 
-            elseif WoWTools_DataMixin.WoWGUID[name] then--战网
+            elseif WoWTools_DataMixin.WoWGUID[name] then
                 return WoWTools_DataMixin.WoWGUID[name].guid
 
             elseif name==UnitName('player') then
                 return WoWTools_DataMixin.Player.GUID
 
-            elseif self:GetFullName(nil, 'target')==name then--目标
+            elseif self:GetFullName(nil, 'target')==name then
                 return self:UnitGUID('target')
             end
         end
@@ -199,7 +160,7 @@ end
 
 
 
-function WoWTools_UnitMixin:NameRemoveRealm(name, realm)--玩家名称, 去服务器为*
+function WoWTools_UnitMixin:NameRemoveRealm(name, realm)
     if not canaccessvalue(name) or not canaccessvalue(realm) or not name then
         return ''
     end
@@ -227,7 +188,6 @@ function WoWTools_UnitMixin:Get_NPC_Name()
 end
 
 
---职业颜色
 function WoWTools_UnitMixin:GetColor(unit, guid, classFilename)
     if canaccessvalue(unit) and canaccessvalue(guid) and canaccessvalue(classFilename) then
 
@@ -247,22 +207,6 @@ function WoWTools_UnitMixin:GetColor(unit, guid, classFilename)
 end
 
 
-
-
-
-
-
---[[
-WoWTools_UnitMixin:GetPlayerInfo(unit, guid, name,{
-    faction=nil,
-    reName=true,
-    reLink=false,
-    reRealm=false,
-    reNotRace=false,
-    reNotRegion=false,
-    level=10
-})
-]]
 function WoWTools_UnitMixin:GetPlayerInfo(unit, guid, name, tab)
     tab= tab or {}
 
@@ -296,12 +240,12 @@ function WoWTools_UnitMixin:GetPlayerInfo(unit, guid, name, tab)
     then
         return WoWTools_DataMixin.Icon.Player
             ..(
-                (reName or reLink) and WoWTools_ColorMixin:SetStringColor(WoWTools_DataMixin.onlyChinese and '我' or COMBATLOG_FILTER_STRING_ME) or ''
+                (reName or reLink) and WoWTools_ColorMixin:SetStringColor(WoWTools_L.COMBATLOG_FILTER_STRING_ME) or ''
             )..'|A:auctionhouse-icon-favorite:0:0|a'
     end
 
     if reLink then
-        return self:GetLink(unit, guid, name, true)--玩家超链接
+        return self:GetLink(unit, guid, name, true)
     end
 
 
@@ -311,20 +255,20 @@ function WoWTools_UnitMixin:GetPlayerInfo(unit, guid, name, tab)
         local _, englishClass, _, englishRace, sex, name2, realm = GetPlayerInfoByGUID(guid)
         name= name2
 
-        local groupInfo= WoWTools_DataMixin.GroupGuid[guid] or {}--队伍成员
-        local friend= self:GetIsFriendIcon(nil, guid, nil)--检测, 是否好友
-        local server= not reNotRegion and WoWTools_RealmMixin:Get_Region(realm)--服务器，EU， US {col=, text=, realm=}
+        local groupInfo= WoWTools_DataMixin.GroupGuid[guid] or {}
+        local friend= self:GetIsFriendIcon(nil, guid, nil)
+        local server= not reNotRegion and WoWTools_RealmMixin:Get_Region(realm)
 
         unit= groupInfo.unit or unit
         faction= groupInfo.faction or faction
 
         text= (server and server.col or '')
                     ..(friend or '')
-                    ..(self:GetFaction(unit, faction, nil, {size=size}) or '')--检查, 是否同一阵营
+                    ..(self:GetFaction(unit, faction, nil, {size=size}) or '')
                     ..(not reNotRace and self:GetRaceIcon(unit, guid, englishRace, {sex=sex, size=size}) or '')
                     ..(self:GetClassIcon(unit, guid, englishClass, {size=size}) or '')
 
-        if groupInfo.combatRole=='HEALER' or groupInfo.combatRole=='TANK' then--职业图标
+        if groupInfo.combatRole=='HEALER' or groupInfo.combatRole=='TANK' then
             text= text..WoWTools_DataMixin.Icon[groupInfo.combatRole]..(groupInfo.subgroup or '')
         end
         if reName and name then
@@ -337,10 +281,9 @@ function WoWTools_UnitMixin:GetPlayerInfo(unit, guid, name, tab)
             else
                 text= text..self:NameRemoveRealm(name, realm)
             end
---等级 
             local unitLevel= tab.level
                 or (unit and UnitLevel(name))
-                or guid and WoWTools_WoWDate[guid] and WoWTools_WoWDate[guid].level
+                or guid and WoWToolsPlus_WoWDate[guid] and WoWToolsPlus_WoWDate[guid].level
             if unitLevel and unitLevel~=0 and GetMaxLevelForLatestExpansion()~=unitLevel then
                 text= text..'|cnGREEN_FONT_COLOR:'..unitLevel..'|r'
             end
@@ -352,7 +295,7 @@ function WoWTools_UnitMixin:GetPlayerInfo(unit, guid, name, tab)
 
     if (not text or text=='') and name then
         if reLink then
-            return self:GetLink(unit, guid, name, true) --玩家超链接
+            return self:GetLink(unit, guid, name, true)
 
         elseif reName then
             if not reRealm then
@@ -366,20 +309,6 @@ function WoWTools_UnitMixin:GetPlayerInfo(unit, guid, name, tab)
 end
 
 
-
-
-
-
-
-
---[[
-if unit_type == "Creature" or unit_type == "Vehicle" then
-    local _, _, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-", guid)
-elseif unit_type == "Player" then
-    local _, server_id, player_id = strsplit("-", guid)
-end
-NPC ID, 注意是：字符 Creature-0-1465-0-2105-448-000043F59F
-]]
 function WoWTools_UnitMixin:GetNpcID(unit, guid)
     guid= canaccessvalue(guid) and guid
         or self:UnitGUID(unit)
@@ -394,52 +323,22 @@ function WoWTools_UnitMixin:GetNpcID(unit, guid)
 end
 
 
-
-
-
-
-
-
-
-
-function WoWTools_UnitMixin:GetOnlineInfo(unit)--单位，状态信息
+function WoWTools_UnitMixin:GetOnlineInfo(unit)
     if self:UnitGUID(unit) then
         if not UnitIsConnected(unit) then
-            return format("\124T%s.tga:0\124t", FRIENDS_TEXTURE_DND), WoWTools_DataMixin.onlyChinese and '离线' or PLAYER_OFFLINE
+            return format("\124T%s.tga:0\124t", FRIENDS_TEXTURE_DND), WoWTools_L.PLAYER_OFFLINE
         elseif WoWTools_UnitMixin:UnitIsAFK(unit) then
-            return format("\124T%s.tga:0\124t", FRIENDS_TEXTURE_AFK), WoWTools_DataMixin.onlyChinese and '离开' or AFK
+            return format("\124T%s.tga:0\124t", FRIENDS_TEXTURE_AFK), WoWTools_L.AFK
         elseif UnitIsGhost(unit) then
-            return '|A:poi-soulspiritghost:0:0|a', WoWTools_DataMixin.onlyChinese and '幽灵' or DEAD
+            return '|A:poi-soulspiritghost:0:0|a', WoWTools_L['DEAD~2']
         elseif UnitIsDead(unit) then
-            return '|A:deathrecap-icon-tombstone:0:0|a', WoWTools_DataMixin.onlyChinese and '死亡' or DEAD
+            return '|A:deathrecap-icon-tombstone:0:0|a', WoWTools_L.DEAD
         end
     end
 end
 
 
-
-
-
-
-
-
-
---[[
-local isCharacterClub = clubInfo.clubType == Enum.ClubType.Character;
-local inviterName = inviterInfo.name or "";
-local classInfo = inviterInfo.classID and C_CreatureInfo.GetClassInfo(inviterInfo.classID);
-local inviterText;
-if isCharacterClub and classInfo then
-    local classColorInfo = RAID_CLASS_COLORS[classInfo.classFile];
-    inviterText = GetPlayerLink(inviterName, ("[%s]"):format(WrapTextInColorCode(inviterName, classColorInfo.colorStr)));
-elseif isCharacterClub then
-    inviterText = GetPlayerLink(inviterName, ("[%s]"):format(inviterName));
-else
-    inviterText = inviterName;
-end
-]]
-
-function WoWTools_UnitMixin:GetLink(unit, guid, name, onlyLink) --玩家超链接
+function WoWTools_UnitMixin:GetLink(unit, guid, name, onlyLink)
     if not canaccessvalue(guid) then
         return ''
     end
@@ -450,7 +349,7 @@ function WoWTools_UnitMixin:GetLink(unit, guid, name, onlyLink) --玩家超链�
         return ''
     end
 
-    if guid==WoWTools_DataMixin.Player.GUID then--自已
+    if guid==WoWTools_DataMixin.Player.GUID then
         return (onlyLink and '' or WoWTools_DataMixin.Icon.Player)..'|Hplayer:'..WoWTools_DataMixin.Player.Name_Realm..'|h['..WoWTools_ColorMixin:SetStringColor(COMBATLOG_FILTER_STRING_ME)..']|h'
     end
     if guid then
@@ -473,14 +372,7 @@ function WoWTools_UnitMixin:GetLink(unit, guid, name, onlyLink) --玩家超链�
 end
 
 
-
-
-
-
-
-
-
-function WoWTools_UnitMixin:GetFaction(unit, englishFaction, all, tab)--检查, 是否同一阵营
+function WoWTools_UnitMixin:GetFaction(unit, englishFaction, all, tab)
     if not canaccessvalue(englishFaction) or not self:UnitGUID(unit) then
         return
     end
@@ -494,20 +386,9 @@ function WoWTools_UnitMixin:GetFaction(unit, englishFaction, all, tab)--检查, 
 end
 
 
-
-
-
-
---[[
-BNET_CLIENT_WOW = "WoW";
-BNET_CLIENT_APP = "App";
-BNET_CLIENT_HEROES = "Hero";
-BNET_CLIENT_CLNT = "CLNT";
-]]
-
---WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].region= WoWTools_DataMixin.Player.Region
---WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].battleTag= WoWTools_DataMixin.Player.BattleTag or WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].battleTag
-function WoWTools_UnitMixin:GetIsFriendIcon(unit, guid, name)--检测, 是否好友
+--WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].region= WoWTools_DataMixin.Player.Region
+--WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].battleTag= WoWTools_DataMixin.Player.BattleTag or WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].battleTag
+function WoWTools_UnitMixin:GetIsFriendIcon(unit, guid, name)
     if not canaccessvalue(guid) then
         return
     elseif unit then
@@ -516,12 +397,12 @@ function WoWTools_UnitMixin:GetIsFriendIcon(unit, guid, name)--检测, 是否好
 
     if guid then
         if guid and guid~=WoWTools_DataMixin.Player.GUID then
-            local data= WoWTools_WoWDate[guid]
+            local data= WoWToolsPlus_WoWDate[guid]
             if data then
-                if data.region~=WoWTools_DataMixin.Player.Region then--不在一区
+                if data.region~=WoWTools_DataMixin.Player.Region then
                     return '|A:tokens-characterTransfer-small:0:0|a'
 
-                elseif data.battleTag~=WoWTools_DataMixin.Player.BattleTag then--不同战网
+                elseif data.battleTag~=WoWTools_DataMixin.Player.BattleTag then
                     return '|A:tokens-guildRealmTransfer-small:0:0|a'
 
                 elseif data.faction~= WoWTools_DataMixin.Player.Faction then
@@ -544,17 +425,17 @@ function WoWTools_UnitMixin:GetIsFriendIcon(unit, guid, name)--检测, 是否好
                     return text or WoWTools_DataMixin.Icon.net2
 
                 elseif C_FriendList.IsFriend(guid) then
-                    return '|A:groupfinder-icon-friend:0:0|a'--好友
+                    return '|A:groupfinder-icon-friend:0:0|a'
 
                 elseif IsGuildMember(guid) then--IsPlayerInGuildFromGUID
-                    return '|A:UI-HUD-MicroMenu-GuildCommunities-Mouseover:0:0|a'--公会
+                    return '|A:UI-HUD-MicroMenu-GuildCommunities-Mouseover:0:0|a'
                 end
             end
         end
 
     elseif canaccessvalue(name) and name then
         if C_FriendList.GetFriendInfo(name:gsub('%-'..WoWTools_DataMixin.Player.Realm, ''))  then
-            return '|A:groupfinder-icon-friend:0:0|a'--好友
+            return '|A:groupfinder-icon-friend:0:0|a'
         end
 
         if WoWTools_DataMixin.WoWGUID[self:GetFullName(name)] then
@@ -564,12 +445,6 @@ function WoWTools_UnitMixin:GetIsFriendIcon(unit, guid, name)--检测, 是否好
 end
 
 
-
-
-
-
-
---职业图标 groupfinder-icon-emptyslot'
 function WoWTools_UnitMixin:GetClassIcon(unit, guid, classFilename, tab)
     if not canaccessvalue(classFilename) then
         return
@@ -592,7 +467,6 @@ function WoWTools_UnitMixin:GetClassIcon(unit, guid, classFilename, tab)
 end
 
 
---玩家种族图标
 
 
 function WoWTools_UnitMixin:GetRaceIcon(unit, guid, race, tab)
@@ -643,12 +517,7 @@ function WoWTools_UnitMixin:GetRaceIcon(unit, guid, race, tab)
 end
 
 
-
-
-
-
-
-function WoWTools_UnitMixin:GetFullName(name, unit, guid)--取得全名
+function WoWTools_UnitMixin:GetFullName(name, unit, guid)
     if canaccessvalue(name) and name and name:gsub(' ','')~='' then
         if not name:find('%-') then
             name= name..'-'..WoWTools_DataMixin.Player.Realm
@@ -672,29 +541,8 @@ function WoWTools_UnitMixin:GetFullName(name, unit, guid)--取得全名
         end
     end
 end
---[[local function GetPlayerNameRemoveRealm(name, realm)--玩家名称, 去服务器为*
-    if not name then
-        return
-    end
-    local reName= name:match('(.+)%-') or name
-    local reRealm= name:match('%-(.+)') or realm
-    if not reName or reRealm=='' or reRealm==WoWTools_DataMixin.Player.Realm then
-        return reName
-    elseif WoWTools_DataMixin.Player.Realms[reRealm] then
-        return reName..'|cnGREEN_FONT_COLOR:*|r'
-    elseif reRealm then
-        return reName..'*'
-    end
-    return reName
-end]]
 
 
-
-
-
-
-
---取得，队员, unit
 function WoWTools_UnitMixin:GetGroupMembers(inclusoMe)
     local tab={}
     if not IsInGroup() then
@@ -702,7 +550,7 @@ function WoWTools_UnitMixin:GetGroupMembers(inclusoMe)
     end
 
     local unit
-    if inclusoMe then--所有队员
+    if inclusoMe then
         if IsInRaid() then
             for i= 1, MAX_RAID_MEMBERS, 1 do
                 unit='raid'..i
@@ -719,7 +567,7 @@ function WoWTools_UnitMixin:GetGroupMembers(inclusoMe)
             end
         end
 
-    else--除我外，所有队员
+    else
         if IsInRaid() then
             for i= 1, MAX_RAID_MEMBERS, 1 do
                 unit='raid'..i
@@ -757,12 +605,10 @@ end
 
 
 
---取得装等 INSPECTED_UNIT
 function WoWTools_UnitMixin:GetNotifyInspect(tab, unit)
-    if InspectFrame and InspectFrame.unit then--如果有观察时，会错误
+    if InspectFrame and InspectFrame.unit then
         return
     end
---print('取得装等', tab,unit)
     if tab then
         local time= 1
         for _, u in pairs(tab) do
@@ -776,54 +622,18 @@ function WoWTools_UnitMixin:GetNotifyInspect(tab, unit)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---距离
 local LibRangeCheck = LibStub("LibRangeCheck-3.0", true)
 function WoWTools_UnitMixin:GetRange(unit, checkVisible)--WA Prototypes.lua
     return LibRangeCheck:GetRange(unit, checkVisible)
 end
 
---距离
-function WoWTools_UnitMixin:CheckRange(unit, range, operator)
-    local min, max= LibRangeCheck:GetRange(unit, operator)
-    if (operator) then-- == "<=") then
-        return (max or 999) <= range
-    else
-        return (min or 0) >= range
-    end
-end
-
-
-
-
 
 
 function WoWTools_UnitMixin:SetRangeFrame(frame, size)
     if not frame.unit then
-        if WoWTools_DataMixin.Player.husandro then
-            print('WoWTools_UnitMixin:SetRangeFrame|cnWARNING_FONT_COLOR:', '没有发现', 'frame.unit')
-        end
         return
     end
 
---位置，最大值
     size= size or 12
     frame.RangeMaxLabel= frame:CreateFontString('WoWToolsRangeMaxLabel'..frame.unit, 'BORDER', 'WoWToolsFont2')
     frame.RangeMaxLabel:EnableMouse(true)
@@ -832,9 +642,8 @@ function WoWTools_UnitMixin:SetRangeFrame(frame, size)
     frame.RangeMaxLabel:SetScript('OnLeave', GameTooltip_Hide)
     frame.RangeMaxLabel:SetScript('OnEnter', WoWToolsButton_OnEnter)
     frame.RangeMaxLabel:SetPoint('RIGHT', frame, 'LEFT')
-    frame.RangeMaxLabel.tooltip=  WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '最大距离' or FARCLIP)
+    frame.RangeMaxLabel.tooltip=  WoWTools_DataMixin.Icon.icon2..(WoWTools_L.FARCLIP)
 
---位置，最小值
     frame.RangeMinLabel= frame:CreateFontString('WoWToolsRangeMinLabel'..frame.unit, 'BORDER', 'WoWToolsFont2')
     frame.RangeMinLabel:EnableMouse(true)
     frame.RangeMinLabel:SetFontHeight(size)
@@ -842,9 +651,8 @@ function WoWTools_UnitMixin:SetRangeFrame(frame, size)
     frame.RangeMinLabel:SetScript('OnLeave', GameTooltip_Hide)
     frame.RangeMinLabel:SetScript('OnEnter', WoWToolsButton_OnEnter)
     frame.RangeMinLabel:SetPoint('BOTTOMRIGHT', frame.RangeMaxLabel, 'TOPRIGHT')
-    frame.RangeMinLabel.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '最小距离' or FARCLIP)
+    frame.RangeMinLabel.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_L['FARCLIP~2'])
 
---移动, 速度
     frame.SpeedLabel= frame:CreateFontString('WoWToolsSpeedLabel'..frame.unit, 'BORDER', 'WoWToolsFont2')
     frame.SpeedLabel:EnableMouse(true)
     frame.SpeedLabel:SetFontHeight(size)
@@ -852,7 +660,7 @@ function WoWTools_UnitMixin:SetRangeFrame(frame, size)
     frame.SpeedLabel:SetScript('OnLeave', GameTooltip_Hide)
     frame.SpeedLabel:SetScript('OnEnter', WoWToolsButton_OnEnter)
     frame.SpeedLabel:SetPoint('TOPRIGHT', frame.RangeMaxLabel, 'BOTTOMRIGHT')
-    frame.SpeedLabel.tooltip=  WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '移动速度' or STAT_MOVEMENT_SPEED)
+    frame.SpeedLabel.tooltip=  WoWTools_DataMixin.Icon.icon2..(WoWTools_L.STAT_MOVEMENT_SPEED)
 
     frame.elapsed2= 1
     frame:SetScript('OnUpdate', function(f, elapsed)
@@ -868,21 +676,21 @@ function WoWTools_UnitMixin:SetRangeFrame(frame, size)
         if mi and ma then
             local r,g,b
             if ma<=5 then
-                r,g,b= 0,1,0--绿色
+                r,g,b= 0,1,0
 
             elseif ma<=8 then
-                r,g,b= 0.78, 0.61, 0.43--战士
+                r,g,b= 0.78, 0.61, 0.43
 
             elseif ma<=30 then
                 r,g,b= 1, 0.49, 0.04--XD
 
             elseif ma<=35 then
-                r,g,b= 0.25, 0.78, 0.92--法师
+                r,g,b= 0.25, 0.78, 0.92
 
             elseif ma<=40 then
-                r,g,b= 0.67, 0.83, 0.45--猎人
+                r,g,b= 0.67, 0.83, 0.45
             else
-                r,g,b= 1, 0, 0--红
+                r,g,b= 1, 0, 0
             end
 
             f.RangeMinLabel:SetTextColor(r,g,b)

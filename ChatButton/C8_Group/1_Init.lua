@@ -8,62 +8,30 @@ local ClickType= 'p'-- p r rw i
 local ChatTab={}
 
 
-local function Save()
-    return WoWToolsSave['ChatButtonGroup'] or {}
-end
-
 function WoWTools_GroupMixin:Get_ReadyText(ready)
-    ready= ready or Save().autoReady or 0
+    ready= ready or WoWTools_GroupMixin:Save().autoReady or 0
     if ready==1 then
         return '|A:common-icon-checkmark:0:0|a'..GREEN_FONT_COLOR:WrapTextInColorCode(
-            WoWTools_DataMixin.onlyChinese and '自动就绪' or format(GARRISON_FOLLOWER_NAME, SELF_CAST_AUTO, READY)
+            WoWTools_L['Auto ready']
         )
     elseif ready==2 then
         return '|A:XMarksTheSpot:0:0|a'..WARNING_FONT_COLOR:WrapTextInColorCode(
-            WoWTools_DataMixin.onlyChinese and '自动未就绪' or format(GARRISON_FOLLOWER_NAME, SELF_CAST_AUTO, NOT_READY_FEMALE)
+            WoWTools_L['Auto not ready']
         )
     else
         return '|A:Cursor_OpenHand_32:0:0|a'..HIGHLIGHT_FONT_COLOR:WrapTextInColorCode(
-            WoWTools_DataMixin.onlyChinese and '手动就绪' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, READY, TRACKER_SORT_MANUAL)
+            WoWTools_L['READY+TRACKER_SORT_MANUAL']
         )
     end
 end
---[[队长(团长)或助理
-function WoWTools_GroupMixin:isLeader()--队长(团长)或助理
-    return UnitIsGroupAssistant('player') or UnitIsGroupLeader('player')
-end
-
---在团长或助理
-function WoWTools_GroupMixin:isRaidLeader()--在团长或助理
-    return IsInRaid() and (UnitIsGroupAssistant('player') or UnitIsGroupLeader('player'))
-end]]
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-local function Settings(self)--队伍信息提示
+local function Settings(self)
     local isInRaid= IsInRaid()
     local isInInstance= select(2, IsInInstance())~='none'
 
     ClickType= ClickType or (isInRaid and 'r') or 'p'
 
---使用,提示
     self.typeText:SetText(
         WoWTools_DataMixin.onlyChinese and ChatTab[ClickType].cn
         or ClickType
@@ -76,10 +44,8 @@ local function Settings(self)--队伍信息提示
         combatRole=tab.combatRole
     end
 
---队员，数量，提示
     self.membersText:SetText(isInRaid and GetNumGroupMembers() or '')
 
---职责提示
     if IsInGroup() then
         local icon= WoWTools_DataMixin.Icon[combatRole] or WoWTools_DataMixin.Icon['NONE']
         icon= icon:match('|A:(.-):')
@@ -88,36 +54,17 @@ local function Settings(self)--队伍信息提示
         self.texture:SetAtlas('socialqueuing-icon-group')
     end
 
---副本外，在团中提示
     self.textureNotInstance:SetShown(isInRaid and not isInInstance)
-
---提示，聊天泡泡，开启/禁用
-    self.tipBubbles:SetShown(not C_CVar.GetCVarBool("chatBubblesParty"))
 
     local text= WoWTools_GroupMixin:Get_ReadyText()
     self.readyCheckTexture:SetAtlas(text:match('|A:(.-):'))
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-local function set_Text(text)--处理%s
+local function set_Text(text)
     local groupTab= WoWTools_DataMixin.GroupGuid[WoWTools_DataMixin.Player.GUID]
     if text:find('%%s') and groupTab and groupTab.subgroup then
-        text= text:format(groupTab.subgroup..' '..(WoWTools_DataMixin.onlyChinese and '队' or GROUP)..' ')
+        text= text:format(groupTab.subgroup..' '..(WoWTools_L.GROUP)..' ')
     else
         text= text:gsub('%%s','')
     end
@@ -125,55 +72,25 @@ local function set_Text(text)--处理%s
 end
 
 
-
-
-
-
-
-
-
-
-
-
 local function Set_OnMouseWheel(d)
     local text
     if d==1 then
-        text= WoWToolsPlayerDate['GroupMouseUpText']
+        text= WoWToolsPlusPlayerDate['GroupMouseUpText']
     elseif d==-1 then
-        text= WoWToolsPlayerDate['GroupMouseDownText']
+        text= WoWToolsPlusPlayerDate['GroupMouseDownText']
     end
 
     if not text then
         return
     end
 
-    text= set_Text(text)--处理%s
+    text= set_Text(text)
 
-    if IsInRaid() then
-        C_ChatInfo.SendChatMessage(text, 'RAID')
-    elseif IsInGroup() then
-        C_ChatInfo.SendChatMessage(text, 'PARTY')
-    else
-        WoWTools_ChatMixin:Chat(text, nil, nil)
-    end
+    --Chat elige INSTANCE_CHAT/RAID/PARTY y respeta el bloqueo de chat de 12.0
+    WoWTools_ChatMixin:Chat(text, nil, nil)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---主菜单
 local function Init_Menu(self, root)
     if not self:IsMouseOver() then
         return
@@ -185,7 +102,6 @@ local function Init_Menu(self, root)
     local isInInstance= select(2, IsInInstance())~='none'
     local num= GetNumGroupMembers() or 0
     local le= UnitIsGroupAssistant('player') or  UnitIsGroupLeader('player')
-    local isInBat= InCombatLockdown()
 
     for _, tab in pairs({
         {'p', (not isInGroup)},--/p
@@ -214,6 +130,7 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetRightText(sub)
 
     sub:SetTooltip(function(tooltip, desc)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Group.ChatType'])
         local newTab={}
         local slashText= ChatTab[desc.data.type].slash
         for i=1, 12 do
@@ -240,69 +157,27 @@ local function Init_Menu(self, root)
 
     if tab[1]=='r' then
         sub2=sub:CreateCheckbox(
-            WoWTools_DataMixin.onlyChinese and '队员HP' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, PLAYERS_IN_GROUP, "HP"),
+            WoWTools_L['Group members HP'],
         function()
-            return Save().showRaidHPTooltip
+            return WoWTools_GroupMixin:Save().showRaidHPTooltip
         end, function()
-            Save().showRaidHPTooltip= not Save().showRaidHPTooltip and true or nil
+            WoWTools_GroupMixin:Save().showRaidHPTooltip= not WoWTools_GroupMixin:Save().showRaidHPTooltip and true or nil
         end)
         sub2:SetTooltip(function (tooltip)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Group.MembersHP'])
             tooltip:AddLine('OnEnter')
         end)
     end
 end
 
-        --[[if isInGroup then
-            local unit
-            if index==1 then
---队伍，子目录
-                for i=1, GetNumGroupMembers()-1, 1 do
-                    unit='party'..i
-                    if WoWTools_UnitMixin:UnitExists(unit) and UnitIsPlayer(unit) then
-                        playerName=GetUnitName(unit, true)
-                        sub2= sub:CreateButton(WoWTools_UnitMixin:GetPlayerInfo(unit, nil, nil, {reName=true, reRealm=true}), function(data)
-                            if data and data~=UnitName('player') then
-                                WoWTools_ChatMixin:Say(nil, data, nil)
-                            end
-                            return MenuResponse.Open
-                        end, playerName)
-                        sub2:SetTooltip(function(tooltip)
-                            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '密语' or SLASH_TEXTTOSPEECH_WHISPER)
-                        end)
-                    end
-                end
-
-            elseif index==2 and isInRaid then
-                for i=1, MAX_RAID_MEMBERS,  1 do
-                    unit='raid'..i
-                   if WoWTools_UnitMixin:UnitExists(unit) and not WoWTools_UnitMixin:UnitIsUnit(unit, 'player') and UnitIsPlayer(unit) then
-                        sub2=sub:CreateButton(
-                            WoWTools_UnitMixin:GetPlayerInfo(unit, nil, nil, {reName=true, reRealm=true}),
-                        function(data)
-                            if data and data~=UnitName('player') then
-                                WoWTools_ChatMixin:Say(nil, data, nil)
-                            end
-                            return MenuResponse.Open
-                        end, playerName)
-                        sub2:SetTooltip(function(tooltip, description)
-                            if description.data and description.data~=UnitName('player') then
-                                tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '密语' or SLASH_TEXTTOSPEECH_WHISPER)
-                            end
-                        end)
-                    end
-                end
-                sub:SetGridMode(MenuConstants.VerticalGridDirection, 4)
-            end
-        end]]
 
 
---跨阵营
     root:CreateDivider()
 
     local crossNum=0
     local isCrossFactionParty = C_PartyInfo.IsCrossFactionParty()
     if isCrossFactionParty then
-        for _, unit in pairs(WoWTools_UnitMixin:GetGroupMembers(false)) do--取得，队员, unit
+        for _, unit in pairs(WoWTools_UnitMixin:GetGroupMembers(false)) do
             if UnitRealmRelationship(unit)==LE_REALM_RELATION_COALESCED then
                 crossNum= crossNum+1
             end
@@ -310,63 +185,29 @@ end
     end
 
     sub=root:CreateTitle(
-        (WoWTools_DataMixin.onlyChinese and '跨阵营' or COMMUNITIES_EDIT_DIALOG_CROSS_FACTION)
+        (WoWTools_L.COMMUNITIES_EDIT_DIALOG_CROSS_FACTION)
         ..': '
         ..(
             isInGroup and WoWTools_TextMixin:GetYesNo(C_PartyInfo.IsCrossFactionParty())
-            or (C_PartyInfo.CanFormCrossFactionParties() and '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '可创建' or BATTLETAG_CREATE)..'|r')
-            or ('|cff626262'..(WoWTools_DataMixin.onlyChinese and '无' or NONE)..'|r')
+            or (C_PartyInfo.CanFormCrossFactionParties() and '|cnGREEN_FONT_COLOR:'..(WoWTools_L.BATTLETAG_CREATE)..'|r')
+            or ('|cff626262'..(WoWTools_L.NONE)..'|r')
         ).. ' #'..crossNum)
 
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '跨阵营' or COMMUNITIES_EDIT_DIALOG_CROSS_FACTION)
+        tooltip:AddLine(WoWTools_L.COMMUNITIES_EDIT_DIALOG_CROSS_FACTION)
         tooltip:AddLine(' ')
-        tooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '创建跨阵营队伍' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, COMMUNITIES_EDIT_DIALOG_CROSS_FACTION, START_A_GROUP),  WoWTools_TextMixin:GetEnabeleDisable(C_PartyInfo.CanFormCrossFactionParties()))
+        tooltip:AddDoubleLine(WoWTools_L['COMMUNITIES_EDIT_DIALOG_CROSS_FACTION+START_A_GROUP'],  WoWTools_TextMixin:GetEnabeleDisable(C_PartyInfo.CanFormCrossFactionParties()))
         local hex= IsInGroup() and '' or '|cff626262'
         tooltip:AddDoubleLine(
-            hex..(WoWTools_DataMixin.onlyChinese and '跨阵营队伍' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, COMMUNITIES_EDIT_DIALOG_CROSS_FACTION, HUD_EDIT_MODE_SETTING_UNIT_FRAME_SORT_BY_SETTING_GROUP)),
-            hex..WoWTools_TextMixin:GetYesNo(isCrossFactionParty)..' #'..crossNum..' '..(WoWTools_DataMixin.onlyChinese and '队员' or PLAYERS_IN_GROUP)
+            hex..(WoWTools_L['COMMUNITIES_EDIT_DIALOG_CROSS_FACTION+HUD_EDIT_MODE_SETTING_UNIT_FRAME_SORT_BY_SETTING_GROUP']),
+            hex..WoWTools_TextMixin:GetYesNo(isCrossFactionParty)..' #'..crossNum..' '..(WoWTools_L.PLAYERS_IN_GROUP)
         )
     end)
-
-
-
-
---组队聊天泡泡
-    sub=root:CreateCheckbox(
-        (isInBat and '|cff626262' or '')
-        ..(WoWTools_DataMixin.onlyChinese and '组队聊天泡泡' or PARTY_CHAT_BUBBLES_TEXT),
-    function()
-        return C_CVar.GetCVarBool("chatBubblesParty")
-    end, function()
-        if not InCombatLockdown() then
-            C_CVar.SetCVar("chatBubblesParty", C_CVar.GetCVarBool("chatBubblesParty") and '0' or '1')
-            print(
-                WoWTools_GroupMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                WoWTools_DataMixin.onlyChinese and '组队聊天泡泡' or PARTY_CHAT_BUBBLES_TEXT,
-                WoWTools_TextMixin:GetEnabeleDisable(C_CVar.GetCVarBool("chatBubblesParty"))
-            )
-        else
-            print(
-                WoWTools_GroupMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT
-            )
-        end
-    end)
-    sub:SetTooltip(function(tooltip)
-        tooltip:AddLine('CVar: chatBubblesParty')
-    end)
-
-
-
 
 
     sub= root:CreateButton(
         WoWTools_GroupMixin:Get_ReadyText(),
     function()
-        --[[local show= ReadyCheckFrame:IsShown()
-        ReadyCheckFrame:SetShown(not show)
-        ReadyCheckListenerFrame:SetShown(not show)]]
         if not ReadyCheckFrame:IsShown() then
            ShowReadyCheck(UnitName('player'), 35)
            ReadyCheckFrame:SetShown(true)
@@ -375,19 +216,19 @@ end
         return MenuResponse.Refresh
     end)
     sub:SetTooltip(function (tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '显示就绪框' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SHOW, READY))
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Group.ReadyShow'])
+        tooltip:AddLine(WoWTools_L['SHOW+READY'])
         tooltip:AddLine('ReadyCheckFrame')
     end)
 
 
- --自动, 就绪  
     for value= 0, 2 do
         sub2= sub:CreateRadio(
             WoWTools_GroupMixin:Get_ReadyText(value),
         function(data)
-            return data==Save().autoReady
+            return data==WoWTools_GroupMixin:Save().autoReady
         end, function(data)
-            Save().autoReady=data
+            WoWTools_GroupMixin:Save().autoReady=data
             if data>0 then
                 ConfirmReadyCheck(data==1 and 1 or nil)
                 ReadyCheckFrame:SetShown(false)
@@ -397,20 +238,21 @@ end
         end, value)
 
         sub2:SetTooltip(function(tooltip)
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '自动' or SELF_CAST_AUTO)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Group.AutoReady'])
+            tooltip:AddLine(WoWTools_L.SELF_CAST_AUTO)
         end)
     end
 
     sub:CreateDivider()
-    WoWTools_OtherMixin:OpenOption(sub, 'MarkerFrame', '|A:GM-raidMarker7:0:0|a'..(WoWTools_DataMixin.onlyChinese and '队伍标记工具' or format(PROFESSION_TOOL_TOOLTIP_LINE, BINDING_HEADER_RAID_TARGET)))
+    WoWTools_OtherMixin:OpenOption(sub, 'MarkerFrame', '|A:GM-raidMarker7:0:0|a'..WoWTools_L['Raid target marker tool'])
 
 
     root:CreateDivider()
     for _, tab in pairs({
-        {type= 'GroupMouseUpText', text= WoWTools_DataMixin.onlyChinese and '鼠标滚轮向上滚动' or KEY_MOUSEWHEELUP, icon= 'bags-greenarrow'},
-        {type= 'GroupMouseDownText', text= WoWTools_DataMixin.onlyChinese and '鼠标滚轮向下滚动' or KEY_MOUSEWHEELDOWN, icon= 'UI-HUD-MicroMenu-StreamDLRed-Up'},
+        {type= 'GroupMouseUpText', text= WoWTools_L.KEY_MOUSEWHEELUP, icon= 'bags-greenarrow'},
+        {type= 'GroupMouseDownText', text= WoWTools_L.KEY_MOUSEWHEELDOWN, icon= 'UI-HUD-MicroMenu-StreamDLRed-Up'},
     }) do
-        local sumText= WoWTools_TextMixin:sub(WoWToolsPlayerDate[tab.type], 8, 16)
+        local sumText= WoWTools_TextMixin:sub(WoWToolsPlusPlayerDate[tab.type], 8, 16)
         sumText= sumText:gsub('{rt%d}', function(a)
             return '|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_'..a:match('%d')..':0|t'
         end)
@@ -421,52 +263,39 @@ end
             Set_OnMouseWheel(data.type=='GroupMouseUpText' and 1 or -1)
         end, tab)
         sub:SetTooltip(function(tooltip, desc)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Group.WheelSend'])
             tooltip:AddLine('|A:voicechat-icon-textchat-silenced:0:0|a|A:'..desc.data.icon..':0:0|a'..desc.data.text, nil, nil, nil, true)
-            tooltip:AddLine(WoWToolsPlayerDate[desc.data.type], nil,nil,nil, true)
+            tooltip:AddLine(WoWToolsPlusPlayerDate[desc.data.type], nil,nil,nil, true)
         end)
 
-        sub:CreateButton(
+        sub2=sub:CreateButton(
             '|A:'..tab.icon..':0:0|a'
-            ..(WoWTools_DataMixin.onlyChinese and '修改' or HUD_EDIT_MODE_RENAME_LAYOUT),
+            ..(WoWTools_L['HUD_EDIT_MODE_RENAME_LAYOUT~2']),
         function(data)
             StaticPopup_Show('WoWTools_EditText',
                 WoWTools_GroupMixin.addName
-                ..'|n|n'..(WoWTools_DataMixin.onlyChinese and '自定义发送信息' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, CUSTOM, SEND_MESSAGE))
+                ..'|n|n'..(WoWTools_L['CUSTOM+SEND_MESSAGE'])
                 ..'|n|n|cnGREEN_FONT_COLOR:'..format('|A:%s:0:0|a', data.icon)..data.text..'|r|n|n'
-                ..(WoWTools_DataMixin.onlyChinese and '队伍' or HUD_EDIT_MODE_SETTING_UNIT_FRAME_GROUPS),
+                ..(WoWTools_L.HUD_EDIT_MODE_SETTING_UNIT_FRAME_GROUPS),
             nil,
             {
-                text= WoWToolsPlayerDate[data.type],
+                text= WoWToolsPlusPlayerDate[data.type],
                 SetValue= function(f)
                     local edit= f.editBox or f:GetEditBox()
-                    WoWToolsPlayerDate[data.type]= edit:GetText()
+                    WoWToolsPlusPlayerDate[data.type]= edit:GetText()
                 end
             })
         end, tab)
+        WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Group.WheelEdit'])
     end
+
+    root:CreateDivider()
+    WoWTools_ChatMixin:Open_SettingsPanel(root, WoWTools_GroupMixin.addName)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-local function show_Group_Info_Toolstip()--玩家,信息, 提示
-    if not Save().showRaidHPTooltip then
+local function show_Group_Info_Toolstip()
+    if not WoWTools_GroupMixin:Save().showRaidHPTooltip then
         return
     end
 
@@ -477,7 +306,7 @@ local function show_Group_Info_Toolstip()--玩家,信息, 提示
     end
     local playerNum=0
 
-    local UnitTab={}--取得装等
+    local UnitTab={}
 
     local u= raid and 'raid' or 'party'
     local tabT, tabN, tabDPS, totaleHP = {}, {}, {}, 0
@@ -530,7 +359,7 @@ local function show_Group_Info_Toolstip()--玩家,信息, 提示
                 local color=  WoWTools_UnitMixin:GetColor(unit, nil)
                 info.hex= color:GenerateHexColorMarkup()
 
-                if uiMapID then--不在同地图
+                if uiMapID then
                     local text, mapID=WoWTools_MapMixin:GetUnit(unit)
                     if text and mapID and mapID~=uiMapID then
                         info.name= info.name..'|A:poi-islands-table:0:0|a|cnWARNING_FONT_COLOR:'..text..'|r'
@@ -559,7 +388,7 @@ local function show_Group_Info_Toolstip()--玩家,信息, 提示
     table.sort(tabDPS, function(a, b) if a and b then  return a.maxHP> b.maxHP end return false end)
 
 
-    GameTooltip:AddDoubleLine(format(WoWTools_DataMixin.onlyChinese and '%s玩家' or COMMUNITIES_CROSS_FACTION_BUTTON_TOOLTIP_TITLE, playerNum), WoWTools_DataMixin:MK(totaleHP,3))
+    GameTooltip:AddDoubleLine(format(WoWTools_L.COMMUNITIES_CROSS_FACTION_BUTTON_TOOLTIP_TITLE, playerNum), WoWTools_DataMixin:MK(totaleHP,3))
     if playerNum>0 then
         GameTooltip:AddLine(' ')
     end
@@ -590,85 +419,54 @@ local function show_Group_Info_Toolstip()--玩家,信息, 提示
 
     --GameTooltip:Show()
 
-    WoWTools_UnitMixin:GetNotifyInspect(UnitTab)--取得装等
+    WoWTools_UnitMixin:GetNotifyInspect(UnitTab)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --####
---初始
 --####
-local function Init()
+local Init= WoWTools_Once(function()
 
     ChatTab={
         ['p']= {--/p
-            text=WoWTools_DataMixin.onlyChinese and '队伍' or COMPACT_UNIT_FRAME_PROFILE_SORTBY_GROUP,
+            text=WoWTools_L.COMPACT_UNIT_FRAME_PROFILE_SORTBY_GROUP,
             slash='SLASH_PARTY',
             slashText= SLASH_PARTY1,
-            cn='队',
             atlas='questlog-questtypeicon-group',
         },
         ['r']= {--/raid
-            text= WoWTools_DataMixin.onlyChinese and '团队' or RAID,
+            text= WoWTools_L.RAID,
             slash='SLASH_RAID',
             slashText= SLASH_RAID1,
-            cn='团',
             atlas='Ping_Chat_Assist',
         },
         ['i']= {--i
-            text=WoWTools_DataMixin.onlyChinese and '副本' or INSTANCE,--/i
+            text=WoWTools_L.INSTANCE,--/i
             slash='SLASH_INSTANCE_CHAT',
             slashText= SLASH_INSTANCE_CHAT1,
-            cn='副',
             atlas='delves-bountiful'
         },
         ['w']= {--rw
-            text= WoWTools_DataMixin.onlyChinese and '团队通知' or RAID_WARNING,--/rw
+            text= WoWTools_L.RAID_WARNING,--/rw
             slash='SLASH_RAID_WARNING',
             slashText= SLASH_RAID_WARNING1,
-            cn='领',
             atlas='voicechat-icon-textchat-silenced',
         }
 
 
     }
 
---使用,提示
     GroupButton.typeText=WoWTools_LabelMixin:Create(GroupButton,{color=true})
     GroupButton.typeText:SetPoint('BOTTOM',0,2)
 
---队员，数量，提示
     GroupButton.membersText=WoWTools_LabelMixin:Create(GroupButton, {color=true})--10, nil, nil, true)
     GroupButton.membersText:SetPoint('TOPRIGHT', -3, 0)
 
-    GroupButton.tipBubbles= GroupButton:CreateTexture(nil, 'OVERLAY')
-    GroupButton.tipBubbles:SetSize(8, 8)
-    GroupButton.tipBubbles:SetPoint('TOPLEFT', 3, 0)
-    GroupButton.tipBubbles:SetAtlas('talents-button-reset')
-
     GroupButton.readyCheckTexture= GroupButton:CreateTexture(nil, 'OVERLAY')
     GroupButton.readyCheckTexture:SetSize(8, 8)
-    GroupButton.readyCheckTexture:SetPoint('TOP', GroupButton.tipBubbles, 'BOTTOM')
+    GroupButton.readyCheckTexture:SetPoint('TOPLEFT', 3, -8)
     
 
---副本外，在团中提示
     GroupButton.textureNotInstance=GroupButton:CreateTexture(nil,'BACKGROUND')
     GroupButton.textureNotInstance:SetAllPoints(GroupButton)
     GroupButton.textureNotInstance:SetAtlas('socket-punchcard-red-background')
@@ -676,7 +474,7 @@ local function Init()
     function GroupButton:set_tooltip()
         self:set_owner()
 
-        show_Group_Info_Toolstip()--玩家,信息, 提示
+        show_Group_Info_Toolstip()
 
 
 
@@ -691,7 +489,7 @@ local function Init()
             '|A:voicechat-icon-textchat-silenced:0:0|a'
             ..WoWTools_DataMixin.Icon.mid
             ..'|A:bags-greenarrow:0:0|a'
-            ..WoWToolsPlayerDate['GroupMouseUpText'],
+            ..WoWToolsPlusPlayerDate['GroupMouseUpText'],
             nil,nil,nil, true
         )
 
@@ -699,7 +497,7 @@ local function Init()
             '|A:voicechat-icon-textchat-silenced:0:0|a'
             ..WoWTools_DataMixin.Icon.mid
             ..'|A:UI-HUD-MicroMenu-StreamDLRed-Up:0:0|a'
-            ..WoWToolsPlayerDate['GroupMouseDownText'],
+            ..WoWToolsPlusPlayerDate['GroupMouseDownText'],
             nil,nil,nil, true
         )
 
@@ -712,99 +510,107 @@ local function Init()
     end
 
 
-    GroupButton:SetScript('OnMouseWheel', function(_, d)--发送自定义信息
-       Set_OnMouseWheel(d)
-    end)
+    --Ya no se envían mensajes al girar la rueda sobre el botón (se disparaba sin querer); se envían desde el menú
 
     GroupButton:SetupMenu(Init_Menu)
 
-    Settings(GroupButton)--队伍信息提示
+    Settings(GroupButton)
+end)
 
-    Init=function()end
+
+--Refresca el botón tras cambiar un ajuste (Centro de control)
+function WoWTools_GroupMixin:Refresh()
+    if GroupButton and GroupButton.typeText then
+        Settings(GroupButton)
+    end
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --###########
---加载保存数据
 --###########
 local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-
-
-
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWTools' then
-
-            WoWToolsSave['ChatButtonGroup']= WoWToolsSave['ChatButtonGroup'] or {
-                autoReady=0--0手动， 1就绪， 2未就绪
-            }
-
-            Save().autoReady= Save().autoReady or 0
-
-            WoWToolsPlayerDate['GroupMouseUpText']= WoWToolsPlayerDate['GroupMouseUpText']
-                or (WoWTools_DataMixin.Player.Region==1 or WoWTools_DataMixin.Player.Region==3) and 'sum me, pls'
-                or (WoWTools_DataMixin.Player.Region==5  and '求拉, 谢谢  {rt1}')
-                or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC,SUMMON, COMBATLOG_FILTER_STRING_ME)
-
-            WoWToolsPlayerDate['GroupMouseDownText']= WoWToolsPlayerDate['GroupMouseDownText']
-                or (WoWTools_DataMixin.Player.Region~=5 and 'inv, thx{rt1}') or '1'
-
-            WoWTools_GroupMixin.addName= '|A:socialqueuing-icon-group:0:0:|a'..(WoWTools_DataMixin.onlyChinese and '队伍' or HUD_EDIT_MODE_SETTING_UNIT_FRAME_SORT_BY_SETTING_GROUP)
-            GroupButton= WoWTools_ChatMixin:CreateButton('Group', WoWTools_GroupMixin.addName)
-
-
-            if GroupButton then
-                self:RegisterEvent('PLAYER_ENTERING_WORLD')
-                self:RegisterEvent('GROUP_LEFT')
-                self:RegisterEvent('GROUP_JOINED')
-                self:RegisterEvent('GROUP_FORMED')
-
-                self:RegisterEvent('GROUP_ROSTER_UPDATE')
-
-                self:RegisterEvent('CVAR_UPDATE')
-
-
-                WoWTools_GroupMixin:Init_AutoReady()
-
-            else
-                self:SetScript('OnEvent', nil)
-            end
-            self:UnregisterEvent(event)
-        end
-
-    elseif event=='PLAYER_ENTERING_WORLD' then
+--Marco propio: eventos continuos del grupo (se registran en onEnable)
+panel:SetScript("OnEvent", function(self, event)
+    if event=='PLAYER_ENTERING_WORLD' then
         Init()
         self:UnregisterEvent(event)
 
     elseif event=='GROUP_ROSTER_UPDATE' then
-        C_Timer.After(0.3, function() Settings(GroupButton) end)--队伍信息提示
+        C_Timer.After(0.3, function() Settings(GroupButton) end)
 
     elseif event=='GROUP_LEFT' or event=='GROUP_JOINED' or event=='GROUP_FORMED' then
         ClickType= IsInRaid() and 'r' or 'p'
-        Settings(GroupButton)--队伍信息提示
-
-    elseif event=='CVAR_UPDATE' and arg1=='chatBubblesParty' then
-        Settings(GroupButton)--提示，聊天泡泡，开启/禁用
+        Settings(GroupButton)
 
     end
 end)
+
+
+
+WoWTools_Module:Register({
+    key= 'ChatButtonGroup', name= 'Module.Group', icon= 'socialqueuing-icon-group',
+    parent= 'ChatButton', defaults= {autoReady=0}, mixin= WoWTools_GroupMixin,
+    options= {
+        {type='section', text='GENERAL'},
+        {type='check', key='raidHP', text='Group members HP', tooltip='Tip.Group.MembersHP',
+            get= function(save) return save.showRaidHPTooltip end,
+            set= function(save, value) save.showRaidHPTooltip= value and true or nil end,
+        },
+        {type='input', key='wheelUp', text='KEY_MOUSEWHEELUP', tooltip='Tip.Group.WheelEdit', width=220,
+            get= function() return WoWToolsPlusPlayerDate['GroupMouseUpText'] or '' end,
+            set= function(_, text) WoWToolsPlusPlayerDate['GroupMouseUpText']= text end,
+        },
+        {type='input', key='wheelDown', text='KEY_MOUSEWHEELDOWN', tooltip='Tip.Group.WheelEdit', width=220,
+            get= function() return WoWToolsPlusPlayerDate['GroupMouseDownText'] or '' end,
+            set= function(_, text) WoWToolsPlusPlayerDate['GroupMouseDownText']= text end,
+        },
+
+        {type='section', text='Automations'},
+        {type='dropdown', key='autoReady', text='READY_CHECK', tooltip='Tip.Group.AutoReady', automation=true,
+            values= {
+                {value=0, text='READY+TRACKER_SORT_MANUAL'},
+                {value=1, text='Auto ready'},
+                {value=2, text='Auto not ready'},
+            },
+            get= function(save) return save.autoReady or 0 end,
+            set= function(save, value) save.autoReady= value end,
+            apply= function(M, save)
+                if (save.autoReady or 0)>0 and ReadyCheckFrame and ReadyCheckFrame:IsShown() then
+                    ConfirmReadyCheck(save.autoReady==1 and 1 or nil)
+                    ReadyCheckFrame:SetShown(false)
+                end
+                M:Refresh()
+            end,
+        },
+        {type='slider', key='autoReadySeconds', text='Delay (seconds)', tooltip='Tip.Group.AutoReadyDelay',
+            automation=true, indent=true, min=1, max=30, step=1,
+            disabled= function(save) return (save.autoReady or 0)==0 end,
+            get= function(save) return save.autoReadySeconds or 3 end,
+            set= function(save, value) save.autoReadySeconds= value~=3 and value or nil end,
+        },
+    },
+    onEnable= function()
+        WoWTools_GroupMixin:Save().autoReady= WoWTools_GroupMixin:Save().autoReady or 0
+
+        WoWToolsPlusPlayerDate['GroupMouseUpText']= WoWToolsPlusPlayerDate['GroupMouseUpText']
+            or (WoWTools_DataMixin.Player.Region==1 or WoWTools_DataMixin.Player.Region==3) and 'sum me, pls'
+            or WoWTools_Join(SUMMON, COMBATLOG_FILTER_STRING_ME)
+
+        WoWToolsPlusPlayerDate['GroupMouseDownText']= WoWToolsPlusPlayerDate['GroupMouseDownText']
+            or (WoWTools_DataMixin.Player.Region~=5 and 'inv, thx{rt1}') or '1'
+
+        GroupButton= WoWTools_ChatMixin:CreateButton('Group', WoWTools_GroupMixin.addName)
+
+        if GroupButton then
+            panel:RegisterEvent('PLAYER_ENTERING_WORLD')
+            panel:RegisterEvent('GROUP_LEFT')
+            panel:RegisterEvent('GROUP_JOINED')
+            panel:RegisterEvent('GROUP_FORMED')
+
+            panel:RegisterEvent('GROUP_ROSTER_UPDATE')
+
+
+            WoWTools_GroupMixin:Init_AutoReady()
+        end
+    end,
+})

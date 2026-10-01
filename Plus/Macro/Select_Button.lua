@@ -1,4 +1,3 @@
---选定宏，点击，弹出菜单，自定图标
 
 
 local function Get_Text_Table()
@@ -11,9 +10,8 @@ local function Get_Text_Table()
 
     text= text..'\n'
 
-    --添加，物品，法术，图标=物品名称
     local function get_SpellItem_Texture(spell, item)
-        if spell then--spell 字符
+        if spell then
             local spellID
             local icon= C_Spell.GetSpellTexture(spell)
             local data= C_Spell.GetSpellInfo(spell)
@@ -42,8 +40,7 @@ local function Get_Text_Table()
         end
     end
 
-     --法术
-    text= text:gsub(SLASH_CAST1..' (.-)\n', function(t)--/施放
+    text= text:gsub(SLASH_CAST1..' (.-)\n', function(t)
         get_SpellItem_Texture(t:match('](.+)') or t)
         return ''
     end)
@@ -55,7 +52,7 @@ local function Get_Text_Table()
         get_SpellItem_Texture(t:match('](.+)') or t)
         return ''
     end)
-    text= text:gsub(SLASH_CAST4..' (.-)\n', function(t)--/法术
+    text= text:gsub(SLASH_CAST4..' (.-)\n', function(t)
         get_SpellItem_Texture(t:match('](.+)') or t)
         return ''
     end)
@@ -68,7 +65,6 @@ local function Get_Text_Table()
         return ''
     end)
 
-    --物品
     text= text:gsub(SLASH_USE1..' (.-)\n', function(t)--/use
         get_SpellItem_Texture(nil, t:match('](.+)') or t)
         return ''
@@ -78,7 +74,7 @@ local function Get_Text_Table()
         get_SpellItem_Texture(nil, t:match('](.+)') or t)
         return ''
     end)
-    text= text:gsub(SLASH_USE_TOY1..' (.-)\n', function(t)--/使用玩具
+    text= text:gsub(SLASH_USE_TOY1..' (.-)\n', function(t)
         get_SpellItem_Texture(nil, t:match('](.+)') or t)
         return ''
     end)
@@ -86,7 +82,6 @@ local function Get_Text_Table()
         get_SpellItem_Texture(nil, t:match('](.+)') or t)
         return ''
     end)
-    --物品
     text= text:gsub(SLASH_EQUIP1..' (.-)\n', function(t)--/equip
         get_SpellItem_Texture(nil, t:match('](.+)') or t)
         return ''
@@ -113,7 +108,6 @@ local function Get_Text_Table()
         return ''
     end)
 
-    --区域，技能
     for _, zoneAbilities in pairs(C_ZoneAbility.GetActiveAbilities() or {}) do
         get_SpellItem_Texture(zoneAbilities.spellID)
     end
@@ -135,7 +129,6 @@ end
 
 
 local function Init_Menu(_, root)
---战斗中
     if WoWTools_MenuMixin:CheckInCombat(root) then
         return
     end
@@ -143,14 +136,14 @@ local function Init_Menu(_, root)
     local sub
     local new= Get_Text_Table()
 
-    new[134400]= {name='|T134400:0|t'..(WoWTools_DataMixin.onlyChinese and '无' or NONE)}
+    new[134400]= {name='|T134400:0|t'..(WoWTools_L.NONE)}
 
 
     for icon, tab in pairs(new or {}) do
         sub=root:CreateButton(
             tab.name,
         function(data)
-            if WoWTools_FrameMixin:IsLocked(MacroFrame) then
+            if InCombatLockdown() then
                 return
             end
             local index= WoWTools_MacroMixin:GetSelectIndex()
@@ -160,19 +153,20 @@ local function Init_Menu(_, root)
                 end
             end
             do
-                WoWTools_MacroMixin:SetMacroTexture(data.icon)--修改，当前图标
+                WoWTools_MacroMixin:SetMacroTexture(data.icon)
             end
             return MenuResponse.Refresh
         end, {icon=icon, spellID=tab.spellID, itemID=tab.itemID})
 
         sub:SetTooltip(function(tooltip, description)
-            tooltip:AddLine((WoWTools_DataMixin.onlyChinese and '设置图标' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SETTINGS, EMBLEM_SYMBOL)))
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Macro.SelectIcon'])
+            tooltip:AddLine((WoWTools_L['SETTINGS+EMBLEM_SYMBOL']))
             if description.data.itemID then
                 tooltip:AddLine(' ')
-                tooltip:AddLine(WoWTools_ItemMixin:GetName(description.data.itemID))--取得法术，名称
+                tooltip:AddLine(WoWTools_ItemMixin:GetName(description.data.itemID))
             elseif description.data.spellID then
                 tooltip:AddLine(' ')
-                tooltip:AddLine(WoWTools_SpellMixin:GetName(description.data.spellID))--取得法术，名称
+                tooltip:AddLine(WoWTools_SpellMixin:GetName(description.data.spellID))
             end
             local text= MacroFrameText:GetText()
             tooltip:AddLine(' ')
@@ -198,9 +192,7 @@ end
 
 
 
---选定宏，点击，弹出菜单，自定图标
 local function Init()
-    --选定宏，index提示
     MacroFrame.numSelectionLable= WoWTools_LabelMixin:Create(MacroFrameSelectedMacroButton)
     MacroFrame.numSelectionLable:SetAlpha(0.7)
     MacroFrame.numSelectionLable:SetPoint('RIGHT', MacroFrameSelectedMacroButton, 'LEFT', -1,0)
@@ -208,7 +200,7 @@ local function Init()
     MacroFrame.numSelectionLable:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddLine( WoWTools_DataMixin.onlyChinese and '栏位' or TRADESKILL_FILTER_SLOTS)
+        GameTooltip:AddLine( WoWTools_L.TRADESKILL_FILTER_SLOTS)
         GameTooltip:Show()
         self:SetAlpha(1)
     end)
@@ -216,13 +208,12 @@ local function Init()
         self.numSelectionLable:SetText(index and index+MacroFrame.macroBase or '')
     end)
 
-    --选定，宏，提示
     MacroFrameSelectedMacroButton:HookScript('OnEnter', function(self)
         local icon= WoWTools_MacroMixin:SetTooltips(self, WoWTools_MacroMixin:GetSelectIndex())
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(
             '|cnGREEN_FONT_COLOR:'
-            ..(WoWTools_DataMixin.onlyChinese and '设置图标' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SETTINGS, EMBLEM_SYMBOL))
+            ..(WoWTools_L['SETTINGS+EMBLEM_SYMBOL'])
             ..(icon and '|T'..icon..':0|t' or ''),
             WoWTools_DataMixin.Icon.left
         )
@@ -233,7 +224,6 @@ local function Init()
         --Set_Action_Focus()
     end)
 
-    --选定宏，点击，弹出菜单，自定图标
     --MacroFrameSelectedMacroButton:RegisterForClicks("AnyDown", "AnyUp")--WoWTools_DataMixin.LeftButtonDown, WoWTools_DataMixin.RightButtonDown)
     MacroFrameSelectedMacroButton:HookScript('OnMouseDown', function(self)
         MenuUtil.CreateContextMenu(self, Init_Menu)
@@ -254,6 +244,6 @@ end
 
 
 
-function WoWTools_MacroMixin:Init_Select_Macro_Button()--选定宏，点击，弹出菜单，自定图标
+function WoWTools_MacroMixin:Init_Select_Macro_Button()
     Init()
 end

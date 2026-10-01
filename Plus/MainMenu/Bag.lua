@@ -1,4 +1,3 @@
---提示，背包，总数
 
 
 
@@ -12,11 +11,11 @@
 
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     local frame= CreateFrame('Frame')
 
     frame.Text= WoWTools_LabelMixin:Create(MainMenuBarBackpackButton,  {
-        size=WoWToolsSave['Plus_MainMenu'].size,
+        size=WoWTools_MainMenuMixin:Save().size,
         name='WoWToolsBackpackMoneyLabel',
         color=true
     })
@@ -26,8 +25,8 @@ local function Init()
 
     function frame:settings()
         local money=0
-        if WoWToolsSave['Plus_MainMenu'].moneyWoW then
-            for _, info in pairs(WoWTools_WoWDate or {}) do
+        if WoWTools_MainMenuMixin:Save().moneyWoW then
+            for _, info in pairs(WoWToolsPlus_WoWDate or {}) do
                 if info.Money then
                     money= money+ info.Money
                 end
@@ -50,18 +49,11 @@ local function Init()
         if KeybindFrames_InQuickKeybindMode() then
             return
         end
-         GameTooltip:AddLine(
-            WoWTools_DataMixin.Icon.wow2
-            ..'|cnGREEN_FONT_COLOR:<'
-            ..(WoWTools_DataMixin.onlyChinese and '战团物品' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ACCOUNT_QUEST_LABEL, ITEMS))
-            ..WoWTools_DataMixin.Icon.mid
-            ..'>'
-        )
         GameTooltip:AddLine(' ')
 
         local numPlayer, allMoney= 0, 0
         local tab={}
-        for guid, info in pairs(WoWTools_WoWDate or {}) do
+        for guid, info in pairs(WoWToolsPlus_WoWDate or {}) do
             if info.Money and info.Money>0 then
                 numPlayer=numPlayer+1
                 allMoney= allMoney + info.Money
@@ -87,16 +79,14 @@ local function Init()
                 break
             end
         end
---合计
         if numPlayer>1 then
-            local left= format(CHARACTER_CUSTOMIZATION_CHOICE_NAME_AND_ID, numPlayer, WoWTools_DataMixin.onlyChinese and '角色' or CHARACTER)--%d %s
+            local left= format(CHARACTER_CUSTOMIZATION_CHOICE_NAME_AND_ID, numPlayer, WoWTools_L.CHARACTER)--%d %s
             GameTooltip:AddDoubleLine(
                 numPlayer>3 and notIsShiftkeyDown and '|cnGREEN_FONT_COLOR:<'..left..'|A:NPE_Icon:0:0|aShift+>' or
                 '|cnGREEN_FONT_COLOR:'..left,
                 '|cnGREEN_FONT_COLOR:'..(allMoney >=10000 and WoWTools_DataMixin:MK(allMoney/10000, 3)..'|A:Coin-Gold:0:0|a' or C_CurrencyInfo.GetCoinTextureString(allMoney))
             )
         end
---银行
         local account= C_Bank.FetchDepositedMoney(Enum.BankType.Account)
         if account then
             local text= '|A:questlog-questtypeicon-account:0:0|a|cff00ccff'
@@ -116,7 +106,6 @@ local function Init()
 
 
 
---背包，数量
         local num, use= 0, 0
         tab={}
         for i = BACKPACK_CONTAINER, NUM_TOTAL_EQUIPPED_BAG_SLOTS do
@@ -167,7 +156,7 @@ local function Init()
             GameTooltip.textLeft:SetText(totale)
         else
             GameTooltip:AddLine(
-                (WoWTools_DataMixin.onlyChinese and '总计：' or FROM_TOTAL)
+                (WoWTools_L.FROM_TOTAL)
                 ..totale,
                 1,1,1
             )
@@ -177,7 +166,7 @@ local function Init()
 
 
     MainMenuBarBackpackButtonCount:SetShadowOffset(1, -1)
-    WoWTools_ColorMixin:SetLabelColor(MainMenuBarBackpackButtonCount)--设置颜色
+    WoWTools_ColorMixin:SetLabelColor(MainMenuBarBackpackButtonCount)
 
     WoWTools_DataMixin:Hook(MainMenuBarBackpackButton, 'UpdateFreeSlots', function(self)
         local freeSlots=self.freeSlots
@@ -197,7 +186,6 @@ local function Init()
         end
     end)
 
---收起，背包小按钮
     if C_CVar.GetCVarBool("expandBagBar") and C_CVar.GetCVarBool("combinedBags") and not InCombatLockdown() then--MainMenuBarBagButtons.lua
         C_CVar.SetCVar("expandBagBar", '0')
     end
@@ -209,16 +197,9 @@ local function Init()
         end
     end)
 
-    MainMenuBarBackpackButton:EnableMouseWheel(true)
-    MainMenuBarBackpackButton:SetScript('OnMouseWheel', function(_, d)
-        local isShow= d==1
-        WoWTools_DataMixin:OpenWoWItemListFrame('Item', isShow)--战团，物品列表
-    end)
 
 
-
-    Init=function()end
-end
+end)
 
 
 
@@ -232,6 +213,6 @@ end
 
 
 
-function WoWTools_MainMenuMixin:Init_Bag()--背包
+function WoWTools_MainMenuMixin:Init_Bag()
     Init()
 end

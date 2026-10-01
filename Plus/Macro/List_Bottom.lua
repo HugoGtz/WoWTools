@@ -1,130 +1,107 @@
---命令，按钮，列表
-
-local function Save()
-    return WoWToolsSave['Plus_Macro2']
-end
-
-
-
-
 
 --'/cast [@cursor]'..name
 local CursorTab={
-    [145205]= true,--[百花齐放]xd
+    [145205]= true,
 
-    [192077]= true,--[狂风图腾]
-    [192058]= true,--[电能图腾]sm
-    [51485]= true,--[陷地图腾]sm
-    [192222]= true,--[岩浆图腾]sm
-    [198838]= true,--[大地之墙图腾]sm
-    [2484]= true,--[地缚图腾]
-    [73920]= true,--[治疗之雨]sm
-    [61882]= true,--[地震术]sm
-    [6196]= true,--[视界术]sm
+    [192077]= true,
+    [192058]= true,
+    [51485]= true,
+    [192222]= true,
+    [198838]= true,
+    [2484]= true,
+    [73920]= true,
+    [61882]= true,
+    [6196]= true,
 
-    [358385]= true,--[山崩]dm
-    [357210]= true,--[深呼吸]dm
+    [358385]= true,
+    [357210]= true,
 
-    [113724]= true,--[冰霜之环]fs
-    [2120]= true,--[烈焰风暴]fs
-    [190356]= true,--[暴风雪]fs
-    [198149]= true,--[寒冰宝珠]fs PVP天赋
+    [113724]= true,
+    [2120]= true,
+    [190356]= true,
+    [198149]= true,
 
-    [187650]= true,--[冰冻陷阱]lr
-    [187698]= true,--[焦油陷阱]lr
-    [109248]= true,--[束缚射击]lr
-    [162488]= true,--[精钢陷阱]lr
-    [236776]= true,--[高爆陷阱]lr
-    [1543]= true,--[照明弹]lr
-    [6197]= true,--[鹰眼术]lr
-    [260243]= true,--[乱射]lr
-    [257284]= true,--[猎人印记]lr
-    [190925]= true,--[鱼叉猛刺]lr
+    [187650]= true,
+    [187698]= true,
+    [109248]= true,
+    [162488]= true,
+    [236776]= true,
+    [1543]= true,
+    [6197]= true,
+    [260243]= true,
+    [257284]= true,
+    [190925]= true,
 
-    [30283]= true,--[暗影之怒]ss
-    [1122]= true,--[召唤地狱火]ss
-    [152108]= true,--[大灾变]ss
-    [5740]= true,--[火焰之雨]ss
+    [30283]= true,
+    [1122]= true,
+    [152108]= true,
+    [5740]= true,
 
-    [453]= true,--[安抚心灵]ms
-    [34861]= true,--[圣言术：灵]ms
-    [62618]= true,--[真言术：障]ms
-    [32375]= true,--[群体驱散]ms
+    [453]= true,
+    [34861]= true,
+    [62618]= true,
+    [32375]= true,
 
-    [195457]= true,--[抓钩]dz
+    [195457]= true,
 
-    [189110]= true,--[地狱火撞击]dh
-    [191427]= true,--[恶魔变形]dh
-    [204596]= true,--[烈焰咒符]dh
-    [202137]= true,--[沉默咒符]dh
-    [390163]= true,--[极乐敕令]dh
-    [207684]= true,--[悲苦咒符]dh
-    [389807]= true,--[锁链咒符]dh
-    [389810]= true,--[烈焰咒符]dh T
-    [389815]= true,--[极乐敕令]dh T
-    [389809]= true,--[沉默咒符]dh T
+    [189110]= true,
+    [191427]= true,
+    [204596]= true,
+    [202137]= true,
+    [390163]= true,
+    [207684]= true,
+    [389807]= true,
+    [389810]= true,
+    [389815]= true,
+    [389809]= true,
 
-    [6544]= true,--[英勇飞跃]zs
-    [818]= true,--/烹饪用火
+    [6544]= true,
+    [818]= true,
 }
 
---停止施法 '/stopcasting\n/cast '..name
 local StopCastingTab={
-    [78675]= true,--[日光术]xd
-    [33786]= true,--[旋风]xd
+    [78675]= true,
+    [33786]= true,
 
-    [57994]= true,--[风剪]sm
-    [51490]= true,--[雷霆风暴]sm
-    [108271]= true,--[星界转移]
+    [57994]= true,
+    [51490]= true,
+    [108271]= true,
 
-    [45438]= true,--[寒冰屏障]fs
-    [2139]= true,--[法术反制]fs
+    [45438]= true,
+    [2139]= true,
 
-    [147362]= true,--[反制射击]lr
+    [147362]= true,
 
-    [104773]= true,--[不灭决心]ss
-    [111400]= true,--[爆燃冲刺]ss
-    [6789]= true,--[死亡缠绕]ss
-    [710]= true,--[放逐术]ss
-    [8122]= true,--[心灵尖啸]ms
-    [15487]= true,--[沉默]ms
-    [47585]= true,--[消散]ms
+    [104773]= true,
+    [111400]= true,
+    [6789]= true,
+    [710]= true,
+    [8122]= true,
+    [15487]= true,
+    [47585]= true,
 }
 
---设置，光标，焦点， 目标，再设置焦点，
 local SetFocusTab={
-    [118]= true,--[变形术]fs
-    [34477]= true,--[误导]lr
-    [5782]= true,--[恐惧]ss
-    [57934]= true,--[嫁祸诀窍]dz
-    [111673]= true,--[控制亡灵]
+    [118]= true,
+    [34477]= true,
+    [5782]= true,
+    [57934]= true,
+    [111673]= true,
 }
 
 --'/cast '..name..'\n/y '..(C_Spell.GetSpellLink(spellID) or name)
 local SayTab={
-    [698]= true,--[召唤仪式]ss
-    [29893]= true,--[制造灵魂之井]ss
-    [111771]= true,--[恶魔传送门]ss
-    [342601]= true,--[末日仪式]ss
-    [20707]= true,--[灵魂石]ss
-    [114018]= true,--[潜伏帷幕]DZ
-    [2825]= true,--[嗜血]sm
-    [414664]= true,--[群体隐形]fs
+    [698]= true,
+    [29893]= true,
+    [111771]= true,
+    [342601]= true,
+    [20707]= true,
+    [114018]= true,
+    [2825]= true,
+    [414664]= true,
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
---常用，宏
 local MacroList={
     {text='ping', icon='Ping_Map_Whole_Assist', macro=SLASH_PING1,
         tab={
@@ -148,18 +125,6 @@ local MacroList={
             {text='/cwm 1\n/cwm 2\n/cwm 3\n/cwm 4\n/cwm 5\n/cwm 6\n/cwm 7\n/cwm 8', icon='talents-button-reset'},
         }
     },
-    --[[{text= 'SetRaidTarget', macro='/target [@mouseover]\n/script SetRaidTarget("target",1)',
-        tab={
-            {text='/target [@mouseover]\n/script SetRaidTarget("target",1)', icon='Interface\\TargetingFrame\\UI-RaidTargetingIcon_1'},
-            {text='/target [@mouseover]\n/script SetRaidTarget("target",2)', icon='Interface\\TargetingFrame\\UI-RaidTargetingIcon_2'},
-            {text='/target [@mouseover]\n/script SetRaidTarget("target",3)', icon='Interface\\TargetingFrame\\UI-RaidTargetingIcon_3'},
-            {text='/target [@mouseover]\n/script SetRaidTarget("target",4)', icon='Interface\\TargetingFrame\\UI-RaidTargetingIcon_4'},
-            {text='/target [@mouseover]\n/script SetRaidTarget("target",5)', icon='Interface\\TargetingFrame\\UI-RaidTargetingIcon_5'},
-            {text='/target [@mouseover]\n/script SetRaidTarget("target",6)', icon='Interface\\TargetingFrame\\UI-RaidTargetingIcon_6'},
-            {text='/target [@mouseover]\n/script SetRaidTarget("target",7)', icon='Interface\\TargetingFrame\\UI-RaidTargetingIcon_7'},
-            {text='/target [@mouseover]\n/script SetRaidTarget("target",8)', icon='Interface\\TargetingFrame\\UI-RaidTargetingIcon_8'},
-        }
-    },]]
     {text='rt', macro='{rt1}',
         tab={
             {text='{rt1}', icon='Interface\\TargetingFrame\\UI-RaidTargetingIcon_1'},
@@ -227,14 +192,8 @@ local MacroList={
     },
     {text='@mouseover', macro='[@mouseover]'},
     {text='@cursor', macro='[@cursor]'},
-    {text='[nostance:1]', macro= '[nostance:1]', tips=WoWTools_DataMixin.onlyChinese and '姿态条' or HUD_EDIT_MODE_STANCE_BAR_LABEL},
+    {text='[nostance:1]', macro= '[nostance:1]', tips=WoWTools_L.HUD_EDIT_MODE_STANCE_BAR_LABEL},
 }
-
-
-
-
-
-
 
 
 local function Find_SpellMacro(spellID)
@@ -254,19 +213,10 @@ local function Find_SpellMacro(spellID)
 end
 
 
-
-
-
-
-
-
-
-
-
 local Spell_Macro={
 
 --MS
-    [73325]=function(name)--[信仰飞跃]ms
+    [73325]=function(name)
         return '/cast [target=mouseover,help,exists][target=target,help,exists][target=targettarget,help,exists][target=focus,help,exists]'..name
     end,
     [232698]=function(name)
@@ -274,12 +224,12 @@ local Spell_Macro={
     end,
 
 --SS
-    [6201]=function(name)--[制造治疗石]ss
-        local right= C_Spell.GetSpellName(29893)--[制造灵魂之井] ss
-        local alt= name--[制造治疗石] ss
-        local ctrl= C_Spell.GetSpellName(698)--[召唤仪式]ss
-        local shift= C_Spell.GetSpellName(20707)--[灵魂石]ss
-        local itemName= C_Item.GetItemInfo(5512)--[治疗石]ss
+    [6201]=function(name)
+        local right= C_Spell.GetSpellName(29893)
+        local alt= name
+        local ctrl= C_Spell.GetSpellName(698)
+        local shift= C_Spell.GetSpellName(20707)
+        local itemName= C_Item.GetItemInfo(5512)
         if itemName and alt and ctrl and right and shift then
             return '/stopcasting'
                 ..'\n/cast [mod:alt]'..alt
@@ -289,7 +239,7 @@ local Spell_Macro={
                 ..'\n/cast [btn:2]'..right
         end
     end,
-    [48018]=function(name)--[恶魔法阵]ss
+    [48018]=function(name)
         local alt= name
         local spellName= C_Spell.GetSpellName(48020)
         if spellName then
@@ -297,19 +247,19 @@ local Spell_Macro={
                 ..'\n/cast '..spellName
         end
     end,
-    [48020]=function(name)--[恶魔法阵：传送]ss
+    [48020]=function(name)
         local alt= C_Spell.GetSpellName(48018)
         if alt then
             return '/cast [mod:alt,@cursor]'.. alt
                 ..'\n/cast '..name
         end
     end,
-    [755]=function(name)--[生命通道]ss
+    [755]=function(name)
         return '/stopcasting\n/cast [target=pet]'..name
     end,
 
 --LR
-    [5384]=function(name)--[假死]LR
+    [5384]=function(name)
         if C_SpellBook.IsSpellInSpellBook(209997) then
             local spellName= C_Spell.GetSpellName(209997)
             if spellName then
@@ -318,19 +268,19 @@ local Spell_Macro={
         end
         return '/petfollow\n/cast '..name
     end,
-    [2643]=function(name)--[多重射击]LR
+    [2643]=function(name)
         local spellName= C_Spell.GetSpellName(186265)
         if spellName then
             return '/cancelaura '..spellName..'\n/cast '..name
         end
     end,
-    [257620]=function(name)--[多重射击]LR
+    [257620]=function(name)
         local spellName= C_Spell.GetSpellName(186265)
         if spellName then
             return '/cancelaura '..spellName..'\n/cast '..name
         end
     end,
-    [187708]=function(name)--[削凿]LR
+    [187708]=function(name)
         local spellName= C_Spell.GetSpellName(186265)
         if spellName then
             return '/cancelaura '..spellName..'\n/cast '..name
@@ -338,95 +288,94 @@ local Spell_Macro={
     end,
 
 --FS
-    [212653]=function(name)--[闪光术]
-        local cancel= C_Spell.GetSpellName(45438)--[寒冰屏障]
+    [212653]=function(name)
+        local cancel= C_Spell.GetSpellName(45438)
         local text='/stopcasting'
         if cancel then
             text= text..'\n/cancelaura '..cancel
         end
         return text..'\n/cast '..name
     end,
-    [1953]=function(name)--[闪现术]
-        local cancel= C_Spell.GetSpellName(45438)--[寒冰屏障]
+    [1953]=function(name)
+        local cancel= C_Spell.GetSpellName(45438)
         local text='/stopcasting'
         if cancel then
             text= text..'\n/cancelaura '..cancel
         end
         return text..'\n/cast '..name
     end,
-    [66]=function(name)--[隐形术]
-        local cancel= C_Spell.GetSpellName(45438)--[寒冰屏障]
+    [66]=function(name)
+        local cancel= C_Spell.GetSpellName(45438)
         local text='/stopcasting'
         if cancel then
             text= text..'\n/cancelaura '..cancel
         end
         return text..'\n/cast '..name
     end,
-    [110959]=function(name)--[强化隐形术]
-        local cancel= C_Spell.GetSpellName(45438)--[寒冰屏障]
+    [110959]=function(name)
+        local cancel= C_Spell.GetSpellName(45438)
         local text='/stopcasting'
         if cancel then
             text= text..'\n/cancelaura '..cancel
         end
         return text..'\n/cast '..name
     end,
-    [190336]=function(name)--[造餐术]
+    [190336]=function(name)
         local itemName= C_Item.GetItemNameByID(113509)
         if itemName then
             return '/use [btn:1]'..itemName..'\n/cast [btn:2]'..name
         end
     end,
-    [130]=function(name)--[缓落术]
+    [130]=function(name)
         return '/cast '..name..'\n/cancelaura [mod:alt]'..name
     end,
 
 --MS
-    [121536]=function(name)--[天堂之羽]ms
+    [121536]=function(name)
         return '/cast [mod,@player][@cursor]'..name
     end,
-    [1706]=function(name)--[漂浮术]ms
+    [1706]=function(name)
         return '/cast [target=mouseover,help,exists][@player]'..name..'\n/cancelaura [mod:alt]'..name
     end,
 
 
 --DK
-    [43265]=function(name)--[枯萎凋零]dk
+    [43265]=function(name)
         return '/cast [mod,@player][@cursor]'..name
     end,
-    [51052]=function(name)--[反魔法领域]
+    [51052]=function(name)
         return '/cast [mod,@player][@cursor]'..name
     end,
 
 --SM
-    [546]=function(name)--[水上行走]sm
+    [546]=function(name)
         return '/cast [target=mouseover,help,exists][@player]'..name..'\n/cancelaura [mod:alt]'..name
     end,
 
 --XD
-    [8921]=function(name)--月火术
+    [8921]=function(name)
        WoWTools_DataMixin:Load(5487, 'spell')
-        local spellName= PlayerUtil.GetCurrentSpecID()==104 and C_Spell.GetSpellName(5487)--104守护专精 8921/月火术 5487熊形态
+        local spellName= PlayerUtil.GetCurrentSpecID()==104 and C_Spell.GetSpellName(5487)
         if spellName then
             return '/cast [nostance:1]'..spellName..'\n/cast '..name
         end
     end,
-    [5487]=function(name)--熊形态
+    [5487]=function(name)
         return '/cast [nostance:1]'..name
     end,
-    [768]=function(name)--猎豹形态
+    [768]=function(name)
         return '/cast [nostance:2]'..name
     end,
-    [783]=function(name)--旅行形态
+    [783]=function(name)
         return '/cast [nostance:3]'..name
     end,
-    [24858]=function(name)--枭兽形态
+    [24858]=function(name)
         return '/cast [nostance:4]'..name
     end,
-    [106839]=function(name)--迎头痛击
+    [106839]=function(name)
         return '/focus target\n/cleartarget\n/targetenemy\n/cast '..name..'\n/target focus\n/clearfocus\n/startattack'
     end,
 
---自动攻击
     [6603]=function()
         return '/startattack'
     end,
@@ -435,24 +384,20 @@ local Spell_Macro={
 
 
 
---自定义，职业，法术宏
 --##################
 local function Get_Spell_Macro(name, spellID)
     local text= Spell_Macro[spellID] and Spell_Macro[spellID](name)
     if text then
         return text
---喊话
     elseif SayTab[spellID] then
         return '/cast '..name..'\n/y '..(C_Spell.GetSpellLink(spellID) or name)
 
 
---设置，光标，焦点， 目标，再设置焦点，
     elseif SetFocusTab[spellID] then
         return '/stopcasting\n/cast [target=mouseover,harm,exists][target=target,harm,exists][target=focus,harm,exists]'
             ..name..';'..name
             ..'\n/focus [target=focus,noexists][target=focus,dead]target'
 
---停止施法
     elseif StopCastingTab[spellID] then
         return '/stopcasting\n/cast '..name
 
@@ -463,45 +408,29 @@ local function Get_Spell_Macro(name, spellID)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
---二级，菜单
 local function Sub_Menu(root, tab)
     local sub
 
---技能，提示
     WoWTools_SetTooltipMixin:Set_Menu(root)
 
     local body= tab.body
 
     sub=root:CreateButton(
-         '|T'..(tab.icon or 134400)..':0|t'..(WoWTools_DataMixin.onlyChinese and '新建' or NEW),
+         '|T'..(tab.icon or 134400)..':0|t'..(WoWTools_L.NEW),
     function(data)
-        WoWTools_MacroMixin:CreateMacroNew(' ', nil, data.body)--新建，宏
+        WoWTools_MacroMixin:CreateMacroNew(' ', nil, data.body)
         return MenuResponse.Open
     end, {name=tab.name, icon=tab.icon, body=body, itemLink=tab.itemLink, spellID=tab.spellID})
     WoWTools_SetTooltipMixin:Set_Menu(sub)
 
     root:CreateDivider()
 
---修改，当前图标
     if tab.icon then
         sub=root:CreateButton(
             '|T'..(tab.icon or 0)..':0|t'
-            ..(WoWTools_DataMixin.onlyChinese and '设置图标' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SETTINGS, EMBLEM_SYMBOL)),
+            ..(WoWTools_L['SETTINGS+EMBLEM_SYMBOL']),
         function(data)
-            if not WoWTools_FrameMixin:IsLocked(MacroFrame) then
+            if not InCombatLockdown() then
                 WoWTools_MacroMixin:SetMacroTexture(data.icon)
             end
             return MenuResponse.Open
@@ -509,48 +438,35 @@ local function Sub_Menu(root, tab)
         sub:SetEnabled(MacroFrameSelectedMacroButton:IsShown())
     end
 
---查询 BUG
     if tab.spellID then
         sub=root:CreateButton(--bug
             '|A:common-search-magnifyingglass:0:0|a'
             ..(C_SpellBook.IsSpellKnown(tab.spellID) and '|cnWARNING_FONT_COLOR:' or '|cff626262')
-            ..(WoWTools_DataMixin.onlyChinese and '查询' or WHO),
+            ..(WoWTools_L.WHO),
         function(spellID)
             WoWTools_LoadUIMixin:SpellBook(3, spellID)
             return MenuResponse.Open
         end, tab.spellID)
 
         sub:SetTooltip(function(tooltip)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Macro.FindSpell'])
             GameTooltip_AddErrorLine(tooltip, 'Bug')
         end)
     end
 
---链接至聊天栏
     if tab.spellID or tab.itemLink then
         sub=root:CreateButton(
-            (WoWTools_DataMixin.onlyChinese and '链接至聊天栏' or COMMUNITIES_INVITE_MANAGER_LINK_TO_CHAT),
+            (WoWTools_L.COMMUNITIES_INVITE_MANAGER_LINK_TO_CHAT),
         function(data)
             local link= data.itemLink or WoWTools_SpellMixin:GetLink(data.spellID, false)
             WoWTools_ChatMixin:Chat(link, nil, true)
             return MenuResponse.Open
         end, tab)
-        WoWTools_SetTooltipMixin:Set_Menu(sub)--技能，提示
+        WoWTools_SetTooltipMixin:Set_Menu(sub)
     end
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
---创建，法术，列表
 local function Create_Spell_Menu(root, spellID, icon, name, index)
    WoWTools_DataMixin:Load(spellID, 'spell')
 
@@ -568,10 +484,10 @@ local function Create_Spell_Menu(root, spellID, icon, name, index)
     local sub=root:CreateButton(
         indexCol..' '
         ..Find_SpellMacro(spellID)
-        ..WoWTools_SpellMixin:GetName(spellID)--取得法术，名称
+        ..WoWTools_SpellMixin:GetName(spellID)
         ..(macroText and '|cnGREEN_FONT_COLOR:*|r' or ''),
     function(data)
-        if WoWTools_FrameMixin:IsLocked(MacroFrame) then
+        if InCombatLockdown() then
             return
         end
 
@@ -586,7 +502,6 @@ local function Create_Spell_Menu(root, spellID, icon, name, index)
         end
         text= text..(macroText2 or ('/cast '..data.name))..'\n'
 
-        --新建，宏
         if not WoWTools_MacroMixin:GetSelectIndex() and WoWTools_MacroMixin:IsCanCreateNewMacro() then
             WoWTools_MacroMixin:CreateMacroNew(nil, nil, text)
         else
@@ -605,7 +520,6 @@ local function Create_Spell_Menu(root, spellID, icon, name, index)
     body= body..'/targetenemy [noharm][dead]\n'
     body= body..(macroText2 or ('/cast '..name))
 
-    --二级，菜单
     Sub_Menu(sub, {
         icon=icon,
         spellID=spellID,
@@ -615,26 +529,8 @@ local function Create_Spell_Menu(root, spellID, icon, name, index)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init_SpellBook_Menu(self, root)
-    if not self:IsMouseOver() or WoWTools_MenuMixin:CheckInCombat(root) then--战斗中
+    if not self:IsMouseOver() or WoWTools_MenuMixin:CheckInCombat(root) then
         return
     end
 
@@ -650,12 +546,10 @@ local function Init_SpellBook_Menu(self, root)
         end
     end
 
---添加，自定义
     if self.index~=1 then
         return
     end
 
---区域，技能
     for _, zone in pairs( C_ZoneAbility.GetActiveAbilities() or {}) do
         if zone.spellID and not C_Spell.IsSpellPassive(zone.spellID) then
             local zoneName= C_Spell.GetSpellName(zone.spellID)
@@ -669,9 +563,9 @@ local function Init_SpellBook_Menu(self, root)
 --FS
     if WoWTools_DataMixin.Player.Class=='MAGE' then
         local sub=root:CreateButton(
-            WoWTools_DataMixin.onlyChinese and '解散水元素' or 'PetDismiss',
+            WoWTools_L['Dismiss pet'],
         function()
-            if WoWTools_FrameMixin:IsLocked(MacroFrame) then
+            if InCombatLockdown() then
                 return
             end
             MacroFrameText:Insert('/script PetDismiss()\n')
@@ -685,23 +579,6 @@ local function Init_SpellBook_Menu(self, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---PVP，天赋，法术
 local function Init_PvP_Menu(self, root)
     local slotInfo = self:IsMouseOver() and C_SpecializationInfo.GetPvpTalentSlotInfo(1)
     if not slotInfo or not slotInfo.availableTalentIDs or WoWTools_MenuMixin:CheckInCombat(root) then
@@ -746,21 +623,8 @@ local function Init_PvP_Menu(self, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init_Equip_Menu(self, root)
-    if not self:IsMouseOver() or WoWTools_MenuMixin:CheckInCombat(root) then--战斗中
+    if not self:IsMouseOver() or WoWTools_MenuMixin:CheckInCombat(root) then
         return
     end
     local sub, icon, name, spellID, itemLink
@@ -784,7 +648,7 @@ local function Init_Equip_Menu(self, root)
                     ..(spellID and '|A:auctionhouse-icon-favorite:0:0|a' or ''),
 
                 function(data)
-                    if WoWTools_FrameMixin:IsLocked(MacroFrame) then
+                    if InCombatLockdown() then
                         return
                     end
                     MacroFrameText:Insert((data.spellID and '/use ' or '/equip ')..data.name..'\n')
@@ -793,7 +657,6 @@ local function Init_Equip_Menu(self, root)
 
                 end, {spellID=spellID, name=name, itemLink=itemLink})
             end
---二级，菜单
             Sub_Menu(sub, {
                 icon=icon,
                 itemLink=itemLink,
@@ -806,15 +669,8 @@ local function Init_Equip_Menu(self, root)
 end
 
 
-
-
-
-
-
-
---谈话，表情
 local function Init_Chat_Menu(self, root)
-    if not self:IsMouseOver() or WoWTools_MenuMixin:CheckInCombat(root) then--战斗中
+    if not self:IsMouseOver() or WoWTools_MenuMixin:CheckInCombat(root) then
         return
     end
     local i, sub
@@ -836,7 +692,7 @@ local function Init_Chat_Menu(self, root)
             sub=root:CreateButton(
                 WoWTools_TextMixin:CN(label),
             function(data)
-                if WoWTools_FrameMixin:IsLocked(MacroFrame) then
+                if InCombatLockdown() then
                     return
                 end
                 MacroFrameText:Insert(data.label..'\n')
@@ -852,13 +708,6 @@ local function Init_Chat_Menu(self, root)
 end
 
 
-
-
-
-
-
-
---常用，宏
 local function Init_MacroList_Menu(self, root)
     if not self:IsMouseOver() then
         return
@@ -869,7 +718,7 @@ local function Init_MacroList_Menu(self, root)
         sub=root:CreateButton(
             info.text,
         function(data)
-            if not WoWTools_FrameMixin:IsLocked(MacroFrame) and data.macro then
+            if not InCombatLockdown() and data.macro then
                 MacroFrameText:Insert(data.macro)
                 MacroFrameText:SetFocus()
             end
@@ -888,7 +737,7 @@ local function Init_MacroList_Menu(self, root)
             sub:CreateButton(
                 macro.text:gsub('\n', ' '),
             function(data)
-                if not WoWTools_FrameMixin:IsLocked(MacroFrame)  then
+                if not InCombatLockdown()  then
                     MacroFrameText:Insert(data.text)
                     MacroFrameText:SetFocus()
                 end
@@ -902,11 +751,6 @@ local function Init_MacroList_Menu(self, root)
         WoWTools_MenuMixin:SetScrollMode(sub)
     end
 end
-
-
-
-
-
 
 
 local function Set_Button_OnEnter(btn)
@@ -924,24 +768,8 @@ local function Set_Button_OnEnter(btn)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---命令，按钮，列表
 local function Init()
-    if Save().hideBottomList then
+    if WoWTools_MacroMixin:Save().hideBottomList then
         return
     end
 
@@ -958,7 +786,6 @@ local function Init()
     local last= Frame
     local btn
 
---法术书
     for i=1, 12 do
         local data= C_SpellBook.GetSpellBookSkillLineInfo(i)--shouIdHide name numSpellBookItems iconID isGuild itemIndexOffset
         if data and data.name and not data.shouIdHide then
@@ -978,7 +805,6 @@ local function Init()
         end
     end
 
---PVP，天赋，法术
     local pvpButton= WoWTools_ButtonMixin:Menu(Frame, {
         atlas='pvptalents-warmode-swords',
         isType2=true,
@@ -987,11 +813,10 @@ local function Init()
     pvpButton:SetNormalAtlas('')
     pvpButton:SetPoint('LEFT', last, 'RIGHT')
     pvpButton:SetupMenu(Init_PvP_Menu)
-    pvpButton.name= WoWTools_DataMixin.onlyChinese and 'PvP天赋' or PVP_LABEL_PVP_TALENTS
+    pvpButton.name= WoWTools_L.PVP_LABEL_PVP_TALENTS
     Set_Button_OnEnter(pvpButton)
     last=pvpButton
 
---角色，装备
     local equipButton= WoWTools_ButtonMixin:Menu(Frame, {
         atlas=WoWTools_UnitMixin:GetRaceIcon('player', nil, nil, {reAtlas=true}),
         isType2=true,
@@ -999,11 +824,10 @@ local function Init()
     })
     equipButton:SetPoint('LEFT', last, 'RIGHT')
     equipButton:SetupMenu(Init_Equip_Menu)
-    equipButton.name= WoWTools_DataMixin.onlyChinese and '装备' or EQUIPSET_EQUIP
+    equipButton.name= WoWTools_L.EQUIPSET_EQUIP
     Set_Button_OnEnter(equipButton)
     last=equipButton
 
---谈话
     local spellchButton= WoWTools_ButtonMixin:Menu(Frame, {
         atlas='voicechat-icon-textchat-silenced',
         isType2=true,
@@ -1012,11 +836,10 @@ local function Init()
     spellchButton:SetPoint('LEFT', last, 'RIGHT')
     spellchButton.listTab= TextEmoteSpeechList
     spellchButton:SetupMenu(Init_Chat_Menu)
-    spellchButton.name= WoWTools_DataMixin.onlyChinese and '谈话' or VOICEMACRO_LABEL
+    spellchButton.name= WoWTools_L.VOICEMACRO_LABEL
     Set_Button_OnEnter(spellchButton)
     last=spellchButton
 
---表情
     local emoteButton= WoWTools_ButtonMixin:Menu(Frame, {
             atlas='transmog-icon-chat',
             isType2=true,
@@ -1025,13 +848,12 @@ local function Init()
     emoteButton:SetPoint('LEFT', last, 'RIGHT')
     emoteButton.listTab= EmoteList
     emoteButton:SetupMenu(Init_Chat_Menu)
-    emoteButton.name= WoWTools_DataMixin.onlyChinese and '表情' or EMOTE
+    emoteButton.name= WoWTools_L.EMOTE
     Set_Button_OnEnter(emoteButton)
     last= emoteButton
 
 
 
---常用，宏
     local macroListButton= WoWTools_ButtonMixin:Menu(Frame, {
         atlas='PetJournal-FavoritesIcon',
         isType2=true,
@@ -1039,11 +861,10 @@ local function Init()
     })
     macroListButton:SetPoint('LEFT', last, 'RIGHT')
     macroListButton:SetupMenu(Init_MacroList_Menu)
---设置
     function Frame:settings()
-        self:SetScale(Save().bottomListScale or 1)
-        self:SetShown(not Save().hideBottomList)
-        self.Bg:SetAlpha(Save().bottomListAlpha or 0.5)
+        self:SetScale(WoWTools_MacroMixin:Save().bottomListScale or 1)
+        self:SetShown(not WoWTools_MacroMixin:Save().hideBottomList)
+        self.Bg:SetAlpha(WoWTools_MacroMixin:Save().bottomListAlpha or 0.5)
     end
 
 
@@ -1055,22 +876,6 @@ local function Init()
         _G['WoWToolsMacroBottomListFrame']:settings()
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_MacroMixin:Init_List_Button()

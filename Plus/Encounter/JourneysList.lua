@@ -1,6 +1,5 @@
---旅程 12.0才有
 local function Save()
-    return WoWToolsSave['Adventure_Journal'].JourneysList
+    return WoWTools_EncounterMixin:Save().JourneysList
 end
 
 
@@ -36,20 +35,6 @@ local function Set_Text(self)
 
     self.text:SetText(text or '')
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Create_Button(btn)
@@ -89,12 +74,6 @@ local function Create_Button(btn)
     --Buttons[index]= btn
     --return btn
 end
-
-
-
-
-
-
 
 
 local function Init_Button()
@@ -155,25 +134,17 @@ local function Init_Button()
 end
 
 
-
-
-
-
-
-
-
-
 local function Init_Menu(self, root)
     if not self:IsMouseOver() then
         return
     end
     local sub
---显示名称
     sub=root:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '名称' or NAME,
+        WoWTools_L.NAME,
     function()
         return MenuResponse.Open
     end, {rightText=CountTable(Save().showName)})
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Encounter.RenownShowName'])
     WoWTools_MenuMixin:SetRightText(sub)
 
     for expansionID=WoWTools_DataMixin.ExpansionLevel, 9, -1 do
@@ -187,9 +158,8 @@ local function Init_Menu(self, root)
         end, expansionID)
     end
     sub:CreateDivider()
---勾选所有
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '勾选所有' or EVENTTRACE_BUTTON_ENABLE_FILTERS,
+        WoWTools_L.EVENTTRACE_BUTTON_ENABLE_FILTERS,
     function()
         for expansionID=WoWTools_DataMixin.ExpansionLevel, 9, -1 do
             Save().showName[expansionID]= true
@@ -197,9 +167,8 @@ local function Init_Menu(self, root)
         self:settings()
         return MenuResponse.Refresh
     end)
---撤选所有
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '撤选所有' or EVENTTRACE_BUTTON_DISABLE_FILTERS,
+        WoWTools_L.EVENTTRACE_BUTTON_DISABLE_FILTERS,
      function()
         Save().showName={}
         self:settings()
@@ -207,12 +176,12 @@ local function Init_Menu(self, root)
     end)
     WoWTools_MenuMixin:SetGridMode(sub)
 
---版本
     sub=root:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '禁用' or DISABLE,
+        WoWTools_L.DISABLE,
     function ()
         return MenuResponse.Open
     end, {rightText=CountTable(Save().noExpansion)})
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Encounter.RenownHideExpansion'])
     WoWTools_MenuMixin:SetRightText(sub)
 
     for expansionID=WoWTools_DataMixin.ExpansionLevel, 9, -1 do
@@ -226,9 +195,8 @@ local function Init_Menu(self, root)
         end, expansionID)
     end
     sub:CreateDivider()
---勾选所有
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '勾选所有' or EVENTTRACE_BUTTON_ENABLE_FILTERS,
+        WoWTools_L.EVENTTRACE_BUTTON_ENABLE_FILTERS,
     function()
         for expansionID=WoWTools_DataMixin.ExpansionLevel, 9, -1 do
             Save().noExpansion[expansionID]= true
@@ -236,9 +204,8 @@ local function Init_Menu(self, root)
         self:settings()
         return MenuResponse.Refresh
     end)
---撤选所有
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '撤选所有' or EVENTTRACE_BUTTON_DISABLE_FILTERS,
+        WoWTools_L.EVENTTRACE_BUTTON_DISABLE_FILTERS,
      function()
         Save().noExpansion={}
         self:settings()
@@ -247,7 +214,6 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:SetGridMode(sub)
 
     root:CreateDivider()
-    --背景, 透明度
     WoWTools_MenuMixin:BgAplha(root,
     function()
         return Save().bgAlpha or 0.5
@@ -259,7 +225,6 @@ local function Init_Menu(self, root)
         self:settings()
     end)
 
---缩放
     WoWTools_MenuMixin:Scale(self, root,
     function()--GetValue
         return Save().scale or 1
@@ -276,17 +241,6 @@ local function Init_Menu(self, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
     if Save().disabled then
         return
@@ -295,7 +249,7 @@ local function Init()
     Button= CreateFrame('DropdownButton', 'WoWToolsEJFactionMenuButton', EncounterJournalJourneysFrame, 'WoWToolsMenuTemplate')
     Button:SetPoint('LEFT', EncounterJournalInstanceSelect.ExpansionDropdown, 'RIGHT', 8, 0)
     Button:SetNormalTexture(0)
-    Button.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '名望列表' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, JOURNEYS_RENOWN_LABEL, 'List'))
+    Button.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_L['Renown list'])
     Button:SetupMenu(Init_Menu)
 
     Button.text= Button:CreateFontString(nil, 'BORDER', 'ChatFontSmall')
@@ -316,9 +270,6 @@ local function Init()
         self.text:SetFormattedText('%d', #C_MajorFactions.GetMajorFactionIDs())
         self:SetWidth(math.max(self.text:GetStringWidth()+8, 23))
     end)
-
-
-
 
 
     Button.frame:SetScript('OnHide', function(self)
@@ -351,72 +302,14 @@ local function Init()
 end
 
 
-
-
-
-
-
-
 function WoWTools_EncounterMixin:Init_JourneysList()
     Init()
 end
 
-    --[[menu.ScrollBox= CreateFrame('Frame', nil, menu.frame, 'WowScrollBoxList')
-    
-    menu.ScrollBox:SetPoint('TOPLEFT', EncounterJournal, 'TOPRIGHT', 8, -23)
-    menu.ScrollBox:SetPoint('BOTTOMLEFT', EncounterJournal, 'BOTTOMRIGHT', 8, 0)
-    menu.ScrollBox:SetWidth(200)
-
-    menu.ScrollBar= CreateFrame("EventFrame", nil, menu, "MinimalScrollBar")
-    menu.ScrollBar:SetPoint("TOPRIGHT", menu.ScrollBox, "TOPLEFT", 0, -12)
-    menu.ScrollBar:SetPoint("BOTTOMRIGHT", menu.ScrollBox, "BOTTOMLEFT", 0, 12)
-    WoWTools_TextureMixin:SetScrollBar(menu.ScrollBar)
-
-
-
-    menu.view = CreateScrollBoxListLinearView()
-    ScrollUtil.InitScrollBoxListWithScrollBar(menu.ScrollBox, menu.ScrollBar, menu.view)
-    menu.view:SetElementInitializer('WoWToolsButtonTemplate', Set_Button)
-
-    function menu:Init()
-        local data= CreateDataProvider()
-        local major= C_MajorFactions.GetMajorFactionIDs()
-
-        table.sort(major, function(a, b) return b<a end)
-
-        for _, factionID in pairs(major) do
-            data:Insert(factionID)
-        end
-        self.view:SetDataProvider(data, ScrollBoxConstants.RetainScrollPosition)
+--Escala, fondo y lista (Centro de control)
+function WoWTools_EncounterMixin:JourneysList_Settings()
+    if Button then
+        Button:settings()
     end
+end
 
-    if EncounterJournalJourneysFrame:IsShown() then
-        menu:Init()
-    end
-
-    menu:SetScript('OnHide', function(self)
-        self.view:SetDataProvider(CreateDataProvider(), ScrollBoxConstants.RetainScrollPosition)
-    end)
-    menu:SetScript('OnShow', function(self)
-        self:Init()
-    end)
-    
-    
-    
-    
-    
-    
-    
-    提示factionID, 显示CheckBox
-	view:SetElementFactory(function(factory, elementData)
-		if elementData.category then
-			factory("JourneysListCategoryNameTemplate", CategoryNameInitializer);
-		elseif elementData.divider then
-			factory("JourneysListCategoryDividerTemplate", nop);
-		elseif elementData.isRenownJourney then
-			factory("RenownCardButtonTemplate", RenownCardInitializer);
-		else
-			factory("JourneyCardButtonTemplate", JourneyCardInitializer);
-		end
-	end);
-]]

@@ -1,8 +1,8 @@
 
 
-WoWTools_DataMixin.WoWGUID={}--战网，好友GUID--WoWTools_DataMixin.WoWGUID[名称-服务器]=guid
-WoWTools_DataMixin.PlayerInfo={}--玩家装等
-WoWTools_DataMixin.GroupGuid={}--队伍数据收集 name={faction=, guid=}
+WoWTools_DataMixin.WoWGUID={}
+WoWTools_DataMixin.PlayerInfo={}
+WoWTools_DataMixin.GroupGuid={}
 
 
 
@@ -36,7 +36,7 @@ local function Cached_ItemLevel(unit, guid)
     local data= WoWTools_DataMixin.PlayerInfo[guid] or {}
 
     local combatRole= UnitGroupRolesAssigned(unit)-- TANK, HEALER, DAMAGER, NONE
-    local faction= UnitFactionGroup('player')
+    local faction= UnitFactionGroup(unit)--facción de la unidad, no la del jugador
 
     combatRole= combatRole~='NONE' and combatRole or nil
     faction= faction~='' and faction or data.faction
@@ -44,9 +44,9 @@ local function Cached_ItemLevel(unit, guid)
     if guid==WoWTools_DataMixin.Player.GUID then
         itemLevel= GetAverageItemLevel()
         specID= PlayerUtil.GetCurrentSpecID()
-        WoWTools_WoWDate[guid].itemLevel= itemLevel
-        WoWTools_WoWDate[guid].specID= specID
-        WoWTools_WoWDate[guid].faction= faction
+        WoWToolsPlus_WoWDate[guid].itemLevel= itemLevel
+        WoWToolsPlus_WoWDate[guid].specID= specID
+        WoWToolsPlus_WoWDate[guid].faction= faction
     else
         itemLevel= C_PaperDollInfo.GetInspectItemLevel(unit)
         itemLevel= itemLevel>0 and itemLevel or data.itemLevel or nil
@@ -59,7 +59,7 @@ local function Cached_ItemLevel(unit, guid)
         itemLevel= math.floor(itemLevel+ 0.5)
     end
 
-    local info= {--玩家装等
+    local info= {
         faction= faction,
         level=UnitLevel(unit),
 
@@ -68,6 +68,7 @@ local function Cached_ItemLevel(unit, guid)
 
         color= WoWTools_UnitMixin:GetColor(unit, guid),
         combatRole= combatRole,
+        time= GetTime(),--para no reinspeccionar datos recientes
         --sex= UnitSex(unit),
         --col= hex,
         --r=r,
@@ -94,8 +95,7 @@ end
 
 
 
---队伍数据收集
-local function GetGroupGuidDate()--队伍数据收集
+local function GetGroupGuidDate()
     local UnitTab={}
     if not IsInGroup() then
         return
@@ -133,17 +133,24 @@ local function GetGroupGuidDate()--队伍数据收集
     end
 
     local unitList= {'player'}
+    local now= GetTime()
     for _, tab in pairs(UnitTab) do
-        if tab.name then
+        if canaccessvalue(tab.name) and tab.name then
             WoWTools_DataMixin.GroupGuid[tab.name]= tab
         end
-        if tab.guid then
+        if canaccessvalue(tab.guid) and tab.guid then
             WoWTools_DataMixin.GroupGuid[tab.guid]= tab
+            --Solo inspeccionar si no hay datos de los últimos 5 min
+            local info= WoWTools_DataMixin.PlayerInfo[tab.guid]
+            if not (info and info.time and now-info.time<300) then
+                table.insert(unitList, tab.unit)
+            end
         end
-        table.insert(unitList, tab.unit)
     end
 
-    WoWTools_UnitMixin:GetNotifyInspect(unitList)--取得装等
+    if not InCombatLockdown() then
+        WoWTools_UnitMixin:GetNotifyInspect(unitList)
+    end
 end
 
 
@@ -161,7 +168,6 @@ end
 
 
 
---战网，好友GUID
 local function setwowguidTab(info)
     if info and info.characterName then
         local name= WoWTools_UnitMixin:GetFullName(info.characterName)
@@ -192,9 +198,8 @@ end
 
 
 
---位面, 设置，清除 npcID, zoneID
 local function Set_New_Layer(self, unit)
-    WoWTools_DataMixin.Player.Layer= select(2, WoWTools_UnitMixin:GetNpcID(unit)) or select(2, WoWTools_UnitMixin:GetNpcID('vehicle'))--位面, 清除
+    WoWTools_DataMixin.Player.Layer= select(2, WoWTools_UnitMixin:GetNpcID(unit)) or select(2, WoWTools_UnitMixin:GetNpcID('vehicle'))
     if not WoWTools_DataMixin.Player.Layer then
         self:RegisterEvent('NAME_PLATE_UNIT_ADDED')
     end
@@ -228,18 +233,32 @@ FrameUtil.RegisterFrameForEvents(frame, {
 
 frame:SetScript('OnEvent', function(self, event, arg1)
     if event=='PLAYER_ENTERING_WORLD' then
+        WoWTools_DataMixin.Player.Week= WoWTools_DataMixin:GetWeek() or WoWTools_DataMixin.Player.Week--por si la sesión cruza el reinicio semanal
+        WoWTools_DataMixin.Player.IsMaxLevel= UnitLevel('player')>=GetMaxLevelForLatestExpansion()--recalcular (Timerunning, cambios de expansión)
         C_Timer.After(2, function()
             GetGroupGuidDate()
-            WoWTools_UnitMixin:GetNotifyInspect(nil, 'player')--取得,自已, 装等
-            Set_New_Layer(self, 'party1')--位面, 设置，清除
-            Get_WoW_GUID_Info()--战网，好友GUID
+            WoWTools_UnitMixin:GetNotifyInspect(nil, 'player')
+            Set_New_Layer(self, 'party1')
+            Get_WoW_GUID_Info()
         end)
 
     elseif event=='ZONE_CHANGED_NEW_AREA' then
-        Set_New_Layer(self, 'party1')--位面, 设置，清除
+        Set_New_Layer(self, 'party1')
 
     elseif event=='GROUP_LEFT' or event=='GROUP_ROSTER_UPDATE' then
-        GetGroupGuidDate()
+        --GROUP_ROSTER_UPDATE es muy frecuente en banda: agrupar en un único timer
+        if self.rosterTimer then
+            self.rosterTimer:Cancel()
+            self.rosterTimer= nil
+        end
+        if event=='GROUP_LEFT' then
+            GetGroupGuidDate()
+        else
+            self.rosterTimer= C_Timer.NewTimer(2, function()
+                self.rosterTimer= nil
+                GetGroupGuidDate()
+            end)
+        end
 
     elseif event=='BARBER_SHOP_RESULT' then
         local success= arg1
@@ -248,31 +267,31 @@ frame:SetScript('OnEvent', function(self, event, arg1)
             WoWTools_DataMixin.Icon.Player= WoWTools_UnitMixin:GetRaceIcon('player') or ''
         end
 
-    elseif event=='PLAYER_LEVEL_UP' then--玩家是否最高等级
+    elseif event=='PLAYER_LEVEL_UP' then
         local level= arg1
         level= level or UnitLevel('player')
-        WoWTools_DataMixin.Player.IsMaxLevel= level==GetMaxLevelForLatestExpansion()--玩家是否最高等级
+        WoWTools_DataMixin.Player.IsMaxLevel= level==GetMaxLevelForLatestExpansion()
         WoWTools_DataMixin.Player.Level= level
-        WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].level= level
+        WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].level= level
 
-    elseif event=='NEUTRAL_FACTION_SELECT_RESULT' then--玩家, 派系
+    elseif event=='NEUTRAL_FACTION_SELECT_RESULT' then
         local success= arg1
         if success then
-            WoWTools_DataMixin.Player.Faction= UnitFactionGroup('player')--玩家, 派系  "Alliance", "Horde", "Neutral"
+            WoWTools_DataMixin.Player.Faction= UnitFactionGroup('player')
         end
 
     elseif event=='PLAYER_EQUIPMENT_CHANGED'
         or event=='PLAYER_SPECIALIZATION_CHANGED'
         or event=='PLAYER_AVG_ITEM_LEVEL_UPDATE'
     then
-        WoWTools_UnitMixin:GetNotifyInspect(nil, 'player')--取得装等
+        WoWTools_UnitMixin:GetNotifyInspect(nil, 'player')
 
 
-    elseif event=='BN_FRIEND_INFO_CHANGED' then--战网，好友GUID
+    elseif event=='BN_FRIEND_INFO_CHANGED' then
         local friendIndex= arg1
         Get_WoW_GUID_Info(_, friendIndex)
 
-    elseif event=='INSPECT_READY' then--取得玩家信息
+    elseif event=='INSPECT_READY' then
         local guid= arg1
 
         local unit= canaccessvalue(guid) and guid and UnitTokenFromGUID(guid)
@@ -287,7 +306,7 @@ frame:SetScript('OnEvent', function(self, event, arg1)
             end
         end
 
-    elseif event=='NAME_PLATE_UNIT_ADDED' then--位面, 设置，清除
+    elseif event=='NAME_PLATE_UNIT_ADDED' then
         if canaccessvalue(arg1) then
             Set_New_Layer(self, arg1)
         end

@@ -1,26 +1,23 @@
 
---载具，移动，速度
-local function Init()
-    --if WoWToolsSave['Plus_Attributes'].disabledVehicleSpeed then
+local Init= WoWTools_Once(function()
+    --if WoWTools_AttributesMixin:Save().disabledVehicleSpeed then
         --return
     --end
 
     for _, name in pairs({
-        'MainMenuBarVehicleLeaveButton',--没有车辆，界面
-        'MainMenuBarVehicleLeaveButton',--Taxi, 移动, 速度
-        'OverrideActionBarLeaveFrameLeaveButton',--有车辆，界面
-        'MainActionBarVehicleLeaveButton',--没有车辆，界面
-        'MainActionBarVehicleLeaveButton',--Taxi, 移动, 速度
+        'MainMenuBarVehicleLeaveButton',
+        'OverrideActionBarLeaveFrameLeaveButton',
+        'MainActionBarVehicleLeaveButton',
     }) do
         local frame= _G[name]
-        if frame then
+        if frame and not frame.speedText then--evitar crear el texto y el hook dos veces
             frame.speedText= WoWTools_LabelMixin:Create(frame, {mouse=true})
             frame.speedText:SetPoint('TOP')
             frame.speedText:SetScript('OnLeave', GameTooltip_Hide)
             frame.speedText:SetScript('OnEnter', function(self)
                 GameTooltip:SetOwner(self, "ANCHOR_LEFT")
                 GameTooltip:ClearLines()
-                GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '当前' or REFORGE_CURRENT, WoWTools_DataMixin.onlyChinese and '移动速度' or STAT_MOVEMENT_SPEED)
+                GameTooltip:AddDoubleLine(WoWTools_L.REFORGE_CURRENT, WoWTools_L.STAT_MOVEMENT_SPEED)
                 GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_AttributesMixin.addName)
                 GameTooltip:Show()
             end)
@@ -37,7 +34,7 @@ local function Init()
                     local unit= PlayerFrame.displayedUnit or PlayerFrame.unit or 'player'
                     local speed= GetUnitSpeed(unit)
                     --self.speedText:SetText(math.modf(speed* 100 / BASE_MOVEMENT_SPEED))
-                    self.speedtext:SetText(AbbreviateNumbers(speed, WoWTools_AttributesMixin.SPEED_FORMAT_OPTIONS))
+                    self.speedText:SetText(AbbreviateNumbers(speed, WoWTools_AttributesMixin.SPEED_FORMAT_OPTIONS))
                 end
             end)
             frame:HookScript('OnHide', function(self)
@@ -46,8 +43,7 @@ local function Init()
         end
     end
 
-    Init=function()end
-end
+end)
 
 
 

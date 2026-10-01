@@ -1,19 +1,7 @@
 WoWTools_ChallengeMixin={}
---[[
-name, id, timeLimit, texture, backgroundTexture, mapID = C_ChallengeMode.GetMapUIInfo(mapChallengeModeID)
-journalInstanceID = C_EncounterJournal.GetInstanceForGameMap(mapID)
-]]
 
 
-
-
-
-
-
-
-
-
-function WoWTools_ChallengeMixin:GetRewardText(type)--得到，周奖励，信息
+function WoWTools_ChallengeMixin:GetRewardText(type)
     local text
     for _, info in pairs(C_WeeklyRewards.GetActivities(type) or {}) do
         if info.level and info.level>=0 and info.type==type then
@@ -35,49 +23,32 @@ local function GetActivities()--Enum.WeeklyRewardChestThresholdType
         if info.type and info.type>0 and info.level then--and info.type>= 1 and info.type<= 3
             local head
             local difficultyText
---史诗地下城 1
             if info.type == Enum.WeeklyRewardChestThresholdType.Activities then
-                head= WoWTools_DataMixin.onlyChinese and '史诗地下城' or MYTHIC_DUNGEONS
-                difficultyText= string.format(WoWTools_DataMixin.onlyChinese and '史诗 %d' or WEEKLY_REWARDS_MYTHIC, info.level)
+                head= WoWTools_L.MYTHIC_DUNGEONS
+                difficultyText= string.format(WoWTools_L.WEEKLY_REWARDS_MYTHIC, info.level)
 --PVP 2
             elseif info.type == Enum.WeeklyRewardChestThresholdType.RankedPvP then
-                head= WoWTools_DataMixin.onlyChinese and 'PvP' or PVP
-                if WoWTools_DataMixin.onlyChinese then
-                    local tab={
-                        [0]= "休闲者",
-                        [1]= "争斗者 I",
-                        [2]= "挑战者 I",
-                        [3]= "竞争者 I",
-                        [4]= "决斗者",
-                        [5]= "精锐",
-                        [6]= "争斗者 II",
-                        [7]= "挑战者 II",
-                        [8]= "竞争者 II",
-                    }
-                    difficultyText=tab[info.level]
-                end
+                head= WoWTools_L.PVP
                 difficultyText=  difficultyText or PVPUtil.GetTierName(info.level)-- _G["PVP_RANK_"..tierEnum.."_NAME"] PVPUtil.lua
---团队副本 3
             elseif info.type == Enum.WeeklyRewardChestThresholdType.Raid then
-                head= WoWTools_DataMixin.onlyChinese and '团队副本' or RAIDS
+                head= WoWTools_L.RAIDS
                 difficultyText=  DifficultyUtil.GetDifficultyName(info.level)
 --AlsoReceive 4
             elseif info.type== Enum.WeeklyRewardChestThresholdType.AlsoReceive then
-                head= WoWTools_DataMixin.onlyChinese and '你还将得到' or WEEKLY_REWARDS_ALSO_RECEIVE
+                head= WoWTools_L.WEEKLY_REWARDS_ALSO_RECEIVE
 --5 Concession
             elseif info.type== Enum.WeeklyRewardChestThresholdType.Concession then
-                head= WoWTools_DataMixin.onlyChinese and '收集' or WEEKLY_REWARDS_GET_CONCESSION
+                head= WoWTools_L.WEEKLY_REWARDS_GET_CONCESSION
 
---世界 6
             elseif info.type== Enum.WeeklyRewardChestThresholdType.World then
-                head= WoWTools_DataMixin.onlyChinese and '世界' or WORLD
+                head= WoWTools_L.WORLD
 
             end
             if head then
                 R[head]= R[head] or {}
                 R[head][info.index] = {
                     level = info.level,
-                    difficulty = difficultyText or (WoWTools_DataMixin.onlyChinese and '休闲者' or PVP_RANK_0_NAME),
+                    difficulty = difficultyText or (WoWTools_L.PVP_RANK_0_NAME),
                     progress = info.progress,
                     threshold = info.threshold,
                     unlocked = info.progress>=info.threshold,
@@ -96,8 +67,8 @@ end
 
 
 function WoWTools_ChallengeMixin:ActivitiesTooltip(tooltip)
-    if (not WoWTools_DataMixin.Player.IsMaxLevel or PlayerIsTimerunning())--不是，最高等级时，退出
-        and not WoWTools_DataMixin.Player.husandro
+    if (not WoWTools_DataMixin.Player.IsMaxLevel or PlayerIsTimerunning())
+        and true
     then
         return
     end
@@ -153,16 +124,6 @@ function WoWTools_ChallengeMixin:ActivitiesTooltip(tooltip)
 end
 
 
-
-
-
-
-
-
-
-
-
-
 local function Create_Activities_SubLable(frame, head, index, last)
     local label= WoWTools_LabelMixin:Create(frame, {mouse= true})
 
@@ -175,7 +136,7 @@ local function Create_Activities_SubLable(frame, head, index, last)
         if link then
             GameTooltip:SetHyperlink(link)
         else
-            GameTooltip:AddDoubleLine(format(WoWTools_DataMixin.onlyChinese and '仅限%s' or LFG_LIST_CROSS_FACTION,WoWTools_DataMixin.onlyChinese and '物品等级' or STAT_AVERAGE_ITEM_LEVEL ),WoWTools_DataMixin.onlyChinese and '无' or NONE)
+            GameTooltip:AddDoubleLine(format(WoWTools_L.LFG_LIST_CROSS_FACTION,WoWTools_L.STAT_AVERAGE_ITEM_LEVEL ),WoWTools_L.NONE)
             GameTooltip:AddLine(' ')
             GameTooltip:AddDoubleLine('Activities Type '..self.type, 'id '..self.id)
         end
@@ -218,8 +179,8 @@ end
 
 
 
-function WoWTools_ChallengeMixin:ActivitiesFrame(frame, settings)--周奖励，提示
-    if not WoWTools_DataMixin.Player.IsMaxLevel and not WoWTools_DataMixin.Player.husandro then--不是，最高等级时，退出
+function WoWTools_ChallengeMixin:ActivitiesFrame(frame, settings)
+    if not WoWTools_DataMixin.Player.IsMaxLevel and true then
         return
     end
 
@@ -274,7 +235,7 @@ function WoWTools_ChallengeMixin:ActivitiesFrame(frame, settings)--周奖励，�
                 text= text..((itemLevel and itemLevel>0) and itemLevel or '')..format('|A:%s:0:0|a', 'common-icon-checkmark')..((info.level and info.level>0) and info.level or '')
             else
                 if info.unlocked then
-                    text='   '..index..') '..info.difficulty..format('|A:%s:0:0|a', 'common-icon-checkmark')..(info.level or '')--.. ' '..(WoWTools_DataMixin.onlyChinese and '完成' or COMPLETE)
+                    text='   '..index..') '..info.difficulty..format('|A:%s:0:0|a', 'common-icon-checkmark')..(info.level or '')--.. ' '..(WoWTools_L.COMPLETE)
                 else
                     text='    |cff828282'..index..') '
                         ..info.difficulty
@@ -327,13 +288,7 @@ function WoWTools_ChallengeMixin:ActivitiesFrame(frame, settings)--周奖励，�
 end
 
 
-
-
-
-
-
-
-function WoWTools_ChallengeMixin:KeystoneScorsoColor(score, texture, overall)--地下城史诗, 分数, 颜色 C_ChallengeMode.GetOverallDungeonScore()
+function WoWTools_ChallengeMixin:KeystoneScorsoColor(score, texture, overall)
     score= score or 0
     score= type(score)~='number' and tonumber(score) or score or 0
     if score<=0 then
@@ -355,12 +310,163 @@ function WoWTools_ChallengeMixin:KeystoneScorsoColor(score, texture, overall)--�
 end
 
 
---[[
-ItemRef.lua
-DungeonScoreInfoMixin:OnClick()
-Blizzard_ChallengesUI.lua
-]]
 function WoWTools_ChallengeMixin:GetDungeonScoreLink()
     local dungeonScore = C_ChallengeMode.GetOverallDungeonScore() or 0
     return GetDungeonScoreLink(dungeonScore, UnitName("player"))
+end
+
+--Hechizo de portal de una mazmorra de míticas+.
+--La tabla WoWTools_ChallengesSpellData está escrita a mano y se queda sin las mazmorras de temporadas nuevas:
+--si falta, se busca en los desplegables "Camino del héroe" (los conocidos y los que haya en el libro de hechizos)
+--el portal cuya descripción o nombre menciona la mazmorra.
+local PortalCache= {}
+
+--Portales que el jugador puede no tener aprendidos (y por eso su desplegable no está en el libro de hechizos).
+--Se asignan a su mazmorra por la descripción, igual que los demás. Midnight, temporada 2:
+local ExtraPortals= {
+    1286801,--Path of the Blooming Verdure (El Valle Encegador)
+    1286804,--Path of the Brutal Combatant (Arena de la Cicatriz del Vacío)
+    1286807,--Path of the Worthy Aspirant (Guarida de Nalorakk)
+    1286809,--Path of the Devious Smuggler (Frontal de la Muerte)
+    1286812,--Path of Venomous Evolution (Altar de los Colmillos)
+}
+
+local function Get_Flyouts()
+    local list, seen= {}, {}
+    for _, info in ipairs(WoWTools_DataMixin.FlyoutID or {}) do
+        if info.flyoutID and not info.isRaid and not seen[info.flyoutID] then
+            seen[info.flyoutID]= true
+            table.insert(list, info.flyoutID)
+        end
+    end
+    if C_SpellBook and C_SpellBook.GetNumSpellBookSkillLines and Enum.SpellBookItemType then
+        for line= 1, C_SpellBook.GetNumSpellBookSkillLines() or 0 do
+            local lineInfo= C_SpellBook.GetSpellBookSkillLineInfo(line)
+            if lineInfo and lineInfo.itemIndexOffset and lineInfo.numSpellBookItems then
+                for index= lineInfo.itemIndexOffset+1, lineInfo.itemIndexOffset+lineInfo.numSpellBookItems do
+                    local item= C_SpellBook.GetSpellBookItemInfo(index, Enum.SpellBookSpellBank.Player)
+                    if item and item.itemType==Enum.SpellBookItemType.Flyout and item.actionID and not seen[item.actionID] then
+                        seen[item.actionID]= true
+                        table.insert(list, item.actionID)
+                    end
+                end
+            end
+        end
+    end
+    return list
+end
+
+local function Name_Variants(name)
+    local list= {name}
+    for _, sep in ipairs({':'}) do
+        local pos= name:find(sep, 1, true)
+        if pos then
+            local before= name:sub(1, pos-1):gsub('%s+$', '')
+            local after= name:sub(pos+#sep):gsub('^%s+', '')
+            if after~='' then
+                table.insert(list, after)--"Tazavesh: Calle…" -> "Calle…"
+            end
+            if before~='' then
+                table.insert(list, before)
+            end
+        end
+    end
+    return list
+end
+
+function WoWTools_ChallengeMixin:GetPortalSpellID(mapID)
+    if not mapID then
+        return
+    end
+    local data= WoWTools_ChallengesSpellData and WoWTools_ChallengesSpellData[mapID]
+    if data and data.spell then
+        return data.spell
+    end
+    if PortalCache[mapID] then
+        return PortalCache[mapID]
+    end
+
+    local mapName= C_ChallengeMode.GetMapUIInfo(mapID)
+    if type(mapName)~='string' or mapName=='' then
+        return
+    end
+    local names= Name_Variants(mapName)
+
+    --Portales disponibles (una sola pasada por los desplegables)
+    local portals= {}
+    for _, flyoutID in ipairs(Get_Flyouts()) do
+        local _, _, numSlots= GetFlyoutInfo(flyoutID)
+        for slot= 1, numSlots or 0 do
+            local spellID, _, _, spellName= GetFlyoutSlotInfo(flyoutID, slot)
+            if spellID then
+                local desc= C_Spell.GetSpellDescription(spellID) or ''
+                if desc=='' then
+                    C_Spell.RequestLoadSpellData(spellID)--la descripción llega más tarde; se reintenta en la próxima actualización
+                end
+                table.insert(portals, {spellID=spellID, desc=desc, name=spellName or ''})
+            end
+        end
+    end
+    for _, spellID in ipairs(ExtraPortals) do
+        local desc= C_Spell.GetSpellDescription(spellID) or ''
+        if desc=='' then
+            C_Spell.RequestLoadSpellData(spellID)
+        end
+        table.insert(portals, {spellID=spellID, desc=desc, name=C_Spell.GetSpellName(spellID) or ''})
+    end
+
+    --Del nombre más completo al más corto: así "Operación" no elige el portal de otra "Operación: …"
+    for _, name in ipairs(names) do
+        for _, portal in ipairs(portals) do
+            if portal.desc:find(name, 1, true) or portal.name:find(name, 1, true) then
+                PortalCache[mapID]= portal.spellID
+                return portal.spellID
+            end
+        end
+    end
+
+    --Reserva: por palabras. El nombre de la ventana y el de la descripción pueden variar
+    --("El Valle…" / "del Valle…"): gana el portal con más palabras del nombre, solo si no hay empate.
+    local skip= {el=true, la=true, los=true, las=true, del=true, ['de']=true, the=true, ['of']=true, le=true, les=true, der=true, die=true, das=true}
+    local words= {}
+    for word in mapName:lower():gmatch('[^%s%p]+') do
+        if #word>=3 and not skip[word] then
+            table.insert(words, word)
+        end
+    end
+    local best, bestScore, tie= nil, 0, false
+    for _, portal in ipairs(portals) do
+        local text= (portal.desc..' '..portal.name):lower()
+        local score= 0
+        for _, word in ipairs(words) do
+            if text:find(word, 1, true) then
+                score= score+1
+            end
+        end
+        if score>bestScore then
+            best, bestScore, tie= portal.spellID, score, false
+        elseif score==bestScore and score>0 then
+            tie= true
+        end
+    end
+    if best and not tie then
+        PortalCache[mapID]= best
+        return best
+    end
+end
+
+--Diagnóstico: /wtportal muestra el portal encontrado para cada mazmorra de la temporada
+SLASH_WOWTOOLSPORTAL1= '/wtportal'
+SlashCmdList['WOWTOOLSPORTAL']= function()
+    wipe(PortalCache)
+    for _, mapID in ipairs(C_ChallengeMode.GetMapTable() or {}) do
+        local name= C_ChallengeMode.GetMapUIInfo(mapID)
+        local spellID= WoWTools_ChallengeMixin:GetPortalSpellID(mapID)
+        print(
+            WoWTools_DataMixin.Icon.icon2..mapID,
+            name,
+            '->',
+            spellID and (C_Spell.GetSpellLink(spellID) or spellID) or '|cnWARNING_FONT_COLOR:'..WoWTools_L['Not found']..'|r'
+        )
+    end
 end

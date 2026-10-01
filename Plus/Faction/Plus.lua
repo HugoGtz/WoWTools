@@ -1,14 +1,3 @@
-local function Save()
-	return WoWToolsSave['Plus_Faction']
-end
-
-
-
-
-
-
-
-
 local function Create_Frame(btn)
 	
 	--btn.Content.ReputationBar.BarText:ClearAllPoints()
@@ -28,12 +17,10 @@ local function Create_Frame(btn)
 	end)
 
 
---图标
 	local h=btn:GetHeight() or 20
 	btn.texture= btn.Content.ReputationBar:CreateTexture(nil, 'OVERLAY')
 	btn.texture:SetPoint('RIGHT', btn.Content.Name, 'RIGHT',6,0)
 	btn.texture:SetSize(h, h)
---等级
 	btn.levelText= btn.Content.ReputationBar:CreateFontString(nil, 'ARTWORK', 'GameFontNormal')--WoWTools_LabelMixin:Create(btn.Content.ReputationBar, {size=10})
 	--btn.levelText:SetFontHeight(10)
 	btn.levelText:SetPoint('LEFT')
@@ -46,7 +33,7 @@ local function Create_Frame(btn)
 	end
 	btn.check:SetScript('OnClick', function(self)
 		local factionID= self:GetParent():GetParent().elementData.factionID
-		Save().factions[factionID]= not Save().factions[factionID] and true or nil
+		WoWTools_FactionMixin:Save().factions[factionID]= not WoWTools_FactionMixin:Save().factions[factionID] and true or nil
 		WoWTools_FactionMixin:UpdatList()
 	end)
 	btn.check:SetScript('OnEnter', function(self)
@@ -55,7 +42,7 @@ local function Create_Frame(btn)
 		GameTooltip:SetOwner(self, "ANCHOR_LEFT")
 		GameTooltip:ClearLines()
 		GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_FactionMixin.addName)
-		GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '追踪' or TRACKING, WoWTools_DataMixin.onlyChinese and '指定' or COMBAT_ALLY_START_MISSION)
+		GameTooltip:AddDoubleLine(WoWTools_L.TRACKING, WoWTools_L.COMBAT_ALLY_START_MISSION)
 		GameTooltip:AddLine(' ')
 		GameTooltip:AddDoubleLine(WoWTools_TextMixin:CN(data.name), data.factionID, 0,1,0,0,1,0)
 		GameTooltip:Show()
@@ -81,21 +68,8 @@ local function Create_Frame(btn)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
-	if Save().notPlus then
+	if WoWTools_FactionMixin:Save().notPlus then
 		return
 	end
 
@@ -107,7 +81,7 @@ local function Init()
 
 	WoWTools_DataMixin:Hook(ReputationEntryMixin, 'Initialize', function(btn)--factionRow, elementData)--ReputationFrame.lua
 		local data= {}
-		if not Save().notPlus then
+		if not WoWTools_FactionMixin:Save().notPlus then
 			data= WoWTools_FactionMixin:GetInfo(btn.factionID)
 		end
 
@@ -127,14 +101,10 @@ local function Init()
 		text= text or (WoWTools_TextMixin:CN(btn.Content.ReputationBar.BarText:GetText()))
 		btn.barText2:SetText(text or '')
 		--btn.Content.ReputationBar.BarText:SetAlpha(text and 0 or 1)
-		--[[if text and btn.Content.ReputationBar.reputationStandingText then
-			btn.Content.ReputationBar.reputationStandingText= nil
-		end]]
 
 
 		if data.color then
 			btn.Content.Name:SetTextColor(data.color:GetRGB())
---这个，替换原生，可能会出现错误 ReputationBarMixin.UpdateBarColor
 			--btn.Content.ReputationBar.UpdateBarColor= function()end
 			btn.Content.ReputationBar:SetStatusBarColor(data.color:GetRGB());
 		else
@@ -147,97 +117,9 @@ local function Init()
 			btn.texture:SetTexture(data.texture or 0)
 		end
 
-		btn.check:SetShown(Save().btn and Save().indicato)
-		btn.check:SetChecked(Save().factions[data.factionID])
+		btn.check:SetShown(WoWTools_FactionMixin:Save().btn and WoWTools_FactionMixin:Save().indicato)
+		btn.check:SetChecked(WoWTools_FactionMixin:Save().factions[data.factionID])
 	end)
-	--[[	
-		local factionID = data.factionID --or btn.factionIndex
-
-		if not btn.clear_all then
-			Create_Frame(btn)
-		end
---[]
-		local barColor, levelText, texture, atlas,isCapped
-		local isMajorFaction = C_Reputation.IsMajorFaction(factionID)
-		local repInfo = C_GossipInfo.GetFriendshipReputation(factionID)
-
-		if repInfo and repInfo.friendshipFactionID and repInfo.friendshipFactionID > 0 then--好友声望
-			local rankInfo = C_GossipInfo.GetFriendshipReputationRanks(factionID)
-
-			texture= repInfo and repInfo.texture
-
-			if rankInfo and repInfo.nextThreshold then
-				levelText= rankInfo.maxLevel
-			else
-				isCapped= true
-			end
-
-		elseif isMajorFaction then-- 名望
-			local info = C_MajorFactions.GetMajorFactionData(factionID)
-			if info then
-				atlas= info.textureKit and 'MajorFactions_Icons_'..info.textureKit..'512'
-				if C_MajorFactions.HasMaximumRenown(factionID) then
-					isCapped=true
-				else
-					local levels = C_MajorFactions.GetRenownLevels(factionID)
-					if levels then
-						levelText= #levels
-					end
-				end
-			end
-
-		elseif data.reaction then
-			if data.reaction == MAX_REPUTATION_REACTION then--已满
-				isCapped=true
-			else
-				barColor = FACTION_BAR_COLORS[data.reaction]
-				levelText= data.reaction..'/'..MAX_REPUTATION_REACTION
-			end
-		end
-
-
-		local completedParagon--完成次数
-		if isCapped and C_Reputation.IsFactionParagon(factionID) then--奖励
-			--local currentValue, threshold, rewardQuestID, _, tooLowLevelForParagon, paragonStorageLevel = C_Reputation.GetFactionParagonInfo(factionID)
-			local _, _, rewardQuestID, _, _, paragonStorageLevel = C_Reputation.GetFactionParagonInfo(factionID)
-			if paragonStorageLevel and paragonStorageLevel>0 then
-				completedParagon= paragonStorageLevel
-			end
-			if rewardQuestID then
-				barColor= GREEN_FONT_COLOR
-			end
-		end
-
-		btn.completed:SetText(completedParagon or '')
-		
-
-		if isCapped then
-			btn.Content.Name:SetTextColor(FACTION_ORANGE_COLOR:GetRGB())
-			btn.Content.ReputationBar:SetStatusBarColor(FACTION_ORANGE_COLOR:GetRGB())
-		elseif barColor then
-			btn.Content.Name:SetTextColor(barColor:GetRGB())
-			btn.Content.ReputationBar:SetStatusBarColor(barColor:GetRGB())
-		else
-			btn.Content.Name:SetTextColor(1, 1, 1)
-		end
-
-		btn.levelText:SetText(levelText or '')
-		if atlas then
-			btn.texture:SetAtlas(atlas)
-		else
-			btn.texture:SetTexture(texture or 0)
-		end
-
-		btn.check:SetShown(Save().btn and Save().indicato)
-		btn.check:SetChecked(Save().factions[factionID])
-	end)
-
-]]
-
-
-
-
-
 
 
 	WoWTools_DataMixin:Hook(ReputationEntryMixin, 'RefreshAccountWideIcon', function(self)
@@ -255,31 +137,10 @@ local function Init()
 		self.Content.AccountWideIcon:SetScale(0.6)
 	end)
 
---[[去掉 名望等级
-	local c_RENOWN_LEVEL_LABEL= WoWTools_TextMixin:Magic(RENOWN_LEVEL_LABEL)-- = "名望等级 %d";
-	WoWTools_DataMixin:Hook(ReputationBarMixin, 'TryShowReputationStandingText', function(self)
-		if not self.reputationStandingText or self.BarText:GetAlpha()==0 then
-			return
-		end
-		local t= self.reputationStandingText:match(c_RENOWN_LEVEL_LABEL)
-		if t then
-			self.BarText:SetText(t)
-		end
-	end)]]
-
-
-
-
-
-
-
-
-
-
 
 	local down= CreateFrame('Button', 'WoWToolsFactionListExpandButton', _G['WoWToolsFactionMenuButton'], 'WoWToolsButtonTemplate')
 	down:SetNormalAtlas('NPE_ArrowDown')
-	down.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '展开选项|A:editmode-down-arrow:16:11:0:-7|a' or HUD_EDIT_MODE_EXPAND_OPTIONS)
+	down.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_L.HUD_EDIT_MODE_EXPAND_OPTIONS)
 	down:SetPoint("RIGHT", ReputationFrame.filterDropdown, 'LEFT',-2,0)
 	down:SetScript("OnClick", function()
 		for index=C_Reputation.GetNumFactions(), 1, -1 do
@@ -297,22 +158,9 @@ local function Init()
 	end)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 	local up=CreateFrame('Button', 'WoWToolsFactionListCollapsedButton', down, 'WoWToolsButtonTemplate')
 	up:SetNormalAtlas('NPE_ArrowUp')
-	up.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '收起选项|A:editmode-up-arrow:16:11:0:3|a' or HUD_EDIT_MODE_COLLAPSE_OPTIONS)
+	up.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_L.HUD_EDIT_MODE_COLLAPSE_OPTIONS)
 	up:SetPoint("RIGHT", down, 'LEFT', -2, 0)
 	up:SetScript("OnClick", function()
 		for index=C_Reputation.GetNumFactions(), 1, -1 do
@@ -322,15 +170,6 @@ local function Init()
 			end
 		end
 	end)
-
-
-
-
-
-
-
-
-
 
 
 	local editBox
@@ -353,12 +192,10 @@ local function Init()
 			for index= 1, numList do
 				data= C_Reputation.GetFactionDataByIndex(index)
 				if data then
-	--查找 ID
 					if factionID and data.factionID==factionID then
 						data.factionIndex = index
 						tinsert(factionList, data)
 						break
-	--查找 名称
 					elseif data.name and name then
 						local cn= WoWTools_TextMixin:CN(data.name)
 						cn= cn~=data.name and cn:upper() or nil
@@ -443,17 +280,6 @@ local function Init()
 		WoWTools_FactionMixin:UpdatList()
 	end
 end
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_FactionMixin:Init_Plus()

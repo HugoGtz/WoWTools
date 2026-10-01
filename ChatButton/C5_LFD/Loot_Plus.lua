@@ -1,15 +1,6 @@
---历史, 拾取框 LootHistory.lua
-
-local function Save()
-    return WoWToolsSave['ChatButton_LFD'] or {}
-end
-
-
-
-
 
 local function set_LootFrame_btn(btn)
-    if not btn.dropInfo or Save().disabledLootPlus then
+    if not btn.dropInfo or WoWTools_LFDMixin:Save().disabledLootPlus then
         if btn.chatTexure then
             btn.chatTexure:SetShown(false)
         end
@@ -41,7 +32,7 @@ local function set_LootFrame_btn(btn)
                     local name, _, subgroup= GetRaidRosterInfo(i)
                     if name==player then
                         if subgroup then
-                            nu= ' '..subgroup..' '..(WoWTools_DataMixin.onlyChinese and '队' or GROUP)
+                            nu= ' '..subgroup..' '..(WoWTools_L.GROUP)
                         end
                         break
                     end
@@ -49,7 +40,6 @@ local function set_LootFrame_btn(btn)
             end
             return (not p or p.playerRollState==Enum.EncounterLootDropRollState.Greed) and ''
                     or ((WoWTools_DataMixin.Player.Region==1 or WoWTools_DataMixin.Player.Region==3) and ' need, pls{rt1}'..nu)
-                    or (WoWTools_DataMixin.Player.Region==5 and ' 您好，我很需求这个，能让让吗？谢谢{rt1}'..nu)
                     or (' '..NEED..', '..VOICEMACRO_LABEL_THANKYOU3..'{rt1}'..nu)
         end
         function btn.chatTexure:get_playername()
@@ -69,7 +59,7 @@ local function set_LootFrame_btn(btn)
             GameTooltip:ClearLines()
             if p.dropInfo.startTime then
                 local startTime= '|cnWARNING_FONT_COLOR:'..(WoWTools_TimeMixin:Info(p.dropInfo.startTime/1000, false, nil) or '')
-                local duration= p.dropInfo.duration and '|cnGREEN_FONT_COLOR:'..format(WoWTools_DataMixin.onlyChinese and '持续时间：%s' or PROFESSIONS_CRAFTING_FORM_CRAFTER_DURATION_REMAINING, SecondsToTime(p.dropInfo.duration/100))
+                local duration= p.dropInfo.duration and '|cnGREEN_FONT_COLOR:'..format(WoWTools_L.PROFESSIONS_CRAFTING_FORM_CRAFTER_DURATION_REMAINING, SecondsToTime(p.dropInfo.duration/100))
                 GameTooltip:AddDoubleLine(startTime, duration)
                 GameTooltip:AddLine(' ')
             end
@@ -87,7 +77,7 @@ local function set_LootFrame_btn(btn)
 
         end)
 
-        if btn.WinningRollInfo and btn.WinningRollInfo.Check and not btn.WinningRollInfo.Check.move then--移动, √图标
+        if btn.WinningRollInfo and btn.WinningRollInfo.Check and not btn.WinningRollInfo.Check.move then
             btn.WinningRollInfo.Check:ClearAllPoints()
             btn.WinningRollInfo.Check:SetPoint('BOTTOMRIGHT', btn, 8, -2)
             btn.WinningRollInfo.Check.move=true
@@ -100,9 +90,9 @@ local function set_LootFrame_btn(btn)
     btn:SetAlpha(winInfo.isSelf and 0.3 or (not notGreed and 0.5) or 1)
 
 
-    if winInfo and notGreed then--修改，名字
+    if winInfo and notGreed then
         if winInfo.isSelf then
-            btn.WinningRollInfo.WinningRoll:SetText(WoWTools_ColorMixin:SetStringColor(WoWTools_DataMixin.onlyChinese and '我' or COMBATLOG_FILTER_STRING_ME))
+            btn.WinningRollInfo.WinningRoll:SetText(WoWTools_ColorMixin:SetStringColor(WoWTools_L.COMBATLOG_FILTER_STRING_ME))
         elseif winInfo.playerGUID then
             local name= WoWTools_UnitMixin:GetPlayerInfo(nil, winInfo.playerGUID, nil, {reName=true})
             if name and name~='' then
@@ -111,7 +101,7 @@ local function set_LootFrame_btn(btn)
         end
     end
 
-    WoWTools_ItemMixin:SetItemStats(btn.Item, notGreed and btn.dropInfo.itemHyperlink, {point= btn.Item and btn.Item.IconBorder})--设置，物品，4个次属性，套装，装等
+    WoWTools_ItemMixin:SetItemStats(btn.Item, notGreed and btn.dropInfo.itemHyperlink, {point= btn.Item and btn.Item.IconBorder})
 
     local text
     if not btn.itemSubTypeLabel then
@@ -119,8 +109,8 @@ local function set_LootFrame_btn(btn)
         btn.itemSubTypeLabel:SetPoint('BOTTOMLEFT', btn.Item.IconBorder, 'BOTTOMRIGHT',4,-8)
     end
     if btn.dropInfo.itemHyperlink and notGreed then
-        local _, _, itemSubType2, itemEquipLoc, _, _, subclassID = C_Item.GetItemInfoInstant(btn.dropInfo.itemHyperlink)--提示,装备,子类型
-        local collected, _, isSelfCollected= WoWTools_CollectionMixin:Item(btn.dropInfo.itemHyperlink, nil, false)--物品是否收集
+        local _, _, itemSubType2, itemEquipLoc, _, _, subclassID = C_Item.GetItemInfoInstant(btn.dropInfo.itemHyperlink)
+        local collected, _, isSelfCollected= WoWTools_CollectionMixin:Item(btn.dropInfo.itemHyperlink, nil, false)
         text= subclassID==0 and itemEquipLoc and WoWTools_TextMixin:CN(_G[itemEquipLoc]) or WoWTools_TextMixin:CN(itemSubType2)
         if isSelfCollected and collected then
             text= text..' '..collected
@@ -167,7 +157,7 @@ local function Init()
         btn:SetPoint('LEFT')
     end
     function btn:Set_Atlas()
-        if Save().disabledLootPlus then
+        if WoWTools_LFDMixin:Save().disabledLootPlus then
             self:SetNormalAtlas('talents-button-reset')
         else
             self:SetNormalAtlas('communities-icon-notification')
@@ -175,7 +165,7 @@ local function Init()
     end
     btn:Set_Atlas()
     btn:SetScript('OnClick', function(self2)
-        Save().disabledLootPlus= not Save().disabledLootPlus and true or nil
+        WoWTools_LFDMixin:Save().disabledLootPlus= not WoWTools_LFDMixin:Save().disabledLootPlus and true or nil
         self2:Set_Atlas()
         if GroupLootHistoryFrame.selectedEncounterID then
             GroupLootHistoryFrame:DoFullRefresh()
@@ -186,7 +176,7 @@ local function Init()
     btn:SetScript('OnEnter', function(self2)
         GameTooltip:SetOwner(self2, "ANCHOR_RIGHT")
         GameTooltip:ClearLines()
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '战利品 Plus' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, LOOT, 'Plus'), WoWTools_TextMixin:GetEnabeleDisable(not Save().disabledLootPlus))
+        GameTooltip:AddDoubleLine(WoWTools_L['Loot Plus'], WoWTools_TextMixin:GetEnabeleDisable(not WoWTools_LFDMixin:Save().disabledLootPlus))
         GameTooltip:AddLine(' ')
         local  encounterID= GroupLootHistoryFrame.selectedEncounterID
         local info= encounterID and C_LootHistory.GetInfoForEncounter(encounterID)
@@ -196,7 +186,7 @@ local function Init()
             GameTooltip:AddDoubleLine('startTime', WoWTools_TimeMixin:SecondsToClock(info.startTime))
             GameTooltip:AddDoubleLine('duration', info.duration and SecondsToTime(info.duration/100))
         else
-            GameTooltip:AddDoubleLine('encounterID', WoWTools_DataMixin.onlyChinese and '无' or NONE)
+            GameTooltip:AddDoubleLine('encounterID', WoWTools_L.NONE)
         end
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_LFDMixin.addName)

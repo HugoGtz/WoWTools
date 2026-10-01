@@ -4,7 +4,7 @@ local function ShowParagonRewardsTooltip(frame)
 	EmbeddedItemTooltip:SetOwner(frame, frame.anchor or "ANCHOR_LEFT")
 	ReputationParagonFrame_SetupParagonTooltip(frame)
 	if frame.canClickForOptions then
-		GameTooltip_SetBottomText(EmbeddedItemTooltip, WoWTools_DataMixin.onlyChinese and '<点击查看旅程>' or JOURNEYS_TOOLTIP_VIEW_JOURNEY or REPUTATION_BUTTON_TOOLTIP_CLICK_INSTRUCTION, GREEN_FONT_COLOR)
+		GameTooltip_SetBottomText(EmbeddedItemTooltip, WoWTools_L.JOURNEYS_TOOLTIP_VIEW_JOURNEY, GREEN_FONT_COLOR)
 	end
 	WoWTools_TooltipMixin:Set_Faction(EmbeddedItemTooltip, frame.factionID)
 	EmbeddedItemTooltip:Show()
@@ -40,7 +40,7 @@ local function ShowFriendshipReputationTooltip(frame)
 	end
 	if frame.canClickForOptions then
 		GameTooltip_AddBlankLineToTooltip(GameTooltip)
-		GameTooltip_AddInstructionLine(GameTooltip, WoWTools_DataMixin.onlyChinese and '<点击查看选项>' or REPUTATION_BUTTON_TOOLTIP_CLICK_INSTRUCTION)
+		GameTooltip_AddInstructionLine(GameTooltip, WoWTools_L.REPUTATION_BUTTON_TOOLTIP_CLICK_INSTRUCTION)
 	end
 	WoWTools_TooltipMixin:Set_Faction(GameTooltip, factionID)
 	GameTooltip:Show()
@@ -52,7 +52,6 @@ local function ShowMajorFactionRenownTooltip(frame)
 	RenownRewardUtil.AddMajorFactionToTooltip(GameTooltip, factionID, GenerateClosure(ShowMajorFactionRenownTooltip, frame))
 	EventRegistry:TriggerEvent("ShowMajorFactionRenown.Tooltip.OnEnter", frame, GameTooltip, factionID)
 
---未解锁
 	local major= C_MajorFactions.GetMajorFactionData(factionID)
 	if major and not major.isUnlocked and major.unlockDescription and major.unlockDescription~='' then
 		GameTooltip_AddBlankLineToTooltip(GameTooltip)
@@ -60,12 +59,12 @@ local function ShowMajorFactionRenownTooltip(frame)
 	end
 
 	if C_MajorFactions.IsWeeklyRenownCapped(factionID) then
-		GameTooltip_AddErrorLine(GameTooltip,WoWTools_DataMixin.onlyChinese and '本周达到上限' or format(CURRENCY_THIS_WEEK, CAPPED))
+		GameTooltip_AddErrorLine(GameTooltip,WoWTools_L['Capped this week'])
 	end
 
 	if frame.canClickForOptions then
 		GameTooltip_AddBlankLineToTooltip(GameTooltip)
-		GameTooltip_AddInstructionLine(GameTooltip, WoWTools_DataMixin.onlyChinese and '<点击查看选项>>' or REPUTATION_BUTTON_TOOLTIP_CLICK_INSTRUCTION)
+		GameTooltip_AddInstructionLine(GameTooltip, WoWTools_L['REPUTATION_BUTTON_TOOLTIP_CLICK_INSTRUCTION~2'])
 	end
 
 	WoWTools_TooltipMixin:Set_Faction(GameTooltip, factionID)
@@ -83,7 +82,7 @@ local function ShowStandardTooltip(frame)
 
 		if frame.canClickForOptions then
 			GameTooltip_AddBlankLineToTooltip(GameTooltip)
-			GameTooltip_AddInstructionLine(GameTooltip, WoWTools_DataMixin.onlyChinese and '<点击查看选项>' or REPUTATION_BUTTON_TOOLTIP_CLICK_INSTRUCTION)
+			GameTooltip_AddInstructionLine(GameTooltip, WoWTools_L.REPUTATION_BUTTON_TOOLTIP_CLICK_INSTRUCTION)
 		end
 		WoWTools_TooltipMixin:Set_Faction(GameTooltip, factionID)
 		GameTooltip:Show()
@@ -91,7 +90,6 @@ local function ShowStandardTooltip(frame)
 end
 
 
---需要GameTooltip:Show() EmbeddedItemTooltip_Hide(EmbeddedItemTooltip)
 function WoWTools_SetTooltipMixin:Faction(frame)--ANCHOR_RIGHT=true
 	local factionID
 	if frame then

@@ -3,31 +3,24 @@ WoWTools_ChatMixin={
 }
 
 
-
-
-
---[[
-ChatEdit_TryInsertChatLink(link)
-ChatEdit_LinkItem(itemID, itemLink)
-ChatFrameUtil.OpenChat 11.2.7才有
---]]
 function WoWTools_ChatMixin:Chat(text, name, printText)
     if not text then
         return
     end
 
-    if name then
+    --12.0: durante encuentros no se puede enviar chat desde addons
+    local locked= not printText and C_ChatInfo.InChatMessagingLockdown and C_ChatInfo.InChatMessagingLockdown()
+
+    if locked then
+        return
+
+    elseif name then
         C_ChatInfo.SendChatMessage(text, 'WHISPER', nil, name)
     elseif printText then
         if not ChatEdit_InsertLink(text) then
             WoWTools_DataMixin:Call(ChatFrame_OpenChat, text)
         end
-        --[[if ChatEdit_GetActiveWindow() then
-            WoWTools_DataMixin:Call(ChatEdit_InsertLink, text)
-        else
-            WoWTools_DataMixin:Call(ChatFrame_OpenChat, text)
-        end]]
-    elseif select(2, IsInInstance())~='none' and GetNumGroupMembers()>0 then
+    elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then--antes fallaba con grupo manual dentro de una instancia
         C_ChatInfo.SendChatMessage(text, 'INSTANCE_CHAT')
     elseif IsInRaid() then
         C_ChatInfo.SendChatMessage(text, 'RAID')
@@ -43,16 +36,11 @@ function WoWTools_ChatMixin:Chat(text, name, printText)
                 end
             end)
         end
-        print(text)
+        WoWTools_Print(text)
     end
 end
 
 
-
-
-
-
---ChatFrameEditBoxMixin.SendText 11.2.7才有
 function WoWTools_ChatMixin:SendText(text)
     if not text then
         return
@@ -67,10 +55,6 @@ function WoWTools_ChatMixin:SendText(text)
         end
     end
 end
-
-
-
-
 
 
 function WoWTools_ChatMixin:Say(type, name, wow, text)
@@ -92,4 +76,18 @@ function WoWTools_ChatMixin:Say(type, name, wow, text)
     elseif type then
         ChatFrame_OpenChat(type..msg..(text or ''), chat)
     end
+end
+
+--Marco propio por llamada para PLAYER_ENTERING_WORLD: conserva el orden de registro (= orden del .toc)
+--que tenía cada submódulo con su marco. keep=true: se queda escuchando; si no, solo la primera vez.
+function WoWTools_ChatMixin:OnEnterWorld(func, keep)
+    local frame= CreateFrame('Frame')
+    frame:RegisterEvent('PLAYER_ENTERING_WORLD')
+    frame:SetScript('OnEvent', function(self, ...)
+        if not keep then
+            self:UnregisterAllEvents()
+            self:SetScript('OnEvent', nil)
+        end
+        func(...)
+    end)
 end

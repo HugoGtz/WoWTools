@@ -73,7 +73,7 @@ function WoWTools_EditBoxMixin:Create(frame, tab)
     WoWTools_TextureMixin:SetEditBox(editBox)
 
     if editBox.Instructions then
-        editBox.Instructions:SetText(text or (WoWTools_DataMixin.onlyChinese and '搜索' or SEARCH))
+        editBox.Instructions:SetText(text or (WoWTools_L.SEARCH))
     end
     if editBox.searchIcon then
         if atlas then
@@ -102,8 +102,8 @@ function WoWTools_EditBoxMixin:CreateFrame(frame, tab)
     tab= tab or {}
 
     local name= tab.name
-    local isLink= tab.isLink--超链接
-    local text= tab.text--使用说明
+    local isLink= tab.isLink
+    local text= tab.text
     --local clearButton= tab.clear
 
     local scrollFrame= CreateFrame('ScrollFrame', name, frame, 'ScrollFrameTemplate')--InputScrollFrameTemplate SecureUIPanelTemplates.xml
@@ -200,7 +200,6 @@ function WoWTools_EditBoxMixin:CreateFrame(frame, tab)
         s.editBox:SetWidth(w-23)
     end)
 
---超链接
     if isLink then
         scrollFrame.editBox:SetHyperlinksEnabled(true)
         scrollFrame.editBox:SetScript('OnHyperlinkLeave', GameTooltip_Hide)

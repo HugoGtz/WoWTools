@@ -30,7 +30,6 @@ local function Opentions_Menu(root, num)
         root:CreateDivider()
     end
 
---打开选项界面
     WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_HolidayMixin.addName})
 --SetScrollMod
     WoWTools_MenuMixin:SetScrollMode(root)
@@ -52,7 +51,7 @@ end
 local function Init_WoW_Menu(_, root)
     local sub
     local num=0
-    local map=WoWTools_MapMixin:GetUnit('player')--玩家区域名称
+    local map=WoWTools_MapMixin:GetUnit('player')
 
     for i=1 ,BNGetNumFriends() do
         local wow=C_BattleNet.GetFriendAccountInfo(i) or {}
@@ -64,7 +63,7 @@ local function Init_WoW_Menu(_, root)
                 reName=true,
                 reRealm=true
             })
-            if wowInfo.areaName then --位置
+            if wowInfo.areaName then
                 if wowInfo.areaName==map then
                     text=text..'|A:poi-islands-table:0:0|a'
                 else
@@ -73,7 +72,7 @@ local function Init_WoW_Menu(_, root)
             end
 
             if not wowInfo.isOnline then
-                text= text..'|cff626262'..(WoWTools_DataMixin.onlyChinese and '离线' or FRIENDS_LIST_OFFLINE)..'|r'
+                text= text..'|cff626262'..(WoWTools_L.FRIENDS_LIST_OFFLINE)..'|r'
             end
 
             sub=root:CreateCheckbox(
@@ -88,6 +87,7 @@ local function Init_WoW_Menu(_, root)
             end, {guid=wowInfo.playerGuid, name=wowInfo.characterName, realm=wowInfo.realmName, note=wow.note, tag=wow.battleTag})
 
             sub:SetTooltip(function(tooltip, description)
+                WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Holiday.InvitePlayer'])
                 tooltip:AddLine(description.data.tag)
                 tooltip:AddLine(description.data.name)
                 tooltip:AddLine(description.data.note, nil,nil,nil,true)
@@ -114,7 +114,7 @@ end
 local function Init_Friend_Menu(_, root)
     local sub
     local num=0
-    local map=WoWTools_MapMixin:GetUnit('player')--玩家区域名称
+    local map=WoWTools_MapMixin:GetUnit('player')
 
     for i=1 , C_FriendList.GetNumFriends() do
         local game=C_FriendList.GetFriendInfoByIndex(i)
@@ -126,13 +126,13 @@ local function Init_Friend_Menu(_, root)
             })
 
             if game.area and game.connected then
-                if game.area == map then--地区
+                if game.area == map then
                     text= text..'|A:poi-islands-table:0:0|a'
                 else
                     text= text..' |cnGREEN_FONT_COLOR:'..game.area..'|r'
                 end
             elseif not game.connected then
-                text= text..'|cff626262'..(WoWTools_DataMixin.onlyChinese and '离线' or FRIENDS_LIST_OFFLINE)..'|r'
+                text= text..'|cff626262'..(WoWTools_L.FRIENDS_LIST_OFFLINE)..'|r'
             end
 
             if game.afk then
@@ -152,6 +152,7 @@ local function Init_Friend_Menu(_, root)
             end, {guid=game.guid, name=game.name, note=game.notes})
 
             sub:SetTooltip(function(tooltip, description)
+                WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Holiday.InvitePlayer'])
                 tooltip:AddLine(description.data.name)
                 tooltip:AddLine(description.data.note, nil,nil,nil,true)
             end)
@@ -190,13 +191,13 @@ local function Init_Guild_Menu(_, root)
                 reRealm=true,
                 levle=lv
             })
-            if zone then--地区
+            if zone then
                 text= zone==map and text..'|A:poi-islands-table:0:0|a' or text..' '..zone
             end
             text= rankName and text..' '..rankName..(rankIndex or '') or text
 
             if not isOnline then
-                text= text..'|cff626262'..(WoWTools_DataMixin.onlyChinese and '离线' or FRIENDS_LIST_OFFLINE)..'|r'
+                text= text..'|cff626262'..(WoWTools_L.FRIENDS_LIST_OFFLINE)..'|r'
             end
 
             if status==1 then
@@ -216,6 +217,7 @@ local function Init_Guild_Menu(_, root)
             end, {guid=guid, name=name, note=publicNote, note2=officerNote})
 
             sub:SetTooltip(function(tooltip, description)
+                WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Holiday.InvitePlayer'])
                 tooltip:AddLine(description.data.name)
                 tooltip:AddLine(description.data.note, nil,nil,nil,true)
                 tooltip:AddLine(description.data.note2, nil,nil,nil,true)

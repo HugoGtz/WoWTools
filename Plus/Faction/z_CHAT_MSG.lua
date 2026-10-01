@@ -1,6 +1,8 @@
 
-local FACTION_STANDING_INCREASED= FACTION_STANDING_INCREASED--"你在%s中的声望值提高了%d点。";
-local FACTION_STANDING_INCREASED_ACCOUNT_WIDE = FACTION_STANDING_INCREASED_ACCOUNT_WIDE--"你的战团在%s中的声望值提高了%d点。";
+--Patrones de búsqueda (se crean en Init_Chat_MSG). Los textos de formato siguen siendo los globales de Blizzard:
+--antes el patrón sustituía al texto de formato y format() daba error en cada ganancia de reputación
+local PATTERN_INCREASED
+local PATTERN_INCREASED_ACCOUNT_WIDE
 
 
 
@@ -18,16 +20,15 @@ local FACTION_STANDING_INCREASED_ACCOUNT_WIDE = FACTION_STANDING_INCREASED_ACCOU
 
 
 --#############
---声望更新, 提示
 --#############
 local function EventFilter(_, _, text, ...)
-	if not WoWToolsSave['Plus_Faction'].factionUpdateTips then
+	if not WoWTools_FactionMixin:Save().factionUpdateTips then
 		return
 	end
 
 	local name
 	if text then
-		name= text:match(FACTION_STANDING_INCREASED) or text:match(FACTION_STANDING_INCREASED_ACCOUNT_WIDE)
+		name= text:match(PATTERN_INCREASED) or text:match(PATTERN_INCREASED_ACCOUNT_WIDE)
 	end
 
 	if not name then
@@ -43,15 +44,11 @@ local function EventFilter(_, _, text, ...)
 			if cnName then
 				local num= text:match('%d+')
 				if num then
-					if WoWTools_DataMixin.onlyChinese then
-						text= format("你在%s中的声望值提高了%s点。", cnName, num)
+					num= tonumber(num)
+					if text:match(PATTERN_INCREASED) then
+						text= format(FACTION_STANDING_INCREASED, cnName, num)
 					else
-						num= tonumber(num)
-						if  text:match(FACTION_STANDING_INCREASED) then
-							text= format(FACTION_STANDING_INCREASED, cnName, num)
-						else
-							text= format(FACTION_STANDING_INCREASED_ACCOUNT_WIDE, cnName, num)
-						end
+						text= format(FACTION_STANDING_INCREASED_ACCOUNT_WIDE, cnName, num)
 					end
 				else
 					text= text:gsub(name, cnName)
@@ -59,7 +56,7 @@ local function EventFilter(_, _, text, ...)
 			end
 
 			local info= WoWTools_FactionMixin:GetInfo(factionID)
-			text= text..(info.atla and '|A:'..info.atlas..':0:0|a' or (info.texture and '|T'..info.texture..':0|t') or '')
+			text= text..(info.atlas and '|A:'..info.atlas..':0:0|a' or (info.texture and '|T'..info.texture..':0|t') or '')
 				..(info.factionStandingtext or '')
 				..(info.hasRewardPending or '')..(info.valueText and ' '..info.valueText or '')
 
@@ -86,11 +83,11 @@ end
 
 local function Init_Check()
     local text
-    for i=1, C_Reputation.GetNumFactions() do--声望更新, 提示
+    for i=1, C_Reputation.GetNumFactions() do
         local data= C_Reputation.GetFactionDataByIndex(i) or {}
         local name= data.name
         local factionID= data.factionID
-        if name and factionID and C_Reputation.IsFactionParagon(factionID) and select(4, C_Reputation.GetFactionParagonInfo(factionID)) then--奖励
+        if name and factionID and C_Reputation.IsFactionParagon(factionID) and select(4, C_Reputation.GetFactionParagonInfo(factionID)) then
             text= text and text..' ' or ''
 
             local repInfo = C_GossipInfo.GetFriendshipReputation(factionID)
@@ -106,10 +103,10 @@ local function Init_Check()
         end
     end
     if text then
-        print(
+        WoWTools_Print(
 			WoWTools_FactionMixin.addName..WoWTools_DataMixin.Icon.icon2,
 			'|cffff00ff'..text..'|r',
-			'|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '你有未领取的奖励' or WEEKLY_REWARDS_UNCLAIMED_TITLE)
+			'|cnGREEN_FONT_COLOR:'..(WoWTools_L.WEEKLY_REWARDS_UNCLAIMED_TITLE)
 		)
     end
 end
@@ -132,12 +129,12 @@ end
 
 
 function WoWTools_FactionMixin:Init_Chat_MSG()
-	FACTION_STANDING_INCREASED= LOCALE_zhCN and '你在(.+)中的声望值提高了.+点。' or WoWTools_TextMixin:Magic(FACTION_STANDING_INCREASED)
-	FACTION_STANDING_INCREASED_ACCOUNT_WIDE= LOCALE_zhCN and '你的战团在(.+)中的声望值提高了.+点。' or WoWTools_TextMixin:Magic(FACTION_STANDING_INCREASED_ACCOUNT_WIDE)
+	PATTERN_INCREASED=WoWTools_TextMixin:Magic(FACTION_STANDING_INCREASED)
+	PATTERN_INCREASED_ACCOUNT_WIDE=WoWTools_TextMixin:Magic(FACTION_STANDING_INCREASED_ACCOUNT_WIDE)
 
     ChatFrame_AddMessageEventFilter('CHAT_MSG_COMBAT_FACTION_CHANGE', EventFilter)
 
-    if WoWToolsSave['Plus_Faction'].factionUpdateTips then--声望更新, 提示
+    if WoWTools_FactionMixin:Save().factionUpdateTips then
         C_Timer.After(4, Init_Check)
     end
 end

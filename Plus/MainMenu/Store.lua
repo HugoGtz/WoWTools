@@ -1,22 +1,11 @@
 
-local function Save()
-    return WoWToolsSave['Plus_MainMenu']
-end
-
-
-
-
-
-
-
---商店
-local function Init()
+local Init= WoWTools_Once(function()
     local frame= CreateFrame('Frame')
 
-    frame.Text= WoWTools_LabelMixin:Create(StoreMicroButton,  {size=WoWToolsSave['Plus_MainMenu'].size, color=true})
+    frame.Text= WoWTools_LabelMixin:Create(StoreMicroButton,  {size=WoWTools_MainMenuMixin:Save().size, color=true})
     frame.Text:SetPoint('BOTTOM', StoreMicroButton, 0, 3)
 
-    frame.Text2= WoWTools_LabelMixin:Create(StoreMicroButton,  {size=WoWToolsSave['Plus_MainMenu'].size, color=true})
+    frame.Text2= WoWTools_LabelMixin:Create(StoreMicroButton,  {size=WoWTools_MainMenuMixin:Save().size, color=true})
     frame.Text2:SetPoint('TOP', StoreMicroButton, 0,  -3)
 
 
@@ -49,8 +38,8 @@ local function Init()
             GameTooltip:AddDoubleLine('|A:token-choice-wow:0:0|a'..WoWTools_DataMixin:MK(price/10000,4), C_CurrencyInfo.GetCoinTextureString(price) )
             GameTooltip:AddLine(' ')
         end
-        local bagAll,bankAll,numPlayer= 0,0,0--帐号数据
-        for guid, info in pairs(WoWTools_WoWDate or {}) do
+        local bagAll,bankAll,numPlayer= 0,0,0
+        for guid, info in pairs(WoWToolsPlus_WoWDate or {}) do
             local tab=info.Item[122284]
             if tab and guid then
                 GameTooltip:AddDoubleLine(
@@ -78,7 +67,7 @@ local function Init()
                     or (InCombatLockdown() and '|cff626262')
                     or '|cffffffff'
                 )
-                ..(WoWTools_DataMixin.onlyChinese and '霸业商店' or PLUNDERSTORM_PLUNDER_STORE_TITLE)..'|r'
+                ..(WoWTools_L.PLUNDERSTORM_PLUNDER_STORE_TITLE)..'|r'
                 ..WoWTools_DataMixin.Icon.mid,
 
                 WoWTools_CurrencyMixin:GetName(
@@ -107,7 +96,7 @@ local function Init()
 
 
     local all=0
-    for guid, info in pairs(WoWTools_WoWDate or {}) do
+    for guid, info in pairs(WoWToolsPlus_WoWDate or {}) do
         local tab=info.Item[122284]
         if tab and guid then
             GameTooltip:AddDoubleLine(
@@ -128,7 +117,6 @@ local function Init()
 
 
 
---商店 FrameStrata
     if CatalogShopFrame then
         local menu= CreateFrame('DropdownButton', 'WoWToolsCatalogShopMenuButton', CatalogShopFrameCloseButton, 'WoWToolsMenuTemplate')
         menu:SetPoint('RIGHT', CatalogShopFrameCloseButton, 'LEFT')
@@ -144,19 +132,18 @@ local function Init()
             end, function(data)
                 if not WoWTools_FrameMixin:IsLocked(CatalogShopFrame) then
                     CatalogShopFrame:SetFrameStrata(data)
-                    Save().CatalogShopFrameStrata= data
+                    WoWTools_MainMenuMixin:Save().CatalogShopFrameStrata= data
                 end
             end)
         end)
 
-        local strata= Save().CatalogShopFrameStrata
+        local strata= WoWTools_MainMenuMixin:Save().CatalogShopFrameStrata
         if strata and CatalogShopFrame:GetFrameStrata()~=strata and not  WoWTools_FrameMixin:IsLocked(CatalogShopFrame) then
             CatalogShopFrame:SetFrameStrata(strata)
         end
     end
 
-    Init=function()end
-end
+end)
 
 
 
@@ -164,6 +151,6 @@ end
 
 
 
-function WoWTools_MainMenuMixin:Init_Store()--商店
+function WoWTools_MainMenuMixin:Init_Store()
     Init()
 end

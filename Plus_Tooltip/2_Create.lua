@@ -1,14 +1,7 @@
 
 local function Save()
-    return WoWToolsSave['Plus_Tootips']
+    return WoWTools_TooltipMixin:Save()
 end
-
-
-
-
-
-
-
 
 
 function WoWTools_TooltipMixin:Set_PlayerModel(tooltip)
@@ -27,12 +20,6 @@ function WoWTools_TooltipMixin:Set_PlayerModel(tooltip)
 end
 
 
-
-
-
-
-
-
 local function Create(tooltip)
     local name= not tooltip.textLeft and tooltip:GetName()
     if not name then
@@ -45,21 +32,13 @@ local function Create(tooltip)
     --tooltip.textLeft:SetShadowOffset(2, -2)
     tooltip.textLeft:SetPoint('BOTTOMLEFT', tooltip.CompareHeader or tooltip, 'TOPLEFT', 3, 0)
 
-    --[[tooltip.textLeftBg= tooltip:CreateTexture(nil, 'BACKGROUND')
-    tooltip.textLeftBg:SetAllPoints(tooltip.textLeft)
-    tooltip.textLeftBg:SetColorTexture(0,0,0,0.5)]]
 
---左上角字符2
     tooltip.text2Left= tooltip:CreateFontString(name..'Text2Left', 'ARTWORK', 'WoWToolsFont')
     tooltip.text2Left:SetFontHeight(16)
     --tooltip.text2Left:SetJustifyH('LEFT')
     --tooltip.text2Left:SetShadowOffset(2, -2)
     tooltip.text2Left:SetPoint('LEFT', tooltip.textLeft, 'RIGHT', 5, 0)
-    --[[tooltip.text2LeftBg= tooltip:CreateTexture(nil, 'BACKGROUND')
-    tooltip.text2LeftBg:SetAllPoints(tooltip.text2Left)
-    tooltip.text2LeftBg:SetColorTexture(0,0,0,0.5)]]
 
---右上角字符
     tooltip.textRight= tooltip:CreateFontString(name..'textRight', 'BORDER', 'WoWToolsFont')
     --tooltip.textRight:SetFontHeight(12)
     tooltip.textRight:SetJustifyH('RIGHT')
@@ -69,21 +48,13 @@ local function Create(tooltip)
     else
         tooltip.textRight:SetPoint('BOTTOMRIGHT', tooltip, 'TOPRIGHT', -3, 0)
     end
-    --[[tooltip.textRightBg= tooltip:CreateTexture(nil, 'BACKGROUND')
-    tooltip.textRightBg:SetAllPoints(tooltip.textRight)
-    tooltip.textRightBg:SetColorTexture(0,0,0,0.5)]]
 
---右上角字符2
     tooltip.text2Right= tooltip:CreateFontString(name..'text2Right', 'BORDER', 'WoWToolsFont')
     --tooltip.text2Right:SetFontHeight(12)
     tooltip.text2Right:SetJustifyH('RIGHT')
     --tooltip.text2Right:SetShadowOffset(2, -2)
     tooltip.text2Right:SetPoint('BOTTOMRIGHT', tooltip.textRight, 'TOPRIGHT', 0, 2)
-    --[[tooltip.text2RightBg= tooltip:CreateTexture(nil, 'BACKGROUND')
-    tooltip.text2RightBg:SetAllPoints(tooltip.text2Right)
-    tooltip.text2RightBg:SetColorTexture(0,0,0,0.5)]]
 
---背景颜色
     tooltip.backgroundColor= tooltip:CreateTexture(name..'BackgroundColor', 'BACKGROUND', nil, 1)
     tooltip.backgroundColor:SetPoint('TOPLEFT')
     tooltip.backgroundColor:SetPoint('BOTTOMRIGHT')
@@ -101,7 +72,7 @@ local function Create(tooltip)
         end
     end
 
-    function tooltip:Set_TopLabel(textLeft, text2Left, textRight, text2Right)--嵌入式
+    function tooltip:Set_TopLabel(textLeft, text2Left, textRight, text2Right)
         if self.IsEmbedded then
             self:AddLine(textLeft)
             self:AddLine(text2Left)
@@ -116,7 +87,7 @@ local function Create(tooltip)
     end
 
     if not tooltip.Portrait then
-        tooltip.Portrait= tooltip:CreateTexture(name..'Portrait', 'BACKGROUND', nil, 2)--右上角图标
+        tooltip.Portrait= tooltip:CreateTexture(name..'Portrait', 'BACKGROUND', nil, 2)
         if tooltip.CloseButton then
             tooltip.Portrait:SetPoint('TOPRIGHT', tooltip.CloseButton, 'BOTTOMRIGHT', -6, 0)
         else
@@ -137,11 +108,10 @@ local function Create(tooltip)
         end
     end
 
-    tooltip:HookScript("OnHide", function(self)--隐藏
-        WoWTools_TooltipMixin:Set_Rest_Item(self)--清除，数据
+    tooltip:HookScript("OnHide", function(self)
+        WoWTools_TooltipMixin:Set_Rest_Item(self)
     end)
 
---缩放
     tooltip:HookScript("OnShow", function(self)
         local scale= Save().scale or 1
         if scale~=self:GetScale() then
@@ -151,12 +121,7 @@ local function Create(tooltip)
 end
 
 
-
-
-
-
-
-function WoWTools_TooltipMixin:Set_Init_Item(tooltip)--创建，设置，内容
+function WoWTools_TooltipMixin:Set_Init_Item(tooltip)
     if not tooltip then
         return
     end
@@ -170,12 +135,6 @@ function WoWTools_TooltipMixin:Set_Init_Item(tooltip)--创建，设置，内容
 end
 
 
-
-
-
-
-
---清除，数据
 function WoWTools_TooltipMixin:Set_Rest_Item(tooltip)
     if not tooltip.textLeft then
         return
@@ -206,19 +165,9 @@ function WoWTools_TooltipMixin:Set_Rest_Item(tooltip)
 end
 
 
-
-
-
-
-
-
-
-
-
 --###########
---设置, 3D模型
 --###########
-function WoWTools_TooltipMixin:Set_Item_Model(tooltip, tab)--WoWTools_TooltipMixin:Set_Item_Model(tooltip, {unit=, guid=, creatureDisplayID=, animID=, appearanceID=, visualID=})--设置, 3D模型
+function WoWTools_TooltipMixin:Set_Item_Model(tooltip, tab)
     if Save().hideModel or not tooltip.playerModel then
         return
     end

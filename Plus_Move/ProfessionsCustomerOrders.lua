@@ -1,4 +1,3 @@
---专业定制
 function WoWTools_MoveMixin.Events:Blizzard_ProfessionsCustomerOrders()
     ProfessionsCustomerOrdersFrame.BrowseOrders:ClearAllPoints()
     ProfessionsCustomerOrdersFrame.BrowseOrders:SetPoint('TOPLEFT')

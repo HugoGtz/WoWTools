@@ -1,19 +1,7 @@
- --冒险指南
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Get_Perks_Info()
-    local activitiesInfo = C_PerksActivities.GetPerksActivitiesInfo()--贸易站, 点数Blizzard_MonthlyActivities.lua
+    local activitiesInfo = C_PerksActivities.GetPerksActivitiesInfo()
     if not activitiesInfo then
         return
     end
@@ -35,18 +23,10 @@ local function Get_Perks_Info()
 end
 
 
-
-
-
-
-
-
-
-
-local function Init()
+local Init= WoWTools_Once(function()
     local frame= CreateFrame('Frame')
 
-    frame.Text= WoWTools_LabelMixin:Create(EJMicroButton,  {size=WoWToolsSave['Plus_MainMenu'].size, color=true})
+    frame.Text= WoWTools_LabelMixin:Create(EJMicroButton,  {size=WoWTools_MainMenuMixin:Save().size, color=true})
     --frame.Text:SetPoint('TOP', EJMicroButton, 0,  -3)
     frame.Text:SetPoint('BOTTOM', EJMicroButton, 0,  3)
 
@@ -89,7 +69,7 @@ local function Init()
                     WoWTools_TextMixin:CN(info.name)
                 )
             end
-            GameTooltip:AddDoubleLine((cur==max and '|cnGREEN_FONT_COLOR:' or '|cffff00ff')..cur..'|r/'..max..format(' %i%%', cur/max*100), WoWTools_DataMixin.onlyChinese and '旅行者日志进度' or MONTHLY_ACTIVITIES_PROGRESSED)
+            GameTooltip:AddDoubleLine((cur==max and '|cnGREEN_FONT_COLOR:' or '|cffff00ff')..cur..'|r/'..max..format(' %i%%', cur/max*100), WoWTools_L.MONTHLY_ACTIVITIES_PROGRESSED)
 
         end
 
@@ -102,28 +82,18 @@ local function Init()
 
         GameTooltip:AddLine(
             (isCombat and '|cff626262' or '|cffffffff')
-            ..(WoWTools_DataMixin.onlyChinese and '旅程' or JOURNEYS_LABEL)..'|r'
+            ..(WoWTools_L.JOURNEYS_LABEL)..'|r'
             ..WoWTools_DataMixin.Icon.right
         )
 
         GameTooltip:AddLine(
             (not isCombat and factionInfo and factionInfo.configID and '|cffffffff' or '|cff626262' )
-            ..(WoWTools_DataMixin.onlyChinese and '伙伴' or COVENANT_MISSIONS_FOLLOWERS)..'|r'
+            ..(WoWTools_L.COVENANT_MISSIONS_FOLLOWERS)..'|r'
             ..WoWTools_DataMixin.Icon.mid
         )
         GameTooltip:Show()
     end)
 
-        --[[
---..(WoWTools_DataMixin.onlyChinese and '旅行者日志' or MONTHLY_ACTIVITIES_TAB)..'|r'
-        ..(WoWTools_DataMixin.onlyChinese and '地下城' or DUNGEONS)..'|r'
-         ..(WoWTools_DataMixin.onlyChinese and '上' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP)
-        GameTooltip:AddLine(
-            col
-            ..(WoWTools_DataMixin.onlyChinese and '团队副本' or RAIDS)..'|r'
-            ..WoWTools_DataMixin.Icon.mid
-            ..(WoWTools_DataMixin.onlyChinese and '下' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN)
-        )]]
 
 
     EJMicroButton:HookScript('OnClick', function(_, d)
@@ -150,32 +120,9 @@ local function Init()
         end
     end)
 
-    Init=function()end
-end
---[[
-if ToggleEncounterJournal() then
-MonthlyActivitiesFrame_OpenFrame()
-EJ_ContentTab_Select(EncounterJournal.dungeonsTab:GetID())
-
-EncounterJournal_LoadUI()
-do
-    if not EncounterJournal:IsShown() then
-        ToggleEncounterJournal()
-        MonthlyActivitiesFrame_OpenFrame()
-    end
-end
-EJ_ContentTab_Select(EncounterJournal.raidsTab:GetID())
-]]
+end)
 
 
-
-
-
-
-
-
-
-
-function WoWTools_MainMenuMixin:Init_EJ()--冒险指南
+function WoWTools_MainMenuMixin:Init_EJ()
     Init()
 end

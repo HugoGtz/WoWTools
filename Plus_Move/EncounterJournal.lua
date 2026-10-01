@@ -1,31 +1,18 @@
---[[
-EncounterJournalEncounterFrameInfo
-EncounterJournal.encounter.info
-
-EncounterJournalEncounterFrameInstanceFrame
-EncounterJournal.encounter.instance
-
-EncounterJournalSuggestFrame.Suggestion1
-EncounterJournal.suggestFrame.Suggestion1
-]]
 
 function WoWTools_MoveMixin.Events:Blizzard_EncounterJournal()
     local icon
 
     EncounterJournalMonthlyActivitiesFrame.RestrictedText:ClearAllPoints()
     EncounterJournalMonthlyActivitiesFrame.RestrictedText:SetPoint('CENTER', EncounterJournalMonthlyActivitiesFrame.ThresholdContainer)
---旅行者日志
     EncounterJournalMonthlyActivitiesFrame.ThemeContainer.Top:SetPoint('LEFT')
     EncounterJournalMonthlyActivitiesFrame.ThemeContainer.Top:SetPoint('RIGHT')
     EncounterJournalMonthlyActivitiesFrame.ThemeContainer.Bottom:SetPoint('LEFT')
     EncounterJournalMonthlyActivitiesFrame.ThemeContainer.Bottom:SetPoint('RIGHT')
---旅行者日志,右边，列表
     WoWTools_DataMixin:Hook(MonthlyActivitiesButtonMixin, 'Init', function(btn)
         btn.TextContainer:SetPoint('RIGHT', -36, 0)
         btn.TextContainer.ConditionsText:SetPoint('RIGHT')
         btn.TextContainer.NameText:SetPoint('RIGHT')
     end)
---旅行，点数
     EncounterJournalMonthlyActivitiesFrame.ThresholdContainer:SetPoint('RIGHT', -46-50 ,0)
 
     EncounterJournalMonthlyActivitiesFrame.ThresholdContainer.BarBackground:ClearAllPoints()
@@ -49,7 +36,6 @@ function WoWTools_MoveMixin.Events:Blizzard_EncounterJournal()
 
 
 
---推荐玩法 suggestFrame.Suggestion1
     EncounterJournalSuggestFrame.Suggestion1:SetPoint('BOTTOMRIGHT', EncounterJournalSuggestFrame, 'BOTTOM', -14, 28)
     EncounterJournalSuggestFrame.Suggestion2:SetPoint('TOPLEFT', EncounterJournalSuggestFrame.Suggestion1, 'TOPRIGHT', 14, 0)
     EncounterJournalSuggestFrame.Suggestion2:SetPoint('BOTTOMRIGHT', EncounterJournalSuggestFrame, 'RIGHT', -28, 0)
@@ -83,7 +69,6 @@ function WoWTools_MoveMixin.Events:Blizzard_EncounterJournal()
     end
 
 
---物品
 
     icon= EncounterJournal.LootJournalItems:GetRegions()
     if icon and icon:IsObjectType('Texture') then
@@ -107,43 +92,34 @@ function WoWTools_MoveMixin.Events:Blizzard_EncounterJournal()
         end
     end
 
---暗影国度 暗影之力
     icon= EncounterJournal.LootJournal:GetRegions()
     if icon and icon:IsObjectType('Texture') then
         icon:SetAllPoints()
     end
 
---副本，信息 EncounterJournalEncounterFrameInfo
     EncounterJournalEncounterFrameInfo:ClearAllPoints()
     EncounterJournalEncounterFrameInfo:SetPoint('TOPLEFT', 2, 2)
     EncounterJournalEncounterFrameInfo:SetPoint('BOTTOMRIGHT', 2, -2)
     EncounterJournalEncounterFrameInfoBG:SetPoint('TOPLEFT')
---BOSS 列表
     EncounterJournalEncounterFrameInfo.BossesScrollBox:SetPoint('TOP', 0, -35)
     EncounterJournalEncounterFrameInfo.BossesScrollBox:SetPoint('BOTTOMRIGHT', EncounterJournalEncounterFrameInfo, 'BOTTOM', -35, 35)
     WoWTools_DataMixin:Hook(EncounterBossButtonMixin, 'Init', function(btn)
         btn.text:SetPoint('RIGHT', -3, 0)
     end)
---副本，概述
     EncounterJournalEncounterFrameInstanceFrame:SetPoint('TOPLEFT', EncounterJournalEncounterFrameInfo.BossesScrollBox, 'TOPRIGHT')
     EncounterJournalEncounterFrameInstanceFrame.LoreScrollingFont:SetPoint('BOTTOMRIGHT')
---副本，图片
     EncounterJournalEncounterFrameInstanceFrameBG:SetPoint('LEFT', 55, 0)
     EncounterJournalEncounterFrameInstanceFrameBG:SetPoint('BOTTOMRIGHT', EncounterJournalEncounterFrameInstanceFrame, 'RIGHT', -15, -35)
---名称
     EncounterJournalEncounterFrameInstanceFrame.title:ClearAllPoints()
     EncounterJournalEncounterFrameInstanceFrame.title:SetPoint('TOP', EncounterJournalEncounterFrameInstanceFrameBG, 0, -15)
     EncounterJournalEncounterFrameInstanceFrame.titleBG:ClearAllPoints()
     EncounterJournalEncounterFrameInstanceFrame.titleBG:SetPoint('CENTER', EncounterJournalEncounterFrameInstanceFrame.title, 0, -15)
---副本，按钮
     EncounterJournalEncounterFrameInstanceFrameMapButton:ClearAllPoints()
     EncounterJournalEncounterFrameInstanceFrameMapButton:SetPoint('BOTTOMLEFT', EncounterJournalEncounterFrameInstanceFrameBG, 20, 20)
---副本，概述，文本
     EncounterJournalEncounterFrameInstanceFrame.LoreScrollingFont:ClearAllPoints()
     EncounterJournalEncounterFrameInstanceFrame.LoreScrollingFont:SetPoint('TOPLEFT', EncounterJournalEncounterFrameInstanceFrameBG, 'BOTTOMLEFT', 23, 5)
     EncounterJournalEncounterFrameInstanceFrame.LoreScrollingFont:SetPoint('BOTTOMRIGHT', -23, 5)
 
- --Boss, 战利品, 物品信息, 职业过滤
     EncounterJournalEncounterFrameInfoClassFilterClearFrame:SetPoint('RIGHT')
     EncounterJournalEncounterFrameInfoClassFilterClearFrame:SetPoint('LEFT')
     icon= EncounterJournalEncounterFrameInfoClassFilterClearFrame:GetRegions()
@@ -152,7 +128,6 @@ function WoWTools_MoveMixin.Events:Blizzard_EncounterJournal()
         icon:SetPoint('LEFT')
     end
 
---BOSS, 掉落
     EncounterJournalEncounterFrameInfo.LootContainer:SetPoint('TOPLEFT', EncounterJournalEncounterFrameInfo, 'TOP', 40, -43)
     WoWTools_DataMixin:Hook(EncounterJournalItemMixin,'Init', function(btn)
         if btn:IsVisible() and not btn.set_texture then--btn.set_texture z_Events.lua Plus_Texture
@@ -164,7 +139,6 @@ function WoWTools_MoveMixin.Events:Blizzard_EncounterJournal()
 
 
 
---BOSS, 概述
     EncounterJournalEncounterFrameInfoOverviewScrollFrame:SetPoint('TOPLEFT', EncounterJournalEncounterFrameInfo, 'TOP', 30, -43)
     EncounterJournal.encounter.overviewFrame:SetPoint('LEFT', 23, 0)
     EncounterJournal.encounter.overviewFrame:HookScript('OnSizeChanged', function(f)
@@ -172,27 +146,23 @@ function WoWTools_MoveMixin.Events:Blizzard_EncounterJournal()
     end)
 
 
---综述,Boss信息
     EncounterJournalEncounterFrameInfo.encounterTitle:ClearAllPoints()
     EncounterJournalEncounterFrameInfo.encounterTitle:SetPoint('BOTTOMLEFT', EncounterJournalEncounterFrameInfoOverviewScrollFrame, 'TOPLEFT', 10, 10)
     EncounterJournalEncounterFrameInfo.encounterTitle:SetPoint('RIGHT', EncounterJournalEncounterFrameInfoDifficulty, 'LEFT')
     EncounterJournalEncounterFrameInfo.encounterTitle:SetJustifyH('CENTER')
 
 
---综述
     EncounterJournalEncounterFrameInfoOverviewScrollFrameScrollChild.overviewDescription:SetPoint('RIGHT', 10, 0)
     EncounterJournalEncounterFrameInfoOverviewScrollFrameScrollChildLoreDescription:SetPoint('RIGHT', 10, 0)
     EncounterJournalEncounterFrameInfoOverviewScrollFrameScrollChildHeader:SetPoint('LEFT')
     EncounterJournalEncounterFrameInfoOverviewScrollFrameScrollChildHeader:SetPoint('RIGHT', -23, 0)
 
---技能
     EncounterJournalEncounterFrameInfo.detailsScroll:SetPoint('TOPLEFT', EncounterJournalEncounterFrameInfo, 'TOP', 30, -43)
     EncounterJournalEncounterFrameInfo.detailsScroll.child:SetPoint('RIGHT', -23, 0)
     EncounterJournalEncounterFrameInfo.detailsScroll.child:HookScript('OnSizeChanged', function(f)
         f:SetPoint('RIGHT', -23, 0)
     end)
 
---模型
     EncounterJournalEncounterFrameInfoModelFrame:SetPoint('TOPLEFT', EncounterJournalEncounterFrameInfo, 'TOP')
     EncounterJournalEncounterFrameInfoModelFrameDungeonBG:SetPoint('TOPRIGHT', 0, -2)
     EncounterJournalEncounterFrameInfoModelFrameShadow:SetPoint('TOPLEFT', 0, -2)
@@ -226,7 +196,6 @@ function WoWTools_MoveMixin.Events:Blizzard_EncounterJournal()
     end
     --EncounterJournalInstanceSelect.ScrollBox:HookScript('OnSizeChanged', Set_InstanceSelect_Stride) --EncounterInstanceButtonTemplate Size x="174" y="96"
 
---12.0才有旅程
     EncounterJournalJourneysFrame.JourneyProgress.RenownTrackFrame:SetPoint('LEFT', 21+17+21+30+21, 0)
     EncounterJournalJourneysFrame.JourneyProgress.RenownTrackFrame:SetPoint('RIGHT', -(21+17+21+30+21), 0)
     EncounterJournalJourneysFrame.JourneyProgress.RenownTrackFrame.ClipFrame.Mask:ClearAllPoints()
@@ -255,7 +224,7 @@ function WoWTools_MoveMixin.Events:Blizzard_EncounterJournal()
 
 
 
-    icon= EncounterJournal.TutorialsFrame.Contents:GetRegions()--11.2.7才有
+    icon= EncounterJournal.TutorialsFrame.Contents:GetRegions()
     if icon and icon:IsObjectType('Texture') then
         icon:SetPoint('BOTTOMRIGHT', -27, 27)
     end

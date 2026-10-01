@@ -1,7 +1,6 @@
 WoWTools_HouseMixin={}
 --CreateAtlasMarkup("waypoint-mappin-minimap-untracked", 16, 16, 0, 0)
 
---来源
 function WoWTools_HouseMixin:GetObjectiveText(entryInfo)
     if entryInfo
         and entryInfo.entryID
@@ -17,7 +16,6 @@ function WoWTools_HouseMixin:GetObjectiveText(entryInfo)
     end
 end
 
---关键词
 function WoWTools_HouseMixin:GetTagsText(entryInfo)
     if entryInfo and entryInfo.dataTagsByID then
         local tag

@@ -1,8 +1,5 @@
 
-local function Save()
-    return WoWToolsSave['Plus_AddOns'] or {}
-end
-local BottomFrame--已加载，插件列表
+local BottomFrame
 local Buttons={}
 local Name= 'WoWToolsAddOnsBottomListButton'
 
@@ -55,7 +52,7 @@ local function Create_Button(index)
         local loadable, reason = C_AddOns.IsAddOnLoadable(addonIndex, character)
         --local checkboxState = C_AddOns.GetAddOnEnableState(addonIndex, character)
         --if ( not InGlue() ) then
-            enabled = (C_AddOns.GetAddOnEnableState(addonIndex, UnitName("player")) > Enum.AddOnEnableState.None)
+            enabled = (C_AddOns.GetAddOnEnableState(addonIndex, WoWTools_DataMixin.Player.GUID) > Enum.AddOnEnableState.None)
         --else
             --enabled = (checkboxState > Enum.AddOnEnableState.None)
         --end
@@ -68,11 +65,11 @@ local function Create_Button(index)
             col='|cff999999'
         end
         AddonTooltip:AddDoubleLine(
-            (WoWTools_DataMixin.onlyChinese and '搜索' or SEARCH)
+            (WoWTools_L.SEARCH)
             ..WoWTools_DataMixin.Icon.left
             ..(reason and _G["ADDON_"..reason] and col..WoWTools_TextMixin:CN(_G["ADDON_"..reason]) or ''),
 
-            (WoWTools_DataMixin.onlyChinese and '转到' or NPE_TURN)
+            (WoWTools_L.NPE_TURN)
             ..WoWTools_DataMixin.Icon.right
             ..self:GetID()
         )
@@ -119,10 +116,9 @@ end
 
 
 
---已加载，插件列表
 local function Set_Load_Button()--LoadButtons
     local newTab={}
-    local isOnlyIcon= Save().load_list_onlyIcon
+    local isOnlyIcon= WoWTools_AddOnsMixin:Save().load_list_onlyIcon
 
     local _GroupTab={}
     for i=1, C_AddOns.GetNumAddOns() do
@@ -134,9 +130,9 @@ local function Set_Load_Button()--LoadButtons
             local atlas = C_AddOns.GetAddOnMetadata(i, "IconAtlas")
             local name =  C_AddOns.GetAddOnName(i)
 
-            if Save().fast[name] then--上次的错误记录，需要改正
+            if WoWTools_AddOnsMixin:Save().fast[name] then
 ---@diagnostic disable-next-line: assign-type-mismatch
-                Save().fast[name]=i
+                WoWTools_AddOnsMixin:Save().fast[name]=i
             end
 
             if not isOnlyIcon or texture or atlas then
@@ -155,15 +151,15 @@ local function Set_Load_Button()--LoadButtons
     _GroupTab=nil
 
     local addNum= #newTab
-    local isShow= Save().load_list and addNum>0
+    local isShow= WoWTools_AddOnsMixin:Save().load_list and addNum>0
     BottomFrame:SetShown(isShow)
 
     if not isShow then
         return
     end
 
-    local size= Save().load_list_size or 23
-    local isTop= Save().load_list_top
+    local size= WoWTools_AddOnsMixin:Save().load_list_size or 23
+    local isTop= WoWTools_AddOnsMixin:Save().load_list_top
 
 
     for i, info in pairs(newTab) do
@@ -255,7 +251,7 @@ end
 
 
 local function Init()
-    if not Save().load_list then
+    if not WoWTools_AddOnsMixin:Save().load_list then
         return
     end
 
@@ -267,12 +263,12 @@ local function Init()
 
     function BottomFrame:setting()
         BottomFrame:ClearAllPoints()
-        if Save().load_list_top then
+        if WoWTools_AddOnsMixin:Save().load_list_top then
             BottomFrame:SetPoint('BOTTOMRIGHT', AddonList, 'TOPRIGHT', 1, 2)
         else
             BottomFrame:SetPoint('TOPRIGHT', AddonList, 'BOTTOMRIGHT', 1, -2)
         end
-        BottomFrame.Background:SetColorTexture(0, 0, 0, Save().bgAlpha or 0.5)
+        BottomFrame.Background:SetColorTexture(0, 0, 0, WoWTools_AddOnsMixin:Save().bgAlpha or 0.5)
         Set_Load_Button()
     end
 

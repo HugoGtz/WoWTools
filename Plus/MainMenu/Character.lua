@@ -1,40 +1,39 @@
---角色 CharacterMicroButton 
 
 --MainMenuBarMicroButtons.lua
 
 
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     local frame= CreateFrame('Frame')
 
 
-    frame.Text= WoWTools_LabelMixin:Create(CharacterMicroButton,  {size=WoWToolsSave['Plus_MainMenu'].size, color=true})
+    frame.Text= WoWTools_LabelMixin:Create(CharacterMicroButton,  {size=WoWTools_MainMenuMixin:Save().size, color=true})
     frame.Text:SetPoint('TOP', CharacterMicroButton, 0,  -3)
 
-    frame.Text2= WoWTools_LabelMixin:Create(CharacterMicroButton,  {size=WoWToolsSave['Plus_MainMenu'].size, color=true})
+    frame.Text2= WoWTools_LabelMixin:Create(CharacterMicroButton,  {size=WoWTools_MainMenuMixin:Save().size, color=true})
     frame.Text2:SetPoint('BOTTOM', CharacterMicroButton, 0, 3)
 
     table.insert(WoWTools_MainMenuMixin.Labels, frame.Text)
     table.insert(WoWTools_MainMenuMixin.Labels, frame.Text2)
 
     function frame:settings()
-        local to, cu= GetAverageItemLevel()--装等
+        local to, cu= GetAverageItemLevel()
         local text
         if to and cu and to>0 then
             text=math.modf(cu)
             if to-cu>10 then
                 text='|cnWARNING_FONT_COLOR:'..text..'|r'
                 if IsInsane() and not WoWTools_MapMixin:IsInPvPArea() then
-                    WoWTools_FrameMixin:HelpFrame({frame=self, topoint=self.Text, point='left', size={40,40}, color={r=1,g=0,b=0,a=1}, show=true})--设置，提示
+                    WoWTools_FrameMixin:HelpFrame({frame=self, topoint=self.Text, point='left', size={40,40}, color={r=1,g=0,b=0,a=1}, show=true})
                 end
             end
         end
         self.Text:SetText(text or '')
 
-        local text2, value= WoWTools_DurabiliyMixin:Get(false)--耐久度
+        local text2, value= WoWTools_DurabiliyMixin:Get(false)
         self.Text2:SetText(text2:gsub('%%', ''))
-        WoWTools_FrameMixin:HelpFrame({frame=CharacterMicroButton, topoint=self.text2, point='left', size={40,40}, color={r=1,g=0,b=0,a=1}, onlyOne=true, show=value<30})--设置，提示
+        WoWTools_FrameMixin:HelpFrame({frame=CharacterMicroButton, topoint=self.Text2, point='left', size={40,40}, color={r=1,g=0,b=0,a=1}, onlyOne=true, show=value<30})
     end
 
     frame:RegisterEvent('EQUIPMENT_SWAP_FINISHED')
@@ -56,20 +55,20 @@ local function Init()
         local bat= InCombatLockdown()
         GameTooltip:AddLine(
             (bat and '|cff626262' or '|cffffffff')
-            ..(WoWTools_DataMixin.onlyChinese and '角色' or CHARACTER)..'|r'
+            ..(WoWTools_L.CHARACTER)..'|r'
             ..WoWTools_DataMixin.Icon.mid
-            ..(WoWTools_DataMixin.onlyChinese and '上' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP)
+            ..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP)
         )
         GameTooltip:AddLine(
             (bat and '|cff626262' or (C_Reputation.GetNumFactions()>0 and '|cffffffff') or '|cff626262')
-            ..(WoWTools_DataMixin.onlyChinese and '声望' or REPUTATION)..'|r'
+            ..(WoWTools_L.REPUTATION)..'|r'
             ..WoWTools_DataMixin.Icon.right
         )
         GameTooltip:AddLine(
-            (bat and '|cff626262:' or (C_CurrencyInfo.GetCurrencyListSize() > 0 and '|cffffffff') or '|cff626262')
-            ..(WoWTools_DataMixin.onlyChinese and '货币' or TOKENS)..'|r'
+            (bat and '|cff626262' or (C_CurrencyInfo.GetCurrencyListSize() > 0 and '|cffffffff') or '|cff626262')
+            ..(WoWTools_L.TOKENS)..'|r'
             ..WoWTools_DataMixin.Icon.mid
-            ..(WoWTools_DataMixin.onlyChinese and '下' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN)
+            ..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN)
         )
 
         GameTooltip:Show()
@@ -98,8 +97,7 @@ local function Init()
         end
     end)
 
-    Init=function()end
-end
+end)
 
 
 

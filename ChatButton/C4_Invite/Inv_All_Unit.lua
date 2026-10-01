@@ -2,23 +2,23 @@
 local InvPlateTimer
 
 
-function WoWTools_InviteMixin:Inv_All_Unit()--邀请，周围玩家
+function WoWTools_InviteMixin:Inv_All_Unit()
     local p= C_CVar.GetCVarBool('nameplateShowFriendlyPlayers')
     local all= C_CVar.GetCVarBool('nameplateShowAll')
 
-    if not WoWTools_InviteMixin:Get_Leader() then--取得权限
-        print(
+    if not WoWTools_InviteMixin:Get_Leader() then
+        WoWTools_Print(
             WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,
             '|cnWARNING_FONT_COLOR:',
-            WoWTools_DataMixin.onlyChinese and '你没有权利这样做' or ERR_GUILD_PERMISSIONS
+            WoWTools_L.ERR_GUILD_PERMISSIONS
         )
         return
 
     elseif InCombatLockdown() and (not p or not all) then
-        print(
+        WoWTools_Print(
             WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,
             '|cnWARNING_FONT_COLOR:',
-            WoWTools_DataMixin.onlyChinese and '战斗中' or COMBAT
+            WoWTools_L['COMBAT~3']
         )
         return
     end
@@ -47,7 +47,6 @@ function WoWTools_InviteMixin:Inv_All_Unit()--邀请，周围玩家
         elseif co==40 then
             return
         else
-            --toRaidOrParty(co)--自动, 转团
             local tab= C_NamePlate.GetNamePlates(issecure()) or {}
             do 
             for _, v in pairs(tab) do
@@ -73,17 +72,17 @@ function WoWTools_InviteMixin:Inv_All_Unit()--邀请，周围玩家
                         if not WoWTools_InviteMixin.InvPlateGuid[guid] then
                             C_PartyInfo.InviteUnit(name)
                             WoWTools_InviteMixin.InvPlateGuid[guid]=name
-                            print(
+                            WoWTools_Print(
                                 WoWTools_DataMixin.Icon.icon2..'|cnGREEN_FONT_COLOR:'..n..'|r)',
-                                WoWTools_DataMixin.onlyChinese and '邀请' or INVITE,
+                                WoWTools_L.INVITE,
                                 WoWTools_UnitMixin:GetLink(nil, guid, name, false)
                             )
                             if not raid and n +co>=5  then
-                                print(
+                                WoWTools_Print(
                                     WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                                    format(WoWTools_DataMixin.onlyChinese and '需求：%s' or PETITION_TITLE,
+                                    format(WoWTools_L.PETITION_TITLE,
                                         '|cff00ff00'
-                                        ..(WoWTools_DataMixin.onlyChinese and '转团' or CONVERT_TO_RAID)
+                                        ..(WoWTools_L.CONVERT_TO_RAID)
                                     )
                                 )
                                 break
@@ -92,7 +91,7 @@ function WoWTools_InviteMixin:Inv_All_Unit()--邀请，周围玩家
                         end
                     end
                 else
-                    print(u)
+                    WoWTools_Print(u)
                 end
             end
             end
@@ -102,11 +101,11 @@ function WoWTools_InviteMixin:Inv_All_Unit()--邀请，周围玩家
             C_CVar.SetCVar('nameplateShowFriendlyPlayers', '0')
         end
         if n==1 then
-            print(
+            WoWTools_Print(
                 WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                WoWTools_DataMixin.onlyChinese and '邀请成员' or GUILDCONTROL_OPTION7,
+                WoWTools_L.GUILDCONTROL_OPTION7,
                 '|cnWARNING_FONT_COLOR:',
-                WoWTools_DataMixin.onlyChinese and '无' or NONE
+                WoWTools_L.NONE
             )
         end
     end)

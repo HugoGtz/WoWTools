@@ -1,72 +1,4 @@
---拍卖行
 
-local function Save()
-    return WoWToolsSave['Plus_AuctionHouse'] or {}
-end
-
-
-
-
-
---[[
-local function Create_AutPost(frame)
-    local btn= CreateFrame("Button","WoWToolsCommoditiesSellAutoPostButton", frame,"WoWToolsButtonTemplate SecureActionButtonTemplate")
-    btn:SetAttribute("type","click")
-    btn:SetAttribute("clickbutton", frame)
-
-    btn:SetPoint('RIGHT', frame, 'LEFT', -31, 0)
-    function btn:Stop()
-        self.isRun= nil
-        self:setting()
-    end
-
-    function btn:setting()
-        self:SetNormalAtlas(self.isRun and 'common-dropdown-icon-stop' or 'common-dropdown-icon-back')
-        if self.isRun then
-            self:SetScript('OnUpdate', self.Run)
-        else
-            self:SetScript('OnUpdate', nil)
-            self.elapse= nil
-        end
-    end
-    function btn:Run(elapse)
-        self.elapse= (self.elapse or 0.4)+ elapse
-        if IsModifierKeyDown() then
-            self:Stop()
-            return
-        elseif self.elapse<0.4 then
-            return
-        end
-        self.elapse= 0
-        if self:GetParent():IsEnabled() then
-            self:Click('LeftButton')
-            print('a')
-        end
-    end
-
-    btn:SetScript('OnHide', btn.Stop)
-    btn:SetScript('OnMouseUp', function(self)
-        self.isRun= not self.isRun and true or nil
-        self:setting()
-    end)
-    btn.tooltip= WoWTools_DataMixin.Icon.icon2
-        ..(WoWTools_DataMixin.onlyChinese and '自动出售' or format(GARRISON_FOLLOWER_NAME, SELF_CAST_AUTO, AUCTION_HOUSE_SELL_TAB))
-        ..'|n|cnGREEN_FONT_COLOR:Alt+ '..(WoWTools_DataMixin.onlyChinese and '中断' or INTERRUPT)
-        ..'|r|n|n|cnWARNING_FONT_COLOR:'
-        ..(WoWTools_DataMixin.onlyChinese and '危险！' or VOICEMACRO_1_Sc_0)
-
-    btn:setting()
-end
-
-]]
-
-
-
-
-
-
-
---下一个，拍卖，物品  
 local function Init_NextItem()
 
     AuctionHouseFrame.CommoditiesSellFrame.PostButton:SetHeight(32)--<Size x="194" y="22"/>
@@ -85,7 +17,7 @@ local function Init_NextItem()
         then
             return
         end
-        C_Timer.After(0.3, function() WoWTools_AuctionHouseMixin:SetPostNextSellItem() end)--放入，第一个，物品
+        C_Timer.After(0.3, function() WoWTools_AuctionHouseMixin:SetPostNextSellItem() end)
         self.isNextItem=nil
     end)
     WoWTools_DataMixin:Hook(AuctionHouseFrame.ItemSellFrame, 'PostItem', function(self)
@@ -101,7 +33,7 @@ local function Init_NextItem()
         then
             return
         end
-        C_Timer.After(0.3, function() WoWTools_AuctionHouseMixin:SetPostNextSellItem() end)--放入，第一个，物品
+        C_Timer.After(0.3, function() WoWTools_AuctionHouseMixin:SetPostNextSellItem() end)
         self.isNextItem=nil
     end)
 
@@ -112,27 +44,13 @@ local function Init_NextItem()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
---转到，商品，模式，按钮
 local function Init_ShowCommoditiesButton()
     local levelFrame= AuctionHouseFrame.CommoditiesSellFrame.QuantityInput.MaxButton:GetFrameLevel()
 
     local showCommoditiesButton=WoWTools_ButtonMixin:Cbtn(AuctionHouseFrame.ItemSellFrame, {
         isUI=true,
         size={100,22},
-        text=WoWTools_DataMixin.onlyChinese and '物品' or ITEMS
+        text=WoWTools_L.ITEMS
     })
     showCommoditiesButton:SetPoint('BOTTOMRIGHT', -15,15)
     showCommoditiesButton:SetFrameLevel(levelFrame)
@@ -142,7 +60,7 @@ local function Init_ShowCommoditiesButton()
         GameTooltip:ClearLines();
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_AuctionHouseMixin.addName)
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '显示模式' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SHOW, MODE), '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '转到' or CONVERT)..'|r '..(WoWTools_DataMixin.onlyChinese and '材料' or PROFESSIONS_COLUMN_HEADER_REAGENTS))
+        GameTooltip:AddDoubleLine(WoWTools_L['SHOW+MODE'], '|cnGREEN_FONT_COLOR:'..(WoWTools_L.CONVERT)..'|r '..(WoWTools_L.PROFESSIONS_COLUMN_HEADER_REAGENTS))
         GameTooltip:Show();
     end)
     showCommoditiesButton:SetScript('OnClick', function()
@@ -151,15 +69,14 @@ local function Init_ShowCommoditiesButton()
             C_AuctionHouse.CancelSell()
         end
         AuctionHouseFrame:SetDisplayMode(AuctionHouseFrameDisplayMode.CommoditiesSell)
-        C_Timer.After(0.5, function() WoWTools_AuctionHouseMixin:SetPostNextSellItem() end)--放入，第一个，物品
+        C_Timer.After(0.5, function() WoWTools_AuctionHouseMixin:SetPostNextSellItem() end)
     end)
 
 
---转到，出售商品，按钮
     local showSellButton=WoWTools_ButtonMixin:Cbtn(AuctionHouseFrame.CommoditiesSellFrame, {
         isUI=true,
         size={100,22},
-        text=WoWTools_DataMixin.onlyChinese and '材料' or PROFESSIONS_COLUMN_HEADER_REAGENTS
+        text=WoWTools_L.PROFESSIONS_COLUMN_HEADER_REAGENTS
     })
     showSellButton:SetPoint('BOTTOMRIGHT',  -15,15)
     showSellButton:SetFrameLevel(levelFrame)
@@ -169,16 +86,15 @@ local function Init_ShowCommoditiesButton()
         GameTooltip:ClearLines();
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_AuctionHouseMixin.addName)
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '显示' or SHOW, '|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '转到' or CONVERT)..'|r '..(WoWTools_DataMixin.onlyChinese and '物品' or ITEMS))
+        GameTooltip:AddDoubleLine(WoWTools_L.SHOW, '|cnGREEN_FONT_COLOR:'..(WoWTools_L.CONVERT)..'|r '..(WoWTools_L.ITEMS))
         GameTooltip:Show();
     end)
     showSellButton:SetScript('OnClick', function()
         AuctionHouseFrame:ClearPostItem()
         AuctionHouseFrame:SetDisplayMode(AuctionHouseFrameDisplayMode.ItemSell)
-        C_Timer.After(0.5, function() WoWTools_AuctionHouseMixin:SetPostNextSellItem() end)--放入，第一个，物品
+        C_Timer.After(0.5, function() WoWTools_AuctionHouseMixin:SetPostNextSellItem() end)
     end)
 
---取消拍卖
     local cancelButton2= WoWTools_ButtonMixin:Cbtn(AuctionHouseFrame.ItemSellFrame.PostButton, {size=32, texture='Interface\\Buttons\\CancelButton-Up'})
     cancelButton2:SetHighlightTexture('Interface\\Buttons\\CancelButton-Highlight')
     cancelButton2:SetPushedTexture('Interface\\Buttons\\CancelButton-Down')
@@ -190,17 +106,13 @@ local function Init_ShowCommoditiesButton()
         GameTooltip:ClearLines();
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_AuctionHouseMixin.addName)
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(' ', WoWTools_DataMixin.onlyChinese and '取消拍卖' or AUCTION_HOUSE_CANCEL_AUCTION_BUTTON)
+        GameTooltip:AddDoubleLine(' ', WoWTools_L.AUCTION_HOUSE_CANCEL_AUCTION_BUTTON)
         GameTooltip:Show();
     end)
     cancelButton2:SetScript('OnClick', C_AuctionHouse.CancelSell)
 
 
-
-
-
 --Blizzard_AuctionHouseSearchBar.lua
---出售，物品，双击列表，转到购买界面
     WoWTools_DataMixin:Hook(AuctionHouseFrame.CommoditiesSellList.ScrollBox, 'Update', function(frame)
         if not frame:HasView() then
             return
@@ -243,25 +155,8 @@ local function Init_ShowCommoditiesButton()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---显示拍卖行时，转到出售物品
 local function OnShowToSellFrame()
-    if not Save().intShowSellItem or not AuctionHouseFrame:IsShown() then
+    if not WoWTools_AuctionHouseMixin:Save().intShowSellItem or not AuctionHouseFrame:IsShown() then
         return
     end
 
@@ -280,7 +175,7 @@ local function OnShowToSellFrame()
                 )
 
                 --C_Timer.After(0.3, function()
-                    WoWTools_AuctionHouseMixin:SetPostNextSellItem() --放入，第一个，物品
+                    WoWTools_AuctionHouseMixin:SetPostNextSellItem()
                 --end)
 
                 return
@@ -290,19 +185,6 @@ local function OnShowToSellFrame()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
---默认价格，替换，原生func
 local function GetDefaultPrice(itemLocation)
     local price= 2000000--200g
 
@@ -319,25 +201,25 @@ local function GetDefaultPrice(itemLocation)
 
     local classID= select(6, C_Item.GetItemInfoInstant(itemID))
 
-    if Save().SellItemDefaultPrice[itemID] then--上次保存的，物价
-        price= Save().SellItemDefaultPrice[itemID]
+    if WoWTools_AuctionHouseMixin:Save().SellItemDefaultPrice[itemID] then
+        price= WoWTools_AuctionHouseMixin:Save().SellItemDefaultPrice[itemID]
 
-    elseif C_MountJournal.GetMountFromItem(itemID) or C_ToyBox.GetToyInfo(itemID) then--坐骑
-        price= 999999900--9.9万
+    elseif C_MountJournal.GetMountFromItem(itemID) or C_ToyBox.GetToyInfo(itemID) then
+        price= 999999900
 
-    elseif C_PetJournal.GetPetInfoByItemID(itemID)--宠物
+    elseif C_PetJournal.GetPetInfoByItemID(itemID)
         or itemLink:find('Hbattlepet:(%d+)')
         or C_Item.IsCosmeticItem(itemID)
         or C_Item.IsDecorItem(itemID)
         or C_Item.IsDressableItemByID(itemID)
-        or classID==12--任务
+        or classID==12
     then
-        price= 99999900--0.9万
+        price= 99999900
 
     else--if LinkUtil.IsLinkType(itemLink, "item") then
         local vendorPrice = select(11, C_Item.GetItemInfo(itemLink))
         if vendorPrice then
-            local defaultPrice = vendorPrice * 500--倍数，原1.5倍
+            local defaultPrice = vendorPrice * 500
             local price2 = defaultPrice + (COPPER_PER_SILVER - (defaultPrice % COPPER_PER_SILVER))-- AH prices must be in silver increments.
 
             price= math.max(price2, price)--200g
@@ -349,23 +231,6 @@ local function GetDefaultPrice(itemLocation)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---单价，倍数
 local function Update_Total_Price(frame)
     local itemLocation= frame:GetItem()
     local text=''
@@ -374,7 +239,7 @@ local function Update_Total_Price(frame)
         local itemLink = C_Item.GetItemLink(itemLocation);
         local vendorPrice =itemLink and select(11, C_Item.GetItemInfo(itemLink)) or 10000;
         local unitPrice= frame.GetUnitPrice and frame:GetUnitPrice() or frame.PriceInput:GetAmount();-- frame:GetUnitPrice()
-        unitPrice= (unitPrice==0 or not unitPrice) and 1 or unitPrice
+        unitPrice= unitPrice or 0--precio vacío o 0: no avisar mientras se escribe
         local col=''
         if vendorPrice and unitPrice and vendorPrice>0 and unitPrice>0 then
             if unitPrice> vendorPrice then
@@ -396,16 +261,8 @@ local function Update_Total_Price(frame)
                 end
             else
                 col='|cnWARNING_FONT_COLOR:'
-                text= col..(WoWTools_DataMixin.onlyChinese and '危险' or VOICEMACRO_1_Sc_0)
-                local itemID=  C_Item.GetItemID(itemLocation)
-                if itemID and not Save().hideSellItem[itemID] then--加入，隐藏，物品列表
-                    Save().hideSellItem[itemID]=true
-
-                    WoWTools_AuctionHouseMixin:Init_Sell_Item_Button()
-
-                    AuctionHouseFrame:ClearPostItem()
-                    C_Timer.After(0.3, function() WoWTools_AuctionHouseMixin:SetPostNextSellItem() end)--放入，第一个，物品
-                end
+                text= col..(WoWTools_L['VOICEMACRO_1_Sc_0~2'])
+                --Solo avisar: antes se sacaba el objeto del marco de venta y se ocultaba para siempre
             end
         end
         if vendorPrice then
@@ -416,40 +273,33 @@ local function Update_Total_Price(frame)
     frame.percentLabel:SetText(text)
 end
 
---记录，用户，输入，价格
 local function Save_SellItem_Price(frame)
     local itemLocation= frame:GetItem()
     if itemLocation and itemLocation:IsValid() then
         local itemID= C_Item.GetItemID(itemLocation)
         if itemID  then
             local unitPrice= frame.PriceInput:GetAmount()
-            if unitPrice and unitPrice>100000 then--10金
-                Save().SellItemDefaultPrice[itemID]= unitPrice
+            if unitPrice and unitPrice>100000 then
+                WoWTools_AuctionHouseMixin:Save().SellItemDefaultPrice[itemID]= unitPrice
             else
-                Save().SellItemDefaultPrice[itemID]=nil
+                WoWTools_AuctionHouseMixin:Save().SellItemDefaultPrice[itemID]=nil
             end
         end
     end
 end
 
 
-
-
-
-
-
---单价，倍数
 local function Init_PercentLabel()
-    AuctionHouseFrame.CommoditiesSellFrame.percentLabel= WoWTools_LabelMixin:Create(AuctionHouseFrame.CommoditiesSellFrame, {size=22, justifyH='RIGHT'})--单价，提示
+    AuctionHouseFrame.CommoditiesSellFrame.percentLabel= WoWTools_LabelMixin:Create(AuctionHouseFrame.CommoditiesSellFrame, {size=22, justifyH='RIGHT'})
     AuctionHouseFrame.CommoditiesSellFrame.percentLabel:SetPoint('BOTTOMRIGHT', AuctionHouseFrame.CommoditiesSellList, 'TOP', -50,0)
 
-    AuctionHouseFrame.CommoditiesSellFrame.vendorPriceLabel= WoWTools_LabelMixin:Create(AuctionHouseFrame.CommoditiesSellFrame, {size=12})--单价，提示
+    AuctionHouseFrame.CommoditiesSellFrame.vendorPriceLabel= WoWTools_LabelMixin:Create(AuctionHouseFrame.CommoditiesSellFrame, {size=12})
     AuctionHouseFrame.CommoditiesSellFrame.vendorPriceLabel:SetPoint('TOPRIGHT', AuctionHouseFrame.CommoditiesSellFrame.PriceInput.MoneyInputFrame.GoldBox, 'BOTTOMRIGHT',0,4)
 
-    AuctionHouseFrame.ItemSellFrame.percentLabel= WoWTools_LabelMixin:Create(AuctionHouseFrame.ItemSellFrame, {size=22, justifyH='RIGHT'})--单价，提示
+    AuctionHouseFrame.ItemSellFrame.percentLabel= WoWTools_LabelMixin:Create(AuctionHouseFrame.ItemSellFrame, {size=22, justifyH='RIGHT'})
     AuctionHouseFrame.ItemSellFrame.percentLabel:SetPoint('BOTTOMRIGHT', AuctionHouseFrame.ItemSellList, 'TOP', -50,0)
 
-    AuctionHouseFrame.ItemSellFrame.vendorPriceLabel= WoWTools_LabelMixin:Create(AuctionHouseFrame.ItemSellFrame, {size=12})--单价，提示
+    AuctionHouseFrame.ItemSellFrame.vendorPriceLabel= WoWTools_LabelMixin:Create(AuctionHouseFrame.ItemSellFrame, {size=12})
     AuctionHouseFrame.ItemSellFrame.vendorPriceLabel:SetPoint('TOPRIGHT', AuctionHouseFrame.ItemSellFrame.PriceInput.MoneyInputFrame.GoldBox, 'BOTTOMRIGHT',0,4)
 
     WoWTools_DataMixin:Hook(AuctionHouseFrame.CommoditiesSellFrame, 'UpdateTotalPrice', function(self)
@@ -485,83 +335,62 @@ local function Init_PercentLabel()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
---出售物品时，使用，最大数量 Blizzard_AuctionHouseSellFrame.lua
 local function Init_MaxSellItemCheck()
     local MaxSellItemCheck, MaxSellItemCheck2
     MaxSellItemCheck= CreateFrame('CheckButton', nil, AuctionHouseFrame.CommoditiesSellFrame.QuantityInput.MaxButton, 'InterfaceOptionsCheckButtonTemplate')
     MaxSellItemCheck:SetPoint('LEFT', AuctionHouseFrame.CommoditiesSellFrame.QuantityInput.MaxButton, 'RIGHT')
     MaxSellItemCheck:SetSize(24,24)
-    MaxSellItemCheck:SetChecked(Save().isMaxSellItem)
+    MaxSellItemCheck:SetChecked(WoWTools_AuctionHouseMixin:Save().isMaxSellItem)
 
     MaxSellItemCheck:SetScript('OnLeave', GameTooltip_Hide)
     MaxSellItemCheck:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_AuctionHouseMixin.addName)
-        GameTooltip:AddDoubleLine(' ', WoWTools_DataMixin.onlyChinese and '最大数量' or AUCTION_HOUSE_MAX_QUANTITY_BUTTON)
+        GameTooltip:AddDoubleLine(' ', WoWTools_L.AUCTION_HOUSE_MAX_QUANTITY_BUTTON)
         GameTooltip:Show()
     end)
     MaxSellItemCheck:SetScript('OnClick', function()
-        Save().isMaxSellItem= not Save().isMaxSellItem and true or false
-        MaxSellItemCheck2:SetChecked(Save().isMaxSellItem)
+        WoWTools_AuctionHouseMixin:Save().isMaxSellItem= not WoWTools_AuctionHouseMixin:Save().isMaxSellItem and true or false
+        MaxSellItemCheck2:SetChecked(WoWTools_AuctionHouseMixin:Save().isMaxSellItem)
     end)
 
     MaxSellItemCheck2= CreateFrame('CheckButton', nil, AuctionHouseFrame.ItemSellFrame.QuantityInput.MaxButton, 'InterfaceOptionsCheckButtonTemplate')
     MaxSellItemCheck2:SetPoint('LEFT', AuctionHouseFrame.ItemSellFrame.QuantityInput.MaxButton, 'RIGHT')
     MaxSellItemCheck2:SetSize(24,24)
-    MaxSellItemCheck2:SetChecked(Save().isMaxSellItem)
+    MaxSellItemCheck2:SetChecked(WoWTools_AuctionHouseMixin:Save().isMaxSellItem)
 
     MaxSellItemCheck2:SetScript('OnLeave', GameTooltip_Hide)
     MaxSellItemCheck2:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_AuctionHouseMixin.addName)
-        GameTooltip:AddDoubleLine(' ', WoWTools_DataMixin.onlyChinese and '最大数量' or AUCTION_HOUSE_MAX_QUANTITY_BUTTON)
+        GameTooltip:AddDoubleLine(' ', WoWTools_L.AUCTION_HOUSE_MAX_QUANTITY_BUTTON)
         GameTooltip:Show()
     end)
     MaxSellItemCheck2:SetScript('OnClick', function()
-        Save().isMaxSellItem= not Save().isMaxSellItem and true or false
-        MaxSellItemCheck:SetChecked(Save().isMaxSellItem)
+        WoWTools_AuctionHouseMixin:Save().isMaxSellItem= not WoWTools_AuctionHouseMixin:Save().isMaxSellItem and true or false
+        MaxSellItemCheck:SetChecked(WoWTools_AuctionHouseMixin:Save().isMaxSellItem)
     end)
+
+    --Refresco desde el Centro de control
+    function WoWTools_AuctionHouseMixin:Refresh_MaxSellItem()
+        MaxSellItemCheck:SetChecked(self:Save().isMaxSellItem)
+        MaxSellItemCheck2:SetChecked(self:Save().isMaxSellItem)
+    end
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
-    if Save().disabledSellPlus then
+    if WoWTools_AuctionHouseMixin:Save().disabledSellPlus then
         return
     end
 
-    Init_ShowCommoditiesButton()--转到，商品，模式，按钮
-    Init_NextItem()--下一个，拍卖，物品
-    Init_PercentLabel()--单价，倍数
-    Init_MaxSellItemCheck()--出售物品时，使用，最大数量
+    Init_ShowCommoditiesButton()
+    Init_NextItem()
+    Init_PercentLabel()
+    Init_MaxSellItemCheck()
 
---默认价格，替换，原生func
     function AuctionHouseFrame.CommoditiesSellFrame:GetDefaultPrice()
         return GetDefaultPrice(self:GetItem())
     end
@@ -571,7 +400,6 @@ local function Init()
 
 
 
---移动, Frame
 --Blizzard_AuctionHouseFrame.xml
     AuctionHouseFrame.CommoditiesSellList:ClearAllPoints()
     AuctionHouseFrame.CommoditiesSellList:SetSize(427, 442)
@@ -579,7 +407,6 @@ local function Init()
     AuctionHouseFrame.CommoditiesSellFrame:ClearAllPoints()
     AuctionHouseFrame.CommoditiesSellFrame:SetSize(363, 442)
     AuctionHouseFrame.CommoditiesSellFrame:SetPoint('TOPLEFT', AuctionHouseFrame.CommoditiesSellList, 'TOPRIGHT')
---刷新，列表
     AuctionHouseFrame.CommoditiesSellList.RefreshFrame.RefreshButton:ClearAllPoints()
     AuctionHouseFrame.CommoditiesSellList.RefreshFrame.RefreshButton:SetParent(AuctionHouseFrame.CommoditiesSellFrame.PostButton)
     AuctionHouseFrame.CommoditiesSellList.RefreshFrame.RefreshButton:SetPoint('LEFT', AuctionHouseFrame.CommoditiesSellFrame.PostButton, 'RIGHT')
@@ -590,43 +417,23 @@ local function Init()
     AuctionHouseFrame.ItemSellFrame:ClearAllPoints()
     AuctionHouseFrame.ItemSellFrame:SetSize(363, 442)
     AuctionHouseFrame.ItemSellFrame:SetPoint('TOPLEFT', AuctionHouseFrame.ItemSellList, 'TOPRIGHT')
---刷新，列表
     AuctionHouseFrame.ItemSellList.RefreshFrame.RefreshButton:ClearAllPoints()
     AuctionHouseFrame.ItemSellList.RefreshFrame.RefreshButton:SetParent(AuctionHouseFrame.ItemSellFrame.PostButton)
     AuctionHouseFrame.ItemSellList.RefreshFrame.RefreshButton:SetPoint('LEFT', AuctionHouseFrame.ItemSellFrame.PostButton, 'RIGHT')
 
---可购买数量：
     AuctionHouseFrame.CommoditiesSellList.RefreshFrame.TotalQuantity:ClearAllPoints()
     AuctionHouseFrame.CommoditiesSellList.RefreshFrame.TotalQuantity:SetPoint('BOTTOMRIGHT', AuctionHouseFrame.CommoditiesSellList, 'TOPRIGHT', -25, 0)
 
     AuctionHouseFrame.ItemSellList.RefreshFrame.TotalQuantity:ClearAllPoints()
     AuctionHouseFrame.ItemSellList.RefreshFrame.TotalQuantity:SetPoint('BOTTOMRIGHT', AuctionHouseFrame.ItemSellList, 'TOPRIGHT', -25, 0)
 
---显示拍卖行时，转到出售物品
     C_Timer.After(1, function()
         AuctionHouseFrame:HookScript('OnShow', OnShowToSellFrame)
-        --[[local itemCommodityStatus= WoWTools_AuctionHouseMixin:SetPostNextSellItem(true)
-        if itemCommodityStatus then
-            AuctionHouseFrame:SetDisplayMode(
-                itemCommodityStatus==Enum.ItemCommodityStatus.Commodity and AuctionHouseFrameDisplayMode.CommoditiesSell
-                or AuctionHouseFrameDisplayMode.ItemSell
-            )
-            OnShowToSellFrame()
-        end]]
         OnShowToSellFrame()
     end)
 
    Init=function()end
 end
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_AuctionHouseMixin:Sell_Other()

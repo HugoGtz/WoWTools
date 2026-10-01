@@ -1,16 +1,7 @@
-local function Save()
-	return WoWToolsSave['Plus_Faction']
-end
-
 local Button
 local Buttons={}
 
 
-
-
-
-
---取得，等级，派系声望
 local function Get_Major_Faction_Level(factionID, level)
 
     local text= ''
@@ -26,11 +17,11 @@ local function Get_Major_Faction_Level(factionID, level)
     level= level or 0
 
     if C_MajorFactions.HasMaximumRenown(factionID) then
-        if C_Reputation.IsFactionParagon(factionID) then--奖励
+        if C_Reputation.IsFactionParagon(factionID) then
             local currentValue, threshold, _, hasRewardPending2, tooLowLevelForParagon = C_Reputation.GetFactionParagonInfo(factionID)
             if not tooLowLevelForParagon and currentValue and threshold and threshold>0 then
                 --hasRewardPending= hasRewardPending2
-                local completed= math.modf(currentValue/threshold)--完成次数
+                local completed= math.modf(currentValue/threshold)
                 currentValue= completed>0 and currentValue - threshold * completed or currentValue
                 if hasRewardPending2 then
                     text= format('|cnGREEN_FONT_COLOR:%i%%|A:GarrMission-%sChest:0:0|a%s%d|r', currentValue/threshold*100, WoWTools_DataMixin.Player.Faction, hasRewardPending and format('|A:%s:0:0|a', 'common-icon-checkmark') or '', completed)
@@ -55,27 +46,11 @@ local function Get_Major_Faction_Level(factionID, level)
 end
 
 
-
-
-
-
-
-
---取得，所有，派系声望
 local function Get_Major_Faction_List()
     local tab=C_MajorFactions.GetMajorFactionIDs()
     table.sort(tab, function(a,b) return a>b end)
     return tab
 end
-
-
-
-
-
-
-
-
-
 
 
 local function Create_Button(index)
@@ -120,46 +95,31 @@ local function Create_Button(index)
     btn.SelectTexture:SetAtlas('auctionhouse-nav-button-select')
     btn.SelectTexture:SetAlpha(0.5)
 
-    btn.ANCHOR_RIGHT= true--提示，位置用
+    btn.ANCHOR_RIGHT= true
     Buttons[index]= btn
 
     return btn
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Settings()
-    if Save().hide_MajorFactionRenownFrame_Button then
+    if WoWTools_FactionMixin:Save().hide_MajorFactionRenownFrame_Button then
         Button.frame:SetShown(false)
         return
     end
 
-    --所有，派系声望
     local selectFactionID= MajorFactionRenownFrame:GetCurrentFactionID()
 
 
     local index=0
     local btn, isSelect, atlas, text, isLocked
-    local onlyUnlockRenownFrame= Save().onlyUnlockRenownFrame
+    local onlyUnlockRenownFrame= WoWTools_FactionMixin:Save().onlyUnlockRenownFrame
 
-    for _, factionID in pairs(Get_Major_Faction_List()) do--取得，所有，派系声望
+    for _, factionID in pairs(Get_Major_Faction_List()) do
         local info= (
                     factionID
                     and factionID>0
-                    and not Save().hideRenownFrame[factionID]
+                    and not WoWTools_FactionMixin:Save().hideRenownFrame[factionID]
 
                 )
                 and C_MajorFactions.GetMajorFactionData(factionID)
@@ -189,7 +149,7 @@ local function Settings()
 
             --btn:SetPushedAtlas('majorfactions_icons_'..(info.textureKit or '')..'512')
             text, isLocked= Get_Major_Faction_Level(factionID, info.renownLevel)
-            btn.Text:SetText(text)--等级
+            btn.Text:SetText(text)
             btn:SetShown(true)
             btn.texture2:SetDesaturated(isLocked)
             btn:GetNormalTexture():SetDesaturated(isLocked)
@@ -205,23 +165,9 @@ local function Settings()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Set_HeaderText()
     local text=''
-    if not Save().hide_MajorFactionRenownFrame_Button then
+    if not WoWTools_FactionMixin:Save().hide_MajorFactionRenownFrame_Button then
         local factionID= MajorFactionRenownFrame:GetCurrentFactionID()
         local info=factionID and C_MajorFactions.GetMajorFactionData(factionID)
         if info then
@@ -232,49 +178,44 @@ local function Set_HeaderText()
 end
 
 
-
-
-
-
-
 local function Init_Menu(self, root)
     local sub, sub2
 
-    root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '显示' or SHOW,
+    sub=root:CreateCheckbox(
+        WoWTools_L.SHOW,
     function()
-        return not Save().hide_MajorFactionRenownFrame_Button
+        return not WoWTools_FactionMixin:Save().hide_MajorFactionRenownFrame_Button
     end, function()
         self:set_click()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Faction.RenownList'])
 
---隐藏
     root:CreateDivider()
     sub=root:CreateButton(
-        (WoWTools_DataMixin.onlyChinese and '隐藏' or HIDE)..' #'..#Save().hideRenownFrame,
+        (WoWTools_L.HIDE)..' #'..#WoWTools_FactionMixin:Save().hideRenownFrame,
     function()
         return MenuResponse.Open
     end)
 
-    sub:CreateCheckbox(
+    sub2=sub:CreateCheckbox(
         '|A:Professions_Specialization_Lock_Glow:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '仅限已解锁' or format(LFG_LIST_CROSS_FACTION, UNLOCK)),
+        ..(WoWTools_L['Unlocked only']),
     function()
-        return Save().onlyUnlockRenownFrame
+        return WoWTools_FactionMixin:Save().onlyUnlockRenownFrame
     end, function()
-        Save().onlyUnlockRenownFrame= not Save().onlyUnlockRenownFrame and true or nil
+        WoWTools_FactionMixin:Save().onlyUnlockRenownFrame= not WoWTools_FactionMixin:Save().onlyUnlockRenownFrame and true or nil
         Settings()
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Faction.RenownUnlockedOnly'])
 
---隐藏，列表
     sub:CreateDivider()
-    for index, factionID in pairs(Get_Major_Faction_List()) do--取得，所有，派系声望
+    for index, factionID in pairs(Get_Major_Faction_List()) do
         sub2=sub:CreateCheckbox(
            index..')'.. WoWTools_FactionMixin:GetName(factionID),
         function(data)
-            return Save().hideRenownFrame[data.factionID]
+            return WoWTools_FactionMixin:Save().hideRenownFrame[data.factionID]
         end, function(data)
-            Save().hideRenownFrame[data.factionID]= not Save().hideRenownFrame[data.factionID] and true or nil
+            WoWTools_FactionMixin:Save().hideRenownFrame[data.factionID]= not WoWTools_FactionMixin:Save().hideRenownFrame[data.factionID] and true or nil
             Settings()
         end, {factionID=factionID})
 
@@ -284,41 +225,32 @@ local function Init_Menu(self, root)
 --SetScrollMod
     WoWTools_MenuMixin:SetScrollMode(sub)
 
---打开选项
     root:CreateDivider()
     sub= WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_FactionMixin.addName})
 
---缩放
     WoWTools_MenuMixin:ScaleRoot(self, sub,
     function()
-        return Save().MajorFactionRenownFrame_Button_Scale or 1
+        return WoWTools_FactionMixin:Save().MajorFactionRenownFrame_Button_Scale or 1
     end, function(value)
-        Save().MajorFactionRenownFrame_Button_Scale= value
+        WoWTools_FactionMixin:Save().MajorFactionRenownFrame_Button_Scale= value
         self:set_scale()
     end, function()
-        Save().MajorFactionRenownFrame_Button_Scale=nil
+        WoWTools_FactionMixin:Save().MajorFactionRenownFrame_Button_Scale=nil
         self:set_scale()
     end)
 end
 
 
-
-
-
-
-
-
---派系，列表 MajorFactionRenownFrame
 local function Init()
     Button= WoWTools_ButtonMixin:Cbtn(MajorFactionRenownFrame.CloseButton, {size=22})
 
     function Button:set_scale()
-        self.frame:SetScale(Save().MajorFactionRenownFrame_Button_Scale or 1)
+        self.frame:SetScale(WoWTools_FactionMixin:Save().MajorFactionRenownFrame_Button_Scale or 1)
     end
     function Button:set_texture()
-        local hide= Save().hide_MajorFactionRenownFrame_Button
+        local hide= WoWTools_FactionMixin:Save().hide_MajorFactionRenownFrame_Button
         if hide then
-            self:SetNormalTexture('Interface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools')
+            self:SetNormalTexture('Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools')
             self:SetAlpha(0.3)
         else
             self:SetNormalTexture(0)
@@ -331,14 +263,14 @@ local function Init()
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_FactionMixin.addName)
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_TextMixin:GetShowHide(not Save().hide_MajorFactionRenownFrame_Button), WoWTools_DataMixin.Icon.left)
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.right)
-        --GameTooltip:AddDoubleLine((WoWTools_DataMixin.onlyChinese and '缩放' or HOUSING_EXPERT_DECOR_SUBMODE_SCALE)..' |cnGREEN_FONT_COLOR:'..(Save().MajorFactionRenownFrame_Button_Scale or 1), WoWTools_DataMixin.Icon.mid)
+        GameTooltip:AddDoubleLine(WoWTools_TextMixin:GetShowHide(not WoWTools_FactionMixin:Save().hide_MajorFactionRenownFrame_Button), WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.right)
+        --GameTooltip:AddDoubleLine((HOUSING_EXPERT_DECOR_SUBMODE_SCALE)..' |cnGREEN_FONT_COLOR:'..(WoWTools_FactionMixin:Save().MajorFactionRenownFrame_Button_Scale or 1), WoWTools_DataMixin.Icon.mid)
         GameTooltip:Show()
     end
 
     function Button:set_click()
-        Save().hide_MajorFactionRenownFrame_Button= not Save().hide_MajorFactionRenownFrame_Button and true or nil
+        WoWTools_FactionMixin:Save().hide_MajorFactionRenownFrame_Button= not WoWTools_FactionMixin:Save().hide_MajorFactionRenownFrame_Button and true or nil
         Settings()
         self:set_texture()
     end
@@ -359,16 +291,6 @@ local function Init()
         end
     end)
 
-    --[[Button:SetScript('OnMouseWheel', function(self, d)
-        local n= Save().MajorFactionRenownFrame_Button_Scale or 1
-        n= d==1 and n-0.1 or n
-        n= d==-1 and n+0.1 or n
-        n= n>4 and 4 or n
-        n= n<0.4 and 0.4 or n
-        Save().MajorFactionRenownFrame_Button_Scale=n
-        self:set_scale()
-        self:set_tooltips()
-    end)]]
 
 
     Button.frame=CreateFrame('Frame', nil, Button)
@@ -393,33 +315,19 @@ local function Init()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function WoWTools_FactionMixin:Init_MajorFactionRenownFrame()
     if MajorFactionRenownFrame then
-        self:Init_CovenantRenown(MajorFactionRenownFrame)--盟约 9.0
+        self:Init_CovenantRenown(MajorFactionRenownFrame)
         Init()
     end
 end
 
 
-
+--Centro de control: aplica los ajustes de la lista de la ventana de renombre (si ya se abrió)
+function WoWTools_FactionMixin:Refresh_RenownFrame()
+    if Button then
+        Settings()
+        Button:set_texture()
+        Button:set_scale()
+    end
+end

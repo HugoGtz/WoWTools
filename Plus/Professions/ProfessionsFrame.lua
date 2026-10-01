@@ -1,22 +1,6 @@
 --Blizzard_TrainerUI
-local function Save()
-    return WoWToolsSave['Plus_Professions']
-end
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
     --###
-    --数量
     --Blizzard_Professions.lua  ProfessionsRecipeSchematicFormMixin:Init
     WoWTools_DataMixin:Hook(Professions,'SetupOutputIconCommon', function(outputIcon, quantityMin, quantityMax, icon, itemIDOrLink, quality)
         local num
@@ -24,8 +8,8 @@ local function Init()
             num= C_Item.GetItemCount(itemIDOrLink, true, false, true)
             local itemID= C_Item.GetItemInfoInstant(itemIDOrLink)
             if itemID then
-                local all= 0--帐号数据
-                for guid, info in pairs(WoWTools_WoWDate or {}) do
+                local all= 0
+                for guid, info in pairs(WoWToolsPlus_WoWDate or {}) do
                     if guid and info and guid~=WoWTools_DataMixin.Player.GUID then
                         local tab=info.Item[itemID]
                         if tab and tab.bag and tab.bank then
@@ -49,7 +33,6 @@ local function Init()
 
 
     --##################
-    --移过，列表，物品提示
     --Blizzard_ProfessionsRecipeList.lua
     WoWTools_DataMixin:Hook(ProfessionsRecipeListRecipeMixin, 'OnEnter', function(self)
         local elementData = self:GetElementData()
@@ -72,14 +55,13 @@ local function Init()
         GameTooltip:AddLine(info.categoryID and 'categoryID '..info.categoryID, tradeSkillID and 'tradeSkillID '..tradeSkillID or (info.sourceType and 'sourceType'..info.sourceType))
         GameTooltip:AddDoubleLine('recipeID '..info.recipeID, parentTradeSkillID and 'parentTradeSkillID '..parentTradeSkillID)
         if info.itemLevel or info.skillLineAbilityID then
-            GameTooltip:AddDoubleLine(info.skillLineAbilityID and 'skillLineAbilityID '..info.skillLineAbilityID,  info.itemLevel and info.itemLevel>1 and format(WoWTools_DataMixin.onlyChinese and '物品等级%d' or ITEM_LEVEL, info.itemLevel))
+            GameTooltip:AddDoubleLine(info.skillLineAbilityID and 'skillLineAbilityID '..info.skillLineAbilityID,  info.itemLevel and info.itemLevel>1 and format(WoWTools_L.ITEM_LEVEL, info.itemLevel))
         end
         GameTooltip:AddDoubleLine(WoWTools_ToolsMixin.addName, WoWTools_ProfessionMixin.addName)
         GameTooltip:Show()
     end)
 
 
-    --专业，列表，增加图标, 颜色
     WoWTools_DataMixin:Hook(ProfessionsRecipeListRecipeMixin, 'Init', function(self, node)
         local elementData = node:GetData();
         local recipeInfo = Professions.GetHighestLearnedRecipe(elementData.recipeInfo) or elementData.recipeInfo
@@ -97,7 +79,6 @@ local function Init()
             self.texture:SetTexture(recipeInfo.icon and recipeInfo.icon>0 and recipeInfo.icon or 0)
         end
 
---颜色
         if recipeInfo.learned or recipeInfo.isRecraf then
             local color= WoWTools_ItemMixin:GetColor(nil, {itemLink=recipeInfo.hyperlink})
             self.Label:SetTextColor(color:GetRGB())
@@ -108,7 +89,6 @@ local function Init()
 
 
     --######
-    --附魔纸
     --Blizzard_ProfessionsRecipeSchematicForm.lua
     WoWTools_DataMixin:Hook(ProfessionsFrame.CraftingPage.SchematicForm, 'Init', function(frame, recipeInfo)--, isRecraftOverride)
         local recipeID = recipeInfo and recipeInfo.recipeID
@@ -117,8 +97,7 @@ local function Init()
         if not isEnchant
             or not frame.enchantSlot
             or not frame.enchantSlot:IsShown()
-            --or Save().disabled--禁用，按钮
-            or ItemUtil.GetCraftingReagentCount(38682)==0--没有， 附魔纸
+            or ItemUtil.GetCraftingReagentCount(38682)==0
         then
             if frame.enchantSlot and frame.enchantSlot.btn then
                 frame.enchantSlot.btn:SetShown(false)
@@ -135,14 +114,14 @@ local function Init()
             btn:SetPoint('TOPLEFT', frame.enchantSlot, 'BOTTOMLEFT')
             btn:SetAlpha(0.3)
             function btn:settings()
-                if Save().disabledEnchant then
+                if WoWTools_ProfessionMixin:Save().disabledEnchant then
                     self:SetNormalAtlas('talents-button-reset')
                 else
-                    self:SetNormalTexture('Interface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools')
+                    self:SetNormalTexture('Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools')
                 end
             end
             btn:SetScript('OnClick', function(self)
-                Save().disabledEnchant= not Save().disabledEnchant and true or nil
+                WoWTools_ProfessionMixin:Save().disabledEnchant= not WoWTools_ProfessionMixin:Save().disabledEnchant and true or nil
                 self:settings()
             end)
             btn:SetScript('OnLeave', function(self) GameTooltip:Hide() self:SetAlpha(0.3) end)
@@ -151,7 +130,7 @@ local function Init()
                 GameTooltip:ClearLines()
                 GameTooltip:SetItemByID(38682)
                 GameTooltip:AddLine(' ')
-                GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '自动加入' or AUTO_JOIN, WoWTools_TextMixin:GetEnabeleDisable(not Save().disabledEnchant))
+                GameTooltip:AddDoubleLine(WoWTools_L.AUTO_JOIN, WoWTools_TextMixin:GetEnabeleDisable(not WoWTools_ProfessionMixin:Save().disabledEnchant))
                 GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_ProfessionMixin.addName)
                 GameTooltip:Show()
                 self:SetAlpha(1)
@@ -163,13 +142,13 @@ local function Init()
         btn:SetShown(true)
 
 
-        if Save().disabledEnchant then
+        if WoWTools_ProfessionMixin:Save().disabledEnchant then
             return
         end
 
         local candidateGUIDs = C_TradeSkillUI.GetEnchantItems(recipeID);
         for index, item in ipairs(ItemUtil.TransformItemGUIDsToItems(candidateGUIDs)) do
-            if candidateGUIDs[index] and item and item:GetItemID()== 38682 then--附魔纸
+            if candidateGUIDs[index] and item and item:GetItemID()== 38682 then
                 local itemLocal= Item:CreateFromItemGUID(candidateGUIDs[index])
                 if itemLocal then
                     frame.transaction:SetEnchantAllocation(itemLocal);
@@ -183,13 +162,12 @@ local function Init()
 
 
     --Blizzard_ProfessionsSpecializations.lua
-    --全加点，专精，
     WoWTools_DataMixin:Hook(ProfessionsFrame.SpecPage, 'UpdateDetailedPanel', function(frame, setLocked)
         local button=frame.DetailedView.SpendAllPointsButton
         if not button then
             button= WoWTools_ButtonMixin:Cbtn(frame.DetailedView.SpendPointsButton, {isUI=true, size={80, 22}})
             button:SetPoint('LEFT', frame.DetailedView.SpendPointsButton, 'RIGHT',40,0)
-            button:SetText(WoWTools_DataMixin.onlyChinese and '全部' or ALL)
+            button:SetText(WoWTools_L.ALL)
             button:SetScript('OnClick', function(self)
                 local parent= self:GetParent()
                 while parent:IsEnabled() do
@@ -202,7 +180,7 @@ local function Init()
             button:SetScript('OnEnter', function(self)
                 GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT")
                 GameTooltip:ClearLines()
-                GameTooltip:AddDoubleLine(not WoWTools_DataMixin.onlyChinese and PROFESSIONS_SPECS_ADD_KNOWLEDGE or "运用知识", WoWTools_DataMixin.onlyChinese and '全部' or ALL)
+                GameTooltip:AddDoubleLine(WoWTools_L.PROFESSIONS_SPECS_ADD_KNOWLEDGE, WoWTools_L.ALL)
                 GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_ProfessionMixin.addName)
                 GameTooltip:Show()
             end)
@@ -216,7 +194,6 @@ local function Init()
     end)
 
 
-    --可加点数， 提示
     WoWTools_DataMixin:Hook(ProfessionsSpecPathMixin, 'UpdateProgressBar', function(frame)
         if not frame.ProgressBar:IsShown() then
             return
@@ -239,7 +216,6 @@ local function Init()
         end
     end)
 
-    Init=function()end
 end
 
 

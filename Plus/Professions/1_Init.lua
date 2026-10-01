@@ -1,63 +1,77 @@
+--Módulo registrado con la API común (docs/REFACTOR.md, R2)
+WoWTools_Module:Register({
+    key= 'Plus_Professions',
+    name= 'Module.Professions',
+    icon= 'Professions_Icon_FirstTimeCraft',
+    group= 'Items',
+    defaults= {
+        setButton=true,
+        ArcheologySound=true,
+    },
+    tooltip= 'Tip.Professions.Enable',
+    mixin= WoWTools_ProfessionMixin,
+    options= {
+        {type='section', text='GENERAL'},
+        {type='check', key='setButton', text='SHOW_QUICK_BUTTON~3', tooltip='Tip.Professions.QuickButtons', noCombat=true,
+            get= function(save) return save.setButton end,
+            set= function(save, value) save.setButton= value and true or false end,
+            apply= function() WoWTools_ProfessionMixin:Refresh_ProfessionsFrame_Button() end},
+        {type='check', key='fire', text='Cooking fire button', tooltip='Tip.Professions.CookingFire', indent=true, reload=true,
+            disabled= function(save) return not save.setButton end,
+            get= function(save) return save.showFuocoButton end,
+            set= function(save, value) save.showFuocoButton= value and true or nil end},
+        {type='check', key='trainer', text='Learn all button', tooltip='Tip.Professions.LearnAll',
+            get= function(save) return not save.disabledClassTrainer end,
+            set= function(save, value) save.disabledClassTrainer= not value and true or nil end,
+            apply= function(_, save)
+                if ClassTrainerFrame and ClassTrainerFrame.BuyAll then
+                    ClassTrainerFrame.BuyAll:SetShown(not save.disabledClassTrainer)
+                end
+            end},
+        {type='check', key='sound', text='Archaeology sound alert', tooltip='Tip.Professions.ArchaeologySound',
+            get= function(save) return save.ArcheologySound end,
+            set= function(save, value) save.ArcheologySound= value and true or false end,
+            apply= function()
+                local btn= _G['WoWToolsArcheologyProgressBarSounButton']
+                if btn and btn.set_event then
+                    btn:set_event()
+                end
+            end},
 
+        {type='section', text='Automations'},
+        {type='check', key='enchant', text='Auto use enchanting vellum', tooltip='Tip.Professions.AutoVellum', automation=true,
+            get= function(save) return not save.disabledEnchant end,
+            set= function(save, value) save.disabledEnchant= not value and true or nil end},
+        {type='check', key='digBar', text='Auto show dig site bar', tooltip='Tip.Professions.AutoDigBar', automation=true,
+            get= function(save) return save.showArcheologyBar end,
+            set= function(save, value) save.showArcheologyBar= value and true or nil end,
+            apply= function()
+                local bar= _G['WoWToolsArcheologyProgressBarBranchButton']
+                if bar and bar.set_event then
+                    bar:set_event()
+                end
+            end},
 
-local function Save()
-    return WoWToolsSave['Plus_Professions']
-end
-
-
-
-
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if arg1== 'WoWTools' then
-
-        WoWToolsSave['Plus_Professions']= WoWToolsSave['Plus_Professions'] or {
-            setButton=true,
-            ArcheologySound=true, --考古学
-            showArcheologyBar=WoWTools_DataMixin.Player.husandro,
-        }
-
-        WoWTools_ProfessionMixin.addName= '|A:Professions_Icon_FirstTimeCraft:0:0|a'..(WoWTools_DataMixin.onlyChinese and '专业' or PROFESSIONS_TRACKER_HEADER_PROFESSION)
-
-        --添加控制面板
-        WoWTools_PanelMixin:OnlyCheck({
-            name= WoWTools_ProfessionMixin.addName,
-            tooltip= WoWTools_ProfessionMixin.addName,
-            GetValue= function() return not Save().disabled end,
-            SetValue= function()
-                Save().disabled= not Save().disabled and true or nil
-                print(WoWTools_DataMixin.Icon.icon2..WoWTools_ProfessionMixin.addName, WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled), WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
-            end
-        })
-
-        if Save().disabled then
-            self:SetScript('OnEvent', nil)
-            self:UnregisterEvent(event)
-        else
-            WoWTools_ProfessionMixin:Init_Archaeology()--考古学
-
-            if C_AddOns.IsAddOnLoaded("Blizzard_TrainerUI") then
-                WoWTools_ProfessionMixin:Init_Blizzard_TrainerUI()--添一个,全学,专业, 按钮
-            end
-            if C_AddOns.IsAddOnLoaded("Blizzard_Professions") then
-                WoWTools_ProfessionMixin:Init_ProfessionsFrame()--初始
-            end
- 
-            --[[if C_AddOns.IsAddOnLoaded("Blizzard_ProfessionsBook") then
-                WoWTools_ProfessionMixin:Init_ProfessionsBook()--专业书
-            end]]
-        end
-
-    elseif arg1== 'Blizzard_TrainerUI' and WoWToolsSave then
-        WoWTools_ProfessionMixin:Init_Blizzard_TrainerUI()--添一个,全学,专业, 按钮
-
-    elseif arg1== 'Blizzard_Professions' and WoWToolsSave then --10.1.5
-        WoWTools_ProfessionMixin:Init_ProfessionsFrame()--初始
-
-
-    --[[elseif arg1=='Blizzard_ProfessionsBook' and WoWToolsSave then--专业书
-        WoWTools_ProfessionMixin:Init_ProfessionsBook()]]
-    end
-end)
+        {type='section', text='Appearance'},
+        {type='slider', key='scale', text='HOUSING_EXPERT_DECOR_SUBMODE_SCALE', tooltip='Tip.Menu.Scale', noCombat=true,
+            min=0.4, max=4, step=0.05, format='%.2f',
+            disabled= function(save) return not save.setButton end,
+            get= function(save) return save.scaleButton or 1 end,
+            set= function(save, value) save.scaleButton= value end,
+            apply= function() WoWTools_ProfessionMixin:Refresh_ProfessionsFrame_Button() end},
+    },
+    onEnable= function()
+        WoWTools_ProfessionMixin:Init_Archaeology()
+    end,
+    blizzard= {
+        Blizzard_ArchaeologyUI= function()
+            WoWTools_ProfessionMixin:Init_ArchaeologyFrame()
+        end,
+        Blizzard_TrainerUI= function()
+            WoWTools_ProfessionMixin:Init_Blizzard_TrainerUI()
+        end,
+        Blizzard_Professions= function()--10.1.5
+            WoWTools_ProfessionMixin:Init_ProfessionsFrame()
+        end,
+    },
+})

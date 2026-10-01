@@ -3,10 +3,6 @@
 
 
 
-local function Save()
-    return WoWToolsSave['ObjectiveTracker']
-end
-
 WoWTools_ObjectiveTabs={
     ['ScenarioObjectiveTracker']=false,
 
@@ -50,10 +46,6 @@ local function Set_Collapse(collapse, isAllCollapse)
 end
 
 
-
-
-
-
 local function Init_Menu(self, root)
     if not self:IsMouseOver() then
         return
@@ -62,57 +54,57 @@ local function Init_Menu(self, root)
     local sub, sub2
     local col= Is_Locked() and '|cff828282' or ''
 
---收起选项
     sub=root:CreateButton(
         col
-        ..(WoWTools_DataMixin.onlyChinese and '收起选项 |A:editmode-up-arrow:0:0|a' or HUD_EDIT_MODE_COLLAPSE_OPTIONS),
+        ..(WoWTools_L['HUD_EDIT_MODE_COLLAPSE_OPTIONS~3']),
     function()
         Set_Collapse(true, true)
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Objective.CollapseAll'])
 
---战斗中
     sub2= sub:CreateCheckbox(
         '|cnWARNING_FONT_COLOR:'
-        ..(WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT),
+        ..(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT),
     function()
-        return Save().autoHideInCombat
+        return WoWTools_ObjectiveMixin:Save().autoHideInCombat
     end, function()
-        Save().autoHideInCombat = not Save().autoHideInCombat and true or nil
+        WoWTools_ObjectiveMixin:Save().autoHideInCombat = not WoWTools_ObjectiveMixin:Save().autoHideInCombat and true or nil
         self:set_event()
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Objective.AutoCombat'])
         tooltip:AddLine('|cnWARNING_FONT_COLOR:BUG')
     end)
 
 
---展开选项
-    root:CreateButton(
+    sub=root:CreateButton(
         col
-        ..(WoWTools_DataMixin.onlyChinese and '展开选项 |A:editmode-down-arrow:0:0|a' or HUD_EDIT_MODE_EXPAND_OPTIONS),
+        ..(WoWTools_L['HUD_EDIT_MODE_EXPAND_OPTIONS~2']),
     function()
         Set_Collapse(false, true)
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Objective.ExpandAll'])
 
---自动
-    root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '自动' or SELF_CAST_AUTO,
+    sub=root:CreateCheckbox(
+        WoWTools_L.SELF_CAST_AUTO,
     function()
-        return Save().autoHide
+        return WoWTools_ObjectiveMixin:Save().autoHide
     end, function()
-        Save().autoHide = not Save().autoHide and true or nil
+        WoWTools_ObjectiveMixin:Save().autoHide = not WoWTools_ObjectiveMixin:Save().autoHide and true or nil
         self:set_event()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Objective.AutoCollapse'])
 
     root:CreateDivider()
 
     sub=root:CreateButton(
-        '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '清除全部' or CLEAR_ALL),
+        '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L['CLEAR_ALL~2']),
     function()
         StaticPopup_Show('WoWTools_OK',
-        (WoWTools_DataMixin.onlyChinese and '取消追踪' or OBJECTIVES_STOP_TRACKING)..'\n'
-        ..'|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '清除全部' or CLEAR_ALL),
+        (WoWTools_L.OBJECTIVES_STOP_TRACKING)..'\n'
+        ..'|A:bags-button-autosort-up:0:0|a'..(WoWTools_L['CLEAR_ALL~2']),
         nil,
         {SetValue=function()
             WoWTools_ObjectiveMixin:Clear_Achievement()
@@ -127,40 +119,39 @@ local function Init_Menu(self, root)
 )
     end)
     sub:SetTooltip(function (tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '取消追踪' or OBJECTIVES_STOP_TRACKING)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Objective.ClearAll'])
+        tooltip:AddLine(WoWTools_L.OBJECTIVES_STOP_TRACKING)
     end)
 
---缩放
     root:CreateDivider()
     WoWTools_MenuMixin:Scale(ObjectiveTrackerFrame, root, function()
-        return Save().scale
+        return WoWTools_ObjectiveMixin:Save().scale
     end, function(value)
         if not Is_Locked() then
-            Save().scale= value
+            WoWTools_ObjectiveMixin:Save().scale= value
             self:set_scale()
         end
     end)
 
---透明度
     sub= root:CreateButton(
-        '|A:MonkUI-LightOrb:0:0|a'..(WoWTools_DataMixin.onlyChinese and '透明度' or HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY),
+        '|A:MonkUI-LightOrb:0:0|a'..(WoWTools_L.HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY),
     function()
         return MenuResponse.Open
-    end, {rightText=Save().alpha or 1})
+    end, {rightText=WoWTools_ObjectiveMixin:Save().alpha or 1})
     WoWTools_MenuMixin:SetRightText(sub)
 
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
-            return Save().alpha or 1
+            return WoWTools_ObjectiveMixin:Save().alpha or 1
         end,
         setValue=function(value)
             if not Is_Locked() then
-                Save().alpha= value
+                WoWTools_ObjectiveMixin:Save().alpha= value
                 self:set_scale()
             end
         end,
-        name= WoWTools_DataMixin.onlyChinese and '透明度' or HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY ,
+        name= WoWTools_L.HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY ,
         minValue=0,
         maxValue=1,
         step=0.01,
@@ -169,16 +160,11 @@ local function Init_Menu(self, root)
     sub:CreateSpacer()
 
 
-
-
-
-
---选项
-    sub= WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_ObjectiveMixin.addName, tooltip=function(tooltip)
+    sub= WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_ObjectiveMixin.addName, name2=WoWTools_L['Settings...'], tooltip=function(tooltip)
         tooltip:AddLine(' ')
         tooltip:AddLine('|cnWARNING_FONT_COLOR:BUG')
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '友情提示: 可能会出现错误' or 'note: errors may occur')
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '当有可点击物品按钮时会错误' or 'Wrong when there is any item button')
+        tooltip:AddLine(WoWTools_L['Note: errors may occur'])
+        tooltip:AddLine(WoWTools_L['Fails when there is a clickable item button'])
     end})
 
     WoWTools_MenuMixin:Reload(sub)
@@ -186,27 +172,14 @@ local function Init_Menu(self, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-local function Init()
+local Init= WoWTools_Once(function()
     local MenuButton=CreateFrame('DropdownButton', 'WoWToolsObjectiveTrackerFrameMenuButton', ObjectiveTrackerFrame.Header, 'WoWToolsMenuTemplate') --WoWTools_ButtonMixin:Menu(ObjectiveTrackerFrame.Header, {size=20,name='WoWToolsObjectiveTrackerFrameMenuButton'})
     MenuButton:SetSize(20,20)
 
     function MenuButton:set_scale()
         if not Is_Locked() then
-            ObjectiveTrackerFrame:SetScale(Save().scale or 1)
-            ObjectiveTrackerFrame:SetAlpha(Save().alpha or 1)
+            ObjectiveTrackerFrame:SetScale(WoWTools_ObjectiveMixin:Save().scale or 1)
+            ObjectiveTrackerFrame:SetAlpha(WoWTools_ObjectiveMixin:Save().alpha or 1)
         end
     end
 
@@ -217,12 +190,12 @@ local function Init()
     function MenuButton:set_event()
         self:UnregisterAllEvents()
 
-        if Save().autoHide then
+        if WoWTools_ObjectiveMixin:Save().autoHide then
             self:RegisterEvent('PLAYER_ENTERING_WORLD')
             self:RegisterEvent("CHALLENGE_MODE_START")
             self:RegisterEvent('ZONE_CHANGED_NEW_AREA')
 
-            if Save().autoHideInCombat then
+            if WoWTools_ObjectiveMixin:Save().autoHideInCombat then
                 self:RegisterEvent('PLAYER_REGEN_DISABLED')
                 self:RegisterEvent('PLAYER_REGEN_ENABLED')
             end
@@ -244,20 +217,20 @@ local function Init()
     MenuButton:HookScript('OnEnter', function()
         GameTooltip:SetOwner(ObjectiveTrackerFrame, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddLine('|A:Objective-Nub:0:0|a'..(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL)..WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddLine('|A:Objective-Nub:0:0|a'..(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL)..WoWTools_DataMixin.Icon.left)
         GameTooltip:AddLine(' ')
 
         local col= Is_Locked() and '|cff828282' or ''
         GameTooltip:AddLine(
             col
-            ..(WoWTools_DataMixin.onlyChinese and '收起选项 |A:editmode-up-arrow:16:11:0:3|a' or HUD_EDIT_MODE_COLLAPSE_OPTIONS)
-            ..(WoWTools_DataMixin.onlyChinese and '上' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_WRAP_UP)
+            ..(WoWTools_L['HUD_EDIT_MODE_COLLAPSE_OPTIONS~2'])
+            ..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_WRAP_UP)
             ..WoWTools_DataMixin.Icon.mid
         )
         GameTooltip:AddLine(
             col
-            ..(WoWTools_DataMixin.onlyChinese and '展开选项 |A:editmode-down-arrow:16:11:0:-7|a' or HUD_EDIT_MODE_EXPAND_OPTIONS)
-            ..(WoWTools_DataMixin.onlyChinese and '下' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_WRAP_DOWN)
+            ..(WoWTools_L['HUD_EDIT_MODE_EXPAND_OPTIONS~3'])
+            ..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_WRAP_DOWN)
             ..WoWTools_DataMixin.Icon.mid
         )
         GameTooltip:Show()
@@ -283,19 +256,15 @@ local function Init()
 
 
     ObjectiveTrackerFrame.Header.MinimizeButton:HookScript('OnMouseUp', function()
-        Save().initIsCollapsed= ObjectiveTrackerFrame:IsCollapsed()
+        WoWTools_ObjectiveMixin:Save().initIsCollapsed= ObjectiveTrackerFrame:IsCollapsed()
     end)
 
     WoWTools_DataMixin:Hook(ObjectiveTrackerFrame.Header, 'SetCollapsed', function(_, collapsed)
-        Save().initIsCollapsed= collapsed--保存，上次
+        WoWTools_ObjectiveMixin:Save().initIsCollapsed= collapsed
         MenuButton:set_shown()
     end)
 
 
-
-
-
---初始
     WoWTools_DataMixin:Hook(ObjectiveTrackerManager, 'ReleaseFrame', function(_, line)
         if line.Icon2 then
             line.Icon2:SetTexture(0)
@@ -307,7 +276,7 @@ local function Init()
     MenuButton:set_event()
     MenuButton:set_shown()
 
-    if Save().autoHide and Save().initIsCollapsed and not Is_Locked()  then--保存，上次
+    if WoWTools_ObjectiveMixin:Save().autoHide and WoWTools_ObjectiveMixin:Save().initIsCollapsed and not Is_Locked()  then
         ObjectiveTrackerFrame:SetCollapsed(true)--:ToggleCollapsed()
     end
 
@@ -318,47 +287,78 @@ local function Init()
     end)
 
 
-    Init=function()end
-end
-
-
-
-
-
-
+end)
 
 
 function WoWTools_ObjectiveMixin:Init_Menu()
     Init()
 end
 
---[[function WoWTools_ObjectiveMixin:Get_ObjectiveTab()
-    return WoWTools_ObjectiveTabs
+
+--Esquema del Centro de control (docs/SETTINGS.md): los mismos ajustes que el menú del rastreador
+local function MenuButton()
+    return _G['WoWToolsObjectiveTrackerFrameMenuButton']
 end
--移动
-    WoWTools_MoveMixin:Setup(ObjectiveTrackerFrame.Header, {
-        notSave=true,
-    })
 
-    ObjectiveTrackerFrame:SetMovable(true)
-    ObjectiveTrackerFrame.Header.MinimizeButton:RegisterForDrag("RightButton")
+local function Set_Event()
+    local btn= MenuButton()
+    if btn then
+        btn:set_event()
+    end
+end
 
-    ObjectiveTrackerFrame.Header.MinimizeButton:SetScript("OnDragStart", function(self)
-        if not WoWTools_FrameMixin:IsLocked(self) then
-            self:GetParent():GetParent():StartMoving()
-            SetCursor('UI_MOVE_CURSOR')
-        end
-    end)
-    ObjectiveTrackerFrame.Header.MinimizeButton:SetScript("OnDragStop", function(self, d)
-        self:GetParent():GetParent():StopMovingOrSizing()
-        ResetCursor()
-    end)
-    ObjectiveTrackerFrame.Header.MinimizeButton:HookScript('OnMouseDown', function(_, d)
-        if d=='RightButton' then
-            SetCursor('UI_MOVE_CURSOR')
-        end
-    end)
-    ObjectiveTrackerFrame.Header.MinimizeButton:HookScript('OnMouseUp', function()
-        ResetCursor()
-    end)]]
+local function Set_Scale()
+    local btn= MenuButton()
+    if btn then
+        btn:set_scale()
+    end
+end
 
+local Options= {
+    {type='section', text='Automations'},
+    {type='check', key='autoHide', text='Auto collapse in instances', tooltip='Tip.Objective.AutoCollapse', automation=true,
+        get= function(save) return save.autoHide end,
+        set= function(save, value) save.autoHide= value and true or nil end,
+        apply= Set_Event,
+    },
+    {type='check', key='autoHideInCombat', text='HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT',
+        tooltip='Tip.Objective.AutoCombat', automation=true, indent=true,
+        disabled= function(save) return not save.autoHide end,
+        get= function(save) return save.autoHideInCombat end,
+        set= function(save, value) save.autoHideInCombat= value and true or nil end,
+        apply= Set_Event,
+    },
+
+    {type='section', text='Appearance'},
+    {type='slider', key='scale', text='HOUSING_EXPERT_DECOR_SUBMODE_SCALE', tooltip='Tip.Menu.Scale', min=0.4, max=4, step=0.1, format='%.1f',
+        noCombat=true,
+        get= function(save) return save.scale or 1 end,
+        set= function(save, value) save.scale= tonumber(format('%.1f', value)) or 1 end,
+        apply= Set_Scale,
+    },
+    {type='slider', key='alpha', text='HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY', min=0, max=1, step=0.01, format='%.2f',
+        noCombat=true,
+        get= function(save) return save.alpha or 1 end,
+        set= function(save, value) save.alpha= tonumber(format('%.2f', value)) or 1 end,
+        apply= Set_Scale,
+    },
+
+    {type='section', text='Advanced'},
+    {type='button', key='clearAll', text='OBJECTIVES_STOP_TRACKING', buttonText='CLEAR_ALL', tooltip='Tip.Objective.ClearAll', confirm=true,
+        disabled= function(_, M) return not M:IsEnabled() end,
+        func= function()
+            WoWTools_ObjectiveMixin:Clear_Achievement()
+            WoWTools_ObjectiveMixin:Clear_CampaignQuest()
+            WoWTools_ObjectiveMixin:Clear_MonthlyActivities()
+            WoWTools_ObjectiveMixin:Clear_ProfessionsRecipe()
+            WoWTools_ObjectiveMixin:Clear_Quest()
+            WoWTools_ObjectiveMixin:Clear_WorldQuest()
+            WoWTools_ObjectiveMixin:Clear_ContentTracking()
+            WoWTools_ObjectiveMixin:Clear_NeighborhoodInitiative()
+        end,
+    },
+}
+
+function WoWTools_ObjectiveMixin:Get_Options()
+    return Options
+end

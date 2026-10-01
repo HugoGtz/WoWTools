@@ -1,23 +1,3 @@
---[[
-TextureUtil.lua
-CreateBackground(frame, tab)
-
-item_upgrade_tooltip_fullmask
-ChallengeMode-guild-background
-UI-Frame-DialogBox-BackgroundTile
-UI-HUD-CoolDownManager-Mask
-GarrMission_RewardsShadow
-
-local background = self:AttachTexture();
-background:SetAtlas("common-dropdown-bg");
-
-local x, y = 10, 3;
-background:SetPoint("TOPLEFT", -x, y);
-background:SetPoint("BOTTOMRIGHT", x, -y);
-background:SetAlpha(.925);
-
-
-]]
 
 
 WoWTools_TextureMixin={
@@ -25,11 +5,8 @@ WoWTools_TextureMixin={
     Frames={},
     min=0.5,
     tabAlpha= 0.75,
-    Save=function()
-        return WoWToolsSave['Plus_Texture'] or {}
-    end,
     SaveLog=function()
-        return WoWToolsPlayerDate['TextureClassColor'] or {}
+        return WoWToolsPlusPlayerDate['TextureClassColor'] or {}
     end,
     Color= PlayerUtil.GetClassColor(),
 }
@@ -76,7 +53,6 @@ function WoWTools_TextureMixin:CreateBG(frame, tab)
     local atlas= tab.atlas or 'ChallengeMode-guild-background'
 
     frame.Background= frame:CreateTexture(nil, 'BACKGROUND')
---位置
     if isAllPoint==true then
         frame.Background:SetAllPoints()
     elseif point then
@@ -87,7 +63,6 @@ function WoWTools_TextureMixin:CreateBG(frame, tab)
             frame.Background:SetPoint('BOTTOMRIGHT', point, 1, -1)
         end
     end
---颜色
     if isColor then
         frame.Background:SetColorTexture(0, 0, 0, alpha)
     else
@@ -97,9 +72,6 @@ function WoWTools_TextureMixin:CreateBG(frame, tab)
 
     return frame.Background
 end
-
-
-
 
 
 --isAtlas, textureID, icon=WoWTools_TextureMixin:IsAtlas(texture, size)
@@ -140,14 +112,14 @@ function WoWTools_TextureMixin:SetTexture(region, textureID)
     local isAtlas, texture, icon
     if region then
         isAtlas, texture, icon= self:IsAtlas(textureID)
-        if region.SetTexture then--图片
+        if region.SetTexture then
             if isAtlas then
                 region:SetAtlas(texture)
             else
                 region:SetTexture(texture or 0)
             end
 
-        elseif region.SetNormalTexture then--按钮
+        elseif region.SetNormalTexture then
             if isAtlas then
                 region:SetNormalAtlas(texture)
             else
@@ -157,27 +129,6 @@ function WoWTools_TextureMixin:SetTexture(region, textureID)
     end
     return isAtlas, texture, icon
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 --IconSelectorPopupFrameTemplateMixin
@@ -201,7 +152,7 @@ local function Create_IconSelectorPopupFrame()
 
     IconFrame:Hide()
 
-    IconFrame.BorderBox.SelectedIconArea.SelectedIconText.SelectedIconDescription:SetText(WoWTools_DataMixin.onlyChinese and '点击在列表中浏览' or ICON_SELECTION_CLICK)
+    IconFrame.BorderBox.SelectedIconArea.SelectedIconText.SelectedIconDescription:SetText(WoWTools_L.ICON_SELECTION_CLICK)
 
     IconFrame.BorderBox.IconSelectorEditBox:SetAutoFocus(false)
 
@@ -267,19 +218,6 @@ local function Create_IconSelectorPopupFrame()
 end
 
 
-
-
-
-
-
---[[
- WoWTools_TextureMixin:GetNewIcon(frame, {
-    text= nil,
-    texture= nil,
-    SetValue=function(newIcon, newText)
-    end
- })
-]]
 function WoWTools_TextureMixin:GetNewIcon(frame, tab)
     local IconFrame= Create_IconSelectorPopupFrame()
 
@@ -291,7 +229,7 @@ function WoWTools_TextureMixin:GetNewIcon(frame, tab)
     if tab.text and tab.text~='' then
         IconFrame.text= tab.text
     else
-        IconFrame.text= WoWTools_DataMixin.onlyChinese and '选择图标' or COMMUNITIES_CREATE_DIALOG_AVATAR_PICKER_INSTRUCTIONS
+        IconFrame.text= WoWTools_L.COMMUNITIES_CREATE_DIALOG_AVATAR_PICKER_INSTRUCTIONS
     end
 
     local texture= tab.texture
@@ -318,16 +256,11 @@ function WoWTools_TextureMixin:GetNewIcon(frame, tab)
 end
 
 
-
-
-
-
-
 --TipTacItemRef\Texture\wow
 
 local ExpansionIcon = {
 	[0] = {  -- Classic Era
-		textureFile = "Interface\\AddOns\\WoWTools\\Source\\Texture\\WoW\\0.tga",
+		textureFile = "Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoW\\0.tga",
 		textureWidth = 32,
 		textureHeight = 16,
 		aspectRatio = 31 / 16,
@@ -337,7 +270,7 @@ local ExpansionIcon = {
 		bottomTexel = 1
 	},
 	[1] = {  -- Burning Crusade
-		textureFile = "Interface\\AddOns\\WoWTools\\Source\\Texture\\WoW\\1.tga",
+		textureFile = "Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoW\\1.tga",
 		textureWidth = 32,
 		textureHeight = 16,
 		aspectRatio = 29 / 12,
@@ -347,7 +280,7 @@ local ExpansionIcon = {
 		bottomTexel = 0.875
 	},
 	[2] = {  -- Wrath of the Lich King
-		textureFile = "Interface\\AddOns\\WoWTools\\Source\\Texture\\WoW\\2.tga",
+		textureFile = "Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoW\\2.tga",
 		textureWidth = 64,
 		textureHeight = 32,
 		aspectRatio = 36 / 19,
@@ -357,7 +290,7 @@ local ExpansionIcon = {
 		bottomTexel = 0.78125
 	},
 	[3] = {  -- Cataclysm
-		textureFile = "Interface\\AddOns\\WoWTools\\Source\\Texture\\WoW\\3.tga",
+		textureFile = "Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoW\\3.tga",
 		textureWidth = 64,
 		textureHeight = 16,
 		aspectRatio = 38 / 15,
@@ -367,7 +300,7 @@ local ExpansionIcon = {
 		bottomTexel = 0.9375
 	},
 	[4] = {  -- Mists of Pandaria
-		textureFile = "Interface\\AddOns\\WoWTools\\Source\\Texture\\WoW\\4.tga",
+		textureFile = "Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoW\\4.tga",
 		textureWidth = 64,
 		textureHeight = 16,
 		aspectRatio = 46 / 14,
@@ -377,7 +310,7 @@ local ExpansionIcon = {
 		bottomTexel = 0.9375
 	},
 	[5] = {  -- Warlords of Draenor
-		textureFile = "Interface\\AddOns\\WoWTools\\Source\\Texture\\WoW\\5.tga",
+		textureFile = "Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoW\\5.tga",
 		textureWidth = 64,
 		textureHeight = 16,
 		aspectRatio = 46 / 13,
@@ -387,7 +320,7 @@ local ExpansionIcon = {
 		bottomTexel = 0.875
 	},
     [6] = {  -- Legion
-		textureFile = "Interface\\AddOns\\WoWTools\\Source\\Texture\\WoW\\6.tga",
+		textureFile = "Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoW\\6.tga",
 		textureWidth = 64,
 		textureHeight = 16,
 		aspectRatio = 40 / 15,
@@ -397,7 +330,7 @@ local ExpansionIcon = {
 		bottomTexel = 0.9375
 	},
 	[7] = {  -- Battle for Azeroth
-		textureFile = "Interface\\AddOns\\WoWTools\\Source\\Texture\\WoW\\7.tga",
+		textureFile = "Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoW\\7.tga",
 		textureWidth = 64,
 		textureHeight = 32,
 		aspectRatio = 48 / 17,
@@ -407,7 +340,7 @@ local ExpansionIcon = {
 		bottomTexel = 0.75
 	},
 	[8] = {  -- Shadowlands
-		textureFile = "Interface\\AddOns\\WoWTools\\Source\\Texture\\WoW\\8.tga",
+		textureFile = "Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoW\\8.tga",
 		textureWidth = 64,
 		textureHeight = 32,
 		aspectRatio = 43 / 17,
@@ -417,7 +350,7 @@ local ExpansionIcon = {
 		bottomTexel = 0.75
 	},
 	[9] = {  -- Dragonflight
-		textureFile = "Interface\\AddOns\\WoWTools\\Source\\Texture\\WoW\\9.tga",
+		textureFile = "Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoW\\9.tga",
 		textureWidth = 64,
 		textureHeight = 32,
 		aspectRatio = 42 / 17,
@@ -427,7 +360,7 @@ local ExpansionIcon = {
 		bottomTexel = 0.75
 	},
 	[10] = {  -- The War Within
-		textureFile = "Interface\\AddOns\\WoWTools\\Source\\Texture\\WoW\\10.tga",
+		textureFile = "Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoW\\10.tga",
 		textureWidth = 64,
 		textureHeight = 32,
 		aspectRatio = 42 / 17,
@@ -437,7 +370,7 @@ local ExpansionIcon = {
 		bottomTexel = 0.75
 	},
     [11] = {  -- The War Within
-		textureFile = "Interface\\AddOns\\WoWTools\\Source\\Texture\\WoW\\11.tga",
+		textureFile = "Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoW\\11.tga",
 		textureWidth = 64,
 		textureHeight = 32,
 		aspectRatio = 36 / 17,

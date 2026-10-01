@@ -10,7 +10,7 @@ local EditBoxs={}
 
 
 local function OnColorSelect(_, r, g, b)
-    if WoWToolsSave['Plus_Color'].hide or not (r and g and b) then
+    if WoWTools_ColorMixin:Save().hide or not (r and g and b) then
         return
     end
 
@@ -44,7 +44,6 @@ end
 local function Get_RGBAtoText(text)
     text= text or ''
     text= text:gsub(',',' ')
-    text= text:gsub('，',' ')
     text= text:gsub('  ',' ')
     if text=='' then
         return
@@ -122,7 +121,7 @@ local Tab={
         end,
     },
     {
-        name='HEX',--..(WoWTools_DataMixin.onlyChinese and '颜色码' or COLOR_PICKER_HEX),--..' AARRGGBB',
+        name='HEX',--..(WoWTools_L.COLOR_PICKER_HEX),--..' AARRGGBB',
         get_value= function(text)
             return WoWTools_ColorMixin:HEXtoRGB(text)
         end,
@@ -219,7 +218,7 @@ local Tab={
 
 
 local function Create_EditBox(index, tab)
-    local frame= CreateFrame("EditBox", 'WoWToolsColor'..tab.name..'EditBox', _G['WoWToolsColorPickerFrameButton'].frame, 'SearchBoxTemplate', index)--格式 WARNING_FONT_COLOR
+    local frame= CreateFrame("EditBox", 'WoWToolsColor'..tab.name..'EditBox', _G['WoWToolsColorPickerFrameButton'].frame, 'SearchBoxTemplate', index)
 
     frame:SetPoint('TOPLEFT', ColorPickerFrame.Content, 'BOTTOMLEFT', 12, -(index-1)*22)
     frame:SetPoint('RIGHT', ColorPickerFrame.Content, -12, 0)
@@ -308,6 +307,11 @@ local function Create_EditBox(index, tab)
     end)
 
    
+--Estilo común: campo plano con borde de acento mientras tiene el foco (oculta el arte de SearchBoxTemplate).
+--Va al final: los SetScript de arriba sustituirían a sus HookScript.
+    WoWTools_Style:Input(frame)
+    WoWTools_Style:Text(frame.Instructions, 'small', 'muted')
+
     table.insert(EditBoxs, tab.name)
 end
 

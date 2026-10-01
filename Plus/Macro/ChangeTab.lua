@@ -1,25 +1,4 @@
 
-local function Save()
-    return WoWToolsSave['Plus_Macro2']
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Set_OnSizeChanged(self)
     local value= math.max(1, math.modf(self:GetWidth()/49))
     if self:GetStride()~= value then
@@ -38,7 +17,6 @@ local function Init()
     MacroFrameScrollFrame:SetPoint('TOPLEFT', MacroFrame, 'LEFT', 12, -60)
     MacroFrameScrollFrame:SetPoint('BOTTOMRIGHT', -32, 30)
 
---宏列表，按钮宽，数量
     MacroFrame.MacroSelector:HookScript('OnSizeChanged', function(self, w)--Blizzard_ScrollBoxSelector.lua
         if InCombatLockdown() then
             EventRegistry:RegisterFrameEventAndCallback("PLAYER_REGEN_ENABLED", function(owner)
@@ -52,28 +30,27 @@ local function Init()
 
 
 
---设置，列表
     WoWTools_DataMixin:Hook(MacroFrame, 'ChangeTab', function(self, tabID)
-        if WoWTools_FrameMixin:IsLocked(MacroFrame) then
+        if InCombatLockdown() then
             return
         end
 
         self.MacroSelector:ClearAllPoints()
 
-        local point= Save().toRightLeft
-            if point==1 then--左边
+        local point= WoWTools_MacroMixin:Save().toRightLeft
+            if point==1 then
                 self.MacroSelector:SetPoint('TOPRIGHT', self, 'TOPLEFT',10,-12)
                 self.MacroSelector:SetPoint('BOTTOMLEFT', -319, 0)
 
-            elseif point==2 then--右边
+            elseif point==2 then
                 self.MacroSelector:SetPoint('TOPLEFT', self, 'TOPRIGHT',0,-12)
                 self.MacroSelector:SetPoint('BOTTOMRIGHT', 319, 0)
 
-            elseif point==4 then--左|右
+            elseif point==4 then
                 self.MacroSelector:SetPoint('TOPLEFT', self, 12, -66)
                 self.MacroSelector:SetPoint('BOTTOMRIGHT', self, 'BOTTOM', 0, 45)
 
-        else--默认
+        else
             self.MacroSelector:SetPoint('TOPLEFT', 12,-66)
             self.MacroSelector:SetPoint('BOTTOMRIGHT', self, 'RIGHT', -6, 0)
         end
@@ -94,15 +71,12 @@ local function Init()
             _G['WoWToolsMacroPlusNoteEditBox']:SetShown(show)
         end
 
-    --图像    
         if tabID==2 then
             MacroFramePortrait:SetAtlas(WoWTools_UnitMixin:GetRaceIcon('player', nil, nil, {reAtlas=true}))
         else
             MacroFramePortrait:SetTexture('Interface\\MacroFrame\\MacroFrame-Icon')
         end
     end)
-
-    Init=function()end
 end
 
 

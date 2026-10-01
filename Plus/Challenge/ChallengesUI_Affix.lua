@@ -1,11 +1,5 @@
-local function Save()
-    return WoWToolsSave['Plus_Challenges'] or {}
-end
 local CurrentWeek
 local Frame
-
-
-
 
 
 local function Find_Cursor_Affix()
@@ -28,40 +22,6 @@ local function Find_Cursor_Affix()
         end
     end
 end
---[[
-    for _, affix in pairs(C_MythicPlus.GetCurrentAffixes() or {}) do
-        currentAffixes[affix.id]= true
-    end
-
-    local MaxAffix=  #WoWTools_DataMixin.affixSchedule[1]
-
-    local matches
-
-    for index, affixes in pairs(WoWTools_DataMixin.affixSchedule) do
-        matches = 0
-        for _, affix in pairs(affixes) do
-            if currentAffixes[affix] then
-                matches = matches + 1
-            end
-        end
-        if matches >= MaxAffix then
-            CurrentWeek= index
-            return
-        end
-    end
-]]
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Initializer(btn, data)
@@ -88,17 +48,6 @@ local function Initializer(btn, data)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
 local function Set_List()
     Find_Cursor_Affix()
 
@@ -120,20 +69,8 @@ local function Set_List()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
-    if Save().hideAffix then
+    if WoWTools_ChallengeMixin:Save().hideAffix then
         return
     end
 
@@ -160,10 +97,10 @@ local function Init()
 
 
     function Frame:Settings()
-        self:SetSize(Save().affixW or 238, Save().affixH or 177)
-        self:SetPoint('BOTTOMRIGHT', ChallengesFrame, 'BOTTOMRIGHT', Save().affixX or -45, Save().affixY or 300)
-        self:SetScale(Save().affixScale or 0.4)
-        self:SetShown(not Save().hideAffix)
+        self:SetSize(WoWTools_ChallengeMixin:Save().affixW or 238, WoWTools_ChallengeMixin:Save().affixH or 177)
+        self:SetPoint('BOTTOMRIGHT', ChallengesFrame, 'BOTTOMRIGHT', WoWTools_ChallengeMixin:Save().affixX or -45, WoWTools_ChallengeMixin:Save().affixY or 300)
+        self:SetScale(WoWTools_ChallengeMixin:Save().affixScale or 0.4)
+        self:SetShown(not WoWTools_ChallengeMixin:Save().hideAffix)
     end
 
     Frame:SetScript('OnShow', function(self)
@@ -183,7 +120,6 @@ local function Init()
 
 
 
---第几赛季
     Frame.Text= WoWTools_LabelMixin:Create(Frame, {color=true, mouse=true, size=32})
     Frame.Text:SetPoint('BOTTOMRIGHT', Frame.ScrollBar, 'TOPRIGHT',9, 3)
     Frame.Text:SetScript('OnLeave', function(self)
@@ -198,7 +134,7 @@ local function Init()
 
         GameTooltip:AddLine(
             format(
-                WoWTools_DataMixin.onlyChinese and '%s第%d赛季' or EXPANSION_SEASON_NAME,
+                WoWTools_L.EXPANSION_SEASON_NAME,
                 WoWTools_DataMixin.Icon.wow2,
                 sea
             )
@@ -207,14 +143,14 @@ local function Init()
         GameTooltip:AddLine(
             WoWTools_DataMixin.Icon.left
             ..(isCurrentWeek and '' or '|cff828282')
-            ..(WoWTools_DataMixin.onlyChinese and '当前：' or ITEM_UPGRADE_CURRENT)
+            ..(WoWTools_L['ITEM_UPGRADE_CURRENT~2'])
             ..(CurrentWeek or 1)
         )
         if not isCurrentWeek then
             GameTooltip:AddLine(' ')
             GameTooltip:AddLine(
                 '|cnWARNING_FONT_COLOR:'
-                ..(WoWTools_DataMixin.onlyChinese and '当前赛季数据不匹配' or 'Current season data mismatch')
+                ..(WoWTools_L['Current season data mismatch'])
             )
         end
         GameTooltip:Show()
@@ -227,36 +163,11 @@ local function Init()
 
 
 
-
-
-
-
-    if WoWTools_DataMixin.Player.husandro then
-        local season= C_MythicPlus.GetCurrentSeason()
-        if season and season>0 and season~=WoWTools_DataMixin.SeasonAffixSchedule and WoWTools_DataMixin.Player.husandro then
-            print(
-                WoWTools_DataMixin.Icon.icon2
-                ..'|cnWARNING_FONT_COLOR:需要更新赛季数据',
-                '0_3_Data_NeedUpdate.lua'
-            )
-        end
-    end
-
-
-
-
-
     WoWTools_TextureMixin:CreateBG(Frame,{point=function(texture)
         texture:SetPoint('TOPLEFT', -2, 6)
         texture:SetPoint('BOTTOMLEFT', -2, -2)
         texture:SetPoint('RIGHT', Frame.ScrollBar, 10, 0)
     end})
-
-
-
-
-
-
 
 
     C_Timer.After(1, function() Set_List() end)
@@ -266,18 +177,6 @@ local function Init()
         Frame:Settings()
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_ChallengeMixin:ChallengesUI_Affix()

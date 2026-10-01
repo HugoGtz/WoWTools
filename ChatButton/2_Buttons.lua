@@ -1,19 +1,14 @@
-local AddList={}--插件表，所有，选项用 {name=name, tooltip=tooltip})
-local Buttons={}--存放所有, 按钮 {btn1, btn2,}
+local AddList={}
+local Buttons={}
 --RaidButton.canOpenOnEnter
 local Name= 'WoWToolsChatMenuButton_'
 
 
-local function Save()
-    return WoWToolsSave['ChatButton'] or {}
-end
-
-
-WoWTools_ChatMixin.AnchorMenuTab={--菜单位置
-        {"TOPLEFT",  "BOTTOMLEFT"},--下
-        {"BOTTOMLEFT",  "TOPLEFT"},--上
-        {"TOPRIGHT",  "TOPLEFT"},--左
-        {"TOPLEFT",  "TOPRIGHT"},--右
+WoWTools_ChatMixin.AnchorMenuTab={
+        {"TOPLEFT",  "BOTTOMLEFT"},
+        {"BOTTOMLEFT",  "TOPLEFT"},
+        {"TOPRIGHT",  "TOPLEFT"},
+        {"TOPLEFT",  "TOPRIGHT"},
     }
 local AnchorTooltip={
     'ANCHOR_LEFT',
@@ -28,7 +23,7 @@ local function Set_Button_Script(btn)
     end
 
     function btn:set_owner()
-        GameTooltip:SetOwner(self, AnchorTooltip[Save().anchorMenuIndex or 1])-- "ANCHOR_LEFT")
+        GameTooltip:SetOwner(self, AnchorTooltip[WoWTools_ChatMixin:Save().anchorMenuIndex or 1])-- "ANCHOR_LEFT")
         GameTooltip:ClearLines()
     end
 
@@ -59,7 +54,7 @@ local function Set_Button_Script(btn)
     end)
 
     btn:SetScript('OnEnter', function(self)
-        if self.set_tooltip and not Save().disabledTooltiip then
+        if self.set_tooltip and not WoWTools_ChatMixin:Save().disabledTooltiip then
             self:set_owner()
             self:set_tooltip()
         end
@@ -71,7 +66,7 @@ local function Set_Button_Script(btn)
         if self.border then
             local p= self:GetParent()
             p:SetButtonState('PUSHED')
-            if Save().isEnterShowMenu and not p:IsMenuOpen() and not self:IsMenuOpen() then
+            if WoWTools_ChatMixin:Save().isEnterShowMenu and not p:IsMenuOpen() and not self:IsMenuOpen() then
                 self:OpenMenu()
             end
         end
@@ -83,7 +78,7 @@ local function Set_Button_Script(btn)
                 self:set_OnMouseDown()
             end
 
-            if self.set_tooltip and not Save().disabledTooltiip then
+            if self.set_tooltip and not WoWTools_ChatMixin:Save().disabledTooltiip then
                 self:set_owner()
                 self:set_tooltip()
                 GameTooltip:Show()
@@ -132,27 +127,27 @@ local function Set_Button(btn)
 
     function btn:SetAllSettings()
         local index= btn:GetID()
-        local s= index==1 and 0 or Save().pointX or 0
+        local s= index==1 and 0 or WoWTools_ChatMixin:Save().pointX or 0
 
         self:ClearAllPoints()
 
         local parent=  Buttons[index-1] and _G[Name..Buttons[index-1]] or _G['WoWToolsChatButtonMainButton']
-        if Save().isVertical then--方向, 竖
+        if WoWTools_ChatMixin:Save().isVertical then
             self:SetPoint('BOTTOM', parent, 'TOP', 0, s)
         else
             self:SetPoint('LEFT', parent, 'RIGHT', s, 0)
         end
 
-        local point= WoWTools_ChatMixin.AnchorMenuTab[Save().anchorMenuIndex or 1]
+        local point= WoWTools_ChatMixin.AnchorMenuTab[WoWTools_ChatMixin:Save().anchorMenuIndex or 1]
         self:SetMenuAnchor(AnchorUtil.CreateAnchor(point[1], self, point[2]))
 
-        self.border:SetAlpha(Save().borderAlpha or 0.3)
+        self.border:SetAlpha(WoWTools_ChatMixin:Save().borderAlpha or 0.3)
     end
 
 
---菜单，Tooltip, 位置
     Set_Button_Script(btn)
     btn:SetAllSettings()
+    WoWTools_Style:IconButton(btn)
 end
 
 
@@ -172,9 +167,9 @@ function WoWTools_ChatMixin:CreateButton(name, addName)
         return
     end
 
-    table.insert(AddList, {name=name, tooltip=addName})--选项用
+    table.insert(AddList, {name=name, tooltip=addName})
 
-    if Save().disabledADD[name] then
+    if WoWTools_ChatMixin:Save().disabledADD[name] then
         return
     end
 
@@ -214,10 +209,11 @@ function WoWTools_ChatMixin:GetAllAddList()
     return AddList
 end
 
+--Entrada "Ajustes..." del menú: abre la página del módulo (name= su addName) en el Centro de control
 function WoWTools_ChatMixin:Open_SettingsPanel(root, name)
     return WoWTools_MenuMixin:OpenOptions(root, {
-        category=self.Category,
-        name=name or self.addName
+        name=name or self.addName,
+        name2=WoWTools_L['Settings...'],
     })
 end
 function WoWTools_ChatMixin:GetButtonForName(name)

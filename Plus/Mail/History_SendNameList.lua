@@ -1,9 +1,3 @@
---收件人，历史记录
-local function Save()
-    return WoWToolsSave['Plus_Mail']
-end
-
-
 local Button, Frame, Tab
 
 
@@ -23,14 +17,14 @@ local function created_button(index)
     btn:SetScript('OnEnter', function(frame)
         GameTooltip:SetOwner(frame, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddDoubleLine(WoWTools_MailMixin.addName, WoWTools_DataMixin.onlyChinese and '历史收件人' or format(CRAFTING_ORDER_MAIL_FULFILLED_TO, HISTORY))
+        GameTooltip:AddDoubleLine(WoWTools_MailMixin.addName, WoWTools_L['Recipient history'])
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(WoWTools_MailMixin:GetRealmInfo(frame.name) or ' ', frame.name)
         GameTooltip:Show()
         frame:SetAlpha(1)
     end)
     btn:SetScript('OnClick', function(frame)
-          WoWTools_MailMixin:SetSendName(frame.name)--设置，收件人，名字
+          WoWTools_MailMixin:SetSendName(frame.name)
     end)
     function btn:set_alpha()
         self:SetAlpha(self.alpha or 1)
@@ -60,14 +54,14 @@ end
 
 
 local function set_list()
-    local num= #Save().lastSendPlayerList
-    Button.Text:SetText(num or '')--列表，数量
+    local num= #WoWTools_MailMixin:Save().lastSendPlayerList
+    Button.Text:SetText(num or '')
 
-    if Save().hideSendPlayerList then
+    if WoWTools_MailMixin:Save().hideSendPlayerList then
         return
     end
     local index=1
-    for _, name in pairs(Save().lastSendPlayerList) do
+    for _, name in pairs(WoWTools_MailMixin:Save().lastSendPlayerList) do
         if not WoWTools_MailMixin:GetRealmInfo(name) and name~=WoWTools_DataMixin.Player.Name_Realm then
             local btn= Tab[index] or created_button(index)
             btn.name=name
@@ -91,9 +85,9 @@ end
 
 
 local function Set_Button()
-    Button:SetAlpha(Save().hideSendPlayerList and 0.3 or 1)
-    Frame:SetScale(Save().scaleSendPlayerFrame or 1)
-    Frame:SetShown(not Save().hideSendPlayerList)
+    Button:SetAlpha(WoWTools_MailMixin:Save().hideSendPlayerList and 0.3 or 1)
+    Frame:SetScale(WoWTools_MailMixin:Save().scaleSendPlayerFrame or 1)
+    Frame:SetShown(not WoWTools_MailMixin:Save().hideSendPlayerList)
 end
 
 
@@ -105,15 +99,15 @@ end
 
 
 local function remove_table(name)
-    for index, name2 in pairs(Save().lastSendPlayerList) do
+    for index, name2 in pairs(WoWTools_MailMixin:Save().lastSendPlayerList) do
         if name2==name then
-            table.remove(Save().lastSendPlayerList, index)
+            table.remove(WoWTools_MailMixin:Save().lastSendPlayerList, index)
         end
     end
 end
 
 local function find_table(name)
-    for index, name2 in pairs(Save().lastSendPlayerList) do
+    for index, name2 in pairs(WoWTools_MailMixin:Save().lastSendPlayerList) do
         if name2==name then
             return index
         end
@@ -128,24 +122,26 @@ end
 
 local function Init_Menu(self, root)
     local sub, sub2
-    root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '显示' or SHOW,
+    local tipSub= root:CreateCheckbox(
+        WoWTools_L.SHOW,
     function()
-        return not Save().hideSendPlayerList
+        return not WoWTools_MailMixin:Save().hideSendPlayerList
     end, function()
-        Save().hideSendPlayerList= not Save().hideSendPlayerList and true or nil
+        WoWTools_MailMixin:Save().hideSendPlayerList= not WoWTools_MailMixin:Save().hideSendPlayerList and true or nil
         Set_Button()
         set_list()
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Mail.HistoryShow'])
 
-    local num= #Save().lastSendPlayerList
+    local num= #WoWTools_MailMixin:Save().lastSendPlayerList
     sub=root:CreateButton(
-        format('%s |cnGREEN_FONT_COLOR:#%d|r', WoWTools_DataMixin.onlyChinese and '记录' or EVENTTRACE_LOG_HEADER, num),
+        format('%s |cnGREEN_FONT_COLOR:#%d|r', WoWTools_L.EVENTTRACE_LOG_HEADER, num),
     function()
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Mail.HistoryList'])
 
-    for index, name in pairs(Save().lastSendPlayerList) do
+    for index, name in pairs(WoWTools_MailMixin:Save().lastSendPlayerList) do
         sub2=sub:CreateCheckbox(
             (
                 WoWTools_MailMixin:GetRealmInfo(name) and '|cff626262'
@@ -160,31 +156,30 @@ local function Init_Menu(self, root)
             if find_table(data.name) then
                 remove_table(data.name)
             else
-                table.insert(Save().lastSendPlayerList, data.index, data.name)
+                table.insert(WoWTools_MailMixin:Save().lastSendPlayerList, data.index, data.name)
             end
             set_list()
         end, {index=index, name=name})
         sub2:SetTooltip(function(tooltip, description)
             tooltip:AddLine(description.data.name)
             tooltip:AddLine(' ')
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '移除' or REMOVE)
-            tooltip:AddLine(WoWTools_MailMixin:GetRealmInfo(description.data.name))--该玩家与你不在同一个服务器
+            tooltip:AddLine(WoWTools_L.REMOVE)
+            tooltip:AddLine(WoWTools_MailMixin:GetRealmInfo(description.data.name))
         end)
     end
 
---全部清除
     if num>0 then
         sub:CreateDivider()
     end
     if num>1 then
         sub:CreateButton(
-            WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL,
+            WoWTools_L.CLEAR_ALL,
         function()
             StaticPopup_Show('WoWTools_OK',
-            WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL,
+            WoWTools_L.CLEAR_ALL,
             nil,
             {SetValue=function()
-                Save().lastSendPlayerList={}
+                WoWTools_MailMixin:Save().lastSendPlayerList={}
                 set_list()
             end})
             return MenuResponse.Open
@@ -192,19 +187,20 @@ local function Init_Menu(self, root)
     end
 
     sub2= sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '数量' or AUCTION_HOUSE_QUANTITY_LABEL,
+        WoWTools_L.AUCTION_HOUSE_QUANTITY_LABEL,
     function()
         return MenuResponse.Open
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Mail.HistoryMax'])
 
     sub2:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub2, {
         getValue=function()
-            return Save().lastMaxSendPlayerList
+            return WoWTools_MailMixin:Save().lastMaxSendPlayerList
         end, setValue=function(value)
-            Save().lastMaxSendPlayerList=value
+            WoWTools_MailMixin:Save().lastMaxSendPlayerList=value
         end,
-        name=WoWTools_DataMixin.onlyChinese and '数量' or AUCTION_HOUSE_QUANTITY_LABEL,
+        name=WoWTools_L.AUCTION_HOUSE_QUANTITY_LABEL,
         minValue=5,
         maxValue=100,
         step=1,
@@ -214,15 +210,13 @@ local function Init_Menu(self, root)
 
     WoWTools_MenuMixin:SetScrollMode(sub)
 
---缩放
     WoWTools_MenuMixin:Scale(self, root, function()
-        return Save().scaleSendPlayerFrame or 1
+        return WoWTools_MailMixin:Save().scaleSendPlayerFrame or 1
     end, function(value)
-        Save().scaleSendPlayerFrame=value
+        WoWTools_MailMixin:Save().scaleSendPlayerFrame=value
         Set_Button()
     end)
 
---打开选项
     root:CreateDivider()
     WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_MailMixin.addName})
 end
@@ -249,16 +243,16 @@ local function Set_Event(self, event)
             WoWTools_MailMixin:SetSendName(self.SendName)
             return
 
-        elseif findIndex then--移除，已存在
-            table.remove(Save().lastSendPlayerList, findIndex)
+        elseif findIndex then
+            table.remove(WoWTools_MailMixin:Save().lastSendPlayerList, findIndex)
 
-        elseif #Save().lastSendPlayerList>= Save().lastMaxSendPlayerList then--移除，最大保存数
-            table.remove(Save().lastSendPlayerList)
+        elseif #WoWTools_MailMixin:Save().lastSendPlayerList>= WoWTools_MailMixin:Save().lastMaxSendPlayerList then
+            table.remove(WoWTools_MailMixin:Save().lastSendPlayerList)
         end
 
-        table.insert(Save().lastSendPlayerList, 1, self.SendName)
+        table.insert(WoWTools_MailMixin:Save().lastSendPlayerList, 1, self.SendName)
 
-        set_list()--设置，历史记录，内容
+        set_list()
         WoWTools_MailMixin:SetSendName(self.SendName)
     end
 
@@ -289,7 +283,7 @@ end
 
 
 local function Init()
-    if Save().hideHistoryList then
+    if WoWTools_MailMixin:Save().hideHistoryList then
         return
     end
 
@@ -299,10 +293,10 @@ local function Init()
     Button:SetPoint('TOPRIGHT', SendMailFrame, 'TOPLEFT', 0, -22)
 
     function Button:Settings()
-        self:SetShown(not Save().hideHistoryList)
+        self:SetShown(not WoWTools_MailMixin:Save().hideHistoryList)
     end
 
-    Button.Text= WoWTools_LabelMixin:Create(Button, {justifyH='CENTER', color={r=1,g=1,b=1}})--列表，数量
+    Button.Text= WoWTools_LabelMixin:Create(Button, {justifyH='CENTER', color={r=1,g=1,b=1}})
     Button.Text:SetPoint('CENTER')
 
     Button:SetScript('OnEvent', Set_Event)
@@ -314,9 +308,9 @@ local function Init()
     function Button:set_tooltip()
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddDoubleLine(WoWTools_MailMixin.addName, (WoWTools_DataMixin.onlyChinese and '历史收件人' or format(CRAFTING_ORDER_MAIL_FULFILLED_TO, HISTORY))..'|cnGREEN_FONT_COLOR:#'..#Save().lastSendPlayerList)
+        GameTooltip:AddDoubleLine(WoWTools_MailMixin.addName, WoWTools_L['Recipient history']..'|cnGREEN_FONT_COLOR:#'..#WoWTools_MailMixin:Save().lastSendPlayerList)
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine(WoWTools_L.SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.left)
         GameTooltip:Show()
     end
     Button:SetScript('OnLeave', GameTooltip_Hide)
@@ -330,7 +324,7 @@ local function Init()
 
     Button:SetScript('OnHide', Button.UnregisterAllEvents)
     Button:SetScript('OnShow', function(self)
-        self:RegisterEvent('MAIL_SEND_SUCCESS')--SendName，设置，发送成功，名字
+        self:RegisterEvent('MAIL_SEND_SUCCESS')
         self:RegisterEvent('MAIL_FAILED')
         set_list()
     end)
@@ -360,6 +354,14 @@ end
 
 
 
-function WoWTools_MailMixin:Init_Send_History_Name()--收件人，历史记录
+--Refresco desde el Centro de control (mostrar lista, escala)
+function WoWTools_MailMixin:Refresh_Send_History()
+    if Button then
+        Set_Button()
+        set_list()
+    end
+end
+
+function WoWTools_MailMixin:Init_Send_History_Name()
     Init()
 end

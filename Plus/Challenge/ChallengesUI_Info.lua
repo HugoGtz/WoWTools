@@ -1,16 +1,13 @@
-local function Save()
-    return WoWToolsSave['Plus_Challenges'] or {}
-end
 local Frame
 
 
-local function GetNum(mapID, all)--取得完成次数,如 1/10
+local function GetNum(mapID, all)
     local nu, to=0,0
     local info
     if all then
-        info=C_MythicPlus.GetRunHistory(true, true) or {}--全部
+        info=C_MythicPlus.GetRunHistory(true, true) or {}
     else
-        info=C_MythicPlus.GetRunHistory(false, true) or {}--本周
+        info=C_MythicPlus.GetRunHistory(false, true) or {}
     end
     for _,v in pairs(info) do
         if v.mapChallengeModeID==mapID then
@@ -47,7 +44,7 @@ local function Set_OnEnter(self)
         for index, info in pairs(intimeInfo.members) do
             if info.name then
                 if index==1 then
-                    if intimeInfo.completionDate and intimeInfo.level then--完成,日期
+                    if intimeInfo.completionDate and intimeInfo.level then
                         local d=intimeInfo.completionDate
                         local time= format('|cnGREEN_FONT_COLOR:%s:%s %d/%d/%d %s', d.hour<10 and '0'..d.hour or d.hour, d.minute<10 and '0'..d.minute or d.minute, d.day, d.month, d.year, '('..intimeInfo.level..')')
                         local time2
@@ -115,21 +112,21 @@ local function Set_OnEnter(self)
 
     local timeLimit, texture, backgroundTexture = select(3, C_ChallengeMode.GetMapUIInfo(self.mapID))
 
-    local a=GetNum(self.mapID, true)--所有
-        or ('|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '无' or NONE)..'|r')
+    local a=GetNum(self.mapID, true)
+        or ('|cnWARNING_FONT_COLOR:'..(WoWTools_L.NONE)..'|r')
 
-    local w=GetNum(self.mapID)--本周
-        or ('|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '无' or NONE)..'|r')
+    local w=GetNum(self.mapID)
+        or ('|cnWARNING_FONT_COLOR:'..(WoWTools_L.NONE)..'|r')
 
     GameTooltip:AddDoubleLine(
-        (WoWTools_DataMixin.onlyChinese and '历史' or HISTORY)..': '..a,
-        (WoWTools_DataMixin.onlyChinese and '本周' or CHALLENGE_MODE_THIS_WEEK)..': '..w
+        (WoWTools_L.HISTORY)..': '..a,
+        (WoWTools_L.CHALLENGE_MODE_THIS_WEEK)..': '..w
     )
     GameTooltip:AddLine(' ')
 
     GameTooltip:AddDoubleLine(
         'mapChallengeModeID |cnGREEN_FONT_COLOR:'.. self.mapID..'|r',
-        timeLimit and (WoWTools_DataMixin.onlyChinese and '限时' or GROUP_FINDER_PVE_PLAYSTYLE3)
+        timeLimit and (WoWTools_L.GROUP_FINDER_PVE_PLAYSTYLE3)
         ..' '
         .. SecondsToTime(timeLimit)
     )
@@ -150,7 +147,7 @@ local function Set_OnEnter(self)
             )
             ..'<'
             ..WoWTools_DataMixin.Icon.left
-            ..(WoWTools_DataMixin.onlyChinese and '冒险指南' or ADVENTURE_JOURNAL)
+            ..(WoWTools_L.ADVENTURE_JOURNAL)
             ..'>'
         )
     end
@@ -174,7 +171,6 @@ end
 
 local function Create_Label(frame)
 
---副本 完成/总次数 (全部)
     frame.completedLable=WoWTools_LabelMixin:Create(Frame, {mouse=true})
     frame.completedLable:SetPoint('TOPLEFT', frame)
     frame.completedLable:SetScript('OnLeave', function(self) GameTooltip:Hide() self:SetAlpha(1) end)
@@ -183,13 +179,13 @@ local function Create_Label(frame)
             GameTooltip:SetOwner(self, "ANCHOR_LEFT")
             GameTooltip:ClearLines()
             GameTooltip:AddDoubleLine(
-                WoWTools_DataMixin.onlyChinese and '历史 |cnGREEN_FONT_COLOR:完成|r/总计' or (HISTORY..' |cnGREEN_FONT_COLOR:'..COMPLETE..'|r/'..TOTAL) ,
-                self.all or (WoWTools_DataMixin.onlyChinese and '无' or NONE)
+                WoWTools_L['History |cnGREEN_FONT_COLOR:Complete|r/Total'] ,
+                self.all or (WoWTools_L.NONE)
             )
-            GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '本周' or CHALLENGE_MODE_THIS_WEEK, self.week and '('..self.week..')' or (WoWTools_DataMixin.onlyChinese and '无' or NONE))
+            GameTooltip:AddDoubleLine(WoWTools_L.CHALLENGE_MODE_THIS_WEEK, self.week and '('..self.week..')' or (WoWTools_L.NONE))
             if self.completed and self.totale and self.completed < self.totale then
                 GameTooltip:AddLine(' ')
-                GameTooltip:AddDoubleLine(self.totale..' - |cnGREEN_FONT_COLOR:'..self.completed..'|r =', '|cnWARNING_FONT_COLOR:'..format(WoWTools_DataMixin.onlyChinese and '%s (超时)' or DUNGEON_SCORE_OVERTIME_TIME, self.totale-self.completed))
+                GameTooltip:AddDoubleLine(self.totale..' - |cnGREEN_FONT_COLOR:'..self.completed..'|r =', '|cnWARNING_FONT_COLOR:'..format(WoWTools_L.DUNGEON_SCORE_OVERTIME_TIME, self.totale-self.completed))
             end
             GameTooltip:Show()
             self:SetAlpha(0.3)
@@ -203,14 +199,13 @@ local function Create_Label(frame)
 
 
 
---分数，最佳
     frame.scoreLable=WoWTools_LabelMixin:Create(Frame, {size=10, mouse=true})
     frame.scoreLable:SetPoint('BOTTOMLEFT', frame, 0, 24)
     frame.scoreLable:SetScript('OnLeave', function(self) GameTooltip:Hide() self:SetAlpha(1) end)
     frame.scoreLable:SetScript('OnEnter', function(self)
             GameTooltip:SetOwner(self, "ANCHOR_LEFT")
             GameTooltip:ClearLines()
-            GameTooltip:AddLine(format(WoWTools_DataMixin.onlyChinese and '史诗钥石评分：%s' or CHALLENGE_COMPLETE_DUNGEON_SCORE, self.score))
+            GameTooltip:AddLine(format(WoWTools_L.CHALLENGE_COMPLETE_DUNGEON_SCORE, self.score))
             GameTooltip:Show()
             self:SetAlpha(0.3)
     end)
@@ -220,7 +215,6 @@ local function Create_Label(frame)
 
 
 
---移动层数位置
     if frame.HighestLevel then
         frame.HighestLevel:ClearAllPoints()
         frame.HighestLevel:SetPoint('LEFT', 0, 12)
@@ -229,7 +223,7 @@ local function Create_Label(frame)
         frame.HighestLevel:SetScript('OnEnter', function(self)
             GameTooltip:SetOwner(self, "ANCHOR_LEFT")
             GameTooltip:ClearLines()
-            GameTooltip:AddLine(format(WoWTools_DataMixin.onlyChinese and '最佳%s' or DUNGEON_SCORE_BEST_AFFIX, (WoWTools_DataMixin.onlyChinese and '等级' or LEVEL)..': '..self:GetText()))
+            GameTooltip:AddLine(format(WoWTools_L.DUNGEON_SCORE_BEST_AFFIX, (WoWTools_L.LEVEL)..': '..self:GetText()))
             GameTooltip:Show()
             self:SetAlpha(0.3)
         end)
@@ -242,7 +236,6 @@ local function Create_Label(frame)
 
 
 
---提示, 包里KEY地图
     frame.currentKey= Frame:CreateTexture(nil, 'OVERLAY')
 
     frame.currentKey:SetPoint('RIGHT', frame, 0, 8)
@@ -270,24 +263,22 @@ local function Create_Label(frame)
     frame.currentKey:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        local bagID, slotID= select(2, WoWTools_BagMixin:Ceca(nil, {isKeystone=true}))--查找，包的key
+        local bagID, slotID= select(2, WoWTools_BagMixin:Ceca(nil, {isKeystone=true}))
         if bagID and slotID then
             GameTooltip:SetBagItem(bagID, slotID)
         end
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(' ', (WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL)..WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine(' ', (WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL)..WoWTools_DataMixin.Icon.left)
         GameTooltip:Show()
         self:SetAlpha(0.5)
         self.label:SetAlpha(0.5)
     end)
 
---当前KEY，等级
     frame.currentKey.label= WoWTools_LabelMixin:Create(Frame)
     frame.currentKey.label:SetPoint('TOP', frame.currentKey, -2, 2)
 
 
 
---名称, 缩写
     frame.nameLable=WoWTools_LabelMixin:Create(Frame, {size=10, mouse= true, justifyH='CENTER'})
     --frame.nameLable:SetPoint('BOTTOM', frame, 'TOP', 0, 3)
     frame.nameLable:SetPoint('BOTTOMLEFT', frame, 'TOPLEFT', 0, 3)
@@ -311,15 +302,14 @@ local function Create_Label(frame)
 
 
 
---提示
     frame:EnableMouse(true)
     frame:HookScript('OnEnter', function(self)
-        if not Save().hideIns then
+        if not WoWTools_ChallengeMixin:Save().hideIns then
             Set_OnEnter(self)
         end
     end)
     frame:SetScript('OnMouseDown', function(self)
-        if not Save().hideIns then
+        if not WoWTools_ChallengeMixin:Save().hideIns then
             WoWTools_LoadUIMixin:JournalInstance(nil, self.journalInstanceID, nil)
         end
     end)
@@ -363,14 +353,14 @@ local function Create_Affix_Label(frame, name, nameA)
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(
             format(
-                WoWTools_DataMixin.onlyChinese and '最佳%s' or DUNGEON_SCORE_BEST_AFFIX,
+                WoWTools_L.DUNGEON_SCORE_BEST_AFFIX,
                 self.name
             ),
 
             self.overTime and
             '|cff828282'
             ..format(
-                WoWTools_DataMixin.onlyChinese and '%s (超时)' or DUNGEON_SCORE_OVERTIME_TIME,
+                WoWTools_L.DUNGEON_SCORE_OVERTIME_TIME,
                     WoWTools_TimeMixin:SecondsToClock(self.durationSec)
                 )
             or
@@ -406,12 +396,14 @@ end
 
 
 local function SetUp(self)
-    local insTab= WoWTools_ChallengesSpellData[self.mapID]
-    if not insTab or not insTab.spell then
+    if not self.mapID then
         return
     end
+    --La tabla de datos (hechizo de portal, diario) está escrita a mano y no incluye las mazmorras de
+    --temporadas nuevas: sin ella se sigue mostrando la información, que sale del juego.
+    local insTab= WoWTools_ChallengesSpellData[self.mapID] or {}
 
-    self.spellID= insTab.spell
+    self.spellID= WoWTools_ChallengeMixin:GetPortalSpellID(self.mapID)
     self.journalInstanceID= insTab.ins
 
     if not self.currentKey then
@@ -419,16 +411,13 @@ local function SetUp(self)
     end
 
 
---名称, 缩写
-    local insNamegsub= Save().insNamegsub
-    local nameText = C_ChallengeMode.GetMapUIInfo(self.mapID)--名称
+    local insNamegsub= WoWTools_ChallengeMixin:Save().insNamegsub
+    local nameText = C_ChallengeMode.GetMapUIInfo(self.mapID)
     self.nameLable.name= nameText
 
-    if WoWTools_DataMixin.onlyChinese and WoWTools_ChallengesSpellData[self.mapID] then
-        nameText= WoWTools_ChallengesSpellData[self.mapID].name
-    else
+    if nameText then
         nameText=nameText:match('%((.+)%)') or nameText
-        nameText=nameText:match('%（(.+)%）') or nameText
+        nameText=nameText
         nameText=nameText:match('%- (.+)') or nameText
         nameText=nameText:match(HEADER_COLON..'(.+)') or nameText
         nameText=nameText:match('·(.+)') or nameText
@@ -443,7 +432,6 @@ local function SetUp(self)
 
 
 
---分数，最佳
     -- local intimeInfo, overtimeInfo = C_MythicPlus.GetSeasonBestForMap(self.mapID)
     local affixScores, overAllScore = C_MythicPlus.GetSeasonBestAffixScoreInfoForMap(self.mapID)
     overAllScore= overAllScore or 0
@@ -482,11 +470,10 @@ local function SetUp(self)
         end
     end
 
---副本 完成/总次数 (全部)
     local numText
-    local allText, completed, totale= GetNum(self.mapID, true)--所有
+    local allText, completed, totale= GetNum(self.mapID, true)
 
-    local weekText= GetNum(self.mapID)--本周
+    local weekText= GetNum(self.mapID)
 
     numText= allText
         ..(
@@ -501,11 +488,9 @@ local function SetUp(self)
     self.completedLable.totale= totale
     self.completedLable:SetText(numText)
 
---提示, 包里KEY地图
     local findKey= C_MythicPlus.GetOwnedKeystoneChallengeMapID()== self.mapID
     self.currentKey:SetShown(findKey)
 
---当前KEY，等级
     self.currentKey.label:SetText(findKey and (C_MythicPlus.GetOwnedKeystoneLevel() or '0') or '')
 end
 
@@ -561,10 +546,9 @@ end
 
 
 --####
---初始
 --####
 local function Init()
-    if Save().hideIns then
+    if WoWTools_ChallengeMixin:Save().hideIns then
         return
     end
 
@@ -575,8 +559,8 @@ local function Init()
     Frame:SetPoint('TOPLEFT')
 
     function Frame:Settings()
-        local show= not Save().hideIns
-        self:SetScale(Save().insScale or 1)
+        local show= not WoWTools_ChallengeMixin:Save().hideIns
+        self:SetScale(WoWTools_ChallengeMixin:Save().insScale or 1)
         self:SetShown(show)
         if show then
             Set_Update(self:GetParent())
@@ -584,23 +568,20 @@ local function Init()
     end
 
     WoWTools_DataMixin:Hook(ChallengesFrame, 'Update', function(self)
-        if not Save().hideIns then
+        if not WoWTools_ChallengeMixin:Save().hideIns then
             Set_Update(self)
         end
     end)
 
---替换，原生
     ChallengesFrame.WeeklyInfo.Child.DungeonScoreInfo:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT", 0, 0)
-        local desc= WoWTools_DataMixin.onlyChinese
-                    and '基于你在每个地下城的最佳成绩得出的总体评分。你可以通过更迅速地完成地下城或者完成更高难度的地下城来提高你的评分。|n|n提升你的史诗地下城评分后，你就能把你的地下城装备升级到最高等级。|n|cff1eff00<Shift+点击以链接到聊天栏>|r'
-                    or DUNGEON_SCORE_DESC
-        if not Save().hideIns then
+        local desc= WoWTools_L.DUNGEON_SCORE_DESC
+        if not WoWTools_ChallengeMixin:Save().hideIns then
             WoWTools_SetTooltipMixin:Frame(self, GameTooltip, {dungeonScore= WoWTools_ChallengeMixin:GetDungeonScoreLink()})
             GameTooltip:AddLine(' ')
             GameTooltip_AddColoredLine(GameTooltip, desc, HIGHLIGHT_FONT_COLOR)
         else
-            GameTooltip_SetTitle(GameTooltip, WoWTools_DataMixin.onlyChinese and '史诗钥石评分' or DUNGEON_SCORE)
+            GameTooltip_SetTitle(GameTooltip, WoWTools_L.DUNGEON_SCORE)
             GameTooltip_AddNormalLine(GameTooltip, desc)
         end
 
@@ -608,16 +589,16 @@ local function Init()
     end)
 
 
-    ChallengesFrame.WeeklyInfo.Child.SeasonBest:SetText('')--隐藏, 赛季最佳
+    ChallengesFrame.WeeklyInfo.Child.SeasonBest:SetText('')
 
     C_Timer.After(0.3, function()
         if ChallengesFrame.WeeklyInfo.Child.Description:IsShown() then
             local text= ChallengesFrame.WeeklyInfo.Child.Description:GetText()
             ChallengesFrame.WeeklyInfo.Child.Description:SetText('')
-            print(
+            WoWTools_Print(
                 WoWTools_ChallengeMixin.addName..WoWTools_DataMixin.Icon.icon2
             )
-            print(text)
+            WoWTools_Print(text)
         end
     end)
 

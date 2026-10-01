@@ -1,6 +1,5 @@
---团队信息，副本信息
 
-local function Init()
+local Init= WoWTools_Once(function()
     WoWTools_DataMixin:Hook('RaidInfoFrame_InitButton', function(btn, elementData)
         if not btn:IsVisible() then
             return
@@ -41,8 +40,7 @@ local function Init()
 
 
 
-    Init=function()end
-end
+end)
 
 
 

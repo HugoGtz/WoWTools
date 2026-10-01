@@ -1,8 +1,7 @@
---快速加入, 模块
 
 
 
-local function Init()--快速加入, 初始化 QuickJoin.lua
+local Init= WoWTools_Once(function()
 
     QuickJoinToastButton.Toast:ClearAllPoints()
     QuickJoinToastButton.Toast:SetPoint('BOTTOMLEFT', QuickJoinToastButton, 'TOPLEFT', 29, 2)
@@ -20,18 +19,6 @@ local function Init()--快速加入, 初始化 QuickJoin.lua
         set_QuickJoinToastButton()
     end)
     set_QuickJoinToastButton()
-    --[[WoWTools_DataMixin:Hook(QuickJoinToastButton, 'UpdateEntry', function(self)
-        local n=#C_SocialQueue.GetAllGroups()
-        self.quickJoinText:SetText(n~=0 and n or '')
-
-        set_QuickJoinToastButton()
-    end)]]
-
-
-
-
-
-
 
 
     WoWTools_DataMixin:Hook(QuickJoinEntryMixin, 'ApplyToFrame', function(self, frame)
@@ -59,7 +46,7 @@ local function Init()--快速加入, 初始化 QuickJoin.lua
                     nameObj:SetScript('OnEnter', function(self2)
                         GameTooltip:SetOwner(self2, "ANCHOR_LEFT")
                         GameTooltip:ClearLines()
-                        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '/密语' or SLASH_SMART_WHISPER2, self2.col..self2.name)
+                        GameTooltip:AddDoubleLine(WoWTools_L.SLASH_SMART_WHISPER2, self2.col..self2.name)
                         GameTooltip:AddLine(' ')
                         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_FriendsMixin.addName)
                         GameTooltip:Show()
@@ -71,13 +58,13 @@ local function Init()--快速加入, 初始化 QuickJoin.lua
             end
         end
 
-        if not frame.OnDoubleClick then--设置, 双击, 加入
+        if not frame.OnDoubleClick then
             frame:HookScript("OnDoubleClick", function()--QuickJoin.lua
                 QuickJoinFrame:JoinQueue()
                 local frame2=LFGListApplicationDialog
                 if frame2:IsShown() then
                     if not frame2.TankButton.CheckButton:GetChecked() and not frame2.HealerButton.CheckButton:GetChecked() and not frame2.DamagerButton.CheckButton:GetChecked() then
-                        local specID=GetSpecialization()--当前专精
+                        local specID=GetSpecialization()
                         if specID then
                             local role = select(5, C_SpecializationInfo.GetSpecializationInfo(specID))
                             if role=='DAMAGER' and frame2.DamagerButton:IsShown() then
@@ -92,14 +79,11 @@ local function Init()--快速加入, 初始化 QuickJoin.lua
                             LFGListApplicationDialog_UpdateValidState(frame2)
                         end
                     end
-                    --[[if frame2.SignUpButton:IsEnabled() then
-                        --frame2.SignUpButton:Click()
-                    end]]
                 end
             end)
         end
 
-        local text--需求职责, 提示
+        local text
         if self.guid then
             local canJoin, numQueues, needTank, needHealer, needDamage, isSoloQueuePart, questSessionActive, leaderGUID = C_SocialQueue.GetGroupInfo(self.guid)
             if canJoin then
@@ -124,16 +108,8 @@ local function Init()--快速加入, 初始化 QuickJoin.lua
     end)
 
 
-
-
-
-
-
-
-
-
-    WoWTools_DataMixin:Hook(QuickJoinRoleSelectionFrame, 'ShowForGroup', function(self, guid)--职责选择框
-        local t, h ,dps=self.RoleButtonTank.CheckButton, self.RoleButtonHealer.CheckButton, self.RoleButtonDPS.CheckButton--选择职责
+    WoWTools_DataMixin:Hook(QuickJoinRoleSelectionFrame, 'ShowForGroup', function(self, guid)
+        local t, h ,dps=self.RoleButtonTank.CheckButton, self.RoleButtonHealer.CheckButton, self.RoleButtonDPS.CheckButton
         local t3, h3, dps3 =t:GetChecked(), h:GetChecked(), dps:GetChecked()
         if not t3 and not h3 and not dps3 then
             local sid=GetSpecialization()
@@ -149,7 +125,7 @@ local function Init()--快速加入, 初始化 QuickJoin.lua
             end
         end
 
-        local leaderGUID = select(8, C_SocialQueue.GetGroupInfo(guid))--玩家名称
+        local leaderGUID = select(8, C_SocialQueue.GetGroupInfo(guid))
         local link= leaderGUID and WoWTools_UnitMixin:GetPlayerInfo(nil, leaderGUID, nil, {reName=true, reRealm=true, reLink=true,})
         if link and not self.nameInfo then
             self.nameInfo= WoWTools_LabelMixin:Create(self)
@@ -167,7 +143,7 @@ local function Init()--快速加入, 初始化 QuickJoin.lua
         if self.AcceptButton:IsEnabled() and not IsModifierKeyDown() then
             local tank2, healer2, dps2= self:GetSelectedRoles()
             self.AcceptButton:Click()
-            print(
+            WoWTools_Print(
                 WoWTools_FriendsMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 tank2 and INLINE_TANK_ICON, healer2 and INLINE_HEALER_ICON, dps2 and INLINE_DAMAGER_ICON,
                 WoWTools_TextMixin:GetEnabeleDisable(false)..'Alt',
@@ -177,11 +153,7 @@ local function Init()--快速加入, 初始化 QuickJoin.lua
     end)
 
 
-    Init=function()end
-end
-
-
-
+end)
 
 
 function WoWTools_FriendsMixin:Blizzard_QuickJoin()

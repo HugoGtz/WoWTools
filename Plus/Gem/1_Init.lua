@@ -1,32 +1,23 @@
 
 local P_Save={
-    --hide=true,--显示，隐藏 Frame
-    --scale=1,--缩放
     favorites={},--{itemID=true},
-    gemLeft={},--右边，按钮
+    gemLeft={},
     gemTop={},
     gemRight={},
-    disableSpell=true,--禁用，法术按钮
+    disableSpell=true,
     gemLoc= {}--{class={['INVSLOT_LEGS']={1=gemID, 2=gemID, 3=gemID}}
 }
 
+
+WoWTools_GemMixin= {}--para agrupar el módulo en la página principal
 
 local addName
 local Frame
 local Set_Gem
 
 local SpellsTab={
-    433397,--取出宝石
-    --405805,--拔出始源之石
+    433397,
 }
-
-local function Save()
-    return WoWToolsSave['Plus_Gem']
-end
-
-
-
-
 
 for _, spellID in pairs(SpellsTab) do
    WoWTools_DataMixin:Load(spellID, 'spell')
@@ -34,103 +25,81 @@ end
 
 
 
-local CurTypeGemTab={}--当前，宝石，类型
+local CurTypeGemTab={}
 
 
 
---保存，slot, 数据
 local function set_save_gem(itemEquipLoc, gemLink, index)
     if not itemEquipLoc then
         return
     end
-    Save().gemLoc[WoWTools_DataMixin.Player.Class][itemEquipLoc]= Save().gemLoc[WoWTools_DataMixin.Player.Class][itemEquipLoc] or {}
+    WoWTools_GemMixin:Save().gemLoc[WoWTools_DataMixin.Player.Class][itemEquipLoc]= WoWTools_GemMixin:Save().gemLoc[WoWTools_DataMixin.Player.Class][itemEquipLoc] or {}
     local gemID
     if gemLink then
         gemID= C_Item.GetItemInfoInstant(gemLink)
         if gemID then
-            Save().gemLoc[WoWTools_DataMixin.Player.Class][itemEquipLoc][index]= gemID
+            WoWTools_GemMixin:Save().gemLoc[WoWTools_DataMixin.Player.Class][itemEquipLoc][index]= gemID
         end
     end
 
-    gemID= gemID or Save().gemLoc[WoWTools_DataMixin.Player.Class][itemEquipLoc][index]
-    Save().gemLoc[WoWTools_DataMixin.Player.Class][itemEquipLoc][index]= gemID
+    gemID= gemID or WoWTools_GemMixin:Save().gemLoc[WoWTools_DataMixin.Player.Class][itemEquipLoc][index]
+    WoWTools_GemMixin:Save().gemLoc[WoWTools_DataMixin.Player.Class][itemEquipLoc][index]= gemID
     return gemID
 end
 
 
-
-
-
-
 local function Init_Button_Menu(self, root)
-    root:CreateCheckbox(
+    local sub= root:CreateCheckbox(
         '|A:auctionhouse-icon-favorite:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '标记' or EVENTTRACE_BUTTON_MARKER),
+        ..(WoWTools_L.EVENTTRACE_BUTTON_MARKER),
     function()
-        return Save().favorites[self.itemID]
+        return WoWTools_GemMixin:Save().favorites[self.itemID]
     end, function()
-        Save().favorites[self.itemID]= not Save().favorites[self.itemID] and true or nil
+        WoWTools_GemMixin:Save().favorites[self.itemID]= not WoWTools_GemMixin:Save().favorites[self.itemID] and true or nil
         self:set_favorite()
-        print(
+        WoWTools_Print(
             addName..WoWTools_DataMixin.Icon.icon2,
-            Save().favorites[self.itemID] and self.itemID or '',
-            WoWTools_DataMixin.onlyChinese and '需求刷新' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, NEED, REFRESH)
+            WoWTools_GemMixin:Save().favorites[self.itemID] and self.itemID or '',
+            WoWTools_L['NEED+REFRESH~2']
         )
         Set_Gem()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gem.Favorite'])
     root:CreateDivider()
 
-    root:CreateCheckbox(
+    sub= root:CreateCheckbox(
         '|A:common-icon-rotateright:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '左边' or HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_LEFT),
+        ..(WoWTools_L.HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_LEFT),
     function ()
-        return Save().gemLeft[self.itemID]
+        return WoWTools_GemMixin:Save().gemLeft[self.itemID]
     end, function ()
-        Save().gemLeft[self.itemID]= not Save().gemLeft[self.itemID] and true or nil
+        WoWTools_GemMixin:Save().gemLeft[self.itemID]= not WoWTools_GemMixin:Save().gemLeft[self.itemID] and true or nil
         Set_Gem()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gem.PlaceLeft'])
 
-    root:CreateCheckbox(
+    sub= root:CreateCheckbox(
         '|A:bags-greenarrow:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '上面' or HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_UP),
+        ..(WoWTools_L['HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_UP~2']),
     function ()
-        return Save().gemTop[self.itemID]
+        return WoWTools_GemMixin:Save().gemTop[self.itemID]
     end, function ()
-        Save().gemTop[self.itemID]= not Save().gemTop[self.itemID] and true or nil
+        WoWTools_GemMixin:Save().gemTop[self.itemID]= not WoWTools_GemMixin:Save().gemTop[self.itemID] and true or nil
         Set_Gem()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gem.PlaceTop'])
 
-    root:CreateCheckbox(
+    sub= root:CreateCheckbox(
         '|A:common-icon-rotateleft:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '右边' or HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_RIGHT),
+        ..(WoWTools_L.HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_RIGHT),
     function ()
-        return Save().gemRight[self.itemID]
+        return WoWTools_GemMixin:Save().gemRight[self.itemID]
     end, function ()
-        Save().gemRight[self.itemID]= not Save().gemRight[self.itemID] and true or nil
+        WoWTools_GemMixin:Save().gemRight[self.itemID]= not WoWTools_GemMixin:Save().gemRight[self.itemID] and true or nil
         Set_Gem()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gem.PlaceRight'])
 end
-
-
-
-
-
---[[local GEM_TYPE_INFO =	{
-    Yellow = EMPTY_SOCKET_YELLOW,--黄色插槽',
-    Red = EMPTY_SOCKET_RED,--红色插槽',
-    Blue = EMPTY_SOCKET_BLUE,--蓝色插槽',
-    Hydraulic = EMPTY_SOCKET_HYDRAULIC,--染煞',
-    Cogwheel = EMPTY_SOCKET_COGWHEEL,--齿轮插槽',
-    Meta = EMPTY_SOCKET_META,--多彩插槽',
-    Prismatic =EMPTY_SOCKET_PRISMATIC,--棱彩插槽',
-    PunchcardRed = EMPTY_SOCKET_PUNCHCARDRED,--红色打孔卡插槽',
-    PunchcardYellow = EMPTY_SOCKET_PUNCHCARDYELLOW,--黄色打孔卡插槽',
-    PunchcardBlue = EMPTY_SOCKET_PUNCHCARDBLUE,--蓝色打孔卡插槽',
-    Domination = EMPTY_SOCKET_DOMINATION,--统御插槽',
-    Cypher = EMPTY_SOCKET_CYPHER,--晶态插槽',
-    Tinker = EMPTY_SOCKET_TINKER,--匠械插槽',
-    Primordial = EMPTY_SOCKET_PRIMORDIAL,--始源镶孔',
-}--EMPTY_SOCKET_NO_COLOR,--棱彩插槽]]
 
 
 local function creatd_button(index, parent)
@@ -160,7 +129,7 @@ local function creatd_button(index, parent)
     btn:SetScript('OnShow', function(self) self:set_event() end)
 
     function btn:set_favorite()
-        self.favorite:SetShown(Save().favorites[self.itemID])
+        self.favorite:SetShown(WoWTools_GemMixin:Save().favorites[self.itemID])
     end
     function btn:set_alpha()
         local alpha= 1
@@ -191,10 +160,10 @@ local function creatd_button(index, parent)
             GameTooltip:ClearLines()
             GameTooltip:SetBagItem(self.bagID, self.slotID)
             GameTooltip:AddLine(' ')
-            GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.right)
-            GameTooltip:AddDoubleLine((WoWTools_DataMixin.onlyChinese and '左边' or HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_LEFT)..'|A:common-icon-rotateright:0:0|a', 'Alt+'..WoWTools_DataMixin.Icon.left)
-            GameTooltip:AddDoubleLine((WoWTools_DataMixin.onlyChinese and '上面' or HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_UP)..'|A:bags-greenarrow:0:0|a', 'Alt+'..WoWTools_DataMixin.Icon.mid)
-            GameTooltip:AddDoubleLine((WoWTools_DataMixin.onlyChinese and '右边' or HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_RIGHT)..'|A:common-icon-rotateleft:0:0|a', 'Alt+'..WoWTools_DataMixin.Icon.right)
+            GameTooltip:AddDoubleLine(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.right)
+            GameTooltip:AddDoubleLine((WoWTools_L.HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_LEFT)..'|A:common-icon-rotateright:0:0|a', 'Alt+'..WoWTools_DataMixin.Icon.left)
+            GameTooltip:AddDoubleLine((WoWTools_L['HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_UP~2'])..'|A:bags-greenarrow:0:0|a', 'Alt+'..WoWTools_DataMixin.Icon.mid)
+            GameTooltip:AddDoubleLine((WoWTools_L.HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_RIGHT)..'|A:common-icon-rotateleft:0:0|a', 'Alt+'..WoWTools_DataMixin.Icon.right)
             GameTooltip:Show()
         end
     end
@@ -205,10 +174,10 @@ local function creatd_button(index, parent)
         ClearCursor()
         if IsAltKeyDown() then
             if d=='LeftButton' then
-                Save().gemLeft[self.itemID]= not Save().gemLeft[self.itemID] and true or nil
+                WoWTools_GemMixin:Save().gemLeft[self.itemID]= not WoWTools_GemMixin:Save().gemLeft[self.itemID] and true or nil
                 Set_Gem()
             elseif d=='RightButton' then
-                Save().gemRight[self.itemID]= not Save().gemRight[self.itemID] and true or nil
+                WoWTools_GemMixin:Save().gemRight[self.itemID]= not WoWTools_GemMixin:Save().gemRight[self.itemID] and true or nil
                 Set_Gem()
             end
         elseif d=='LeftButton' then
@@ -220,7 +189,7 @@ local function creatd_button(index, parent)
     end)
     btn:SetScript("OnMouseWheel", function(self)
         if IsAltKeyDown() then
-            Save().gemTop[self.itemID]= not Save().gemTop[self.itemID] and true or nil
+            WoWTools_GemMixin:Save().gemTop[self.itemID]= not WoWTools_GemMixin:Save().gemTop[self.itemID] and true or nil
             Set_Gem()
         end
     end)
@@ -239,29 +208,6 @@ local function creatd_button(index, parent)
     end
     return btn
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Set_Button_Att(btn, info)
@@ -303,7 +249,7 @@ end
 
 function Set_Gem()--Blizzard_ItemSocketingUI.lua MAX_NUM_SOCKETS
     local items, gemLeft, gemTop, gemRight= {}, {}, {}, {}
-    local scale= Save().scale or 1
+    local scale= WoWTools_GemMixin:Save().scale or 1
 
     for bag= Enum.BagIndex.Backpack, NUM_BAG_FRAMES do-- + NUM_REAGENTBAG_FRAMES do
         for slot=1, C_Container.GetContainerNumSlots(bag) do
@@ -316,7 +262,7 @@ function Set_Gem()--Blizzard_ItemSocketingUI.lua MAX_NUM_SOCKETS
                 local level= WoWTools_ItemMixin:GetItemLevel(info.hyperlink) or 0
                 local classID, subclassID, _, expacID= select(12, C_Item.GetItemInfo(info.hyperlink))
                 if classID==3
-                    and (PlayerIsTimerunning() or (WoWTools_DataMixin.Player.IsMaxLevel and WoWTools_DataMixin.ExpansionLevel== expacID or not WoWTools_DataMixin.Player.IsMaxLevel))--最高等级
+                    and (PlayerIsTimerunning() or (WoWTools_DataMixin.Player.IsMaxLevel and WoWTools_DataMixin.ExpansionLevel== expacID or not WoWTools_DataMixin.Player.IsMaxLevel))
                 then
                     local tab={
                         info= info,
@@ -324,15 +270,15 @@ function Set_Gem()--Blizzard_ItemSocketingUI.lua MAX_NUM_SOCKETS
                         slot=slot,
                         level= level or 0,
                         expacID= expacID or 0,
-                        favorite= Save().favorites[info.itemID]
+                        favorite= WoWTools_GemMixin:Save().favorites[info.itemID]
                     }
-                    if Save().gemLeft[info.itemID] then
+                    if WoWTools_GemMixin:Save().gemLeft[info.itemID] then
                         table.insert(gemLeft, tab)
 
-                    elseif Save().gemTop[info.itemID] then
+                    elseif WoWTools_GemMixin:Save().gemTop[info.itemID] then
                         table.insert(gemTop, tab)
 
-                    elseif Save().gemRight[info.itemID] then
+                    elseif WoWTools_GemMixin:Save().gemRight[info.itemID] then
                         table.insert(gemRight, tab)
                     else
                         local type
@@ -382,7 +328,7 @@ function Set_Gem()--Blizzard_ItemSocketingUI.lua MAX_NUM_SOCKETS
         y=y-40
     end
 
-    x, y= -10, 0--左边
+    x, y= -10, 0
     local w, h= ItemSocketingFrame:GetSize()
     Set_Sort_Button(gemLeft)
     for _, info in pairs(gemLeft) do
@@ -416,7 +362,7 @@ function Set_Gem()--Blizzard_ItemSocketingUI.lua MAX_NUM_SOCKETS
     end
 
 
-    x, y= 10, 0--右边
+    x, y= 10, 0
     Set_Sort_Button(gemRight)
     for _, info in pairs(gemRight) do
         local btn= Frame.buttons[index] or creatd_button(index)
@@ -439,27 +385,8 @@ function Set_Gem()--Blizzard_ItemSocketingUI.lua MAX_NUM_SOCKETS
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---433397/取出宝石
 local function Init_Spell_Button()
-    if Save().disableSpell then
+    if WoWTools_GemMixin:Save().disableSpell then
         return
     end
 
@@ -478,10 +405,16 @@ local function Init_Spell_Button()
     SpellButton.count:SetPoint('BOTTOMRIGHT',-2, 9)
 
     function SpellButton:set_count()
-        local data= self.spellID and C_Spell.GetSpellCharges(self.spellID) or {}
+        local data= self.spellID and C_Spell.GetSpellCharges(self.spellID)
+        if not data or not canaccesstable(data) then
+            data= {}
+        end
         local num, max= data.currentCharges, data.maxCharges
+        if not canaccessvalue(num) or not canaccessvalue(max) then
+            num, max= nil, nil
+        end
         self.count:SetText((max and max>1) and num or '')
-        self.texture:SetDesaturated(num and num>0)
+        self.texture:SetDesaturated(num==0)--gris solo sin cargas
     end
     SpellButton:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
@@ -566,55 +499,8 @@ local function Init_Spell_Button()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---宝石，数据
 local function Init_ItemSocketingFrame_Update()
-    ItemSocketingDescription:SetMinimumWidth(ItemSocketingScrollFrame:GetWidth()-36, true)--调整，宽度
+    ItemSocketingDescription:SetMinimumWidth(ItemSocketingScrollFrame:GetWidth()-36, true)
 
     local numSockets = C_ItemSocketInfo.GetNumSockets() or 0
     CurTypeGemTab={}
@@ -630,8 +516,8 @@ local function Init_ItemSocketingFrame_Update()
             elseif itemEquipLoc=='INVTYPE_WEAPON' then--16, 17
                 itemEquipLoc= itemEquipLoc..(GetInventoryItemLink('player', 16)==link and 16 or 17)
             end
-            if not Save().gemLoc[WoWTools_DataMixin.Player.Class][itemEquipLoc] then
-                Save().gemLoc[WoWTools_DataMixin.Player.Class][itemEquipLoc]={}
+            if not WoWTools_GemMixin:Save().gemLoc[WoWTools_DataMixin.Player.Class][itemEquipLoc] then
+                WoWTools_GemMixin:Save().gemLoc[WoWTools_DataMixin.Player.Class][itemEquipLoc]={}
             end
         end
     end
@@ -643,7 +529,7 @@ local function Init_ItemSocketingFrame_Update()
             ItemSocketingSocket3 or ItemSocketingFrame.SocketingContainer.Socket3
         }
 
-    for i, btn in ipairs(Sockets) do--插槽，名称
+    for i, btn in ipairs(Sockets) do
         if ( i <= numSockets ) then
             local name= C_ItemSocketInfo.GetSocketTypes(i)
             name= name and _G['EMPTY_SOCKET_'..string.upper(name)]
@@ -672,7 +558,7 @@ local function Init_ItemSocketingFrame_Update()
                 btn.rightText=WoWTools_LabelMixin:Create(btn)
                 btn.rightText:SetPoint('TOPRIGHT', btn, 'BOTTOMRIGHT')
 
-                btn.gemButton=WoWTools_ButtonMixin:Cbtn(btn, {frameType='ItemButton'})--使用过宝石，提示
+                btn.gemButton=WoWTools_ButtonMixin:Cbtn(btn, {frameType='ItemButton'})
                 btn.gemButton:SetPoint('BOTTOMLEFT', btn, 'BOTTOMRIGHT', 6, 0)
                 btn.gemButton:Hide()
                 function btn.gemButton:set_event()
@@ -740,9 +626,9 @@ local function Init_ItemSocketingFrame_Update()
                 btn.qualityTexture:SetTexture(0)
             end
 
-            local gemID--使用过宝石，提示
+            local gemID
             if itemEquipLoc then
-                gemID= set_save_gem(itemEquipLoc, gemLinkExist, i)--保存，slot, 数据
+                gemID= set_save_gem(itemEquipLoc, gemLinkExist, i)
             end
             btn.gemButton.gemID= gemID
             btn.gemButton:settings()
@@ -751,7 +637,7 @@ local function Init_ItemSocketingFrame_Update()
         end
     end
 
-    if numSockets==1 then--宝石，位置
+    if numSockets==1 then
         Sockets[1]:ClearAllPoints()
         Sockets[1]:SetPoint('BOTTOM', 0, 33)
     elseif numSockets==2 then
@@ -772,136 +658,107 @@ local function Init_ItemSocketingFrame_Update()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init_Menu(self, root)
     local sub, num
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '显示' or SHOW,
+        WoWTools_L.SHOW,
     function()
-        return not Save().hide
+        return not WoWTools_GemMixin:Save().hide
     end, function()
-        Save().hide= not Save().hide and true or nil
+        WoWTools_GemMixin:Save().hide= not WoWTools_GemMixin:Save().hide and true or nil
         self:set_shown()
     end)
     sub:SetEnabled(Frame:CanChangeAttribute())
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gem.Show'])
 
-    root:CreateCheckbox(
-        format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, WoWTools_DataMixin.onlyChinese and '法术' or SPELLS, 'Button'),
+    sub=root:CreateCheckbox(
+        WoWTools_Join(WoWTools_L.SPELLS, 'Button'),
     function()
-        return not Save().disableSpell
+        return not WoWTools_GemMixin:Save().disableSpell
     end, function()
-        Save().disableSpell= not Save().disableSpell and true or false
-        print(
+        WoWTools_GemMixin:Save().disableSpell= not WoWTools_GemMixin:Save().disableSpell and true or false
+        WoWTools_Print(
             addName..WoWTools_DataMixin.Icon.icon2,
-            WoWTools_TextMixin:GetEnabeleDisable(not Save().disableSpell),
-            WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
+            WoWTools_TextMixin:GetEnabeleDisable(not WoWTools_GemMixin:Save().disableSpell),
+            WoWTools_L.REQUIRES_RELOAD
         )
     end, {})
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gem.SpellButton'])
 
     root:CreateDivider()
-    num= CountTable(Save().favorites or {})
+    num= CountTable(WoWTools_GemMixin:Save().favorites or {})
 
     root:CreateButton(
         '|A:auctionhouse-icon-favorite:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '清除标记' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SLASH_STOPWATCH_PARAM_STOP2, EVENTTRACE_BUTTON_MARKER))
+        ..(WoWTools_L['SLASH_STOPWATCH_PARAM_STOP2+EVENTTRACE_BUTTON_MARKER'])
         ..' |cnGREEN_FONT_COLOR:#'..num,
     function()
-        Save().favorites={}
+        WoWTools_GemMixin:Save().favorites={}
         for _, frame in pairs(Frame.buttons) do
             frame:set_favorite()
         end
         return MenuResponse.Refresh
     end)
 
---清除左边
-    num= CountTable(Save().gemLeft or {})
+    num= CountTable(WoWTools_GemMixin:Save().gemLeft or {})
 
-    root:CreateButton(
+    sub=root:CreateButton(
          '|A:common-icon-rotateright:0:0|a'
-         ..(WoWTools_DataMixin.onlyChinese and '清除左边' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SLASH_STOPWATCH_PARAM_STOP2, HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_LEFT))
+         ..(WoWTools_L['SLASH_STOPWATCH_PARAM_STOP2+HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_LEFT'])
          ..' |cnGREEN_FONT_COLOR:#'
          ..num,
     function()
-        Save().gemLeft={}
+        WoWTools_GemMixin:Save().gemLeft={}
         Set_Gem()
         return MenuResponse.Refresh
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gem.ClearColumn'])
 
---清除上面
-    num= CountTable(Save().gemTop or {})
+    num= CountTable(WoWTools_GemMixin:Save().gemTop or {})
     
-    root:CreateButton(
+    sub=root:CreateButton(
         '|A:bags-greenarrow:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '清除上面' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SLASH_STOPWATCH_PARAM_STOP2, HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_UP))
+        ..(WoWTools_L['SLASH_STOPWATCH_PARAM_STOP2+HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_UP'])
         ..' |cnGREEN_FONT_COLOR:#'
         ..num,
     function()
-        Save().gemTop={}
+        WoWTools_GemMixin:Save().gemTop={}
         Set_Gem()
         return MenuResponse.Refresh
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gem.ClearColumn'])
 
---清除右边
-    num= CountTable(Save().gemRight or {})
+    num= CountTable(WoWTools_GemMixin:Save().gemRight or {})
     
-    root:CreateButton(
+    sub=root:CreateButton(
          '|A:common-icon-rotateleft:0:0|a'
-         ..(WoWTools_DataMixin.onlyChinese and '清除右边' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SLASH_STOPWATCH_PARAM_STOP2, HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_RIGHT))
+         ..(WoWTools_L['SLASH_STOPWATCH_PARAM_STOP2+HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_RIGHT'])
          ..' |cnGREEN_FONT_COLOR:#'
          ..num,
     function()
-        Save().gemRight={}
+        WoWTools_GemMixin:Save().gemRight={}
         Set_Gem()
         return MenuResponse.Refresh
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gem.ClearColumn'])
 
-    root:CreateButton(
+    sub=root:CreateButton(
         '|A:bags-button-autosort-up:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '清除记录' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SLASH_STOPWATCH_PARAM_STOP2, EVENTTRACE_LOG_HEADER)),
+        ..(WoWTools_L['SLASH_STOPWATCH_PARAM_STOP2+EVENTTRACE_LOG_HEADER']),
     function()
-        Save().gemLoc={
+        WoWTools_GemMixin:Save().gemLoc={
             [WoWTools_DataMixin.Player.Class]={}
         }
         WoWTools_DataMixin:Call('ItemSocketingFrame_Update')
         return MenuResponse.Refresh
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Gem.ClearRecord'])
 
     root:CreateDivider()
     WoWTools_MenuMixin:OpenOptions(root, {name=addName})
 end
 
 
-
-
-
-
-
-
-
-
-
---总开关
 local function Init_Button_All()
     local btn= WoWTools_ButtonMixin:Cbtn(ItemSocketingFrame.TitleContainer, {
             size=22,
@@ -909,15 +766,15 @@ local function Init_Button_All()
         })
     btn:SetPoint('LEFT', 26)
     function btn:set_texture()
-        if Save().hide then
+        if WoWTools_GemMixin:Save().hide then
             btn:SetNormalAtlas('talents-button-reset')
         else
-            btn:SetNormalTexture('Interface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools')
+            btn:SetNormalTexture('Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools')
         end
     end
     function btn:set_shown()
         if Frame:CanChangeAttribute() then
-            Frame:SetShown(not Save().hide)
+            Frame:SetShown(not WoWTools_GemMixin:Save().hide)
             self:set_texture()
         else
             self:RegisterEvent('PLAYER_REGEN_ENABLED')
@@ -925,7 +782,7 @@ local function Init_Button_All()
     end
     function btn:set_scale()
         if Frame:CanChangeAttribute() then
-            Frame:SetScale(Save().scale or 1)
+            Frame:SetScale(WoWTools_GemMixin:Save().scale or 1)
             Set_Gem()
         else
             self:RegisterEvent('PLAYER_REGEN_ENABLED')
@@ -940,9 +797,9 @@ local function Init_Button_All()
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, addName)
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_TextMixin:GetShowHide(not Save().hide), WoWTools_DataMixin.Icon.left)
-        GameTooltip:AddDoubleLine((WoWTools_DataMixin.onlyChinese and '缩放' or HOUSING_EXPERT_DECOR_SUBMODE_SCALE)..' |cnGREEN_FONT_COLOR:'..(Save().scale or 1), WoWTools_DataMixin.Icon.mid)
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine(WoWTools_TextMixin:GetShowHide(not WoWTools_GemMixin:Save().hide), WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine((WoWTools_L.HOUSING_EXPERT_DECOR_SUBMODE_SCALE)..' |cnGREEN_FONT_COLOR:'..(WoWTools_GemMixin:Save().scale or 1), WoWTools_DataMixin.Icon.mid)
+        GameTooltip:AddDoubleLine(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.right)
         GameTooltip:Show()
     end
     btn:SetAlpha(0.5)
@@ -958,7 +815,7 @@ local function Init_Button_All()
     end)
     btn:SetScript('OnClick', function(self, d)
         if d=='LeftButton' then
-            Save().hide= not Save().hide and true or nil
+            WoWTools_GemMixin:Save().hide= not WoWTools_GemMixin:Save().hide and true or nil
             self:set_shown()
             self:set_texture()
             self:set_tooltips()
@@ -972,12 +829,12 @@ local function Init_Button_All()
         if not self:CanChangeAttribute() then
             return
         end
-        local n= Save().scale or 1
+        local n= WoWTools_GemMixin:Save().scale or 1
         n= d==1 and n+0.05 or n
         n= d==-1 and n-0.05 or n
         n= n>4 and 4 or n
         n= n<0.4 and 0.4 or n
-        Save().scale= n
+        WoWTools_GemMixin:Save().scale= n
         self:set_scale()
         self:set_tooltips()
     end)
@@ -985,40 +842,8 @@ local function Init_Button_All()
     btn:set_texture()
     btn:set_shown()
     btn:set_scale()
+    WoWTools_GemMixin.AllButton= btn--para el Centro de control (WoWTools_GemMixin:Refresh)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init()
@@ -1040,7 +865,7 @@ local function Init()
     Frame:SetScript('OnEvent', function() Set_Gem() end)
     Frame:set_event()
 
-    if ItemSocketingSocket3Left then--11.2.7 没有了 改为  ItemSocketingFrame.SocketingContainer.Socket1
+    if ItemSocketingSocket3Left then
         ItemSocketingSocket3Left:ClearAllPoints()
         ItemSocketingSocket2Left:ClearAllPoints()
         ItemSocketingSocket1Left:ClearAllPoints()
@@ -1049,7 +874,7 @@ local function Init()
         ItemSocketingSocket3Right:ClearAllPoints()
     else
         for i=1, 3 do
-            local slot= ItemSocketingFrame.SocketingContainer['Socket'..i]--11.2.7才有
+            local slot= ItemSocketingFrame.SocketingContainer['Socket'..i]
             if slot then
                 WoWTools_TextureMixin:HideFrame(slot, {index=2})
                 WoWTools_TextureMixin:HideTexture(slot.RightFiligree)
@@ -1060,7 +885,7 @@ local function Init()
     ItemSocketingFrame['SocketFrame-Left']:SetPoint('TOPRIGHT', ItemSocketingFrame, 'BOTTOM',0, 77)
     ItemSocketingFrame['SocketFrame-Right']:SetPoint('BOTTOMLEFT', ItemSocketingFrame, 'BOTTOM', 0, 26)
 
-    WoWTools_DataMixin:Hook('ItemSocketingFrame_Update', function(...)--宝石，数据
+    WoWTools_DataMixin:Hook('ItemSocketingFrame_Update', function(...)
         Init_ItemSocketingFrame_Update(...)
     end)
 
@@ -1074,7 +899,6 @@ local function Init()
 
 
 
---Plus_Tooltip 加上的
     C_Timer.After(0.3, function()
         if not ItemSocketingDescription.textLeft then
             return
@@ -1098,83 +922,110 @@ local function Init()
             ItemSocketingDescription.playerModel:SetParent(ItemSocketingScrollFrame)
         end
     end)
-
-
-    Init=function()end
 end
 
 
-
-
-
-
-
-local function Load_Init()
-    if Save().disabled then
+--Refresco para el Centro de control: solo si la ventana de engarce ya se preparó
+function WoWTools_GemMixin:Refresh(favorites)
+    local btn= self.AllButton
+    if not btn or not Frame then
         return
     end
-
-    if C_AddOns.IsAddOnLoaded('Blizzard_ItemSocketingUI') then
-        Init()
-    else
-        EventRegistry:RegisterFrameEventAndCallback("ADDON_LOADED", function(owner, arg1)
-            if arg1=='Blizzard_ItemSocketingUI' then
-                Init()
-                EventRegistry:UnregisterCallback('ADDON_LOADED', owner)
-            end
-        end)
-    end
-    Load_Init=function()end
-end
-
-
-
-
-
-
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if arg1~= 'WoWTools' then
-        return
-    end
-
-    WoWToolsSave['Plus_Gem']= WoWToolsSave['Plus_Gem'] or P_Save
-    P_Save=nil
-
-    addName= '|T4555592:0|t'..(WoWTools_DataMixin.onlyChinese and '镶嵌宝石' or SOCKET_GEMS)
-
---添加控制面板
-    WoWTools_PanelMixin:OnlyCheck({
-        name= addName,
-        GetValue= function() return not Save().disabled end,
-        SetValue= function()
-            Save().disabled = not Save().disabled and true or nil
-            Load_Init()
-            if Save().disabled then
-                print(
-                    addName..WoWTools_DataMixin.Icon.icon2,
-                    WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-                    WoWTools_DataMixin.onlyChinese and '重新加载UI' or RELOADUI
-                )
-            end
+    if favorites then
+        for _, frame in pairs(Frame.buttons) do
+            frame:set_favorite()
         end
-    })
+    end
+    btn:set_shown()
+    btn:set_scale()
+    Set_Gem()
+end
 
-    Load_Init()
 
-    self:SetScript('OnEvent', nil)
-    self:UnregisterEvent(event)
+local function Clear_Button(key, field, label)
+    return {type='button', key=key, buttonText='SLASH_STOPWATCH_PARAM_STOP2', confirm=true,
+        text= function(save) return WoWTools_L[label]..' |cnGREEN_FONT_COLOR:#'..CountTable(save[field] or {}) end,
+        tooltip= key=='favorites' and 'Tip.Gem.ClearFavorites' or 'Tip.Gem.ClearColumn',
+        func= function(M, save)
+            save[field]= {}
+            M:Refresh(field=='favorites')
+        end}
+end
+
+local Options= {
+    {type='section', text='GENERAL'},
+    {type='check', key='show', text='SHOW', tooltip='Tip.Gem.Show', noCombat=true,
+        get= function(save) return not save.hide end,
+        set= function(save, value) save.hide= not value and true or nil end,
+        apply= function(M) M:Refresh() end},
+    {type='check', key='spell', text='Extract gem button', tooltip='Tip.Gem.SpellButton', reload=true,
+        get= function(save) return not save.disableSpell end,
+        set= function(save, value) save.disableSpell= not value and true or false end},
+
+    {type='section', text='Appearance'},
+    {type='slider', key='scale', text='HOUSING_EXPERT_DECOR_SUBMODE_SCALE', tooltip='Tip.Menu.Scale', noCombat=true,
+        min=0.4, max=4, step=0.05, format='%.2f',
+        disabled= function(save) return save.hide end,
+        get= function(save) return save.scale or 1 end,
+        set= function(save, value) save.scale= value end,
+        apply= function(M) M:Refresh() end},
+
+    {type='section', text='Advanced'},
+    Clear_Button('favorites', 'favorites', 'SLASH_STOPWATCH_PARAM_STOP2+EVENTTRACE_BUTTON_MARKER'),
+    Clear_Button('left', 'gemLeft', 'SLASH_STOPWATCH_PARAM_STOP2+HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_LEFT'),
+    Clear_Button('top', 'gemTop', 'SLASH_STOPWATCH_PARAM_STOP2+HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_UP'),
+    Clear_Button('right', 'gemRight', 'SLASH_STOPWATCH_PARAM_STOP2+HUD_EDIT_MODE_SETTING_BAGS_DIRECTION_RIGHT'),
+    {type='button', key='record', text='SLASH_STOPWATCH_PARAM_STOP2+EVENTTRACE_LOG_HEADER', buttonText='SLASH_STOPWATCH_PARAM_STOP2',
+        tooltip='Tip.Gem.ClearRecord', confirm=true,
+        func= function(_, save)
+            save.gemLoc= {[WoWTools_DataMixin.Player.Class]={}}
+            if ItemSocketingFrame then
+                WoWTools_DataMixin:Call('ItemSocketingFrame_Update')
+            end
+        end},
+}
+
+
+local Register_Init= WoWTools_Once(function()
+    EventUtil.ContinueOnAddOnLoaded('Blizzard_ItemSocketingUI', Init)
 end)
 
+local function Load_Init()
+    if not WoWTools_GemMixin:Save().disabled then
+        Register_Init()
+    end
+end
 
 
+--Módulo registrado con la API común (docs/REFACTOR.md, R2).
+--Interruptor estándar con reload=false: activar arranca ya sin recargar; solo al desactivar pide recargar.
+WoWTools_Module:Register({
+    key= 'Plus_Gem',
+    name= 'Module.Gem sockets',
+    icon= 4555592,
+    group= 'Items',
+    defaults= P_Save,
+    tooltip= 'Tip.Gem.Enable',
+    mixin= WoWTools_GemMixin,
+    reload= false,
+    options= Options,
+    onLoad= function()
+        addName= WoWTools_GemMixin.addName
+    end,
+    onToggle= function(M, enabled)
+        Load_Init()
+        if not enabled then
+            WoWTools_Print(
+                (M.addName or '')..WoWTools_DataMixin.Icon.icon2,
+                WoWTools_TextMixin:GetEnabeleDisable(enabled),
+                WoWTools_L.RELOADUI
+            )
+        end
+    end,
+    onEnable= Load_Init,
+})
 
 
-
-
-
---镶嵌宝石，界面
 function WoWTools_MoveMixin.Events:Blizzard_ItemSocketingUI()
     ItemSocketingScrollFrame:SetPoint('BOTTOMRIGHT', -22, 90)
     ItemSocketingScrollChild:ClearAllPoints()
@@ -1185,7 +1036,7 @@ function WoWTools_MoveMixin.Events:Blizzard_ItemSocketingUI()
     ItemSocketingDescription:SetAllPoints()
 
     ItemSocketingFrame:HookScript('OnSizeChanged', function()
-        ItemSocketingDescription:SetMinimumWidth(ItemSocketingScrollFrame:GetWidth()-36, true)--调整，宽度
+        ItemSocketingDescription:SetMinimumWidth(ItemSocketingScrollFrame:GetWidth()-36, true)
     end)
 
     self:Setup(ItemSocketingFrame, {
@@ -1194,10 +1045,10 @@ function WoWTools_MoveMixin.Events:Blizzard_ItemSocketingUI()
     sizeRestFunc=function(frame)
         frame:SetSize(338, 424)
         Set_Gem()
-        ItemSocketingDescription:SetMinimumWidth(ItemSocketingScrollFrame:GetWidth()-36, true)--调整，宽度
+        ItemSocketingDescription:SetMinimumWidth(ItemSocketingScrollFrame:GetWidth()-36, true)
     end, sizeUpdateFunc=function()
         Set_Gem()
-        ItemSocketingDescription:SetMinimumWidth(ItemSocketingScrollFrame:GetWidth()-36, true)--调整，宽度
+        ItemSocketingDescription:SetMinimumWidth(ItemSocketingScrollFrame:GetWidth()-36, true)
     end})
     self:Setup(ItemSocketingScrollChild, {frame=ItemSocketingFrame})
     self:Setup(ItemSocketingFrameInset, {frame=ItemSocketingFrame})

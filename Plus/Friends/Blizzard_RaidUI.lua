@@ -1,19 +1,3 @@
---[[
-团队, 模块 
-Blizzard_RaidUI.lua
-
-subframes = {};
-subframes.name = _G["RaidGroupButton"..i.."Name"];
-subframes.class = _G["RaidGroupButton"..i.."Class"];
-subframes.level = _G["RaidGroupButton"..i.."Level"];
-subframes.rank = _G["RaidGroupButton"..i.."Rank"];
-subframes.role = _G["RaidGroupButton"..i.."Role"];
-subframes.rankTexture = _G["RaidGroupButton"..i.."RankTexture"];
-subframes.roleTexture = _G["RaidGroupButton"..i.."RoleTexture"];
-subframes.readyCheck = _G["RaidGroupButton"..i.."ReadyCheck"];
-button.subframes = subframes;
-
-]]
 
 
 local function Init_RaidGroupFrame_Update()
@@ -25,7 +9,7 @@ local function Init_RaidGroupFrame_Update()
     end
 
     local itemLevel, itemNum, afkNum, deadNum, notOnlineNum= 0,0,0,0,0
-    local getItemLevelTab={}--取得装等
+    local getItemLevelTab={}
     local setSize= WhoFrame:GetWidth()> 350
     local maxLevel= GetMaxLevelForLatestExpansion()
     local player= UnitName('player')
@@ -44,14 +28,14 @@ local function Init_RaidGroupFrame_Update()
 
                 if subframes.name and name then
                     local text
-                    if name==player then--自己
-                        text= WoWTools_DataMixin.onlyChinese and '我' or COMBATLOG_FILTER_STRING_ME
+                    if name==player then
+                        text= WoWTools_L.COMBATLOG_FILTER_STRING_ME
                     end
-                    if not text then--距离
+                    if not text then
                         local distance, checkedDistance = UnitDistanceSquared(unit)
                         if checkedDistance then
                             if distance and distance > DISTANCE_THRESHOLD_SQUARED then
-                                text= WoWTools_MapMixin:GetUnit(unit)--单位, 地图名称
+                                text= WoWTools_MapMixin:GetUnit(unit)
                                 if text then
                                     text= '|A:poi-islands-table:0:0|a|cnGREEN_FONT_COLOR:'..text..'|r'
                                 end
@@ -59,10 +43,10 @@ local function Init_RaidGroupFrame_Update()
                         end
                     end
 
-                    text= text or WoWTools_UnitMixin:GetOnlineInfo(unit)--状态
+                    text= text or WoWTools_UnitMixin:GetOnlineInfo(unit)
 
-                    if not text and not setSize then--处理名字
-                        text= name:gsub('(%-.+)','')--名称
+                    if not text and not setSize then
+                        text= name:gsub('(%-.+)','')
                         text= WoWTools_TextMixin:sub(text, 3, 7)
                     end
                     if text then
@@ -79,7 +63,7 @@ local function Init_RaidGroupFrame_Update()
                             text= "|T"..texture..':0|t'
                         end
                     end
-                    text= text or WoWTools_UnitMixin:GetClassIcon(nil, nil, fileName)--职业图标
+                    text= text or WoWTools_UnitMixin:GetClassIcon(nil, nil, fileName)
 
                     if text then
                         if data.itemLevel then
@@ -87,7 +71,7 @@ local function Init_RaidGroupFrame_Update()
                             itemLevel= itemLevel+ data.itemLevel
                             itemNum= itemNum+1
                         else
-                            table.insert(getItemLevelTab, unit)--取得装等
+                            table.insert(getItemLevelTab, unit)
                         end
                         local role2= role or combatRole
                         if role2=='TANK'then
@@ -111,27 +95,16 @@ local function Init_RaidGroupFrame_Update()
         RaidFrame.groupInfoLable:SetPoint('BOTTOM',FriendsFrame.TitleContainer, 'TOP')
     end
     local text= '|A:charactercreate-gendericon-male-selected:0:0|a'..(itemNum==0 and 0 or format('%i',itemLevel/itemNum))
-    text= text..'  |cnGREEN_FONT_COLOR:'..itemNum..'|r/'..GetNumGroupMembers()..'|cnWARNING_FONT_COLOR:'--人数
-    text= text..'  '..format("\124T%s.tga:0\124t", FRIENDS_TEXTURE_DND)..notOnlineNum--不在线, 人数
+    text= text..'  |cnGREEN_FONT_COLOR:'..itemNum..'|r/'..GetNumGroupMembers()..'|cnWARNING_FONT_COLOR:'
+    text= text..'  '..format("\124T%s.tga:0\124t", FRIENDS_TEXTURE_DND)..notOnlineNum
     text= text..'  '..format("\124T%s.tga:0\124t", FRIENDS_TEXTURE_AFK)..afkNum--AFK
-    text= text..'  |A:deathrecap-icon-tombstone:0:0|a'..deadNum--死亡
+    text= text..'  |A:deathrecap-icon-tombstone:0:0|a'..deadNum
     RaidFrame.groupInfoLable:SetText(text)
-    WoWTools_UnitMixin:GetNotifyInspect(getItemLevelTab)--取得装等
+    WoWTools_UnitMixin:GetNotifyInspect(getItemLevelTab)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-local function Init()
+local Init= WoWTools_Once(function()
     WoWTools_DataMixin:Hook('RaidGroupFrame_Update', function()
         Init_RaidGroupFrame_Update()
     end)
@@ -151,27 +124,7 @@ local function Init()
     end)
 
 
-    Init=function()end
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+end)
 
 
 function WoWTools_FriendsMixin:Blizzard_RaidUI()

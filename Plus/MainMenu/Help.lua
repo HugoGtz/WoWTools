@@ -1,4 +1,3 @@
---帮助
 
 
 
@@ -14,16 +13,16 @@
 
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     local frame= CreateFrame('Frame', MainMenuMicroButton)
 
     frame:SetPoint('TOP')
     frame:SetSize(1,1)
 
-    frame.Text= WoWTools_LabelMixin:Create(MainMenuMicroButton,  {size=WoWToolsSave['Plus_MainMenu'].size, color=true})
+    frame.Text= WoWTools_LabelMixin:Create(MainMenuMicroButton,  {size=WoWTools_MainMenuMixin:Save().size, color=true})
     frame.Text:SetPoint('TOP', MainMenuMicroButton, 0,  -3)
 
-    frame.Text2= WoWTools_LabelMixin:Create(MainMenuMicroButton,  {size=WoWToolsSave['Plus_MainMenu'].size, color=true})
+    frame.Text2= WoWTools_LabelMixin:Create(MainMenuMicroButton,  {size=WoWTools_MainMenuMixin:Save().size, color=true})
     frame.Text2:SetPoint('BOTTOM', MainMenuMicroButton, 0, 3)
 
     table.insert(WoWTools_MainMenuMixin.Labels, frame.Text)
@@ -44,7 +43,6 @@ local function Init()
 
 
 
-    --添加版本号 MainMenuBar.lua
     WoWTools_DataMixin:Hook('MainMenuBarPerformanceBarFrame_OnEnter', function()
         if not MainMenuMicroButton.hover or KeybindFrames_InQuickKeybindMode() or Kiosk.IsEnabled() then
             return
@@ -53,7 +51,7 @@ local function Init()
         local version, build, date, tocversion, localizedVersion, buildType = GetBuildInfo()
         GameTooltip:AddLine(version..' '..build.. ' '..date.. ' '..tocversion..(buildType and ' '..buildType or ''), 1,0,1)
         if localizedVersion and localizedVersion~='' then
-            GameTooltip:AddLine((WoWTools_DataMixin.onlyChinese and '本地' or REFORGE_CURRENT)..localizedVersion, 1,0,0)
+            GameTooltip:AddLine((WoWTools_L['REFORGE_CURRENT~2'])..localizedVersion, 1,0,0)
         end
         GameTooltip:AddLine('realmID '..(GetRealmID() or '')..' '..(GetNormalizedRealmName() or ''), 1,0.82,0)
         GameTooltip:AddLine('regionID '..WoWTools_DataMixin.Player.Region..' '..GetCurrentRegionName(), 1,0.82,0)
@@ -62,7 +60,7 @@ local function Init()
         if info and info.wowProjectID then
             local region=''
             if info.regionID and info.regionID~=WoWTools_DataMixin.Player.Region then
-                region=' regionID'..(WoWTools_DataMixin.onlyChinese and '|cnGREEN_FONT_COLOR:' or '|cnWARNING_FONT_COLOR:')..info.regionID..'|r'
+                region=' regionID'..(WoWTools_L['|cnWARNING_FONT_COLOR:'])..info.regionID..'|r'
             end
             GameTooltip:AddLine('isInCurrentRegion '..WoWTools_TextMixin:GetYesNo(info.isInCurrentRegion)..region, 1,1,1)
         end
@@ -73,20 +71,20 @@ local function Init()
 
         GameTooltip:AddLine(
             (GenerateFlatClosure(SettingsPanel.Open, SettingsPanel) and '|cffffffff' or'|cff828282')
-            ..(WoWTools_DataMixin.onlyChinese and '选项' or OPTIONS)..'|r'
+            ..(WoWTools_L.OPTIONS)..'|r'
             ..WoWTools_DataMixin.Icon.mid
-            ..(WoWTools_DataMixin.onlyChinese and '上' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP)
+            ..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP)
         )
         GameTooltip:AddLine(
             (GenerateFlatClosure(ShowUIPanel, AddonList, nil, G_GameMenuFrameContextKey) and C_AddOns.GetNumAddOns()> 0 and '|cffffffff' or '|cff828282')
-            ..(WoWTools_DataMixin.onlyChinese and '插件' or ADDONS)
+            ..(WoWTools_L.ADDONS)
             ..WoWTools_DataMixin.Icon.right
         )
         GameTooltip:AddLine(
             (bat and '|cff828282' or '|cffffffff')
             ..WoWTools_DataMixin.Icon.mid
-            ..(WoWTools_DataMixin.onlyChinese and '宏命令设置' or MACROS)
-            ..(WoWTools_DataMixin.onlyChinese and '下' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN)
+            ..(WoWTools_L.MACROS)
+            ..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN)
         )
 
         GameTooltip:Show()
@@ -105,7 +103,7 @@ local function Init()
     end)
 
 
-    MainMenuMicroButton:EnableMouseWheel(true)--主菜单, 打开插件选项
+    MainMenuMicroButton:EnableMouseWheel(true)
     MainMenuMicroButton:HookScript('OnMouseWheel', function(_, d)
         if KeybindFrames_InQuickKeybindMode() or Kiosk.IsEnabled() then
             return
@@ -143,14 +141,13 @@ local function Init()
         --MainMenuMicroButton.NotificationOverlay:SetAlpha(0.5)
     end
 
-    Init=function()end
-end
+end)
 
 
 
 
 
 
-function WoWTools_MainMenuMixin:Init_Help()--帮助
+function WoWTools_MainMenuMixin:Init_Help()
     Init()
 end

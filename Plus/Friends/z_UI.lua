@@ -1,20 +1,5 @@
-function WoWTools_TextureMixin.Events:Blizzard_BNet()
-    BNToastFrame:ClearAllPoints()
-    BNToastFrame:SetPoint('BOTTOMLEFT', QuickJoinToastButton, 'TOPLEFT')
-    self:SetFrame(BNToastFrame, {alpha=0.3})
-end
-
---[[function WoWTools_MoveMixin.Events:Blizzard_BNet()
-    self:Setup(BNToastFrame)
-end]]
 
 
-
-
-
-
-
---好友召募
 function WoWTools_MoveMixin.Events:Blizzard_RecruitAFriend()
     RecruitAFriendFrame.RecruitList.ScrollBox:SetPoint('BOTTOMRIGHT', -20,0)
     RecruitAFriendFrame.RewardClaiming.Background:SetPoint('LEFT')
@@ -25,35 +10,9 @@ function WoWTools_MoveMixin.Events:Blizzard_RecruitAFriend()
     WoWTools_MoveMixin:Setup(RecruitAFriendFrame.RewardClaiming.Inset, {frame=FriendsFrame})
 end
 
-function WoWTools_TextureMixin.Events:Blizzard_RecruitAFriend()
-    self:SetScrollBar(RecruitAFriendFrame.RecruitList)
-    self:HideTexture(RecruitAFriendFrame.RecruitList.ScrollFrameInset.Bg)
-    self:SetNineSlice(RecruitAFriendFrame.RewardClaiming.Inset)
-    self:SetNineSlice(RecruitAFriendFrame.RecruitList.ScrollFrameInset)
-    self:HideTexture(RecruitAFriendFrame.RecruitList.Header.Background)
-    self:HideTexture(RecruitAFriendFrame.RewardClaiming.Inset.Bg)
-    self:SetFrame(RecruitAFriendFrame.RewardClaiming, {alpha=0.3})
-    self:SetButton(RecruitAFriendFrame.RewardClaiming.NextRewardInfoButton, 0.5)
-
---好友召募奖励
-    self:HideFrame(RecruitAFriendRewardsFrame.Border)
-    self:SetButton(RecruitAFriendRewardsFrame.CloseButton)
-end
 --function WoWTools_MoveMixin.Events:Blizzard_RaidFrame()
 
 
-
-
-
-
-
-
-
-
-
-
-
---团队信息， 副本击杀信息
 function WoWTools_MoveMixin.Events:Blizzard_RaidFrame()
     RaidInfoFrame.ScrollBox:SetPoint('BOTTOMRIGHT',-35, 38)
     RaidInfoDetailFooter:SetPoint('RIGHT', -12, 0)
@@ -82,34 +41,9 @@ function WoWTools_MoveMixin.Events:Blizzard_RaidFrame()
 end
 
 
-function WoWTools_TextureMixin.Events:Blizzard_RaidFrame()
-    self:SetUIButton(RaidFrameConvertToRaidButton)
-    self:SetUIButton(RaidFrameRaidInfoButton)
-
-    self:HideTexture(RaidInfoDetailHeader)
-    self:SetButton(RaidInfoCloseButton)
-    self:SetFrame(RaidInfoFrame.Border, {show={[RaidInfoFrame.Border.Bg]=true}})
-    self:SetFrame(RaidInfoFrame.Header)
-    self:SetAlphaColor(RaidInfoDetailFooter)
-    self:SetScrollBar(RaidInfoFrame)
-    self:SetUIButton(RaidInfoExtendButton)
-    self:SetUIButton(RaidInfoCancelButton)
-end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-function WoWTools_MoveMixin.Events:Blizzard_FriendsFrame()--好友列表
+function WoWTools_MoveMixin.Events:Blizzard_FriendsFrame()
     local function Set_RaidFrame_Button_size()
         local w= FriendsFrame:GetWidth()/2-8
         for i=1, 8 do
@@ -143,7 +77,6 @@ function WoWTools_MoveMixin.Events:Blizzard_FriendsFrame()--好友列表
 
     FriendsListFrame.ScrollBox:SetPoint('BOTTOMRIGHT', -24, 30)
 
---团队
     RaidFrame:HookScript('OnShow', function(...) Set_RaidFrame_Button_size(...) end)
 
     WoWTools_DataMixin:Hook(FriendsListButtonMixin, 'OnLoad', function(btn)
@@ -170,10 +103,6 @@ function WoWTools_MoveMixin.Events:Blizzard_FriendsFrame()--好友列表
 
 
 
-
-
---好友的好友，列表
-
     FriendsFriendsFrame.ScrollFrameBorder:SetPoint('BOTTOMRIGHT', -25, 55)
     WoWTools_DataMixin:Hook('FriendsFriends_InitButton', function(btn)
         if not btn:GetScript('OnDoubleClick') then
@@ -192,7 +121,6 @@ function WoWTools_MoveMixin.Events:Blizzard_FriendsFrame()--好友列表
         frame:SetSize(314, 345)
     end})
 
---好友 屏蔽列表
     --FriendsFrame.IgnoreListWindow.CloseButton:SetFrameStrata(FriendsFrame.IgnoreListWindow.TitleContainer:GetFrameStrata())
     --FriendsFrame.IgnoreListWindow.CloseButton:SetFrameLevel(FriendsFrame.IgnoreListWindow.TitleContainer:GetFrameLevel()+1)
     FriendsFrame.IgnoreListWindow:ClearAllPoints()
@@ -201,98 +129,8 @@ function WoWTools_MoveMixin.Events:Blizzard_FriendsFrame()--好友列表
     self:Setup(FriendsFrame.IgnoreListWindow, {frame=FriendsFrame})
 
     --WoWTools_TextureMixin:SetButton(FriendsFrame.IgnoreListWindow.ResizeButton)
---通告
     self:Setup(FriendsFrameBattlenetFrame.BroadcastFrame, {frame=FriendsFrame})
 end
-
-
-
-
-
-
-
-
-
---好友列表
-function WoWTools_TextureMixin.Events:Blizzard_FriendsFrame()
-    self:HideFrame(FriendsFrame)
-    self:SetNineSlice(FriendsFrameInset)
-    self:HideTexture(FriendsFrameInset.Bg)
-    self:SetScrollBar(FriendsListFrame)
-    self:CreateBG(FriendsListFrame.ScrollBox, {isAllPoint=true, isColor=true, alpha=0.5})
-    self:SetButton(FriendsFrameCloseButton)
-    self:SetMenu(FriendsFrameStatusDropdown, {alpha=1})
-    self:HideTexture(FriendsFrameStatusDropdown.Background)
-    self:SetScrollBar(IgnoreListFrame)
-    self:SetNineSlice(WhoFrameListInset)
-    self:HideTexture(WhoFrameListInset.Bg)
-    self:SetScrollBar(WhoFrame)
-    self:SetMenu(WhoFrameDropdown)
-
-
-    self:HideTexture(WhoFrameEditBox.Bg)
-    self:SetEditBox(WhoFrameEditBox)
-
-    self:CreateBG(WhoFrame.ScrollBox, {isAllPoint=true, isColor=true, alpha=0.5})
-    self:SetScrollBar(QuickJoinFrame)
-
-
-    self:SetTabButton(FriendsTabHeader)
-
-    for i=1, 4 do
-        self:SetTabButton(_G['FriendsFrameTab'..i])
-        self:SetFrame(_G['WhoFrameColumnHeader'..i], {notAlpha=true})
-    end
-
-    self:SetFrame(BattleTagInviteFrame.Border, {notAlpha=true})
-
-
-
---好友的好友，列表
-    self:SetUIButton(FriendsFrameAddFriendButton)
-    self:SetUIButton(FriendsFrameSendMessageButton)
-    self:HideFrame(FriendsFriendsFrame.Border, {show={[FriendsFriendsFrame.Border.Bg]=true}})
-    self:SetNineSlice(FriendsFriendsFrame.ScrollFrameBorder, 0, true)
-    self:SetScrollBar(FriendsFriendsFrame)
-    self:SetMenu(FriendsFriendsFrameDropdown)
-
-
---近期往来
-    self:SetScrollBar(RecentAlliesFrame.List)
-
---好友 屏蔽列表
-    self:SetNineSlice(FriendsFrame.IgnoreListWindow)
-    self:SetButton(FriendsFrame.IgnoreListWindow.CloseButton)
-    self:SetScrollBar(FriendsFrame.IgnoreListWindow)
-    self:HideTexture(FriendsFrame.IgnoreListWindow.Bg)
-    self:SetNineSlice(FriendsFrame.IgnoreListWindow.Inset)
-    self:SetUIButton(FriendsFrame.IgnoreListWindow.UnignorePlayerButton)
-
---通告
-    self:SetFrame(FriendsFrameBattlenetFrame.BroadcastButton, {notAlpha=true})
-    self:SetFrame(FriendsFrameBattlenetFrame.BroadcastFrame.Border, {alpha=0.7})
-    self:SetEditBox(FriendsFrameBattlenetFrame.BroadcastFrame.EditBox)
-    self:SetButton(FriendsFrameBattlenetFrame.ContactsMenuButton, {alpha=1})
-    self:SetUIButton(FriendsFrameBattlenetFrame.BroadcastFrame.UpdateButton)
-    self:SetUIButton(FriendsFrameBattlenetFrame.BroadcastFrame.CancelButton)
-
-
---查询
-    self:SetUIButton(WhoFrameWhoButton)
-    self:SetUIButton(WhoFrameAddFriendButton)
-    self:SetUIButton(WhoFrameGroupInviteButton)
---快速加入
-    self:SetUIButton(QuickJoinFrame.JoinQueueButton)
-    self:Init_BGMenu_Frame(FriendsFrame, {
-    settings=function(_, _, _, _, portraitAlpha)
-        FriendsFrameIcon:SetAlpha(portraitAlpha or 1)
-    end})
-end
-
-
-
-
-
 
 
 

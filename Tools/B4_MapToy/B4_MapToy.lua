@@ -1,62 +1,39 @@
 
---https://www.wowhead.com/cn/spell=431280/瞬息全战团地图
 local SpellID= 431280
 
 local Tab={
-    --{itemID=228412, achievements={16334, 19309, 17766, 16761, 17739, 16363, 16336, 15394}},--巨龙群岛探路者 侦察地图：巨龙群岛的天空
 
-    {itemID=187869, achievements={14663, 14303, 14304, 14305, 14306}},--暗影界
+    {itemID=187869, achievements={14663, 14303, 14304, 14305, 14306}},
 
-    {itemID=187875, achievements={10665,10666, 10667, 10668, 10669, 11543}},--破碎群岛
+    {itemID=187875, achievements={10665,10666, 10667, 10668, 10669, 11543}},
 
-    {itemID=187900, achievements={12558, 12556, 13776, 12557, 12559, 13712, 12560, 12561}},--库尔提拉斯和赞达拉 侦察地图：库尔提拉斯和赞达拉的奇景
+    {itemID=187900, achievements={12558, 12556, 13776, 12557, 12559, 13712, 12560, 12561}},
 
-    {itemID=187895, achievements={8938, 8939, 8940, 8941, 8937, 8942, 10260}},--德拉诺
+    {itemID=187895, achievements={8938, 8939, 8940, 8941, 8937, 8942, 10260}},
 
-    {itemID=187896, achievements={6977, 6975, 6976, 6979, 6351, 6978, 6969}},--潘达利亚旅行指南
+    {itemID=187896, achievements={6977, 6975, 6976, 6979, 6351, 6978, 6969}},
 
-    {itemID=187897, achievements={4864, 4863, 4866, 4865, 4825}},--大灾变
+    {itemID=187897, achievements={4864, 4863, 4866, 4865, 4825}},
 
-    {itemID=187898, achievements={1267, 1264, 1268, 1269, 1265, 1266, 1263, 1457, 1270}},--诺森德
+    {itemID=187898, achievements={1267, 1264, 1268, 1269, 1265, 1266, 1263, 1457, 1270}},
 
-    {itemID=187899, achievements={865, 862, 866, 843, 864, 867, 863}},--外域
+    {itemID=187899, achievements={865, 862, 866, 843, 864, 867, 863}},
 
 }
 
 if WoWTools_DataMixin.Player.Faction=='Alliance' then
     --LM
-    table.insert(Tab, {itemID=150743, achievements={736, 842, 750, 851, 857, 855, 853, 856, 850, 845, 848, 852, 854, 847, 728, 849, 844, 4996, 846, 861, 860}})--卡利姆多
-    table.insert(Tab, {itemID=150746, achievements={858, 859, 627, 776, 775, 768, 765, 802, 782, 766, 772, 777, 779, 770, 774, 780, 769, 773, 778, 841, 4995, 761, 771, 781, 868}})--东部王国
+    table.insert(Tab, {itemID=150743, achievements={736, 842, 750, 851, 857, 855, 853, 856, 850, 845, 848, 852, 854, 847, 728, 849, 844, 4996, 846, 861, 860}})
+    table.insert(Tab, {itemID=150746, achievements={858, 859, 627, 776, 775, 768, 765, 802, 782, 766, 772, 777, 779, 770, 774, 780, 769, 773, 778, 841, 4995, 761, 771, 781, 868}})
 
 elseif WoWTools_DataMixin.Player.Faction=='Horde' then
     --BL
-    table.insert(Tab, {itemID=150744, achievements={736, 842, 750, 851, 857, 855, 853, 856, 850, 845, 848, 852, 854, 847, 728, 849, 844, 4996, 846, 861, 860}})--卡利姆多
-    table.insert(Tab, {itemID=150745, achievements={858, 859, 627, 776, 775, 768, 765, 802, 782, 766, 772, 777, 779, 770, 774, 780, 769, 773, 778, 841, 4995, 761, 771, 781, 868}})--东部王国
+    table.insert(Tab, {itemID=150744, achievements={736, 842, 750, 851, 857, 855, 853, 856, 850, 845, 848, 852, 854, 847, 728, 849, 844, 4996, 846, 861, 860}})
+    table.insert(Tab, {itemID=150745, achievements={858, 859, 627, 776, 775, 768, 765, 802, 782, 766, 772, 777, 779, 770, 774, 780, 769, 773, 778, 841, 4995, 761, 771, 781, 868}})
 end
 
 
-local addName
-
-
-
-local function Save()
-    return WoWToolsSave['Tools_MapToy']
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+local Module= {}--lo completa WoWTools_Module:Register (al final del archivo)
 
 
 
@@ -70,10 +47,10 @@ local function Is_Completed(tab)
         local _, name, _, _, _, _, _, _, _, icon, _, _, wasEarnedByMe= GetAchievementInfo(achievementID)
         if name then
             if not wasEarnedByMe then
-                num= num+1--没完成
+                num= num+1
             end
         else
-            isNotChecked=true--没发现，数据
+            isNotChecked=true
         end
         table.insert(new, {
             achievementID= achievementID,
@@ -85,9 +62,9 @@ local function Is_Completed(tab)
 
     return {
         itemID= tab.itemID,
-        hasToy= C_ToyBox.GetToyInfo(tab.itemID) and PlayerHasToy(tab.itemID) or C_Item.GetItemCount(tab.itemID)>0,--没收集 ==false
-        num=num,--没完成，数量
-        isNotChecked=isNotChecked,--没数据 ==nil
+        hasToy= C_ToyBox.GetToyInfo(tab.itemID) and PlayerHasToy(tab.itemID) or C_Item.GetItemCount(tab.itemID)>0,
+        num=num,
+        isNotChecked=isNotChecked,
         data=new,
     }
 end
@@ -164,7 +141,10 @@ local function Init_Menu(self, root)
             self:settings(data.itemID)
         end, {itemID=info.itemID})
 
-        WoWTools_SetTooltipMixin:Set_Menu(sub)
+        sub:SetTooltip(function(tooltip, desc)
+            WoWTools_SetTooltipMixin:Setup(tooltip, desc.data)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.MapToy.Toy'])
+        end)
 
 
         for index, tab in pairs(new.data) do
@@ -194,24 +174,26 @@ local function Init_Menu(self, root)
     end)
     sub:SetTooltip(function(tooltip)
         tooltip:SetSpellByID(SpellID)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.MapToy.Spell'])
     end)
 
-    local tab=CopyTable(Save().no)
+    local tab=CopyTable(Module:Save().no)
     tab[WoWTools_DataMixin.Player.GUID]= true
 
     root:CreateDivider()
-    sub= WoWTools_ToolsMixin:OpenMenu(root, WoWTools_DataMixin.onlyChinese and '禁用' or DISABLE)
+    sub= WoWTools_ToolsMixin:OpenMenu(root, Module.addName, WoWTools_L.DISABLE)
 
-    sub:CreateTitle(WoWTools_DataMixin.onlyChinese and '禁用' or DISABLE)
+    sub:CreateTitle(WoWTools_L.DISABLE)
 
     for guid in pairs(tab) do
         sub2=sub:CreateCheckbox(
             WoWTools_UnitMixin:GetPlayerInfo(nil, guid, nil, {reName=true, reRealm=true}),
         function(data)
-            return Save().no[data]
+            return Module:Save().no[data]
         end, function(data)
-            Save().no[data]= not Save().no[data] and true or nil
+            Module:Save().no[data]= not Module:Save().no[data] and true or nil
         end, guid)
+        WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.MapToy.DisableChar'])
     end
 
     sub:CreateDivider()
@@ -219,36 +201,38 @@ local function Init_Menu(self, root)
 
     sub2=sub:CreateCheckbox(
         format('%s = %d %s',
-            (WoWTools_DataMixin.onlyChinese and '禁用' or DISABLE),
+            (WoWTools_L.DISABLE),
             GetMaxLevelForLatestExpansion(),
-            WoWTools_DataMixin.onlyChinese and '等级' or LEVEL
+            WoWTools_L.LEVEL
         ),
     function()
-        return Save().maxLevelIsDisabled
+        return Module:Save().maxLevelIsDisabled
     end, function()
-        Save().maxLevelIsDisabled= not Save().maxLevelIsDisabled and true or false
+        Module:Save().maxLevelIsDisabled= not Module:Save().maxLevelIsDisabled and true or false
     end)
     sub2:SetTooltip(function (tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.MapToy.MaxLevel'])
         tooltip:AddLine(
-            WoWTools_DataMixin.onlyChinese and '禁用最高级'
-            or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, DISABLE, BEST), LEVEL)
+            WoWTools_L['Disable highest level']
         )
     end)
 
     sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL,
+        WoWTools_L.CLEAR_ALL,
     function()
         StaticPopup_Show('WoWTools_OK',
-        WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL,
+        WoWTools_L.CLEAR_ALL,
         nil,
         {SetValue=function()
-            Save().no={}
-            Save().maxLevelIsDisabled=nil
+            Module:Save().no={}
+            Module:Save().maxLevelIsDisabled=nil
         end})
         return MenuResponse.Open
     end)
 
     WoWTools_MenuMixin:SetScrollMode(sub)
+
+    WoWTools_ToolsMixin:SettingsMenu(root, Module)
 end
 
 
@@ -271,7 +255,7 @@ end
 
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     local btn= WoWTools_ToolsMixin:Get_ButtonForName('MapToy')
     if not btn then
         return
@@ -287,11 +271,10 @@ local function Init()
             GameTooltip:SetSpellByID(self.spellID)
             GameTooltip:AddLine(' ')
         end
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.left)
         GameTooltip:Show()
     end
 
---CD 主图标冷却
     function btn:set_cool()
         WoWTools_CooldownMixin:SetFrame(self, {
             itemID=self.itemID,
@@ -314,7 +297,7 @@ local function Init()
         end
     end
 
-    function btn:settings(itemID)--设置，随机值
+    function btn:settings(itemID)
         if not self:CanChangeAttribute() then
             self:RegisterEvent('PLAYER_REGEN_ENABLED')
             return
@@ -327,7 +310,7 @@ local function Init()
         else
             self:SetAttribute("type1", "spell")
             spellID= SpellID
-            spellName= C_Spell.GetSpellName(spellID) or (LOCALE_zhCN and '瞬息全战团地图') or SpellID
+            spellName= C_Spell.GetSpellName(spellID) or SpellID
         end
         self:SetAttribute('toy1', itemID)
         self:SetAttribute('spell1', spellName or SpellID)
@@ -360,96 +343,92 @@ local function Init()
 
     btn:settings()
     btn:set_texture()
+end)
 
-    Init=function()end
+
+
+
+
+
+
+
+
+
+
+--Personajes en los que no se crea el botón (save.no[guid]); el actual siempre aparece
+local function Get_Options(_, save)
+    local guid= WoWTools_DataMixin.Player.GUID
+    local list= {
+        {type='section', text='GENERAL'},
+        {type='check', key='maxLevel', text='Disable at max level', tooltip='Tip.MapToy.MaxLevel', reload=true,
+            get= function(s) return s.maxLevelIsDisabled end,
+            set= function(s, value) s.maxLevelIsDisabled= value and true or false end,
+        },
+        {type='section', key='chars', text='Disabled characters'},
+    }
+    local guids= {}
+    if guid then
+        guids[guid]= true
+    end
+    for g in pairs(save.no or {}) do
+        guids[g]= true
+    end
+    for g in pairs(guids) do
+        table.insert(list, {type='check', key='char_'..g, reload=true, tooltip='Tip.MapToy.DisableChar',
+            text= function()
+                return WoWTools_UnitMixin:GetPlayerInfo(nil, g, nil, {reName=true, reRealm=true})
+            end,
+            get= function(s) return s.no[g] end,
+            set= function(s, value) s.no[g]= value and true or nil end,
+        })
+    end
+    table.insert(list, {type='button', key='clear', text='Clear disabled characters', buttonText='SLASH_STOPWATCH_PARAM_STOP2',
+        confirm=true, reload=true, tooltip='Tip.MapToy.ClearChars',
+        func= function(_, s)
+            s.no={}
+            s.maxLevelIsDisabled=true
+        end,
+    })
+    return list
 end
 
 
-
-
-
-
-
-
-
-
-
---###########
---加载保存数据
---###########
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-
-
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWTools' then
-            WoWToolsSave['Tools_MapToy']= WoWToolsSave['Tools_MapToy'] or {
-                no={
-                    --[guid]=true
-                },
-                maxLevelIsDisabled=true,
-                --maxLevelIsDisabled= WoWTools_DataMixin.Player.husandro,
-            }
-
---旧数据
-            Save().autoAddDisabled= nil
-
-            addName= '|A:Taxi_Frame_Yellow:0:0|a'..(WoWTools_DataMixin.onlyChinese and '侦察地图' or ADVENTURE_MAP_TITLE)
-
-            WoWTools_ToolsMixin:Set_AddList(function(category, layout)
-                 WoWTools_PanelMixin:Check_Button({
-                     checkName= addName,
-                     GetValue= function() return not Save().disabled end,
-                     SetValue= function()
-                         Save().disabled = not Save().disabled and true or nil
-                     end,
-                     buttonText= WoWTools_DataMixin.onlyChinese and '清除' or SLASH_STOPWATCH_PARAM_STOP2,
-                     buttonFunc= function()
-                        StaticPopup_Show('WoWTools_OK',
-                        addName,
-                        nil,
-                        {SetValue=function()
-                            Save().no={}
-                            Save().maxLevelIsDisabled=true
-                        end})
-                     end,
-                     layout= layout,
-                     category= category,
-                 })
-             end)
-
-            if not Save().disabled
-                and not Save().no[WoWTools_DataMixin.Player.GUID]
-                and not (Save().maxLevelIsDisabled and WoWTools_DataMixin.Player.IsMaxLevel)
-             then
-                WoWTools_ToolsMixin:CreateButton({
-                    name='MapToy',
-                    tooltip=addName,
-                    disabledOptions=true
-                })
-            end
-
-            if WoWTools_ToolsMixin:Get_ButtonForName('MapToy') then
-                self:RegisterEvent('PLAYER_ENTERING_WORLD')
-
-                for _, info in pairs(Tab) do
-                    WoWTools_DataMixin:Load(info.itemID, 'item')
-                    for _, achievementID in pairs(info.achievements) do
-                        GetAchievementCategory(achievementID)
-                    end
-                end
-                WoWTools_DataMixin:Load(SpellID, 'spell')
-
-            else
-                self:SetScript('OnEvent', nil)
-            end
-            self:UnregisterEvent(event)
+WoWTools_Module:Register({
+    options= Get_Options,
+    key= 'Tools_MapToy', name= 'ADVENTURE_MAP_TITLE', icon= 'Taxi_Frame_Yellow', group= 'Tools',
+    parent= 'WoWTools_ToolsButton', tooltip= 'Tip.MapToy.Enable', mixin= Module,
+    defaults= {
+        no={
+            --[guid]=true
+        },
+        maxLevelIsDisabled=true,
+    },
+    onLoad= function(_, save)
+        save.autoAddDisabled= nil
+    end,
+    onEnable= function(M, save)
+        if not save.no[WoWTools_DataMixin.Player.GUID]
+            and not (save.maxLevelIsDisabled and WoWTools_DataMixin.Player.IsMaxLevel)
+         then
+            WoWTools_ToolsMixin:CreateButton({
+                name='MapToy',
+                tooltip=M.addName,
+                disabledOptions=true
+            })
         end
 
-    elseif event=='PLAYER_ENTERING_WORLD' then
-        Init()
-        self:SetScript('OnEvent', nil)
-        self:UnregisterEvent(event)
-    end
-end)
+        if WoWTools_ToolsMixin:Get_ButtonForName('MapToy') then
+            WoWTools_ToolsMixin:OnEnterWorld(function()
+                Init()
+            end)
+
+            for _, info in pairs(Tab) do
+                WoWTools_DataMixin:Load(info.itemID, 'item')
+                for _, achievementID in pairs(info.achievements) do
+                    GetAchievementCategory(achievementID)
+                end
+            end
+            WoWTools_DataMixin:Load(SpellID, 'spell')
+        end
+    end,
+})

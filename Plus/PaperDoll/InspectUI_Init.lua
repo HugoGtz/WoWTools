@@ -1,39 +1,27 @@
 
---目标, 装备
-local function Save()
-    return WoWToolsSave['Plus_PaperDoll']
-end
-
-
-local KeystoneLabel--挑战, 分数
-local StatusLabel--装备，属性
-
-
-
-
-
-
+local KeystoneLabel
+local StatusLabel
 
 
 local function set_InspectPaperDollItemSlotButton_Update(frame)
     local unit= InspectFrame.unit or 'target'
 
     local slot= frame:GetID()
-	local link= (WoWTools_UnitMixin:UnitExists(unit) and not Save().hide) and GetInventoryItemLink(unit, slot) or nil
-	WoWTools_DataMixin:Load(link, 'item')--加载 item quest spell
+	local link= (WoWTools_UnitMixin:UnitExists(unit) and not WoWTools_PaperDollMixin:Save().hide) and GetInventoryItemLink(unit, slot) or nil
+	WoWTools_DataMixin:Load(link, 'item')
 
     --set_Gem(frame, slot, link)
 
     WoWTools_PaperDollMixin:Set_Item_Tips(frame, slot, link, false)
-    WoWTools_PaperDollMixin:Set_Slot_Num_Label(frame, slot, link and true or false)--栏位, 帐号最到物品等级
+    WoWTools_PaperDollMixin:Set_Slot_Num_Label(frame, slot, link and true or false)
     WoWTools_ItemMixin:SetItemStats(frame, link, {point=frame.icon})
-    if not frame.OnEnter and not Save().hide then
+    if not frame.OnEnter and not WoWTools_PaperDollMixin:Save().hide then
         frame:SetScript('OnEnter', function(self)
             if self.link then
                 GameTooltip:ClearLines()
                 GameTooltip:SetOwner(InspectFrame, "ANCHOR_RIGHT")
                 GameTooltip:SetHyperlink(self.link)
-                GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '链接至聊天栏' or COMMUNITIES_INVITE_MANAGER_LINK_TO_CHAT, WoWTools_DataMixin.Icon.left)
+                GameTooltip:AddDoubleLine(WoWTools_L.COMMUNITIES_INVITE_MANAGER_LINK_TO_CHAT, WoWTools_DataMixin.Icon.left)
                 GameTooltip:Show()
             end
         end)
@@ -94,18 +82,10 @@ local function set_InspectPaperDollItemSlotButton_Update(frame)
 end
 
 
-
-
-
-
-
-
-
-
-local function set_InspectPaperDollFrame_SetLevel()--目标,天赋 装等
+local function set_InspectPaperDollFrame_SetLevel()
     local key
     local unit= InspectFrame.unit or 'target'
-    if not Save().hide and unit and WoWTools_UnitMixin:UnitExists(unit) then
+    if not WoWTools_PaperDollMixin:Save().hide and unit and WoWTools_UnitMixin:UnitExists(unit) then
         local guid= unit and UnitGUID(unit)
         local data= guid and WoWTools_DataMixin.PlayerInfo[guid]
         if data then
@@ -133,7 +113,7 @@ local function set_InspectPaperDollFrame_SetLevel()--目标,天赋 装等
             InspectLevelText:SetText(text)
         end
 
-        local info= C_PlayerInfo.GetPlayerMythicPlusRatingSummary(unit)--挑战, 分数
+        local info= C_PlayerInfo.GetPlayerMythicPlusRatingSummary(unit)
         if info and info.currentSeasonScore and info.currentSeasonScore>0 then
             key= WoWTools_ChallengeMixin:KeystoneScorsoColor(info.currentSeasonScore,true)
         end
@@ -143,47 +123,28 @@ local function set_InspectPaperDollFrame_SetLevel()--目标,天赋 装等
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
 local function Init_UI()
 
 
---显示/隐藏，按钮
     WoWTools_PaperDollMixin:Init_ShowHideButton(InspectFrame)
 
---更改, 名称大小
     function InspectLevelText:set_font_size()
-        WoWTools_LabelMixin:Create(nil, {changeFont=self, size= Save().hide and 12 or 22, justifyH='CENTER'})
+        WoWTools_LabelMixin:Create(nil, {changeFont=self, size= WoWTools_PaperDollMixin:Save().hide and 12 or 22, justifyH='CENTER'})
     end
 
-    if not Save().hide then
+    if not WoWTools_PaperDollMixin:Save().hide then
         InspectLevelText:set_font_size()
     end
 
---装备，属性
     StatusLabel= WoWTools_LabelMixin:Create(InspectPaperDollFrame, {size=14})
     StatusLabel:SetPoint('TOPLEFT', InspectFrameTab1, 'BOTTOMLEFT',0,-4)
 
     WoWTools_TextureMixin:CreateBG(InspectPaperDollFrame, {point=StatusLabel})
-    --[[StatusLabel.Background= InspectPaperDollFrame:CreateTexture(nil, 'BACKGROUND')
-    StatusLabel.Background:SetPoint('TOPLEFT', StatusLabel, -2, 2)
-    StatusLabel.Background:SetPoint('BOTTOMRIGHT', StatusLabel, 2, -2)
-    StatusLabel.Background:SetAtlas('ChallengeMode-guild-background')
-    StatusLabel.Background:SetAlpha(0.5)]]
 
     function InspectFrame:set_status_label()
         local unit=self.unit
         local text
-        if not Save().hide and WoWTools_UnitMixin:UnitExists(unit) then
+        if not WoWTools_PaperDollMixin:Save().hide and WoWTools_UnitMixin:UnitExists(unit) then
             local tab={ 1,2,3,15,5,9, 10,6,7,8,11,12,13,14, 16,17}
             local sta, newSta={}, {}
             for _, slotID in pairs(tab) do
@@ -208,55 +169,51 @@ local function Init_UI()
         self:set_status_label()
     end)
 
---挑战, 分数
     KeystoneLabel=  WoWTools_LabelMixin:Create(InspectPaperDollFrame, {size=18})
     KeystoneLabel:SetPoint('BOTTOMLEFT', 10, 5)
 
---试衣间, 按钮
     InspectPaperDollFrame.ViewButton:ClearAllPoints()
     InspectPaperDollFrame.ViewButton:SetPoint('TOPRIGHT', -5, -28)
     InspectPaperDollFrame.ViewButton:SetSize(28,28)
     WoWTools_TextureMixin:SetUIButton(InspectPaperDollFrame.ViewButton)
-    InspectPaperDollFrame.ViewButton:SetText(WoWTools_DataMixin.onlyChinese and '试' or WoWTools_TextMixin:sub(VIEW,1))
+    InspectPaperDollFrame.ViewButton:SetText(WoWTools_TextMixin:sub(VIEW,1))
     InspectPaperDollFrame.ViewButton:HookScript('OnLeave', GameTooltip_Hide)
     InspectPaperDollFrame.ViewButton:HookScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '试衣间' or DRESSUP_FRAME)
+        GameTooltip:AddLine(WoWTools_L.DRESSUP_FRAME)
         GameTooltip:Show()
     end)
 
---天赋，按钮
     InspectPaperDollItemsFrame.InspectTalents:SetSize(28,28)
-    InspectPaperDollItemsFrame.InspectTalents:SetText(WoWTools_DataMixin.onlyChinese and '赋' or WoWTools_TextMixin:sub(TALENT,1))
+    InspectPaperDollItemsFrame.InspectTalents:SetText(WoWTools_TextMixin:sub(TALENT,1))
     InspectPaperDollItemsFrame.InspectTalents:HookScript('OnLeave', GameTooltip_Hide)
     InspectPaperDollItemsFrame.InspectTalents:HookScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '天赋' or INSPECT_TALENTS_BUTTON)
+        GameTooltip:AddLine(WoWTools_L.INSPECT_TALENTS_BUTTON)
         GameTooltip:Show()
     end)
 
-    WoWTools_DataMixin:Hook('InspectPaperDollItemSlotButton_Update', function(self)--目标, 装备
+    WoWTools_DataMixin:Hook('InspectPaperDollItemSlotButton_Update', function(self)
         set_InspectPaperDollItemSlotButton_Update(self)
     end)
 
-    WoWTools_DataMixin:Hook('InspectPaperDollFrame_SetLevel', function()--目标,天赋 装等
+    WoWTools_DataMixin:Hook('InspectPaperDollFrame_SetLevel', function()
         set_InspectPaperDollFrame_SetLevel()
     end)
 
 
-    --替换，原生 出错
     function InspectGuildFrame_Update()
         local guildPoints, guildNumMembers, guildName, guildRealmName = C_PaperDollInfo.GetInspectGuildInfo(InspectFrame.unit)
         local _, guildFactionName = UnitFactionGroup(InspectFrame.unit)
 
         InspectGuildFrame.guildName:SetText(guildName or '')
-        InspectGuildFrame.guildRealmName:SetFormattedText(WoWTools_DataMixin.onlyChinese and '服务器：%s' or INSPECT_GUILD_REALM, guildRealmName or '')
+        InspectGuildFrame.guildRealmName:SetFormattedText(WoWTools_L.INSPECT_GUILD_REALM, guildRealmName or '')
 
         if ( guildFactionName and guildNumMembers ) then
-            InspectGuildFrame.guildLevel:SetFormattedText(WoWTools_DataMixin.onlyChinese and '%s公会' or INSPECT_GUILD_FACTION, guildFactionName)
-            InspectGuildFrame.guildNumMembers:SetFormattedText(WoWTools_DataMixin.onlyChinese and '%d名公会成员' or INSPECT_GUILD_NUM_MEMBERS, guildNumMembers)
+            InspectGuildFrame.guildLevel:SetFormattedText(WoWTools_L.INSPECT_GUILD_FACTION, guildFactionName)
+            InspectGuildFrame.guildNumMembers:SetFormattedText(WoWTools_L.INSPECT_GUILD_NUM_MEMBERS, guildNumMembers)
         end
 
         local pointFrame = InspectGuildFrame.Points
@@ -271,19 +228,7 @@ local function Init_UI()
 end
 
 
-
-
-
-
+--Se llama desde 1_Init.lua (campo blizzard) cuando Blizzard_InspectUI está cargado
 function WoWTools_PaperDollMixin:Init_InspectUI()
-    if C_AddOns.IsAddOnLoaded('Blizzard_InspectUI') then
-        Init_UI()
-    else
-        EventRegistry:RegisterFrameEventAndCallback("ADDON_LOADED", function(owner, arg1)
-             if arg1=='Blizzard_InspectUI' then
-                Init_UI()
-                EventRegistry:UnregisterCallback('ADDON_LOADED', owner)
-            end
-        end)
-    end
+    Init_UI()
 end

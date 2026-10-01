@@ -1,34 +1,11 @@
---好友列表, 模块
-local function Save()
-    return WoWToolsSave['Plus_FriendsList']
-end
 local OptionTexture={
     ['Availabel'] = FRIENDS_TEXTURE_ONLINE,
     ['DND']= FRIENDS_TEXTURE_DND,
     ['Away'] =FRIENDS_TEXTURE_AFK,
 }
-local OptionText--= (WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS).."|T%s:0:|t %s"
+local OptionText--= (WoWTools_L.SETTINGS).."|T%s:0:|t %s"
 local RegionNames
 local FriendsButton
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Friends_Menu(self, root)
@@ -39,73 +16,76 @@ local function Init_Friends_Menu(self, root)
     local sub, name
     if not BNConnected() then
         root:CreateTitle(
-            WoWTools_DataMixin.onlyChinese and '断开战网' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SOCIAL_TWITTER_DISCONNECT, COMMUNITY_COMMAND_BATTLENET),
+            WoWTools_L['SOCIAL_TWITTER_DISCONNECT+COMMUNITY_COMMAND_BATTLENET'],
             WARNING_FONT_COLOR
         )
         root:CreateDivider()
     end
 
     root:CreateTitle(
-        WoWTools_DataMixin.onlyChinese and '登入游戏' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, LOG_IN, GAME)
+        WoWTools_L['LOG_IN+GAME']
     )
-    root:CreateRadio(
-        OptionText:format(FRIENDS_TEXTURE_ONLINE, WoWTools_DataMixin.onlyChinese and '有空' or FRIENDS_LIST_AVAILABLE),
+    sub= root:CreateRadio(
+        OptionText:format(FRIENDS_TEXTURE_ONLINE, WoWTools_L.FRIENDS_LIST_AVAILABLE),
     function()
-        return Save().Friends[WoWTools_DataMixin.Player.GUID]== 'Availabel'
+        return WoWTools_FriendsMixin:Save().Friends[WoWTools_DataMixin.Player.GUID]== 'Availabel'
     end, function()
-        if Save().Friends[WoWTools_DataMixin.Player.GUID]== 'Availabel' then
-            Save().Friends[WoWTools_DataMixin.Player.GUID]= nil
+        if WoWTools_FriendsMixin:Save().Friends[WoWTools_DataMixin.Player.GUID]== 'Availabel' then
+            WoWTools_FriendsMixin:Save().Friends[WoWTools_DataMixin.Player.GUID]= nil
         else
-            Save().Friends[WoWTools_DataMixin.Player.GUID]= 'Availabel'
+            WoWTools_FriendsMixin:Save().Friends[WoWTools_DataMixin.Player.GUID]= 'Availabel'
         end
         self:set_status()
         return MenuResponse.Refresh
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Friends.StatusAvailable'])
 
-    root:CreateRadio(
-        OptionText:format(FRIENDS_TEXTURE_AFK, WoWTools_DataMixin.onlyChinese and '离开' or FRIENDS_LIST_AWAY),
+    sub= root:CreateRadio(
+        OptionText:format(FRIENDS_TEXTURE_AFK, WoWTools_L.FRIENDS_LIST_AWAY),
     function()
-        return Save().Friends[WoWTools_DataMixin.Player.GUID]== 'Away'
+        return WoWTools_FriendsMixin:Save().Friends[WoWTools_DataMixin.Player.GUID]== 'Away'
     end, function()
-        if Save().Friends[WoWTools_DataMixin.Player.GUID]== 'Away' then
-            Save().Friends[WoWTools_DataMixin.Player.GUID]= nil
+        if WoWTools_FriendsMixin:Save().Friends[WoWTools_DataMixin.Player.GUID]== 'Away' then
+            WoWTools_FriendsMixin:Save().Friends[WoWTools_DataMixin.Player.GUID]= nil
         else
-            Save().Friends[WoWTools_DataMixin.Player.GUID]= 'Away'
+            WoWTools_FriendsMixin:Save().Friends[WoWTools_DataMixin.Player.GUID]= 'Away'
         end
         self:set_status()
         return MenuResponse.Refresh
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Friends.StatusAway'])
 
-    root:CreateRadio(
-        OptionText:format(FRIENDS_TEXTURE_DND, WoWTools_DataMixin.onlyChinese and '忙碌' or FRIENDS_LIST_BUSY),
+    sub= root:CreateRadio(
+        OptionText:format(FRIENDS_TEXTURE_DND, WoWTools_L.FRIENDS_LIST_BUSY),
     function()
-        return Save().Friends[WoWTools_DataMixin.Player.GUID]== 'DND'
+        return WoWTools_FriendsMixin:Save().Friends[WoWTools_DataMixin.Player.GUID]== 'DND'
     end, function()
-        if Save().Friends[WoWTools_DataMixin.Player.GUID]== 'DND' then
-            Save().Friends[WoWTools_DataMixin.Player.GUID]= nil
+        if WoWTools_FriendsMixin:Save().Friends[WoWTools_DataMixin.Player.GUID]== 'DND' then
+            WoWTools_FriendsMixin:Save().Friends[WoWTools_DataMixin.Player.GUID]= nil
         else
-            Save().Friends[WoWTools_DataMixin.Player.GUID]= 'DND'
+            WoWTools_FriendsMixin:Save().Friends[WoWTools_DataMixin.Player.GUID]= 'DND'
         end
         self:set_status()
         return MenuResponse.Refresh
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Friends.StatusDND'])
 
     root:CreateDivider()
     sub= root:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '其他玩家' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, HUD_EDIT_MODE_SETTINGS_CATEGORY_TITLE_MISC, PLAYER),
+        WoWTools_L['HUD_EDIT_MODE_SETTINGS_CATEGORY_TITLE_MISC+PLAYER'],
     function()
         return MenuResponse.Open
     end)
 
     sub:CreateButton(
-        '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL),
+        '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.CLEAR_ALL),
     function(data)
         StaticPopup_Show('WoWTools_OK',
         data.name,
         nil,
         {SetValue=function()
-            Save().Friends= {}
-            print(
+            WoWTools_FriendsMixin:Save().Friends= {}
+            WoWTools_Print(
                 WoWTools_FriendsMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 data.name
             )
@@ -114,264 +94,60 @@ local function Init_Friends_Menu(self, root)
     end, {name=name})
     sub:CreateDivider()
 
-    for guid, stat in pairs(Save().Friends) do
+    for guid, stat in pairs(WoWTools_FriendsMixin:Save().Friends) do
         if guid~=WoWTools_DataMixin.Player.GUID then
             local btn= sub:CreateCheckbox(
                 format('|A:%s:0:0|a', OptionTexture[stat] or '')
                 ..WoWTools_UnitMixin:GetPlayerInfo(nil, guid, nil, {reName=true, reRealm=true}),
             function(data)
-                return Save().Friends[data.guid]
+                return WoWTools_FriendsMixin:Save().Friends[data.guid]
             end, function(data)
-                Save().Friends[data.guid]= not Save().Friends[data.guid] and data.stat or nil
+                WoWTools_FriendsMixin:Save().Friends[data.guid]= not WoWTools_FriendsMixin:Save().Friends[data.guid] and data.stat or nil
             end, {guid=guid, stat=stat})
             btn:SetData(guid)
             btn:SetTooltip(function(tooltip, desc)
                 GameTooltip_SetTitle(tooltip, MenuUtil.GetElementText(desc))
-                GameTooltip_AddNormalLine(tooltip, WoWTools_DataMixin.onlyChinese and '移除' or REMOVE)
+                WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Friends.OtherCharStatus'])
+                GameTooltip_AddNormalLine(tooltip, WoWTools_L.REMOVE)
             end)
         end
     end
 
     root:CreateDivider()
-    sub= root:CreateCheckbox(
-        WoWTools_DataMixin.Icon.net2
-        ..(WoWTools_DataMixin.onlyChinese and '战网' or COMMUNITY_COMMAND_BATTLENET)
-        ..' ('..(WoWTools_DataMixin.onlyChinese and '好友' or FRIEND)..') '
-        ..( WoWTools_DataMixin.onlyChinese and '信息' or INFO)..'|A:communities-icon-chat:0:0|a',
-    function()
-        return not Save().disabledBNFriendInfo
+    sub= root:CreateCheckbox('|A:Battlenet-ClientIcon-App:0:0|a'..(WoWTools_L.FRIEND)..' Plus', function()
+        return not WoWTools_FriendsMixin:Save().disabledFriendPlus
     end, function()
-        Save().disabledBNFriendInfo= not Save().disabledBNFriendInfo and true or nil
-        self:set_events()
-    end)
-
-    sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '仅限'..WoWTools_DataMixin.Icon.wow2..'WoW好友' or format(LFG_LIST_CROSS_FACTION, 'WoW'..WoWTools_DataMixin.Icon.wow2..FRIEND),
-    function()
-        return not Save().allFriendInfo
-    end, function()
-        Save().allFriendInfo= not Save().allFriendInfo and true or nil
-    end)
-
-    sub:CreateCheckbox((WoWTools_DataMixin.onlyChinese and '仅限偏好好友' or format(LFG_LIST_CROSS_FACTION, BATTLE_PET_FAVORITE))..'|A:friendslist-favorite:0:0|a', function()
-        return Save().showFriendInfoOnlyFavorite
-    end, function()
-        Save().showFriendInfoOnlyFavorite= not Save().showFriendInfoOnlyFavorite and true or nil
-    end)
-
-    sub:CreateCheckbox((WoWTools_DataMixin.onlyChinese and '仅限脱离战斗' or format(LFG_LIST_CROSS_FACTION, HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_OUT_OF_COMBAT))..'|A:Warfronts-BaseMapIcons-Horde-Barracks-Minimap:0:0|a', function()
-        return not Save().showInCombatFriendInfo
-    end, function()
-        Save().showInCombatFriendInfo= not Save().showInCombatFriendInfo and true or nil
-    end)
-
-    root:CreateCheckbox('|A:Battlenet-ClientIcon-App:0:0|a'..(WoWTools_DataMixin.onlyChinese and '好友' or FRIEND)..' Plus', function()
-        return not Save().disabledFriendPlus
-    end, function()
-        Save().disabledFriendPlus= not Save().disabledFriendPlus and true or nil
+        WoWTools_FriendsMixin:Save().disabledFriendPlus= not WoWTools_FriendsMixin:Save().disabledFriendPlus and true or nil
         WoWTools_DataMixin:Call('FriendsList_Update', true)
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Friends.FriendPlus'])
 
     root:CreateDivider()
-    root:CreateButton(
-        (InCombatLockdown() and '|cff626262' or '')
-        ..WoWTools_FriendsMixin.addName,
-    function()
-        WoWTools_PanelMixin:Open(nil, WoWTools_FriendsMixin.addName)
-    end)
+    WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_FriendsMixin.addName, name2=WoWTools_L['Settings...']})
 end
 
 
 
-
-
-
-
-
-
-
---处理，好友，在线信息
-local function Set_Friend_Event(self, _, friendIndex)
---战斗中，不显示，好友，提示
-    if (not Save().showInCombatFriendInfo and InCombatLockdown() and IsInInstance()) then
-        self.tips=nil
-        return
-    end
-
-    local accountInfo= friendIndex and C_BattleNet.GetFriendAccountInfo(friendIndex) --FriendsFrame_UpdateFriendButton FriendsFrame.lua
-
-    if not accountInfo
-        or (
-            not Save().allFriendInfo--仅限，WoW，好友
-            and accountInfo.gameAccountInfo.isOnline
-            and (
-                    accountInfo.gameAccountInfo.clientProgram ~= BNET_CLIENT_WOW
-                    or accountInfo.gameAccountInfo.wowProjectID ~= WOW_PROJECT_ID
-                    or not accountInfo.gameAccountInfo.isInCurrentRegion
-                )
-            )
-        or (not accountInfo.isFavorite and Save().showFriendInfoOnlyFavorite)--仅限收藏好友
-    then
-        return
-    end
-
-    local text= ((accountInfo.note and accountInfo.note:gsub(' ', '')~='') and accountInfo.note or accountInfo.accountName or accountInfo.battleTag or '')--备注 或名称 战网名称
-    text= '|cff00ccff['..GetBNPlayerLink(accountInfo.accountName, text, accountInfo.bnetAccountID, 0, 0, 0)..'] '
-    if accountInfo.gameAccountInfo.isOnline then--是不在线
-        if accountInfo.isAFK or accountInfo.gameAccountInfo.isGameAFK then
-            text= text..'|T'..FRIENDS_TEXTURE_AFK..':0|t'
-        elseif accountInfo.isDND or accountInfo.gameAccountInfo.isGameBusy then
-            text= text..'|T'..FRIENDS_TEXTURE_DND..':0|t'
-        else
-            text= text..'|T'..FRIENDS_TEXTURE_ONLINE..':0|t'
-        end
-    else
-        text= text..'|T'..FRIENDS_TEXTURE_OFFLINE..':0|t'
-    end
-
-    if accountInfo.gameAccountInfo.characterLevel and accountInfo.gameAccountInfo.characterLevel>0 and accountInfo.gameAccountInfo.characterLevel~= GetMaxLevelForLatestExpansion() then--角色等级
-        text= text..'|cnGREEN_FONT_COLOR:'..accountInfo.gameAccountInfo.characterLevel..'|r '
-    end
-
-    if accountInfo.gameAccountInfo.isOnline and accountInfo.gameAccountInfo.clientProgram == BNET_CLIENT_WOW then
-        if accountInfo.gameAccountInfo.wowProjectID == WOW_PROJECT_ID  and accountInfo.gameAccountInfo.isInCurrentRegion then
-            text= text..WoWTools_UnitMixin:GetPlayerInfo(nil, accountInfo.gameAccountInfo.playerGuid, nil, {
-                        reLink= accountInfo.gameAccountInfo.factionName==WoWTools_DataMixin.Player.Faction,
-                        reName=true,
-                        faction=accountInfo.gameAccountInfo.factionName,
-                    })..' '
-        else
-            text= text..(accountInfo.gameAccountInfo.characterName or '')
-                    ..(accountInfo.gameAccountInfo.realmName and accountInfo.gameAccountInfo.realmName~='' and '-'..accountInfo.gameAccountInfo.realmName or '')
-                    ..(accountInfo.gameAccountInfo.className and '('..accountInfo.gameAccountInfo.className..')' or '')
-        end
-    end
-
-    if accountInfo.gameAccountInfo.clientProgram then
-        C_Texture.GetTitleIconTexture(accountInfo.gameAccountInfo.clientProgram, Enum.TitleIconVersion.Small, function(success, texture)--FriendsFrame.lua BnetShared.lua
-            if success and texture then
-                text= text..'|T'..texture..':0|t'
-            end
-        end)
-    end
-
-    if not accountInfo.gameAccountInfo.isInCurrentRegion then
-        if accountInfo.gameAccountInfo.regionID and RegionNames[accountInfo.gameAccountInfo.regionID] then
-            text= text..' |cnWARNING_FONT_COLOR:'..RegionNames[accountInfo.gameAccountInfo.regionID]..'|r'
-        end
-    elseif accountInfo.gameAccountInfo.clientProgram == BNET_CLIENT_WOW and accountInfo.gameAccountInfo.wowProjectID ~= WOW_PROJECT_ID then
-        text= text..' |cnWARNING_FONT_COLOR:CLASSIC'..accountInfo.gameAccountInfo.wowProjectID..'|r'
-    end
-
-    local infoText
-    local function ShowRichPresenceOnly(client, wowProjectID, faction, realmID)
-        if (client ~= BNET_CLIENT_WOW) or (wowProjectID ~= WOW_PROJECT_ID) then
-            return true;
-        elseif (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC) and ((faction ~= WoWTools_DataMixin.Player.Faction) or (realmID ~= self.playerRealmID)) then
-            return true
-        end
-    end
-    local function GetOnlineInfoText(client, isMobile, rafLinkType, locationText)
-        if locationText then
-            if isMobile then
-                return '|A:UI-ChatIcon-App:0:0|a'..locationText
-            end
-            if (client == BNET_CLIENT_WOW) and (rafLinkType ~= Enum.RafLinkType.None) and not isMobile then
-                if rafLinkType == Enum.RafLinkType.Recruit then
-                    return format(WoWTools_DataMixin.onlyChinese and '|A:recruitafriend_V2_tab_icon:0:0|a|cffffd200招募的战友：|r %s' or RAF_RECRUIT_FRIEND, locationText);
-                else
-                    return format(WoWTools_DataMixin.onlyChinese and '|A:recruitafriend_V2_tab_icon:0:0|acffffd200招募者：|r %s' or RAF_RECRUITER_FRIEND, locationText);
-                end
-            end
-        end
-        return locationText;
-    end
-    if ShowRichPresenceOnly(accountInfo.gameAccountInfo.clientProgram, accountInfo.gameAccountInfo.wowProjectID, accountInfo.gameAccountInfo.factionName, accountInfo.gameAccountInfo.realmID) then
-        infoText = GetOnlineInfoText(accountInfo.gameAccountInfo.clientProgram, accountInfo.gameAccountInfo.isWowMobile, accountInfo.rafLinkType, accountInfo.gameAccountInfo.richPresence);
-    else
-        infoText = GetOnlineInfoText(accountInfo.gameAccountInfo.clientProgram, accountInfo.gameAccountInfo.isWowMobile, accountInfo.rafLinkType, accountInfo.gameAccountInfo.areaName);
-    end
-    text= text..(infoText or '')
-
-    if accountInfo.gameAccountInfo.canSummon then
-        text= text..'|A:socialqueuing-friendlist-summonbutton-up:0:0|a'
-    end
-
-    if self.tips~= text then
-        self.tips= text
-        print(
-            WoWTools_DataMixin.Icon.icon2..text
-        )
-    end
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-local function Init()--好友列表, 初始化
-    OptionText= (WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS).."|T%s:0:|t %s"
+local Init= WoWTools_Once(function()
+    OptionText= (WoWTools_L.SETTINGS).."|T%s:0:|t %s"
     RegionNames = {
-        [1] = WoWTools_DataMixin.onlyChinese and '北美' or NORTH_AMERICA,
-        [2] = WoWTools_DataMixin.onlyChinese and '韩国' or KOREA,
-        [3] = WoWTools_DataMixin.onlyChinese and '欧洲' or EUROPE,
-        [4] = WoWTools_DataMixin.onlyChinese and '台湾' or TAIWAN,
-        [5] = WoWTools_DataMixin.onlyChinese and '中国' or CHINA,
+        [1] = WoWTools_L.NORTH_AMERICA,
+        [2] = WoWTools_L.KOREA,
+        [3] = WoWTools_L.EUROPE,
+        [4] = WoWTools_L.TAIWAN,
+        [5] = WoWTools_L.CHINA,
     }
-    FriendsFrameStatusDropdown:SetSize(58, 25)--原生，有点问题
+    FriendsFrameStatusDropdown:SetSize(58, 25)
 
     FriendsButton= CreateFrame('DropdownButton', 'WoWToolsFriendsMenuButton', FriendsListFrame, 'WoWToolsMenu3Template')
-    --[[WoWTools_ButtonMixin:Menu(FriendsListFrame, {
-        name= 'WoWToolsFriendsMenuButton',
-        icon='hide',
-    })]]
 
     FriendsButton:SetPoint('RIGHT', FriendsFrameCloseButton, 'LEFT')
     FriendsButton:GetFrameStrata(FriendsFrameCloseButton:GetFrameStrata())
     FriendsButton:SetFrameLevel(FriendsFrameCloseButton:GetFrameLevel()+1)
     FriendsButton:SetupMenu(Init_Friends_Menu)
 
-    FriendsButton.playerRealmID = GetRealmID()
-
---处理，好友，在线信息
-    FriendsButton:SetScript('OnEvent', Set_Friend_Event)
-
-
-    function FriendsButton:set_events()
-        if Save().disabledBNFriendInfo then
-            self.tips= nil
-            self:UnregisterEvent('BN_FRIEND_INFO_CHANGED')
-        else
-            self:RegisterEvent('BN_FRIEND_INFO_CHANGED')
-        end
-    end
-    FriendsButton:set_events()
-
-
-
-
-
-
-
-
-
-
 
     --#######
-    --好友列表
     --#######
 
     function FriendsButton:set_status(showPrint)
@@ -385,26 +161,26 @@ local function Init()--好友列表, 初始化
         local text
 
         local alpha= 1
-        if Save().Friends[WoWTools_DataMixin.Player.GUID]=='Availabel' then
+        if WoWTools_FriendsMixin:Save().Friends[WoWTools_DataMixin.Player.GUID]=='Availabel' then
             if bnetAFK or bnetDND then
                 C_BattleNet.SetAFK(false)
                 C_BattleNet.SetDND(false)
-                text= format(OptionText, FRIENDS_TEXTURE_ONLINE, WoWTools_DataMixin.onlyChinese and '有空' or FRIENDS_LIST_AVAILABLE)
+                text= format(OptionText, FRIENDS_TEXTURE_ONLINE, WoWTools_L.FRIENDS_LIST_AVAILABLE)
 
             end
             self:SetNormalTexture(FRIENDS_TEXTURE_ONLINE)
 
-        elseif Save().Friends[WoWTools_DataMixin.Player.GUID]=='Away' then
+        elseif WoWTools_FriendsMixin:Save().Friends[WoWTools_DataMixin.Player.GUID]=='Away' then
             if not bnetAFK then
                 C_BattleNet.SetAFK(true)
-                text= format(OptionText, FRIENDS_TEXTURE_AFK, WoWTools_DataMixin.onlyChinese and '离开' or FRIENDS_LIST_AWAY)
+                text= format(OptionText, FRIENDS_TEXTURE_AFK, WoWTools_L.FRIENDS_LIST_AWAY)
             end
             self:SetNormalTexture(FRIENDS_TEXTURE_AFK)
 
-        elseif Save().Friends[WoWTools_DataMixin.Player.GUID]=='DND' then
+        elseif WoWTools_FriendsMixin:Save().Friends[WoWTools_DataMixin.Player.GUID]=='DND' then
             if not bnetDND then
                 C_BattleNet.SetDND(true)
-                text= format(OptionText, FRIENDS_TEXTURE_DND, WoWTools_DataMixin.onlyChinese and '忙碌' or FRIENDS_LIST_BUSY)
+                text= format(OptionText, FRIENDS_TEXTURE_DND, WoWTools_L.FRIENDS_LIST_BUSY)
             end
             self:SetNormalTexture(FRIENDS_TEXTURE_DND)
 
@@ -417,7 +193,7 @@ local function Init()--好友列表, 初始化
 
         if text then
             if showPrint then
-                print(
+                WoWTools_Print(
                     WoWTools_FriendsMixin.addName..WoWTools_DataMixin.Icon.icon2,
                     text
                 )
@@ -441,16 +217,8 @@ local function Init()--好友列表, 初始化
     FriendsButton:set_status(true)
 
 
-
-
-
-
-
-
-
---好友PLUS FriendsFrame.lua
      WoWTools_DataMixin:Hook('FriendsFrame_UpdateFriendButton', function(self)
-        if Save().disabledFriendPlus then
+        if WoWTools_FriendsMixin:Save().disabledFriendPlus then
             return
         end
 
@@ -465,22 +233,21 @@ local function Init()--好友列表, 初始化
                 self.info:SetText(text)
             end
 
-        elseif self.buttonType == FRIENDS_BUTTON_TYPE_BNET then--2战网                
+        elseif self.buttonType == FRIENDS_BUTTON_TYPE_BNET then
             local accountInfo = C_BattleNet.GetFriendAccountInfo(self.id)
             if not accountInfo then
                 return
             end
-            if accountInfo.note and accountInfo.note:gsub(' ','')~='' then--备注，提示
+            if accountInfo.note and accountInfo.note:gsub(' ','')~='' then
                 self.name:SetText(accountInfo.accountName..' ('..accountInfo.note..')')
             end
-            if not accountInfo.gameAccountInfo.isInCurrentRegion then--不在，当前地区
+            if not accountInfo.gameAccountInfo.isInCurrentRegion then
                 if accountInfo.gameAccountInfo.regionID and RegionNames[accountInfo.gameAccountInfo.regionID] then
                     self.info:SetText('|cnWARNING_FONT_COLOR:'..RegionNames[accountInfo.gameAccountInfo.regionID])
                 end
                 return
             elseif not accountInfo.gameAccountInfo.isOnline then--or accountInfo.gameAccountInfo.wowProjectID~=WOW_PROJECT_ID then
                 return
---不同版本 WOW PROJECT ID FriendsListButtonMixin:OnEnter()
             elseif accountInfo.gameAccountInfo.clientProgram ~= BNET_CLIENT_WOW or accountInfo.gameAccountInfo.wowProjectID~= WOW_PROJECT_ID then
                 if accountInfo.gameAccountInfo.wowProjectID and accountInfo.gameAccountInfo.clientProgram then
                     self.info:SetText('|cnWARNING_FONT_COLOR:'..accountInfo.gameAccountInfo.clientProgram.. accountInfo.gameAccountInfo.wowProjectID)
@@ -490,12 +257,12 @@ local function Init()--好友列表, 初始化
 
             local text=''
 
-            if accountInfo.gameAccountInfo.characterLevel and accountInfo.gameAccountInfo.characterLevel>0 and accountInfo.gameAccountInfo.characterLevel~= GetMaxLevelForLatestExpansion() then--角色等级
+            if accountInfo.gameAccountInfo.characterLevel and accountInfo.gameAccountInfo.characterLevel>0 and accountInfo.gameAccountInfo.characterLevel~= GetMaxLevelForLatestExpansion() then
                 text= text..'|cnGREEN_FONT_COLOR:'..accountInfo.gameAccountInfo.characterLevel..'|r '
             end
             text= text.. WoWTools_UnitMixin:GetPlayerInfo(nil, accountInfo.gameAccountInfo.playerGuid, nil, {reName=true, reRealm=true, faction=accountInfo.gameAccountInfo.factionName })
 
-            if accountInfo.gameAccountInfo.isOnline and accountInfo.gameAccountInfo.areaName then--区域
+            if accountInfo.gameAccountInfo.isOnline and accountInfo.gameAccountInfo.areaName then
                 text= text..' '..accountInfo.gameAccountInfo.areaName
             end
             if accountInfo.gameAccountInfo.playerGuid then
@@ -509,22 +276,6 @@ local function Init()--好友列表, 初始化
      end)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    --查询, 名单列表
     local function set_WhoList_Update(scrollBox)
         scrollBox= scrollBox or WhoFrame.ScrollBox
         if not scrollBox:HasView() then
@@ -590,8 +341,8 @@ local function Init()--好友列表, 初始化
 
                     GameTooltip:AddLine(' ')
                     GameTooltip:AddDoubleLine(self.col..'index', self.index)
-                    GameTooltip:AddDoubleLine(self.col..(WoWTools_DataMixin.onlyChinese and '组队邀请' or GROUP_INVITE), (WoWTools_DataMixin.onlyChinese and '双击' or BUFFER_DOUBLE)..WoWTools_DataMixin.Icon.left)
-                    GameTooltip:AddDoubleLine(self.col..(WoWTools_DataMixin.onlyChinese and '添加好友' or ADD_FRIEND), 'Alt+'..WoWTools_DataMixin.Icon.left)
+                    GameTooltip:AddDoubleLine(self.col..(WoWTools_L.GROUP_INVITE), (WoWTools_L.BUFFER_DOUBLE)..WoWTools_DataMixin.Icon.left)
+                    GameTooltip:AddDoubleLine(self.col..(WoWTools_L.ADD_FRIEND), 'Alt+'..WoWTools_DataMixin.Icon.left)
                     GameTooltip:AddLine(' ')
                     GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_FriendsMixin.addName)
                     GameTooltip:Show()
@@ -624,9 +375,9 @@ local function Init()--好友列表, 初始化
                 if info.fullName then
                     local player= UnitName('player')
                     if info.fullName==player then
-                        btn.Name:SetText('|A:common-icon-rotateright:0:0|a'..(WoWTools_DataMixin.onlyChinese and '我' or COMBATLOG_FILTER_STRING_ME)..'|A:common-icon-rotateleft:0:0|a')
+                        btn.Name:SetText('|A:common-icon-rotateright:0:0|a'..(WoWTools_L.COMBATLOG_FILTER_STRING_ME)..'|A:common-icon-rotateleft:0:0|a')
                     else
-                        local nameText= WoWTools_UnitMixin:GetIsFriendIcon(nil, nil, info.fullName)--检测, 是否好友
+                        local nameText= WoWTools_UnitMixin:GetIsFriendIcon(nil, nil, info.fullName)
                         if nameText then
                             nameText= nameText..info.fullName
                             if info.fullName==player then
@@ -660,14 +411,13 @@ local function Init()--好友列表, 初始化
         set_WhoList_Update(self)
     end)
 
-    --WoWTools_DataMixin:Hook('WhoList_InitButton', function(btn, data)可用
 
     FriendsFrame:HookScript('OnShow', function(self)
         local isConnected= BNConnected()
         if not isConnected and not self.ConnectedLabel then
             self.ConnectedLabel= WoWTools_LabelMixin:Create(self.TitleContainer, {
                 name= 'WoWToolsFriendsConnectedLabel',
-                text= WoWTools_DataMixin.onlyChinese and '战网断开' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SOCIAL_TWITTER_DISCONNECT, COMMUNITY_COMMAND_BATTLENET),
+                text= WoWTools_L['SOCIAL_TWITTER_DISCONNECT+COMMUNITY_COMMAND_BATTLENET~2'],
                 --color= {r=1,g=0,b=0},
             })
             self.ConnectedLabel:SetPoint('LEFT', FriendsFrameTitleText, 0, 0)
@@ -679,7 +429,6 @@ local function Init()--好友列表, 初始化
 
 
 
---屏蔽列表 FriendsIgnoreListMixin
         WoWTools_DataMixin:Hook('IgnoreList_InitButton', function(btn, info)
         if btn.indexLable then
             btn.indexLable:SetText(btn.index or '')
@@ -696,32 +445,16 @@ local function Init()--好友列表, 初始化
             GameTooltip:SetOwner(region, 'ANCHOR_RIGHT')
             GameTooltip_SetTitle(GameTooltip,
                 WoWTools_DataMixin.Icon.icon2
-                ..(WoWTools_DataMixin.onlyChinese and '双击' or BUFFER_DOUBLE)
+                ..(WoWTools_L.BUFFER_DOUBLE)
                 ..WoWTools_DataMixin.Icon.left
-                ..(WoWTools_DataMixin.onlyChinese and '移出列表' or UNIGNORE_PLAYER_BUTTON_LABEL)
+                ..(WoWTools_L.UNIGNORE_PLAYER_BUTTON_LABEL)
             )
             GameTooltip:Show()
             region:SetAlpha(0.5)
         end)
     end)
 
-    Init=function()end
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+end)
 
 
 function WoWTools_FriendsMixin:Blizzard_FriendsFrame()

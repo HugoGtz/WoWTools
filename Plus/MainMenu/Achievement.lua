@@ -1,14 +1,13 @@
---成就
 
 
 
 
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     local frame= CreateFrame('Frame')
 
-    frame.Text= WoWTools_LabelMixin:Create(AchievementMicroButton,  {size=WoWToolsSave['Plus_MainMenu'].size, color=true})
+    frame.Text= WoWTools_LabelMixin:Create(AchievementMicroButton,  {size=WoWTools_MainMenuMixin:Save().size, color=true})
     frame.Text:SetPoint('BOTTOM', AchievementMicroButton, 0,  3)
     table.insert(WoWTools_MainMenuMixin.Labels, frame.Text)
 
@@ -28,13 +27,13 @@ local function Init()
         end
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(
-            WoWTools_DataMixin.onlyChinese and '成就点数' or ACHIEVEMENT_POINTS,
+            WoWTools_L.ACHIEVEMENT_POINTS,
             WoWTools_DataMixin:MK(GetTotalAchievementPoints(), 4),
             1,0.82,0, 1,1,1
         )
         if IsInGuild() then
             GameTooltip:AddDoubleLine(
-                WoWTools_DataMixin.onlyChinese and '公会成就' or GUILD_ACHIEVEMENTS_TITLE,
+                WoWTools_L.GUILD_ACHIEVEMENTS_TITLE,
                 WoWTools_DataMixin:MK(GetTotalAchievementPoints(true), 4),
                 1,0.82,0, 1,1,1
             )
@@ -42,10 +41,9 @@ local function Init()
         GameTooltip:Show()
     end)
 
-    Init=function()end
-end
+end)
 
 
-function WoWTools_MainMenuMixin:Init_Achievement()--成就
+function WoWTools_MainMenuMixin:Init_Achievement()
     Init()
 end

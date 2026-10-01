@@ -1,17 +1,4 @@
---创建，空，按钮
 
-local function Save()
-    return WoWToolsSave['Plus_Macro2']
-end
---[[
-local global, perChar = GetNumMacros()
-local isGolbal= MacroFrame.macroBase==0
-local isZero= (isGolbal and global==0) or (not isGolbal and perChar==0)
-local isMax= (isGolbal and MacroFrame.macroMax==global) or (not isGolbal and MacroFrame.macroMax==perChar)
-]]
-
-
---新建，宏，列表
 --#############
 local MacroButtonList={
     {macro='/reload', name='reload'},--134400
@@ -23,21 +10,7 @@ local MacroButtonList={
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
---保存，宏
 local function Save_Macro_Menu(frame, root)
---战斗中
     if WoWTools_MenuMixin:CheckInCombat(root) then
         return
     end
@@ -46,7 +19,6 @@ local function Save_Macro_Menu(frame, root)
 
     local index= selectIndex and MacroFrame:GetMacroDataIndex(selectIndex)
 
---保存
     local sub, sub2, sub3, name, icon, body, num, header, spellID, itemName, itemLink
     if index then
         name, icon, body = GetMacroInfo(index)
@@ -61,13 +33,13 @@ local function Save_Macro_Menu(frame, root)
         sub=root:CreateCheckbox(
             '|A:PetJournal-FavoritesIcon:0:0|a'
             ..((not body or body=='') and '|cff626262' or '')
-            ..(WoWTools_DataMixin.onlyChinese and '收藏' or FAVORITES)
+            ..(WoWTools_L.FAVORITES)
             ..' '..header,
         function(data)
-            return data.header and Save().macro[data.header]
+            return data.header and WoWTools_MacroMixin:Save().macro[data.header]
         end, function(data)
             if data.body and data.body~='' then
-                Save().macro[data.header]=  not Save().macro[data.header] and {
+                WoWTools_MacroMixin:Save().macro[data.header]=  not WoWTools_MacroMixin:Save().macro[data.header] and {
                         name=data.name,
                         icon=data.icon,
                         body=data.body,
@@ -76,27 +48,22 @@ local function Save_Macro_Menu(frame, root)
             end
         end, {name=name, icon=icon, body=body, header=header, itemLink=itemLink, spellID=spellID})
 
-        WoWTools_MacroMixin:SetMenuTooltip(sub)--宏，提示
+        WoWTools_MacroMixin:SetMenuTooltip(sub, WoWTools_L['Tip.Macro.Favorite'])
     else
         root:CreateTitle(
             '|A:PetJournal-FavoritesIcon:0:0|a'
             ..DISABLED_FONT_COLOR:WrapTextInColorCode(
-                WoWTools_DataMixin.onlyChinese and '收藏' or FAVORITES
+                WoWTools_L.FAVORITES
             ))
     end
 
 
-
-
-
---保存，列表
     num=0
-    for head2, tab in pairs(Save().macro) do
---新建, 列表内容
+    for head2, tab in pairs(WoWTools_MacroMixin:Save().macro) do
         sub2=sub:CreateButton(
             head2,
         function(data)
-            WoWTools_MacroMixin:CreateMacroNew(data.tab.name, data.tab.icon, data.tab.body)--新建，宏
+            WoWTools_MacroMixin:CreateMacroNew(data.tab.name, data.tab.icon, data.tab.body)
             return MenuResponse.Open
         end, {saveName=head2, tab=tab})
         sub2:SetTooltip(function(tooltip, description)
@@ -104,45 +71,43 @@ local function Save_Macro_Menu(frame, root)
             if description.data.tab.body then
                 tooltip:AddLine(description.data.tab.body)
                 tooltip:AddLine(' ')
-                tooltip:AddLine('|cnGREEN_FONT_COLOR:'..'|A:communities-chat-icon-plus:0:0|a'..(WoWTools_DataMixin.onlyChinese and '新建' or NEW)..WoWTools_DataMixin.Icon.left)
+                tooltip:AddLine('|cnGREEN_FONT_COLOR:'..'|A:communities-chat-icon-plus:0:0|a'..(WoWTools_L.NEW)..WoWTools_DataMixin.Icon.left)
             else
-                tooltip:AddLine((WoWTools_DataMixin.onlyChinese '无' or NONE))
+                tooltip:AddLine((WoWTools_L.NONE))
             end
         end)
---删除
         sub3=sub2:CreateCheckbox(
             '|A:XMarksTheSpot:0:0|a'
-            ..(WoWTools_DataMixin.onlyChinese and '移除' or REMOVE),
+            ..(WoWTools_L.REMOVE),
         function(data)
-            return Save().macro[data.head2]
+            return WoWTools_MacroMixin:Save().macro[data.head2]
         end, function(data)
-            Save().macro[data.head2]= not Save().macro[data.head2] and {name=data.name, icon=data.icon, body=data.body} or nil
+            WoWTools_MacroMixin:Save().macro[data.head2]= not WoWTools_MacroMixin:Save().macro[data.head2] and {name=data.name, icon=data.icon, body=data.body} or nil
 
-            if Save().macro[data.head2] then
-                print(
+            if WoWTools_MacroMixin:Save().macro[data.head2] then
+                WoWTools_Print(
                     WoWTools_MacroMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                    GREEN_FONT_COLOR:WrapTextInColorCode(WoWTools_DataMixin.onlyChinese and '收藏' or FAVORITES)
+                    GREEN_FONT_COLOR:WrapTextInColorCode(WoWTools_L.FAVORITES)
                 )
             else
-                print(
+                WoWTools_Print(
                     WoWTools_MacroMixin.addName..WoWTools_DataMixin.Icon.icon2,
                     '|cnWARNING_FONT_COLOR:',
-                    WoWTools_DataMixin.onlyChinese and '移除' or REMOVE
+                    WoWTools_L.REMOVE
                 )
-                print(
+                WoWTools_Print(
                     data.body
                 )
             end
         end, {head2=head2, name=tab.name, icon=tab.icon, body=tab.body})
-        WoWTools_MacroMixin:SetMenuTooltip(sub3)--宏，提示
+        WoWTools_MacroMixin:SetMenuTooltip(sub3, WoWTools_L['Tip.Macro.FavoriteRemove'])
         num=num+1
     end
 
     if num>1 then
---全部清除
         sub:CreateDivider()
         WoWTools_MenuMixin:ClearAll(sub, function()
-            Save().macro={}
+            WoWTools_MacroMixin:Save().macro={}
         end)
 
         WoWTools_MenuMixin:SetScrollMode(sub)
@@ -150,24 +115,10 @@ local function Save_Macro_Menu(frame, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init_Menu(self, root)
     if not self:IsMouseOver() then
         return
     end
---战斗中/已满
     local notMax= MacroNewButton:IsEnabled()
     if WoWTools_MenuMixin:CheckInCombat(root) then
         return
@@ -175,17 +126,15 @@ local function Init_Menu(self, root)
 
     local sub
 
---列表    
     for _, tab in pairs(MacroButtonList) do
         sub=root:CreateButton(
             '|T'..(tab.icon or 0)..':0|t'..tab.name,
         function(data)
---新建，宏
             WoWTools_MacroMixin:CreateMacroNew(data.name, data.icon, data.macro)
             return MenuResponse.Open
         end, {name=tab.name, icon=tab.icon, macro=tab.macro})
---提示
         sub:SetTooltip(function(tooltip, description)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Macro.Preset'])
             tooltip:AddLine(WoWTools_MacroMixin:GetName(description.data.name, description.data.icon))
             tooltip:AddLine(' ')
             tooltip:AddLine(description.data.macro, nil, nil, nil, true)
@@ -193,27 +142,14 @@ local function Init_Menu(self, root)
         sub:SetEnabled(notMax)
     end
 
---保存
     root:CreateDivider()
     Save_Macro_Menu(self, root)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
---创建，空，按钮
 --#############
 local function Init()
-    if Save().hideBottomList then
+    if WoWTools_MacroMixin:Save().hideBottomList then
         return
     end
 
@@ -224,11 +160,11 @@ local function Init()
         tooltip:AddLine(
             (WoWTools_MacroMixin:IsCanCreateNewMacro() and '' or '|cff626262')
             ..'|A:communities-chat-icon-plus:0:0|a'
-            ..(WoWTools_DataMixin.onlyChinese and '新建' or NEW)
+            ..(WoWTools_L.NEW)
         )
     end
     btn:SetScript('OnClick', function()
-        WoWTools_MacroMixin:CreateMacroNew()--新建，宏
+        WoWTools_MacroMixin:CreateMacroNew()
     end)
 
     local menu= CreateFrame('DropdownButton', 'WoWToolsMacroEmptyMenuButton', btn, 'WoWToolsMenuTemplate')
@@ -237,7 +173,7 @@ local function Init()
     menu:GetNormalTexture():SetVertexColor(1,1,1,1)
     menu:SetupMenu(Init_Menu)
     menu.tooltip= '|A:PetJournal-FavoritesIcon:0:0|a'
-            ..(WoWTools_DataMixin.onlyChinese and '收藏' or FAVORITES)
+            ..(WoWTools_L.FAVORITES)
 
     WoWTools_DataMixin:Hook(MacroFrame, 'UpdateButtons', function()
         local enabled= WoWTools_MacroMixin:IsCanCreateNewMacro()
@@ -246,20 +182,14 @@ local function Init()
     end)
 
     Init=function()
-        local show= not Save().hideBottomList
+        local show= not WoWTools_MacroMixin:Save().hideBottomList
          _G['WoWToolsMacroNewEmptyButton']:SetShown(show)
         _G['WoWToolsMacroEmptyMenuButton']:SetShown(show)
     end
 end
 
 
-
-
-
-
-
-
-function WoWTools_MacroMixin:Init_AddNew_Button()--创建，空，按钮
+function WoWTools_MacroMixin:Init_AddNew_Button()
     Init()
 end
 

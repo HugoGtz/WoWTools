@@ -1,20 +1,16 @@
 local P_Save= {
 	--disabled=true,
 	--hide=true,
-	--autoShow=true,--自动显示
 	--sacle=1,
 
-	logColor={},--保存，历史记录
-	--logMaxColor=10,--设置，最多保存30个颜色
-	--selectType2=true,--更多颜色
+	logColor={},
 
-	saveColor={},--保存4个颜色
-	notHideFuori= WoWTools_DataMixin.Player.husandro,--自动隐藏
+	saveColor={},
 }
 
 
 local function Save()
-	return WoWToolsSave['Plus_Color']
+	return WoWTools_ColorMixin:Save()
 end
 
 
@@ -28,10 +24,10 @@ local function Show_ClorFrame()
 
 	WoWTools_ColorMixin:ShowColorFrame(nil, nil, nil, 1)
 
-	print(
+	WoWTools_Print(
 		WoWTools_ColorMixin.addName..WoWTools_DataMixin.Icon.icon2,
 		'|cnGREEN_FONT_COLOR:'
-		..(WoWTools_DataMixin.onlyChinese and '自动显示' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, SHOW))
+		..(WoWTools_L['SELF_CAST_AUTO+SHOW'])
 
 	)
 
@@ -40,13 +36,12 @@ end
 
 
 
---原生，去掉，在框架外，会自动关闭
 local function Set_Event(self, event)
 	if event == "GLOBAL_MOUSE_DOWN" then
 		if self:IsShown()
 			and not DoesAncestryIncludeAny(self, GetMouseFoci())
 			--and not _G['WoWToolsColorPickerFrameButton']:IsMenuOpen()
-			and not Save().notHideFuori--自动隐藏
+			and not Save().notHideFuori
 			and not Menu.GetManager():IsAnyMenuOpen()
 
 		then
@@ -61,73 +56,90 @@ end
 
 
 
-local function Init()
-	do
-		WoWTools_ColorMixin:Init_Menu()
-	end
-	WoWTools_ColorMixin:Init_EditBox()
-	WoWTools_ColorMixin:Init_SelectColor()
-	WoWTools_ColorMixin:Init_Log()
-	WoWTools_ColorMixin:Init_Other()
-
-	Init=function()end
+local function Menu_Button()
+	return _G['WoWToolsColorPickerFrameButton']
 end
 
+local function Refresh()
+	local btn= Menu_Button()
+	if btn then
+		btn:Settings()
+	end
+end
 
-
-
-
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-
-
-
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWTools' then
-			WoWToolsSave['Plus_Color']= WoWToolsSave['Plus_Color'] or P_Save
-			P_Save=nil
-
-			WoWTools_ColorMixin.addName= '|A:colorblind-colorwheel:0:0|a'..(WoWTools_DataMixin.onlyChinese and '颜色选择器' or COLOR_PICKER)
-
-			--添加控制面板
-			WoWTools_PanelMixin:Check_Button({
-				checkName= WoWTools_ColorMixin.addName,
-				GetValue= function() return not Save().disabled end,
-				SetValue= function()
-					Save().disabled= not Save().disabled and true or nil
-					print(
-						WoWTools_ColorMixin.addName..WoWTools_DataMixin.Icon.icon2,
-						WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-						WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
-					)
-				end,
-				buttonText='|A:colorblind-colorwheel:0:0|a'..(WoWTools_DataMixin.onlyChinese and '显示' or SHOW),
-				buttonFunc= function()
-					
-					WoWTools_ColorMixin:ShowColorFrame(nil, nil, nil, 1)
-				end,
-			})
-
-			if Save().disabled then
-				--WoWTools_ColorMixin:Init_CODE()
-				self:SetScript('OnEvent', nil)
-				self:UnregisterAllEvents()
-
-			else
-				self:RegisterEvent('PLAYER_ENTERING_WORLD')
-				ColorPickerFrame:SetScript('OnEvent', Set_Event)--原生，去掉，在框架外，会自动关闭
-
-				ColorPickerFrame:HookScript('OnShow', function()
-					Init()
-				end)
-				self:UnregisterEvent(event)
+--Esquema del Centro de control (docs/SETTINGS.md): los mismos ajustes que el menú del selector de color
+local Options= {
+	{type='section', text='GENERAL'},
+	{type='check', key='show', text='SHOW', tooltip='Tip.Color.Show',
+		get= function(save) return not save.hide end,
+		set= function(save, value) save.hide= not value and true or nil end,
+		apply= Refresh,
+	},
+	{type='check', key='moreColors', text='More colors', tooltip='Tip.Color.MoreColors', reload=true,
+		get= function(save) return save.selectType2 end,
+		set= function(save, value) save.selectType2= value and true or nil end,
+	},
+	{type='slider', key='logMax', text='Colors in history', tooltip='Tip.Color.LogMax', min=0, max=200, step=1,
+		get= function(save) return save.logMaxColor or 10 end,
+		set= function(save, value) save.logMaxColor= math.floor(value) end,
+		apply= function()
+			if Menu_Button() then
+				WoWTools_ColorMixin:Set_SaveLogList()
 			end
-        end
+		end,
+	},
+	{type='button', key='clearLog', text='SLASH_STOPWATCH_PARAM_STOP2+EVENTTRACE_LOG_HEADER', buttonText='CLEAR_ALL', tooltip='Tip.Color.ClearLog',
+		confirm=true, indent=true,
+		func= function(_, save)
+			save.logColor= {}
+			if Menu_Button() then
+				WoWTools_ColorMixin:Set_SaveLogList()
+			end
+		end,
+	},
 
-	elseif event=='PLAYER_ENTERING_WORLD' then
-		Show_ClorFrame()
-		self:SetScript('OnEvent', nil)
-		self:UnregisterEvent(event)
-    end
-end)
+	{type='section', text='Automations'},
+	{type='check', key='autoHide', text='SELF_CAST_AUTO+HIDE', tooltip='Tip.Color.AutoHide', automation=true,
+		get= function(save) return not save.notHideFuori end,
+		set= function(save, value) save.notHideFuori= not value and true or nil end,
+		apply= Refresh,
+	},
+	{type='check', key='autoShow', text='SELF_CAST_AUTO+SHOW', tooltip='Tip.Color.AutoShow', automation=true,
+		get= function(save) return save.autoShow end,
+		set= function(save, value) save.autoShow= value and true or nil end,
+	},
+
+	{type='section', text='Appearance'},
+	{type='slider', key='scale', text='HOUSING_EXPERT_DECOR_SUBMODE_SCALE', tooltip='Tip.Menu.Scale', min=0.4, max=4, step=0.1, format='%.1f',
+		get= function(save) return save.scale or 1 end,
+		set= function(save, value) save.scale= tonumber(format('%.1f', value)) or 1 end,
+		apply= Refresh,
+	},
+}
+
+
+--Módulo registrado con la API común (docs/REFACTOR.md, R1): arranque, ajustes, casilla del panel y grupo
+WoWTools_Module:Register({
+	key= 'Plus_Color',
+	name= 'Module.Color picker',
+	icon= 'colorblind-colorwheel',
+	group= 'Interface',
+	defaults= P_Save,
+	tooltip= 'Tip.Color.Enable',
+	mixin= WoWTools_ColorMixin,
+	options= Options,
+	button= {text= 'SHOW', func= function()
+		WoWTools_ColorMixin:ShowColorFrame(nil, nil, nil, 1)
+	end},
+	onEnable= function()
+		ColorPickerFrame:SetScript('OnEvent', Set_Event)
+		ColorPickerFrame:HookScript('OnShow', WoWTools_Once(function()
+			WoWTools_ColorMixin:Init_Menu()
+			WoWTools_ColorMixin:Init_EditBox()
+			WoWTools_ColorMixin:Init_SelectColor()
+			WoWTools_ColorMixin:Init_Log()
+			WoWTools_ColorMixin:Init_Other()
+		end))
+	end,
+	onLogin= Show_ClorFrame,
+})

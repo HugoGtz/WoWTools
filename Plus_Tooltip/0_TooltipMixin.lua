@@ -2,11 +2,14 @@ WoWTools_TooltipMixin={
     WoWHead= 'https://www.wowhead.com/',
     Events={},
     Frames={},
-    addName= '|A:newplayertutorial-drag-cursor:0:0|aTooltips',
+    addName= '|A:newplayertutorial-drag-cursor:0:0|a'..WoWTools_L['Module.Tooltips'],
     iconSize=0,
     Save= function()
-        return WoWToolsSave['Plus_Tootips']
+        return WoWToolsPlusSave['Plus_Tootips'] or WoWTools_TooltipMixin.Defaults
     end,
+    --Fork: el módulo de tooltips (hooks en todos los tooltips del juego) se ha quitado porque choca con
+    --Raider.IO. Se conservan las funciones que otros módulos llaman para sus propios tooltips.
+    Defaults= {modelSize=100, modelX=0, modelY=-24, modelFacing=-0.3},
 }
 
 
@@ -18,51 +21,11 @@ function WoWTools_TooltipMixin:Show(tooltip)
 end
 
 
---[[设置，宽度
-function WoWTools_TooltipMixin:Set_Width(tooltip)
-    if tooltip.HasSecretValues and tooltip:HasSecretValues() then--12.0才有
-        return
-    end
-
-    local w= tooltip:GetWidth()
-    local w2= tooltip.textLeft:GetWidth()
-    if canaccessvalue(w2) then
-        w2= w2+ tooltip.text2Left:GetWidth()+ tooltip.textRight:GetWidth()
-        if w<w2 then
-            tooltip:SetMinimumWidth(w2)
-        end
-    end
-end]]
 
 
---设置单位
-function WoWTools_TooltipMixin:Set_Unit(tooltip)--设置单位提示信息
-    --local _, unit= tooltip:GetUnit()
-    local name, unit, guid= tooltip:GetUnit()--TooltipUtil.GetDisplayedUnit(tooltip)
-
-    if not canaccessvalue(unit) or not unit then
-        return
-    end
-
-    local isPlayer= UnitIsPlayer(unit)
-
-    if not canaccessvalue(isPlayer) then
-        return
-    end
-
-    if UnitIsPlayer(unit) then
-        self:Set_Unit_Player(tooltip, name, unit, guid)
-
-    elseif (UnitIsWildBattlePet(unit) or UnitIsBattlePetCompanion(unit)) then--宠物TargetFrame.lua
-        self:Set_Pet(tooltip, UnitBattlePetSpeciesID(unit))
-
-    else
-        self:Set_Unit_NPC(tooltip, name, unit, guid)
-    end
-end
 
 function WoWTools_TooltipMixin:IsInCombatDisabled(tooltip)
-    return --(tooltip.HasSecretValues and tooltip:HasSecretValues())--12.0才有
+    return
         not tooltip
         or WoWTools_FrameMixin:IsLocked(tooltip)
         or (self:Save().isInCombatDisabled and InCombatLockdown())

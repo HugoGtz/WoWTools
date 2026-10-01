@@ -1,25 +1,25 @@
 WoWTools_RandomMixin={
-    Random_List={},--存放数据列表 {数据1, 数据2, 数据3, ...}
-    isOneValue_Random=false,-- 当数据 <=1 
-    Random_Numeri=0,--数据，数量
+    Random_List={},
+    isOneValue_Random=false,
+    Random_Numeri=0,
 
-    Locked_Value=nil,--or value, 锁定值
+    Locked_Value=nil,
 
-    is_Check_Combat_Random=true,-- 是否要检查 frame:CanChangeAttribute()，如果不是安全按钮，可以设置 false
-    is_Random_Eevent=false,--当 is_Check_Combat_Random 和 not frame:CanChangeAttribute() 注册事件 PLAYER_REGEN_ENABLED
+    is_Check_Combat_Random=true,
+    is_Random_Eevent=false,
 }
 
-function WoWTools_RandomMixin:Get_Random_Data()--取得数据库, {数据1, 数据2, 数据3, ...}
+function WoWTools_RandomMixin:Get_Random_Data()
     return {}
 end
-function WoWTools_RandomMixin:Check_Random()--当真时Check_Random() 或 isOneValue_Random 真时 退出取得，随机值
+function WoWTools_RandomMixin:Check_Random()
 end
-function WoWTools_RandomMixin:Set_Random_Value()--设置，随机值
+function WoWTools_RandomMixin:Set_Random_Value()
 end
-function WoWTools_RandomMixin:Set_OnlyOneValue_Random()--当数据 <=1 时，设置值
+function WoWTools_RandomMixin:Set_OnlyOneValue_Random()
 end
 
-function WoWTools_RandomMixin:Get_Random_List()--得到，数据列表
+function WoWTools_RandomMixin:Get_Random_List()
     if self.Locked_Value or self.Selected_Value or self:Check_Random() then
         self:Set_OnlyOneValue_Random()
     else
@@ -64,7 +64,7 @@ function WoWTools_RandomMixin:Set_SelectValue_Random(value)--is_Random_Eevent
     self:Init_Random(self.Locked_Value)
 end
 
-function WoWTools_RandomMixin:Set_LockedValue_Random(value)--设置，锁定
+function WoWTools_RandomMixin:Set_LockedValue_Random(value)
     self.Locked_Value= value
     self:Init_Random(value)
 end

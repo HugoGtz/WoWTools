@@ -1,12 +1,6 @@
---天赋
 
 
-
-
-
-
-
-local function Init()
+local Init= WoWTools_Once(function()
     local frame= CreateFrame('Frame')
     --table.insert(Frames, frame)
     PlayerSpellsMicroButton.frame= frame
@@ -22,9 +16,9 @@ local function Init()
     PlayerSpellsMicroButton.Texture2:SetScale(0.5)
 
 
-    if WoWToolsSave['Plus_MainMenu'].enabledMainMenuAlpha then
-        PlayerSpellsMicroButton.Portrait:SetAlpha(WoWToolsSave['Plus_MainMenu'].mainMenuAlphaValue)
-        PlayerSpellsMicroButton.Texture2:SetAlpha(WoWToolsSave['Plus_MainMenu'].mainMenuAlphaValue)
+    if WoWTools_MainMenuMixin:Save().enabledMainMenuAlpha then
+        PlayerSpellsMicroButton.Portrait:SetAlpha(WoWTools_MainMenuMixin:Save().mainMenuAlphaValue)
+        PlayerSpellsMicroButton.Texture2:SetAlpha(WoWTools_MainMenuMixin:Save().mainMenuAlphaValue)
     end
 
 
@@ -69,7 +63,7 @@ local function Init()
             return
         end
         local a, b
-        local index= GetSpecialization()--当前专精
+        local index= GetSpecialization()
         local specID
         if index then
             local ID, _, _, icon, role = C_SpecializationInfo.GetSpecializationInfo(index)
@@ -89,10 +83,10 @@ local function Init()
         a= a or ''
         b= b or a or ''
         GameTooltip:AddLine(' ')
-        GameTooltip:AddLine((WoWTools_DataMixin.onlyChinese and '当前专精' or TRANSMOG_CURRENT_SPECIALIZATION)..a)
+        GameTooltip:AddLine((WoWTools_L['TRANSMOG_CURRENT_SPECIALIZATION~2'])..a)
         GameTooltip:AddLine(
             (lootSpecID==specID and '|cnGREEN_FONT_COLOR:' or '|cnWARNING_FONT_COLOR:')
-            ..(WoWTools_DataMixin.onlyChinese and '专精拾取' or SELECT_LOOT_SPECIALIZATION)
+            ..(WoWTools_L.SELECT_LOOT_SPECIALIZATION)
             ..b
         )
 
@@ -104,30 +98,15 @@ local function Init()
         --GameTooltip:AddLine(' ')
         local col= '|cffffffff'
 
-        --[[GameTooltip:AddLine(
-            col..(WoWTools_DataMixin.onlyChinese and '专精' or TALENT_FRAME_TAB_LABEL_SPEC)..'|r'
+        GameTooltip:AddLine(
+            col..(WoWTools_L.CLICK_BIND_MODE)..'|r'
             ..WoWTools_DataMixin.Icon.mid
-            ..(WoWTools_DataMixin.onlyChinese and '上' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP)
+            ..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP)
         )
         GameTooltip:AddLine(
-            col..(WoWTools_DataMixin.onlyChinese and '天赋' or TALENT_FRAME_TAB_LABEL_SPELLBOOK)..'|r'
-            ..WoWTools_DataMixin.Icon.right
-        )
-
-        GameTooltip:AddLine(
-            col..(WoWTools_DataMixin.onlyChinese and '法术书' or TALENT_FRAME_TAB_LABEL_SPELLBOOK)..'|r'
+            col..(WoWTools_L.COOLDOWN_VIEWER_SETTINGS_TITLE)..'|r'
             ..WoWTools_DataMixin.Icon.mid
-            ..(WoWTools_DataMixin.onlyChinese and '下' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN)
-        )]]
-        GameTooltip:AddLine(
-            col..(WoWTools_DataMixin.onlyChinese and '点击施法' or CLICK_BIND_MODE)..'|r'
-            ..WoWTools_DataMixin.Icon.mid
-            ..(WoWTools_DataMixin.onlyChinese and '上' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP)
-        )
-        GameTooltip:AddLine(
-            col..(WoWTools_DataMixin.onlyChinese and '冷却设置' or COOLDOWN_VIEWER_SETTINGS_TITLE)..'|r'
-            ..WoWTools_DataMixin.Icon.mid
-            ..(WoWTools_DataMixin.onlyChinese and '下' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN)
+            ..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN)
         )
         GameTooltip:Show()
     end)
@@ -139,7 +118,7 @@ local function Init()
         if KeybindFrames_InQuickKeybindMode() or InCombatLockdown() or Kiosk.IsEnabled() then
             return
         end
-        if d==1 then--上
+        if d==1 then
             if not ClickBindingFrame or not ClickBindingFrame:IsShown() then
                 ToggleClickBindingFrame()
             end
@@ -148,16 +127,9 @@ local function Init()
         end
     end)
 
-    Init=function()end
-end
+end)
 
 
-
-
-
-
-
-
-function WoWTools_MainMenuMixin:Init_Talent()--天赋
+function WoWTools_MainMenuMixin:Init_Talent()
     Init()
 end

@@ -1,17 +1,6 @@
 
 
 
-local function Save()
-    return WoWToolsSave['Plus_Collection']
-end
-
-
-
-
-
-
-
-
 local Button
 
 local function UpdateMountDisplay()
@@ -33,12 +22,12 @@ local function UpdateMountDisplay()
     Button.Bg:SetAllPoints(Button.text)
 
     function Button:set_Alpha()
-        self:GetNormalTexture():SetAlpha(Save().ShowMountDisplayInfo and 0.2 or 0.5)
+        self:GetNormalTexture():SetAlpha(WoWTools_CollectionMixin:Save().ShowMountDisplayInfo and 0.2 or 0.5)
     end
     function Button:set_Tooltips()
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '显示信息' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SHOW, INFO), WoWTools_TextMixin:GetShowHide(not Save().ShowMountDisplayInfo))
+        GameTooltip:AddDoubleLine(WoWTools_L['SHOW+INFO'], WoWTools_TextMixin:GetShowHide(not WoWTools_CollectionMixin:Save().ShowMountDisplayInfo))
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_CollectionMixin.addName)
         GameTooltip:Show()
@@ -46,7 +35,7 @@ local function UpdateMountDisplay()
     function Button:set_Text()
 
         local text
-        if Save().ShowMountDisplayInfo then
+        if WoWTools_CollectionMixin:Save().ShowMountDisplayInfo then
             if MountJournal.selectedMountID then
                 local creatureDisplayInfoID, _, _, isSelfMount, mountTypeID, uiModelSceneID, animID, spellVisualKitID, disablePlayerMountPreview = C_MountJournal.GetMountInfoExtraByID(MountJournal.selectedMountID)
                 text= 'mountID |cffffffff'..MountJournal.selectedMountID
@@ -70,7 +59,7 @@ local function UpdateMountDisplay()
         self.Bg:SetShown(text)
     end
     Button:SetScript('OnClick', function(self)
-        Save().ShowMountDisplayInfo= not Save().ShowMountDisplayInfo and true or nil
+        WoWTools_CollectionMixin:Save().ShowMountDisplayInfo= not WoWTools_CollectionMixin:Save().ShowMountDisplayInfo and true or nil
         self:set_Text()
         self:set_Alpha()
         self:set_Tooltips()
@@ -102,13 +91,11 @@ end
 
 
 
---坐骑, 界面
 local function Init()
---总数
     MountJournal.MountCount.Count:SetPoint('RIGHT', -4,0)
     MountJournal.MountCount.Label:ClearAllPoints()
     MountJournal.MountCount.Label:SetPoint('RIGHT', MountJournal.MountCount.Count, 'LEFT', -4, 0)
-    MountJournal.MountCount.Label:SetText(WoWTools_DataMixin.onlyChinese and '坐骑' or MOUNTS)
+    MountJournal.MountCount.Label:SetText(WoWTools_L.MOUNTS)
 
     WoWTools_DataMixin:Hook('MountJournal_UpdateMountList', function()
         if not MountJournal:IsVisible() then
@@ -121,7 +108,7 @@ local function Init()
         end
     end)
 
-    WoWTools_DataMixin:Hook('MountJournal_UpdateMountDisplay',  function()--坐骑
+    WoWTools_DataMixin:Hook('MountJournal_UpdateMountDisplay',  function()
         UpdateMountDisplay()
     end)
 end
@@ -139,6 +126,6 @@ end
 
 
 
-function WoWTools_CollectionMixin:Init_Mount()--坐骑 1
+function WoWTools_CollectionMixin:Init_Mount()
     Init()
 end

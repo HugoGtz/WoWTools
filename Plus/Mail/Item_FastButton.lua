@@ -1,8 +1,3 @@
---快速，加载，物品，按钮
-local function Save()
-    return WoWToolsSave['Plus_Mail']
-end
-
 local fastButton
 local Buttons= {}
 
@@ -12,7 +7,6 @@ local Buttons= {}
 
 
 
---设置，快速选取，按钮
 local function check_Enabled_Item(classID, subClassID, findString, bag, slot)
     local info = C_Container.GetContainerItemInfo(bag, slot)
     if info
@@ -28,7 +22,7 @@ local function check_Enabled_Item(classID, subClassID, findString, bag, slot)
                 and (not subClassID or sub==subClassID)
             )
         then
-            if class==2 or class==4 then--幻化
+            if class==2 or class==4 then
                 local text, isCollected =WoWTools_CollectionMixin:Item(info.hyperlink)
                 if text and not isCollected then
                     return info
@@ -56,23 +50,21 @@ end
 
 
 
---快速，加载，物品，菜单
 local function Init_Menu(self, root)
     local sub, sub2, class, newSubTab
     local tab={}
     local newTab={}
 
---显示
-    root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '显示' or SHOW,
+    local tipSub= root:CreateCheckbox(
+        WoWTools_L.SHOW,
     function()
-        return Save().fastShow
+        return WoWTools_MailMixin:Save().fastShow
     end, function()
-        Save().fastShow= not Save().fastShow and true or false
+        WoWTools_MailMixin:Save().fastShow= not WoWTools_MailMixin:Save().fastShow and true or false
         self:set_shown()
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Mail.FastShow'])
 
---列表
     root:CreateDivider()
     for bag= Enum.BagIndex.Backpack, NUM_BAG_FRAMES+ NUM_REAGENTBAG_FRAMES do
         for slot=1, C_Container.GetContainerNumSlots(bag) do
@@ -85,7 +77,7 @@ local function Init_Menu(self, root)
                 class, sub = select(6, C_Item.GetItemInfoInstant(info2.hyperlink))
                 if class and sub then
                     local find=true
-                    if class==2 or class==4 then--幻化
+                    if class==2 or class==4 then
                         local text, isCollected= WoWTools_CollectionMixin:Item(info2.hyperlink)
                         if not text or isCollected then
                             find= false
@@ -128,6 +120,7 @@ local function Init_Menu(self, root)
             self:set_PickupContainerItem(data.class, nil, nil)
             return MenuResponse.Open
         end, {class= tab2.class})
+        WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Mail.FastClass'])
 
         newSubTab={}
         for subClass3, tab3 in pairs(tab2.subClass) do
@@ -145,6 +138,7 @@ local function Init_Menu(self, root)
                 return MenuResponse.Open
             end, {class=tab2.class, subClass=tab3.subClass, item=tab3.item})
             sub2:SetTooltip(function(tooltip, description)
+                WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Mail.FastClass'])
                 for link in pairs(description.data.item or {}) do
                     tooltip:AddLine(WoWTools_ItemMixin:GetName(nil, link))
                 end
@@ -152,18 +146,16 @@ local function Init_Menu(self, root)
         end
     end
 
---打开选项
     root:CreateDivider()
     sub=WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_MailMixin.addName})
 
---缩放
     WoWTools_MenuMixin:Scale(self, sub, function()
-        return Save().scaleFastButton or 1
+        return WoWTools_MailMixin:Save().scaleFastButton or 1
     end, function(value)
-        Save().scaleFastButton= value
+        WoWTools_MailMixin:Save().scaleFastButton= value
         self:set_scale()
     end, function(value)
-        Save().scaleFastButton= value
+        WoWTools_MailMixin:Save().scaleFastButton= value
         self:set_scale()
     end)
 end
@@ -187,25 +179,26 @@ local function Fast_Button_Set_Menu(self, root, showName, setName)
     local sub=root:CreateCheckbox(
         showName,
     function(data)
-        return Save().fast[self.name]==data.name
+        return WoWTools_MailMixin:Save().fast[self.name]==data.name
     end, function(data)
-        if Save().fast[self.name]==data.name then
-            Save().fast[self.name]=nil
+        if WoWTools_MailMixin:Save().fast[self.name]==data.name then
+            WoWTools_MailMixin:Save().fast[self.name]=nil
         else
-            Save().fast[self.name]=data.name
+            WoWTools_MailMixin:Save().fast[self.name]=data.name
         end
         self:set_Player_Lable()
     end, {name=setName})
 
     sub:SetTooltip(function(tooltip, description)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Mail.FastRecipient'])
         tooltip:AddLine(description.data.name)
-        local findName= Save().fast[self.name]
+        local findName= WoWTools_MailMixin:Save().fast[self.name]
         if findName==description.data.name then
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '移除' or REMOVE)
+            tooltip:AddLine(WoWTools_L.REMOVE)
         elseif findName then
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '替换' or REPLACE)
+            tooltip:AddLine(WoWTools_L.REPLACE)
         else
-            tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '添加' or ADD)
+            tooltip:AddLine(WoWTools_L.ADD)
         end
         tooltip:AddLine(WoWTools_MailMixin:GetRealmInfo(description.data.name))
     end)
@@ -229,16 +222,15 @@ end
 local function Init_Fast_Button_Menu(self, root)
     local sub
     local num=0
-    local playerName= Save().fast[self.name]
+    local playerName= WoWTools_MailMixin:Save().fast[self.name]
     local newName= WoWTools_UnitMixin:GetFullName(SendMailNameEditBox:GetText())
 
     root:CreateTitle(
         '|T'..(self:GetNormalTexture():GetTexture() or 0)..':0|t'
-        ..(WoWTools_DataMixin.onlyChinese and '收件人：' or MAIL_TO_LABEL)
+        ..(WoWTools_L.MAIL_TO_LABEL)
     )
     root:CreateDivider()
 
---已指定，收件人
     if playerName then
         Fast_Button_Set_Menu(
             self, root,
@@ -247,7 +239,6 @@ local function Init_Fast_Button_Menu(self, root)
         )
     end
 
---输入框，收件人
     if newName and newName:gsub(' ', '')~='' and newName~=playerName then
         Fast_Button_Set_Menu(
             self, root,
@@ -256,14 +247,13 @@ local function Init_Fast_Button_Menu(self, root)
         )
     end
 
---我
     sub= root:CreateButton(
-        '|A:auctionhouse-icon-favorite:0:0|a'..(WoWTools_DataMixin.onlyChinese and '我' or COMBATLOG_FILTER_STRING_ME),
+        '|A:auctionhouse-icon-favorite:0:0|a'..(WoWTools_L.COMBATLOG_FILTER_STRING_ME),
     function()
         return MenuResponse.Open
     end)
 
-    for guid, info in pairs(WoWTools_WoWDate) do
+    for guid, info in pairs(WoWToolsPlus_WoWDate) do
         Fast_Button_Set_Menu(
             self, sub,
             WoWTools_UnitMixin:GetPlayerInfo(nil, guid, nil, {reName=true, reRealm=true, level=info.level, faction=info.faction}),
@@ -291,38 +281,36 @@ end
 
 local function Init_Button()
     local fast={
-        {C_Spell.GetSpellTexture(3908) or 4620681, 7, 5, WoWTools_DataMixin.onlyChinese and '布'},--1
-        {C_Spell.GetSpellTexture(2108) or 4620678, 7, 6, WoWTools_DataMixin.onlyChinese and '皮革'},--2
-        {C_Spell.GetSpellTexture(2656) or 4625105, 7, 7, WoWTools_DataMixin.onlyChinese and '金属 矿石'},--3
-        {C_Spell.GetSpellTexture(2550) or 4620671, 7, 8, WoWTools_DataMixin.onlyChinese and '烹饪'},--4
-        {C_Spell.GetSpellTexture(2383) or 133939, 7, 9, WoWTools_DataMixin.onlyChinese and '草药'},--5
-        {C_Spell.GetSpellTexture(7411) or 4620672, 7, 12, WoWTools_DataMixin.onlyChinese and '附魔'},--6
-        {C_Spell.GetSpellTexture(45357) or 4620676, 7, 16, WoWTools_DataMixin.onlyChinese and '铭文'},--7
-        {C_Spell.GetSpellTexture(25229) or 4620677, 7, 4, WoWTools_DataMixin.onlyChinese and '珠宝加工'},--8
+        {C_Spell.GetSpellTexture(3908) or 4620681, 7, 5, false},--1
+        {C_Spell.GetSpellTexture(2108) or 4620678, 7, 6, false},--2
+        {C_Spell.GetSpellTexture(2656) or 4625105, 7, 7, false},--3
+        {C_Spell.GetSpellTexture(2550) or 4620671, 7, 8, false},--4
+        {C_Spell.GetSpellTexture(2383) or 133939, 7, 9, false},--5
+        {C_Spell.GetSpellTexture(7411) or 4620672, 7, 12, false},--6
+        {C_Spell.GetSpellTexture(45357) or 4620676, 7, 16, false},--7
+        {C_Spell.GetSpellTexture(25229) or 4620677, 7, 4, false},--8
 
-        {"Interface/Icons/INV_Gizmo_FelIronCasing", 7, 1, WoWTools_DataMixin.onlyChinese and '零部'},--9
-        {"Interface/Icons/INV_Elemental_Primal_Air", 7, 10, WoWTools_DataMixin.onlyChinese and '元素'},--10
-        {"Interface/Icons/INV_Bijou_Green", 7, 18, WoWTools_DataMixin.onlyChinese and '可选材料'},--11
-        {"Interface/Icons/INV_Misc_Rune_09", 7, 11, WoWTools_DataMixin.onlyChinese and '其它'},--12
-        {"Interface/Icons/Ability_Ensnare", 7, 0, WoWTools_DataMixin.onlyChinese and '贸易品'},--13
+        {"Interface/Icons/INV_Gizmo_FelIronCasing", 7, 1, false},--9
+        {"Interface/Icons/INV_Elemental_Primal_Air", 7, 10, false},--10
+        {"Interface/Icons/INV_Bijou_Green", 7, 18, false},--11
+        {"Interface/Icons/INV_Misc_Rune_09", 7, 11, false},--12
+        {"Interface/Icons/Ability_Ensnare", 7, 0, false},--13
         '-',
-        {132690, 4, 1, WoWTools_DataMixin.onlyChinese and '布甲'},--1
-        {132722, 4, 2, WoWTools_DataMixin.onlyChinese and '皮甲'},--2
-        {132629, 4, 3, WoWTools_DataMixin.onlyChinese and '锁甲'},--3
-        {132738, 4, 4, WoWTools_DataMixin.onlyChinese and '板甲'},--4
-        {134966, 4, 6, WoWTools_DataMixin.onlyChinese and '盾牌'},--5
-        {135317, 2, nil, WoWTools_DataMixin.onlyChinese and '武器'},--6
-        {644389, 15, 2, WoWTools_DataMixin.onlyChinese and '宠物' or PET, 'Hbattlepet'},--7
+        {132690, 4, 1, false},--1
+        {132722, 4, 2, false},--2
+        {132629, 4, 3, false},--3
+        {132738, 4, 4, false},--4
+        {134966, 4, 6, false},--5
+        {135317, 2, nil, false},--6
+        {644389, 15, 2, WoWTools_L.PET, 'Hbattlepet'},--7
 
-        --{133035, 0, 0, WoWTools_DataMixin.onlyChinese and '装置'},
-        {463931, 0, 1, WoWTools_DataMixin.onlyChinese and '药水'},
-        {609902, 0, 3, WoWTools_DataMixin.onlyChinese and '合计'},
-        --{609902, 0, 7, WoWTools_DataMixin.onlyChinese and '绷带'},
-        {133974, 0, 5, WoWTools_DataMixin.onlyChinese and '食物'},
-        {1528795, 0, 9, WoWTools_DataMixin.onlyChinese and '符文'},
+        {463931, 0, 1, false},
+        {609902, 0, 3, false},
+        {133974, 0, 5, false},
+        {1528795, 0, 9, false},
 
-        {466645, 3, nil, WoWTools_DataMixin.onlyChinese and '宝石'},
-        {463531, 8, nil, WoWTools_DataMixin.onlyChinese and '附魔'},
+        {466645, 3, nil, false},
+        {463531, 8, nil, false},
     }
 
     local x, y=0, 0
@@ -348,8 +336,8 @@ local function Init_Button()
             btn.playerTexture:SetAtlas('AnimaChannel-Bar-Necrolord-Gem')
             btn.playerTexture:SetSize(22/2, 22/2)
             btn.playerTexture:SetPoint('BOTTOMLEFT')
-            function btn:set_Player_Lable()--设置指定发送，玩家, 提示
-                self.playerTexture:SetShown(Save().fast[self.name] and true or false)
+            function btn:set_Player_Lable()
+                self.playerTexture:SetShown(WoWTools_MailMixin:Save().fast[self.name] and true or false)
             end
             btn:set_Player_Lable()
             function btn:set_alpha()
@@ -392,11 +380,11 @@ local function Init_Button()
 
             btn:SetScript('OnClick', function(self, d)
                 if d=='LeftButton' then
-                    local name= Save().fast[self.name]
+                    local name= WoWTools_MailMixin:Save().fast[self.name]
                     if name and name~=WoWTools_DataMixin.Player.Name_Realm then
-                         WoWTools_MailMixin:SetSendName(name)--设置，发送名称，文
+                         WoWTools_MailMixin:SetSendName(name)
                     end
-                    self:GetParent():GetParent():set_PickupContainerItem(self.classID, self.subClassID, self.findString)--自动放物品
+                    self:GetParent():GetParent():set_PickupContainerItem(self.classID, self.subClassID, self.findString)
                 elseif d=='RightButton' then
                     MenuUtil.CreateContextMenu(self, Init_Fast_Button_Menu)
                 end
@@ -405,21 +393,21 @@ local function Init_Button()
             btn:SetScript('OnLeave', function(self) self:set_alpha() GameTooltip:Hide() self:settings() end)
             btn:SetScript('OnEnter', function(self)
                 self:settings()
-                local playerName= Save().fast[self.name]
+                local playerName= WoWTools_MailMixin:Save().fast[self.name]
                 local playerNameInfo= WoWTools_MailMixin:GetNameInfo(playerName)
                 GameTooltip:SetOwner(self, "ANCHOR_LEFT")
                 GameTooltip:ClearLines()
                 GameTooltip:AddDoubleLine('|T'..(self:GetNormalTexture():GetTexture() or 0)..':0|t'..self.name, WoWTools_MailMixin:GetNameInfo(playerName))
-                GameTooltip:AddDoubleLine((WoWTools_DataMixin.onlyChinese and '添加' or ADD)..WoWTools_DataMixin.Icon.left, playerName and playerName~=playerNameInfo and playerName)
+                GameTooltip:AddDoubleLine((WoWTools_L.ADD)..WoWTools_DataMixin.Icon.left, playerName and playerName~=playerNameInfo and playerName)
                 GameTooltip:AddLine(' ')
                 if self.classID==2 or self.classID==4 then
-                    GameTooltip:AddDoubleLine(format(WoWTools_DataMixin.onlyChinese and '仅限%s' or LFG_LIST_CROSS_FACTION, WoWTools_DataMixin.onlyChinese and '你还没有收藏过此外观' or TRANSMOGRIFY_STYLE_UNCOLLECTED))
+                    GameTooltip:AddDoubleLine(format(WoWTools_L.LFG_LIST_CROSS_FACTION, WoWTools_L.TRANSMOGRIFY_STYLE_UNCOLLECTED))
                 end
                 GameTooltip:AddDoubleLine(self.classID and 'ClassID '..self.classID or '', self.subClassID and 'SubClassID '..self.subClassID or '')
-                GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '数量' or AUCTION_HOUSE_QUANTITY_LABEL, self.num)
-                GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '组数' or AUCTION_NUM_STACKS, self.stack)
+                GameTooltip:AddDoubleLine(WoWTools_L.AUCTION_HOUSE_QUANTITY_LABEL, self.num)
+                GameTooltip:AddDoubleLine(WoWTools_L.AUCTION_NUM_STACKS, self.stack)
                 GameTooltip:AddLine(' ')
-                GameTooltip:AddLine((WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU)..WoWTools_DataMixin.Icon.right)
+                GameTooltip:AddLine((WoWTools_L.SLASH_TEXTTOSPEECH_MENU)..WoWTools_DataMixin.Icon.right)
                 GameTooltip:Show()
                 self:SetAlpha(1)
             end)
@@ -431,7 +419,6 @@ local function Init_Button()
         end
     end
 
---添加，背景
     local texture= fastButton.frame:CreateTexture(nil, 'BACKGROUND')
     texture:SetAtlas('footer-bg')
     texture:SetPoint("TOPLEFT", Buttons[1],-2, 2)
@@ -449,9 +436,8 @@ end
 
 
 
---快速，加载，物品，按钮
 local function Init()
-    if Save().hideItemButtonList then
+    if WoWTools_MailMixin:Save().hideItemButtonList then
         return
     end
 
@@ -464,22 +450,22 @@ local function Init()
     fastButton.frame:SetPoint('TOPLEFT', fastButton, 'BOTTOMLEFT')
 
     function fastButton:Settings()
-        self:SetShown(not Save().hideItemButtonList)
+        self:SetShown(not WoWTools_MailMixin:Save().hideItemButtonList)
     end
     function fastButton:set_scale()
-        self.frame:SetScale(Save().scaleFastButton or 1)
+        self.frame:SetScale(WoWTools_MailMixin:Save().scaleFastButton or 1)
     end
     function fastButton:set_shown()
-        self.frame:SetShown(Save().fastShow)
-        self:SetAlpha(Save().fastShow and 1 or 0.3)
-        self:SetNormalAtlas(Save().fastShow and 'NPE_ArrowDown' or 'NPE_ArrowRight')
+        self.frame:SetShown(WoWTools_MailMixin:Save().fastShow)
+        self:SetAlpha(WoWTools_MailMixin:Save().fastShow and 1 or 0.3)
+        self:SetNormalAtlas(WoWTools_MailMixin:Save().fastShow and 'NPE_ArrowDown' or 'NPE_ArrowRight')
     end
     function fastButton:set_tooltips()
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddDoubleLine(WoWTools_MailMixin.addName, WoWTools_DataMixin.onlyChinese and '物品快捷键' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ITEMS, SETTINGS_KEYBINDINGS_LABEL))
+        GameTooltip:AddDoubleLine(WoWTools_MailMixin.addName, WoWTools_L['ITEMS+SETTINGS_KEYBINDINGS_LABEL'])
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine(WoWTools_L.SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.left)
         GameTooltip:Show()
     end
     fastButton:SetScript('OnLeave', function()
@@ -514,17 +500,31 @@ local function Init()
         fastButton.canSendTab= tab
     end)
 
-    function fastButton:set_PickupContainerItem(classID, subClassID, findString)--自动放物品
-        if #self.canSendTab>0 then
-            for bag= Enum.BagIndex.Backpack, NUM_BAG_FRAMES+ NUM_REAGENTBAG_FRAMES do
-                for slot=1, C_Container.GetContainerNumSlots(bag) do
-                    local info= check_Enabled_Item(classID, subClassID, findString, bag, slot)
-                    if info then
-                        C_Container.PickupContainerItem(bag, slot)
-                        ClickSendMailItemButton(self.canSendTab[1])
-                        if #self.canSendTab==0 or not self:IsShown() then
-                            return
-                        end
+    function fastButton:set_PickupContainerItem(classID, subClassID, findString)
+        --huecos libres calculados aquí: no depender de que SendMailFrame_Update se dispare al instante
+        local used={}
+        local function get_free_slot()
+            for i= 1, ATTACHMENTS_MAX_SEND do
+                if not used[i] and not HasSendMailItem(i) then
+                    return i
+                end
+            end
+        end
+        local index= get_free_slot()
+        if not index then
+            return
+        end
+        for bag= Enum.BagIndex.Backpack, NUM_BAG_FRAMES+ NUM_REAGENTBAG_FRAMES do
+            for slot=1, C_Container.GetContainerNumSlots(bag) do
+                local info= check_Enabled_Item(classID, subClassID, findString, bag, slot)
+                if info then
+                    C_Container.PickupContainerItem(bag, slot)
+                    ClickSendMailItemButton(index)
+                    used[index]= true
+                    ClearCursor()--si no se pudo adjuntar, no dejar el objeto en el cursor
+                    index= get_free_slot()
+                    if not index or not self:IsShown() then
+                        return
                     end
                 end
             end
@@ -565,6 +565,14 @@ end
 
 
 
+
+--Refresco desde el Centro de control (mostrar lista, escala)
+function WoWTools_MailMixin:Refresh_Fast_Button()
+    if fastButton then
+        fastButton:set_scale()
+        fastButton:set_shown()
+    end
+end
 
 function WoWTools_MailMixin:Init_Fast_Button()
     Init()

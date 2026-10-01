@@ -1,20 +1,4 @@
 
-local function Save()
-    return WoWToolsSave['Currency2']
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Create(frame)
 
 	frame.check= CreateFrame('CheckButton', nil, frame, "MinimalCheckboxArtTemplate")
@@ -45,32 +29,29 @@ local function Create(frame)
 		GameTooltip:AddLine(" ")
 		GameTooltip:AddLine(
 			WoWTools_DataMixin.Icon.icon2
-			..(WoWTools_DataMixin.onlyChinese and '追踪' or TRACKING)
-			..': '..(Save().indicato and '|cnGREEN_FONT_COLOR:' or '|cff626262')
-			..(WoWTools_DataMixin.onlyChinese and '指定' or COMBAT_ALLY_START_MISSION)
+			..(WoWTools_L.TRACKING)
+			..': '..(WoWTools_CurrencyMixin:Save().indicato and '|cnGREEN_FONT_COLOR:' or '|cff626262')
+			..(WoWTools_L.COMBAT_ALLY_START_MISSION)
 		)
 		GameTooltip:Show()
 	end)
 	frame.check:SetScript('OnClick', function(self)
 		local id= self:GetCurrencyID()
 		if id then
-			Save().tokens[id]= not Save().tokens[id] and true or nil
+			WoWTools_CurrencyMixin:Save().tokens[id]= not WoWTools_CurrencyMixin:Save().tokens[id] and true or nil
 			WoWTools_CurrencyMixin:Init_TrackButton()
 		end
 	end)
 	WoWTools_TextureMixin:SetCheckBox(frame.check)
 
---已获取，百分比
 	frame.percentText= frame:CreateFontString(nil, 'ARTWORK', 'WoWToolsFont2')-- WoWTools_LabelMixin:Create(frame, {color={r=1,g=1,b=1}})
 	frame.percentText:SetTextColor(ACCOUNT_WIDE_FONT_COLOR:GetRGB())
 	frame.percentText:SetPoint('RIGHT', frame.Content.Count, 'LEFT')
 
---战团总数量
 	frame.accountWideText= frame:CreateFontString(nil, 'ARTWORK', 'WoWToolsFont2')-- WoWTools_LabelMixin:Create(frame, {color={r=0, g=0.8, b=1}})
 	frame.accountWideText:SetPoint('RIGHT', frame.percentText, 'LEFT', -2, 0)
 
 
---替换，原生，都显示图标
 	frame.Content.AccountWideIcon:SetAlpha(0.7)
 	frame.Content.AccountWideIcon:SetScale(0.7)
 	frame.Content.AccountWideIcon:SetScript('OnLeave', function(self)
@@ -96,21 +77,7 @@ local function Create(frame)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-local function set_Tokens_Button(self)--设置, 列表, 内容
+local function set_Tokens_Button(self)
 	if not self.check then
 		Create(self)
 	end
@@ -120,7 +87,7 @@ local function set_Tokens_Button(self)--设置, 列表, 内容
 	if not info then
 		--self.check:SetShown(false)
 		self.Content.Count:SetTextColor(1,1,1)
-		local lable= self.Content.Name2 or self.Content.Name--汉化，新建
+		local lable= self.Content.Name2 or self.Content.Name
 		lable:SetTextColor(1,1,1)
 		self.percentText:SetText('')
 		self.accountWideText:SetText('')
@@ -129,28 +96,24 @@ local function set_Tokens_Button(self)--设置, 列表, 内容
 
 	info= self.elementData or info
 
-	self.check:SetChecked(Save().tokens[info.currencyID])
-	--self.check:SetShown(info.currencyID and not Save().Hide and Save().indicato)
+	self.check:SetChecked(WoWTools_CurrencyMixin:Save().tokens[info.currencyID])
+	--self.check:SetShown(info.currencyID and not WoWTools_CurrencyMixin:Save().Hide and WoWTools_CurrencyMixin:Save().indicato)
 
 
 	local accountWide
-	local label= self.Content.Name2 or self.Content.Name--汉化，新建
---可转移
+	local label= self.Content.Name2 or self.Content.Name
 	if info.isAccountTransferable then
 		label:SetTextColor(0, 0.8, 1)
 		accountWide= WoWTools_DataMixin:MK(WoWTools_CurrencyMixin:GetAccountInfo(info.currencyID, true), 3)
 		accountWide= ACCOUNT_WIDE_FONT_COLOR:WrapTextInColorCode(accountWide..'|A:warbands-transferable-icon:0:0|a')
---战团共享
 	elseif info.isAccountWide then
 		label:SetTextColor(1, 0.49, 0.04)
 
---其它
 	else
 		local color= WoWTools_ItemMixin:GetColor(info and info.quality)
 		label:SetTextColor(color:GetRGB())
 	end
 
---战团总数量，不包含自已
 	self.accountWideText:SetText(accountWide or '')
 
 	if isMax then
@@ -161,52 +124,33 @@ local function set_Tokens_Button(self)--设置, 列表, 内容
 		self.Content.Count:SetTextColor(1,1,1)
 	end
 
---已获取，百分比
 	self.percentText:SetText(percent and format('%d%%', percent) or '')
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
-	if Save().notPlus then
+	if WoWTools_CurrencyMixin:Save().notPlus then
 		return
 	end
 
 	WoWTools_DataMixin:Hook(TokenEntryMixin, 'OnLoad', function(frame)
-		Create(frame)--设置, 列表, 内容
+		Create(frame)
 	end)
 
 	WoWTools_DataMixin:Hook(TokenEntryMixin, 'Initialize', function(frame)
-		set_Tokens_Button(frame)--设置, 列表, 内容
+		set_Tokens_Button(frame)
 	end)
 
 
 	if TokenFrame.ScrollBox:HasView() then
 		for _, frame in pairs(TokenFrame.ScrollBox:GetFrames() or {}) do
 			if frame.elementData and not frame.elementData.isHeader  then
-            	set_Tokens_Button(frame)--设置, 列表, 内容
+            	set_Tokens_Button(frame)
 			end
         end
 	end
 
 
---弹出框，增加，货币信息
 	TokenFramePopup.Name= TokenFramePopup:CreateFontString('', 'BORDER', 'WoWToolsFont2') -- WoWTools_LabelMixin:Create(TokenFramePopup, {size=14, mouse=true, name='WoWToolsTokenFramePopupName'})
 	TokenFramePopup.Name:EnableMouse(true)
 	TokenFramePopup.Name:SetPoint('BOTTOMLEFT', TokenFramePopup, 'TOPLEFT', 6, -2)
@@ -229,43 +173,6 @@ local function Init()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init_Search(self)
 	local numList= self:IsVisible() and C_CurrencyInfo.GetCurrencyListSize() or 0
 	if numList<=0 then
@@ -285,12 +192,10 @@ local function Init_Search(self)
 		for index= numList, 1, -1 do
 			local data= C_CurrencyInfo.GetCurrencyListInfo(index)
 			if data and not data.isHeader and data.currencyID and data.name then
-	--查找 ID
 				if currencyID and data.currencyID==currencyID then
 					findTab[data.currencyID]=true
 					currencyIndex= index
 					break
-	--查找 名称
 				elseif name then
 					local cn= WoWTools_TextMixin:CN(data.name)
 					cn= cn~=data.name and cn or nil
@@ -326,13 +231,6 @@ local function Init_Search(self)
 end
 
 
-
-
-
-
-
-
-
 local function Expand_All()
 	local num= C_CurrencyInfo.GetCurrencyListSize() or 0
 	if num<=0 then
@@ -340,7 +238,7 @@ local function Expand_All()
 	end
 
 
-	for i=num, 1, -1 do--展开所有
+	for i=num, 1, -1 do
 		local info = C_CurrencyInfo.GetCurrencyListInfo(i)
 		if info and info.isHeader and not info.isHeaderExpanded then
 			C_CurrencyInfo.ExpandCurrencyList(i, true)
@@ -357,33 +255,20 @@ local function Expand_All()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
 local function Init_PlusButton()
-	if  Save().notPlus then
+	if  WoWTools_CurrencyMixin:Save().notPlus then
 		return
 	end
 
---展开,合起	
 	local down= CreateFrame('Button', 'WoWToolsCurrencyExpandeListButton', TokenFrame.filterDropdown, 'WoWToolsButtonTemplate')
 	down:SetNormalAtlas('NPE_ArrowDown')
 	down:SetPoint('RIGHT', TokenFrame.filterDropdown, 'LEFT', -2, 0)
 	down:SetScript("OnClick", function()
 		Expand_All()
 	end)
-	down.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '展开选项|A:editmode-down-arrow:16:11:0:-7|a' or HUD_EDIT_MODE_EXPAND_OPTIONS)
+	down.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_L.HUD_EDIT_MODE_EXPAND_OPTIONS)
 
 
---展开所有
 	local up=  CreateFrame('Button', nil, down, 'WoWToolsButtonTemplate')
 	up:SetNormalAtlas('NPE_ArrowUp')
 	up:SetPoint('RIGHT', down, 'LEFT', -2, 0)
@@ -398,7 +283,7 @@ local function Init_PlusButton()
 		end
 		WoWTools_CurrencyMixin:UpdateTokenFrame()
 	end)
-	up.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '收起选项|A:editmode-up-arrow:16:11:0:3|a' or HUD_EDIT_MODE_COLLAPSE_OPTIONS)
+	up.tooltip= WoWTools_DataMixin.Icon.icon2..(WoWTools_L.HUD_EDIT_MODE_COLLAPSE_OPTIONS)
 
 
 
@@ -412,9 +297,6 @@ local function Init_PlusButton()
 	edit:HookScript('OnTextChanged', function(self)
 		Init_Search(self)
 	end)
-	--[[edit:SetScript('OnEnterPressed', function(self)
-		Init_Search(self)
-	end)]]
 	edit:HookScript('OnEditFocusGained', function(self)
 		Expand_All()
 		if self:GetText()~='' then
@@ -423,31 +305,9 @@ local function Init_PlusButton()
 	end)
 
 	Init_PlusButton=function()
-		_G['WoWToolsCurrencyExpandeListButton']:SetShown(not Save().notPlus)
+		_G['WoWToolsCurrencyExpandeListButton']:SetShown(not WoWTools_CurrencyMixin:Save().notPlus)
 	end
 end
-
-
-
-
-
-
-
-
---[[
-    if WoWTools_DataMixin.Player.husandro then
-        for slot= 1, 19 do
-            local item= ItemLocation:CreateFromEquipmentSlot(slot)
-            if item:IsValid() then
-                local data= C_ItemInteraction.GetItemConversionCurrencyCost(item)
-                if data then
-                    info=data
-                    for k, v in pairs(info or {}) do if v and type(v)=='table' then print('|cff00ff00---',k, '---STAR|r') for k2,v2 in pairs(v) do print('|cffffff00',k2,v2, '|r') end print('|cffff0000---',k, '---END|r') else print(k,v) end end print('|cffff00ff——————————|r')
-                end
-            end
-        end
-    end]]
-
 
 
 function WoWTools_CurrencyMixin:Init_Plus()

@@ -1,19 +1,12 @@
---GCD, 模块
-local function Save()
-    return WoWToolsSave['Plus_Cursor']
-end
-
 local GCDFrame
 
 
---随机GCD，图片
 local function set_GCD_Texture()
-    local index= Save().randomTexture and random(1, #Save().GCDTexture) or Save().gcdTextureIndex
-    GCDFrame.cooldown:SetSwipeTexture(Save().GCDTexture[index] or WoWTools_CursorMixin.DefaultGCDTexture)
+    local index= WoWTools_CursorMixin:Save().randomTexture and random(1, #WoWTools_CursorMixin:Save().GCDTexture) or WoWTools_CursorMixin:Save().gcdTextureIndex
+    GCDFrame.cooldown:SetSwipeTexture(WoWTools_CursorMixin:Save().GCDTexture[index] or WoWTools_CursorMixin.DefaultGCDTexture)
 end
 
 
---设置,GCD,位置
 local gcdSize, gcdX, gcdY
 local function Set_Point()
     local x, y = GetCursorPosition()
@@ -35,7 +28,7 @@ end
 
 
 local function GCD_Settings(isTest)
-    if Save().disabledGCD then
+    if WoWTools_CursorMixin:Save().disabledGCD then
         if GCDFrame then
             GCDFrame:UnregisterEvent('SPELL_UPDATE_COOLDOWN')
             GCDFrame:SetShown(false)
@@ -43,7 +36,7 @@ local function GCD_Settings(isTest)
         return
     end
 
-    gcdSize, gcdX, gcdY= Save().gcdSize, Save().gcdX, Save().gcdY
+    gcdSize, gcdX, gcdY= WoWTools_CursorMixin:Save().gcdSize, WoWTools_CursorMixin:Save().gcdX, WoWTools_CursorMixin:Save().gcdY
 
     GCDFrame:SetSize(gcdSize*2, gcdSize*2)
 
@@ -51,7 +44,7 @@ local function GCD_Settings(isTest)
 
     GCDFrame.cooldown:SetSwipeColor(WoWTools_CursorMixin.Color:GetRGBA())
 
-    if Save().randomTexture then
+    if WoWTools_CursorMixin:Save().randomTexture then
         GCDFrame:SetScript('OnHide', function()
             set_GCD_Texture()
         end)
@@ -60,10 +53,10 @@ local function GCD_Settings(isTest)
     end
 
     GCDFrame:RegisterEvent('SPELL_UPDATE_COOLDOWN')
-    GCDFrame:SetAlpha(Save().gcdAlpha)
+    GCDFrame:SetAlpha(WoWTools_CursorMixin:Save().gcdAlpha)
 
-    GCDFrame.cooldown:SetReverse(Save().gcdReverse)--控制冷却动画的方向
-    GCDFrame.cooldown:SetDrawBling(Save().gcdDrawBling)--闪光
+    GCDFrame.cooldown:SetReverse(WoWTools_CursorMixin:Save().gcdReverse)
+    GCDFrame.cooldown:SetDrawBling(WoWTools_CursorMixin:Save().gcdDrawBling)
 
     if isTest then
         GCDFrame:SetShown(false)
@@ -84,9 +77,8 @@ end
 
 
 
---GCD, 初始化
 local function Init()
-    if Save().disabledGCD then
+    if WoWTools_CursorMixin:Save().disabledGCD then
         return
     end
 
@@ -94,16 +86,17 @@ local function Init()
     GCDFrame:SetFrameStrata("TOOLTIP")
 
     GCDFrame.cooldown= CreateFrame("Cooldown", nil, GCDFrame, 'CooldownFrameTemplate')
-    GCDFrame.cooldown:SetHideCountdownNumbers(true)--隐藏数字
+    GCDFrame.cooldown:SetHideCountdownNumbers(true)
     GCDFrame.cooldown:SetEdgeTexture("Interface\\Cooldown\\edge")
-    GCDFrame.cooldown:SetDrawEdge(true)--冷却动画的移动边缘绘制亮线
-    GCDFrame.cooldown:SetUseCircularEdge(true)--设置边缘纹理是否应该遵循圆形图案而不是方形编辑框
+    GCDFrame.cooldown:SetDrawEdge(true)
+    GCDFrame.cooldown:SetUseCircularEdge(true)
     GCDFrame:Hide()
 
     GCDFrame:SetScript('OnEvent', function(self)
         local data= C_Spell.GetSpellCooldown(61304)
 
-        if not data then
+        if not data or not canaccesstable(data) or not canaccessvalue(data.startTime) or not canaccessvalue(data.duration) then--valores secretos en combate (12.0)
+            self:SetShown(false)
             return
         end
 
@@ -127,7 +120,7 @@ local function Init()
         end
     end)
 
-    GCD_Settings()--设置 GCD
+    GCD_Settings()
 
     Init=function(isTest2)
         GCD_Settings(isTest2)
@@ -146,7 +139,6 @@ end
 
 
 
---设置 GCD
 function WoWTools_CursorMixin:GCD_Settings(isTest)
     Init(isTest)
 end

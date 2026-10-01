@@ -1,64 +1,64 @@
 
-local function Save()
-    return WoWToolsSave['Plus_UnitFrame'] or {}
-end
-
-
-
 local function Init()
-    WoWTools_UnitMixin:Init_PlayerFrame()--玩家
+    WoWTools_UnitMixin:Init_PlayerFrame()
     WoWTools_UnitMixin:Init_PetFrame()
-    WoWTools_UnitMixin:Init_TargetFrame()--目标
+    WoWTools_UnitMixin:Init_TargetFrame()
 
-    WoWTools_UnitMixin:Init_PartyFrame()--小队
-    --WoWTools_UnitMixin:Init_PartyFrame_Compact()--小队, 使用团框架
+    WoWTools_UnitMixin:Init_PartyFrame()
 
     WoWTools_UnitMixin:Init_BossFrame()--BOSS
-    --WoWTools_UnitMixin:Init_RaidFrame()--团队
 
-    WoWTools_UnitMixin:Init_ClassTexture()--职业, 图标， 颜色
-
-
-    Init=function()end
+    WoWTools_UnitMixin:Init_ClassTexture()
 end
 
 
 
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWTools' then
-
-            WoWToolsSave['Plus_UnitFrame']= WoWToolsSave['Plus_UnitFrame'] or {
-                raidFrameScale= WoWTools_DataMixin.Player.husandro and 0.8 or 1,
-                showLootButton= WoWTools_DataMixin.Player.husandro,
-                PartyDeadData={}--队友，死亡，次数
-            }
-
-            Save().PartyDeadData= Save().PartyDeadData or {}
-
-            WoWTools_UnitMixin.addName= '|A:UI-HUD-UnitFrame-Target-PortraitOn-Boss-Gold-Winged:0:0|a'..(WoWTools_DataMixin.onlyChinese and '单位框体' or UNITFRAME_LABEL)
-
-            WoWTools_UnitMixin:Init_Options()
-
-            if Save().disabled then
-                self:SetScript('OnEvent', nil)
-                self:UnregisterAllEvents()
-            else
-
-                Init()
-
-                if C_AddOns.IsAddOnLoaded('Blizzard_Settings') then
-                    self:SetScript('OnEvent', nil)
-                    self:UnregisterEvent(event)
-                end
+--Opciones del Centro de control (docs/SETTINGS.md). Antes estaban en una subpágina de Blizzard (2_Options.lua).
+--Encender una mejora se aplica al momento; apagarla requiere /reload (sus ganchos ya están puestos).
+local function Frame(field, text, tooltip, func)
+    return {type='check', key=field, text=text, tooltip=tooltip, reload=true, noCombat=true,
+        get= function(save) return not save[field] end,
+        set= function(save, value) save[field]= not value and true or nil end,
+        apply= function(M, save)
+            if M.started and not save[field] then
+                M[func](M)
             end
+        end,
+    }
+end
 
-        elseif arg1=='Blizzard_Settings' then
-            WoWTools_UnitMixin:Init_Options()
-            self:UnregisterEvent(event)
-        end
-    end
-end)
+local Options= {
+    {type='section', text='Frames to enhance'},
+    Frame('hidePlayerFrame', 'HUD_EDIT_MODE_PLAYER_FRAME_LABEL', 'Tip.Unit.PlayerFrame', 'Init_PlayerFrame'),
+    {type='check', key='showLootButton', text='Always show loot specialization', tooltip='Tip.Unit.LootButtonAlways', indent=true,
+        disabled= function(save) return save.hidePlayerFrame end,
+        get= function(save) return save.showLootButton and true or false end,
+        set= function(save, value) save.showLootButton= value and true or nil end,
+        apply= function()
+            local btn= _G['WoWToolsPlayerFrameLootButton']
+            if btn and btn.settings then
+                btn:settings()
+            end
+        end,
+    },
+    Frame('hideTargetFrame', 'HUD_EDIT_MODE_TARGET_FRAME_LABEL', 'Tip.Unit.TargetFrame', 'Init_TargetFrame'),
+    Frame('hidePartyFrame', 'HUD_EDIT_MODE_PARTY_FRAMES_LABEL', 'Tip.Unit.PartyFrame', 'Init_PartyFrame'),
+    Frame('hideBossFrame', 'HUD_EDIT_MODE_BOSS_FRAMES_LABEL', 'Tip.Unit.BossFrame', 'Init_BossFrame'),
+    Frame('hideClassColor', 'CLASS+EMBLEM_SYMBOL', 'Tip.Unit.ClassTexture', 'Init_ClassTexture'),
+}
+
+
+WoWTools_Module:Register({
+    key= 'Plus_UnitFrame',
+    name= 'Module.Unit frames',
+    icon= 'UI-HUD-UnitFrame-Target-PortraitOn-Boss-Gold-Winged',
+    group= 'Interface',
+    defaults= {
+        raidFrameScale= 1,
+        PartyDeadData={}
+    },
+    tooltip= 'Tip.Unit.Module',
+    mixin= WoWTools_UnitMixin,
+    options= Options,
+    onEnable= Init,
+})

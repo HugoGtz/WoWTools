@@ -1,10 +1,4 @@
 
-local function Save()
-    return WoWToolsSave['Tools_Foods']
-end
-
-
-
 local Buttons={}
 
 
@@ -58,7 +52,7 @@ local function Set_Script(btn)
         if self.itemID then
             start, duration, enable = C_Item.GetItemCooldown(self.itemID)--C_Container.GetItemCooldown(self.itemID)
         end
-        WoWTools_CooldownMixin:Setup(self, start, duration, nil, true, nil, true)--冷却条
+        WoWTools_CooldownMixin:Setup(self, start, duration, nil, true, nil, true)
         btn.enableCooldown= enable
     end
 
@@ -88,7 +82,7 @@ local function Set_Script(btn)
         self:set_count()
         self:set_desaturated()
         self:set_alpha()
-        self.border:SetAlpha(Save().borderAlpha or 0.5)
+        self.border:SetAlpha(WoWTools_FoodMixin:Save().borderAlpha or 0.5)
     end
 
     function btn:set_event()
@@ -108,11 +102,6 @@ local function Set_Script(btn)
     btn:SetScript('OnHide', function(self)
         self:set_event()
         --self:settings()
-        --[[self.itemID=nil
-            if self:CanChangeAttribute() then
-            self:SetAttribute("type1", nil)
-            self:SetAttribute("item1", nil)
-        end]]
         --self.texture:SetTexture(0)
         WoWTools_CooldownMixin:Setup(self)
     end)
@@ -147,22 +136,6 @@ local function Set_Script(btn)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Create_Button(index)
     local name= 'WoWToolsFoodListButton'..index
     local btn= WoWTools_ButtonMixin:Cbtn(WoWTools_ToolsMixin:Get_ButtonForName('Food'), {
@@ -181,7 +154,7 @@ local function Create_Button(index)
             itemID=self.itemID,
             tooltip='|n|A:dressingroom-button-appearancelist-up:0:0|a'
                 ..(self:CanChangeAttribute() and '' or '|cff626262')
-                ..(WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU)..WoWTools_DataMixin.Icon.right,
+                ..(WoWTools_L.SLASH_TEXTTOSPEECH_MENU)..WoWTools_DataMixin.Icon.right,
         })
     end
 
@@ -207,7 +180,7 @@ local function Create_Button(index)
 
         self:settings()
         self:set_attribute()
-        WoWTools_BagMixin:Find(true, {itemID= self.itemID})--查询，背包里物品
+        WoWTools_BagMixin:Find(true, {itemID= self.itemID})
     end)
 
     btn:SetScript('OnMouseDown',function(self, d)
@@ -215,11 +188,11 @@ local function Create_Button(index)
             MenuUtil.CreateContextMenu(self, function(_, root)
                 root:CreateButton(
                     '|T'..(select(5, C_Item.GetItemInfoInstant(self.itemID)) or 0)..':0|t'
-                    ..(WoWTools_DataMixin.onlyChinese and '禁用' or DISABLE),
+                    ..(WoWTools_L.DISABLE),
                 function()
-                    Save().noUseItems[self.itemID]=true
-                    Save().addItems[self.itemID]=nil
-                    print(WoWTools_DataMixin.Icon.icon2..WoWTools_FoodMixin.addName, WoWTools_DataMixin.onlyChinese and '禁用' or DISABLE, WoWTools_ItemMixin:GetLink(self.itemID))
+                    WoWTools_FoodMixin:Save().noUseItems[self.itemID]=true
+                    WoWTools_FoodMixin:Save().addItems[self.itemID]=nil
+                    WoWTools_Print(WoWTools_DataMixin.Icon.icon2..WoWTools_FoodMixin.addName, WoWTools_L.DISABLE, WoWTools_ItemMixin:GetLink(self.itemID))
                     WoWTools_FoodMixin:Check_Items()
                 end)
             end)
@@ -233,34 +206,18 @@ local function Create_Button(index)
 
 
 
-    table.insert(Buttons, name)--添加
+    table.insert(Buttons, name)
 
 
     return btn
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---检查,物品
 local IsChecking
 function WoWTools_FoodMixin:Check_Items(isPrint)
     local btn= WoWTools_ToolsMixin:Get_ButtonForName('Food')
 
-    if IsChecking or not btn then--正在查询
+    if IsChecking or not btn then
         return
 
     elseif not btn:CanChangeAttribute() then
@@ -282,9 +239,9 @@ function WoWTools_FoodMixin:Check_Items(isPrint)
         end
     end
 
-    for itemID in pairs(Save().addItems or {}) do
+    for itemID in pairs(WoWTools_FoodMixin:Save().addItems or {}) do
         if btn.itemID~=itemID
-            and (Save().addItemsShowAll or C_Item.GetItemCount(itemID, false, true, true, false)>0) then
+            and (WoWTools_FoodMixin:Save().addItemsShowAll or C_Item.GetItemCount(itemID, false, true, true, false)>0) then
             items[itemID]=true
         end
     end
@@ -298,7 +255,7 @@ function WoWTools_FoodMixin:Check_Items(isPrint)
 
 
     for index, itemID in pairs(new) do
-        local b= _G[Buttons[index]] or Create_Button(index)--创建
+        local b= _G[Buttons[index]] or Create_Button(index)
         b.itemID= itemID
         b:settings()
         b:set_attribute()
@@ -311,17 +268,17 @@ function WoWTools_FoodMixin:Check_Items(isPrint)
     end
 
     local num= #new
-    for i=Save().numLine, num, Save().numLine do
+    for i=WoWTools_FoodMixin:Save().numLine, num, WoWTools_FoodMixin:Save().numLine do
         local b= _G[Buttons[i]]
         if b then
             b:ClearAllPoints()
-            b:SetPoint('BOTTOM', _G[Buttons[i-Save().numLine]] or btn, 'TOP')
+            b:SetPoint('BOTTOM', _G[Buttons[i-WoWTools_FoodMixin:Save().numLine]] or btn, 'TOP')
         end
     end
 
     --btn.Background:SetPoint('BOTTOMRIGHT', 1, -1)
     btn.Background:SetPoint('TOP',_G[Buttons[num]] or btn, 0, 1)
-    btn.Background:SetPoint('LEFT', _G[Buttons[Save().numLine-1]] or _G[Buttons[num]] or btn, -1, 0)
+    btn.Background:SetPoint('LEFT', _G[Buttons[WoWTools_FoodMixin:Save().numLine-1]] or _G[Buttons[num]] or btn, -1, 0)
 
     for i= num+1 , #Buttons do
         _G[Buttons[i]]:SetShown(false)
@@ -330,23 +287,14 @@ function WoWTools_FoodMixin:Check_Items(isPrint)
     btn:settings()
 
     if isPrint then
-        print(
+        WoWTools_Print(
             WoWTools_FoodMixin.addName..WoWTools_DataMixin.Icon.icon2,
-            WoWTools_DataMixin.onlyChinese and '查询完成' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, WHO, COMPLETE)
+            WoWTools_L['WHO+COMPLETE']
         )
     end
 
     IsChecking=nil
 end
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_FoodMixin:Set_Button_Function(btn)

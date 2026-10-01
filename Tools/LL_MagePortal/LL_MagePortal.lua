@@ -1,51 +1,51 @@
 
-if WoWTools_DataMixin.Player.Class~='MAGE' and not WoWTools_DataMixin.Player.husandro then
+if WoWTools_DataMixin.Player.Class~='MAGE' and true then
     return
 end
 
 local Tab={}
-if WoWTools_DataMixin.Player.Faction=='Horde' then--部落
+if WoWTools_DataMixin.Player.Faction=='Horde' then
     Tab={
-        {spell=1259190, spell2=1259194, name='银月城', luce=true},
+        {spell=1259190, spell2=1259194, luce=true},
 
-        {spell=3567, spell2=11417, name='奥格瑞玛', luce=true},
-        {spell=3563, spell2=11418, name='幽暗城'},
-        {spell=3566, spell2=11420, name='雷霆崖'},
-        {spell=32272, spell2=32267, name='银月城'},
-        {spell=49358, spell2=49361, name='斯通纳德'},
-        {spell=35715, spell2=35717, name='沙塔斯'},
-        {spell=53140, spell2=53142, name='诺森德'},
-        {spell=88344, spell2=88346, name='托尔巴拉德'},
-        {spell=132627, spell2=132626, name='锦绣谷'},
-        {spell=176242, spell2=176244, name='战争之矛'},
-        {spell=224869, spell2=224871, name='破碎群岛'},
-        {spell=281404, spell2=281402, name='达萨罗'},
-        {spell=344587, spell2=344597, name='奥利波斯'},
-        {spell=395277, spell2=395289,  name='瓦德拉肯'},
-        {spell=446540, spell2=446534, name='多恩诺嘉尔'},
-        {spell=120145, name='远古传送'},
-        {spell=193759, name='守护者圣殿'},
+        {spell=3567, spell2=11417, luce=true},
+        {spell=3563, spell2=11418},
+        {spell=3566, spell2=11420},
+        {spell=32272, spell2=32267, old=true},--mismo nombre que 1259190 (Midnight)
+        {spell=49358, spell2=49361},
+        {spell=35715, spell2=35717},
+        {spell=53140, spell2=53142},
+        {spell=88344, spell2=88346},
+        {spell=132627, spell2=132626},
+        {spell=176242, spell2=176244},
+        {spell=224869, spell2=224871},
+        {spell=281404, spell2=281402},
+        {spell=344587, spell2=344597},
+        {spell=395277, spell2=395289},
+        {spell=446540, spell2=446534},
+        {spell=120145},
+        {spell=193759},
     }
 elseif WoWTools_DataMixin.Player.Faction=='Alliance' then
     Tab={
-        {spell=1259190, spell2=1259194, name='银月城', luce=true},
-        {spell=3561, spell2=10059,  name='暴风城', luce=true},
-        {spell=3562, spell2=11416, name='铁炉堡'},
-        {spell=3565, spell2=11419, name='达纳苏斯'},
-        {spell=32271, spell2=32266, name='埃索达'},
-        {spell=49359, spell2=49360, name='塞拉摩'},
-        {spell=33690, spell2=33691, name='沙塔斯'},
-        {spell=53140, spell2=53142, name='诺森德'},
-        {spell=88342, spell2=88345, name='托尔巴拉德'},
-        {spell=132621, spell2=132620, name='锦绣谷'},
-        {spell=176248, spell2=176246, name='暴风之盾'},
-        {spell=224869, spell2=224871, name='破碎群岛'},
-        {spell=281403, spell2=281400, name='伯拉勒斯'},
-        {spell=344587, spell2=344597, name='奥利波斯'},
-        {spell=395277, spell2=395289,  name='瓦德拉肯'},
-        {spell=446540, spell2=446534, name='多恩诺嘉尔'},
-        {spell=120145, name='远古传送'},
-        {spell=193759, name='守护者圣殿'},
+        {spell=1259190, spell2=1259194, luce=true},
+        {spell=3561, spell2=10059, luce=true},
+        {spell=3562, spell2=11416},
+        {spell=3565, spell2=11419},
+        {spell=32271, spell2=32266},
+        {spell=49359, spell2=49360},
+        {spell=33690, spell2=33691},
+        {spell=53140, spell2=53142},
+        {spell=88342, spell2=88345},
+        {spell=132621, spell2=132620},
+        {spell=176248, spell2=176246},
+        {spell=224869, spell2=224871},
+        {spell=281403, spell2=281400},
+        {spell=344587, spell2=344597},
+        {spell=395277, spell2=395289},
+        {spell=446540, spell2=446534},
+        {spell=120145},
+        {spell=193759},
     }
 else
     return
@@ -62,33 +62,19 @@ local P_Save={
     --disabled
 }
 
-local function Save()
-    return WoWToolsSave['Tools_MagePortal']
-end
-
 local Buttons
 local addName
-
-
-
-
-
-
-
+local Module= {}--lo completa WoWTools_Module:Register (al final del archivo)
 
 
 local function Get_Spell_Label(spellID, text)
     if text then
         text= WoWTools_TextMixin:CN(text, {spellID=spellID, isName=true})
         text=text:gsub('(.+):','')
-        text=text:gsub('(.+)：','');
         text=text:gsub('(.+)-','');
         return text
     end
 end
-
-
-
 
 
 local function Set_Button_Label(btn)
@@ -96,12 +82,12 @@ local function Set_Button_Label(btn)
         return
     end
 
-    if Save().showText then
+    if Module:Save().showText then
         if not btn.text then
             btn.text=WoWTools_LabelMixin:Create(btn, {color= not btn.luce})
         end
         btn.text:ClearAllPoints(0)
-        if Save().isLeft then
+        if Module:Save().isLeft then
             btn.text:SetPoint('RIGHT', btn, 'LEFT')
         else
             btn.text:SetPoint('LEFT', btn, 'RIGHT')
@@ -119,73 +105,28 @@ local function Set_Button_All_Label()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-local function Init_Options(category, layout)
-    WoWTools_PanelMixin:Header(layout, addName)
-    local initializer=WoWTools_PanelMixin:OnlyCheck({
-        category= category,
-        name= '|cff3fc6ea'..(WoWTools_DataMixin.onlyChinese and '启用' or ENABLE)..'|r',
-        tooltip= addName,
-        GetValue= function() return not Save().disabled end,
-        SetValue= function()
-            Save().disabled= not Save().disabled and true or nil
-        end
-    })
-
-    WoWTools_PanelMixin:OnlyCheck({
-        category= category,
-        name= '|cff3fc6ea'..(WoWTools_DataMixin.onlyChinese and '位置: 放左边' or (CHOOSE_LOCATION..': '..HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_LEFT ))..'|r',
-        tooltip= addName,
-        GetValue= function() return Save().isLeft end,
-        SetValue= function()
-            Save().isLeft= not Save().isLeft and true or false
-            WoWTools_ToolsMixin:RestAllPoint()--重置所有按钮位置
-            Set_Button_All_Label()
-        end
-    }, initializer)
-
-    WoWTools_PanelMixin:OnlyCheck({
-        category= category,
-        name= '|cff3fc6ea'..(WoWTools_DataMixin.onlyChinese and '显示名称' or PROFESSIONS_FLYOUT_SHOW_NAME)..'|r',
-        tooltip= addName,
-        GetValue= function() return Save().showText end,
-        SetValue= function()
-            Save().showText= not Save().showText and true or false
-            Set_Button_All_Label()
-        end
-    }, initializer)
-
-end
-
-
-
-
-
-
-
-
-
-
-
-
+local Options= {
+    {type='section', text='Appearance'},
+    {type='check', key='isLeft', text='Position: left', tooltip='Tip.MagePortal.Left', noCombat=true,
+        get= function(save) return save.isLeft end,
+        set= function(save, value) save.isLeft= value and true or false end,
+        apply= function()
+            if Buttons and WoWTools_ToolsMixin:Get_MainButton() then
+                WoWTools_ToolsMixin:RestAllPoint()
+                Set_Button_All_Label()
+            end
+        end,
+    },
+    {type='check', key='showText', text='PROFESSIONS_FLYOUT_SHOW_NAME', tooltip='Tip.MagePortal.ShowText',
+        get= function(save) return save.showText end,
+        set= function(save, value) save.showText= value and true or false end,
+        apply= function()
+            if Buttons then
+                Set_Button_All_Label()
+            end
+        end,
+    },
+}
 
 
 local function Init_Button(tab)
@@ -199,7 +140,7 @@ local function Init_Button(tab)
         name=buttonName,
         tooltip='|T626001:0|t'..('|T'..(icon or 0)..':0|t')..(WoWTools_TextMixin:CN(name, {spellID=tab.spell, isName=true}) or tab.spell),
         isLeftOnlyLine=function()
-            return Save().isLeft
+            return Module:Save().isLeft
         end,
         disabledOptions=true,
     })
@@ -211,11 +152,11 @@ local function Init_Button(tab)
     btn.spellID= tab.spell
     btn.spellID2= tab.spell2
     btn.luce= tab.luce
-    btn.name1= WoWTools_DataMixin.onlyChinese and tab.name
+    btn.old= tab.old
 
     function btn:set_cool()
         if self:IsVisible() then
-            WoWTools_CooldownMixin:SetFrame(self, {spellID=self.spellID2})--设置冷却
+            WoWTools_CooldownMixin:SetFrame(self, {spellID=self.spellID2})
         else
             WoWTools_CooldownMixin:SetFrame(self)
         end
@@ -230,12 +171,18 @@ local function Init_Button(tab)
         local icon1= C_Spell.GetSpellTexture(self.spellID)
         local done=false
         if name1 and icon1 then
-            self:SetAttribute('type', 'spell')--设置属性
-            self:SetAttribute('spell', name1)
+            self:SetAttribute('type', 'spell')
+            --mismo nombre en dos hechizos (Lunargenta): por ID para no lanzar el otro
+            self:SetAttribute('spell', self.old and self.spellID or name1)
             if icon1 then
                 self.texture:SetTexture(icon1)
             end
-            self.name1= self.name1 or Get_Spell_Label(self.spellID, name1)
+            if not self.name1 then
+                self.name1= Get_Spell_Label(self.spellID, name1)
+                if self.old and self.name1 then
+                    self.name1= self.name1..' ('..WoWTools_L['Old']..')'
+                end
+            end
             done=true
         end
 
@@ -244,7 +191,7 @@ local function Init_Button(tab)
             local icon2= C_Spell.GetSpellTexture(self.spellID2)
             if name2 and icon2 then
                 self:SetAttribute('type2', 'spell')
-                self:SetAttribute('spell2', name2)
+                self:SetAttribute('spell2', self.old and self.spellID2 or name2)
                 self.texture2:SetTexture(icon2)
                 self.name2= self.name2 or name2
                 done= done==true and true or done
@@ -256,20 +203,9 @@ local function Init_Button(tab)
         return done
     end
 
-    --[[if Save().showText then
-        btn.text=WoWTools_LabelMixin:Create(btn, {color= not tab.luce})
-        if Save().isLeft then
-            btn.text:SetPoint('RIGHT', btn, 'LEFT')
-        else
-            btn.text:SetPoint('LEFT', btn, 'RIGHT')
-        end
-        if WoWTools_DataMixin.onlyChinese then
-            btn.text:SetText(tab.name)
-        end
-    end]]
 
     if tab.luce then
-        btn.border:SetAtlas('bag-border')--设置高亮
+        btn.border:SetAtlas('bag-border')
     end
     btn.luce= tab.luce
 
@@ -301,7 +237,7 @@ local function Init_Button(tab)
 
     btn:SetScript("OnEvent", function(self, event, arg1, arg2)
         if event=='SPELL_UPDATE_COOLDOWN' then
-            WoWTools_CooldownMixin:SetFrame(self, {spellID=self.spellID2})--设置冷却
+            WoWTools_CooldownMixin:SetFrame(self, {spellID=self.spellID2})
 
         elseif event=='SPELL_DATA_LOAD_RESULT' and arg1 and arg2 then
             if (arg1==self.spellID or arg1==self.spellID2) then
@@ -322,11 +258,6 @@ local function Init_Button(tab)
     end)
 
 
-
-
-
-
-
     btn:SetScript('OnLeave', function(self)
         GameTooltip:Hide()
         self:set_alpha()
@@ -336,7 +267,7 @@ local function Init_Button(tab)
         GameTooltip:ClearLines()
         GameTooltip:SetSpellByID(self.spellID)
         if not C_SpellBook.IsSpellInSpellBook(self.spellID) then
-            GameTooltip:AddLine(format('|cnWARNING_FONT_COLOR:%s|r', WoWTools_DataMixin.onlyChinese and '未学习' or TRADE_SKILLS_UNLEARNED_TAB))
+            GameTooltip:AddLine(format('|cnWARNING_FONT_COLOR:%s|r', WoWTools_L.TRADE_SKILLS_UNLEARNED_TAB))
         end
         if self.spellID2 then
             GameTooltip:AddLine(' ')
@@ -345,7 +276,7 @@ local function Init_Button(tab)
                 ..(WoWTools_TextMixin:CN(C_Spell.GetSpellLink(self.spellID2), {spellID=self.spellID2, isName=true}) or ('spellID'..self.spellID2))
                 ..(WoWTools_CooldownMixin:GetText(self.spellID2, nil) or ''),
                 format('%s%s',
-                    C_SpellBook.IsSpellInSpellBook(self.spellID2) and '' or format('|cnWARNING_FONT_COLOR:%s|r',WoWTools_DataMixin.onlyChinese and '未学习' or TRADE_SKILLS_UNLEARNED_TAB),
+                    C_SpellBook.IsSpellInSpellBook(self.spellID2) and '' or format('|cnWARNING_FONT_COLOR:%s|r',WoWTools_L.TRADE_SKILLS_UNLEARNED_TAB),
                     WoWTools_DataMixin.Icon.right)
                 )
         end
@@ -364,54 +295,27 @@ local function Init_Button(tab)
 end
 
 
+WoWTools_Module:Register({
+    key= 'Tools_MagePortal', name= '%s Portal', icon= 626001, group= 'Tools',
+    parent= 'WoWTools_ToolsButton', tooltip= 'Tip.MagePortal.Enable', defaults= P_Save, mixin= Module,
+    options= Options,
+    onLoad= function(M, save)
+        M.addName= '|T626001:0|t|cff3fc6ea'..(format(WoWTools_L['%s Portal'], UnitClass('player'))..'|r')
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---###########
---加载保存数据
---###########
-local panel=CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-
-
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWTools' then
-
-            WoWToolsSave['Tools_MagePortal']= WoWToolsSave['Tools_MagePortal'] or P_Save
-            P_Save= nil
-
-            if not Save().disabled and WoWTools_ToolsMixin:Get_MainButton() then
-                addName= '|T626001:0|t|cff3fc6ea'..(WoWTools_DataMixin.onlyChinese and '法师传送门' or format(UNITNAME_SUMMON_TITLE14, UnitClass('player'))..'|r')
-                self:RegisterEvent('PLAYER_ENTERING_WORLD')
-            else
+        if save.disabled or not WoWTools_ToolsMixin:Get_MainButton() then
+            Tab={}
+        end
+    end,
+    onEnable= function(M)
+        if WoWTools_ToolsMixin:Get_MainButton() then
+            addName= M.addName
+            WoWTools_ToolsMixin:OnEnterWorld(function()
+                Buttons={}
+                for _, tab in pairs(Tab) do
+                    Init_Button(tab)
+                end
                 Tab={}
-                self:SetScript('OnEvent', nil)
-                self:UnregisterEvent(event)
-            end
-
-            WoWTools_ToolsMixin:Set_AddList(Init_Options)
+            end)
         end
-
-    elseif event=='PLAYER_ENTERING_WORLD' then
-        Buttons={}
-        for _, tab in pairs(Tab) do
-            Init_Button(tab)
-        end
-        Tab={}
-        self:SetScript('OnEvent', nil)
-        self:UnregisterEvent(event)
-    end
-end)
+    end,
+})

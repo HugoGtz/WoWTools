@@ -1,5 +1,4 @@
 
---职业，能量条
 --Blizzard_UnitFrame
 
 
@@ -61,7 +60,7 @@ local function Setup_Frame(name)
 end
 
 
-local function Init()--职业，能量条
+local function Init()
     for _, name in pairs(Frames) do
         Setup_Frame(name)
     end

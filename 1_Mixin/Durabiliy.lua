@@ -1,14 +1,6 @@
 WoWTools_DurabiliyMixin={}
 
 
-
-
-
-
-
-
-
---耐久度
 local function get_durabiliy_color(cur, max)
     if not cur or not max or max<=0 or cur>max then
         return '', 100, ''
@@ -37,17 +29,7 @@ local function get_durabiliy_color(cur, max)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-function WoWTools_DurabiliyMixin:Get(reTexture)--耐久度
+function WoWTools_DurabiliyMixin:Get(reTexture)
     local cur, max= 0, 0
     for i= 1, 18 do
         local cur2, max2 = GetInventoryItemDurability(i)
@@ -64,17 +46,6 @@ function WoWTools_DurabiliyMixin:Get(reTexture)--耐久度
 end
 
 
-
-
-
-
-
-
-
-
-
-
---耐久度, 提示
 function WoWTools_DurabiliyMixin:OnEnter(tootip)
     tootip = tootip or GameTooltip
 
@@ -143,7 +114,7 @@ function WoWTools_DurabiliyMixin:OnEnter(tootip)
         --tootip:AddDoubleLine(s..(a or ' '), b..s)
     end
 
-    local euip=''--装备管理
+    local euip=''
     for _, setID in pairs(C_EquipmentSet.GetEquipmentSetIDs() or {}) do
         local name, texture, _, isEquipped= C_EquipmentSet.GetEquipmentSetInfo(setID)
         if isEquipped and name then
@@ -153,20 +124,15 @@ function WoWTools_DurabiliyMixin:OnEnter(tootip)
         end
     end
 
-    --[[local co = GetRepairAllCost()--显示，修理所有，金钱 只有在修理时，才会显示
-    local coText=''
-    if co and co>0 then
-        coText= ' |cnWARNING_FONT_COLOR:'..GetMoneyString(co)..'|r'
-    end]]
 
     local durabiliyText, _, durabiliyIcon= get_durabiliy_color(cur2, max2)
     tootip:AddDoubleLine(
-        (WoWTools_DataMixin.onlyChinese and '耐久度' or DURABILITY)
+        (WoWTools_L.DURABILITY)
         ..durabiliyIcon..durabiliyText,
         --..(select(3, get_durabiliy_color(cur2, max2)))..(max2>0 and math.modf(cur2/max2*100) or 100)..'%)'..coText,
 
         '('..(num>0 and '|cnWARNING_FONT_COLOR:' or '|cff626262')..num..'|r) '
-        ..(WoWTools_DataMixin.onlyChinese and '修理物品' or REPAIR_ITEMS)..euip,
+        ..(WoWTools_L.REPAIR_ITEMS)..euip,
         1,0.82,0, 1,0.82,0
     )
 
@@ -180,7 +146,7 @@ function WoWTools_DurabiliyMixin:OnEnter(tootip)
     item= item or 0
     pvp= pvp or 0
     tootip:AddDoubleLine(
-        (WoWTools_DataMixin.onlyChinese and '物品' or ITEMS)
+        (WoWTools_L.ITEMS)
         ..(WoWTools_DataMixin.Player.Sex==2 and '|A:charactercreate-gendericon-male-selected:0:0|a' or '|A:charactercreate-gendericon-female-selected:0:0|a')
         ..(cur3==item and format(' |cnGREEN_FONT_COLOR:%.2f|r', cur3) or format(' |cnWARNING_FONT_COLOR:%.2f|r/%.2f', cur3, item)),
 

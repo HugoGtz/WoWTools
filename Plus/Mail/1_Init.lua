@@ -1,70 +1,7 @@
---受限模式
 WoWTools_MailMixin={}
 
---[[if GameLimitedMode_IsActive() then
-    WoWTools_MailMixin.disabled= true
-    return
-end]]
 
 
-local function Save()
-    return WoWToolsSave['Plus_Mail']
-end
-
-
---[[
-local function Is_Sandro()
-    if not WoWTools_DataMixin.Player.husandro or #Save().lastSendPlayerList~=0 then
-        return
-    end
-        --1US(includes Brazil and Oceania) 2Korea 3Europe (includes Russia) 4Taiwan 5China
-    if WoWTools_DataMixin.Player.Region==3 then
-        Save().lastSendPlayerList= {
-            'Zans-Nemesis',
-            'Qisi-Nemesis',
-            'Sandroxx-Nemesis',
-            'Fuocco-Nemesis',
-            'Sm-Nemesis',
-            'Xiaod-Nemesis',
-            'Dz-Nemesis',
-            'Ws-Nemesis',
-            'Sosi-Nemesis',
-            'Maggoo-Nemesis',
-            'Dhb-Nemesis',
-            'Ms-Nemesis',--最大存20个
-        }
-        Save().fast={
-            [WoWTools_DataMixin.onlyChinese and '布甲' or C_Item.GetItemSubClassInfo(4, 1)]= 'Ms-Nemesis',--布甲
-            [WoWTools_DataMixin.onlyChinese and '皮甲' or C_Item.GetItemSubClassInfo(4, 2)]= 'Xiaod-Nemesis',--皮甲
-            [WoWTools_DataMixin.onlyChinese and '锁甲' or C_Item.GetItemSubClassInfo(4, 3)]= 'Fuocco-Nemesis',--锁甲
-            [WoWTools_DataMixin.onlyChinese and '板甲' or C_Item.GetItemSubClassInfo(4, 4)]= 'Zans-Nemesis',--板甲
-            [WoWTools_DataMixin.onlyChinese and '盾牌' or C_Item.GetItemSubClassInfo(4, 6)]= 'Zans-Nemesis',--盾牌
-            [WoWTools_DataMixin.onlyChinese and '武器' or C_Item.GetItemClassInfo(2)]= 'Zans-Nemesis',--武器
-
-        }
-    elseif WoWTools_DataMixin.Player.Region==4 then
-        Save().lastSendPlayerList= {
-            'Wowtools-巫妖之王',
-        }
-        Save().fast={}
-    end
-end]]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---设置，发送名称
 function WoWTools_MailMixin:SetSendName(name, guid)
     name= name or WoWTools_UnitMixin:GetFullName(nil, nil, guid)
     if not name then
@@ -83,14 +20,13 @@ function WoWTools_MailMixin:SetSendName(name, guid)
     end)
 end
 
---名称，信息
 function WoWTools_MailMixin:GetNameInfo(name)
     if not name then
         return
     end
     local reName
-    name = WoWTools_UnitMixin:GetFullName(name)--取得全名
-    for guid, tab in pairs(WoWTools_WoWDate) do
+    name = WoWTools_UnitMixin:GetFullName(name)
+    for guid, tab in pairs(WoWToolsPlus_WoWDate) do
         if name== WoWTools_UnitMixin:GetFullName(nil, nil, guid) then
             reName= WoWTools_UnitMixin:GetPlayerInfo(nil, guid, nil, {faction=tab.faction, reName=true, realm=true})
             break
@@ -101,21 +37,15 @@ function WoWTools_MailMixin:GetNameInfo(name)
 end
 
 
---服务器，信息
 function WoWTools_MailMixin:GetRealmInfo(name)
     if not name then
         return
     end
     local realm= name:match('%-(.+)')
     if realm and not (WoWTools_DataMixin.Player.Realms[realm] or realm==WoWTools_DataMixin.Player.Realm) then
-        return format('|cnWARNING_FONT_COLOR:%s|r', WoWTools_DataMixin.onlyChinese and '该玩家与你不在同一个服务器' or ERR_PETITION_NOT_SAME_SERVER)
+        return format('|cnWARNING_FONT_COLOR:%s|r', WoWTools_L.ERR_PETITION_NOT_SAME_SERVER)
     end
 end
-
-
-
-
-
 
 
 function WoWTools_MailMixin:RefreshAll()
@@ -130,39 +60,25 @@ function WoWTools_MailMixin:RefreshAll()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---初始
-local function Init()--SendMailNameEditBox
-    if Save().lastSendPlayer then--收件人
-        WoWTools_MailMixin:SetSendName(Save().lastSendPlayer)--设置，发送名称，文
+local Init= WoWTools_Once(function()--SendMailNameEditBox
+    WoWTools_MailMixin.isInit= true--ya se abrió el buzón: las opciones pueden refrescar en vivo
+    --rellenar con lo último enviado solo si el jugador activó guardarlo (logSendInfo)
+    if WoWTools_MailMixin:Save().logSendInfo and WoWTools_MailMixin:Save().lastSendPlayer then
+        WoWTools_MailMixin:SetSendName(WoWTools_MailMixin:Save().lastSendPlayer)
     end
 
-    if Save().lastSendSub then--主题
-        SendMailSubjectEditBox:SetText(Save().lastSendSub)
+    if WoWTools_MailMixin:Save().logSendInfo and WoWTools_MailMixin:Save().lastSendSub then
+        SendMailSubjectEditBox:SetText(WoWTools_MailMixin:Save().lastSendSub)
     end
 
-    if Save().lastSendBody then--内容
-        SendMailBodyEditBox:SetText(Save().lastSendBody)
+    if WoWTools_MailMixin:Save().logSendInfo and WoWTools_MailMixin:Save().lastSendBody then
+        SendMailBodyEditBox:SetText(WoWTools_MailMixin:Save().lastSendBody)
     end
     SendMailNameEditBox:ClearFocus()
 
-    if not Save().notAutoToSendFrame and not GameLimitedMode_IsActive() then
-        C_Timer.After(Save().autoToSendFrameSecond or 1, function()
-            if GetInboxNumItems()==0 then--如果没有信，转到，发信
+    if not WoWTools_MailMixin:Save().notAutoToSendFrame and not GameLimitedMode_IsActive() then
+        C_Timer.After(WoWTools_MailMixin:Save().autoToSendFrameSecond or 1, function()
+            if GetInboxNumItems()==0 then
                 MailFrameTab_OnClick(nil, 2)
             end
         end)
@@ -170,103 +86,168 @@ local function Init()--SendMailNameEditBox
 
     WoWTools_MailMixin:Init_Menu_Button()
 
---收件箱 Plus
-    WoWTools_MailMixin:Init_InBox()--收信箱，物品，提示
+    WoWTools_MailMixin:Init_InBox()
 
 --UI Plus
-    WoWTools_MailMixin:Init_Edit_Letter_Num()--字数
-    WoWTools_MailMixin:Init_Clear_All_Send_Items()--清除所有，要发送物品
+    WoWTools_MailMixin:Init_Edit_Letter_Num()
+    WoWTools_MailMixin:Init_Clear_All_Send_Items()
 
---名单列表
-    WoWTools_MailMixin:Init_Send_Name_List()--收件人，列表
+    WoWTools_MailMixin:Init_Send_Name_List()
 
 
---历史收件人
-    WoWTools_MailMixin:Init_Send_History_Name()--收件人，历史记录
+    WoWTools_MailMixin:Init_Send_History_Name()
 
---物品快捷键
     WoWTools_MailMixin:Init_Fast_Button()
 
-    Init=function()end
+end)
+
+
+--Refresco en vivo desde el Centro de control: solo si el buzón ya se abrió (los marcos existen)
+--func: nombre de la función del mixin (se definen en archivos posteriores) o función
+local function Apply(func)
+    return function()
+        if WoWTools_MailMixin.isInit then
+            if type(func)=='string' then
+                WoWTools_MailMixin[func](WoWTools_MailMixin)
+            else
+                func()
+            end
+        end
+    end
 end
 
+--Mostrar desconectados en la lista de nombres (save.show[tipo])
+local function Offline_Option(kind, text)
+    return {type='check', text=text, tooltip='COMMUNITIES_MEMBER_LIST_SHOW_OFFLINE', indent=true,
+        disabled= function(save) return save.hideSendNameList end,
+        get= function(save) return save.show[kind] end,
+        set= function(save, value) save.show[kind]= value and true or nil end,
+    }
+end
 
-
-
-
-
-
-
-
-
-
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-
-
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWTools' then
-
-            WoWToolsSave['Plus_Mail']= WoWToolsSave['Plus_Mail'] or {
-                --hide=true,--隐藏
-                --hideUIPlus=true,
-                --hideSendNameList=true,
-                --hideHistoryList=true,
-                --hideItemButtonList=true
-
-                --notAutoToSendFrame=true,--自动转到，收件箱
-                --autoToSendFrameSecond=1,
-
-                lastSendPlayerList= {},--历史记录, {'名字-服务器',},
-                --hideSendPlayerList=true,--隐藏，历史记录
-                lastMaxSendPlayerList=20,--记录, 最大数
-                show={--显示离线成员
-                    ['FRIEND']=true,--好友
-                    --['GUILD']=true,--公会
-                },
-                fast={},--快速，加载，物品，指定玩家
-                fastShow=true,--显示/隐藏，快速，加载，按钮
-                --CtrlFast= WoWTools_DataMixin.Player.husandro,--Ctrl+RightButton,快速，加载，物品
-                --scaleSendPlayerFrame=1.2,--清除历史数据，缩放
-                scaleFastButton=1.3,
-                --INBOXITEMS_TO_DISPLAY=7,
-                logSendInfo= WoWTools_DataMixin.Player.husandro,--隐藏时不,清除，内容
-                --lastSendPlayer='Fuocco-server',--收件人
-                --lastSendSub=主题
-                --lastSendBody=内容
-            }
-
-            WoWTools_MailMixin.addName= '|A:UI-HUD-Minimap-Mail-Mouseover:0:0|a'..(WoWTools_DataMixin.onlyChinese and '邮件' or BUTTON_LAG_MAIL)
-
---添加控制面板
-            WoWTools_PanelMixin:OnlyCheck({
-                name= WoWTools_MailMixin.addName,
-                GetValue= function() return not Save().disabled end,
-                SetValue= function()
-                    Save().disabled= not Save().disabled and true or nil
-                    if Save().disabled then
-                        print(
-                            WoWTools_MailMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                            WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-                            WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
-                        )
-                    end
-                    Init()
-                end
-            })
-
-            if not Save().disabled then                
-                self:RegisterEvent('MAIL_SHOW')
-            else
-                self:SetScript('OnEvent', nil)
+local Options= {
+    {type='section', text='GENERAL'},
+    {type='check', text=function() return WoWTools_L.INBOX..' Plus' end, tooltip='Tip.Mail.InBoxPlus',
+        get= function(save) return not save.hide end,
+        set= function(save, value) save.hide= not value and true or nil end,
+        apply= Apply('Init_InBox'),
+    },
+    {type='check', text='WHO_LIST', tooltip='Tip.Mail.NameList',
+        get= function(save) return not save.hideSendNameList end,
+        set= function(save, value) save.hideSendNameList= not value and true or nil end,
+        apply= Apply('Init_Send_Name_List'),
+    },
+    Offline_Option('WoW', 'Show offline Battle.net friends'),
+    Offline_Option('FRIEND', 'Show offline friends'),
+    Offline_Option('GUILD', 'Show offline guild members'),
+    Offline_Option('CLUB', 'Show offline community members'),
+    {type='check', text='Saved content', tooltip='Tip.Mail.SaveContent',
+        get= function(save) return save.logSendInfo end,
+        set= function(save, value) save.logSendInfo= value and true or nil end,
+        apply= Apply(function()
+            if SendMailNameEditBox.save_log then
+                SendMailNameEditBox:save_log()
+                SendMailSubjectEditBox:save_log()
+                SendMailBodyEditBox:save_log()
             end
-            self:UnregisterEvent(event)
-        end
+        end),
+    },
+    {type='check', text='Recipient history', tooltip='Tip.Mail.History',
+        get= function(save) return not save.hideHistoryList end,
+        set= function(save, value) save.hideHistoryList= not value and true or nil end,
+        apply= Apply('Init_Send_History_Name'),
+    },
+    {type='check', text='Show recipient list', tooltip='Tip.Mail.HistoryShow', indent=true,
+        disabled= function(save) return save.hideHistoryList end,
+        get= function(save) return not save.hideSendPlayerList end,
+        set= function(save, value) save.hideSendPlayerList= not value and true or nil end,
+        apply= Apply('Refresh_Send_History'),
+    },
+    {type='slider', text='History size', tooltip='Tip.Mail.HistoryMax', indent=true, min=5, max=100, step=1,
+        disabled= function(save) return save.hideHistoryList end,
+        get= function(save) return save.lastMaxSendPlayerList or 20 end,
+        set= function(save, value) save.lastMaxSendPlayerList= value end,
+    },
+    {type='check', text='ITEMS+SETTINGS_KEYBINDINGS_LABEL', tooltip='Tip.Mail.FastButtons',
+        get= function(save) return not save.hideItemButtonList end,
+        set= function(save, value) save.hideItemButtonList= not value and true or nil end,
+        apply= Apply('Init_Fast_Button'),
+    },
+    {type='check', text='Show item buttons', tooltip='Tip.Mail.FastShow', indent=true,
+        disabled= function(save) return save.hideItemButtonList end,
+        get= function(save) return save.fastShow end,
+        set= function(save, value) save.fastShow= value and true or false end,
+        apply= Apply('Refresh_Fast_Button'),
+    },
 
-    elseif event=='MAIL_SHOW' then
+    {type='section', text='Automations'},
+    {type='check', text='Auto switch to Send Mail', tooltip='Tip.Mail.AutoSend', automation=true,
+        get= function(save) return not save.notAutoToSendFrame end,
+        set= function(save, value) save.notAutoToSendFrame= not value and true or nil end,
+    },
+    {type='slider', text='Delay (seconds)', tooltip='Tip.Mail.AutoSendDelay', indent=true,
+        min=0.5, max=5, step=0.1, format='%.1f',
+        disabled= function(save) return save.notAutoToSendFrame end,
+        get= function(save) return save.autoToSendFrameSecond or 1 end,
+        set= function(save, value) save.autoToSendFrameSecond= value end,
+    },
+
+    {type='section', text='Appearance'},
+    {type='slider', text='Recipient history scale', tooltip='Tip.Menu.Scale', min=0.4, max=4, step=0.1, format='%.1f',
+        disabled= function(save) return save.hideHistoryList end,
+        get= function(save) return save.scaleSendPlayerFrame or 1 end,
+        set= function(save, value) save.scaleSendPlayerFrame= value end,
+        apply= Apply('Refresh_Send_History'),
+    },
+    {type='slider', text='Item buttons scale', tooltip='Tip.Menu.Scale', min=0.4, max=4, step=0.1, format='%.1f',
+        disabled= function(save) return save.hideItemButtonList end,
+        get= function(save) return save.scaleFastButton or 1 end,
+        set= function(save, value) save.scaleFastButton= value end,
+        apply= Apply('Refresh_Fast_Button'),
+    },
+
+    {type='section', text='Advanced'},
+    {type='button', text='Clear recipient history', buttonText='CLEAR_ALL', confirm='CLEAR_ALL',
+        tooltip='Tip.Mail.ClearHistory',
+        func= function(M, save)
+            save.lastSendPlayerList= {}
+            if M.isInit then
+                M:Refresh_Send_History()
+            end
+        end,
+    },
+    {type='note', text='Tip.Mail.OptionsNote'},
+}
+
+--Módulo registrado con la API común (docs/REFACTOR.md, R1)
+WoWTools_Module:Register({
+    key= 'Plus_Mail',
+    name= 'Module.Mail',
+    icon= 'UI-HUD-Minimap-Mail-Mouseover',
+    group= 'Items',
+    defaults= {
+        --hideUIPlus=true,
+        --hideSendNameList=true,
+        --hideHistoryList=true,
+        --hideItemButtonList=true
+
+        --autoToSendFrameSecond=1,
+
+        lastSendPlayerList= {},
+        lastMaxSendPlayerList=20,
+        show={
+            ['FRIEND']=true,
+        },
+        fast={},
+        fastShow=true,
+        scaleFastButton=1.3,
+        --INBOXITEMS_TO_DISPLAY=7,
+    },
+    tooltip= 'Tip.Mail.Module',
+    mixin= WoWTools_MailMixin,
+    options= Options,
+    events= {MAIL_SHOW= function()
         Init()
-        self:SetScript('OnEvent', nil)
-        self:UnregisterEvent(event)
-    end
-end)
+        return true
+    end},
+})

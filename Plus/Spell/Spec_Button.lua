@@ -1,25 +1,9 @@
 local function Save()
-    return WoWToolsSave['Plus_Spell'].specButton
+    return WoWTools_SpellMixin:Save().specButton
 end
 
 
 local SpecFrame
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init_Spec_Menu(self, root)
@@ -27,23 +11,20 @@ local function Init_Spec_Menu(self, root)
     root:CreateTitle(self.name)
 
 
---专精
     root:CreateDivider()
 
     WoWTools_MenuMixin:Set_Specialization(root)
     root:CreateDivider()
 
---打开选项界面
     sub=WoWTools_MenuMixin:OpenOptions(root, {
         name=WoWTools_SpellMixin.addName,
-        category=WoWTools_SpellMixin.Category
     })
 
 
 --SetParent
     sub2=sub:CreateCheckbox(
         (PlayerSpellsFrame and '' or '|cff828282')
-        ..'UIParent',--..(WoWTools_DataMixin.onlyChinese and '天赋和法术书' or PLAYERSPELLS_BUTTON),
+        ..'UIParent',--..(WoWTools_L.PLAYERSPELLS_BUTTON),
     function()
         return Save().isUIParent
     end, function()
@@ -53,18 +34,18 @@ local function Init_Spec_Menu(self, root)
         --return MenuResponse.Close
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Spell.SpecUIParent'])
         local isUIParent= Save().isUIParent
         tooltip:AddLine('SetParent')
         tooltip:AddDoubleLine(' ',  (isUIParent and '|cnGREEN_FONT_COLOR:' or '').. 'UIParent')
         tooltip:AddDoubleLine(' ', (isUIParent and '' or '|cnGREEN_FONT_COLOR:').. 'PlayerSpellsFrame')
 
         tooltip:AddLine(' ')
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+        tooltip:AddLine(WoWTools_L.REQUIRES_RELOAD)
     end)
 
 
 
---向上
         WoWTools_MenuMixin:ToTop(self, sub2, {GetValue=function()
             return Save().isToTOP
         end, SetValue=function ()
@@ -75,15 +56,6 @@ local function Init_Spec_Menu(self, root)
 
 
 
---自动隐藏
-        --[[sub2:CreateCheckbox(
-            WoWTools_DataMixin.onlyChinese and '自动隐藏' or format(GARRISON_FOLLOWER_NAME, SELF_CAST_AUTO, HIDE),
-        function()
-            return Save().hideInCombat
-        end, function()
-            Save().hideInCombat= not Save().hideInCombat and true or false
-            SpecFrame:Settings()
-        end)]]
 
 
 --FrameStrata
@@ -95,7 +67,6 @@ local function Init_Spec_Menu(self, root)
         end)
 
 --    sub:CreateDivider()
---缩放
     WoWTools_MenuMixin:Scale(self, sub2, function()
         return Save().scale or 1
     end, function(value)
@@ -104,31 +75,8 @@ local function Init_Spec_Menu(self, root)
     end)
 
     sub:CreateDivider()
---重新加载UI
     WoWTools_MenuMixin:Reload(sub)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Create_Spec_Button(index)
@@ -144,16 +92,11 @@ local function Create_Spec_Button(index)
 
     btn:SetSize(32,32)
     btn:SetNormalTexture(texture or 0)
-    WoWTools_ButtonMixin:AddMask(btn, false)
+    btn.texture= btn:GetNormalTexture()
+    WoWTools_Style:IconButton(btn)
     --btn:SetClampedToScreen(true)
     --table.insert(SpecFrame.Buttons, btn)
 
-    --[[local btn= WoWTools_ButtonMixin:Cbtn(SpecFrame, {
-        texture= texture,
-        name='WoWToolsPlayerSpellsFrameSpecButton'..index,
-        size=32,
-        isMask=true,
-    })]]
 
     btn.specIndex= index
     btn.specID= specID
@@ -170,10 +113,6 @@ local function Create_Spec_Button(index)
     btn.RoleIcon:SetPoint('BOTTOMRIGHT', 2, -1.2)
     btn.RoleIcon:SetAtlas(GetMicroIconForRoleEnum(GetSpecializationRoleEnum(index, false, false)), TextureKitConstants.IgnoreAtlasSize)
 
-    btn.SelectIcon= btn:CreateTexture(nil, 'OVERLAY')
-    btn.SelectIcon:SetAllPoints()
-    btn.SelectIcon:SetAtlas('ChromieTime-Button-Selection')
-    btn.SelectIcon:SetVertexColor(0,1,0)
 
     function btn:Set_Active()
         if self.isActive then
@@ -205,7 +144,10 @@ local function Create_Spec_Button(index)
 
     btn:SetScript('OnMouseDown', function(self, d)
         if d=='LeftButton' then
-            self:Set_Active()
+            --botones sueltos en pantalla: Shift+clic para cambiar de especialización (evita clics accidentales)
+            if self.isActive or not Save().isUIParent or IsShiftKeyDown() then
+                self:Set_Active()
+            end
         elseif d=='RightButton' and SpecFrame:IsMovable() and IsAltKeyDown() and not WoWTools_FrameMixin:IsLocked(SpecFrame) then
             SetCursor('UI_MOVE_CURSOR')
         else
@@ -229,14 +171,15 @@ local function Create_Spec_Button(index)
                         or (InCombatLockdown() and '|cff828282')
                         or '|cffffffff'
                     )
-                    ..(self.isActive and (WoWTools_DataMixin.onlyChinese and '已激活' or COVENANT_SANCTUM_UPGRADE_ACTIVE)
-                    or (WoWTools_DataMixin.onlyChinese and '激活' or SPEC_ACTIVE))
+                    ..(self.isActive and (WoWTools_L.COVENANT_SANCTUM_UPGRADE_ACTIVE)
+                    or (WoWTools_L.SPEC_ACTIVE))
+                    ..((not self.isActive and Save().isUIParent) and ' Shift+' or '')
                     ..WoWTools_DataMixin.Icon.left,
 
-                    WoWTools_DataMixin.Icon.right..(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL)
+                    WoWTools_DataMixin.Icon.right..(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL)
                 )
                 if SpecFrame:IsMovable() then
-                    tooltip:AddDoubleLine(' ', 'Alt+'..WoWTools_DataMixin.Icon.right..(WoWTools_DataMixin.onlyChinese and '移动' or NPE_MOVE))
+                    tooltip:AddDoubleLine(' ', 'Alt+'..WoWTools_DataMixin.Icon.right..(WoWTools_L.NPE_MOVE))
                 end
             end
         })
@@ -252,10 +195,13 @@ local function Create_Spec_Button(index)
     end
 
     function btn:set_shown(isInCombat)
+        --en PLAYER_REGEN_DISABLED InCombatLockdown() aún es false: usar el parámetro si viene
+        if isInCombat==nil then
+            isInCombat= InCombatLockdown()
+        end
         self:SetShown(
             not Save().isUIParent
             or self.isActive
-            or not InCombatLockdown()
             or not isInCombat
         )
     end
@@ -269,7 +215,7 @@ local function Create_Spec_Button(index)
         self.isLoot= isLoot
         self.lootID= lootID
 
-        self.SelectIcon:SetShown(isActive)
+        WoWTools_Style:SetActive(self, isActive)--la activa, con el borde del color de acento
 
         if isLoot then
             if lootID==0 then
@@ -304,24 +250,6 @@ local function Create_Spec_Button(index)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---天赋，添加专精按钮
 local function Init()
     if not Save().enabled then
         return
@@ -399,8 +327,6 @@ local function Init()
             self:SetParent(UIParent)
             if p and p[1] then
                 self:SetPoint(p[1], UIParent, p[3], p[4], p[5])
-            elseif WoWTools_DataMixin.Player.husandro then
-                self:SetPoint('BOTTOMLEFT', PlayerFrame, 'TOPLEFT', 0, 20)
             else
                 self:SetPoint('CENTER', UIParent, -150, 150)
             end
@@ -411,10 +337,10 @@ local function Init()
             self:SetPoint('TOP', PlayerSpellsFrame.TalentsFrame.ApplyButton, 'BOTTOM', -self.numSpec*10-18, 0)
 
         else
-            print(
+            WoWTools_Print(
                 WoWTools_SpellMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 '|cnGREEN_FONT_COLOR:'
-                ..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+                ..(WoWTools_L.REQUIRES_RELOAD)
             )
         end
     end
@@ -429,16 +355,20 @@ local function Init()
 end
 
 
-
-
-
-
-
-
-
-
-
-
+--Centro de control: what= 'parent' (lo que hace la casilla UIParent), 'strata' o nada (escala y orientación)
+function WoWTools_SpellMixin:Spec_Button_Settings(what)
+    if not SpecFrame then
+        return
+    end
+    if what=='strata' then
+        SpecFrame:set_strata()
+    else
+        SpecFrame:Settings()
+        if what=='parent' then
+            SpecFrame:set_point()
+        end
+    end
+end
 
 function WoWTools_SpellMixin:Init_Spec_Button()
     Init()

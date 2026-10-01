@@ -2,12 +2,8 @@
 local P_Save={
     fishing='BUTTON1',
     archaeology='F',
-    --save_fishing=true,--启动时，设置KEY
-    --save_archaeology=true--启动时，设置KEY
 }
-local function Save()
-    return WoWToolsSave['Tools_Professions']
-end
+local Module= {}--lo completa WoWTools_Module:Register (al final del archivo)
 
 local function Create_Button(index)
     local name, icon, _, _, _, _, skillLine = GetProfessionInfo(index)
@@ -29,14 +25,6 @@ local function Create_Button(index)
 end
 
 
-
-
-
-
-
-
-
---主要专业 1, 2
 local function Init_Professions(index)
     local button=  Create_Button(index)
     if not button then return end
@@ -53,23 +41,13 @@ local function Init_Professions(index)
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(
             '|T'..(self.icon or 0)..':0|t'..WoWTools_TextMixin:CN(self.name)..WoWTools_DataMixin.Icon.left,
-            WoWTools_DataMixin.Icon.right..MicroButtonTooltipText(WoWTools_DataMixin.onlyChinese and '专业' or PROFESSIONS_BUTTON, "TOGGLEPROFESSIONBOOK")..'|A:UI-HUD-MicroMenu-Professions-Mouseover:24:24|a'
+            WoWTools_DataMixin.Icon.right..MicroButtonTooltipText(WoWTools_L.PROFESSIONS_BUTTON, "TOGGLEPROFESSIONBOOK")..'|A:UI-HUD-MicroMenu-Professions-Mouseover:24:24|a'
         )
         GameTooltip:Show()
     end)
 end
 
 
-
-
-
-
-
-
---[[
-/cast [@player]烹饪用火
-/use 大厨的帽子
-]]
 local function Init_Cooking(index)
     local button=  Create_Button(index)
     if not button then return end
@@ -87,7 +65,7 @@ local function Init_Cooking(index)
     end
 
     if PlayerHasToy(134020) then
-        local toyName=C_Item.GetItemNameByID(134020)--玩具,大厨的帽子
+        local toyName=C_Item.GetItemNameByID(134020)
         if toyName then
             macro= (macro and macro..'\n' or '')..'/use '..toyName
         end
@@ -138,14 +116,6 @@ local function Init_Cooking(index)
 end
 
 
-
-
-
-
-
-
-
-
 local function Init_KeyButton_Menu(self, root)
     local isInCombat= not self:CanChangeAttribute()
     local sub, sub2
@@ -159,7 +129,7 @@ local function Init_KeyButton_Menu(self, root)
 
     root:CreateButton(
         '|A:UI-HUD-MicroMenu-Professions-Mouseover:24:24|a'
-        ..MicroButtonTooltipText(WoWTools_DataMixin.onlyChinese and '专业' or PROFESSIONS_BUTTON, "TOGGLEPROFESSIONBOOK"),
+        ..MicroButtonTooltipText(WoWTools_L.PROFESSIONS_BUTTON, "TOGGLEPROFESSIONBOOK"),
     function()
         ToggleProfessionsBook()
         return MenuResponse.Open
@@ -167,8 +137,8 @@ local function Init_KeyButton_Menu(self, root)
 
     root:CreateDivider()
     sub=root:CreateCheckbox(
-        (WoWTools_DataMixin.onlyChinese and '设置快捷键' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SETTINGS, SETTINGS_KEYBINDINGS_LABEL))
-        ..'|cnGREEN_FONT_COLOR:'..(Save()[self.type] or ''),
+        (WoWTools_L['SETTINGS+SETTINGS_KEYBINDINGS_LABEL~2'])
+        ..'|cnGREEN_FONT_COLOR:'..(Module:Save()[self.type] or ''),
     function()
         return WoWTools_KeyMixin:IsKeyValid(self)
     end, function()
@@ -177,44 +147,37 @@ local function Init_KeyButton_Menu(self, root)
         end
     end)
     sub:SetEnabled(not isInCombat)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Professions.Key'])
 
---设置KEY
     WoWTools_KeyMixin:SetMenu(self, sub,  {
         icon='|A:NPE_ArrowDown:0:0|a',
         name=WoWTools_TextMixin:CN(self.name),
-        key=Save()[self.type],
+        key=Module:Save()[self.type],
         GetKey=function(key)
-            Save()[self.type]=key
+            Module:Save()[self.type]=key
         end,
     })
 
---启动时，设置KEY
     sub2=sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '保存' or SAVE,
+        WoWTools_L.SAVE,
     function()
-        return Save()['save_'..self.type]
+        return Module:Save()['save_'..self.type]
     end, function()
-        Save()['save_'..self.type]= not Save()['save_'..self.type] and true or nil
+        Module:Save()['save_'..self.type]= not Module:Save()['save_'..self.type] and true or nil
     end)
     sub2:SetTooltip(function(tooltip)
-        tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '登入：设置' or (LOG_IN..': '..SETTINGS))
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Professions.KeySave'])
+        tooltip:AddLine(WoWTools_L['Log in: settings'])
     end)
+
+    WoWTools_ToolsMixin:SettingsMenu(root, Module)
 end
 
 
-
-
-
-
-
-
-
-
-
 local function Init_KeyButton(index, type)
-    local spellID, spellID2, icon= 131474, 271990, 4620674--131474/钓鱼 271990/钓鱼日志
+    local spellID, spellID2, icon= 131474, 271990, 4620674
     if type=='archaeology' then
-        spellID, spellID2, icon= 80451, 278910, 134435--80451/勘测 278910/考古学
+        spellID, spellID2, icon= 80451, 278910, 134435
     end
 
     local button=  Create_Button(index)
@@ -226,7 +189,7 @@ local function Init_KeyButton(index, type)
     button.spellID2= spellID2
 
     button:SetAttribute('type1', 'spell')
-    button:SetAttribute('spell1', C_Spell.GetSpellName(spellID) or spellID)--钓鱼
+    button:SetAttribute('spell1', C_Spell.GetSpellName(spellID) or spellID)
     button.texture:SetTexture(C_Spell.GetSpellTexture(spellID) or icon)
 
     button:SetScript('OnMouseDown', function(self, d)
@@ -243,7 +206,7 @@ local function Init_KeyButton(index, type)
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(
             WoWTools_SpellMixin:GetName(self.spellID)..WoWTools_DataMixin.Icon.left,
-            WoWTools_DataMixin.Icon.right..(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL)
+            WoWTools_DataMixin.Icon.right..(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL)
         )
         GameTooltip:AddLine(' ')
 
@@ -251,10 +214,10 @@ local function Init_KeyButton(index, type)
         local isInCombat= not self:CanChangeAttribute()
         GameTooltip:AddDoubleLine(
             (isInCombat and '|cnWARNING_FONT_COLOR:' or (isKeyValid and '|cff626262') or '')
-            ..(WoWTools_DataMixin.onlyChinese and '快捷键' or SETTINGS_KEYBINDINGS_LABEL)..' '..self:GetKEY()..WoWTools_DataMixin.Icon.mid..(WoWTools_DataMixin.onlyChinese and '上' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP),
+            ..(WoWTools_L.SETTINGS_KEYBINDINGS_LABEL)..' '..self:GetKEY()..WoWTools_DataMixin.Icon.mid..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP),
 
             (isInCombat and '|cnWARNING_FONT_COLOR:' or (isKeyValid and '|cnGREEN_FONT_COLOR:') or '|cff626262')
-            ..(WoWTools_DataMixin.onlyChinese and '下' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN)..WoWTools_DataMixin.Icon.mid..(WoWTools_DataMixin.onlyChinese and '解除键位' or UNBIND)
+            ..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN)..WoWTools_DataMixin.Icon.mid..(WoWTools_L.UNBIND)
         )
         GameTooltip:Show()
     end
@@ -283,10 +246,10 @@ local function Init_KeyButton(index, type)
     end)
     button:SetScript('OnMouseWheel', function(self, d)
         if not self:CanChangeAttribute() then
-            print(WoWTools_DataMixin.addName, '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT))
+            WoWTools_Print(WoWTools_DataMixin.addName, '|cnWARNING_FONT_COLOR:'..(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT))
             return
         end
-        self:set_key(d==1)-- 1上, -1下
+        self:set_key(d==1)
         self:set_tooltip()
     end)
 
@@ -314,26 +277,14 @@ local function Init_KeyButton(index, type)
 
     WoWTools_KeyMixin:Init(button, nil, true)
 
-    --设置KEY
     function button:GetKEY()
-        return Save()[self.type] or (self.type=='fishing' and 'BUTTON1') or 'F'
+        return Module:Save()[self.type] or (self.type=='fishing' and 'BUTTON1') or 'F'
     end
 
---启动时，设置KEY
-    if Save()['save_'..type] then
+    if Module:Save()['save_'..type] then
        button:set_key(true)
     end
 end
-
-
-
-
-
-
-
-
-
-
 
 
 local function Init()
@@ -349,52 +300,48 @@ local function Init()
         Init_Cooking(cooking)
     end
 
---钓鱼
     if fishing and fishing>0 then
         Init_KeyButton(fishing, 'fishing')
     end
 
---考古学
     if archaeology and archaeology>0 then
         Init_KeyButton(archaeology, 'archaeology')
     end
 end
 
 
+--Atajo de Pesca y Arqueología (save.fishing / save.archaeology) y si se activa al entrar (save.save_*)
+local function Key_Options(field, text, default)
+    local key= WoWTools_ToolsMixin:KeyOption({field=field, key=field, text=text, tooltip='Tip.Professions.Key'})
+    key.placeholder= default
+    key.get= function(save) return save[field] or default end
+    return key, {type='check', key='save_'..field, text='Enable on login', tooltip='Tip.Professions.KeySave', indent=true,
+        get= function(save) return save['save_'..field] end,
+        set= function(save, value) save['save_'..field]= value and true or nil end,
+    }
+end
+
+local Options= {
+    {type='section', text='GENERAL'},
+    {type='note', key='keyNote', text='Tip.Professions.KeyNote'},
+}
+do
+    local a, b= Key_Options('fishing', 'Fishing key', 'BUTTON1')
+    table.insert(Options, a)
+    table.insert(Options, b)
+    a, b= Key_Options('archaeology', 'Archaeology key', 'F')
+    table.insert(Options, a)
+    table.insert(Options, b)
+end
 
 
-
-
-
-
-
-
-
-
---###########
---加载保存数据
---###########
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-
-
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWTools' then
-
-            WoWToolsSave['Tools_Professions']= WoWToolsSave['Tools_Professions'] or P_Save
-            P_Save= nil
-
-            if WoWTools_ToolsMixin:Get_MainButton() then
-                self:RegisterEvent('PLAYER_ENTERING_WORLD')
-            else
-                self:SetScript('OnEvent', nil)
-            end
-            self:UnregisterEvent(event)
+WoWTools_Module:Register({
+    options= Options,
+    key= 'Tools_Professions', name= 'Module.Professions', icon= 136243, group= 'Tools',
+    parent= 'WoWTools_ToolsButton', defaults= P_Save, mixin= Module,
+    onEnable= function()
+        if WoWTools_ToolsMixin:Get_MainButton() then
+            WoWTools_ToolsMixin:OnEnterWorld(Init)
         end
-
-    elseif event == 'PLAYER_ENTERING_WORLD' then
-        Init()
-        self:UnregisterEvent(event)
-    end
-end)
+    end,
+})

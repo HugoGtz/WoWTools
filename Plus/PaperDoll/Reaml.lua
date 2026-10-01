@@ -1,14 +1,5 @@
---显示服务器名称
-local function Save()
-    return WoWToolsSave['Plus_PaperDoll']
-end
-
-
-
-
-
 local function Init()
-    if Save().notRealm then
+    if WoWTools_PaperDollMixin:Save().notRealm then
         return
     end
 
@@ -23,9 +14,6 @@ local function Init()
     wow.itemID= 122284
     wow:SetScript('OnEnter', function(self)
         WoWTools_SetTooltipMixin:Frame(self)
-    end)
-    wow:SetScript('OnMouseDown', function()
-        WoWTools_DataMixin:OpenWoWItemListFrame('Item')--战团，物品列表
     end)
     wow.text= wow:CreateFontString('WoWToolsPaperDollRealmLabel', 'ARTWORK', 'WoWToolsFont2')
     wow.text:SetPoint("BOTTOMRIGHT", -1, 1)
@@ -51,10 +39,10 @@ local function Init()
     btn:SetPoint('LEFT', wow, 'RIGHT')
 
     function btn:tooltip()
-        local server= WoWTools_RealmMixin:Get_Region(WoWTools_DataMixin.Player.Realm, nil, nil)--服务器，EU， US {col=, text=, realm=}
+        local server= WoWTools_RealmMixin:Get_Region(WoWTools_DataMixin.Player.Realm, nil, nil)
         GameTooltip:AddDoubleLine(
             WoWTools_DataMixin.Icon.icon2
-            ..(WoWTools_DataMixin.onlyChinese and '服务器:' or FRIENDS_LIST_REALM),
+            ..(WoWTools_L.FRIENDS_LIST_REALM),
             server and server.col..' '..server.realm or WoWTools_DataMixin.Player.Realm,
             nil,nil,nil, 1,1,1
         )
@@ -70,7 +58,7 @@ local function Init()
             ok2=true
         end
         if not ok2 then
-            GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '唯一' or ITEM_UNIQUE, WoWTools_DataMixin.Player.Realm, 0,1,0, 0,1,0)
+            GameTooltip:AddDoubleLine(WoWTools_L.ITEM_UNIQUE, WoWTools_DataMixin.Player.Realm, 0,1,0, 0,1,0)
         end
 
         GameTooltip:AddLine(' ')
@@ -80,13 +68,13 @@ local function Init()
         local curExp= GetExpansionLevel()
         local client= GetClientDisplayExpansionLevel()
         GameTooltip:AddDoubleLine(
-            WoWTools_DataMixin.onlyChinese and '版本' or GAME_VERSION_LABEL,
+            WoWTools_L.GAME_VERSION_LABEL,
             client..' '..(WoWTools_TextureMixin:GetWoWLog(client) or '')..WoWTools_TextMixin:CN(_G['EXPANSION_NAME'..client]),
             nil,nil,nil, 1,1,1
         )
         if curExp~=client then
             GameTooltip:AddDoubleLine(
-                WoWTools_DataMixin.onlyChinese and '当前' or REFORGE_CURRENT ,
+                WoWTools_L.REFORGE_CURRENT ,
                 curExp..' '..(WoWTools_TextureMixin:GetWoWLog(curExp) or '')..WoWTools_TextMixin:CN(_G['EXPANSION_NAME'..curExp]),
                 1,0,0, 1,0,0
             )
@@ -95,23 +83,23 @@ local function Init()
         if GameLimitedMode_IsActive() then
             GameTooltip:AddLine(' ')
             local rLevel, rMoney, profCap = GetRestrictedAccountData()
-            GameTooltip_AddErrorLine(GameTooltip, WoWTools_DataMixin.onlyChinese and '受限制' or CHAT_MSG_RESTRICTED)
+            GameTooltip_AddErrorLine(GameTooltip, WoWTools_L.CHAT_MSG_RESTRICTED)
 
             GameTooltip:AddDoubleLine(
-                WoWTools_DataMixin.onlyChinese and '等级' or LEVEL,
+                WoWTools_L.LEVEL,
                 rLevel,
                 1,0,0, 1,1,1
             )
             if rMoney then
                 GameTooltip:AddDoubleLine(
-                    WoWTools_DataMixin.onlyChinese and '钱' or MONEY,
+                    WoWTools_L.MONEY,
                     GetMoneyString(rMoney),
                     1,0,0, 1,1,1
                 )
             end
 
             GameTooltip:AddDoubleLine(
-                WoWTools_DataMixin.onlyChinese and '专业技能' or PROFESSIONS_TRACKER_HEADER_PROFESSION,
+                WoWTools_L.PROFESSIONS_TRACKER_HEADER_PROFESSION,
                 profCap,
                 1,0,0, 1,1,1
             )
@@ -157,7 +145,7 @@ local function Init()
 
 
     Init=function()
-        _G['WoWToolsPaperDollWoWButton']:SetShown(not Save().notRealm)
+        _G['WoWToolsPaperDollWoWButton']:SetShown(not WoWTools_PaperDollMixin:Save().notRealm)
     end
 end
 
@@ -175,7 +163,6 @@ end
 
 
 
---显示服务器名称
 function WoWTools_PaperDollMixin:Init_Reaml()
     Init()
 end

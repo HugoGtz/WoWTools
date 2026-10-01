@@ -3,7 +3,9 @@
 
 
 local function Init()
-
+    if not AccountStoreFrame or not AccountStoreFrame.CategoryList then
+        return
+    end
     WoWTools_DataMixin:Hook(AccountStoreFrame.CategoryList.ScrollBox, 'Update', function(frame)
         if not frame:HasView() then
             return
@@ -12,7 +14,7 @@ local function Init()
         for _, btn in pairs(frame:GetFrames() or {}) do
 
             local all, num= 0, 0
-            local isRefundable= false--可退款
+            local isRefundable= false
 
             for _, itemID in pairs( btn.categoryID and C_AccountStore.GetCategoryItems(btn.categoryID) or {}) do
                 local itemInfo= C_AccountStore.GetItemInfo(itemID)
@@ -40,7 +42,7 @@ local function Init()
                 btn.IsRefundable:SetScript('OnEnter', function(self)
                     GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
                     GameTooltip:ClearLines()
-                    GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '可以退款' or PLUNDERSTORE_REFUND_BUTTON_TEXT, WoWTools_DataMixin.addName)
+                    GameTooltip:AddDoubleLine(WoWTools_L.PLUNDERSTORE_REFUND_BUTTON_TEXT, WoWTools_DataMixin.addName)
                     GameTooltip:Show()
                 end)
             end
@@ -63,5 +65,9 @@ end
 
 
 function WoWTools_AuctionHouseMixin:Init_AccountStore()
-    Init()
+    if AccountStoreFrame then
+        Init()
+    else--Blizzard_AccountStore se carga bajo demanda
+        EventUtil.ContinueOnAddOnLoaded('Blizzard_AccountStore', function() Init() end)
+    end
 end

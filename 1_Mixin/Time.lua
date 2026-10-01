@@ -38,7 +38,7 @@ function WoWTools_TimeMixin:Info(value, chat, time, expirationTime)
         else
             return SecondsToTime(time), time
         end
-    elseif expirationTime and expirationTime>0 then--到期
+    elseif expirationTime and expirationTime>0 then
         time= time or GetTime()
 
         while time> expirationTime do
@@ -61,7 +61,6 @@ function WoWTools_TimeMixin:Info(value, chat, time, expirationTime)
 end
 
 
--- upData 是上次更新时间，格式为 date('%Y-%m-%d %H:%M:%S')
 -- (%d+)%-(%d+)%-(%d+) (%d+):(%d+):(%d+)
 function WoWTools_TimeMixin:GetUpdate_Seconds(upData, curData)
     local seconds=0
@@ -99,12 +98,12 @@ function WoWTools_TimeMixin:SecondsToFullTime(seconds, upData, curData)
     seconds = math.floor(seconds % 60)
 
     local str = ""
-    if years > 0 then str = str .. years ..(WoWTools_DataMixin.onlyChinese and "年" or 'Y') end
-    if months > 0 then str = str .. months ..(WoWTools_DataMixin.onlyChinese and "月" or 'M') end
-    if days > 0 then str = str .. days ..(WoWTools_DataMixin.onlyChinese and "日" or 'D') end
-    if hours > 0 then str = str .. hours ..(WoWTools_DataMixin.onlyChinese and "时" or 'h') end
-    if minutes > 0 then str = str .. minutes ..(WoWTools_DataMixin.onlyChinese and "分" or 'm') end
-    if seconds>0 then str = str .. minutes ..(WoWTools_DataMixin.onlyChinese and "秒" or 's') end
+    if years > 0 then str = str .. years ..(WoWTools_L.Y) end
+    if months > 0 then str = str .. months ..(WoWTools_L.M) end
+    if days > 0 then str = str .. days ..(WoWTools_L.D) end
+    if hours > 0 then str = str .. hours ..(WoWTools_L['h']) end
+    if minutes > 0 then str = str .. minutes ..(WoWTools_L['m']) end
+    if seconds>0 then str = str .. seconds ..(WoWTools_L['s']) end
 
 
     return str

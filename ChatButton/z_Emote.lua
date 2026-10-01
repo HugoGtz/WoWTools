@@ -1,10 +1,10 @@
 local P_Save= {
     emoji={'DANCE'},
-    chat={},--聊天
-    command={},--宏
+    chat={},
+    command={},
 
-    useChat={},--自定义，聊天
-    useCommand={}--自定义，宏
+    useChat={},
+    useCommand={}
 }
 local P_SaveUse={
     use={
@@ -18,15 +18,13 @@ local P_SaveUse={
     },
 }
 
-local function Save()
-    return WoWToolsSave['Plus_EmoteButton']
-end
+local M= {}--tabla del módulo (WoWTools_Module)
 
 local Init_Button
 
 local function SaveUse(name)
-    if WoWToolsPlayerDate['EmoteButton'] then
-        return WoWToolsPlayerDate['EmoteButton'][name]
+    if WoWToolsPlusPlayerDate['EmoteButton'] then
+        return WoWToolsPlusPlayerDate['EmoteButton'][name]
     end
 end
 
@@ -35,7 +33,7 @@ local addName
 
 
 local function Get_Save(value, tabName)
-    for index, name in pairs(Save()[tabName]) do
+    for index, name in pairs(M:Save()[tabName]) do
         if name==value then
             return index
         end
@@ -106,10 +104,10 @@ end
 
 local function Rest_Button()
     StaticPopup_Show('WoWTools_OK',
-        addName..'|n|n'..(WoWTools_DataMixin.onlyChinese and '全部重置' or RESET_ALL_BUTTON_TEXT),
+        addName..'|n|n'..(WoWTools_L.RESET_ALL_BUTTON_TEXT),
         nil,
     function()
-        WoWToolsSave['Plus_EmoteButton']= CopyTable(P_Save)
+        WoWToolsPlusSave['Plus_EmoteButton']= CopyTable(P_Save)
         MainButton:set_point()
         Init_Button()
     end)
@@ -159,8 +157,8 @@ local function On_Click(self)
     end
 end
 local function On_Enter(self)
-    local isUIParent= Save().isUIParent
-    if WoWToolsSave['ChatButton'].disabledTooltiip and not isUIParent then--禁用提示
+    local isUIParent= M:Save().isUIParent
+    if WoWTools_ChatMixin:Save().disabledTooltiip and not isUIParent then
         return
     end
 
@@ -213,18 +211,6 @@ local function Set_Tooltip(tooltip, value, vaName, isChat, isCommand)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init_Button_Menu(self, root)
     local value= self.value
     local valueName= Get_Name(value, self.isChat, self.isCommand, self.useType)
@@ -233,10 +219,10 @@ local function Init_Button_Menu(self, root)
 
     local sub=root:CreateButton(
         (SaveUse('use')[value] and SaveUse('use')[value].name and '|cff00ccff' or '')
-        ..(WoWTools_DataMixin.onlyChinese and '修改名称' or HUD_EDIT_MODE_RENAME_LAYOUT),
+        ..(WoWTools_L.HUD_EDIT_MODE_RENAME_LAYOUT),
     function()
         StaticPopup_Show('WoWTools_EditText',
-            (WoWTools_DataMixin.onlyChinese and '修改名称' or HUD_EDIT_MODE_RENAME_LAYOUT)
+            (WoWTools_L.HUD_EDIT_MODE_RENAME_LAYOUT)
             ..'|n|n'
             ..valueName
             ..(cn and '|n'..cn or ''),
@@ -267,6 +253,7 @@ local function Init_Button_Menu(self, root)
         )
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Emote.Rename'])
         Set_Tooltip(tooltip, value, valueName, self.isChat, self.isCommand, self.useType)
     end)
 
@@ -275,10 +262,10 @@ local function Init_Button_Menu(self, root)
 
     sub=root:CreateButton(
         (SaveUse('use')[value] and SaveUse('use')[value].add and '|cff00ccff' or '')
-        ..(WoWTools_DataMixin.onlyChinese and '添加参数'or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ADD, MACRO)),
+        ..(WoWTools_L['ADD+MACRO']),
     function()
          StaticPopup_Show('WoWTools_EditText',
-            addName..'|n|n'..valueName..' |cffffffff('..(WoWTools_DataMixin.onlyChinese and '参数' or MACRO)..')|r'
+            addName..'|n|n'..valueName..' |cffffffff('..(WoWTools_L['MACRO~2'])..')|r'
             ..(cn and '|n'..cn or ''),
             nil,
             {
@@ -288,7 +275,7 @@ local function Init_Button_Menu(self, root)
                     if t then
                         s:GetEditBox():SetText(t)
                     end
-                    s:GetButton1():SetText(WoWTools_DataMixin.onlyChinese and '添加' or ADD)
+                    s:GetButton1():SetText(WoWTools_L.ADD)
                 end,
                 SetValue= function(s)
                     local va= s:GetEditBox():GetText()
@@ -313,6 +300,7 @@ local function Init_Button_Menu(self, root)
         )
     end)
     sub:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Emote.AddText'])
         tooltip:AddLine(SaveUse('use')[value] and SaveUse('use')[value].add, nil, nil, nil, true)
     end)
     sub:SetEnabled(self.isChat or self.isCommand)
@@ -320,47 +308,11 @@ local function Init_Button_Menu(self, root)
     root:CreateDivider()
     WoWTools_ChatMixin:Open_SettingsPanel(root, addName)
 end
---[[local function SetChatTypeAttribute(chatType)
-    local editBox = ChatFrameUtil.OpenChat("")
-    editBox:SetAttribute("chatType", chatType)
-    editBox:UpdateHeader()
-end
-
-local function AddSlashInitializer(root, chatShortcut)
-    root:AddInitializer(function(button, description, menu)
-        local fontString2 = button:AttachFontString()
-        local offset = description:HasElements() and -20 or 0
-        fontString2:SetPoint("RIGHT", offset, 0)
-        fontString2:SetJustifyH("RIGHT")
-        fontString2:SetTextToFit(chatShortcut)
-
-        button.fontString:SetTextColor(NORMAL_FONT_COLOR:GetRGB())
-    end)
-end]]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function Init_Button()
     if WoWTools_FrameMixin:IsLocked(MainButton) then
-        print(addName,'|cnWARNING_FONT_COLOR:', WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_COOLDOWN_VIEWER_VISIBLE_SETTING_IN_COMBAT)
+        WoWTools_Print(addName,'|cnWARNING_FONT_COLOR:', WoWTools_L.HUD_EDIT_MODE_SETTING_COOLDOWN_VIEWER_VISIBLE_SETTING_IN_COMBAT)
         MainButton:RegisterEvent('PLAYER_REGEN_ENABLED')
         return
     end
@@ -368,34 +320,34 @@ function Init_Button()
     local isInCombat= InCombatLockdown()
 
 
-    local isUIParent= Save().isUIParent
-    local line= Save().line or 1
-    local subNum= Save().subName or (LOCALE_koKR or LOCALE_zhTW or LOCALE_zhCN or WoWTools_ChineseMixin) and 1 or 3
-    local scale= Save().scale or 1
-    local alpha= Save().alpha or 0.5
-    local fontScale= Save().fontScale or 1
-    local btnW, btnH= Save().width or 32, Save().height or 32
-    local isSecure= Save().isSecure
+    local isUIParent= M:Save().isUIParent
+    local line= M:Save().line or 1
+    local subNum= M:Save().subName or (LOCALE_koKR and 1 or 3)
+    local scale= M:Save().scale or 1
+    local alpha= M:Save().alpha or 0.5
+    local fontScale= M:Save().fontScale or 1
+    local btnW, btnH= M:Save().width or 32, M:Save().height or 32
+    local isSecure= M:Save().isSecure
 
     local _newTab= {}
-    for _, value in pairs(Save().chat) do
+    for _, value in pairs(M:Save().chat) do
         table.insert(_newTab, {value=value, isChat=true, isCommand=nil, isSecure=nil, useType=nil})
     end
-    for _, value in pairs(Save().useChat) do
+    for _, value in pairs(M:Save().useChat) do
         if SaveUse('chat')[value] then
             table.insert(_newTab, {value=value, isChat=true, isCommand=nil, isSecure=nil, useType='chat'})
         end
     end
 
-    for _, value in pairs(Save().emoji) do
+    for _, value in pairs(M:Save().emoji) do
         table.insert(_newTab, {value=value, isChat=nil, isCommand=nil, isSecure=nil, useType=nil})
     end
 
 
-    for _, value in pairs(Save().command) do
+    for _, value in pairs(M:Save().command) do
         table.insert(_newTab, {value=value, isChat=nil, isCommand=true, isSecure=isSecure, useType=nil})
     end
-    for _, value in pairs(Save().useCommand) do
+    for _, value in pairs(M:Save().useCommand) do
         if SaveUse('command')[value] then
             table.insert(_newTab, {value=value, isChat=nil, isCommand=true, isSecure=true, useType='command'})
         end
@@ -508,11 +460,11 @@ function Init_Button()
             MainButton.Background:SetPoint('TOP', _buttons[all], 0, 1)
             MainButton.Background:SetPoint('RIGHT', _buttons[all>=line and line or all], 1, 0)
             MainButton.Background:SetPoint('BOTTOMLEFT', _buttons[1], -1, -1)
-            MainButton.Background:SetAlpha(Save().bgAlpha or 0)
+            MainButton.Background:SetAlpha(M:Save().bgAlpha or 0)
         end
         MainButton.Background:SetShown(index>0)
 
-        MainButton:SetFrameStrata(Save().strata or 'MEDIUM')
+        MainButton:SetFrameStrata(M:Save().strata or 'MEDIUM')
     end
     MainButton:SetShown(isUIParent)
 
@@ -521,21 +473,10 @@ function Init_Button()
 end
 
 
-
-
-
-
-
-
-
-
-
-
---添加，自定义
 local function Init_UseFrame()
     local typeTab={
-        chat= WoWTools_DataMixin.onlyChinese and '聊天' or CHAT,
-        command= WoWTools_DataMixin.onlyChinese and '宏' or MACRO,
+        chat= WoWTools_L.CHAT,
+        command= WoWTools_L.MACRO,
     }
 
     local frame= WoWTools_FrameMixin:Create(UIParent, {
@@ -543,7 +484,7 @@ local function Init_UseFrame()
         name='WoWToolsEmoteUseAddFrame',
         size={400, 250},
     })
-    frame.type= Save().useFrameType or 'chat'--保存上次值
+    frame.type= M:Save().useFrameType or 'chat'
 
     local function Get_TypeNum(t)
         t= t or frame.type
@@ -553,7 +494,7 @@ local function Init_UseFrame()
     local menu= CreateFrame("DropdownButton", nil, frame, "WowStyle1DropdownTemplate")
     menu:SetWidth(150)
     menu:SetPoint('TOPLEFT', 13, -32)
-    menu:SetDefaultText(WoWTools_DataMixin.onlyChinese and '聊天' or CHAT)
+    menu:SetDefaultText(WoWTools_L.CHAT)
 
 
     local list= CreateFrame('DropdownButton', nil, menu, 'WoWToolsMenu2Template')
@@ -571,7 +512,7 @@ local function Init_UseFrame()
 
 
     local editName= CreateFrame('EditBox', nil, frame, 'SearchBoxTemplate')
-    editName.Instructions:SetText(WoWTools_DataMixin.onlyChinese and '名称' or NAME)
+    editName.Instructions:SetText(WoWTools_L.NAME)
     editName:SetPoint('LEFT', list, 'RIGHT', 7, 0)
     editName:SetPoint('RIGHT', -23*3, 0)
     editName:SetHeight(23)
@@ -584,7 +525,7 @@ local function Init_UseFrame()
     add:SetPoint('LEFT', editName, 'RIGHT', 2, 0)
     add:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, 'ANCHOR_LEFT')
-        GameTooltip_SetTitle(GameTooltip, (WoWTools_DataMixin.onlyChinese and '添加' or ADD)..': |cffffffff'..typeTab[frame.type])
+        GameTooltip_SetTitle(GameTooltip, (WoWTools_L.ADD)..': |cffffffff'..typeTab[frame.type])
         GameTooltip:AddLine(' ')
         GameTooltip:AddLine(frame.value, 0, 0.8,1)
         GameTooltip:AddLine(SaveUse(frame.type)[frame.value], nil, nil, nil, true)
@@ -597,7 +538,7 @@ local function Init_UseFrame()
     update:SetPoint('LEFT', add, 'RIGHT', 2, 0)
     update:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, 'ANCHOR_LEFT')
-        GameTooltip_SetTitle(GameTooltip, (WoWTools_DataMixin.onlyChinese and '更新' or UPDATE)..': |cffffffff'..typeTab[frame.type])
+        GameTooltip_SetTitle(GameTooltip, (WoWTools_L.UPDATE)..': |cffffffff'..typeTab[frame.type])
         GameTooltip:AddLine(' ')
         GameTooltip:AddLine(frame.value, 0, 0.8,1)
         GameTooltip:AddLine(SaveUse(frame.type)[frame.value], nil, nil, nil, true)
@@ -639,12 +580,15 @@ local function Init_UseFrame()
                 list:set_text()
                 editText.editBox.Instructions:SetText(typeTab[data.type])
                 Settings()
-                Save().useFrameType= data.type--保存上次值
+                M:Save().useFrameType= data.type
             end, {type=type})
             if type=='command' then
                 sub:SetTooltip(function(tooltip)
+                    WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Emote.TypeCommand'])
                     GameTooltip_AddErrorLine(tooltip, 'SecureActionButtonTemplate')
                 end)
+            else
+                WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Emote.TypeChat'])
             end
         end
     end)
@@ -668,11 +612,11 @@ local function Init_UseFrame()
             end)
 
             sub:CreateButton(
-                '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '删除' or DELETE),
+                '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.DELETE),
             function(data)
                  StaticPopup_Show('WoWTools_OK',
                     typeTab[data.type]..'|n'
-                    ..(WoWTools_DataMixin.onlyChinese and '删除' or DELETE)
+                    ..(WoWTools_L.DELETE)
                     ..'|n|n|cff00ccff'
                     ..(data.value or '')
                     ..'|r|n'..(data.text or ''),
@@ -690,14 +634,14 @@ local function Init_UseFrame()
 
         root:CreateDivider()
         root:CreateButton(
-            '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL),
+            '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.CLEAR_ALL),
         function()
             StaticPopup_Show('WoWTools_OK',
                 typeTab[frame.type]..'|n|n|A:bags-button-autosort-up:0:0|a'
-                ..(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL),
+                ..(WoWTools_L.CLEAR_ALL),
                 nil,
             {SetValue=function()
-                WoWToolsPlayerDate['EmoteButton'][frame.type]={}
+                WoWToolsPlusPlayerDate['EmoteButton'][frame.type]={}
                 list:set_text()
                 Settings()
                 Init_Button()
@@ -726,23 +670,6 @@ local function Init_UseFrame()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Set_Menu(root, tab, tabName, rootName)
     local isCommand= tabName=='command'
     local isChat= tabName=='chat'
@@ -754,53 +681,53 @@ local function Set_Menu(root, tab, tabName, rootName)
         rootName,
     function()
         return MenuResponse.Open
-    end, {rightText=#Save()[tabName]})
+    end, {rightText=#M:Save()[tabName]})
     WoWTools_MenuMixin:SetRightText(root)
 
---是否使用，安全按钮
     if isCommand then
         sub= root:CreateCheckbox(
             'SecureActionButton',
         function()
-            return Save().isSecure
+            return M:Save().isSecure
         end, function()
-            Save().isSecure= not Save().isSecure and true or nil
+            M:Save().isSecure= not M:Save().isSecure and true or nil
             Init_Button()
         end)
         sub:SetTooltip(function(tooltip)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Emote.Secure'])
             tooltip:AddLine('SecureActionButtonTemplate')
-            GameTooltip_AddErrorLine(tooltip, WoWTools_DataMixin.onlyChinese and'友情提示: 可能会出现错误' or 'Note: Errors may occur')
+            GameTooltip_AddErrorLine(tooltip, WoWTools_L['Note: errors may occur'])
         end)
     end
 
 
-    --勾选所有
-    root:CreateButton(
-        (WoWTools_DataMixin.onlyChinese and '勾选所有' or EVENTTRACE_BUTTON_ENABLE_FILTERS)
+    sub=root:CreateButton(
+        (WoWTools_L.EVENTTRACE_BUTTON_ENABLE_FILTERS)
         ..' #'..#tab,
     function()
         for _, value in pairs(tab) do
             if not Get_Save(value, tabName) then
-                table.insert(Save()[tabName], value)
+                table.insert(M:Save()[tabName], value)
             end
         end
         Init_Button()
         return MenuResponse.Refresh
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Emote.SelectAll'])
 
---撤选所有
-    root:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '撤选所有' or EVENTTRACE_BUTTON_DISABLE_FILTERS,
+    sub=root:CreateButton(
+        WoWTools_L.EVENTTRACE_BUTTON_DISABLE_FILTERS,
      function()
         for _, value in pairs(tab) do
             local index= Get_Save(value, tabName)
             if index then
-                table.remove(Save()[tabName], index)
+                table.remove(M:Save()[tabName], index)
             end
         end
         Init_Button()
         return MenuResponse.Refresh
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Emote.SelectNone'])
     root:CreateDivider()
 
 
@@ -814,14 +741,15 @@ local function Set_Menu(root, tab, tabName, rootName)
         end, function(data)
             local tabIndex= Get_Save(data.value, tabName)
             if tabIndex then
-                table.remove(Save()[tabName], tabIndex)
+                table.remove(M:Save()[tabName], tabIndex)
             else
-                table.insert(Save()[tabName], data.value)
+                table.insert(M:Save()[tabName], data.value)
             end
             Init_Button()
         end, {value=value, vaName=vaName, index=index})
 
         sub:SetTooltip(function(tooltip, desc)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Emote.Item'])
             if useType then
                 tooltip:AddLine(SaveUse(useType)[desc.data.vaName])
             else
@@ -853,30 +781,6 @@ local function Set_Menu(root, tab, tabName, rootName)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init_Menu(self, root)
     if not self:IsMouseOver() then
         return
@@ -894,130 +798,119 @@ local function Init_Menu(self, root)
         WoWTools_MenuMixin:SetRightText(root)
     end
 
---表情
-    Set_Menu(root, EmoteList, 'emoji', WoWTools_DataMixin.onlyChinese and '表情' or EMOTE_MESSAGE)
---谈话
-    Set_Menu(root, TextEmoteSpeechList, 'emoji', WoWTools_DataMixin.onlyChinese and '谈话' or VOICEMACRO_LABEL)
---合集
+    Set_Menu(root, EmoteList, 'emoji', WoWTools_L.EMOTE_MESSAGE)
+    Set_Menu(root, TextEmoteSpeechList, 'emoji', WoWTools_L.VOICEMACRO_LABEL)
     for i= 1, MAXEMOTEINDEX do
         local value= _G["EMOTE"..i.."_CMD1"] and _G['EMOTE'..i..'_TOKEN']
         if value then
             table.insert(_tab, value)
         end
     end
-    Set_Menu(root, _tab, 'emoji', WoWTools_DataMixin.onlyChinese and '全部' or ALL)
+    Set_Menu(root, _tab, 'emoji', WoWTools_L.ALL)
 
---聊天
     _tab={'SAY', 'PARTY', 'RAID', 'INSTANCE_CHAT', 'GUILD', 'YELL', 'WHISPER','REPLY',}
     root:CreateDivider()
-    Set_Menu(root, _tab, 'chat', WoWTools_DataMixin.onlyChinese and '聊天' or CHAT)
+    Set_Menu(root, _tab, 'chat', WoWTools_L.CHAT)
 
---自定义聊天
     _tab={}
     for value in pairs(SaveUse('chat')) do
         table.insert(_tab, value)
     end
-    Set_Menu(root, _tab, 'useChat', WoWTools_DataMixin.onlyChinese and '自定义' or CUSTOM)
+    Set_Menu(root, _tab, 'useChat', WoWTools_L.CUSTOM)
 
---宏
     root:CreateDivider()
     _tab= {}
     for value in pairs(SLASH_COMMAND) do
         table.insert(_tab, value)
     end
     table.sort(_tab)
-    Set_Menu(root, _tab, 'command', WoWTools_DataMixin.onlyChinese and '宏' or MACRO)
+    Set_Menu(root, _tab, 'command', WoWTools_L.MACRO)
 
---自定义宏
     _tab={}
     for value in pairs(SaveUse('command')) do
         table.insert(_tab, value)
     end
-    Set_Menu(root, _tab, 'useCommand', WoWTools_DataMixin.onlyChinese and '自定义' or CUSTOM)
+    Set_Menu(root, _tab, 'useCommand', WoWTools_L.CUSTOM)
 
 
---添加，自定义
     root:CreateDivider()
-    root:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '添加自定义' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ADD, CUSTOM),
+    sub=root:CreateButton(
+        WoWTools_L['ADD+CUSTOM'],
     function()
         Init_UseFrame()
         return MenuResponse.Open
     end)
---打开选项界面
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Emote.AddCustom'])
 
     sub= WoWTools_ChatMixin:Open_SettingsPanel(root, addName)
 
---选项
 
 
---撤选所有
-    sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '撤选所有' or EVENTTRACE_BUTTON_DISABLE_FILTERS,
+    local sub2
+    sub2=sub:CreateButton(
+        WoWTools_L.EVENTTRACE_BUTTON_DISABLE_FILTERS,
      function()
         StaticPopup_Show('WoWTools_OK',
             addName..'|n|n'
-            ..(WoWTools_DataMixin.onlyChinese and '撤选所有' or EVENTTRACE_BUTTON_DISABLE_FILTERS),
+            ..(WoWTools_L.EVENTTRACE_BUTTON_DISABLE_FILTERS),
             nil,
         {SetValue=function()
-            Save().emoji= {}
-            Save().command= {}
-            Save().chat= {}
+            M:Save().emoji= {}
+            M:Save().command= {}
+            M:Save().chat= {}
             Init_Button()
         end})
         return MenuResponse.Refresh
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Emote.ClearAll'])
 
 
---自定义位置
     sub:CreateDivider()
-    sub:CreateCheckbox(
+    sub2=sub:CreateCheckbox(
         'UIParent',
     function()
-        return Save().isUIParent
+        return M:Save().isUIParent
     end, function()
-        Save().isUIParent= not Save().isUIParent and true or nil
+        M:Save().isUIParent= not M:Save().isUIParent and true or nil
         Init_Button()
         return MenuResponse.CloseAll
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Emote.UIParent'])
 
---自定义位置
-    if Save().isUIParent then
+    if M:Save().isUIParent then
 --FrameStrata
         WoWTools_MenuMixin:FrameStrata(self, sub, function(data)
             return MainButton and MainButton:GetFrameStrata()==data
         end, function(data)
-            Save().strata= data
+            M:Save().strata= data
             Init_Button()
             return MenuResponse.Refresh
         end)
---数量
         sub:CreateSpacer()
-        local w= Save().width or 32
+        local w= M:Save().width or 32
         WoWTools_MenuMixin:CreateSlider(sub, {
             getValue=function()
-                return Save().line or 1
+                return M:Save().line or 1
             end,
             setValue=function(value)
-                Save().line= value
+                M:Save().line= value
                 Init_Button()
             end,
-            name=WoWTools_DataMixin.onlyChinese and '数量' or AUCTION_HOUSE_QUANTITY_LABEL,
+            name=WoWTools_L.AUCTION_HOUSE_QUANTITY_LABEL,
             minValue=1,
             maxValue= math.modf(UIParent:GetWidth()/(w==0 and 12 or w)),
             step=1,
         })
---背景 Alpha
         sub:CreateSpacer()
         WoWTools_MenuMixin:CreateSlider(sub, {
             getValue=function()
-                return Save().bgAlpha or 0
+                return M:Save().bgAlpha or 0
             end,
             setValue=function(value)
-                Save().bgAlpha= value
+                M:Save().bgAlpha= value
                 Init_Button()
             end,
-            name=WoWTools_DataMixin.onlyChinese and '背景' or BACKGROUND,
+            name=WoWTools_L.BACKGROUND,
             minValue=0,
             maxValue=1,
             step=0.1,
@@ -1029,17 +922,16 @@ local function Init_Menu(self, root)
 
 
 
---字体缩放
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
-            return Save().fontScale or 1
+            return M:Save().fontScale or 1
         end,
         setValue=function(value)
-            Save().fontScale= value
+            M:Save().fontScale= value
             Init_Button()
         end,
-        name=WoWTools_DataMixin.onlyChinese and '字体' or FONT_SIZE,
+        name=WoWTools_L['FONT_SIZE~2'],
         minValue=0.2,
         maxValue=4,
         step=0.1,
@@ -1049,38 +941,37 @@ local function Init_Menu(self, root)
     sub:CreateSpacer()
         WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
-            return Save().subName or (LOCALE_koKR or LOCALE_zhTW or LOCALE_zhCN or WoWTools_ChineseMixin) and 1 or 3
+            return M:Save().subName or (LOCALE_koKR and 1 or 3)
         end,
         setValue=function(value)
-            Save().subName= value
+            M:Save().subName= value
             Init_Button()
         end,
-        name=WoWTools_DataMixin.onlyChinese and '截取' or 'sub',
+        name=WoWTools_L['Truncate'],
         minValue=0,
         maxValue=20,
         step=1,
     })
 
---背景, 透明度
     sub:CreateSpacer()
     WoWTools_MenuMixin:BgAplha(sub,
     function()--GetValue
-        return Save().alpha or 0.5
+        return M:Save().alpha or 0.5
     end, function(value)--SetValue
-        Save().alpha= value
+        M:Save().alpha= value
         Init_Button()
     end, nil, true)
 
     sub:CreateSpacer()
         WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
-            return Save().width or 32
+            return M:Save().width or 32
         end,
         setValue=function(value)
-            Save().width= value
+            M:Save().width= value
             Init_Button()
         end,
-        name=WoWTools_DataMixin.onlyChinese and '宽度' or HUD_EDIT_MODE_SETTING_CHAT_FRAME_WIDTH,
+        name=WoWTools_L.HUD_EDIT_MODE_SETTING_CHAT_FRAME_WIDTH,
         minValue=0,
         maxValue=128,
         step=1,
@@ -1089,74 +980,52 @@ local function Init_Menu(self, root)
     sub:CreateSpacer()
         WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
-            return Save().height or 32
+            return M:Save().height or 32
         end,
         setValue=function(value)
-            Save().height= value
+            M:Save().height= value
             Init_Button()
         end,
-        name=WoWTools_DataMixin.onlyChinese and '高度' or HUD_EDIT_MODE_SETTING_CHAT_FRAME_HEIGHT,
+        name=WoWTools_L.HUD_EDIT_MODE_SETTING_CHAT_FRAME_HEIGHT,
         minValue=0,
         maxValue=128,
         step=1,
     })
 
---缩放
     WoWTools_MenuMixin:ScaleRoot(self, sub, function()
-        return Save().scale or 1
+        return M:Save().scale or 1
     end, function(value)
-        Save().scale= value
+        M:Save().scale= value
         Init_Button()
     end)
 
---重置
     sub:CreateDivider()
     sub:CreateButton(
         '|A:bags-button-autosort-up:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '重置' or RESET),
+        ..(WoWTools_L.RESET),
     Rest_Button)
 
-    sub:CreateButton(
+    sub2=sub:CreateButton(
         '|A:UI-HUD-UnitFrame-Player-Group-FriendOnlineIcon:0:0|a'
-        ..(WoWTools_DataMixin.onlyChinese and '清除输入数据' or 'Clear input data'),
+        ..(WoWTools_L['Clear input data']),
     function()
         StaticPopup_Show('WoWTools_OK',
             addName..'|n|n|A:UI-HUD-UnitFrame-Player-Group-FriendOnlineIcon:0:0|a'
-            ..(WoWTools_DataMixin.onlyChinese and '清除输入数据' or 'Clear input data'),
+            ..(WoWTools_L['Clear input data']),
             nil,
         {SetValue=function()
-            WoWToolsPlayerDate['EmoteButton']= CopyTable(P_SaveUse)
+            WoWToolsPlusPlayerDate['EmoteButton']= CopyTable(P_SaveUse)
         end})
         return MenuResponse.Refresh
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Emote.ClearData'])
 
     _tab=nil
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
-    if Save().disabled then
+    if M:Save().disabled then
         MainButton:Hide()
         return
     end
@@ -1176,7 +1045,7 @@ local function Init()
         end
     end
     function MainButton:set_point()
-        local p= Save().point
+        local p= M:Save().point
         self:ClearAllPoints()
         if p and p[1] then
             self:SetPoint(p[1], UIParent, p[3], p[4], p[5])
@@ -1192,9 +1061,9 @@ local function Init()
     MainButton:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, 'ANCHOR_LEFT')
         GameTooltip_SetTitle(GameTooltip, '|cffffffff'..(self.pool:GetNumActive()+self.poolSecur:GetNumActive()))
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.left)
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '移动' or NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '自定义' or CUSTOM, WoWTools_DataMixin.Icon.mid)
+        GameTooltip:AddDoubleLine(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL, WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine(WoWTools_L.NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine(WoWTools_L.CUSTOM, WoWTools_DataMixin.Icon.mid)
         GameTooltip:Show()
         self:set_texture()
     end)
@@ -1228,8 +1097,8 @@ local function Init()
         self:StopMovingOrSizing()
         ResetCursor()
         if WoWTools_FrameMixin:IsInSchermo(self) then
-            Save().point= {self:GetPoint(1)}
-            Save().point[2]= nil
+            M:Save().point= {self:GetPoint(1)}
+            M:Save().point[2]= nil
         end
     end)
 
@@ -1248,70 +1117,106 @@ local function Init()
 
     Init=function()
         if not WoWTools_FrameMixin:IsLocked(MainButton) then
-            MainButton:SetShown(Save().disabled)
-            if not Save().disabled then
+            MainButton:SetShown(M:Save().disabled)
+            if not M:Save().disabled then
                 Init_Button()
             end
         else
-            print(addName,'|cnWARNING_FONT_COLOR:', WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_COOLDOWN_VIEWER_VISIBLE_SETTING_IN_COMBAT)
+            WoWTools_Print(addName,'|cnWARNING_FONT_COLOR:', WoWTools_L.HUD_EDIT_MODE_SETTING_COOLDOWN_VIEWER_VISIBLE_SETTING_IN_COMBAT)
         end
     end
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 MainButton= CreateFrame('Button', 'WoWToolsChatEmoteButton', UIParent, 'WoWToolsButtonTemplate')
-MainButton:RegisterEvent('ADDON_LOADED')
 
-MainButton:SetScript('OnEvent', function(self, event, arg1)
-    if event=='ADDON_LOADED' then
-        if arg1== 'WoWTools' then
-            WoWToolsSave['Plus_EmoteButton']= WoWToolsSave['Plus_EmoteButton'] or CopyTable(P_Save)
-            WoWToolsPlayerDate['EmoteButton']= WoWToolsPlayerDate['EmoteButton'] or CopyTable(P_SaveUse)
-            addName= '|A:newplayerchat-chaticon-newcomer:0:0|a'..(WoWTools_DataMixin.onlyChinese and '表情' or EMOTE_MESSAGE)
-
-            WoWTools_PanelMixin:Check_Button({
-                checkName= addName,
-                GetValue= function() return not Save().disabled end,
-                SetValue= function()
-                    Save().disabled= not Save().disabled and true or nil
-                    Init()
-                end,
-                buttonText= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_DataMixin.onlyChinese and '重置' or RESET),
-                buttonFunc= Rest_Button,
-                layout= WoWTools_ChatMixin.Layout,
-                category= WoWTools_ChatMixin.Category,
-                tooltip= WoWTools_DataMixin.onlyChinese and '按钮' or 'Button',
-            })
-
-            if Save().disabled then
-                self:SetScript('OnEvent', nil)
-            else
-                self:RegisterEvent('PLAYER_ENTERING_WORLD')
-            end
-            self:UnregisterEvent(event)
-        end
-
-    elseif event=='PLAYER_ENTERING_WORLD' then
-        self:SetScript('OnEvent', nil)
-        self:UnregisterEvent(event)
-        Init()
+--Refresco en vivo desde el Centro de control (solo si los botones ya existen)
+local function Refresh()
+    if MainButton.pool and not M:Save().disabled then
+        Init_Button()
     end
-end)
+end
+
+local StrataValues= {}
+for _, name in ipairs({'BACKGROUND', 'LOW', 'MEDIUM', 'HIGH', 'DIALOG', 'FULLSCREEN', 'FULLSCREEN_DIALOG'}) do
+    table.insert(StrataValues, {value=name, text=name})
+end
+
+local function Not_UIParent(save)
+    return not save.isUIParent
+end
+
+local function Slider(key, text, tooltip, min, max, step, default, disabled)
+    return {type='slider', key=key, text=text, tooltip=tooltip, min=min, max=max, step=step,
+        format= step<1 and '%.1f' or nil, disabled=disabled, indent= disabled and true or nil,
+        get= function(save) return save[key] or default end,
+        set= function(save, value) save[key]= value end,
+        apply= Refresh}
+end
+
+WoWTools_Module:Register({
+    key= 'Plus_EmoteButton', name= 'EMOTE_MESSAGE', icon= 'newplayerchat-chaticon-newcomer',
+    parent= 'ChatButton', defaults= CopyTable(P_Save), tooltip= 'Tip.Emote.Enable', mixin= M,
+    reload= false,
+    onToggle= function()--lo mismo que hacía su casilla de la página del Botón de chat
+        Init()
+    end,
+    options= {
+        {type='section', text='GENERAL'},
+        {type='note', text='Tip.Emote.ChooseInMenu'},
+        {type='button', key='addCustom', text='ADD+CUSTOM', tooltip='Tip.Emote.AddCustom',
+            func= function() Init_UseFrame() end},
+        {type='button', key='clearAll', text='EVENTTRACE_BUTTON_DISABLE_FILTERS', tooltip='Tip.Emote.ClearAll', confirm=true,
+            func= function(_, save)
+                save.emoji= {}
+                save.command= {}
+                save.chat= {}
+                Refresh()
+            end},
+
+        {type='section', text='Appearance'},
+        {type='check', key='isUIParent', text='Free-floating bar', tooltip='Tip.Emote.UIParent',
+            get= function(save) return save.isUIParent end,
+            set= function(save, value) save.isUIParent= value and true or nil end,
+            apply= Refresh},
+        {type='dropdown', key='strata', text='Strata', tooltip='Tip.Menu.Strata', values= StrataValues, indent=true,
+            disabled= Not_UIParent,
+            get= function(save) return save.strata or 'MEDIUM' end,
+            set= function(save, value) save.strata= value end,
+            apply= Refresh},
+        Slider('line', 'AUCTION_HOUSE_QUANTITY_LABEL', 'Tip.Emote.Line', 1, 60, 1, 1, Not_UIParent),
+        Slider('bgAlpha', 'BACKGROUND+HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY', 'Tip.Menu.BgAlpha', 0, 1, 0.1, 0, Not_UIParent),
+        Slider('scale', 'SCALE', 'Tip.Menu.Scale', 0.4, 4, 0.1, 1),
+        Slider('alpha', 'Icon opacity', 'Tip.Emote.IconAlpha', 0, 1, 0.1, 0.5),
+        Slider('fontScale', 'FONT_SIZE~2', 'Tip.Emote.FontScale', 0.2, 4, 0.1, 1),
+        Slider('subName', 'Truncate', 'Tip.Emote.Truncate', 0, 20, 1, LOCALE_koKR and 1 or 3),
+        Slider('width', 'HUD_EDIT_MODE_SETTING_CHAT_FRAME_WIDTH', 'Tip.Emote.Size', 0, 128, 1, 32),
+        Slider('height', 'HUD_EDIT_MODE_SETTING_CHAT_FRAME_HEIGHT', 'Tip.Emote.Size', 0, 128, 1, 32),
+
+        {type='section', text='Advanced'},
+        {type='check', key='isSecure', text='Secure macro buttons', tooltip='Tip.Emote.Secure', noCombat=true,
+            get= function(save) return save.isSecure end,
+            set= function(save, value) save.isSecure= value and true or nil end,
+            apply= Refresh},
+        {type='button', key='reset', text='RESET_ALL_BUTTON_TEXT', buttonText='RESET', tooltip='Tip.Emote.Reset',
+            disabled= function(save) return save.disabled or not MainButton.pool end,
+            func= function() Rest_Button() end},
+        {type='button', key='clearData', text='Clear input data', buttonText='SLASH_STOPWATCH_PARAM_STOP2', tooltip='Tip.Emote.ClearData',
+            confirm=true,
+            func= function()
+                WoWToolsPlusPlayerDate['EmoteButton']= CopyTable(P_SaveUse)
+            end},
+    },
+    onLoad= function()
+        WoWToolsPlusPlayerDate['EmoteButton']= WoWToolsPlusPlayerDate['EmoteButton'] or CopyTable(P_SaveUse)
+        addName= M.addName
+    end,
+    onEnable= function()
+        MainButton:RegisterEvent('PLAYER_ENTERING_WORLD')
+        MainButton:SetScript('OnEvent', function(self, event)
+            self:SetScript('OnEvent', nil)
+            self:UnregisterEvent(event)
+            Init()
+        end)
+    end,
+})

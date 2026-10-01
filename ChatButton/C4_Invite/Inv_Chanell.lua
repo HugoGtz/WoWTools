@@ -1,23 +1,10 @@
 
-local function Save()
-    return WoWToolsSave['ChatButton_Invite'] or {}
-end
-
-
-
-
-
-
-
-
-
-
-local function Init()
+local Init= WoWTools_Once(function()
     local frame= CreateFrame('Frame', 'WoWToolsChatInviteChanellFrame')
 
 
     function frame:set_event()
-        if not Save().Channel then
+        if not WoWTools_InviteMixin:Save().Channel then
             self:UnregisterAllEvents()
             WoWTools_InviteMixin.InvPlateGuid={}
         else
@@ -50,20 +37,19 @@ local function Init()
 
         elseif event=='CHAT_MSG_SAY' or event=='CHAT_MSG_YELL' or  event=='CHAT_MSG_WHISPER' then
             local text= arg1 and string.upper(arg1)
-            if Save().Channel and text and text:find(Save().ChannelText) then
+            if WoWTools_InviteMixin:Save().Channel and text and text:find(WoWTools_InviteMixin:Save().ChannelText) then
                 local co= GetNumGroupMembers()
-                --toRaidOrParty(co)--自动, 转团
                 if co<5 or (IsInRaid() and co<40) then
                     local guid= select(11, ...)
                     local name= ...
                     if guid and name and name~=WoWTools_DataMixin.Player.Name_Realm then
                         C_PartyInfo.InviteUnit(name)
 
-                        WoWTools_InviteMixin.InvPlateGuid[guid]=name--保存到已邀请列表
+                        WoWTools_InviteMixin.InvPlateGuid[guid]=name
 
-                        print(
+                        WoWTools_Print(
                             WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                            WoWTools_DataMixin.onlyChinese and '频道' or CHANNEL,
+                            WoWTools_L.CHANNEL,
                             WoWTools_UnitMixin:GetLink(nil, guid, name, false)
                         )
                     end
@@ -73,9 +59,7 @@ local function Init()
     end)
 
     frame:set_event()
-
-    Init=function()end
-end
+end)
 
 
 

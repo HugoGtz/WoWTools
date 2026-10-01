@@ -1,5 +1,5 @@
 local function Save()
-    return WoWToolsSave['Plus_PaperDoll'].EquipSet
+    return WoWTools_PaperDollMixin:Save().EquipSet
 end
 
 
@@ -22,7 +22,7 @@ local useSecureAction
 local function Init_Menu(self, root)
     local sub, sub2
     root:CreateButton(
-        WoWTools_DataMixin.Icon.left..MicroButtonTooltipText('角色信息', "TOGGLECHARACTER0"),
+        WoWTools_DataMixin.Icon.left..MicroButtonTooltipText(WoWTools_L.CHARACTER_BUTTON, "TOGGLECHARACTER0"),
     function()
         WoWTools_LoadUIMixin:OpenPaperDoll(1, 3)
         return MenuResponse.Open
@@ -30,27 +30,26 @@ local function Init_Menu(self, root)
 
     root:CreateDivider()
 
---向右
-    root:CreateCheckbox(
-        '|A:common-icon-rotateright:0:0|a'..(WoWTools_DataMixin.onlyChinese and '向右' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_RIGHT),
+    local tipSub= root:CreateCheckbox(
+        '|A:common-icon-rotateright:0:0|a'..(WoWTools_L['HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_RIGHT~3']),
     function()
         return Save().toRight
     end, function()
         Save().toRight= not Save().toRight and true or nil
         self:settings()
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.PaperDoll.SetToRight'])
 
---装等
     sub=root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '装等' or ITEM_UPGRADE_STAT_AVERAGE_ITEM_LEVEL,
+        WoWTools_L.ITEM_UPGRADE_STAT_AVERAGE_ITEM_LEVEL,
     function()
         return Save().itemLevel
     end, function()
         Save().itemLevel= not Save().itemLevel and true or nil
         self:settings()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.PaperDoll.SetItemLevel'])
 
---缩放, 单行
     WoWTools_MenuMixin:ScaleRoot(self, sub, function()
         return Save().itemLevelScale or 1
     end, function(value)
@@ -66,7 +65,7 @@ local function Init_Menu(self, root)
 
 
     sub= root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '数量' or AUCTION_HOUSE_QUANTITY_LABEL,
+        WoWTools_L.AUCTION_HOUSE_QUANTITY_LABEL,
     function()
         return not Save().notNumItem
     end, function()
@@ -74,11 +73,11 @@ local function Init_Menu(self, root)
         self:settings()
     end)
     sub:SetTooltip(function(tooltip)
-        tooltip:AddLine(format(WoWTools_DataMixin.onlyChinese and '%d件物品' or ITEMS_VARIABLE_QUANTITY, '16'))
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.PaperDoll.SetNumItems'])
+        tooltip:AddLine(format(WoWTools_L.ITEMS_VARIABLE_QUANTITY, '16'))
     end)
 
 
---打开选项界面
     root:CreateDivider()
     sub= WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_PaperDollMixin.addName, name2=WoWTools_PaperDollMixin.addName2})
 
@@ -90,15 +89,15 @@ local function Init_Menu(self, root)
         Save().useSecureAction= not Save().useSecureAction and true or nil
     end)
     sub2:SetTooltip(function(tooltip)
+        WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.PaperDoll.SetSecure'])
         tooltip:AddLine('SecureActionButtonTemplate')
-        GameTooltip_AddHighlightLine(tooltip, WoWTools_DataMixin.onlyChinese and '战斗中可更换武器' or 'Weapons can be switched during combat')
+        GameTooltip_AddHighlightLine(tooltip, WoWTools_L['Weapons can be switched during combat'])
         tooltip:AddLine(' ')
-        GameTooltip_AddInstructionLine(tooltip, WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
-        GameTooltip_AddErrorLine(tooltip, WoWTools_DataMixin.onlyChinese and'友情提示: 可能会出现错误' or 'Note: Errors may occur')
+        GameTooltip_AddInstructionLine(tooltip, WoWTools_L.REQUIRES_RELOAD)
+        GameTooltip_AddErrorLine(tooltip, WoWTools_L['Note: errors may occur'])
     end)
 
 
---缩放
     sub:CreateDivider()
     WoWTools_MenuMixin:Scale(self, sub, function()
         return Save().scale
@@ -115,7 +114,6 @@ local function Init_Menu(self, root)
         self:settings()
     end)
 
---背景, 透明度
     WoWTools_MenuMixin:BgAplha(sub,
     function()
         return Save().bgAlpha or 0.5
@@ -128,34 +126,33 @@ local function Init_Menu(self, root)
     end)
 
     sub:CreateDivider()
-    sub:CreateButton(
-        WoWTools_DataMixin.onlyChinese and '全部重置' or RESET_ALL_BUTTON_TEXT,
+    local tipSub= sub:CreateButton(
+        WoWTools_L.RESET_ALL_BUTTON_TEXT,
     function()
         StaticPopup_Show('WoWTools_OK',
             WoWTools_PaperDollMixin.addName2..WoWTools_DataMixin.Icon.icon2
             ..'|n|n'
-            ..(WoWTools_DataMixin.onlyChinese and '全部重置' or RESET_ALL_BUTTON_TEXT),
+            ..(WoWTools_L.RESET_ALL_BUTTON_TEXT),
             nil,
             {SetValue=function()
-                WoWToolsSave['Plus_PaperDoll'].EquipSet={}
+                WoWTools_PaperDollMixin:Save().EquipSet={}
                 self:settings()
             end}
         )
     end)
+    WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.PaperDoll.SetResetAll'])
 
 
---重置位置
     WoWTools_MenuMixin:RestPoint(self, sub, Save().point, function()
         Save().point=nil
         self:settings()
-        print(
+        WoWTools_Print(
             WoWTools_PaperDollMixin.addName2..WoWTools_DataMixin.Icon.icon2,
-            WoWTools_DataMixin.onlyChinese and '重置位置' or RESET_POSITION
+            WoWTools_L.RESET_POSITION
         )
     end)
 
 
---重新加载UI
     sub:CreateDivider()
     WoWTools_MenuMixin:Reload(sub)
 end
@@ -182,7 +179,6 @@ end
 
 
 
---建立，按钮
 local function Create_Button(btn)
     btn.texture= btn:CreateTexture(nil, 'BORDER', nil, 1)
     btn.texture:SetAllPoints()
@@ -221,7 +217,7 @@ local function Create_Button(btn)
             GameTooltip:AddLine(' ')
             GameTooltip_AddErrorLine(
                 GameTooltip,
-                WoWTools_DataMixin.onlyChinese and '你还不能那样做。' or ERR_CLIENT_LOCKED_OUT,
+                WoWTools_L.ERR_CLIENT_LOCKED_OUT,
                 true
             )
         end
@@ -241,8 +237,8 @@ local function Create_Button(btn)
         GameTooltip:AddLine(' ')
         GameTooltip:AddLine(
             WoWTools_DataMixin.Icon.icon2
-            ..(WoWTools_DataMixin.onlyChinese and '指定专精：' or EQUIPMENT_SET_ASSIGN_TO_SPEC)
-            ..(specName or DISABLED_FONT_COLOR:WrapTextInColorCode(WoWTools_DataMixin.onlyChinese and '无' or NONE))
+            ..(WoWTools_L.EQUIPMENT_SET_ASSIGN_TO_SPEC)
+            ..(specName or DISABLED_FONT_COLOR:WrapTextInColorCode(WoWTools_L.NONE))
         )
         GameTooltip:Show()
 
@@ -265,7 +261,7 @@ if not useSecureAction then
         if self.setID
             and not C_EquipmentSet.EquipmentSetContainsLockedItems(self.setID)
             and not InCombatLockdown()
-        then--装备管理，能否装备
+        then
             C_EquipmentSet.UseEquipmentSet(self.setID)
             if TrackButton.HelpTips then
                 TrackButton.HelpTips:SetShown(false)
@@ -370,7 +366,6 @@ end
 
 
 
---设置，初始，按钮
 local function Init_buttons()
     if WoWTools_FrameMixin:IsLocked(TrackButton) then
         TrackButton:RegisterEvent('PLAYER_REGEN_ENABLED')
@@ -436,9 +431,8 @@ end
 
 
 --#######
---装备管理
 --#######
-local function Init()--添加装备管理框
+local function Init()
     if Save().disabled then
         return
     end
@@ -446,7 +440,7 @@ local function Init()--添加装备管理框
     useSecureAction= Save().useSecureAction
 
 
-    TrackButton= CreateFrame('Button', 'WoWToolsEquipSetMainButton', UIParent, 'WoWToolsButtonTemplate') --WoWTools_ButtonMixin:Cbtn(UIParent, {size={23, 16}})--添加移动按钮
+    TrackButton= CreateFrame('Button', 'WoWToolsEquipSetMainButton', UIParent, 'WoWToolsButtonTemplate')
     if useSecureAction then
         TrackButton.pool= CreateFramePool('Button', TrackButton, 'WoWToolsButtonTemplate SecureActionButtonTemplate', nil, nil, Create_Button)
     else
@@ -456,14 +450,12 @@ local function Init()--添加装备管理框
     TrackButton.Bg= TrackButton:CreateTexture(nil, 'BACKGROUND')
     TrackButton.Bg:SetColorTexture(0,0,0)
 
---图标
     TrackButton.texture= TrackButton:CreateTexture(nil, 'BORDER')
     TrackButton.texture:SetTexture(WoWTools_DataMixin.Icon.icon)
     TrackButton.texture:SetSize(12,12)
     TrackButton.texture:SetPoint('CENTER')
     TrackButton.texture:SetAlpha(0.3)
 
---装等
     TrackButton.frame= CreateFrame('Frame', nil, TrackButton)
     TrackButton.frame:SetAllPoints()
     TrackButton.frame.text= TrackButton.frame:CreateFontString(nil, 'ARTWORK', 'WoWToolsFont') -- WoWTools_LabelMixin:Create(TrackButton, {size=Save().trackButtonFontSize or 10, color=true, justifyH='CENTER'})
@@ -518,7 +510,6 @@ local function Init()--添加装备管理框
 
 
 
---设置，显示
     function TrackButton:main_shown(sceneType)
         if WoWTools_FrameMixin:IsLocked(self) then
             self:RegisterEvent('PLAYER_REGEN_ENABLED')
@@ -534,7 +525,6 @@ local function Init()--添加装备管理框
         )
     end
 
---提示，没有装上
     function TrackButton:tips_not_equipment()
         if IsInInstance() or not self:IsShown() then-- or not IsInGroup() then
             return
@@ -582,7 +572,7 @@ local function Init()--添加装备管理框
         end
     end)
     TrackButton:SetScript('OnMouseDown', function(_, d)
-        if d=='RightButton' and IsAltKeyDown() then--移动图标
+        if d=='RightButton' and IsAltKeyDown() then
             SetCursor('UI_MOVE_CURSOR')
         end
     end)
@@ -593,7 +583,7 @@ local function Init()--添加装备管理框
             return
         end
         if d=='LeftButton' then
-            WoWTools_LoadUIMixin:OpenPaperDoll(1,3)--打开/关闭角色界面
+            WoWTools_LoadUIMixin:OpenPaperDoll(1,3)
 
         elseif d=='RightButton' then
             MenuUtil.CreateContextMenu(self, Init_Menu)
@@ -606,17 +596,17 @@ local function Init()--添加装备管理框
         GameTooltip_SetTitle(GameTooltip, WoWTools_PaperDollMixin.addName2..WoWTools_DataMixin.Icon.icon2)
         GameTooltip:AddLine(' ')
 
-        WoWTools_DurabiliyMixin:OnEnter()--耐久度, 提示
+        WoWTools_DurabiliyMixin:OnEnter()
 
         GameTooltip:AddLine(' ')
         GameTooltip_AddInstructionLine(
             GameTooltip,
-            WoWTools_DataMixin.Icon.left..MicroButtonTooltipText('角色信息', "TOGGLECHARACTER0")
+            WoWTools_DataMixin.Icon.left..MicroButtonTooltipText(WoWTools_L.CHARACTER_BUTTON, "TOGGLECHARACTER0")
         )
 
         GameTooltip:AddDoubleLine(
-            WoWTools_DataMixin.Icon.right..(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL),
-            'Alt+'..WoWTools_DataMixin.Icon.right..(WoWTools_DataMixin.onlyChinese and '移动' or NPE_MOVE),
+            WoWTools_DataMixin.Icon.right..(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL),
+            'Alt+'..WoWTools_DataMixin.Icon.right..(WoWTools_L.NPE_MOVE),
             0,1,0, 0,1,0
         )
         GameTooltip:Show()
@@ -694,9 +684,6 @@ local function Init()--添加装备管理框
         if p and p[1] then
             self:SetPoint(p[1], UIParent, p[3], p[4], p[5])
 
-        elseif WoWTools_DataMixin.Player.husandro then
-            self:SetPoint('TOPLEFT', PlayerFrame, 'TOPRIGHT', -20,-15)
-
         else
             self:SetPoint('CENTER', UIParent, -150, -150)
         end
@@ -720,7 +707,6 @@ local function Init()--添加装备管理框
     end
 
 
---更新
     WoWTools_DataMixin:Hook('PaperDollEquipmentManagerPane_Update',  function()
         if TrackButton:IsShown() then
             Init_buttons()

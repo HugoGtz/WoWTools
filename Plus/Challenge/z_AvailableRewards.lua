@@ -1,9 +1,3 @@
---[[
-打开周奖励时，提示拾取专精
-    [449976]=1,
-    [392391]=1,
-    [1271478]=1,--12.01
-]]
 
 local function Init()
     if not C_WeeklyRewards.HasAvailableRewards() then
@@ -11,13 +5,13 @@ local function Init()
         return
 
     else
-        print(
+        WoWTools_Print(
             WoWTools_ChallengeMixin.addName..WoWTools_DataMixin.Icon.icon2,
-            '|cffff00ff'..(WoWTools_DataMixin.onlyChinese and "返回宏伟宝库，获取你的奖励" or WEEKLY_REWARDS_RETURN_TO_CLAIM)
+            '|cffff00ff'..(WoWTools_L.WEEKLY_REWARDS_RETURN_TO_CLAIM)
         )
     end
 
-    local frame= CreateFrame('Frame')
+    local frame= CreateFrame('Frame', nil, UIParent)--con padre: escala con la UI y se oculta con Alt+Z
 
     frame.texture= frame:CreateTexture(nil, 'BACKGROUND')
     frame.texture:SetAllPoints()
@@ -36,10 +30,10 @@ local function Init()
 
     frame:SetScript('OnEnter', function(self)
         self:set_show(false)
-        print(
+        WoWTools_Print(
             WoWTools_ChallengeMixin.addName..WoWTools_DataMixin.Icon.icon2,
             '|cffff00ff',
-            WoWTools_DataMixin.onlyChinese and '专精拾取' or SELECT_LOOT_SPECIALIZATION
+            WoWTools_L.SELECT_LOOT_SPECIALIZATION
         )
     end)
 
@@ -59,7 +53,7 @@ local function Init()
             return
         end
         if IsResting() then
-            self:RegisterUnitEvent('UNIT_SPELLCAST_SENT')
+            self:RegisterUnitEvent('UNIT_SPELLCAST_SENT', 'player')
         else
             self:UnregisterEvent('UNIT_SPELLCAST_SENT')
         end
@@ -89,14 +83,18 @@ local function Init()
         self.texture:SetTexture(texture or 0)
     end
 
-    frame:SetScript('OnEvent', function(self, event, _, target)
+    local VaultSpells={
+        [449976]=true,
+        [392391]=true,
+        [1271478]=true,--12.01
+    }
+    frame:SetScript('OnEvent', function(self, event, _, target, _, spellID)
         if event=='PLAYER_UPDATE_RESTING' or event=='PLAYER_ENTERING_WORLD' then
             self:set_event()
 
-        elseif not canaccessvalue(target) then
-            return
-
-        elseif target==RATED_PVP_WEEKLY_VAULT then
+        elseif canaccessvalue(spellID) and spellID and VaultSpells[spellID]
+            or (canaccessvalue(target) and target==RATED_PVP_WEEKLY_VAULT)--el nombre puede no coincidir según el idioma
+        then
             self:set_Texture()
             C_Timer.After(5, function()
                 self:set_event()

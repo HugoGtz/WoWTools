@@ -1,4 +1,3 @@
---战团藏品
 
 
 
@@ -12,7 +11,7 @@
 
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     CollectionsMicroButton:HookScript('OnEnter', function()
         if KeybindFrames_InQuickKeybindMode() or Kiosk.IsEnabled() then
             return
@@ -24,20 +23,20 @@ local function Init()
 
         GameTooltip:AddLine(
             col
-            ..(WoWTools_DataMixin.onlyChinese and '坐骑' or MOUNTS)..'|r'
+            ..(WoWTools_L.MOUNTS)..'|r'
             ..WoWTools_DataMixin.Icon.mid
-            ..(WoWTools_DataMixin.onlyChinese and '上' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP)
+            ..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP)
         )
         GameTooltip:AddLine(
             col
-            ..(WoWTools_DataMixin.onlyChinese and '宠物手册' or PET_JOURNAL)..'|r'
+            ..(WoWTools_L.PET_JOURNAL)..'|r'
             ..WoWTools_DataMixin.Icon.right
         )
         GameTooltip:AddLine(
             col
-            ..(WoWTools_DataMixin.onlyChinese and '玩具箱' or TOY_BOX)..'|r'
+            ..(WoWTools_L.TOY_BOX)..'|r'
             ..WoWTools_DataMixin.Icon.mid
-            ..(WoWTools_DataMixin.onlyChinese and '下' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN)
+            ..(WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_DOWN)
         )
 
         GameTooltip:Show()
@@ -65,14 +64,13 @@ local function Init()
         end
     end)
 
-    Init=function()end
-end
+end)
 
 
 
 
 
 
-function WoWTools_MainMenuMixin:Init_Collections()--收藏
+function WoWTools_MainMenuMixin:Init_Collections()
     Init()
 end

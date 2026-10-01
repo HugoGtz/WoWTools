@@ -1,29 +1,7 @@
 
 
---[[
-button= WoWTools_ToolsMixin:CreateButton({
-    name='',
-    tooltip=',
-    point='BOTTOM',
-    parent=,
-    isMoveButton=true,
-    isLeftOnlyLine=function()
-        return Save.isLeft
-    end,
-    disabledOptions=true,
-    option=function()
-    end,
-})
-]]
 
-
-
-
-WoWTools_ToolsMixin={
-
-    --Save={disabledADD={}, lineNum=10, isHideBackground=nil},   
-    addName='|A:Professions-Crafting-Orders-Icon:0:0|aTools',
-}
+WoWTools_ToolsMixin={}--addName y Save() los pone WoWTools_Module (Tools/1_Init.lua)
 
 local Name= 'WoWToolsToolsButton'
 
@@ -31,26 +9,17 @@ local MainButton
 
 local SetID=0
 
-local AddList={}--所有, 按钮 {isPlayerSetupOptions=true, option=option}
+local AddList={}
 
 local AllButtons={}--{'HEARTHSTONE', 'USETOY'}
 local LeftButtons1={}
 local LeftButtons2={}
 local RightButtons={}
 local BottomButtons={}
-local function Save()
-    return WoWToolsSave['WoWTools_ToolsButton']
-end
-
-
-
-
-
-
-
+local LeftNewLineButton--antes global por falta de local
 local function Set_BG(frame)
     --if frame and frame.Background then
-        frame.Background:SetColorTexture(0, 0, 0, Save().bgAlpha or 0)
+        frame.Background:SetColorTexture(0, 0, 0, WoWTools_ToolsMixin:Save().bgAlpha or 0)
     --end
 end
 
@@ -67,11 +36,11 @@ local function Set_BottomPoint(frame)
     frame:SetPoint('BOTTOMRIGHT', MainButton, 'TOPRIGHT')
 end
 
-local function Get_ParentFrame(tab)--取得 Parent
-    if tab.parentFrame then--指定
+local function Get_ParentFrame(tab)
+    if tab.parentFrame then
         return tab.parentFrame
 
-    elseif Save().BottomPoint[tab.name]--选项，自定义，
+    elseif WoWTools_ToolsMixin:Save().BottomPoint[tab.name]
         or tab.isMoveButton
     then
         return MainButton
@@ -81,19 +50,11 @@ local function Get_ParentFrame(tab)--取得 Parent
 end
 
 
-
-
-
-
-
-
 local function Set_ButtonPoint(btn, tab)
-    btn.IsShownFrameEnterButton=nil--为显示/隐藏Frame用
+    btn.IsShownFrameEnterButton=nil
     local name= tab.name
 
---最左(右)边，一行，给法师传送门用
     if tab.isLeftOnlyLine then
---左边
         if tab.isLeftOnlyLine() then
             local num= #LeftButtons2
             if num==0 then
@@ -106,7 +67,6 @@ local function Set_ButtonPoint(btn, tab)
             Set_BG(MainButton.LeftFrame2)
             table.insert(LeftButtons2, name)
         else
---右边
             local num= #RightButtons
             if num==0 then
                 Set_RightPoint(btn)
@@ -121,10 +81,9 @@ local function Set_ButtonPoint(btn, tab)
     else
 
 --BOOTOM
-        if Save().BottomPoint[name] or tab.isMoveButton then
+        if WoWTools_ToolsMixin:Save().BottomPoint[name] or tab.isMoveButton then
             local num=#BottomButtons
             if num==0 then
---为显示/隐藏Frame用
                 btn.IsShownFrameEnterButton=true
                 Set_BottomPoint(btn)
                 MainButton.BottomFrame:SetHeight(30)
@@ -133,11 +92,10 @@ local function Set_ButtonPoint(btn, tab)
             end
             Set_BG(MainButton.BottomFrame)
             if not tab.isMoveButton then
-                MainButton.BottomFrame:SetPoint('TOPLEFT', btn)--需要，设置宽 LEFT
+                MainButton.BottomFrame:SetPoint('TOPLEFT', btn)
                 table.insert(BottomButtons, name)
             end
         else
---上面，合集
             local num=#LeftButtons1
             if num==0 then
                 LeftNewLineButton=name
@@ -145,7 +103,7 @@ local function Set_ButtonPoint(btn, tab)
                 MainButton.LeftFrame1:SetPoint('TOP', btn)
                 MainButton.LeftFrame1:SetPoint('LEFT', btn)
             else
-                local numLine= Save().lineNum or 10
+                local numLine= WoWTools_ToolsMixin:Save().lineNum or 10
                 if select(2, math.modf(num / numLine))==0 then
                     btn:SetPoint('RIGHT', _G[Name..LeftNewLineButton], 'LEFT')
                     MainButton.LeftFrame1:SetPoint('LEFT', btn)
@@ -165,16 +123,6 @@ local function Set_ButtonPoint(btn, tab)
 end
 
 
-
-
-
-
-
-
-
-
-
-
 function WoWTools_ToolsMixin:CreateButton(tab)
     tab= tab or {}
     local name =tab.name
@@ -182,7 +130,7 @@ function WoWTools_ToolsMixin:CreateButton(tab)
     if not tab.disabledOptions then
         table.insert(AddList, tab)
     end
-    if not MainButton or Save().disabledADD[name] then
+    if not MainButton or WoWTools_ToolsMixin:Save().disabledADD[name] then
         return
     end
 
@@ -201,7 +149,7 @@ function WoWTools_ToolsMixin:CreateButton(tab)
     btn.IconMask:SetPoint("BOTTOMRIGHT", btn, "BOTTOMRIGHT", -5, 5)
 
     function btn:set_border_alpha()
-        self.border:SetAlpha(Save().borderAlpha or 0.3)
+        self.border:SetAlpha(WoWTools_ToolsMixin:Save().borderAlpha or 0.3)
     end
 
     function btn:GetData()
@@ -212,6 +160,8 @@ function WoWTools_ToolsMixin:CreateButton(tab)
     end
     btn:SetData(tab)
 
+    WoWTools_Style:IconButton(btn)
+
     Set_ButtonPoint(btn, tab)
 
     table.insert(AllButtons, name)
@@ -220,46 +170,22 @@ function WoWTools_ToolsMixin:CreateButton(tab)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function WoWTools_ToolsMixin:Init()
-    if Save().disabled then
+    if WoWTools_ToolsMixin:Save().disabled then
         return
     end
 
     MainButton= CreateFrame('Button', 'WoWToolsMainToolsButton', UIParent, 'WoWToolsButtonTemplate')
-    --[[WoWTools_ButtonMixin:Cbtn(nil, {
-        name='WoWToolsMainToolsButton',
-        size={30, Save().height or 10}
-    })]]
 
     MainButton.Frame= CreateFrame('Frame', nil, MainButton)
     MainButton.Frame:SetAllPoints()
-    MainButton.Frame:SetShown(Save().show)
---为显示Frame用
+    MainButton.Frame:SetShown(WoWTools_ToolsMixin:Save().show)
     MainButton.IsShownFrameEnterButton=true
 
 
 
---底部,需要，设置高 宽
 
-    local bgSet= {isAllPoint=true, isColor=true, alpha= Save().bgAlpha}
+    local bgSet= {isAllPoint=true, isColor=true, alpha= WoWTools_ToolsMixin:Save().bgAlpha}
     MainButton.LeftFrame1= CreateFrame('Frame', nil , MainButton.Frame)
     WoWTools_TextureMixin:CreateBG(MainButton.LeftFrame1, bgSet)
 
@@ -269,7 +195,6 @@ function WoWTools_ToolsMixin:Init()
     MainButton.RightFrame= CreateFrame('Frame', nil, MainButton.Frame)
     WoWTools_TextureMixin:CreateBG(MainButton.RightFrame, bgSet)
 
---需要，设置 LEFT
     MainButton.BottomFrame= CreateFrame('Frame', nil, MainButton)
     WoWTools_TextureMixin:CreateBG(MainButton.BottomFrame, bgSet)
 
@@ -284,42 +209,6 @@ function WoWTools_ToolsMixin:Init()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---显示背景
 function WoWTools_ToolsMixin:ShowBackground()
     Set_BG(MainButton.LeftFrame1)
     Set_BG(MainButton.LeftFrame2)
@@ -328,12 +217,6 @@ function WoWTools_ToolsMixin:ShowBackground()
 end
 
 
-
-
-
-
-
---重置所有按钮位置
 function WoWTools_ToolsMixin:RestAllPoint()
     if not MainButton:CanChangeAttribute() then
         return
@@ -358,7 +241,7 @@ function WoWTools_ToolsMixin:RestAllPoint()
             table.insert(buttons, name)
         end
 
-        LeftButtons1={}--按钮 {btn1, btn2,}
+        LeftButtons1={}
         LeftButtons2={}
         RightButtons={}
         BottomButtons={}
@@ -388,12 +271,8 @@ function WoWTools_ToolsMixin:RestAllPoint()
 end
 
 
-
-
-
---当Enter图标是，显示Tools Frame
 function WoWTools_ToolsMixin:EnterShowFrame(btn)
-    if btn.IsShownFrameEnterButton and Save().isEnterShow and not MainButton.Frame:IsShown() then
+    if btn.IsShownFrameEnterButton and WoWTools_ToolsMixin:Save().isEnterShow and not MainButton.Frame:IsShown() then
         MainButton:set_shown()
     end
 end
@@ -401,20 +280,99 @@ end
 
 
 
---打开选项界面
-function WoWTools_ToolsMixin:OpenMenu(root, name, showText)--打开, 选项界面，菜单
+--Entrada de menú que abre la página del módulo en el Centro de control (name: addName del módulo)
+function WoWTools_ToolsMixin:OpenMenu(root, name, showText)
     return WoWTools_MenuMixin:OpenOptions(root, {
         name=name or self.addName,
         name2=showText,
-        category= self.Category
+    })
+end
+
+--"Ajustes..." al final de un menú principal: abre la página del módulo M en el Centro de control
+function WoWTools_ToolsMixin:SettingsMenu(root, M)
+    root:CreateDivider()
+    return WoWTools_MenuMixin:OpenOptions(root, {
+        name= (M or self).addName,
+        name2= WoWTools_L['Settings...'],
     })
 end
 
 
 
 
+--Piezas comunes del esquema de opciones (docs/SETTINGS.md) de las herramientas
 
---用户，自定义设置，选项
+--Valores del desplegable de capa (strata)
+local StrataValues
+function WoWTools_ToolsMixin:StrataValues()
+    if not StrataValues then
+        StrataValues= {}
+        for index, strata in ipairs({'BACKGROUND','LOW','MEDIUM','HIGH','DIALOG','FULLSCREEN','FULLSCREEN_DIALOG'}) do
+            table.insert(StrataValues, {value=strata, text=strata..' ('..index..')'})
+        end
+    end
+    return StrataValues
+end
+
+--Campo de texto para el atajo de teclado de un botón (save.KEY por defecto).
+--tab: {field=campo de save (KEY), key=id de la opción, apply=function(M, save) end, tooltip=, disabled=, indent=}
+function WoWTools_ToolsMixin:KeyOption(tab)
+    local field= tab.field or 'KEY'
+    return {type='input', key=tab.key or 'key', text=tab.text or 'SETTINGS_KEYBINDINGS_LABEL',
+        tooltip= tab.tooltip or 'Tip.Tools.KeyInput', placeholder='BUTTON5', maxLetters=32,
+        noCombat=true, disabled=tab.disabled, indent=tab.indent,
+        get= function(save) return save[field] or '' end,
+        set= function(save, text)
+            text= (text or ''):gsub(' ', ''):gsub('%[', ''):gsub(']', ''):upper()
+            save[field]= text~='' and text or nil
+        end,
+        apply= tab.apply,
+    }
+end
+
+--Opciones de la barra para los botones de las herramientas (WoWTools_ToolsMixin:CreateButton):
+--mostrar el botón (save.disabledADD, requiere /reload) y su fila (save.BottomPoint).
+--skip: nombres que ya se activan desde la lista de submódulos (no se repite su casilla)
+function WoWTools_ToolsMixin:ButtonOptions(skip)
+    local list= {}
+    for _, data in ipairs(AddList) do
+        if not data.isPlayerSetupOptions and data.name then
+            local name= data.name
+            local function Label()
+                return data.tooltip or name
+            end
+            local hasCheck= not (skip and skip[name])
+            if hasCheck then
+                table.insert(list, {type='check', key='add_'..name, text=Label, reload=true,
+                    tooltip= data.isMoveButton and 'Tip.Tools.AddButton' or 'Tip.Tools.AddButtonPoint',
+                    get= function(save) return not save.disabledADD[name] end,
+                    set= function(save, value) save.disabledADD[name]= not value and true or nil end,
+                })
+            end
+            if not data.isMoveButton then
+                table.insert(list, {type='dropdown', key='row_'..name, indent=hasCheck, noCombat=true,
+                    text= hasCheck and 'Toolbar row' or Label,
+                    tooltip='Tip.Tools.Row',
+                    values= {
+                        {value=1, text='|A:bags-greenarrow:0:0|a'..WoWTools_L['Top row']},
+                        {value=2, text='|A:Bags-padlock-authenticator:0:0|a'..WoWTools_L['Bottom row']},
+                    },
+                    disabled= function(save) return save.disabledADD[name] end,
+                    get= function(save) return save.BottomPoint[name] and 2 or 1 end,
+                    set= function(save, value) save.BottomPoint[name]= value==2 and true or nil end,
+                    apply= function()
+                        if MainButton then
+                            WoWTools_ToolsMixin:RestAllPoint()
+                        end
+                    end,
+                })
+            end
+        end
+    end
+    return list
+end
+
+
 function WoWTools_ToolsMixin:Set_AddList(option)
     table.insert(AddList, {isPlayerSetupOptions=true, option=option})
 end
@@ -433,6 +391,16 @@ end
 function WoWTools_ToolsMixin:Get_ButtonForName(name)
     return _G[Name..name]
 end
---[[function WoWTools_ToolsMixin:Is_EnableAddForName(name)
-    return not Save().disabledADD[name]
-end]]
+
+--Ejecuta func una sola vez en el primer PLAYER_ENTERING_WORLD.
+--Un marco por llamada (y no el despachador común de WoWTools_Module, que no garantiza orden)
+--para que los botones se sigan creando en el mismo orden que antes
+function WoWTools_ToolsMixin:OnEnterWorld(func)
+    local frame= CreateFrame('Frame')
+    frame:RegisterEvent('PLAYER_ENTERING_WORLD')
+    frame:SetScript('OnEvent', function(f, event)
+        f:UnregisterEvent(event)
+        f:SetScript('OnEvent', nil)
+        func()
+    end)
+end

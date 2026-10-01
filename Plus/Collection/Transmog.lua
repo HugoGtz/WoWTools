@@ -1,14 +1,3 @@
---[[
-12.0才有 幻化
-TransmogWardrobeItemsMixin TransmogFrame.WardrobeCollection.TabContent.ItemsFrame
-TransmogItemModelMixin
-]]
-
-local function Save()
-    return WoWToolsSave['Plus_Collection']
-end
-
-
 
 local function Create_ModelName(frame)
     frame.Name= frame:CreateFontString(nil, 'ARTWORK', 'WoWToolsFont')
@@ -37,15 +26,6 @@ local function Create_ModelName(frame)
     frame.nameBG:SetPoint('BOTTOMRIGHT', frame.Name)
     frame.nameBG:Hide()
 end
-    --[[frame.indexLabel= frame:CreateFontString(nil, 'ARTWORK', 'GameNormalNumberFont')
-    frame.indexLabel:SetPoint('TOPRIGHT', -2,-2)
-    frame.indexLabel:SetAlpha(0.5)]]
-
-
-
-
-
-
 
 
 local function Init_Menu(self, root)
@@ -54,27 +34,20 @@ local function Init_Menu(self, root)
     end
     local sub
 
-    root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '模型: 显示名称' or (MODEL..': '..PROFESSIONS_FLYOUT_SHOW_NAME),
+    sub=root:CreateCheckbox(
+        WoWTools_L['Model: show name'],
     function()
-        return not Save().hideTransmogModelName
+        return not WoWTools_CollectionMixin:Save().hideTransmogModelName
     end, function()
-        Save().hideTransmogModelName= not Save().hideTransmogModelName and true or nil
+        WoWTools_CollectionMixin:Save().hideTransmogModelName= not WoWTools_CollectionMixin:Save().hideTransmogModelName and true or nil
         WoWTools_CollectionMixin:Refresh_TransmogItems()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Collection.ModelName'])
 
 
     root:CreateDivider()
     WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_CollectionMixin.addName})
 end
-
-
-
-
-
-
-
-
 
 
 local function Init()
@@ -97,7 +70,7 @@ local function Init()
         if cost then
             GameTooltip_ShowDisabledTooltip(GameTooltip, self,
                 WoWTools_DataMixin.Icon.icon2
-                ..(WoWTools_DataMixin.onlyChinese and '你的钱不够。' or ERR_NOT_ENOUGH_MONEY),
+                ..(WoWTools_L.ERR_NOT_ENOUGH_MONEY),
                 'ANCHOR_RIGHT'
             )
         end
@@ -105,29 +78,25 @@ local function Init()
 
 
 
---模型: 显示名称
---物品
     WoWTools_DataMixin:Hook(TransmogItemModelMixin, 'OnLoad', function(self)
         Create_ModelName(self)
     end)
 
     WoWTools_DataMixin:Hook(TransmogItemModelMixin, 'UpdateItem', function(self)
         local itemLink
-        if not Save().hideTransmogModelName and self.elementData then
+        if not WoWTools_CollectionMixin:Save().hideTransmogModelName and self.elementData then
             local link= self.GetAppearanceLink and self:GetAppearanceLink() or (self.GetIllusionLink and self:GetIllusionLink())
             itemLink= WoWTools_ItemMixin:GetName(nil, link, nil, {notCount=true, label=self.Name})
         end
         self.Name:SetText(itemLink or '')
         self.nameBG:SetShown(itemLink)
     end)
---套装，自定义套装
     WoWTools_DataMixin:Hook(TransmogSetBaseModelMixin, 'OnLoad', function(self)
         Create_ModelName(self)
     end)
---套装
     WoWTools_DataMixin:Hook(TransmogSetModelMixin, 'UpdateSet', function(self)
         local name
-        if self.elementData and not Save().hideTransmogModelName then
+        if self.elementData and not WoWTools_CollectionMixin:Save().hideTransmogModelName then
             local totalQuality = 0
             local numTotalSlots = 0
             local waitingOnQuality = false
@@ -168,10 +137,9 @@ local function Init()
 
 
 
---自定义套装
     WoWTools_DataMixin:Hook(TransmogCustomSetModelMixin, 'UpdateSet', function(self)
         local name
-        if self.elementData and not Save().hideTransmogModelName then
+        if self.elementData and not WoWTools_CollectionMixin:Save().hideTransmogModelName then
             local icon
             name, icon= C_TransmogCollection.GetCustomSetInfo(self.elementData.customSetID)
             if name then
@@ -189,15 +157,6 @@ local function Init()
 
     Init=function()end
 end
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_CollectionMixin:Init_Transmog()

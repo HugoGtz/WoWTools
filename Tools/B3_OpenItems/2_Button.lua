@@ -1,9 +1,5 @@
 
 
-local function Save()
-    return WoWToolsSave['Tools_OpenItems']
-end
-
 local Events_All={
     'BAG_UPDATE_COOLDOWN',
     'BAG_UPDATE_DELAYED',
@@ -17,7 +13,7 @@ local Events_All={
 }
 
 local Event_Unit={
-    'UNIT_ENTERED_VEHICLE',--车辆
+    'UNIT_ENTERED_VEHICLE',
     'UNIT_ENTERING_VEHICLE',
     'UNIT_EXITED_VEHICLE'
 }
@@ -28,7 +24,7 @@ local Event_Unit={
 
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     local btn= WoWTools_ToolsMixin:Get_ButtonForName('OpenItems')
     if not btn then
         return
@@ -39,10 +35,10 @@ local function Init()
     btn.count= btn:CreateFontString(nil, 'ARTWORK', 'WoWToolsFont2')
     btn.count:SetJustifyH('RIGHT')
     btn.count:SetPoint('BOTTOMRIGHT')
-    btn.noText= '|A:talents-button-reset:0:0|a'..(WoWTools_DataMixin.onlyChinese and '禁用' or DISABLE)
-    btn.useText= '|A:jailerstower-wayfinder-rewardcheckmark:0:0|a'..(WoWTools_DataMixin.onlyChinese and '使用' or USE)
+    btn.noText= '|A:talents-button-reset:0:0|a'..(WoWTools_L.DISABLE)
+    btn.useText= '|A:jailerstower-wayfinder-rewardcheckmark:0:0|a'..(WoWTools_L.USE)
 
-    WoWTools_KeyMixin:Init(btn, function() return Save().KEY end)
+    WoWTools_KeyMixin:Init(btn, function() return WoWTools_OpenItemMixin:Save().KEY end)
 
     Mixin(btn, WoWTools_ItemLocationMixin)
 
@@ -60,9 +56,9 @@ local function Init()
                 if self:CanChangeAttribute() then
                     GameTooltip:AddLine(' ')
                     GameTooltip:AddLine(' ')
-                    GameTooltip:AddDoubleLine(WoWTools_DataMixin.Icon.mid..'|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '鼠标滚轮向上滚动' or KEY_MOUSEWHEELUP), self.noText)
-                    GameTooltip:AddDoubleLine(WoWTools_DataMixin.Icon.right..(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL), (WoWTools_KeyMixin:IsKeyValid(self) or '')..WoWTools_DataMixin.Icon.left)
-                    GameTooltip:AddDoubleLine(WoWTools_DataMixin.Icon.mid..'|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '鼠标滚轮向下滚动' or KEY_MOUSEWHEELDOWN), WoWTools_DataMixin.onlyChinese and '刷新' or REFRESH)
+                    GameTooltip:AddDoubleLine(WoWTools_DataMixin.Icon.mid..'|cnWARNING_FONT_COLOR:'..(WoWTools_L.KEY_MOUSEWHEELUP), self.noText)
+                    GameTooltip:AddDoubleLine(WoWTools_DataMixin.Icon.right..(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL), (WoWTools_KeyMixin:IsKeyValid(self) or '')..WoWTools_DataMixin.Icon.left)
+                    GameTooltip:AddDoubleLine(WoWTools_DataMixin.Icon.mid..'|cnGREEN_FONT_COLOR:'..(WoWTools_L.KEY_MOUSEWHEELDOWN), WoWTools_L.REFRESH)
                     GameTooltip:Show()
                 end
 
@@ -70,12 +66,12 @@ local function Init()
                     BattlePetTooltip:SetShown(false)
                 end
             end
-            WoWTools_BagMixin:Find(true, {itemLink= itemLink})--查询，背包里物品
+            WoWTools_BagMixin:Find(true, {itemLink= itemLink})
         else
             GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_OpenItemMixin.addName)
             GameTooltip:AddLine(' ')
-            GameTooltip:AddDoubleLine(WoWTools_DataMixin.Icon.right..(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL), WoWTools_KeyMixin:IsKeyValid(self))
-            GameTooltip:AddDoubleLine(WoWTools_DataMixin.Icon.mid..'|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '鼠标滚轮向下滚动' or KEY_MOUSEWHEELDOWN), WoWTools_DataMixin.onlyChinese and '刷新' or REFRESH)
+            GameTooltip:AddDoubleLine(WoWTools_DataMixin.Icon.right..(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL), WoWTools_KeyMixin:IsKeyValid(self))
+            GameTooltip:AddDoubleLine(WoWTools_DataMixin.Icon.mid..'|cnGREEN_FONT_COLOR:'..(WoWTools_L.KEY_MOUSEWHEELDOWN), WoWTools_L.REFRESH)
             GameTooltip:Show()
             if (BattlePetTooltip) then
                 BattlePetTooltip:Hide()
@@ -113,7 +109,7 @@ local function Init()
         GameTooltip_Hide()
         ResetCursor()
         WoWTools_OpenItemMixin:Get_Item()
-        WoWTools_BagMixin:Find(false)--查询，背包里物品
+        WoWTools_BagMixin:Find(false)
         self:SetScript('OnUpdate',nil)
     end)
 
@@ -146,6 +142,12 @@ local function Init()
             if ScrappingMachineFrame and ScrappingMachineFrame:IsShown() and ScrappingMachineFrame:CanChangeAttribute() then
                 ScrappingMachineFrame:Hide()
             end
+            --Con banco, comercio o banco de hermandad abiertos, /use mueve el objeto allí en vez de usarlo
+            for _, frame in pairs({BankFrame, TradeFrame, GuildBankFrame}) do
+                if frame and frame:IsShown() and frame:CanChangeAttribute() then
+                    HideUIPanel(frame)
+                end
+            end
         end
     end)
 
@@ -154,7 +156,7 @@ local function Init()
             return
         end
         if d == 1 then
-            self:set_disabled_current_item()--禁用当物品
+            self:set_disabled_current_item()
             self:set_tooltips()
         elseif d==-1 then
             self:settings()
@@ -173,7 +175,7 @@ local function Init()
 
     btn:SetScript('OnEvent', function(self, event)
 
-        if event=='PLAYER_ENTERING_WORLD' or event=='PLAYER_MAP_CHANGED' then--出进副本
+        if event=='PLAYER_ENTERING_WORLD' or event=='PLAYER_MAP_CHANGED' then
             --self:settings()
             --if event=='PLAYER_MAP_CHANGED' then
                 C_Timer.After(2, function()
@@ -181,8 +183,8 @@ local function Init()
                 end)
             --end
 
-        elseif event=='PLAYER_MOUNT_DISPLAY_CHANGED'--上下坐骑
-            or event=='VEHICLE_ANGLE_UPDATE'--车辆
+        elseif event=='PLAYER_MOUNT_DISPLAY_CHANGED'
+            or event=='VEHICLE_ANGLE_UPDATE'
             or event=='UNIT_ENTERED_VEHICLE'
             or event=='UNIT_ENTERING_VEHICLE'
             or event=='UNIT_EXITED_VEHICLE'
@@ -194,11 +196,11 @@ local function Init()
         then
             self:settings()
 
-        elseif event=='BAG_UPDATE_COOLDOWN' then--冷却
+        elseif event=='BAG_UPDATE_COOLDOWN' then
             self:set_cooldown()
 
         elseif event=='PLAYER_REGEN_DISABLED' then
-            ClearOverrideBindings(self)--清除KEY
+            ClearOverrideBindings(self)
             WoWTools_KeyMixin:SetTexture(self)
 
         elseif event=='PLAYER_REGEN_ENABLED' then
@@ -237,8 +239,8 @@ local function Init()
             WoWTools_OpenItemMixin:Get_Item()
         end
 
-        if Save().KEY and not self.isDisabled then
-            self:RegisterEvent('PLAYER_MOUNT_DISPLAY_CHANGED')--上下坐骑
+        if WoWTools_OpenItemMixin:Save().KEY and not self.isDisabled then
+            self:RegisterEvent('PLAYER_MOUNT_DISPLAY_CHANGED')
         else
             self:UnregisterEvent('PLAYER_MOUNT_DISPLAY_CHANGED')
         end
@@ -254,9 +256,8 @@ local function Init()
 
 
 
---设置捷键
     function btn:set_key(isDisabled)
-        if Save().KEY then
+        if WoWTools_OpenItemMixin:Save().KEY then
             WoWTools_KeyMixin:Setup(self,
                 self.isDisabled
                 or not self:IsValid()
@@ -269,16 +270,14 @@ local function Init()
         end
     end
 
---是否已绑定KEY
     function btn:get_key()
-        local key= Save().KEY
+        local key= WoWTools_OpenItemMixin:Save().KEY
         if key then
             local col= C_KeyBindings.GetBindingByKey(key)==self:GetName()..':LeftButton' and '|cnGREEN_FONT_COLOR:' or '|cff828282'
-            return col..(WoWTools_DataMixin.onlyChinese and '快捷键' or SETTINGS_KEYBINDINGS_LABEL)..'|r'
+            return col..(WoWTools_L.SETTINGS_KEYBINDINGS_LABEL)..'|r'
         end
     end
 
---冷却条
     function btn:set_cooldown()
         local start, duration, enable
         if self:IsValid() then
@@ -289,13 +288,12 @@ local function Init()
     end
 
 
---禁用当物品
     function btn:set_disabled_current_item()
         if self:IsValid() then
             local itemID= self:GetItemID()
             if itemID then
-                Save().no[itemID]=true
-                Save().use[itemID]=nil
+                WoWTools_OpenItemMixin:Save().no[itemID]=true
+                WoWTools_OpenItemMixin:Save().use[itemID]=nil
             end
             WoWTools_OpenItemMixin:Get_Item()
         end
@@ -310,9 +308,7 @@ local function Init()
     btn:settings()
 
     WoWTools_OpenItemMixin:Get_Item()
-
-    Init=function()end
-end
+end)
 
 
 

@@ -1,21 +1,13 @@
 
-local function Save()
-	return WoWToolsSave['Currency2']
-end
-
-
-
---货币，转移
 local function Init()
-	if Save().notPlus then
+	if WoWTools_CurrencyMixin:Save().notPlus then
 		return
 	end
 
---有时会有BUG, 加个 重新加载UI 按钮
 	local reload= CreateFrame('Button', nil, CurrencyTransferMenuCloseButton, 'WoWToolsButtonTemplate')
     reload:SetNormalAtlas('common-icon-exit')
     reload:SetPoint('RIGHT', CurrencyTransferMenuCloseButton, 'LEFT', -2, 0)
-    reload.tooltip=WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '重新加载UI' or RELOADUI)
+    reload.tooltip=WoWTools_DataMixin.Icon.icon2..(WoWTools_L.RELOADUI)
     reload:SetScript('OnClick', function() WoWTools_DataMixin:Reload() end)
     WoWTools_TextureMixin:SetButton(reload, 0.5)
 
@@ -63,10 +55,10 @@ local function Init()
 		end
 	end)
 
-	WoWTools_DataMixin:Hook(content.SourceSelector, 'RefreshPlayerName', function(self)--收取人，我 提示
+	WoWTools_DataMixin:Hook(content.SourceSelector, 'RefreshPlayerName', function(self)
 		local name= WoWTools_UnitMixin:GetPlayerInfo(nil, WoWTools_DataMixin.Player.GUID, nil, {reName=true})
 		if name~='' then
-			self.PlayerName:SetFormattedText(WoWTools_DataMixin.onlyChinese and '收取人 %s' or CURRENCY_TRANSFER_DESTINATION, name)
+			self.PlayerName:SetFormattedText(WoWTools_L.CURRENCY_TRANSFER_DESTINATION, name)
 		end
 	end)
 
@@ -74,21 +66,20 @@ local function Init()
 		local data= self:GetParent().sourceCharacterData or {}
 		local name= WoWTools_UnitMixin:GetPlayerInfo(nil, data.characterGUID, nil, {reName=true, reRealm=true})
 		if name~='' then
-			self.Label:SetFormattedText(WoWTools_DataMixin.onlyChinese and '%s |cnWARNING_FONT_COLOR:的新余额|r' or CURRENCY_TRANSFER_NEW_BALANCE_PREVIEW, name)
+			self.Label:SetFormattedText(WoWTools_L.CURRENCY_TRANSFER_NEW_BALANCE_PREVIEW, name)
 		end
     end)
 
     WoWTools_DataMixin:Hook(content.PlayerBalancePreview, 'SetCharacterName', function(self)
 		local name= WoWTools_UnitMixin:GetPlayerInfo(nil, WoWTools_DataMixin.Player.GUID, nil, {reName=true, reRealm=true})
 		if name~='' then
-			self.Label:SetFormattedText(WoWTools_DataMixin.onlyChinese and '%s |cnGREEN_FONT_COLOR:的新余额|r' or CURRENCY_TRANSFER_NEW_BALANCE_PREVIEW, name)
+			self.Label:SetFormattedText(WoWTools_L['CURRENCY_TRANSFER_NEW_BALANCE_PREVIEW~2'], name)
 		end
     end)
 
 	content.SourceBalancePreview.BalanceInfo.Amount:SetTextColor(1, 0, 0)
 	content.PlayerBalancePreview.BalanceInfo.Amount:SetTextColor(0, 1, 0)
 
---总数
 	CurrencyTransferMenu.wowNumLabel= CurrencyTransferMenu:CreateFontString(nil, 'BORDER', 'GameFontNormal') -- WoWTools_LabelMixin:Create(content, {color={r=0,g=0.8,b=1}, size=16, mouse=true})
 	CurrencyTransferMenu.wowNumLabel:SetPoint('BOTTOM', content.SourceSelector.Dropdown, 'TOP', 0, 2)
 	CurrencyTransferMenu.wowNumLabel:SetScript('OnLeave', function(self)

@@ -1,16 +1,12 @@
 
-local function Save()
-    return WoWToolsSave['ChatButtonGroup'] or {}
-end
-
 local function Get_LeftTime()
     if ReadyCheckListenerFrame.time then
         return select(2, WoWTools_TimeMixin:Info(nil, false, nil, ReadyCheckListenerFrame.time))
     end
 end
 
-local AutoReadyTime--时间
-local PlayerNameText--就绪名称
+local AutoReadyTime
+local PlayerNameText
 
 
 
@@ -21,30 +17,24 @@ local PlayerNameText--就绪名称
 
 
 
---设置，就绪，未就绪
 local function Set_Ready(timeLeft)
     if AutoReadyTime then
         AutoReadyTime:Cancel()
         AutoReadyTime= nil
     end
 
-    local autoReady= Save().autoReady or 0
+    local autoReady= WoWTools_GroupMixin:Save().autoReady or 0
 
     if autoReady>0 then
-        print(
+        WoWTools_Print(
             WoWTools_GroupMixin.addName..WoWTools_DataMixin.Icon.icon2,
             WoWTools_GroupMixin:Get_ReadyText(),
-            '|cffff00ffAlt', WoWTools_DataMixin.onlyChinese and '取消' or CANCEL
+            '|cffff00ffAlt', WoWTools_L.CANCEL
         )
 
-        timeLeft= Save().autoReadySeconds or 3
-
-        if not timeLeft then
-            local time= Get_LeftTime()
-            if time then
-                timeLeft= math.mix(timeLeft, time)
-            end
-        end
+        --no esperar más que el tiempo que queda de la comprobación (antes math.mix, que no existe, en código muerto)
+        local left= Get_LeftTime()
+        timeLeft= math.min(WoWTools_GroupMixin:Save().autoReadySeconds or 3, (left and left>0) and left or 35)
 
         AutoReadyTime= C_Timer.NewTimer(timeLeft, function()
             if ReadyCheckFrame:IsShown() then
@@ -54,7 +44,7 @@ local function Set_Ready(timeLeft)
         end)
     end
 
-    WoWTools_CooldownMixin:Setup(ReadyCheckListenerFrame, nil, timeLeft or Get_LeftTime() or 35, nil, true, true)--冷却条
+    WoWTools_CooldownMixin:Setup(ReadyCheckListenerFrame, nil, timeLeft or Get_LeftTime() or 35, nil, true, true)
 end
 
 
@@ -72,13 +62,12 @@ end
 
 
 
---自动就绪
-local function Init()
+local Init= WoWTools_Once(function()
     ReadyCheckFrame:SetHeight(124)--100
     --ReadyCheckFrameText:SetPoint('TOP', 20, ---45)--="TOP" x="20" y="-37"/>
 
     WoWTools_DataMixin:Hook('ShowReadyCheck', function(initiator, timeLeft)--ReadyCheckListenerFrame
-        WoWTools_DataMixin:PlaySound(SOUNDKIT.READY_CHECK)--播放, 声音
+        WoWTools_DataMixin:PlaySound(SOUNDKIT.READY_CHECK)
 
         if not initiator or not ReadyCheckListenerFrame:IsVisible() then
             return
@@ -107,13 +96,13 @@ local function Init()
             difficultyName=  WoWTools_MapMixin:GetDifficultyColor(difficultyName, difficultyID) or difficultyName
 
             ReadyCheckFrameText:SetFormattedText(
-                (WoWTools_DataMixin.onlyChinese and "%s正在进行就位确认。\n团队副本难度: |cnGREEN_FONT_COLOR:" or (READY_CHECK_MESSAGE..'|n'..RAID_DIFFICULTY..': '))
+                WoWTools_L['%s has initiated a ready check.|nRaid Difficulty: ']
                 ..difficultyName..'|r', name)
         else
-           ReadyCheckFrameText:SetFormattedText(WoWTools_DataMixin.onlyChinese and '%s|n正在进行就位确认。' or READY_CHECK_MESSAGE:gsub('%%s', '%%s|n'), name)
+           ReadyCheckFrameText:SetFormattedText(WoWTools_L['%s|nhas initiated a ready check.'], name)
        end
 
-        Set_Ready(timeLeft)--设置，就绪，未就绪
+        Set_Ready(timeLeft)
     end)
 
 
@@ -140,13 +129,13 @@ local function Init()
             AutoReadyTime:Cancel()
             AutoReadyTime= nil
 
-            print(
+            WoWTools_Print(
                 WoWTools_GroupMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 WoWTools_GroupMixin:Get_ReadyText(),
-                '|cff00ff00'..(WoWTools_DataMixin.onlyChinese and '取消' or CANCEL)
+                '|cff00ff00'..(WoWTools_L.CANCEL)
             )
 
-            WoWTools_CooldownMixin:Setup(self, nil, Get_LeftTime(), nil, true, true)--冷却条
+            WoWTools_CooldownMixin:Setup(self, nil, Get_LeftTime(), nil, true, true)
         end
     end)
 
@@ -175,12 +164,12 @@ local function Init()
         check.value= i>0 and i or nil
 
         check:SetScript('OnShow', function(self)
-            self:SetChecked(self.value== Save().autoReady)
+            self:SetChecked(self.value== WoWTools_GroupMixin:Save().autoReady)
         end)
         check.value= i
         check:SetScript('OnMouseUp', function(self)
-            Save().autoReady= self.value
-            Set_Ready()--设置，就绪，未就绪
+            WoWTools_GroupMixin:Save().autoReady= self.value
+            Set_Ready()
             for index=0,2 do
                 if self.value~=index then
                     _G['WoWToolsReadyCheckButton'..index]:SetChecked(false)
@@ -199,12 +188,8 @@ local function Init()
 
     local altLabel= ReadyCheckListenerFrame:CreateFontString('WoWToolsReadyCheckAltCanellLabel', 'BORDER', 'GameFontNormal')--  WoWTools_LabelMixin:Create(ReadyCheckListenerFrame)
     altLabel:SetPoint('TOPRIGHT', _G['WoWToolsReadyCheckButton2'], 'BOTTOMRIGHT', 0,-8)
-    altLabel:SetText('Alt '..(WoWTools_DataMixin.onlyChinese and '取消' or CANCEL))
-
-
-
-    Init=function()end
-end
+    altLabel:SetText('Alt '..(WoWTools_L.CANCEL))
+end)
 
 
 --ReadyCheckFrame

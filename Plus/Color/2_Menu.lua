@@ -1,6 +1,6 @@
 
 local function Save()
-	return WoWToolsSave['Plus_Color'] or {}
+	return WoWTools_ColorMixin:Save()
 end
 
 
@@ -12,17 +12,17 @@ local function Init_Menu(self, root)
     end
 	
 	local sub
-	root:CreateCheckbox(
-		WoWTools_DataMixin.onlyChinese and '显示' or SHOW,
+	sub=root:CreateCheckbox(
+		WoWTools_L.SHOW,
 	function()
 		return self.frame:IsShown()
 	end, function()
 		Save().hide= not Save().hide and true or nil
 		self:Settings()
 	end)
+	WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Color.Show'])
 
 	root:CreateDivider()
---缩放
 	WoWTools_MenuMixin:Scale(self, root, function()
 		return Save().scale or 1
 	end, function(value)
@@ -30,62 +30,59 @@ local function Init_Menu(self, root)
 		self:Settings()
 	end)
 
---清除记录
 	sub=root:CreateButton(
 		'|A:bags-button-autosort-up:0:0|a'
-		..(WoWTools_DataMixin.onlyChinese and '清除记录' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SLASH_STOPWATCH_PARAM_STOP2, EVENTTRACE_LOG_HEADER)),
+		..(WoWTools_L['SLASH_STOPWATCH_PARAM_STOP2+EVENTTRACE_LOG_HEADER']),
 	function()
 		Save().logColor={}
 		WoWTools_ColorMixin:Set_SaveLogList()
 		return MenuResponse.Close
 	end, {rightText= #Save().logColor})
 	sub:SetTooltip(function(tooltip)
+		WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Color.ClearLog'])
 		tooltip:AddLine(
-			format((WoWTools_DataMixin.onlyChinese and '最多保存%d个颜色' or 'Save up to %d colors'), Save().logMaxColor or 10)
+			format((WoWTools_L['Save up to %d colors']), Save().logMaxColor or 10)
 		)
 	end)
 	WoWTools_MenuMixin:SetRightText(sub)
 
---设置，最多保存30个颜色
 	sub:CreateSpacer()
 	WoWTools_MenuMixin:CreateSlider(sub, {
 		getValue=function()
 			return Save().logMaxColor or 10
 		end, setValue=function(value)
 			Save().logMaxColor=value
-			WoWTools_ColorMixin:Set_SaveLogList()--设置，记录
+			WoWTools_ColorMixin:Set_SaveLogList()
 		end,
-		name=WoWTools_DataMixin.onlyChinese and '数量' or AUCTION_HOUSE_QUANTITY_LABEL,
+		name=WoWTools_L.AUCTION_HOUSE_QUANTITY_LABEL,
 		minValue=0,
 		maxValue=200,
 		step=1,
 		--bit='%.2f',
 		tooltip=function(tooltip)
-			tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '保存' or SAVE)
+			tooltip:AddLine(WoWTools_L.SAVE)
 		end
 	})
 	sub:CreateSpacer()
 
---更多颜色
 	sub=root:CreateCheckbox(
-		WoWTools_DataMixin.onlyChinese and '更多颜色' or (COLORS..' 2'),
+		WoWTools_L['More colors'],
 	function()
 		return Save().selectType2
 	end, function()
 		Save().selectType2 = not Save().selectType2 and true or nil
 	end)
 	sub:SetTooltip(function(tooltip)
-		tooltip:AddLine( WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+		WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Color.MoreColors'])
+		tooltip:AddLine( WoWTools_L.REQUIRES_RELOAD)
 	end)
 
---重新加载UI
 	WoWTools_MenuMixin:Reload(sub)
 
 
---禁止自动隐藏
 	sub=root:CreateCheckbox(
 		'|A:newplayertutorial-drag-cursor:0:0|a'
-		..(WoWTools_DataMixin.onlyChinese and '自动隐藏' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, HIDE)),
+		..(WoWTools_L['SELF_CAST_AUTO+HIDE']),
 	function()
 		return not Save().notHideFuori
 	end, function()
@@ -93,28 +90,28 @@ local function Init_Menu(self, root)
 		self:Settings()
 	end)
 	sub:SetTooltip(function(tooltip)
-		tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '框架外点击：自动隐藏' or 'Click outside the ColorFrame: Auto-hide')
+		WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Color.AutoHide'])
+		tooltip:AddLine(WoWTools_L['Click outside the color picker: auto-hide'])
 	end)
 
 
---自动显示
 	root:CreateDivider()
 	sub=root:CreateCheckbox(
-		WoWTools_DataMixin.onlyChinese and '自动显示' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, SHOW),
+		WoWTools_L['SELF_CAST_AUTO+SHOW'],
 	function()
 		return Save().autoShow
 	end, function()
 		Save().autoShow= not Save().autoShow and true or nil
 	end)
 	sub:SetTooltip(function(tooltip)
-		tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '显示' or SHOW)
-		tooltip:AddLine(WoWTools_DataMixin.onlyChinese and '登入游戏' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, LOG_IN, GAME))
+		WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Color.AutoShow'])
+		tooltip:AddLine(WoWTools_L.SHOW)
+		tooltip:AddLine(WoWTools_L['LOG_IN+GAME'])
 	end)
 
 
---打开选项界面
 	root:CreateDivider()
-	WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_ColorMixin.addName})
+	WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_ColorMixin.addName, name2=WoWTools_L['Settings...']})
 end
 
 
@@ -146,7 +143,7 @@ local function Init()
 		GameTooltip:AddLine(' ')
 		GameTooltip:AddDoubleLine(
 			WoWTools_TextMixin:GetShowHide(self.frame:IsShown()),
-			(WoWTools_DataMixin.onlyChinese and '菜单' or HUD_EDIT_MODE_MICRO_MENU_LABEL)..WoWTools_DataMixin.Icon.left
+			(WoWTools_L.HUD_EDIT_MODE_MICRO_MENU_LABEL)..WoWTools_DataMixin.Icon.left
 		)
         GameTooltip:Show()
 	end
@@ -164,9 +161,7 @@ local function Init()
 	btn.frame:SetPoint('BOTTOMRIGHT')
 	btn.frame:SetSize(1,1)
 
---原生，去掉，在框架外，会自动关闭, 提示
 	btn.autoHideTexture= btn:CreateTexture(nil, 'BORDER')
-	btn.autoHideTexture:SetSize(23,23)
 	btn.autoHideTexture:SetPoint('LEFT', ColorPickerFrame.Footer.CancelButton, 'RIGHT', 0, -1)
 	btn.autoHideTexture:SetAtlas('newplayertutorial-drag-cursor')
 	btn.autoHideTexture:EnableMouse(true)
@@ -175,9 +170,9 @@ local function Init()
 		GameTooltip:SetOwner(self, 'ANCHOR_RIGHT')
 		GameTooltip_SetTitle(GameTooltip,
 			WoWTools_DataMixin.Icon.icon2
-			..(WoWTools_DataMixin.onlyChinese and '自动隐藏' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, SELF_CAST_AUTO, HIDE))
+			..(WoWTools_L['SELF_CAST_AUTO+HIDE'])
 		)
-		GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '框架外点击：自动隐藏' or 'Click outside the ColorFrame: Auto-hide')
+		GameTooltip:AddLine(WoWTools_L['Click outside the color picker: auto-hide'])
 		GameTooltip:Show()
 		self:SetAlpha(0.3)
 	end)
@@ -189,7 +184,7 @@ local function Init()
 	function btn:Settings()
 		local hide= Save().hide
 		if hide then
-			self:SetNormalTexture('Interface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools')
+			self:SetNormalTexture('Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools')
 		else
 			self:SetNormalAtlas('ui-questtrackerbutton-filter')
 		end
@@ -201,6 +196,12 @@ local function Init()
 
 	btn:SetupMenu(Init_Menu)
 	btn:Settings()
+
+--Estilo común: botón plano de solo icono (después de los SetScript, que sustituyen a los HookScript)
+	btn:SetSize(WoWTools_Style.Size.icon.normal, WoWTools_Style.Size.icon.normal)
+	WoWTools_Style:Button(btn, {icon=true})
+	WoWTools_Style:Icon(btn.autoHideTexture, 'normal', {mask=false})
+
 	btn:set_alpha()
 end
 

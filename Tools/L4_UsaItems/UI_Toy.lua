@@ -1,8 +1,7 @@
---玩具界面, 菜单
 
 
 local function Save()
-    return  WoWToolsPlayerDate['Tools_UseItems']
+    return  WoWToolsPlusPlayerDate['Tools_UseItems']
 end
 
 
@@ -15,7 +14,7 @@ end
 
 
 
-local function Create_Button(btn)--标记, 是否已选取
+local function Create_Button(btn)
     btn.useItem= WoWTools_ButtonMixin:Cbtn(btn,{
         size=16,
         atlas='soulbinds_tree_conduit_icon_utility'
@@ -40,7 +39,7 @@ local function Create_Button(btn)--标记, 是否已选取
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(WoWTools_ToolsMixin.addName, WoWTools_UseItemsMixin.addName)
-        GameTooltip_AddErrorLine(GameTooltip, WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)
+        GameTooltip_AddErrorLine(GameTooltip, WoWTools_L.REQUIRES_RELOAD)
         GameTooltip:AddLine(' ')
 
         local icon= select(5, C_Item.GetItemInfoInstant(itemID))
@@ -49,7 +48,7 @@ local function Create_Button(btn)--标记, 是否已选取
             (icon and '|T'..icon..':0|t' or '')..(C_ToyBox.GetToyLink(itemID) or itemID)..' '..WoWTools_TextMixin:GetEnabeleDisable(find),
             WoWTools_DataMixin.Icon.left
         )
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine(WoWTools_L.SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
         GameTooltip:Show()
     end
 
@@ -90,27 +89,19 @@ end
 
 
 
-local function Init()
-    WoWTools_DataMixin:Hook('ToySpellButton_UpdateButton', function(btn)--玩具界面, 菜单
+local Init= WoWTools_Once(function()
+    WoWTools_DataMixin:Hook('ToySpellButton_UpdateButton', function(btn)
         if not btn.useItem then
            Create_Button(btn)
         end
         btn.useItem:set_alpha()
     end)
-    Init=function()end
-end
+end)
 
 
 
 function WoWTools_UseItemsMixin:Init_UI_Toy()
-    if C_AddOns.IsAddOnLoaded('Blizzard_Collections') then
+    EventUtil.ContinueOnAddOnLoaded('Blizzard_Collections', function()
         Init()
-    else
-        EventRegistry:RegisterFrameEventAndCallback("ADDON_LOADED", function(owner, arg1)
-            if arg1=='Blizzard_Collections' then
-                Init()
-                EventRegistry:UnregisterCallback('ADDON_LOADED', owner)
-            end
-        end)
-    end
+    end)
 end

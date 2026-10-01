@@ -1,11 +1,4 @@
---装备管理，Plus
 --PaperDollFrame.lua
-local function Save()
-    return WoWToolsSave['Plus_PaperDoll']
-end
-
-
-
 local function Refresh()
     local frame= PaperDollFrame and PaperDollFrame.EquipmentManagerPane
     if frame and frame:IsVisible() then
@@ -40,12 +33,11 @@ local function Create_Button(btn)
         GameTooltip_SetTitle(GameTooltip, 
             WoWTools_DataMixin.Icon.icon2
             ..(C_EquipmentSet.EquipmentSetContainsLockedItems(self.setID) and '|cff606060' or '')
-            ..(WoWTools_DataMixin.onlyChinese and '装备' or EQUIPSET_EQUIP)
+            ..(WoWTools_L.EQUIPSET_EQUIP)
         )
         GameTooltip:Show()
     end)
 
---件数，提示
     btn.topRight= btn:CreateFontString(nil, 'ARTWORK', 'GameFontHighlightSmall2')
     btn.topRight:SetPoint('TOPRIGHT' ,-2, -2)
     btn.topRight:SetJustifyH('RIGHT')
@@ -56,7 +48,6 @@ local function Create_Button(btn)
     --btn.count:SetJustifyH('CENTER')
 
 
---新建，空
     btn.createButton= CreateFrame('Button', nil, btn, 'WoWToolsButtonTemplate')
     btn.createButton:SetSize(30,30)
     btn.createButton.texture= btn.createButton:CreateTexture()
@@ -64,7 +55,7 @@ local function Create_Button(btn)
     btn.createButton.texture:SetPoint('CENTER')
     btn.createButton.texture:SetAtlas('groupfinder-eye-highlight')
 
-    btn.createButton.str= WoWTools_DataMixin.onlyChinese and '空' or EMPTY
+    btn.createButton.str= WoWTools_L.EMPTY
     btn.createButton:SetPoint('RIGHT', 0,-4)
     btn.createButton:SetScript('OnLeave', function(self)
         GameTooltip:Hide()
@@ -76,8 +67,8 @@ local function Create_Button(btn)
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(self.str,
             C_EquipmentSet.GetEquipmentSetID(self.str)
-            and ('|cffff00ff'..(WoWTools_DataMixin.onlyChinese and '修改' or EDIT)..'|r')
-            or ('|cnGREEN_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '新建' or NEW)..'|r')
+            and ('|cffff00ff'..(WoWTools_L.EDIT)..'|r')
+            or ('|cnGREEN_FONT_COLOR:'..(WoWTools_L.NEW)..'|r')
         )
         GameTooltip:Show()
     end)
@@ -110,14 +101,14 @@ end
 
 
 local function Init()
-    if Save().notEquipSetPLus then
+    if WoWTools_PaperDollMixin:Save().notEquipSetPLus then
         return
     end
 
 
     WoWTools_DataMixin:Hook('GearSetButton_OnClick', function(self, button)
         if not self.setID
-            or Save().notEquipSetPLus
+            or WoWTools_PaperDollMixin:Save().notEquipSetPLus
             or not IsModifierKeyDown()
         then
             return
@@ -132,7 +123,7 @@ local function Init()
 
     WoWTools_DataMixin:Hook('GearSetButton_OnEnter', function(btn)
         local setID= btn.setID
-        if not setID or Save().notEquipSetPLus then
+        if not setID or WoWTools_PaperDollMixin:Save().notEquipSetPLus then
             return
         end
         GameTooltip:SetOwner(btn:GetParent(), 'ANCHOR_RIGHT')
@@ -142,30 +133,29 @@ local function Init()
         GameTooltip:AddLine(' ')
         GameTooltip_AddInstructionLine(GameTooltip,
             '<'
-            ..(WoWTools_DataMixin.onlyChinese and '双击' or BUFFER_DOUBLE)
+            ..(WoWTools_L.BUFFER_DOUBLE)
             ..WoWTools_DataMixin.Icon.left
-            ..(WoWTools_DataMixin.onlyChinese and '装备' or EQUIPSET_EQUIP)
+            ..(WoWTools_L.EQUIPSET_EQUIP)
             ..'>'
         )
         GameTooltip_AddInstructionLine (GameTooltip,
             '<'
             ..'Alt+'
             ..WoWTools_DataMixin.Icon.left
-            ..(WoWTools_DataMixin.onlyChinese and '修改名称/图标' or EQUIPMENT_SET_EDIT)
+            ..(WoWTools_L.EQUIPMENT_SET_EDIT)
             ..'>'
         )
         GameTooltip_AddInstructionLine (GameTooltip,
             '<'
             ..'Shif+'
             ..WoWTools_DataMixin.Icon.left
-            ..(WoWTools_DataMixin.onlyChinese and '删除' or DELETE)
+            ..(WoWTools_L.DELETE)
             ..'>'
         )
         GameTooltip:Show()
 	end)
 
 
---新建 空装，按钮 .addSetButton GearSetButtonTemplate
     WoWTools_DataMixin:Hook('PaperDollEquipmentManagerPane_InitButton', function(btn, elementData)
         local count, topRight, isEquipped
 
@@ -173,7 +163,7 @@ local function Init()
             Create_Button(btn)
         end
 
-        local enabled= not Save().notEquipSetPLus
+        local enabled= not WoWTools_PaperDollMixin:Save().notEquipSetPLus
         local setID= enabled and btn.setID or nil
 
         if setID then
@@ -221,6 +211,6 @@ end
 
 
 
-function WoWTools_PaperDollMixin:Init_EquipSetPlus()--装备管理，Plus
+function WoWTools_PaperDollMixin:Init_EquipSetPlus()
     Init()
 end

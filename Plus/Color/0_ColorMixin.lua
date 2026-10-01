@@ -1,5 +1,4 @@
 
---CVarCallbackRegistry:GetCVarValueBool("colorblindMode") --开启色盲模式界面
 WoWTools_ColorMixin={}
 
 
@@ -34,7 +33,6 @@ end
 
 
 
---RGB转HEX
 function WoWTools_ColorMixin:RGBtoHEX(r, g, b, a, frame)
     if r and g and b then
 
@@ -53,11 +51,7 @@ function WoWTools_ColorMixin:RGBtoHEX(r, g, b, a, frame)
 end
 
 
-
-
-
 --( ) . % + - * ? [ ^ $ 
---HEX转RGB -- ColorUtil.lua
 local function ExtractColorValueFromHex(str, index)
     local t= str:sub(index, index + 1)
     if t then
@@ -120,7 +114,6 @@ end
 
 
 
---取得, ColorFrame, 颜色
 function WoWTools_ColorMixin:Get_ColorFrameRGBA()
     local r,g,b= ColorPickerFrame:GetColorRGB()
     local a= ColorPickerFrame.hasOpacity and ColorPickerFrame:GetColorAlpha() or 1
@@ -130,10 +123,6 @@ function WoWTools_ColorMixin:Get_ColorFrameRGBA()
     a= a~=1 and tonumber(format('%.2f', a)) or a
 	return r, g, b, a, {r=r, g=g, b=b, a=a}
 end
-
-
-
-
 
 
 --ColorPickerFrame.lua
@@ -152,163 +141,5 @@ function WoWTools_ColorMixin:ShowColorFrame(valueR, valueG, valueB, valueA, swat
         opacity= valueA or 1,
     })
 end
-
-
-
-
-
---[[设置颜色
-function WoWTools_ColorMixin:Setup(object, tab)--设置颜色
-    if not object then
-        return
-    end
-
-    tab = tab or {}
-
-    local Type= tab.type or (object.GetObjectType and object:GetObjectType()) or type(object)-- FontString Texture String
-
-    local isColorTexture= tab.isColorTexture
-    local r,g,b= PlayerUtil.GetClassColor():GetRGB()
-    local a= tab.alpha or 1
-
-    if Type=='FontString' then
-        object:SetTextColor(r,g,b,a)
-
-    elseif Type=='EditBox' then
-        object:SetTextColor(r, g, b, a)
-
-    elseif Type=='Texture' then
-        if isColorTexture then
-            object:SetColorTexture(r, g, b, a)
-        else
-            object:SetVertexColor(r, g, b, a)
-        end
-
-    elseif Type=='Button' then
-        local icon= object:GetNormalTexture()
-        if icon then
-            icon:SetVertexColor(r, g, b, a)
-        end
-        icon= object:GetPushedTexture()
-        if icon then
-            icon:SetVertexColor(r, g, b, a)
-        end
-        icon= object:GetHighlightTexture()
-        if icon then
-            icon:SetVertexColor(r, g, b, a)
-        end
-
-    elseif Type=='String' then
-        local hex= tab.color and tab.color.hex or PlayerUtil.GetClassColor():GenerateHexColorMarkup()
-        return hex..object
-    end
-end]]
-
-
-
-
-
-
-
-
-
-
-
---[[
-local function RGB_to_HSV(r, g, b)--ColorPickerPlus
-	local mincolor, maxcolor = math.min(r, g, b), math.max(r, g, b)
-	local ch, cs, cv = 0, 0, maxcolor
-	if maxcolor > 0 then -- technically ch is undefined if cs is zero
-		local delta = maxcolor - mincolor
-		cs = delta / maxcolor
-		if delta > 0 then -- don't allow divide by zero
-			if r == maxcolor then
-				ch = (g - b) / delta -- between yellow and magenta
-			elseif g == maxcolor then
-				ch = 2 + ((b - r) / delta) -- between cyan and yellow
-			else
-				ch = 4 + ((r - g) / delta) -- between magenta and cyan
-			end
-		end
-		if ch < 0 then ch = ch + 6 end -- correct for negative values
-		ch = ch / 6 -- and finally adjust range 0 to 1.0
-	end
-	return ch, cs, cv
-end
-
--- Convert h, s, l input values into r, g, b return values
--- All values are in the range 0 to 1.0
-local function HSV_to_RGB(ch, cs, cv)
-	if not ch or not cs or not cv then return 1, 0, 0 end
-	if ch == 1 then ch = 0 end
-	local r, g, b = cv, cv, cv
-	if cs > 0 then -- if cs is zero then grey is returned
-		local h = ch * 6 local sextant = math.floor(h) -- figure out which sextant of the color wheel
-		local fract = h - sextant -- fractional offset into the sextant
-		local p, q, t = cv * (1 - cs), cv * (1 - (cs * fract)), cv * (1 - (cs * (1 - fract)))
-		if sextant == 0 then
-			r, g, b = cv, t, p
-		elseif sextant == 1 then
-			r, g, b = q, cv, p
-		elseif sextant == 2 then
-			r, g, b = p, cv, t
-		elseif sextant == 3 then
-			r, g, b = p, q, cv
-		elseif sextant == 4 then
-			r, g, b = t, p, cv
-		else
-			r, g, b = cv, p, q
-		end
-	end
-	return r, g, b
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            RGB to HSV
-
-            r, g, b = r or 1, g or 1, b or 1
-            local maxVal = math.max(r, g, b)
-            local minVal = math.min(r, g, b)
-            local delta = maxVal - minVal
-
-            local h, s, v = 0, 0, maxVal
-
-            if delta > 0 then
-                if maxVal == r then
-                    h = (g - b) / delta % 6
-                elseif maxVal == g then
-                    h = (b - r) / delta + 2
-                elseif maxVal == b then
-                    h = (r - g) / delta + 4
-                end
-                h = h * 60
-                if h < 0 then
-                    h = h + 360
-                end
-
-                s = maxVal == 0 and 0 or delta / maxVal
-            end
-
-            return string.format("%i %i %i", math.floor(h + 0.5), math.floor(s * 100 + 0.5), math.floor(v * 100 + 0.5))
-]]
-
-
-
-
-
 
 

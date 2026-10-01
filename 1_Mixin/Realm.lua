@@ -136,6 +136,18 @@ elseif WoWTools_DataMixin.Player.Region==1 then
     }
 end
 
+--Claves sin espacios ni guiones (así llegan los reinos de UnitName). Antes unos 60 reinos US no coincidían
+--y reinos españoles o franceses salían como GB
+do
+    local fixed= {["CThun"]="esES", ["ColinasPardas"]="esES", ["CultedelaRivenoire"]="frFR"}
+    local normalized= {}
+    for name, lang in pairs(Realms) do
+        local key= name:gsub("[%s%-]", "")
+        normalized[key]= fixed[key:gsub("'", "")] or lang
+    end
+    Realms= normalized
+end
+
 local regionColor = {--https://wago.io/6-GG3RMcC
     ["deDE"]= {col="|cFF00FF00DE|r", text='DE', realm="Germany"},
     ["frFR"]= {col="|cFF00FFFFFR|r", text='FR', realm="France"},
@@ -155,7 +167,7 @@ local regionColor = {--https://wago.io/6-GG3RMcC
 }
 
 
-function WoWTools_RealmMixin:Get_Region(realm, guid, unit, disabled)--WoWTools_RealmMixin:Get_Region(server, guid, unit)--服务器，EU， US {col=, text=, realm=}
+function WoWTools_RealmMixin:Get_Region(realm, guid, unit, disabled)
     if disabled then
         regionColor={}
         Realms={}
@@ -165,6 +177,7 @@ function WoWTools_RealmMixin:Get_Region(realm, guid, unit, disabled)--WoWTools_R
                 or realm
                 or unit and ((select(2, UnitName(unit)) or WoWTools_DataMixin.Player.Realm))
                 or guid and select(7, GetPlayerInfoByGUID(guid))
+        realm= realm and realm:gsub("[%s%-]", "")
         if realm and Realms[realm] then
             return regionColor[Realms[realm]]
         end

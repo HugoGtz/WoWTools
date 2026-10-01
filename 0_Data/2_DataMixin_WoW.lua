@@ -1,119 +1,14 @@
 
 
 
---[[
-WoWTools_BagMixin:GetItem_WoW_Num(itemID)--取得WOW物品数量  return all, numPlayer
-
-
-WoWTools_WoWDate[guid]= {--默认数据
-    Item={},--{itemID={bag=包, bank=银行}},
-    Currency={},--{[currencyID] = 数量}
-
-    Keystone={week=WoWTools_DataMixin.Player.Week},--{score=总分数, link=超连接, weekLevel=本周最高, weekNum=本周次数, all=总次数,week=周数},
-
-    Instance={ins={}, week=WoWTools_DataMixin.Player.Week, day=day},--ins={[名字]={[难度]=已击杀数}}
-    Worldboss={boss={}, week=WoWTools_DataMixin.Player.Week, day=day},--{week=周数, boss={[name]=worldBossID}}}
-    Rare={day=day, boss={[name]=guid}},--稀有 
-    Time={},--{totalTime=总游戏时间, levelTime=当前等级时间, upData=更新时间}总游戏时间
-    Guild={
-        guid= club.clubFinderGUID,
-        link= WoWTools_GuildMixin:GetClubLink(clubID, club.clubFinderGUID),
-        clubID= clubID,
-        data={guildName, guildRankName, guildRankIndex, realm or WoWTools_DataMixin.Player.Realm},
-        text= WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].Guild.text
-    },
-    --Money=钱
-    Bank={},--{[itemID]={num=数量,quality=品质}}银行，数据
-    region= WoWTools_DataMixin.Player.Region
-    --specID 专精
-    --itemLevel 装等
-    --faction
-    --level
-    --battleTag
-}
-
-WoWTools_DataMixin.PlayerInfo=[guid] = {--玩家装等
-        itemLevel= C_PaperDollInfo.GetInspectItemLevel(unit) or (WoWTools_DataMixin.PlayerInfo[guid] and WoWTools_DataMixin.PlayerInfo[guid].itemLevel),
-        specID= GetInspectSpecialization(unit),
-        faction= UnitFactionGroup(unit),
-        col= hex,
-        r=r,
-        g=g,
-        b=b,
-    }
-WoWTools_UnitMixin:GetNotifyInspect(tab, unit)--取得装等
-WoWTools_DataMixin.GroupGuid[GetUnitName(unit, true) or guid]={--队伍数据
-            unit= unit,
-            combatRole= UnitGroupRolesAssigned(unit),
-            guid=guid,
-            faction= UnitFactionGroup(unit),
-            level=
-        }
-GetGroupGuidDate()--队伍数据收集
-]]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---地下城挑战
-local function Update_Challenge_Mode()--{score=总分数,itemLink={超连接}, weekLevel=本周最高, weekNum=本周次数, all=总次数,week=周数}
+local function Update_Challenge_Mode()
     local all, weekNum, weekLevel
     local score=C_ChallengeMode.GetOverallDungeonScore()
     if score and score>0 then
-        all= #C_MythicPlus.GetRunHistory(true, true)--总次数
+        all= #C_MythicPlus.GetRunHistory(true, true)
         local info = C_MythicPlus.GetRunHistory(false, true)
         if info and #info>0 then
-            weekNum=#info--本周次数
+            weekNum=#info
             local activities= C_WeeklyRewards.GetActivities(Enum.WeeklyRewardChestThresholdType.Activities)
             if activities then
                 local lv=0
@@ -125,13 +20,13 @@ local function Update_Challenge_Mode()--{score=总分数,itemLink={超连接}, w
                     end
                 end
                 if lv > 0 then
-                    weekLevel=lv--本周最高
+                    weekLevel=lv
                 end
             end
         end
     end
 
-    WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].Keystone={
+    WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Keystone={
         score= score,
         all= all,
         week= WoWTools_DataMixin.Player.Week,
@@ -142,12 +37,11 @@ local function Update_Challenge_Mode()--{score=总分数,itemLink={超连接}, w
         weekMythicPlus= WoWTools_ChallengeMixin:GetRewardText(Enum.WeeklyRewardChestThresholdType.Activities),--MythicPlus
         weekPvP= WoWTools_ChallengeMixin:GetRewardText(Enum.WeeklyRewardChestThresholdType.RankedPvP),--RankedPvP
         weekWorld=WoWTools_ChallengeMixin:GetRewardText(Enum.WeeklyRewardChestThresholdType.World),--world
-        link= WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].Keystone.link,
+        link= WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Keystone.link,
         --itemLevel= C_MythicPlus.GetOwnedKeystoneLevel(),
     }
 end
 
---地下城挑战
 EventRegistry:RegisterFrameEventAndCallback("CHALLENGE_MODE_MAPS_UPDATE", function()
     C_MythicPlus.RequestRewards()
     C_Timer.After(4, Update_Challenge_Mode)
@@ -158,13 +52,7 @@ EventRegistry:RegisterFrameEventAndCallback("WEEKLY_REWARDS_UPDATE", function()
 end)
 
 
-
-
-
-
-
---挑战
-local function Get_Info_Challenge()--挑战
+local function Get_Info_Challenge()
     C_MythicPlus.RequestCurrentAffixes()
     C_MythicPlus.RequestMapInfo()
     C_MythicPlus.RequestRewards()
@@ -177,40 +65,21 @@ EventRegistry:RegisterFrameEventAndCallback("CHALLENGE_MODE_COMPLETED", function
     Get_Info_Challenge()
 end)
 
---[[
-    C_MythicPlus.GetRunHistory(false, true)--本周记录      
-    RequestRatedInfo()--从服务器请求有关玩家 PvP 评分的信息。
-    RequestRandomBattlegroundInstanceInfo()--请求随机战场实例信息
-    RequestBattlefieldScoreData()--请求战地得分数据
-]]
 
-
-
-
-
-
-
-
-
-
-
-
-
---更新物品
 EventRegistry:RegisterFrameEventAndCallback("BAG_UPDATE_DELAYED", function()
     local guid= WoWTools_DataMixin.Player.GUID
-    WoWTools_WoWDate[guid].Keystone.link=nil
-    WoWTools_WoWDate[guid].Item={}--{itemID={bag=包, bank=银行}}
+    WoWToolsPlus_WoWDate[guid].Keystone.link=nil
+    WoWToolsPlus_WoWDate[guid].Item={}
     for bagID= Enum.BagIndex.Backpack,  NUM_BAG_FRAMES + NUM_REAGENTBAG_FRAMES do
         for slotID=1, C_Container.GetContainerNumSlots(bagID) do
             local itemID = C_Container.GetContainerItemID(bagID, slotID)
             if itemID then
 
-                if C_Item.IsItemKeystoneByID(itemID) then--挑战
-                    WoWTools_WoWDate[guid].Keystone.link= C_Container.GetContainerItemLink(bagID, slotID)
-                else
-                    local bag=C_Item.GetItemCount(itemID)--物品ID
-                    WoWTools_WoWDate[guid].Item[itemID]={
+                if C_Item.IsItemKeystoneByID(itemID) then
+                    WoWToolsPlus_WoWDate[guid].Keystone.link= C_Container.GetContainerItemLink(bagID, slotID)
+                elseif not WoWToolsPlus_WoWDate[guid].Item[itemID] then--una sola consulta por objeto (no por hueco)
+                    local bag=C_Item.GetItemCount(itemID)
+                    WoWToolsPlus_WoWDate[guid].Item[itemID]={
                         bag=bag,
                         bank=C_Item.GetItemCount(itemID, true, false, true)-bag,
                     }
@@ -221,34 +90,12 @@ EventRegistry:RegisterFrameEventAndCallback("BAG_UPDATE_DELAYED", function()
 end)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---更新货币 {currencyID = 数量}
 EventRegistry:RegisterFrameEventAndCallback("CURRENCY_DISPLAY_UPDATE", function(_, arg1)
     if arg1 and arg1~=2032 then
         if not C_CurrencyInfo.IsAccountWideCurrency(arg1) then
             local info = C_CurrencyInfo.GetCurrencyInfo(arg1)
             if info and info.quantity then
-                WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].Currency[arg1]= info.quantity~=0 and info.quantity or nil
+                WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Currency[arg1]= info.quantity~=0 and info.quantity or nil
             end
         end
     else
@@ -258,60 +105,27 @@ EventRegistry:RegisterFrameEventAndCallback("CURRENCY_DISPLAY_UPDATE", function(
 
             local info = C_CurrencyInfo.GetCurrencyListInfo(i)
             if currencyID and info and info.quantity and currencyID~=2032 and not C_CurrencyInfo.IsAccountWideCurrency(currencyID) then
-                WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].Currency[currencyID]= info.quantity~=0 and info.quantity or nil
+                WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Currency[currencyID]= info.quantity~=0 and info.quantity or nil
             end
         end
     end
 end)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 --##
---钱
 --##
-local function Set_Money()--钱
-    WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].Money= GetMoney() or 0
+local function Set_Money()
+    WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Money= GetMoney() or 0
 end
 
 EventRegistry:RegisterFrameEventAndCallback("PLAYER_MONEY", function()
-    Set_Money()--钱
+    Set_Money()
 end)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---总游戏时间：%s
 EventRegistry:RegisterFrameEventAndCallback("TIME_PLAYED_MSG", function(_, arg1, arg2)
     if arg1 and arg2 then
-        WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].Time={
+        WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Time={
             totalTime= arg1,
             levelTime= arg2,
             upData= date('%Y-%m-%d %H:%M:%S'),
@@ -320,31 +134,26 @@ EventRegistry:RegisterFrameEventAndCallback("TIME_PLAYED_MSG", function(_, arg1,
 end)
 
 
-
-
-
-
---副本, 世界BOSS
 EventRegistry:RegisterFrameEventAndCallback("UPDATE_INSTANCE_INFO", function()--encounterID, encounterName)
-    local tab={}--已杀世界BOSS
-    for i=1, GetNumSavedWorldBosses() do--{week=周数, boss={[name]=worldBossID}}}
+    local tab={}
+    for i=1, GetNumSavedWorldBosses() do
         local bossName, worldBossID, reset=GetSavedWorldBossInfo(i)
         if bossName and (not reset or reset>0) then
             tab[bossName] = worldBossID
-            if WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].Rare.boss[bossName] then--清除稀有怪
-                WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].Rare.boss[bossName]=nil
+            if WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Rare.boss[bossName] then
+                WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Rare.boss[bossName]=nil
             end
         end
     end
 
-    WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].Worldboss={
+    WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Worldboss={
         week=WoWTools_DataMixin.Player.Week,
         day= date('%x'),
         boss=tab
     }
 
     tab={}
-    for i=1, GetNumSavedInstances() do--副本
+    for i=1, GetNumSavedInstances() do
         local name, _, reset, difficulty, _, _, _, _, _, difficultyName, numEncounters, encounterProgress = GetSavedInstanceInfo(i)
         if name and reset and reset>0 and numEncounters and encounterProgress and numEncounters>0 and encounterProgress>0 and difficultyName then
 
@@ -357,7 +166,7 @@ EventRegistry:RegisterFrameEventAndCallback("UPDATE_INSTANCE_INFO", function()--
             tab[name][difficultyName]=killed
         end
     end
-    WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].Instance = {
+    WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Instance = {
         week=WoWTools_DataMixin.Player.Week,
         day=date('%x'),
         ins=tab
@@ -374,14 +183,10 @@ EventRegistry:RegisterFrameEventAndCallback("LOOT_OPENED", function()
     if classification == "rare" or classification == "rareelite" then
         local name=WoWTools_TextMixin:CN(UnitName('target'), {unit='target', isName=true})
         if name then
-            WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].Rare.boss[name]= UnitGUID('target')
+            WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Rare.boss[name]= UnitGUID('target')
         end
     end
 end)
-
-
-
-
 
 
 EventRegistry:RegisterFrameEventAndCallback("BOSS_KILL", function()
@@ -389,117 +194,99 @@ EventRegistry:RegisterFrameEventAndCallback("BOSS_KILL", function()
 end)
 
 
+--Crea las SavedVariables (y migra las del WoWTools original). Idempotente: la llama también
+--z_Panel.lua por si su ADDON_LOADED llega antes que este (instalación limpia).
+local IsSavedInit
+function WoWTools_DataMixin:Init_SavedVariables()
+    if IsSavedInit then
+        return
+    end
+    IsSavedInit= true
 
+    --Migración: las primeras versiones del fork guardaban con los nombres del WoWTools original.
+    --Si el original está cargado, esos globales son suyos y no se tocan.
+    if not C_AddOns.IsAddOnLoaded('WoWTools') then
+        if WoWToolsPlusSave==nil then WoWToolsPlusSave= WoWToolsSave end
+        if WoWToolsPlus_WoWDate==nil then WoWToolsPlus_WoWDate= WoWTools_WoWDate end
+        if WoWToolsPlusPlayerDate==nil then WoWToolsPlusPlayerDate= WoWToolsPlayerDate end
+        WoWToolsSave, WoWTools_WoWDate, WoWToolsPlayerDate= nil, nil, nil
+    end
 
+    WoWToolsPlusSave= WoWToolsPlusSave or {}
 
+    WoWToolsPlus_WoWDate= WoWToolsPlus_WoWDate or {}
 
-
-
-
-
-
-
-
---[[给 e.Reload用
-EventRegistry:RegisterFrameEventAndCallback("ENCOUNTER_START", function(_, encounterID)
-    e.IsEncouter_Start= encounterID
-end)
-EventRegistry:RegisterFrameEventAndCallback("ENCOUNTER_END", function(_, arg1)
-    e.IsEncouter_Start= nil
-end)]]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    WoWToolsPlusPlayerDate= WoWToolsPlusPlayerDate or {}
+end
 
 EventRegistry:RegisterFrameEventAndCallback("ADDON_LOADED", function(owner, arg1)
-    if arg1~='WoWTools' then
+    if arg1~='WoWToolsPlus' then
         return
     end
 
-    WoWToolsSave= WoWToolsSave or {}
-
-    WoWTools_WoWDate= WoWTools_WoWDate or {}
-
-    WoWToolsPlayerDate= WoWToolsPlayerDate or {}
+    WoWTools_DataMixin:Init_SavedVariables()
 
     WoWTools_DataMixin.Icon.Player= WoWTools_UnitMixin:GetRaceIcon('player')
 
     WoWTools_DataMixin.Player.GUID= UnitGUID('player')
 
-    local day= date('%x')--日期
+    WoWTools_DataMixin.Player.Week= WoWTools_DataMixin:GetWeek() or WoWTools_DataMixin.Player.Week
+
+    local day= date('%x')
     local guid= WoWTools_DataMixin.Player.GUID
-    if guid and not WoWTools_WoWDate[guid] then
-        WoWTools_WoWDate[guid]= {--默认数据
-            Item={},--{itemID={bag=包, bank=银行}},
-            Currency={},--{[currencyID]=数量}
+    if guid and not WoWToolsPlus_WoWDate[guid] then
+        WoWToolsPlus_WoWDate[guid]= {
+            Item={},
+            Currency={},
 
-            Keystone={week=WoWTools_DataMixin.Player.Week},--{score=总分数, link=超连接, weekLevel=本周最高, weekNum=本周次数, all=总次数,week=周数},
+            Keystone={week=WoWTools_DataMixin.Player.Week},
 
-            Instance={ins={}, week=WoWTools_DataMixin.Player.Week, day=day},--ins={[名字]={[难度]=已击杀数}}
-            Worldboss={boss={}, week=WoWTools_DataMixin.Player.Week, day=day},--{week=周数, boss={[name]=worldBossID}}}
-            Rare={day=day, boss={}},--稀有 [name]=guid
-            Time={},--{totalTime=总游戏时间, levelTime=当前等级时间, upData=更新时间}总游戏时间
+            Instance={ins={}, week=WoWTools_DataMixin.Player.Week, day=day},
+            Worldboss={boss={}, week=WoWTools_DataMixin.Player.Week, day=day},
+            Rare={day=day, boss={}},
+            Time={},
             Guild={
-                --text= text, GuildInfo() 公会信息,
-                --guid= guid, 公会 clubFinderGUID 
                 data={},-- {guildName, guildRankName, guildRankIndex, realm} = GetGuildInfo('player')
             },
-            --Money=钱
-            Bank={},--{[itemID]={num=数量,quality=品质}}银行，数据
+            Bank={},
             region= WoWTools_DataMixin.Player.Region
-            --specID 专精
-            --itemLevel 装等
             --faction
             --level
             --battleTag
         }
     end
 
-    WoWTools_WoWDate[guid].Bank= WoWTools_WoWDate[guid].Bank or {}--银行
+    WoWToolsPlus_WoWDate[guid].Bank= WoWToolsPlus_WoWDate[guid].Bank or {}
 
-    WoWTools_WoWDate[guid].Guild= WoWTools_WoWDate[guid].Guild or {data={}}--公会信息
+    WoWToolsPlus_WoWDate[guid].Guild= WoWToolsPlus_WoWDate[guid].Guild or {data={}}
 
-    WoWTools_WoWDate[guid].region= WoWTools_DataMixin.Player.Region
-    WoWTools_WoWDate[guid].faction= WoWTools_DataMixin.Player.Faction--派系
-    WoWTools_WoWDate[guid].level= WoWTools_DataMixin.Player.Level
+    WoWToolsPlus_WoWDate[guid].region= WoWTools_DataMixin.Player.Region
+    WoWToolsPlus_WoWDate[guid].faction= WoWTools_DataMixin.Player.Faction
+    WoWToolsPlus_WoWDate[guid].level= WoWTools_DataMixin.Player.Level
 
-    if not WoWTools_DataMixin.Player.BattleTag and WoWTools_WoWDate[guid].battleTag then
-        WoWTools_DataMixin.Player.BattleTag= WoWTools_WoWDate[guid].battleTag
+    if not WoWTools_DataMixin.Player.BattleTag and WoWToolsPlus_WoWDate[guid].battleTag then
+        WoWTools_DataMixin.Player.BattleTag= WoWToolsPlus_WoWDate[guid].battleTag
     else
-        WoWTools_WoWDate[guid].battleTag= WoWTools_DataMixin.Player.BattleTag-- or WoWTools_WoWDate[guid].battleTag
+        WoWToolsPlus_WoWDate[guid].battleTag= WoWTools_DataMixin.Player.BattleTag-- or WoWToolsPlus_WoWDate[guid].battleTag
     end
 
     local isTimerunning= PlayerIsTimerunning()
-    for guid2, tab in pairs(WoWTools_WoWDate) do--清除不是本周数据
+    for guid2, tab in pairs(WoWToolsPlus_WoWDate) do
 
-        GetPlayerInfoByGUID(guid2)--加载数据
+        GetPlayerInfoByGUID(guid2)
 
         if tab.Keystone.week ~=WoWTools_DataMixin.Player.Week then
-            WoWTools_WoWDate[guid2].Keystone={week=WoWTools_DataMixin.Player.Week}
+            WoWToolsPlus_WoWDate[guid2].Keystone={week=WoWTools_DataMixin.Player.Week}
         end
         if tab.Instance.week~=WoWTools_DataMixin.Player.Week or (isTimerunning and tab.Keystone.day and tab.Keystone.day~=day) then
-            WoWTools_WoWDate[guid2].Instance={ins={}, day=day}
+            WoWToolsPlus_WoWDate[guid2].Instance={ins={}, day=day}
         end
         if (tab.Worldboss.week~=WoWTools_DataMixin.Player.Week) or (isTimerunning and tab.Keystone.day and tab.Keystone.day~=day) then
-            WoWTools_WoWDate[guid2].Worldboss={boss={}, day=day}
+            WoWToolsPlus_WoWDate[guid2].Worldboss={boss={}, day=day}
         end
 
         if tab.Rare.day~=day then
-            WoWTools_WoWDate[guid2].Rare={day=day,boss={}}
+            WoWToolsPlus_WoWDate[guid2].Rare={day=day,boss={}}
         end
     end
 
@@ -509,18 +296,6 @@ EventRegistry:RegisterFrameEventAndCallback("ADDON_LOADED", function(owner, arg1
 end)
 
 
-
-
-
-
-
-
-
-
-
-
-
---保存公会数据，到WOW
 local function Save_WoWGuild()
     if IsInGuild() then
         local clubID= C_Club.GetGuildClubId()
@@ -533,22 +308,22 @@ local function Save_WoWGuild()
         local guildName, guildRankName, guildRankIndex, realm= GetGuildInfo('player')
 
         realm= (realm=='' or not realm) and WoWTools_DataMixin.Player.Realm or realm
-        local old= WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].Guild
+        local old= WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Guild
         if guildName and guildName~=old.data[1] then
             old={}
         end
 
-        WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].Guild= {
+        WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Guild= {
             guid= club.clubFinderGUID or old.guid,
             link= WoWTools_GuildMixin:GetClubLink(clubID, club.clubFinderGUID) or old.link,
             --clubID= clubID or old.clubID,
             data={guildName, guildRankName, guildRankIndex, realm},
-            text= old.text,--公会创立于 ， 名成员， 个帐号
+            text= old.text,
             --tabardData=C_GuildInfo.GetGuildTabardInfo('player'),-- or old.tabardData,
             --emblemFilename = select(10, GetGuildLogoInfo()) or old.emblemFilename
         }
     else
-        WoWTools_WoWDate[WoWTools_DataMixin.Player.GUID].Guild= {data={}}
+        WoWToolsPlus_WoWDate[WoWTools_DataMixin.Player.GUID].Guild= {data={}}
     end
 end
 
@@ -564,17 +339,13 @@ EventRegistry:RegisterFrameEventAndCallback('LOADING_SCREEN_DISABLED', function(
 end)
 
 
-
-
-
-
 EventRegistry:RegisterFrameEventAndCallback('PLAYER_ENTERING_WORLD', function(owner)
     if not WoWTools_DataMixin.Icon.Player then
         WoWTools_DataMixin.Icon.Player= WoWTools_UnitMixin:GetRaceIcon('player')
     end
 
     if  WoWTools_DataMixin.Player.IsMaxLevel then
-        Get_Info_Challenge()--挑战
+        Get_Info_Challenge()
     end
 
     --C_MajorFactions.RequestCatchUpState()
@@ -590,9 +361,8 @@ EventRegistry:RegisterFrameEventAndCallback('PLAYER_ENTERING_WORLD', function(ow
     --C_Calendar.OpenCalendar()
 
 
-    --Update_Currency()--{currencyID = 数量}
     --Update_Bag_Items()
-    Set_Money()--钱
+    Set_Money()
     Update_Challenge_Mode()
 
 

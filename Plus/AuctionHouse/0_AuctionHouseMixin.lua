@@ -1,6 +1,5 @@
 
 WoWTools_AuctionHouseMixin= {}
---物品Link
 --itemKeyInfo = C_AuctionHouse.GetItemKeyInfo(itemKey [, restrictQualityToFilter])
 function WoWTools_AuctionHouseMixin:GetItemLink(rowData)
     local itemKey= rowData and rowData.itemKey
@@ -35,15 +34,13 @@ function WoWTools_AuctionHouseMixin:GetItemLink(rowData)
     return itemLink, itemID, battlePetSpeciesID
 end
 
---显示模式
 function WoWTools_AuctionHouseMixin:GetDisplayMode()
     local displayMode= AuctionHouseFrame:GetDisplayMode()
     return
-        displayMode==AuctionHouseFrameDisplayMode.CommoditiesSell,--商品
-        displayMode==AuctionHouseFrameDisplayMode.ItemSell--物品
+        displayMode==AuctionHouseFrameDisplayMode.CommoditiesSell,
+        displayMode==AuctionHouseFrameDisplayMode.ItemSell
 end
 
---物品列表，检测有效物品
 function WoWTools_AuctionHouseMixin:GetItemSellStatus(bag, slot, isCheckHideItem)
     local itemLocation = ItemLocation:CreateFromBagAndSlot(bag, slot);
     if itemLocation and itemLocation:IsValid() and C_AuctionHouse.IsSellItemValid(itemLocation, false) then--ContainerFrame.lua
@@ -53,11 +50,11 @@ function WoWTools_AuctionHouseMixin:GetItemSellStatus(bag, slot, isCheckHideItem
             if
                 info.itemID
                 and info.hyperlink
-                and info.quality>= WoWToolsSave['Plus_AuctionHouse'].sellItemQualiy
+                and info.quality>= WoWTools_AuctionHouseMixin:Save().sellItemQualiy
                 and (isCheckHideItem
                     and (
-                        (info.itemID==82800 and not WoWToolsSave['Plus_AuctionHouse'].hideSellPet[info.hyperlink:match('Hbattlepet:(%d+)')])
-                        or (info.itemID~=82800 and not WoWToolsSave['Plus_AuctionHouse'].hideSellItem[info.itemID])
+                        (info.itemID==82800 and not WoWTools_AuctionHouseMixin:Save().hideSellPet[info.hyperlink:match('Hbattlepet:(%d+)')])
+                        or (info.itemID~=82800 and not WoWTools_AuctionHouseMixin:Save().hideSellItem[info.itemID])
                     )
                     or not isCheckHideItem
                 )
@@ -68,7 +65,6 @@ function WoWTools_AuctionHouseMixin:GetItemSellStatus(bag, slot, isCheckHideItem
     end
 end
 
---放入，第一个，物品
 function WoWTools_AuctionHouseMixin:SetPostNextSellItem(onlyFind)
     if onlyFind then
         for bag= Enum.BagIndex.Backpack, NUM_BAG_FRAMES + NUM_REAGENTBAG_FRAMES do--Constants.InventoryConstants.NumBagSlots

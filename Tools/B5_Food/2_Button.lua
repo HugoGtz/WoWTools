@@ -1,15 +1,4 @@
 
-local function Save()
-    return WoWToolsSave['Tools_Foods']
-end
-
-
-
-
-
-
-
-
 local function Set_AltSpell()
     local btn= WoWTools_ToolsMixin:Get_ButtonForName('Food')
     if not btn or not btn:CanChangeAttribute() then
@@ -17,7 +6,7 @@ local function Set_AltSpell()
     end
 
     local item, alt, ctrl, shift
-    local tab= Save().spells[WoWTools_DataMixin.Player.Class]
+    local tab= WoWTools_FoodMixin:Save().spells[WoWTools_DataMixin.Player.Class]
 
     if tab then
         item, alt, ctrl, shift= tab.item, tab.alt, tab.ctrl, tab.shift
@@ -28,7 +17,7 @@ local function Set_AltSpell()
     WoWTools_DataMixin:Load(ctrl, 'spell')
     WoWTools_DataMixin:Load(shift, 'spell')
 
-    btn.itemID= item or 5512--治疗石
+    btn.itemID= item or 5512
 
     btn:SetAttribute('alt-spell1', alt and C_Spell.GetSpellName(alt) or alt or nil)
     btn.alt= alt
@@ -57,15 +46,15 @@ local function Add_Item(info)
         OnShow=function(self, data)
             local b1= self.button1 or self:GetButton1()
             local b3= self:GetButton3()
-            b1:SetEnabled(not Save().addItems[data.itemID])
-            b3:SetEnabled(Save().addItems[data.itemID])
+            b1:SetEnabled(not WoWTools_FoodMixin:Save().addItems[data.itemID])
+            b3:SetEnabled(WoWTools_FoodMixin:Save().addItems[data.itemID])
         end,
         SetValue = function(_, data)
-            Save().addItems[data.itemID]= true
+            WoWTools_FoodMixin:Save().addItems[data.itemID]= true
             WoWTools_FoodMixin:Check_Items()
         end,
         OnAlt = function(_, data)
-            Save().addItems[data.itemID]= nil
+            WoWTools_FoodMixin:Save().addItems[data.itemID]= nil
             WoWTools_FoodMixin:Check_Items()
         end
     })
@@ -91,12 +80,12 @@ local function Init()
     btn.CheckFrame= CreateFrame('Frame')
     function btn.CheckFrame:set_event()
         self:UnregisterAllEvents()
-        if Save().autoWho then
+        if WoWTools_FoodMixin:Save().autoWho then
             self:RegisterEvent('BAG_UPDATE_DELAYED')
         end
     end
     btn.CheckFrame:SetScript('OnEvent', function(self, event)
-        WoWTools_FoodMixin:Check_Items()--检查,物品
+        WoWTools_FoodMixin:Check_Items()
         if event=='PLAYER_REGEN_DISABLED' then
             self:StopMovingOrSizing()
             self:UnregisterEvent(event)
@@ -107,21 +96,20 @@ local function Init()
     btn.RePoint={btn:GetPoint(1)}
     btn.texture:SetTexture(538745)
 
---显示背景 Background
     WoWTools_TextureMixin:CreateBG(btn, {
         isColor=true,
-        alpha= Save().bgAlpha or 0.5,
+        alpha= WoWTools_FoodMixin:Save().bgAlpha or 0.5,
         point=function(bg)
            bg:SetPoint('BOTTOMRIGHT', 1, -1)
         end,
     })
     function btn:set_background()
-        self.Background:SetColorTexture(0, 0, 0, Save().bgAlpha or 0.5)
+        self.Background:SetColorTexture(0, 0, 0, WoWTools_FoodMixin:Save().bgAlpha or 0.5)
     end
 
     function btn:set_strata()
         if self:CanChangeAttribute() then
-            self:SetFrameStrata(Save().strata or 'MEDIUM')
+            self:SetFrameStrata(WoWTools_FoodMixin:Save().strata or 'MEDIUM')
         end
     end
 
@@ -131,14 +119,10 @@ local function Init()
         end
         self:ClearAllPoints()
 
-        local p= Save().point
+        local p= WoWTools_FoodMixin:Save().point
         if p and p[1] then
             self:SetParent(UIParent)
             self:SetPoint(p[1], UIParent, p[3], p[4], p[5])
-
-        elseif WoWTools_DataMixin.Player.husandro then
-            self:SetParent(UIParent)
-            self:SetPoint('BOTTOMRIGHT',  MultiBarBottomLeftButton12, 'TOPRIGHT', 0, 80)
 
         else
             self:SetParent()
@@ -148,7 +132,7 @@ local function Init()
 
     function btn:set_scale()
         if self:CanChangeAttribute() then
-            self:SetScale(Save().scale or 1)
+            self:SetScale(WoWTools_FoodMixin:Save().scale or 1)
         end
     end
 
@@ -176,8 +160,8 @@ local function Init()
             self:StopMovingOrSizing()
         end
         if WoWTools_FrameMixin:IsInSchermo(self) then
-            Save().point={self:GetPoint(1)}
-            Save().point[2]=nil
+            WoWTools_FoodMixin:Save().point={self:GetPoint(1)}
+            WoWTools_FoodMixin:Save().point[2]=nil
         end
         if self:CanChangeAttribute() then
             self:SetParent(UIParent)
@@ -193,10 +177,10 @@ local function Init()
         end
 
         if d=='RightButton' then
-            if not IsModifierKeyDown() then--菜单
+            if not IsModifierKeyDown() then
                 WoWTools_FoodMixin:Init_Menu(self)
                 self:set_tooltip()
-            elseif IsAltKeyDown() and not WoWTools_FrameMixin:IsLocked(self) then--移动
+            elseif IsAltKeyDown() and not WoWTools_FrameMixin:IsLocked(self) then
                 SetCursor('UI_MOVE_CURSOR')
             end
         end
@@ -207,7 +191,7 @@ local function Init()
     btn:SetScript('OnMouseWheel',function(self, d)
         if not IsModifierKeyDown() then
             if not self:CanChangeAttribute() then
-                print(WoWTools_FoodMixin.addName..WoWTools_DataMixin.Icon.icon2, '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT))
+                WoWTools_Print(WoWTools_FoodMixin.addName..WoWTools_DataMixin.Icon.icon2, '|cnWARNING_FONT_COLOR:'..(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT))
             else
                 WoWTools_FoodMixin:Check_Items(true)
             end
@@ -223,13 +207,13 @@ local function Init()
         GameTooltip:ClearLines()
         local itemID, itemLink = self:get_tooltip_item()
         if itemID and itemLink then
-            GameTooltip:AddDoubleLine(WoWTools_ItemMixin:GetName(itemID), WoWTools_DataMixin.onlyChinese and '添加自定义' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, ADD, CUSTOM))
+            GameTooltip:AddDoubleLine(WoWTools_ItemMixin:GetName(itemID), WoWTools_L['ADD+CUSTOM'])
         else
             GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_FoodMixin.addName)
             GameTooltip:AddLine(' ')
-            GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
-            GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '移动' or NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)
-            GameTooltip:AddDoubleLine((self:CanChangeAttribute() and '' or '|cff626262')..(WoWTools_DataMixin.onlyChinese and '查询' or WHO), WoWTools_DataMixin.Icon.mid)
+            GameTooltip:AddDoubleLine(WoWTools_L.SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
+            GameTooltip:AddDoubleLine(WoWTools_L.NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)
+            GameTooltip:AddDoubleLine((self:CanChangeAttribute() and '' or '|cff626262')..(WoWTools_L.WHO), WoWTools_DataMixin.Icon.mid)
 
             GameTooltip:AddLine(' ')
             if self.alt then
@@ -245,11 +229,9 @@ local function Init()
                 GameTooltip:AddLine(' ')
             end
             GameTooltip:AddDoubleLine(
-                (Save().onlyMaxExpansion and '|cnGREEN_FONT_COLOR:' or '|cff626262')
-                ..(WoWTools_DataMixin.onlyChinese and '仅当前版本物品'
-                    or format(LFG_LIST_CROSS_FACTION, format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, REFORGE_CURRENT, GAME_VERSION_LABEL))
-                ),
-                WoWTools_TextMixin:GetEnabeleDisable(Save().onlyMaxExpansion)
+                (WoWTools_FoodMixin:Save().onlyMaxExpansion and '|cnGREEN_FONT_COLOR:' or '|cff626262')
+                ..(WoWTools_L['Only current version items']),
+                WoWTools_TextMixin:GetEnabeleDisable(WoWTools_FoodMixin:Save().onlyMaxExpansion)
             )
         end
         GameTooltip:Show()
@@ -257,7 +239,7 @@ local function Init()
 
     btn:SetScript('OnLeave', function(self)
         GameTooltip_Hide()
-        WoWTools_BagMixin:Find()--查询，背包里物品
+        WoWTools_BagMixin:Find()
         self:set_alpha()
         self:set_count()
         self:set_cool()
@@ -284,7 +266,7 @@ local function Init()
         if self:CanChangeAttribute() then
             self:set_attribute()
         end
-        WoWTools_BagMixin:Find(true, {itemID= self.itemID})--查询，背包里物品
+        WoWTools_BagMixin:Find(true, {itemID= self.itemID})
     end)
 
 
@@ -294,7 +276,7 @@ local function Init()
     btn:SetAttribute('shift-type1', 'spell')
 
 
-    if Save().point or WoWTools_DataMixin.Player.husandro then
+    if WoWTools_FoodMixin:Save().point then
         btn:set_point()
     end
     btn:set_strata()

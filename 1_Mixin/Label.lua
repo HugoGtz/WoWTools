@@ -2,35 +2,12 @@ WoWTools_LabelMixin={}
 local IndexLabel=0
 
 
-
---[[
-SharedFonts.xml
-<SimpleHTML parentKey="Text" setAllPoints="true" inherits="InlineHyperlinkFrameTemplate">
-    <FontString inherits="GameFontBlack" justifyH="LEFT" justifyV="TOP">
-        <Color r="0.25" g="0.1484375" b=".02" a="1"/>
-    </FontString>
-    <Scripts>
-        <OnHyperlinkEnter function="EncounterJournal_OnHyperlinkEnter"/>
-    </Scripts>
-</SimpleHTML>
-
-AutoScalingFontStringMixin
-
-
-CreateFontString(nil, 'ARTWORK', 'GameFontDisableSmall')
-
-]]
-
-
-
-
-
 function WoWTools_LabelMixin:Create(frame, tab)
     IndexLabel= IndexLabel+1
 
     tab= tab or {}
     frame= frame or UIParent
-    local name= tab.name --or ((frame:GetName() or 'WoWTools')..'Label'..IndexLabel)
+    local name= tab.name --or ((frame:GetName() or 'WoWToolsPlus')..'Label'..IndexLabel)
     local alpha= tab.alpha or 1
     local font= tab.changeFont
     local layer= tab.layer or 'OVERLAY'--BACKGROUND BORDER ARTWORK OVERLAY HIGHLIGHT
@@ -45,12 +22,14 @@ function WoWTools_LabelMixin:Create(frame, tab)
     local wheel= tab.wheel
     local text= tab.text
 
-    font = font or frame:CreateFontString(name, layer, fontName)
+    --Estilo común (docs/STYLE.md): sobre iconos y botones se mantiene el contorno para que los números
+    --se lean encima de cualquier textura; en paneles y ventanas, fuente de Blizzard con sombra de 1 px.
+    local owner= font and font:GetParent() or frame
+    local onIcon= tab.outline or (owner.IsObjectType and owner:IsObjectType('Button'))
+
+    font = font or frame:CreateFontString(name, layer, (onIcon or tab.fontName) and fontName or 'GameFontHighlight')
     if copyFont and copyFont.GetFont then
         local fontName2, size2, fontFlag2 = copyFont:GetFont()
-        if WoWTools_DataMixin.onlyChinese and not LOCALE_zhCN then
-            fontName2= 'Fonts\\ARHei.ttf'--'Interface\\AddOns\\WoWTools\\Source\\ARHei.TTF'--黑体字
-        end
         font:SetFont(fontName2, size or size2, fontFlag2)
         font:SetTextColor(copyFont:GetTextColor())
         font:SetFontObject(copyFont:GetFontObject())
@@ -60,21 +39,20 @@ function WoWTools_LabelMixin:Create(frame, tab)
             font:SetJustifyH(justifyH)
         end
     else
-        if WoWTools_DataMixin.onlyChinese or size then--THICKOUTLINE
-            local fontName2, size2, fontFlag2= font:GetFont()
-            if WoWTools_DataMixin.onlyChinese and not LOCALE_zhCN then
-                fontName2= 'Fonts\\ARHei.ttf'--'Interface\\AddOns\\WoWTools\\Source\\ARHei.TTF'--黑体字
+        local fontName2, size2, fontFlag2= font:GetFont()
+        if onIcon then
+            font:SetFont(fontName2, size, notFlag and fontFlag2 or 'OUTLINE')
+        else
+            if tab.size then
+                font:SetFont(fontName2, size, notFlag and fontFlag2 or '')
             end
-            font:SetFont(fontName2, size or size2, notFlag and fontFlag2 or 'OUTLINE')
+            font:SetShadowOffset(1, -1)
+            font:SetShadowColor(0, 0, 0, 1)
         end
-
         font:SetJustifyH(justifyH or 'LEFT')
     end
-    --if not notShadow then
-        --font:SetShadowOffset(1, -1)
-    --end
     if color~=false then
-        if color==true then--颜色
+        if color==true then
             WoWTools_ColorMixin:SetLabelColor(font)
 
         elseif type(color)=='table' then
@@ -92,23 +70,8 @@ function WoWTools_LabelMixin:Create(frame, tab)
     if text then
         font:SetText(text)
     end
-    --[[if alpha then
-        font:SetAlpha(alpha)
-    end]]
     return font
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function Create_Tooltip_Label(frame, index, point, line, size)
@@ -142,15 +105,7 @@ local function Create_Tooltip_Label(frame, index, point, line, size)
 end
 
 
-
-
-
-
-
-
-
-
-function WoWTools_LabelMixin:ItemCurrencyTips(settings)--物品升级界面，挑战界面，物品，货币提示
+function WoWTools_LabelMixin:ItemCurrencyTips(settings)
     settings= settings or {}
     local frame= settings.frame
     local isClear= settings.frame and settings.isClear
@@ -189,7 +144,7 @@ function WoWTools_LabelMixin:ItemCurrencyTips(settings)--物品升级界面，�
             local num= C_Item.GetItemCount(tab.id, true, false, true)
             local itemQuality= C_Item.GetItemQualityByID(tab.id)
 
-            if (showAll or tab.show or num>0) and itemQuality>=1 then
+            if (showAll or tab.show or num>0) and itemQuality and itemQuality>=1 then
                 local icon= select(5, C_Item.GetItemInfoInstant(tab.id))
                 local name=showName and C_Item.GetItemNameByID(tab.id)
                 text= ((icon and icon>0) and '|T'..icon..':0|t' or '')
@@ -233,8 +188,5 @@ function WoWTools_LabelMixin:ItemCurrencyTips(settings)--物品升级界面，�
         return last
     end
 end
-
-
-
 
 

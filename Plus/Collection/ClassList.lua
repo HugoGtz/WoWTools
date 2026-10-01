@@ -1,9 +1,4 @@
 
-local function Save()
-    return WoWToolsSave['Plus_Collection'] or {}
-end
-
-
 local ListButton
 local ClassButton={}
 local SpecButton={}
@@ -26,7 +21,7 @@ local function On_Show(frame)
         return
     end
 
-    if not ListButton:GetParent()~=frame then
+    if ListButton:GetParent()~=frame then
         ListButton:SetParent(frame)
     end
 
@@ -139,7 +134,7 @@ end
 
 
 local function Init()
-    if Save().hideHeirloomClassList then
+    if WoWTools_CollectionMixin:Save().hideHeirloomClassList then
         return
     end
 
@@ -151,18 +146,17 @@ local function Init()
     end)
 
 
-    ListButton.tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '请不要在战斗中使用' or 'Please do not use in combat')
+    ListButton.tooltip= '|cnWARNING_FONT_COLOR:'..(WoWTools_L['Please do not use in combat'])
     ListButton.classID= 0
     ListButton.specID= 0
 
 
-    --过滤，按钮
     ListButton.frame= CreateFrame('Frame', nil, ListButton)
-    ListButton.frame:SetPoint('TOPLEFT', ListButton, 'BOTTOMLEFT',0 -80)
+    ListButton.frame:SetPoint('TOPLEFT', ListButton, 'BOTTOMLEFT', 0, 0)--antes '0 -80' (faltaba la coma): x=-80 lo metía dentro del diario
     ListButton.frame:SetSize(26, 1)
 
 
-    for i = 1, GetNumClasses() do--设置，职业
+    for i = 1, GetNumClasses() do
 		local data = C_CreatureInfo.GetClassInfo(i)
         if data and data.classFile and data.classID then
             local atlas
@@ -188,7 +182,7 @@ local function Init()
     end
 
     function ListButton:set_scale()
-        self.frame:SetScale(Save().Heirlooms_Class_Scale or 1)
+        self.frame:SetScale(WoWTools_CollectionMixin:Save().Heirlooms_Class_Scale or 1)
     end
 
 
@@ -205,13 +199,13 @@ local function Init()
 
     Init=function()
         ListButton:set_scale()
-        ListButton:SetShown(not Save().hideHeirloomClassList)
+        ListButton:SetShown(not WoWTools_CollectionMixin:Save().hideHeirloomClassList)
     end
 end
 
 
 
 
-function WoWTools_CollectionMixin:Init_ClassList()--职业列表
+function WoWTools_CollectionMixin:Init_ClassList()
     Init()
 end

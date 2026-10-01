@@ -1,20 +1,16 @@
 
 local function Save()
-    return WoWToolsSave['Plus_Tootips']
+    return WoWTools_TooltipMixin:Save()
 end
-
-
-
 
 
 local wowheadText= 'https://www.wowhead.com/%s=%d'
 local raiderioText= 'https://raider.io/characters/%s/%s/%s'
 
-local wowheadIcon= '|TInterface\\AddOns\\WoWTools\\Source\\Texture\\Wowhead.tga:0|t'
+local wowheadIcon= '|TInterface\\AddOns\\WoWToolsPlus\\Source\\Texture\\Wowhead.tga:0|t'
 
 
 --################
---取得网页，数据链接
 --################
 local function Init_WoWHeadText()
     local WoWHead= 'https://www.wowhead.com/'
@@ -72,24 +68,9 @@ local function Init_WoWHeadText()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Create_Button(tooltip)
 
-    tooltip.WoWHeadButton=WoWTools_ButtonMixin:Cbtn(tooltip, {--取得网页，数据链接
+    tooltip.WoWHeadButton=WoWTools_ButtonMixin:Cbtn(tooltip, {
         size=24,
         isUI=true,
         name=tooltip:GetName()..'_WoWToolsURLButton',
@@ -119,7 +100,7 @@ local function Create_Button(tooltip)
     end
 
 
-    tooltip.AchievementButton=WoWTools_ButtonMixin:Cbtn(tooltip, {--取得网页，数据链接
+    tooltip.AchievementButton=WoWTools_ButtonMixin:Cbtn(tooltip, {
         size=24,
         isUI=true,
         name=tooltip:GetName()..'_WoWToolsAchievementButton',
@@ -137,7 +118,7 @@ local function Create_Button(tooltip)
         GameTooltip:ClearLines()
         GameTooltip:AddDoubleLine(
             WoWTools_TooltipMixin.addName,
-            WoWTools_DataMixin.onlyChinese and '打开成就' or OBJECTIVES_VIEW_ACHIEVEMENT
+            WoWTools_L.OBJECTIVES_VIEW_ACHIEVEMENT
         )
         GameTooltip:Show()
     end)
@@ -149,12 +130,6 @@ local function Create_Button(tooltip)
 
     WoWTools_TextureMixin:SetButton(tooltip.WoWHeadButton)
 end
-
-
-
-
-
-
 
 
 local function ItemRefTooltip_URL_Button(tooltip, tab)
@@ -220,18 +195,6 @@ local function GameTooltip_URL(tooltip, tab)
 end
 
 
-
-
-
-
-
-
-
-
---[[
-WoWTools_TooltipMixin:Set_Web_Link(tooltip, {type='quest', id=questID, name=name})--取得网页，数据链接 
-WoWTools_TooltipMixin:Set_Web_Link(tooltip, {type='npc', id=npc, name=name})--取得网页，数据链接 
-]]
 function WoWTools_TooltipMixin:Set_Web_Link(tooltip, tab)
     if tooltip==ItemRefTooltip or tooltip==FloatingBattlePetTooltip then
         if tab.type and tab.id then
@@ -248,32 +211,9 @@ function WoWTools_TooltipMixin:Set_Web_Link(tooltip, tab)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function WoWTools_TooltipMixin:Init_WoWHeadText()
     Init_WoWHeadText()
 end
-
-
-
 
 
 function WoWTools_TooltipMixin:Show_URL(isWoWHead, typeOrRegion, typeIDOrRealm, name)

@@ -1,23 +1,5 @@
 
-local function Save()
-    return WoWToolsSave['Plus_AddOns'] or {}
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---依赖，移过，提示
-local function Find_AddOn_Dependencies(find, check)--依赖，提示
+local function Find_AddOn_Dependencies(find, check)
     local addonIndex= check:GetID()
     local tab={}
     for _, depName in pairs({C_AddOns.GetAddOnDependencies(addonIndex)}) do
@@ -65,16 +47,16 @@ local function Create_Check(frame)
     WoWTools_TextureMixin:SetCheckBox(frame.check)
 
 
-    frame.check:SetSize(20,20)--Fast，选项
+    frame.check:SetSize(20,20)
     frame.check:SetPoint('RIGHT', frame.Status, 'LEFT')
 
     frame.check:SetScript('OnClick', function(self)
-        Save().fast[self.name]= not Save().fast[self.name] and self:GetID() or nil
+        WoWTools_AddOnsMixin:Save().fast[self.name]= not WoWTools_AddOnsMixin:Save().fast[self.name] and self:GetID() or nil
         WoWTools_AddOnsMixin:Init_Left_Buttons()
     end)
 
 
-    frame.check.dep= frame:CreateLine()--依赖，提示
+    frame.check.dep= frame:CreateLine()
     frame.check.dep:Hide()
     frame.check.dep:SetColorTexture(1, 0.82, 0)
     frame.check.dep:SetStartPoint('BOTTOMLEFT', 55,2)
@@ -82,13 +64,13 @@ local function Create_Check(frame)
     frame.check.dep:SetThickness(0.5)
     frame.check.dep:SetAlpha(0.2)
 
-    frame.check.select= frame:CreateTexture(nil, 'OVERLAY')--光标，移过提示
+    frame.check.select= frame:CreateTexture(nil, 'OVERLAY')
     frame.check.select:SetAtlas('CreditsScreen-Selected')
     frame.check.select:SetAllPoints()
     frame.check.select:SetAlpha(0.3)
     frame.check.select:Hide()
 
-    frame.check.Text:SetParent(frame)--索引
+    frame.check.Text:SetParent(frame)
     frame.check.Text:ClearAllPoints()
     frame.check.Text:SetPoint('RIGHT', frame.check, 'LEFT')
 
@@ -124,17 +106,17 @@ local function Create_Check(frame)
 
     function frame.check:set_leave_alpha()
         local addonIndex= self:GetID()
-        self:SetAlpha(Save().fast[self.name] and 1 or 0)
+        self:SetAlpha(WoWTools_AddOnsMixin:Save().fast[self.name] and 1 or 0)
         self.Text:SetAlpha(C_AddOns.GetAddOnDependencies(addonIndex) and 0.3 or 1)
         local check= self:GetParent().Enabled
         check:SetAlpha(check:GetChecked() and 1 or 0)
-        Find_AddOn_Dependencies(false, self)--依赖，移过，提示
+        Find_AddOn_Dependencies(false, self)
     end
     function frame.check:set_enter_alpha()
         self:SetAlpha(1)
         self.Text:SetAlpha(1)
         self:GetParent().Enabled:SetAlpha(1)
-        Find_AddOn_Dependencies(true, self)--依赖，移过，提示
+        Find_AddOn_Dependencies(true, self)
     end
 
 
@@ -150,7 +132,7 @@ local function Create_Check(frame)
         local icon= select(3, WoWTools_TextureMixin:IsAtlas( C_AddOns.GetAddOnMetadata(addonIndex, "IconTexture") or C_AddOns.GetAddOnMetadata(addonIndex, "IconAtlas"))) or ''--Atlas or Texture
         GameTooltip:AddDoubleLine(
             format('%s%s |cnGREEN_FONT_COLOR:%d|r', icon, self.name or '', addonIndex),
-            format('%s%s', WoWTools_DataMixin.onlyChinese and '快捷键' or SETTINGS_KEYBINDINGS_LABEL, WoWTools_DataMixin.Icon.left)
+            format('%s%s', WoWTools_L.SETTINGS_KEYBINDINGS_LABEL, WoWTools_DataMixin.Icon.left)
         )
         GameTooltip:Show()
         self:set_enter_alpha()
@@ -184,7 +166,6 @@ end
 
 
 
---列表，内容
 local function Init_Set_List(self, addonIndex)
     if not addonIndex then
         if self.check then
@@ -199,15 +180,15 @@ local function Init_Set_List(self, addonIndex)
 
     local name = C_AddOns.GetAddOnName(addonIndex)
 	local title = C_AddOns.GetAddOnTitle(addonIndex)
-    local isChecked= Save().fast[name] and true or false
+    local isChecked= WoWTools_AddOnsMixin:Save().fast[name] and true or false
     if isChecked then
-        Save().fast[name]= addonIndex
+        WoWTools_AddOnsMixin:Save().fast[name]= addonIndex
     end
 
     local iconTexture = C_AddOns.GetAddOnMetadata(addonIndex, "IconTexture")
     local iconAtlas = C_AddOns.GetAddOnMetadata(addonIndex, "IconAtlas")
 
-    if not iconTexture and not iconAtlas then--去掉，没有图标，提示
+    if not iconTexture and not iconAtlas then
        self.Title:SetText(title or name)
     end
 
@@ -218,13 +199,13 @@ local function Init_Set_List(self, addonIndex)
     self.check:SetChecked(isChecked)--fast
     self.check:SetAlpha(isChecked and 1 or 0.1)
 
-    self.check.Text:SetText(addonIndex or '')--索引
+    self.check.Text:SetText(addonIndex or '')
     self.check.memoFrame:SetID(addonIndex)
     self.check.memoFrame.name=name
     self.check.memoFrame:SetShown(C_AddOns.IsAddOnLoaded(addonIndex))
 
 
-    if self.check.isDependencies then--依赖
+    if self.check.isDependencies then
         self.check.select:SetVertexColor(0,1,0)
         self.check.Text:SetTextColor(0.5,0.5,0.5)
         self.check.Text:SetAlpha(0.3)
@@ -258,13 +239,13 @@ end
 
 
 local function Init()
-    if Save().disabledInfoPlus then
+    if WoWTools_AddOnsMixin:Save().disabledInfoPlus then
         return
     end
 
     WoWTools_DataMixin:Hook('AddonList_InitAddon', function(entry, treeNode)
         local addonIndex = treeNode:GetData().addonIndex
-        Init_Set_List(entry, addonIndex)--列表，内容
+        Init_Set_List(entry, addonIndex)
     end)
 
     WoWTools_DataMixin:Hook('AddonTooltip_Update', function(self)
@@ -283,7 +264,6 @@ local function Init()
 
 
 
---不禁用，本插件
     local btn= CreateFrame('Button', 'WoWToolsAddonsNotDisableButton', AddonList, 'WoWToolsButtonTemplate', 0)
     btn:SetSize(18, 18)
     btn:SetPoint('LEFT', AddonList.DisableAllButton, 'RIGHT', 2,0)
@@ -291,24 +271,24 @@ local function Init()
     function btn:set_tooltips()
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
         GameTooltip:ClearLines()
-        GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '全部禁用' or DISABLE_ALL_ADDONS)
+        GameTooltip:AddLine(WoWTools_L.DISABLE_ALL_ADDONS)
 
         local index= self:GetID()
-        local enabled= Save().enableAllButtn
+        local enabled= WoWTools_AddOnsMixin:Save().enableAllButtn
 
         GameTooltip:AddDoubleLine(
-            (WoWTools_DataMixin.onlyChinese and '启用' or ENABLE)
+            (WoWTools_L.ENABLE)
             ..WoWTools_DataMixin.Icon.left
             ..WoWTools_TextMixin:GetYesNo(enabled),
 
             (index>0 and '' or '|cff626262')
-            ..(WoWTools_DataMixin.onlyChinese and '转到' or NPE_TURN)
+            ..(WoWTools_L.NPE_TURN)
             ..WoWTools_DataMixin.Icon.right..(index or '')..WoWTools_DataMixin.Icon.icon2
         )
         if enabled then
             GameTooltip:AddLine(' ')
-            GameTooltip_AddInstructionLine(GameTooltip, (WoWTools_DataMixin.onlyChinese and '启用' or ENABLE)..':')
-            GameTooltip_AddHighlightLine(GameTooltip, 'WoWTools')
+            GameTooltip_AddInstructionLine(GameTooltip, (WoWTools_L.ENABLE)..':')
+            GameTooltip_AddHighlightLine(GameTooltip, 'WoWToolsPlus')
             if C_AddOns.GetAddOnInfo('BugSack') then
                 GameTooltip_AddHighlightLine(GameTooltip, 'BugSack')
             end
@@ -333,7 +313,7 @@ local function Init()
 
         if addonIndex<1 then
             for i=1, C_AddOns.GetNumAddOns() do
-                if C_AddOns.GetAddOnName(i)== 'WoWTools' then
+                if C_AddOns.GetAddOnName(i)== 'WoWToolsPlus' then
                     addonIndex= i
                     break
                 end
@@ -344,15 +324,15 @@ local function Init()
         self:set_tooltips()
     end)
     function btn:set_icon()
-        if Save().enableAllButtn then
-            self:SetNormalTexture('Interface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools')
+        if WoWTools_AddOnsMixin:Save().enableAllButtn then
+            self:SetNormalTexture('Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools')
         else
             self:SetNormalAtlas('talents-button-reset')
         end
     end
     btn:SetScript('OnClick', function(self, d)
         if d=='LeftButton' then
-            Save().enableAllButtn= not Save().enableAllButtn and true or nil
+            WoWTools_AddOnsMixin:Save().enableAllButtn= not WoWTools_AddOnsMixin:Save().enableAllButtn and true or nil
             self:set_icon()
         else
             WoWTools_AddOnsMixin:FindAddon(self:GetID())
@@ -362,30 +342,23 @@ local function Init()
     btn:set_icon()
 
     AddonList.DisableAllButton:HookScript('OnClick', function()
-        if not Save().enableAllButtn then
+        if not WoWTools_AddOnsMixin:Save().enableAllButtn then
             return
         end
 
         --local isEU= WoWTools_DataMixin.Player.Region==3
-        local zh= LOCALE_zhCN
 
         for name, value in pairs({
-            ['WoWTools']=true,
+            ['WoWToolsPlus']=true,
             ['BugSack']=true,
             ['!BugGrabber']=true,
 
-            ['TextureAtlasViewer']= WoWTools_DataMixin.Player.husandro,
-            ['WoWTools_Chinese']= not zh,
-            ['WoWTools_Chinese_Scanner']= zh,
         }) do
             if value and C_AddOns.GetAddOnInfo(name) then
-                C_AddOns.EnableAddOn(name)
+                C_AddOns.EnableAddOn(name, WoWTools_AddOnsMixin:GetIsPlayer())
             end
         end
 
-        if WoWTools_DataMixin.Player.husandro then
-            WoWTools_DataMixin:Reload()
-        end
 
         WoWTools_DataMixin:Call('AddonList_Update')
     end)
@@ -397,12 +370,11 @@ local function Init()
 
 
 
---加载过期插件
     AddonList.ForceLoad:ClearAllPoints()
     AddonList.ForceLoad:SetPoint('LEFT', AddonList.Dropdown, 'RIGHT')
     for _, label in pairs({AddonList.ForceLoad:GetRegions()}) do
         local text= label:IsObjectType('FontString') and label:GetText()
-        if text and (text==ADDON_FORCE_LOAD or text=='加载过期插件') then
+        if text and (text==ADDON_FORCE_LOAD) then
             label:SetText('')
             label:ClearAllPoints()
             break
@@ -412,7 +384,7 @@ local function Init()
     AddonList.ForceLoad:SetScript('OnEnter', function(f)
         GameTooltip:SetOwner(f, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '加载过期插件' or ADDON_FORCE_LOAD)
+        GameTooltip:AddLine(WoWTools_L.ADDON_FORCE_LOAD)
         GameTooltip:Show()
     end)
 
@@ -423,22 +395,23 @@ local function Init()
     refesh.texture:SetAtlas('talents-button-undo')
     refesh.texture:SetPoint('CENTER')
     refesh:SetPoint('LEFT', AddonList.ForceLoad, 'RIGHT')
-    refesh.tooltip= WoWTools_DataMixin.onlyChinese and '还原' or TRANSMOGRIFY_TOOLTIP_REVERT
+    refesh.tooltip= WoWTools_L.TRANSMOGRIFY_TOOLTIP_REVERT
     refesh:SetScript('OnClick', function()
+        local character= WoWTools_AddOnsMixin:GetIsPlayer()
         if AddonList.startStatus then
             for i=1,C_AddOns.GetNumAddOns() do
                 if AddonList.startStatus[i] then
-                    C_AddOns.EnableAddOn(i)
+                    C_AddOns.EnableAddOn(i, character)
                 else
-                    C_AddOns.DisableAddOn(i)
+                    C_AddOns.DisableAddOn(i, character)
                 end
             end
         else
             for i=1, C_AddOns.GetNumAddOns() do
                 if C_AddOns.IsAddOnLoaded(i) then
-                    C_AddOns.EnableAddOn(i)
+                    C_AddOns.EnableAddOn(i, character)
                 else
-                    C_AddOns.DisableAddOn(i)
+                    C_AddOns.DisableAddOn(i, character)
                 end
             end
         end

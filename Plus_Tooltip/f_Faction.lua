@@ -3,7 +3,6 @@
 
 
 
---声望
 function WoWTools_TooltipMixin:Set_Faction(tooltip, factionID)--, frame)
     local info= not self:IsInCombatDisabled(tooltip)
             and canaccessvalue(factionID)
@@ -26,19 +25,16 @@ function WoWTools_TooltipMixin:Set_Faction(tooltip, factionID)--, frame)
 
 
     tooltip:AddDoubleLine(
---战团声望
         (C_Reputation.IsAccountWideReputation(factionID) and '|A:questlog-questtypeicon-account:0:0|a' or '')
---名称
         ..(
             info.friendshipID and 'friendshipID'
-            or (info.isMajor and (WoWTools_DataMixin.onlyChinese and '名望' or JOURNEYS_RENOWN_LABEL))
-            or (WoWTools_DataMixin.onlyChinese and '声望' or REPUTATION)
+            or (info.isMajor and (WoWTools_L.JOURNEYS_RENOWN_LABEL))
+            or (WoWTools_L.REPUTATION)
         )
---图标
         ..icon
         ..'|cffffffff'..info.factionID,
 
-        (info.factionStandingtext and (WoWTools_DataMixin.onlyChinese and '等级' or LEVEL)..' |cffffffff'..info.factionStandingtext)
+        (info.factionStandingtext and (WoWTools_L.LEVEL)..' |cffffffff'..info.factionStandingtext)
         ..' '
         ..(info.valueText or '')
         ..' '..(info.xp or '')
@@ -49,7 +45,7 @@ function WoWTools_TooltipMixin:Set_Faction(tooltip, factionID)--, frame)
         GameTooltip_AddInstructionLine(tooltip,
             info.hasRewardPending
             ..'|cnWARNING_FONT_COLOR:'
-            ..(WoWTools_DataMixin.onlyChinese and '你有未领取的奖励' or WEEKLY_REWARDS_UNCLAIMED_TITLE)
+            ..(WoWTools_L.WEEKLY_REWARDS_UNCLAIMED_TITLE)
         )
     end
 
@@ -57,7 +53,7 @@ function WoWTools_TooltipMixin:Set_Faction(tooltip, factionID)--, frame)
         tooltip:AddLine(
             '|cnWARNING_FONT_COLOR:'
             ..format(
-                WoWTools_DataMixin.onlyChinese and  '%s尚未解锁' or ERR_AZERITE_ESSENCE_SELECTION_FAILED_ESSENCE_NOT_UNLOCKED,
+                WoWTools_L.ERR_AZERITE_ESSENCE_SELECTION_FAILED_ESSENCE_NOT_UNLOCKED,
                 '|A:Professions_Specialization_Lock_Glow:0:0|a'
             )
         )
@@ -68,14 +64,7 @@ function WoWTools_TooltipMixin:Set_Faction(tooltip, factionID)--, frame)
     end
     
 
-    WoWTools_TooltipMixin:Set_Web_Link(tooltip, {type='faction', id=info.friendshipID or info.factionID, name=info.name, col=nil, isPetUI=false})--取得网页，数据链接
+    WoWTools_TooltipMixin:Set_Web_Link(tooltip, {type='faction', id=info.friendshipID or info.factionID, name=info.name, col=nil, isPetUI=false})
     tooltip:Show()
 end
---[[
-    if tooltip==EmbeddedItemTooltip then
-        GameTooltip_AddBlankLineToTooltip(tooltip)
-    end
-
-    WoWTools_TooltipMixin:Show(tooltip)
-]]
 

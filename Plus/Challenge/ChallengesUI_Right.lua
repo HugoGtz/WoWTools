@@ -1,26 +1,18 @@
-local function Save()
-    return WoWToolsSave['Plus_Challenges'] or {}
-end
 local Frame
 
 
-
-
-
-local function Set_Text()--所有记录
+local function Set_Text()
     local w= 0
 
---历史
 
     Frame.history:SetText(
-        (WoWTools_DataMixin.onlyChinese and '历史' or HISTORY)
+        (WoWTools_L.HISTORY)
         ..' |cff00ff00'..#C_MythicPlus.GetRunHistory(true)
         ..'|r/'..#C_MythicPlus.GetRunHistory(true, true)
     )
     w= Frame.history:GetStringWidth()
 
 
---本周记录
     local completed, all= 0,0
     local tabs={}
     for _, tab in pairs(C_MythicPlus.GetRunHistory(false, true) or {}) do
@@ -29,7 +21,7 @@ local function Set_Text()--所有记录
             if not tabs[mapID] then
                 tabs[mapID]={
                     LV={},--{level, completed}
-                    runScore= 0,--分数
+                    runScore= 0,
                     c=0,
                     t=0,
                     completed=false,
@@ -63,9 +55,6 @@ local function Set_Text()--所有记录
     for _, tab in pairs(newTab) do
         local name, _, _, texture = C_ChallengeMode.GetMapUIInfo(tab.mapID)
         if name then
-            if WoWTools_DataMixin.onlyChinese then
-                name= WoWTools_ChallengesSpellData[tab.mapID] and WoWTools_ChallengesSpellData[tab.mapID].name or name
-            end
             weekText= weekText and weekText..'|n' or ''
             local bestOverAllScore = select(2, C_MythicPlus.GetSeasonBestAffixScoreInfoForMap(tab.mapID)) or 0
             local score= WoWTools_ChallengeMixin:KeystoneScorsoColor(bestOverAllScore, nil, true)
@@ -81,26 +70,23 @@ local function Set_Text()--所有记录
     end
 
     Frame.week:SetText(
-        (WoWTools_DataMixin.onlyChinese and '本周' or CHALLENGE_MODE_THIS_WEEK)
+        (WoWTools_L.CHALLENGE_MODE_THIS_WEEK)
         ..' |cff00ff00'..completed..'|r/'..all--.. ' '..(WoWTools_ChallengeMixin:GetRewardText(1) or '')
         ..(weekText and '|n'..weekText or '')
     )
 
     w= math.max(Frame.week:GetStringWidth(), w)
 
---难度 每周 掉落
     Frame.loot:SetText(
-        WoWTools_DataMixin.onlyChinese and '难度 掉落 每周'
-        or format('%s %s %s', PROFESSIONS_CRAFTING_STAT_TT_DIFFICULTY_HEADER, LOOT, CALENDAR_REPEAT_WEEKLY)
+        WoWTools_L['Difficulty Loot Weekly']
     )
     w= math.max(Frame.loot:GetStringWidth(), w)
     w= math.max(Frame.week:GetStringWidth(), w)
 
---限制，显示等级
     local curLevel=0
     local curKey= C_MythicPlus.GetOwnedKeystoneLevel() or 0
 
-    for _, info in pairs(C_MythicPlus.GetRunHistory(false, true) or {}) do--本周记录
+    for _, info in pairs(C_MythicPlus.GetRunHistory(false, true) or {}) do
         if info.completed and info.level and info.level>curLevel then
             curLevel= info.level
         end
@@ -111,7 +97,6 @@ local function Set_Text()--所有记录
     Frame.loot.curLevel= curLevel
     Frame.loot.curKey= curKey
 
---显示，物品等级
     local min, max= WoWTools_DataMixin:GetChallengesWeekItemLevel(nil, true)
     local minNum= math.max(min, curLevel-3)
     local maxNum = math.min(curLevel+4, max)
@@ -126,7 +111,6 @@ local function Set_Text()--所有记录
     Frame.loot2:SetText(lootText or '')
     w= math.max(Frame.loot2:GetStringWidth(), w)
 
---物品，货币提示
 
     local last= WoWTools_LabelMixin:ItemCurrencyTips({
         frame=Frame,
@@ -144,19 +128,6 @@ local function Set_Text()--所有记录
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function History_Tooltip(self)
     GameTooltip:SetOwner(self, "ANCHOR_LEFT")
     GameTooltip:ClearLines()
@@ -172,11 +143,11 @@ local function History_Tooltip(self)
         local mapID=info.mapChallengeModeID
         tabs[mapID]= tabs[mapID] or
                     {
-                        level=0,--最高等级
+                        level=0,
                         c=0,
                         t=0,
                         mapID= mapID,
-                        isCurrent= curMaps[mapID],--本赛季
+                        isCurrent= curMaps[mapID],
                     }
         tabs[mapID].t= tabs[mapID].t+1
         if info.completed then
@@ -195,14 +166,11 @@ local function History_Tooltip(self)
             table.insert(newTab, 1, tab)
         end
     end
-    GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '历史' or Frame.history, completed..'/'..all)
+    GameTooltip:AddDoubleLine(WoWTools_L.HISTORY, completed..'/'..all)
 
     for _, tab in pairs(newTab) do
         local name, _, _, texture= C_ChallengeMode.GetMapUIInfo(tab.mapID)
         if name then
-            if WoWTools_DataMixin.onlyChinese and not LOCALE_zhCN then
-                name= WoWTools_ChallengesSpellData[tab.mapID] and WoWTools_ChallengesSpellData[tab.mapID].name or name
-            end
             local text= (texture and '|T'..texture..':0|t' or '').. name..' ('..tab.level..') '
             local text2= tab.c..'/'..tab.t
             if tab.isCurrent then
@@ -221,33 +189,8 @@ local function History_Tooltip(self)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 local function Create_Label()
-    --[[Frame.dungeonScore= WoWTools_LabelMixin:Create(Frame, {mouse=true, size=14})
-    Frame.dungeonScore:SetPoint('TOPLEFT')
-    Frame.dungeonScore:SetScript('OnLeave', function(self)
-        self:SetAlpha(1)
-        GameTooltip:Hide()
-    end)
-    Frame.dungeonScore:SetScript('OnEnter', function(self)
-        GameTooltip:SetOwner(self, "ANCHOR_LEFT")
-        WoWTools_SetTooltipMixin:Frame(self, nil, {dungeonScore= WoWTools_ChallengeMixin:GetDungeonScoreLink()})  
-        GameTooltip:Show()
-        self:SetAlpha(0.5)
-    end)]]
 
---历史
     Frame.history= WoWTools_LabelMixin:Create(Frame, {mouse=true, size=14})
     --Frame.history:SetPoint('TOPLEFT', Frame.dungeonScore, 'BOTTOMLEFT',0,-12)
     Frame.history:SetPoint('TOPLEFT')
@@ -257,12 +200,10 @@ local function Create_Label()
         self:SetAlpha(0.5)
     end)
 
---本周记录
-    Frame.week= WoWTools_LabelMixin:Create(Frame)--最右边, 数据
+    Frame.week= WoWTools_LabelMixin:Create(Frame)
     Frame.week:SetPoint('TOPLEFT', Frame.history, 'BOTTOMLEFT')
 
---难度 每周 掉落
-    Frame.loot= WoWTools_LabelMixin:Create(Frame, {mouse=true, size=14})--最右边, 数据
+    Frame.loot= WoWTools_LabelMixin:Create(Frame, {mouse=true, size=14})
     Frame.loot:SetPoint('TOPLEFT', Frame.week, 'BOTTOMLEFT',0,-12)
     function Frame.loot:get_Loot_itemLevel(level)
         local weeklyRewardLevel2 = C_MythicPlus.GetRewardLevelForDifficultyLevel(level)
@@ -277,8 +218,8 @@ local function Create_Label()
         local isCurLevel= self.curLevel==level
 
         local text= week
-            ..(isCurKey and '|T4352494:0|t' or '')--当前Key
-            ..(isCurLevel and '|A:common-icon-checkmark:0:0|a' or '')--最高等级
+            ..(isCurKey and '|T4352494:0|t' or '')
+            ..(isCurLevel and '|A:common-icon-checkmark:0:0|a' or '')
 
         return isCurKey and '|cffffffff'..text..'|r' or (isCurLevel and '|cnGREEN_FONT_COLOR:'..text..'|r') or text
     end
@@ -291,29 +232,20 @@ local function Create_Label()
         GameTooltip:ClearLines()
         GameTooltip:AddLine(self:GetText())
         local min, max= WoWTools_DataMixin:GetChallengesWeekItemLevel(nil, true)
-        for level=min, max do--限制，显示等级                
+        for level=min, max do
             GameTooltip:AddLine(self:get_Loot_itemLevel(level))
         end
         GameTooltip:Show()
         self:SetAlpha(0.5)
     end)
 
---显示，物品等级
-    Frame.loot2= WoWTools_LabelMixin:Create(Frame)--最右边, 数据
+    Frame.loot2= WoWTools_LabelMixin:Create(Frame)
     Frame.loot2:SetPoint('TOPLEFT', Frame.loot, 'BOTTOMLEFT')
 end
 
 
-
-
-
-
-
-
-
-
 local function Init()
-    if Save().hideRight then
+    if WoWTools_ChallengeMixin:Save().hideRight then
         return
     end
 
@@ -326,9 +258,9 @@ local function Init()
     Create_Label()
 
     function Frame:Settings()
-        self:SetPoint('TOPLEFT', ChallengesFrame, 'TOPRIGHT', Save().rightX or 2, Save().rightY or -22)
-        self:SetShown(not Save().hideRight)
-        self:SetScale(Save().rightScale or 1)
+        self:SetPoint('TOPLEFT', ChallengesFrame, 'TOPRIGHT', WoWTools_ChallengeMixin:Save().rightX or 2, WoWTools_ChallengeMixin:Save().rightY or -22)
+        self:SetShown(not WoWTools_ChallengeMixin:Save().hideRight)
+        self:SetScale(WoWTools_ChallengeMixin:Save().rightScale or 1)
      end
 
     Frame:SetScript('OnShow', function(self)
@@ -365,16 +297,6 @@ local function Init()
         Frame:Settings()
     end
 end
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_ChallengeMixin:ChallengesUI_Right()

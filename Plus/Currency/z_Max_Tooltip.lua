@@ -1,15 +1,11 @@
 
-local function Save()
-	return WoWToolsSave['Currency2']
-end
-
 local MaxTabs={}
 
 
 
 
 
-local function Currency_Max(_, curID)--已达到资源上限
+local function Currency_Max(_, curID)
 
     local tab, num= {}, 0
     if curID then
@@ -35,7 +31,7 @@ local function Currency_Max(_, curID)--已达到资源上限
         end
 
     
-        for currencyID, _ in pairs(Save().tokens) do
+        for currencyID, _ in pairs(WoWTools_CurrencyMixin:Save().tokens) do
             if not MaxTabs[currencyID] and not tab[currencyID] then
                 local isMax, isMaxWeek= WoWTools_CurrencyMixin:IsMax(currencyID)
                 if isMax or isMaxWeek then
@@ -47,22 +43,22 @@ local function Currency_Max(_, curID)--已达到资源上限
     end
 
     if num>0 then
-        print(WoWTools_CurrencyMixin.addName..WoWTools_DataMixin.Icon.icon2)
+        WoWTools_Print(WoWTools_CurrencyMixin.addName..WoWTools_DataMixin.Icon.icon2)
 
         local index=0
         for currencyID, info in pairs(tab) do
             index= index+1
-            print(
+            WoWTools_Print(
                 '   '..index..')',
                 WoWTools_CurrencyMixin:GetLink(currencyID, nil, nil, true),
-                info.isMaxWeek and (WoWTools_DataMixin.onlyChinese and '本周' or GUILD_CHALLENGES_THIS_WEEK) or ''
+                info.isMaxWeek and (WoWTools_L.GUILD_CHALLENGES_THIS_WEEK) or ''
             )
             MaxTabs[currencyID]=true
         end
 
-        print(
+        WoWTools_Print(
             '|cnGREEN_FONT_COLOR:'
-            ..(WoWTools_DataMixin.onlyChinese and '已达到资源上限' or SPELL_FAILED_CUSTOM_ERROR_248)
+            ..(WoWTools_L.SPELL_FAILED_CUSTOM_ERROR_248)
             ..'|r'
             ..(num>1 and num or '')
             ..WoWTools_DataMixin.Icon.icon2
@@ -85,7 +81,7 @@ local OwerID
 
 
 function WoWTools_CurrencyMixin:Init_MaxTooltip()
-    if Save().hideCurrencyMax then
+    if WoWTools_CurrencyMixin:Save().hideCurrencyMax then
         if OwerID then
             EventRegistry:UnregisterCallback('CURRENCY_DISPLAY_UPDATE', OwerID)
         end

@@ -2,12 +2,12 @@
 WoWTools_CursorMixin={
     Color= PlayerUtil.GetClassColor(),
     DefaultTexture= 'bonusobjectives-bar-starburst',
-    DefaultGCDTexture= 'Interface\\Addons\\WoWTools\\Source\\Mouse\\Aura73',
+    DefaultGCDTexture= 'Interface\\Addons\\WoWToolsPlus\\Source\\Mouse\\Aura73',
 }
 
 local P_Save={
-    disabled= not WoWTools_DataMixin.Player.husandro,
-    disabledGCD= not WoWTools_DataMixin.Player.husandro,
+    disabled= true,
+    disabledGCD= true,
     color={r=0, g=1, b= 0, a=1},
     usrClassColor=true,
     size=32,--8 64
@@ -15,19 +15,18 @@ local P_Save={
     duration=0.3,--0.1 4
     rotate=32,-- 0 32
     atlasIndex=1,
-    rate=0.03,--刷新
-    X=40,--移位
+    rate=0.03,
+    X=40,
     Y=-30,
-    alpha=1,--透明
-    maxParticles= 50,--数量
-    minDistance=3,--距离
-    randomTexture=true,--随机, 图片
-    --randomTextureInCombat=true,--战斗中，也随机，图片
+    alpha=1,
+    maxParticles= 50,
+    minDistance=3,
+    randomTexture=true,
     Atlas={
-        'bonusobjectives-bar-starburst',--星星
-        'Adventures-Buff-Heal-Burst',--雪
-        'OBJFX_StarBurst',--太阳
-        'worldquest-questmarker-glow',--空心圆
+        'bonusobjectives-bar-starburst',
+        'Adventures-Buff-Heal-Burst',
+        'OBJFX_StarBurst',
+        'worldquest-questmarker-glow',
         'Relic-Frost-TraitGlow',
         'Relic-Holy-TraitGlow',
         'Relic-Life-TraitGlow',
@@ -52,18 +51,18 @@ local P_Save={
         'housing-item-toast-leaf03',
         'housing-item-toast-leaf05',
 
-        [[Interface\Addons\WoWTools\Source\Mouse\Aura121]],
+        [[Interface\Addons\WoWToolsPlus\Source\Mouse\Aura121]],
 
-        [[Interface\Addons\WoWTools\Source\Mouse\Aura73.tga]],
-        [[Interface\Addons\WoWTools\Source\Mouse\Aura94.tga]],
-        [[Interface\Addons\WoWTools\Source\Mouse\Aura103.tga]],
-        [[Interface\Addons\WoWTools\Source\Mouse\Aura142.tga]],
+        [[Interface\Addons\WoWToolsPlus\Source\Mouse\Aura73.tga]],
+        [[Interface\Addons\WoWToolsPlus\Source\Mouse\Aura94.tga]],
+        [[Interface\Addons\WoWToolsPlus\Source\Mouse\Aura103.tga]],
+        [[Interface\Addons\WoWToolsPlus\Source\Mouse\Aura142.tga]],
     },
     GCDTexture={
-        [[Interface\Addons\WoWTools\Source\Mouse\Aura73.tga]],
-        [[Interface\Addons\WoWTools\Source\Mouse\Aura94.tga]],
-        [[Interface\Addons\WoWTools\Source\Mouse\Aura103.tga]],
-        [[Interface\Addons\WoWTools\Source\Mouse\Aura142.tga]],
+        [[Interface\Addons\WoWToolsPlus\Source\Mouse\Aura73.tga]],
+        [[Interface\Addons\WoWToolsPlus\Source\Mouse\Aura94.tga]],
+        [[Interface\Addons\WoWToolsPlus\Source\Mouse\Aura103.tga]],
+        [[Interface\Addons\WoWToolsPlus\Source\Mouse\Aura142.tga]],
     },
     gcdSize=15,
     gcdTextureIndex=1,
@@ -76,35 +75,26 @@ local P_Save={
 
 
 
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-
-
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWTools' then
-
-            WoWToolsSave['Plus_Cursor']= WoWToolsSave['Plus_Cursor'] or P_Save
-            P_Save=nil
-
-            WoWTools_CursorMixin.addName= '|A:newplayertutorial-icon-mouse-turn:0:0|a'..(WoWTools_DataMixin.onlyChinese and '鼠标' or MOUSE_LABEL)
-
-            self:RegisterEvent('PLAYER_ENTERING_WORLD')
-
-            WoWTools_CursorMixin:Set_Options(self)
-
-            if C_AddOns.IsAddOnLoaded('Blizzard_Settings') then
-                self:UnregisterEvent(event)
-            end
-
-        elseif arg1=='Blizzard_Settings' and WoWToolsSave then
-            WoWTools_CursorMixin:Set_Options(self)
-            self:UnregisterEvent(event)
-        end
-
-    elseif event=='PLAYER_ENTERING_WORLD' then
-        WoWTools_CursorMixin:Cursor_Settings()
-        WoWTools_CursorMixin:GCD_Settings()
-        self:UnregisterEvent(event)
-    end
-end)
+--Módulo registrado con la API común (docs/REFACTOR.md, R2).
+--'disabled' aquí es el rastro del cursor (ya no existe), no el módulo: el GCD arranca siempre (onLoad) y
+--se activa con su propia opción (disabledGCD). Por eso la tarjeta no lleva interruptor (toggle=false).
+--Opciones: esquema del Centro de control (2_Blizzard_Settings.lua).
+WoWTools_Module:Register({
+    key= 'Plus_Cursor',
+    name= 'Module.Cursor',
+    icon= 'newplayertutorial-icon-mouse-turn',
+    group= 'Interface',
+    tooltip= 'Tip.Cursor.EnableGCD',
+    defaults= P_Save,
+    mixin= WoWTools_CursorMixin,
+    toggle= false,
+    options= function()
+        return WoWTools_CursorMixin:Get_Options()
+    end,
+    onLoad= function()
+        WoWTools_CursorMixin:Set_Color()
+        EventUtil.RegisterOnceFrameEventAndCallback('PLAYER_ENTERING_WORLD', function()
+            WoWTools_CursorMixin:GCD_Settings()
+        end)
+    end,
+})

@@ -1,15 +1,6 @@
 
-local function Save()
-    return WoWToolsSave['ChatButton_Invite'] or {}
-end
---Shift+点击设置焦点
---跟随，密语
---鼠标按键 1是左键、2是右键、3是中键
-
-
-
 function WoWTools_InviteMixin:SetFocusButton(frame)
-    if not frame or not Save().setFucus or frame.isSetFoucs then
+    if not frame or not WoWTools_InviteMixin:Save().setFucus or frame.isSetFoucs then
         return
 
     elseif not frame:CanChangeAttribute() then
@@ -20,9 +11,8 @@ function WoWTools_InviteMixin:SetFocusButton(frame)
         return
     end
 
---设置，焦点
-    local key= strlower(Save().focusKey or 'Shift')
-    if frame==FocusFrame then--清除，焦点
+    local key= strlower(WoWTools_InviteMixin:Save().focusKey or 'Shift')
+    if frame==FocusFrame then
         frame:SetAttribute(key..'-type1','macro')
         frame:SetAttribute(key..'-macrotext1','/clearfocus')
     else
@@ -33,26 +23,6 @@ function WoWTools_InviteMixin:SetFocusButton(frame)
 
     frame.isSetFoucs= true
 
---跟随，密语 
-    if not Save().setFrameFun then
-        return
-    end
-
-    frame:EnableMouseWheel(true)
-    frame:HookScript('OnMouseWheel', function(f, d)
-        local unit= f.unit
-        if WoWTools_UnitMixin:UnitIsUnit('player', unit)==false
-            and WoWTools_UnitMixin:UnitExists(unit)
-            and UnitIsPlayer(unit)
-            and UnitIsFriend('player', unit)
-        then
-            if d==1 then
-                WoWTools_ChatMixin:Say(nil, UnitName(unit), nil, nil)--密语
-            elseif d==-1 then
-                FollowUnit(unit)--跟随
-            end
-        end
-    end)
 
 end
 
@@ -60,21 +30,14 @@ end
 
 
 
---设置单位焦点 跟随 密语
-local function Init()
-    if not Save().setFucus then
-        return
-    end
-
-    local key= strlower(Save().focusKey or 'Shift')
---清除，焦点
+local Init_Once= WoWTools_Once(function()
+    local key= strlower(WoWTools_InviteMixin:Save().focusKey or 'Shift')
     local clear= CreateFrame('Button', 'WoWToolsClearFocusButton', UIParent, 'SecureActionButtonTemplate')
     clear:SetAttribute('type','macro')
     clear:SetAttribute('macrotext','/clearfocus')
     clear:RegisterForClicks(WoWTools_DataMixin.RightButtonDown)
     WoWTools_KeyMixin:SetButtonKey(clear, true, strupper(key)..'-BUTTON2', nil)
 
---设置单位焦点
     local over= CreateFrame('Button', 'WoWToolsOverFocusButton', UIParent, 'SecureActionButtonTemplate')
     over:SetAttribute("type", "focus")
     over:SetAttribute('unit', 'mouseover')
@@ -91,7 +54,7 @@ local function Init()
     WoWTools_InviteMixin:SetFocusButton(FocusFrame)
     WoWTools_InviteMixin:SetFocusButton(FocusFrameToT)
 
-    for i=1, MAX_PARTY_MEMBERS do--队伍        
+    for i=1, MAX_PARTY_MEMBERS do
         WoWTools_InviteMixin:SetFocusButton(PartyFrame['MemberFrame'..i])
         WoWTools_InviteMixin:SetFocusButton(_G['CompactPartyFrameMember'..i])
     end
@@ -106,8 +69,14 @@ local function Init()
             WoWTools_InviteMixin:SetFocusButton(_G[self:GetName().."Member"..i])
         end
     end)
+end)
 
-    Init=function()end
+--La comprobación queda fuera del "una sola vez": se vuelve a mirar en cada llamada
+local function Init()
+    if not WoWTools_InviteMixin:Save().setFucus then
+        return
+    end
+    Init_Once()
 end
 
 

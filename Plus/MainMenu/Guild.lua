@@ -1,5 +1,4 @@
 
---公会 GuildMicroButton
 
 
 
@@ -10,13 +9,13 @@
 
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     local frame= CreateFrame('Frame')
 
-    frame.Text= WoWTools_LabelMixin:Create(GuildMicroButton,  {size=WoWToolsSave['Plus_MainMenu'].size, color=true})
+    frame.Text= WoWTools_LabelMixin:Create(GuildMicroButton,  {size=WoWTools_MainMenuMixin:Save().size, color=true})
     frame.Text:SetPoint('TOP', GuildMicroButton, 0,  -3)
 
-    frame.Text2= WoWTools_LabelMixin:Create(GuildMicroButton,  {size=WoWToolsSave['Plus_MainMenu'].size, color=true})
+    frame.Text2= WoWTools_LabelMixin:Create(GuildMicroButton,  {size=WoWTools_MainMenuMixin:Save().size, color=true})
     frame.Text2:SetPoint('BOTTOM', GuildMicroButton, 0, 3)
 
     table.insert(WoWTools_MainMenuMixin.Labels, frame.Text)
@@ -64,12 +63,11 @@ local function Init()
         if IsInGuild() then
             GameTooltip:AddLine(' ')
         end
-        WoWTools_GuildMixin:OnEnter_GuildInfo()--公会，社区，信息
+        WoWTools_GuildMixin:OnEnter_GuildInfo()
         GameTooltip:Show()
     end)
 
-    Init=function()end
-end
+end)
 
 
 
@@ -79,6 +77,6 @@ end
 
 
 
-function WoWTools_MainMenuMixin:Init_Guild()--公会
+function WoWTools_MainMenuMixin:Init_Guild()
     Init()
 end

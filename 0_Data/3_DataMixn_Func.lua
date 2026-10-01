@@ -10,56 +10,50 @@ function WoWTools_DataMixin:Call(func, ...)
         securecallfunction(func, ...)
         return
     end
-    if WoWTools_DataMixin.Player.husandro then
-        print('Call没有发现', func, ...)
-    end
 end
 --CanAccessObject(obj)
-function WoWTools_DataMixin:Hook(obj, ...)
-    local t= type(obj)
-    local o= t=='string' and _G[obj] or obj
-    if o then
-        t= type(o)
-        if t=='table' then
-            if (not o.IsForbidden or not select(2, o:IsForbidden())) then
-                hooksecurefunc(obj, ...)
-                return
-            elseif WoWTools_DataMixin.Player.husandro then
-                print('|cnWARNING_FONT_COLOR:被保护|r', obj, ...)
+--Rellena en los ajustes guardados las claves que faltan (tablas, números, textos) con los valores por defecto.
+--No toca los booleanos: muchas opciones se desactivan guardando nil y se volverían a activar.
+--Evita errores nil cuando una versión nueva añade opciones y el jugador tiene ajustes de una versión anterior.
+function WoWTools_DataMixin:SetDefaults(save, defaults)
+    if type(save)~='table' then
+        return defaults
+    end
+    if type(defaults)=='table' and save~=defaults then
+        for key, value in pairs(defaults) do
+            if save[key]==nil and type(value)~='boolean' then
+                save[key]= value
             end
         end
-        hooksecurefunc(obj, ...)
-
-    elseif WoWTools_DataMixin.Player.husandro then
-        print('|cnWARNING_FONT_COLOR:Hook没发现|r', t, obj, ...)
-        hooksecurefunc(obj, ...)
     end
+    return save
 end
 
---[[
-AccountUtil.lua
-FriendsFrame.lua
-BnetShared.lua 
-BNET_CLIENT_WOW = "WoW";
-BNET_CLIENT_APP = "App";
-BNET_CLIENT_HEROES = "Hero";
-BNET_CLIENT_CLNT = "CLNT";
 
-function WoWTools_DataMixin:GetWoWTexture()
-    local texture
-    C_Texture.GetTitleIconTexture(BNET_CLIENT_WOW, Enum.TitleIconVersion.Small, function(success, icon)
-        if success and texture then
-            texture= icon
+--hooksecurefunc seguro: si la función o el método de Blizzard ya no existe (p. ej. retirado en 12.0),
+--no se engancha nada en vez de dar error. Antes, con un global inexistente se pasaba el nombre como texto.
+function WoWTools_DataMixin:Hook(obj, ...)
+    if type(obj)=='string' then
+        if type(_G[obj])=='function' then
+            hooksecurefunc(obj, ...)
         end
-    end)
-    return texture
+        return
+    end
+
+    if type(obj)~='table' then
+        return
+    end
+    if obj.IsForbidden and obj:IsForbidden() then--un objeto prohibido no se engancha
+        return
+    end
+    local method= ...
+    if type(method)=='string' and type(obj[method])~='function' then
+        return
+    end
+    hooksecurefunc(obj, ...)
 end
-]]
 
 
-
-
---加载 quest spell item itemLocation challengeMap club
 function WoWTools_DataMixin:Load(id, typeString)
     if not id or not typeString then
         return
@@ -95,39 +89,36 @@ function WoWTools_DataMixin:Load(id, typeString)
     elseif typeString=='challengeMap' then
         C_ChallengeMode.RequestLeaders(id)
 
-    elseif id=='club' then
+    elseif typeString=='club' then
         return C_ClubFinder.RequestPostingInformationFromClubId(id)
     end
 end
 
 
-local itemLoadTab={--加载法术,或物品数据
-        134020,--玩具,大厨的帽子
-        --6948,--炉石
-        --140192,--达拉然炉石
-        --110560,--要塞炉石
-        5512,--治疗石
-        8529,--诺格弗格药剂
-        226373,--/恒久诺格弗格药剂
-        38682,--附魔纸
-        5512,--治疗石
-        87399,--修复的遗物
+local itemLoadTab={
+        134020,
+        5512,
+        8529,
+        226373,
+        38682,
+        5512,
+        87399,
     }
 local spellLoadTab={
-    113509,--魔法汉堡
-    818,--火    
-    179244,--[召唤司机]
-    179245,--[召唤司机]
-    33388,--初级骑术
-    33391,--中级骑术
-    34090,--高级骑术
-    34091,--专家级骑术
-    90265,--大师级骑术
-    783,--旅行形态
-    436854,--切换飞行模式 C_MountJournal.GetDynamicFlightModeSpellID()
-    404468,--/飞行模式：稳定
-    80451,--勘测
-    431280,--/瞬息全战团地图
+    113509,
+    818,
+    179244,
+    179245,
+    33388,
+    33391,
+    34090,
+    34091,
+    90265,
+    783,
+    436854,
+    404468,
+    80451,
+    431280,
 
 }
 
@@ -140,37 +131,21 @@ for _, spellID in pairs(spellLoadTab) do
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 function WoWTools_DataMixin:MK(number, bit)
     if not number then
         return
     end
 
-    --[[if not self.onlyChinese then
-        return BreakUpLargeNumbers(number)
-    end]]
 
     bit = bit or 1
 
     local t= ''
-    if number>=1e8 then-- 1234 56789
-        number= number/1e8
-        t='m'-- '|cffff00ffm|r'
-    elseif self.onlyChinese and number>= 1e4 then
-        number= number/1e4
-        t='w'--'|cff00ff00w|r'
+    if number>=1e9 then--escala k, M, B
+        number= number/1e9
+        t='B'
+    elseif number>=1e6 then
+        number= number/1e6
+        t='M'
     elseif number>=1e3 then
         number= number/1e3
         t='k'-- '|cffffffffk|r'
@@ -185,7 +160,7 @@ function WoWTools_DataMixin:MK(number, bit)
             return num..t
         else---0.5/10^bit
             local n= format('%0.'..bit..'f', number)
-            while n:find('0$') do--去掉尾 0
+            while n:find('0$') do
                 n= n:gsub('0$', '')
             end
             return n..t
@@ -194,13 +169,6 @@ function WoWTools_DataMixin:MK(number, bit)
 end
 
 
-
-
-
-
-
-
---版本
 function WoWTools_DataMixin:GetExpansionText(expacID, questID)
     if not expacID and questID then
         expacID= GetQuestExpansion(questID)
@@ -217,58 +185,24 @@ function WoWTools_DataMixin:GetExpansionText(expacID, questID)
 end
 
 
-
-
---[[
-function e.Is_Chinese_Text(str)--字符中，是否有汉字
-    if str then
-        for i = 1, #str do
-            local uchar = string.byte(str, i)
-            -- 如果字符不是单字节ASCII字符（即不在0x00-0x7F之间）
-            if uchar > 0x7F then
-                -- 这里可以添加更精确的检查来确保是汉字，但简单起见，我们假设所有非ASCII字符都是汉字
-                return true
-            end
-        end
-        return false
-    end
-end
-]]
-
-
-
-
 function WoWTools_DataMixin:Reload()
     --if not (PlayerIsInCombat() and e.IsEncouter_Start) or select(2, IsInInstance())=='none' then
     --if not issecure() then
     self:Call(C_UI.Reload)
             --C_UI.Reload()
-    --[[else
-        print(
-            WoWTools_DataMixin.Icon.icon2
-            ..'|cnWARNING_FONT_COLOR:'
-            ..(WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)
-        )
-    end]]
 end
 
 
-
-
-
-function WoWTools_DataMixin:Get_CVar_Tooltips(info)--取得CVar信息 WoWTools_DataMixin:Get_CVar_Tooltips({name= ,msg=, value=})
+function WoWTools_DataMixin:Get_CVar_Tooltips(info)
     return (info.msg and info.msg..'|n' or '')..info.name..'|n'
     ..(info.value and C_CVar.GetCVar(info.name)== info.value and format('|A:%s:0:0|a', 'common-icon-checkmark') or '')
-    ..(info.value and (WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS)..info.value..' ' or '')
-    ..'('..(WoWTools_DataMixin.onlyChinese and '当前' or REFORGE_CURRENT)..'|cnGREEN_FONT_COLOR:'..format('%.1f',C_CVar.GetCVar(info.name))..'|r |r'
-    ..(WoWTools_DataMixin.onlyChinese and '默认' or DEFAULT)..'|cffff00ff'..format('%.1f', C_CVar.GetCVarDefault(info.name))..')|r'
+    ..(info.value and (WoWTools_L.SETTINGS)..info.value..' ' or '')
+    ..'('..(WoWTools_L.REFORGE_CURRENT)..'|cnGREEN_FONT_COLOR:'..format('%.1f', tonumber(C_CVar.GetCVar(info.name)) or 0)..'|r |r'
+    ..(WoWTools_L.DEFAULT)..'|cffff00ff'..format('%.1f', tonumber(C_CVar.GetCVarDefault(info.name)) or 0)..')|r'
 end
 
 
-
-
-
-function WoWTools_DataMixin:PlaySound(soundKitID, setPlayerSound)--播放, 声音 SoundKitConstants.lua WoWTools_DataMixin:PlaySound()--播放, 声音
+function WoWTools_DataMixin:PlaySound(soundKitID, setPlayerSound)
     if not C_CVar.GetCVarBool('Sound_EnableAllSound') or C_CVar.GetCVar('Sound_MasterVolume')=='0' or (not setPlayerSound and not WoWTools_DataMixin.IsSetPlayerSound) then
         return
     end
@@ -298,31 +232,20 @@ function WoWTools_DataMixin:PlayText(text)
     local volume = C_TTSSettings.GetSpeechVolume() or 0
     volume= volume==0 and 50 or volume
 
-    local neverQueue= false--永不排队
-    local allowOverlappedSpeech= false--允许重叠发言
+    local neverQueue= false
+    local allowOverlappedSpeech= false
     local voice= {voiceID=C_TTSSettings.GetVoiceOptionID(Enum.TtsVoiceType.Standard) or 0}
     TextToSpeech_Speak(text, voice, neverQueue, allowOverlappedSpeech)
 end
 
 
 
---添加，Check 和 划条
 function WoWTools_DataMixin:GetFormatter1to10(value, minValue, maxValue)
     if value and minValue and maxValue then
         return RoundToSignificantDigits(((value-minValue)/(maxValue-minValue) * (maxValue- minValue)) + minValue, maxValue)
     end
     return value
 end
---[[local function GetFormatter1to10(minValue, maxValue)
-    return function(value)
-        return WoWTools_DataMixin:GetFormatter1to10(value, minValue, maxValue)
-    end
-end]]
-
-
-
-
-
 
 
 --WoWTools_DataMixin:StaticPopup_FindVisible('PARTY_INVITE')
@@ -337,23 +260,5 @@ function WoWTools_DataMixin:StaticPopup_FindVisible(which)
         end
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

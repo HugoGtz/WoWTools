@@ -1,16 +1,5 @@
 WoWTools_LoadUIMixin= {}
 
---[[
-Journal(index)加载，收藏，UI
-GenericTraitUI(systemID, treeID)加载，Trait，UI
-Dragonriding()驭空术
-ToggleLandingPage()概要
-Professions(recipeID)专业
-WeeklyRewards()宏伟宝库
-MajorFaction(factionID)派系声望
-Achievement(achievementID)打开成就
-JournalInstance(journalInstanceID)--冒险指南，副本
-]]
 
 
 function WoWTools_LoadUIMixin:IsDisabledOpenFrame()
@@ -19,22 +8,8 @@ end
 
 
 
---[[
-       if not CollectionsJournal then
-            CollectionsJournal_LoadUI();
-        end
 
-        if not CollectionsJournal:IsShown() then
-            ShowUIPanel(CollectionsJournal);
-        end
-
-        CollectionsJournal_SetTab(CollectionsJournal, 2);
-
-        local speciesID = C_PetBattles.GetPetSpeciesID(self.petOwner, self.petIndex);
-        PetJournal_SelectSpecies(PetJournal, speciesID);
-]]
-
-function WoWTools_LoadUIMixin:Journal(index, tab)--加载，收藏，UI
+function WoWTools_LoadUIMixin:Journal(index, tab)
     if
         self:IsDisabledOpenFrame()
         or InCombatLockdown()
@@ -59,7 +34,6 @@ function WoWTools_LoadUIMixin:Journal(index, tab)--加载，收藏，UI
         return
     end
 
---玩具
     if tab.toyItemID then
         if index==3 then
             local name2= select(2, C_ToyBox.GetToyInfo(tab.toyItemID))
@@ -70,7 +44,6 @@ function WoWTools_LoadUIMixin:Journal(index, tab)--加载，收藏，UI
                 end
             end
         end
---宠物
     elseif (tab.petOwner and tab.petIndex) or tab.petSpeciesID then
         local speciesID = tab.petSpeciesID or C_PetBattles.GetPetSpeciesID(tab.petOwner, tab.petIndex)
         if speciesID then
@@ -80,40 +53,12 @@ function WoWTools_LoadUIMixin:Journal(index, tab)--加载，收藏，UI
         end
     end
 end
---[[
-
-function BattlePetTooltipJournalClick_OnClick(self)
-	SetCollectionsJournalShown(true, COLLECTIONS_JOURNAL_TAB_INDEX_PETS);
-	if CollectionsJournal then
-		local battlePetID = self:GetParent().battlePetID;
-		if ( battlePetID ) then
-			local speciesID = C_PetJournal.GetPetInfoByPetID(battlePetID);
-			if ( speciesID and speciesID == self:GetParent().speciesID ) then
-				PetJournal_SelectPet(PetJournal, battlePetID);
-				return;
-			end
-		end
-		PetJournal_SelectSpecies(PetJournal, self:GetParent().speciesID);
-	end
-end
-    if
-        (index==1 and not MountJournal:IsVisible())
-        or (index==2 and not PetJournal:IsVisible())
-        or (index==3 and not ToyBox:IsVisible())
-        or (index==4 and not HeirloomsJournal:IsVisible())
-        or (index==5 and not WardrobeCollectionFrame:IsVisible())
-        or (index==6 and not WarbandSceneJournal:IsVisible())
-    then
-        ToggleCollectionsJournal(index)
-    end]]
 
 
 
 
---打开/关闭角色界面
---MicroButtonTooltipText('角色信息', "TOGGLECHARACTER0")
 --C_CurrencyInfo.GetCurrencyListSize() <= 0
-function WoWTools_LoadUIMixin:OpenPaperDoll(frameIndex, tabIndex)--打开/关闭角色界面
+function WoWTools_LoadUIMixin:OpenPaperDoll(frameIndex, tabIndex)
     if self:IsDisabledOpenFrame()
         or C_GameRules.IsGameRuleActive(Enum.GameRule.CharacterPanelDisabled)
     then
@@ -140,36 +85,6 @@ function WoWTools_LoadUIMixin:OpenPaperDoll(frameIndex, tabIndex)--打开/关闭
 end
 
 
-
-
-
---[[加载，Trait，UI
-function WoWTools_LoadUIMixin:GenericTraitUI(systemID, treeID)
-    TraitUtil.OpenTraitFrame(treeID)
-
-    --WoWTools_DataMixin:Call('GenericTraitUI_LoadUI')
-    --securecallfunction(GenericTraitFrame.SetSystemID, GenericTraitFrame, systemID)
-    --securecallfunction(GenericTraitFrame.SetTreeID, GenericTraitFrame, treeID)
-    --ToggleFrame(GenericTraitFrame)
-end
-
---Blizzard_DragonflightLandingPage.lua
---驭空术
-function WoWTools_LoadUIMixin:Dragonriding()
-    self:GenericTraitUI(Enum.ExpansionLandingPageType.Dragonflight, Constants.MountDynamicFlightConsts.TREE_ID)
-end]]
-
-
-
-
-
-
-
-
-
-
-
---概要 ExpansionLandingPageMinimapButtonMixin:RefreshButton(forceUpdateIcon)
 function WoWTools_LoadUIMixin:ToggleLandingPage()
 
     local mode= C_Garrison.GetLandingPageGarrisonType()
@@ -184,10 +99,6 @@ function WoWTools_LoadUIMixin:ToggleLandingPage()
 end
 
 
-
-
-
---专业
 function WoWTools_LoadUIMixin:Professions(recipeID)
     if self:IsDisabledOpenFrame() then
         return
@@ -212,14 +123,6 @@ function WoWTools_LoadUIMixin:Professions(recipeID)
 end
 
 
-
-
-
-
-
-
-
---宏伟宝库
 function WoWTools_LoadUIMixin:WeeklyRewards()
     if
         InCombatLockdown()
@@ -240,30 +143,6 @@ function WoWTools_LoadUIMixin:WeeklyRewards()
 end
 
 
-
-
-
-
---[[
-派系声望 ReputationDetailViewRenownButtonMixin:OnClick()
-EncounterJournal_OpenToPowerID(powerID)
-EncounterJournal_OpenJournal(difficultyID, instanceID, encounterID, sectionID, creatureID, itemID, tierIndex)
-EJSuggestTab_GetPlayerTierIndex()
-EJ_ContentTab_SelectAppropriateInstanceTab(instanceID)
-function ReputationDetailViewRenownButtonMixin:OnClick()
-	if not EncounterJournal then
-		EncounterJournal_LoadUI();
-	end
-
-	if not EncounterJournal:IsShown() then
-		ShowUIPanel(EncounterJournal);
-	end
-
-	EJ_ContentTab_Select(EncounterJournal.JourneysTab:GetID());
-	EncounterJournalJourneysFrame:ResetView(nil, self.factionID);
-end
-
-]]
 function WoWTools_LoadUIMixin:OpenFaction(factionID)
     if
         self:IsDisabledOpenFrame()
@@ -292,7 +171,7 @@ function WoWTools_LoadUIMixin:OpenFaction(factionID)
 
         EJ_ContentTab_Select(EncounterJournal.JourneysTab:GetID())
 
-        if factionID and EncounterJournalJourneysFrame then--12.0才有
+        if factionID and EncounterJournalJourneysFrame then
             EncounterJournalJourneysFrame:ResetView(C_MajorFactions.GetMajorFactionData(factionID), factionID)
             EncounterJournal_OpenToJourney(factionID)
         end
@@ -314,20 +193,6 @@ function WoWTools_LoadUIMixin:OpenFaction(factionID)
     end
 
 end
-    --[[EJ_ContentTab_Select(EncounterJournal.JourneysTab:GetID())
-
-    if factionID then
-        EncounterJournalJourneysFrame:ResetView(nil, factionID)
-    end]]
-
-
-
-
-
-
-
-
-
 
 
 local mainTextureKitRegions = {
@@ -343,7 +208,6 @@ local function SetupTextureKit(frame, regions, covenantData)
 end
 
 
---盟约 9.0
 function WoWTools_LoadUIMixin:CovenantRenown(frame, covenantID)
     if
         self:IsDisabledOpenFrame()
@@ -388,7 +252,7 @@ function WoWTools_LoadUIMixin:CovenantRenown(frame, covenantID)
         levelInfo.rewardInfo = C_CovenantSanctumUI.GetRenownRewardsForLevel(covenantID, i)
     end
     CovenantRenownFrame.TrackFrame:Init(renownLevelsInfo)
-    CovenantRenownFrame.maxLevel = renownLevelsInfo[#renownLevelsInfo].level
+    CovenantRenownFrame.maxLevel = renownLevelsInfo[#renownLevelsInfo] and renownLevelsInfo[#renownLevelsInfo].level or 0
 
 
     CovenantRenownFrame.actualLevel = C_CovenantSanctumUI.GetRenownLevel()
@@ -400,40 +264,6 @@ function WoWTools_LoadUIMixin:CovenantRenown(frame, covenantID)
 end
 
 
-
-
-
-
-
-
-
-
---[[
-法术书 PlayerSpellsUtil.lua
-PlayerSpellsUtil={
-  OpenToClassSpecializationsTab=<function>,
-  SpellBookCategories={
-    Class=1,
-    General=2,
-    Pet=3
-  },
-  ToggleClassTalentOrSpecFrame=<function>,
-  ToggleClassTalentFrame=<function>,
-  SetPlayerSpellsFrameMinimizedOnNextShow=<function>,
-  OpenToSpellBookTabAtSpell(spellID, knownSpellsOnly, toggleFlyout, flyoutReason),
-  OpenToSpellBookTab(),
-  FrameTabs={
-    SpellBook=3,
-    ClassTalents=2,
-    ClassSpecializations=1
-  },
-  OpenToSpellBookTabAtCategory(spellBookCategory),
-  ToggleSpellBookFrame(spellBookCategory),
-  TogglePlayerSpellsFrame(suggestedTab, inspectUnit),
-  OpenToClassTalentsTab(inspectUnit),
-  InspectLoadout(linkData)
-}
-]]
 function WoWTools_LoadUIMixin:SpellBook(index, spellID)
     if InCombatLockdown()
         or self:IsDisabledOpenFrame()
@@ -445,12 +275,7 @@ function WoWTools_LoadUIMixin:SpellBook(index, spellID)
         PlayerSpellsUtil.OpenToClassSpecializationsTab()
     elseif index==2 then
         PlayerSpellsUtil.OpenToClassTalentsTab()
-        --[[if PlayerSpellsFrame and PlayerSpellsFrame.TalentsFrame:IsVisible() then
-            PlayerSpellsUtil.TogglePlayerSpellsFrame(2)
-        else
-            PlayerSpellsUtil.ToggleClassTalentOrSpecFrame()
-        end]]
-    else--这个有BUG
+    else
         if spellID then
             local knownSpellsOnly, toggleFlyout, flyoutReason = true, true, nil;
             PlayerSpellsUtil.OpenToSpellBookTabAtSpell(spellID, knownSpellsOnly, toggleFlyout, flyoutReason)
@@ -461,10 +286,6 @@ function WoWTools_LoadUIMixin:SpellBook(index, spellID)
 end
 
 
-
-
-
---打开成就
 -- AchievementObjectiveTrackerMixin:OnBlockHeaderClick
 --AchievementFrameAchievements.selection ~= achievementID
 --CanShowAchievementUI()
@@ -490,25 +311,6 @@ end
 
 
 --AchievementFrame_SelectAchievement(6779)
---[[
-战斗中，打不开
-journalType 0=Instance, 1=Encounter, 2=Section.
-journalID InstanceID, EncounterID, or SectionID.
-difficulty DifficultyID of the instance.
-
-AdventureGuideUtil.lua
-https://warcraft.wiki.gg/wiki/DifficultyID
-Blizzard_SharedMapDataProviders/DungeonEntranceDataProvider.lua
-|Hjournal:1:2568:23|h[虚空石畸体]|h
-EncounterJournal_DisplayInstance
-
-function EncounterJournalPinMixin:OnMouseClickAction()
-	EncounterJournal_LoadUI();
-	EncounterJournal_OpenJournal(nil, self.instanceID, self.encounterID);
-end
-
-WoWTools_DataMixin:Call(ToggleEncounterJournal)
-]]
 function WoWTools_LoadUIMixin:JournalInstance(journalType, journalInstanceID, difficultyID)
     if not AdventureGuideUtil.IsAvailable()
         or not journalInstanceID
@@ -521,12 +323,6 @@ function WoWTools_LoadUIMixin:JournalInstance(journalType, journalInstanceID, di
 end
 
 
---[[
-DelvesCompanionConfigurationFrame.playerCompanionID = companionID
-TraitUtil.OpenTraitFrame(traitTreeID)
-ShowUIPanel(DelvesCompanionConfigurationFrame)
-ShowUIPanel(DelvesCompanionAbilityListFrame)
-]]
 function WoWTools_LoadUIMixin:OpenCompanion(companionID)
     if InCombatLockdown() or self:IsDisabledOpenFrame() or not DelvesCompanionConfigurationFrame then
         return

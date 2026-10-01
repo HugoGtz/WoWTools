@@ -1,57 +1,6 @@
 
 
 
-local function Save()
-    return WoWToolsSave['Plus_Challenges']
-end
-
-
-
-
---[[local function Set_Data()
-    local cur= EJ_GetCurrentTier()
-    local max= EJ_GetNumTiers()
-
-    if not max or max==0 then
-        return
-    end
-
-    if max and cur~=max then
-        EJ_SelectTier(max)
-    end
-
-    local data={}
-    local find
-    for _, mapChallengeModeID in pairs(C_ChallengeMode.GetMapTable() or {}) do
-        local name, mapID  = C_ChallengeMode.GetMapUIInfo(mapChallengeModeID)
-        if mapID and name and not WoWTools_ChallengesSpellData[mapID] then
-            data[name]= mapID
-            find=true
-        end
-    end
-
-    if not find then
-        return
-    end
-
-    local dataIndex=1
-    local instanceID, name = EJ_GetInstanceByIndex(dataIndex, false)
-    while instanceID ~= nil do
-        dataIndex = dataIndex + 1;
-        local mapID= data[name]
-        if mapID then
-            WoWTools_ChallengesSpellData[mapID]={ins= instanceID}
-        end
-        instanceID, name = EJ_GetInstanceByIndex(dataIndex, false)
-    end
-
-    if not InCombatLockdown() then
-        EJ_SelectTier(cur or max)
-    end
-end]]
-
-
-
 local function Init()
     WoWTools_ChallengeMixin:ChallengesUI_Info()
     WoWTools_ChallengeMixin:ChallengesUI_Porta()
@@ -62,112 +11,210 @@ local function Init()
     WoWTools_ChallengeMixin:ChallengesUI_Guild()
     WoWTools_ChallengeMixin:ChallengesUI_Menu()
     WoWTools_ChallengeMixin:ChallengesKeystoneFrame()
-
-    Init=function()end
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWTools' then
-
-            WoWToolsSave['Plus_Challenges']= WoWToolsSave['Plus_Challenges'] or {
-                --hideIns=true,--隐藏，副本，挑战，信息
-                --insScale=0.8,--副本，缩放
-
-                --hideTips=true,--提示信息
-                --tipsScale=0.8,--提示信息，缩放
-                rightX= 2,--右边，提示，位置
-                rightY= -22,
-
-                hidePort= not WoWTools_DataMixin.Player.husandro,--传送门
-                portScale=WoWTools_DataMixin.Player.husandro and 0.85 or 1,--传送门, 缩放
-
-                --hideKeyUI=true,--挑战,钥石,插入界面
-                slotKeystoneSay=WoWTools_DataMixin.Player.husandro,--插入, KEY时, 说
-
-                --EndKeystoneSayText= WoWTools_DataMixin.Player.Region==5 and '{rt1}你们还继续吗? ' or '{rt1}Want to continue? ',
-            }
-
-
-            Save().hideAffixSay= nil--已弃用
-
-            WoWTools_ChallengeMixin.addName= '|A:UI-HUD-MicroMenu-Groupfinder-Mouseover:0:0|a'..(WoWTools_DataMixin.onlyChinese and '史诗钥石地下城' or CHALLENGES)
-
---添加控制面板
-            WoWTools_PanelMixin:OnlyCheck({
-                name= WoWTools_ChallengeMixin.addName,
-                GetValue= function() return not Save().disabled end,
-                SetValue= function()
-                    Save().disabled= not Save().disabled and true or nil
-                    print(
-                        WoWTools_ChallengeMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                        WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-                        WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD
-                    )
-                end
-            })
-
-            if Save().disabled then
-                self:SetScript('OnEvent', nil)
-                self:UnregisterEvent(event)
-
-            else
-                self:RegisterEvent('CHALLENGE_MODE_COMPLETED')
-                self:RegisterEvent('PLAYER_ENTERING_WORLD')
-                --self:RegisterEvent('CHALLENGE_MODE_START')
-
-                for _, tab in pairs(WoWTools_ChallengesSpellData) do
-                   WoWTools_DataMixin:Load(tab.spell, 'spell')
-                end
-
-                if C_AddOns.IsAddOnLoaded('Blizzard_WeeklyRewards') then
-                    WoWTools_ChallengeMixin:Blizzard_WeeklyRewards()
-                end
-
-                if C_AddOns.IsAddOnLoaded('Blizzard_ChallengesUI') then
-                    Init()
-                end
-            end
-
-        elseif arg1=='Blizzard_ChallengesUI' and WoWToolsSave then--挑战,钥石,插入界面
-            Init()
-
-        elseif arg1=='Blizzard_WeeklyRewards' and WoWToolsSave then
-            WoWTools_ChallengeMixin:Blizzard_WeeklyRewards()
+--Opciones del Centro de control (docs/SETTINGS.md). Usan los mismos campos que el menú de la pestaña de Míticas+.
+--Los marcos se crean al cargar Blizzard_ChallengesUI: hasta entonces solo se guarda el valor.
+local function Refresh(func)
+    return function(M)
+        if M.started and ChallengesFrame then
+            M[func](M)
         end
-
-    elseif event=='CHALLENGE_MODE_COMPLETED' then
-        WoWTools_ChallengeMixin:Say_ChallengeComplete()--挑战结束时， 显示按钮
-
-    --elseif event=='CHALLENGE_MODE_START' then --赏金, 说 Bounty
-        --WoWTools_ChallengeMixin:Chat_Affix()
-
-    elseif event=='PLAYER_ENTERING_WORLD' then
-        WoWTools_ChallengeMixin:Is_HuSandro()--低等级，开启，为测试用
-        WoWTools_ChallengeMixin:AvailableRewards() --打开周奖励时，提示拾取专精
-
---总是显示
-        if Save().allShowEndKeystoneSay then
-            WoWTools_ChallengeMixin:Say_ChallengeComplete()--挑战结束时， 显示按钮
-        end
-        self:UnregisterEvent(event)
     end
-end)
+end
+
+--Interruptor "Mostrar X" sobre un campo invertido (hideX)
+local function Show(field, text, tooltip, func, extra)
+    local opt= {type='check', key=field, text=text, tooltip=tooltip, apply=Refresh(func),
+        get= function(save) return not save[field] end,
+        set= function(save, value) save[field]= not value and true or nil end,
+    }
+    for k, v in pairs(extra or {}) do
+        opt[k]= v
+    end
+    return opt
+end
+
+local function Num(field, text, default, min, max, step, func, hideField, extra)
+    local opt= {type='slider', key=field, text=text, min=min, max=max, step=step,
+        format= step<1 and (step<0.1 and '%.2f' or '%.1f') or nil,
+        apply=Refresh(func),
+        get= function(save) return save[field] or default end,
+        set= function(save, value) save[field]= value end,
+        disabled= hideField and function(save) return save[hideField] end,
+    }
+    for k, v in pairs(extra or {}) do
+        opt[k]= v
+    end
+    return opt
+end
+
+local function Scale(field, default, func, hideField, extra)
+    extra= extra or {}
+    extra.tooltip= extra.tooltip or 'Tip.Menu.Scale'
+    return Num(field, 'HOUSING_EXPERT_DECOR_SUBMODE_SCALE', default, 0.4, 4, 0.1, func, hideField, extra)
+end
+
+--Restablecer: lo mismo que el botón "Restablecer" del menú (borra escala y posición)
+local function Reset(key, fields, func, hideField)
+    return {type='button', key=key, text='RESET+STATUS_TEXT_VALUE', buttonText='RESET', tooltip='Tip.Challenge.ResetValues',
+        disabled= hideField and function(save) return save[hideField] end,
+        func= function(M, save)
+            for _, field in ipairs(fields) do
+                save[field]= nil
+            end
+            Refresh(func)(M)
+        end,
+    }
+end
+
+local function Section(name)
+    return {type='section', text=function()
+        return WoWTools_L['Appearance']..': '..WoWTools_Options:Plain(WoWTools_L[name])
+    end}
+end
+
+local StrataList= {}
+for _, strata in ipairs({'BACKGROUND','LOW','MEDIUM','HIGH','DIALOG','FULLSCREEN','FULLSCREEN_DIALOG'}) do
+    table.insert(StrataList, {value=strata, text=function() return strata end})
+end
+
+local function Say_Settings(M)
+    if M.started then
+        M:Say_ChallengeComplete_Settings()
+    end
+end
+
+local Options= {
+    {type='section', text='GENERAL'},
+    Show('hideIns', 'INSTANCE+INFO', 'Tip.Challenge.DungeonInfo', 'ChallengesUI_Info'),
+    Num('insNamegsub', 'Truncate', 0, 0, 30, 1, 'ChallengesUI_Info', 'hideIns', {indent=true, tooltip='Tip.Challenge.Truncate',
+        set= function(save, value) save.insNamegsub= value>0 and value or nil end}),
+    Show('hidePort', 'SPELLS~2', 'Tip.Challenge.Portals', 'ChallengesUI_Porta', {noCombat=true}),
+    Show('hideActivities', 'RATED_PVP_WEEKLY_VAULT', 'Tip.Challenge.Vault', 'ChallengesUI_Activities'),
+    Show('activitiesHidePvP', function() return 'PvP '..WoWTools_L.INFO end, 'Tip.Challenge.VaultPvP', 'ChallengesUI_Activities', {indent=true,
+        disabled= function(save) return save.hideActivities end}),
+    Show('hideGuild', 'GUILD_CHALLENGE_LABEL', 'Tip.Challenge.Guild', 'ChallengesUI_Guild'),
+    Show('hideAffix', 'Affix list', 'Tip.Challenge.Affix', 'ChallengesUI_Affix'),
+    Show('hideRight', 'PLAYER_DIFFICULTY5+INFO', 'Tip.Challenge.RightInfo', 'ChallengesUI_Right'),
+    Show('hideKeyUI', 'Keystone window info', 'Tip.Challenge.KeystonePlus', 'ChallengesKeystoneFrame'),
+
+    {type='section', text='Automations'},
+    {type='check', key='hideEndKeystoneSay', text='PLAYER_DIFFICULTY5+COMPLETE', tooltip='Tip.Challenge.EndSay', automation=true,
+        get= function(save) return not save.hideEndKeystoneSay end,
+        set= function(save, value) save.hideEndKeystoneSay= not value and true or nil end,
+        apply= function(M)
+            if M.started then
+                M:Say_ChallengeComplete()
+            end
+        end,
+    },
+    {type='check', key='allShowEndKeystoneSay', text='BATTLEFIELD_MINIMAP_SHOW_ALWAYS', tooltip='Tip.Challenge.AlwaysShow', indent=true, automation=true,
+        disabled= function(save) return save.hideEndKeystoneSay end,
+        get= function(save) return save.allShowEndKeystoneSay end,
+        set= function(save, value) save.allShowEndKeystoneSay= value and true or nil end,
+    },
+    {type='input', key='sayText', text='Announcement text', tooltip='Tip.Challenge.SayEdit', indent=true, placeholder='{rt1}...',
+        disabled= function(save) return save.hideEndKeystoneSay end,
+        get= function() return WoWToolsPlusPlayerDate and WoWToolsPlusPlayerDate.EndKeystoneSayText or '' end,
+        set= function(_, text)
+            if WoWToolsPlusPlayerDate then
+                WoWToolsPlusPlayerDate.EndKeystoneSayText= text:gsub(' ', '')~='' and text or nil
+            end
+        end,
+    },
+
+    Section('INSTANCE+INFO'),
+    Scale('insScale', 1, 'ChallengesUI_Info', 'hideIns'),
+    Reset('resetIns', {'insScale', 'insNamegsub'}, 'ChallengesUI_Info', 'hideIns'),
+
+    Section('SPELLS~2'),
+    Scale('portScale', 1, 'ChallengesUI_Porta', 'hidePort', {noCombat=true}),
+
+    Section('RATED_PVP_WEEKLY_VAULT'),
+    Num('activitiesX', 'Position X', 10, -1024, 1024, 1, 'ChallengesUI_Activities', 'hideActivities', {tooltip='Tip.Challenge.Offset'}),
+    Num('activitiesY', 'Position Y', -53, -1024, 1024, 1, 'ChallengesUI_Activities', 'hideActivities', {tooltip='Tip.Challenge.Offset'}),
+    Scale('activitiesScale', 1, 'ChallengesUI_Activities', 'hideActivities'),
+    Reset('resetActivities', {'activitiesScale', 'activitiesX', 'activitiesY'}, 'ChallengesUI_Activities', 'hideActivities'),
+
+    Section('GUILD_CHALLENGE_LABEL'),
+    Num('guildX', 'Position X', -15, -1024, 1024, 1, 'ChallengesUI_Guild', 'hideGuild', {tooltip='Tip.Challenge.Offset'}),
+    Num('guildY', 'Position Y', -32, -1024, 1024, 1, 'ChallengesUI_Guild', 'hideGuild', {tooltip='Tip.Challenge.Offset'}),
+    Num('guildBgAlpha', 'BACKGROUND+HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY', 0.5, 0, 1, 0.05, 'ChallengesUI_Guild', 'hideGuild', {tooltip='Tip.Menu.BgAlpha'}),
+    Scale('guildScale', 1, 'ChallengesUI_Guild', 'hideGuild'),
+    Reset('resetGuild', {'guildScale', 'guildX', 'guildY', 'guildBgAlpha'}, 'ChallengesUI_Guild', 'hideGuild'),
+
+    Section('Affix list'),
+    Num('affixW', 'HUD_EDIT_MODE_SETTING_CHAT_FRAME_WIDTH', 238, 220, 1024, 1, 'ChallengesUI_Affix', 'hideAffix'),
+    Num('affixH', 'HUD_EDIT_MODE_SETTING_CHAT_FRAME_HEIGHT', 177, 58, 1024, 1, 'ChallengesUI_Affix', 'hideAffix'),
+    Num('affixX', 'Position X', -45, -2048, 2048, 1, 'ChallengesUI_Affix', 'hideAffix', {tooltip='Tip.Challenge.Offset'}),
+    Num('affixY', 'Position Y', 300, -2048, 2048, 1, 'ChallengesUI_Affix', 'hideAffix', {tooltip='Tip.Challenge.Offset'}),
+    Scale('affixScale', 0.4, 'ChallengesUI_Affix', 'hideAffix'),
+    Reset('resetAffix', {'affixScale', 'affixW', 'affixH', 'affixX', 'affixY'}, 'ChallengesUI_Affix', 'hideAffix'),
+
+    Section('PLAYER_DIFFICULTY5+INFO'),
+    Num('rightX', 'Position X', 2, -1024, 1024, 1, 'ChallengesUI_Right', 'hideRight', {tooltip='Tip.Challenge.Offset'}),
+    Num('rightY', 'Position Y', -22, -1024, 1024, 1, 'ChallengesUI_Right', 'hideRight', {tooltip='Tip.Challenge.Offset'}),
+    Scale('rightScale', 1, 'ChallengesUI_Right', 'hideRight'),
+    Reset('resetRight', {'rightScale', 'rightX', 'rightY'}, 'ChallengesUI_Right', 'hideRight'),
+
+    Section('Keystone window info'),
+    Scale('keystoneScale', 1, 'ChallengesKeystoneFrame', 'hideKeyUI'),
+
+    Section('PLAYER_DIFFICULTY5+COMPLETE'),
+    Scale('endKeystoneSayScale', 1, nil, 'hideEndKeystoneSay', {apply=Say_Settings}),
+    {type='dropdown', key='endeystoneSayStrata', text='Strata', tooltip='Tip.Menu.Strata', values=StrataList,
+        disabled= function(save) return save.hideEndKeystoneSay end,
+        get= function(save) return save.endeystoneSayStrata or 'MEDIUM' end,
+        set= function(save, value) save.endeystoneSayStrata= value end,
+        apply= Say_Settings,
+    },
+}
+
+
+WoWTools_Module:Register({
+    key= 'Plus_Challenges',
+    name= 'Module.Mythic+',
+    icon= 'UI-HUD-MicroMenu-Groupfinder-Mouseover',
+    group= 'World',
+    defaults= {
+        rightX= 2,
+        rightY= -22,
+
+        hidePort= true,
+        portScale=1,
+    },
+    tooltip= 'Tip.Challenge.Module',
+    mixin= WoWTools_ChallengeMixin,
+    options= Options,
+    onLoad= function(_, save)
+        save.hideAffixSay= nil
+    end,
+    onEnable= function()
+        for _, tab in pairs(WoWTools_ChallengesSpellData) do
+           WoWTools_DataMixin:Load(tab.spell, 'spell')
+        end
+    end,
+    blizzard= {
+        Blizzard_ChallengesUI= Init,
+        Blizzard_WeeklyRewards= function()
+            WoWTools_ChallengeMixin:Blizzard_WeeklyRewards()
+        end,
+    },
+    events= {
+        CHALLENGE_MODE_COMPLETED= function()
+            WoWTools_ChallengeMixin:Say_ChallengeComplete()
+            --WoWTools_ChallengeMixin:Chat_Affix()
+        end,
+        --CHALLENGE_MODE_START
+        PLAYER_ENTERING_WORLD= function(_, save)
+            WoWTools_ChallengeMixin:AvailableRewards()
+
+            if save.allShowEndKeystoneSay then
+                WoWTools_ChallengeMixin:Say_ChallengeComplete()
+            end
+            return true
+        end,
+    },
+})

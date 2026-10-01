@@ -1,42 +1,35 @@
 
-local function Save()
-    return WoWToolsSave['Plus_Holiday']
-end
 local TrackButton
 local NumButton=0
 local Name='WoWToolsHolidayTrackButton'
 
---时空漫游,事件ID
 local TimeWalkerEvent= {
     [1063]= true,
     [616]= true,
     [617]= true,
     [623]= true,
     [629]= true,
-    [643]= true,--熊猫人之迷
+    [643]= true,
     [654]= true,
     [1068]= true,
     [1277]= true,
     [1269]= true,
     [1669]= true,
     
-    [1703]=true,--暗影
+    [1703]=true,
 }
 
 
-
-
-
-local function Check_TimeWalker_Quest_Completed()--迷离的时光之路，任务是否完成
+local function Check_TimeWalker_Quest_Completed()
     for _, questID in pairs({
-        83360,--邪能的时光之路
-        88805,--战痕的时光之路
-        92649,--蔽影的时光之路
-        83364,--蛮荒的时光之路
-        83362,--迷离的时光之路
-        83365,--冰冻的时光之路
-        83363,--燃烧的时光之路
-        83359,--崩裂的时光之路
+        83360,
+        88805,
+        92649,
+        83364,
+        83362,
+        83365,
+        83363,
+        83359,
     }) do
         if C_QuestLog.IsQuestFlaggedCompleted(questID) then
             return format('|A:%s:0:0|a', 'common-icon-checkmark')
@@ -44,7 +37,7 @@ local function Check_TimeWalker_Quest_Completed()--迷离的时光之路，任�
     end
 end
 
-local function Check_Darkmon_Quest_Completed()--暗月马戏团，宠物对战，任务是否完成
+local function Check_Darkmon_Quest_Completed()
     for _, questID in pairs({36471, 32175}) do
         if C_QuestLog.IsQuestFlaggedCompleted(questID) then
             return format('|A:%s:0:0|a', 'common-icon-checkmark')
@@ -53,23 +46,9 @@ local function Check_Darkmon_Quest_Completed()--暗月马戏团，宠物对战�
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function _CalendarFrame_SafeGetName(name)
 	if ( not name or name == "" ) then
-		return WoWTools_DataMixin.onlyChinese and '未知' or UNKNOWN;
+		return WoWTools_L.UNKNOWN;
 	end
 	return name;
 end
@@ -103,13 +82,13 @@ local CALENDAR_CALENDARTYPE_TOOLTIP_NAMEFORMAT = {
 		[""]				= "%s",
 	},
 	["HOLIDAY"] = {
-		["START"]			= WoWTools_DataMixin.onlyChinese and '%s 开始' or CALENDAR_EVENTNAME_FORMAT_START,
-		["END"]				= WoWTools_DataMixin.onlyChinese and '%s 结束' or CALENDAR_EVENTNAME_FORMAT_END,
+		["START"]			= WoWTools_L.CALENDAR_EVENTNAME_FORMAT_START,
+		["END"]				= WoWTools_L.CALENDAR_EVENTNAME_FORMAT_END,
 		[""]				= "%s",
 		["ONGOING"]			= "%s",
 	},
 	["RAID_LOCKOUT"] = {
-		[""]				= WoWTools_DataMixin.onlyChinese and '%s解锁' or CALENDAR_EVENTNAME_FORMAT_RAID_LOCKOUT,
+		[""]				= WoWTools_L.CALENDAR_EVENTNAME_FORMAT_RAID_LOCKOUT,
 	},
 };
 
@@ -137,10 +116,6 @@ local CALENDAR_EVENTTYPE_TEXTURES = {
 }
 
 
-
-
-
-
 local function Get_Button_Text(event)
     local icon,atlas
     local findQuest
@@ -150,7 +125,7 @@ local function Get_Button_Text(event)
     local title=WoWTools_TextMixin:CN(event.title, {holydayID=event.eventID, isName=true})
 
 
-    if _CalendarFrame_IsPlayerCreatedEvent(event.calendarType) then--自定义,事件
+    if _CalendarFrame_IsPlayerCreatedEvent(event.calendarType) then
         local invitInfo= C_Calendar.EventGetInvite(event.index) or {}
         if invitInfo.guid then
             atlas= WoWTools_UnitMixin:GetPlayerInfo(nil, invitInfo.guid, nil, {reAtlas=true})
@@ -161,14 +136,14 @@ local function Get_Button_Text(event)
                 if event.inviteStatus== Enum.CalendarStatus.NotSignedup or event.inviteStatus == Enum.CalendarStatus.Signedup then
                     text = inviteStatusInfo.name;
                 else
-                    text = format(WoWTools_DataMixin.onlyChinese and '已登记（%s）' or CALENDAR_SIGNEDUP_FOR_GUILDEVENT_WITH_STATUS, inviteStatusInfo.name);
+                    text = format(WoWTools_L.CALENDAR_SIGNEDUP_FOR_GUILDEVENT_WITH_STATUS, inviteStatusInfo.name);
                 end
             else
                 if ( event.calendarType == "GUILD_ANNOUNCEMENT" ) then
-                    text = format(WoWTools_DataMixin.onlyChinese and '由%s创建' or CALENDAR_ANNOUNCEMENT_CREATEDBY_PLAYER, _CalendarFrame_SafeGetName(event.invitedBy));
+                    text = format(WoWTools_L.CALENDAR_ANNOUNCEMENT_CREATEDBY_PLAYER, _CalendarFrame_SafeGetName(event.invitedBy));
                     atlas= 'communities-icon-chat'
                 else
-                    text = format( WoWTools_DataMixin.onlyChinese and '被%s邀请' or CALENDAR_EVENT_INVITEDBY_PLAYER, _CalendarFrame_SafeGetName(event.invitedBy));
+                    text = format( WoWTools_L.CALENDAR_EVENT_INVITEDBY_PLAYER, _CalendarFrame_SafeGetName(event.invitedBy));
                 end
             end
             atlas= atlas or 'charactercreate-icon-dice'
@@ -187,23 +162,23 @@ local function Get_Button_Text(event)
         atlas='worldquest-icon-raid'
 
     elseif event.calendarType=='HOLIDAY' then
-        if title:find(PLAYER_DIFFICULTY_TIMEWALKER) or TimeWalkerEvent[event.eventID] then--时空漫游
+        if title:find(PLAYER_DIFFICULTY_TIMEWALKER) or TimeWalkerEvent[event.eventID] then
 
-            local isCompleted= Check_TimeWalker_Quest_Completed(event.eventID)--迷离的时光之路，任务是否完成
+            local isCompleted= Check_TimeWalker_Quest_Completed(event.eventID)
             texture= isCompleted or '|A:AutoQuest-Badge-Campaign:0:0|a'
-            title=(WoWTools_DataMixin.onlyChinese and '时空漫游' or PLAYER_DIFFICULTY_TIMEWALKER)
+            title=(WoWTools_L.PLAYER_DIFFICULTY_TIMEWALKER)
             findQuest= isCompleted and true or findQuest
-            icon=463446--1166[时空扭曲徽章]
+            icon=463446
 
-        elseif event.eventID==479 then--暗月--CALENDAR_FILTER_DARKMOON = "暗月马戏团"--515[暗月奖券]
-            local isCompleted= Check_Darkmon_Quest_Completed()--暗月马戏团，宠物对战，任务是否完成
+        elseif event.eventID==479 then
+            local isCompleted= Check_Darkmon_Quest_Completed()
             texture= isCompleted or '|A:AutoQuest-Badge-Campaign:0:0|a'
             findQuest=isCompleted and true or findQuest
             icon=134481
 
-        elseif event.eventID==324 or event.eventID==1405 then--万圣节
-            icon= 236546--33226[奶糖]
-        elseif event.eventID==423 then--情人节
+        elseif event.eventID==324 or event.eventID==1405 then
+            icon= 236546
+        elseif event.eventID==423 then
             icon=235468
         elseif event.eventID==181 then
             icon= 235477
@@ -220,22 +195,22 @@ local function Get_Button_Text(event)
 
     elseif event.calendarType=='HOLIDAY' and event.eventID then
 
-        if event.title:find(PLAYER_DIFFICULTY_TIMEWALKER) or TimeWalkerEvent[event.eventID] then--时空漫游 559
-            local isCompleted= Check_TimeWalker_Quest_Completed(event.eventID)--迷离的时光之路，任务是否完成
+        if event.title:find(PLAYER_DIFFICULTY_TIMEWALKER) or TimeWalkerEvent[event.eventID] then
+            local isCompleted= Check_TimeWalker_Quest_Completed(event.eventID)
 
             texture= isCompleted or '|A:AutoQuest-Badge-Campaign:0:0|a'
             findQuest= isCompleted
-            icon=463446--1166[时空扭曲徽章]
+            icon=463446
 
-        elseif event.eventID==479 then--暗月--CALENDAR_FILTER_DARKMOON = "暗月马戏团"
-            local isCompleted= Check_Darkmon_Quest_Completed()--暗月马戏团，宠物对战，任务是否完成
+        elseif event.eventID==479 then
+            local isCompleted= Check_Darkmon_Quest_Completed()
             texture= isCompleted or '|A:AutoQuest-Badge-Campaign:0:0|a'
             findQuest=isCompleted
-            icon=134481--515[暗月奖券]
+            icon=134481
 
-        elseif event.eventID==324 or event.eventID==1405 then--万圣节
-            icon= 236546--33226[奶糖]
-        elseif event.eventID==423 then--情人节
+        elseif event.eventID==324 or event.eventID==1405 then
+            icon= 236546
+        elseif event.eventID==423 then
             icon=235468
         elseif event.eventID==181 then
             icon= 235477
@@ -249,8 +224,8 @@ local function Get_Button_Text(event)
     title= title:match(HEADER_COLON..'(.+)') or title
     title= not event.isValid and '|cff626262'..title..'|r' or title
     local msg
-    if Save().left then
-        msg= ((Save().showDate and event.eventTime) and '|cffffffff'..event.eventTime..'|r ' or '')
+    if WoWTools_HolidayMixin:Save().left then
+        msg= ((WoWTools_HolidayMixin:Save().showDate and event.eventTime) and '|cffffffff'..event.eventTime..'|r ' or '')
             ..(text and text..' ' or '')
             ..(texture or '')
             ..title
@@ -258,17 +233,12 @@ local function Get_Button_Text(event)
         msg= title
             ..(texture or '')
             ..(text and ' '..text or '')
-            ..((Save().showDate and event.eventTime) and ' |cffffffff'..event.eventTime..'|r' or '')
+            ..((WoWTools_HolidayMixin:Save().showDate and event.eventTime) and ' |cffffffff'..event.eventTime..'|r' or '')
     end
 
     icon= icon or CALENDAR_EVENTTYPE_TEXTURES[event.eventType]
     return msg, icon, atlas, findQuest
 end
-
-
-
-
-
 
 
 local function _CalendarFrame_IsTodayOrLater(month, day, year)--Blizzard_Calendar.lua
@@ -277,10 +247,6 @@ local function _CalendarFrame_IsTodayOrLater(month, day, year)--Blizzard_Calenda
 	    currentCalendarTime.monthDay== day and
         currentCalendarTime.year== year
 end
-
-
-
-
 
 
 local CALENDAR_CALENDARTYPE_TCOORDS = {
@@ -370,33 +336,11 @@ local function _CalendarFrame_GetTextureCoords(calendarType, eventType)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Create_Button(index)
-    --[[local btn= WoWTools_ButtonMixin:Cbtn(TrackButton.Frame, {
-        size=14,
-        setID=index,
-        addTexture=true,
-        name=Name..index
-    })]]
     local btn= CreateFrame('Button', Name..index, TrackButton.Frame, 'WoWToolsButtonTemplate', index)
     --btn:SetSize(16,16)
 
     btn.texture=btn:CreateTexture(nil, 'BORDER')
---自定义，图标大小
     btn.texture:SetPoint("TOPLEFT", btn, "TOPLEFT", 0, 0)
     btn.texture:SetPoint("BOTTOMRIGHT", btn, "BOTTOMRIGHT", 0, 0)
 
@@ -410,11 +354,11 @@ local function Create_Button(index)
 
     btn:SetScript('OnLeave', function(self)
         GameTooltip:Hide()
-        WoWTools_HolidayMixin:SetTrackButtonState(false, self.text)--TrackButton，提示
+        WoWTools_HolidayMixin:SetTrackButtonState(false, self.text)
     end)
 
     btn:SetScript('OnEnter', function(self)
-        if Save().left then
+        if WoWTools_HolidayMixin:Save().left then
             GameTooltip:SetOwner(self.text, "ANCHOR_LEFT")
         else
             GameTooltip:SetOwner(self.text, "ANCHOR_RIGHT")
@@ -428,7 +372,7 @@ local function Create_Button(index)
                 description = WoWTools_TextMixin:CN(holidayInfo.description, {holydayID=self.eventID, isDesc=true})
 
                 if (holidayInfo.startTime and holidayInfo.endTime) then
-                    description=format(WoWTools_DataMixin.onlyChinese and '%1$s|n|n开始：%2$s %3$s|n结束：%4$s %5$s' or CALENDAR_HOLIDAYFRAME_BEGINSENDS,
+                    description=format(WoWTools_L.CALENDAR_HOLIDAYFRAME_BEGINSENDS,
                         description,
                         FormatShortDate(holidayInfo.startTime.monthDay, holidayInfo.startTime.month, holidayInfo.startTime.year),
                         GameTime_GetFormattedTime(holidayInfo.startTime.hour, holidayInfo.startTime.minute, true),
@@ -440,7 +384,7 @@ local function Create_Button(index)
                 local raidInfo = C_Calendar.GetRaidInfo(self.monthOffset, self.day, self.index);
                 if raidInfo and raidInfo.calendarType == "RAID_LOCKOUT" then
                     title = GetDungeonNameWithDifficulty(raidInfo.name, raidInfo.difficultyName);
-                    description= format(WoWTools_DataMixin.onlyChinese and '你的%1$s副本将在%2$s解锁。' or CALENDAR_RAID_LOCKOUT_DESCRIPTION, WoWTools_TextMixin:CN(title),  GameTime_GetFormattedTime(raidInfo.time.hour, raidInfo.time.minute, true))
+                    description= format(WoWTools_L.CALENDAR_RAID_LOCKOUT_DESCRIPTION, WoWTools_TextMixin:CN(title),  GameTime_GetFormattedTime(raidInfo.time.hour, raidInfo.time.minute, true))
                 end
             end
             if title or description then
@@ -456,7 +400,7 @@ local function Create_Button(index)
         end
         GameTooltip:AddDoubleLine('eventID|cffffffff'..WoWTools_DataMixin.Icon.icon2..self.eventID)
         GameTooltip:Show()
-        WoWTools_HolidayMixin:SetTrackButtonState(true, self.text)--TrackButton，提示
+        WoWTools_HolidayMixin:SetTrackButtonState(true, self.text)
     end)
 
 
@@ -466,15 +410,15 @@ local function Create_Button(index)
 
     function btn:settings()
         self.text:ClearAllPoints()
-        if Save().left then
+        if WoWTools_HolidayMixin:Save().left then
             self.text:SetPoint('RIGHT', self, 'LEFT',1, 0)
         else
             self.text:SetPoint('LEFT', self, 'RIGHT', -1, 0)
         end
-        self.text:SetJustifyH(Save().left and 'RIGHT' or 'LEFT')
+        self.text:SetJustifyH(WoWTools_HolidayMixin:Save().left and 'RIGHT' or 'LEFT')
 
         self:ClearAllPoints()
-        if Save().toTopTrack then
+        if WoWTools_HolidayMixin:Save().toTopTrack then
             self:SetPoint('BOTTOM', _G[Name..(self:GetID()-1)] or TrackButton, 'TOP')
         else
             self:SetPoint('TOP',  _G[Name..(self:GetID()-1)] or TrackButton, 'BOTTOM')
@@ -489,27 +433,6 @@ local function Create_Button(index)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---设置,显示内容 Blizzard_Calendar.lua CalendarDayButton_OnEnter(self)
 local function Set_Text(monthOffset, day)
 
     if not monthOffset or not day then
@@ -566,9 +489,9 @@ local function Set_Text(monthOffset, day)
                 end
 
                 if _CalendarFrame_IsPlayerCreatedEvent(event.calendarType)
-                    or not isToDay--今天
-                    or not Save().onGoing
-                    or (Save().onGoing and isValid)
+                    or not isToDay
+                    or not WoWTools_HolidayMixin:Save().onGoing
+                    or (WoWTools_HolidayMixin:Save().onGoing and isValid)
                 then
                     event.index= i
                     event.isValid= isValid
@@ -603,7 +526,7 @@ local function Set_Text(monthOffset, day)
     local btn, s, tcoords
     local width=0
     local num= #events
-    local toLeft= Save().left
+    local toLeft= WoWTools_HolidayMixin:Save().left
 
     TrackButton.Background:ClearAllPoints()
 
@@ -640,7 +563,7 @@ local function Set_Text(monthOffset, day)
 
 
     if num>0 then
-        local toTop= Save().toTopTrack
+        local toTop= WoWTools_HolidayMixin:Save().toTopTrack
         if toLeft then
             TrackButton.Background:SetPoint(toTop and 'BOTTOMRIGHT' or 'TOPRIGHT', _G[Name..1])
             TrackButton.Background:SetPoint(toTop and 'TOPRIGHT' or 'BOTTOMRIGHT', _G[Name..num])
@@ -675,109 +598,78 @@ local function Set_Text(monthOffset, day)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init_Menu(self, root)
     local sub
 
-    root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '显示' or SHOW,
+    sub=root:CreateCheckbox(
+        WoWTools_L.SHOW,
     function()
-        return not Save().hide
+        return not WoWTools_HolidayMixin:Save().hide
     end, function()
-        Save().hide= not Save().hide and true or nil
-        self:set_event()--设置事件
+        WoWTools_HolidayMixin:Save().hide= not WoWTools_HolidayMixin:Save().hide and true or nil
+        self:set_event()
         self:set_shown()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Holiday.ShowList'])
 
     root:CreateDivider()
 
-    root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '仅限: 正在活动' or LFG_LIST_CROSS_FACTION:format(CALENDAR_TOOLTIP_ONGOING),
+    sub=root:CreateCheckbox(
+        WoWTools_L['Ongoing only'],
     function()
-        return Save().onGoing
+        return WoWTools_HolidayMixin:Save().onGoing
     end, function()
-        Save().onGoing= not Save().onGoing and true or false
+        WoWTools_HolidayMixin:Save().onGoing= not WoWTools_HolidayMixin:Save().onGoing and true or false
         Set_Text()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Holiday.OngoingOnly'])
 
-    root:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '时间' or TIME_LABEL,
+    sub=root:CreateCheckbox(
+        WoWTools_L['TIME_LABEL~2'],
     function()
-        return Save().showDate
+        return WoWTools_HolidayMixin:Save().showDate
     end, function()
-        Save().showDate= not Save().showDate and true or nil
+        WoWTools_HolidayMixin:Save().showDate= not WoWTools_HolidayMixin:Save().showDate and true or nil
         Set_Text()
     end)
+    WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Holiday.ShowTime'])
 
 
     root:CreateDivider()
---打开选项界面
     sub=WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_HolidayMixin.addName})
 
-    sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '左' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_LEFT,
+    local sub2=sub:CreateCheckbox(
+        WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_LEFT,
     function()
-        return Save().left
+        return WoWTools_HolidayMixin:Save().left
     end, function()
-        Save().left= not Save().left and true or nil
+        WoWTools_HolidayMixin:Save().left= not WoWTools_HolidayMixin:Save().left and true or nil
         WoWTools_HolidayMixin:Init_TrackButton()
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Holiday.AlignLeft'])
 
-    sub:CreateCheckbox(
-        WoWTools_DataMixin.onlyChinese and '上' or HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP,
+    sub2=sub:CreateCheckbox(
+        WoWTools_L.HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_UP,
     function()
-        return Save().toTopTrack
+        return WoWTools_HolidayMixin:Save().toTopTrack
     end, function()
-        Save().toTopTrack = not Save().toTopTrack and true or nil
+        WoWTools_HolidayMixin:Save().toTopTrack = not WoWTools_HolidayMixin:Save().toTopTrack and true or nil
        WoWTools_HolidayMixin:Init_TrackButton()
     end)
+    WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Holiday.GrowUp'])
 
---缩放
     WoWTools_MenuMixin:Scale(self, sub, function()
-        return Save().scale or 1
+        return WoWTools_HolidayMixin:Save().scale or 1
     end, function(value)
-        Save().scale=value
+        WoWTools_HolidayMixin:Save().scale=value
         self:settings()
     end)
 
---背景, 透明度
     WoWTools_MenuMixin:BgAplha(sub,
     function()
-        return Save().bgAlpha or 0.5
+        return WoWTools_HolidayMixin:Save().bgAlpha or 0.5
     end, function(value)
-        Save().bgAlpha=value
+        WoWTools_HolidayMixin:Save().bgAlpha=value
         self:settings()
     end)
 
@@ -785,59 +677,28 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:FrameStrata(self, sub, function(data)
         return self:GetFrameStrata()==data
     end, function(data)
-        Save().strata= data
+        WoWTools_HolidayMixin:Save().strata= data
         self:settings()
     end)
 
---重置位置
 	sub:CreateDivider()
-	WoWTools_MenuMixin:RestPoint(self, sub, Save().point, function()
-		Save().point=nil
+	WoWTools_MenuMixin:RestPoint(self, sub, WoWTools_HolidayMixin:Save().point, function()
+		WoWTools_HolidayMixin:Save().point=nil
 		self:set_point()
-		print(
+		WoWTools_Print(
             WoWTools_HolidayMixin.addName..WoWTools_DataMixin.Icon.icon2,
-            WoWTools_DataMixin.onlyChinese and '重置位置' or RESET_POSITION
+            WoWTools_L.RESET_POSITION
         )
 	end)
 
---重新加载UI
     sub:CreateDivider()
     WoWTools_MenuMixin:Reload(sub)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
     TrackButton= CreateFrame('Button', 'WoWToolsHolidayTrackMainButton', UIParent, 'WoWToolsButtonTemplate')
 
---显示背景 Background
     WoWTools_TextureMixin:CreateBG(TrackButton, {isColor=true})
 
     TrackButton.texture= TrackButton:CreateTexture(nil, 'BORDER')
@@ -845,7 +706,7 @@ local function Init()
     TrackButton.texture:SetPoint('CENTER')
     TrackButton.texture:SetSize(20,10)
     function TrackButton:set_alpha()
-        local isShow= not Save().hide
+        local isShow= not WoWTools_HolidayMixin:Save().hide
         self.texture:SetAlpha(isShow and 0.3 or 1)
         if isShow then
             self.texture:SetAtlas('Adventure-MissionEnd-Line')
@@ -872,14 +733,14 @@ local function Init()
         self:StopMovingOrSizing()
         if WoWTools_FrameMixin:IsInSchermo(self) then
             self:StopMovingOrSizing()
-            Save().point={self:GetPoint(1)}
-            Save().point[2]=nil
+            WoWTools_HolidayMixin:Save().point={self:GetPoint(1)}
+            WoWTools_HolidayMixin:Save().point[2]=nil
         end
     end)
 
-    function TrackButton:set_event()--设置事件
+    function TrackButton:set_event()
         self:UnregisterAllEvents()
-        if Save().hide then
+        if WoWTools_HolidayMixin:Save().hide then
             return
         end
         self:RegisterEvent('PLAYER_ENTERING_WORLD')
@@ -933,7 +794,7 @@ local function Init()
             or UnitInVehicle('player') or OverrideActionBar:IsShown()
             or (InCombatLockdown() or isInCombat)
 
-        local showFrame= not hide and not Save().hide
+        local showFrame= not hide and not WoWTools_HolidayMixin:Save().hide
 
         self:SetShown(not hide)
         self:set_alpha()
@@ -946,7 +807,7 @@ local function Init()
             CalendarDayButton_OnEnter(self)
             GameTooltip:AddLine(' ')
         else
-            if Save().left then
+            if WoWTools_HolidayMixin:Save().left then
                 GameTooltip:SetOwner(self, "ANCHOR_LEFT")
             else
                 GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
@@ -955,10 +816,10 @@ local function Init()
         end
         GameTooltip:AddLine(WoWTools_HolidayMixin.addName..WoWTools_DataMixin.Icon.icon2)
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '打开/关闭日历' or GAMETIME_TOOLTIP_TOGGLE_CALENDAR, WoWTools_DataMixin.Icon.left)
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '菜单' or SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine(WoWTools_L.GAMETIME_TOOLTIP_TOGGLE_CALENDAR, WoWTools_DataMixin.Icon.left)
+        GameTooltip:AddDoubleLine(WoWTools_L.SLASH_TEXTTOSPEECH_MENU, WoWTools_DataMixin.Icon.right)
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '移动' or NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)
+        GameTooltip:AddDoubleLine(WoWTools_L.NPE_MOVE, 'Alt+'..WoWTools_DataMixin.Icon.right)
         GameTooltip:AddDoubleLine(WoWTools_TextMixin:GetShowHide(self.Frame:IsShown(), true), WoWTools_DataMixin.Icon.mid)
         GameTooltip:Show()
     end
@@ -975,8 +836,8 @@ local function Init()
         end
     end)
     TrackButton:SetScript('OnMouseWheel', function(self, d)
-		Save().hide= d==1
-        self:set_event()--设置事件
+		WoWTools_HolidayMixin:Save().hide= d==1
+        self:set_event()
         self:set_shown()
         self:set_tooltip()
 	end)
@@ -986,22 +847,22 @@ local function Init()
         self:set_tooltip()
     end)
 
-    function TrackButton:set_point()--设置, 位置
+    function TrackButton:set_point()
         self:ClearAllPoints()
-        if Save().point then
-            self:SetPoint(Save().point[1], UIParent, Save().point[3], Save().point[4], Save().point[5])
+        if WoWTools_HolidayMixin:Save().point then
+            self:SetPoint(WoWTools_HolidayMixin:Save().point[1], UIParent, WoWTools_HolidayMixin:Save().point[3], WoWTools_HolidayMixin:Save().point[4], WoWTools_HolidayMixin:Save().point[5])
         else
-            self:SetPoint('TOPLEFT', 400, WoWTools_DataMixin.Player.husandro and 0 or -100)
+            self:SetPoint('TOPLEFT', 400, -100)
         end
     end
 
 
 
     function TrackButton:settings()
-        self:SetFrameStrata(Save().strata or 'MEDIUM')
-        self.Frame:SetScale(Save().scale or 1)
+        self:SetFrameStrata(WoWTools_HolidayMixin:Save().strata or 'MEDIUM')
+        self.Frame:SetScale(WoWTools_HolidayMixin:Save().scale or 1)
 
-        self.Background:SetColorTexture(0, 0, 0, Save().bgAlpha or 0.5)
+        self.Background:SetColorTexture(0, 0, 0, WoWTools_HolidayMixin:Save().bgAlpha or 0.5)
 
 
         self:set_shown()
@@ -1013,10 +874,10 @@ local function Init()
     end)
     CalendarFrame:HookScript('OnHide', function()
         Set_Text()
-        WoWTools_HolidayMixin:SetTrackButtonState(false)--TrackButton，提示
+        WoWTools_HolidayMixin:SetTrackButtonState(false)
     end)
     CalendarFrame:HookScript('OnShow', function()
-        WoWTools_HolidayMixin:SetTrackButtonState(true)--TrackButton，提示
+        WoWTools_HolidayMixin:SetTrackButtonState(true)
         C_Timer.After(2, function()
             WoWTools_HolidayMixin:SetTrackButtonState(false)
         end)
@@ -1038,29 +899,6 @@ local function Init()
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---TrackButton，提示
 function WoWTools_HolidayMixin:SetTrackButtonState(show, text)
     if TrackButton then
 		TrackButton:SetButtonState(show and 'PUSHED' or "NORMAL")
@@ -1068,6 +906,27 @@ function WoWTools_HolidayMixin:SetTrackButtonState(show, text)
     if text then
 		text:SetAlpha(show and 0.5 or 1)
 	end
+end
+
+
+--Refresco en vivo desde el Centro de control (solo si el botón ya existe)
+--what: 'text', 'shown', 'settings', 'point' o 'init'
+function WoWTools_HolidayMixin:Refresh_TrackButton(what)
+    if not TrackButton then
+        return
+    end
+    if what=='text' then
+        Set_Text()
+    elseif what=='shown' then
+        TrackButton:set_event()
+        TrackButton:set_shown()
+    elseif what=='point' then
+        TrackButton:set_point()
+    elseif what=='init' then
+        Init()
+    else
+        TrackButton:settings()
+    end
 end
 
 

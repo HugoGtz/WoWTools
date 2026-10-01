@@ -1,12 +1,11 @@
 --EventRegistry:TriggerEvent("PerksProgram.UpdateCartShown", showCart)
 --EventRegistry:RegisterCallback("PerksProgram.UpdateCartShown", self.OnShoppingCartVisibilityUpdated, self);
---TimerunningUtil.TimerunningEnabledForPlayer() PlayerIsTimerunning(),--1=幻境新生：潘达利亚 
 --CombatLogGetCurrentEventInfo
 
 
 WoWTools_DataMixin= {
-    addName= '|TInterface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools.tga:0|t|cffff00ffWoW|r|cff00ff00Tools|r',
-    onlyChinese= LOCALE_zhCN and true or false,
+    addName= '|TInterface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools.tga:0|t|cffff00ffWoW|r|cff00ff00Tools|r|cff00ccffPlus|r',
+    onlyChinese= false,--fork: sin soporte chino (solo es/en); se mantiene la variable por compatibilidad
 
     --isRetail = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE and not C_AddOns.IsAddOnLoaded('Blizzard_PTRFeedback'),--Blizzard_PTRFeedback
 
@@ -16,37 +15,17 @@ WoWTools_DataMixin= {
 
     LeftButtonDown= C_CVar.GetCVarBool("ActionButtonUseKeyDown") and 'LeftButtonDown' or 'LeftButtonUp',
     RightButtonDown= C_CVar.GetCVarBool("ActionButtonUseKeyDown") and 'RightButtonDown' or 'RightButtonUp',
-    ExpansionLevel= math.max(GetAccountExpansionLevel(), GetExpansionLevel()),--GetClientDisplayExpansionLevel(), --math.max(GetAccountExpansionLevel(), GetExpansionLevel()),-- GetClampedCurrentExpansionLevel() math.max(GetAccountExpansionLevel(), GetExpansionLevel()),-- GetExpansionLevel() or 1,--版本数据
+    ExpansionLevel= math.max(GetAccountExpansionLevel(), GetExpansionLevel()),
 
-    StausText={},--属性，截取表 API_Panel.lua
+    StausText={},
     UnitItemLevel={},
     Language={},
     ClientSceneType= nil,
 }
 
 
---[[EventRegistry:RegisterFrameEventAndCallback("CLIENT_SCENE_OPENED", function(owner, arg1)
-    print('open')
-end)
-EventRegistry:RegisterFrameEventAndCallback("CLIENT_SCENE_CLOSED", function(owner, arg1)
-    print('CLOSED')
-end)]]
 
---[[
-UnitItemLevel[guid]={--玩家装等
-    itemLevel= itemLevel,
-    specID=specID,
-    faction= UnitFactionGroup(unit),
-    col= hex,
-    r=r,
-    g=g,
-    b=b,
-    level=UnitLevel(unit),
-}
-]]
 
---WoWTools_DataMixin.IsSetPlayerSound= enabled--播放, 事件声音
---WoWTools_DataMixin.ClearAllSave= true 全部重置，插件设置
 
 local battleTag= select(2, BNGetInfo())
 --local baseClass= UnitClassBase('player')
@@ -55,7 +34,14 @@ local currentRegion= GetCurrentRegion()
 --local r, g, b, hex= GetClassColor(baseClass)
 
 
-local function GetWeek()--周数
+local function GetWeek()
+    --Clave de semana según el reinicio real del servidor (antes: medianoche local, borraba bloqueos antes de tiempo)
+    local secs= C_DateAndTime and C_DateAndTime.GetSecondsUntilWeeklyReset and C_DateAndTime.GetSecondsUntilWeeklyReset()
+    local now= GetServerTime and GetServerTime()
+    if secs and now and secs>0 and now>0 then
+        return floor((now+ secs)/ 604800)
+    end
+
     local region= currentRegion
     local d = date("*t")
     local cd= region==1 and 2 or (region==3 and 3) or 4--1US(includes Brazil and Oceania) 2Korea 3Europe (includes Russia) 4Taiwan 5China
@@ -72,11 +58,15 @@ local function GetWeek()--周数
     return week
 end
 
+function WoWTools_DataMixin:GetWeek()
+    return GetWeek()
+end
+
 --PlayerUtil.GetClassColor():WrapTextInColorCode(linkText)
 WoWTools_DataMixin.Player={
     Ver= select(4,GetBuildInfo()),
     Realm= playerRealm,
-    Realms= {},--多服务器
+    Realms= {},
 
     Name_Realm= UnitName('player')..'-'..playerRealm,
     --Name= UnitName('player'),
@@ -88,47 +78,32 @@ WoWTools_DataMixin.Player={
     IsCN= currentRegion==5 or currentRegion==4,
 
     --col= '|c'..hex,
-    --UseColor= {r=r, g=g, b=b, a=1, hex='|c'..hex},--使用颜色
     --Color= PlayerUtil.GetClassColor(),
 
     --Lo= GetLocale(),
-    Week= GetWeek(),--周数 date('%W')
+    Week= GetWeek(),
     GUID= UnitGUID('player'),
-    IsMaxLevel= UnitLevel('player')==GetMaxLevelForLatestExpansion(), --GetMaxLevelForPlayerExpansion(),--玩家是否最高等级 MAX_PLAYER_LEVEL
+    IsMaxLevel= UnitLevel('player')==GetMaxLevelForLatestExpansion(),
     Level= UnitLevel('player') or 1,--UnitEffectiveLevel('player')
-    husandro= battleTag== '古月剑龙#5972' or battleTag=='SandroChina#2690' or battleTag=='Sandro126#2297' or battleTag=='Sandro163EU#2603',
     BattleTag= battleTag,
-    Faction= UnitFactionGroup('player'),--玩家, 派系  "Alliance", "Horde", "Neutral"
-    Layer= nil, --位面数字
-    --Language={},--多语言，文本
+    Faction= UnitFactionGroup('player'),
+    Layer= nil,
 }
 for realmIndex, realmName in pairs(GetAutoCompleteRealms() or {}) do
     WoWTools_DataMixin.Player.Realms[realmName]=realmIndex
 end
 
-if WoWTools_DataMixin.Player.husandro then
-    SetConsoleKey("F9")
-end
---[[
-zh= LOCALE_zhCN or LOCALE_zhTW,--GetLocale()== ("zhCN" or 'zhTW'),
-ver= select(4,GetBuildInfo())>=100100,--版本 100100
-disabledLUA={},--禁用插件 {save='', text} e.DisabledLua=true
-SetPortraitTexture(playerPoint:GetNormalTexture(), 'player')
-WoWTools_UnitMixin:GetRaceIcon('player', nil, nil, {reAtlas=true})  玩家图标icon 
-]]
 
 WoWTools_DataMixin.Icon={
-    Player= '',--玩家图标icon  WoWTools_UnitMixin:GetRaceIcon('player') 
-    icon= 'Interface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools',
-    icon2='|TInterface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools:0|t',
+    Player= '',
+    icon= 'Interface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools',
+    icon2='|TInterface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools:0|t',
 
     right='|A:NPE_RightClick:0:0|a',
     left='|A:NPE_LeftClick:0:0|a',
     mid='|A:newplayertutorial-icon-mouse-middlebutton:0:0|a',
     wow2='|A:glues-characterSelect-iconShop-hover:0:0|a',--'|A:questlog-questtypeicon-account:0:0|a',--,--'|A:tokens-WoW-generic-regular:0:0|a',
     net2= '|A:gmchat-icon-blizz:0:0|a',--'|A:Battlenet-ClientIcon-App:0:0|a',--'|A:questlog-questtypeicon-account:0:0|a',-- '|A:gmchat-icon-blizz:0:0|a',-- BNet_GetClientEmbeddedTexture(-2, 32, 32)
-    --toLeft='common-icon-rotateleft',--向左
-    --toRight='common-icon-rotateright',--向右
 
 --Blizzard_FrameXMLBase/Constants.lua
     TANK='|A:UI-LFG-RoleIcon-Tank:0:0|a',--INLINE_TANK_ICON CreateAtlasMarkup(GetMicroIconForRole("TANK"), 16, 16) 
@@ -141,7 +116,7 @@ WoWTools_DataMixin.Icon={
     Neutral='nameplates-icon-flag-neutral',
 
 --ColorConstants.lua
-    [Enum.ItemQuality.Poor] = "dressingroom-itemborder-gray",--0  C_Item.GetItemQualityByID(ID) 方块
+    [Enum.ItemQuality.Poor] = "dressingroom-itemborder-gray",
 	[Enum.ItemQuality.Common] = "dressingroom-itemborder-white",
 	[Enum.ItemQuality.Uncommon] = "dressingroom-itemborder-green",
 	[Enum.ItemQuality.Rare] = "dressingroom-itemborder-blue",
@@ -157,34 +132,7 @@ WoWTools_DataMixin.Icon={
 }
 
 
---[[
-questlog-questtypeicon-account
-disabled='talents-button-reset', ChallengeMode-icon-redline
-select='common-icon-checkmark',--'GarrMission_EncounterBar-CheckMark',--绿色√   
-common-dropdown-icon-checkmark-yellow 黄色
-ChallengeMode-RankLineDivider
-CampCollection-icon-star auctionhouse-icon-favorite  recipetoast-icon-star 星
-]]
-
-
-
-
-
-
-
-
-
-if LOCALE_zhCN then
-    WoWTools_DataMixin.Language= {
-        layer='位面',
-        key='关键词',
-    }
-elseif LOCALE_zhTW then
-    WoWTools_DataMixin.Language={
-        layer='位面',
-        key='關鍵詞',
-    }
-elseif LOCALE_koKR then
+if LOCALE_koKR then
     WoWTools_DataMixin.Language={
         layer='층',
         key='키워드',
@@ -199,7 +147,7 @@ elseif LOCALE_deDE then
         layer='Schicht',
         key='Schlüsselwörter',
     }
-elseif LOCALE_esES or LOCALE_esMX then--西班牙语
+elseif LOCALE_esES or LOCALE_esMX then
     WoWTools_DataMixin.Language={
         layer='Capa',
         key='Palabras clave',
@@ -209,7 +157,7 @@ elseif LOCALE_ruRU then
         layer='слой',
         key='Ключевые слова',
     }
-elseif LOCALE_ptBR then--葡萄牙语
+elseif LOCALE_ptBR then
     WoWTools_DataMixin.Language={
         layer='Camada',
         key='Palavras-chave',
@@ -227,63 +175,3 @@ else
 end
 
 
-
-
-
-
-function WoWTools_DataMixin:Info(data1)
-    local data= _G[data1] or data1
-
-    local secret= WoWTools_DataMixin.onlyChinese and '|cnEVENTTRACE_SECRET_COLOR:<机密>|r' or (EVENTTRACE_SECRET_FMT and format(EVENTTRACE_SECRET_FMT, '')) or '|cff88ff88<secret>|r'
-
-    local typeData= type(data)
-
-    if issecrettable(data) or (typeData=='table' and issecrettable(data))  then
-        print(WoWTools_DataMixin.Icon.icon2, secret)
-        return
-    end
-    local t=''
-    if typeData=='table' then
-        for k, v in pairs(data) do
-            if v and type(v)=='table' then
-                if issecrettable(v) then
-                    t= t..' |n|cnWARNING_FONT_COLOR:---'..tostring(k)..'---|r'..secret
-                else
-                    t= t..' |n|cff00ff00---'..tostring(k)..'---STAR|r'
-
-                    for k2, v2 in pairs(v) do
-                        if type(v2)=='table' then
-                            if issecrettable(v2) then
-                                t= t..'|n|cnWARNING_FONT_COLOR:'..tostring(k2)..'---|r'..secret
-                            else
-                                t= t..'|n|cff00ffff---'..tostring(k2)..'---STAR|r'
-                                for k3, v3 in pairs(v2) do
-                                    t= t..'|n        '..(type(v3)=='function' and '|cff00ccff' or '|cffffff00')..tostring(k3)..' |r= '..tostring(v3)
-                                end
-                                t= t..'|n   |cffff5e00---'..tostring(k2)..'---END|r'
-                            end
-                        else
-                            t= t..'|n    '..(type(v2)=='function' and '|cff00ccff' or '|cffffff00')..tostring(k2)..' |r= '..(issecrettable(v2) and secret or tostring(v2))
-                        end
-                    end
-                    t= t..'  |n|cffff0000---'..tostring(k)..'---END|r'
-                end
-            else
-                t= t..'|n'..(type(v)=='function' and '|cff00ccff' or '|cffff00ff')..tostring(k)..'|r = '..(issecretvalue(v) and secret or tostring(v))
-            end
-        end
-        t=t..'|n|cffff00ff——————————|r'
-
-    elseif typeData=='string' then
-        t=data
-    end
-
-    WoWTools_TextMixin:ShowText({t}, WoWTools_DataMixin.Icon.icon2..(type(data1)=='string' and data1 or tostring(data)))--, {notClear=true})
-end
-
-if not _G[SLASH_INFOSLASH1] then
-    SLASH_INFOSLASH1 = "/info"
-    SlashCmdList["INFOSLASH"] = function(msg)
-	    WoWTools_DataMixin:Info(msg)
-    end
-end

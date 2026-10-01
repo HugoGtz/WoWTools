@@ -1,11 +1,3 @@
---[[
-Cbtn(frame, tab)
-CreateSecureButton(tab)
-CreateMenu(frame, tab)
-
-InterfaceOptionsCheckButtonTemplate
-UICheckButtonArtTemplate
-]]
 
 WoWTools_ButtonMixin={}
 
@@ -33,9 +25,6 @@ end
 
 
 
---[[遮罩
-UI-HUD-UnitFrame-Player-Portrait-Mask
-]]
 function WoWTools_ButtonMixin:AddMask(btn, isType2, region, atlas)
     if not btn then
         return
@@ -43,11 +32,11 @@ function WoWTools_ButtonMixin:AddMask(btn, isType2, region, atlas)
 
     btn.IconMask= btn.IconMask or btn:CreateMaskTexture(nil, 'OVERLAY')
 
-    if not isType2 then--方形，按钮
+    if not isType2 then
         btn.IconMask:SetAtlas(atlas or 'UI-HUD-CoolDownManager-Mask')--'spellbook-item-spellicon-mask'
         btn.IconMask:SetPoint('TOPLEFT', region or btn, 0.5, -0.5)
         btn.IconMask:SetPoint('BOTTOMRIGHT', region or btn, -0.5, 0.5)
-    else--圆形，按钮
+    else
         btn.IconMask:SetTexture('Interface\\CharacterFrame\\TempPortraitAlphaMask', "CLAMPTOBLACKADDITIVE" , "CLAMPTOBLACKADDITIVE")--ItemButtonTemplate.xml
         btn.IconMask:SetPoint("TOPLEFT", region or btn, 2, -2)
         btn.IconMask:SetPoint("BOTTOMRIGHT", region or btn, -2, 2)
@@ -58,19 +47,6 @@ function WoWTools_ButtonMixin:AddMask(btn, isType2, region, atlas)
         icon:AddMaskTexture(btn.IconMask)
     end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 local function On_Leave(self)
@@ -108,7 +84,7 @@ local function Set_CheckButton(btn, isRightText)
         self.Text:SetText(...)
     end
     function btn:GetText(...)
-        self.Text:GetText(...)
+        return self.Text:GetText(...)
     end
 
     btn:SetScript('OnLeave', function(...) On_Leave(...) end)
@@ -123,9 +99,6 @@ local function Set_CheckButton(btn, isRightText)
     end
 end
 
---[[template
-UIPanelCloseButton
-]]
 function WoWTools_ButtonMixin:Cbtn(frame, tab)
     tab= tab or {}
 
@@ -149,7 +122,7 @@ function WoWTools_ButtonMixin:Cbtn(frame, tab)
 
     local isUI= tab.isUI
 
-    local name= tab.name --or ((frame and frame:GetName() or 'WoWTools')..'Button'..get_index())
+    local name= tab.name --or ((frame and frame:GetName() or 'WoWToolsPlus')..'Button'..get_index())
 
     local frameType= tab.frameType
                     or (isMenu and 'DropdownButton')
@@ -169,24 +142,16 @@ function WoWTools_ButtonMixin:Cbtn(frame, tab)
 
 
 
---提示，已存在
-    if _G[name] and WoWTools_DataMixin.Player.husandro then
-        print('Cbtn', '已存在', name)
-    end
 
---建立
     local btn= tab.btn or CreateFrame(frameType, name, frame or UIParent, template, setID)
 
---设置 CheckButton
     if isCheck then
         Set_CheckButton(btn, isRightText)
     end
 
     if isTexture then
---添加，遮罩
         self:AddMask(btn, isType2)
         btn.texture=btn:CreateTexture(nil, 'BORDER')
---自定义，图标大小
         btn.texture:SetPoint("TOPLEFT", btn, "TOPLEFT", 0, 0)
         btn.texture:SetPoint("BOTTOMRIGHT", btn, "BOTTOMRIGHT", 0, 0)
         btn.texture:AddMaskTexture(btn.IconMask)
@@ -196,10 +161,8 @@ function WoWTools_ButtonMixin:Cbtn(frame, tab)
     local pushedAtlas= 'PetList-ButtonSelect'--'newplayertutorial-drag-cursor'--''--'auctionhouse-nav-button-select'
     local highlightAtlas= 'Forge-ColorSwatchSelection'--'PetList-ButtonHighlight'--'WoWShare-Highlight'-- ''--auctionhouse-nav-button-select'
 
---圆形，按钮
     if isType2 then
         pushedAtlas, highlightAtlas= 'bag-border-highlight', 'bag-border'
---添加 Border
         if isBorder then
             btn.border=btn:CreateTexture(nil, 'ARTWORK')
             btn.border:SetPoint('TOPLEFT', -1 ,1)
@@ -207,12 +170,11 @@ function WoWTools_ButtonMixin:Cbtn(frame, tab)
             btn.border:SetAtlas('bag-reagent-border')
             WoWTools_TextureMixin:SetAlphaColor(btn.border, nil, nil, 0.3)
         end
---方形，按钮
     elseif atlas then
-        if atlas:find('Cursor_OpenHand_(%d+)') then--提取(手)按钮
+        if atlas:find('Cursor_OpenHand_(%d+)') then
             highlightAtlas= 'Cursor_OpenHandGlow_'..atlas:match('Cursor_OpenHand_(%d+)')
 
-        elseif atlas=='ui-questtrackerbutton-filter' then--菜单按钮
+        elseif atlas=='ui-questtrackerbutton-filter' then
             pushedAtlas='ui-questtrackerbutton-filter-pressed'
             highlightAtlas= 'ui-questtrackerbutton-red-highlight'
         else
@@ -226,7 +188,6 @@ function WoWTools_ButtonMixin:Cbtn(frame, tab)
         end
     end
 
---设置 Atlas or Texture    
     if btn.texture then
         if atlas then
             btn.texture:SetAtlas(atlas, useAtlasSize)
@@ -239,7 +200,6 @@ function WoWTools_ButtonMixin:Cbtn(frame, tab)
         btn:SetNormalTexture(texture)
     end
 
---遮罩
     if isMask or ((atlas or texture) and not pushedAtlas and not isType2) then
         self:AddMask(btn)
     end
@@ -259,7 +219,6 @@ function WoWTools_ButtonMixin:Cbtn(frame, tab)
         btn:EnableMouseWheel(true)
     end
 
---设置大小
     btn:SetSize(width, height)
 
 
@@ -279,20 +238,6 @@ function WoWTools_ButtonMixin:Cbtn(frame, tab)
 end
 
 
-
-
-
-
---[[
-UIPanelIconDropdownButtonMixin
-function UIPanelIconDropdownButtonMixin:OnMouseDown()
-	self.Icon:AdjustPointsOffset(1, -1);
-end
-function UIPanelIconDropdownButtonMixin:OnMouseUp(button, upInside)
-	self.Icon:AdjustPointsOffset(-1, 1);
-end
-]]
---菜单按钮 DropdownButtonMixin
 function WoWTools_ButtonMixin:Menu(frame, tab)
     tab= tab or {}
     tab.isMenu=true
@@ -321,11 +266,3 @@ end
 
 
 
---[[function WoWTools_ButtonMixin:ReloadButton()
-    local reload= CreateFrame('Button', 'WoWToolsSpellBookReloadButton', PlayerSpellsFrame.TitleContainer, 'WoWToolsButtonTemplate')
-    reload:SetPoint('LEFT', 28, -3)
-    reload:SetNormalAtlas('common-icon-exit')
-    reload.tooltip=WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '重新加载' or RELOADUI)
-    reload:SetScript('OnClick', function() WoWTools_DataMixin:Reload() end)
-    WoWTools_TextureMixin:SetButton(reload, 0.5)
-end]]

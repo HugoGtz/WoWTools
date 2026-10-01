@@ -1,28 +1,10 @@
 
-local function Save()
-    return WoWToolsSave['ChatButton_Invite'] or {}
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---接受, 召唤
-local function Init()
+local Init= WoWTools_Once(function()
     WoWTools_DataMixin:Hook(StaticPopupDialogs["CONFIRM_SUMMON"], "OnUpdate", function(self)
-        if IsModifierKeyDown() or self.isCancelledAuto or not Save().Summon then
+        if IsModifierKeyDown() or self.isCancelledAuto or not WoWTools_InviteMixin:Save().Summon then
             if not self.isCancelledAuto then
-                WoWTools_CooldownMixin:Setup(self, nil, C_SummonInfo.GetSummonConfirmTimeLeft(), nil, true, true, nil)--冷却条
-                if self.SummonTimer then--取消，计时
+                WoWTools_CooldownMixin:Setup(self, nil, C_SummonInfo.GetSummonConfirmTimeLeft(), nil, true, true, nil)
+                if self.SummonTimer then
                     self.SummonTimer:Cancel()
                     self.SummonTimer=nil
                 end
@@ -31,33 +13,27 @@ local function Init()
             return
         end
 
-        if not InCombatLockdown() and PlayerCanTeleport() then--启用，召唤
+        if not InCombatLockdown() and PlayerCanTeleport() then
             if not self.enabledAutoSummon then
                 self.enabledAutoSummon= true
                 if self.SummonTimer then
                     self.SummonTimer:Cancel()
                     self.SummonTimer= nil
                 end
-                WoWTools_CooldownMixin:Setup(self, nil, 3, nil, true, true, nil)--冷却条
+                local sec= WoWTools_InviteMixin:Save().SummonSec or 3--espera configurable (por defecto 3 s)
+                WoWTools_CooldownMixin:Setup(self, nil, sec, nil, true, true, nil)
 
-                self.SummonTimer= C_Timer.NewTimer(3, function()
+                self.SummonTimer= C_Timer.NewTimer(sec, function()
                     if not InCombatLockdown() and PlayerCanTeleport() then
                         C_SummonInfo.ConfirmSummon()
                         StaticPopup_Hide("CONFIRM_SUMMON")
-                        if not IsInGroup() or Save().notSummonChat then
-                            return
-                        end
-                        local isInRaid= IsInRaid()
-                        if isInRaid and Save().SummonThxInRaid or not isInRaid then
-                            WoWTools_ChatMixin:Chat(Save().SummonThxText or WoWTools_InviteMixin.SummonThxText, nil, nil)
-                        end
                     end
                 end)
             end
 
-        elseif self.enabledAutoSummon then--取消，召唤
-            WoWTools_CooldownMixin:Setup(self, nil, C_SummonInfo.GetSummonConfirmTimeLeft(), nil, true, true, nil)--冷却条
-            if self.SummonTimer then--取消，计时
+        elseif self.enabledAutoSummon then
+            WoWTools_CooldownMixin:Setup(self, nil, C_SummonInfo.GetSummonConfirmTimeLeft(), nil, true, true, nil)
+            if self.SummonTimer then
                 self.SummonTimer:Cancel()
                 self.SummonTimer=nil
             end
@@ -65,26 +41,32 @@ local function Init()
         end
     end)
 
-    StaticPopupDialogs["CONFIRM_SUMMON"].OnHide= function(self)
+    local function onHide(self)
         if self.SummonTimer then
             self.SummonTimer:Cancel()
             self.SummonTimer=nil
         end
         self.enabledAutoSummon=nil
         self.isCancelled=nil
+        self.isCancelledAuto=nil--si no, tras cancelar una vez ya no se autoacepta nunca
+    end
+    if StaticPopupDialogs["CONFIRM_SUMMON"].OnHide then--encadenar en vez de pisar la de Blizzard
+        WoWTools_DataMixin:Hook(StaticPopupDialogs["CONFIRM_SUMMON"], "OnHide", onHide)
+    else
+        StaticPopupDialogs["CONFIRM_SUMMON"].OnHide= onHide
     end
 
     WoWTools_DataMixin:Hook(StaticPopupDialogs["CONFIRM_SUMMON"], "OnShow",function()--StaticPopup.lua
-        WoWTools_DataMixin:PlaySound(SOUNDKIT.IG_PLAYER_INVITE)--播放, 声音
+        WoWTools_DataMixin:PlaySound(SOUNDKIT.IG_PLAYER_INVITE)
         local name= C_SummonInfo.GetSummonConfirmSummoner()
         local info= WoWTools_DataMixin.GroupGuid[name]
         if info and info.guid then
             local playerInfo= WoWTools_UnitMixin:GetPlayerInfo(nil, info.guid, nil, {reLink=true})
             name= playerInfo~='' and playerInfo or name
         end
-        print(
+        WoWTools_Print(
             WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,
-            WoWTools_DataMixin.onlyChinese and '召唤' or SUMMON,
+            WoWTools_L.SUMMON,
             name,
             '|A:poi-islands-table:0:0|a|cnGREEN_FONT_COLOR:',
             WoWTools_TextMixin:CN(C_SummonInfo.GetSummonConfirmAreaName()),
@@ -92,9 +74,7 @@ local function Init()
             WoWTools_TimeMixin:SecondsToClock(C_SummonInfo.GetSummonConfirmTimeLeft() or 0)
         )
     end)
-
-    Init=function()end
-end
+end)
 
 
 

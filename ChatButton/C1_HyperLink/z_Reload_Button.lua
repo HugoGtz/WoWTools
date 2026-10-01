@@ -1,9 +1,3 @@
---添加 RELOAD 按钮
-local function Save()
-    return WoWToolsSave['ChatButton_HyperLink'] or {}
-end
-
-
 local function Create_Texture_Tips(btn, data)--atlas, coord)
     if not btn then
         return
@@ -40,34 +34,40 @@ end
 
 
 
---添加 RELOAD 按钮
+local Init_Once--se crea abajo
+
+--La comprobación va fuera del "una sola vez": se vuelve a mirar en cada llamada
 local function Init()
-    if Save().not_Add_Reload_Button then
+    if WoWTools_HyperLink:Save().not_Add_Reload_Button then
         return
     end
+    Init_Once()
+end
+
+Init_Once= WoWTools_Once(function()
 
    local dataButton={--layoutIndex
-        [WoWTools_TextMixin:CN(GAMEMENU_OPTIONS)]= {'mechagon-projects', false},--选项
-        [WoWTools_TextMixin:CN(HUD_EDIT_MODE_MENU)]= {'UI-HUD-Minimap-CraftingOrder-Up', false},--编辑模式
-        [WoWTools_TextMixin:CN(MACROS)]= {'NPE_Icon', false},--宏命令设置
+        [WoWTools_TextMixin:CN(GAMEMENU_OPTIONS)]= {'mechagon-projects', false},
+        [WoWTools_TextMixin:CN(HUD_EDIT_MODE_MENU)]= {'UI-HUD-Minimap-CraftingOrder-Up', false},
+        [WoWTools_TextMixin:CN(MACROS)]= {'NPE_Icon', false},
 
-        [WoWTools_TextMixin:CN(ADDONS)]= {'dressingroom-button-appearancelist-up', false},--插件
-        [WoWTools_TextMixin:CN(LOG_OUT)]= {'perks-warning-large', false, {0,0.8,1}},--登出
-        [WoWTools_TextMixin:CN(EXIT_GAME)]= {'Ping_Chat_Warning', false, {0,0.8,1}},--退出游戏
-        [WoWTools_TextMixin:CN(RETURN_TO_GAME)]= {'poi-traveldirections-arrow', true, {0,1,0}},--返回游戏
+        [WoWTools_TextMixin:CN(ADDONS)]= {'dressingroom-button-appearancelist-up', false},
+        [WoWTools_TextMixin:CN(LOG_OUT)]= {'perks-warning-large', false, {0,0.8,1}},
+        [WoWTools_TextMixin:CN(EXIT_GAME)]= {'Ping_Chat_Warning', false, {0,0.8,1}},
+        [WoWTools_TextMixin:CN(RETURN_TO_GAME)]= {'poi-traveldirections-arrow', true, {0,1,0}},
     }
 
 
     local frame= SettingsPanel.AddOnsTab
     if frame then--common-icon-exit
         frame.reload= CreateFrame('Button', nil, frame, 'GameMenuButtonTemplate')
-        frame.reload:SetText(WoWTools_DataMixin.onlyChinese and '重新加载UI' or RELOADUI)
+        frame.reload:SetText(WoWTools_L.RELOADUI)
         frame.reload:SetScript('OnLeave', GameTooltip_Hide)
         frame.reload:SetScript('OnEnter', function(self)
             GameTooltip:SetOwner(self, "ANCHOR_LEFT")
             GameTooltip:ClearLines()
             GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_HyperLink.addName)
-            GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '重新加载UI' or RELOADUI, '|cnGREEN_FONT_COLOR:'..SLASH_RELOAD1)
+            GameTooltip:AddDoubleLine(WoWTools_L.RELOADUI, '|cnGREEN_FONT_COLOR:'..SLASH_RELOAD1)
             GameTooltip:Show()
         end)
         frame.reload:SetScript('OnClick', function() WoWTools_DataMixin:Reload() end)
@@ -96,7 +96,7 @@ local function Init()
         self:AddSection()
 
         local btn = self:AddButton(
-            WoWTools_DataMixin.onlyChinese and '重新加载UI' or RELOADUI,
+            WoWTools_L.RELOADUI,
         function()
             WoWTools_DataMixin:Reload()
         end)
@@ -104,9 +104,7 @@ local function Init()
 
         Create_Texture_Tips(btn, {'BattleBar-SwapPetIcon', false, {1,1,1}})
     end)
-
-    Init=function()end
-end
+end)
 
 
 
@@ -114,7 +112,6 @@ end
 
 
 
---添加 RELOAD 按钮
 function WoWTools_HyperLink:Init_Reload()
     Init()
 end

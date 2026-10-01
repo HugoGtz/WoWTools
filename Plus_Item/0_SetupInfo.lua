@@ -1,40 +1,18 @@
---[[
-WoWTools_ItemMixin:SetupInfo(itemButton, {
-    itemLink= ,
-    hyperlink=,
-    lootIndex= , 
-    bag= {bag=bagID, slot=slotID},
-    merchant= {slot=slot, buyBack= selectedTab==2},
-    guidBank= {tab=tab, slot=i},
-    itemLocation=,
-    itemKey=,
-    
 
-    point= region,
-    size=12
-})
-
-local function Save()
-    return WoWToolsSave['Plus_ItemInfo']
-end
-]]
-
-local ITEM_SPELL_CHARGES= WoWTools_TextMixin:Magic(ITEM_SPELL_CHARGES)-- ITEM_SPELL_CHARGES:gsub('%%d', '%(%%d%+%)')--(%d+)次
-local CHALLENGE_MODE_KEYSTONE_NAME= format(CHALLENGE_MODE_KEYSTONE_NAME,'(.+) ')--钥石
+local ITEM_SPELL_CHARGES= WoWTools_TextMixin:Magic(ITEM_SPELL_CHARGES)
+local CHALLENGE_MODE_KEYSTONE_NAME= format(CHALLENGE_MODE_KEYSTONE_NAME,'(.+) ')
 --local equipStr= WoWTools_TextMixin:Magic(EQUIPMENT_SETS)--:gsub('|cFFFFFFFF', ''):gsub('|r', ''))
-local PVP_ITEM_LEVEL_TOOLTIP= PVP_ITEM_LEVEL_TOOLTIP:gsub('%%d', '%(%%d%+%)')--"装备：在竞技场和战场中将物品等级提高至%d。"
-local ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT= ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT:gsub('%%s/%%s','(.-%%d%+/%%d%+)')-- "升级：%s/%s"
-local ITEM_CLASSES_ALLOWED= format(ITEM_CLASSES_ALLOWED, '(.+)') --"职业：%s"
-local itemLevelStr= ITEM_LEVEL:gsub('%%d', '%(%%d%+%)')--"物品等级：%d"
+local PVP_ITEM_LEVEL_TOOLTIP= PVP_ITEM_LEVEL_TOOLTIP:gsub('%%d', '%(%%d%+%)')
+local ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT= ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT:gsub('%%s/%%s','(.-%%d%+/%%d%+)')
+local ITEM_CLASSES_ALLOWED= format(ITEM_CLASSES_ALLOWED, '(.+)')
+local itemLevelStr= ITEM_LEVEL:gsub('%%d', '%(%%d%+%)')
 
-local ITEM_SPELL_TRIGGER_ONUSE= ITEM_SPELL_TRIGGER_ONUSE..'(.+)'--使用：
+local ITEM_SPELL_TRIGGER_ONUSE= ITEM_SPELL_TRIGGER_ONUSE..'(.+)'
 
 
---local EQUIPMENT_SETS=EQUIPMENT_SETS--  "装备配置方案：|cFFFFFFFF%s|r";
 
---local size= 10--字体大小
 
-local heirloomWeapontemEquipLocTab={--传家宝 ，武器，itemEquipLoc
+local heirloomWeapontemEquipLocTab={
     ['INVTYPE_WEAPON']= true,
     ['INVTYPE_2HWEAPON']= true,
     ['INVTYPE_RANGED']= true,
@@ -44,73 +22,49 @@ local heirloomWeapontemEquipLocTab={--传家宝 ，武器，itemEquipLoc
 
 
 
-local ClassNameIconTab={}--职业图标 ClassNameIconTab['法师']=图标
-local FMTab={}--附魔
+local ClassNameIconTab={}
+local FMTab={}
 
 EventRegistry:RegisterFrameEventAndCallback('PLAYER_ENTERING_WORLD', function(owner)
     for classID= 1, GetNumClasses() do
         local classInfo = C_CreatureInfo.GetClassInfo(classID)
         if classInfo and classInfo.className and classInfo.classFile then
-            ClassNameIconTab[classInfo.className]= WoWTools_UnitMixin:GetClassIcon(nil, nil, classInfo.classFile)--职业图标
+            ClassNameIconTab[classInfo.className]= WoWTools_UnitMixin:GetClassIcon(nil, nil, classInfo.classFile)
         end
     end
 
-    FMTab={--附魔
-        ['主属性']= '主',
-        ['坐骑速度']= '骑',
-        [PRIMARY_STAT1_TOOLTIP_NAME]=  WoWTools_DataMixin.onlyChinese and "力" or WoWTools_TextMixin:sub(PRIMARY_STAT1_TOOLTIP_NAME, 1, 3, true),
-        [PRIMARY_STAT2_TOOLTIP_NAME]=  WoWTools_DataMixin.onlyChinese and "敏" or WoWTools_TextMixin:sub(PRIMARY_STAT2_TOOLTIP_NAME, 1, 3, true),
-        [PRIMARY_STAT3_TOOLTIP_NAME]=  WoWTools_DataMixin.onlyChinese and "耐" or WoWTools_TextMixin:sub(PRIMARY_STAT3_TOOLTIP_NAME, 1, 3, true),
-        [PRIMARY_STAT4_TOOLTIP_NAME]=  WoWTools_DataMixin.onlyChinese and "智" or WoWTools_TextMixin:sub(PRIMARY_STAT4_TOOLTIP_NAME, 1, 3, true),
-        [ITEM_MOD_CRIT_RATING_SHORT]= WoWTools_DataMixin.onlyChinese and '爆' or WoWTools_TextMixin:sub(STAT_CRITICAL_STRIKE, 1, 3, true),
-        [ITEM_MOD_HASTE_RATING_SHORT]= WoWTools_DataMixin.onlyChinese and '急' or WoWTools_TextMixin:sub(STAT_HASTE, 1, 3, true),
-        [ITEM_MOD_MASTERY_RATING_SHORT]= WoWTools_DataMixin.onlyChinese and '精' or WoWTools_TextMixin:sub(STAT_MASTERY, 1, 3, true),
-        [ITEM_MOD_VERSATILITY]= WoWTools_DataMixin.onlyChinese and '全' or WoWTools_TextMixin:sub(STAT_VERSATILITY, 1, 3, true),
-        [ITEM_MOD_CR_AVOIDANCE_SHORT]= WoWTools_DataMixin.onlyChinese and '闪' or WoWTools_TextMixin:sub(ITEM_MOD_CR_AVOIDANCE_SHORT, 1, 3, true),
-        [ITEM_MOD_CR_LIFESTEAL_SHORT]= WoWTools_DataMixin.onlyChinese and '吸' or WoWTools_TextMixin:sub(ITEM_MOD_CR_LIFESTEAL_SHORT, 1, 3, true),
-        [ITEM_MOD_CR_SPEED_SHORT]= WoWTools_DataMixin.onlyChinese and '速' or WoWTools_TextMixin:sub(ITEM_MOD_CR_SPEED_SHORT, 1, 3, true),
+    FMTab={
+        [PRIMARY_STAT1_TOOLTIP_NAME]=  WoWTools_TextMixin:sub(PRIMARY_STAT1_TOOLTIP_NAME, 1, 3, true),
+        [PRIMARY_STAT2_TOOLTIP_NAME]=  WoWTools_TextMixin:sub(PRIMARY_STAT2_TOOLTIP_NAME, 1, 3, true),
+        [PRIMARY_STAT3_TOOLTIP_NAME]=  WoWTools_TextMixin:sub(PRIMARY_STAT3_TOOLTIP_NAME, 1, 3, true),
+        [PRIMARY_STAT4_TOOLTIP_NAME]=  WoWTools_TextMixin:sub(PRIMARY_STAT4_TOOLTIP_NAME, 1, 3, true),
+        [ITEM_MOD_CRIT_RATING_SHORT]= WoWTools_TextMixin:sub(STAT_CRITICAL_STRIKE, 1, 3, true),
+        [ITEM_MOD_HASTE_RATING_SHORT]= WoWTools_TextMixin:sub(STAT_HASTE, 1, 3, true),
+        [ITEM_MOD_MASTERY_RATING_SHORT]= WoWTools_TextMixin:sub(STAT_MASTERY, 1, 3, true),
+        [ITEM_MOD_VERSATILITY]= WoWTools_TextMixin:sub(STAT_VERSATILITY, 1, 3, true),
+        [ITEM_MOD_CR_AVOIDANCE_SHORT]= WoWTools_TextMixin:sub(ITEM_MOD_CR_AVOIDANCE_SHORT, 1, 3, true),
+        [ITEM_MOD_CR_LIFESTEAL_SHORT]= WoWTools_TextMixin:sub(ITEM_MOD_CR_LIFESTEAL_SHORT, 1, 3, true),
+        [ITEM_MOD_CR_SPEED_SHORT]= WoWTools_TextMixin:sub(ITEM_MOD_CR_SPEED_SHORT, 1, 3, true),
     }
     EventRegistry:UnregisterCallback('PLAYER_ENTERING_WORLD', owner)
 end)
 
 
-
---[[local function Get_Class_Icon_da_Text(text)
-    local t
-    if text then
-        for name, icon in pairs(ClassNameIconTab) do
-            if text:find(name) then
-                t= (t or '')..icon
-            end
-        end
-    end
-    return t
-end]]
-
-
-
-
---已收集, 未收集
 local function get_has_text(has)
     if has then
-        return format('|cnWARNING_FONT_COLOR:%s|r',  WoWTools_DataMixin.onlyChinese and '已收集' or WoWTools_TextMixin:sub(COLLECTED, 3, 5, true))
+        return format('|cnWARNING_FONT_COLOR:%s|r',  WoWTools_TextMixin:sub(COLLECTED, 3, 5, true))
     elseif has~=nil then
-        return format('|cnGREEN_FONT_COLOR:%s|r',  WoWTools_DataMixin.onlyChinese and '未收集' or WoWTools_TextMixin:sub(NOT_COLLECTED, 3, 5, true))
+        return format('|cnGREEN_FONT_COLOR:%s|r',  WoWTools_TextMixin:sub(NOT_COLLECTED, 3, 5, true))
     end
 end
 
 
-
-
-
-
---装等，提示
 local function get_itemLeve_color(itemLink, itemLevel, itemEquipLoc, itemQuality, upItemLevel)
     if not itemLevel or itemLevel==1 then
         return
     end
     local invSlots
-    if itemEquipLoc=='INVTYPE_HOLDABLE' or itemEquipLoc=='INVTYPE_SHIELD' then--17 副手武器
+    if itemEquipLoc=='INVTYPE_HOLDABLE' or itemEquipLoc=='INVTYPE_SHIELD' then
         invSlots={17, 16}
     else
         invSlots={WoWTools_ItemMixin:GetEquipSlotID(itemEquipLoc)}
@@ -122,7 +76,6 @@ local function get_itemLeve_color(itemLink, itemLevel, itemEquipLoc, itemQuality
 
 
 
---取得最小，武器, sp, 戒指
     local upLevel, downLevel
     local itemLinkPlayer, equipedLevel
     for _, slot in pairs(invSlots) do
@@ -157,16 +110,16 @@ local function get_itemLeve_color(itemLink, itemLevel, itemEquipLoc, itemQuality
         else
             --local equipedLevel= WoWTools_ItemMixin:GetItemLevel(itemLinkPlayer)
             if equipedLevel then
-                local equipedInfo= WoWTools_ItemMixin:GetTooltip({itemLink=itemLinkPlayer, text={--物品提示，信息
+                local equipedInfo= WoWTools_ItemMixin:GetTooltip({itemLink=itemLinkPlayer, text={
                         ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT
                     },
                     onlyText=true
                 })
-                if equipedInfo.text[ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT] then--"升级：%s/%s"
+                if equipedInfo.text[ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT] then
                     local min, max= equipedInfo.text[ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT]:match('(%d+)/(%d+)')
                     if min and max and min<max then
                         min, max= tonumber(min) or 0, tonumber(max) or 0
-                        equipedLevel=equipedLevel+ (max-min)*5--已装备，物品，总装等
+                        equipedLevel=equipedLevel+ (max-min)*5
                     end
                 end
 
@@ -198,60 +151,11 @@ local function get_itemLeve_color(itemLink, itemLevel, itemEquipLoc, itemQuality
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---[[local function Set_Label(label, tab)
-    local font
-    if WoWTools_DataMixin.onlyChinese and not LOCALE_zhCN then
-        font= 'Fonts\\ARHei.ttf'
-    else
-        font= label:GetFont()
-    end
-    label:SetFont(font, tab.size, 'OUTLINE')
-    label:SetTextColor(HIGHLIGHT_FONT_COLOR:GetRGB())
-end]]
-
-
-
-
-
-
 local function Create_Label(frame, tab)
     --local h= Save().size or 10
         --h= (tab.size or 0)+h
     local parent= tab.point or frame
 
---右边
     frame.topRightText= frame:CreateFontString(nil, 'OVERLAY', 'WoWToolsFont2', 1)--WoWTools_LabelMixin:Create(frame, labelInfo)
     frame.topRightText:SetPoint('TOPRIGHT', parent, 2, 1)
     frame.topRightText:SetJustifyH('RIGHT')
@@ -266,7 +170,6 @@ local function Create_Label(frame, tab)
     frame.bottomRightText:SetPoint('BOTTOMRIGHT', parent, 2, -1)
     frame.bottomRightText:SetJustifyH('RIGHT')
 
---左边
     frame.topLeftText= frame:CreateFontString(nil, 'OVERLAY', 'WoWToolsFont2', 1) --WoWTools_LabelMixin:Create(frame, labelInfo)
     frame.topLeftText:SetPoint('TOPLEFT', parent, -2, 1)
     frame.leftText= frame:CreateFontString(nil, 'OVERLAY', 'WoWToolsFont2', 1)--WoWTools_LabelMixin:Create(frame, labelInfo)
@@ -299,40 +202,10 @@ local function Clear_Label(frame)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Get_Info(tab)
 
     local itemLevel, itemQuality, battlePetSpeciesID, itemLink, containerInfo, itemID, isBound
-    local topLeftText, bottomRightText, leftText, rightText, bottomLeftText, topRightText, setIDItem--setIDItem套装
+    local topLeftText, bottomRightText, leftText, rightText, bottomLeftText, topRightText, setIDItem
     local currencyID
 
     if tab.itemLink or tab.hyperlink then
@@ -370,13 +243,6 @@ local function Get_Info(tab)
     elseif tab.guidBank then
         itemLink= GetGuildBankItemLink(tab.guidBank.tab, tab.guidBank.slot)
 
-        --[[local data= C_TooltipInfo.GetGuildBankItem(tab.guidBank.tab, tab.guidBank.slot)
-        if data then
-            itemID= data.id
-            battlePetSpeciesID= data.battlePetSpeciesID
-            local guid= data.guid
-            
-        end]]
 
     elseif tab.itemLocation and tab.itemLocation:IsValid() then
         itemLink= C_Item.GetItemLink(tab.itemLocation)
@@ -395,13 +261,6 @@ local function Get_Info(tab)
     end
 
 
-
-
-
-
-
-
-
     if not itemLink then
         return
     end
@@ -415,7 +274,6 @@ local function Get_Info(tab)
 
     itemMinLevel= itemMinLevel or 1
 
---套装：炎阳珠衣装
     local transmogSetID= C_Item.GetItemLearnTransmogSet(itemLink)
 
     itemLevel= WoWTools_ItemMixin:GetItemLevel(itemLink) or itemLevel or itemLevel2
@@ -423,31 +281,25 @@ local function Get_Info(tab)
     expacID= expacID or 0
 
 
-    --local mountID = C_MountJournal.GetMountFromItem(itemID)--坐骑物品
     battlePetSpeciesID= battlePetSpeciesID or select(13, C_PetJournal.GetPetInfoByItemID(itemID))
 
 
 
 
---套装，传说5，神器6，传家宝，提示
     setIDItem= setID and setID>0 and true or false
-    --[[if itemQuality and itemQuality>=Enum.ItemQuality.Legendary or setID then
-        setIDItem= itemQuality or true
-    end]]
     --setIDItem= setID and true or ((itemQuality==Enum.ItemQuality.Legendary or itemQuality==Enum.ItemQuality.Artifact) and itemQuality) or nil
 
-    local lowerVer= not PlayerIsTimerunning() and expacID< WoWTools_DataMixin.ExpansionLevel and itemID~='5512' and itemID~='113509'--低版本，5512糖 食物,113509[魔法汉堡]
+    local lowerVer= not PlayerIsTimerunning() and expacID< WoWTools_DataMixin.ExpansionLevel and itemID~='5512' and itemID~='113509'
 
     local sellItem, deleteItem
     if tab.bag and containerInfo and not containerInfo.isLocked then
-        deleteItem= WoWTools_BagMixin:Check_DeleteItem(itemID)
-        sellItem= WoWTools_MerchantMixin:CheckSellItem(itemID, itemLink, itemQuality, isBound)--检测是否是出售物品
+        deleteItem= WoWTools_BagMixin.Check_DeleteItem and WoWTools_BagMixin:Check_DeleteItem(itemID)
+        sellItem= WoWTools_MerchantMixin and WoWTools_MerchantMixin:CheckSellItem(itemID, itemLink, itemQuality, isBound)
     end
 
     if deleteItem then
         topRightText= '|A:common-icon-delete:0:0|a'
 
---检测是否是出售物品
     elseif sellItem then
         if itemQuality==0 then
             topRightText='|A:Coin-Silver:0:0|a'
@@ -456,12 +308,8 @@ local function Get_Info(tab)
             topRightText= '|T236994:0|t'
         end
 
---住宅装饰
     elseif C_Item.IsDecorItem(itemLink) then
         local entryInfo = C_HousingCatalog.GetCatalogEntryInfoByItem(itemLink, true)
-        --[[if entryInfo and entryInfo.entryID then
-            entryInfo= C_HousingCatalog.GetCatalogEntryInfo(entryInfo.entryID)
-        end]]
         if entryInfo and entryInfo.entryID then
             if entryInfo.canCustomize then
                 topLeftText= '|A:housing-dyable-palette-icon:0:0|a'
@@ -491,7 +339,6 @@ local function Get_Info(tab)
             end
         end
 
---套装：炎阳珠衣装
     elseif transmogSetID then
         local collect, numAll = select(2, WoWTools_CollectionMixin:SetID(transmogSetID))
         if numAll then
@@ -504,86 +351,76 @@ local function Get_Info(tab)
             end
         end
 
---炉石
     elseif itemID==6948 then
         bottomLeftText=WoWTools_TextMixin:sub(WoWTools_TextMixin:CN(GetBindLocation()), 3, 6, true)
---住宅装饰--11.2.7
 
---宝箱
     elseif containerInfo and containerInfo.hasLoot then
-        local dateInfo= WoWTools_ItemMixin:GetTooltip({bag=tab.bag, merchant=tab.merchant, guidBank=tab.guidBank, itemLink=itemLink, red=true, onlyRed=true})--物品提示，信息
+        local dateInfo= WoWTools_ItemMixin:GetTooltip({bag=tab.bag, merchant=tab.merchant, guidBank=tab.guidBank, itemLink=itemLink, red=true, onlyRed=true})
         topRightText= dateInfo.red and '|A:Monuments-Lock:0:0|a' or '|A:talents-button-undo:0:0|a'
---挑战
     elseif C_Item.IsItemKeystoneByID(itemID) then
         local name=itemLink:match('%[(.-)]') or itemLink
         if name then
-            topLeftText=name:match('%((%d+)%)') or C_MythicPlus.GetOwnedKeystoneLevel() --等级
+            topLeftText=name:match('%((%d+)%)') or C_MythicPlus.GetOwnedKeystoneLevel()
             name=name:gsub('%((%d+)%)','')
-            name=name:match('（(.-)）') or name:match('%((.-)%)') or name:match('%- (.+)') or name:match(CHALLENGE_MODE_KEYSTONE_NAME)--名称
+            name=name:match('%((.-)%)') or name:match('%- (.+)') or name:match(CHALLENGE_MODE_KEYSTONE_NAME)
             if name then
                 bottomLeftText= WoWTools_TextMixin:sub(name, 3,6, true)
             end
-            local text= WoWTools_ChallengeMixin:GetRewardText(1)--得到，周奖励，信息
+            local text= WoWTools_ChallengeMixin:GetRewardText(1)
             if text then
                 leftText='|cnGREEN_FONT_COLOR:'..text..'|r'
             end
         end
 
---宠物兑换, wow9.0
     elseif itemQuality==0 and WoWTools_CollectionMixin:GetPet9Item(itemID, true) then
         topRightText='|A:WildBattlePetCapturable:0:0|a'
 
---垃圾装备
     elseif itemQuality==0 and not (classID==2 or classID==4 ) then
         topRightText='|A:Coin-Silver:0:0|a'
 
---背包
     elseif classID==1 then
         bottomLeftText= WoWTools_TextMixin:sub(itemSubType, 2, 3, true)
-        if containerInfo and not containerInfo.isBound then--没有锁定
+        if containerInfo and not containerInfo.isBound then
             topRightText='|A:Professions_Specialization_Lock_Glow:0:0|a'
         end
-        --多少格
         local dateInfo= WoWTools_ItemMixin:GetTooltip({bag=tab.bag, merchant=tab.merchant, guidBank=tab.guidBank, itemLink=itemLink, index=3})
         local indexText= dateInfo.indexText
         if indexText and indexText:find('%d+') then
             leftText= indexText:match('%d+')
         end
 
---宝石
     elseif classID==3 then
         if itemLevel and itemLevel>10 then
             rightText= itemLevel
         end
         topRightText= WoWTools_TextMixin:sub(subclassID==9 and itemType or itemSubType, 2,3)
-        if lowerVer then--低版本
+        if lowerVer then
             topRightText= '|cff626262'..topRightText..'|r'
         else
             bottomLeftText, topLeftText= WoWTools_ItemMixin:SetGemStats(nil, itemLink)
         end
 
---附魔, 19专业装备 ,7商业技能
     elseif isCraftingReagent or classID==8 or classID==9 or (classID==0 and (subclassID==1 or subclassID==3 or subclassID==5)) or classID==19 or classID==7 then
-        local dateInfo= WoWTools_ItemMixin:GetTooltip({bag=tab.bag, merchant=tab.merchant, guidBank=tab.guidBank, itemLink=itemLink, text={ITEM_SPELL_KNOWN, ITEM_SPELL_TRIGGER_ONUSE,}, wow=true, red=true})--物品提示，信息 ITEM_SPELL_KNOWN = "已经学会"
+        local dateInfo= WoWTools_ItemMixin:GetTooltip({bag=tab.bag, merchant=tab.merchant, guidBank=tab.guidBank, itemLink=itemLink, text={ITEM_SPELL_KNOWN, ITEM_SPELL_TRIGGER_ONUSE,}, wow=true, red=true})
         if not (classID==15 and (subclassID== 0 or subclassID==4)) then
             if classID==0 and subclassID==5 then
-                topRightText= WoWTools_TextMixin:sub(POWER_TYPE_FOOD, 2,3, true)--食物
+                topRightText= WoWTools_TextMixin:sub(POWER_TYPE_FOOD, 2,3, true)
             else
                 topRightText= WoWTools_TextMixin:sub(itemSubType==OTHER and itemType or itemSubType, 2,3, true)
             end
-            if lowerVer then--低版本
+            if lowerVer then
                 topRightText= '|cff626262'..topRightText..'|r'
             end
         end
-        if dateInfo.text[ITEM_SPELL_KNOWN] then--"已经学会"
+        if dateInfo.text[ITEM_SPELL_KNOWN] then
             bottomRightText= format('|A:%s:0:0|a', 'common-icon-checkmark')
-        elseif dateInfo.red then--红色
+        elseif dateInfo.red then
             bottomRightText= format('|A:%s:0:0|a', 'talents-button-reset')
         elseif dateInfo.wow then
             bottomRightText= WoWTools_DataMixin.Icon.wow2
         end
 
-        if expacID== WoWTools_DataMixin.ExpansionLevel and classID==8 and dateInfo.text[ITEM_SPELL_TRIGGER_ONUSE] then--附魔
+        if expacID== WoWTools_DataMixin.ExpansionLevel and classID==8 and dateInfo.text[ITEM_SPELL_TRIGGER_ONUSE] then
             local text= dateInfo.text[ITEM_SPELL_TRIGGER_ONUSE]
             for k, v in pairs(FMTab) do
                 if text:find(k) then
@@ -595,28 +432,15 @@ local function Get_Info(tab)
             end
         end
 
---鱼竿
     elseif classID==2 and subclassID==20 then
         topRightText='|A:worldquest-icon-fishing:0:0|a'
 
 
-
-
-
-
-
-
-
-
-
-
-
---装备
     elseif classID==2 or classID==4 then
         local isNotEquipType= not C_Item.IsEquippableItem(itemLink) or WoWTools_ItemMixin:IsEquipType(tab.itemLocation, tab.bag, nil)==false
         --WoWTools_ItemMixin:IsNotEquipType(itemLink, itemType, itemSubType)==true
  
-        if C_Item.IsCosmeticItem(itemLink) then--装饰品
+        if C_Item.IsCosmeticItem(itemLink) then
             bottomLeftText= get_has_text(select(2, WoWTools_CollectionMixin:Item(itemLink, nil, nil, true)))
 
         elseif PlayerIsTimerunning() then
@@ -629,7 +453,7 @@ local function Get_Info(tab)
             if isNotEquipType then
                 leftText= DISABLED_FONT_COLOR:GenerateHexColorMarkup()..itemLevel..'|r'
             else
-                leftText= get_itemLeve_color(itemLink, itemLevel, itemEquipLoc, itemQuality, nil)--装等，提示
+                leftText= get_itemLeve_color(itemLink, itemLevel, itemEquipLoc, itemQuality, nil)
             end
 
         else
@@ -638,19 +462,18 @@ local function Get_Info(tab)
                 local upItemLevel= 0
                 local dateInfo= WoWTools_ItemMixin:GetTooltip({
                     bag=tab.bag, merchant=tab.merchant, guidBank=tab.guidBank, itemLink=itemLink, itemID=itemID,
-                    text={PVP_ITEM_LEVEL_TOOLTIP, ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT, ITEM_CLASSES_ALLOWED, itemLevelStr}, wow=true, red=true})--物品提示，信息 , 'Set di equipaggiamenti(.-)' equipStr
+                    text={PVP_ITEM_LEVEL_TOOLTIP, ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT, ITEM_CLASSES_ALLOWED, itemLevelStr}, wow=true, red=true})
                 isRedItem= dateInfo.red
 
-                if dateInfo.text[itemLevelStr] then--物品等级：%d
+                if dateInfo.text[itemLevelStr] then
                     itemLevel= tonumber(dateInfo.text[itemLevelStr]) or itemLevel
                 end
 
---装备配置方案：|cFFFFFFFF%s|r
                 local setList
                 if tab.bag then
                     setList= select(2,C_Container.GetContainerItemEquipmentSetInfo(tab.bag.bag or -1, tab.bag.slot or -1))
                     if setList then
-                        local text= setList:match('(.+),') or setList:match('(.+)，') or setList
+                        local text= setList:match('(.+),') or setList
                         setList= WoWTools_TextMixin:sub(text,3,4, true)
                     end
                 end
@@ -658,7 +481,7 @@ local function Get_Info(tab)
                 if setList then
                     bottomLeftText= setList
 
-                elseif dateInfo.wow then--战网
+                elseif dateInfo.wow then
                     bottomLeftText= dateInfo.wow--WoWTools_DataMixin.Icon.wow2
                     if subclassID==0 then
                         if itemLevel and itemLevel>1 then
@@ -705,13 +528,13 @@ local function Get_Info(tab)
                     end
                 end
 
-                if itemMinLevel>WoWTools_DataMixin.Player.Level then--低装等
+                if itemMinLevel>WoWTools_DataMixin.Player.Level then
                     bottomLeftText= '|cnWARNING_FONT_COLOR:'..(bottomLeftText or itemMinLevel)..'|r'
                 end
-                if dateInfo.text[PVP_ITEM_LEVEL_TOOLTIP] then--PvP装备
+                if dateInfo.text[PVP_ITEM_LEVEL_TOOLTIP] then
                     rightText= '|A:Warfronts-BaseMapIcons-Horde-Barracks-Minimap:0:0|a'
                 end
-                if WoWTools_DataMixin.Player.IsMaxLevel and dateInfo.text[ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT] then--"升级：%s/%s"
+                if WoWTools_DataMixin.Player.IsMaxLevel and dateInfo.text[ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT] then
 
                     local min, max= dateInfo.text[ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT]:match('(%d+)/(%d+)')
                     local upText= dateInfo.text[ITEM_UPGRADE_FRAME_CURRENT_UPGRADE_FORMAT]:match('(.-)%d+/%d+')
@@ -729,14 +552,13 @@ local function Get_Info(tab)
                 end
 
                 if not topLeftText or topLeftText=='' then
-                    if not dateInfo.red then--装等，提示
+                    if not dateInfo.red then
                         if isNotEquipType then
                             topLeftText= DISABLED_FONT_COLOR:GenerateHexColorMarkup()..itemLevel..'|r'
                         else
                             local text= get_itemLeve_color(itemLink, itemLevel, itemEquipLoc, itemQuality, upItemLevel)
                             if text then
                                 topLeftText= text
-    --属性提示
                             elseif upItemLevel==0 and itemQuality>=Enum.ItemQuality.Epic then
 
                                 leftText= bottomLeftText
@@ -750,7 +572,7 @@ local function Get_Info(tab)
                             end
                         end
 
-                    elseif itemMinLevel<=WoWTools_DataMixin.Player.Level and itemQuality~=7 then--不可使用
+                    elseif itemMinLevel<=WoWTools_DataMixin.Player.Level and itemQuality~=7 then
                         topLeftText='|A:talents-button-reset:0:0|a'
                         isRedItem=true
                     end
@@ -758,18 +580,15 @@ local function Get_Info(tab)
             end
 
 
-            local collectedIcon, isCollected= WoWTools_CollectionMixin:Item(itemLink, nil, true)--幻化
+            local collectedIcon, isCollected= WoWTools_CollectionMixin:Item(itemLink, nil, true)
             bottomRightText= not isCollected and collectedIcon or bottomRightText
---幻化，没有收集
             if isCollected==false then
---当是 披风时，会提示布甲
                 if WoWTools_ItemMixin:GetEquipSlotID(itemEquipLoc)~=15 then
                     topRightText= topRightText or WoWTools_TextMixin:sub(itemSubType, 2, 3, true)
                     if itemQuality and itemQuality<=1 then
                         if itemMinLevel<=WoWTools_DataMixin.Player.Level then
                             isRedItem=true
                         else
---物品提示，信息
                             local dateInfo= WoWTools_ItemMixin:GetTooltip({
                                 bag=tab.bag,
                                 merchant=tab.merchant,
@@ -795,62 +614,42 @@ local function Get_Info(tab)
         end
 
         if containerInfo and not containerInfo.isBound and (bindType==Enum.ItemBind.OnEquip or bindType==Enum.ItemBind.OnUse) and not topRightText then
-            rightText='|A:Professions_Specialization_Lock_Glow:16:16|a'--可交易
+            rightText='|A:Professions_Specialization_Lock_Glow:16:16|a'
         end
 
-        leftText= leftText or ''--不显示，物品数量
+        leftText= leftText or ''
 
 
-
-
-
-
-
-
-
-
-
-
-
---宠物
     elseif battlePetSpeciesID or itemID==82800 or classID==17 or (classID==15 and subclassID==2) or itemLink:find('Hbattlepet:(%d+)') then
 
 
 
-        local speciesID = battlePetSpeciesID or itemLink:match('Hbattlepet:(%d+)') or (itemID and select(13, C_PetJournal.GetPetInfoByItemID(itemID)))--宠物
-        --[[if not speciesID and itemID==82800 and tab.guidBank then
-            local data= C_TooltipInfo.GetGuildBankItem(tab.guidBank.tab, tab.guidBank.slot) or {}
-            speciesID= data.battlePetSpeciesID
-        end]]
+        local speciesID = battlePetSpeciesID or itemLink:match('Hbattlepet:(%d+)') or (itemID and select(13, C_PetJournal.GetPetInfoByItemID(itemID)))
         if speciesID then
-            topLeftText= select(3, WoWTools_PetBattleMixin:Collected(speciesID)) or topLeftText--宠物, 收集数量
+            topLeftText= select(3, WoWTools_PetBattleMixin:Collected(speciesID)) or topLeftText
             local petType= select(3, C_PetJournal.GetPetInfoBySpeciesID(speciesID))
             if petType then
                 topRightText='|TInterface\\TargetingFrame\\PetBadge-'..PET_TYPE_SUFFIX[petType]..':24|t'
             end
         end
 
---坐骑
     elseif classID==15 and subclassID==5 then
         local mountID = C_MountJournal.GetMountFromItem(itemID)
         if mountID then
             bottomRightText= get_has_text(select(11, C_MountJournal.GetMountInfoByID(mountID)))
         end
 
---任务
     elseif classID==12 and itemQuality and itemQuality>0 then
-        topRightText= WoWTools_DataMixin.onlyChinese and '任务' or WoWTools_TextMixin:sub(itemSubType, 2,3, true)
+        topRightText= WoWTools_TextMixin:sub(itemSubType, 2,3, true)
 
---玩具，已收集, 未收集
     elseif itemID and C_ToyBox.GetToyInfo(itemID) then
-        bottomRightText= get_has_text(PlayerHasToy(itemID))--已收集, 未收集
+        bottomRightText= get_has_text(PlayerHasToy(itemID))
 
---7传家宝，8 WoWToken
     elseif itemQuality==7 or itemQuality==8 then
         topRightText=WoWTools_DataMixin.Icon.wow2
 
-        if classID==0 and subclassID==8 and C_Item.GetItemSpell(itemLink) then--传家宝，升级，物品
-            local dateInfo= WoWTools_ItemMixin:GetTooltip({--物品提示，信息
+        if classID==0 and subclassID==8 and C_Item.GetItemSpell(itemLink) then
+            local dateInfo= WoWTools_ItemMixin:GetTooltip({
                 bag=tab.bag,
                 merchant=tab.merchant,
                 guidBank=tab.guidBank,
@@ -859,10 +658,10 @@ local function Get_Info(tab)
                 wow=true,
                 red=true
             })
-            if dateInfo.text[ITEM_SPELL_TRIGGER_ONUSE] and dateInfo.text[ITEM_SPELL_TRIGGER_ONUSE]:find(UPGRADE) then--UPGRADE = "升级"
+            if dateInfo.text[ITEM_SPELL_TRIGGER_ONUSE] and dateInfo.text[ITEM_SPELL_TRIGGER_ONUSE]:find(UPGRADE) then
                 local tipText= string.lower(dateInfo.text[ITEM_SPELL_TRIGGER_ONUSE])
-                local weapon= tipText:find(string.lower(WEAPON))--WEAPON = "武器"
-                local shield= tipText:find(string.lower(SHIELDSLOT))--SHIELDSLOT = "盾牌"
+                local weapon= tipText:find(string.lower(WEAPON))
+                local shield= tipText:find(string.lower(SHIELDSLOT))
                 local num
                 num= dateInfo.text[ITEM_SPELL_TRIGGER_ONUSE]:match('%d+')
                 num= num and tonumber(num)
@@ -875,7 +674,7 @@ local function Get_Info(tab)
                             [60]=49,
                             [70]=59,
                     }
-                    rightText= format('%s%d|r',  tab2[num] and '|cnGREEN_FONT_COLOR:' or '|cffff00ff', tab2[num] or num)--设置, 最高,等级
+                    rightText= format('%s%d|r',  tab2[num] and '|cnGREEN_FONT_COLOR:' or '|cffff00ff', tab2[num] or num)
                     local heirloomNum=0
                     for _, heirloomID in pairs(C_Heirloom.GetHeirloomItemIDs() or {}) do
                         if heirloomID and C_Heirloom.PlayerHasHeirloom(heirloomID) then
@@ -892,9 +691,8 @@ local function Get_Info(tab)
             end
         end
 
---仅一个
     elseif itemStackCount==1 then
-        local dateInfo= WoWTools_ItemMixin:GetTooltip({--物品提示，信息
+        local dateInfo= WoWTools_ItemMixin:GetTooltip({
             bag=tab.bag,
             merchant=tab.merchant,
             guidBank=tab.guidBank,
@@ -914,9 +712,8 @@ local function Get_Info(tab)
 
     topRightText= topRightText or ((itemID and select(2, C_Item.GetItemSpell(itemID))) and '|A:soulbinds_tree_conduit_icon_utility:0:0|a')
 
---物品数量
     if not leftText and ((tab.bag and tab.bag.bag <= NUM_BAG_SLOTS+1 and tab.bag.bag>=0) or not tab.bag) then
-        local num=C_Item.GetItemCount(itemLink, true, false, true)-C_Item.GetItemCount(itemLink)--银行数量
+        local num=C_Item.GetItemCount(itemLink, true, false, true)-C_Item.GetItemCount(itemLink)
         if num>0  then
             leftText= '+'..WoWTools_DataMixin:MK(num, 0)
         end
@@ -924,24 +721,6 @@ local function Get_Info(tab)
 
     return topLeftText, leftText, bottomLeftText, topRightText, rightText, bottomRightText, setIDItem
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function WoWTools_ItemMixin:SetupInfo(frame, tab)
@@ -983,14 +762,6 @@ function WoWTools_ItemMixin:SetupInfo(frame, tab)
     frame.leftText:SetFontHeight(h)
     frame.bottomLeftText:SetFontHeight(h)
 
-    --[[if setIDItem then
-        if type(setIDItem)=='number' then
-            local color = WoWTools_ItemMixin:GetColor(setIDItem)
-            frame.setIDItem:SetVertexColor(color:GetRGB())
-        else
-            frame.setIDItem:SetVertexColor(0,1,0)
-        end
-    end]]
     frame.setIDItem:SetShown(setIDItem)
 
     if frame.Count then

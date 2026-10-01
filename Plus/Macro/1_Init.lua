@@ -2,37 +2,25 @@
 
 
 local P_Save={
-    --disabled= not WoWTools_DataMixin.Player.husandro,
-    toRightLeft=3, -- 1,2, 3, 4 左边 右边 默认 左|右
-    spellButton=WoWTools_DataMixin.Player.husandro,
-    --旧版本 mcaro={},-- {name=tab.name, icon=tab.icon, body=tab.body}
+    --disabled= true,
+    toRightLeft=3,
     macro={},--{[|T..icon..:0|t..name..spllID..itemName]={name=tab.name, icon=tab.icon, body=tab.body}}
 
-    --hideBottomList=true,隐藏底部，列表
     bottomListScale=1,
 }
 
-local function Save()
-    return WoWToolsSave['Plus_Macro2']
-end
-
-
-
-
 local function Init_Load()
     WoWTools_MacroMixin:Init_Set_UI()
-    WoWTools_MacroMixin:Init_Button()--宏列表，位置
-    WoWTools_MacroMixin:Init_Select_Macro_Button()--选定宏，点击，弹出菜单，自定图标
-    WoWTools_MacroMixin:Init_List_Button()--命令，按钮，列表
-    WoWTools_MacroMixin:Init_AddNew_Button()--创建，空，按钮
+    WoWTools_MacroMixin:Init_Button()
+    WoWTools_MacroMixin:Init_Select_Macro_Button()
+    WoWTools_MacroMixin:Init_List_Button()
+    WoWTools_MacroMixin:Init_AddNew_Button()
     WoWTools_MacroMixin:Init_ChangeTab()
     WoWTools_MacroMixin:Init_MacroButton_Plus()
-
-    Init_Load=function()end
 end
 
 local function Init()
-    if WoWTools_FrameMixin:IsLocked(MacroFrame) then
+    if InCombatLockdown() then
         EventRegistry:RegisterFrameEventAndCallback("PLAYER_REGEN_ENABLED", function(owner)
             Init_Load()
             EventRegistry:UnregisterCallback('PLAYER_REGEN_ENABLED', owner)
@@ -40,8 +28,6 @@ local function Init()
     else
         Init_Load()
     end
-
-    Init=function()end
 end
 
 
@@ -50,61 +36,79 @@ end
 
 
 
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWTools' then
+--Módulo registrado con la API común (docs/REFACTOR.md, R2).
+WoWTools_Module:Register({
+    key= 'Plus_Macro2',
+    name= 'Module.Macros',
+    icon= 'Interface\\MacroFrame\\MacroFrame-Icon',
+    group= 'Character',
+    defaults= P_Save,
+    tooltip= 'Tip.Macro.Module',
+    mixin= WoWTools_MacroMixin,
+    onLoad= function(_, save)
+        WoWToolsPlusSave['Plus_Macro']=nil
 
-            WoWToolsSave['Plus_Macro2']= WoWToolsSave['Plus_Macro2'] or P_Save
-            WoWToolsSave['Plus_Macro']=nil
-            P_Save= nil
-
-            if Save().noteText then
-                WoWToolsPlayerDate['MacroNoteText']= Save().noteText
-                Save().noteText = nil
-            end
-
-            WoWTools_MacroMixin.addName= '|TInterface\\MacroFrame\\MacroFrame-Icon:0|t'..(WoWTools_DataMixin.onlyChinese and '宏' or MACRO)
-
---添加控制面板
-            WoWTools_PanelMixin:OnlyCheck({
-                name= WoWTools_MacroMixin.addName,
-                tooltip= ('|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '战斗中错误' or format(CLUB_FINDER_LOOKING_FOR_CLASS_SPEC, HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT, ERRORS)))
-                    ..'|r|n'..(WoWTools_DataMixin.onlyChinese and '备注：如果错误，请取消此选项' or 'note: If you get error, please disable this'),
-                GetValue= function() return not Save().disabled end,
-                SetValue= function()
-                    Save().disabled = not Save().disabled and true or nil
-                    print(
-                        WoWTools_MacroMixin.addName..WoWTools_DataMixin.Icon.icon2,
-                        WoWTools_TextMixin:GetEnabeleDisable(not Save().disabled),
-                        WoWTools_DataMixin.onlyChinese and '需求重新加载' or REQUIRES_RELOAD
-                    )
-                end
-            })
-
-            if Save().disabled  then
-                self:SetScript('OnEvent', nil)
-                self:UnregisterEvent(event)
-            else
-                if C_AddOns.IsAddOnLoaded('Blizzard_MacroUI') then
-                    Init()
-                    self:UnregisterEvent(event)
-                end
-                self:RegisterEvent("PLAYER_LOGOUT")
-            end
-
-        elseif arg1=='Blizzard_MacroUI' and WoWToolsSave then
-            self:UnregisterEvent(event)
-            Init()
+        if save.noteText then
+            WoWToolsPlusPlayerDate['MacroNoteText']= save.noteText
+            save.noteText = nil
         end
+    end,
+    options= function()
+        local function NoList(save)
+            return save.hideBottomList
+        end
+        return {
+            {type='note', kind='warning', text= function()
+                return WoWTools_L['HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT+ERRORS']
+                    ..'|n'..WoWTools_L['Note: if you get errors, disable this']
+            end},
+            {type='section', text='GENERAL'},
+            {type='check', key='hideBottomList', text='Button Plus', tooltip='Tip.Macro.ButtonPlus', noCombat=true,
+                get= function(save) return not save.hideBottomList end,
+                set= function(save, value) save.hideBottomList= not value and true or nil end,
+                apply= function() WoWTools_MacroMixin:Refresh_BottomList() end},
+            {type='button', key='open', text='MACROS', buttonText='SHOW', tooltip='Tip.Macro.OpenFrame',
+                func= function()
+                    if not InCombatLockdown() and ShowMacroFrame then
+                        ShowMacroFrame()
+                    end
+                end},
 
-    elseif event == "PLAYER_LOGOUT" then
+            {type='section', text='Appearance'},
+            {type='dropdown', key='toRightLeft', text='Layout', noCombat=true,
+                tooltip= function()
+                    return WoWTools_L['Tip.Macro.LayoutLeft']..'|n|n'..WoWTools_L['Tip.Macro.LayoutRight']
+                        ..'|n|n'..WoWTools_L['Tip.Macro.LayoutDefault']..'|n|n'..WoWTools_L['Tip.Macro.LayoutSplit']
+                end,
+                values= {
+                    {value=1, text='HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_LEFT'},
+                    {value=2, text='HUD_EDIT_MODE_SETTING_AURA_FRAME_ICON_DIRECTION_RIGHT'},
+                    {value=3, text='DEFAULT'},
+                    {value=4, text='Left|Right'},
+                },
+                get= function(save) return save.toRightLeft or 3 end,
+                set= function(save, value) save.toRightLeft= value end,
+                apply= function() WoWTools_MacroMixin:Refresh_Layout() end},
+            {type='slider', key='bottomListScale', text='SCALE', tooltip='Tip.Menu.Scale', min=0.4, max=4, step=0.1, format='%.1f',
+                disabled= NoList,
+                get= function(save) return save.bottomListScale or 1 end,
+                set= function(save, value) save.bottomListScale= value end,
+                apply= function() WoWTools_MacroMixin:Refresh_BottomList(true) end},
+            {type='slider', key='bottomListAlpha', text='BACKGROUND+HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY', tooltip='Tip.Menu.BgAlpha',
+                min=0, max=1, step=0.1, format='%.1f',
+                disabled= NoList,
+                get= function(save) return save.bottomListAlpha or 0.5 end,
+                set= function(save, value) save.bottomListAlpha= value end,
+                apply= function() WoWTools_MacroMixin:Refresh_BottomList(true) end},
+        }
+    end,
+    blizzard= {Blizzard_MacroUI= Init},
+    events= {PLAYER_LOGOUT= function()
         if not WoWTools_DataMixin.ClearAllSave then
             local edit= _G['WoWToolsMacroPlusNoteEditBox']
             if edit and edit:IsVisible() then
                 edit:Hide()
             end
         end
-    end
-end)
+    end},
+})

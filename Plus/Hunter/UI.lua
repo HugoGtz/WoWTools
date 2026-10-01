@@ -3,19 +3,14 @@ if WoWTools_DataMixin.Player.Class~='HUNTER' then
     return
 end
 
-local function Save()
-    return WoWToolsSave['Plus_StableFrame'] or {}
-end
-
 function WoWTools_MoveMixin.Events:Blizzard_StableUI()
-    if Save().disabled then
+    if WoWTools_HunterMixin:Save().disabled then
         self:Setup(StableFrame)
         self:Setup(StableFrame.StabledPetList.ScrollBox, {frame=StableFrame})
     end
 end
 
 
- --移动，缩放
 local function Init_MoveUI()
     StableFrame.PetModelScene:ClearAllPoints()
     StableFrame.PetModelScene:SetPoint('TOPLEFT', StableFrame, 330, -86)
@@ -78,22 +73,21 @@ local function Init_MoveUI()
     StableFrame.ActivePetList.ListName:ClearAllPoints()
     StableFrame.ActivePetList.ListName:SetPoint('BOTTOMLEFT', StableFrame.ActivePetList.ActivePetListBG, 'TOPLEFT',0,-6)
 
-    --激活栏，添加材质
     StableFrame.ActivePetList.ActivePetListBG:SetAtlas('wood-topper')
 
-    StableFrame.PetModelScene.PetInfo.NameBox.EditButton:SetHighlightAtlas('AlliedRace-UnlockingFrame-BottomButtonsSelectionGlow')--修该，名称
+    StableFrame.PetModelScene.PetInfo.NameBox.EditButton:SetHighlightAtlas('AlliedRace-UnlockingFrame-BottomButtonsSelectionGlow')
     StableFrame.PetModelScene.PetInfo.NameBox.EditButton:HookScript('OnLeave', GameTooltip_Hide)
     StableFrame.PetModelScene.PetInfo.NameBox.EditButton:HookScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '修改宠物名字' or PET_RENAME_LABEL:gsub(HEADER_COLON, ''))
+        GameTooltip:AddLine(WoWTools_L['Rename pet'])
         GameTooltip:Show()
     end)
     StableFrame.PetModelScene.PetInfo.FavoriteButton:HookScript('OnLeave', GameTooltip_Hide)
     StableFrame.PetModelScene.PetInfo.FavoriteButton:HookScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '收藏' or FAVORITES)
+        GameTooltip:AddLine(WoWTools_L.FAVORITES)
         GameTooltip:Show()
     end)
 
@@ -135,7 +129,7 @@ local function Set_BG(self, texture, alpha)
     StableFrame.PetModelScene.Inset.Bg:SetAlpha(alpha)
 
     local bgAlpha= texture and 1 or alpha or 1
-    for _, btn in ipairs(StableFrame.ActivePetList.PetButtons) do--已激，宠物栏，提示
+    for _, btn in ipairs(StableFrame.ActivePetList.PetButtons) do
         if btn.model and btn.model.bg then
             btn.model.bg:SetAlpha(bgAlpha)
         end
@@ -204,9 +198,6 @@ end
 
 
 
-function WoWTools_TextureMixin.Events:Blizzard_StableUI()
-    Init_Texture(self)
-end
 
 
 function WoWTools_HunterMixin:Init_UI()

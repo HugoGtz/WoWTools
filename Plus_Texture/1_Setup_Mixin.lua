@@ -1,13 +1,6 @@
 
 
 
-
-
-
-
-
-
---隐藏，材质
 function WoWTools_TextureMixin:HideTexture(object)--, notClear)
     if object and object:IsObjectType('Texture') then
         object:SetTexture(0)
@@ -16,17 +9,8 @@ function WoWTools_TextureMixin:HideTexture(object)--, notClear)
 end
 
 
-
-
-
-
---设置，颜色，透明度
 function WoWTools_TextureMixin:SetAlphaColor(object, notAlpha, notColor, alphaORmin)
     if object then
-        --[[if alphaORmin==0 then
-            object:SetAlpha(0)
-            return
-        end]]
         if not notColor and object.SetVertexColor then
             object:SetVertexColor(self.Color:GetRGB())
         end
@@ -41,23 +25,6 @@ function WoWTools_TextureMixin:SetAlphaColor(object, notAlpha, notColor, alphaOR
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---隐藏, frame, 子材质
 function WoWTools_TextureMixin:HideFrame(frame, tab)
     if not frame or not frame.GetRegions then
         return
@@ -91,7 +58,6 @@ function WoWTools_TextureMixin:HideFrame(frame, tab)
     end
 end
 
---透明度, 颜色, frame, 子材质
 function WoWTools_TextureMixin:SetFrame(frame, tab)
     if not frame or not frame.GetRegions then
         return
@@ -133,7 +99,6 @@ function WoWTools_TextureMixin:SetFrame(frame, tab)
     end
 end
 
---搜索框 set_SearchBox
 function WoWTools_TextureMixin:SetEditBox(frame, tab)
     if not frame then-- or not frame.SearchBox then
         return
@@ -158,42 +123,6 @@ function WoWTools_TextureMixin:SetEditBox(frame, tab)
 end
 
 
---[[
-NineSlice.lua
-NineSlicePanelMixin
-NineSlicePanelMixin:SetBorderColor(r, g, b, a)
-NineSlicePanelMixin:SetCenterColor(r, g, b, a)
-NineSlicePanelMixin:SetVertexColor(r, g, b, a)
-local nineSliceSetup =
-{
-	{ pieceName = "TopLeftCorner", point = "TOPLEFT", fn = SetupCorner, },
-	{ pieceName = "TopRightCorner", point = "TOPRIGHT", mirrorHorizontal = true, fn = SetupCorner, },
-	{ pieceName = "BottomLeftCorner", point = "BOTTOMLEFT", mirrorVertical = true, fn = SetupCorner, },
-	{ pieceName = "BottomRightCorner", point = "BOTTOMRIGHT", mirrorHorizontal = true, mirrorVertical = true, fn = SetupCorner, },
-	{ pieceName = "TopEdge", point = "TOPLEFT", relativePoint = "TOPRIGHT", relativePieces = { "TopLeftCorner", "TopRightCorner" }, fn = SetupEdge, tileHorizontal = true },
-	{ pieceName = "BottomEdge", point = "BOTTOMLEFT", relativePoint = "BOTTOMRIGHT", relativePieces = { "BottomLeftCorner", "BottomRightCorner" }, mirrorVertical = true, tileHorizontal = true, fn = SetupEdge, },
-	{ pieceName = "LeftEdge", point = "TOPLEFT", relativePoint = "BOTTOMLEFT", relativePieces = { "TopLeftCorner", "BottomLeftCorner" }, tileVertical = true, fn = SetupEdge, },
-	{ pieceName = "RightEdge", point = "TOPRIGHT", relativePoint = "BOTTOMRIGHT", relativePieces = { "TopRightCorner", "BottomRightCorner" }, mirrorHorizontal = true, tileVertical = true, fn = SetupEdge, },
-	{ pieceName = "Center", fn = SetupCenter, },
-};
-local NineSliceTabs={
-    'TopEdge',
-    'BottomEdge',
-    'LeftEdge',
-    'RightEdge',
-    'TopLeftCorner',
-    'TopRightCorner',
-    'BottomRightCorner',
-    'BottomLeftCorner',--8
-
-    'Center',
-    'Background',
-    'Bg',
-
-    WoWTools_DataMixin:Hook(NineSlicePanelMixin, 'OnLoad', function(frame)
-        self:SetNineSlice(frame)
-    end)
-}]]
 function WoWTools_TextureMixin:SetNineSlice(frame, alpha, notBg)
     if not frame then
         return
@@ -231,7 +160,6 @@ end
 
 
 
---设置，滚动条，颜色
 function WoWTools_TextureMixin:SetScrollBar(bar)--, isHideBar)
     bar= bar and bar.ScrollBar or bar
     if not bar
@@ -289,7 +217,6 @@ function WoWTools_TextureMixin:SetSlider(frame)
 end
 
 
---设置，按钮
 function WoWTools_TextureMixin:SetButton(btn, tabOrAlpha)
     if not btn then
         return
@@ -332,7 +259,6 @@ function WoWTools_TextureMixin:SetUIButton(btn, alpha)
     end
 end
 
---下拉，菜单 set_Menu
 function WoWTools_TextureMixin:SetMenu(frame)
     if frame then
         self:SetAlphaColor(frame.Background, nil, nil, 0.3)
@@ -342,17 +268,6 @@ function WoWTools_TextureMixin:SetMenu(frame)
 end
 
 
---[[TabSystem 
-function WoWTools_TextureMixin:SetTabSystem(frame)--TabSystemOwner.lua
-    if not frame or not frame.GetTabSet then
-        return
-    end
-    for _, tabID in pairs(frame:GetTabSet() or {}) do
-        self:SetTabButton(frame:GetTabButton(tabID))
-    end
-end
---TabSystemOwnerMixin TabSystem
-]]
 
 --PanelTemplates_TabResize(frame, frame:GetParent().tabPadding or 0 , nil, frame:GetParent().minTabWidth, frame:GetParent().maxTabWidth)
 --WoWTools_DataMixin:Hook(TabSystemButtonMixin, 'Init', function(self)
@@ -466,13 +381,13 @@ function WoWTools_TextureMixin:SetIconSelectFrame(frame)
 
         border.IconSelectionText:SetText(
             '|A:communities-icon-addchannelplus:0:0|a|cnGREEN_FONT_COLOR:'
-            ..(WoWTools_DataMixin.onlyChinese and '将一个图标拖曳至此处来显示' or ICON_SELECTION_DRAG)
+            ..(WoWTools_L.ICON_SELECTION_DRAG)
         )
     end
 
     self:SetScrollBar(frame.IconSelector)
 
-    if frame.DepositSettingsMenu then--银行
+    if frame.DepositSettingsMenu then
         self:SetFrame(frame.DepositSettingsMenu)
         self:SetMenu(frame.DepositSettingsMenu.ExpansionFilterDropdown)
     end
@@ -494,15 +409,9 @@ local function set_frame(frame)
     end
 end
 
---[[
-frames={...},
-isChildren=true,
-bg={..} or true,
-]]
 function WoWTools_TextureMixin:SetAllFrames(frame, tab)
     tab= tab or {}
 
---自定义
     local frames= tab.frames
     local isChildren= tab.isChildren
     local bg= tab.bg
@@ -539,7 +448,6 @@ function WoWTools_TextureMixin:SetAllFrames(frame, tab)
         self:HideFrame(_G[name..'MoneyBg'])
     end
 
---自定义
 --frames
     if frames then
         for _, f in pairs(tab.frames) do
@@ -567,16 +475,10 @@ function WoWTools_TextureMixin:SetAllFrames(frame, tab)
         )
     end
 end
---[[function WoWTools_TextureMixin:SetUIFrame(frame)
-    --self:SetAlphaColor(frame.TitleContainer, nil, nil, true)
-    self:SetNineSlice(frame)
-    self:SetAlphaColor(frame:GetName()..'Bg', nil, nil, true)
-end]]
 
 
 
 
---公会银行就用这个 BaseBasicFrameTemplate
 function WoWTools_TextureMixin:SetBaseFrame(frame, alpha)
     if not frame or not frame.TopLeftCorner then
         return
@@ -599,14 +501,6 @@ function WoWTools_TextureMixin:SetBaseFrame(frame, alpha)
 end
 
 --DialogBorderTemplate
-function WoWTools_TextureMixin:SetBorder(frame, alpha)
-    if not frame or not frame.Bg then
-        return
-    end
-    alpha= alpha or self.min or 0.5
-
-    self:SetFrame(frame, alpha)
-end
 
 
 
@@ -625,17 +519,17 @@ function WoWTools_TextureMixin:SetNavBar(frame)
 end
 
 function WoWTools_TextureMixin:SetStatusBar(bar, icon, notColor)
-    notColor= WoWTools_DataMixin.Player.Class=='PRIEST' or notColor--牧师
+    notColor= WoWTools_DataMixin.Player.Class=='PRIEST' or notColor
     if icon and icon:IsObjectType('Texture') then
         if notColor then
-            icon:SetAtlas('UI-HUD-UnitFrame-Target-Boss-Small-PortraitOff-Bar-Health')--绿色
+            icon:SetAtlas('UI-HUD-UnitFrame-Target-Boss-Small-PortraitOff-Bar-Health')
         else
             icon:SetAtlas('UI-HUD-UnitFrame-Target-Boss-Small-PortraitOff-Bar-Health-Status')
             icon:SetVertexColor(self.Color:GetRGB())
         end
     elseif bar and bar:IsObjectType('StatusBar') then
         if notColor then
-            bar:SetStatusBarTexture('UI-HUD-UnitFrame-Target-Boss-Small-PortraitOff-Bar-Health')--绿色
+            bar:SetStatusBarTexture('UI-HUD-UnitFrame-Target-Boss-Small-PortraitOff-Bar-Health')
         else
             bar:SetStatusBarTexture('UI-HUD-UnitFrame-Target-Boss-Small-PortraitOff-Bar-Health-Status')
             bar:SetStatusBarColor(self.Color:GetRGB())
@@ -668,7 +562,6 @@ end
 
 
 
---列表，总数
 function WoWTools_TextureMixin:SetPagingControls(frame)
     if not frame or frame.TotaleText then
         return
@@ -676,7 +569,6 @@ function WoWTools_TextureMixin:SetPagingControls(frame)
 
     self:SetButton(frame.PrevPageButton, {alpha=1})
     self:SetButton(frame.NextPageButton, {alpha=1})
---总数
     frame.TotaleText= frame:CreateFontString(nil, 'ARTWORK', frame.PageText:GetFontObject():GetName() or 'WoWToolsFont2')
     frame.TotaleText:SetTextColor(frame.PageText:GetTextColor())
     frame.TotaleText:SetPoint('LEFT', frame.NextPageButton, 'RIGHT', 2, 0)
@@ -694,7 +586,6 @@ function WoWTools_TextureMixin:SetPagingControls(frame)
         frame.wowTextureIsHooked= 1
     end
 
---去掉文字, 页 这个有BUG
     --frame.currentPageOnlyText='%d'
     --frame.currentPageWithMaxText='%d/%d'
 end

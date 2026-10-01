@@ -1,7 +1,3 @@
---[[
-ScaleFrame(frame, delta, value, func)
-CreateFrame(parent, tab)
-]]
 local Index=0
 WoWTools_FrameMixin= {}
 
@@ -18,15 +14,10 @@ function WoWTools_FrameMixin:IsLocked(frame)
 
     local disabled= frame:IsProtected() and InCombatLockdown()-- or issecure()
 
-    if WoWTools_DataMixin.Player.husandro and disabled then
-        local name= frame.GetName and frame:GetName()
-        print(name, '|cnGREEN_FONT_COLOR:IsProtected|r', frame.IsProtected and frame:IsProtected() , '|cnGREEN_FONT_COLOR:issecure|r', issecure() )
-    end
     return disabled
 end
 
 
---确认框架中心点，在屏幕内
 function WoWTools_FrameMixin:IsInSchermo(frame)
     if not frame or not frame:IsVisible() then
         return false
@@ -52,9 +43,6 @@ function WoWTools_FrameMixin:IsInSchermo(frame)
 end
 
 
-
-
-
 local function Get_Size(value)
     local w, h
     local t= type(value)
@@ -73,16 +61,16 @@ end
 
 
 
---缩放，Frame
 function WoWTools_FrameMixin:ScaleFrame(frame, delta, value, func)
     local n= value
-    if WoWTools_FrameMixin.IsLocked(frame) then
-        print(WoWTools_DataMixin.addName, '|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '战斗中' or HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)..'|r')
+    if WoWTools_FrameMixin:IsLocked(frame) then--antes con punto: nunca detectaba el combate
+        WoWTools_Print(WoWTools_DataMixin.addName, '|cnWARNING_FONT_COLOR:'..(WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_VISIBLE_SETTING_IN_COMBAT)..'|r')
+        return
     end
     if IsAltKeyDown() then
         n= n or 1
-        n= delta==1 and n-0.05 or n
-        n= delta==-1 and n+0.05 or n
+        n= delta==1 and n+0.05 or n--rueda arriba = más grande, como en la interfaz de Blizzard
+        n= delta==-1 and n-0.05 or n
         n= n>4 and 4 or n
         n= n<0.4 and 0.4 or n
         if func then
@@ -102,24 +90,11 @@ end
 --Save.scale=WoWTools_FrameMixin:ScaleFrame(self, d, Save.scale, nil)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 function WoWTools_FrameMixin:Create(parent, tab)
     tab= tab or {}
     parent= parent or UIParent
 
-    local name= tab.name or ((parent:GetName() or 'WoWTools')..'Frame'..getIndex())
+    local name= tab.name or ((parent:GetName() or 'WoWToolsPlus')..'Frame'..getIndex())
     local size= tab.size
     --local strata= tab.strata
     local template= tab.template-- or 'BasicFrameTemplate'-- or 'BaseBasicFrameTemplate'
@@ -136,13 +111,11 @@ function WoWTools_FrameMixin:Create(parent, tab)
 
     local frame= CreateFrame('Frame', name or ('WoWTools_EditBoxFrame'..getIndex()), parent, template, setID)
 
---Esc 键
     if isEsc then
         tinsert(UISpecialFrames, name)
     end
 
     frame:SetToplevel(true)
---设置大小
     local w, h= Get_Size(size)
     frame:SetSize(w, h)
     frame.width= w
@@ -151,7 +124,6 @@ function WoWTools_FrameMixin:Create(parent, tab)
 
     frame:SetFrameStrata(strata)
 
---设置，位置
     if restPointFunc then
         frame.restPointFunc= restPointFunc
     else
@@ -168,7 +140,7 @@ function WoWTools_FrameMixin:Create(parent, tab)
 
 --Border
     frame.Border= CreateFrame('Frame', name..'Border', frame, 'DialogBorderTemplate')
-    frame.Border.Bg:SetTexture('Interface\\AddOns\\WoWTools\\Source\\Background\\Black.tga')
+    frame.Border.Bg:SetTexture('Interface\\AddOns\\WoWToolsPlus\\Source\\Background\\Black.tga')
 
 
 --Header
@@ -187,7 +159,6 @@ function WoWTools_FrameMixin:Create(parent, tab)
         end
     end)
 
---移动
     WoWTools_MoveMixin:Setup(frame, {
         --needMove=true,
         minW=minW or 370,
@@ -204,10 +175,7 @@ function WoWTools_FrameMixin:Create(parent, tab)
     WoWTools_MoveMixin:Setup(frame.Header, {frame=frame})
     WoWTools_MoveMixin:Setup(frame.Border, {frame=frame})
 
---材质
     WoWTools_TextureMixin:SetButton(frame.CloseButton)
-    --[[WoWTools_TextureMixin:SetFrame(frame.Border, {show={[frame.Border.Bg]=true}})
-    WoWTools_TextureMixin:SetFrame(frame.Header)]]
 
     WoWTools_TextureMixin:Init_BGMenu_Frame(frame, {
         enabled=true,
@@ -222,31 +190,8 @@ function WoWTools_FrameMixin:Create(parent, tab)
 
     return frame
 end
---[[
-WoWTools_FrameMixin:Create(name, {
-    size={w, h} or numeri,
-    parentFrame= frame or UIParent,
-    setID=numeri, --SetID(1)
-    strata='HIGH', BACKGROUND LOW MEDIUM HIGH DIALOG FULLSCREEN FULLSCREEN_DIALOG TOOLTIP
-
-    minW=numeri or 370,
-    mniH=numeri or 240
-
-    sizeRestFunc=function(btn) btn:SetSize() end)
-}
-frame.Header:Setup(text)
---]]
 
 
-
-
-
-
-
-
-
-
---设置，提示
 function WoWTools_FrameMixin:HelpFrame(tab)--WoWTools_FrameMixin:HelpFrame({frame=, topoint=, point='left', size={40,40}, color={r=1,g=0,b=0,a=1}, onlyOne=nil, show=, y=-10, hideTime=3})
     if tab.show and not tab.frame.HelpTips then
         tab.frame.HelpTips= WoWTools_ButtonMixin:Cbtn(tab.frame, {layer='OVERLAY',size=tab.size and {tab.size[1], tab.size[2]} or {40,40}})-- button:CreateTexture(nil, 'OVERLAY')

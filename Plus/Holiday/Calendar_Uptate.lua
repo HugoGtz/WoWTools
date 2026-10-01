@@ -54,7 +54,7 @@ end
 
 
 local function Init()
-    WoWTools_DataMixin:Hook(CalendarViewHolidayFrame, 'update', function(...) calendar_Uptate(...) end)--提示节目ID
+    WoWTools_DataMixin:Hook(CalendarViewHolidayFrame, 'update', function(...) calendar_Uptate(...) end)
     WoWTools_DataMixin:Hook('CalendarViewHolidayFrame_Update', function(...) calendar_Uptate(...) end)
 
     local btn= WoWTools_ButtonMixin:Cbtn(CalendarFrame.FilterButton, {
@@ -63,11 +63,23 @@ local function Init()
         atlas='UI-HUD-Calendar-'..tonumber(date('%d'))..'-Mouseover'
     })
     btn:SetPoint('RIGHT', CalendarFrame.FilterButton, 'LEFT', 0, -3)
+    --actualizar el día (fecha del juego) cada vez que se abre, por si pasó la medianoche
+    CalendarFrame:HookScript('OnShow', function()
+        local day= C_DateAndTime.GetCurrentCalendarTime().monthDay
+        local atlas= day and 'UI-HUD-Calendar-'..day..'-Mouseover'
+        if atlas and C_Texture.GetAtlasInfo(atlas) then
+            if btn.texture then
+                btn.texture:SetAtlas(atlas)
+            else
+                btn:SetNormalAtlas(atlas)
+            end
+        end
+    end)
     btn:SetScript('OnLeave', function() GameTooltip:Hide() end)
     btn:SetScript('OnEnter', function(self)
         GameTooltip:SetOwner(self, 'ANCHOR_LEFT')
         GameTooltip_SetTitle(GameTooltip,
-            WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '返回' or NPE_ABANDON_A_RETURN)
+            WoWTools_DataMixin.Icon.icon2..(WoWTools_L.NPE_ABANDON_A_RETURN)
         )
         GameTooltip:Show()
     end)
@@ -83,7 +95,6 @@ local function Init()
     CalendarYearName:SetPoint('RIGHT', btn, 'LEFT', -22, 1)
     CalendarYearName:SetScale(1.3)
     CalendarYearName:SetShadowOffset(1, -1)
-    Init=function()end
 end
 
 function WoWTools_HolidayMixin:Init_Calendar_Uptate()

@@ -1,18 +1,11 @@
 
---[[
-试衣间, 外观列表
-DressUpCustomSetDetailsSlotMixin 12.0才有
-
-DressUpOutfitDetailsSlotMixin 12.0没有了 DressUpFrame.OutfitDetailsPanel
-
-]]
 
 
 
 local function GetItemLink(self)
     local link
     if self.transmogID then
-        if type(self.item)=='table' and self.item.GetItemLink then--12.0更新如下
+        if type(self.item)=='table' and self.item.GetItemLink then
             link= self.item:GetItemLink()
         elseif self.item then
             local data= C_TransmogCollection.GetAppearanceSourceInfo(self.transmogID)
@@ -27,25 +20,10 @@ local function GetItemLink(self)
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
 
---套装 itemModifiedAppearanceID sourceID
     DressUpFrame.SetSelectionPanel.Border:SetTexture(0)
---套装， DressUpFrameTransmogSetMixin
    -- if DressUpFrame.SetSelectionPanel then --self.setID = setID; self.setItems = setItems; self.cachedSlotUpdates = {};
---超链接，提示
     DressUpFrame.SetSelectionPanel.SetName:EnableMouse(true)
     DressUpFrame.SetSelectionPanel.SetName:SetScript('OnLeave', function(self)
         self:SetAlpha(1)
@@ -62,12 +40,10 @@ local function Init()
     DressUpFrame.SetSelectionPanel.SetName:HookScript('OnHide', function(self)
         self.setLink=nil
     end)
---件数
     DressUpFrame.SetSelectionPanel.collectedText= DressUpFrame.SetSelectionPanel:CreateFontString(nil, 'BORDER', 'GameFontNormal')
     --DressUpFrame.SetSelectionPanel.collectedText:SetPoint('RIGHT', DressUpFrame.SetSelectionPanel.SetName)
     DressUpFrame.SetSelectionPanel.collectedText:SetPoint('TOPRIGHT', -10, -10)
     WoWTools_DataMixin:Hook(DressUpFrame.SetSelectionPanel, 'SetData', function(frame, setID, setLink, setItems)
---物品，是否收集
         local co, all= 0, 0
         for _, data in pairs(setItems or {}) do
             if data.itemModifiedAppearanceID then
@@ -78,7 +54,6 @@ local function Init()
             end
             all= all+1
         end
---套装是否收集
         local collect, numAll = select(2, WoWTools_CollectionMixin:SetID(setID))
 
         frame.collectedText:SetText(
@@ -89,22 +64,17 @@ local function Init()
         frame.SetName.setLink= setLink
     end)
 
---是否收集
     WoWTools_DataMixin:Hook(DressUpFrameTransmogSetButtonMixin, 'InitItem', function(frame, data)
         if not frame.collectedTexture then
---是否收集提示
             frame.collectedTexture= frame:CreateTexture(nil, 'BORDER')
             frame.collectedTexture:SetSize(14,14)
             frame.collectedTexture:SetPoint('RIGHT', frame.ItemSlot, 'LEFT')
             frame.collectedTexture:SetAtlas('transmog-icon-hidden')
             frame.collectedTexture:SetAlpha(0.5)
---索引，提示
             frame.indexText= frame:CreateFontString(nil, 'BORDER', 'GameFontDisableSmall2')
             frame.indexText:SetPoint('RIGHT', frame.Icon, 'LEFT', -2.5, 0)
             frame.indexText:SetAlpha(0.7)
---更换，选中材质
             frame.SelectedTexture:SetAtlas('ReportList-ButtonSelect')
---外框，改成线形
             frame.BackgroundTexture:ClearAllPoints()
             frame.BackgroundTexture:SetAtlas('_UI-Frame-Metal-EdgeBottom')
             frame.BackgroundTexture:SetPoint('BOTTOMLEFT', 40, -2)
@@ -132,9 +102,6 @@ local function Init()
         frame.BackgroundTexture:SetVertexColor(color:GetRGB())
         frame.BackgroundTexture:SetAlpha(frame.elementData.selected and 0 or 1)
     end)
-
-
-
 
 
     WoWTools_DataMixin:Hook(DressUpCustomSetDetailsSlotMixin or DressUpOutfitDetailsSlotMixin, 'SetDetails', function(frame)
@@ -230,9 +197,9 @@ local function Init()
             GameTooltip:ClearLines()
             GameTooltip:SetHyperlink(link)
             GameTooltip:AddLine(' ')
-            GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '链接' or COMMUNITIES_INVITE_MANAGER_COLUMN_TITLE_LINK, WoWTools_DataMixin.Icon.left)
+            GameTooltip:AddDoubleLine(WoWTools_L['COMMUNITIES_INVITE_MANAGER_COLUMN_TITLE_LINK~2'], WoWTools_DataMixin.Icon.left)
             if p.name then
-                GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '搜索' or SEARCH, WoWTools_DataMixin.Icon.right)
+                GameTooltip:AddDoubleLine(WoWTools_L.SEARCH, WoWTools_DataMixin.Icon.right)
             end
             GameTooltip:Show()
             self:SetAlpha(0.5)
@@ -252,6 +219,6 @@ end
 
 
 
-function WoWTools_CollectionMixin:Init_DressUpFrames()--试衣间, 外观列表
+function WoWTools_CollectionMixin:Init_DressUpFrames()
     Init()
 end

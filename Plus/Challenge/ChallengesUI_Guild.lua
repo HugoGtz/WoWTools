@@ -1,46 +1,11 @@
 
 
-local function Save()
-    return WoWToolsSave['Plus_Challenges'] or {}
-end
 local Frame
 
 
-
-
-
-
-
-
-
-
-
-
-
-
---[[
-
-    if WoWTools_DataMixin.Player.husandro and #data==0 then
-        data={
-            name= WoWTools_DataMixin.Player.Name_Realm,
-            classFilename= UnitClassBase('player'),
-            keystoneLevel=11,
-            mapChallengeModeID=247,
-            isYou= true,
-            members= {
-                {
-                    name= WoWTools_DataMixin.Player.Name_Realm,
-                    classFileName= UnitClassBase('player'),
-                },
-            },
-        }
-    end
-
-]]
-
 local function Set_Text()
     local data= C_ChallengeMode.GetGuildLeaders()
-    local text= WoWTools_DataMixin.onlyChinese and '公会挑战' or GUILD_CHALLENGE_LABEL
+    local text= WoWTools_L.GUILD_CHALLENGE_LABEL
 
 
     if not data or not data.mapChallengeModeID then
@@ -68,7 +33,7 @@ local function Set_Text()
     if data.isYou then
         text= text
             ..'|n|n'
-            ..WoWTools_ColorMixin:SetStringColor(WoWTools_DataMixin.onlyChinese and '我' or COMBATLOG_FILTER_STRING_ME)
+            ..WoWTools_ColorMixin:SetStringColor(WoWTools_L.COMBATLOG_FILTER_STRING_ME)
             ..WoWTools_DataMixin.Icon.Player
     elseif data.name then
         local color= WoWTools_UnitMixin:GetColor(nil, nil, data.classFilename)
@@ -95,26 +60,10 @@ local function Set_Text()
     end
     Frame.Text:SetText(text)
 end
-    --[[
-Field	Type	Description
-name	string	
-classFileName	string	
-keystoneLevel	number	
-mapChallengeModeID	number	
-isYou	boolean	
-
-members	structure ChallengeModeGuildAttemptMember[]	
-ChallengeModeGuildAttemptMember
-Field	Type	Description
-name	string	
-classFileName	string	]]
-
-
-
 
 
 local function Init()
-    if not IsInGuild() or Save().hideGuild then
+    if not IsInGuild() or WoWTools_ChallengeMixin:Save().hideGuild then
         return
     end
 
@@ -138,10 +87,10 @@ local function Init()
     })
 
     function Frame:Settings()
-        self:SetPoint('TOPRIGHT', ChallengesFrame, Save().guildX or -15, Save().guildY or -32)
-        self:SetScale(Save().guildScale or 1)
-        self.Background:SetAlpha(Save().guildBgAlpha or 0.5)
-        self:SetShown(not Save().hideGuild and IsInGuild())
+        self:SetPoint('TOPRIGHT', ChallengesFrame, WoWTools_ChallengeMixin:Save().guildX or -15, WoWTools_ChallengeMixin:Save().guildY or -32)
+        self:SetScale(WoWTools_ChallengeMixin:Save().guildScale or 1)
+        self.Background:SetAlpha(WoWTools_ChallengeMixin:Save().guildBgAlpha or 0.5)
+        self:SetShown(not WoWTools_ChallengeMixin:Save().hideGuild and IsInGuild())
      end
 
      Frame:SetScript('OnShow', function(self)

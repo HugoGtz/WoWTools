@@ -1,83 +1,56 @@
---插件名称
-local Category, Layout = Settings.RegisterVerticalLayoutCategory('|TInterface\\AddOns\\WoWTools\\Source\\Texture\\WoWtools.tga:0|t|cffff00ffWoW|r|cff00ff00Tools|r')
-Settings.RegisterAddOnCategory(Category)
-
-WoWTools_PanelMixin={}
 --[[
-local function ResetColorSwatches()
-    C_ColorOverrides.ClearColorOverrides();
-    ColorManager.UpdateColorData();
+Panel de Blizzard (Opciones › AddOns). La categoría principal "WoWToolsPlus" es un lienzo (canvas)
+que dibuja el Centro de control (1_Mixin/ControlCenter.lua). Las subpáginas de los módulos
+(AddSubCategory) siguen siendo páginas verticales de Blizzard que cuelgan de ella.
 
-    for _, frame in ipairs(self.colorOverrideFrames) do
-        local colorData = ColorManager.GetColorDataForItemQuality(frame.data.qualityBase);
-        if colorData then
-            frame.Text:SetTextColor(colorData.color:GetRGB());
-            frame.ColorSwatch.Color:SetVertexColor(colorData.color:GetRGB());
-        end
-    end
-end
-
-local function CategoryDefaulted(o, category)
-    if self.categoryID == category:GetID() then
-        ResetColorSwatches();
-    end
-end
-EventRegistry:RegisterCallback("Settings.CategoryDefaulted", CategoryDefaulted);
-
-
-WoWTools_PanelMixin:Open(category, name)
-WoWTools_PanelMixin:AddSubCategory(tab)
-WoWTools_PanelMixin:Header(layout, title)
-WoWTools_PanelMixin:OnlyCheck(tab, root)
-WoWTools_PanelMixin:OnlyButton(tab)
-WoWTools_PanelMixin:OnlyMenu(tab)
-WoWTools_PanelMixin:CheckMenu(tab, root)
-WoWTools_PanelMixin:Check_Button(tab)
-WoWTools_PanelMixin:Check_Slider(tab)
-WoWTools_PanelMixin:OnlySlider(tab)
-
-
-sub:AddSearchTags(bindingName)
-
-local action = "INTERACTTARGET";
-local bindingIndex = C_KeyBindings.GetBindingIndex(action);
-local sub = CreateKeybindingEntryInitializer(bindingIndex, true);
-sub:AddSearchTags(GetBindingName(action));
-layout:AddInitializer(sub);
-
-
-Settings.RegisterProxySetting(categoryTbl, variable, variableType, name, defaultValue, getValue, setValue)
-Settings.RegisterProxySetting(category, "PROXY_MINIMUM_CHARACTER_NAME_SIZE", Settings.VarType.Number, MINIMUM_CHARACTER_NAME_SIZE_TEXT, 0, GetValue, SetValue)
-
+Las llamadas sin categoría (OnlyCheck, Check_Button... que antes iban a la página principal) ya no
+crean nada en Blizzard: se guardan en WoWTools_PanelMixin.Legacy y el Centro de control las muestra
+(como interruptor del módulo que las creó o como tarjeta propia). Devuelven un objeto que se puede
+pasar como root a otras llamadas: sus hijas también se guardan.
 ]]
 
+local MainFrame= CreateFrame('Frame')--lienzo de la categoría principal (lo rellena el Centro de control)
+MainFrame:Hide()
+
+local Category, Layout = Settings.RegisterCanvasLayoutCategory(MainFrame, '|TInterface\\AddOns\\WoWToolsPlus\\Source\\Texture\\WoWtools.tga:0|t|cffff00ffWoW|r|cff00ff00Tools|r|cff00ccffPlus|r')
+if Layout and Layout.AddAnchorPoint then--el lienzo ocupa toda la zona de contenido del panel
+    Layout:AddAnchorPoint('TOPLEFT', 0, 0)
+    Layout:AddAnchorPoint('BOTTOMRIGHT', 0, 0)
+end
+Settings.RegisterAddOnCategory(Category)
+
+WoWTools_PanelMixin={
+    Category= Category,
+    Frame= MainFrame,
+    Legacy= {},        --casillas y botones sueltos (sin categoría), en orden de creación
+    SubCategories= {}, --{name=, category=, layout=, parent=, module=, enable=} de cada AddSubCategory
+                       --(enable: su casilla "Activar", {get=, set=, tooltip=})
+}
+
+local LayoutOf= {}--categoría -> layout (las subpáginas creadas con AddSubCategory)
+local SubOf= {}--categoría -> registro de WoWTools_PanelMixin.SubCategories
+
+local function Plain(text)
+    return type(text)=='string' and text:gsub('|A.-|a', ''):gsub('|T.-|t', ''):gsub('|c%x%x%x%x%x%x%x%x', ''):gsub('|cn.-:', ''):gsub('|r', '') or ''
+end
+
+--Interruptor del módulo en el Centro de control: la casilla "Activar" de su subpágina,
+--o la casilla con el nombre del módulo que se está cargando (p. ej. Emotes en la página del Botón de chat)
+local function Note_Enable(category, name, getValue, setValue, tooltip)
+    if not (getValue and setValue) then
+        return
+    end
+    local sub= category and SubOf[category]
+    if sub and not sub.enable and name==WoWTools_L.ENABLE then
+        sub.enable= {get= getValue, set= setValue, tooltip= tooltip}
+    end
+    local M= WoWTools_Module and WoWTools_Module.Current
+    if M and not M.subToggle and M.addName and Plain(name)~='' and Plain(name)==Plain(M.addName) then
+        M.subToggle= {get= getValue, set= setValue, tooltip= tooltip}
+    end
+end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---创建, 添加控制面板
 local variableIndex=0
 local function Set_VariableIndex()
     variableIndex= variableIndex+1
@@ -97,27 +70,79 @@ end
 
 
 
---打开，选项
+
+--------------------------------------------------------------------------------
+--Elementos sueltos (antes en la página principal): se guardan para el Centro de control
+--------------------------------------------------------------------------------
+
+local Noop= function() end
+local ProxyMeta= {__index= function() return Noop end}--métodos de initializer que no hacen nada
+
+local function IsProxy(root)
+    return type(root)=='table' and rawget(root, 'WoWToolsLegacy')~=nil
+end
+
+local function Capture(kind, tab, root)
+    local entry= {
+        kind= kind,
+        tab= tab,
+        module= WoWTools_Module and WoWTools_Module.Current or nil,
+        children= {},
+    }
+    if IsProxy(root) then
+        entry.parent= root.WoWToolsLegacy
+        table.insert(root.WoWToolsLegacy.children, entry)
+    else
+        table.insert(WoWTools_PanelMixin.Legacy, entry)
+    end
+    entry.proxy= setmetatable({WoWToolsLegacy= entry}, ProxyMeta)
+    return entry.proxy
+end
+
+
+--Categoría y layout de destino; nil si iba a la página principal (entonces se guarda)
+local function Target(tab, root, needLayout)
+    if IsProxy(root) then
+        return
+    end
+    local category= tab.category
+    local layout= tab.layout or (category and LayoutOf[category])
+    if not layout and category and SettingsPanel and SettingsPanel.GetLayout then
+        layout= SettingsPanel:GetLayout(category)
+    end
+    if (not category and not tab.layout) or category==Category or layout==Layout then
+        return
+    end
+    if needLayout and not layout then
+        return
+    end
+    return category, layout
+end
+
+
+
+
 --Settings.OpenToCategory(categoryID, scrollToElementName)
+--Sin categoría (o la principal): abre el Centro de control; con name, en la página de ese módulo.
 function WoWTools_PanelMixin:Open(category, name)
+    if not (category and category.GetID) or category==Category then
+        if WoWTools_ControlCenter then
+            WoWTools_ControlCenter:Open(name)
+        elseif not InCombatLockdown() then
+            Settings.OpenToCategory(Category:GetID())
+        end
+        return
+    end
     if InCombatLockdown() then
         return
     end
-
-    category= (category and category.GetID) and category or Category
     Category.expanded=true
-
-    
-        name= name or category:GetName()
-    
-
+    name= name or category:GetName()
     category.OnEvaluateState= category.OnEvaluateState or function()end
-
     Settings.OpenToCategory(category:GetID(), name)
 end
 
 
---添加，子目录
 function WoWTools_PanelMixin:AddSubCategory(tab)
     local disabled
     if type(tab.disabled)=='function' then
@@ -127,36 +152,37 @@ function WoWTools_PanelMixin:AddSubCategory(tab)
     end
 
     local name= (disabled and '|cff828282' or '')..tab.name
+    local parent= tab.category or Category
 
+    local category, layout
     if tab.frame then
-        return Settings.RegisterCanvasLayoutSubcategory(tab.category or Category, tab.frame, name)
+        category, layout= Settings.RegisterCanvasLayoutSubcategory(parent, tab.frame, name)
     else
-        return Settings.RegisterVerticalLayoutSubcategory(tab.category or Category, name)--Blizzard_SettingsInbound.lua
+        category, layout= Settings.RegisterVerticalLayoutSubcategory(parent, name)--Blizzard_SettingsInbound.lua
     end
+
+    if category then
+        if layout then
+            LayoutOf[category]= layout
+        end
+        local sub= {
+            name= tab.name,
+            category= category,
+            layout= layout,
+            parent= parent,
+            module= WoWTools_Module and WoWTools_Module.Current or nil,
+        }
+        SubOf[category]= sub
+        table.insert(self.SubCategories, sub)
+    end
+    return category, layout
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---添加，标题
 function WoWTools_PanelMixin:Header(layout, title)
-    layout= layout or Layout
+    if not layout or layout==Layout then--la página principal ya no es una lista: los títulos sueltos se ignoran
+        return
+    end
     layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(title))
 end
 
@@ -164,19 +190,46 @@ end
 
 
 
---添加，Check
+--Muchos SetValue alternan (x= not x) en vez de asignar el valor recibido.
+--Con "Predeterminados" se llamaban aunque el valor ya fuera el correcto e invertían la casilla:
+--solo se llaman si el valor booleano cambia de verdad.
+local function Bool_Setter(getValue, setValue)
+    if not setValue or not getValue then
+        return setValue
+    end
+    return function(value, ...)
+        if (not getValue()) ~= (not value) then
+            return setValue(value, ...)
+        end
+    end
+end
+WoWTools_PanelMixin.Bool_Setter= Bool_Setter
+
+--Valor por defecto: tab.default si se indica (valor de fábrica); si no, el valor actual al registrar.
+local function Get_Default(default, getValue, value2)
+    if default~=nil then
+        return default
+    end
+    return getValue() or value2
+end
+
 function WoWTools_PanelMixin:OnlyCheck(tab, root)
+    local category= Target(tab, root)
+    if not category then
+        return Capture('check', tab, root)
+    end
     local setting=Settings.RegisterProxySetting(
-        tab.category or Category,
+        category,
         Set_VariableIndex(),
         Settings.VarType.Boolean,
         tab.name,
-        tab.GetValue() or tab.value,
+        Get_Default(tab.default, tab.GetValue, tab.value),
         tab.GetValue,
-        tab.SetValue or tab.func
+        Bool_Setter(tab.GetValue, tab.SetValue or tab.func)
     )
 
-    local sub= Settings.CreateCheckbox(tab.category or Category, setting, tab.tooltip)
+    local sub= Settings.CreateCheckbox(category, setting, tab.tooltip)
+    Note_Enable(category, tab.name, tab.GetValue, setting and Bool_Setter(tab.GetValue, tab.SetValue or tab.func), tab.tooltip)
 
     if root then
         sub:SetParentInitializer(root)
@@ -184,22 +237,13 @@ function WoWTools_PanelMixin:OnlyCheck(tab, root)
 
     return sub
 end
---[[
---添加控制面板
-WoWTools_PanelMixin:OnlyCheck({
-name= WoWTools_CollectionMixin.addName,
-GetValue= function() return not Save().disabled end,
-SetValue= function()
-end,
-category= ,
-tooltip= ,
-}, root)
-]]
 
---添加，按钮
 --CreateSettingsButtonInitializer(name, buttonText, buttonClick, tooltip, addSearchTags)
 function WoWTools_PanelMixin:OnlyButton(tab, root)
-    local layout= tab.layout or Layout
+    local _, layout= Target(tab, root, true)
+    if not layout then
+        return Capture('button', tab, root)
+    end
     local sub= CreateSettingsButtonInitializer(--Blizzard_SettingControls.lua
         tab.title or tab.name or '',
         tab.buttonText or '',
@@ -215,22 +259,15 @@ function WoWTools_PanelMixin:OnlyButton(tab, root)
 
     return sub
 end
---[[
-WoWTools_PanelMixin:OnlyButton({
-    title= WoWTools_DataMixin.onlyChinese and '' or '',
-    buttonText=WoWTools_DataMixin.onlyChinese and '' or '',
-    SetValue=function()
-    end,
-    tooltip=nil,
-    addSearchTags=nil,
-}, sub)
-]]
 
 
---添加，下拉菜单
 function WoWTools_PanelMixin:OnlyMenu(tab, root)
+    local category= Target(tab, root)
+    if not category then
+        return Capture('menu', tab, root)
+    end
     local setting= Settings.RegisterProxySetting(--categoryTbl, variable, variableType, name, defaultValue, getValue, setValue
-        tab.category or Category,
+        category,
         Set_VariableIndex(),
         Settings.VarType.Number,
         tab.name,
@@ -240,7 +277,7 @@ function WoWTools_PanelMixin:OnlyMenu(tab, root)
     )
 
     local sub= Settings.CreateDropdown(--setting, options, tooltip
-        tab.category or Category,
+        category,
         setting,
         tab.GetOptions,
         tab.tooltip
@@ -256,19 +293,22 @@ end
 --Blizzard_SettingControls.lua
 --CreateSettingsCheckboxDropdownInitializer(cbSetting, cbLabel, cbTooltip, dropdownSetting, dropdownOptions, dropDownLabel, dropDownTooltip)
 function WoWTools_PanelMixin:CheckMenu(tab, root)
-    local layout= tab.layout or Layout
+    local category, layout= Target(tab, root, true)
+    if not category then
+        return Capture('checkMenu', tab, root)
+    end
     local cbSetting=Settings.RegisterProxySetting(
-        tab.category or Category,--categoryTbl
+        category,--categoryTbl
         Set_VariableIndex(),--variable
         Settings.VarType.Boolean,--variableType
         tab.name,--name
-        tab.GetValue(),--defaultValue
+        Get_Default(tab.default, tab.GetValue),--defaultValue
         tab.GetValue,--getValue
-        tab.SetValue or tab.func--setValue
+        Bool_Setter(tab.GetValue, tab.SetValue or tab.func)--setValue
     )
 
     local dropdownSetting= Settings.RegisterProxySetting(--categoryTbl, variable, variableType, name, defaultValue, getValue, setValue
-        tab.category or Category,
+        category,
         Set_VariableIndex(),
         Settings.VarType.Number,
         tab.name,
@@ -298,48 +338,26 @@ function WoWTools_PanelMixin:CheckMenu(tab, root)
 
     return sub
 end
---[[
-WoWTools_PanelMixin:CheckMenu({
-category=,
-layout=,
-name=,
-tooltip=,
-GetValue=function()
-end,
-SetValue=function(value)
-end,
-DropDownGetValue=function()
-end,
-DropDownSetValue=function(value)
-end,
-GetOptions=function()
-    local container = Settings.CreateControlTextContainer()
-    container:Add(1, WoWTools_DataMixin.onlyChinese and '位于上方' or QUESTLINE_LOCATED_ABOVE)
-    container:Add(2, WoWTools_DataMixin.onlyChinese and '位于下方' or QUESTLINE_LOCATED_BELOW)
-    return container:GetData()
-end})
-]]
 
 
-
-
-
-
---添加，Check 和 按钮
 
 --CreateSettingsCheckboxWithButtonInitializer(setting, buttonText, buttonClick, evaluateState, clickRequiresSet, tooltip)
 
 function WoWTools_PanelMixin:Check_Button(tab, root)
-    local layout= tab.layout or Layout
+    local category, layout= Target(tab, root, true)
+    if not category then
+        return Capture('checkButton', tab, root)
+    end
     local checkSetting=Settings.RegisterProxySetting(
-        tab.category or Category,
+        category,
         Set_VariableIndex(),
         Settings.VarType.Boolean,
         tab.checkName,
-        tab.GetValue(),
+        Get_Default(tab.default, tab.GetValue),
         tab.GetValue,
-        tab.SetValue
+        Bool_Setter(tab.GetValue, tab.SetValue)
     )
+    Note_Enable(category, tab.checkName, tab.GetValue, Bool_Setter(tab.GetValue, tab.SetValue), tab.tooltip)
     local sub= CreateSettingsCheckboxWithButtonInitializer(
         checkSetting,--setting
         tab.buttonText,--buttonText
@@ -356,27 +374,23 @@ function WoWTools_PanelMixin:Check_Button(tab, root)
 end
 
 
-
-
-
-
-
-
-
 function WoWTools_PanelMixin:Check_Slider(tab, root)
-    local layout= tab.layout or Layout
+    local category, layout= Target(tab, root, true)
+    if not category then
+        return Capture('checkSlider', tab, root)
+    end
     local checkSetting=Settings.RegisterProxySetting(
-        tab.category or Category,
+        category,
         Set_VariableIndex(),
         Settings.VarType.Boolean,
         tab.checkName,
-        tab.checkGetValue(),
+        Get_Default(tab.checkDefault, tab.checkGetValue),
         tab.checkGetValue,
-        tab.checkSetValue
+        Bool_Setter(tab.checkGetValue, tab.checkSetValue)
     )
 
     local sliderSetting = Settings.RegisterProxySetting(
-        tab.category or Category,
+        category,
         Set_VariableIndex(),
         Settings.VarType.Number,
         tab.sliderName or tab.checkName,
@@ -412,10 +426,13 @@ end
 
 
 
---添加，划动条
 function WoWTools_PanelMixin:OnlySlider(tab, root)
+    local category= Target(tab, root)
+    if not category then
+        return Capture('slider', tab, root)
+    end
     local setting = Settings.RegisterProxySetting(
-        tab.category or Category,
+        category,
         Set_VariableIndex(),
         Settings.VarType.Number,
         tab.name,
@@ -429,7 +446,7 @@ function WoWTools_PanelMixin:OnlySlider(tab, root)
         return WoWTools_DataMixin:GetFormatter1to10(value or 1, 0, 1)
     end)
 
-    local sub=Settings.CreateSlider(tab.category or Category, setting, options, tab.tooltip);
+    local sub=Settings.CreateSlider(category, setting, options, tab.tooltip);
     Settings.SetOnValueChangedCallback(setting:GetVariable(), tab.SetValue)
 
     if root then
@@ -440,60 +457,6 @@ function WoWTools_PanelMixin:OnlySlider(tab, root)
 end
 
 
-
-	--[[Color Overrides
-	local data = { categoryID = category:GetID(), newTagID = "panelItemQualityColorOverrides" };
-	local initializer = Settings.CreatePanelInitializer("ItemQualityColorOverrides", data);
-
-	-- Include both 'Item Quality' and 'Rarity', since the terms are a bit interchangeable players could search for either.
-	initializer:AddSearchTags(COLORS_ITEM_QUALITY, RARITY);
-	layout:AddInitializer(initializer);
-]]
-
-
-
-
-
-
-
-
-
-
-
-
-
---[[
-function  e.Add_Panel_RestData_Button(root, SetValue)
-    if not StaticPopupDialogs['WoWTools_Rest_DaTa'] then
-        StaticPopupDialogs['WoWTools_Rest_DaTa']={--重置所有,清除全部玩具
-            text=id..' '..addName..'|n'..(WoWTools_DataMixin.onlyChinese and '清除全部' or CLEAR_ALL)..'|n|n'..(WoWTools_DataMixin.onlyChinese and '重新加载UI' or RELOADUI),
-            whileDead=true, hideOnEscape=true, exclusive=true,
-            button1='|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '重置' or RESET)..'|r',
-            button2= WoWTools_DataMixin.onlyChinese and '取消' or CANCEL,
-            OnAccept = function(_, setValue)
-                setValue()
-                WoWTools_DataMixin:Reload()
-            end,
-        }
-    end
-end
-
-]]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---重新加载UI, 重置, 按钮
 function WoWTools_PanelMixin:ReloadButton(tab)
     local rest= WoWTools_ButtonMixin:Cbtn(tab.panel, {isUI=true, size=25})
     rest:SetNormalAtlas('bags-button-autosort-up')
@@ -513,7 +476,7 @@ function WoWTools_PanelMixin:ReloadButton(tab)
     rest:SetScript('OnEnter', function(frame)
         GameTooltip:SetOwner(frame, "ANCHOR_LEFT")
         GameTooltip:ClearLines()
-        GameTooltip:AddLine(frame.clearTips or (WoWTools_DataMixin.onlyChinese and '当前保存' or (ITEM_UPGRADE_CURRENT..SAVE)))
+        GameTooltip:AddLine(frame.clearTips or WoWTools_L['Current save'])
         GameTooltip:AddLine(' ')
         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, frame.addName)
         GameTooltip:Show()
@@ -522,7 +485,7 @@ function WoWTools_PanelMixin:ReloadButton(tab)
     local reload= CreateFrame('Button', nil, tab.panel, 'WoWToolsButtonTemplate')
     reload:SetNormalTexture('Interface\\Vehicles\\UI-Vehicles-Button-Exit-Up')
     reload:SetPoint('TOPLEFT',-12, 8)
-    reload.tooltip=WoWTools_DataMixin.Icon.icon2..(WoWTools_DataMixin.onlyChinese and '重新加载UI' or RELOADUI)
+    reload.tooltip=WoWTools_DataMixin.Icon.icon2..(WoWTools_L.RELOADUI)
     reload:SetScript('OnClick', function() WoWTools_DataMixin:Reload() end)
 
     if tab.disabledfunc then
@@ -540,7 +503,7 @@ function WoWTools_PanelMixin:ReloadButton(tab)
         check:SetScript('OnEnter', function(frame)
             GameTooltip:SetOwner(frame, "ANCHOR_LEFT")
             GameTooltip:ClearLines()
-            GameTooltip:AddLine(WoWTools_DataMixin.onlyChinese and '启用/禁用' or (ENABLE..'/'..DISABLE))
+            GameTooltip:AddLine(WoWTools_L['Enable/Disable'])
             GameTooltip:AddLine(' ')
             GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, frame.addName)
             GameTooltip:Show()
@@ -548,23 +511,16 @@ function WoWTools_PanelMixin:ReloadButton(tab)
     end
     if tab.restTips then
         local needReload= tab.panel:CreateFontString(nil, 'BORDER', 'ChatFontNormal') --WoWTools_LabelMixin:Create(tab.panel)
-        needReload:SetText('|A:common-icon-rotateright:0:0|a'..(WoWTools_DataMixin.onlyChinese and '需要重新加载' or REQUIRES_RELOAD)..'|A:common-icon-rotateleft:0:0|a')
+        needReload:SetText('|A:common-icon-rotateright:0:0|a'..(WoWTools_L.REQUIRES_RELOAD)..'|A:common-icon-rotateleft:0:0|a')
         needReload:SetPoint('BOTTOMRIGHT')
     end
 end
 
 
+--Compatibilidad: la página principal ya no es una lista que haya que reorganizar (la agrupa el Centro de control)
+function WoWTools_PanelMixin:Organize_Main()
+end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+function WoWTools_PanelMixin:GetMainCount()
+    return 0
+end

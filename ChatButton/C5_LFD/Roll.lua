@@ -1,24 +1,17 @@
 
-local function Save()
-    return WoWToolsSave['ChatButton_LFD'] or {}
-end
-
-
-
-
 local function set_RollOnLoot(rollID, rollType, itemLink, notPrint)
     RollOnLoot(rollID, rollType)
 
     itemLink= itemLink or GetLootRollItemLink(rollID)
 
-    if not itemLink or not notPrint then
+    if not itemLink or notPrint then
         return
     end
 
-    print(
+    WoWTools_Print(
         WoWTools_DataMixin.Icon.icon2
         ..'|A:groupfinder-eye-frame:0:0|a|cnGREEN_FONT_COLOR:'
-        ..(rollType==1 and '|A:lootroll-toast-icon-need-up:0:0|a' or '|A:lootroll-toast-icon-transmog-up:0:0|a')
+        ..(rollType==1 and '|A:lootroll-toast-icon-need-up:0:0|a' or rollType==2 and '|A:lootroll-toast-icon-greed-up:0:0|a' or '|A:lootroll-toast-icon-transmog-up:0:0|a')
         ..itemLink
     )
 end
@@ -27,8 +20,7 @@ end
 
 
 
---提示，剩余时间
-local function set_Timer_Text(frame)--提示，剩余时间
+local function set_Timer_Text(frame)
     if frame and frame.Timer and not frame.Timer.Text and frame:IsShown() then
         frame.Timer.Text= WoWTools_LabelMixin:Create(frame.Timer)
         frame.Timer.Text:SetPoint('RIGHT')
@@ -45,8 +37,8 @@ end
 
 local function set_ROLL_Check(frame, notPrint)
     local rollID= frame and frame.rollID
-    if not Save().autoROLL or not rollID then
-        set_Timer_Text(frame)--提示，剩余时间
+    if not WoWTools_LFDMixin:Save().autoROLL or not rollID then
+        set_Timer_Text(frame)
         return
     end
 
@@ -59,14 +51,15 @@ local function set_ROLL_Check(frame, notPrint)
         return
     end
 
-    if canTransmog and not C_TransmogCollection.PlayerHasTransmogByItemInfo(itemLink) then--幻化
+    if canTransmog and not C_TransmogCollection.PlayerHasTransmogByItemInfo(itemLink) then
         local sourceID=select(2,C_TransmogCollection.GetItemInfo(itemLink))
         if sourceID then
             local hasItemData, canCollect =  C_TransmogCollection.PlayerCanCollectSource(sourceID)
             if hasItemData and canCollect then
                 local sourceInfo = C_TransmogCollection.GetSourceInfo(sourceID)
                 if sourceInfo and not sourceInfo.isCollected then
-                    set_RollOnLoot(rollID, 1, itemLink, notPrint)
+                    --Apariencia no coleccionada: tirar Transfiguración, no Necesidad (no quitar mejoras a otros)
+                    set_RollOnLoot(rollID, Enum.LootRollType and Enum.LootRollType.Transmog or 2, itemLink, notPrint)
                     return
                 end
             end
@@ -75,7 +68,7 @@ local function set_ROLL_Check(frame, notPrint)
 
     local itemID, itemType, itemSubType, itemEquipLoc, _, classID, subclassID = C_Item.GetItemInfoInstant(itemLink)
     if C_Item.IsEquippableItem(itemLink) then
-        for _, slot in ipairs({WoWTools_ItemMixin:GetEquipSlotID(itemEquipLoc)}) do--比较装等
+        for _, slot in ipairs({WoWTools_ItemMixin:GetEquipSlotID(itemEquipLoc)}) do
             local slotLink= GetInventoryItemLink('player', slot)
             if slotLink then
                 local slotItemLevel= WoWTools_ItemMixin:GetItemLevel(slotLink) or 0
@@ -91,11 +84,11 @@ local function set_ROLL_Check(frame, notPrint)
         end
     end
 
-    if classID==15 and subclassID==2 then--宠物物品
+    if classID==15 and subclassID==2 then
         set_RollOnLoot(rollID, 1, itemLink, notPrint)
         return
 
-    elseif classID==15 and  subclassID==5 then--坐骑
+    elseif classID==15 and  subclassID==5 then
         local mountID = C_MountJournal.GetMountFromItem(itemID)
         if mountID then
             local isCollected =select(11, C_MountJournal.GetMountInfoByID(mountID))
@@ -105,20 +98,20 @@ local function set_ROLL_Check(frame, notPrint)
             end
         end
 
-    elseif C_ToyBox.GetToyInfo(itemID) and not PlayerHasToy(itemID) then--玩具 
+    elseif C_ToyBox.GetToyInfo(itemID) and not PlayerHasToy(itemID) then
         set_RollOnLoot(rollID, 1, itemLink, notPrint)
         return
 
---住宅装饰
     elseif C_Item.IsDecorItem(itemLink) then
         set_RollOnLoot(rollID, 1, itemLink, notPrint)
         return
-    elseif classID==0 or subclassID==0 then
-        set_RollOnLoot(rollID, 1, itemLink, notPrint)
+    --Consumibles: Codicia. Antes subclassID==0 tiraba Necesidad en anillos, collares, abalorios y hachas
+    elseif classID==Enum.ItemClass.Consumable then
+        set_RollOnLoot(rollID, 2, itemLink, notPrint)
         return
     end
 
-    set_Timer_Text(frame)--提示，剩余时间
+    set_Timer_Text(frame)
 end
 
 
@@ -130,9 +123,8 @@ end
 
 
 --#######
---自动ROLL
 --GroupLootFrame.lua --frame.rollTime  frame.Timer
-local function Init()
+local Init= WoWTools_Once(function()
     WoWTools_DataMixin:Hook('GroupLootContainer_AddFrame', function(_, self)
         set_ROLL_Check(self)
     end)
@@ -145,9 +137,7 @@ local function Init()
             end
         end
     end)
-
-    Init=function()end
-end
+end)
 
 
 

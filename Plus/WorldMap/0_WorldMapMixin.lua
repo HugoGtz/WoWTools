@@ -28,29 +28,8 @@ function WoWTools_WorldMapMixin:GetMapID()
 end
 
 
-
---[[AreaLabelDataProvider.xml
-function WoWTools_WorldMapMixin:Create_Wolor_Font(frame)
-    return frame:CreateFontString(nil, 'ARTWORK', 'WoWToolsWorldFont')
-
-  return WoWTools_LabelMixin:Create(frame, {
-        size=size,
-        justifyH='CENTER',
-        color=false,
-        notShadow=true,
-        fontName='WorldMapTextFont'}
-    )
-    --WorldMapTextFont 32
-    SubZoneTextFont 26
-   
-end ]]
-
-
-
-
---玩家当前位置  x, y 是字符
 function WoWTools_WorldMapMixin:GetPlayerXY()
-    local uiMapID= C_Map.GetBestMapForUnit("player")--当前地图        
+    local uiMapID= C_Map.GetBestMapForUnit("player")
     if uiMapID then
         local position = C_Map.GetPlayerMapPosition(uiMapID, "player")
         if position then
@@ -65,7 +44,6 @@ function WoWTools_WorldMapMixin:GetPlayerXY()
     end
 end
 
---当前世界地图位置 x, y 是字符
 function WoWTools_WorldMapMixin:GetMapXY()
     local x, y = WorldMapFrame.ScrollContainer:GetNormalizedCursorPosition()
     if x and y then
@@ -74,12 +52,13 @@ function WoWTools_WorldMapMixin:GetMapXY()
 end
 
 
-function WoWTools_WorldMapMixin:SendPlayerPoint()--发送玩家位置
+function WoWTools_WorldMapMixin:SendPlayerPoint()
     local mapID = C_Map.GetBestMapForUnit("player")
     if mapID then
-        if C_Map.CanSetUserWaypointOnMap(mapID) then
+        --GetPlayerMapPosition puede ser nil (posición restringida) aunque se permitan waypoints
+        local pos= C_Map.CanSetUserWaypointOnMap(mapID) and C_Map.GetPlayerMapPosition(mapID, "player")
+        if pos then
             local point= C_Map.GetUserWaypoint()
-            local pos= C_Map.GetPlayerMapPosition(mapID, "player")
             local mapPoint = UiMapPoint.CreateFromVector2D(mapID, pos)
             C_Map.SetUserWaypoint(mapPoint)
             WoWTools_ChatMixin:Chat(C_Map.GetUserWaypointHyperlink(), nil, true)
@@ -121,17 +100,9 @@ function WoWTools_WorldMapMixin:SendPlayerPoint()--发送玩家位置
         name =name or name2
         WoWTools_ChatMixin:Chat(name, nil, true)
     else
-        print(WoWTools_DataMixin.onlyChinese and '当前地图不能标记' or "Cannot set waypoints on this map")
+        WoWTools_Print(WoWTools_L['Cannot set waypoints on this map'])
     end
 end
-
-
-
-
-
-
-
-
 
 
 --['50.02 74.76']

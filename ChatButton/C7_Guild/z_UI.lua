@@ -1,312 +1,14 @@
 
-function WoWTools_TooltipMixin.Events:Blizzard_Communities()
-    WoWTools_DataMixin:Hook(CommunitiesAvatarButtonMixin, 'Init', function(btn)
-        if not btn.Name then
-            btn.Name= WoWTools_LabelMixin:Create(btn, {mouse=true})
-            btn.Name:SetPoint('BOTTOM')
-            btn.Name:SetScript('OnLeave', function(b)
-                b:SetAlpha(1)
-                GameTooltip:Hide()
-            end)
-            btn.Name:SetScript('OnEnter', function(b)
-                GameTooltip:SetOwner(b, 'ANCHOR_LEFT')
-                GameTooltip_SetTitle(GameTooltip, WoWTools_DataMixin.Icon.icon2..'avatarId')
-                GameTooltip:Show()
-                b:SetAlpha(0.5)
-            end)
-        end
-        btn.Name:SetText(btn.avatarId or '')
-    end)
-end
 
 
 
 
-function WoWTools_TextureMixin.Events:Blizzard_GuildRename()--11.1.5
-    self:SetNineSlice(GuildRenameFrame)
-    self:SetAlphaColor(GuildRenameFrameBg, nil, nil, true)
-    self:HideTexture(GuildRenameFrameInset.Bg)
-    --self:SetInset(GuildRenameFrameInset)
-    self:SetNineSlice(GuildRenameFrameInset)
-end
 
 
 
- --公会和社区 Blizzard_Communities
- function WoWTools_TextureMixin.Events:Blizzard_Communities()
-    self:SetButton(CommunitiesFrameCloseButton)
-    self:SetButton(CommunitiesFrame.MaximizeMinimizeFrame.MinimizeButton)
-    self:SetButton(CommunitiesFrame.MaximizeMinimizeFrame.MaximizeButton)
-    self:SetMenu(CommunitiesFrame.StreamDropdown)
 
-    self:SetScrollBar(CommunitiesFrame.Chat)
-    self:SetNineSlice(CommunitiesFrame.Chat.InsetFrame)
-    self:CreateBG(CommunitiesFrame.Chat, {isAllPoint=true, isColor=true})
 
---公会，页面
-    self:SetUIButton(CommunitiesFrame.InviteButton)
-    self:SetUIButton(CommunitiesFrame.CommunitiesControlFrame.GuildRecruitmentButton)
-    self:SetUIButton(CommunitiesFrame.CommunitiesControlFrame.CommunitiesSettingsButton)
-    self:SetMenu(CommunitiesFrame.GuildMemberListDropdown)
-    self:SetCheckBox(CommunitiesFrame.MemberList.ShowOfflineButton)
-    self:SetStatusBar(CommunitiesFrame.GuildBenefitsFrame.FactionFrame.Bar, CommunitiesFrame.GuildBenefitsFrame.FactionFrame.Bar.Progress)
-    self:SetUIButton(CommunitiesFrame.GuildLogButton)
-    self:SetUIButton(CommunitiesGuildLogFrameCloseButton)
-
---新闻过滤
-    self:SetScrollBar(CommunitiesFrameGuildDetailsFrameNews)
-    self:SetBG(CommunitiesFrameGuildDetailsFrameNews)
-
-    self:SetNineSlice(CommunitiesFrameInset)
-
-    self:SetEditBox(CommunitiesFrame.ChatEditBox)
-    --self:SetAlphaColor(CommunitiesFrameMiddle)
-
---公会和社区，列表
-    self:HideTexture(CommunitiesFrameCommunitiesList.Bg)
-    self:SetNineSlice(CommunitiesFrameCommunitiesList.InsetFrame, nil, true)
-    self:SetScrollBar(CommunitiesFrameCommunitiesList)
-    self:HideFrame(CommunitiesFrameCommunitiesList.FilligreeOverlay)
-    self:HideTexture(CommunitiesFrameCommunitiesList.TopFiligree)
-    self:HideTexture(CommunitiesFrameCommunitiesList.BottomFiligree)
-
-    WoWTools_DataMixin:Hook(CommunitiesListEntryMixin, 'Init', function(frame, data)
-        self:SetAlphaColor(frame.Background, 1, true)
-    end)
-
-    self:HideFrame(CommunitiesFrame.ChatTab, {index=1})
-    self:HideFrame(CommunitiesFrame.RosterTab, {index=1})
-    self:HideFrame(CommunitiesFrame.GuildBenefitsTab, {index=1})
-    self:HideFrame(CommunitiesFrame.GuildInfoTab, {index=1})
-    WoWTools_ButtonMixin:AddMask(CommunitiesFrame.ChatTab, true)
-    WoWTools_ButtonMixin:AddMask(CommunitiesFrame.RosterTab, true)
-    WoWTools_ButtonMixin:AddMask(CommunitiesFrame.GuildBenefitsTab, true)
-    WoWTools_ButtonMixin:AddMask(CommunitiesFrame.GuildInfoTab, true)
-
-    self:SetFrame(CommunitiesFrame.AddToChatButton, {notAlpha=true})
-
-    self:SetMenu(CommunitiesFrame.NotificationSettingsDialog.CommunitiesListDropdown)
-    self:SetFrame(CommunitiesFrame.NotificationSettingsDialog.Selector)
-    self:SetScrollBar(CommunitiesFrame.NotificationSettingsDialog.ScrollFrame)
-    self:SetAlphaColor(CommunitiesFrame.NotificationSettingsDialog.BG, {notAlpha=true})
-
---成员，列表
-    self:SetNineSlice(CommunitiesFrame.MemberList.InsetFrame)
-    self:HideFrame(CommunitiesFrame.MemberList.ColumnDisplay)
-    self:SetScrollBar(CommunitiesFrame.MemberList)
-    self:CreateBG(CommunitiesFrame.MemberList, {isAllPoint=true})
-
-
---成员,叙述 CommunitiesGuildMemberDetailMixin
-    self:SetFrame(CommunitiesFrame.GuildMemberDetailFrame.Border, {alpha=1})
-    self:SetButton(CommunitiesFrame.GuildMemberDetailFrame.CloseButton)
-    self:SetNineSlice(CommunitiesFrame.GuildMemberDetailFrame.NoteBackground, 0.5)
-    self:SetMenu(CommunitiesFrame.GuildMemberDetailFrame.RankDropdown)
-    self:SetNineSlice(CommunitiesFrame.GuildMemberDetailFrame.OfficerNoteBackground, 0.5)
-    self:SetUIButton(CommunitiesFrame.GuildMemberDetailFrame.RemoveButton)
-    self:SetUIButton(CommunitiesFrame.GuildMemberDetailFrame.GroupInviteButton)
-
-
---公会奖励，列表, 物品，GuildRewards.lua
-    self:HideTexture(CommunitiesFrame.GuildBenefitsFrame.Rewards.Bg)
-    self:SetScrollBar(CommunitiesFrame.GuildBenefitsFrame.Rewards)
-    CommunitiesFrame.GuildBenefitsFrame.Perks:DisableDrawLayer('BACKGROUND')
-    self:HideFrame(CommunitiesFrame.GuildBenefitsFrame)
-    self:SetScrollBar(CommunitiesFrame.GuildBenefitsFrame.Perks.ScrollBar)
-
-    WoWTools_DataMixin:Hook(CommunitiesGuildRewardsButtonMixin, 'Init', function(f)
-        self:SetBG(f)
-    end)
-    
-
---角色名称邀请你加入
-    self:SetNineSlice(CommunitiesFrame.ClubFinderInvitationFrame.InsetFrame)
-    self:SetUIButton(CommunitiesFrame.ClubFinderInvitationFrame.AcceptButton)
-    self:SetUIButton(CommunitiesFrame.ClubFinderInvitationFrame.DeclineButton)
-
-
---公会设置
-    self:SetFrame(GuildControlUI)
-    self:SetFrame(GuildControlUIHbar)
-    self:SetMenu(GuildControlUINavigationDropdown)
-    self:SetMenu(GuildControlUIRankBankFrameRankDropdown)
-    self:SetInset(GuildControlUIRankBankFrameInset)
-    self:SetScrollBar(GuildControlUIRankBankFrameInsetScrollFrame)
-    self:SetMenu(GuildControlUIRankSettingsFrameRankDropdown)
-
-
---新建，公会, 签名
-    self:SetAlphaColor(PetitionFrame.Bg, nil, true, true)
-    self:SetNineSlice(PetitionFrame)
-    self:SetAlphaColor(PetitionFrameBg, nil, nil,true)
-    self:HideTexture(PetitionFrameInset.Bg)
-    self:SetInset(PetitionFrameInset)
-    self:SetNineSlice(PetitionFrameInset)
-    self:SetScrollBar(PetitionFrame)
-    self:SetButton(PetitionFrameCloseButton)
-    self:SetUIButton(PetitionFrameSignButton)
-    self:SetUIButton(PetitionFrameCancelButton)
-
-
-
---设计，公会战袍
-    self:SetAllFrames(TabardFrame, {
-        frames={TabardFrameCustomizationFrame},
-        bg=true,
-    })
-    for i=1, 5 do
-        self:HideTexture(_G['TabardFrameCustomization'..i..'Middle'])
-        self:HideTexture(_G['TabardFrameCustomization'..i..'Left'])
-        self:HideTexture(_G['TabardFrameCustomization'..i..'Right'])
-        self:SetButton(_G['TabardFrameCustomization'..i..'LeftButton'], 0.75)
-        self:SetButton(_G['TabardFrameCustomization'..i..'RightButton'], 0.75)
-    end
-    self:SetButton(TabardCharacterModelRotateLeftButton)
-    self:SetButton(TabardCharacterModelRotateRightButton)
-
-
-    --self:SetButton(TabardFrameCloseButton)
-
-
---信息
-    self:SetFrame(CommunitiesFrameGuildDetailsFrameInfo)
-    CommunitiesFrameGuildDetailsFrameInfo:DisableDrawLayer('BACKGROUND')
-    self:SetFrame(CommunitiesFrameGuildDetailsFrame)
-    self:SetScrollBar(CommunitiesFrameGuildDetailsFrameInfoMOTDScrollFrame)
-    self:SetScrollBar(CommunitiesFrameGuildDetailsFrameInfo.DetailsFrame)
-    --CommunitiesFrameGuildDetailsFrameInfoMOTDScrollFrame:SetPoint('BOTTOMRIGHT')
-
---公会信息， 点击以编辑
-    --CommunitiesGuildTextEditFrame
-    self:SetFrame(CommunitiesGuildTextEditFrame)
-    self:SetNineSlice(CommunitiesGuildTextEditFrame.Container, nil, true)
-    self:SetScrollBar(CommunitiesGuildTextEditFrame.Container.ScrollFrame)
-
---查看日志，记录
-    self:SetFrame(CommunitiesGuildLogFrame)
-    self:SetFrame(CommunitiesGuildLogFrameCloseButton)
-    self:SetNineSlice(CommunitiesGuildLogFrame.Container, nil, true)
-    self:SetScrollBar(CommunitiesGuildLogFrame.Container.ScrollFrame)
-
-
---新闻过滤
-    self:SetFrame(CommunitiesGuildNewsFiltersFrame)
-    self:SetButton(CommunitiesGuildNewsFiltersFrame.CloseButton)
-
---寻找社区
-    self:SetScrollBar(ClubFinderCommunityAndGuildFinderFrame.CommunityCards)
-    self:SetScrollBar(ClubFinderCommunityAndGuildFinderFrame.PendingCommunityCards)
-
-    if ClubFinderCommunityAndGuildFinderFrame.OptionsList then
-        self:SetMenu(ClubFinderCommunityAndGuildFinderFrame.OptionsList.ClubFilterDropdown)
-        self:SetCheckBox(ClubFinderCommunityAndGuildFinderFrame.OptionsList.TankRoleFrame.Checkbox)
-        self:SetCheckBox(ClubFinderCommunityAndGuildFinderFrame.OptionsList.HealerRoleFrame.Checkbox)
-        self:SetCheckBox(ClubFinderCommunityAndGuildFinderFrame.OptionsList.DpsRoleFrame.Checkbox)
-        self:SetEditBox(ClubFinderCommunityAndGuildFinderFrame.OptionsList.SearchBox)
-        self:SetUIButton(ClubFinderCommunityAndGuildFinderFrame.OptionsList.Search)
-        self:SetMenu(ClubFinderCommunityAndGuildFinderFrame.OptionsList.SortByDropdown)
-    end
-
-    self:SetNineSlice(ClubFinderCommunityAndGuildFinderFrame.InsetFrame)
-    self:SetAlphaColor(ClubFinderCommunityAndGuildFinderFrame.InsetFrame.Bg)
-    self:HideFrame(ClubFinderCommunityAndGuildFinderFrame.ClubFinderSearchTab, {index=1})
-    WoWTools_ButtonMixin:AddMask(ClubFinderCommunityAndGuildFinderFrame.ClubFinderSearchTab, true)
-    self:HideFrame(ClubFinderCommunityAndGuildFinderFrame.ClubFinderPendingTab, {index=1})
-    WoWTools_ButtonMixin:AddMask(ClubFinderCommunityAndGuildFinderFrame.ClubFinderPendingTab, true)
-
---公会查找器
-    self:HideTexture(ClubFinderGuildFinderFrame.InsetFrame.Bg)
-    self:SetNineSlice(ClubFinderGuildFinderFrame.InsetFrame)
-    self:SetMenu(ClubFinderGuildFinderFrame.OptionsList.ClubFilterDropdown)
-    self:SetMenu(ClubFinderGuildFinderFrame.OptionsList.ClubSizeDropdown)
-    self:SetEditBox(ClubFinderGuildFinderFrame.OptionsList.SearchBox)
-    self:SetUIButton(ClubFinderGuildFinderFrame.OptionsList.Search)
-    self:SetCheckBox(ClubFinderGuildFinderFrame.OptionsList.TankRoleFrame.Checkbox)
-    self:SetCheckBox(ClubFinderGuildFinderFrame.OptionsList.HealerRoleFrame.Checkbox)
-    self:SetCheckBox(ClubFinderGuildFinderFrame.OptionsList.DpsRoleFrame.Checkbox)
-    self:SetUIButton(ClubFinderGuildFinderFrame.GuildCards.FirstCard.RequestJoin)
-    self:SetUIButton(ClubFinderGuildFinderFrame.GuildCards.SecondCard.RequestJoin)
-    self:SetUIButton(ClubFinderGuildFinderFrame.GuildCards.ThirdCard.RequestJoin)
-    self:SetButton(ClubFinderGuildFinderFrame.GuildCards.PreviousPage, 1)
-    self:SetButton(ClubFinderGuildFinderFrame.GuildCards.NextPage, 1)
-    self:HideFrame(ClubFinderGuildFinderFrame.ClubFinderSearchTab, {index=1})
-    WoWTools_ButtonMixin:AddMask(ClubFinderGuildFinderFrame.ClubFinderSearchTab, true)
-    self:HideFrame(ClubFinderGuildFinderFrame.ClubFinderPendingTab, {index=1})
-    WoWTools_ButtonMixin:AddMask(ClubFinderGuildFinderFrame.ClubFinderPendingTab, true)
-
-
-    self:HideTexture(CommunitiesFrame.TopTileStreaks)
-
-    self:HideTexture(CommunitiesFrameInset.Bg)
-
-    self:HideTexture(CommunitiesFrameBg)
-
---这个会，弹出菜单
-    CommunitiesFrame.CommunitiesListDropdown:SetFrameStrata('HIGH')
-    self:SetMenu(CommunitiesFrame.CommunitiesListDropdown)
-
---邀请别人加入
-    self:SetFrame(CommunitiesTicketManagerDialog, {show={CommunitiesTicketManagerDialog.Background}, alpha=1})
-    self:SetUIButton(CommunitiesTicketManagerDialog.LinkToChat)
-    self:SetUIButton(CommunitiesTicketManagerDialog.Copy)
-    self:SetUIButton(CommunitiesTicketManagerDialog.Close)
---编辑频道
-    self:SetFrame(CommunitiesFrame.EditStreamDialog.BG, {alpha=1, show={[CommunitiesFrame.EditStreamDialog.BG.Bg]=true}})
-    self:SetCheckBox(CommunitiesFrame.EditStreamDialog.TypeCheckbox)
-    self:SetUIButton(CommunitiesFrame.EditStreamDialog.Accept)
-    self:SetUIButton(CommunitiesFrame.EditStreamDialog.Delete)
-    self:SetUIButton(CommunitiesFrame.EditStreamDialog.Cancel)
-    self:SetEditBox(CommunitiesFrame.EditStreamDialog.NameEdit)
-    self:SetFrame(CommunitiesFrame.EditStreamDialog.Description, {alpha=1})
-
---BG
-    self:Init_BGMenu_Frame(CommunitiesFrame)
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---公会和社区
-function WoWTools_MoveMixin.Events:Blizzard_Communities()--公会和社区
+function WoWTools_MoveMixin.Events:Blizzard_Communities()
 
 
     local function set_size(frame)
@@ -351,10 +53,10 @@ function WoWTools_MoveMixin.Events:Blizzard_Communities()--公会和社区
             btn.Description:ClearAllPoints()
             btn.Description:SetPoint('LEFT', btn.LogoBorder, 'RIGHT', 12,0)
             btn.Description:SetPoint('RIGHT', btn.RequestJoin, 'LEFT', -26,0)
-            btn.Background:SetPoint('RIGHT', -12,0)--移动背景
+            btn.Background:SetPoint('RIGHT', -12,0)
             local cardInfo= btn.cardInfo-- or {}-- clubFinderGUID, isCrossFaction, clubId, 
 
-            if not btn.corssFactionTexture and cardInfo.isCrossFaction then--跨阵营
+            if not btn.corssFactionTexture and cardInfo.isCrossFaction then
                 btn.corssFactionTexture= btn:CreateTexture(nil, 'OVERLAY')
                 btn.corssFactionTexture:SetSize(18,18)
                 btn.corssFactionTexture:SetAtlas('CrossedFlags')
@@ -363,7 +65,7 @@ function WoWTools_MoveMixin.Events:Blizzard_Communities()--公会和社区
             if btn.corssFactionTexture then
                 btn.corssFactionTexture:SetShown(true)--not cardInfo.isCrossFaction)
             end
-            local autoAccept--自动，批准, 无效
+            local autoAccept
             local clubStatus= cardInfo.clubFinderGUID and C_ClubFinder.GetPlayerClubApplicationStatus(cardInfo.clubFinderGUID)
             btn:SetAlpha(btn.RequestJoin:IsShown() and 1 or 0.3)
             if clubStatus then
@@ -382,17 +84,12 @@ function WoWTools_MoveMixin.Events:Blizzard_Communities()--公会和社区
     end
 
 
-
-
-
-
     local sub
 
 
     WoWTools_DataMixin:Hook(CommunitiesFrame.MaxMinButtonFrame, 'Minimize', set_size)--maximizedCallback
     WoWTools_DataMixin:Hook(CommunitiesFrame.MaxMinButtonFrame, 'Maximize', set_size)
 
---公会奖励
     CommunitiesFrame.GuildBenefitsFrame.Perks:SetPoint('TOPRIGHT', CommunitiesFrame.GuildBenefitsFrame, 'TOP', -17, 0)
     CommunitiesFrame.GuildBenefitsFrame.Rewards:SetPoint('LEFT', CommunitiesFrame.GuildBenefitsFrame.Perks, 'RIGHT', 15, 0)
     CommunitiesFrame.GuildBenefitsFrame.FactionFrame.Bar:SetPoint('TOPRIGHT', CommunitiesFrame.GuildBenefitsFrame.Perks, 'BOTTOMRIGHT')
@@ -400,16 +97,10 @@ function WoWTools_MoveMixin.Events:Blizzard_Communities()--公会和社区
     CommunitiesFrame.GuildBenefitsFrame.Perks:GetRegions():SetPoint('BOTTOMRIGHT', 14, 0)--bg
     CommunitiesFrame.GuildBenefitsFrame.Rewards:GetRegions():SetPoint('BOTTOMRIGHT', 14, 0)
 
---寻找社区
     WoWTools_DataMixin:Hook(ClubFinderCommunityAndGuildFinderFrame.CommunityCards.ScrollBox, 'Update', Init_Update)
     
 
 
-
-
-
-
---公会信息
     CommunitiesFrameGuildDetailsFrameInfo:SetWidth(272)
 
 
@@ -433,7 +124,6 @@ function WoWTools_MoveMixin.Events:Blizzard_Communities()--公会和社区
         sub.Details:SetPoint('RIGHT', CommunitiesFrameGuildDetailsFrameInfo.DetailsFrame, 0, 4)
     end
 
---公会新闻
     CommunitiesFrameGuildDetailsFrameNews:SetPoint('LEFT', CommunitiesFrameGuildDetailsFrameInfo, 'RIGHT', 15, 0)
     CommunitiesFrameGuildDetailsFrameNews.ScrollBox:SetPoint('BOTTOMRIGHT')
     CommunitiesFrameGuildDetailsFrameNews.Header:SetPoint('RIGHT', -14, 0)
@@ -449,10 +139,6 @@ function WoWTools_MoveMixin.Events:Blizzard_Communities()--公会和社区
         self:Set_SizeScale(frame)
         frame.Container.ScrollFrame.EditBox:SetScript("OnEnterPressed", nil)
     end)
-
-
-
-
 
 
     local function CommunitiesMode_IsMini()
@@ -492,57 +178,28 @@ function WoWTools_MoveMixin.Events:Blizzard_Communities()--公会和社区
     })
 
 
-    --[[没有GetName()
-    self:Setup(CommunitiesFrame.RecruitmentDialog)
-    self:Setup(CommunitiesFrame.NotificationSettingsDialog)
-    self:Setup(CommunitiesFrame.NotificationSettingsDialog.Selector, {frame=CommunitiesFrame.NotificationSettingsDialog})
-    self:Setup(CommunitiesFrame.NotificationSettingsDialog.ScrollFrame, {frame=CommunitiesFrame.NotificationSettingsDialog})]]
     self:Setup(CommunitiesTicketManagerDialog)
 
---新闻过滤
     self:Setup(CommunitiesGuildNewsFiltersFrame)
 
 
---成员,叙述 CommunitiesGuildMemberDetailMixin
     self:Setup(CommunitiesFrame.GuildMemberDetailFrame, {frame=CommunitiesFrame})
     WoWTools_DataMixin:Hook(CommunitiesFrame.GuildMemberDetailFrame, 'DisplayMember', function(frame)
         frame:SetHeight(frame:GetHeight()+15)
     end)
     CommunitiesFrame.GuildMemberDetailFrame.NoteBackground.PersonalNoteText:SetNonSpaceWrap(true)
 
---信息，查看记录
     self:Setup(CommunitiesGuildLogFrame, {
     sizeRestFunc=function(frame)
         frame:SetSize(384, 432)
     end})
 
---公会信息， 点击以编辑
     self:Setup(CommunitiesGuildTextEditFrame, {
     sizeRestFunc=function(frame)
         frame:SetSize(295, 295)
     end})
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---新建，公会, 签名
     self:Setup(PetitionFrame, {
     sizeRestFunc=function(frame)
         frame:SetSize(338, 424)
@@ -550,11 +207,9 @@ function WoWTools_MoveMixin.Events:Blizzard_Communities()--公会和社区
     PetitionFrame.Bg:SetPoint('BOTTOMRIGHT',-32,30)
 
 
---公会和社区，列表
     CommunitiesFrameCommunitiesList:SetPoint('BOTTOMRIGHT', CommunitiesFrame, 'BOTTOMLEFT', 170, 3)
 
 
---设计，公会战袍
     self:Setup(TabardFrame, {
     sizeRestFunc=function(frame)
         frame:SetSize(338, 424)
@@ -599,7 +254,6 @@ function WoWTools_MoveMixin.Events:Blizzard_Communities()--公会和社区
     end)
 
 
---公会设置
     self:Setup(GuildControlUI, {
     sizeRestFunc=function(frame)
         frame:SetSize(338, 444)
@@ -607,59 +261,16 @@ function WoWTools_MoveMixin.Events:Blizzard_Communities()--公会和社区
     GuildControlUIRankBankFrameInset:SetPoint('LEFT', 2, 0)
     GuildControlUIRankBankFrameInset:SetPoint('BOTTOMRIGHT', -2, 2)
 
---社区设置
---修改，图标, 可能会有BUG
-    --宏列表，按钮宽，数量
-    --[[CommunitiesAvatarPickerDialog:HookScript('OnSizeChanged', function(frame)--Blizzard_ScrollBoxSelector.lua
-        local value= math.max(2, math.modf(frame:GetWidth()/64))
-        if frame:GetStride()~= value then
-            frame:SetCustomStride(value)
-            frame:Init()
-        end
-    end)
-
-    self:Setup(CommunitiesAvatarPickerDialog, {
-        minW=207, minH=260,
-    sizeRestFunc=function()
-        CommunitiesAvatarPickerDialog:SetSize(510, 480)
-    end})]]
 end
 
 
 
-
-
-
-
-
-
-
-
-
-
-
---公会，可以使用的服务
-function WoWTools_TextureMixin.Frames:GuildRegistrarFrame()
-    GuildRegistrarFrameNpcNameText:SetParent(GuildRegistrarFrame.TitleContainer)
-    self:SetButton(GuildRegistrarFrameCloseButton)
-    self:SetNineSlice(GuildRegistrarFrame)
-    self:SetAlphaColor(GuildRegistrarFrameBg, nil, nil,true)
-    self:HideTexture(GuildRegistrarFrameInset.Bg)
-    self:SetInset(GuildRegistrarFrameInset)
-    self:SetNineSlice(GuildRegistrarFrameInset)
-    self:SetScrollBar(GuildRegistrarFrame)
-    self:SetEditBox(GuildRegistrarFrameEditBox)
-end
-
---公会，可以使用的服务
 function WoWTools_MoveMixin.Frames:GuildRegistrarFrame()
     self:Setup(GuildRegistrarFrame)
 
---注册公会
     WoWTools_EditBoxMixin:Setup(GuildRegistrarFrameEditBox,  {isMaxLetter=true, maxLetterPoint=function(edit, label)
         label:SetPoint('BOTTOMRIGHT', edit, 'TOPRIGHT')
     end})
---公会更名
     WoWTools_EditBoxMixin:Setup(GuildRenameFrame.RenameFlow.NameBox,  {isMaxLetter=true, maxLetterPoint=function(edit, label)
         label:SetPoint('BOTTOMRIGHT', edit, 'TOPRIGHT')
     end})

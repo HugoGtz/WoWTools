@@ -6,20 +6,19 @@ function WoWTools_AddOnsMixin:GetIsPlayer()
     end
 end
 
---插件内存
 function WoWTools_AddOnsMixin:Get_MenoryValue(indexORname, showText)
     local va
     local value= GetAddOnMemoryUsage(indexORname)
     if value and value>0 then
         if value<1000 then
             if showText then
-                va= format(WoWTools_DataMixin.onlyChinese and '插件内存：%.2f KB' or TOTAL_MEM_KB_ABBR, value)
+                va= format(WoWTools_L.TOTAL_MEM_KB_ABBR, value)
             else
                 va= format('%iKB', value)
             end
         else
             if showText then
-                va= format(WoWTools_DataMixin.onlyChinese and '插件内存：%.2f MB' or TOTAL_MEM_MB_ABBR, value/1000)
+                va= format(WoWTools_L.TOTAL_MEM_MB_ABBR, value/1000)
             else
                 va= format('%.2fMB', value/1000)
             end
@@ -28,7 +27,6 @@ function WoWTools_AddOnsMixin:Get_MenoryValue(indexORname, showText)
     return va, value
 end
 
---更新，使用情况
 local lastMemoryUpdate
 function WoWTools_AddOnsMixin:Update_Usage()
     if InCombatLockdown() then
@@ -42,7 +40,6 @@ function WoWTools_AddOnsMixin:Update_Usage()
     end
 end
 
---列表，信息
 function WoWTools_AddOnsMixin:Get_AddListInfo()
     local load, player= 0, 0
     local tab= {}
@@ -59,7 +56,6 @@ function WoWTools_AddOnsMixin:Get_AddListInfo()
     return load, player, tab
 end
 
---提示，当前，选中
 function WoWTools_AddOnsMixin:Show_Select_Tooltip(tooltip, tab)
     tooltip= tooltip or GameTooltip
     tab= tab or select(3, self:Get_AddListInfo())
@@ -77,7 +73,7 @@ function WoWTools_AddOnsMixin:Show_Select_Tooltip(tooltip, tab)
         end
         local title= select(2, C_AddOns.GetAddOnInfo(name)) or name
         local col= C_AddOns.GetAddOnDependencies(name) and '|cffff00ff' or (isLoaded and '|cnGREEN_FONT_COLOR:') or '|cff626262'
-        local memo, va= self:Get_MenoryValue(name, false)--内存
+        local memo, va= self:Get_MenoryValue(name, false)
         memo= memo and (' |cnWARNING_FONT_COLOR:'..memo..'|r') or ''
         table.insert(newTab, {
             left=col..icon..title..'|r'..memo,
@@ -98,7 +94,7 @@ function WoWTools_AddOnsMixin:Show_Select_Tooltip(tooltip, tab)
             percentText= format('%0.2fMB',allMemo/1000)
         end
     end
-    tooltip:AddDoubleLine(' ', index..' '..(WoWTools_DataMixin.onlyChinese and '插件' or ADDONS)..' '..percentText)
+    tooltip:AddDoubleLine(' ', index..' '..(WoWTools_L.ADDONS)..' '..percentText)
 
     for i, info in pairs(newTab) do
         local left=info.left

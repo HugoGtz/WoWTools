@@ -1,24 +1,4 @@
-local function Save()
-    return WoWToolsSave['Plus_Spell']
-end
-
---[[local function Call_Bg()
-    WoWTools_DataMixin:Call(PlayerSpellsFrame.TalentsFrame.UpdateSpecBackground, PlayerSpellsFrame.TalentsFrame)
-    --PlayerSpellsFrame.TalentsFrame:UpdateSpecBackground()
-end]]
-
-
-
-
-
-
-
-
-
-
-
 local function Init()
---天赋, 点数 Blizzard_SharedTalentButtonTemplates.lua Blizzard_ClassTalentButtonTemplates.lua
     WoWTools_DataMixin:Hook(ClassTalentButtonSpendMixin, 'UpdateSpendText', function(btn)
         local info= btn.nodeInfo-- C_Traits.GetNodeInfo btn:GetSpellID()
         local text
@@ -36,7 +16,7 @@ local function Init()
                     if self.maxRanks then
                         GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
                         GameTooltip:ClearLines()
-                        GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '最高等级' or TRADESKILL_RECIPE_LEVEL_TOOLTIP_HIGHEST_RANK, self.maxRanks)
+                        GameTooltip:AddDoubleLine(WoWTools_L.TRADESKILL_RECIPE_LEVEL_TOOLTIP_HIGHEST_RANK, self.maxRanks)
                         GameTooltip:AddLine(' ')
                         GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_SpellMixin.addName)
                         GameTooltip:Show()
@@ -63,13 +43,8 @@ local function Init()
 end
 
 
-
-
-
-
-
 function WoWTools_SpellMixin:Init_TalentsFrame()
-    if Save().talentsFramePlus and C_AddOns.IsAddOnLoaded('Blizzard_PlayerSpells') then
+    if WoWTools_SpellMixin:Save().talentsFramePlus and C_AddOns.IsAddOnLoaded('Blizzard_PlayerSpells') then
         Init()
     end
 end

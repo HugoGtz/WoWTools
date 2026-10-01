@@ -1,33 +1,11 @@
 WoWTools_TextMixin={}
 
 
---[[
-. ( ) + - * ? [ ^
-
-MoveAny\libs\D4Lib
-local function IsUkrainianLetters(str)
-    return str:match("[\192-\199]") ~= nil
-end
-
-local function IsRussianLetters(str)
-    return str:match("[\192-\255]") ~= nil
-end
-
-local function IsChineseLetters(str)
-    return str:match("[\228-\233]") ~= nil
-end
-
-local function IsKoreanLetters(str)
-    return str:match("[\234-\237]") ~= nil
-end
-text:find("[\228-\233][\128-\191][\128-\191]") then--检查 UTF-8 字符
-
-]]
 
 
 function WoWTools_TextMixin:ShowText(data, headerText, tab)
     if not canaccesstable(data) then
-        print(WoWTools_DataMixin.Icon.icon2..'|cnWARNING_FONT_COLOR:'..(WoWTools_DataMixin.onlyChinese and '显示机密数值' or EVENTTRACE_SHOW_SECRET_VALUES))
+        WoWTools_Print(WoWTools_DataMixin.Icon.icon2..'|cnWARNING_FONT_COLOR:'..(WoWTools_L.EVENTTRACE_SHOW_SECRET_VALUES))
         return
     end
     tab= tab or {}
@@ -74,7 +52,7 @@ function WoWTools_TextMixin:ShowText(data, headerText, tab)
         if issecretvalue(value)
             or (type(value)=='string' and value:find('(:?|?)|K(.-)|k'))
         then
-            edit:Insert('***'..format(WoWTools_DataMixin.onlyChinese and '|cnEVENTTRACE_SECRET_COLOR:<机密>|r%s' or EVENTTRACE_SECRET_FMT, '***'))
+            edit:Insert('***'..format(WoWTools_L.EVENTTRACE_SECRET_FMT, '***'))
         elseif type(value)=='string' then
             edit:Insert(value)
         else
@@ -95,48 +73,28 @@ end
 --frame.ScrollBox.ScrollBar:ScrollToEnd()
 
 
-
-
-
-
-
-
-
+--Convierte un texto de formato de Blizzard (%s, %d, %1$s...) en un patrón Lua de búsqueda.
+--Escapa todos los caracteres mágicos, incluidos %, ] y $ (antes "100%" daba un patrón inválido).
 function WoWTools_TextMixin:Magic(text)
     if type(text)~='string' then
         return text
     end
-
-    local tab= {'%.', '%(','%)','%+', '%-', '%*', '%?', '%[', '%^'}
-    for _, v in pairs(tab) do
-        text= text:gsub(v,'%%'..v)
-    end
-    tab={
-        ['%%%d%$s']= '%(%.%-%)',
-        ['%%s']= '%(%.%-%)',
-        ['%%%d%$d']= '%(%%d%+%)',
-        ['%%d']= '%(%%d%+%)',
-    }
-    local find
-    for k,v in pairs(tab) do
-        text= text:gsub(k,v)
-        find=true
-    end
-    if find then
-        tab={'%$'}
-    else
-        tab={'%%','%$'}
-    end
-    for _, v in pairs(tab) do
-        text= text:gsub(v,'%%'..v)
-    end
-    return text
+    local specs= {}
+    text= text:gsub('%%%%', '\3')--"%%" literal
+    text= text:gsub('%%%d*%$?[sd]', function(spec)
+        specs[#specs+1]= spec:sub(-1)=='d' and '(%d+)' or '(.-)'
+        return '\1'..#specs..'\2'
+    end)
+    text= text:gsub('[%^%$%(%)%%%.%[%]%*%+%-%?]', '%%%0')
+    text= text:gsub('\1(%d+)\2', function(index)
+        return specs[tonumber(index)]
+    end)
+    return (text:gsub('\3', '%%%%'))
 end
 
 
 
---垂直文字
-function WoWTools_TextMixin:Vstr(text)--垂直文字
+function WoWTools_TextMixin:Vstr(text)
     if type(text)~='string' then
         return text
     end
@@ -152,19 +110,11 @@ end
 
 
 
---取得中文
 function WoWTools_TextMixin:CN(text, tab)--{gossipOptionID=, questID=}
-    if WoWTools_ChineseMixin and WoWTools_DataMixin.onlyChinese and (text or tab) then
-        local data= WoWTools_ChineseMixin:GetData(text, tab)
-        if data then
-            return data
-        end
-    end
     return text
 end
 
 
---截取, 字符
 function WoWTools_TextMixin:sub(text, size, letterSize, lower)
     if not canaccessvalue(text)
         or type(text)~='string'
@@ -177,8 +127,17 @@ function WoWTools_TextMixin:sub(text, size, letterSize, lower)
 
     text= self:CN(text)
 
-    if not text:find("[\228-\233][\128-\191][\128-\191]") then--检查 UTF-8 字符
-        text= text:sub(1, letterSize or size)
+    if not text:find("[\228-\233][\128-\191][\128-\191]") then
+        --Cortar por caracteres UTF-8, no por bytes: antes partía letras con acento (á, ñ...)
+        local n, out= letterSize or size, {}
+        for char in text:gmatch("[%z\1-\127\194-\244][\128-\191]*") do
+            if n<=0 then
+                break
+            end
+            out[#out+1]= char
+            n= n-1
+        end
+        text= table.concat(out)
         return lower and strlower(text) or text
     else
         local i, output = 1, ''
@@ -212,48 +171,45 @@ function WoWTools_TextMixin:sub(text, size, letterSize, lower)
 end
 
 
-
-
-
 function WoWTools_TextMixin:GetShowHide(sh, all)
     if all then
         if sh then
-            return WoWTools_DataMixin.onlyChinese and '显示/|cff626262隐藏' or (SHOW..'/|cff626262'..HIDE)
+            return WoWTools_L['Show/Hide (Hide gray)']
         elseif sh==false then
-            return WoWTools_DataMixin.onlyChinese and '|cff626262显示|r/隐藏' or ('|cff626262'..SHOW..'|r/'..HIDE)
+            return WoWTools_L['Show/Hide (Show gray)']
         else
-            return WoWTools_DataMixin.onlyChinese and '显示/隐藏' or (SHOW..'/'..HIDE)
+            return WoWTools_L['Show/Hide']
         end
     elseif sh then
-		return WoWTools_DataMixin.onlyChinese and '显示' or SHOW
+		return WoWTools_L.SHOW
 	else
-		return DISABLED_FONT_COLOR:WrapTextInColorCode(WoWTools_DataMixin.onlyChinese and '隐藏' or HIDE)
+		return DISABLED_FONT_COLOR:WrapTextInColorCode(WoWTools_L.HIDE)
 	end
 end
 
-function WoWTools_TextMixin:GetEnabeleDisable(ed, all)--启用或禁用字符
+function WoWTools_TextMixin:GetEnabeleDisable(ed, all)
     if all then
         if ed==nil then
-            return WoWTools_DataMixin.onlyChinese and '启用/禁用' or (ENABLE..'/'..DISABLE)
+            return WoWTools_L['Enable/Disable']
         elseif ed==true then
-            return WoWTools_DataMixin.onlyChinese and '启用/|cff626262禁用' or (ENABLE..'/|cff626262'..DISABLE)
+            return WoWTools_L['Enable/Disable (Disable gray)']
         else
-            return WoWTools_DataMixin.onlyChinese and '|cff626262启用|r/禁用' or ('|cff626262'..ENABLE..'|r/'..DISABLE)
+            return WoWTools_L['Enable/Disable (Enable gray)']
         end
     else
         if ed then
-            return WoWTools_DataMixin.onlyChinese and '启用' or ENABLE
+            return WoWTools_L.ENABLE
         else
-            return DISABLED_FONT_COLOR:WrapTextInColorCode(WoWTools_DataMixin.onlyChinese and '禁用' or DISABLE)
+            return DISABLED_FONT_COLOR:WrapTextInColorCode(WoWTools_L.DISABLE)
         end
     end
 end
 
 function WoWTools_TextMixin:GetYesNo(yesno)
     if yesno then
-        return WoWTools_DataMixin.onlyChinese and '是' or YES
+        return WoWTools_L.YES
     else
-        return DISABLED_FONT_COLOR:WrapTextInColorCode(WoWTools_DataMixin.onlyChinese and '否' or NO)
+        return DISABLED_FONT_COLOR:WrapTextInColorCode(WoWTools_L.NO)
     end
 end
 
@@ -263,6 +219,6 @@ function WoWTools_TextMixin:CanText(text)
             text:find('(:?|?)|K(.-)|k')
         )
     then
-        return format(WoWTools_DataMixin.onlyChinese and '|cnEVENTTRACE_SECRET_COLOR:<机密>|r%s' or EVENTTRACE_SECRET_FMT, '')
+        return format(WoWTools_L.EVENTTRACE_SECRET_FMT, '')
     end
 end

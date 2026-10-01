@@ -1,9 +1,5 @@
 
---小眼睛, 更新信息
 
-local function Save()
-    return WoWToolsSave['ChatButton_LFD'] or {}
-end
 local Button
 
 
@@ -13,7 +9,6 @@ local Button
 
 
 
---职责确认，信息
 local RoleC
 local function get_Role_Info(env, Name, isT, isH, isD)
     if env=='LFG_ROLE_CHECK_DECLINED' then
@@ -30,7 +25,7 @@ local function get_Role_Info(env, Name, isT, isH, isD)
                     local guid=UnitGUID(unit)
                     local line= WoWTools_UnitMixin:GetOnlineInfo(unit)
                     if line and guid then
-                        print(
+                        WoWTools_Print(
                             WoWTools_DataMixin.Icon.icon2..i..')',
                             line,
                             WoWTools_UnitMixin:GetPlayerInfo(unit, guid, nil, {faction=UnitFactionGroup(unit), reLink=true}),
@@ -56,7 +51,7 @@ local function get_Role_Info(env, Name, isT, isH, isD)
         return
     end
 
-    if env=='LFG_ROLE_CHECK_ROLE_CHOSEN' then--队长重新排本
+    if env=='LFG_ROLE_CHECK_ROLE_CHOSEN' then
         if RoleC and RoleC[Name] then
             local u=RoleC[Name].unit
             if u and UnitIsGroupLeader(u) then
@@ -123,8 +118,8 @@ local function get_Role_Info(env, Name, isT, isH, isD)
 
         if m~='' and not Button then
             Button=WoWTools_ButtonMixin:Cbtn(nil, {size=20})
-            if Save().RoleInfoPoint then
-                Button:SetPoint(Save().RoleInfoPoint[1], UIParent, Save().RoleInfoPoint[3], Save().RoleInfoPoint[4], Save().RoleInfoPoint[5])
+            if WoWTools_LFDMixin:Save().RoleInfoPoint then
+                Button:SetPoint(WoWTools_LFDMixin:Save().RoleInfoPoint[1], UIParent, WoWTools_LFDMixin:Save().RoleInfoPoint[3], WoWTools_LFDMixin:Save().RoleInfoPoint[4], WoWTools_LFDMixin:Save().RoleInfoPoint[5])
             else
                 Button:SetPoint('TOPLEFT', WoWTools_ChatMixin:GetButtonForName('LFD'), 'BOTTOMLEFT', 40, 40)
                 Button:SetButtonState('PUSHED')
@@ -139,8 +134,8 @@ local function get_Role_Info(env, Name, isT, isH, isD)
                 ResetCursor()
                 self:StopMovingOrSizing()
                 if WoWTools_FrameMixin:IsInSchermo(self) then
-                    Save().RoleInfoPoint={self:GetPoint(1)}
-                    Save().RoleInfoPoint[2]=nil
+                    WoWTools_LFDMixin:Save().RoleInfoPoint={self:GetPoint(1)}
+                    WoWTools_LFDMixin:Save().RoleInfoPoint[2]=nil
                 end
             end)
             Button:SetScript('OnEnter', function(self)
@@ -148,13 +143,13 @@ local function get_Role_Info(env, Name, isT, isH, isD)
                 GameTooltip:ClearLines()
                 GameTooltip:AddDoubleLine(WoWTools_DataMixin.addName, WoWTools_LFDMixin.addName)
                 GameTooltip:AddLine(' ')
-                GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '全部清除' or CLEAR_ALL, WoWTools_DataMixin.Icon.left)
-                GameTooltip:AddDoubleLine(WoWTools_DataMixin.onlyChinese and '移动' or NPE_MOVE, WoWTools_DataMixin.Icon.right)
+                GameTooltip:AddDoubleLine(WoWTools_L.CLEAR_ALL, WoWTools_DataMixin.Icon.left)
+                GameTooltip:AddDoubleLine(WoWTools_L.NPE_MOVE, WoWTools_DataMixin.Icon.right)
                 GameTooltip:Show()
             end)
             Button:SetScript('OnLeave', GameTooltip_Hide)
             Button:SetScript('OnMouseDown', function(self, d)
-                if d=='RightButton' then--移动光标
+                if d=='RightButton' then
                     SetCursor('UI_MOVE_CURSOR')
                 elseif d=='LeftButton' then
                     self.text:SetText('')
@@ -206,7 +201,7 @@ local function Init()
     frame:RegisterEvent('PLAYER_ROLES_ASSIGNED')
 
     frame:SetScript('OnEvent', function(self, ...)
-        get_Role_Info(...)--职责确认        
+        get_Role_Info(...)
     end)
 
 end
@@ -214,6 +209,6 @@ end
 
 
 
-function WoWTools_LFDMixin:Init_Role_CheckInfo()--职责确认，信息
+function WoWTools_LFDMixin:Init_Role_CheckInfo()
     Init()
 end

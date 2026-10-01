@@ -1,16 +1,11 @@
---玩具界面, 按钮
 
-local function Save()
-    return WoWToolsSave['Tools_Hearthstone']
-end
 local function SaveItems()
-    return WoWToolsPlayerDate['HearthstoneItems']
+    return WoWToolsPlusPlayerDate['HearthstoneItems']
 end
 
---设置，物品，提示
 local function Set_Menu_Tooltip(tooltip, desc)
     if desc.data then
-        WoWTools_SetTooltipMixin:Setup(tooltip, {itemID=desc.data.itemID})--设置，物品，提示
+        WoWTools_SetTooltipMixin:Setup(tooltip, {itemID=desc.data.itemID})
     end
     WoWTools_ToolsMixin:Get_ButtonForName('Hearthstone'):set_tooltip_location(tooltip)
 end
@@ -39,14 +34,13 @@ function WoWTools_HearthstoneMixin:Init_Menu_Toy(frame, root)
             name='itemID '.. itemID
         end
 
---名称
         local has= PlayerHasToy(itemID)
-        local isLoked= Save().lockedToy==itemID
+        local isLoked= WoWTools_HearthstoneMixin:Save().lockedToy==itemID
         sub=root:CreateCheckbox(
             (isLoked and '|cnGREEN_FONT_COLOR:' or (has and '' or '|cff626262'))
             ..icon
             ..name
-            ..(isLoked and '|A:AdventureMapIcon-Lock:0:0|a' or '')--锁定
+            ..(isLoked and '|A:AdventureMapIcon-Lock:0:0|a' or '')
             ..(has and WoWTools_CooldownMixin:GetText(nil, itemID) or ''),--CD
             function(data)
                 return frame.itemID==data.itemID
@@ -58,27 +52,33 @@ function WoWTools_HearthstoneMixin:Init_Menu_Toy(frame, root)
             end,
             {itemID=itemID, name=toyName, has=has, rightText=index}
         )
-        sub:SetTooltip(Set_Menu_Tooltip)
+        sub:SetTooltip(function(tooltip, desc)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Hearthstone.SelectToy'])
+            Set_Menu_Tooltip(tooltip, desc)
+        end)
         WoWTools_MenuMixin:SetRightText(sub)
 
         sub2=sub:CreateCheckbox(
             (has and '' or '|cff626262')
             ..icon
-            ..(WoWTools_DataMixin.onlyChinese and '锁定' or LOCK)..'|A:AdventureMapIcon-Lock:0:0|a',
+            ..(WoWTools_L.LOCK)..'|A:AdventureMapIcon-Lock:0:0|a',
         function(data)
-            return Save().lockedToy==data.itemID
+            return WoWTools_HearthstoneMixin:Save().lockedToy==data.itemID
         end, function(data)
             if data.has then
-                local toy= Save().lockedToy~=data.itemID and itemID or nil
-                Save().lockedToy= toy
+                local toy= WoWTools_HearthstoneMixin:Save().lockedToy~=data.itemID and itemID or nil
+                WoWTools_HearthstoneMixin:Save().lockedToy= toy
                 frame:Set_LockedValue_Random(toy)
             end
         end, {itemID=itemID, name=toyName, has=has})
-        sub2:SetTooltip(Set_Menu_Tooltip)
+        sub2:SetTooltip(function(tooltip, desc)
+            WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Hearthstone.LockToy'])
+            Set_Menu_Tooltip(tooltip, desc)
+        end)
 
 
         sub2=sub:CreateButton(
-            '|A:common-icon-zoomin:0:0|a'..(WoWTools_DataMixin.onlyChinese and '设置' or SETTINGS),
+            '|A:common-icon-zoomin:0:0|a'..(WoWTools_L.SETTINGS),
         function(data)
             WoWTools_LoadUIMixin:Journal(3)
             if data.name or data.itemID then
@@ -95,14 +95,14 @@ function WoWTools_HearthstoneMixin:Init_Menu_Toy(frame, root)
             {itemID=itemID, name=toyName}
         )
         sub2:SetTooltip(function(tooltip)
-            tooltip:AddLine(MicroButtonTooltipText(WoWTools_DataMixin.onlyChinese and '战团藏品' or COLLECTIONS, "TOGGLECOLLECTIONS"))
+            tooltip:AddLine(MicroButtonTooltipText(WoWTools_L.COLLECTIONS, "TOGGLECOLLECTIONS"))
         end)
 
         sub:CreateDivider()
         sub2=sub:CreateButton(
-            '|A:common-icon-redx:0:0|a'..(WoWTools_DataMixin.onlyChinese and '移除' or REMOVE),
+            '|A:common-icon-redx:0:0|a'..(WoWTools_L.REMOVE),
             function(data)
-                WoWTools_HearthstoneMixin:Remove_Toy(data.itemID)--移除
+                WoWTools_HearthstoneMixin:Remove_Toy(data.itemID)
                 return MenuResponse.Open
             end,
             {itemID=itemID, name=toyName}
