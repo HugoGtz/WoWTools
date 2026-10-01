@@ -127,7 +127,130 @@ end
 
 
 
+--Botón ya preparado (Init_Button): sus funciones set_* existen
+local function Get_Button()
+    local btn= WoWTools_ToolsMixin:Get_ButtonForName('Food')
+    if btn and btn.set_scale then
+        return btn
+    end
+end
+
+local function Check_Items()
+    if Get_Button() then
+        WoWTools_FoodMixin:Check_Items()
+    end
+end
+
+--Filtro de búsqueda: mismo campo que su casilla del menú
+local function Filter_Check(field, text, tooltip, off)
+    return {type='check', key=field, text=text, tooltip=tooltip,
+        get= function(save) return save[field] end,
+        set= function(save, value) save[field]= value and true or off end,
+        apply= Check_Items,
+    }
+end
+
+local Options= {
+    {type='section', text='GENERAL'},
+    Filter_Check('olnyUsaItem', 'Usable only', 'Tip.Food.UsableOnly', false),
+    {type='check', key='onlyMaxExpansion', text='Only current version items', tooltip='Tip.Food.OnlyCurrentExp',
+        hidden= function() return PlayerIsTimerunning() end,
+        get= function(save) return save.onlyMaxExpansion end,
+        set= function(save, value) save.onlyMaxExpansion= value and true or nil end,
+        apply= Check_Items,
+    },
+    {type='check', key='addItemsShowAll', text='Always show custom items', tooltip='Tip.Food.CustomShowAll',
+        get= function(save) return save.addItemsShowAll end,
+        set= function(save, value) save.addItemsShowAll= value and true or nil end,
+        apply= Check_Items,
+    },
+    {type='button', key='lists', text='Categories and item lists', buttonText='EDIT', tooltip='Tip.Food.Lists',
+        disabled= function() return not Get_Button() end,
+        func= function()
+            local btn= Get_Button()
+            if btn and btn:CanChangeAttribute() then
+                WoWTools_FoodMixin:Init_Menu(btn)
+            end
+        end,
+    },
+    {type='button', key='search', text='Search bags now', buttonText='SEARCH', tooltip='Tip.Food.Search', noCombat=true,
+        disabled= function() return not Get_Button() end,
+        func= function()
+            if Get_Button() then
+                WoWTools_FoodMixin:Check_Items(true)
+            end
+        end,
+    },
+
+    {type='section', text='Automations'},
+    {type='check', key='autoLogin', text='On login: search', tooltip='Tip.Food.AutoLogin', automation=true,
+        get= function(save) return save.autoLogin end,
+        set= function(save, value) save.autoLogin= value and true or nil end,
+        apply= function(_, save) if save.autoLogin then Check_Items() end end,
+    },
+    {type='check', key='autoWho', text='Search when bags change', tooltip='Tip.Food.AutoWho', automation=true,
+        desc='High CPU',
+        get= function(save) return save.autoWho end,
+        set= function(save, value) save.autoWho= value and true or nil end,
+        apply= function(_, save)
+            local btn= Get_Button()
+            if btn then
+                if save.autoWho then
+                    WoWTools_FoodMixin:Check_Items()
+                end
+                if btn.CheckFrame then
+                    btn.CheckFrame:set_event()
+                end
+            end
+        end,
+    },
+
+    {type='section', text='Appearance'},
+    {type='slider', key='scale', text='HOUSING_EXPERT_DECOR_SUBMODE_SCALE', tooltip='Tip.Menu.Scale',
+        min=0.4, max=4, step=0.05, format='%.2f', noCombat=true,
+        get= function(save) return save.scale or 1 end,
+        set= function(save, value) save.scale= value end,
+        apply= function() local btn= Get_Button() if btn then btn:set_scale() end end,
+    },
+    {type='slider', key='bgAlpha', text='BACKGROUND+HUD_EDIT_MODE_SETTING_OBJECTIVE_TRACKER_OPACITY', tooltip='Tip.Menu.BgAlpha',
+        min=0, max=1, step=0.1, format='%.1f',
+        get= function(save) return save.bgAlpha or 0 end,
+        set= function(save, value) save.bgAlpha= value end,
+        apply= function() local btn= Get_Button() if btn then btn:set_background() end end,
+    },
+    {type='slider', key='borderAlpha', text='Border opacity', tooltip='Tip.Food.BorderAlpha',
+        min=0, max=1, step=0.1, format='%.1f',
+        get= function(save) return save.borderAlpha or 0 end,
+        set= function(save, value) save.borderAlpha= value end,
+        apply= Check_Items,
+    },
+    {type='slider', key='numLine', text='Buttons per row', tooltip='Tip.Food.NumLine',
+        min=1, max=60, step=1,
+        get= function(save) return save.numLine or 12 end,
+        set= function(save, value) save.numLine= value end,
+        apply= Check_Items,
+    },
+    {type='dropdown', key='strata', text='Strata', tooltip='Tip.Menu.Strata', noCombat=true,
+        values= function() return WoWTools_ToolsMixin:StrataValues() end,
+        get= function(save) return save.strata or 'MEDIUM' end,
+        set= function(save, value) save.strata= value end,
+        apply= function() local btn= Get_Button() if btn then btn:set_strata() end end,
+    },
+    {type='button', key='resetPoint', text='RESET_POSITION', buttonText='RESET', noCombat=true,
+        tooltip='Tip.Food.ResetPoint',
+        func= function(_, save)
+            save.point=nil
+            local btn= Get_Button()
+            if btn and not WoWTools_FrameMixin:IsLocked(btn) then
+                btn:set_point()
+            end
+        end,
+    },
+}
+
+
 WoWTools_Module:Register({
+    options= Options,
     key= 'Tools_Foods', name= 'Module.Food', icon= 'Food', group= 'Tools',
     parent= 'WoWTools_ToolsButton', defaults= P_Save, mixin= WoWTools_FoodMixin,
     onEnable= function(M, save)
@@ -148,21 +271,6 @@ WoWTools_Module:Register({
             name='Food',
             tooltip=M.addName,
             isMoveButton=true,
-            option=function(category, layout, initializer)
-                WoWTools_PanelMixin:OnlyButton({
-                    category=category,
-                    layout=layout,
-                    tooltip=M.addName,
-                    buttonText= WoWTools_L['RESET_POSITION~2'],
-                    SetValue= function()
-                        local btn= WoWTools_ToolsMixin:Get_ButtonForName('Food')
-                        M:Save().point=nil
-                        if btn and not WoWTools_FrameMixin:IsLocked(btn) then
-                            btn:set_point()
-                        end
-                    end
-                }, initializer)
-            end
         })
 
         if WoWTools_ToolsMixin:Get_ButtonForName('Food') then

@@ -326,6 +326,8 @@ local OptionsList={{
     sub2:SetTooltip(function(tooltip)
         tooltip:AddDoubleLine(self.useText, self.noText)
     end)
+
+    WoWTools_ToolsMixin:SettingsMenu(root, WoWTools_OpenItemMixin)
 end
 
 

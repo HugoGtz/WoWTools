@@ -181,7 +181,7 @@ local function Init_Menu(self, root)
     tab[WoWTools_DataMixin.Player.GUID]= true
 
     root:CreateDivider()
-    sub= WoWTools_ToolsMixin:OpenMenu(root, WoWTools_L.DISABLE)
+    sub= WoWTools_ToolsMixin:OpenMenu(root, Module.addName, WoWTools_L.DISABLE)
 
     sub:CreateTitle(WoWTools_L.DISABLE)
 
@@ -231,6 +231,8 @@ local function Init_Menu(self, root)
     end)
 
     WoWTools_MenuMixin:SetScrollMode(sub)
+
+    WoWTools_ToolsMixin:SettingsMenu(root, Module)
 end
 
 
@@ -353,7 +355,46 @@ end)
 
 
 
+--Personajes en los que no se crea el botón (save.no[guid]); el actual siempre aparece
+local function Get_Options(_, save)
+    local guid= WoWTools_DataMixin.Player.GUID
+    local list= {
+        {type='section', text='GENERAL'},
+        {type='check', key='maxLevel', text='Disable at max level', tooltip='Tip.MapToy.MaxLevel', reload=true,
+            get= function(s) return s.maxLevelIsDisabled end,
+            set= function(s, value) s.maxLevelIsDisabled= value and true or false end,
+        },
+        {type='section', key='chars', text='Disabled characters'},
+    }
+    local guids= {}
+    if guid then
+        guids[guid]= true
+    end
+    for g in pairs(save.no or {}) do
+        guids[g]= true
+    end
+    for g in pairs(guids) do
+        table.insert(list, {type='check', key='char_'..g, reload=true, tooltip='Tip.MapToy.DisableChar',
+            text= function()
+                return WoWTools_UnitMixin:GetPlayerInfo(nil, g, nil, {reName=true, reRealm=true})
+            end,
+            get= function(s) return s.no[g] end,
+            set= function(s, value) s.no[g]= value and true or nil end,
+        })
+    end
+    table.insert(list, {type='button', key='clear', text='Clear disabled characters', buttonText='SLASH_STOPWATCH_PARAM_STOP2',
+        confirm=true, reload=true, tooltip='Tip.MapToy.ClearChars',
+        func= function(_, s)
+            s.no={}
+            s.maxLevelIsDisabled=true
+        end,
+    })
+    return list
+end
+
+
 WoWTools_Module:Register({
+    options= Get_Options,
     key= 'Tools_MapToy', name= 'ADVENTURE_MAP_TITLE', icon= 'Taxi_Frame_Yellow', group= 'Tools',
     parent= 'WoWTools_ToolsButton', tooltip= 'Tip.MapToy.Enable', mixin= Module,
     defaults= {
@@ -362,32 +403,8 @@ WoWTools_Module:Register({
         },
         maxLevelIsDisabled=true,
     },
-    --siempre: su casilla en la página de Herramientas
-    onLoad= function(M, save)
+    onLoad= function(_, save)
         save.autoAddDisabled= nil
-
-        WoWTools_ToolsMixin:Set_AddList(function(category, layout)
-             WoWTools_PanelMixin:Check_Button({
-                 checkName= M.addName,
-                 GetValue= function() return not M:Save().disabled end,
-                 SetValue= function()
-                     M:Save().disabled = not M:Save().disabled and true or nil
-                 end,
-                 buttonText= WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2,
-                 buttonFunc= function()
-                    StaticPopup_Show('WoWTools_OK',
-                    M.addName,
-                    nil,
-                    {SetValue=function()
-                        M:Save().no={}
-                        M:Save().maxLevelIsDisabled=true
-                    end})
-                 end,
-                 tooltip= WoWTools_L['Tip.MapToy.Enable'],
-                 layout= layout,
-                 category= category,
-             })
-         end)
     end,
     onEnable= function(M, save)
         if not save.no[WoWTools_DataMixin.Player.GUID]

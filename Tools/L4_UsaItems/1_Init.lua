@@ -295,23 +295,46 @@ end)
 
 
 
+--Restablecer una lista (requiere /reload, como en su menú)
+local function Reset_List(field, text)
+    return {type='button', key='reset_'..field, text=text, buttonText='RESET', confirm=true, reload=true,
+        tooltip='Tip.UseItems.ResetList',
+        func= function(_, save)
+            save[field]= P_Tabs[field]
+        end,
+    }
+end
+
+local Options= {
+    {type='section', text='GENERAL'},
+    {type='note', key='note', text='Tip.UseItems.Note'},
+    {type='button', key='edit', text='Item, spell and equipment lists', buttonText='EDIT', tooltip='Tip.UseItems.Lists',
+        func= function()
+            MenuUtil.CreateContextMenu(_G['WoWToolsToolsUseItemsAddMainButton'] or UIParent, WoWTools_UseItemsMixin.Init_Menu)
+        end,
+    },
+
+    {type='section', text='Advanced'},
+    Reset_List('item', 'Reset item list'),
+    Reset_List('spell', 'Reset spell list'),
+    Reset_List('equip', 'Reset equipment list'),
+    {type='button', key='resetAll', text='RESET_ALL_BUTTON_TEXT', buttonText='RESET', confirm='RELOADUI~3',
+        tooltip='Tip.UseItems.ResetAll',
+        func= function()
+            WoWToolsPlusPlayerDate['Tools_UseItems']= nil
+            WoWTools_DataMixin:Reload()
+        end,
+    },
+}
+
+
 WoWTools_Module:Register({
+    options= Options,
     key= 'Tools_UseItems', name= 'Module.Use items', icon= 'soulbinds_tree_conduit_icon_utility', group= 'Tools',
     parent= 'WoWTools_ToolsButton', tooltip= 'Tip.UseItems.Enable', mixin= WoWTools_UseItemsMixin,
-    --siempre: su casilla en la página de Herramientas
-    onLoad= function(M)
+    --siempre: sus ajustes son por personaje
+    onLoad= function()
         WoWToolsPlusPlayerDate['Tools_UseItems']= WoWToolsPlusPlayerDate['Tools_UseItems'] or P_Tabs
-
-        WoWTools_ToolsMixin:Set_AddList(function(category)
-            WoWTools_PanelMixin:OnlyCheck({
-            category= category,
-            name= M.addName,
-            tooltip= WoWTools_L['Tip.UseItems.Enable']..'|n|n'..M.addName..'|n'..(WoWTools_L.REQUIRES_RELOAD),
-            GetValue= function() return not Save().disabled end,
-            SetValue= function()
-                Save().disabled= not Save().disabled and true or nil
-            end})
-        end)
     end,
     onEnable= function()
         if WoWTools_ToolsMixin:Get_MainButton() then

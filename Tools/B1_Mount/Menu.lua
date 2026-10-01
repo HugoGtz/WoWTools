@@ -582,6 +582,8 @@ local function Init_Menu(self, root)
     )
 
     WoWTools_ToolsMixin:OpenMenu(sub, WoWTools_MountMixin.addName)
+
+    WoWTools_ToolsMixin:SettingsMenu(root, WoWTools_MountMixin)
 end
 
 

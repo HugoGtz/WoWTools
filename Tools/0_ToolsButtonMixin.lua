@@ -280,12 +280,96 @@ end
 
 
 
+--Entrada de menú que abre la página del módulo en el Centro de control (name: addName del módulo)
 function WoWTools_ToolsMixin:OpenMenu(root, name, showText)
     return WoWTools_MenuMixin:OpenOptions(root, {
         name=name or self.addName,
         name2=showText,
-        category= self.Category
     })
+end
+
+--"Ajustes..." al final de un menú principal: abre la página del módulo M en el Centro de control
+function WoWTools_ToolsMixin:SettingsMenu(root, M)
+    root:CreateDivider()
+    return WoWTools_MenuMixin:OpenOptions(root, {
+        name= (M or self).addName,
+        name2= WoWTools_L['Settings...'],
+    })
+end
+
+
+
+
+--Piezas comunes del esquema de opciones (docs/SETTINGS.md) de las herramientas
+
+--Valores del desplegable de capa (strata)
+local StrataValues
+function WoWTools_ToolsMixin:StrataValues()
+    if not StrataValues then
+        StrataValues= {}
+        for index, strata in ipairs({'BACKGROUND','LOW','MEDIUM','HIGH','DIALOG','FULLSCREEN','FULLSCREEN_DIALOG'}) do
+            table.insert(StrataValues, {value=strata, text=strata..' ('..index..')'})
+        end
+    end
+    return StrataValues
+end
+
+--Campo de texto para el atajo de teclado de un botón (save.KEY por defecto).
+--tab: {field=campo de save (KEY), key=id de la opción, apply=function(M, save) end, tooltip=, disabled=, indent=}
+function WoWTools_ToolsMixin:KeyOption(tab)
+    local field= tab.field or 'KEY'
+    return {type='input', key=tab.key or 'key', text=tab.text or 'SETTINGS_KEYBINDINGS_LABEL',
+        tooltip= tab.tooltip or 'Tip.Tools.KeyInput', placeholder='BUTTON5', maxLetters=32,
+        noCombat=true, disabled=tab.disabled, indent=tab.indent,
+        get= function(save) return save[field] or '' end,
+        set= function(save, text)
+            text= (text or ''):gsub(' ', ''):gsub('%[', ''):gsub(']', ''):upper()
+            save[field]= text~='' and text or nil
+        end,
+        apply= tab.apply,
+    }
+end
+
+--Opciones de la barra para los botones de las herramientas (WoWTools_ToolsMixin:CreateButton):
+--mostrar el botón (save.disabledADD, requiere /reload) y su fila (save.BottomPoint).
+--skip: nombres que ya se activan desde la lista de submódulos (no se repite su casilla)
+function WoWTools_ToolsMixin:ButtonOptions(skip)
+    local list= {}
+    for _, data in ipairs(AddList) do
+        if not data.isPlayerSetupOptions and data.name then
+            local name= data.name
+            local function Label()
+                return data.tooltip or name
+            end
+            local hasCheck= not (skip and skip[name])
+            if hasCheck then
+                table.insert(list, {type='check', key='add_'..name, text=Label, reload=true,
+                    tooltip= data.isMoveButton and 'Tip.Tools.AddButton' or 'Tip.Tools.AddButtonPoint',
+                    get= function(save) return not save.disabledADD[name] end,
+                    set= function(save, value) save.disabledADD[name]= not value and true or nil end,
+                })
+            end
+            if not data.isMoveButton then
+                table.insert(list, {type='dropdown', key='row_'..name, indent=hasCheck, noCombat=true,
+                    text= hasCheck and 'Toolbar row' or Label,
+                    tooltip='Tip.Tools.Row',
+                    values= {
+                        {value=1, text='|A:bags-greenarrow:0:0|a'..WoWTools_L['Top row']},
+                        {value=2, text='|A:Bags-padlock-authenticator:0:0|a'..WoWTools_L['Bottom row']},
+                    },
+                    disabled= function(save) return save.disabledADD[name] end,
+                    get= function(save) return save.BottomPoint[name] and 2 or 1 end,
+                    set= function(save, value) save.BottomPoint[name]= value==2 and true or nil end,
+                    apply= function()
+                        if MainButton then
+                            WoWTools_ToolsMixin:RestAllPoint()
+                        end
+                    end,
+                })
+            end
+        end
+    end
+    return list
 end
 
 

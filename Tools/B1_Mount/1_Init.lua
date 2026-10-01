@@ -102,6 +102,34 @@ end
 WoWTools_Module:Register({
     key= 'Tools_Mounts', name= 'Module.Mounts', icon= 'Interface\\Icons\\MountJournalPortrait', group= 'Tools',
     parent= 'WoWTools_ToolsButton', defaults= P_Save, mixin= WoWTools_MountMixin,
+    options= {
+        {type='section', text='GENERAL'},
+        WoWTools_ToolsMixin:KeyOption({tooltip='Tip.Mount.Key', apply= function()
+            local btn= WoWTools_ToolsMixin:Get_ButtonForName('Mount')
+            if btn and btn.GetKEY then
+                WoWTools_KeyMixin:Setup(btn)
+            end
+        end}),
+        {type='button', key='lists', text='Mount lists', buttonText='EDIT', tooltip='Tip.Mount.Lists',
+            func= function(M)
+                local btn= WoWTools_ToolsMixin:Get_ButtonForName('Mount')
+                if btn then
+                    M:Init_Menu(btn)
+                end
+            end,
+            disabled= function() return not WoWTools_ToolsMixin:Get_ButtonForName('Mount') end,
+        },
+
+        {type='section', text='Advanced'},
+        {type='button', key='reset', text='Reset mount settings', buttonText='RESET', confirm=true,
+            tooltip='Tip.Menu.RestData',
+            func= function()
+                WoWToolsPlusSave['Tools_Mounts']= nil
+                WoWToolsPlusPlayerDate['Tools_Mounts']= nil
+                WoWTools_DataMixin:Reload()
+            end,
+        },
+    },
     onEnable= function(M, save)
         if save.Mounts then
             WoWToolsPlusPlayerDate['Tools_Mounts']={

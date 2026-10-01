@@ -167,6 +167,8 @@ local function Init_Menu(self, root)
     sub2:SetTooltip(function(tooltip)
         tooltip:AddLine(MicroButtonTooltipText(WoWTools_L.COLLECTIONS, "TOGGLECOLLECTIONS"))
     end)
+
+    WoWTools_ToolsMixin:SettingsMenu(root, WoWTools_HearthstoneMixin)
 end
 
 
@@ -490,7 +492,78 @@ local Init= WoWTools_Once(function()
 end)
 
 
+--Botón ya preparado (Init): sus funciones existen
+local function Get_Button()
+    local btn= WoWTools_ToolsMixin:Get_ButtonForName('Hearthstone')
+    if btn and btn.set_location then
+        return btn
+    end
+end
+
+local function List_Button(key, text, tooltip, func)
+    return {type='button', key=key, text=text, buttonText=text, tooltip=tooltip, confirm=true,
+        func= function()
+            func(Get_Button())
+        end,
+    }
+end
+
+local Options= {
+    {type='section', text='GENERAL'},
+    {type='check', key='bindName', text='Show bind location', tooltip='Tip.Hearthstone.BindName',
+        get= function(save) return save.showBindName end,
+        set= function(save, value) save.showBindName= value and true or false end,
+        apply= function() local btn= Get_Button() if btn then btn:set_location() end end,
+    },
+    {type='check', key='bindNameShort', text='Short name', tooltip='Tip.Hearthstone.BindNameShort', indent=true,
+        disabled= function(save) return not save.showBindName end,
+        get= function(save) return save.showBindNameShort end,
+        set= function(save, value) save.showBindNameShort= value and true or false end,
+        apply= function() local btn= Get_Button() if btn then btn:set_location() end end,
+    },
+
+    {type='section', text='Toy list'},
+    {type='button', key='edit', text='Toy list', buttonText='EDIT', tooltip='Tip.Hearthstone.EditList',
+        disabled= function() return not Get_Button() end,
+        func= function()
+            local btn= Get_Button()
+            if btn then
+                MenuUtil.CreateContextMenu(btn, Init_Menu)
+            end
+        end,
+    },
+    List_Button('removeMissing', 'Remove uncollected', 'Tip.Hearthstone.RemoveMissing', function(btn)
+        local n=0
+        for itemID in pairs(SaveItems()) do
+            if not C_ToyBox.GetToyInfo(itemID) or not PlayerHasToy(itemID) then
+                SaveItems()[itemID]=nil
+                n=n+1
+                WoWTools_Print(n, WoWTools_L.REMOVE, WoWTools_ItemMixin:GetLink(itemID))
+            end
+        end
+        if n>0 and btn then
+            btn:Init_Random(WoWTools_HearthstoneMixin:Save().lockedToy)
+        end
+    end),
+    List_Button('clear', 'CLEAR_ALL', 'Tip.Menu.ClearAll', function(btn)
+        WoWToolsPlusPlayerDate['HearthstoneItems']={}
+        WoWTools_Print(WoWTools_DataMixin.Icon.icon2..WoWTools_HearthstoneMixin.addName, WoWTools_L.CLEAR_ALL)
+        if btn then
+            btn:Rest_Random()
+        end
+    end),
+    List_Button('revert', 'Restore default list', 'Tip.Hearthstone.RevertList', function(btn)
+        WoWToolsPlusPlayerDate['HearthstoneItems']= CopyTable(P_Items)
+        if btn then
+            btn:Rest_Random()
+        end
+        WoWTools_Print(WoWTools_DataMixin.Icon.icon2..WoWTools_HearthstoneMixin.addName, '|cnGREEN_FONT_COLOR:', WoWTools_L.TRANSMOGRIFY_TOOLTIP_REVERT)
+    end),
+}
+
+
 WoWTools_Module:Register({
+    options= Options,
     key= 'Tools_Hearthstone', name= 'Module.Hearthstones', icon= 'delves-bountiful', group= 'Tools',
     parent= 'WoWTools_ToolsButton', defaults= P_Save, mixin= WoWTools_HearthstoneMixin,
     onEnable= function(M)

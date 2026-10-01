@@ -358,6 +358,8 @@ local function Init_Menu(self, root)
 
 
     Init_Menu_Toy(self, root)
+
+    WoWTools_ToolsMixin:SettingsMenu(root, Module)
 end
 
 
@@ -629,7 +631,110 @@ local Init= WoWTools_Once(function()
 end)
 
 
+--Botón ya preparado (Init): sus funciones existen
+local function Get_Button()
+    if ToyButton and ToyButton.set_alt and ToyButton.Init_Random then
+        return ToyButton
+    end
+end
+
+--Juguete para clic con modificador: los de la lista y el actual
+local Default_Mod= {Alt=69775, Ctrl=109183, Shift=86568}
+local function Mod_Option(mod)
+    return {type='dropdown', key='mod_'..mod, text= mod..' + '..WoWTools_L['Click'], tooltip='Tip.UseToy.ModToy',
+        noCombat=true,
+        values= function(save)
+            local list, ids= {}, {}
+            local current= save[mod] or Default_Mod[mod]
+            ids[current]= true
+            for itemID in pairs(save.items or {}) do
+                ids[itemID]= true
+            end
+            for itemID in pairs(ids) do
+                local icon= select(5, C_Item.GetItemInfoInstant(itemID))
+                table.insert(list, {
+                    value=itemID,
+                    text= '|T'..(icon or 0)..':0|t'..(WoWTools_ItemMixin:GetName(itemID) or itemID)
+                        ..(itemID==Default_Mod[mod] and ' |cff828282('..WoWTools_L.DEFAULT..')|r' or ''),
+                })
+            end
+            table.sort(list, function(a, b) return a.value<b.value end)
+            return list
+        end,
+        get= function(save) return save[mod] or Default_Mod[mod] end,
+        set= function(save, value) save[mod]= value end,
+        apply= function()
+            Set_Alt_Table()
+            local btn= Get_Button()
+            if btn then
+                btn:set_alt()
+            end
+        end,
+    }
+end
+
+local function List_Button(key, text, tooltip, func)
+    return {type='button', key=key, text=text, buttonText=text, tooltip=tooltip, confirm=true,
+        disabled= function() return not Get_Button() end,
+        func= function(_, save)
+            if Get_Button() then
+                func(save, ToyButton)
+            end
+        end,
+    }
+end
+
+local Options= {
+    {type='section', text='GENERAL'},
+    WoWTools_ToolsMixin:KeyOption({tooltip='Tip.UseToy.Key', apply= function()
+        local btn= Get_Button()
+        if btn then
+            WoWTools_KeyMixin:Setup(btn)
+        end
+    end}),
+    Mod_Option('Alt'),
+    Mod_Option('Ctrl'),
+    Mod_Option('Shift'),
+
+    {type='section', text='Toy list'},
+    {type='button', key='edit', text='Toy list', buttonText='EDIT', tooltip='Tip.UseToy.EditList',
+        disabled= function() return not Get_Button() end,
+        func= function()
+            local btn= Get_Button()
+            if btn then
+                MenuUtil.CreateContextMenu(btn, Init_Menu)
+            end
+        end,
+    },
+    List_Button('removeMissing', 'Remove uncollected', 'Tip.UseToy.RemoveMissing', function(save, btn)
+        local n=0
+        for itemID in pairs(save.items) do
+            WoWTools_DataMixin:Load(itemID, 'item')
+            if not PlayerHasToy(itemID) then
+                save.items[itemID]=nil
+                n=n+1
+                WoWTools_Print(n, WoWTools_L.REMOVE, WoWTools_ItemMixin:GetLink(itemID))
+            end
+        end
+        if n>0 then
+            btn:Init_Random(save.lockedToy)
+        end
+    end),
+    List_Button('clear', 'CLEAR_ALL', 'Tip.Menu.ClearAll', function(save, btn)
+        save.items={}
+        WoWTools_Print(WoWTools_DataMixin.Icon.icon2..Module.addName, WoWTools_L.CLEAR_ALL)
+        btn:Rest_Random()
+    end),
+    List_Button('revert', 'Restore default list', 'Tip.UseToy.RevertList', function(save, btn)
+        save.items= P_Items
+        btn:Rest_Random()
+        WoWTools_Print(WoWTools_DataMixin.Icon.icon2..Module.addName, '|cnGREEN_FONT_COLOR:', WoWTools_L.TRANSMOGRIFY_TOOLTIP_REVERT)
+    end),
+}
+
+
 WoWTools_Module:Register({
+    options= Options,
     key= 'Tools_UseToy', name= 'USE+TOY', icon= 'collections-icon-favorites', group= 'Tools',
     parent= 'WoWTools_ToolsButton', defaults= P_Save, mixin= Module,
     onEnable= function(M, save)

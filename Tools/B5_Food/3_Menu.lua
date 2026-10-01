@@ -516,6 +516,8 @@ local function Init_Menu(self, root)
     Check_All_Menu(self, root, nil)
 
     AltSpell_Menu(self, root)
+
+    WoWTools_ToolsMixin:SettingsMenu(root, WoWTools_FoodMixin)
 end
 
 

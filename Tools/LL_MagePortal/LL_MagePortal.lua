@@ -105,42 +105,28 @@ local function Set_Button_All_Label()
 end
 
 
-local function Init_Options(category, layout)
-    WoWTools_PanelMixin:Header(layout, addName)
-    local initializer=WoWTools_PanelMixin:OnlyCheck({
-        category= category,
-        name= '|cff3fc6ea'..(WoWTools_L.ENABLE)..'|r',
-        tooltip= WoWTools_L['Tip.MagePortal.Enable']..'|n|n'..(addName or ''),
-        GetValue= function() return not Module:Save().disabled end,
-        SetValue= function()
-            Module:Save().disabled= not Module:Save().disabled and true or nil
-        end
-    })
-
-    WoWTools_PanelMixin:OnlyCheck({
-        category= category,
-        name= '|cff3fc6ea'..(WoWTools_L['Position: left'])..'|r',
-        tooltip= WoWTools_L['Tip.MagePortal.Left']..'|n|n'..(addName or ''),
-        GetValue= function() return Module:Save().isLeft end,
-        SetValue= function()
-            Module:Save().isLeft= not Module:Save().isLeft and true or false
-            WoWTools_ToolsMixin:RestAllPoint()
-            Set_Button_All_Label()
-        end
-    }, initializer)
-
-    WoWTools_PanelMixin:OnlyCheck({
-        category= category,
-        name= '|cff3fc6ea'..(WoWTools_L.PROFESSIONS_FLYOUT_SHOW_NAME)..'|r',
-        tooltip= WoWTools_L['Tip.MagePortal.ShowText']..'|n|n'..(addName or ''),
-        GetValue= function() return Module:Save().showText end,
-        SetValue= function()
-            Module:Save().showText= not Module:Save().showText and true or false
-            Set_Button_All_Label()
-        end
-    }, initializer)
-
-end
+local Options= {
+    {type='section', text='Appearance'},
+    {type='check', key='isLeft', text='Position: left', tooltip='Tip.MagePortal.Left', noCombat=true,
+        get= function(save) return save.isLeft end,
+        set= function(save, value) save.isLeft= value and true or false end,
+        apply= function()
+            if Buttons and WoWTools_ToolsMixin:Get_MainButton() then
+                WoWTools_ToolsMixin:RestAllPoint()
+                Set_Button_All_Label()
+            end
+        end,
+    },
+    {type='check', key='showText', text='PROFESSIONS_FLYOUT_SHOW_NAME', tooltip='Tip.MagePortal.ShowText',
+        get= function(save) return save.showText end,
+        set= function(save, value) save.showText= value and true or false end,
+        apply= function()
+            if Buttons then
+                Set_Button_All_Label()
+            end
+        end,
+    },
+}
 
 
 local function Init_Button(tab)
@@ -312,15 +298,13 @@ end
 WoWTools_Module:Register({
     key= 'Tools_MagePortal', name= '%s Portal', icon= 626001, group= 'Tools',
     parent= 'WoWTools_ToolsButton', tooltip= 'Tip.MagePortal.Enable', defaults= P_Save, mixin= Module,
-    --siempre: sus opciones en la página de Herramientas
+    options= Options,
     onLoad= function(M, save)
         M.addName= '|T626001:0|t|cff3fc6ea'..(format(WoWTools_L['%s Portal'], UnitClass('player'))..'|r')
 
         if save.disabled or not WoWTools_ToolsMixin:Get_MainButton() then
             Tab={}
         end
-
-        WoWTools_ToolsMixin:Set_AddList(Init_Options)
     end,
     onEnable= function(M)
         if WoWTools_ToolsMixin:Get_MainButton() then

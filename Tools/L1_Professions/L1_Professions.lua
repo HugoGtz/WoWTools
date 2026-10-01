@@ -169,6 +169,8 @@ local function Init_KeyButton_Menu(self, root)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Professions.KeySave'])
         tooltip:AddLine(WoWTools_L['Log in: settings'])
     end)
+
+    WoWTools_ToolsMixin:SettingsMenu(root, Module)
 end
 
 
@@ -308,7 +310,33 @@ local function Init()
 end
 
 
+--Atajo de Pesca y Arqueología (save.fishing / save.archaeology) y si se activa al entrar (save.save_*)
+local function Key_Options(field, text, default)
+    local key= WoWTools_ToolsMixin:KeyOption({field=field, key=field, text=text, tooltip='Tip.Professions.Key'})
+    key.placeholder= default
+    key.get= function(save) return save[field] or default end
+    return key, {type='check', key='save_'..field, text='Enable on login', tooltip='Tip.Professions.KeySave', indent=true,
+        get= function(save) return save['save_'..field] end,
+        set= function(save, value) save['save_'..field]= value and true or nil end,
+    }
+end
+
+local Options= {
+    {type='section', text='GENERAL'},
+    {type='note', key='keyNote', text='Tip.Professions.KeyNote'},
+}
+do
+    local a, b= Key_Options('fishing', 'Fishing key', 'BUTTON1')
+    table.insert(Options, a)
+    table.insert(Options, b)
+    a, b= Key_Options('archaeology', 'Archaeology key', 'F')
+    table.insert(Options, a)
+    table.insert(Options, b)
+end
+
+
 WoWTools_Module:Register({
+    options= Options,
     key= 'Tools_Professions', name= 'Module.Professions', icon= 136243, group= 'Tools',
     parent= 'WoWTools_ToolsButton', defaults= P_Save, mixin= Module,
     onEnable= function()

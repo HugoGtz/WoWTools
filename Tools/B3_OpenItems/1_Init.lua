@@ -171,7 +171,61 @@ end
 
 
 
+--Qué tipos de objeto usa el botón (mismos campos y textos que su menú)
+local function Type_Check(field, text, tooltip)
+    return {type='check', key=field, text=text, tooltip=tooltip,
+        get= function(save) return save[field] end,
+        set= function(save, value) save[field]= value and true or false end,
+        apply= function() WoWTools_OpenItemMixin:Get_Item() end,
+    }
+end
+
+local function Get_Button()
+    local btn= WoWTools_ToolsMixin:Get_ButtonForName('OpenItems')
+    if btn and btn.settings then
+        return btn
+    end
+end
+
+local Options= {
+    {type='section', text='GENERAL'},
+    Type_Check('open', 'Openable items', 'Tip.OpenItems.Open'),
+    Type_Check('mount', 'Unlearned mounts', 'Tip.OpenItems.Mount'),
+    Type_Check('mago', 'Uncollected appearances', 'Tip.OpenItems.Transmog'),
+    Type_Check('ski', 'Learnable recipes', 'Tip.OpenItems.Recipe'),
+    Type_Check('alt', 'Other usable items', 'Tip.OpenItems.Other'),
+    Type_Check('reagent', 'Also check the reagent bag', 'Tip.OpenItems.Reagent'),
+    WoWTools_ToolsMixin:KeyOption({tooltip='Tip.OpenItems.Key', apply= function()
+        local btn= Get_Button()
+        if btn then
+            btn:settings()
+        end
+    end}),
+
+    {type='section', text='Item lists'},
+    {type='button', key='lists', text='Item lists', buttonText='EDIT', tooltip='Tip.OpenItems.Lists',
+        disabled= function() return not Get_Button() end,
+        func= function() WoWTools_OpenItemMixin:Setup_Menu() end,
+    },
+    {type='button', key='clearNo', text='Clear disabled items', buttonText='CLEAR_ALL', confirm=true,
+        tooltip='Tip.OpenItems.NoList',
+        func= function(_, save)
+            save.no= {}
+            WoWTools_OpenItemMixin:Get_Item()
+        end,
+    },
+    {type='button', key='clearUse', text='Clear always-use items', buttonText='CLEAR_ALL', confirm=true,
+        tooltip='Tip.OpenItems.UseList',
+        func= function(_, save)
+            save.use= {}
+            WoWTools_OpenItemMixin:Get_Item()
+        end,
+    },
+}
+
+
 WoWTools_Module:Register({
+    options= Options,
     key= 'Tools_OpenItems', name= 'Module.Open items', icon= 'BonusLoot-Chest', group= 'Tools',
     parent= 'WoWTools_ToolsButton', defaults= P_Save, mixin= WoWTools_OpenItemMixin,
     onEnable= function(M)

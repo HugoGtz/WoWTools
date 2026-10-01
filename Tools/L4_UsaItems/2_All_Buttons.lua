@@ -302,10 +302,6 @@ end
 
 
 local Init= WoWTools_Once(function()
-    WoWTools_ToolsMixin:Set_AddList(function(_, layout)
-        WoWTools_PanelMixin:Header(layout, WoWTools_UseItemsMixin.addName)
-    end)
-
     for _, itemID in pairs(Save().item) do
         if C_Item.GetItemCount(itemID)>0 or (PlayerHasToy(itemID) and C_ToyBox.IsToyUsable(itemID)) then
             WoWTools_DataMixin:Load(itemID, 'item')
