@@ -909,6 +909,27 @@ function WoWTools_HolidayMixin:SetTrackButtonState(show, text)
 end
 
 
+--Refresco en vivo desde el Centro de control (solo si el botón ya existe)
+--what: 'text', 'shown', 'settings', 'point' o 'init'
+function WoWTools_HolidayMixin:Refresh_TrackButton(what)
+    if not TrackButton then
+        return
+    end
+    if what=='text' then
+        Set_Text()
+    elseif what=='shown' then
+        TrackButton:set_event()
+        TrackButton:set_shown()
+    elseif what=='point' then
+        TrackButton:set_point()
+    elseif what=='init' then
+        Init()
+    else
+        TrackButton:settings()
+    end
+end
+
+
 function WoWTools_HolidayMixin:Init_TrackButton()
     Init()
 end
