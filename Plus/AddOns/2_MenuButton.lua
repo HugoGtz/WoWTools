@@ -205,8 +205,8 @@ local function Init_Menu(self, root)
         WoWTools_AddOnsMixin:Init_Right_Buttons()
     end)--onlyRoot
 
-    sub:CreateDivider()
-    WoWTools_MenuMixin:OpenOptions(sub, {name=WoWTools_AddOnsMixin.addName})
+    root:CreateDivider()
+    WoWTools_MenuMixin:OpenOptions(root, {name=WoWTools_AddOnsMixin.addName, name2=WoWTools_L['Settings...']})
 end
 
 
