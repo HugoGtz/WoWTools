@@ -1,8 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_UnitFrame'] or {}
-end
-
-
 local function Is_InEditMode()
     if EditModeManagerFrame then
         return EditModeManagerFrame:IsEditModeActive()-- EditModeManagerFrame:ArePartyFramesForcedShown()
@@ -192,7 +187,7 @@ end
 
 
 local function Rest_AllDeadData()
-     Save().PartyDeadData={}
+     WoWTools_UnitMixin:Save().PartyDeadData={}
      for i=1, MAX_PARTY_MEMBERS+1 do
         if _G['CompactPartyFrameMember'..i] then
             local frame= _G['CompactPartyFrameMember'..i].deadFrame
@@ -272,7 +267,7 @@ local function Create_deadFrame(frame)
         local name= self:GetName()
         local text
         if name then
-            text= Save().PartyDeadData[name] or 0
+            text= WoWTools_UnitMixin:Save().PartyDeadData[name] or 0
         end
         self.Text:SetText(text or '')
     end
@@ -284,7 +279,7 @@ local function Create_deadFrame(frame)
             self.deadBool=nil
             local name= self:GetName()
             if name then
-                Save().PartyDeadData[name]= nil
+                WoWTools_UnitMixin:Save().PartyDeadData[name]= nil
             end
 
         else
@@ -294,7 +289,7 @@ local function Create_deadFrame(frame)
 
                     local name= self:GetName()
                     if name then
-                        Save().PartyDeadData[name]= (Save().PartyDeadData[name] or 0)+1
+                        WoWTools_UnitMixin:Save().PartyDeadData[name]= (WoWTools_UnitMixin:Save().PartyDeadData[name] or 0)+1
                     end
                     self:settings()
                 end
@@ -326,12 +321,12 @@ end
 
 
 local function Init()--PartyFrame.lua
-    if WoWToolsPlusSave['Plus_UnitFrame'].hidePartyFrame then
+    if WoWTools_UnitMixin:Save().hidePartyFrame then
         return
     end
 
     EventRegistry:RegisterFrameEventAndCallback("GROUP_LEFT", function()
-        Save().PartyDeadData= {}
+        WoWTools_UnitMixin:Save().PartyDeadData= {}
     end)
 
     PartyFrame.Background:SetWidth(124)--144

@@ -3,7 +3,7 @@
 
 
 local function Init()
-    if WoWToolsPlusSave['Plus_UnitFrame'].hideBossFrame then
+    if WoWTools_UnitMixin:Save().hideBossFrame then
         return
     end
 

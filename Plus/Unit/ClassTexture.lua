@@ -110,7 +110,7 @@ end
 
 --UnitFrame.lua
 local function Init()
-    if WoWToolsPlusSave['Plus_UnitFrame'].hideClassColor then
+    if WoWTools_UnitMixin:Save().hideClassColor then
         return
     end
 

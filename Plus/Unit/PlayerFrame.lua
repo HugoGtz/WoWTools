@@ -1,10 +1,5 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_UnitFrame']
-end
-
-
 local function Init()
-    if Save().hidePlayerFrame then
+    if WoWTools_UnitMixin:Save().hidePlayerFrame then
         return
     end
 
@@ -197,7 +192,7 @@ local function Init()
         lootSpecID= lootSpecID==0 and specID or lootSpecID
         self:SetNormalTexture(select(3, PlayerUtil.GetSpecNameBySpecID(lootSpecID)) or 0)
         self.texture:SetShown(specID~=lootSpecID)
-        self:SetShown(Save().showLootButton or specID~=lootSpecID)
+        self:SetShown(WoWTools_UnitMixin:Save().showLootButton or specID~=lootSpecID)
     end
 
     LootButton:RegisterEvent('PLAYER_ENTERING_WORLD')
@@ -213,9 +208,9 @@ local function Init()
             local tipSub= root:CreateCheckbox(
                 WoWTools_L.BATTLEFIELD_MINIMAP_SHOW_ALWAYS,
             function()
-                return Save().showLootButton
+                return WoWTools_UnitMixin:Save().showLootButton
             end, function()
-                Save().showLootButton= not Save().showLootButton and true or nil
+                WoWTools_UnitMixin:Save().showLootButton= not WoWTools_UnitMixin:Save().showLootButton and true or nil
                 self:settings()
             end)
             WoWTools_MenuMixin:SetDescription(tipSub, WoWTools_L['Tip.Unit.LootButtonAlways'])

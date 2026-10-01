@@ -1,10 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['Plus_UnitFrame'] or {}
-end
-
-
-
 local function Init()
     WoWTools_UnitMixin:Init_PlayerFrame()
     WoWTools_UnitMixin:Init_PetFrame()
@@ -15,47 +9,34 @@ local function Init()
     WoWTools_UnitMixin:Init_BossFrame()--BOSS
 
     WoWTools_UnitMixin:Init_ClassTexture()
-
-
-    Init=function()end
 end
 
 
 
-local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWToolsPlus' then
-
-            WoWToolsPlusSave['Plus_UnitFrame']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_UnitFrame'], {
-                raidFrameScale= 1,
-                PartyDeadData={}
-            })
-
-            Save().PartyDeadData= Save().PartyDeadData or {}
-
-            WoWTools_UnitMixin.addName= '|A:UI-HUD-UnitFrame-Target-PortraitOn-Boss-Gold-Winged:0:0|a'..(WoWTools_L['Module.Unit frames'])
-
+--Tiene su propia página de opciones (2_Options.lua): panel=false
+WoWTools_Module:Register({
+    key= 'Plus_UnitFrame',
+    name= 'Module.Unit frames',
+    icon= 'UI-HUD-UnitFrame-Target-PortraitOn-Boss-Gold-Winged',
+    group= 'Interface',
+    defaults= {
+        raidFrameScale= 1,
+        PartyDeadData={}
+    },
+    tooltip= 'Tip.Unit.Module',
+    mixin= WoWTools_UnitMixin,
+    panel= false,
+    onLoad= function(M)--desactivado también hace falta su página de opciones (con la casilla para activarlo)
+        if not M:IsEnabled() then
             WoWTools_UnitMixin:Init_Options()
-
-            if Save().disabled then
-                self:SetScript('OnEvent', nil)
-                self:UnregisterAllEvents()
-            else
-
-                Init()
-
-                if C_AddOns.IsAddOnLoaded('Blizzard_Settings') then
-                    self:SetScript('OnEvent', nil)
-                    self:UnregisterEvent(event)
-                end
-            end
-
-        elseif arg1=='Blizzard_Settings' then
-            WoWTools_UnitMixin:Init_Options()
-            self:UnregisterEvent(event)
         end
-    end
-end)
+    end,
+    onEnable= function()
+        WoWTools_UnitMixin:Init_Options()
+        Init()
+    end,
+    blizzard= {Blizzard_Settings= function()
+        WoWTools_UnitMixin:Init_Options()
+    end},
+})
+
