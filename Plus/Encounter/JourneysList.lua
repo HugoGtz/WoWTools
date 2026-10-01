@@ -306,3 +306,10 @@ function WoWTools_EncounterMixin:Init_JourneysList()
     Init()
 end
 
+--Escala, fondo y lista (Centro de control)
+function WoWTools_EncounterMixin:JourneysList_Settings()
+    if Button then
+        Button:settings()
+    end
+end
+
