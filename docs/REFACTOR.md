@@ -115,7 +115,14 @@ resolvedor de `WoWTools_L`, `TextMixin:Magic`, `TextMixin:sub` (UTF-8), `MK`, `S
 
 ## Estado
 
+Antes de R1: quitar lo que sobra (docs/MEJORAS.md, sección 1).
+
+
 - [ ] R1 API común + Selector de color
+  - [x] Sistema de estilo `WoWTools_Style` (1_Mixin/Style.lua) aplicado al Selector de color
+  - [ ] API de módulos `WoWTools_Module:Register` + despachador único de eventos
+  - [ ] Escaneo de bolsas compartido (ver docs/MEJORAS.md, sección 4)
+  - [ ] Selector de color migrado a la API
 - [ ] R2 migración de módulos (0/28)
 - [ ] R3 esperas de Blizzard unificadas
 - [ ] R4 funciones gigantes (0/8)
