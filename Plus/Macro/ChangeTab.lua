@@ -1,25 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['Plus_Macro2']
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 local function Set_OnSizeChanged(self)
     local value= math.max(1, math.modf(self:GetWidth()/49))
     if self:GetStride()~= value then
@@ -58,7 +37,7 @@ local function Init()
 
         self.MacroSelector:ClearAllPoints()
 
-        local point= Save().toRightLeft
+        local point= WoWTools_MacroMixin:Save().toRightLeft
             if point==1 then
                 self.MacroSelector:SetPoint('TOPRIGHT', self, 'TOPLEFT',10,-12)
                 self.MacroSelector:SetPoint('BOTTOMLEFT', -319, 0)
@@ -98,8 +77,6 @@ local function Init()
             MacroFramePortrait:SetTexture('Interface\\MacroFrame\\MacroFrame-Icon')
         end
     end)
-
-    Init=function()end
 end
 
 

@@ -1,12 +1,5 @@
-local function Save()
-    return WoWToolsPlusSave['Plus_Macro2']
-end
-
-
-
-
 function WoWTools_MoveMixin.Events:Blizzard_MacroUI()
-    if Save().disabled then
+    if WoWTools_MacroMixin:Save().disabled then
         self:Setup(MacroFrame)
     end
 end
@@ -26,7 +19,7 @@ local ScrollFrame
 
 
 local function bgPoint(icon)
-    local value= not Save().disabled and Save().toRightLeft or 3
+    local value= not WoWTools_MacroMixin:Save().disabled and WoWTools_MacroMixin:Save().toRightLeft or 3
     icon:ClearAllPoints()
     if value==1 then
         icon:SetPoint('TOPRIGHT', 3, 3)
@@ -176,9 +169,6 @@ local function Init()
     sizeRestFunc=function(f)
         f:SetSize(338, 424)
     end})
-
-
-    Init=function()end
 end
 
 
@@ -239,8 +229,6 @@ local function Init_Scroll()
 
         self.tempScrollPer2=  MacroFrame.MacroSelector.ScrollBox.scrollPercentage
     end)
-
-    Init_Scroll=function()end
 end
 
 

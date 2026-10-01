@@ -1,9 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['Plus_Macro2']
-end
-
-
 --'/cast [@cursor]'..name
 local CursorTab={
     [145205]= true,
@@ -774,7 +769,7 @@ end
 
 
 local function Init()
-    if Save().hideBottomList then
+    if WoWTools_MacroMixin:Save().hideBottomList then
         return
     end
 
@@ -867,9 +862,9 @@ local function Init()
     macroListButton:SetPoint('LEFT', last, 'RIGHT')
     macroListButton:SetupMenu(Init_MacroList_Menu)
     function Frame:settings()
-        self:SetScale(Save().bottomListScale or 1)
-        self:SetShown(not Save().hideBottomList)
-        self.Bg:SetAlpha(Save().bottomListAlpha or 0.5)
+        self:SetScale(WoWTools_MacroMixin:Save().bottomListScale or 1)
+        self:SetShown(not WoWTools_MacroMixin:Save().hideBottomList)
+        self.Bg:SetAlpha(WoWTools_MacroMixin:Save().bottomListAlpha or 0.5)
     end
 
 

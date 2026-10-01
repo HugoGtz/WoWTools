@@ -1,8 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['Plus_Macro2']
-end
-
 local Button, TargetButton, AttackButton, NoteEditBox
 
 
@@ -65,10 +61,10 @@ local PointTab={
             sub2= sub:CreateRadio(
                 info.text,
             function(data)
-                return Save().toRightLeft==data.value
+                return WoWTools_MacroMixin:Save().toRightLeft==data.value
             end, function(data)
                 if not InCombatLockdown() then
-                    Save().toRightLeft=data.value
+                    WoWTools_MacroMixin:Save().toRightLeft=data.value
                     WoWTools_DataMixin:Call(MacroFrame.ChangeTab, MacroFrame, 1)
                     TargetButton:settings()
                     WoWTools_MacroMixin:Init_Set_BG()
@@ -86,9 +82,9 @@ local PointTab={
     sub=root:CreateCheckbox(
         WoWTools_L['Button Plus'],
     function()
-        return not Save().hideBottomList
+        return not WoWTools_MacroMixin:Save().hideBottomList
     end, function()
-        Save().hideBottomList= not Save().hideBottomList and true or nil
+        WoWTools_MacroMixin:Save().hideBottomList= not WoWTools_MacroMixin:Save().hideBottomList and true or nil
         WoWTools_MacroMixin:Init_List_Button()
         WoWTools_MacroMixin:Init_AddNew_Button()
         TargetButton:settings()
@@ -97,23 +93,23 @@ local PointTab={
 
     WoWTools_MenuMixin:Scale(self, sub,
     function()
-        return Save().bottomListScale or 1
+        return WoWTools_MacroMixin:Save().bottomListScale or 1
     end, function(value)
-        Save().bottomListScale=value
+        WoWTools_MacroMixin:Save().bottomListScale=value
         WoWTools_MacroMixin:Init_List_Button()
     end, function ()
-        Save().bottomListScale=nil
+        WoWTools_MacroMixin:Save().bottomListScale=nil
         WoWTools_MacroMixin:Init_List_Button()
     end)
 
     WoWTools_MenuMixin:BgAplha(sub,
     function()
-        return Save().bottomListAlpha or 0.5
+        return WoWTools_MacroMixin:Save().bottomListAlpha or 0.5
     end, function(value)
-        Save().bottomListAlpha= value
+        WoWTools_MacroMixin:Save().bottomListAlpha= value
         WoWTools_MacroMixin:Init_List_Button()
     end, function()
-        Save().bottomListAlpha= nil
+        WoWTools_MacroMixin:Save().bottomListAlpha= nil
         WoWTools_MacroMixin:Init_List_Button()
     end)
 
@@ -313,13 +309,13 @@ local function Init_Created()
     TargetButton.tip2=WoWTools_L['AURAS+NAME']
     function TargetButton:settings()
         self:ClearAllPoints()
-        local point= Save().toRightLeft
+        local point= WoWTools_MacroMixin:Save().toRightLeft
         if point==4 then
             self:SetPoint('BOTTOMRIGHT', MacroFrame, 'BOTTOM', 0, 4)
         else
             self:SetPoint('LEFT', MacroEditButton, 'RIGHT',8,0)
         end
-        self:SetShown(not Save().hideBottomList)
+        self:SetShown(not WoWTools_MacroMixin:Save().hideBottomList)
     end
     TargetButton:settings()
 

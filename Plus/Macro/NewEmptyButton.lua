@@ -1,9 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['Plus_Macro2']
-end
-
-
 --#############
 local MacroButtonList={
     {macro='/reload', name='reload'},--134400
@@ -41,10 +36,10 @@ local function Save_Macro_Menu(frame, root)
             ..(WoWTools_L.FAVORITES)
             ..' '..header,
         function(data)
-            return data.header and Save().macro[data.header]
+            return data.header and WoWTools_MacroMixin:Save().macro[data.header]
         end, function(data)
             if data.body and data.body~='' then
-                Save().macro[data.header]=  not Save().macro[data.header] and {
+                WoWTools_MacroMixin:Save().macro[data.header]=  not WoWTools_MacroMixin:Save().macro[data.header] and {
                         name=data.name,
                         icon=data.icon,
                         body=data.body,
@@ -64,7 +59,7 @@ local function Save_Macro_Menu(frame, root)
 
 
     num=0
-    for head2, tab in pairs(Save().macro) do
+    for head2, tab in pairs(WoWTools_MacroMixin:Save().macro) do
         sub2=sub:CreateButton(
             head2,
         function(data)
@@ -85,11 +80,11 @@ local function Save_Macro_Menu(frame, root)
             '|A:XMarksTheSpot:0:0|a'
             ..(WoWTools_L.REMOVE),
         function(data)
-            return Save().macro[data.head2]
+            return WoWTools_MacroMixin:Save().macro[data.head2]
         end, function(data)
-            Save().macro[data.head2]= not Save().macro[data.head2] and {name=data.name, icon=data.icon, body=data.body} or nil
+            WoWTools_MacroMixin:Save().macro[data.head2]= not WoWTools_MacroMixin:Save().macro[data.head2] and {name=data.name, icon=data.icon, body=data.body} or nil
 
-            if Save().macro[data.head2] then
+            if WoWTools_MacroMixin:Save().macro[data.head2] then
                 WoWTools_Print(
                     WoWTools_MacroMixin.addName..WoWTools_DataMixin.Icon.icon2,
                     GREEN_FONT_COLOR:WrapTextInColorCode(WoWTools_L.FAVORITES)
@@ -112,7 +107,7 @@ local function Save_Macro_Menu(frame, root)
     if num>1 then
         sub:CreateDivider()
         WoWTools_MenuMixin:ClearAll(sub, function()
-            Save().macro={}
+            WoWTools_MacroMixin:Save().macro={}
         end)
 
         WoWTools_MenuMixin:SetScrollMode(sub)
@@ -154,7 +149,7 @@ end
 
 --#############
 local function Init()
-    if Save().hideBottomList then
+    if WoWTools_MacroMixin:Save().hideBottomList then
         return
     end
 
@@ -187,7 +182,7 @@ local function Init()
     end)
 
     Init=function()
-        local show= not Save().hideBottomList
+        local show= not WoWTools_MacroMixin:Save().hideBottomList
          _G['WoWToolsMacroNewEmptyButton']:SetShown(show)
         _G['WoWToolsMacroEmptyMenuButton']:SetShown(show)
     end
