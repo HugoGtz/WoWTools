@@ -4,11 +4,6 @@ local Buttons={}
 local Name= 'WoWToolsChatMenuButton_'
 
 
-local function Save()
-    return WoWToolsPlusSave['ChatButton'] or {}
-end
-
-
 WoWTools_ChatMixin.AnchorMenuTab={
         {"TOPLEFT",  "BOTTOMLEFT"},
         {"BOTTOMLEFT",  "TOPLEFT"},
@@ -28,7 +23,7 @@ local function Set_Button_Script(btn)
     end
 
     function btn:set_owner()
-        GameTooltip:SetOwner(self, AnchorTooltip[Save().anchorMenuIndex or 1])-- "ANCHOR_LEFT")
+        GameTooltip:SetOwner(self, AnchorTooltip[WoWTools_ChatMixin:Save().anchorMenuIndex or 1])-- "ANCHOR_LEFT")
         GameTooltip:ClearLines()
     end
 
@@ -59,7 +54,7 @@ local function Set_Button_Script(btn)
     end)
 
     btn:SetScript('OnEnter', function(self)
-        if self.set_tooltip and not Save().disabledTooltiip then
+        if self.set_tooltip and not WoWTools_ChatMixin:Save().disabledTooltiip then
             self:set_owner()
             self:set_tooltip()
         end
@@ -71,7 +66,7 @@ local function Set_Button_Script(btn)
         if self.border then
             local p= self:GetParent()
             p:SetButtonState('PUSHED')
-            if Save().isEnterShowMenu and not p:IsMenuOpen() and not self:IsMenuOpen() then
+            if WoWTools_ChatMixin:Save().isEnterShowMenu and not p:IsMenuOpen() and not self:IsMenuOpen() then
                 self:OpenMenu()
             end
         end
@@ -83,7 +78,7 @@ local function Set_Button_Script(btn)
                 self:set_OnMouseDown()
             end
 
-            if self.set_tooltip and not Save().disabledTooltiip then
+            if self.set_tooltip and not WoWTools_ChatMixin:Save().disabledTooltiip then
                 self:set_owner()
                 self:set_tooltip()
                 GameTooltip:Show()
@@ -132,21 +127,21 @@ local function Set_Button(btn)
 
     function btn:SetAllSettings()
         local index= btn:GetID()
-        local s= index==1 and 0 or Save().pointX or 0
+        local s= index==1 and 0 or WoWTools_ChatMixin:Save().pointX or 0
 
         self:ClearAllPoints()
 
         local parent=  Buttons[index-1] and _G[Name..Buttons[index-1]] or _G['WoWToolsChatButtonMainButton']
-        if Save().isVertical then
+        if WoWTools_ChatMixin:Save().isVertical then
             self:SetPoint('BOTTOM', parent, 'TOP', 0, s)
         else
             self:SetPoint('LEFT', parent, 'RIGHT', s, 0)
         end
 
-        local point= WoWTools_ChatMixin.AnchorMenuTab[Save().anchorMenuIndex or 1]
+        local point= WoWTools_ChatMixin.AnchorMenuTab[WoWTools_ChatMixin:Save().anchorMenuIndex or 1]
         self:SetMenuAnchor(AnchorUtil.CreateAnchor(point[1], self, point[2]))
 
-        self.border:SetAlpha(Save().borderAlpha or 0.3)
+        self.border:SetAlpha(WoWTools_ChatMixin:Save().borderAlpha or 0.3)
     end
 
 
@@ -174,7 +169,7 @@ function WoWTools_ChatMixin:CreateButton(name, addName)
 
     table.insert(AddList, {name=name, tooltip=addName})
 
-    if Save().disabledADD[name] then
+    if WoWTools_ChatMixin:Save().disabledADD[name] then
         return
     end
 

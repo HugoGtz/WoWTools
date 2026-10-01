@@ -1,7 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['ChatButton_HyperLink'] or {}
-end
-
 --escapa todos los caracteres mágicos de un patrón Lua (incluidos % y ])
 local function EscapePattern(text)
     return (text:gsub('[%^%$%(%)%%%.%[%]%*%+%-%?]', '%%%0'))
@@ -53,12 +49,12 @@ local ChannelIcon= {
 
 local function SetChannels(link)
     local name=link:match('%[(.-)]')
-    if not name or Save().disabledKeyColor then
+    if not name or WoWTools_HyperLink:Save().disabledKeyColor then
         return
     end
 
-    if Save().channels then
-        for k, v in pairs(Save().channels) do
+    if WoWTools_HyperLink:Save().channels then
+        for k, v in pairs(WoWTools_HyperLink:Save().channels) do
             if name:find(k) then
                 return link:gsub('%[.-]', v)
             end
@@ -185,7 +181,7 @@ local function Item(link)
         t= t..Get_CompletedIcon(PlayerHasToy(itemID))
     end
 
-    local count= not Save().notShowItemCount and WoWTools_ItemMixin:GetCount(itemID, {notZero=true})
+    local count= not WoWTools_HyperLink:Save().notShowItemCount and WoWTools_ItemMixin:GetCount(itemID, {notZero=true})
     if count then
         t=t..count
     end
@@ -591,12 +587,12 @@ local function New_AddMessage(self, s, ...)
     s=s:gsub('|HclubFinder:.-]|h', ClubFinder)
     --s=s:gsub('|HclubTicket:.-]|h', ClubTicket)
 
-    if not Save().notShowMapPin then
+    if not WoWTools_HyperLink:Save().notShowMapPin then
         s=s:gsub('(%d+%.%d%d %d+%.%d%d)', Waypoint)
     end
 
 
-    if not Save().notShowPlayerInfo then
+    if not WoWTools_HyperLink:Save().notShowPlayerInfo then
         s=s:gsub('|Hplayer:.-]|h', Set_Realm)
         if not IsShowTimestamps then
             local unitName= s:match(LOOT_ITEM)
@@ -613,7 +609,7 @@ local function New_AddMessage(self, s, ...)
         end
     end
 
-    if not Save().disabledKeyColor then
+    if not WoWTools_HyperLink:Save().disabledKeyColor then
         for k in pairs(WoWToolsPlusPlayerDate['HyperLinkColorText']) do
             if type(k)=='string' and k~='' then
                 --palabra literal: con ( [ % - . daba "malformed pattern" y el chat dejaba de mostrarse
@@ -648,7 +644,7 @@ end
 
 
 local function Set_HyperLlinkIcon()
-    local enable= Save().linkIcon and not C_SocialRestrictions.IsChatDisabled()
+    local enable= WoWTools_HyperLink:Save().linkIcon and not C_SocialRestrictions.IsChatDisabled()
 
     for i = 3, NUM_CHAT_WINDOWS do
         Set_AddMessage(_G["ChatFrame"..i], enable)
@@ -691,7 +687,7 @@ function WoWTools_HyperLink:Init_Link_Icon()
 end
 
 function WoWTools_HyperLink:Link_Icon_Settings()
-    local s= Save().iconSize or 0
+    local s= WoWTools_HyperLink:Save().iconSize or 0
     s = s<8  and 0 or s
     Size= ':'..s..':'..s
 end

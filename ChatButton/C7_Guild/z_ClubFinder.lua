@@ -1,17 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['ChatButtonGuild']
-end
-
-
-
-
-
-
-
-
-
-
 --###############
 --###############
 local function set_RequestToJoinFrame(frame)
@@ -60,7 +47,7 @@ local function set_RequestToJoinFrame(frame)
     end
     if frame.Apply and frame.Apply:IsEnabled() and frame.Apply.Click
         and not IsModifierKeyDown()
-        and not Save().notAutoRequestToJoinClub
+        and not WoWTools_GuildMixin:Save().notAutoRequestToJoinClub
     then
         WoWTools_Print(
             WoWTools_GuildMixin.addName..WoWTools_DataMixin.Icon.icon2,
@@ -89,13 +76,13 @@ local function set_check(frame)
         isCheck=true,
     })
     check:SetPoint('RIGHT', frame, 'LEFT', 0, 12)
-    check:SetChecked(not Save().notAutoRequestToJoinClub)
+    check:SetChecked(not WoWTools_GuildMixin:Save().notAutoRequestToJoinClub)
         check:SetScript('OnShow', function(self2)
-        self2:SetChecked(not Save().notAutoRequestToJoinClub)
+        self2:SetChecked(not WoWTools_GuildMixin:Save().notAutoRequestToJoinClub)
     end)
 
     function check:settings()
-        Save().notAutoRequestToJoinClub= not Save().notAutoRequestToJoinClub and true or nil
+        WoWTools_GuildMixin:Save().notAutoRequestToJoinClub= not WoWTools_GuildMixin:Save().notAutoRequestToJoinClub and true or nil
     end
     function check:tooltip()
          GameTooltip:AddDoubleLine(WoWTools_ChatMixin.addName, WoWTools_GuildMixin.addName)
@@ -105,7 +92,7 @@ local function set_check(frame)
             ..(WoWTools_L['SELF_CAST_AUTO+SIGN_UP'])
             ..WoWTools_DataMixin.Icon.left,
 
-            WoWTools_TextMixin:GetEnabeleDisable(not Save().notAutoRequestToJoinClub)
+            WoWTools_TextMixin:GetEnabeleDisable(not WoWTools_GuildMixin:Save().notAutoRequestToJoinClub)
         )
     end
 end
@@ -117,7 +104,7 @@ end
 
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     if not IsVeteranTrialAccount() then
         set_check(ClubFinderGuildFinderFrame.OptionsList.SearchBox)
         set_check(ClubFinderCommunityAndGuildFinderFrame.OptionsList.SearchBox)
@@ -128,8 +115,7 @@ local function Init()
             set_RequestToJoinFrame(...)
         end)
     end
-    Init=function()end
-end
+end)
 
 
 

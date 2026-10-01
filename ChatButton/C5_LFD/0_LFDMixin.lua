@@ -73,7 +73,7 @@ end
 
 function WoWTools_LFDMixin:Get_Instance_Num(name)
     name= name or GetInstanceInfo()
-    local num = WoWToolsPlusSave['ChatButton_LFD'].wow[name] or 0
+    local num = WoWTools_LFDMixin:Save().wow[name] or 0
     local text
     if num >0 then
         text= '|cnGREEN_FONT_COLOR:#'..num..'|r '..(WoWTools_L.VOICEMACRO_LABEL_CHARGE1)
@@ -101,7 +101,7 @@ function WoWTools_LFDMixin:Set_LFDButton_Data(dungeonID, categoryType, name, tex
     elseif texture then
         btn.texture:SetTexture(texture)
     else
-        if not WoWToolsPlusSave['ChatButton_LFD'].hideQueueStatus then
+        if not WoWTools_LFDMixin:Save().hideQueueStatus then
             btn.texture:SetAtlas('groupfinder-eye-frame')
         else
             btn.texture:SetAtlas('UI-HUD-MicroMenu-Groupfinder-Mouseover')

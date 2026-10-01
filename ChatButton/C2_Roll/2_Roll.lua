@@ -3,10 +3,7 @@ local P_Save={
     save={},
 }
 
-local function Save()
-    return WoWToolsPlusSave['ChatButton_Roll'] or {}
-end
-
+local M= {}--tabla del módulo (WoWTools_Module)
 local addName
 local RollButton
 local RollTab={}
@@ -106,7 +103,7 @@ end
 
 
 local function get_Save_Max()
-    if not Save().saveLog then
+    if not M:Save().saveLog then
         return
     end
 
@@ -121,10 +118,10 @@ local function get_Save_Max()
         end
     end
     if maxTab then
-        if #Save().save>=40 then
-            table.remove(Save().save, 1)
+        if #M:Save().save>=40 then
+            table.remove(M:Save().save, 1)
         end
-        table.insert(Save().save, maxTab)
+        table.insert(M:Save().save, maxTab)
     end
 end
 
@@ -139,12 +136,12 @@ end
 
 
 local function setAutoClearRegisterEvent()
-    if Save().autoClear then
+    if M:Save().autoClear then
         panel:RegisterEvent('PLAYER_REGEN_DISABLED')
     else
         panel:UnregisterEvent('PLAYER_REGEN_DISABLED')
     end
-    RollButton.autoClearTips:SetShown(Save().autoClear)
+    RollButton.autoClearTips:SetShown(M:Save().autoClear)
 end
 
 
@@ -190,9 +187,9 @@ local function Init_Menu(self, root)
     sub2=sub:CreateCheckbox(
         '1000',
     function()
-        return Save().is1000
+        return M:Save().is1000
     end, function()
-        Save().is1000= not Save().is1000 and true or nil
+        M:Save().is1000= not M:Save().is1000 and true or nil
     end)
     sub2:SetTooltip(function(tooltip)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Roll.Roll1000'])
@@ -204,9 +201,9 @@ local function Init_Menu(self, root)
         '|A:bags-button-autosort-up:0:0|a'
         ..(WoWTools_L['SELF_CAST_AUTO+SLASH_STOPWATCH_PARAM_STOP2']),
     function ()
-        return Save().autoClear
+        return M:Save().autoClear
     end, function ()
-        Save().autoClear= not Save().autoClear and true or false
+        M:Save().autoClear= not M:Save().autoClear and true or false
         setAutoClearRegisterEvent()
     end)
     sub2:SetTooltip(function (tooltip)
@@ -216,9 +213,9 @@ local function Init_Menu(self, root)
         '|A:bags-button-autosort-up:0:0|a'
         ..(WoWTools_L['SLASH_STOPWATCH_PARAM_STOP2+EVENTTRACE_LOG_HEADER']),
     function()
-        Save().save={}
+        M:Save().save={}
         return MenuResponse.CloseAll
-    end, {rightText= #Save().save})
+    end, {rightText= #M:Save().save})
     WoWTools_MenuMixin:SetRightText(sub2)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Roll.ClearLog'])
 
@@ -227,15 +224,15 @@ local function Init_Menu(self, root)
         .. ' 40 '
         ..(WoWTools_L['AUCTION_HOUSE_QUANTITY_LABEL~3']),
     function()
-        return Save().saveLog
+        return M:Save().saveLog
     end, function()
-        Save().saveLog= not Save().saveLog and true or nil
+        M:Save().saveLog= not M:Save().saveLog and true or nil
         panel:set_event()
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Roll.SaveLog'])
 
     sub:CreateDivider()
-    for index, tab in pairs(Save().save) do
+    for index, tab in pairs(M:Save().save) do
         sub2= sub:CreateButton(
             '|TInterface\\PVPFrame\\Icons\\PVP-Banner-Emblem-47:0|t'
             ..HIGHLIGHT_FONT_COLOR:WrapTextInColorCode(tab.roll)
@@ -381,7 +378,7 @@ local function Init()
     end
 
     function RollButton:set_OnMouseDown()
-        if Save().is1000 then
+        if M:Save().is1000 then
             RandomRoll(1, 1000)
         else
             RandomRoll(1, 100)
@@ -411,36 +408,16 @@ end
 
 function panel:set_event()
     self:UnregisterEvent('PLAYER_LOGOUT')
-    if Save().saveLog then
+    if M:Save().saveLog then
         self:RegisterEvent('PLAYER_LOGOUT')
     end
 end
 
 
 
-panel:RegisterEvent("ADDON_LOADED")
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWToolsPlus' then
-
-            WoWToolsPlusSave['ChatButton_Roll']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['ChatButton_Roll'], P_Save)
-            P_Save=nil
-
-            addName= '|TInterface\\PVPFrame\\Icons\\PVP-Banner-Emblem-47:0|t'..(WoWTools_L.ROLL)
-
-            RollButton= WoWTools_ChatMixin:CreateButton('Roll', addName)
-
-            if RollButton then
-                self:set_event()
-                self:RegisterEvent('CHAT_MSG_SYSTEM')
-                Init()
-            else
-                self:SetScript('OnEvent', nil)
-            end
-            self:UnregisterEvent(event)
-        end
-
-    elseif event == "PLAYER_LOGOUT" then
+--Marco propio: eventos continuos del módulo (no de arranque)
+panel:SetScript("OnEvent", function(_, event, arg1)
+    if event == "PLAYER_LOGOUT" then
         if not WoWTools_DataMixin.ClearAllSave then
             get_Save_Max()
         end
@@ -454,3 +431,20 @@ panel:SetScript("OnEvent", function(self, event, arg1)
     end
 end)
 
+
+
+WoWTools_Module:Register({
+    key= 'ChatButton_Roll', name= 'ROLL', icon= 'Interface\\PVPFrame\\Icons\\PVP-Banner-Emblem-47',
+    parent= 'ChatButton', defaults= P_Save, mixin= M,
+    onEnable= function()
+        addName= M.addName
+
+        RollButton= WoWTools_ChatMixin:CreateButton('Roll', addName)
+
+        if RollButton then
+            panel:set_event()
+            panel:RegisterEvent('CHAT_MSG_SYSTEM')
+            Init()
+        end
+    end,
+})

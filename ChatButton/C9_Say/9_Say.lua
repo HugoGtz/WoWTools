@@ -10,10 +10,7 @@ local P_Save= {
     numWhisper=0,
 }
 
-local function Save()
-    return WoWToolsPlusSave['ChatButton_Say'] or {}
-end
-
+local M= {}--tabla del módulo (WoWTools_Module)
 local addName
 local SayButton
 
@@ -22,18 +19,18 @@ local SayButton
 --#######
 --#######
 local function set_numWhisper_Tips()
-    SayButton.numWhisper:SetText(Save().numWhisper>0 and Save().numWhisper or '')
+    SayButton.numWhisper:SetText(M:Save().numWhisper>0 and M:Save().numWhisper or '')
 end
 
 local function rest_numWhisper_Tips()
-    Save().numWhisper=0
+    M:Save().numWhisper=0
     set_numWhisper_Tips()
 end
 
 local MaxWhisperMsg= 50--mensajes guardados por contacto (antes sin límite)
 
 local function findWhisper(name, battleTag)
-    for index, tab in pairs(Save().WhisperTab) do
+    for index, tab in pairs(M:Save().WhisperTab) do
         if tab.name==name or (battleTag and tab.battleTag==battleTag) then
             return index
         end
@@ -68,7 +65,7 @@ local function getWhisper(event, text, name, _, _, _, _, _, _, _, _, _, guid, bn
         local index=findWhisper(name, battleTag)
         local tab= {text=text, type=type, player=WoWTools_DataMixin.Player.Name_Realm, time=date('%X')}
         if index then
-            local data= Save().WhisperTab[index]
+            local data= M:Save().WhisperTab[index]
             data.guid=guid
             if wow then
                 data.name= name--token de la sesión actual
@@ -79,10 +76,10 @@ local function getWhisper(event, text, name, _, _, _, _, _, _, _, _, _, guid, bn
                 table.remove(data.msg, 1)
             end
         else
-            table.insert(Save().WhisperTab, 1, {name=name, wow=wow, battleTag=battleTag, guid=guid, msg={tab}})
+            table.insert(M:Save().WhisperTab, 1, {name=name, wow=wow, battleTag=battleTag, guid=guid, msg={tab}})
         end
         if not type then
-            Save().numWhisper= Save().numWhisper + 1
+            M:Save().numWhisper= M:Save().numWhisper + 1
             set_numWhisper_Tips()
         end
     end
@@ -111,7 +108,7 @@ local function Init_Menu(self, root)
                 --..tab.type
                 ..(tab.isWhisper and ' '..WoWTools_UnitMixin:GetPlayerInfo('target', nil, nil, {reName=true}) or ''),
         function(data)
-                return Save().type==data.type
+                return M:Save().type==data.type
 
         end, function(data)
             local name2
@@ -153,7 +150,7 @@ local function Init_Menu(self, root)
 
 
 
-    num= #Save().WhisperTab
+    num= #M:Save().WhisperTab
     if num>0 then
 
         sub2=sub:CreateButton(
@@ -163,7 +160,7 @@ local function Init_Menu(self, root)
                 (WoWTools_L.CLEAR_ALL)..' |cffffffff #'..data.rightText,
             nil,
             {SetValue=function()
-                Save().WhisperTab={}
+                M:Save().WhisperTab={}
                 rest_numWhisper_Tips()
             end})
             return MenuResponse.Open
@@ -179,7 +176,7 @@ local function Init_Menu(self, root)
         sub:CreateDivider()
 
 
-        for index, tab in pairs(Save().WhisperTab) do
+        for index, tab in pairs(M:Save().WhisperTab) do
             tab.rightText= index
             tab.rightColor=DISABLED_FONT_COLOR
 
@@ -278,7 +275,7 @@ local function Init_Menu(self, root)
             function(data)
                 local findIndex= findWhisper(data.name)
                 if findIndex then
-                    table.remove(Save().WhisperTab, findIndex)--=nil dejaba un hueco en la lista
+                    table.remove(M:Save().WhisperTab, findIndex)--=nil dejaba un hueco en la lista
                     WoWTools_Print(
                         addName..WoWTools_DataMixin.Icon.icon2,
                         '|cnGREEN_FONT_COLOR:'..(WoWTools_L.REMOVE)..'|r',
@@ -373,7 +370,7 @@ end
 
 --####
 --####
-local function Init()
+local Init= WoWTools_Once(function()
     SayButton.typeText=WoWTools_LabelMixin:Create(SayButton, {color=true})--10, nil, nil, true)
     SayButton.typeText:SetPoint('BOTTOM',0,2)
 
@@ -384,40 +381,40 @@ local function Init()
 
     function SayButton:set_tooltip()
         self:set_owner()
-        if Save().type or Save().text or Save().name then
+        if M:Save().type or M:Save().text or M:Save().name then
             local name
-            if Save().type==SLASH_WHISPER1 then
+            if M:Save().type==SLASH_WHISPER1 then
                 name= GetUnitName('target', true)
-            elseif Save().name then
-                name= Save().isWoW and WoWTools_DataMixin.Icon.net2..'|cff28a3ff'..Save().name or Save().name
+            elseif M:Save().name then
+                name= M:Save().isWoW and WoWTools_DataMixin.Icon.net2..'|cff28a3ff'..Save().name or M:Save().name
             end
-            GameTooltip:AddDoubleLine((Save().text or '')..(Save().type and ' '..Save().type or ''),(name or '')..WoWTools_DataMixin.Icon.left)
+            GameTooltip:AddDoubleLine((M:Save().text or '')..(M:Save().type and ' '..Save().type or ''),(name or '')..WoWTools_DataMixin.Icon.left)
         end
         GameTooltip:AddLine(' ')
-        GameTooltip:AddDoubleLine(WoWTools_L['SLASH_TEXTTOSPEECH_WHISPER+AUCTION_HOUSE_QUANTITY_LABEL'], Save().numWhisper)
+        GameTooltip:AddDoubleLine(WoWTools_L['SLASH_TEXTTOSPEECH_WHISPER+AUCTION_HOUSE_QUANTITY_LABEL'], M:Save().numWhisper)
         GameTooltip:Show()
     end
 
     SayButton:SetupMenu(Init_Menu)
 
     function SayButton:set_OnMouseDown()
-        if Save().type or Save().name then
-            local name, wow= Save().name, Save().isWoW
-            if Save().type==SLASH_WHISPER1 and UnitIsPlayer('target') then
+        if M:Save().type or M:Save().name then
+            local name, wow= M:Save().name, M:Save().isWoW
+            if M:Save().type==SLASH_WHISPER1 and UnitIsPlayer('target') then
                 name= GetUnitName('target', true)
                 wow= false
             end
-            WoWTools_ChatMixin:Say(Save().type, name, wow)
+            WoWTools_ChatMixin:Say(M:Save().type, name, wow)
         else
             return true
         end
     end
 
     function SayButton:settings(type, text, name, isWoW)
-        Save().type= type
-        Save().text= text
-        Save().name= name
-        Save().isWoW= isWoW
+        M:Save().type= type
+        M:Save().text= text
+        M:Save().name= name
+        M:Save().isWoW= isWoW
 
         if type and text:find('%w') then
             text=type:gsub('/','')
@@ -429,57 +426,52 @@ local function Init()
     end
 
 
-    SayButton:settings(Save().type, Save().text, Save().name, Save().isWoW)
+    SayButton:settings(M:Save().type, M:Save().text, M:Save().name, M:Save().isWoW)
     set_numWhisper_Tips()
-
-    Init=function()end
-end
+end)
 
 
 --###########
 --###########
 local panel= CreateFrame('Frame')
-panel:RegisterEvent("ADDON_LOADED")
-
-
-panel:SetScript("OnEvent", function(self, event, arg1, arg2, ...)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWToolsPlus' then
-
-            WoWToolsPlusSave['ChatButton_Say']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['ChatButton_Say'], P_Save)
-            Save().text= Save().text or (WoWTools_L.SAY)
-            P_Save=nil
-
-            addName= '|A:transmog-icon-chat:0:0|a'..(WoWTools_L.SAY)
-            SayButton= WoWTools_ChatMixin:CreateButton('Say', addName)
-
-            if SayButton then
-                self:RegisterEvent("CHAT_MSG_WHISPER_INFORM")
-                self:RegisterEvent("CHAT_MSG_WHISPER")
-                self:RegisterEvent("CHAT_MSG_BN_WHISPER")
-                self:RegisterEvent("CHAT_MSG_BN_WHISPER_INFORM")
-
-                if #Save().WhisperTab>120 then
-                    for i=121, #Save().WhisperTab do
-                        Save().WhisperTab[i]=nil
-                    end
-                end
-                for _, tab in pairs(Save().WhisperTab) do--recortar historiales antiguos
-                    if type(tab.msg)=='table' then
-                        while #tab.msg>MaxWhisperMsg do
-                            table.remove(tab.msg, 1)
-                        end
-                    end
-                end
-
-                Init()
-            else
-                self:SetScript('OnEvent', nil)
-            end
-            self:UnregisterEvent(event)
-        end
-
-    elseif event=='CHAT_MSG_WHISPER_INFORM' or event=='CHAT_MSG_WHISPER' or event=='CHAT_MSG_BN_WHISPER' or event=='CHAT_MSG_BN_WHISPER_INFORM' then
+--Marco propio: susurros (se registran en onEnable)
+panel:SetScript("OnEvent", function(_, event, arg1, arg2, ...)
+    if event=='CHAT_MSG_WHISPER_INFORM' or event=='CHAT_MSG_WHISPER' or event=='CHAT_MSG_BN_WHISPER' or event=='CHAT_MSG_BN_WHISPER_INFORM' then
         getWhisper(event, arg1, arg2, ...)
     end
 end)
+
+
+
+WoWTools_Module:Register({
+    key= 'ChatButton_Say', name= 'SAY', icon= 'transmog-icon-chat',
+    parent= 'ChatButton', defaults= P_Save, mixin= M,
+    onEnable= function()
+        M:Save().text= M:Save().text or (WoWTools_L.SAY)
+
+        addName= M.addName
+        SayButton= WoWTools_ChatMixin:CreateButton('Say', addName)
+
+        if SayButton then
+            panel:RegisterEvent("CHAT_MSG_WHISPER_INFORM")
+            panel:RegisterEvent("CHAT_MSG_WHISPER")
+            panel:RegisterEvent("CHAT_MSG_BN_WHISPER")
+            panel:RegisterEvent("CHAT_MSG_BN_WHISPER_INFORM")
+
+            if #M:Save().WhisperTab>120 then
+                for i=121, #M:Save().WhisperTab do
+                    M:Save().WhisperTab[i]=nil
+                end
+            end
+            for _, tab in pairs(M:Save().WhisperTab) do--recortar historiales antiguos
+                if type(tab.msg)=='table' then
+                    while #tab.msg>MaxWhisperMsg do
+                        table.remove(tab.msg, 1)
+                    end
+                end
+            end
+
+            Init()
+        end
+    end,
+})

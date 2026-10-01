@@ -1,8 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['ChatButtonGuild'] or {}
-end
-
 local G_GUILD_INFO_TEMPLATE= GUILD_INFO_TEMPLATE:gsub('(%%.+)', '')
 
 
@@ -51,7 +47,7 @@ local function Set_Text(self)
 end
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     local btn= WoWTools_ChatMixin:GetButtonForName('Guild')
     btn.texture:ClearAllPoints()
     btn.texture:SetPoint('CENTER', -1.5, 1)
@@ -186,9 +182,7 @@ local function Init()
             EventRegistry:UnregisterCallback('PLAYER_REGEN_ENABLED', owner)
         end)
     end
-
-    Init=function()end
-end
+end)
 
 
 function WoWTools_GuildMixin:Init_Button()

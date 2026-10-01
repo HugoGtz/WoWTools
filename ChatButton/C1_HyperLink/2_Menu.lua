@@ -1,8 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['ChatButton_HyperLink'] or {}
-end
-
-
 --#####
 local function Init_Menu(self, root)
     if not self:IsMouseOver() then
@@ -16,7 +11,7 @@ local function Init_Menu(self, root)
         (C_SocialRestrictions.IsChatDisabled() and '|cff828282' or '')
         ..WoWTools_HyperLink.addName,
     function()
-        return Save().linkIcon
+        return WoWTools_HyperLink:Save().linkIcon
     end,
         self.set_OnMouseDown
     )
@@ -31,9 +26,9 @@ local function Init_Menu(self, root)
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
-            return Save().iconSize or 0
+            return WoWTools_HyperLink:Save().iconSize or 0
         end, setValue=function(value)
-            Save().iconSize=value
+            WoWTools_HyperLink:Save().iconSize=value
             WoWTools_HyperLink:Link_Icon_Settings()
         end,
         name=WoWTools_L.HUD_EDIT_MODE_SETTING_ACTION_BAR_ICON_SIZE,
@@ -42,10 +37,10 @@ local function Init_Menu(self, root)
         step=1,
         --bit='%.2f',
         tooltip=function(tooltip)
-            local s= Save().iconSize or 0
+            local s= WoWTools_HyperLink:Save().iconSize or 0
             s= s<8 and 0 or s
             tooltip:AddLine('|T134414..:'..s..':'..s..'|t')
-            if not Save().notShowItemCount then
+            if not WoWTools_HyperLink:Save().notShowItemCount then
                 WoWTools_Print(select(2, C_Item.GetItemInfo(6948)), '')
             end
         end
@@ -55,9 +50,9 @@ local function Init_Menu(self, root)
     sub2=sub:CreateCheckbox(
         WoWTools_DataMixin.Language.key,
     function()
-        return not Save().disabledKeyColor
+        return not WoWTools_HyperLink:Save().disabledKeyColor
     end, function()
-        Save().disabledKeyColor= not Save().disabledKeyColor and true or nil
+        WoWTools_HyperLink:Save().disabledKeyColor= not WoWTools_HyperLink:Save().disabledKeyColor and true or nil
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.HyperLink.KeyColor'])
 
@@ -76,9 +71,9 @@ local function Init_Menu(self, root)
     sub2= sub:CreateCheckbox(
         WoWTools_L.PLAYER_MESSAGES,
     function()
-        return not Save().notShowPlayerInfo
+        return not WoWTools_HyperLink:Save().notShowPlayerInfo
     end, function()
-        Save().notShowPlayerInfo= not Save().notShowPlayerInfo and true or nil
+        WoWTools_HyperLink:Save().notShowPlayerInfo= not WoWTools_HyperLink:Save().notShowPlayerInfo and true or nil
     end)
     sub2:SetTooltip(function(tooltip)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.HyperLink.PlayerInfo'])
@@ -91,9 +86,9 @@ local function Init_Menu(self, root)
     sub2= sub:CreateCheckbox(
         WoWTools_L['ITEMS+AUCTION_HOUSE_QUANTITY_LABEL'],
     function()
-        return not Save().notShowItemCount
+        return not WoWTools_HyperLink:Save().notShowItemCount
     end, function()
-        Save().notShowItemCount= not Save().notShowItemCount and true or nil
+        WoWTools_HyperLink:Save().notShowItemCount= not WoWTools_HyperLink:Save().notShowItemCount and true or nil
         WoWTools_Print(select(2, C_Item.GetItemInfo(6948)), '')
     end)
     sub2:SetTooltip(function(tooltip)
@@ -105,9 +100,9 @@ local function Init_Menu(self, root)
     sub2= sub:CreateCheckbox(
         WoWTools_L.MAP_PIN,
     function()
-            return not Save().notShowMapPin
+            return not WoWTools_HyperLink:Save().notShowMapPin
     end, function()
-        Save().notShowMapPin= not Save().notShowMapPin and true or nil
+        WoWTools_HyperLink:Save().notShowMapPin= not WoWTools_HyperLink:Save().notShowMapPin and true or nil
         WoWTools_Print(WoWTools_DataMixin.Icon.icon2, '30.00 45.50')
     end)
     sub2:SetTooltip(function(tooltip)
@@ -148,11 +143,11 @@ local function Init_Menu(self, root)
         ..'|A:chatframe-button-icon-voicechat:0:0|a'
         ..(WoWTools_L['EVENTS_LABEL+SOUND']),
     function()
-        return Save().setPlayerSound
+        return WoWTools_HyperLink:Save().setPlayerSound
     end, function()
-        Save().setPlayerSound= not Save().setPlayerSound and true or nil
+        WoWTools_HyperLink:Save().setPlayerSound= not WoWTools_HyperLink:Save().setPlayerSound and true or nil
 
-        if Save().setPlayerSound then
+        if WoWTools_HyperLink:Save().setPlayerSound then
             WoWTools_DataMixin:PlaySound()
         end
 
@@ -212,10 +207,10 @@ local function Init_Menu(self, root)
     sub2=sub:CreateCheckbox(
         WoWTools_L['Add button'],
     function ()
-        return not Save().not_Add_Reload_Button
+        return not WoWTools_HyperLink:Save().not_Add_Reload_Button
     end, function ()
-        Save().not_Add_Reload_Button= not Save().not_Add_Reload_Button and true or nil
-        if not Save().not_Add_Reload_Button then
+        WoWTools_HyperLink:Save().not_Add_Reload_Button= not WoWTools_HyperLink:Save().not_Add_Reload_Button and true or nil
+        if not WoWTools_HyperLink:Save().not_Add_Reload_Button then
             WoWTools_Print(
                 WoWTools_HyperLink.addName..WoWTools_DataMixin.Icon.icon2,
                 WoWTools_L.REQUIRES_RELOAD

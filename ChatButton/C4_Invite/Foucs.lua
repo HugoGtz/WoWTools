@@ -1,12 +1,6 @@
 
-local function Save()
-    return WoWToolsPlusSave['ChatButton_Invite'] or {}
-end
-
-
-
 function WoWTools_InviteMixin:SetFocusButton(frame)
-    if not frame or not Save().setFucus or frame.isSetFoucs then
+    if not frame or not WoWTools_InviteMixin:Save().setFucus or frame.isSetFoucs then
         return
 
     elseif not frame:CanChangeAttribute() then
@@ -17,7 +11,7 @@ function WoWTools_InviteMixin:SetFocusButton(frame)
         return
     end
 
-    local key= strlower(Save().focusKey or 'Shift')
+    local key= strlower(WoWTools_InviteMixin:Save().focusKey or 'Shift')
     if frame==FocusFrame then
         frame:SetAttribute(key..'-type1','macro')
         frame:SetAttribute(key..'-macrotext1','/clearfocus')
@@ -36,12 +30,8 @@ end
 
 
 
-local function Init()
-    if not Save().setFucus then
-        return
-    end
-
-    local key= strlower(Save().focusKey or 'Shift')
+local Init_Once= WoWTools_Once(function()
+    local key= strlower(WoWTools_InviteMixin:Save().focusKey or 'Shift')
     local clear= CreateFrame('Button', 'WoWToolsClearFocusButton', UIParent, 'SecureActionButtonTemplate')
     clear:SetAttribute('type','macro')
     clear:SetAttribute('macrotext','/clearfocus')
@@ -79,8 +69,14 @@ local function Init()
             WoWTools_InviteMixin:SetFocusButton(_G[self:GetName().."Member"..i])
         end
     end)
+end)
 
-    Init=function()end
+--La comprobación queda fuera del "una sola vez": se vuelve a mirar en cada llamada
+local function Init()
+    if not WoWTools_InviteMixin:Save().setFucus then
+        return
+    end
+    Init_Once()
 end
 
 

@@ -1,11 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['ChatButton_LFD'] or {}
-end
-
-
-
-
 local function set_RollOnLoot(rollID, rollType, itemLink, notPrint)
     RollOnLoot(rollID, rollType)
 
@@ -44,7 +37,7 @@ end
 
 local function set_ROLL_Check(frame, notPrint)
     local rollID= frame and frame.rollID
-    if not Save().autoROLL or not rollID then
+    if not WoWTools_LFDMixin:Save().autoROLL or not rollID then
         set_Timer_Text(frame)
         return
     end
@@ -131,7 +124,7 @@ end
 
 --#######
 --GroupLootFrame.lua --frame.rollTime  frame.Timer
-local function Init()
+local Init= WoWTools_Once(function()
     WoWTools_DataMixin:Hook('GroupLootContainer_AddFrame', function(_, self)
         set_ROLL_Check(self)
     end)
@@ -144,9 +137,7 @@ local function Init()
             end
         end
     end)
-
-    Init=function()end
-end
+end)
 
 
 

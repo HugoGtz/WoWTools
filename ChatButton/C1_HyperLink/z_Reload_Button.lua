@@ -1,8 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['ChatButton_HyperLink'] or {}
-end
-
-
 local function Create_Texture_Tips(btn, data)--atlas, coord)
     if not btn then
         return
@@ -39,10 +34,17 @@ end
 
 
 
+local Init_Once--se crea abajo
+
+--La comprobación va fuera del "una sola vez": se vuelve a mirar en cada llamada
 local function Init()
-    if Save().not_Add_Reload_Button then
+    if WoWTools_HyperLink:Save().not_Add_Reload_Button then
         return
     end
+    Init_Once()
+end
+
+Init_Once= WoWTools_Once(function()
 
    local dataButton={--layoutIndex
         [WoWTools_TextMixin:CN(GAMEMENU_OPTIONS)]= {'mechagon-projects', false},
@@ -102,9 +104,7 @@ local function Init()
 
         Create_Texture_Tips(btn, {'BattleBar-SwapPetIcon', false, {1,1,1}})
     end)
-
-    Init=function()end
-end
+end)
 
 
 

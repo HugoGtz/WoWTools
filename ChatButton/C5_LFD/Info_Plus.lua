@@ -1,8 +1,5 @@
 
 
-local function Save()
-    return WoWToolsPlusSave['ChatButton_LFD'] or {}
-end
 local Button
 
 
@@ -121,8 +118,8 @@ local function get_Role_Info(env, Name, isT, isH, isD)
 
         if m~='' and not Button then
             Button=WoWTools_ButtonMixin:Cbtn(nil, {size=20})
-            if Save().RoleInfoPoint then
-                Button:SetPoint(Save().RoleInfoPoint[1], UIParent, Save().RoleInfoPoint[3], Save().RoleInfoPoint[4], Save().RoleInfoPoint[5])
+            if WoWTools_LFDMixin:Save().RoleInfoPoint then
+                Button:SetPoint(WoWTools_LFDMixin:Save().RoleInfoPoint[1], UIParent, WoWTools_LFDMixin:Save().RoleInfoPoint[3], WoWTools_LFDMixin:Save().RoleInfoPoint[4], WoWTools_LFDMixin:Save().RoleInfoPoint[5])
             else
                 Button:SetPoint('TOPLEFT', WoWTools_ChatMixin:GetButtonForName('LFD'), 'BOTTOMLEFT', 40, 40)
                 Button:SetButtonState('PUSHED')
@@ -137,8 +134,8 @@ local function get_Role_Info(env, Name, isT, isH, isD)
                 ResetCursor()
                 self:StopMovingOrSizing()
                 if WoWTools_FrameMixin:IsInSchermo(self) then
-                    Save().RoleInfoPoint={self:GetPoint(1)}
-                    Save().RoleInfoPoint[2]=nil
+                    WoWTools_LFDMixin:Save().RoleInfoPoint={self:GetPoint(1)}
+                    WoWTools_LFDMixin:Save().RoleInfoPoint[2]=nil
                 end
             end)
             Button:SetScript('OnEnter', function(self)

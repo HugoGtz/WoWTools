@@ -1,18 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['ChatButtonGuild'] or {}
-end
-
-
-
-
-
-
-
-
-
-
-
 local function Get_Guild_Name()
     local clubID= C_Club.GetGuildClubId()
     local clubInfo = canaccessvalue(clubID) and clubID and C_Club.GetClubInfo(clubID) or {}--C_Club.GetClubInfo(clubID) C_ClubFinder.GetRecruitingClubInfoFromClubID() ClubFinderGetCurrentClubListingInfo(guildClubId)
@@ -25,7 +11,7 @@ local function Get_Guild_Name()
             WoWTools_DataMixin.Player[realm] and '|cnGREEN_FONT_COLOR:*|r' or '-'..realm
         ) or '')
 
-    name= WoWTools_TextMixin:sub(name, Save().subGuildName, nil, nil)
+    name= WoWTools_TextMixin:sub(name, WoWTools_GuildMixin:Save().subGuildName, nil, nil)
 
     return (canaccessvalue(clubInfo.isCrossFaction) and '|A:'..(clubInfo.isCrossFaction and 'CrossedFlags' or WoWTools_DataMixin.Icon[WoWTools_DataMixin.Player.Faction])..':0:0|a' or '')
     ..(canGuildInvite and '|cff00ccff' or '|cff828282')
@@ -111,17 +97,17 @@ local function Init_Guild_Menu(self, root)
     sub2=sub:CreateCheckbox(
         WoWTools_L['SHOW+GUILD_TAB_ROSTER'],
     function()
-        return Save().showListName
+        return WoWTools_GuildMixin:Save().showListName
     end, function()
-        Save().showListName= not Save().showListName and true or nil
+        WoWTools_GuildMixin:Save().showListName= not WoWTools_GuildMixin:Save().showListName and true or nil
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Guild.ShowList'])
     sub2= sub:CreateCheckbox(
         WoWTools_L.COMMUNITIES_MEMBER_LIST_SHOW_OFFLINE,
     function()
-        return Save().showNotOnLine
+        return WoWTools_GuildMixin:Save().showNotOnLine
     end, function()
-        Save().showNotOnLine= not Save().showNotOnLine and true or nil
+        WoWTools_GuildMixin:Save().showNotOnLine= not WoWTools_GuildMixin:Save().showNotOnLine and true or nil
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Guild.ShowOffline'])
 
@@ -131,9 +117,9 @@ local function Init_Guild_Menu(self, root)
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
-            return Save().subGuildName or 0
+            return WoWTools_GuildMixin:Save().subGuildName or 0
         end, setValue=function(value, frame)
-            Save().subGuildName= value~=0 and value or nil
+            WoWTools_GuildMixin:Save().subGuildName= value~=0 and value or nil
             frame.Low:SetText(Get_Guild_Name())
         end,
         name=WoWTools_L['Truncate'] ,
@@ -276,12 +262,12 @@ end
 
 
 local function Guild_Player_List(_, root)
-    if not Save().showListName then
+    if not WoWTools_GuildMixin:Save().showListName then
         return
     end
 
     local total, online = GetNumGuildMembers()
-    local showNotOnLine= Save().showNotOnLine
+    local showNotOnLine= WoWTools_GuildMixin:Save().showNotOnLine
 
     root:CreateDivider()
     if total<2 or (online<2 and not showNotOnLine) then

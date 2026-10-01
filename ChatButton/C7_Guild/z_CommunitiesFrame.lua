@@ -55,7 +55,7 @@ end
 
 
 --local COMMUNITIES_DELETE_CONFIRM_STRING= COMMUNITIES_DELETE_CONFIRM_STRING
-local function Init()
+local Init= WoWTools_Once(function()
     WoWTools_DataMixin:Hook(CommunitiesListEntryMixin, 'Init', function(btn, elementData)
         local clubID= btn.clubId
 
@@ -93,11 +93,7 @@ local function Init()
             btn.factionTexture:SetShown(faction)
         end
     end)
-
-
-
-    Init=function()end
-end
+end)
 
 
 

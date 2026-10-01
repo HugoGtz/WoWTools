@@ -1,27 +1,5 @@
-local function Save()
-    return WoWToolsPlusSave['ChatButton_HyperLink'] or {}
-end
-
-
-
-
-
-
-
-
-
-
 --local Category, Layout
-local function Init()
-    if not C_AddOns.IsAddOnLoaded('Blizzard_Settings') then
-        EventRegistry:RegisterFrameEventAndCallback("ADDON_LOADED", function(owner, arg1)
-            if arg1=='Blizzard_Settings' then
-                Init()
-                EventRegistry:UnregisterCallback('ADDON_LOADED', owner)
-            end
-        end)
-        return
-    end
+local Init_Options= WoWTools_Once(function()
 
     local frame= CreateFrame('Frame')
 
@@ -106,7 +84,7 @@ local function Init()
     editBox2:SetPoint('BOTTOMRIGHT', frame, 'BOTTOMRIGHT', -8, 30)
 
     s=''
-    for k, v in pairs(Save().channels or {}) do
+    for k, v in pairs(WoWTools_HyperLink:Save().channels or {}) do
         if s~='' then s=s..'\n' end
         s=s..k..'='..v
     end
@@ -116,7 +94,7 @@ local function Init()
     btn2:SetPoint('TOPRIGHT', editBox2, 'BOTTOMRIGHT')
     btn2:SetText(WoWTools_L.UPDATE)
     btn2:SetScript('OnMouseDown', function(self)
-        Save().channels={}
+        WoWTools_HyperLink:Save().channels={}
         local n=0
         local s2=self:GetParent():GetText() or ''
         s2=s2..' '
@@ -126,7 +104,7 @@ local function Init()
             local name,name2=t:match('(.-)=(.-) ')
             if name and name2 and name~='' and name2~='' then
                 name=WoWTools_TextMixin:Magic(name)
-                Save().channels[name]=name2
+                WoWTools_HyperLink:Save().channels[name]=name2
                 n=n+1
                 WoWTools_Print(n..')',name,'|cnGREEN_FONT_COLOR:=|r', name2)
             end
@@ -153,8 +131,11 @@ local function Init()
     end)
     editBox2.ChangeTexture:Hide()
 
+end)
 
-    Init=function()end
+--Espera a que esté cargado Blizzard_Settings (o se ejecuta ya)
+local function Init()
+    EventUtil.ContinueOnAddOnLoaded('Blizzard_Settings', Init_Options)
 end
 
 

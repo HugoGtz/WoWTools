@@ -20,12 +20,7 @@ local P_Save={
 
 }
 
-local function Save()
-    return WoWToolsPlusSave['ChatButton_HyperLink'] or {}
-end
-
-
-local function Init()
+local Init= WoWTools_Once(function()
     local btn= WoWTools_ChatMixin:GetButtonForName('HyperLink')
     WoWTools_HyperLink:Blizzard_Settings()
     WoWTools_HyperLink:Init_Menu()
@@ -37,7 +32,7 @@ local function Init()
 
     function btn:set_tooltip()
         local isDisabled= C_SocialRestrictions.IsChatDisabled()
-        GameTooltip:AddDoubleLine(WoWTools_HyperLink.addName, WoWTools_TextMixin:GetEnabeleDisable(not isDisabled and Save().linkIcon))
+        GameTooltip:AddDoubleLine(WoWTools_HyperLink.addName, WoWTools_TextMixin:GetEnabeleDisable(not isDisabled and WoWTools_HyperLink:Save().linkIcon))
         if isDisabled then
             GameTooltip:AddDoubleLine('|cnWARNING_FONT_COLOR:' ..(WoWTools_L.RESTRICT_CHAT_CONFIG_DISABLE), WoWTools_TextMixin:GetEnabeleDisable(true))
         end
@@ -45,14 +40,14 @@ local function Init()
     end
 
     function btn:set_OnMouseDown()
-        Save().linkIcon= not Save().linkIcon and true or false
+        WoWTools_HyperLink:Save().linkIcon= not WoWTools_HyperLink:Save().linkIcon and true or false
         WoWTools_HyperLink:Init_Link_Icon()
         local isDisabled= C_SocialRestrictions.IsChatDisabled()
         WoWTools_Print(
             WoWTools_HyperLink.addName..WoWTools_DataMixin.Icon.icon2,
-            WoWTools_TextMixin:GetEnabeleDisable(not isDisabled and Save().linkIcon)
+            WoWTools_TextMixin:GetEnabeleDisable(not isDisabled and WoWTools_HyperLink:Save().linkIcon)
         )
-        if Save().linkIcon and isDisabled and not WoWTools_FrameMixin:IsLocked(SettingsPanel) then
+        if WoWTools_HyperLink:Save().linkIcon and isDisabled and not WoWTools_FrameMixin:IsLocked(SettingsPanel) then
             Settings.OpenToCategory(Settings.SOCIAL_CATEGORY_ID)--ItemRef.lua
         end
     end
@@ -106,42 +101,24 @@ local function Init()
         end
     end)
 
-    Init=function()end
-end
-
-
-local panel= CreateFrame('Frame')
-panel:RegisterEvent('ADDON_LOADED')
-
-panel:SetScript('OnEvent', function(self, event, arg1)
-    if event=='ADDON_LOADED' then
-        if arg1== 'WoWToolsPlus' then
-
-            WoWToolsPlusSave['ChatButton_HyperLink']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['ChatButton_HyperLink'], P_Save)
-            P_Save=nil
-
-            Save().disabledTalkingPringText= nil
-            WoWToolsPlusSave['ChatButton_Markers']= nil
-
-            WoWToolsPlusPlayerDate['HyperLinkColorText']= WoWToolsPlusPlayerDate['HyperLinkColorText'] or {[ACHIEVEMENTS]=true}
-
-            WoWTools_HyperLink.addName= '|A:voicechat-icon-STT-on:0:0|a'..(WoWTools_L['COMMUNITIES_INVITE_MANAGER_COLUMN_TITLE_LINK+EMBLEM_SYMBOL'])
-
-
-            if WoWTools_ChatMixin:CreateButton('HyperLink', WoWTools_HyperLink.addName) then
-                Init()
-                self:RegisterEvent('PLAYER_ENTERING_WORLD')
-            else
-
-                self:SetScript('OnEvent', nil)
-            end
-            self:UnregisterEvent(event)
-        end
-
-    elseif event=='PLAYER_ENTERING_WORLD' then
-        WoWTools_HyperLink:Init_Reload()
-        --WoWTools_HyperLink:Init_EmojiButton()
-        --WoWTools_HyperLink:Init_CopyChat()
-    end
 end)
 
+
+WoWTools_Module:Register({
+    key= 'ChatButton_HyperLink', name= 'COMMUNITIES_INVITE_MANAGER_COLUMN_TITLE_LINK+EMBLEM_SYMBOL', icon= 'voicechat-icon-STT-on',
+    parent= 'ChatButton', defaults= P_Save, mixin= WoWTools_HyperLink,
+    onEnable= function()
+        WoWTools_HyperLink:Save().disabledTalkingPringText= nil
+        WoWToolsPlusSave['ChatButton_Markers']= nil
+
+        WoWToolsPlusPlayerDate['HyperLinkColorText']= WoWToolsPlusPlayerDate['HyperLinkColorText'] or {[ACHIEVEMENTS]=true}
+
+        if WoWTools_ChatMixin:CreateButton('HyperLink', WoWTools_HyperLink.addName) then
+            Init()
+            --se queda escuchando: cada PLAYER_ENTERING_WORLD
+            WoWTools_ChatMixin:OnEnterWorld(function()
+                WoWTools_HyperLink:Init_Reload()
+            end, true)
+        end
+    end,
+})

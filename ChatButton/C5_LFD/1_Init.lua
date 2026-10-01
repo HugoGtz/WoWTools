@@ -61,10 +61,7 @@ local function Set_Holiday()
 end
 
 
-local function Init(btn)
-    if not btn then
-        return
-    end
+local Init_Once= WoWTools_Once(function(btn)
 
     btn.IconMask:SetPoint("TOPLEFT", btn, "TOPLEFT", 5, -5)
     btn.IconMask:SetPoint("BOTTOMRIGHT", btn, "BOTTOMRIGHT", -7, 7)
@@ -118,19 +115,21 @@ local function Init(btn)
 
      EventRegistry:RegisterFrameEventAndCallback("LFG_UPDATE_RANDOM_INFO", Set_Holiday)
     C_Timer.After(2, Set_Holiday)
-    Init=function()end
+end)
+
+--La comprobación queda fuera del "una sola vez" (sin botón no se marca como hecho)
+local function Init(btn)
+    if not btn then
+        return
+    end
+    Init_Once(btn)
 end
 
 
-local panel= CreateFrame('Frame')
-panel:RegisterEvent('ADDON_LOADED')
-
-panel:SetScript('OnEvent', function(self, event, arg1)
-    if arg1~= 'WoWToolsPlus' then
-        return
-    end
-
-    WoWToolsPlusSave['ChatButton_LFD']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['ChatButton_LFD'], {
+WoWTools_Module:Register({
+    key= 'ChatButton_LFD', name= 'Module.Group Finder', icon= 'groupfinder-eye-frame',
+    parent= 'ChatButton', mixin= WoWTools_LFDMixin,
+    defaults= {
         ReMe=true,
         autoSetRole=true,
         tipsScale=1,
@@ -138,20 +137,15 @@ panel:SetScript('OnEvent', function(self, event, arg1)
         wow={
             --['island']=0,
         },
-    })
+    },
+    onEnable= function(_, save)
+        if not save.sec then
+            save.sec= 5
+        end
 
-    if not WoWToolsPlusSave['ChatButton_LFD'].sec then
-        WoWToolsPlusSave['ChatButton_LFD'].sec= 5
-    end
-
-
-    WoWTools_LFDMixin.addName= '|A:groupfinder-eye-frame:0:0|a'..(WoWTools_L['Module.Group Finder'])
-
-    --WoWTools_ChatMixin:GetButtonForName('LFD')
-    Init(
-        WoWTools_ChatMixin:CreateButton('LFD', WoWTools_LFDMixin.addName)
-    )
-
-    self:UnregisterEvent(event)
-    self:SetScript('OnEvent', nil)
-end)
+        --WoWTools_ChatMixin:GetButtonForName('LFD')
+        Init(
+            WoWTools_ChatMixin:CreateButton('LFD', WoWTools_LFDMixin.addName)
+        )
+    end,
+})

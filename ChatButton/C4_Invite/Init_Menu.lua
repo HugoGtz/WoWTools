@@ -1,12 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['ChatButton_Invite'] or {}
-end
-
-
-
-
-
 local function InvPlateGuidFunc()
     if not WoWTools_InviteMixin:Get_Leader() then
         WoWTools_Print(
@@ -21,7 +13,7 @@ local function InvPlateGuidFunc()
         local num=n+co
         if num==40 then
             return
-        elseif not IsInRaid() and num==5 and not Save().PartyToRaid then
+        elseif not IsInRaid() and num==5 and not WoWTools_InviteMixin:Save().PartyToRaid then
             WoWTools_Print(
                 WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 WoWTools_L['Request: |cff00ff00Convert to Raid|r']
@@ -100,9 +92,9 @@ local function Init_Menu(self, root)
 
 
     sub=root:CreateCheckbox((select(2, IsInInstance())~='none' and '|cff626262' or '')..(WoWTools_L['INVITE+TARGET'])..'|A:poi-traveldirections-arrow2:0:0|a', function()
-        return Save().InvTar
+        return WoWTools_InviteMixin:Save().InvTar
     end, function()
-        Save().InvTar= not Save().InvTar and true or nil
+        WoWTools_InviteMixin:Save().InvTar= not WoWTools_InviteMixin:Save().InvTar and true or nil
         self:settings()
         WoWTools_InviteMixin:Inv_Target_Settings()
     end)
@@ -113,16 +105,16 @@ local function Init_Menu(self, root)
     end)
 
     sub=root:CreateCheckbox((WoWTools_L.CHANNEL)..'|A:poi-traveldirections-arrow2:0:0|a'..('|cnGREEN_FONT_COLOR: '..Save().ChannelText..'|r'), function()
-        return Save().Channel
+        return WoWTools_InviteMixin:Save().Channel
     end, function()
-        Save().Channel = not Save().Channel and true or nil
+        WoWTools_InviteMixin:Save().Channel = not WoWTools_InviteMixin:Save().Channel and true or nil
         if _G['WoWToolsChatInviteChanellFrame'] then
             _G['WoWToolsChatInviteChanellFrame']:set_event()
         end
     end)
     sub:SetTooltip(function (tooltip)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Invite.Channel'])
-        tooltip:AddLine(Save().ChannelText)
+        tooltip:AddLine(WoWTools_InviteMixin:Save().ChannelText)
         tooltip:AddLine(WoWTools_L['Say, Yell, Whisper'])
     end)
 
@@ -130,10 +122,10 @@ local function Init_Menu(self, root)
         StaticPopup_Show('WoWTools_EditText',
         (WoWTools_L.KBASE_DEFAULT_SEARCH_TEXT),
         nil, {
-            text=Save().ChannelText,
+            text=WoWTools_InviteMixin:Save().ChannelText,
             SetValue= function(s)
                 local edit= s.editBox or s:GetEditBox()
-                Save().ChannelText = string.upper(edit:GetText() or '')
+                WoWTools_InviteMixin:Save().ChannelText = string.upper(edit:GetText() or '')
                 WoWTools_Print(
                     WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,
                     WoWTools_L.CHANNEL,
@@ -161,9 +153,9 @@ local function Init_Menu(self, root)
     sub=root:CreateCheckbox(
         '|A:communities-icon-notification:0:0|a'..(WoWTools_L.INVITE),
     function()
-        return not Save().notInvitePlus
+        return not WoWTools_InviteMixin:Save().notInvitePlus
     end, function()
-        Save().notInvitePlus= not Save().notInvitePlus and true or nil
+        WoWTools_InviteMixin:Save().notInvitePlus= not WoWTools_InviteMixin:Save().notInvitePlus and true or nil
         if not WoWTools_InviteMixin:Init_StaticPopup() then
             WoWTools_Print(
                 WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,
@@ -177,9 +169,9 @@ local function Init_Menu(self, root)
     sub2=sub:CreateCheckbox(
         WoWTools_L.FRIENDS,
     function()
-        return Save().FriendAceInvite
+        return WoWTools_InviteMixin:Save().FriendAceInvite
     end, function()
-        Save().FriendAceInvite= not Save().FriendAceInvite and true or false
+        WoWTools_InviteMixin:Save().FriendAceInvite= not WoWTools_InviteMixin:Save().FriendAceInvite and true or false
     end)
     sub2:SetTooltip(function(tooltip)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Invite.AcceptFriends'])
@@ -191,9 +183,9 @@ local function Init_Menu(self, root)
     sub2=sub:CreateCheckbox(
         WoWTools_L['CALENDAR_STATUS_OUT+ZONE'],
     function()
-        return Save().NoInvInResting
+        return WoWTools_InviteMixin:Save().NoInvInResting
     end, function()
-        Save().NoInvInResting= not Save().NoInvInResting and true or nil
+        WoWTools_InviteMixin:Save().NoInvInResting= not WoWTools_InviteMixin:Save().NoInvInResting and true or nil
     end)
     sub2:SetTooltip(function(tooltip)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Invite.DeclineResting'])
@@ -220,9 +212,9 @@ local function Init_Menu(self, root)
     sub=root:CreateCheckbox(
         '|A:RaidFrame-Icon-SummonPending:0:0|a'..(WoWTools_L.SUMMON),
     function()
-        return Save().Summon
+        return WoWTools_InviteMixin:Save().Summon
     end, function()
-        Save().Summon= not Save().Summon and true or false
+        WoWTools_InviteMixin:Save().Summon= not WoWTools_InviteMixin:Save().Summon and true or false
         self:settings()
     end)
     sub:SetTooltip(function(tooltip)
@@ -238,9 +230,9 @@ local function Init_Menu(self, root)
 
 
     sub=root:CreateCheckbox(WoWTools_L['|cnGREEN_FONT_COLOR:Rest|r Zone Info'], function()
-        return Save().restingTips
+        return WoWTools_InviteMixin:Save().restingTips
     end, function()
-        Save().restingTips= not Save().restingTips and true or false
+        WoWTools_InviteMixin:Save().restingTips= not WoWTools_InviteMixin:Save().restingTips and true or false
         WoWTools_InviteMixin:Resting_Settings()
     end)
     sub:SetTooltip(function(tooltip)
@@ -261,10 +253,10 @@ local function Init_Menu(self, root)
 
 
 
-    sub=root:CreateCheckbox((WoWTools_L.HUD_EDIT_MODE_FOCUS_FRAME_LABEL)..(Save().setFucus and ' |cnGREEN_FONT_COLOR:'..Save().focusKey..'|r + '..WoWTools_DataMixin.Icon.left or ''), function()
-        return Save().setFucus
+    sub=root:CreateCheckbox((WoWTools_L.HUD_EDIT_MODE_FOCUS_FRAME_LABEL)..(WoWTools_InviteMixin:Save().setFucus and ' |cnGREEN_FONT_COLOR:'..Save().focusKey..'|r + '..WoWTools_DataMixin.Icon.left or ''), function()
+        return WoWTools_InviteMixin:Save().setFucus
     end, function()
-        Save().setFucus= not Save().setFucus and true or nil
+        WoWTools_InviteMixin:Save().setFucus= not WoWTools_InviteMixin:Save().setFucus and true or nil
     end)
     sub:SetTooltip(function(tooltip)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Invite.Focus'])
@@ -273,11 +265,11 @@ local function Init_Menu(self, root)
     end)
 
     for _, key in pairs({'Shift', 'Ctrl', 'Alt'}) do
-        col= (Save().focusKey== key or not self:CanChangeAttribute()) and '|cff626262' or ''
+        col= (WoWTools_InviteMixin:Save().focusKey== key or not self:CanChangeAttribute()) and '|cff626262' or ''
         sub2=sub:CreateCheckbox(format('%s%s + %s', col, key, WoWTools_DataMixin.Icon.left), function(data)
-            return Save().focusKey== data
+            return WoWTools_InviteMixin:Save().focusKey== data
         end, function(data)
-            Save().focusKey= data
+            WoWTools_InviteMixin:Save().focusKey= data
         end, key)
         sub2:SetTooltip(function(tooltip)
             WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Invite.FocusKey'])
@@ -287,7 +279,7 @@ local function Init_Menu(self, root)
 
     sub:CreateTitle(
         format('    %s+%s%s=%s|r',
-                Save().focusKey or '',
+                WoWTools_InviteMixin:Save().focusKey or '',
                 WoWTools_DataMixin.Icon.right,
                 WoWTools_L.EMPTY,
                 WoWTools_L.SLASH_STOPWATCH_PARAM_STOP2
@@ -295,7 +287,7 @@ local function Init_Menu(self, root)
     )
     sub:CreateTitle(
         format('    %s+%s%s=%s|r',
-                Save().focusKey or '',
+                WoWTools_InviteMixin:Save().focusKey or '',
                 WoWTools_DataMixin.Icon.left,
                 WoWTools_L.GROUPMANAGER_UNIT_MARKER,
                 WoWTools_L.SETTINGS
@@ -324,7 +316,7 @@ local function Init_Menu(self, root)
             WoWTools_L.INVITE),
     function()
         return MenuResponse.Open
-    end, {rightText=Save().InvNoFriendNum or 0})
+    end, {rightText=WoWTools_InviteMixin:Save().InvNoFriendNum or 0})
     WoWTools_MenuMixin:SetDescription(sub, WoWTools_L['Tip.Invite.DeclineList'])
     WoWTools_MenuMixin:SetRightText(sub)
 
@@ -335,18 +327,18 @@ local function Init_Menu(self, root)
         WoWTools_L.CLEAR_ALL,
         nil,
         {SetValue=function()
-            Save().InvNoFriend={}
+            WoWTools_InviteMixin:Save().InvNoFriend={}
         end})
         return MenuResponse.Open
     end)
     sub:CreateDivider()
 
     num=0
-    for guid, nu in pairs(Save().InvNoFriend) do
+    for guid, nu in pairs(WoWTools_InviteMixin:Save().InvNoFriend) do
         sub2=sub:CreateButton(
             nu..' '..WoWTools_UnitMixin:GetPlayerInfo(nil, guid, nil, {reName=true, reRealm=true}),
         function(data)
-            Save().InvNoFriend[data]=nil
+            WoWTools_InviteMixin:Save().InvNoFriend[data]=nil
             WoWTools_Print(
                 WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,
                 WoWTools_UnitMixin:GetPlayerInfo(nil, data, nil,{reLink=true}),''

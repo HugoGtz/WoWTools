@@ -1,7 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['ChatButton_LFD'] or {}
-end
 local frame
 
 
@@ -11,7 +8,7 @@ local frame
 
 
 local function Init()
-    if not Save().ReMe then
+    if not WoWTools_LFDMixin:Save().ReMe then
         return
     end
 
@@ -21,14 +18,14 @@ local function Init()
     function frame:settings()
         self:UnregisterAllEvents()
 
-        if Save().ReMe then
+        if WoWTools_LFDMixin:Save().ReMe then
             self:RegisterEvent('PLAYER_ENTERING_WORLD')
             if WoWTools_MapMixin:IsInPvPArea() then
                 self:RegisterEvent('PLAYER_DEAD')
                 self:RegisterEvent('AREA_SPIRIT_HEALER_IN_RANGE')
 
 
-            elseif Save().ReMe_AllZone and (select(2, IsInInstance())=='none' or not IsInGroup()) then
+            elseif WoWTools_LFDMixin:Save().ReMe_AllZone and (select(2, IsInInstance())=='none' or not IsInGroup()) then
                 self:RegisterEvent('PLAYER_DEAD')
                 self:RegisterEvent('CORPSE_IN_RANGE')
                 self:RegisterEvent('CORPSE_OUT_OF_RANGE')

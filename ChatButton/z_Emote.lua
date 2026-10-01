@@ -18,9 +18,7 @@ local P_SaveUse={
     },
 }
 
-local function Save()
-    return WoWToolsPlusSave['Plus_EmoteButton']
-end
+local M= {}--tabla del módulo (WoWTools_Module)
 
 local Init_Button
 
@@ -35,7 +33,7 @@ local addName
 
 
 local function Get_Save(value, tabName)
-    for index, name in pairs(Save()[tabName]) do
+    for index, name in pairs(M:Save()[tabName]) do
         if name==value then
             return index
         end
@@ -159,8 +157,8 @@ local function On_Click(self)
     end
 end
 local function On_Enter(self)
-    local isUIParent= Save().isUIParent
-    if WoWToolsPlusSave['ChatButton'].disabledTooltiip and not isUIParent then
+    local isUIParent= M:Save().isUIParent
+    if WoWTools_ChatMixin:Save().disabledTooltiip and not isUIParent then
         return
     end
 
@@ -322,34 +320,34 @@ function Init_Button()
     local isInCombat= InCombatLockdown()
 
 
-    local isUIParent= Save().isUIParent
-    local line= Save().line or 1
-    local subNum= Save().subName or (LOCALE_koKR and 1 or 3)
-    local scale= Save().scale or 1
-    local alpha= Save().alpha or 0.5
-    local fontScale= Save().fontScale or 1
-    local btnW, btnH= Save().width or 32, Save().height or 32
-    local isSecure= Save().isSecure
+    local isUIParent= M:Save().isUIParent
+    local line= M:Save().line or 1
+    local subNum= M:Save().subName or (LOCALE_koKR and 1 or 3)
+    local scale= M:Save().scale or 1
+    local alpha= M:Save().alpha or 0.5
+    local fontScale= M:Save().fontScale or 1
+    local btnW, btnH= M:Save().width or 32, M:Save().height or 32
+    local isSecure= M:Save().isSecure
 
     local _newTab= {}
-    for _, value in pairs(Save().chat) do
+    for _, value in pairs(M:Save().chat) do
         table.insert(_newTab, {value=value, isChat=true, isCommand=nil, isSecure=nil, useType=nil})
     end
-    for _, value in pairs(Save().useChat) do
+    for _, value in pairs(M:Save().useChat) do
         if SaveUse('chat')[value] then
             table.insert(_newTab, {value=value, isChat=true, isCommand=nil, isSecure=nil, useType='chat'})
         end
     end
 
-    for _, value in pairs(Save().emoji) do
+    for _, value in pairs(M:Save().emoji) do
         table.insert(_newTab, {value=value, isChat=nil, isCommand=nil, isSecure=nil, useType=nil})
     end
 
 
-    for _, value in pairs(Save().command) do
+    for _, value in pairs(M:Save().command) do
         table.insert(_newTab, {value=value, isChat=nil, isCommand=true, isSecure=isSecure, useType=nil})
     end
-    for _, value in pairs(Save().useCommand) do
+    for _, value in pairs(M:Save().useCommand) do
         if SaveUse('command')[value] then
             table.insert(_newTab, {value=value, isChat=nil, isCommand=true, isSecure=true, useType='command'})
         end
@@ -462,11 +460,11 @@ function Init_Button()
             MainButton.Background:SetPoint('TOP', _buttons[all], 0, 1)
             MainButton.Background:SetPoint('RIGHT', _buttons[all>=line and line or all], 1, 0)
             MainButton.Background:SetPoint('BOTTOMLEFT', _buttons[1], -1, -1)
-            MainButton.Background:SetAlpha(Save().bgAlpha or 0)
+            MainButton.Background:SetAlpha(M:Save().bgAlpha or 0)
         end
         MainButton.Background:SetShown(index>0)
 
-        MainButton:SetFrameStrata(Save().strata or 'MEDIUM')
+        MainButton:SetFrameStrata(M:Save().strata or 'MEDIUM')
     end
     MainButton:SetShown(isUIParent)
 
@@ -486,7 +484,7 @@ local function Init_UseFrame()
         name='WoWToolsEmoteUseAddFrame',
         size={400, 250},
     })
-    frame.type= Save().useFrameType or 'chat'
+    frame.type= M:Save().useFrameType or 'chat'
 
     local function Get_TypeNum(t)
         t= t or frame.type
@@ -582,7 +580,7 @@ local function Init_UseFrame()
                 list:set_text()
                 editText.editBox.Instructions:SetText(typeTab[data.type])
                 Settings()
-                Save().useFrameType= data.type
+                M:Save().useFrameType= data.type
             end, {type=type})
             if type=='command' then
                 sub:SetTooltip(function(tooltip)
@@ -683,16 +681,16 @@ local function Set_Menu(root, tab, tabName, rootName)
         rootName,
     function()
         return MenuResponse.Open
-    end, {rightText=#Save()[tabName]})
+    end, {rightText=#M:Save()[tabName]})
     WoWTools_MenuMixin:SetRightText(root)
 
     if isCommand then
         sub= root:CreateCheckbox(
             'SecureActionButton',
         function()
-            return Save().isSecure
+            return M:Save().isSecure
         end, function()
-            Save().isSecure= not Save().isSecure and true or nil
+            M:Save().isSecure= not M:Save().isSecure and true or nil
             Init_Button()
         end)
         sub:SetTooltip(function(tooltip)
@@ -709,7 +707,7 @@ local function Set_Menu(root, tab, tabName, rootName)
     function()
         for _, value in pairs(tab) do
             if not Get_Save(value, tabName) then
-                table.insert(Save()[tabName], value)
+                table.insert(M:Save()[tabName], value)
             end
         end
         Init_Button()
@@ -723,7 +721,7 @@ local function Set_Menu(root, tab, tabName, rootName)
         for _, value in pairs(tab) do
             local index= Get_Save(value, tabName)
             if index then
-                table.remove(Save()[tabName], index)
+                table.remove(M:Save()[tabName], index)
             end
         end
         Init_Button()
@@ -743,9 +741,9 @@ local function Set_Menu(root, tab, tabName, rootName)
         end, function(data)
             local tabIndex= Get_Save(data.value, tabName)
             if tabIndex then
-                table.remove(Save()[tabName], tabIndex)
+                table.remove(M:Save()[tabName], tabIndex)
             else
-                table.insert(Save()[tabName], data.value)
+                table.insert(M:Save()[tabName], data.value)
             end
             Init_Button()
         end, {value=value, vaName=vaName, index=index})
@@ -857,9 +855,9 @@ local function Init_Menu(self, root)
             ..(WoWTools_L.EVENTTRACE_BUTTON_DISABLE_FILTERS),
             nil,
         {SetValue=function()
-            Save().emoji= {}
-            Save().command= {}
-            Save().chat= {}
+            M:Save().emoji= {}
+            M:Save().command= {}
+            M:Save().chat= {}
             Init_Button()
         end})
         return MenuResponse.Refresh
@@ -871,31 +869,31 @@ local function Init_Menu(self, root)
     sub2=sub:CreateCheckbox(
         'UIParent',
     function()
-        return Save().isUIParent
+        return M:Save().isUIParent
     end, function()
-        Save().isUIParent= not Save().isUIParent and true or nil
+        M:Save().isUIParent= not M:Save().isUIParent and true or nil
         Init_Button()
         return MenuResponse.CloseAll
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.Emote.UIParent'])
 
-    if Save().isUIParent then
+    if M:Save().isUIParent then
 --FrameStrata
         WoWTools_MenuMixin:FrameStrata(self, sub, function(data)
             return MainButton and MainButton:GetFrameStrata()==data
         end, function(data)
-            Save().strata= data
+            M:Save().strata= data
             Init_Button()
             return MenuResponse.Refresh
         end)
         sub:CreateSpacer()
-        local w= Save().width or 32
+        local w= M:Save().width or 32
         WoWTools_MenuMixin:CreateSlider(sub, {
             getValue=function()
-                return Save().line or 1
+                return M:Save().line or 1
             end,
             setValue=function(value)
-                Save().line= value
+                M:Save().line= value
                 Init_Button()
             end,
             name=WoWTools_L.AUCTION_HOUSE_QUANTITY_LABEL,
@@ -906,10 +904,10 @@ local function Init_Menu(self, root)
         sub:CreateSpacer()
         WoWTools_MenuMixin:CreateSlider(sub, {
             getValue=function()
-                return Save().bgAlpha or 0
+                return M:Save().bgAlpha or 0
             end,
             setValue=function(value)
-                Save().bgAlpha= value
+                M:Save().bgAlpha= value
                 Init_Button()
             end,
             name=WoWTools_L.BACKGROUND,
@@ -927,10 +925,10 @@ local function Init_Menu(self, root)
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
-            return Save().fontScale or 1
+            return M:Save().fontScale or 1
         end,
         setValue=function(value)
-            Save().fontScale= value
+            M:Save().fontScale= value
             Init_Button()
         end,
         name=WoWTools_L['FONT_SIZE~2'],
@@ -943,10 +941,10 @@ local function Init_Menu(self, root)
     sub:CreateSpacer()
         WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
-            return Save().subName or (LOCALE_koKR and 1 or 3)
+            return M:Save().subName or (LOCALE_koKR and 1 or 3)
         end,
         setValue=function(value)
-            Save().subName= value
+            M:Save().subName= value
             Init_Button()
         end,
         name=WoWTools_L['Truncate'],
@@ -958,19 +956,19 @@ local function Init_Menu(self, root)
     sub:CreateSpacer()
     WoWTools_MenuMixin:BgAplha(sub,
     function()--GetValue
-        return Save().alpha or 0.5
+        return M:Save().alpha or 0.5
     end, function(value)--SetValue
-        Save().alpha= value
+        M:Save().alpha= value
         Init_Button()
     end, nil, true)
 
     sub:CreateSpacer()
         WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
-            return Save().width or 32
+            return M:Save().width or 32
         end,
         setValue=function(value)
-            Save().width= value
+            M:Save().width= value
             Init_Button()
         end,
         name=WoWTools_L.HUD_EDIT_MODE_SETTING_CHAT_FRAME_WIDTH,
@@ -982,10 +980,10 @@ local function Init_Menu(self, root)
     sub:CreateSpacer()
         WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
-            return Save().height or 32
+            return M:Save().height or 32
         end,
         setValue=function(value)
-            Save().height= value
+            M:Save().height= value
             Init_Button()
         end,
         name=WoWTools_L.HUD_EDIT_MODE_SETTING_CHAT_FRAME_HEIGHT,
@@ -995,9 +993,9 @@ local function Init_Menu(self, root)
     })
 
     WoWTools_MenuMixin:ScaleRoot(self, sub, function()
-        return Save().scale or 1
+        return M:Save().scale or 1
     end, function(value)
-        Save().scale= value
+        M:Save().scale= value
         Init_Button()
     end)
 
@@ -1027,7 +1025,7 @@ end
 
 
 local function Init()
-    if Save().disabled then
+    if M:Save().disabled then
         MainButton:Hide()
         return
     end
@@ -1047,7 +1045,7 @@ local function Init()
         end
     end
     function MainButton:set_point()
-        local p= Save().point
+        local p= M:Save().point
         self:ClearAllPoints()
         if p and p[1] then
             self:SetPoint(p[1], UIParent, p[3], p[4], p[5])
@@ -1099,8 +1097,8 @@ local function Init()
         self:StopMovingOrSizing()
         ResetCursor()
         if WoWTools_FrameMixin:IsInSchermo(self) then
-            Save().point= {self:GetPoint(1)}
-            Save().point[2]= nil
+            M:Save().point= {self:GetPoint(1)}
+            M:Save().point[2]= nil
         end
     end)
 
@@ -1119,8 +1117,8 @@ local function Init()
 
     Init=function()
         if not WoWTools_FrameMixin:IsLocked(MainButton) then
-            MainButton:SetShown(Save().disabled)
-            if not Save().disabled then
+            MainButton:SetShown(M:Save().disabled)
+            if not M:Save().disabled then
                 Init_Button()
             end
         else
@@ -1131,40 +1129,35 @@ end
 
 
 MainButton= CreateFrame('Button', 'WoWToolsChatEmoteButton', UIParent, 'WoWToolsButtonTemplate')
-MainButton:RegisterEvent('ADDON_LOADED')
+WoWTools_Module:Register({
+    key= 'Plus_EmoteButton', name= 'EMOTE_MESSAGE', icon= 'newplayerchat-chaticon-newcomer',
+    parent= 'ChatButton', defaults= CopyTable(P_Save), tooltip= 'Tip.Emote.Enable', mixin= M,
+    reload= false,
+    panel= false,--su casilla (con botón de restablecer) va en la página del Botón de chat
+    onLoad= function()
+        WoWToolsPlusPlayerDate['EmoteButton']= WoWToolsPlusPlayerDate['EmoteButton'] or CopyTable(P_SaveUse)
+        addName= M.addName
 
-MainButton:SetScript('OnEvent', function(self, event, arg1)
-    if event=='ADDON_LOADED' then
-        if arg1== 'WoWToolsPlus' then
-            WoWToolsPlusSave['Plus_EmoteButton']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['Plus_EmoteButton'], CopyTable(P_Save))
-            WoWToolsPlusPlayerDate['EmoteButton']= WoWToolsPlusPlayerDate['EmoteButton'] or CopyTable(P_SaveUse)
-            addName= '|A:newplayerchat-chaticon-newcomer:0:0|a'..(WoWTools_L.EMOTE_MESSAGE)
-
-            WoWTools_PanelMixin:Check_Button({
-                checkName= addName,
-                GetValue= function() return not Save().disabled end,
-                SetValue= function()
-                    Save().disabled= not Save().disabled and true or nil
-                    Init()
-                end,
-                buttonText= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.RESET),
-                buttonFunc= Rest_Button,
-                layout= WoWTools_ChatMixin.Layout,
-                category= WoWTools_ChatMixin.Category,
-                tooltip= WoWTools_L['Tip.Emote.Enable']..'|n|n'..WoWTools_L['Button'],
-            })
-
-            if Save().disabled then
-                self:SetScript('OnEvent', nil)
-            else
-                self:RegisterEvent('PLAYER_ENTERING_WORLD')
-            end
+        WoWTools_PanelMixin:Check_Button({
+            checkName= addName,
+            GetValue= function() return not M:Save().disabled end,
+            SetValue= function()
+                M:Save().disabled= not M:Save().disabled and true or nil
+                Init()
+            end,
+            buttonText= '|A:bags-button-autosort-up:0:0|a'..(WoWTools_L.RESET),
+            buttonFunc= Rest_Button,
+            layout= WoWTools_ChatMixin.Layout,
+            category= WoWTools_ChatMixin.Category,
+            tooltip= WoWTools_L['Tip.Emote.Enable']..'|n|n'..WoWTools_L['Button'],
+        })
+    end,
+    onEnable= function()
+        MainButton:RegisterEvent('PLAYER_ENTERING_WORLD')
+        MainButton:SetScript('OnEvent', function(self, event)
+            self:SetScript('OnEvent', nil)
             self:UnregisterEvent(event)
-        end
-
-    elseif event=='PLAYER_ENTERING_WORLD' then
-        self:SetScript('OnEvent', nil)
-        self:UnregisterEvent(event)
-        Init()
-    end
-end)
+            Init()
+        end)
+    end,
+})

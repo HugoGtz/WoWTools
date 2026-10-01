@@ -1,8 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['ChatButton_LFD'] or {}
-end
-
 local ExitIns
 local ExitTimer--temporizador cancelable de la salida automática
 local ExitCancelled--el jugador canceló la salida en esta instancia: no volver a proponerla
@@ -20,7 +16,7 @@ end
 local function Save_Instance_Num(name)
     name= name or GetInstanceInfo()
     if name then
-        Save().wow[name]= (Save().wow[name] or 0)+1
+        WoWTools_LFDMixin:Save().wow[name]= (WoWTools_LFDMixin:Save().wow[name] or 0)+1
     end
 end
 
@@ -74,7 +70,7 @@ local function Init_Frame()
 
     frame:SetScript('OnEvent', function(self, event, arg1, arg2)
         if event=='LFG_COMPLETION_REWARD' or event=='LOOT_CLOSED' then
-            if Save().leaveInstance
+            if WoWTools_LFDMixin:Save().leaveInstance
                 and IsInLFGDungeon()
                 and IsLFGComplete()
                 and not LFGDungeonReadyStatus:IsVisible()
@@ -84,8 +80,8 @@ local function Init_Frame()
                 and not StaticPopup_Visible('WoWTools_LFD_ExitIns') then
                     WoWTools_DataMixin:PlaySound()
                     local leaveSce= 30
-                    if Save().autoROLL and event=='LOOT_CLOSED' then
-                        leaveSce= WoWToolsPlusSave['ChatButton_LFD'].sec
+                    if WoWTools_LFDMixin:Save().autoROLL and event=='LOOT_CLOSED' then
+                        leaveSce= WoWTools_LFDMixin:Save().sec
                     end
                     ExitIns=true
                     ExitTimer= C_Timer.NewTimer(leaveSce, exit_Instance)
@@ -108,7 +104,7 @@ local function Init_Frame()
 
         elseif event=='ISLAND_COMPLETED' then
             Save_Instance_Num('island')
-            if not Save().leaveInstance then
+            if not WoWTools_LFDMixin:Save().leaveInstance then
                 return
             end
             WoWTools_DataMixin:PlaySound()
@@ -121,17 +117,17 @@ local function Init_Frame()
             )
 
         elseif event=='PVP_MATCH_COMPLETE' then
-            if Save().leaveInstance then
+            if WoWTools_LFDMixin:Save().leaveInstance then
                 WoWTools_DataMixin:PlaySound()
                 if PVPMatchResults and PVPMatchResults.buttonContainer and PVPMatchResults.buttonContainer.leaveButton then
-                    WoWTools_CooldownMixin:Setup(PVPMatchResults.buttonContainer.leaveButton, nil, WoWToolsPlusSave['ChatButton_LFD'].sec, nil, true, true)
+                    WoWTools_CooldownMixin:Setup(PVPMatchResults.buttonContainer.leaveButton, nil, WoWTools_LFDMixin:Save().sec, nil, true, true)
                 end
                 WoWTools_Print(
                     WoWTools_LFDMixin.addName..WoWTools_DataMixin.Icon.icon2,
                     '|cnGREEN_FONT_COLOR:'..(WoWTools_L.LEAVE_BATTLEGROUND),
-                    SecondsToTime(Save().sec or 5)
+                    SecondsToTime(WoWTools_LFDMixin:Save().sec or 5)
                 )
-                C_Timer.After(Save().sec or 5, function()
+                C_Timer.After(WoWTools_LFDMixin:Save().sec or 5, function()
                     if not IsModifierKeyDown() then
                         if IsInLFDBattlefield() then
                             ConfirmOrLeaveLFGParty()
@@ -144,7 +140,7 @@ local function Init_Frame()
 
         elseif event=='CONFIRM_LOOT_ROLL' then
             --opcional (clave nueva): antes se confirmaba siempre y el objeto quedaba ligado sin preguntar
-            if Save().autoConfirmLootRoll and arg1 and arg2 then
+            if WoWTools_LFDMixin:Save().autoConfirmLootRoll and arg1 and arg2 then
                 ConfirmLootRoll(arg1, arg2)
                 StaticPopup_Hide("CONFIRM_LOOT_ROLL", arg1)
             end
@@ -189,25 +185,25 @@ local function Init()
             end
         end,
         whileDead=true, exclusive=true,--hideOnEscape=true, 
-        timeout=Save().sec or 5}
+        timeout=WoWTools_LFDMixin:Save().sec or 5}
 
     Init_Frame()
 
     LFGDungeonReadyStatus:HookScript('OnShow', function()
-        if Save().leaveInstance then
+        if WoWTools_LFDMixin:Save().leaveInstance then
             exit_Instance()
         end
     end)
     LFGDungeonReadyDialog:HookScript('OnShow', function()
-        if Save().leaveInstance then
+        if WoWTools_LFDMixin:Save().leaveInstance then
             exit_Instance()
         end
     end)
 
-    WoWTools_ChatMixin:GetButtonForName('LFD').leaveInstance:SetShown(Save().leaveInstance)
+    WoWTools_ChatMixin:GetButtonForName('LFD').leaveInstance:SetShown(WoWTools_LFDMixin:Save().leaveInstance)
 
     Init=function()
-         WoWTools_ChatMixin:GetButtonForName('LFD').leaveInstance:SetShown(Save().leaveInstance)
+         WoWTools_ChatMixin:GetButtonForName('LFD').leaveInstance:SetShown(WoWTools_LFDMixin:Save().leaveInstance)
     end
 end
 

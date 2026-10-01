@@ -1,24 +1,7 @@
 
-local function Save()
-    return WoWToolsPlusSave['ChatButton_Invite'] or {}
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-local function Init()
+local Init= WoWTools_Once(function()
     WoWTools_DataMixin:Hook(StaticPopupDialogs["CONFIRM_SUMMON"], "OnUpdate", function(self)
-        if IsModifierKeyDown() or self.isCancelledAuto or not Save().Summon then
+        if IsModifierKeyDown() or self.isCancelledAuto or not WoWTools_InviteMixin:Save().Summon then
             if not self.isCancelledAuto then
                 WoWTools_CooldownMixin:Setup(self, nil, C_SummonInfo.GetSummonConfirmTimeLeft(), nil, true, true, nil)
                 if self.SummonTimer then
@@ -90,9 +73,7 @@ local function Init()
             WoWTools_TimeMixin:SecondsToClock(C_SummonInfo.GetSummonConfirmTimeLeft() or 0)
         )
     end)
-
-    Init=function()end
-end
+end)
 
 
 

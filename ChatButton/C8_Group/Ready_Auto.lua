@@ -1,8 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['ChatButtonGroup'] or {}
-end
-
 local function Get_LeftTime()
     if ReadyCheckListenerFrame.time then
         return select(2, WoWTools_TimeMixin:Info(nil, false, nil, ReadyCheckListenerFrame.time))
@@ -27,7 +23,7 @@ local function Set_Ready(timeLeft)
         AutoReadyTime= nil
     end
 
-    local autoReady= Save().autoReady or 0
+    local autoReady= WoWTools_GroupMixin:Save().autoReady or 0
 
     if autoReady>0 then
         WoWTools_Print(
@@ -38,7 +34,7 @@ local function Set_Ready(timeLeft)
 
         --no esperar más que el tiempo que queda de la comprobación (antes math.mix, que no existe, en código muerto)
         local left= Get_LeftTime()
-        timeLeft= math.min(Save().autoReadySeconds or 3, (left and left>0) and left or 35)
+        timeLeft= math.min(WoWTools_GroupMixin:Save().autoReadySeconds or 3, (left and left>0) and left or 35)
 
         AutoReadyTime= C_Timer.NewTimer(timeLeft, function()
             if ReadyCheckFrame:IsShown() then
@@ -66,7 +62,7 @@ end
 
 
 
-local function Init()
+local Init= WoWTools_Once(function()
     ReadyCheckFrame:SetHeight(124)--100
     --ReadyCheckFrameText:SetPoint('TOP', 20, ---45)--="TOP" x="20" y="-37"/>
 
@@ -168,11 +164,11 @@ local function Init()
         check.value= i>0 and i or nil
 
         check:SetScript('OnShow', function(self)
-            self:SetChecked(self.value== Save().autoReady)
+            self:SetChecked(self.value== WoWTools_GroupMixin:Save().autoReady)
         end)
         check.value= i
         check:SetScript('OnMouseUp', function(self)
-            Save().autoReady= self.value
+            WoWTools_GroupMixin:Save().autoReady= self.value
             Set_Ready()
             for index=0,2 do
                 if self.value~=index then
@@ -193,11 +189,7 @@ local function Init()
     local altLabel= ReadyCheckListenerFrame:CreateFontString('WoWToolsReadyCheckAltCanellLabel', 'BORDER', 'GameFontNormal')--  WoWTools_LabelMixin:Create(ReadyCheckListenerFrame)
     altLabel:SetPoint('TOPRIGHT', _G['WoWToolsReadyCheckButton2'], 'BOTTOMRIGHT', 0,-8)
     altLabel:SetText('Alt '..(WoWTools_L.CANCEL))
-
-
-
-    Init=function()end
-end
+end)
 
 
 --ReadyCheckFrame

@@ -5,11 +5,6 @@ WoWTools_InviteMixin={
 }
 
 
-local function Save()
-    return WoWToolsPlusSave['ChatButton_Invite'] or {}
-end
-
-
 function WoWTools_InviteMixin:Get_Leader()
     return UnitIsGroupAssistant('player') or UnitIsGroupLeader('player') or not IsInGroup()
 end
@@ -42,7 +37,7 @@ end
 
 --####
 --####
-local function Init(btn)
+local Init= WoWTools_Once(function(btn)
     btn.texture:SetAtlas('communities-icon-addgroupplus')
 
     btn.summonTips= btn:CreateTexture(nil,'OVERLAY')
@@ -56,17 +51,17 @@ local function Init(btn)
     btn.invTips:SetAtlas('poi-traveldirections-arrow2')
 
     function btn:settings()
-        self.summonTips:SetShown(Save().Summon)
-        self.invTips:SetShown(Save().Channel and Save().ChannelText or Save().InvTar)
+        self.summonTips:SetShown(WoWTools_InviteMixin:Save().Summon)
+        self.invTips:SetShown(WoWTools_InviteMixin:Save().Channel and WoWTools_InviteMixin:Save().ChannelText or WoWTools_InviteMixin:Save().InvTar)
     end
 
     function btn:set_tooltip()
         self:set_owner()
         GameTooltip:AddDoubleLine(WoWTools_InviteMixin.addName, WoWTools_DataMixin.Icon.left)
-        if Save().InvTar then
+        if WoWTools_InviteMixin:Save().InvTar then
             GameTooltip:AddLine(WoWTools_L['INVITE+TARGET'])
         end
-        if Save().Channel and Save().ChannelText then
+        if WoWTools_InviteMixin:Save().Channel and WoWTools_InviteMixin:Save().ChannelText then
             GameTooltip:AddLine((WoWTools_L.CHANNEL)..'|cnGREEN_FONT_COLOR: '..Save().ChannelText)
         end
         GameTooltip:Show()
@@ -79,76 +74,53 @@ local function Init(btn)
     end
 
     btn:settings()
-
-
-
-
-
-
-
-
-
-    Init=function()end
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-local panel= CreateFrame('Frame')
-panel:RegisterEvent('ADDON_LOADED')
-
-panel:SetScript('OnEvent', function(self, event, arg1)
-    if event=='ADDON_LOADED' then
-        if arg1== 'WoWToolsPlus' then
-
-            WoWToolsPlusSave['ChatButton_Invite']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['ChatButton_Invite'], {
-                InvNoFriend={},
-                FriendAceInvite=true,
-                InvNoFriendNum=0,
-                restingTips=true,
-                ChannelText=WoWTools_DataMixin.Player.IsCN and '1' or 'inv',
-
-                Summon= nil,
-                notSummonChat=nil,
-                SummonChat=nil,--decir gracias al grupo (opcional)
-                SummonThxText=nil,
-                SummonThxInRaid=nil,
-
-                setFrameFun= true,
-                focusKey= 'Shift',
-            })
-
-            WoWTools_InviteMixin.addName= '|A:communities-icon-addgroupplus:0:0|a'..(WoWTools_L['Module.Invites'])
-
-            if WoWTools_ChatMixin:CreateButton('Invite', WoWTools_InviteMixin.addName) then
-                self:RegisterEvent('PLAYER_ENTERING_WORLD')
-                Init(WoWTools_ChatMixin:GetButtonForName('Invite'))
-            else
-                self:SetScript('OnEvent', nil)
-            end
-
-            self:UnregisterEvent(event)
-        end
-
-    elseif event=='PLAYER_ENTERING_WORLD' then
-        WoWTools_InviteMixin:Init_Chanell()
-        WoWTools_InviteMixin:Init_Focus()
-        WoWTools_InviteMixin:Init_Summon()
-        WoWTools_InviteMixin:Init_Resting()
-        WoWTools_InviteMixin:Init_Target()
-        WoWTools_InviteMixin:Init_StaticPopup()
-
-        self:UnregisterEvent(event)
-    end
 end)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+WoWTools_Module:Register({
+    key= 'ChatButton_Invite', name= 'Module.Invites', icon= 'communities-icon-addgroupplus',
+    parent= 'ChatButton', mixin= WoWTools_InviteMixin,
+    defaults= {
+        InvNoFriend={},
+        FriendAceInvite=true,
+        InvNoFriendNum=0,
+        restingTips=true,
+        ChannelText=WoWTools_DataMixin.Player.IsCN and '1' or 'inv',
+
+        Summon= nil,
+        notSummonChat=nil,
+        SummonChat=nil,--decir gracias al grupo (opcional)
+        SummonThxText=nil,
+        SummonThxInRaid=nil,
+
+        setFrameFun= true,
+        focusKey= 'Shift',
+    },
+    onEnable= function()
+        if WoWTools_ChatMixin:CreateButton('Invite', WoWTools_InviteMixin.addName) then
+            --el resto arranca en el primer PLAYER_ENTERING_WORLD (como antes)
+            WoWTools_ChatMixin:OnEnterWorld(function()
+                WoWTools_InviteMixin:Init_Chanell()
+                WoWTools_InviteMixin:Init_Focus()
+                WoWTools_InviteMixin:Init_Summon()
+                WoWTools_InviteMixin:Init_Resting()
+                WoWTools_InviteMixin:Init_Target()
+                WoWTools_InviteMixin:Init_StaticPopup()
+            end)
+            Init(WoWTools_ChatMixin:GetButtonForName('Invite'))
+        end
+    end,
+})

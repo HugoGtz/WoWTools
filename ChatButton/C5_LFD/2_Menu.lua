@@ -1,9 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['ChatButton_LFD'] or {}
-end
-
-
 --RaidFinder.lua
 local function isRaidFinderDungeonDisplayable(dungeonID)
     local _, _, _, minLevel, maxLevel, _, _, _, expansionLevel = GetLFGDungeonInfo(dungeonID)
@@ -357,7 +352,7 @@ local function set_Party_Menu_List(root2)
     local isMaxLevel= WoWTools_DataMixin.Player.IsMaxLevel
     local header= NORMAL_FONT_COLOR:WrapTextInColorCode(WoWTools_L['LFG_TYPE_RANDOM_DUNGEON~2'])
 
-    local hide= Save().hideDontEnterMenu and not isMaxLevel
+    local hide= WoWTools_LFDMixin:Save().hideDontEnterMenu and not isMaxLevel
 
     local tab={}
 
@@ -475,7 +470,7 @@ end
 
 local function set_Raid_Menu_List(root2)
     local isMaxLevel= WoWTools_DataMixin.Player.IsMaxLevel
-    local hide= Save().hideDontEnterMenu --and isMaxLevel
+    local hide= WoWTools_LFDMixin:Save().hideDontEnterMenu --and isMaxLevel
     local sortedDungeons= {}
 
     local function InsertDungeonData(dungeonID, name, mapName, isAvailable, mapID)
@@ -778,9 +773,9 @@ local function Init_All_Role(_, root)
         WoWTools_L['Auto settings']
         ..'|T'..(select(4, C_SpecializationInfo.GetSpecializationInfo(GetSpecialization() or 0)) or '0')..':0|t',
     function()
-        return Save().autoSetRole
+        return WoWTools_LFDMixin:Save().autoSetRole
     end, function()
-        Save().autoSetRole= not Save().autoSetRole and true or false
+        WoWTools_LFDMixin:Save().autoSetRole= not WoWTools_LFDMixin:Save().autoSetRole and true or false
         WoWTools_LFDMixin:Init_RolePollPopup()
     end)
     sub:SetTooltip(function(tooltip)
@@ -817,10 +812,10 @@ local function Init_Menu(self, root)
         text='|A:QuestLegendaryTurnin:0|a|cnWARNING_FONT_COLOR:'..(WoWTools_L.NO_ROLE)..'|r'
     end
 
-    if Save().leaveInstance then
+    if WoWTools_LFDMixin:Save().leaveInstance then
         text= text..'|A:common-icon-rotateleft:0:0|a'
     end
-    if Save().ReMe and (Save().ReMe_AllZone and (select(2, IsInInstance())=='none' or not IsInGroup())) then
+    if WoWTools_LFDMixin:Save().ReMe and (WoWTools_LFDMixin:Save().ReMe_AllZone and (select(2, IsInInstance())=='none' or not IsInGroup())) then
         text= text..'|A:poi-soulspiritghost:0:0|a'
     end
 
@@ -836,9 +831,9 @@ local function Init_Menu(self, root)
 
 
     sub2=sub:CreateCheckbox('|A:common-icon-rotateleft:0:0|a'..(WoWTools_L['LEAVE+INSTANCE']), function()
-        return Save().leaveInstance
+        return WoWTools_LFDMixin:Save().leaveInstance
     end, function()
-        Save().leaveInstance= not Save().leaveInstance and true or nil
+        WoWTools_LFDMixin:Save().leaveInstance= not WoWTools_LFDMixin:Save().leaveInstance and true or nil
         WoWTools_LFDMixin:Init_Exit_Instance()
     end)
     sub2:SetTooltip(function(tooltip)
@@ -851,17 +846,17 @@ local function Init_Menu(self, root)
 
 
     sub2=sub:CreateCheckbox('|A:groupfinder-eye-frame:0:0|a'..(WoWTools_L['SOCIAL_QUEUE_TOOLTIP_HEADER+INFO']), function()
-        return not Save().hideQueueStatus
+        return not WoWTools_LFDMixin:Save().hideQueueStatus
     end, function()
-        Save().hideQueueStatus = not Save().hideQueueStatus and true or nil
+        WoWTools_LFDMixin:Save().hideQueueStatus = not WoWTools_LFDMixin:Save().hideQueueStatus and true or nil
         WoWTools_LFDMixin:Set_Queue_Status()
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.LFD.QueueInfo'])
 
     sub2:CreateButton(
-        (Save().tipsFramePoint and '' or '|cff626262')..(WoWTools_L.RESET_POSITION),
+        (WoWTools_LFDMixin:Save().tipsFramePoint and '' or '|cff626262')..(WoWTools_L.RESET_POSITION),
     function()
-        Save().tipsFramePoint=nil
+        WoWTools_LFDMixin:Save().tipsFramePoint=nil
         if _G['WoWToolsChatToolsLFDTooltipButton'] then
             _G['WoWToolsChatToolsLFDTooltipButton']:set_Point()
             WoWTools_Print(
@@ -879,9 +874,9 @@ local function Init_Menu(self, root)
 
 
     sub2=sub:CreateCheckbox('|A:quest-legendary-turnin:0:0|a'..(WoWTools_L.ROLE_POLL), function()
-        return Save().autoSetPvPRole
+        return WoWTools_LFDMixin:Save().autoSetPvPRole
     end, function()
-        Save().autoSetPvPRole= not Save().autoSetPvPRole and true or nil
+        WoWTools_LFDMixin:Save().autoSetPvPRole= not WoWTools_LFDMixin:Save().autoSetPvPRole and true or nil
         WoWTools_LFDMixin:Init_RolePollPopup()
     end)
     sub2:SetTooltip(function(tooltip)
@@ -905,9 +900,9 @@ local function Init_Menu(self, root)
         '|A:poi-soulspiritghost:0:0|a'
         ..WoWTools_L['Release, Resurrect'],
     function()
-        return Save().ReMe
+        return WoWTools_LFDMixin:Save().ReMe
     end, function()
-        Save().ReMe= not Save().ReMe and true or false
+        WoWTools_LFDMixin:Save().ReMe= not WoWTools_LFDMixin:Save().ReMe and true or false
         WoWTools_LFDMixin:Init_RepopMe()
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.LFD.ReleaseRes'])
@@ -915,9 +910,9 @@ local function Init_Menu(self, root)
     sub3=sub2:CreateCheckbox(
         WoWTools_L.OTHER,
     function()
-        return Save().ReMe_AllZone
+        return WoWTools_LFDMixin:Save().ReMe_AllZone
     end, function()
-        Save().ReMe_AllZone= not Save().ReMe_AllZone and true or false
+        WoWTools_LFDMixin:Save().ReMe_AllZone= not WoWTools_LFDMixin:Save().ReMe_AllZone and true or false
         WoWTools_LFDMixin:Init_RepopMe()
     end)
     sub3:SetTooltip(function(tooltip)
@@ -933,9 +928,9 @@ local function Init_Menu(self, root)
     sub2= sub:CreateCheckbox(
         WoWTools_L.HIDE,
     function()
-        return Save().hideDontEnterMenu
+        return WoWTools_LFDMixin:Save().hideDontEnterMenu
     end, function()
-        Save().hideDontEnterMenu= not Save().hideDontEnterMenu and true or nil
+        WoWTools_LFDMixin:Save().hideDontEnterMenu= not WoWTools_LFDMixin:Save().hideDontEnterMenu and true or nil
     end)
     sub2:SetTooltip(function(tooltip)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.LFD.HideLocked'])
@@ -947,7 +942,7 @@ local function Init_Menu(self, root)
 
     sub:CreateDivider()
     num= 0
-    for _, complete in pairs(Save().wow) do
+    for _, complete in pairs(WoWTools_LFDMixin:Save().wow) do
         num= complete+ num
     end
     sub2= sub:CreateButton(
@@ -964,18 +959,18 @@ local function Init_Menu(self, root)
             WoWTools_L.CLEAR_ALL,
             nil,
             {SetValue=function()
-                Save().wow={}
+                WoWTools_LFDMixin:Save().wow={}
             end})
             return MenuResponse.Open
         end)
         sub2:CreateDivider()
-        for name, complete in pairs(Save().wow) do
+        for name, complete in pairs(WoWTools_LFDMixin:Save().wow) do
             sub3=sub2:CreateCheckbox(
                 name=='island' and (WoWTools_L.ISLANDS_HEADER) or WoWTools_TextMixin:CN(name)..' #|cnGREEN_FONT_COLOR:'..complete,
             function(data)
-                return Save().wow[data.name]
+                return WoWTools_LFDMixin:Save().wow[data.name]
             end, function(data)
-                Save().wow[name]= not Save().wow[name] and data.complete or nil
+                WoWTools_LFDMixin:Save().wow[name]= not WoWTools_LFDMixin:Save().wow[name] and data.complete or nil
             end, {name=name, complete=complete})
             sub3:SetTooltip(function (tooltip)
                 WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.LFD.CompleteEntry'])
@@ -991,9 +986,9 @@ local function Init_Menu(self, root)
     sub:CreateSpacer()
     WoWTools_MenuMixin:CreateSlider(sub, {
         getValue=function()
-            return Save().sec or 5
+            return WoWTools_LFDMixin:Save().sec or 5
         end, setValue=function(value)
-            Save().sec=value
+            WoWTools_LFDMixin:Save().sec=value
         end,
         name=WoWTools_L['Auto confirm'],
         minValue=1,
@@ -1009,7 +1004,7 @@ local function Init_Menu(self, root)
 
 
     sub=root:CreateButton(
-        (Save().autoROLL and '|TInterface\\PVPFrame\\Icons\\PVP-Banner-Emblem-47:0|t' or '|A:Levelup-Icon-Bag:0:0|a')
+        (WoWTools_LFDMixin:Save().autoROLL and '|TInterface\\PVPFrame\\Icons\\PVP-Banner-Emblem-47:0|t' or '|A:Levelup-Icon-Bag:0:0|a')
         ..(WoWTools_L.LOOT_ROLL),
     function()
         WoWTools_DataMixin:Call('ToggleLootHistoryFrame')
@@ -1021,18 +1016,18 @@ local function Init_Menu(self, root)
 
     sub:CreateTitle(WoWTools_L.SELF_CAST_AUTO)
     sub2=sub:CreateCheckbox((WoWTools_L.ROLL)..'|TInterface\\PVPFrame\\Icons\\PVP-Banner-Emblem-47:0|t', function()
-        return Save().autoROLL
+        return WoWTools_LFDMixin:Save().autoROLL
     end, function()
-        Save().autoROLL= not Save().autoROLL and true or nil
+        WoWTools_LFDMixin:Save().autoROLL= not WoWTools_LFDMixin:Save().autoROLL and true or nil
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.LFD.AutoRoll'])
 
     sub2=sub:CreateCheckbox(
         WoWTools_L.ITEM_BIND_ON_PICKUP,
     function()
-        return Save().autoConfirmLootRoll
+        return WoWTools_LFDMixin:Save().autoConfirmLootRoll
     end, function()
-        Save().autoConfirmLootRoll= not Save().autoConfirmLootRoll and true or nil
+        WoWTools_LFDMixin:Save().autoConfirmLootRoll= not WoWTools_LFDMixin:Save().autoConfirmLootRoll and true or nil
     end)
     sub2:SetTooltip(function(tooltip)
         WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.LFD.ConfirmBoP'])
@@ -1041,9 +1036,9 @@ local function Init_Menu(self, root)
 
     sub:CreateDivider()
     sub2=sub:CreateCheckbox('|A:communities-icon-notification:0:0|a'..WoWTools_L['Loot Plus'], function()
-        return not Save().disabledLootPlus
+        return not WoWTools_LFDMixin:Save().disabledLootPlus
     end, function()
-        Save().disabledLootPlus= not Save().disabledLootPlus and true or nil
+        WoWTools_LFDMixin:Save().disabledLootPlus= not WoWTools_LFDMixin:Save().disabledLootPlus and true or nil
     end)
     WoWTools_MenuMixin:SetDescription(sub2, WoWTools_L['Tip.LFD.LootPlus'])
 

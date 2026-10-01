@@ -77,3 +77,17 @@ function WoWTools_ChatMixin:Say(type, name, wow, text)
         ChatFrame_OpenChat(type..msg..(text or ''), chat)
     end
 end
+
+--Marco propio por llamada para PLAYER_ENTERING_WORLD: conserva el orden de registro (= orden del .toc)
+--que tenía cada submódulo con su marco. keep=true: se queda escuchando; si no, solo la primera vez.
+function WoWTools_ChatMixin:OnEnterWorld(func, keep)
+    local frame= CreateFrame('Frame')
+    frame:RegisterEvent('PLAYER_ENTERING_WORLD')
+    frame:SetScript('OnEvent', function(self, ...)
+        if not keep then
+            self:UnregisterAllEvents()
+            self:SetScript('OnEvent', nil)
+        end
+        func(...)
+    end)
+end

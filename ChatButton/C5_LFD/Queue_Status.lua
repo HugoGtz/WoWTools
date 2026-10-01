@@ -1,7 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['ChatButton_LFD']
-end
 local Button
 
 
@@ -141,7 +138,7 @@ end
 
 
 local function Set_Queue_Status()
-    if Save().hideQueueStatus then
+    if WoWTools_LFDMixin:Save().hideQueueStatus then
         set_tipsFrame_Tips(nil, {})
        return
     end
@@ -470,30 +467,30 @@ local function Init_Menu(self, root)
     WoWTools_MenuMixin:FrameStrata(self, sub, function(data)
         return self:GetFrameStrata()==data
     end, function(data)
-        Save().queueStatusStrata= data
+        WoWTools_LFDMixin:Save().queueStatusStrata= data
         self:settings()
     end)
 
     WoWTools_MenuMixin:Scale(self, sub, function()
-        return Save().tipsScale or 1
+        return WoWTools_LFDMixin:Save().tipsScale or 1
     end, function(value)
-        Save().tipsScale= value
+        WoWTools_LFDMixin:Save().tipsScale= value
         self:settings()
     end)
     WoWTools_MenuMixin:BgAplha(sub,
     function()
-        return Save().tipsAlpha or 0.5
+        return WoWTools_LFDMixin:Save().tipsAlpha or 0.5
     end, function(value)
-        Save().tipsAlpha= value
+        WoWTools_LFDMixin:Save().tipsAlpha= value
         self:settings()
     end, function()
-        Save().tipsAlpha= nil
+        WoWTools_LFDMixin:Save().tipsAlpha= nil
         self:settings()
 end)
 
     sub:CreateDivider()
-    WoWTools_MenuMixin:RestPoint(self, sub, Save().tipsFramePoint, function()
-        Save().tipsFramePoint=nil
+    WoWTools_MenuMixin:RestPoint(self, sub, WoWTools_LFDMixin:Save().tipsFramePoint, function()
+        WoWTools_LFDMixin:Save().tipsFramePoint=nil
         self:settings()
         return MenuResponse.Open
     end)
@@ -541,8 +538,8 @@ local function Init()
         ResetCursor()
         self:StopMovingOrSizing()
         if WoWTools_FrameMixin:IsInSchermo(self) then
-            Save().tipsFramePoint={self:GetPoint(1)}
-            Save().tipsFramePoint[2]=nil
+            WoWTools_LFDMixin:Save().tipsFramePoint={self:GetPoint(1)}
+            WoWTools_LFDMixin:Save().tipsFramePoint[2]=nil
         end
     end)
 
@@ -584,7 +581,7 @@ local function Init()
 
     Button.text= Button:CreateFontString(nil, 'BORDER', 'WoWToolsFont')
     WoWTools_ColorMixin:SetLabelColor(Button.text)
-    --WoWTools_LabelMixin:Create(Button, {color=true})--Save().tipsFrameTextSize, nil, nil, true)
+    --WoWTools_LabelMixin:Create(Button, {color=true})--WoWTools_LFDMixin:Save().tipsFrameTextSize, nil, nil, true)
     Button.text:SetPoint('BOTTOMLEFT', Button, 'BOTTOMRIGHT')
 
     Button.lfgTextTab= {}
@@ -597,16 +594,16 @@ local function Init()
 
     function Button:settings()
         self:ClearAllPoints()
-        local p= Save().tipsFramePoint
+        local p= WoWTools_LFDMixin:Save().tipsFramePoint
         if p and p[2] then
             Button:SetPoint(p[1], UIParent, p[3], p[4], p[5])
         else
             Button:SetPoint('BOTTOMLEFT', WoWTools_ChatMixin:GetButtonForName('LFD'), 'TOPLEFT',0, 4)
         end
 
-        self:SetScale(Save().tipsScale or 1)
-        self:SetFrameStrata(Save().queueStatusStrata or 'MEDIUM')
-        self.Bg:SetAlpha(Save().tipsAlpha or 0.5)
+        self:SetScale(WoWTools_LFDMixin:Save().tipsScale or 1)
+        self:SetFrameStrata(WoWTools_LFDMixin:Save().queueStatusStrata or 'MEDIUM')
+        self.Bg:SetAlpha(WoWTools_LFDMixin:Save().tipsAlpha or 0.5)
     end
 
     Button:settings()

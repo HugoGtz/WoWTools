@@ -1,13 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['ChatButton_Invite'] or {}
-end
-
-
-
-
-
-
 local function Init()
     local frame= CreateFrame('Frame')
     WoWTools_InviteMixin.RestingFrame= frame
@@ -22,7 +13,7 @@ local function Init()
 
     function frame:set_event()
         self:UnregisterAllEvents()
-        if Save().restingTips then
+        if WoWTools_InviteMixin:Save().restingTips then
             self:RegisterEvent('PLAYER_UPDATE_RESTING')
         end
     end

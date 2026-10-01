@@ -1,16 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['ChatButton_Invite'] or {}
-end
-
-
-
-
-
-
-
-
-
 local frame
 
 
@@ -22,13 +10,13 @@ local function Init()
 
     function frame:set_event()
         self:UnregisterAllEvents()
-        if Save().InvTar and select(2, IsInInstance())=='none' then
+        if WoWTools_InviteMixin:Save().InvTar and select(2, IsInInstance())=='none' then
             self:RegisterEvent('PLAYER_TARGET_CHANGED')
         end
     end
 
     function frame:InviteTarget()
-        if not Save().InvTar
+        if not WoWTools_InviteMixin:Save().InvTar
         or WoWTools_UnitMixin:UnitIsUnit('player','target')~=false
         or not WoWTools_UnitMixin:UnitGUID('target')
         or not WoWTools_InviteMixin:Get_Leader()
@@ -43,7 +31,7 @@ local function Init()
 
         local raid=IsInRaid()
         local co=GetNumGroupMembers()
-        if (raid and co==40) or (not raid and co==5 and not Save().PartyToRaid) then
+        if (raid and co==40) or (not raid and co==5 and not WoWTools_InviteMixin:Save().PartyToRaid) then
             return
         end
 

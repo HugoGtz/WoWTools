@@ -1,9 +1,4 @@
 
-local function Save()
-    return WoWToolsPlusSave['ChatButtonGuild'] or {}
-end
-
-
 local function Invite(unit)
     if WoWTools_UnitMixin:UnitIsUnit('player', unit)~=false
         or not WoWTools_UnitMixin:UnitGUID(unit)
@@ -34,11 +29,7 @@ end
 
 
 
-local function Init()
-    if IsInGuild() then
-        return
-    end
-
+local Init_Once= WoWTools_Once(function()
     local btn= WoWTools_ButtonMixin:Cbtn(PetitionFrame, {isUI=true, size={120, 23}})
 
     btn:SetText(WoWTools_L.NAMEPLATES_LABEL)
@@ -68,10 +59,10 @@ local function Init()
     check:SetPoint('LEFT', btn, 'RIGHT', 2, 0)
     check.Text:SetText(WoWTools_L.TARGET)
     check:SetScript('OnLeave', GameTooltip_Hide)
-    check:SetChecked(not Save().disabledPetitionTarget)
+    check:SetChecked(not WoWTools_GuildMixin:Save().disabledPetitionTarget)
     WoWTools_TextureMixin:SetCheckBox(check)
     check:SetScript('OnClick', function(self)
-        Save().disabledPetitionTarget= not self:GetChecked()
+        WoWTools_GuildMixin:Save().disabledPetitionTarget= not self:GetChecked()
         self:set_event()
     end)
     check:SetScript('OnEnter', function(self)
@@ -102,8 +93,14 @@ local function Init()
     PetitionFrame:HookScript('OnShow', function()
         check:set_event()
     end)
+end)
 
-    Init=function()end
+--La comprobación queda fuera del "una sola vez": se vuelve a mirar en cada llamada
+local function Init()
+    if IsInGuild() then
+        return
+    end
+    Init_Once()
 end
 
 

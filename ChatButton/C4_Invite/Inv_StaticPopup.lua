@@ -1,8 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['ChatButton_Invite'] or {}
-end
-
-
 local function isInLFG()
     for type=1, NUM_LE_LFG_CATEGORYS do
         if GetLFGQueueStats(type) then
@@ -18,9 +13,9 @@ local InvTimer
 
 
 local function Decline()
-    Save().InvNoFriendNum=Save().InvNoFriendNum+1
+    WoWTools_InviteMixin:Save().InvNoFriendNum=WoWTools_InviteMixin:Save().InvNoFriendNum+1
     if InviterPlayerGUID then
-        Save().InvNoFriend[InviterPlayerGUID]= (Save().InvNoFriend[InviterPlayerGUID] or 0) + 1
+        WoWTools_InviteMixin:Save().InvNoFriend[InviterPlayerGUID]= (WoWTools_InviteMixin:Save().InvNoFriend[InviterPlayerGUID] or 0) + 1
     end
     DeclineGroup()
     StaticPopup_Hide("PARTY_INVITE")
@@ -98,7 +93,7 @@ local function Settings(_, name, isTank, isHealer, isDamage, isNativeRealm, allo
     end
 
 
-    if Save().InvNoFriend[inviterGUID] then
+    if WoWTools_InviteMixin:Save().InvNoFriend[inviterGUID] then
         sec= 3
         text= '|cnWARNING_FONT_COLOR:'..(WoWTools_L.DECLINE)..' '..Save().InvNoFriend[inviterGUID]..'/'..Save().InvNoFriendNum..'|r'
         setPrint()
@@ -110,7 +105,7 @@ local function Settings(_, name, isTank, isHealer, isDamage, isNativeRealm, allo
         InvTimer = C_Timer.NewTimer(3, Decline)
 
     elseif WoWTools_UnitMixin:GetIsFriendIcon(nil, inviterGUID, nil) then
-        if not Save().FriendAceInvite then
+        if not WoWTools_InviteMixin:Save().FriendAceInvite then
             WoWTools_CooldownMixin:Setup(StaticPopupFrame, nil, TimeLeft or 30, nil, true, true, nil)
             return
         end
@@ -125,7 +120,7 @@ local function Settings(_, name, isTank, isHealer, isDamage, isNativeRealm, allo
         if InvTimer then InvTimer:Cancel() InvTimer=nil end
         InvTimer = C_Timer.NewTimer(sec, Accept)
 
-    elseif IsResting() and Save().NoInvInResting and not questSessionActive then
+    elseif IsResting() and WoWTools_InviteMixin:Save().NoInvInResting and not questSessionActive then
         sec= 3
         text= '|cnWARNING_FONT_COLOR:'
             ..WoWTools_L['Decline in rest zone']
@@ -145,12 +140,7 @@ end
 
 
 
-local function Init()
-    if Save().notInvitePlus then
-        return
-    end
-
-
+local Init_Once= WoWTools_Once(function()
     EventRegistry:RegisterFrameEventAndCallback("PARTY_INVITE_REQUEST", function(...)
         Settings(...)
     end)
@@ -162,8 +152,8 @@ local function Init()
             return
         end
 
-        if Save().InvNoFriend[InviterPlayerGUID] then
-            Save().InvNoFriend[InviterPlayerGUID] =nil
+        if WoWTools_InviteMixin:Save().InvNoFriend[InviterPlayerGUID] then
+            WoWTools_InviteMixin:Save().InvNoFriend[InviterPlayerGUID] =nil
 
             WoWTools_Print(
                 WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,
@@ -175,8 +165,8 @@ local function Init()
 
         else
 
-            Save().InvNoFriend[InviterPlayerGUID] = (Save().InvNoFriend[InviterPlayerGUID] or 0)+ 1
-            Save().InvNoFriendNum=Save().InvNoFriendNum+1
+            WoWTools_InviteMixin:Save().InvNoFriend[InviterPlayerGUID] = (WoWTools_InviteMixin:Save().InvNoFriend[InviterPlayerGUID] or 0)+ 1
+            WoWTools_InviteMixin:Save().InvNoFriendNum=WoWTools_InviteMixin:Save().InvNoFriendNum+1
 
             WoWTools_Print(
                 WoWTools_InviteMixin.addName..WoWTools_DataMixin.Icon.icon2,
@@ -204,8 +194,14 @@ local function Init()
         InviterPlayerGUID=nil
         WoWTools_CooldownMixin:Setup(self)
     end)
+end)
 
-    Init=function()end
+--La comprobación queda fuera del "una sola vez": se vuelve a mirar en cada llamada
+local function Init()
+    if WoWTools_InviteMixin:Save().notInvitePlus then
+        return
+    end
+    Init_Once()
 end
 
 

@@ -1,7 +1,3 @@
-local function Save()
-    return WoWToolsPlusSave['ChatButton_HyperLink'] or {}
-end
-
 local TimerType, Timer0, Timer1, Timer2, Timer3, Timer4
 
 
@@ -12,7 +8,7 @@ local TimerType, Timer0, Timer1, Timer2, Timer3, Timer4
 
 
 local function Set_PlayerSound()
-    if not Save().setPlayerSound then
+    if not WoWTools_HyperLink:Save().setPlayerSound then
         return
     end
 
@@ -63,10 +59,10 @@ end
 
 
 
-local function Init_Settings()
+local Init_Settings= WoWTools_Once(function()
 
     EventRegistry:RegisterFrameEventAndCallback("START_TIMER", function(owner, arg1, arg2, arg3)
-        if not Save().setPlayerSound then
+        if not WoWTools_HyperLink:Save().setPlayerSound then
             return
         end
         if arg2==0 and arg3==0 then
@@ -111,9 +107,7 @@ local function Init_Settings()
         if Timer0 then Timer0:Cancel() Timer0= nil end
     end)
 
-
-    Init_Settings=function()end
-end
+end)
 
 
 
@@ -125,7 +119,7 @@ end
 
 
 local function Init(btn)
-    local enabled= Save().setPlayerSound
+    local enabled= WoWTools_HyperLink:Save().setPlayerSound
 
     WoWTools_DataMixin.IsSetPlayerSound= enabled
 

@@ -1,13 +1,8 @@
 
-local function Save()
-    return WoWToolsPlusSave['ChatButton_LFD']
-end
-
-
 local function Set_PvERoles()
     local isTank, isHealer, isDPS = select(2, GetLFGRoles())
 
-    if Save().autoSetRole or not (isTank or isHealer or isDPS) then
+    if WoWTools_LFDMixin:Save().autoSetRole or not (isTank or isHealer or isDPS) then
         local role = select(5, C_SpecializationInfo.GetSpecializationInfo(GetSpecialization() or 0))
         if role=='TANK' then
             isTank, isHealer, isDPS=true, false, false
@@ -27,7 +22,7 @@ end
 local function Set_PvPRoles()
     local tank, healer, dps = GetPVPRoles()
 
-    if Save().autoSetRole or not (tank or healer or dps) then
+    if WoWTools_LFDMixin:Save().autoSetRole or not (tank or healer or dps) then
         tank, healer, dps= true,true,true
         local sid=GetSpecialization()
         if sid then
@@ -51,7 +46,7 @@ end
 
 
 local function Init()
-    if not Save().autoSetPvPRole then
+    if not WoWTools_LFDMixin:Save().autoSetPvPRole then
         return
     end
 
@@ -120,16 +115,16 @@ local function Init()
 
             '|cnGREEN_FONT_COLOR:'
             ..(WoWTools_L.ROLE_POLL)
-            ..': |cfff00fff'.. SecondsToTime(Save().sec or 5)..'|r '
+            ..': |cfff00fff'.. SecondsToTime(WoWTools_LFDMixin:Save().sec or 5)..'|r '
             ..(WoWTools_L.ACCEPT)..'|r',
 
             '|cnWARNING_FONT_COLOR:'..'Alt '
             ..(WoWTools_L.CANCEL)
         )
 
-        self:CancellORSetTime(Save().sec or 5)
+        self:CancellORSetTime(WoWTools_LFDMixin:Save().sec or 5)
 
-        self.acceptTime= C_Timer.NewTimer(Save().sec or 5, function()
+        self.acceptTime= C_Timer.NewTimer(WoWTools_LFDMixin:Save().sec or 5, function()
             if LFDRoleCheckPopupAcceptButton:IsEnabled() and not IsModifierKeyDown() then
                 local t=LFDRoleCheckPopupDescriptionText:GetText()
                 if t~='' then
@@ -171,8 +166,8 @@ local function Init()
         if btn2 then
             btn2.checkButton:SetChecked(true)
             WoWTools_DataMixin:Call('RolePollPopupRoleButtonCheckButton_OnClick', btn2.checkButton, btn2)
-            WoWTools_CooldownMixin:Setup(self, nil, Save().sec or 5, nil, true)
-            self.aceTime=C_Timer.NewTimer(Save().sec or 5, function()
+            WoWTools_CooldownMixin:Setup(self, nil, WoWTools_LFDMixin:Save().sec or 5, nil, true)
+            self.aceTime=C_Timer.NewTimer(WoWTools_LFDMixin:Save().sec or 5, function()
                 if self.acceptButton:IsEnabled()
                     and self:IsShown()
                     and not IsMetaKeyDown()
@@ -352,7 +347,7 @@ local function Init()
 
 
     EventRegistry:RegisterFrameEventAndCallback("PLAYER_SPECIALIZATION_CHANGED", function(_, arg1)
-        if arg1=='player' and Save().autoSetRole then
+        if arg1=='player' and WoWTools_LFDMixin:Save().autoSetRole then
             Set_PvERoles()
             Set_PvPRoles()
         end

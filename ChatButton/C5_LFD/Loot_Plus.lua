@@ -1,14 +1,6 @@
 
-local function Save()
-    return WoWToolsPlusSave['ChatButton_LFD'] or {}
-end
-
-
-
-
-
 local function set_LootFrame_btn(btn)
-    if not btn.dropInfo or Save().disabledLootPlus then
+    if not btn.dropInfo or WoWTools_LFDMixin:Save().disabledLootPlus then
         if btn.chatTexure then
             btn.chatTexure:SetShown(false)
         end
@@ -165,7 +157,7 @@ local function Init()
         btn:SetPoint('LEFT')
     end
     function btn:Set_Atlas()
-        if Save().disabledLootPlus then
+        if WoWTools_LFDMixin:Save().disabledLootPlus then
             self:SetNormalAtlas('talents-button-reset')
         else
             self:SetNormalAtlas('communities-icon-notification')
@@ -173,7 +165,7 @@ local function Init()
     end
     btn:Set_Atlas()
     btn:SetScript('OnClick', function(self2)
-        Save().disabledLootPlus= not Save().disabledLootPlus and true or nil
+        WoWTools_LFDMixin:Save().disabledLootPlus= not WoWTools_LFDMixin:Save().disabledLootPlus and true or nil
         self2:Set_Atlas()
         if GroupLootHistoryFrame.selectedEncounterID then
             GroupLootHistoryFrame:DoFullRefresh()
@@ -184,7 +176,7 @@ local function Init()
     btn:SetScript('OnEnter', function(self2)
         GameTooltip:SetOwner(self2, "ANCHOR_RIGHT")
         GameTooltip:ClearLines()
-        GameTooltip:AddDoubleLine(WoWTools_L['Loot Plus'], WoWTools_TextMixin:GetEnabeleDisable(not Save().disabledLootPlus))
+        GameTooltip:AddDoubleLine(WoWTools_L['Loot Plus'], WoWTools_TextMixin:GetEnabeleDisable(not WoWTools_LFDMixin:Save().disabledLootPlus))
         GameTooltip:AddLine(' ')
         local  encounterID= GroupLootHistoryFrame.selectedEncounterID
         local info= encounterID and C_LootHistory.GetInfoForEncounter(encounterID)

@@ -8,12 +8,8 @@ local ClickType= 'p'-- p r rw i
 local ChatTab={}
 
 
-local function Save()
-    return WoWToolsPlusSave['ChatButtonGroup'] or {}
-end
-
 function WoWTools_GroupMixin:Get_ReadyText(ready)
-    ready= ready or Save().autoReady or 0
+    ready= ready or WoWTools_GroupMixin:Save().autoReady or 0
     if ready==1 then
         return '|A:common-icon-checkmark:0:0|a'..GREEN_FONT_COLOR:WrapTextInColorCode(
             WoWTools_L['Auto ready']
@@ -163,9 +159,9 @@ local function Init_Menu(self, root)
         sub2=sub:CreateCheckbox(
             WoWTools_L['Group members HP'],
         function()
-            return Save().showRaidHPTooltip
+            return WoWTools_GroupMixin:Save().showRaidHPTooltip
         end, function()
-            Save().showRaidHPTooltip= not Save().showRaidHPTooltip and true or nil
+            WoWTools_GroupMixin:Save().showRaidHPTooltip= not WoWTools_GroupMixin:Save().showRaidHPTooltip and true or nil
         end)
         sub2:SetTooltip(function (tooltip)
             WoWTools_MenuMixin:AddDescription(tooltip, WoWTools_L['Tip.Group.MembersHP'])
@@ -230,9 +226,9 @@ end
         sub2= sub:CreateRadio(
             WoWTools_GroupMixin:Get_ReadyText(value),
         function(data)
-            return data==Save().autoReady
+            return data==WoWTools_GroupMixin:Save().autoReady
         end, function(data)
-            Save().autoReady=data
+            WoWTools_GroupMixin:Save().autoReady=data
             if data>0 then
                 ConfirmReadyCheck(data==1 and 1 or nil)
                 ReadyCheckFrame:SetShown(false)
@@ -296,7 +292,7 @@ end
 
 
 local function show_Group_Info_Toolstip()
-    if not Save().showRaidHPTooltip then
+    if not WoWTools_GroupMixin:Save().showRaidHPTooltip then
         return
     end
 
@@ -426,7 +422,7 @@ end
 
 --####
 --####
-local function Init()
+local Init= WoWTools_Once(function()
 
     ChatTab={
         ['p']= {--/p
@@ -516,57 +512,15 @@ local function Init()
     GroupButton:SetupMenu(Init_Menu)
 
     Settings(GroupButton)
-
-    Init=function()end
-end
+end)
 
 
 --###########
 --###########
 local panel= CreateFrame("Frame")
-panel:RegisterEvent("ADDON_LOADED")
-
-
-
-panel:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" then
-        if arg1== 'WoWToolsPlus' then
-
-            WoWToolsPlusSave['ChatButtonGroup']= WoWTools_DataMixin:SetDefaults(WoWToolsPlusSave['ChatButtonGroup'], {
-                autoReady=0
-            })
-
-            Save().autoReady= Save().autoReady or 0
-
-            WoWToolsPlusPlayerDate['GroupMouseUpText']= WoWToolsPlusPlayerDate['GroupMouseUpText']
-                or (WoWTools_DataMixin.Player.Region==1 or WoWTools_DataMixin.Player.Region==3) and 'sum me, pls'
-                or WoWTools_Join(SUMMON, COMBATLOG_FILTER_STRING_ME)
-
-            WoWToolsPlusPlayerDate['GroupMouseDownText']= WoWToolsPlusPlayerDate['GroupMouseDownText']
-                or (WoWTools_DataMixin.Player.Region~=5 and 'inv, thx{rt1}') or '1'
-
-            WoWTools_GroupMixin.addName= '|A:socialqueuing-icon-group:0:0:|a'..(WoWTools_L['Module.Group'])
-            GroupButton= WoWTools_ChatMixin:CreateButton('Group', WoWTools_GroupMixin.addName)
-
-
-            if GroupButton then
-                self:RegisterEvent('PLAYER_ENTERING_WORLD')
-                self:RegisterEvent('GROUP_LEFT')
-                self:RegisterEvent('GROUP_JOINED')
-                self:RegisterEvent('GROUP_FORMED')
-
-                self:RegisterEvent('GROUP_ROSTER_UPDATE')
-
-
-                WoWTools_GroupMixin:Init_AutoReady()
-
-            else
-                self:SetScript('OnEvent', nil)
-            end
-            self:UnregisterEvent(event)
-        end
-
-    elseif event=='PLAYER_ENTERING_WORLD' then
+--Marco propio: eventos continuos del grupo (se registran en onEnable)
+panel:SetScript("OnEvent", function(self, event)
+    if event=='PLAYER_ENTERING_WORLD' then
         Init()
         self:UnregisterEvent(event)
 
@@ -579,3 +533,34 @@ panel:SetScript("OnEvent", function(self, event, arg1)
 
     end
 end)
+
+
+
+WoWTools_Module:Register({
+    key= 'ChatButtonGroup', name= 'Module.Group', icon= 'socialqueuing-icon-group',
+    parent= 'ChatButton', defaults= {autoReady=0}, mixin= WoWTools_GroupMixin,
+    onEnable= function()
+        WoWTools_GroupMixin:Save().autoReady= WoWTools_GroupMixin:Save().autoReady or 0
+
+        WoWToolsPlusPlayerDate['GroupMouseUpText']= WoWToolsPlusPlayerDate['GroupMouseUpText']
+            or (WoWTools_DataMixin.Player.Region==1 or WoWTools_DataMixin.Player.Region==3) and 'sum me, pls'
+            or WoWTools_Join(SUMMON, COMBATLOG_FILTER_STRING_ME)
+
+        WoWToolsPlusPlayerDate['GroupMouseDownText']= WoWToolsPlusPlayerDate['GroupMouseDownText']
+            or (WoWTools_DataMixin.Player.Region~=5 and 'inv, thx{rt1}') or '1'
+
+        GroupButton= WoWTools_ChatMixin:CreateButton('Group', WoWTools_GroupMixin.addName)
+
+        if GroupButton then
+            panel:RegisterEvent('PLAYER_ENTERING_WORLD')
+            panel:RegisterEvent('GROUP_LEFT')
+            panel:RegisterEvent('GROUP_JOINED')
+            panel:RegisterEvent('GROUP_FORMED')
+
+            panel:RegisterEvent('GROUP_ROSTER_UPDATE')
+
+
+            WoWTools_GroupMixin:Init_AutoReady()
+        end
+    end,
+})
