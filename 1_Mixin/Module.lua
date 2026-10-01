@@ -11,6 +11,7 @@ local M= WoWTools_Module:Register({
     reload   = true,                    --activar/desactivar pide /reload (por defecto true)
     button   = {text='SHOW', func=function(M) ... end}, --botón opcional junto a la casilla
     mixin    = WoWTools_ColorMixin,     --tabla del módulo que se completa (opcional)
+    onLoad   = function(M, save) ... end,       --se ejecuta siempre, aunque el módulo esté desactivado
     onEnable = function(M, save) ... end,       --arranque: una sola vez y solo si está activado
     onLogin  = function(M, save) ... end,       --al entrar al juego (PLAYER_ENTERING_WORLD), una vez
     blizzard = {Blizzard_X= function(M, save) ... end}, --cuando esa ventana de Blizzard esté cargada
@@ -136,6 +137,10 @@ local function Start(M)
     end
 
     Add_Panel(M)
+
+    if def.onLoad then
+        def.onLoad(M, M:Save())
+    end
 
     if not M:IsEnabled() then
         return
